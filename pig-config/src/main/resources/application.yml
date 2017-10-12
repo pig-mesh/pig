@@ -1,0 +1,20 @@
+server:
+  port: 2000
+
+spring:
+  application:
+    name: pig-config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka.didispace.com/eureka/

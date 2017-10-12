@@ -1,0 +1,11 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: pig-eureka-server
+
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
