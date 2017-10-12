@@ -1,2 +1,2 @@
-# pig
-Use spring cloud to build a front and rear separation of the project, suitable for the Internet
+### what is spring cloud ?
+Spring Cloud builds on Spring Boot by providing a bunch of libraries that enhance the behaviour of an application when added to the classpath. You can take advantage of the basic default behaviour to get started really quickly, and then when you need to, you can configure or extend to create a custom solution.
