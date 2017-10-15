@@ -26,6 +26,7 @@
         <module>pig-eureka</module>
         <module>pig-config</module>
         <module>pig-gateway</module>
+        <module>pig-service-auth</module>
     </modules>
 
     <dependencyManagement>

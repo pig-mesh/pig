@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: pig-service-auth
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: pig-config-server
+        enabled: true
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://eureka.didispace.com/eureka/

@@ -1,0 +1,10 @@
+server:
+  port: 3000
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  token:
+    header: "Bearer "
+
