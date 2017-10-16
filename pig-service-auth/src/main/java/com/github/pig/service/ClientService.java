@@ -4,18 +4,30 @@ package com.github.pig.service;
 import java.util.List;
 
 /**
- * Created by ace on 2017/9/10.
+ * @author lengleng
  */
 public interface ClientService {
-    public String apply(String clientId, String secret) throws Exception;
+    /**
+     * client信息获取token
+     *
+     * @param clientId clientId
+     * @param secret   secret
+     * @return token
+     * @throws Exception Exception
+     */
+    String apply(String clientId, String secret) throws Exception;
 
     /**
      * 获取授权的客户端列表
-     * @param serviceId
-     * @param secret
-     * @return
+     *
+     * @param serviceId serviceId
+     * @param secret    secret
+     * @return 客户端列表
      */
-    public List<String> getAllowedClient(String serviceId, String secret);
+    List<String> getAllowedClient(String serviceId, String secret);
 
-    public void registryClient();
+    /**
+     * 注册客户端
+     */
+    void registryClient();
 }

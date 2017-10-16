@@ -5,6 +5,9 @@ import com.github.pig.service.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author lengleng
+ */
 @Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
