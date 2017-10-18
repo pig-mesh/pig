@@ -1,4 +1,4 @@
-package com.github.pig.service;
+package com.github.pig.auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

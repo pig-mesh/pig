@@ -1,6 +1,6 @@
-package com.github.pig.controller;
+package com.github.pig.auth.controller;
 
-import com.github.pig.service.AuthService;
+import com.github.pig.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;

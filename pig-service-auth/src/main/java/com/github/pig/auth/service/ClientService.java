@@ -1,4 +1,4 @@
-package com.github.pig.service;
+package com.github.pig.auth.service;
 
 
 import java.util.List;

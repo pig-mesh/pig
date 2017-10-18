@@ -1,4 +1,4 @@
-package com.github.pig;
+package com.github.pig.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

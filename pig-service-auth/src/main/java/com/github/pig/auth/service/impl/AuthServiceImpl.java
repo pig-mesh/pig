@@ -1,7 +1,7 @@
-package com.github.pig.service.impl;
+package com.github.pig.auth.service.impl;
 
-import com.github.pig.service.AuthService;
-import com.github.pig.service.JwtTokenUtil;
+import com.github.pig.auth.service.AuthService;
+import com.github.pig.auth.service.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
