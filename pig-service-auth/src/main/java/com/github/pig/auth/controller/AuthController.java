@@ -3,6 +3,7 @@ package com.github.pig.auth.controller;
 import com.github.pig.auth.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2017/10/13
  */
 @RestController
+@RefreshScope
 public class AuthController {
     @Value("${jwt.token.header}")
     private String tokenHeader;
@@ -55,8 +57,8 @@ public class AuthController {
     }
 
     @RequestMapping(value = "user", method = RequestMethod.GET)
-    public ResponseEntity<?> getUserInfo(String token) throws Exception {
+    public String getUserInfo(String token) throws Exception {
         String username = authService.getUserNameByToken(token);
-        return ResponseEntity.ok(username);
+        return tokenHeader;
     }
 }

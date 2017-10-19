@@ -1,12 +1,24 @@
 spring:
   application:
     name: pig-service-auth
+    index: 2
   cloud:
     config:
       fail-fast: true
       discovery:
         service-id: pig-config-server
         enabled: true
+      profile: dev
+      label: master
+    bus:
+      trace:
+        enabled: true
+  rabbitmq:
+    port: 5672
+    host: localhost
+    username: guest
+    password: guest
+
 
 eureka:
   instance:
@@ -14,3 +26,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://eureka.didispace.com/eureka/
+
+#关闭安全校验
+management:
+  security:
+    enabled: false
