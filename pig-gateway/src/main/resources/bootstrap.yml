@@ -1,7 +1,6 @@
 spring:
   application:
     name: pig-gateway
-    index: 3
   cloud:
     config:
       fail-fast: true

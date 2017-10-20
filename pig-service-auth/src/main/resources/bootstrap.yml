@@ -1,7 +1,6 @@
 spring:
   application:
     name: pig-service-auth
-    index: 2
   cloud:
     config:
       fail-fast: true
@@ -18,8 +17,6 @@ spring:
     host: localhost
     username: guest
     password: guest
-
-
 eureka:
   instance:
     prefer-ip-address: true

@@ -4,7 +4,6 @@ server:
 spring:
   application:
     name: pig-config-server
-    index: 1
   cloud:
     config:
       server:
