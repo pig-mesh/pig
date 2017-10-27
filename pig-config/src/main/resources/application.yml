@@ -23,8 +23,5 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://eureka.didispace.com/eureka/
-#关闭安全校验
-management:
-  security:
-    enabled: false
+      defaultZone: http://127.0.0.1:9000/eureka/
+
