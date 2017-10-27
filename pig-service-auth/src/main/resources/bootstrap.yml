@@ -24,14 +24,3 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:9000/eureka/
 
-security:
-  user:
-    password: lengleng
-    name: lengleng
-  oauth2:
-    client:
-      client-secret: lengleng
-      clientId: lengleng
-      authorized-grant-types: password
-      scope: openid
-
