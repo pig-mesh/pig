@@ -44,6 +44,7 @@
     </dependencies>
 
     <modules>
+        <module>pig-common</module>
         <module>pig-eureka</module>
         <module>pig-config</module>
         <module>pig-gateway</module>

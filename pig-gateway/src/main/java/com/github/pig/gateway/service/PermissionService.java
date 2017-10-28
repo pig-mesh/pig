@@ -1,4 +1,4 @@
-package com.github.pig.demo.service;
+package com.github.pig.gateway.service;
 
 import org.springframework.security.core.Authentication;
 

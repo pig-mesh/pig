@@ -4,15 +4,6 @@ spring:
   application:
     name: pig-demo-service
 
-security:
-  sessions: stateless
-  oauth2:
-    resource:
-      loadBalanced: true
-      user-info-uri: http://pig-service-auth/user
-      prefer-token-info: false
-      service-id: pig-demo-service
-
 eureka:
   instance:
     prefer-ip-address: true

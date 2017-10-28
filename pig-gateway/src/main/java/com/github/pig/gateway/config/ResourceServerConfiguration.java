@@ -1,4 +1,4 @@
-package com.github.pig.demo.config;
+package com.github.pig.gateway.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -22,8 +22,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.anonymous().disable()
+        http
                 .authorizeRequests()
+                .antMatchers("/auth/**").permitAll()
                 .anyRequest().access("@permissionService.hasPermission(request,authentication)");
     }
 

@@ -25,7 +25,11 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:9000/eureka/
 
-#关闭安全校验
-management:
-  security:
-    enabled: false
+security:
+  sessions: stateless
+  oauth2:
+    resource:
+      loadBalanced: true
+      user-info-uri: http://pig-service-auth/user
+      prefer-token-info: false
+      service-id: pig-gateway

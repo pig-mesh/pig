@@ -1,8 +1,8 @@
-package com.github.pig.demo.service.impl;
+package com.github.pig.gateway.service.impl;
 
-import com.github.pig.demo.service.PermissionService;
+import com.github.pig.gateway.service.PermissionService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -18,8 +18,6 @@ import java.util.Set;
 @Service("permissionService")
 public class PermissionServiceImpl implements PermissionService {
 
-    private PathMatcher pathMatcher = new AntPathMatcher();
-
     @Override
     public boolean hasPermission(HttpServletRequest request, Authentication authentication) {
         Object principal = authentication.getPrincipal();
@@ -31,8 +29,8 @@ public class PermissionServiceImpl implements PermissionService {
             urls.add("/demo");
 
             for (String url : urls) {
-                if (pathMatcher.match(url, request.getRequestURI())) {
-                    hasPermission = true;
+                if (request.getRequestURI().contains(url)){
+                    hasPermission =true;
                     break;
                 }
             }

@@ -18,10 +18,10 @@
 	</parent>
 
 	<dependencies>
-		<!--oauth2.0-->
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-oauth2</artifactId>
+			<groupId>com.github.pig</groupId>
+			<artifactId>pig-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
