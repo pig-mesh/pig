@@ -1,12 +1,13 @@
 package com.github.pig.demo;
 
+import com.github.pig.demo.annotation.HasAdminRole;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.oauth2.OAuth2AutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.method.P;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,10 +21,11 @@ import java.security.Principal;
 @SpringBootApplication
 @EnableDiscoveryClient
 @RestController
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class DemoResourceApplication {
     @GetMapping("/demo")
-    public String demo() {
-        return "demo";
+    public Principal demo(Principal principal) {
+        return principal;
     }
 
     @RequestMapping("/user")

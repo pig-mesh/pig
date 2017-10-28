@@ -7,9 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -22,8 +20,8 @@ public class UserDetailServiceImpl implements UserDetailsService, Serializable {
         return new UserDetails() {
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                GrantedAuthority grantedAuthority = (GrantedAuthority) () -> "admin";
                 List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+                GrantedAuthority grantedAuthority = (GrantedAuthority) () -> "ROLE_ADMIN";
                 grantedAuthorities.add(grantedAuthority);
                 return grantedAuthorities;
             }
