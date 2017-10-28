@@ -12,11 +12,6 @@ spring:
     bus:
       trace:
         enabled: true
-  rabbitmq:
-    port: 5672
-    host: localhost
-    username: guest
-    password: guest
 
 eureka:
   instance:

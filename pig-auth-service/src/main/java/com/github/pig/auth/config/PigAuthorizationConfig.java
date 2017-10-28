@@ -13,6 +13,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
+import javax.sql.DataSource;
+
 /**
  * @author lengleng
  * @date 2017/10/27
@@ -22,6 +24,8 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 @Configuration
 @EnableAuthorizationServer
 public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter {
+    @Autowired
+    private AuthServerConfig authServerConfig;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -35,10 +39,10 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                .withClient("lengleng")
-                .secret("lengleng")
+                .withClient(authServerConfig.getClientId())
+                .secret(authServerConfig.getClientSecret())
                 .authorizedGrantTypes("refresh_token", "password")
-                .scopes("ui");
+                .scopes(authServerConfig.getScope());
     }
 
     @Override
@@ -53,7 +57,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
-        jwtAccessTokenConverter.setSigningKey("pig");
+        jwtAccessTokenConverter.setSigningKey(authServerConfig.getSignKey());
         return jwtAccessTokenConverter;
     }
 }

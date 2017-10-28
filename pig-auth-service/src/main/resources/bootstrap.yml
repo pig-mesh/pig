@@ -12,15 +12,9 @@ spring:
     bus:
       trace:
         enabled: true
-  rabbitmq:
-    port: 5672
-    host: localhost
-    username: guest
-    password: guest
 eureka:
   instance:
     prefer-ip-address: true
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:9000/eureka/
-

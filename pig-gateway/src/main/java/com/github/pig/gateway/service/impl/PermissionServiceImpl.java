@@ -26,7 +26,7 @@ public class PermissionServiceImpl implements PermissionService {
         if (principal != null) {
             //TODO  根据用户名查询缓存，没有的查询数据库
             Set<String> urls = new HashSet<>();
-            urls.add("/demo");
+            urls.add("/user");
 
             for (String url : urls) {
                 if (request.getRequestURI().contains(url)){
