@@ -7,13 +7,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author lengleng
  * @date 2017/10/26
+ * <p>
+ * TODO 通过调用 admin模块
  */
-@Service
+@Service("userDetailService")
 public class UserDetailServiceImpl implements UserDetailsService, Serializable {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

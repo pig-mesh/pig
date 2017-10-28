@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.pig</groupId>
-	<artifactId>pig-demo-service</artifactId>
+	<artifactId>pig-admin-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>pig-demo-service</name>
-	<description>demo service</description>
+	<name>pig-admin-service</name>
+	<description>pig-admin-service</description>
 
 	<parent>
 		<groupId>com.github</groupId>

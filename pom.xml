@@ -49,7 +49,7 @@
         <module>pig-config</module>
         <module>pig-gateway</module>
         <module>pig-auth-service</module>
-        <module>pig-demo-service</module>
+        <module>pig-admin-service</module>
     </modules>
 
     <dependencyManagement>

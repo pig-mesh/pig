@@ -2,7 +2,7 @@ server:
   port: 4000
 spring:
   application:
-    name: pig-demo-service
+    name: pig-admin-service
 
 eureka:
   instance:
