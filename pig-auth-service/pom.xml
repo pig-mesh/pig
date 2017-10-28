@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.pig</groupId>
-	<artifactId>pig-service-auth</artifactId>
+	<artifactId>pig-auth-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>pig-service-auth</name>
+	<name>pig-auth-service</name>
 	<description>jwt 认证服务</description>
 
 	<parent>
@@ -34,7 +34,6 @@
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 	</dependencies>
-
 
 	<build>
 		<plugins>

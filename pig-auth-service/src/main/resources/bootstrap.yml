@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pig-service-auth
+    name: pig-auth-service
   cloud:
     config:
       fail-fast: true
