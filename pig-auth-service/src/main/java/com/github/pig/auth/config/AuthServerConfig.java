@@ -13,7 +13,6 @@ public class AuthServerConfig {
     private String clientId;
     private String clientSecret;
     private String scope;
-    private String signKey;
 
     public String getClientId() {
         return clientId;
@@ -37,13 +36,5 @@ public class AuthServerConfig {
 
     public void setScope(String scope) {
         this.scope = scope;
-    }
-
-    public String getSignKey() {
-        return signKey;
-    }
-
-    public void setSignKey(String signKey) {
-        this.signKey = signKey;
     }
 }

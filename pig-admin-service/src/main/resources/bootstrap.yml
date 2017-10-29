@@ -1,12 +1,21 @@
-server:
-  port: 4000
-spring:
-  application:
-    name: pig-admin-service
-
 eureka:
   instance:
     prefer-ip-address: true
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:9000/eureka/
+
+spring:
+  application:
+    name: pig-admin-service
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: pig-config-server
+        enabled: true
+      profile: dev
+      label: master
+
+
+

@@ -1,3 +1,10 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9000/eureka/
+
 spring:
   application:
     name: pig-auth-service
@@ -9,12 +16,4 @@ spring:
         enabled: true
       profile: dev
       label: master
-    bus:
-      trace:
-        enabled: true
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    serviceUrl:
-      defaultZone: http://127.0.0.1:9000/eureka/
+
