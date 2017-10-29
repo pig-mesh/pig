@@ -1,4 +1,4 @@
-package com.github.pig.common.web.constant;
+package com.github.pig.common.constant;
 
 /**
  * @author lengleng

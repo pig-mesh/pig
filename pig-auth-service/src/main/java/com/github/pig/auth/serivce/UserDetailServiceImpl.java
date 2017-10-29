@@ -4,6 +4,7 @@ import com.github.pig.auth.mapper.SysUserMapper;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

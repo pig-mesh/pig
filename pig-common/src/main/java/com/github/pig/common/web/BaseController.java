@@ -1,6 +1,6 @@
 package com.github.pig.common.web;
 
-import com.github.pig.common.web.constant.CommonConstant;
+import com.github.pig.common.constant.CommonConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.StringUtils;

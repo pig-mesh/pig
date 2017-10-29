@@ -11,7 +11,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-public class PigAdminApplication extends BaseController {
+public class PigAdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(PigAdminApplication.class, args);
     }

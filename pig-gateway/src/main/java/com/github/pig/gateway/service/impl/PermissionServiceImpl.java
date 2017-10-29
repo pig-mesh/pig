@@ -2,6 +2,7 @@ package com.github.pig.gateway.service.impl;
 
 import com.github.pig.gateway.service.PermissionService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
