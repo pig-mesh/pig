@@ -21,9 +21,12 @@ public class MybatisPlusGenerator {
         gc.setOutputDir("D://data");
         gc.setFileOverride(true);
         gc.setActiveRecord(true);
-        gc.setEnableCache(false);// XML 二级缓存
-        gc.setBaseResultMap(true);// XML ResultMap
-        gc.setBaseColumnList(false);// XML columList
+        // XML 二级缓存
+        gc.setEnableCache(true);
+        // XML ResultMap
+        gc.setBaseResultMap(true);
+        // XML columList
+        gc.setBaseColumnList(false);
         gc.setAuthor("lengleng");
         mpg.setGlobalConfig(gc);
 
@@ -40,7 +43,8 @@ public class MybatisPlusGenerator {
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
         //strategy.setTablePrefix(new String[]{"tlog_", "tsys_"});// 此处可以修改为您的表前缀
-        strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
+        // 表名生成策略
+        strategy.setNaming(NamingStrategy.underline_to_camel);
         mpg.setStrategy(strategy);
 
         // 包配置

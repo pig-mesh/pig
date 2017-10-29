@@ -1,6 +1,7 @@
 package com.github.pig.auth.config;
 
 import com.github.pig.common.constant.CommonConstant;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
 import org.springframework.cache.annotation.EnableCaching;
@@ -20,11 +21,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
+    @Value("${redis.cache.expiration}")
+    private Long expiration;
     @SuppressWarnings("rawtypes")
     @Bean
     public CacheManager cacheManager(RedisTemplate redisTemplate) {
         RedisCacheManager rcm = new RedisCacheManager(redisTemplate);
-        rcm.setDefaultExpiration(3600);//秒
+        rcm.setDefaultExpiration(expiration);
         return rcm;
     }
 
