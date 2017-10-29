@@ -1,5 +1,6 @@
 package com.github.pig.common.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,8 +11,7 @@ import java.util.Date;
  * @author lengleng
  * @since 2017-10-29
  */
-public class SysRole {
-
+public class SysRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer roleId;
