@@ -3,6 +3,7 @@ package com.github.pig.auth;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 
@@ -15,7 +16,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 @SpringBootApplication
 @EnableResourceServer
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.github.pig.auth","com.github.pig.common.config"})
+@EnableFeignClients
 public class PigAuthServerApplication {
 
     public static void main(String[] args) {

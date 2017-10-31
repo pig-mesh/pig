@@ -1,7 +1,7 @@
-package com.github.pig.auth.mapper;
+package com.github.pig.admin.mapper;
 
-import com.github.pig.auth.entity.SysRole;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.github.pig.admin.entity.SysRole;
 
 /**
  * <p>

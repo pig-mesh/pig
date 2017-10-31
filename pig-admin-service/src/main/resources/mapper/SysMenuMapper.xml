@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.pig.auth.mapper.SysMenuMapper">
+<mapper namespace="com.github.pig.admin.mapper.SysMenuMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.auth.entity.SysMenu">
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysMenu">
 		<id column="menu_id" property="menuId" />
 		<result column="menu_name" property="menuName" />
 		<result column="menu_desc" property="menuDesc" />
@@ -16,4 +16,17 @@
 		<result column="del_flag" property="delFlag" />
 	</resultMap>
 
+	<select id="findMenuByRoleName" resultType="string">
+		SELECT
+		sys_menu.url
+		FROM
+		sys_role
+		LEFT JOIN sys_role_menu ON sys_role_menu.role_id = sys_role.role_id
+		LEFT JOIN sys_menu ON sys_menu.menu_id = sys_role_menu.menu_id
+		WHERE
+			sys_role.del_flag = 0
+			AND sys_menu.del_flag = 0
+			AND sys_menu.url IS NOT NULL AND
+		sys_role.role_code = #{role}
+	</select>
 </mapper>

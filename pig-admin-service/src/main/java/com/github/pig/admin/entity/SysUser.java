@@ -1,4 +1,4 @@
-package com.github.pig.auth.entity;
+package com.github.pig.admin.entity;
 
 import java.io.Serializable;
 

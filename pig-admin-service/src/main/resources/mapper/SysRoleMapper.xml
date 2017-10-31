@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.github.pig.auth.mapper.SysRoleMapper">
+<mapper namespace="com.github.pig.admin.mapper.SysRoleMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.auth.entity.SysRole">
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysRole">
 		<id column="role_id" property="roleId" />
 		<result column="role_name" property="roleName" />
 		<result column="role_code" property="roleCode" />
