@@ -1,9 +1,12 @@
-2017年11月1日   1.0-ALPHA
+2017年11月1日   1.0-ALPHA  
+
 Future 整合ele-admin前后端分离
 
 
 ## 权限设计
 基于spring security oauth2.0 + jwt的认证、鉴权的网关设计
+
+
 ![image](http://obq1lvsd9.bkt.clouddn.com/pigpermission.png)
 
 如图
