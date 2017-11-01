@@ -19,6 +19,6 @@ public interface MenuService {
      * @param role 角色名称
      * @return 菜单列表
      */
-    @GetMapping("/menu/findMenuByRole/{role}")
+    @GetMapping(value = "/menu/findMenuByRole/{role}")
     Set<String> findMenuByRole(@PathVariable("role") String role);
 }

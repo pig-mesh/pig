@@ -1,6 +1,5 @@
 package com.github.pig.admin.service.impl;
 
-import com.github.pig.admin.entity.SysMenu;
 import com.github.pig.admin.mapper.SysMenuMapper;
 import com.github.pig.admin.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
