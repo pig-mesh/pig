@@ -54,7 +54,7 @@ spring:
 
 ```
 ### 通过access-token 访问受保护的资源
-```+
+```
 curl -H "Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MDk1NzA0NjMsInVzZXJfbmFtZSI6ImFkbWluIiwiYXV0aG9yaXRpZXMiOlsiYWRtaW4iXSwianRpIjoiZWMwZmJhMjYtMGJkZS00YjY2LThhZTQtZGRmYTNiMzkxZGM5IiwiY2xpZW50X2lkIjoicGlnIiwic2NvcGUiOlsic2VydmVyIl19.ZoSU_4NhdolnV6ZsNaSXITC_pewUDiaqZPLoESu9f9s" http://localhost:1000/admin/user
 
 ```
