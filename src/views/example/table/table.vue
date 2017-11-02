@@ -29,50 +29,32 @@
 
       <el-table-column align="center" label="序号" width="65">
         <template scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.userId}}</span>
         </template>
       </el-table-column>
 
       <el-table-column width="180px" align="center" label="时间">
         <template scope="scope">
-          <span>{{scope.row.timestamp | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="标题">
+      <el-table-column min-width="300px" label="用户名">
         <template scope="scope">
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
-          <el-tag>{{scope.row.type | typeFilter}}</el-tag>
+          <el-tag>{{scope.row.username}}</el-tag>
         </template>
       </el-table-column>
 
-      <el-table-column width="110px" align="center" label="作者">
+      <el-table-column width="110px" align="center" label="密码">
         <template scope="scope">
-          <span>{{scope.row.author}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
-        <template scope="scope">
-          <span style='color:red;'>{{scope.row.auditor}}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="80px" label="重要性">
-        <template scope="scope">
-          <icon-svg v-for="n in +scope.row.importance" icon-class="star" class="meta-item__icon" :key="n"></icon-svg>
-        </template>
-      </el-table-column>
-
-      <el-table-column align="center" label="阅读数" width="95">
-        <template scope="scope">
-          <span class="link-type" @click='handleFetchPv(scope.row.pageviews)'>{{scope.row.pageviews}}</span>
+          <span>{{scope.row.password}}</span>
         </template>
       </el-table-column>
 
       <el-table-column class-name="status-col" label="状态" width="90">
         <template scope="scope">
-          <el-tag :type="scope.row.status | statusFilter">{{scope.row.status}}</el-tag>
+          <el-tag :type="scope.row.delFlag | statusFilter">{{scope.row.delFlag}}</el-tag>
         </template>
       </el-table-column>
 
@@ -186,7 +168,7 @@ export default {
         sort: '+id'
       },
       temp: {
-        id: undefined,
+        userId: undefined,
         importance: 0,
         remark: '',
         timestamp: 0,
@@ -230,7 +212,7 @@ export default {
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
+        this.list = response.data.records
         this.total = response.data.total
         this.listLoading = false
       })

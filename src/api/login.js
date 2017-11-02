@@ -26,9 +26,6 @@ export function logout() {
 export function getUserInfo(token) {
   return fetch({
     url: '/admin/user',
-    headers: {
-      'Authorization': 'Bearer ' + token
-    },
     method: 'get',
     mode: 'cors'
   })
