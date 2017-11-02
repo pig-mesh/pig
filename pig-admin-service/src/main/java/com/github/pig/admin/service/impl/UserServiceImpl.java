@@ -1,5 +1,7 @@
 package com.github.pig.admin.service.impl;
 
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.mapper.SysUserMapper;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.vo.UserVo;
@@ -12,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @date 2017/10/31
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements UserService {
     @Autowired
     private SysUserMapper sysUserMapper;
 

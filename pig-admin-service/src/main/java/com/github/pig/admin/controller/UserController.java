@@ -1,5 +1,8 @@
 package com.github.pig.admin.controller;
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
@@ -30,8 +33,21 @@ public class UserController extends BaseController {
      * @param username 用户名
      * @return UseVo 对象
      */
-    @GetMapping("/findUserByUsername/{username}")
+    @RequestMapping("/findUserByUsername/{username}")
     public UserVo findUserByUsername(@PathVariable String username) {
         return userService.findUserByUsername(username);
+    }
+
+    /**
+     * 分页查询用户
+     *
+     * @param page    页码
+     * @param limit   每页数量
+     * @param sysUser 检索条件
+     * @return 用户集合
+     */
+    @RequestMapping("/userList")
+    public Page<SysUser> userList(Integer page, Integer limit, SysUser sysUser) {
+        return userService.selectPage(new Page<SysUser>(page, limit), new EntityWrapper<SysUser>(sysUser));
     }
 }
