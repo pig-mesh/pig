@@ -19,4 +19,12 @@ public interface CommonConstant {
      * jwt签名
      */
     String SIGN_KEY = "PIG";
+    /**
+     * 删除
+     */
+    String STATUS_DEL = "1";
+    /**
+     * 正常
+     */
+    String STATUS_NORMAL = "0";
 }

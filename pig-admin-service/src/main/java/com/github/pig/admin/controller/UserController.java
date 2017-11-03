@@ -4,13 +4,14 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.service.UserService;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
 
 /**
  * @author lengleng
@@ -47,7 +48,24 @@ public class UserController extends BaseController {
      * @return 用户集合
      */
     @RequestMapping("/userList")
-    public Page<SysUser> userList(Integer page, Integer limit, SysUser sysUser) {
-        return userService.selectPage(new Page<SysUser>(page, limit), new EntityWrapper<SysUser>(sysUser));
+    public Page userList(Integer page, Integer limit, SysUser sysUser) {
+        EntityWrapper wrapper = new EntityWrapper();
+        if (StringUtils.isNotEmpty(sysUser.getUsername())) {
+            wrapper.like("username", sysUser.getUsername());
+        }
+        return userService.selectPage(new Page<>(page, limit), wrapper);
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param sysUser 用户信息
+     * @return success/false
+     */
+    @RequestMapping("/userAdd")
+    public Boolean userAdd(@RequestBody SysUser sysUser) {
+        sysUser.setCreateTime(new Date());
+        sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
+        return userService.insert(sysUser);
     }
 }
