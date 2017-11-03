@@ -1,6 +1,7 @@
 import fetch from '@/utils/fetch'
 
 export function fetchList(query) {
+  console.log(query)
   return fetch({
     url: '/admin/user/userList',
     method: 'get',
@@ -8,18 +9,33 @@ export function fetchList(query) {
   })
 }
 
-export function fetchArticle() {
+export function addObj(obj) {
   return fetch({
-    url: '/article/detail',
+    url: '/admin/user/userAdd',
+    method: 'post',
+    data: obj
+  })
+}
+
+export function getObj(id) {
+  return fetch({
+    url: '/api/admin/user/' + id,
     method: 'get'
   })
 }
 
-export function fetchPv(pv) {
+export function delObj(id) {
   return fetch({
-    url: '/article/pv',
-    method: 'get',
-    params: { pv }
+    url: '/api/admin/user/' + id,
+    method: 'delete'
+  })
+}
+
+export function putObj(id, obj) {
+  return fetch({
+    url: '/api/admin/user/' + id,
+    method: 'put',
+    data: obj
   })
 }
 

@@ -7,12 +7,10 @@ export function loginByUsername(username, password) {
   return fetch({
     url: '/auth/oauth/token',
     headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
       'Authorization': 'Basic cGlnOnBpZw=='
     },
     method: 'post',
-    params: { username, password, grant_type, scope },
-    mode: 'cors'
+    params: { username, password, grant_type, scope }
   })
 }
 
@@ -26,8 +24,7 @@ export function logout() {
 export function getUserInfo(token) {
   return fetch({
     url: '/admin/user',
-    method: 'get',
-    mode: 'cors'
+    method: 'get'
   })
 }
 

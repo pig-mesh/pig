@@ -29,6 +29,10 @@ module.exports = {
 			assetsSubDirectory: 'static',
 			assetsPublicPath: '/',
 			proxyTable: {
+        '/auth': {
+          target: 'http://127.0.0.1:2000',
+          changeOrigin: true
+        }
       },
 			cssSourceMap: false
     }
