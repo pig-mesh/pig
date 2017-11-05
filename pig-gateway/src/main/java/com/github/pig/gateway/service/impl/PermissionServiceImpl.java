@@ -37,7 +37,7 @@ public class PermissionServiceImpl implements PermissionService {
         if (principal != null) {
             Set<String> urls = menuService.findMenuByRole(grantedAuthorityList.get(0).getAuthority());
             for (String url : urls) {
-                if (antPathMatcher.match(request.getRequestURI(), url)) {
+                if (antPathMatcher.match(url,request.getRequestURI())) {
                     hasPermission = true;
                     break;
                 }
