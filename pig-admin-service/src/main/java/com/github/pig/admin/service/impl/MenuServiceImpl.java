@@ -18,7 +18,7 @@ public class MenuServiceImpl implements MenuService {
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    @Cacheable(value = "menu_details", key = "#role +'_menu'")
+    //@Cacheable(value = "menu_details", key = "#role +'_menu'")
     public Set<String> findMenuByRole(String role) {
         return sysMenuMapper.findMenuByRoleName(role);
     }

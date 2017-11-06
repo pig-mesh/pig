@@ -26,7 +26,7 @@ public class MybatisPlusGenerator {
         // XML ResultMap
         gc.setBaseResultMap(true);
         // XML columList
-        gc.setBaseColumnList(false);
+        gc.setBaseColumnList(true);
         gc.setAuthor("lengleng");
         mpg.setGlobalConfig(gc);
 

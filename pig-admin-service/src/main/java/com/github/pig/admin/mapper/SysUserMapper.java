@@ -1,8 +1,11 @@
 package com.github.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.common.vo.UserVo;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,13 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return userVo
      */
     UserVo selectUserVoByUsername(String username);
+
+    /**
+     * 分页查询用户信息（含角色）
+     *
+     * @param page
+     * @param sysUser
+     * @return
+     */
+    List selectUserVoPage(Page<UserVo> page, SysUser sysUser);
 }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.pig.admin.mapper.SysUserMapper">
-    <cache/>
-
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysUser">
         <id column="user_id" property="userId"/>
@@ -22,6 +20,7 @@
         <result column="salt" property="salt"/>
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
+        <result column="udel_flag" property="delFlag"/>
         <collection property="roleList" ofType="com.github.pig.common.vo.SysRole">
             <id column="role_id" property="roleId" />
             <result column="role_name" property="roleName" />
@@ -39,6 +38,7 @@
             `user`.salt,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
+            `user`.del_flag AS udel_flag,
             r.role_id,
             r.role_name,
             r.role_code,
@@ -53,6 +53,31 @@
             `user`.del_flag = 0
             AND  r.del_flag = 0
             AND `user`.username = #{username}
+    </select>
+    <select id="selectUserVoPage" resultMap="userVoResultMap" >
+        SELECT
+            `user`.user_id,
+            `user`.username,
+            `user`.`password`,
+            `user`.salt,
+            `user`.create_time AS ucreate_time,
+            `user`.update_time AS uupdate_time,
+            `user`.del_flag AS udel_flag,
+            r.role_id,
+            r.role_name,
+            r.role_code,
+            r.role_desc,
+            r.create_time AS rcreate_time,
+            r.update_time AS rupdate_time
+        FROM
+            sys_user AS `user`
+            LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
+            LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
+        WHERE
+            r.del_flag = 0
+            <if test="username != null and username != ''">
+                and `user`.username LIKE CONCAT('%',#{username},'%')
+            </if>
     </select>
 
 </mapper>

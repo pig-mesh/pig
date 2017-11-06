@@ -1,5 +1,6 @@
 package com.github.pig.admin.service.impl;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.mapper.SysUserMapper;
@@ -22,5 +23,11 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
     @Cacheable(value = "user_details", key = "#username")
     public UserVo findUserByUsername(String username) {
         return sysUserMapper.selectUserVoByUsername(username);
+    }
+
+    @Override
+    public Page selectWithRolePage(Page<UserVo> page, SysUser sysUser) {
+        page.setRecords(sysUserMapper.selectUserVoPage(page, sysUser));
+        return page;
     }
 }

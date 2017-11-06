@@ -2,12 +2,15 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.admin.dto.UserDto;
 import com.github.pig.admin.entity.SysUser;
+import com.github.pig.admin.entity.SysUserRole;
+import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
-import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,10 +25,68 @@ import java.util.Date;
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private SysUserRoleService sysUserRoleService;
 
+    /**
+     * 获取当前用户的用户名
+     *
+     * @return 用户名
+     */
     @GetMapping
     public String user() {
         return getUser();
+    }
+
+    /**
+     * 通过ID查询当前用户信息
+     *
+     * @param id ID
+     * @return 用户信息
+     */
+    @GetMapping("/{id}")
+    public SysUser user(@PathVariable Integer id) {
+        return userService.selectById(id);
+    }
+
+    /**
+     * 添加用户
+     *
+     * @param userDto 用户信息
+     * @return success/false
+     */
+    @PostMapping
+    public Boolean user(@RequestBody UserDto userDto) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(userDto, sysUser);
+        sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
+        userService.insert(sysUser);
+        SysUserRole userRole = new SysUserRole();
+        userRole.setUserId(sysUser.getUserId());
+        userRole.setRoleId(userDto.getRole());
+        userRole.insert();
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDto 用户信息
+     * @return boolean
+     */
+    @PutMapping
+    public Boolean userUpdate(@RequestBody UserDto userDto) {
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(userDto, sysUser);
+        sysUser.setUpdateTime(new Date());
+        userService.updateById(sysUser);
+
+        SysUserRole condition = new SysUserRole();
+        condition.setUserId(userDto.getUserId());
+        SysUserRole sysUserRole = sysUserRoleService.selectOne(new EntityWrapper<>(condition));
+        sysUserRole.setRoleId(userDto.getRole());
+        sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
+        return Boolean.TRUE;
     }
 
     /**
@@ -47,25 +108,9 @@ public class UserController extends BaseController {
      * @param sysUser 检索条件
      * @return 用户集合
      */
-    @RequestMapping("/userList")
-    public Page userList(Integer page, Integer limit, SysUser sysUser) {
-        EntityWrapper wrapper = new EntityWrapper();
-        if (StringUtils.isNotEmpty(sysUser.getUsername())) {
-            wrapper.like("username", sysUser.getUsername());
-        }
-        return userService.selectPage(new Page<>(page, limit), wrapper);
+    @RequestMapping("/userPage")
+    public Page userPage(Integer page, Integer limit, SysUser sysUser) {
+        return userService.selectWithRolePage(new Page<>(page, limit), sysUser);
     }
 
-    /**
-     * 添加用户
-     *
-     * @param sysUser 用户信息
-     * @return success/false
-     */
-    @RequestMapping("/userAdd")
-    public Boolean userAdd(@RequestBody SysUser sysUser) {
-        sysUser.setCreateTime(new Date());
-        sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return userService.insert(sysUser);
-    }
 }
