@@ -32,6 +32,12 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="角色">
+        <template scope="scope">
+          <span>{{scope.row.roleList[0].roleName}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="创建时间">
         <template scope="scope">
           <span>{{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
@@ -46,11 +52,8 @@
 
       <el-table-column label="操作">
         <template scope="scope">
-          <el-button v-if="scope.row.delFlag=='0'" size="small" type="success"
-                     @click="handleModifyStatus(scope.row,'published')">编辑
-          </el-button>
-          <el-button v-if="scope.row.delFlag=='0'" size="small" type="danger"
-                     @click="handleModifyStatus(scope.row,'deleted')">失效
+          <el-button size="small" type="success"
+                     @click="handleUpdate(scope.row)">编辑
           </el-button>
         </template>
       </el-table-column>
@@ -68,10 +71,20 @@
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-form-item label="用户名" prop="username">
           <el-input v-if="dialogStatus == 'create'" v-model="form.username" placeholder="用户名"></el-input>
-          <el-input v-else v-model="form.username" placeholder="请输用户名" readonly></el-input>
+          <el-input v-else v-model="form.username" placeholder="请输用户名"></el-input>
         </el-form-item>
         <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="password">
           <el-input type="password" v-model="form.password"></el-input>
+        </el-form-item>
+        <el-form-item label="角色">
+          <el-select class="filter-item" v-model="form.role" placeholder="请选择">
+            <el-option v-for="item in  rolesOptions" :key="item.roleId" :label="item.roleCode" :value="item.roleId"> </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态" v-if="dialogStatus == 'update'" >
+          <el-select class="filter-item" v-model="form.delFlag" placeholder="请选择">
+            <el-option v-for="item in  statusOptions" :key="item" :label="item | statusFilter" :value="item"> </el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -84,7 +97,8 @@
 </template>
 
 <script>
-  import { fetchList, addObj } from '@/api/article'
+  import { fetchList, getObj, addObj, putObj } from '@/api/user'
+  import { roleList } from '@/api/role'
   import waves from '@/directive/waves/index.js' // 水波纹指令
   import { parseTime } from '@/utils'
 
@@ -135,6 +149,7 @@
           ]
         },
         statusOptions: ['0', '1'],
+        rolesOptions: undefined,
         dialogFormVisible: false,
         dialogStatus: '',
         textMap: {
@@ -177,32 +192,27 @@
         this.listQuery.page = val
         this.getList()
       },
-      handleModifyStatus(row, status) {
-        this.$message({
-          message: '操作成功',
-          type: 'success'
-        })
-        row.status = status
-      },
       handleCreate() {
         this.resetTemp()
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
+        roleList()
+          .then(response => {
+            this.rolesOptions = response.data
+          })
       },
       handleUpdate(row) {
-        this.temp = Object.assign({}, row)
-        this.dialogStatus = 'update'
-        this.dialogFormVisible = true
-      },
-      handleDelete(row) {
-        this.$notify({
-          title: '成功',
-          message: '删除成功',
-          type: 'success',
-          duration: 2000
-        })
-        const index = this.list.indexOf(row)
-        this.list.splice(index, 1)
+        getObj(row.userId)
+          .then(response => {
+            this.form = response.data
+            this.dialogFormVisible = true
+            this.dialogStatus = 'update'
+          })
+        roleList()
+          .then(response => {
+            this.rolesOptions = response.data
+            this.form.role = row.roleList[0].roleId
+          })
       },
       create(formName) {
         const set = this.$refs
@@ -228,15 +238,33 @@
         this.dialogFormVisible = false
         this.$refs[formName].resetFields()
       },
+      update(formName) {
+        const set = this.$refs
+        set[formName].validate(valid => {
+          if (valid) {
+            this.dialogFormVisible = false
+            this.form.password = undefined
+            putObj(this.form).then(() => {
+              this.dialogFormVisible = false
+              this.getList()
+              this.$notify({
+                title: '成功',
+                message: '修改成功',
+                type: 'success',
+                duration: 2000
+              })
+            })
+          } else {
+            return false
+          }
+        })
+      },
       resetTemp() {
-        this.temp = {
+        this.form = {
           id: undefined,
-          importance: 0,
-          remark: '',
-          timestamp: 0,
-          title: '',
-          status: 'published',
-          type: ''
+          username: '',
+          password: '',
+          role: undefined
         }
       },
       handleDownload() {
