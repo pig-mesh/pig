@@ -4,31 +4,35 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysMenu">
-        <id column="menu_id" property="menuId"/>
-        <result column="menu_name" property="menuName"/>
-        <result column="menu_desc" property="menuDesc"/>
-        <result column="url" property="url"/>
-        <result column="method" property="method"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="sort" property="sort"/>
-        <result column="type" property="type"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="del_flag" property="delFlag"/>
+        <id column="menu_id" property="menuId" />
+        <result column="name" property="name" />
+        <result column="permission" property="permission" />
+        <result column="url" property="url" />
+        <result column="method" property="method" />
+        <result column="parent_id" property="parentId" />
+        <result column="icon" property="icon" />
+        <result column="component" property="component" />
+        <result column="sort" property="sort" />
+        <result column="type" property="type" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
     </resultMap>
 
     <resultMap id="MenuVoResultMap" type="com.github.pig.common.vo.MenuVo">
-        <id column="menu_id" property="menuId"/>
-        <result column="menu_name" property="menuName"/>
-        <result column="menu_desc" property="menuDesc"/>
-        <result column="url" property="url"/>
-        <result column="method" property="method"/>
-        <result column="parent_id" property="parentId"/>
-        <result column="sort" property="sort"/>
-        <result column="type" property="type"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-        <result column="del_flag" property="delFlag"/>
+        <id column="menu_id" property="menuId" />
+        <result column="name" property="name" />
+        <result column="permission" property="permission" />
+        <result column="url" property="url" />
+        <result column="method" property="method" />
+        <result column="parent_id" property="parentId" />
+        <result column="icon" property="icon" />
+        <result column="component" property="component" />
+        <result column="sort" property="sort" />
+        <result column="type" property="type" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
     </resultMap>
 
     <select id="findMenuByRoleName" resultMap="MenuVoResultMap">

@@ -2,12 +2,15 @@ package com.github.pig.admin.entity;
 
 import java.io.Serializable;
 
-import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
+import org.omg.CORBA.IDLType;
+
+import java.io.Serializable;
 
 /**
  * <p>
@@ -25,18 +28,19 @@ public class SysMenu extends Model<SysMenu> {
     /**
      * 菜单ID
      */
-	@TableId(value="menu_id", type= IdType.INPUT)
+    @TableId(value = "menu_id",type = IdType.INPUT)
 	private Integer menuId;
     /**
      * 菜单名称
      */
-	@TableField("menu_name")
-	private String menuName;
+	private String name;
     /**
-     * 菜单描述
+     * 菜单权限标识
      */
-	@TableField("menu_desc")
-	private String menuDesc;
+	private String permission;
+    /**
+     * 请求链接
+     */
 	private String url;
     /**
      * 请求方法
@@ -47,6 +51,14 @@ public class SysMenu extends Model<SysMenu> {
      */
 	@TableField("parent_id")
 	private Integer parentId;
+    /**
+     * 图标
+     */
+	private String icon;
+    /**
+     * VUE页面
+     */
+	private String component;
     /**
      * 排序值
      */
@@ -80,20 +92,20 @@ public class SysMenu extends Model<SysMenu> {
 		this.menuId = menuId;
 	}
 
-	public String getMenuName() {
-		return menuName;
+	public String getName() {
+		return name;
 	}
 
-	public void setMenuName(String menuName) {
-		this.menuName = menuName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public String getMenuDesc() {
-		return menuDesc;
+	public String getPermission() {
+		return permission;
 	}
 
-	public void setMenuDesc(String menuDesc) {
-		this.menuDesc = menuDesc;
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 
 	public String getUrl() {
@@ -118,6 +130,22 @@ public class SysMenu extends Model<SysMenu> {
 
 	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getComponent() {
+		return component;
+	}
+
+	public void setComponent(String component) {
+		this.component = component;
 	}
 
 	public Integer getSort() {
@@ -169,11 +197,13 @@ public class SysMenu extends Model<SysMenu> {
 	public String toString() {
 		return "SysMenu{" +
 			", menuId=" + menuId +
-			", menuName=" + menuName +
-			", menuDesc=" + menuDesc +
+			", name=" + name +
+			", permission=" + permission +
 			", url=" + url +
 			", method=" + method +
 			", parentId=" + parentId +
+			", icon=" + icon +
+			", component=" + component +
 			", sort=" + sort +
 			", type=" + type +
 			", createTime=" + createTime +

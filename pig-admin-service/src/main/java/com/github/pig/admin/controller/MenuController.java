@@ -5,16 +5,15 @@ import com.github.pig.admin.dto.MenuTree;
 import com.github.pig.admin.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.util.TreeUtil;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.MenuVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author lengleng
@@ -37,9 +36,60 @@ public class MenuController {
         return menuService.findMenuByRole(role);
     }
 
+    /**
+     * 返回树形菜单集合
+     *
+     * @return 树形菜单
+     */
     @GetMapping(value = "/tree")
-    public List<MenuTree> getTree(String title) {
+    public List<MenuTree> getTree() {
+        SysMenu condition = new SysMenu();
+        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         return getMenuTree(menuService.selectList(new EntityWrapper<>()), -1);
+    }
+
+    /**
+     * 通过ID查询菜单的详细信息
+     *
+     * @param id 菜单ID
+     * @return 菜单详细信息
+     */
+    @GetMapping("/{id}")
+    public SysMenu menu(@PathVariable Integer id) {
+        return menuService.selectById(id);
+    }
+
+    /**
+     * 新增菜单
+     *
+     * @param sysMenu 菜单信息
+     * @return success/false
+     */
+    @PostMapping
+    public Boolean menu(@RequestBody SysMenu sysMenu) {
+        return menuService.insert(sysMenu);
+    }
+
+    /**
+     * 删除菜单
+     *
+     * @param id 菜单ID
+     * @return success/false
+     * TODO  级联删除下级节点
+     */
+    @DeleteMapping("/{id}")
+    public Boolean menuDel(@PathVariable Integer id) {
+        SysMenu condition1 = new SysMenu();
+        condition1.setMenuId(id);
+        condition1.setDelFlag(CommonConstant.STATUS_DEL);
+        menuService.updateById(condition1);
+
+        SysMenu conditon2 = new SysMenu();
+        conditon2.setParentId(id);
+        SysMenu sysMenu = new SysMenu();
+        sysMenu.setDelFlag(CommonConstant.STATUS_DEL);
+        menuService.update(sysMenu,new EntityWrapper<>(conditon2));
+        return menuService.deleteById(id);
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {
@@ -49,11 +99,11 @@ public class MenuController {
             node = new MenuTree();
             node.setId(menu.getMenuId());
             node.setParentId(menu.getParentId());
-            node.setTitle(menu.getMenuName());
+            node.setTitle(menu.getName());
             node.setHref(menu.getUrl());
             node.setPath(menu.getUrl());
-            node.setCode(menu.getMenuName());
-            node.setLabel(menu.getMenuName());
+            node.setCode(menu.getPermission());
+            node.setLabel(menu.getName());
             trees.add(node);
         }
         return TreeUtil.bulid(trees, root);

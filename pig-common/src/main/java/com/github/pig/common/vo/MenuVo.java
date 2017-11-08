@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class MenuVo implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+
     /**
      * 菜单ID
      */
@@ -20,11 +22,14 @@ public class MenuVo implements Serializable {
     /**
      * 菜单名称
      */
-    private String menuName;
+    private String name;
     /**
-     * 菜单描述
+     * 菜单权限标识
      */
-    private String menuDesc;
+    private String permission;
+    /**
+     * 请求链接
+     */
     private String url;
     /**
      * 请求方法
@@ -34,6 +39,14 @@ public class MenuVo implements Serializable {
      * 父菜单ID
      */
     private Integer parentId;
+    /**
+     * 图标
+     */
+    private String icon;
+    /**
+     * VUE页面
+     */
+    private String component;
     /**
      * 排序值
      */
@@ -55,7 +68,6 @@ public class MenuVo implements Serializable {
      */
     private String delFlag;
 
-
     public Integer getMenuId() {
         return menuId;
     }
@@ -64,20 +76,20 @@ public class MenuVo implements Serializable {
         this.menuId = menuId;
     }
 
-    public String getMenuName() {
-        return menuName;
+    public String getName() {
+        return name;
     }
 
-    public void setMenuName(String menuName) {
-        this.menuName = menuName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getMenuDesc() {
-        return menuDesc;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setMenuDesc(String menuDesc) {
-        this.menuDesc = menuDesc;
+    public void setPermission(String permission) {
+        this.permission = permission;
     }
 
     public String getUrl() {
@@ -102,6 +114,22 @@ public class MenuVo implements Serializable {
 
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getComponent() {
+        return component;
+    }
+
+    public void setComponent(String component) {
+        this.component = component;
     }
 
     public Integer getSort() {
@@ -143,5 +171,4 @@ public class MenuVo implements Serializable {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
-
 }
