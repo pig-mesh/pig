@@ -3,12 +3,17 @@ package com.github.pig.admin.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysRole;
-import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.service.SysRoleService;
 import com.github.pig.common.constant.CommonConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -73,6 +78,7 @@ public class RoleController {
         SysRole condition = new SysRole();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         return sysRoleService.selectList(new EntityWrapper<>(condition));
+
     }
 
     /**
@@ -86,6 +92,7 @@ public class RoleController {
     public Page rolePage(Integer page, Integer limit) {
         SysRole condition = new SysRole();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return sysRoleService.selectPage(new Page<>(page, limit),new EntityWrapper<>(condition));
+        return sysRoleService.selectPage(new Page<>(page, limit), new EntityWrapper<>(condition));
     }
+
 }

@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
-import java.io.Serializable;
 
 /**
  * <p>
@@ -16,7 +15,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author lengleng
- * @since 2017-10-29
+ * @since 2017-11-08
  */
 @TableName("sys_menu")
 public class SysMenu extends Model<SysMenu> {
@@ -26,7 +25,7 @@ public class SysMenu extends Model<SysMenu> {
     /**
      * 菜单ID
      */
-	@TableId(value="menu_id", type= IdType.AUTO)
+	@TableId(value="menu_id", type= IdType.INPUT)
 	private Integer menuId;
     /**
      * 菜单名称
@@ -39,6 +38,10 @@ public class SysMenu extends Model<SysMenu> {
 	@TableField("menu_desc")
 	private String menuDesc;
 	private String url;
+    /**
+     * 请求方法
+     */
+	private String method;
     /**
      * 父菜单ID
      */
@@ -101,6 +104,14 @@ public class SysMenu extends Model<SysMenu> {
 		this.url = url;
 	}
 
+	public String getMethod() {
+		return method;
+	}
+
+	public void setMethod(String method) {
+		this.method = method;
+	}
+
 	public Integer getParentId() {
 		return parentId;
 	}
@@ -161,6 +172,7 @@ public class SysMenu extends Model<SysMenu> {
 			", menuName=" + menuName +
 			", menuDesc=" + menuDesc +
 			", url=" + url +
+			", method=" + method +
 			", parentId=" + parentId +
 			", sort=" + sort +
 			", type=" + type +

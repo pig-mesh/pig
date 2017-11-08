@@ -2,6 +2,7 @@ package com.github.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.github.pig.admin.entity.SysMenu;
+import com.github.pig.common.vo.MenuVo;
 
 import java.util.Set;
 
@@ -21,5 +22,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param role 角色名称
      * @return 菜单列表
      */
-    Set<String> findMenuByRoleName(String role);
+    Set<MenuVo> findMenuByRoleName(String role);
 }

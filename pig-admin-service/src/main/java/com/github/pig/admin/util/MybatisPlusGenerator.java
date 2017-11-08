@@ -22,7 +22,7 @@ public class MybatisPlusGenerator {
         gc.setFileOverride(true);
         gc.setActiveRecord(true);
         // XML 二级缓存
-        gc.setEnableCache(true);
+        gc.setEnableCache(false);
         // XML ResultMap
         gc.setBaseResultMap(true);
         // XML columList

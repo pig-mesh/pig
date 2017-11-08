@@ -1,5 +1,6 @@
 package com.github.pig.gateway.service.impl;
 
+import com.github.pig.common.vo.MenuVo;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,14 +36,14 @@ public class PermissionServiceImpl implements PermissionService {
         boolean hasPermission = false;
 
         if (principal != null) {
-            Set<String> urls = menuService.findMenuByRole(grantedAuthorityList.get(0).getAuthority());
-            for (String url : urls) {
-                if (antPathMatcher.match(url,request.getRequestURI())) {
+            Set<MenuVo> urls = menuService.findMenuByRole(grantedAuthorityList.get(0).getAuthority());
+            for (MenuVo menu : urls) {
+                if (antPathMatcher.match(menu.getUrl(), request.getRequestURI())
+                        && request.getMethod().equalsIgnoreCase(menu.getMethod())) {
                     hasPermission = true;
                     break;
                 }
             }
-
         }
         return hasPermission;
     }

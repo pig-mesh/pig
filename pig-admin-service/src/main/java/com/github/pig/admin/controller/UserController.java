@@ -33,7 +33,7 @@ public class UserController extends BaseController {
      *
      * @return 用户名
      */
-    @GetMapping
+    @GetMapping("/info")
     public String user() {
         return getUser();
     }
@@ -49,8 +49,14 @@ public class UserController extends BaseController {
         return userService.selectById(id);
     }
 
+    /**
+     * 删除用户信息
+     *
+     * @param id ID
+     * @return boolean
+     */
     @DeleteMapping("/{id}")
-    public Boolean userDel(@PathVariable Integer id){
+    public Boolean userDel(@PathVariable Integer id) {
         SysUser sysUser = userService.selectById(id);
         sysUser.setDelFlag(CommonConstant.STATUS_DEL);
         return userService.updateById(sysUser);
@@ -102,7 +108,7 @@ public class UserController extends BaseController {
      * @param username 用户名
      * @return UseVo 对象
      */
-    @RequestMapping("/findUserByUsername/{username}")
+    @GetMapping("/findUserByUsername/{username}")
     public UserVo findUserByUsername(@PathVariable String username) {
         return userService.findUserByUsername(username);
     }
