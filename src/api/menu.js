@@ -16,7 +16,7 @@ export function fetchAll() {
 }
 export function addObj(obj) {
   return fetch({
-    url: '/api/admin/menu',
+    url: '/admin/menu/',
     method: 'post',
     data: obj
   })
@@ -24,21 +24,21 @@ export function addObj(obj) {
 
 export function getObj(id) {
   return fetch({
-    url: '/api/admin/menu/' + id,
+    url: '/admin/menu/' + id,
     method: 'get'
   })
 }
 
 export function delObj(id) {
   return fetch({
-    url: '/api/admin/menu/' + id,
+    url: '/admin/menu/' + id,
     method: 'delete'
   })
 }
 
 export function putObj(id, obj) {
   return fetch({
-    url: '/api/admin/menu/' + id,
+    url: '/admin/menu/' + id,
     method: 'put',
     data: obj
   })

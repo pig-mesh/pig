@@ -10,10 +10,6 @@
 
     <el-row>
       <el-col :span="8" style='margin-top:15px;'>
-        <el-input
-          placeholder="输入关键字进行过滤"
-          v-model="filterText">
-        </el-input>
         <el-tree
           class="filter-tree"
           :data="treeData"
@@ -30,34 +26,39 @@
       <el-col :span="16" style='margin-top:15px;'>
         <el-card class="box-card">
           <el-form :label-position="labelPosition" label-width="80px" :model="form" ref="form">
-            <el-form-item label="路径编码" prop="code">
-              <el-input v-model="form.code" :disabled="formEdit" placeholder="请输入路径编码"></el-input>
-            </el-form-item>
-            <el-form-item label="标题" prop="title">
-              <el-input v-model="form.title" :disabled="formEdit"  placeholder="请输入标题"></el-input>
-            </el-form-item>
             <el-form-item label="父级节点" prop="parentId">
               <el-input v-model="form.parentId" :disabled="formEdit" placeholder="请输入父级节点" readonly></el-input>
+            </el-form-item>
+            <el-form-item label="节点ID" prop="parentId">
+              <el-input v-model="form.menuId" :disabled="formEdit" placeholder="请输入节点ID"></el-input>
+            </el-form-item>
+            <el-form-item label="标题" prop="name">
+              <el-input v-model="form.name" :disabled="formEdit"  placeholder="请输入标题"></el-input>
+            </el-form-item>
+            <el-form-item label="权限标识" prop="permission">
+              <el-input v-model="form.permission" :disabled="formEdit" placeholder="请输入路径编码"></el-input>
             </el-form-item>
             <el-form-item label="图标" prop="icon">
               <el-input v-model="form.icon" :disabled="formEdit" placeholder="请输入图标"></el-input>
             </el-form-item>
-            <el-form-item label="资源路径" prop="href">
-              <el-input v-model="form.href" :disabled="formEdit" placeholder="请输入资源路径"></el-input>
+            <el-form-item label="资源路径" prop="url">
+              <el-input v-model="form.url" :disabled="formEdit" placeholder="请输入资源路径"></el-input>
+            </el-form-item>
+            <el-form-item label="请求方法" prop="method">
+              <el-select class="filter-item" v-model="form.method"  :disabled="formEdit"  placeholder="请输入资源请求类型">
+                <el-option v-for="item in  methodOptions" :key="item" :label="item" :value="item"> </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="类型" prop="type">
               <el-select class="filter-item" v-model="form.type"  :disabled="formEdit"  placeholder="请输入资源请求类型">
-                <el-option v-for="item in  typeOptions" :key="item" :label="item" :value="item"> </el-option>
+                <el-option v-for="item in  typeOptions" :key="item" :label="item | typeFilter" :value="item"> </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="排序" prop="orderNum">
-              <el-input v-model="form.orderNum" :disabled="formEdit" placeholder="请输入排序"></el-input>
+            <el-form-item label="排序" prop="sort">
+              <el-input v-model="form.sort" :disabled="formEdit" placeholder="请输入排序"></el-input>
             </el-form-item>
-            <el-form-item label="描述"   prop="description">
-              <el-input v-model="form.description" :disabled="formEdit" placeholder="请输入描述"></el-input>
-            </el-form-item>
-            <el-form-item label="前端组件"   prop="attr1">
-              <el-input v-model="form.attr1" :disabled="formEdit" placeholder="请输入描述"></el-input>
+            <el-form-item label="前端组件"   prop="component">
+              <el-input v-model="form.component" :disabled="formEdit" placeholder="请输入描述"></el-input>
             </el-form-item>
             <el-form-item v-if="formStatus == 'update'">
               <el-button type="primary" @click="update">更新</el-button>
@@ -68,12 +69,6 @@
               <el-button @click="onCancel">取消</el-button>
             </el-form-item>
           </el-form>
-        </el-card>
-        <el-card class="box-card">
-          <span>按钮或资源</span>
-<!--
-          <menu-element :menuId='currentId' ref="menuElement"></menu-element>
--->
         </el-card>
       </el-col>
     </el-row>
@@ -89,14 +84,14 @@
     name: 'menu',
     data() {
       return {
-        filterText: '',
         list: null,
         total: null,
         formEdit: true,
         formAdd: true,
         formStatus: '',
         showElement: false,
-        typeOptions: ['menu', 'dirt'],
+        typeOptions: ['0', '1'],
+        methodOptions: ['GET', 'POST', 'PUT', 'DELETE'],
         listQuery: {
           name: undefined
         },
@@ -107,17 +102,16 @@
         },
         labelPosition: 'right',
         form: {
-          code: undefined,
-          title: undefined,
+          permission: undefined,
+          name: undefined,
+          menuId: undefined,
           parentId: undefined,
-          href: undefined,
+          url: undefined,
           icon: undefined,
-          orderNum: undefined,
-          description: undefined,
-          path: undefined,
-          enabled: undefined,
+          sort: undefined,
+          component: undefined,
           type: undefined,
-          attr1: undefined
+          method: undefined
         },
         currentId: -1,
         menuManager_btn_add: true,
@@ -125,9 +119,13 @@
         menuManager_btn_del: true
       }
     },
-    watch: {
-      filterText(val) {
-        this.$refs.menuTree.filter(val)
+    filters: {
+      typeFilter(type) {
+        const typeMap = {
+          0: '菜单',
+          1: '按钮'
+        }
+        return typeMap[type]
       }
     },
     created() {
@@ -157,8 +155,6 @@
         })
         this.currentId = data.id
         this.showElement = true
-        this.$refs.menuElement.menuId = data.id
-        this.$refs.menuElement.getList()
       },
       handlerEdit() {
         if (this.form.id) {
@@ -218,15 +214,16 @@
       },
       resetForm() {
         this.form = {
-          code: undefined,
-          title: undefined,
+          permission: undefined,
+          name: undefined,
+          menuId: undefined,
           parentId: this.currentId,
-          href: undefined,
+          url: undefined,
           icon: undefined,
-          orderNum: undefined,
-          description: undefined,
-          path: undefined,
-          enabled: undefined
+          sort: undefined,
+          component: undefined,
+          type: undefined,
+          method: undefined
         }
       }
     }
