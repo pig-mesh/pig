@@ -23,18 +23,10 @@ export const constantRouterMap = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/index',
     name: '首页',
     hidden: true,
-    children: [{ path: 'dashboard', component: _import('dashboard/index') }]
-  },
-  {
-    path: '/introduction',
-    component: Layout,
-    redirect: '/introduction/index',
-    icon: 'people',
-    noDropdown: true,
-    children: [{ path: 'index', component: _import('introduction/index'), name: '简述' }]
+    children: [{ path: 'index', component: _import('index') }]
   }
 ]
 
@@ -46,12 +38,14 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
-    path: '/example',
+    path: '/admin',
     component: Layout,
     icon: 'table',
-    noDropdown: true,
-    children: [{ path: 'index', component: _import('example/table/table'), name: '用户管理' }]
-  },
-
-  { path: '*', redirect: '/404', hidden: true }
+    name: '系统管理',
+    children: [
+      { path: 'user', component: _import('admin/user'), name: '用户管理' },
+      { path: 'role', component: _import('admin/role'), name: '角色管理' },
+      { path: 'menu', component: _import('admin/menu'), name: '菜单管理' }
+    ]
+  }
 ]

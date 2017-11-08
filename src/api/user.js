@@ -1,7 +1,6 @@
 import fetch from '@/utils/fetch'
 
 export function fetchList(query) {
-  console.log(query)
   return fetch({
     url: '/admin/user/userPage',
     method: 'get',
@@ -26,7 +25,7 @@ export function getObj(id) {
 
 export function delObj(id) {
   return fetch({
-    url: '/api/admin/user/' + id,
+    url: '/admin/user/' + id,
     method: 'delete'
   })
 }

@@ -70,8 +70,7 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-form-item label="用户名" prop="username">
-          <el-input v-if="dialogStatus == 'create'" v-model="form.username" placeholder="用户名"></el-input>
-          <el-input v-else v-model="form.username" placeholder="请输用户名"></el-input>
+          <el-input v-model="form.username" placeholder="请输用户名"></el-input>
         </el-form-item>
         <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="password">
           <el-input type="password" v-model="form.password"></el-input>
@@ -103,7 +102,7 @@
   import { parseTime } from '@/utils'
 
   export default {
-    name: 'table_demo',
+    name: 'table_user',
     directives: {
       waves
     },
