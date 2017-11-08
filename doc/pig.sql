@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-11-08 19:49:23
+Date: 2017-11-08 21:34:43
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,22 +39,22 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES ('1', '系统管理', null, null, null, '-1', null, null, null, null, '2017-11-07 20:56:00', '2017-11-07 20:58:37', '0');
-INSERT INTO `sys_menu` VALUES ('2', '用户管理', null, '', null, '1', null, null, null, null, '2017-11-02 22:24:37', '2017-11-08 09:49:47', '0');
-INSERT INTO `sys_menu` VALUES ('3', '菜单管理', null, null, null, '1', null, null, null, null, '2017-11-08 09:57:27', null, '0');
-INSERT INTO `sys_menu` VALUES ('4', '角色管理', null, null, null, '1', null, null, null, null, '2017-11-08 10:13:37', null, '0');
-INSERT INTO `sys_menu` VALUES ('21', '用户查看', null, '/admin/user/*', 'GET', '2', null, null, null, null, '2017-11-07 20:58:05', '2017-11-08 09:58:36', '0');
-INSERT INTO `sys_menu` VALUES ('22', '用户新增', null, '/admin/user/*', 'POST', '2', null, null, null, null, '2017-11-08 09:52:09', '2017-11-08 09:57:06', '0');
-INSERT INTO `sys_menu` VALUES ('23', '用户修改', null, '/admin/user/*', 'PUT', '2', null, null, null, null, '2017-11-08 09:52:48', '2017-11-08 09:57:08', '0');
-INSERT INTO `sys_menu` VALUES ('24', '用户删除', null, '/admin/user/*', 'DELETE', '2', null, null, null, null, '2017-11-08 09:54:01', '2017-11-08 09:57:11', '0');
-INSERT INTO `sys_menu` VALUES ('31', '菜单查看', null, '/admin/menu/*', 'GET', '3', null, null, null, null, '2017-11-08 09:57:56', '2017-11-08 09:58:29', '0');
-INSERT INTO `sys_menu` VALUES ('32', '菜单新增', null, '/admin/menu/*', 'POST', '3', null, null, null, null, '2017-11-08 10:15:53', '2017-11-08 10:16:04', '0');
-INSERT INTO `sys_menu` VALUES ('33', '菜单修改', null, '/admin/menu/*', 'PUT', '3', null, null, null, null, '2017-11-08 10:16:23', null, '0');
-INSERT INTO `sys_menu` VALUES ('34', '菜单删除', null, '/admin/menu/*', 'DELETE', '3', null, null, null, null, '2017-11-08 10:16:43', null, '0');
-INSERT INTO `sys_menu` VALUES ('41', '角色查看', null, '/admin/role/*', 'GET', '4', null, null, null, null, '2017-11-08 10:14:01', '2017-11-08 10:15:19', '0');
-INSERT INTO `sys_menu` VALUES ('42', '角色新增', null, '/admin/role/*', 'POST', '4', null, null, null, null, '2017-11-08 10:14:18', '2017-11-08 10:15:21', '0');
-INSERT INTO `sys_menu` VALUES ('43', '角色修改', null, '/admin/role/*', 'PUT', '4', null, null, null, null, '2017-11-08 10:14:41', '2017-11-08 10:15:25', '0');
-INSERT INTO `sys_menu` VALUES ('44', '角色删除', null, '/admin/role/*', 'DELETE', '4', null, null, null, null, '2017-11-08 10:14:59', '2017-11-08 10:15:35', '0');
+INSERT INTO `sys_menu` VALUES ('1', '系统管理', null, null, null, '-1', null, null, null, '0', '2017-11-07 20:56:00', '2017-11-08 20:35:21', '0');
+INSERT INTO `sys_menu` VALUES ('2', '用户管理', null, '', null, '1', null, null, null, '0', '2017-11-02 22:24:37', '2017-11-08 20:35:22', '0');
+INSERT INTO `sys_menu` VALUES ('3', '菜单管理', null, null, null, '1', null, null, null, '0', '2017-11-08 09:57:27', '2017-11-08 20:35:23', '0');
+INSERT INTO `sys_menu` VALUES ('4', '角色管理', null, null, null, '1', null, null, null, '0', '2017-11-08 10:13:37', '2017-11-08 20:35:24', '0');
+INSERT INTO `sys_menu` VALUES ('21', '用户查看', null, '/admin/user/*', 'GET', '2', null, null, null, '0', '2017-11-07 20:58:05', '2017-11-08 20:35:26', '0');
+INSERT INTO `sys_menu` VALUES ('22', '用户新增', null, '/admin/user/*', 'POST', '2', null, null, null, '1', '2017-11-08 09:52:09', '2017-11-08 20:35:27', '0');
+INSERT INTO `sys_menu` VALUES ('23', '用户修改', null, '/admin/user/*', 'PUT', '2', null, null, null, '1', '2017-11-08 09:52:48', '2017-11-08 20:35:28', '0');
+INSERT INTO `sys_menu` VALUES ('24', '用户删除', null, '/admin/user/*', 'DELETE', '2', null, null, null, '1', '2017-11-08 09:54:01', '2017-11-08 20:35:29', '0');
+INSERT INTO `sys_menu` VALUES ('31', '菜单查看', null, '/admin/menu/*', 'GET', '3', null, null, null, '1', '2017-11-08 09:57:56', '2017-11-08 20:35:29', '0');
+INSERT INTO `sys_menu` VALUES ('32', '菜单新增', null, '/admin/menu/*', 'POST', '3', null, null, null, '1', '2017-11-08 10:15:53', '2017-11-08 20:35:30', '0');
+INSERT INTO `sys_menu` VALUES ('33', '菜单修改', null, '/admin/menu/*', 'PUT', '3', null, null, null, '1', '2017-11-08 10:16:23', '2017-11-08 20:35:31', '0');
+INSERT INTO `sys_menu` VALUES ('34', '菜单删除', null, '/admin/menu/*', 'DELETE', '3', null, null, null, '1', '2017-11-08 10:16:43', '2017-11-08 20:35:31', '0');
+INSERT INTO `sys_menu` VALUES ('41', '角色查看', null, '/admin/role/*', 'GET', '4', null, null, null, '1', '2017-11-08 10:14:01', '2017-11-08 20:35:32', '0');
+INSERT INTO `sys_menu` VALUES ('42', '角色新增', null, '/admin/role/*', 'POST', '4', null, null, null, '1', '2017-11-08 10:14:18', '2017-11-08 20:35:33', '0');
+INSERT INTO `sys_menu` VALUES ('43', '角色修改', null, '/admin/role/*', 'PUT', '4', null, null, null, '1', '2017-11-08 10:14:41', '2017-11-08 20:35:33', '0');
+INSERT INTO `sys_menu` VALUES ('44', '角色删除', null, '/admin/role/*', 'DELETE', '4', null, null, null, '1', '2017-11-08 10:14:59', '2017-11-08 20:35:35', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
