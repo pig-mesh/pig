@@ -79,17 +79,19 @@ public class MenuController {
      */
     @DeleteMapping("/{id}")
     public Boolean menuDel(@PathVariable Integer id) {
+        // 删除当前节点
         SysMenu condition1 = new SysMenu();
         condition1.setMenuId(id);
         condition1.setDelFlag(CommonConstant.STATUS_DEL);
         menuService.updateById(condition1);
 
+        // 删除父节点为当前节点的节点
         SysMenu conditon2 = new SysMenu();
         conditon2.setParentId(id);
         SysMenu sysMenu = new SysMenu();
         sysMenu.setDelFlag(CommonConstant.STATUS_DEL);
         menuService.update(sysMenu,new EntityWrapper<>(conditon2));
-        return menuService.deleteById(id);
+        return Boolean.TRUE;
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {
