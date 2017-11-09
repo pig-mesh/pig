@@ -7,13 +7,14 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.util.TreeUtil;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentMap;
 
 /**
  * @author lengleng
@@ -21,7 +22,7 @@ import java.util.concurrent.ConcurrentMap;
  */
 @RestController
 @RequestMapping("/menu")
-public class MenuController {
+public class MenuController extends BaseController {
     @Autowired
     private SysMenuService menuService;
 
@@ -45,8 +46,24 @@ public class MenuController {
     public List<MenuTree> getTree() {
         SysMenu condition = new SysMenu();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return getMenuTree(menuService.selectList(new EntityWrapper<>()), -1);
+        return getMenuTree(menuService.selectList(new EntityWrapper<>(condition)), -1);
     }
+
+    /**
+     * 返回当前用户树形菜单集合
+     *
+     * @return 树形菜单
+     */
+    @GetMapping(value = "/userTree")
+    public List<Integer> userTree(HttpServletRequest request) {
+        Set<MenuVo> menus = menuService.findMenuByRole(getRole());
+        List<Integer> menuList = new ArrayList<>();
+        for (MenuVo menuVo : menus) {
+            menuList.add(menuVo.getMenuId());
+        }
+        return menuList;
+    }
+
 
     /**
      * 通过ID查询菜单的详细信息
@@ -90,8 +107,13 @@ public class MenuController {
         conditon2.setParentId(id);
         SysMenu sysMenu = new SysMenu();
         sysMenu.setDelFlag(CommonConstant.STATUS_DEL);
-        menuService.update(sysMenu,new EntityWrapper<>(conditon2));
+        menuService.update(sysMenu, new EntityWrapper<>(conditon2));
         return Boolean.TRUE;
+    }
+
+    @PutMapping
+    public Boolean menuUpdate(@RequestBody SysMenu sysMenu) {
+        return menuService.updateById(sysMenu);
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {

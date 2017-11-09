@@ -3,17 +3,16 @@ package com.github.pig.admin.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysRole;
+import com.github.pig.admin.entity.SysRoleMenu;
+import com.github.pig.admin.service.SysRoleMenuService;
 import com.github.pig.admin.service.SysRoleService;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,9 +21,11 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/role")
-public class RoleController {
+public class RoleController extends BaseController {
     @Autowired
     private SysRoleService sysRoleService;
+    @Autowired
+    private SysRoleMenuService sysRoleMenuService;
 
     /**
      * 通过ID查询角色信息
@@ -95,4 +96,27 @@ public class RoleController {
         return sysRoleService.selectPage(new Page<>(page, limit), new EntityWrapper<>(condition));
     }
 
+    /**
+     * 更新角色菜单
+     *
+     * @param roleId  角色ID
+     * @param menuIds 菜单结合
+     * @return success、false
+     */
+    @PutMapping("/roleMenuUpd")
+    @CacheEvict(value = "menu_details", key = "#role +'_menu'")
+    public Boolean roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+        SysRoleMenu condition = new SysRoleMenu();
+        condition.setRoleId(roleId);
+        sysRoleMenuService.delete(new EntityWrapper<>(condition));
+
+        List<SysRoleMenu> roleMenuList = new ArrayList<>();
+        for (Integer menuId : menuIds) {
+            SysRoleMenu roleMenu = new SysRoleMenu();
+            roleMenu.setRoleId(roleId);
+            roleMenu.setMenuId(menuId);
+            roleMenuList.add(roleMenu);
+        }
+        return sysRoleMenuService.insertBatch(roleMenuList);
+    }
 }

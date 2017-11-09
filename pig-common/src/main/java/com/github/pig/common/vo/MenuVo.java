@@ -171,4 +171,14 @@ public class MenuVo implements Serializable {
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }
