@@ -47,7 +47,7 @@
                      @click="handleDelete(scope.row)">删除
           </el-button>
           <el-button size="mini" type="info" plain
-                     @click="handleDelete(scope.row)">权限
+                     @click="handlePermission(scope.row.roleId)">权限
           </el-button>
         </template>
       </el-table-column>
@@ -79,11 +79,30 @@
         <el-button v-else type="primary" @click="update('form')">修 改</el-button>
       </div>
     </el-dialog>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogPermissionVisible">
+      <el-tree
+        class="filter-tree"
+        :data="treeData"
+        :default-checked-keys="checkedKeys"
+        node-key="id"
+        highlight-current
+        :props="defaultProps"
+        show-checkbox
+        ref="menuTree"
+        :filter-node-method="filterNode"
+        default-expand-all
+      >
+      </el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="updatePermession(roleId)">更 新</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj, delObj } from '@/api/role'
+  import { fetchList, getObj, addObj, putObj, delObj, permissionUpd } from '@/api/role'
+  import { fetchUserTree, fetchAll } from '@/api/menu'
   import waves from '@/directive/waves/index.js' // 水波纹指令
 
   export default {
@@ -93,6 +112,12 @@
     },
     data() {
       return {
+        treeData: [],
+        checkedKeys: [],
+        defaultProps: {
+          children: 'children',
+          label: 'title'
+        },
         list: null,
         total: null,
         listLoading: true,
@@ -149,10 +174,12 @@
         statusOptions: ['0', '1'],
         rolesOptions: undefined,
         dialogFormVisible: false,
+        dialogPermissionVisible: false,
         dialogStatus: '',
         textMap: {
           update: '编辑',
-          create: '创建'
+          create: '创建',
+          permission: '权限'
         },
         tableKey: 0
       }
@@ -189,6 +216,25 @@
             this.dialogFormVisible = true
             this.dialogStatus = 'update'
           })
+      },
+      handlePermission(roleId) {
+        this.roleId = roleId
+        fetchAll()
+          .then(response => {
+            this.treeData = response.data
+            this.dialogStatus = 'permission'
+            this.dialogPermissionVisible = true
+          })
+
+        fetchUserTree().then(response => {
+          this.checkedKeys = response.data
+        })
+      },
+      filterNode(value, data) {
+        if (!value) return true
+        return data.label.indexOf(value) !== -1
+      },
+      getNodeData(data) {
       },
       handleDelete(row) {
         delObj(row.roleId)
@@ -247,6 +293,25 @@
             return false
           }
         })
+      },
+      updatePermession(roleId) {
+        permissionUpd(roleId, this.$refs.menuTree.getCheckedKeys())
+          .then(() => {
+            this.dialogPermissionVisible = false
+            fetchAll()
+              .then(response => {
+                this.treeData = response.data
+              })
+            fetchUserTree().then(response => {
+              this.checkedKeys = response.data
+            })
+            this.$notify({
+              title: '成功',
+              message: '修改成功',
+              type: 'success',
+              duration: 2000
+            })
+          })
       },
       resetTemp() {
         this.form = {

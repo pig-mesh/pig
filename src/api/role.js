@@ -44,3 +44,14 @@ export function delObj(id) {
     method: 'delete'
   })
 }
+
+export function permissionUpd(roleId, menuIds) {
+  return fetch({
+    url: '/admin/role/roleMenuUpd',
+    method: 'put',
+    params: {
+      roleId: roleId,
+      menuIds: menuIds
+    }
+  })
+}

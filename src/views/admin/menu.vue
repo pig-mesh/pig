@@ -17,7 +17,6 @@
           highlight-current
           :props="defaultProps"
           :filter-node-method="filterNode"
-          ref="menuTree"
           @node-click="getNodeData"
           default-expand-all
         >

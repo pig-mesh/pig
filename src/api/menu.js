@@ -10,10 +10,18 @@ export function fetchTree(query) {
 
 export function fetchAll() {
   return fetch({
-    url: '/api/admin/menu/all',
+    url: '/admin/menu/tree',
     method: 'get'
   })
 }
+
+export function fetchUserTree() {
+  return fetch({
+    url: '/admin/menu/userTree',
+    method: 'get'
+  })
+}
+
 export function addObj(obj) {
   return fetch({
     url: '/admin/menu/',
@@ -36,9 +44,9 @@ export function delObj(id) {
   })
 }
 
-export function putObj(id, obj) {
+export function putObj(obj) {
   return fetch({
-    url: '/admin/menu/' + id,
+    url: '/admin/menu/',
     method: 'put',
     data: obj
   })
