@@ -156,7 +156,7 @@
         this.showElement = true
       },
       handlerEdit() {
-        if (this.form.id) {
+        if (this.form.menuId) {
           this.formEdit = false
           this.formStatus = 'update'
         }
@@ -186,7 +186,7 @@
         })
       },
       update() {
-        putObj(this.form.id, this.form).then(() => {
+        putObj(this.form).then(() => {
           this.getList()
           this.$notify({
             title: '成功',

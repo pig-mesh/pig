@@ -179,7 +179,7 @@
         textMap: {
           update: '编辑',
           create: '创建',
-          permission: '权限'
+          permission: '分配权限'
         },
         tableKey: 0
       }

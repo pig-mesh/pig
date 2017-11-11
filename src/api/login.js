@@ -14,10 +14,11 @@ export function loginByUsername(username, password) {
   })
 }
 
-export function logout() {
+export function logout(accesstoken, refreshToken) {
   return fetch({
-    url: '/login/logout',
-    method: 'post'
+    url: '/auth/removeToken',
+    method: 'post',
+    params: { accesstoken, refreshToken }
   })
 }
 

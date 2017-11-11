@@ -5,7 +5,7 @@
                 v-model="listQuery.username">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
+      <el-button v-if="userAdd" class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
       </el-button>
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
     </div>
@@ -52,7 +52,7 @@
 
       <el-table-column label="操作">
         <template scope="scope">
-          <el-button size="small" type="success"
+          <el-button v-if="userUpd" size="small" type="success"
                      @click="handleUpdate(scope.row)">编辑
           </el-button>
         </template>
@@ -80,7 +80,7 @@
             <el-option v-for="item in  rolesOptions" :key="item.roleId" :label="item.roleCode" :value="item.roleId"> </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" v-if="dialogStatus == 'update'" >
+        <el-form-item label="状态" v-if="dialogStatus == 'update' && userDel" >
           <el-select class="filter-item" v-model="form.delFlag" placeholder="请选择">
             <el-option v-for="item in  statusOptions" :key="item" :label="item | statusFilter" :value="item"> </el-option>
           </el-select>
@@ -100,6 +100,7 @@
   import { roleList } from '@/api/role'
   import waves from '@/directive/waves/index.js' // 水波纹指令
   import { parseTime } from '@/utils'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'table_user',
@@ -150,6 +151,9 @@
         statusOptions: ['0', '1'],
         rolesOptions: undefined,
         dialogFormVisible: false,
+        userAdd: false,
+        userUpd: false,
+        userDel: false,
         dialogStatus: '',
         textMap: {
           update: '编辑',
@@ -157,6 +161,11 @@
         },
         tableKey: 0
       }
+    },
+    computed: {
+      ...mapGetters([
+        'permissions'
+      ])
     },
     filters: {
       statusFilter(status) {
@@ -169,6 +178,9 @@
     },
     created() {
       this.getList()
+      this.userAdd = this.permissions['userAdd']
+      this.userUpd = this.permissions['userUpd']
+      this.userDel = this.permissions['userDel']
     },
     methods: {
       getList() {
