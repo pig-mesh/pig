@@ -56,7 +56,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping(value = "/userTree")
     public List<Integer> userTree(HttpServletRequest request) {
-        Set<MenuVo> menus = menuService.findMenuByRole(getRole());
+        Set<MenuVo> menus = menuService.findMenuByRole(getRole().get(0));
         List<Integer> menuList = new ArrayList<>();
         for (MenuVo menuVo : menus) {
             menuList.add(menuVo.getMenuId());

@@ -54,6 +54,16 @@ public class SysUser extends Model<SysUser> {
     @TableField("del_flag")
     private String delFlag;
 
+    /**
+     * 简介
+     */
+    private String introduction;
+    /**
+     * 头像
+     */
+    private String avatar;
+
+
 
     public Integer getUserId() {
         return userId;
@@ -114,6 +124,22 @@ public class SysUser extends Model<SysUser> {
     @Override
     protected Serializable pkVal() {
         return this.userId;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override

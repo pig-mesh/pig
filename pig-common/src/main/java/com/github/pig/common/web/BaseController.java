@@ -36,12 +36,12 @@ public class BaseController {
      *
      * @return 角色名
      */
-    public String getRole() {
+    public List<String> getRole() {
         String authorization = request.getHeader(CommonConstant.REQ_HEADER);
         String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
         String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
         List<String> roleNames = (List<String>) claims.get("authorities");
-        return roleNames.get(0);
+        return roleNames;
     }
 }

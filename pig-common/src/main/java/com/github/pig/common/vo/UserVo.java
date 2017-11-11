@@ -41,6 +41,15 @@ public class UserVo implements Serializable {
      */
     private String delFlag;
     /**
+     * 简介
+     */
+    private String introduction;
+    /**
+     * 头像
+     */
+    private String avatar;
+
+    /**
      * 角色列表
      */
     private List<SysRole> roleList = new ArrayList<>();
@@ -107,5 +116,21 @@ public class UserVo implements Serializable {
 
     public void setRoleList(List<SysRole> roleList) {
         this.roleList = roleList;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

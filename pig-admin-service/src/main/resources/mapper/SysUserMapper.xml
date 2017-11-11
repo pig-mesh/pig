@@ -6,6 +6,8 @@
         <id column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
+        <result column="introduction" property="introduction" />
+        <result column="avatar" property="avatar" />
         <result column="salt" property="salt"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
@@ -18,6 +20,8 @@
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="salt" property="salt"/>
+        <result column="introduction" property="introduction" />
+        <result column="avatar" property="avatar" />
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
         <result column="udel_flag" property="delFlag"/>
@@ -36,6 +40,8 @@
             `user`.username,
             `user`.`password`,
             `user`.salt,
+            `user`.introduction,
+            `user`.avatar,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
             `user`.del_flag AS udel_flag,
@@ -60,6 +66,8 @@
             `user`.username,
             `user`.`password`,
             `user`.salt,
+            `user`.introduction,
+            `user`.avatar,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
             `user`.del_flag AS udel_flag,

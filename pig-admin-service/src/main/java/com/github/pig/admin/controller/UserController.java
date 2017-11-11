@@ -3,8 +3,10 @@ package com.github.pig.admin.controller;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.dto.UserDto;
+import com.github.pig.admin.dto.UserInfo;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.entity.SysUserRole;
+import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.constant.CommonConstant;
@@ -27,6 +29,8 @@ public class UserController extends BaseController {
     private UserService userService;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private SysMenuService menuService;
 
     /**
      * 获取当前用户的用户名
@@ -34,8 +38,20 @@ public class UserController extends BaseController {
      * @return 用户名
      */
     @GetMapping("/info")
-    public String user() {
-        return getUser();
+    public UserInfo user() {
+        SysUser condition = new SysUser();
+        condition.setUsername(getUser());
+        SysUser sysUser = userService.selectOne(new EntityWrapper<>(condition));
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setSysUser(sysUser);
+        //设置角色列表
+        String[] roles = getRole().toArray(new String[getRole().size()]);
+        userInfo.setRoles(roles);
+        //设置权限列表（menu.permission）
+        String[] permissions = menuService.findPermission(roles);
+        userInfo.setPermissions(permissions);
+        return userInfo;
     }
 
     /**

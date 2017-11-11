@@ -23,4 +23,12 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 菜单列表
      */
     Set<MenuVo> findMenuByRole(String role);
+
+    /**
+     * 通过角色获取菜单权限列表
+     *
+     * @param roles 角色
+     * @return 权限列表
+     */
+    String[] findPermission(String[] roles);
 }

@@ -5,10 +5,12 @@ import com.github.pig.admin.entity.SysMenu;
 import com.github.pig.admin.mapper.SysMenuMapper;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.vo.MenuVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -28,5 +30,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Cacheable(value = "menu_details", key = "#role +'_menu'")
     public Set<MenuVo> findMenuByRole(String role) {
         return sysMenuMapper.findMenuByRoleName(role);
+    }
+
+    @Override
+    public String[] findPermission(String[] roles) {
+        Set<MenuVo> menuVoSet = new HashSet<>();
+        for (String role : roles) {
+            Set<MenuVo> menuVos = findMenuByRole(role);
+            menuVoSet.addAll(menuVos);
+        }
+
+        Set<String> permissions = new HashSet<>();
+        for (MenuVo menuVo : menuVoSet) {
+            if (StringUtils.isNotEmpty(menuVo.getPermission())) {
+                String permission = menuVo.getPermission();
+                permissions.add(permission);
+            }
+        }
+
+        return permissions.toArray(new String[permissions.size()]);
     }
 }
