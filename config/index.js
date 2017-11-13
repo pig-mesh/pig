@@ -24,15 +24,25 @@ module.exports = {
     },
     dev: {
 			env: require('./dev.env'),
-			port: 9527,
+			port: 9528,
 			autoOpenBrowser: true,
 			assetsSubDirectory: 'static',
 			assetsPublicPath: '/',
 			proxyTable: {
         '/auth': {
-          target: 'http://127.0.0.1:2000',
-          changeOrigin: true
-        }
+          target: 'http://127.0.0.1:1000',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/auth' : '/auth'
+          }
+        },
+        '/admin': {
+          target: 'http://127.0.0.1:1000',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/admin' : '/admin'
+          }
+        },
       },
 			cssSourceMap: false
     }
