@@ -11,7 +11,6 @@ import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -34,7 +33,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/findMenuByRole/{role}")
     public Set<MenuVo> findMenuByRole(@PathVariable String role) {
-        return menuService.findMenuByRole(role);
+        return menuService.findMenuByRole(role, 0);
     }
 
     /**
@@ -54,16 +53,15 @@ public class MenuController extends BaseController {
      *
      * @return 树形菜单
      */
-    @GetMapping(value = "/userTree")
-    public List<Integer> userTree(HttpServletRequest request) {
-        Set<MenuVo> menus = menuService.findMenuByRole(getRole().get(0));
+    @GetMapping("/userTree/{type}")
+    public List<Integer> userTree(@PathVariable Integer type) {
+        Set<MenuVo> menus = menuService.findMenuByRole(getRole().get(0), type);
         List<Integer> menuList = new ArrayList<>();
         for (MenuVo menuVo : menus) {
             menuList.add(menuVo.getMenuId());
         }
         return menuList;
     }
-
 
     /**
      * 通过ID查询菜单的详细信息
@@ -123,11 +121,13 @@ public class MenuController extends BaseController {
             node = new MenuTree();
             node.setId(menu.getMenuId());
             node.setParentId(menu.getParentId());
-            node.setTitle(menu.getName());
-            node.setHref(menu.getUrl());
-            node.setPath(menu.getUrl());
+            node.setName(menu.getName());
+            node.setUrl(menu.getUrl());
+            node.setPath(menu.getPath());
             node.setCode(menu.getPermission());
             node.setLabel(menu.getName());
+            node.setComponent(menu.getComponent());
+            node.setIcon(menu.getIcon());
             trees.add(node);
         }
         return TreeUtil.bulid(trees, root);

@@ -6,8 +6,8 @@ package com.github.pig.admin.dto;
  */
 public class MenuTree extends TreeNode {
     private String icon;
-    private String title;
-    private String href;
+    private String name;
+    private String url;
     private boolean spread = false;
     private String path;
     private String component;
@@ -72,14 +72,14 @@ public class MenuTree extends TreeNode {
     public MenuTree(int id, String name, int parentId) {
         this.id = id;
         this.parentId = parentId;
-        this.title = name;
+        this.name = name;
         this.label = name;
     }
 
     public MenuTree(int id, String name, MenuTree parent) {
         this.id = id;
         this.parentId = parent.getId();
-        this.title = name;
+        this.name = name;
         this.label = name;
     }
 
@@ -91,20 +91,20 @@ public class MenuTree extends TreeNode {
         this.icon = icon;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getHref() {
-        return href;
+    public String getUrl() {
+        return url;
     }
 
-    public void setHref(String href) {
-        this.href = href;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public boolean isSpread() {

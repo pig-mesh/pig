@@ -82,6 +82,10 @@ public class SysMenu extends Model<SysMenu> {
      */
 	@TableField("del_flag")
 	private String delFlag;
+	/**
+	 * 前端URL
+	 */
+	private String path;
 
 
 	public Integer getMenuId() {
@@ -186,6 +190,14 @@ public class SysMenu extends Model<SysMenu> {
 
 	public void setDelFlag(String delFlag) {
 		this.delFlag = delFlag;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	@Override
