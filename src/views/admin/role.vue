@@ -102,7 +102,7 @@
 
 <script>
   import { fetchList, getObj, addObj, putObj, delObj, permissionUpd } from '@/api/role'
-  import { fetchUserTree, fetchAll } from '@/api/menu'
+  import { fetchUserTree, fetchTree } from '@/api/menu'
   import waves from '@/directive/waves/index.js' // 水波纹指令
 
   export default {
@@ -116,7 +116,7 @@
         checkedKeys: [],
         defaultProps: {
           children: 'children',
-          label: 'title'
+          label: 'name'
         },
         list: null,
         total: null,
@@ -219,14 +219,14 @@
       },
       handlePermission(roleId) {
         this.roleId = roleId
-        fetchAll()
+        fetchTree()
           .then(response => {
             this.treeData = response.data
             this.dialogStatus = 'permission'
             this.dialogPermissionVisible = true
           })
 
-        fetchUserTree().then(response => {
+        fetchUserTree(0).then(response => {
           this.checkedKeys = response.data
         })
       },
@@ -298,11 +298,11 @@
         permissionUpd(roleId, this.$refs.menuTree.getCheckedKeys())
           .then(() => {
             this.dialogPermissionVisible = false
-            fetchAll()
+            fetchTree()
               .then(response => {
                 this.treeData = response.data
               })
-            fetchUserTree().then(response => {
+            fetchUserTree(0).then(response => {
               this.checkedKeys = response.data
             })
             this.$notify({

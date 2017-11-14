@@ -38,14 +38,15 @@ export default new Router({
 
 export const asyncRouterMap = [
   {
+    menuId: 1,
     path: '/admin',
     component: Layout,
     icon: 'table',
     name: '系统管理',
     children: [
-      { path: 'user', component: _import('admin/user'), name: '用户管理' },
-      { path: 'role', component: _import('admin/role'), name: '角色管理' },
-      { path: 'menu', component: _import('admin/menu'), name: '菜单管理' }
+      { menuId: 2, path: 'user', component: _import('admin/user'), name: '用户管理' },
+      { menuId: 3, path: 'menu', component: _import('admin/menu'), name: '菜单管理' },
+      { menuId: 4, path: 'role', component: _import('admin/role'), name: '角色管理' }
     ]
   }
 ]

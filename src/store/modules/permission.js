@@ -1,16 +1,20 @@
 import { asyncRouterMap, constantRouterMap } from '@/router'
+import { fetchUserTree } from '@/api/menu'
 
 /**
- * 通过meta.role判断是否与当前用户权限匹配
- * @param roles
- * @param route
+ * 动态权限判断
+ * @param menuIds  用户拥有的菜单列表
+ * @param route   菜单选择
+ * @returns {boolean}
  */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.role) {
-    return roles.some(role => route.meta.role.indexOf(role) >= 0)
-  } else {
-    return true
-  }
+function hasPermission(menuIds, route) {
+  let result = false
+  menuIds.filter(menuId => {
+    if (menuId === route.menuId) {
+      result = true
+    }
+  })
+  return result
 }
 
 /**
@@ -18,11 +22,11 @@ function hasPermission(roles, route) {
  * @param asyncRouterMap
  * @param roles
  */
-function filterAsyncRouter(asyncRouterMap, roles) {
+function filterAsyncRouter(asyncRouterMap, menuIds) {
   const accessedRouters = asyncRouterMap.filter(route => {
-    if (hasPermission(roles, route)) {
+    if (hasPermission(menuIds, route)) {
       if (route.children && route.children.length) {
-        route.children = filterAsyncRouter(route.children, roles)
+        route.children = filterAsyncRouter(route.children, menuIds)
       }
       return true
     }
@@ -47,13 +51,16 @@ const permission = {
       return new Promise(resolve => {
         const { roles } = data
         let accessedRouters
-        if (roles.indexOf('admin') >= 0) {
-          accessedRouters = asyncRouterMap
-        } else {
-          accessedRouters = filterAsyncRouter(asyncRouterMap, roles)
-        }
-        commit('SET_ROUTERS', accessedRouters)
-        resolve()
+        fetchUserTree(1).then(response => {
+          if (roles.indexOf('admin') >= 0) {
+            accessedRouters = asyncRouterMap
+          } else {
+            accessedRouters = filterAsyncRouter(asyncRouterMap, response.data)
+          }
+          console.log(accessedRouters)
+          commit('SET_ROUTERS', accessedRouters)
+          resolve()
+        })
       })
     }
   }

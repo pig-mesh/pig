@@ -10,14 +10,14 @@ export function fetchTree(query) {
 
 export function fetchAll() {
   return fetch({
-    url: '/admin/menu/tree',
+    url: '/admin/menu/navMenu',
     method: 'get'
   })
 }
 
-export function fetchUserTree() {
+export function fetchUserTree(type) {
   return fetch({
-    url: '/admin/menu/userTree',
+    url: '/admin/menu/userTree/' + type,
     method: 'get'
   })
 }

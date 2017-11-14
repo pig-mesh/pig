@@ -97,7 +97,7 @@
         treeData: [],
         defaultProps: {
           children: 'children',
-          label: 'title'
+          label: 'name'
         },
         labelPosition: 'right',
         form: {
