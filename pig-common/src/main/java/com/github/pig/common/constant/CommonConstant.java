@@ -27,4 +27,14 @@ public interface CommonConstant {
      * 正常
      */
     String STATUS_NORMAL = "0";
+
+    /**
+     * 菜单
+     */
+    String MENU = "0";
+
+    /**
+     * 按钮
+     */
+    String BUTTON = "1";
 }
