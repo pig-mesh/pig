@@ -7,6 +7,7 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.vo.MenuVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -26,7 +27,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    //@Cacheable(value = "menu_details", key = "#role +'_menu'")
+    @Cacheable(value = "menu_details", key = "#role + #type + '_menu'")
     public Set<MenuVo> findMenuByRole(String role, Integer type) {
         return sysMenuMapper.findMenuByRoleName(role, type);
     }

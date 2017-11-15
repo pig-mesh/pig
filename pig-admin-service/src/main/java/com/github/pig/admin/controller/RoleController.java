@@ -104,7 +104,7 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PutMapping("/roleMenuUpd")
-    @CacheEvict(value = "menu_details", key = "#role +'_menu'")
+    @CacheEvict(value = "menu_details",allEntries = true)
     public Boolean roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
         SysRoleMenu condition = new SysRoleMenu();
         condition.setRoleId(roleId);

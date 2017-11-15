@@ -9,6 +9,7 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.MenuVo;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ public class MenuController extends BaseController {
      * TODO  级联删除下级节点
      */
     @DeleteMapping("/{id}")
+    @CacheEvict(value = "menu_details",allEntries = true)
     public Boolean menuDel(@PathVariable Integer id) {
         // 删除当前节点
         SysMenu condition1 = new SysMenu();
@@ -110,6 +112,7 @@ public class MenuController extends BaseController {
     }
 
     @PutMapping
+    @CacheEvict(value = "menu_details",allEntries = true)
     public Boolean menuUpdate(@RequestBody SysMenu sysMenu) {
         return menuService.updateById(sysMenu);
     }
