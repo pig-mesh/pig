@@ -1,15 +1,3 @@
 <template>
-  <iframe src="http://www.baidu.com"></iframe>
+  <iframe src="http://www.baidu.com" width="100%" height="580px" frameborder="no"></iframe>
 </template>
-
-
-<script>
-  export default {
-    template: '<iframe src="http://www.baidu.com"></iframe>',
-    data() {
-      return {
-        activeName: '1'
-      }
-    }
-  }
-</script>
