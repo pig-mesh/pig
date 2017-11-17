@@ -37,4 +37,8 @@ public interface CommonConstant {
      * 按钮
      */
     String BUTTON = "1";
+    /**
+     * log rabbit队列名称
+     */
+    String LOG_QUEUE = "log";
 }

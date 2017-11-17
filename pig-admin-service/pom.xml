@@ -46,6 +46,11 @@
 			<version>2.0</version>
 		</dependency>
 		<!--mybatis-plus end -->
+		<!--rabbitMQ-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 	</dependencies>
 
 

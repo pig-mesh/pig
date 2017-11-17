@@ -9,11 +9,9 @@
     debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
     <!-- 定义日志文件 输入位置 -->
-    <property name="log_dir" value="logs/ev_cmdb" />
+    <property name="log_dir" value="logs/ev_cmdb"/>
     <!-- 日志最大的历史 30天 -->
     <property name="maxHistory" value="30"/>
-
-
 
 
     <!-- ConsoleAppender 控制台输出日志 -->
@@ -139,13 +137,14 @@
         </encoder>
     </appender>
 
-    <logger name="java.sql.PreparedStatement" value="DEBUG" />
-    <logger name="java.sql.Connection" value="DEBUG" />
-    <logger name="java.sql.Statement" value="DEBUG" />
-    <logger name="com.ibatis" value="DEBUG" />
-    <logger name="com.ibatis.common.jdbc.SimpleDataSource" value="DEBUG" />
+    <logger name="java.sql.PreparedStatement" value="DEBUG"/>
+    <logger name="java.sql.Connection" value="DEBUG"/>
+    <logger name="java.sql.Statement" value="DEBUG"/>
+    <logger name="com.ibatis" value="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" value="DEBUG"/>
     <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
-    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+    <logger name="org.springframework.amqp.rabbit" level="INFO"/>
     <logger name="com.github.pig.admin" level="DEBUG" additivity="true">
         <appender-ref ref="STDOUT"/>
     </logger>
@@ -153,12 +152,12 @@
     <!-- root级别   DEBUG -->
     <root level="DEBUG">
         <!-- 控制台输出 -->
-        <appender-ref ref="STDOUT" />
+        <appender-ref ref="STDOUT"/>
         <!-- 文件输出 -->
-        <appender-ref ref="ERROR" />
-        <appender-ref ref="INFO" />
-        <appender-ref ref="WARN" />
-        <appender-ref ref="DEBUG" />
-        <appender-ref ref="TRACE" />
+        <appender-ref ref="ERROR"/>
+        <appender-ref ref="INFO"/>
+        <appender-ref ref="WARN"/>
+        <appender-ref ref="DEBUG"/>
+        <appender-ref ref="TRACE"/>
     </root>
 </configuration>
