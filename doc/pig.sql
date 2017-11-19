@@ -10,10 +10,37 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-11-17 13:42:21
+Date: 2017-11-19 22:53:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sys_dict
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict` (
+  `id` int(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `value` varchar(100) NOT NULL COMMENT '数据值',
+  `label` varchar(100) NOT NULL COMMENT '标签名',
+  `type` varchar(100) NOT NULL COMMENT '类型',
+  `description` varchar(100) NOT NULL COMMENT '描述',
+  `sort` decimal(10,0) NOT NULL COMMENT '排序（升序）',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remarks` varchar(255) DEFAULT NULL COMMENT '备注信息',
+  `del_flag` char(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`),
+  KEY `sys_dict_value` (`value`),
+  KEY `sys_dict_label` (`label`),
+  KEY `sys_dict_del_flag` (`del_flag`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='字典表';
+
+-- ----------------------------
+-- Records of sys_dict
+-- ----------------------------
+INSERT INTO `sys_dict` VALUES ('1', 'A', 'A', 'lengleng', '测试标签', '0', '2017-11-19 22:29:39', '0000-00-00 00:00:00', null, '0');
+INSERT INTO `sys_dict` VALUES ('2', 'B', 'B', 'lengleng', '测试标签', '1', '2017-11-19 22:52:23', '0000-00-00 00:00:00', null, '0');
 
 -- ----------------------------
 -- Table structure for sys_menu
@@ -56,6 +83,7 @@ INSERT INTO `sys_menu` VALUES ('41', '角色查看', null, null, '/admin/role/*'
 INSERT INTO `sys_menu` VALUES ('42', '角色新增', null, null, '/admin/role/*', 'POST', '4', null, null, null, '1', '2017-11-08 10:14:18', '2017-11-14 14:10:03', '0');
 INSERT INTO `sys_menu` VALUES ('43', '角色修改', null, null, '/admin/role/*', 'PUT', '4', null, null, null, '1', '2017-11-08 10:14:41', '2017-11-08 20:35:33', '0');
 INSERT INTO `sys_menu` VALUES ('44', '角色删除', null, null, '/admin/role/*', 'DELETE', '4', null, null, null, '1', '2017-11-08 10:14:59', '2017-11-08 20:35:35', '0');
+INSERT INTO `sys_menu` VALUES ('51', '字典查看', null, null, '/admin/dict/**', 'GET', '4', null, null, null, '1', '2017-11-19 22:04:24', '2017-11-19 22:04:33', '0');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -109,6 +137,7 @@ INSERT INTO `sys_role_menu` VALUES ('1', '41');
 INSERT INTO `sys_role_menu` VALUES ('1', '42');
 INSERT INTO `sys_role_menu` VALUES ('1', '43');
 INSERT INTO `sys_role_menu` VALUES ('1', '44');
+INSERT INTO `sys_role_menu` VALUES ('1', '51');
 
 -- ----------------------------
 -- Table structure for sys_user

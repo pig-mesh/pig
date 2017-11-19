@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.pig.admin.mapper.SysDictMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysDict">
+		<id column="id" property="id" />
+		<result column="value" property="value" />
+		<result column="label" property="label" />
+		<result column="type" property="type" />
+		<result column="description" property="description" />
+		<result column="sort" property="sort" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="remarks" property="remarks" />
+		<result column="del_flag" property="delFlag" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, value, label, type, description, sort, create_time AS createTime, update_time AS updateTime, remarks, del_flag AS delFlag
+    </sql>
+
+</mapper>

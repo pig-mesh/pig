@@ -49,7 +49,7 @@ public class MybatisPlusGenerator {
 
         // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.github.pig.auth");
+        pc.setParent("com.github.pig.admin");
         mpg.setPackageInfo(pc);
 
         mpg.execute();
