@@ -20,13 +20,19 @@
     </el-collapse-item>
     <el-collapse-item title="页面访问使用" name="6">
       <div>wiki:<a href="https://gitee.com/log4j/pig/wikis/页面访问使用" target="_blank">https://gitee.com/log4j/pig/wikis/页面访问使用</a></div>
+      <dict type="lengleng"></dict>
     </el-collapse-item>
+
   </el-collapse>
 </template>
 
 
 <script>
+  import Dict from '@/components/Dict'
   export default {
+    components: {
+      Dict
+    },
     data() {
       return {
         activeName: '1'

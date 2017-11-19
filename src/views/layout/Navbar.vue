@@ -19,7 +19,7 @@
 				<a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">
 					<el-dropdown-item>
 						项目地址
-					</el-dropdown-item>
+          </el-dropdown-item>
 				</a>
 				<el-dropdown-item divided><span @click="logout" style="display:block;">退出登录</span></el-dropdown-item>
 			</el-dropdown-menu>
