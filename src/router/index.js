@@ -46,7 +46,8 @@ export const asyncRouterMap = [
     children: [
       { menuId: 2, path: 'user', component: _import('admin/user'), name: '用户管理' },
       { menuId: 3, path: 'menu', component: _import('admin/menu'), name: '菜单管理' },
-      { menuId: 4, path: 'role', component: _import('admin/role'), name: '角色管理' }
+      { menuId: 4, path: 'role', component: _import('admin/role'), name: '角色管理' },
+      { menuId: 5, path: 'log', component: _import('admin/log'), name: '日志管理' }
     ]
   }
 ]
