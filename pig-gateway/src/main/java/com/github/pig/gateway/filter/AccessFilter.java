@@ -1,19 +1,15 @@
 package com.github.pig.gateway.filter;
 
-import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.ZuulFilter;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.netflix.zuul.context.RequestContext;
 import org.springframework.stereotype.Component;
 
 /**
  * @author lengleng
- * @date 2017/11/16
- * 网关日志拦截器
+ * @date 2017/11/20
  */
 @Component
-public class LogFilter extends ZuulFilter {
-    @Autowired
-    private LogSendService logSendService;
+public class AccessFilter extends ZuulFilter {
 
     @Override
     public String filterType() {
@@ -32,7 +28,8 @@ public class LogFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        logSendService.send();
+        RequestContext ctx = RequestContext.getCurrentContext();
+        ctx.set("startTime", System.currentTimeMillis());
         return null;
     }
 }

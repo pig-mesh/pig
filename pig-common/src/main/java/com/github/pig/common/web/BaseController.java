@@ -1,6 +1,7 @@
 package com.github.pig.common.web;
 
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.UserUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.StringUtils;
@@ -24,11 +25,7 @@ public class BaseController {
      * @return 用户名
      */
     public String getUser() {
-        String authorization = request.getHeader(CommonConstant.REQ_HEADER);
-        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
-        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
-        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-        return claims.get("user_name").toString();
+        return UserUtils.getUserName(request);
     }
 
     /**

@@ -1,5 +1,7 @@
 package com.github.pig.gateway.service;
 
+import com.netflix.zuul.context.RequestContext;
+
 /**
  * @author lengleng
  * @date 2017/11/16
@@ -7,6 +9,7 @@ package com.github.pig.gateway.service;
 public interface LogSendService {
     /**
      * 往消息通道发消息
+     * @param requestContext
      */
-    void send();
+    void send(RequestContext requestContext);
 }

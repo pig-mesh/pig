@@ -40,6 +40,11 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.30</version>
         </dependency>
+        <dependency>
+            <groupId>com.xiaoleilu</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>3.2.0</version>
+        </dependency>
     </dependencies>
 
 
