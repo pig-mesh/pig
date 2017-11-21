@@ -178,3 +178,25 @@ CREATE TABLE `sys_user_role` (
 INSERT INTO `sys_user_role` VALUES ('1', '1');
 INSERT INTO `sys_user_role` VALUES ('19', '1');
 INSERT INTO `sys_user_role` VALUES ('20', '1');
+
+DROP TABLE IF EXISTS `sys_log`;
+CREATE TABLE `sys_log` (
+  `id` int(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `type` char(1) DEFAULT '1' COMMENT '日志类型',
+  `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+  `user_agent` varchar(255) DEFAULT NULL COMMENT '用户代理',
+  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+  `params` text COMMENT '操作提交的数据',
+  `time` mediumtext COMMENT '执行时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`),
+  KEY `sys_log_create_by` (`create_by`),
+  KEY `sys_log_request_uri` (`request_uri`),
+  KEY `sys_log_type` (`type`),
+  KEY `sys_log_create_date` (`create_time`)
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8 COMMENT='日志表';
