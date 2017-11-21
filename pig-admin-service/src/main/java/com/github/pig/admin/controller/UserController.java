@@ -30,7 +30,7 @@ public class UserController extends BaseController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
     @Autowired
-    private SysMenuService menuService;
+    private SysMenuService sysMenuService;
 
     /**
      * 获取当前用户的用户名
@@ -49,7 +49,7 @@ public class UserController extends BaseController {
         String[] roles = getRole().toArray(new String[getRole().size()]);
         userInfo.setRoles(roles);
         //设置权限列表（menu.permission）
-        String[] permissions = menuService.findPermission(roles);
+        String[] permissions = sysMenuService.findPermission(roles);
         userInfo.setPermissions(permissions);
         return userInfo;
     }

@@ -24,7 +24,7 @@ import java.util.Set;
 @RequestMapping("/menu")
 public class MenuController extends BaseController {
     @Autowired
-    private SysMenuService menuService;
+    private SysMenuService sysMenuService;
 
     /**
      * 通过用户名查询用户菜单
@@ -34,7 +34,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/findMenuByRole/{role}")
     public Set<MenuVo> findMenuByRole(@PathVariable String role) {
-        return menuService.findMenuByRole(role, 0);
+        return sysMenuService.findMenuByRole(role, 0);
     }
 
     /**
@@ -46,7 +46,7 @@ public class MenuController extends BaseController {
     public List<MenuTree> getTree() {
         SysMenu condition = new SysMenu();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return getMenuTree(menuService.selectList(new EntityWrapper<>(condition)), -1);
+        return getMenuTree(sysMenuService.selectList(new EntityWrapper<>(condition)), -1);
     }
 
     /**
@@ -56,7 +56,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/userTree/{type}")
     public List<Integer> userTree(@PathVariable Integer type) {
-        Set<MenuVo> menus = menuService.findMenuByRole(getRole().get(0), type);
+        Set<MenuVo> menus = sysMenuService.findMenuByRole(getRole().get(0), type);
         List<Integer> menuList = new ArrayList<>();
         for (MenuVo menuVo : menus) {
             menuList.add(menuVo.getMenuId());
@@ -72,7 +72,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/{id}")
     public SysMenu menu(@PathVariable Integer id) {
-        return menuService.selectById(id);
+        return sysMenuService.selectById(id);
     }
 
     /**
@@ -83,7 +83,7 @@ public class MenuController extends BaseController {
      */
     @PostMapping
     public Boolean menu(@RequestBody SysMenu sysMenu) {
-        return menuService.insert(sysMenu);
+        return sysMenuService.insert(sysMenu);
     }
 
     /**
@@ -100,21 +100,21 @@ public class MenuController extends BaseController {
         SysMenu condition1 = new SysMenu();
         condition1.setMenuId(id);
         condition1.setDelFlag(CommonConstant.STATUS_DEL);
-        menuService.updateById(condition1);
+        sysMenuService.updateById(condition1);
 
         // 删除父节点为当前节点的节点
         SysMenu conditon2 = new SysMenu();
         conditon2.setParentId(id);
         SysMenu sysMenu = new SysMenu();
         sysMenu.setDelFlag(CommonConstant.STATUS_DEL);
-        menuService.update(sysMenu, new EntityWrapper<>(conditon2));
+        sysMenuService.update(sysMenu, new EntityWrapper<>(conditon2));
         return Boolean.TRUE;
     }
 
     @PutMapping
     @CacheEvict(value = "menu_details",allEntries = true)
     public Boolean menuUpdate(@RequestBody SysMenu sysMenu) {
-        return menuService.updateById(sysMenu);
+        return sysMenuService.updateById(sysMenu);
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {
