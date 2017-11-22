@@ -45,6 +45,11 @@
             <artifactId>hutool-all</artifactId>
             <version>3.2.0</version>
         </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
+        </dependency>
     </dependencies>
 
 

@@ -16,3 +16,4 @@ spring:
         enabled: true
       profile: dev
       label: master
+

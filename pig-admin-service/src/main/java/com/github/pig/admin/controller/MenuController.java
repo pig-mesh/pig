@@ -65,6 +65,22 @@ public class MenuController extends BaseController {
     }
 
     /**
+     * 返回角色的菜单集合
+     *
+     * @param roleName 角色名称
+     * @return 属性集合
+     */
+    @GetMapping("/roleTree/{roleName}")
+    public List<Integer> roleTree(@PathVariable String roleName) {
+        Set<MenuVo> menus = sysMenuService.findMenuByRole(roleName, 0);
+        List<Integer> menuList = new ArrayList<>();
+        for (MenuVo menuVo : menus) {
+            menuList.add(menuVo.getMenuId());
+        }
+        return menuList;
+    }
+
+    /**
      * 通过ID查询菜单的详细信息
      *
      * @param id 菜单ID
@@ -94,7 +110,7 @@ public class MenuController extends BaseController {
      * TODO  级联删除下级节点
      */
     @DeleteMapping("/{id}")
-    @CacheEvict(value = "menu_details",allEntries = true)
+    @CacheEvict(value = "menu_details", allEntries = true)
     public Boolean menuDel(@PathVariable Integer id) {
         // 删除当前节点
         SysMenu condition1 = new SysMenu();
@@ -112,7 +128,7 @@ public class MenuController extends BaseController {
     }
 
     @PutMapping
-    @CacheEvict(value = "menu_details",allEntries = true)
+    @CacheEvict(value = "menu_details", allEntries = true)
     public Boolean menuUpdate(@RequestBody SysMenu sysMenu) {
         return sysMenuService.updateById(sysMenu);
     }
