@@ -55,3 +55,10 @@ export function permissionUpd(roleId, menuIds) {
     }
   })
 }
+
+export function fetchRoleTree(roleName) {
+  return fetch({
+    url: '/admin/menu/roleTree/' + roleName,
+    method: 'get'
+  })
+}

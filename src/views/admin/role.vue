@@ -47,7 +47,7 @@
                      @click="handleDelete(scope.row)">删除
           </el-button>
           <el-button size="mini" type="info" plain
-                     @click="handlePermission(scope.row.roleId)">权限
+                     @click="handlePermission(scope.row)">权限
           </el-button>
         </template>
       </el-table-column>
@@ -94,15 +94,15 @@
       >
       </el-tree>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="updatePermession(roleId)">更 新</el-button>
+        <el-button type="primary" @click="updatePermession(roleId, roleCode)">更 新</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj, delObj, permissionUpd } from '@/api/role'
-  import { fetchUserTree, fetchTree } from '@/api/menu'
+  import { fetchList, getObj, addObj, putObj, delObj, permissionUpd, fetchRoleTree } from '@/api/role'
+  import { fetchTree } from '@/api/menu'
   import waves from '@/directive/waves/index.js' // 水波纹指令
 
   export default {
@@ -130,6 +130,8 @@
           roleCode: undefined,
           roleDesc: undefined
         },
+        roleId: undefined,
+        roleCode: undefined,
         rules: {
           roleName: [
             {
@@ -217,18 +219,19 @@
             this.dialogStatus = 'update'
           })
       },
-      handlePermission(roleId) {
-        this.roleId = roleId
+      handlePermission(row) {
+        fetchRoleTree(row.roleCode).then(response => {
+          this.checkedKeys = response.data
+        })
+
         fetchTree()
           .then(response => {
             this.treeData = response.data
             this.dialogStatus = 'permission'
             this.dialogPermissionVisible = true
+            this.roleId = row.roleId
+            this.roleCode = row.roleCode
           })
-
-        fetchUserTree(0).then(response => {
-          this.checkedKeys = response.data
-        })
       },
       filterNode(value, data) {
         if (!value) return true
@@ -294,7 +297,7 @@
           }
         })
       },
-      updatePermession(roleId) {
+      updatePermession(roleId, roleCode) {
         permissionUpd(roleId, this.$refs.menuTree.getCheckedKeys())
           .then(() => {
             this.dialogPermissionVisible = false
@@ -302,7 +305,7 @@
               .then(response => {
                 this.treeData = response.data
               })
-            fetchUserTree(0).then(response => {
+            fetchRoleTree(roleCode).then(response => {
               this.checkedKeys = response.data
             })
             this.$notify({

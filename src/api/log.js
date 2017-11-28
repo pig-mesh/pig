@@ -14,3 +14,26 @@ export function delObj(id) {
     method: 'delete'
   })
 }
+
+export function addObj(obj) {
+  return fetch({
+    url: '/admin/user/',
+    method: 'post',
+    data: obj
+  })
+}
+
+export function getObj(id) {
+  return fetch({
+    url: '/admin/user/' + id,
+    method: 'get'
+  })
+}
+
+export function putObj(obj) {
+  return fetch({
+    url: '/admin/user/',
+    method: 'put',
+    data: obj
+  })
+}

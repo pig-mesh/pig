@@ -5,7 +5,7 @@
                 v-model="listQuery.username">
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
-      <el-button v-if="userAdd" class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
+      <el-button v-if="sys_user_add" class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
       </el-button>
       <el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>
     </div>
@@ -52,7 +52,7 @@
 
       <el-table-column label="操作">
         <template scope="scope">
-          <el-button v-if="userUpd" size="small" type="success"
+          <el-button v-if="sys_user_upd" size="small" type="success"
                      @click="handleUpdate(scope.row)">编辑
           </el-button>
         </template>
@@ -75,14 +75,14 @@
         <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="password">
           <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
-        <el-form-item label="角色">
+        <el-form-item label="角色" prop="role">
           <el-select class="filter-item" v-model="form.role" placeholder="请选择">
-            <el-option v-for="item in  rolesOptions" :key="item.roleId" :label="item.roleCode" :value="item.roleId"> </el-option>
+            <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleCode" :value="item.roleId"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="状态" v-if="dialogStatus == 'update' && userDel" >
+        <el-form-item label="状态" v-if="dialogStatus == 'update' && sys_user_del " prop="delFlag" >
           <el-select class="filter-item" v-model="form.delFlag" placeholder="请选择">
-            <el-option v-for="item in  statusOptions" :key="item" :label="item | statusFilter" :value="item"> </el-option>
+            <el-option v-for="item in statusOptions" :key="item" :label="item | statusFilter" :value="item"> </el-option>
           </el-select>
         </el-form-item>
       </el-form>
@@ -118,7 +118,9 @@
         },
         form: {
           username: undefined,
-          password: undefined
+          password: undefined,
+          delFlag: undefined,
+          role: undefined
         },
         rules: {
           username: [
@@ -149,7 +151,7 @@
           ]
         },
         statusOptions: ['0', '1'],
-        rolesOptions: undefined,
+        rolesOptions: [],
         dialogFormVisible: false,
         userAdd: false,
         userUpd: false,
@@ -178,9 +180,9 @@
     },
     created() {
       this.getList()
-      this.userAdd = this.permissions['userAdd']
-      this.userUpd = this.permissions['userUpd']
-      this.userDel = this.permissions['userDel']
+      this.sys_user_add = this.permissions['sys_user_add']
+      this.sys_user_upd = this.permissions['sys_user_upd']
+      this.sys_user_del = this.permissions['sys_user_del']
     },
     methods: {
       getList() {
@@ -216,13 +218,13 @@
         getObj(row.userId)
           .then(response => {
             this.form = response.data
+            this.form.role = row.roleList[0].roleId
             this.dialogFormVisible = true
             this.dialogStatus = 'update'
           })
         roleList()
           .then(response => {
             this.rolesOptions = response.data
-            this.form.role = row.roleList[0].roleId
           })
       },
       create(formName) {
