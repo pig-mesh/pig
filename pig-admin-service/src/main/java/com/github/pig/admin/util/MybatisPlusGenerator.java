@@ -55,7 +55,7 @@ public class MybatisPlusGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        //strategy.setTablePrefix(new String[]{"tlog_", "tsys_"});// 此处可以修改为您的表前缀
+        strategy.setTablePrefix(new String[]{"sys_"});// 此处可以修改为您的表前缀
         // 表名生成策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         mpg.setStrategy(strategy);
