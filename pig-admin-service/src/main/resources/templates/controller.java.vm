@@ -1,0 +1,121 @@
+package ${package.Controller};
+
+import javax.validation.Valid;
+
+import java.util.List;
+import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.wangzhixuan.commons.result.PageInfo;
+import ${package.Entity}.${entity};
+import ${package.Service}.${table.serviceName};
+#if(${superControllerClassPackage})
+import ${superControllerClassPackage};
+#end
+
+/**
+ * <p>
+ * $!{table.comment} 前端控制器
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@RestController
+@RequestMapping("/${table.entityPath}")
+public class ${table.controllerName} extends ${superControllerClass} {
+    @Autowired private ${table.serviceName} ${table.entityPath}Service;
+
+    @PostMapping("/dataGrid")
+    public PageInfo dataGrid(${entity} ${table.entityPath}, Integer page, Integer rows, String sort,String order) {
+        PageInfo pageInfo = new PageInfo(page, rows, sort, order);
+        EntityWrapper<${entity}> ew = new EntityWrapper<${entity}>(${table.entityPath});
+        Page<${entity}> pages = getPage(pageInfo);
+        pages = ${table.entityPath}Service.selectPage(pages, ew);
+        pageInfo.setRows(pages.getRecords());
+        pageInfo.setTotal(pages.getTotal());
+        return pageInfo;
+    }
+    
+    /**
+     * 添加页面
+     * @return
+     */
+    @GetMapping("/addPage")
+    public String addPage() {
+        return "admin/${table.entityPath}/${table.entityPath}Add";
+    }
+    
+    /**
+     * 添加
+     * @param 
+     * @return
+     */
+    @PostMapping("/add")
+    @ResponseBody
+    public Object add(@Valid ${entity} ${table.entityPath}) {
+        ${table.entityPath}.setCreateTime(new Date());
+        ${table.entityPath}.setUpdateTime(new Date());
+        ${table.entityPath}.setDeleteFlag(0);
+        boolean b = ${table.entityPath}Service.insert(${table.entityPath});
+        if (b) {
+            return renderSuccess("添加成功！");
+        } else {
+            return renderError("添加失败！");
+        }
+    }
+    
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public Object delete(Long id) {
+        ${entity} ${table.entityPath} = new ${entity}();
+        ${table.entityPath}.setId(id);
+        ${table.entityPath}.setUpdateTime(new Date());
+        ${table.entityPath}.setDeleteFlag(1);
+        boolean b = ${table.entityPath}Service.updateById(${table.entityPath});
+        if (b) {
+            return renderSuccess("删除成功！");
+        } else {
+            return renderError("删除失败！");
+        }
+    }
+    
+    /**
+     * 编辑
+     * @param model
+     * @param id
+     * @return
+     */
+    @GetMapping("/editPage")
+    public String editPage(Model model, Long id) {
+        ${entity} ${table.entityPath} = ${table.entityPath}Service.selectById(id);
+        model.addAttribute("${table.entityPath}", ${table.entityPath});
+        return "admin/${table.entityPath}/${table.entityPath}Edit";
+    }
+    
+    /**
+     * 编辑
+     * @param 
+     * @return
+     */
+    @PostMapping("/edit")
+    @ResponseBody
+    public Object edit(@Valid ${entity} ${table.entityPath}) {
+        ${table.entityPath}.setUpdateTime(new Date());
+        boolean b = ${table.entityPath}Service.updateById(${table.entityPath});
+        if (b) {
+            return renderSuccess("编辑成功！");
+        } else {
+            return renderError("编辑失败！");
+        }
+    }
+}

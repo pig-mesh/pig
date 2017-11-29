@@ -3,7 +3,6 @@ package com.github.pig.admin.util;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
@@ -55,7 +54,7 @@ public class MybatisPlusGenerator {
         // 策略配置
         StrategyConfig strategy = new StrategyConfig();
         // strategy.setCapitalMode(true);// 全局大写命名 ORACLE 注意
-        strategy.setTablePrefix(new String[]{"sys_"});// 此处可以修改为您的表前缀
+        strategy.setSuperControllerClass("com.github.pig.common.web.BaseController");
         // 表名生成策略
         strategy.setNaming(NamingStrategy.underline_to_camel);
         mpg.setStrategy(strategy);
@@ -77,10 +76,16 @@ public class MybatisPlusGenerator {
             viewDir.mkdirs();
         }
         List<FileOutConfig> focList = new ArrayList<FileOutConfig>();
-        focList.add(new FileOutConfig("/template/listvue.vue.vm") {
+        focList.add(new FileOutConfig("/templates/listvue.vue.vm") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return getGeneratorViewPath(viewOutputDir, tableInfo, "List.vue");
+                return getGeneratorViewPath(viewOutputDir, tableInfo, ".vue");
+            }
+        });
+        focList.add(new FileOutConfig("/templates/controller.java.vm") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return getGeneratorViewPath(viewOutputDir, tableInfo, ".java");
             }
         });
         cfg.setFileOutConfigList(focList);
