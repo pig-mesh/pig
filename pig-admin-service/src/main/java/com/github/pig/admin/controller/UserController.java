@@ -93,8 +93,7 @@ public class UserController extends BaseController {
         SysUserRole userRole = new SysUserRole();
         userRole.setUserId(sysUser.getUserId());
         userRole.setRoleId(userDto.getRole());
-        userRole.insert();
-        return Boolean.TRUE;
+        return userRole.insert();
     }
 
     /**
@@ -114,8 +113,7 @@ public class UserController extends BaseController {
         condition.setUserId(userDto.getUserId());
         SysUserRole sysUserRole = sysUserRoleService.selectOne(new EntityWrapper<>(condition));
         sysUserRole.setRoleId(userDto.getRole());
-        sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
-        return Boolean.TRUE;
+        return sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
     }
 
     /**
