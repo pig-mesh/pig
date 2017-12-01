@@ -145,9 +145,6 @@
     <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
     <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit" level="INFO"/>
-    <logger name="com.github.pig.admin" level="DEBUG" additivity="true">
-        <appender-ref ref="STDOUT"/>
-    </logger>
 
     <!-- root级别   DEBUG -->
     <root level="DEBUG">

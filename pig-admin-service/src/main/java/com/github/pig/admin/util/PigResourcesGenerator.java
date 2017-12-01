@@ -21,7 +21,7 @@ import java.util.Properties;
  * @author lengleng
  * @date 2017/10/29
  */
-public class MybatisPlusGenerator {
+public class PigResourcesGenerator {
 
 
     public static void main(String[] args) {
