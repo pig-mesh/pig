@@ -13,11 +13,10 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -29,6 +28,7 @@ import java.util.Date;
 @RestController
 @RequestMapping("/user")
 public class UserController extends BaseController {
+    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private UserService userService;
     @Autowired
@@ -94,6 +94,7 @@ public class UserController extends BaseController {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
+        sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
         userService.insert(sysUser);
         SysUserRole userRole = new SysUserRole();
         userRole.setUserId(sysUser.getUserId());
