@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.service.SysLogService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.entity.SysLog;
+import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class LogController extends BaseController {
 
     @PostMapping
     public Boolean log(@RequestBody SysLog sysLog) {
-        sysLog.setCreateBy(getUser());
+        sysLog.setCreateBy(UserUtils.getUserName());
         return sysLogService.insert(sysLog);
     }
 

@@ -5,6 +5,7 @@ import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,8 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  */
 @Component
 public class LoggerFilter extends ZuulFilter {
-    private Logger logger = LoggerFactory.getLogger(LoggerFilter.class);
+    private static final String KEY_USER = "user";
+
     @Autowired
     private LogSendService logSendService;
 
@@ -39,7 +41,9 @@ public class LoggerFilter extends ZuulFilter {
 
     @Override
     public Object run() {
+        MDC.put(KEY_USER, "冷冷");
         logSendService.send(RequestContext.getCurrentContext());
+        MDC.remove(KEY_USER);
         return null;
     }
 }

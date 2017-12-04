@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.github.pig.admin.dto.MenuTree;
 import com.github.pig.admin.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
-import com.github.pig.admin.util.TreeUtil;
+import com.github.pig.admin.common.util.TreeUtil;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.MenuVo;
 import com.github.pig.common.web.BaseController;

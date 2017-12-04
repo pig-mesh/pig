@@ -10,8 +10,12 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,8 +43,9 @@ public class UserController extends BaseController {
      */
     @GetMapping("/info")
     public UserInfo user() {
+        logger.info("hahahahahahahahah------------------->");
         SysUser condition = new SysUser();
-        condition.setUsername(getUser());
+        condition.setUsername(UserUtils.getUserName());
         SysUser sysUser = userService.selectOne(new EntityWrapper<>(condition));
 
         UserInfo userInfo = new UserInfo();

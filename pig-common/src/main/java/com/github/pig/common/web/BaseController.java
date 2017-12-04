@@ -1,7 +1,6 @@
 package com.github.pig.common.web;
 
 import com.github.pig.common.constant.CommonConstant;
-import com.github.pig.common.util.UserUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.StringUtils;
@@ -16,17 +15,10 @@ import java.util.List;
  * @date 2017/10/28
  */
 public class BaseController {
+    public org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private HttpServletRequest request;
-
-    /**
-     * 根据请求heard中的token获取用户
-     *
-     * @return 用户名
-     */
-    public String getUser() {
-        return UserUtils.getUserName(request);
-    }
 
     /**
      * 根据请求heard中的token获取用户角色

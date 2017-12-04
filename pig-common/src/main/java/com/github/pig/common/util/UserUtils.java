@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
@@ -18,6 +19,8 @@ import java.util.Base64;
  */
 public class UserUtils {
     private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
+    private static final ThreadLocal<String> tlUser = new ThreadLocal<String>();
+    private static final String KEY_USER = "user";
 
 
     /**
@@ -33,6 +36,9 @@ public class UserUtils {
             return username;
         }
         String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+        if (StringUtils.isEmpty(token)) {
+            return username;
+        }
         String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
         try {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
@@ -46,12 +52,15 @@ public class UserUtils {
     /**
      * 通过token 获取用户名
      *
-     * @param token
+     * @param authorization
      * @return
      */
     public static String getUserName(String authorization) {
         String username = "";
         String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+        if (StringUtils.isEmpty(token)) {
+            return username;
+        }
         String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
         try {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
@@ -60,5 +69,30 @@ public class UserUtils {
             logger.error("用户名解析异常,token:{},key:{}", token, key);
         }
         return username;
+    }
+
+    /**
+     * 设置用户信息
+     *
+     * @param username
+     */
+    public static void setUser(String username) {
+        tlUser.set(username);
+
+        MDC.put(KEY_USER, username);
+    }
+
+    /**
+     * 如果没有登录，返回null
+     *
+     * @return
+     */
+    public static String getUserName() {
+        return tlUser.get();
+    }
+
+    public static void clearAllUserInfo() {
+        tlUser.remove();
+        MDC.remove(KEY_USER);
     }
 }

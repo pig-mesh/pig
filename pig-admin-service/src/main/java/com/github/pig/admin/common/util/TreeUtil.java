@@ -1,4 +1,4 @@
-package com.github.pig.admin.util;
+package com.github.pig.admin.common.util;
 
 
 import com.github.pig.admin.dto.TreeNode;
