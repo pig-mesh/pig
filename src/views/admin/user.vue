@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="密码">
+      <el-table-column align="center" label="密码" show-overflow-tooltip>
         <template scope="scope">
           <span>{{scope.row.password}}</span>
         </template>

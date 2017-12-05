@@ -1,49 +1,94 @@
 <template>
   <div class="components-container">
-    <code>这里核心代码用的是<a class='link-type' href='//github.com/dai-siki/vue-image-crop-upload'> vue-image-crop-upload</a>
-    由于我在使用时它只有vue@1版本，而且有些业务的需求耦合到七牛等等原因吧，自己改造了一下，如果大家要使用的话，优先还是使用官方component
-    </code>
-
-    <pan-thumb :image='image'></pan-thumb>
-
-    <el-button type="primary" icon="upload" style="position: absolute;bottom: 15px;margin-left: 40px;" @click="imagecropperShow=true">修改头像
-    </el-button>
-
-    <image-cropper :width="300" :height="300" url="https://httpbin.org/post" @close='close' @crop-upload-success="cropSuccess" :key="imagecropperKey" v-show="imagecropperShow"></image-cropper>
+    <a class="btn" @click="toggleShow">设置头像</a>
+    <my-upload field="file"
+               @crop-success="cropSuccess"
+               @crop-upload-success="cropUploadSuccess"
+               @crop-upload-fail="cropUploadFail"
+               v-model="show"
+               :width="300"
+               :height="300"
+               url="/admin/user/upload"
+               :headers="headers"
+               img-format="png"></my-upload>
+    <img :src="avatar">
+    <el-upload
+      class="upload-demo"
+      action="/admin/user/upload"
+      :headers="headers"
+      :on-preview="handlePreview"
+      :on-remove="handleRemove"
+      :file-list="fileList">
+      <el-button size="small" type="primary">点击上传</el-button>
+      <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+    </el-upload>
   </div>
+
 </template>
 
 <script>
-import ImageCropper from '@/components/ImageCropper'
-import PanThumb from '@/components/PanThumb'
+import { mapGetters } from 'vuex'
+import myUpload from 'vue-image-crop-upload'
+import { getToken } from '@/utils/auth'
 
 export default {
-  components: { ImageCropper, PanThumb },
+  components: { 'my-upload': myUpload },
   data() {
     return {
-      imagecropperShow: false,
-      imagecropperKey: 0,
-      image: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'
+      fileList: [],
+      show: false,
+      headers: {
+        Authorization: 'Bearer ' + getToken()
+      }
     }
   },
+  computed: {
+    ...mapGetters([
+      'avatar'
+    ])
+  },
   methods: {
-    cropSuccess(resData) {
-      this.imagecropperShow = false
-      this.imagecropperKey = this.imagecropperKey + 1
-      this.image = resData.files.avatar
+    toggleShow() {
+      this.show = !this.show
     },
-    close() {
-      this.imagecropperShow = false
+    /**
+     * crop success
+     *
+     * [param] imgDataUrl
+     * [param] field
+     */
+    cropSuccess(imgDataUrl, field) {
+      console.log('-------- crop success --------')
+      this.imgDataUrl = imgDataUrl
+    },
+    /**
+     * upload success
+     *
+     * [param] jsonData   服务器返回数据，已进行json转码
+     * [param] field
+     */
+    cropUploadSuccess(jsonData, field) {
+      console.log('-------- upload success --------')
+      console.log(jsonData)
+      console.log('field: ' + field)
+    },
+    /**
+     * upload fail
+     *
+     * [param] status    server api return error status, like 500
+     * [param] field
+     */
+    cropUploadFail(status, field) {
+      console.log('-------- upload fail --------')
+      console.log(status)
+      console.log('field: ' + field)
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
     }
   }
 }
 </script>
-
-<style scoped>
-  .avatar{
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-  }
-</style>
-

@@ -16,7 +16,12 @@
 						首页
 					</el-dropdown-item>
 				</router-link>
-				<a target='_blank' href="https://github.com/PanJiaChen/vue-element-admin/">
+        <router-link class='inlineBlock' to="/upload">
+          <el-dropdown-item>
+            修改信息
+          </el-dropdown-item>
+        </router-link>
+				<a target='_blank' href="https://gitee.com/log4j/pig">
 					<el-dropdown-item>
 						项目地址
           </el-dropdown-item>

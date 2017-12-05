@@ -26,7 +26,9 @@ export const constantRouterMap = [
     redirect: '/index',
     name: '首页',
     hidden: true,
-    children: [{ path: 'index', component: _import('index') }]
+    children: [{ path: 'index', component: _import('index') },
+      { path: '/upload', name: '修改信息', component: _import('admin/info'), hidden: true },
+    ]
   }
 ]
 
