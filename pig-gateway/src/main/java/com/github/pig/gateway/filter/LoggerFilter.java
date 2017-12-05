@@ -41,9 +41,7 @@ public class LoggerFilter extends ZuulFilter {
 
     @Override
     public Object run() {
-        MDC.put(KEY_USER, "冷冷");
         logSendService.send(RequestContext.getCurrentContext());
-        MDC.remove(KEY_USER);
         return null;
     }
 }
