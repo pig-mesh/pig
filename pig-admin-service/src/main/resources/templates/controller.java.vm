@@ -45,7 +45,7 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return 分页对象
      */
     @RequestMapping("/page")
-    public Page logPage(Integer page, Integer limit) {
+    public Page page(Integer page, Integer limit) {
         ${entity} condition = new ${entity}();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         EntityWrapper wrapper = new EntityWrapper(condition);
