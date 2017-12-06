@@ -19,7 +19,7 @@ import java.util.Base64;
  */
 public class UserUtils {
     private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
-    private static final ThreadLocal<String> tlUser = new ThreadLocal<String>();
+    private static final ThreadLocal<String> TL_User = new ThreadLocal<>();
     private static final String KEY_USER = "user";
 
 
@@ -77,7 +77,7 @@ public class UserUtils {
      * @param username
      */
     public static void setUser(String username) {
-        tlUser.set(username);
+        TL_User.set(username);
 
         MDC.put(KEY_USER, username);
     }
@@ -88,11 +88,11 @@ public class UserUtils {
      * @return
      */
     public static String getUserName() {
-        return tlUser.get();
+        return TL_User.get();
     }
 
     public static void clearAllUserInfo() {
-        tlUser.remove();
+        TL_User.remove();
         MDC.remove(KEY_USER);
     }
 }
