@@ -3,7 +3,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:9000/eureka/
+      defaultZone: http://zqxq:mgzqxq1866@localhost:1001/eureka
 
 spring:
   application:

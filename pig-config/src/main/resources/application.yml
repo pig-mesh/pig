@@ -1,5 +1,5 @@
 server:
-  port: 2000
+  port: 4001
 
 spring:
   application:
@@ -8,20 +8,21 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/jieblog/pig-config.git
+          uri: https://www.gitee.wang/a/pig-config.git
     bus:
       trace:
         enabled: true
-  rabbitmq:
-    port: 5672
-    host: localhost
-    username: guest
-    password: guest
+#  rabbitmq:
+#    host: 192.168.1.122
+#    port: 5682
+#    username: guest
+#    password: guest
+#    virtual-host: /
 
 eureka:
   instance:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://127.0.0.1:9000/eureka/
+      defaultZone: http://zqxq:mgzqxq1866@localhost:1001/eureka
 

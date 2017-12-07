@@ -1,9 +1,16 @@
 server:
-  port: 9000
+  port: 1001
 
 spring:
   application:
     name: pig-eureka-server
+
+security:
+  basic:
+    enabled: true # 启用身份认证
+  user:
+    name: zqxq # 定义用户名
+    password: mgzqxq1866 # 定义密码
 
 eureka:
   client:
