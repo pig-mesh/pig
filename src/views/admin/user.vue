@@ -26,11 +26,11 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="密码" show-overflow-tooltip>
-        <template scope="scope">
-          <span>{{scope.row.password}}</span>
-        </template>
-      </el-table-column>
+      <!--<el-table-column align="center" label="密码" show-overflow-tooltip>-->
+        <!--<template scope="scope">-->
+          <!--<span>{{scope.row.password}}</span>-->
+        <!--</template>-->
+      <!--</el-table-column>-->
 
       <el-table-column align="center" label="角色">
         <template scope="scope">
@@ -54,6 +54,9 @@
         <template scope="scope">
           <el-button v-if="sys_user_upd" size="small" type="success"
                      @click="handleUpdate(scope.row)">编辑
+          </el-button>
+          <el-button v-if="sys_user_del" size="small" type="danger"
+                     @click="deletes(scope.row)">删除
           </el-button>
         </template>
       </el-table-column>
@@ -96,7 +99,7 @@
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj } from '@/api/user'
+  import { fetchList, getObj, addObj, putObj, delObj } from '@/api/user'
   import { roleList } from '@/api/role'
   import waves from '@/directive/waves/index.js' // 水波纹指令
   import { parseTime } from '@/utils'
@@ -270,6 +273,30 @@
           } else {
             return false
           }
+        })
+      },
+      deletes(row) {
+        this.$confirm('此操作将永久删除该用户(用户名:' + row.username + '), 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          delObj(row.userId).then(() => {
+            this.getList()
+            this.$notify({
+              title: '成功',
+              message: '删除成功',
+              type: 'success',
+              duration: 2000
+            })
+          }).cache(() => {
+            this.$notify({
+              title: '失败',
+              message: '删除失败',
+              type: 'error',
+              duration: 2000
+            })
+          })
         })
       },
       resetTemp() {

@@ -11,31 +11,31 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="URI" show-overflow-tooltip>
+      <el-table-column label="请求接口" show-overflow-tooltip>
         <template scope="scope">
           <span>{{ scope.row.requestUri}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="IP">
+      <el-table-column align="center" label="IP地址">
         <template scope="scope">
           <span>{{scope.row.remoteAddr}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="METHOD">
+      <el-table-column align="center" label="请求方式">
         <template scope="scope">
           <span>{{scope.row.method}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="PARAMS" show-overflow-tooltip>
+      <el-table-column align="center" label="传入参数" show-overflow-tooltip>
         <template scope="scope">
           <span>{{scope.row.params}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="TIME">
+      <el-table-column align="center" label="请求时间">
         <template scope="scope">
           <span>{{scope.row.time}}</span>
         </template>
