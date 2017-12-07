@@ -59,7 +59,7 @@
 			<artifactId>jasypt-spring-boot-starter</artifactId>
 			<version>1.16</version>
 		</dependency>
-		
+
 		<!--myabtis-plus 代码生成依赖-->
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
