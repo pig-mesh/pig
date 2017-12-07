@@ -8,7 +8,7 @@ spring:
     config:
       server:
         git:
-          uri: https://www.gitee.wang/a/pig-config.git
+          uri: https://github.com/jieblog/pig-config.git
     bus:
       trace:
         enabled: true
