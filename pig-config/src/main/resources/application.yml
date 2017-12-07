@@ -12,12 +12,6 @@ spring:
     bus:
       trace:
         enabled: true
-#  rabbitmq:
-#    host: 192.168.1.122
-#    port: 5682
-#    username: guest
-#    password: guest
-#    virtual-host: /
 
 eureka:
   instance:
@@ -25,4 +19,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://pig:gip6666@localhost:1001/eureka
-
