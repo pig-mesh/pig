@@ -91,9 +91,6 @@ public class UserController extends BaseController {
      */
     @DeleteMapping("/{id}")
     public Boolean userDel(@PathVariable Integer id) {
-//        SysUser sysUser = userService.selectById(id);
-//        sysUser.setDelFlag(CommonConstant.STATUS_DEL);
-//        return userService.updateById(sysUser);
         boolean delUserRole = sysUserRoleService.deleteByUserId(id);
         if (delUserRole) {
             boolean delUserInfo = userService.deleteById(id);
