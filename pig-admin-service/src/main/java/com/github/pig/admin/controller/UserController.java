@@ -2,6 +2,7 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.admin.common.config.QiniuPropertiesConfig;
 import com.github.pig.admin.dto.UserDto;
 import com.github.pig.admin.dto.UserInfo;
 import com.github.pig.admin.entity.SysUser;
@@ -13,29 +14,20 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
-import com.google.gson.Gson;
-import com.qiniu.common.QiniuException;
 import com.qiniu.common.Zone;
-import com.qiniu.http.Response;
 import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
-import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import com.xiaoleilu.hutool.io.FileUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +46,8 @@ public class UserController extends BaseController {
     private SysUserRoleService sysUserRoleService;
     @Autowired
     private SysMenuService sysMenuService;
+    @Autowired
+    private QiniuPropertiesConfig qiniuPropertiesConfig;
 
 
     /**
@@ -176,35 +170,19 @@ public class UserController extends BaseController {
     @PostMapping("/upload")
     public Map<String, String> upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
         String fileExt = FileUtil.extName(file.getOriginalFilename());
-        //构造一个带指定Zone对象的配置类
         Configuration cfg = new Configuration(Zone.zone0());
         UploadManager uploadManager = new UploadManager(cfg);
-        String accessKey = "hM2cBDEM0FTYzpXbigRW90kV12NhhzhFM3jCzurJ";
-        String secretKey = "g0HJr2Ltrs0k6tJDY6pDI2aVMUCPSWZDTROLcFMs";
-        String bucket = "pigcloud";
         String key = RandomUtil.randomUUID() + "." + fileExt;
-        Auth auth = Auth.create(accessKey, secretKey);
-        String upToken = auth.uploadToken(bucket);
+        Auth auth = Auth.create(qiniuPropertiesConfig.getAccessKey(), qiniuPropertiesConfig.getSecretKey());
+        String upToken = auth.uploadToken(qiniuPropertiesConfig.getBucket());
         try {
-            Response response = uploadManager.put(file.getInputStream(), key, upToken, null, null);
-            //解析上传成功的结果
-            DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
-            System.out.println(putRet.key);
-            System.out.println(putRet.hash);
-        } catch (QiniuException ex) {
-            Response r = ex.response;
-            System.err.println(r.toString());
-            try {
-                System.err.println(r.bodyString());
-            } catch (QiniuException ex2) {
-                //ignore
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+            uploadManager.put(file.getInputStream(), key, upToken, null, null);
+        } catch (Exception e) {
+            logger.error("文件上传异常", e);
+            throw new RuntimeException(e);
         }
-
         Map<String, String> resultMap = new HashMap<>(1);
-        resultMap.put("filename", "http://p0hpm86wj.bkt.clouddn.com/" + key);
+        resultMap.put("filename", qiniuPropertiesConfig.getQiniuHost() + key);
         return resultMap;
     }
 
