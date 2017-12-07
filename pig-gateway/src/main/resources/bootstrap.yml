@@ -3,7 +3,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://zqxq:mgzqxq1866@localhost:1001/eureka
+      defaultZone: http://pig:gip6666@localhost:1001/eureka
 
 spring:
   application:
