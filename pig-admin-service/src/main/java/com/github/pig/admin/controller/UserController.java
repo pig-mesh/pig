@@ -95,6 +95,7 @@ public class UserController extends BaseController {
         if (delUserRole) {
             boolean delUserInfo = userService.deleteById(id);
             if (delUserInfo) {
+                userService.clearCache(UserUtils.getUserName());
                 return Boolean.TRUE;
             }else {
                 return Boolean.FALSE;
@@ -140,6 +141,7 @@ public class UserController extends BaseController {
         condition.setUserId(userDto.getUserId());
         SysUserRole sysUserRole = sysUserRoleService.selectOne(new EntityWrapper<>(condition));
         sysUserRole.setRoleId(userDto.getRole());
+        userService.clearCache(UserUtils.getUserName());
         return sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
     }
 
@@ -213,6 +215,7 @@ public class UserController extends BaseController {
         sysUser.setUserId(userVo.getUserId());
         sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
         sysUser.setAvatar(userDto.getAvatar());
+        userService.clearCache(UserUtils.getUserName());
         return userService.updateById(sysUser);
     }
 

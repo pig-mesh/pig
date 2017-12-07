@@ -7,6 +7,7 @@ import com.github.pig.admin.mapper.SysUserMapper;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -29,5 +30,11 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
     public Page selectWithRolePage(Page<UserVo> page, SysUser sysUser) {
         page.setRecords(sysUserMapper.selectUserVoPage(page, sysUser));
         return page;
+    }
+
+    @Override
+    @CacheEvict(value = "user_details", key = "#username")
+    public void clearCache(String username) {
+
     }
 }

@@ -26,4 +26,11 @@ public interface UserService extends IService<SysUser> {
      * @return
      */
     Page selectWithRolePage(Page<UserVo> page, SysUser sysUser);
+
+    /**
+     * 清除用户缓存
+     *
+     * @param userName 用户名
+     */
+    void clearCache(String userName);
 }
