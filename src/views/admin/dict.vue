@@ -158,6 +158,8 @@
     methods: {
       getList() {
         this.listLoading = true
+        this.listQuery.orderByField = "create_time"
+        this.listQuery.isAsc = false
         fetchList(this.listQuery).then(response => {
           this.list = response.data.records
           this.total = response.data.total
