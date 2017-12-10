@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.mapper.SysUserMapper;
 import com.github.pig.admin.service.UserService;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -27,9 +28,9 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
     }
 
     @Override
-    public Page selectWithRolePage(Page<UserVo> page, SysUser sysUser) {
-        page.setRecords(sysUserMapper.selectUserVoPage(page, sysUser));
-        return page;
+    public Page selectWithRolePage(Query query) {
+        query.setRecords(sysUserMapper.selectUserVoPage(query,query.getCondition()));
+        return query;
     }
 
     @Override

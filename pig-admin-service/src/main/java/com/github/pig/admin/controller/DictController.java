@@ -6,15 +6,14 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysDict;
 import com.github.pig.admin.service.SysDictService;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,17 +43,13 @@ public class DictController extends BaseController {
     /**
      * 分页查询字典信息
      *
-     * @param page  分页对象
-     * @param limit 每页限制
+     * @param params  分页对象
      * @return 分页对象
      */
     @RequestMapping("/dictPage")
-    public Page dictPage(Integer page, Integer limit) {
-        SysDict condition = new SysDict();
-        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        EntityWrapper wrapper = new EntityWrapper(condition);
-        wrapper.orderBy("createTime", false);
-        return sysDictService.selectPage(new Page<>(page, limit), wrapper);
+    public Page dictPage(@RequestParam Map<String, Object> params) {
+        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+        return sysDictService.selectPage(new Query<>(params),new EntityWrapper<>());
     }
 
     /**

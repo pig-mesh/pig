@@ -41,4 +41,9 @@ public interface CommonConstant {
      * log rabbit队列名称
      */
     String LOG_QUEUE = "log";
+
+    /**
+     * 删除标记
+     */
+    String DEL_FLAG = "del_flag";
 }

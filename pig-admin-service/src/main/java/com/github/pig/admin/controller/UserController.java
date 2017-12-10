@@ -11,6 +11,7 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
@@ -165,8 +166,8 @@ public class UserController extends BaseController {
      * @return 用户集合
      */
     @RequestMapping("/userPage")
-    public Page userPage(Integer page, Integer limit, SysUser sysUser) {
-        return userService.selectWithRolePage(new Page<>(page, limit), sysUser);
+    public Page userPage(@RequestParam Map<String, Object> params) {
+        return userService.selectWithRolePage(new Query(params));
     }
 
     /**

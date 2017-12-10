@@ -7,6 +7,7 @@ import com.github.pig.admin.entity.SysRoleMenu;
 import com.github.pig.admin.service.SysRoleMenuService;
 import com.github.pig.admin.service.SysRoleService;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lengleng
@@ -85,15 +87,13 @@ public class RoleController extends BaseController {
     /**
      * 分页查询角色信息
      *
-     * @param page  分页对象
-     * @param limit 每页限制
+     * @param params 分页对象
      * @return 分页对象
      */
     @RequestMapping("/rolePage")
-    public Page rolePage(Integer page, Integer limit) {
-        SysRole condition = new SysRole();
-        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return sysRoleService.selectPage(new Page<>(page, limit), new EntityWrapper<>(condition));
+    public Page rolePage(@RequestParam Map<String, Object> params) {
+        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+        return sysRoleService.selectPage(new Query<>(params),new EntityWrapper<>());
     }
 
     /**
@@ -104,7 +104,7 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PutMapping("/roleMenuUpd")
-    @CacheEvict(value = "menu_details",allEntries = true)
+    @CacheEvict(value = "menu_details", allEntries = true)
     public Boolean roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
         SysRoleMenu condition = new SysRoleMenu();
         condition.setRoleId(roleId);

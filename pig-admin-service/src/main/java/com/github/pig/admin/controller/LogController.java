@@ -6,12 +6,14 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.service.SysLogService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.entity.SysLog;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Map;
 
 /**
  * <p>
@@ -36,17 +38,13 @@ public class LogController extends BaseController {
     /**
      * 分页查询日志信息
      *
-     * @param page  分页对象
-     * @param limit 每页限制
+     * @param params 分页对象
      * @return 分页对象
      */
     @RequestMapping("/logPage")
-    public Page logPage(Integer page, Integer limit) {
-        SysLog condition = new SysLog();
-        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        EntityWrapper wrapper = new EntityWrapper(condition);
-        wrapper.orderBy("createTime", false);
-        return sysLogService.selectPage(new Page<>(page, limit), wrapper);
+    public Page logPage(@RequestParam Map<String, Object> params) {
+        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+        return sysLogService.selectPage(new Query<>(params),new EntityWrapper<>());
     }
 
     /**

@@ -1,11 +1,12 @@
 package com.github.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.entity.SysUser;
+import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -27,9 +28,8 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 分页查询用户信息（含角色）
      *
-     * @param page
-     * @param sysUser
+     * @param query 查询条件
      * @return
      */
-    List selectUserVoPage(Page<UserVo> page, SysUser sysUser);
+    List selectUserVoPage(Query query, Map<String,Object> params);
 }

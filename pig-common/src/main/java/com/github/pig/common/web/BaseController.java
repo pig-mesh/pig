@@ -15,10 +15,9 @@ import java.util.List;
  * @date 2017/10/28
  */
 public class BaseController {
-    public org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
-
     @Autowired
     private HttpServletRequest request;
+    protected org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
 
     /**
      * 根据请求heard中的token获取用户角色
