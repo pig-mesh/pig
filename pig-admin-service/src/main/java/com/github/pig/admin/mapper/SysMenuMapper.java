@@ -21,8 +21,7 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * 通过角色名查询菜单
      *
      * @param role 角色名称
-     * @param type 是不是查询全部
      * @return 菜单列表
      */
-    Set<MenuVo> findMenuByRoleName(@Param("role") String role, @Param("type") Integer type);
+    Set<MenuVo> findMenuByRoleName(@Param("role") String role);
 }

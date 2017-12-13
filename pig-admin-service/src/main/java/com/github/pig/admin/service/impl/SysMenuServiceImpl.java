@@ -27,16 +27,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysMenuMapper sysMenuMapper;
 
     @Override
-    @Cacheable(value = "menu_details", key = "#role + #type + '_menu'")
-    public Set<MenuVo> findMenuByRole(String role, Integer type) {
-        return sysMenuMapper.findMenuByRoleName(role, type);
+    @Cacheable(value = "menu_details", key = "#role  + '_menu'")
+    public Set<MenuVo> findMenuByRole(String role) {
+        return sysMenuMapper.findMenuByRoleName(role);
     }
 
     @Override
     public String[] findPermission(String[] roles) {
         Set<MenuVo> menuVoSet = new HashSet<>();
         for (String role : roles) {
-            Set<MenuVo> menuVos = findMenuByRole(role, 0);
+            Set<MenuVo> menuVos = findMenuByRole(role);
             menuVoSet.addAll(menuVos);
         }
 

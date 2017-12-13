@@ -20,10 +20,9 @@ public interface SysMenuService extends IService<SysMenu> {
      * 通过角色名称查询URL 权限
      *
      * @param role 角色名称
-     * @param type  是否全部
      * @return 菜单列表
      */
-    Set<MenuVo> findMenuByRole(String role, Integer type);
+    Set<MenuVo> findMenuByRole(String role);
 
     /**
      * 通过角色获取菜单权限列表

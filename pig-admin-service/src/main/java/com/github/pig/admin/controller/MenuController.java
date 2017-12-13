@@ -34,7 +34,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/findMenuByRole/{role}")
     public Set<MenuVo> findMenuByRole(@PathVariable String role) {
-        return sysMenuService.findMenuByRole(role, 0);
+        return sysMenuService.findMenuByRole(role);
     }
 
     /**
@@ -54,9 +54,9 @@ public class MenuController extends BaseController {
      *
      * @return 树形菜单
      */
-    @GetMapping("/userTree/{type}")
-    public List<Integer> userTree(@PathVariable Integer type) {
-        Set<MenuVo> menus = sysMenuService.findMenuByRole(getRole().get(0), type);
+    @GetMapping("/userTree/")
+    public List<Integer> userTree() {
+        Set<MenuVo> menus = sysMenuService.findMenuByRole(getRole().get(0));
         List<Integer> menuList = new ArrayList<>();
         for (MenuVo menuVo : menus) {
             menuList.add(menuVo.getMenuId());
@@ -72,7 +72,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/roleTree/{roleName}")
     public List<Integer> roleTree(@PathVariable String roleName) {
-        Set<MenuVo> menus = sysMenuService.findMenuByRole(roleName, 0);
+        Set<MenuVo> menus = sysMenuService.findMenuByRole(roleName);
         List<Integer> menuList = new ArrayList<>();
         for (MenuVo menuVo : menus) {
             menuList.add(menuVo.getMenuId());

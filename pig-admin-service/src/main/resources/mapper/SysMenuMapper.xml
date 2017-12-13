@@ -47,8 +47,5 @@
         sys_role.del_flag = 0
         AND sys_menu.del_flag = 0
         AND sys_role.role_code = #{role}
-        <if test="type == 0">
-            AND sys_menu.url IS NOT NULL
-        </if>
     </select>
 </mapper>
