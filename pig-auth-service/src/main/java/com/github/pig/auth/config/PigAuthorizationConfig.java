@@ -52,6 +52,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)
+                .reuseRefreshTokens(false)
                 .userDetailsService(userDetailsService);
     }
 
