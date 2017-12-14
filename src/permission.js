@@ -2,8 +2,8 @@ import router from './router'
 import store from './store'
 import NProgress from 'nprogress' // Progress 进度条
 import 'nprogress/nprogress.css'// Progress 进度条样式
-import { getToken } from '@/utils/auth' // 验权
 import { Message } from 'element-ui'
+import { getToken } from '@/utils/auth' // 验权
 
 // permissiom judge
 function hasPermission(roles, permissionRoles) {
@@ -12,17 +12,16 @@ function hasPermission(roles, permissionRoles) {
   return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-// register global progress.
-const whiteList = ['/login', '/authredirect']// 不重定向白名单
-router.beforeEach((to, from, next) => {
-  NProgress.start() // 开启Progress
+const whiteList = ['/login'] // 不重定向白名单
+router.beforeEach((to, from, next) => { // 开启Progress
+  NProgress.start()
   if (getToken()) { // 判断是否有token
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done() // router在hash模式下 手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetUserInfo').then(res => { // 拉取user_info
+        store.dispatch('GetInfo').then(res => { // 拉取用户信息
           const roles = res.data.roles
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表

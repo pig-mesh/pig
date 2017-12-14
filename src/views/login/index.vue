@@ -1,37 +1,38 @@
 <template>
   <div class="login-container">
-    <el-form class="card-box login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
+      class="card-box login-form">
       <h3 class="title">系统登录</h3>
-
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
-          <icon-svg icon-class="user" />
+          <svg-icon icon-class="user" />
         </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="邮箱" />
+        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名" />
       </el-form-item>
-
       <el-form-item prop="password">
         <span class="svg-container">
-          <icon-svg icon-class="password" />
+          <svg-icon icon-class="password"></svg-icon>
         </span>
         <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="密码" />
-        <span class='show-pwd' @click='showPwd'><icon-svg icon-class="eye" /></span>
+          placeholder="密码"></el-input>
+          <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
-
-      <el-button type="primary" style="width:100%;margin-bottom:30px;" :loading="loading" @click.native.prevent="handleLogin">登录</el-button>
+      <el-form-item>
+        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+          登陆
+        </el-button>
+      </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
-import socialSign from './socialsignin'
+// import { isvalidUsername } from '@/utils/validate'
 
 export default {
-  components: { socialSign },
   name: 'login',
   data() {
-    const validatePassword = (rule, value, callback) => {
+    const validatePass = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('密码不能小于6位'))
       } else {
@@ -45,11 +46,10 @@ export default {
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }]
       },
-      pwdType: 'password',
       loading: false,
-      showDialog: false
+      pwdType: 'password'
     }
   },
   methods: {
@@ -64,10 +64,9 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('LoginByUsername', this.loginForm).then(() => {
+          this.$store.dispatch('Login', this.loginForm).then(() => {
             this.loading = false
             this.$router.push({ path: '/' })
-                // this.showDialog = true
           }).catch(() => {
             this.loading = false
           })
@@ -76,31 +75,7 @@ export default {
           return false
         }
       })
-    },
-    afterQRScan() {
-          // const hash = window.location.hash.slice(1)
-          // const hashObj = getQueryObject(hash)
-          // const originUrl = window.location.origin
-          // history.replaceState({}, '', originUrl)
-          // const codeMap = {
-          //   wechat: 'code',
-          //   tencent: 'code'
-          // }
-          // const codeName = hashObj[codeMap[this.auth_type]]
-          // if (!codeName) {
-          //   alert('第三方登录失败')
-          // } else {
-          //   this.$store.dispatch('LoginByThirdparty', codeName).then(() => {
-          //     this.$router.push({ path: '/' })
-          //   })
-          // }
     }
-  },
-  created() {
-        // window.addEventListener('hashchange', this.afterQRScan)
-  },
-  destroyed() {
-        // window.removeEventListener('hashchange', this.afterQRScan)
   }
 }
 </script>
@@ -177,6 +152,7 @@ export default {
       font-size: 16px;
       color: $dark_gray;
       cursor: pointer;
+      user-select:none;
     }
     .thirdparty-button{
       position: absolute;

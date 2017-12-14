@@ -1,14 +1,14 @@
-import fetch from '@/utils/fetch'
+import request from '@/utils/request'
 
 export function roleList() {
-  return fetch({
+  return request({
     url: '/admin/role/roleList',
     method: 'get'
   })
 }
 
 export function fetchList(query) {
-  return fetch({
+  return request({
     url: '/admin/role/rolePage',
     method: 'get',
     params: query
@@ -16,14 +16,14 @@ export function fetchList(query) {
 }
 
 export function getObj(id) {
-  return fetch({
+  return request({
     url: '/admin/role/' + id,
     method: 'get'
   })
 }
 
 export function addObj(obj) {
-  return fetch({
+  return request({
     url: '/admin/role/',
     method: 'post',
     data: obj
@@ -31,7 +31,7 @@ export function addObj(obj) {
 }
 
 export function putObj(obj) {
-  return fetch({
+  return request({
     url: '/admin/role/',
     method: 'put',
     data: obj
@@ -39,14 +39,14 @@ export function putObj(obj) {
 }
 
 export function delObj(id) {
-  return fetch({
+  return request({
     url: '/admin/role/' + id,
     method: 'delete'
   })
 }
 
 export function permissionUpd(roleId, menuIds) {
-  return fetch({
+  return request({
     url: '/admin/role/roleMenuUpd',
     method: 'put',
     params: {
@@ -57,7 +57,7 @@ export function permissionUpd(roleId, menuIds) {
 }
 
 export function fetchRoleTree(roleName) {
-  return fetch({
+  return request({
     url: '/admin/menu/roleTree/' + roleName,
     method: 'get'
   })

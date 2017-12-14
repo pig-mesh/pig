@@ -1,10 +1,9 @@
-import fetch from '@/utils/fetch'
+import request from '@/utils/request'
 
-export function loginByUsername(username, password) {
+export function login(username, password) {
   var grant_type = 'password'
   var scope = 'server'
-
-  return fetch({
+  return request({
     url: '/auth/oauth/token',
     headers: {
       'Authorization': 'Basic cGlnOnBpZw=='
@@ -14,18 +13,17 @@ export function loginByUsername(username, password) {
   })
 }
 
-export function logout(accesstoken, refreshToken) {
-  return fetch({
-    url: '/auth/removeToken',
-    method: 'post',
-    params: { accesstoken, refreshToken }
-  })
-}
-
-export function getUserInfo(token) {
-  return fetch({
+export function getInfo(token) {
+  return request({
     url: '/admin/user/info',
     method: 'get'
   })
 }
 
+export function logout(accesstoken, refreshToken) {
+  return request({
+    url: '/auth/removeToken',
+    method: 'post',
+    params: { accesstoken, refreshToken }
+  })
+}

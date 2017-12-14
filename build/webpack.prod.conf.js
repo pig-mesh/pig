@@ -9,10 +9,10 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-var env = config.build[process.env.env_config+'Env']
+var env = config.build.env
 
 function resolveApp(relativePath) {
-  return path.resolve(relativePath);
+    return path.resolve(relativePath);
 }
 
 var webpackConfig = merge(baseWebpackConfig, {
@@ -26,8 +26,7 @@ var webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
-    publicPath: config.build.assetsPublicPath
+    chunkFilename: utils.assetsPath('js/[id].[chunkhash].js')
   },
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
@@ -46,28 +45,26 @@ var webpackConfig = merge(baseWebpackConfig, {
     }),
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
-    new OptimizeCSSPlugin(),
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        safe: true
+      }
+    }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
     // see https://github.com/ampedandwired/html-webpack-plugin
     new HtmlWebpackPlugin({
-      filename: 'index.html',
+      filename: config.build.index,
       template: 'index.html',
       inject: true,
       favicon: resolveApp('favicon.ico'),
       minify: {
         removeComments: true,
         collapseWhitespace: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-        removeEmptyAttributes: true,
-        removeStyleLinkTypeAttributes: true,
-        keepClosingSlash: true,
-        minifyJS: true,
-        minifyCSS: true,
-        minifyURLs: true
+        removeAttributeQuotes: true
+        // more options:
+        // https://github.com/kangax/html-minifier#options-quick-reference
       },
-      path: config.build.assetsPublicPath + config.build.assetsSubDirectory,
       // necessary to consistently work with multiple chunks via CommonsChunkPlugin
       chunksSortMode: 'dependency'
     }),
@@ -87,22 +84,6 @@ var webpackConfig = merge(baseWebpackConfig, {
         )
       }
     }),
-    // split echarts into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'echarts',
-      minChunks(module) {
-        var context = module.context;
-        return context && (context.indexOf('echarts') >= 0 || context.indexOf('zrender') >= 0);
-      }
-    }),
-    // split xlsx into its own file
-    new webpack.optimize.CommonsChunkPlugin({
-      async: 'xlsx',
-      minChunks(module) {
-        var context = module.context;
-        return context && (context.indexOf('xlsx') >= 0);
-      }
-    }),
     // extract webpack runtime and module manifest to its own file in order to
     // prevent vendor hash from being updated whenever app bundle is updated
     new webpack.optimize.CommonsChunkPlugin({
@@ -110,13 +91,33 @@ var webpackConfig = merge(baseWebpackConfig, {
       chunks: ['vendor']
     }),
     // copy custom static assets
-    new CopyWebpackPlugin([{
-      from: path.resolve(__dirname, '../static'),
-      to: config.build.assetsSubDirectory,
-      ignore: ['.*']
-    }])
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../static'),
+        to: config.build.assetsSubDirectory,
+        ignore: ['.*']
+      }
+    ])
   ]
 })
+
+if (config.build.productionGzip) {
+  var CompressionWebpackPlugin = require('compression-webpack-plugin')
+
+  webpackConfig.plugins.push(
+    new CompressionWebpackPlugin({
+      asset: '[path].gz[query]',
+      algorithm: 'gzip',
+      test: new RegExp(
+        '\\.(' +
+        config.build.productionGzipExtensions.join('|') +
+        ')$'
+      ),
+      threshold: 10240,
+      minRatio: 0.8
+    })
+  )
+}
 
 if (config.build.bundleAnalyzerReport) {
   var BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -124,4 +125,3 @@ if (config.build.bundleAnalyzerReport) {
 }
 
 module.exports = webpackConfig
-
