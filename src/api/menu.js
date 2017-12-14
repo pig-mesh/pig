@@ -15,9 +15,9 @@ export function fetchAll() {
   })
 }
 
-export function fetchUserTree(type) {
+export function fetchUserTree() {
   return request({
-    url: '/admin/menu/userTree/' + type,
+    url: '/admin/menu/userTree/',
     method: 'get'
   })
 }

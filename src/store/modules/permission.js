@@ -51,7 +51,7 @@ const permission = {
       return new Promise(resolve => {
         const { roles } = data
         let accessedRouters
-        fetchUserTree(1).then(response => {
+        fetchUserTree().then(response => {
           if (roles.indexOf('admin') >= 0) {
             accessedRouters = asyncRouterMap
           } else {

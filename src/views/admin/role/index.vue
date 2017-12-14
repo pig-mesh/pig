@@ -84,6 +84,7 @@
         class="filter-tree"
         :data="treeData"
         :default-checked-keys="checkedKeys"
+        check-strictly
         node-key="id"
         highlight-current
         :props="defaultProps"

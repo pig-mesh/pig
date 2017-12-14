@@ -49,7 +49,7 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger"
+          <el-button size="mini" type="danger" v-if="sys_dict_add"
                      @click="handleDelete(scope.row)">删除
           </el-button>
         </template>
@@ -68,6 +68,7 @@
 <script>
   import { fetchList, delObj } from '@/api/log'
   import waves from '@/directive/waves/index.js' // 水波纹指令
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'table_log',
@@ -78,6 +79,7 @@
       return {
         list: null,
         total: null,
+        sys_dict_add: false,
         listLoading: true,
         listQuery: {
           page: 1,
@@ -86,13 +88,19 @@
         tableKey: 0
       }
     },
+    computed: {
+      ...mapGetters([
+        'permissions'
+      ])
+    },
     created() {
       this.getList()
+      this.sys_log_del = this.permissions['sys_log_del']
     },
     methods: {
       getList() {
         this.listLoading = true
-        this.listQuery.orderByField = "create_time"
+        this.listQuery.orderByField = 'create_time'
         this.listQuery.isAsc = false
         fetchList(this.listQuery).then(response => {
           this.list = response.data.records
