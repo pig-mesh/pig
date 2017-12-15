@@ -1,4 +1,4 @@
-package com.github.pig.admin.common.config;
+package com.github.pig.common.bean;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;

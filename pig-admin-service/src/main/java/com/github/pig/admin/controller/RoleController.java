@@ -8,6 +8,7 @@ import com.github.pig.admin.service.SysRoleMenuService;
 import com.github.pig.admin.service.SysRoleService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -47,9 +48,8 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PostMapping
-    public Boolean role(@RequestBody SysRole sysRole) {
-        sysRoleService.insert(sysRole);
-        return Boolean.TRUE;
+    public R role(@RequestBody SysRole sysRole) {
+        return new R(sysRoleService.insert(sysRole));
     }
 
     /**

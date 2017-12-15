@@ -62,6 +62,11 @@
             <artifactId>mybatis-plus</artifactId>
             <version>2.1.4</version>
         </dependency>
+        <!--切面增强AOP-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
     </dependencies>
 
 
