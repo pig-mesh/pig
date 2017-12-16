@@ -48,8 +48,8 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PostMapping
-    public R role(@RequestBody SysRole sysRole) {
-        return new R(sysRoleService.insert(sysRole));
+    public R<Boolean> role(@RequestBody SysRole sysRole) {
+        return new R<>(sysRoleService.insert(sysRole));
     }
 
     /**
@@ -59,16 +59,15 @@ public class RoleController extends BaseController {
      * @return success/false
      */
     @PutMapping
-    public Boolean roleUpdate(@RequestBody SysRole sysRole) {
-        sysRoleService.updateById(sysRole);
-        return Boolean.TRUE;
+    public R<Boolean> roleUpdate(@RequestBody SysRole sysRole) {
+        return new R<>(sysRoleService.updateById(sysRole));
     }
 
     @DeleteMapping("/{id}")
-    public Boolean roleDel(@PathVariable Integer id) {
+    public R<Boolean> roleDel(@PathVariable Integer id) {
         SysRole sysRole = sysRoleService.selectById(id);
         sysRole.setDelFlag(CommonConstant.STATUS_DEL);
-        return sysRoleService.updateById(sysRole);
+        return new R<>(sysRoleService.updateById(sysRole));
     }
 
     /**
@@ -93,7 +92,7 @@ public class RoleController extends BaseController {
     @RequestMapping("/rolePage")
     public Page rolePage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysRoleService.selectPage(new Query<>(params),new EntityWrapper<>());
+        return sysRoleService.selectPage(new Query<>(params), new EntityWrapper<>());
     }
 
     /**
@@ -104,19 +103,7 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PutMapping("/roleMenuUpd")
-    @CacheEvict(value = "menu_details", allEntries = true)
-    public Boolean roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
-        SysRoleMenu condition = new SysRoleMenu();
-        condition.setRoleId(roleId);
-        sysRoleMenuService.delete(new EntityWrapper<>(condition));
-
-        List<SysRoleMenu> roleMenuList = new ArrayList<>();
-        for (Integer menuId : menuIds) {
-            SysRoleMenu roleMenu = new SysRoleMenu();
-            roleMenu.setRoleId(roleId);
-            roleMenu.setMenuId(menuId);
-            roleMenuList.add(roleMenu);
-        }
-        return sysRoleMenuService.insertBatch(roleMenuList);
+    public R<Boolean> roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+        return new R<>(sysRoleMenuService.insertRoleMenus(getRole().get(0),roleId,menuIds));
     }
 }

@@ -6,6 +6,7 @@ import com.github.pig.admin.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.common.util.TreeUtil;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.util.R;
 import com.github.pig.common.vo.MenuVo;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,8 +99,8 @@ public class MenuController extends BaseController {
      * @return success/false
      */
     @PostMapping
-    public Boolean menu(@RequestBody SysMenu sysMenu) {
-        return sysMenuService.insert(sysMenu);
+    public R<Boolean> menu(@RequestBody SysMenu sysMenu) {
+        return new R<>(sysMenuService.insert(sysMenu));
     }
 
     /**
@@ -110,27 +111,13 @@ public class MenuController extends BaseController {
      * TODO  级联删除下级节点
      */
     @DeleteMapping("/{id}")
-    @CacheEvict(value = "menu_details", allEntries = true)
-    public Boolean menuDel(@PathVariable Integer id) {
-        // 删除当前节点
-        SysMenu condition1 = new SysMenu();
-        condition1.setMenuId(id);
-        condition1.setDelFlag(CommonConstant.STATUS_DEL);
-        sysMenuService.updateById(condition1);
-
-        // 删除父节点为当前节点的节点
-        SysMenu conditon2 = new SysMenu();
-        conditon2.setParentId(id);
-        SysMenu sysMenu = new SysMenu();
-        sysMenu.setDelFlag(CommonConstant.STATUS_DEL);
-        sysMenuService.update(sysMenu, new EntityWrapper<>(conditon2));
-        return Boolean.TRUE;
+    public R<Boolean> menuDel(@PathVariable Integer id) {
+        return new R<>(sysMenuService.deleteMenu(id,getRole().get(0)));
     }
 
     @PutMapping
-    @CacheEvict(value = "menu_details", allEntries = true)
-    public Boolean menuUpdate(@RequestBody SysMenu sysMenu) {
-        return sysMenuService.updateById(sysMenu);
+    public R<Boolean> menuUpdate(@RequestBody SysMenu sysMenu) {
+        return new R<>(sysMenuService.updateMenuById(sysMenu,getRole().get(0)));
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {

@@ -32,4 +32,6 @@ public class BaseController {
         List<String> roleNames = (List<String>) claims.get("authorities");
         return roleNames;
     }
+
+
 }

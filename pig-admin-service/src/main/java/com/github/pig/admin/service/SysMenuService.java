@@ -31,4 +31,22 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 权限列表
      */
     String[] findPermission(String[] roles);
+
+    /**
+     * 级联删除菜单
+     *
+     * @param id   菜单ID
+     * @param role 角色
+     * @return 成功、失败
+     */
+    Boolean deleteMenu(Integer id, String role);
+
+    /**
+     * 更新菜单信息
+     *
+     * @param sysMenu 菜单信息
+     * @param role    角色
+     * @return 成功、失败
+     */
+    Boolean updateMenuById(SysMenu sysMenu, String role);
 }

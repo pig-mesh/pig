@@ -30,17 +30,37 @@ public class ControllerAop {
     private static final Logger logger = LoggerFactory.getLogger(ControllerAop.class);
 
     @Pointcut("execution(public com.github.pig.common.util.R *(..))")
-    public void pointCut() {
+    public void pointCutR() {
     }
 
     /**
      * 拦截器具体实现
      *
-     * @param pjp 切点
+     * @param pjp 切点 所有返回对象R
      * @return R  结果包装
      */
-    @Around("pointCut()")
-    public Object methodHandler(ProceedingJoinPoint pjp) {
+    @Around("pointCutR()")
+    public Object methodRHandler(ProceedingJoinPoint pjp) {
+        return methodHandler(pjp);
+    }
+
+
+    @Pointcut("execution(public com.baomidou.mybatisplus.plugins.Page *(..))")
+    public void pointCutPage() {
+    }
+
+    /**
+     * 拦截器具体实现
+     *
+     * @param pjp 切点 所有返回对象Page
+     * @return R  结果包装
+     */
+    @Around("pointCutPage()")
+    public Object methodPageHandler(ProceedingJoinPoint pjp) {
+        return methodHandler(pjp);
+    }
+
+    private Object methodHandler(ProceedingJoinPoint pjp) {
         long startTime = System.currentTimeMillis();
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
@@ -56,10 +76,10 @@ public class ControllerAop {
         logger.info("CLASS_METHOD : " + pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName());
         logger.info("ARGS : " + Arrays.toString(pjp.getArgs()));
 
-        R<?> result;
+        Object result;
 
         try {
-            result = (R<?>) pjp.proceed();
+            result =  pjp.proceed();
             logger.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
         } catch (Throwable e) {
             result = handlerException(pjp, e);
