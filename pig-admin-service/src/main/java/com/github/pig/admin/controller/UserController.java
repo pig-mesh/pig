@@ -2,17 +2,20 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.admin.common.util.ImageCodeGenerator;
 import com.github.pig.admin.dto.UserDto;
-import com.github.pig.common.bean.QiniuPropertiesConfig;
 import com.github.pig.admin.dto.UserInfo;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.entity.SysUserRole;
-import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
+import com.github.pig.common.bean.QiniuPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
+import com.github.pig.common.vo.ImageCode;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
 import com.qiniu.common.Zone;
@@ -26,9 +29,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,31 +52,17 @@ public class UserController extends BaseController {
     @Autowired
     private SysUserRoleService sysUserRoleService;
     @Autowired
-    private SysMenuService sysMenuService;
-    @Autowired
     private QiniuPropertiesConfig qiniuPropertiesConfig;
 
 
     /**
-     * 获取当前用户的用户名
+     * 获取当前用户信息（角色、权限）
      *
      * @return 用户名
      */
     @GetMapping("/info")
-    public UserInfo user() {
-        SysUser condition = new SysUser();
-        condition.setUsername(UserUtils.getUserName());
-        SysUser sysUser = userService.selectOne(new EntityWrapper<>(condition));
-
-        UserInfo userInfo = new UserInfo();
-        userInfo.setSysUser(sysUser);
-        //设置角色列表
-        String[] roles = getRole().toArray(new String[getRole().size()]);
-        userInfo.setRoles(roles);
-        //设置权限列表（menu.permission）
-        String[] permissions = sysMenuService.findPermission(roles);
-        userInfo.setPermissions(permissions);
-        return userInfo;
+    public R<UserInfo> user() {
+        return new R<>(userService.findUserInfo(getRole()));
     }
 
     /**
@@ -98,10 +90,10 @@ public class UserController extends BaseController {
             if (delUserInfo) {
                 userService.clearCache(UserUtils.getUserName());
                 return Boolean.TRUE;
-            }else {
+            } else {
                 return Boolean.FALSE;
             }
-        }else {
+        } else {
             return Boolean.FALSE;
         }
     }
@@ -160,9 +152,7 @@ public class UserController extends BaseController {
     /**
      * 分页查询用户
      *
-     * @param page    页码
-     * @param limit   每页数量
-     * @param sysUser 检索条件
+     * @param params 参数集
      * @return 用户集合
      */
     @RequestMapping("/userPage")

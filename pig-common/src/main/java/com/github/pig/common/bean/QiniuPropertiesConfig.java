@@ -1,7 +1,6 @@
 package com.github.pig.common.bean;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,15 +9,11 @@ import org.springframework.context.annotation.Configuration;
  * 七牛参数
  */
 @Configuration
-@ConfigurationProperties(prefix = "qiniu")
+@ConditionalOnProperty(prefix = "qiniu", name = "accessKey")
 public class QiniuPropertiesConfig {
-    @Value("${qiniu.accessKey}")
     private String accessKey;
-    @Value("${qiniu.secretKey}")
     private String secretKey;
-    @Value("${qiniu.bucket}")
     private String bucket;
-    @Value("${qiniu.host}")
     private String qiniuHost;
 
     public String getAccessKey() {

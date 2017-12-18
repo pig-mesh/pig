@@ -15,7 +15,6 @@ import java.util.Base64;
  * @author lengleng
  * @date 2017/11/20
  * 用户相关工具类
- * TODO theardLocal 避免上下文开销
  */
 public class UserUtils {
     private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
