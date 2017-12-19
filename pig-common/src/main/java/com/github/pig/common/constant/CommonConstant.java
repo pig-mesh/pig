@@ -29,6 +29,11 @@ public interface CommonConstant {
     String STATUS_NORMAL = "0";
 
     /**
+     * 锁定
+     */
+    String STATUS_LOCK = "9";
+
+    /**
      * 菜单
      */
     String MENU = "0";

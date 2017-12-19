@@ -1,7 +1,9 @@
 package com.github.pig.auth.util;
 
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,11 +21,13 @@ public class UserInfo implements UserDetails {
 
     private String username;
     private String password;
+    private String statusLock;
     private List<SysRole> roleList = new ArrayList<>();
 
     public UserInfo(UserVo userVo) {
         this.username = userVo.getUsername();
         this.password = userVo.getPassword();
+        this.statusLock = userVo.getDelFlag();
         roleList = userVo.getRoleList();
     }
 
@@ -53,7 +57,7 @@ public class UserInfo implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return StringUtils.equals(CommonConstant.STATUS_LOCK, statusLock) ? false : true;
     }
 
     @Override
@@ -80,5 +84,13 @@ public class UserInfo implements UserDetails {
 
     public void setRoleList(List<SysRole> roleList) {
         this.roleList = roleList;
+    }
+
+    public String getStatusLock() {
+        return statusLock;
+    }
+
+    public void setStatusLock(String statusLock) {
+        this.statusLock = statusLock;
     }
 }

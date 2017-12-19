@@ -14,7 +14,6 @@ import java.io.Serializable;
  * @author lengleng
  * @date 2017/10/26
  * <p>
- * TODO 通过调用 admin模块
  */
 @Service("userDetailService")
 public class UserDetailServiceImpl implements UserDetailsService, Serializable {
