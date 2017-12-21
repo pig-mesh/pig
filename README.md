@@ -2,9 +2,9 @@
 
 ##### https://gitee.com/log4j/pig/wikis/  
 
-
-
+![image](http://obq1lvsd9.bkt.clouddn.com/QQ20171220-194200@2x.png)
 ![image](http://obq1lvsd9.bkt.clouddn.com/1231231223.png)
+
 ![image](http://obq1lvsd9.bkt.clouddn.com/pig_role.png)
 ![image](http://obq1lvsd9.bkt.clouddn.com/pig_menu.png)
 
@@ -16,3 +16,14 @@
 QQ：154987607
 
 
+### 组织结构
+
+``` lua
+pig
+├── pig-admin-service -- 后台服务提供
+├── pig-auth-service -- 鉴权服务提供
+├── pig-common -- 系统公共模块
+├── pig-config -- 配置中心[端口:4001]
+├── pig-eureka -- 服务注册与发现[端口:1001]
+└── pig-gateway -- API网关转发
+```
