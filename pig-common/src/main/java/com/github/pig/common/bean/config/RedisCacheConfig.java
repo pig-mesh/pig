@@ -1,4 +1,4 @@
-package com.github.pig.common.bean;
+package com.github.pig.common.bean.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;

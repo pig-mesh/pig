@@ -16,7 +16,7 @@ import java.util.List;
  * @author lengleng
  * @date 2017/10/29
  */
-public class UserInfo implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private String username;
@@ -24,7 +24,7 @@ public class UserInfo implements UserDetails {
     private String statusLock;
     private List<SysRole> roleList = new ArrayList<>();
 
-    public UserInfo(UserVo userVo) {
+    public UserDetailsImpl(UserVo userVo) {
         this.username = userVo.getUsername();
         this.password = userVo.getPassword();
         this.statusLock = userVo.getDelFlag();

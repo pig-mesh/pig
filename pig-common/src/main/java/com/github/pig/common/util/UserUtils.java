@@ -10,6 +10,7 @@ import org.slf4j.MDC;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -69,6 +70,21 @@ public class UserUtils {
         }
         return username;
     }
+
+    /**
+     * 根据请求heard中的token获取用户角色
+     *
+     * @return 角色名
+     */
+    public static List<String> getRole(HttpServletRequest httpServletRequest) {
+        String authorization = httpServletRequest.getHeader(CommonConstant.REQ_HEADER);
+        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        List<String> roleNames = (List<String>) claims.get("authorities");
+        return roleNames;
+    }
+
 
     /**
      * 设置用户信息

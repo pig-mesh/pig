@@ -1,4 +1,4 @@
-package com.github.pig.common.bean;
+package com.github.pig.common.bean.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
