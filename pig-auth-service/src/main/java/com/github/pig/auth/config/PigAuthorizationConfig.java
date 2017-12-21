@@ -1,6 +1,7 @@
 package com.github.pig.auth.config;
 
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,12 +43,12 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
         clients.inMemory()
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
-                .authorizedGrantTypes("refresh_token", "password")
+                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD)
                 .scopes(authServerConfig.getScope());
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
         endpoints
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .accessTokenConverter(jwtAccessTokenConverter())

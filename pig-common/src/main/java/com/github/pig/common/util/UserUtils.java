@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class UserUtils {
     private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
-    private static final ThreadLocal<String> TL_User = new ThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL_USER = new ThreadLocal<>();
     private static final String KEY_USER = "user";
 
 
@@ -92,7 +92,7 @@ public class UserUtils {
      * @param username
      */
     public static void setUser(String username) {
-        TL_User.set(username);
+        THREAD_LOCAL_USER.set(username);
 
         MDC.put(KEY_USER, username);
     }
@@ -103,11 +103,11 @@ public class UserUtils {
      * @return
      */
     public static String getUserName() {
-        return TL_User.get();
+        return THREAD_LOCAL_USER.get();
     }
 
     public static void clearAllUserInfo() {
-        TL_User.remove();
+        THREAD_LOCAL_USER.remove();
         MDC.remove(KEY_USER);
     }
 }

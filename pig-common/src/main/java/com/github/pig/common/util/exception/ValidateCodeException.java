@@ -1,5 +1,9 @@
 package com.github.pig.common.util.exception;
 
+/**
+ * @author lengleng
+ * @date 2017年12月21日20:45:38
+ */
 public class ValidateCodeException extends RuntimeException {
 
     /**

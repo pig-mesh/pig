@@ -14,7 +14,7 @@ import java.util.Set;
  * @email sunlightcs@gmail.com
  * @date 2017-03-23 15:50
  */
-public abstract class Assert {
+public class Assert {
     private static Validator validator;
 
     static {

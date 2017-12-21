@@ -30,18 +30,17 @@ import java.io.PrintWriter;
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
-    @Value("${security.login.url}")
-    private String loginUrl;
     @Autowired
     private RedisTemplate redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (StringUtils.contains(request.getRequestURI(), loginUrl)) {
+        if (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL) || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN)) {
             PrintWriter printWriter = null;
             try {
                 checkCode(request, response, filterChain);
             } catch (ValidateCodeException e) {
+                logger.info("登录失败：{}", e.getMessage());
                 response.setCharacterEncoding(CommonConstant.UTF8);
                 response.setContentType(CommonConstant.CONTENT_TYPE);
                 R<String> result = new R<>(e.getMessage());

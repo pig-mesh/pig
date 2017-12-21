@@ -44,19 +44,18 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
-    private SysUserRoleService sysUserRoleService;
-    @Autowired
     private QiniuPropertiesConfig qiniuPropertiesConfig;
 
 
     /**
      * 获取当前用户信息（角色、权限）
      *
+     * @param userVo 当前用户信息
      * @return 用户名
      */
     @GetMapping("/info")
-    public R<UserInfo> user() {
-        return new R<>(userService.findUserInfo(getRole()));
+    public R<UserInfo> user(UserVo userVo) {
+        return new R<>(userService.findUserInfo(userVo));
     }
 
     /**
@@ -74,22 +73,12 @@ public class UserController extends BaseController {
      * 删除用户信息
      *
      * @param id ID
-     * @return boolean
+     * @return R
      */
     @DeleteMapping("/{id}")
-    public Boolean userDel(@PathVariable Integer id) {
-        boolean delUserRole = sysUserRoleService.deleteByUserId(id);
-        if (delUserRole) {
-            boolean delUserInfo = userService.deleteById(id);
-            if (delUserInfo) {
-                userService.clearCache(UserUtils.getUserName());
-                return Boolean.TRUE;
-            } else {
-                return Boolean.FALSE;
-            }
-        } else {
-            return Boolean.FALSE;
-        }
+    public R<Boolean> userDel(@PathVariable Integer id) {
+        SysUser sysUser = userService.selectById(id);
+        return new R<>(userService.deleteUserById(sysUser));
     }
 
     /**
@@ -99,7 +88,7 @@ public class UserController extends BaseController {
      * @return success/false
      */
     @PostMapping
-    public Boolean user(@RequestBody UserDto userDto) {
+    public R<Boolean> user(@RequestBody UserDto userDto) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
@@ -108,28 +97,19 @@ public class UserController extends BaseController {
         SysUserRole userRole = new SysUserRole();
         userRole.setUserId(sysUser.getUserId());
         userRole.setRoleId(userDto.getRole());
-        return userRole.insert();
+        return new R<>(userRole.insert());
     }
 
     /**
      * 更新用户信息
      *
      * @param userDto 用户信息
-     * @return boolean
+     * @return R
      */
     @PutMapping
-    public Boolean userUpdate(@RequestBody UserDto userDto) {
-        SysUser sysUser = new SysUser();
-        BeanUtils.copyProperties(userDto, sysUser);
-        sysUser.setUpdateTime(new Date());
-        userService.updateById(sysUser);
-
-        SysUserRole condition = new SysUserRole();
-        condition.setUserId(userDto.getUserId());
-        SysUserRole sysUserRole = sysUserRoleService.selectOne(new EntityWrapper<>(condition));
-        sysUserRole.setRoleId(userDto.getRole());
-        userService.clearCache(UserUtils.getUserName());
-        return sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
+    public R<Boolean> userUpdate(@RequestBody UserDto userDto) {
+        SysUser user = userService.selectById(userDto.getUserId());
+        return new R<>(userService.updateUser(userDto, user.getUsername()));
     }
 
     /**
@@ -158,12 +138,11 @@ public class UserController extends BaseController {
      * 上传用户头像
      * (多机部署有问题，建议使用独立的文件服务器)
      *
-     * @param file    资源
-     * @param request request
+     * @param file 资源
      * @return filename map
      */
     @PostMapping("/upload")
-    public Map<String, String> upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) {
+    public Map<String, String> upload(@RequestParam("file") MultipartFile file) {
         String fileExt = FileUtil.extName(file.getOriginalFilename());
         Configuration cfg = new Configuration(Zone.zone0());
         UploadManager uploadManager = new UploadManager(cfg);
@@ -185,23 +164,12 @@ public class UserController extends BaseController {
      * 修改个人信息
      *
      * @param userDto userDto
+     * @param userVo  登录用户信息
      * @return success/false
      */
     @PutMapping("/editInfo")
-    public Boolean editInfo(@RequestBody UserDto userDto) {
-        String username = UserUtils.getUserName();
-        UserVo userVo = userService.findUserByUsername(username);
-
-        if (!ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
-            return Boolean.FALSE;
-        }
-
-        SysUser sysUser = new SysUser();
-        sysUser.setUserId(userVo.getUserId());
-        sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
-        sysUser.setAvatar(userDto.getAvatar());
-        userService.clearCache(UserUtils.getUserName());
-        return userService.updateById(sysUser);
+    public R<Boolean> editInfo(@RequestBody UserDto userDto, UserVo userVo) {
+        return new R<>(userService.updateUserInfo(userDto, userVo.getUsername()));
     }
 
 }
