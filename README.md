@@ -2,8 +2,6 @@
 
 ##### https://gitee.com/log4j/pig/wikis/  
 
-
-
 ![image](http://obq1lvsd9.bkt.clouddn.com/QQ20171220-194200@2x.png)
 ![image](http://obq1lvsd9.bkt.clouddn.com/1231231223.png)
 ![image](http://obq1lvsd9.bkt.clouddn.com/pig_role.png)
