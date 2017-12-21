@@ -3,7 +3,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://pig:gip6666@localhost:1001/eureka
+      defaultZone: http://pig:gip6666@localhost:1025/eureka
 
 spring:
   application:
@@ -14,5 +14,5 @@ spring:
       discovery:
         service-id: pig-config-server
         enabled: true
-      profile: dev
+      profile: local
       label: master
