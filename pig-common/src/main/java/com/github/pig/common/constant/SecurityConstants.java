@@ -65,4 +65,9 @@ public interface SecurityConstants {
      * 验证码文字大小
      */
     String DEFAULT_IMAGE_FONT_SIZE = "30";
+
+    /**
+     * token-uservo
+     */
+    String TOKEN_USER_DETAIL = "token-user-detail";
 }

@@ -74,22 +74,32 @@ public class UserUtils {
     /**
      * 根据请求heard中的token获取用户角色
      *
+     * @param httpServletRequest request
      * @return 角色名
      */
     public static List<String> getRole(HttpServletRequest httpServletRequest) {
-        String authorization = httpServletRequest.getHeader(CommonConstant.REQ_HEADER);
-        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+        String token = getToken(httpServletRequest);
         String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
         List<String> roleNames = (List<String>) claims.get("authorities");
         return roleNames;
     }
 
+    /**
+     * 获取请求中token
+     *
+     * @param httpServletRequest request
+     * @return token
+     */
+    public static String getToken(HttpServletRequest httpServletRequest) {
+        String authorization = httpServletRequest.getHeader(CommonConstant.REQ_HEADER);
+        return StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+    }
 
     /**
      * 设置用户信息
      *
-     * @param username
+     * @param username 用户名
      */
     public static void setUser(String username) {
         THREAD_LOCAL_USER.set(username);

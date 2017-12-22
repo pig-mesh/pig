@@ -1,7 +1,10 @@
 package com.github.pig.auth.controller;
 
+import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,6 +35,7 @@ public class UserController {
      * @return true/false
      */
     @PostMapping("/removeToken")
+    @CacheEvict(value = SecurityConstants.TOKEN_USER_DETAIL, key = "#accesstoken")
     public R<Boolean> removeToken(String accesstoken, String refreshToken) {
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
         tokenStore.removeRefreshToken(refreshToken);
