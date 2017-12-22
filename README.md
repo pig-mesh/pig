@@ -12,11 +12,7 @@
 ##### 开发计划在issue里面，你如果有想要实现的点阔以在issue中给我提。 
 
 
-欢迎加我QQ讨论，互相学习   
-QQ：154987607
-
-
-QQ交流群  
+欢迎加入QQ交流群，互相学习  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
 
