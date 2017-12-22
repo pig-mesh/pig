@@ -4,7 +4,6 @@ import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
-import com.xiaoleilu.hutool.util.CollectionUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,11 +84,11 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
         UserVo userVo = new UserVo();
         userVo.setUsername(username);
         List<SysRole> sysRoleList = new ArrayList<>();
-        for (String roleName : roles) {
+        roles.stream().forEach(role -> {
             SysRole sysRole = new SysRole();
-            sysRole.setRoleName(roleName);
+            sysRole.setRoleName(role);
             sysRoleList.add(sysRole);
-        }
+        });
         userVo.setRoleList(sysRoleList);
         cacheManager.getCache(SecurityConstants.TOKEN_USER_DETAIL).put(token, userVo);
         return userVo;
