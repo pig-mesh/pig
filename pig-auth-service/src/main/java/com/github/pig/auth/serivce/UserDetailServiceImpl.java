@@ -1,7 +1,7 @@
 package com.github.pig.auth.serivce;
 
 import com.github.pig.auth.feign.UserService;
-import com.github.pig.auth.util.UserInfo;
+import com.github.pig.auth.util.UserDetailsImpl;
 import com.github.pig.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +14,6 @@ import java.io.Serializable;
  * @author lengleng
  * @date 2017/10/26
  * <p>
- * TODO 通过调用 admin模块
  */
 @Service("userDetailService")
 public class UserDetailServiceImpl implements UserDetailsService, Serializable {
@@ -22,8 +21,8 @@ public class UserDetailServiceImpl implements UserDetailsService, Serializable {
     private UserService userService;
 
     @Override
-    public UserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
         UserVo userVo = userService.findUserByUsername(username);
-        return new UserInfo(userVo);
+        return new UserDetailsImpl(userVo);
     }
 }

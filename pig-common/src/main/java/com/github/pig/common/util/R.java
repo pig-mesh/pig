@@ -2,7 +2,12 @@ package com.github.pig.common.util;
 
 import java.io.Serializable;
 
-
+/**
+ * 响应信息主体
+ *
+ * @param <T>
+ * @author lengleng
+ */
 public class R<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;

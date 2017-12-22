@@ -2,6 +2,7 @@ package com.github.pig.admin.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.github.pig.common.entity.SysLog;
+import com.github.pig.common.util.R;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.github.pig.common.entity.SysLog;
  */
 public interface SysLogService extends IService<SysLog> {
 
+    /**
+     * 通过ID删除日志（逻辑删除）
+     *
+     * @param id 日志ID
+     * @return true/false
+     */
+    Boolean updateByLogId(Integer id);
 }

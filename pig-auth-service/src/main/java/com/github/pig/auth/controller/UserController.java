@@ -1,5 +1,6 @@
 package com.github.pig.auth.controller;
 
+import com.github.pig.common.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
@@ -31,11 +32,11 @@ public class UserController {
      * @return true/false
      */
     @PostMapping("/removeToken")
-    public Boolean removeToken(String accesstoken, String refreshToken) {
+    public R<Boolean> removeToken(String accesstoken, String refreshToken) {
         RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
         tokenStore.removeRefreshToken(refreshToken);
         tokenStore.removeAccessToken(accesstoken);
-        return Boolean.TRUE;
+        return new R<>(Boolean.TRUE);
     }
 
 }

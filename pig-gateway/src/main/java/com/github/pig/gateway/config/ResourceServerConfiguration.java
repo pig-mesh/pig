@@ -1,7 +1,7 @@
 package com.github.pig.gateway.config;
 
+import com.github.pig.gateway.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,9 +11,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
-
-import java.util.List;
-import java.util.Set;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author lengleng
@@ -26,9 +24,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
     @Autowired
     private OAuth2WebSecurityExpressionHandler expressionHandler;
+    @Autowired
+    private ValidateCodeFilter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
         for (String url : filterUrlsPropertiesConifg.getAnon()) {
@@ -39,11 +40,11 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     @Override
-    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.expressionHandler(expressionHandler);
-    }
+     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+     resources.expressionHandler(expressionHandler);
+     }
 
-    /**
+     /**
      * 配置解决 spring-security-oauth问题
      * https://github.com/spring-projects/spring-security-oauth/issues/730
      *

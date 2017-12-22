@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@ComponentScan(basePackages = {"com.github.pig.admin", "com.github.pig.common.config"})
+@ComponentScan(basePackages = {"com.github.pig.admin", "com.github.pig.common.bean"})
 public class PigAdminApplication {
     public static void main(String[] args) {
         SpringApplication.run(PigAdminApplication.class, args);

@@ -28,8 +28,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 分页查询用户信息（含角色）
      *
-     * @param query 查询条件
-     * @return
+     * @param query  查询条件
+     * @param params 参数
+     * @return list
      */
-    List selectUserVoPage(Query query, Map<String,Object> params);
+    List selectUserVoPage(Query query, Map<String, Object> params);
 }

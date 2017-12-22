@@ -10,16 +10,16 @@ import org.slf4j.MDC;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @author lengleng
  * @date 2017/11/20
  * 用户相关工具类
- * TODO theardLocal 避免上下文开销
  */
 public class UserUtils {
     private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
-    private static final ThreadLocal<String> TL_User = new ThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL_USER = new ThreadLocal<>();
     private static final String KEY_USER = "user";
 
 
@@ -72,12 +72,27 @@ public class UserUtils {
     }
 
     /**
+     * 根据请求heard中的token获取用户角色
+     *
+     * @return 角色名
+     */
+    public static List<String> getRole(HttpServletRequest httpServletRequest) {
+        String authorization = httpServletRequest.getHeader(CommonConstant.REQ_HEADER);
+        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
+        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        List<String> roleNames = (List<String>) claims.get("authorities");
+        return roleNames;
+    }
+
+
+    /**
      * 设置用户信息
      *
      * @param username
      */
     public static void setUser(String username) {
-        TL_User.set(username);
+        THREAD_LOCAL_USER.set(username);
 
         MDC.put(KEY_USER, username);
     }
@@ -88,11 +103,11 @@ public class UserUtils {
      * @return
      */
     public static String getUserName() {
-        return TL_User.get();
+        return THREAD_LOCAL_USER.get();
     }
 
     public static void clearAllUserInfo() {
-        TL_User.remove();
+        THREAD_LOCAL_USER.remove();
         MDC.remove(KEY_USER);
     }
 }
