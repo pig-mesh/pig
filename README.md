@@ -24,7 +24,7 @@ pig
 ├── pig-admin-service -- 后台服务提供
 ├── pig-auth-service -- 鉴权服务提供
 ├── pig-common -- 系统公共模块
-├── pig-config -- 配置中心[端口:4001]
-├── pig-eureka -- 服务注册与发现[端口:1001]
+├── pig-config -- 配置中心
+├── pig-eureka -- 服务注册与发现
 └── pig-gateway -- API网关转发
 ```
