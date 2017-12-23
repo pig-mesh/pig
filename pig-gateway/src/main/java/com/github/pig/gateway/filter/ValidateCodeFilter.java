@@ -25,17 +25,22 @@ import java.io.PrintWriter;
 /**
  * @author lengleng
  * @date 2017-12-18
- * 验证码校验
+ * 验证码校验，true开启，false关闭校验
+ * 更细化可以 clientId 进行区分
+ *
  */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
+    @Value("${security.validate.code:true}")
+    private boolean isValidate;
     @Autowired
     private RedisTemplate redisTemplate;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL) || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN)) {
+        if (isValidate && (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
+                || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN))) {
             PrintWriter printWriter = null;
             try {
                 checkCode(request, response, filterChain);
