@@ -4,15 +4,25 @@ server:
 spring:
   application:
     name: pig-config-server
+  profiles:
+    active: dev
   cloud:
     config:
       server:
         git:
           uri: https://github.com/jieblog/pig-config.git
-    bus:
-      trace:
-        enabled: true
-
+---
+spring:
+  profiles: dev
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://pig:gip6666@localhost:1025/eureka
+---
+spring:
+  profiles: prd
 eureka:
   instance:
     prefer-ip-address: true
