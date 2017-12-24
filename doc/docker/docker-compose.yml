@@ -1,0 +1,55 @@
+version: '2'
+services:
+  pig-eureka:
+    build:
+      context: ./
+      dockerfile: Dockerfile-eureka
+    restart: always
+    ports:
+      - 59025:1025
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  pig-config:
+    build:
+      context: ./
+      dockerfile: Dockerfile-config
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  pig-gateway:
+    build:
+      context: ./
+      dockerfile: Dockerfile-gateway
+    restart: always
+    ports:
+      - 59999:9999
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  pig-auth-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile-auth
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+
+  pig-admin-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile-admin
+    restart: always
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"

@@ -1,0 +1,7 @@
+FROM java:8-jre
+MAINTAINER Pig lengleng <wangiegie@gmail.com>
+
+ADD ./jar/pig-gateway.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/pig-gateway.jar"]
+
+EXPOSE 9999
