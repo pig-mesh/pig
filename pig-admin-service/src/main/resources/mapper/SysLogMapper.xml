@@ -17,6 +17,7 @@
 		<result column="params" property="params" />
 		<result column="time" property="time" />
 		<result column="del_flag" property="delFlag" />
+		<result column="exception" property="exception" />
 	</resultMap>
 
     <!-- 通用查询结果列 -->

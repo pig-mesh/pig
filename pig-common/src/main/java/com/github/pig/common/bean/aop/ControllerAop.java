@@ -6,6 +6,7 @@ import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.util.exception.CheckException;
 import com.github.pig.common.util.exception.UnloginException;
 import com.github.pig.common.vo.UserVo;
+import com.xiaoleilu.hutool.lang.Console;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -102,30 +103,12 @@ public class ControllerAop {
             result = pjp.proceed();
             logger.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
         } catch (Throwable e) {
-            result = handlerException(pjp, e);
+            logger.error("异常信息：", e);
+            throw new RuntimeException(e);
         } finally {
             if (StringUtils.isNotEmpty(username)) {
                 UserUtils.clearAllUserInfo();
             }
-        }
-
-        return result;
-    }
-
-    private R<?> handlerException(ProceedingJoinPoint pjp, Throwable e) {
-        R<?> result = new R();
-
-        // 已知异常
-        if (e instanceof CheckException) {
-            result.setMsg(e.getLocalizedMessage());
-            result.setCode(R.FAIL);
-        } else if (e instanceof UnloginException) {
-            result.setMsg("Unlogin");
-            result.setCode(R.NO_LOGIN);
-        } else {
-            logger.error(pjp.getSignature() + " error ", e);
-            result.setMsg(e.toString());
-            result.setCode(R.FAIL);
         }
 
         return result;

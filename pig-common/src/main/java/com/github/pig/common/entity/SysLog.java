@@ -69,6 +69,11 @@ public class SysLog implements Serializable {
      */
     private String delFlag;
 
+    /**
+     * 异常信息
+     */
+    private String exception;
+
     public Integer getId() {
         return id;
     }
@@ -173,20 +178,31 @@ public class SysLog implements Serializable {
         this.delFlag = delFlag;
     }
 
+    public String getException() {
+        return exception;
+    }
+
+    public void setException(String exception) {
+        this.exception = exception;
+    }
+
     @Override
     public String toString() {
         return "SysLog{" +
-                ", id=" + id +
-                ", type=" + type +
-                ", title=" + title +
-                ", createBy=" + createBy +
-                ", createDate=" + createTime +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", title='" + title + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", remoteAddr=" + remoteAddr +
-                ", userAgent=" + userAgent +
-                ", requestUri=" + requestUri +
-                ", method=" + method +
-                ", params=" + params +
-                "}";
+                ", remoteAddr='" + remoteAddr + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", requestUri='" + requestUri + '\'' +
+                ", method='" + method + '\'' +
+                ", params='" + params + '\'' +
+                ", time=" + time +
+                ", delFlag='" + delFlag + '\'' +
+                ", exception='" + exception + '\'' +
+                '}';
     }
 }
