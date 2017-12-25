@@ -2,27 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.pig.admin.mapper.SysLogMapper">
 
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.common.entity.SysLog">
-		<id column="id" property="id" />
-		<result column="type" property="type" />
-		<result column="title" property="title" />
-		<result column="create_by" property="createBy" />
-		<result column="create_time" property="createTime" />
-		<result column="update_time" property="updateTime" />
-		<result column="remote_addr" property="remoteAddr" />
-		<result column="user_agent" property="userAgent" />
-		<result column="request_uri" property="requestUri" />
-		<result column="method" property="method" />
-		<result column="params" property="params" />
-		<result column="time" property="time" />
-		<result column="del_flag" property="delFlag" />
-		<result column="exception" property="exception" />
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.pig.common.entity.SysLog">
+        <id column="id" property="id"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="service_id" property="serviceId"/>
+        <result column="create_by" property="createBy"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remote_addr" property="remoteAddr"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="request_uri" property="requestUri"/>
+        <result column="method" property="method"/>
+        <result column="params" property="params"/>
+        <result column="time" property="time"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="exception" property="exception"/>
+    </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, type, title, create_by AS createBy, create_time AS createTime , update_time AS updateTime, remote_addr AS remoteAddr, user_agent AS userAgent, request_uri AS requestUri, method, params, `time`, del_flag AS delFlag
+        id, type, title, create_by AS createBy, create_time AS createTime, update_time AS updateTime, remote_addr AS remoteAddr, user_agent AS userAgent, request_uri AS requestUri, method, params, `time`, del_flag AS delFlag
     </sql>
 
 </mapper>

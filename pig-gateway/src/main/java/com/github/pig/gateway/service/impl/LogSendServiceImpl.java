@@ -32,6 +32,7 @@ import java.io.InputStream;
  */
 @Component
 public class LogSendServiceImpl implements LogSendService {
+    private static final String SERVICE_ID = "serviceId";
     private Logger logger = LoggerFactory.getLogger(LogSendServiceImpl.class);
     @Autowired
     private AmqpTemplate rabbitTemplate;
@@ -58,6 +59,9 @@ public class LogSendServiceImpl implements LogSendService {
         log.setCreateBy(UserUtils.getUserName(request));
         Long startTime = (Long) requestContext.get("startTime");
         log.setTime(System.currentTimeMillis() - startTime);
+        if (requestContext.get(SERVICE_ID) != null) {
+            log.setServiceId(requestContext.get(SERVICE_ID).toString());
+        }
 
         //正常发送服务异常解析
         if (requestContext.getResponseStatusCode() != HttpStatus.SC_OK) {

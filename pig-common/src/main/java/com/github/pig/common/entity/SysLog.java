@@ -74,6 +74,11 @@ public class SysLog implements Serializable {
      */
     private String exception;
 
+    /**
+     * 服务ID
+     */
+    private String serviceId;
+
     public Integer getId() {
         return id;
     }
@@ -184,6 +189,14 @@ public class SysLog implements Serializable {
 
     public void setException(String exception) {
         this.exception = exception;
+    }
+
+    public String getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     @Override
