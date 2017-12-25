@@ -1,18 +1,15 @@
 package com.github.pig.admin.controller;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.admin.dto.UserDto;
 import com.github.pig.admin.dto.UserInfo;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.entity.SysUserRole;
-import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
 import com.github.pig.common.bean.config.QiniuPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
-import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
 import com.qiniu.common.Zone;
@@ -28,8 +25,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
