@@ -50,6 +50,7 @@ CREATE TABLE `sys_log` (
   `id` int(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `type` char(1) DEFAULT '1' COMMENT '日志类型',
   `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
   `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
@@ -60,12 +61,13 @@ CREATE TABLE `sys_log` (
   `params` text COMMENT '操作提交的数据',
   `time` mediumtext COMMENT '执行时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+  `exception` varchar(512) DEFAULT NULL COMMENT '异常信息',
   PRIMARY KEY (`id`),
-  KEY `sys_log_create_by` (`create_by`),
-  KEY `sys_log_request_uri` (`request_uri`),
-  KEY `sys_log_type` (`type`),
-  KEY `sys_log_create_date` (`create_time`)
-) ENGINE=InnoDB AUTO_INCREMENT=1394 DEFAULT CHARSET=utf8 COMMENT='日志表';
+  KEY `sys_log_create_by` (`create_by`) USING BTREE,
+  KEY `sys_log_request_uri` (`request_uri`) USING BTREE,
+  KEY `sys_log_type` (`type`) USING BTREE,
+  KEY `sys_log_create_date` (`create_time`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=92714 DEFAULT CHARSET=utf8 COMMENT='日志表';
 
 -- ----------------------------
 -- Records of sys_log
