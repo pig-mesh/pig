@@ -35,6 +35,11 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
+        <!--监控-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!--测试依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,6 +52,7 @@
         <module>pig-common</module>
         <module>pig-eureka</module>
         <module>pig-config</module>
+        <module>pig-monitor</module>
         <module>pig-gateway</module>
         <module>pig-auth-service</module>
         <module>pig-admin-service</module>
