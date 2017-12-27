@@ -1,11 +1,8 @@
 package com.github.pig.gateway.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.github.pig.common.util.R;
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
