@@ -12,8 +12,8 @@
     <description>监控模块</description>
 
     <parent>
-        <groupId>com.github</groupId>
-        <artifactId>pig</artifactId>
+        <groupId>com.github.pig</groupId>
+        <artifactId>pig-visual</artifactId>
         <version>${pig.version}</version>
     </parent>
 

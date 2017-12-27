@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.pig</groupId>
+    <artifactId>pig-visual</artifactId>
+    <version>${pig.version}</version>
+    <packaging>pom</packaging>
+
+    <name>pig-visual</name>
+    <description>图形化管理模块</description>
+
+    <parent>
+        <artifactId>pig</artifactId>
+        <groupId>com.github</groupId>
+        <version>${pig.version}</version>
+    </parent>
+
+    <modules>
+        <module>pig-monitor</module>
+    </modules>
+</project>
