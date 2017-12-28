@@ -70,4 +70,9 @@ public interface SecurityConstants {
      * token-uservo
      */
     String TOKEN_USER_DETAIL = "token-user-detail";
+
+    /**
+     * 认证服务的SERVICEID（zuul 配置的对应）
+     */
+    String AUTH_SERVICE_ID = "auth-service";
 }

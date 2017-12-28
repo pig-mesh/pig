@@ -5,7 +5,6 @@ import com.github.pig.common.vo.MenuVo;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;

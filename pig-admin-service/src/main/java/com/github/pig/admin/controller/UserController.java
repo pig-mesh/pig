@@ -18,6 +18,9 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.util.Auth;
 import com.xiaoleilu.hutool.io.FileUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -101,6 +104,10 @@ public class UserController extends BaseController {
      * @param userDto 用户信息
      * @return R
      */
+    @ApiOperation(value="更新用户详细信息", notes="根据传过来的UserDto信息来更新用户详细信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userDto", value = "用户详细实体user", required = true, dataType = "UserDto")
+    })
     @PutMapping
     public R<Boolean> userUpdate(@RequestBody UserDto userDto) {
         SysUser user = userService.selectById(userDto.getUserId());
