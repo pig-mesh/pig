@@ -56,9 +56,7 @@
             LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
             LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
         WHERE
-            `user`.del_flag = 0
-            AND  r.del_flag = 0
-            AND `user`.username = #{username}
+           `user`.username = #{username}
     </select>
     <select id="selectUserVoPage" resultMap="userVoResultMap" >
         SELECT

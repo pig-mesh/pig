@@ -37,7 +37,7 @@ public class R<T> implements Serializable {
 
     public R(Throwable e) {
         super();
-        this.msg = e.toString();
+        this.msg = e.getMessage();
         this.code = FAIL;
     }
 

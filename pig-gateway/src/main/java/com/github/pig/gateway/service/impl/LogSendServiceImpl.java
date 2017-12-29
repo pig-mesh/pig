@@ -64,7 +64,8 @@ public class LogSendServiceImpl implements LogSendService {
         }
 
         //正常发送服务异常解析
-        if (requestContext.getResponseStatusCode() != HttpStatus.SC_OK) {
+        if (requestContext.getResponseStatusCode() != HttpStatus.SC_OK
+                && requestContext.getResponseDataStream() != null) {
             InputStream inputStream = requestContext.getResponseDataStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream stream1 = null;

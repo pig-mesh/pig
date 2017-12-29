@@ -1,19 +1,24 @@
 package com.github.pig.auth.config;
 
+import com.github.pig.auth.component.PigWebResponseExceptionTranslator;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
@@ -38,6 +43,9 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
+    @Autowired
+    private PigWebResponseExceptionTranslator pigWebResponseExceptionTranslator;
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -53,6 +61,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)
+                .exceptionTranslator(pigWebResponseExceptionTranslator)
                 .reuseRefreshTokens(false)
                 .userDetailsService(userDetailsService);
     }

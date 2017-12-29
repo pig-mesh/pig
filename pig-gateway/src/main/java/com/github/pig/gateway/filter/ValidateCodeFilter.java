@@ -1,6 +1,7 @@
 package com.github.pig.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.R;
@@ -36,6 +37,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     private boolean isValidate;
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -48,11 +51,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
                 logger.info("登录失败：{}", e.getMessage());
                 response.setCharacterEncoding(CommonConstant.UTF8);
                 response.setContentType(CommonConstant.CONTENT_TYPE);
-                R<String> result = new R<>(e.getMessage());
-                result.setCode(478);
+                R<String> result = new R<>(e);
                 response.setStatus(478);
                 printWriter = response.getWriter();
-                printWriter.append(JSONObject.toJSONString(result));
+                printWriter.append(objectMapper.writeValueAsString(result));
             } finally {
                 IOUtils.closeQuietly(printWriter);
             }

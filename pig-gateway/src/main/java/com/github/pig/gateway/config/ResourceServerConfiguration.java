@@ -1,17 +1,25 @@
 package com.github.pig.gateway.config;
 
+import com.github.pig.gateway.componet.PigAccessDeniedHandler;
 import com.github.pig.gateway.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author lengleng
@@ -24,6 +32,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
     @Autowired
     private OAuth2WebSecurityExpressionHandler expressionHandler;
+    @Autowired
+    private PigAccessDeniedHandler pigAccessDeniedHandler;
     @Autowired
     private ValidateCodeFilter validateCodeFilter;
 
@@ -40,11 +50,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     }
 
     @Override
-     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-     resources.expressionHandler(expressionHandler);
-     }
+    public void configure(ResourceServerSecurityConfigurer resources) {
+        resources.expressionHandler(expressionHandler);
+        resources.accessDeniedHandler(pigAccessDeniedHandler);
+    }
 
-     /**
+    /**
      * 配置解决 spring-security-oauth问题
      * https://github.com/spring-projects/spring-security-oauth/issues/730
      *

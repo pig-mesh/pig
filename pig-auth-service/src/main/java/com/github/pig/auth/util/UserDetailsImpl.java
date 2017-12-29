@@ -21,13 +21,13 @@ public class UserDetailsImpl implements UserDetails {
 
     private String username;
     private String password;
-    private String statusLock;
+    private String status;
     private List<SysRole> roleList = new ArrayList<>();
 
     public UserDetailsImpl(UserVo userVo) {
         this.username = userVo.getUsername();
         this.password = userVo.getPassword();
-        this.statusLock = userVo.getDelFlag();
+        this.status = userVo.getDelFlag();
         roleList = userVo.getRoleList();
     }
 
@@ -57,7 +57,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return StringUtils.equals(CommonConstant.STATUS_LOCK, statusLock) ? false : true;
+        return StringUtils.equals(CommonConstant.STATUS_LOCK, status) ? false : true;
     }
 
     @Override
@@ -67,7 +67,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return StringUtils.equals(CommonConstant.STATUS_NORMAL, status) ? false : true;
     }
 
     public void setUsername(String username) {
@@ -86,11 +86,11 @@ public class UserDetailsImpl implements UserDetails {
         this.roleList = roleList;
     }
 
-    public String getStatusLock() {
-        return statusLock;
+    public String getStatus() {
+        return status;
     }
 
-    public void setStatusLock(String statusLock) {
-        this.statusLock = statusLock;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
