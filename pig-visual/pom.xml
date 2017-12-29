@@ -18,5 +18,6 @@
 
     <modules>
         <module>pig-monitor</module>
+        <module>pig-zipkin-elk</module>
     </modules>
 </project>
