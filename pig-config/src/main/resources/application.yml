@@ -11,8 +11,6 @@ spring:
       server:
         git:
           uri: https://github.com/jieblog/pig-config.git
-        native:
-          search-locations:
 ---
 spring:
   profiles: dev
