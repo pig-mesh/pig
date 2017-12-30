@@ -67,7 +67,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return StringUtils.equals(CommonConstant.STATUS_NORMAL, status) ? false : true;
+        return StringUtils.equals(CommonConstant.STATUS_NORMAL, status) ? true : false;
     }
 
     public void setUsername(String username) {
