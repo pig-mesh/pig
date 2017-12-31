@@ -3,6 +3,7 @@ package com.github.pig.zipkin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import zipkin.server.EnableZipkinServer;
 
 /**
  * @author lengleng
@@ -11,6 +12,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableZipkinServer
 public class PigZipkinElkApplication {
 
     public static void main(String[] args) {

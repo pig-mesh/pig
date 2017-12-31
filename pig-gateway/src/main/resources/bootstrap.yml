@@ -11,7 +11,11 @@ spring:
         enabled: true
       profile: ${spring.profiles.active}
       label: master
-
+  zipkin:
+    base-url: http://localhost:5002
+  sleuth:
+    sampler:
+      percentage: 1.0
 ---
 spring:
   profiles: dev
