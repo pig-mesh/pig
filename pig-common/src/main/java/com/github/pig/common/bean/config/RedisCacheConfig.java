@@ -14,7 +14,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author lengleng
- * @date 2017/10/29
+ * @date 2017-12-31 22:59:37
+ * 增强redis
  */
 @Configuration
 @EnableCaching

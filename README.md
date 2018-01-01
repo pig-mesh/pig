@@ -10,7 +10,8 @@ pig
 ├── pig-gateway -- ZUUL网关[9999]
 └── pig-visual  -- 图形化模块 
      ├── pig-monitor -- 服务状态监控、turbine [5001]
-     └── pig-zipkin-elk -- zipkin、ELK监控[5002]
+     ├── pig-zipkin-elk -- zipkin、ELK监控[5002]
+     └── pig-cache-cloud -- 缓存管理、统一监控[5005]
 ```
     
     
