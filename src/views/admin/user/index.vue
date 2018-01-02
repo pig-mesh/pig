@@ -75,17 +75,23 @@
         <el-form-item label="用户名" prop="username">
           <el-input v-model="form.username" placeholder="请输用户名"></el-input>
         </el-form-item>
+
         <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="password">
           <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
+
         <el-form-item label="角色" prop="role">
           <el-select class="filter-item" v-model="form.role" placeholder="请选择">
-            <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId">
+            <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId" :disabled="isDisabled[item.delFlag]">
               <span style="float: left">{{ item.roleDesc }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.roleCode }}</span>
             </el-option>
           </el-select>
+          <!--<el-radio-group v-model="form.role" placeholder="请选择">-->
+            <!--<el-radio v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId"></el-radio>-->
+          <!--</el-radio-group>-->
         </el-form-item>
+
         <el-form-item label="状态" v-if="dialogStatus == 'update' && sys_user_del " prop="delFlag" >
           <el-select class="filter-item" v-model="form.delFlag" placeholder="请选择">
             <el-option v-for="item in statusOptions" :key="item" :label="item | statusFilter" :value="item"> </el-option>
@@ -107,8 +113,13 @@
   import waves from '@/directive/waves/index.js' // 水波纹指令
   // import { parseTime } from '@/utils'
   import { mapGetters } from 'vuex'
+  import ElRadioGroup from 'element-ui/packages/radio/src/radio-group';
+  import ElOption from "element-ui/packages/select/src/option";
 
   export default {
+    components: {
+      ElOption,
+      ElRadioGroup },
     name: 'table_user',
     directives: {
       waves
@@ -166,6 +177,10 @@
         textMap: {
           update: '编辑',
           create: '创建'
+        },
+        isDisabled: {
+          0: false,
+          1: true
         },
         tableKey: 0
       }

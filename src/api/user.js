@@ -32,7 +32,7 @@ export function delObj(id) {
 
 export function putObj(obj) {
   return request({
-    url: '/admin/user/',
+    url: '/admin/user',
     method: 'put',
     data: obj
   })
