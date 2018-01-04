@@ -35,7 +35,7 @@
               <el-input v-model="form.name" :disabled="formEdit"  placeholder="请输入标题"></el-input>
             </el-form-item>
             <el-form-item label="权限标识" prop="permission">
-              <el-input v-model="form.permission" :disabled="formEdit" placeholder="请输入权限表示"></el-input>
+              <el-input v-model="form.permission" :disabled="formEdit" placeholder="请输入权限标识"></el-input>
             </el-form-item>
             <el-form-item label="图标" prop="icon">
               <el-input v-model="form.icon" :disabled="formEdit" placeholder="请输入图标"></el-input>

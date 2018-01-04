@@ -1,6 +1,15 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
+      <el-select v-model="listQuery.type" filterable placeholder="请选择">
+        <el-option
+          v-for="item in dicts"
+          :key="item.value"
+          :label="item.label"
+          :value="item.value">
+        </el-option>
+      </el-select>
+      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
               highlight-current-row style="width: 100%">
@@ -8,6 +17,15 @@
       <el-table-column align="center" label="序号">
         <template slot-scope="scope">
           <span>{{scope.row.id}}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="类型" align="center">
+        <template scope="scope">
+          <span>
+                <el-button type="success" v-if="scope.row.type == 0">{{ scope.row.type | typeFilter }}</el-button>
+                <el-button type="danger" v-if="scope.row.type ==9">{{ scope.row.type | typeFilter }}</el-button>
+          </span>
         </template>
       </el-table-column>
 
@@ -49,7 +67,7 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" v-if="sys_dict_add"
+          <el-button size="mini" type="danger" v-if="sys_dict_del"
                      @click="handleDelete(scope.row)">删除
           </el-button>
         </template>
@@ -66,7 +84,8 @@
 </template>
 
 <script>
-  import { fetchList, delObj } from '@/api/log'
+  import { delObj, fetchList } from '@/api/log'
+  import { remote } from '@/api/dict'
   import waves from '@/directive/waves/index.js' // 水波纹指令
   import { mapGetters } from 'vuex'
 
@@ -81,9 +100,11 @@
         total: null,
         sys_dict_add: false,
         listLoading: true,
+        dicts:[],
         listQuery: {
           page: 1,
-          limit: 20
+          limit: 20,
+          type: undefined
         },
         tableKey: 0
       }
@@ -93,7 +114,20 @@
         'permissions'
       ])
     },
+    filters: {
+      typeFilter(type) {
+        const typeMap = {
+          0: '正常',
+          9: '异常'
+        }
+        return typeMap[type]
+      }
+    },
     created() {
+      remote('log_type').then(response => {
+        this.dicts = response.data
+      })
+      console.log(this.dicts)
       this.getList()
       this.sys_log_del = this.permissions['sys_log_del']
     },
@@ -128,7 +162,13 @@
               duration: 2000
             })
           })
+      },
+      handleFilter() {
+        this.listQuery.page = 1
+        this.getList()
       }
+
+
     }
   }
 </script>

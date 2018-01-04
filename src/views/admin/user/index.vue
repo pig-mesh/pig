@@ -81,7 +81,7 @@
         </el-form-item>
 
         <el-form-item label="角色" prop="role">
-          <el-select class="filter-item" v-model="form.role" placeholder="请选择">
+          <el-select class="filter-item" v-model="role" placeholder="请选择">
             <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId" :disabled="isDisabled[item.delFlag]">
               <span style="float: left">{{ item.roleDesc }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.roleCode }}</span>
@@ -133,11 +133,11 @@
           page: 1,
           limit: 20
         },
+        role: undefined,
         form: {
           username: undefined,
           password: undefined,
-          delFlag: undefined,
-          role: undefined
+          delFlag: undefined
         },
         rules: {
           username: [
@@ -194,7 +194,8 @@
       statusFilter(status) {
         const statusMap = {
           0: '有效',
-          1: '无效'
+          1: '无效',
+          9: '锁定'
         }
         return statusMap[status]
       }
@@ -241,7 +242,7 @@
         getObj(row.userId)
           .then(response => {
             this.form = response.data
-            this.form.role = row.roleList[0].roleId
+            this.role = row.roleList[0].roleId
             this.dialogFormVisible = true
             this.dialogStatus = 'update'
           })
@@ -254,6 +255,7 @@
         const set = this.$refs
         set[formName].validate(valid => {
           if (valid) {
+            this.form.role = this.role
             addObj(this.form)
               .then(() => {
                 this.dialogFormVisible = false
@@ -280,6 +282,7 @@
           if (valid) {
             this.dialogFormVisible = false
             this.form.password = undefined
+            this.form.role = this.role
             putObj(this.form).then(() => {
               this.dialogFormVisible = false
               this.getList()

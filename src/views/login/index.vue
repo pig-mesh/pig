@@ -17,6 +17,22 @@
           placeholder="密码"></el-input>
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
+
+      <input name="randomStr" type="hidden" v-model="loginForm.randomStr" />
+      <el-form-item>
+        <el-col :span="2">
+          <span class="svg-container">
+          <icon-svg icon-class="form"/>
+        </span>
+        </el-col>
+        <el-col :span="11">
+          <el-input name="code" type="text" v-model="loginForm.code" autoComplete="on" placeholder="验证码"/>
+        </el-col>
+        <el-col :span="10" align="right">
+          <img :src="src" style="padding-bottom: 1px" @click="refreshCode"/>
+        </el-col>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
           登陆
@@ -40,19 +56,27 @@ export default {
       }
     }
     return {
+      src: '',
       loginForm: {
         username: null,
-        password: null
+        password: null,
+        code: '',
+        randomStr: Math.ceil(Math.random() * 100000) + "_" + Date.now()
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        password: [{ required: true, trigger: 'blur', validator: validatePass }],
+        code: [{ required: true, trigger: 'blur' }],
       },
       loading: false,
       pwdType: 'password'
     }
   },
   methods: {
+    refreshCode: function() {
+      this.loginForm.randomStr = Math.ceil(Math.random() * 100000) + Date.now()
+      this.src = '/admin/code/' + this.loginForm.randomStr
+    },
     showPwd() {
       if (this.pwdType === 'password') {
         this.pwdType = ''
@@ -69,13 +93,17 @@ export default {
             this.$router.push({ path: '/' })
           }).catch(() => {
             this.loading = false
+            this.refreshCode()
           })
         } else {
-          console.log('error submit!!')
+          console.log('想搞事情？？')
           return false
         }
       })
     }
+  },
+  created() {
+    this.src = '/admin/code/' + this.loginForm.randomStr
   }
 }
 </script>

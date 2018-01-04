@@ -22,16 +22,37 @@ service.interceptors.request.use(config => {
 
 // respone拦截器
 service.interceptors.response.use(
-  response => response,
+  response => {
+    const res = response.data
+    console.log(res)
+    if (res.code == 1) {
+      message(res.msg, 'error')
+      return Promise.reject(res)
+    }
+    return response
+  },
   error => {
     const res = error.response
-    Message({
-      message: res.status + '： ' + res.data.error,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    console.log(res.status)
+    if (res.status == 478 || res.status == 403) {
+      message(res.status + "： " + res.data.msg, 'error')
+    } else if (res.status == 400) {
+      message(res.status + "： " + res.data.error_description, 'error')
+    } else {
+      message(res.status + "： " + res.data.message, 'error')
+    }
     return Promise.reject(error)
   }
 )
+
+
+export function message(text, type) {
+  Message({
+    message: text,
+    type: type,
+    duration: 5 * 1000
+  })
+}
+
 
 export default service

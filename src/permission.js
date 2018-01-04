@@ -22,12 +22,12 @@ router.beforeEach((to, from, next) => { // 开启Progress
     } else {
       if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          const roles = res.data.roles
+          const roles = res.data.data.roles
           store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
             router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
             next({ ...to }) // hack方法 确保addRoutes已完成
           })
-        }).catch(() => {
+        }).catch((e) => {
           store.dispatch('FedLogOut').then(() => {
             Message.error('验证失败,请重新登录')
             next({ path: '/login' })

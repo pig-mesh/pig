@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function login(username, password) {
+export function login(username, password, randomStr, code) {
   var grant_type = 'password'
   var scope = 'server'
   return request({
@@ -9,7 +9,7 @@ export function login(username, password) {
       'Authorization': 'Basic cGlnOnBpZw=='
     },
     method: 'post',
-    params: { username, password, grant_type, scope }
+    params: { username, password, randomStr, code, grant_type, scope }
   })
 }
 
