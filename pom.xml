@@ -9,18 +9,14 @@
     <version>${pig.version}</version>
     <packaging>pom</packaging>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.9.RELEASE</version>
-        <relativePath/>
-    </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <pig.version>1.0-ALPHA</pig.version>
+
+        <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
+        <spring-cloud.version>Dalston.SR4</spring-cloud.version>
     </properties>
 
     <!--公共依赖-->
@@ -68,13 +64,45 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR4</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring-boot.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <target>${java.version}</target>
+                        <source>${java.version}</source>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>3.3.0.603</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
