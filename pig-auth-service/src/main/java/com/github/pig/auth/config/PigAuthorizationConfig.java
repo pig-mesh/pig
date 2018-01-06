@@ -6,6 +6,7 @@ import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +30,7 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  */
 
 @Configuration
+@Order(Integer.MIN_VALUE)
 @EnableAuthorizationServer
 public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter {
     @Autowired

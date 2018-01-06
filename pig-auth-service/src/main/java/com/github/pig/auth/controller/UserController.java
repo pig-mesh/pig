@@ -4,7 +4,6 @@ import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.bind.annotation.PostMapping;

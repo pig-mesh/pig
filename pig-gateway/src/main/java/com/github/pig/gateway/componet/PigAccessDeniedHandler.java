@@ -1,6 +1,5 @@
 package com.github.pig.gateway.componet;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;

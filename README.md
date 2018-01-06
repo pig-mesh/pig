@@ -36,6 +36,7 @@ pig
       ■ 缓存服务(CacheCloud)
       ■ 分布式数据访问层(ShardingJDBC)
       ■ 统一认证服务 (Spring Cloud Oauth 2.0)
+      ■ 代码自动生成 (Velocity Template)
   ○ 持续交付
       ■ 持续集成，多环境和发布流水线
       ■ 蓝绿、金丝雀和灰度发布
