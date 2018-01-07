@@ -3,11 +3,13 @@ package com.github.pig.gateway;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author lengleng
@@ -37,4 +39,9 @@ public class PigGatewayApplication {
 //        urlBasedCorsConfigurationSource.registerCorsConfiguration("/**", corsConfiguration);
 //        return new CorsFilter(urlBasedCorsConfigurationSource);
 //    }
+
+    @Bean
+    LoadBalancerInterceptor loadBalancerInterceptor(LoadBalancerClient loadBalance){
+        return new LoadBalancerInterceptor(loadBalance);
+    }
 }
