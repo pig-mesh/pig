@@ -104,6 +104,7 @@ public class RoleController extends BaseController {
      */
     @PutMapping("/roleMenuUpd")
     public R<Boolean> roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
-        return new R<>(sysRoleMenuService.insertRoleMenus(getRole().get(0),roleId,menuIds));
+        SysRole sysRole = sysRoleService.selectById(roleId);
+        return new R<>(sysRoleMenuService.insertRoleMenus(sysRole.getRoleCode(), roleId, menuIds));
     }
 }
