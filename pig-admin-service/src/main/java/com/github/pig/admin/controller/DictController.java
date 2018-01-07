@@ -7,8 +7,10 @@ import com.github.pig.admin.entity.SysDict;
 import com.github.pig.admin.service.SysDictService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,13 +45,13 @@ public class DictController extends BaseController {
     /**
      * 分页查询字典信息
      *
-     * @param params  分页对象
+     * @param params 分页对象
      * @return 分页对象
      */
     @RequestMapping("/dictPage")
     public Page dictPage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysDictService.selectPage(new Query<>(params),new EntityWrapper<>());
+        return sysDictService.selectPage(new Query<>(params), new EntityWrapper<>());
     }
 
     /**
@@ -67,4 +69,16 @@ public class DictController extends BaseController {
         return sysDictService.selectList(new EntityWrapper<>(condition));
     }
 
+    /**
+     * 删除字典，并且清除字典缓存
+     *
+     * @param id   ID
+     * @param type 类型
+     * @return R
+     */
+    @DeleteMapping("/{id}/{type}")
+    @CacheEvict(value = "dict_details", key = "#type")
+    public R<Boolean> deleteDict(@PathVariable Integer id, @PathVariable String type) {
+        return new R<>(sysDictService.deleteById(id));
+    }
 }
