@@ -1,25 +1,21 @@
 package com.github.pig.gateway.config;
 
+import com.github.pig.gateway.componet.MobileLoginSuccessHandler;
 import com.github.pig.gateway.componet.PigAccessDeniedHandler;
 import com.github.pig.gateway.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author lengleng
@@ -35,11 +31,16 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Autowired
     private PigAccessDeniedHandler pigAccessDeniedHandler;
     @Autowired
+    private MobileLoginSuccessHandler mobileLoginSuccessHandler;
+    @Autowired
     private ValidateCodeFilter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        http.formLogin()
+                .loginProcessingUrl("/mobile/login")
+                .successHandler(mobileLoginSuccessHandler);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
         for (String url : filterUrlsPropertiesConifg.getAnon()) {
@@ -69,4 +70,12 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         return expressionHandler;
     }
 
+    /**
+     * 加密方式
+     * @return
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 }
