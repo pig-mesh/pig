@@ -42,6 +42,7 @@ pig
       ■ 蓝绿、金丝雀和灰度发布
 ```  
 欢迎加入QQ交流群，互相学习  
+一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
 ### 详细说明 wiki
