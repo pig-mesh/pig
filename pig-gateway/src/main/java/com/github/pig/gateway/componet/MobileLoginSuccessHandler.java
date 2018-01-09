@@ -45,7 +45,7 @@ public class MobileLoginSuccessHandler implements org.springframework.security.w
             assert tokens.length == 2;
             String clientId = tokens[0];
             String clientSecret = tokens[1];
-            OAuth2AccessToken oAuth2AccessToken = authSerivce.createToken(clientId,clientSecret,authentication);
+            OAuth2AccessToken oAuth2AccessToken = authSerivce.createToken(clientId);
         } catch (IOException e) {
             throw new BadCredentialsException(
                     "Failed to decode basic authentication token");

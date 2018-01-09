@@ -54,23 +54,22 @@ public class UserController {
     /**
      * 自定义token
      *
-     * @param clientId       clientId
-     * @param clientSecret   clientSecret
-     * @param authentication authentication
+     * @param params 参数信息
      * @return OAuth2AccessToken
      */
     @RequestMapping(value = "/oauth/token_key")
-    public OAuth2AccessToken getKey(String clientId, String clientSecret, Authentication authentication) {
-        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
-        if (clientDetails == null) {
-            throw new UnapprovedClientAuthenticationException("请求头中client信息不存在 clientId:" + clientId);
-        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
-            throw new UnapprovedClientAuthenticationException("请求头中client信息不合法 clientSecret:" + clientSecret);
-        }
-
-        TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
-        OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
-        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-        return authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+    public OAuth2AccessToken getKey(String params) {
+        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(params);
+//        if (clientDetails == null) {
+//            throw new UnapprovedClientAuthenticationException("请求头中client信息不存在 clientId:" + clientId);
+//        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+//            throw new UnapprovedClientAuthenticationException("请求头中client信息不合法 clientSecret:" + clientSecret);
+//        }
+//
+//        TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
+//        OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+//        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+//        return authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        return null;
     }
 }
