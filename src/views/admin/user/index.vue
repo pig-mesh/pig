@@ -6,7 +6,6 @@
       </el-input>
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button v-if="sys_user_add" class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加</el-button>
-      <!--<el-button class="filter-item" type="primary" icon="document" @click="handleDownload">导出</el-button>-->
     </div>
 
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit
@@ -20,11 +19,10 @@
 
       <el-table-column align="center" label="用户名">
         <template slot-scope="scope">
-          <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>-->
-          <span v-if="scope.row.avatar">
-            <img class="user-avatar" style="width: 20px; height: 20px; border-radius: 50%;" :src="scope.row.avatar+'?imageView2/1/w/20/h/20'">
+          <span>
+            <img v-if="scope.row.avatar" class="user-avatar" style="width: 20px; height: 20px; border-radius: 50%;" :src="scope.row.avatar+'?imageView2/1/w/20/h/20'">
+            {{scope.row.username}}
           </span>
-          <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>
 
