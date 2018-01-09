@@ -1,5 +1,6 @@
 package com.github.pig.gateway.config;
 
+import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
 import com.github.pig.gateway.componet.MobileLoginSuccessHandler;
 import com.github.pig.gateway.componet.PigAccessDeniedHandler;
 import com.github.pig.gateway.filter.ValidateCodeFilter;

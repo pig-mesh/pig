@@ -1,19 +1,19 @@
-package com.github.pig.gateway.config;
+package com.github.pig.common.bean.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author lengleng
- * @date 2017/12/6
+ * @date 2018/1/9
  */
 @Configuration
-@ConfigurationProperties(prefix = "filter.urls")
+@ConditionalOnExpression("!'${urls}'.isEmpty()")
+@ConfigurationProperties(prefix = "urls")
 public class FilterUrlsPropertiesConifg {
     private List<String> anon = new ArrayList<>();
 
