@@ -20,7 +20,10 @@
 
       <el-table-column align="center" label="用户名">
         <template slot-scope="scope">
-          <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
+          <!--<span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>-->
+          <span v-if="scope.row.avatar">
+            <img class="user-avatar" style="width: 20px; height: 20px; border-radius: 50%;" :src="scope.row.avatar+'?imageView2/1/w/20/h/20'">
+          </span>
           <span>{{scope.row.username}}</span>
         </template>
       </el-table-column>

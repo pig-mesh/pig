@@ -39,7 +39,7 @@ export function putObj(obj) {
 }
 
 export function remote(type) {
-  return fetch({
+  return request({
     url: '/admin/dict/type/' + type,
     method: 'get'
   })

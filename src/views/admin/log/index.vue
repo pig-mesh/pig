@@ -21,7 +21,7 @@
       </el-table-column>
 
       <el-table-column label="类型" align="center">
-        <template scope="scope">
+        <template slot-scope="scope">
           <span>
                 <el-button type="success" v-if="scope.row.type == 0">{{ scope.row.type | typeFilter }}</el-button>
                 <el-button type="danger" v-if="scope.row.type ==9">{{ scope.row.type | typeFilter }}</el-button>
