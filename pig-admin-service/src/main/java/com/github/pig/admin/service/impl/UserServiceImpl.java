@@ -15,6 +15,9 @@ import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
+import com.xiaoleilu.hutool.util.RandomUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -35,6 +38,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements UserService {
+    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private SysMenuService sysMenuService;
@@ -56,7 +60,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
         //设置角色列表
         List<SysRole> roleList = userVo.getRoleList();
         List<String> roleNames = new ArrayList<>();
-        for (SysRole sysRole:roleList){
+        for (SysRole sysRole : roleList) {
             roleNames.add(sysRole.getRoleName());
         }
         String[] roles = roleNames.toArray(new String[roleNames.size()]);
@@ -73,6 +77,18 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
         return sysUserMapper.selectUserVoByUsername(username);
     }
 
+    /**
+     * 通过手机号查询用户信息
+     *
+     * @param mobile 手机号
+     * @return 用户信息
+     */
+    @Override
+    @Cacheable(value = "user_details_mobile", key = "#mobile")
+    public UserVo findUserByMobile(String mobile) {
+        return sysUserMapper.selectUserVoByMobile(mobile);
+    }
+
     @Override
     public Page selectWithRolePage(Query query) {
         query.setRecords(sysUserMapper.selectUserVoPage(query, query.getCondition()));
@@ -86,8 +102,32 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
      * @param imageCode 验证码信息
      */
     @Override
-    public void save(String randomStr, String imageCode) {
+    public void saveImageCode(String randomStr, String imageCode) {
         redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + randomStr, imageCode, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
+    }
+
+    /**
+     * 发送验证码
+     * <p>
+     * 1. 先去redis 查询是否 60S内已经发送
+     * 2. 未发送： 产生4位数字  手机号-验证码
+     * 3. 调用短信网关发送信息
+     * 4. 保存redis
+     *
+     * @param mobile 手机号
+     * @return true、false
+     */
+    @Override
+    public Boolean sendSmsCode(String mobile) {
+        Object tempCode = redisTemplate.opsForValue().get(SecurityConstants.DEFAULT_CODE_KEY + mobile);
+        boolean result = false;
+        if (tempCode == null) {
+            String code = RandomUtil.randomNumbers(4);
+            logger.info("短信发送成功 -> 手机号:{} -> 验证码：{}", mobile, code);
+            redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
+            result = true;
+        }
+        return result;
     }
 
     /**

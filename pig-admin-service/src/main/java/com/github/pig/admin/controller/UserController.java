@@ -104,7 +104,7 @@ public class UserController extends BaseController {
      * @param userDto 用户信息
      * @return R
      */
-    @ApiOperation(value="更新用户详细信息", notes="根据传过来的UserDto信息来更新用户详细信息")
+    @ApiOperation(value = "更新用户详细信息", notes = "根据传过来的UserDto信息来更新用户详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userDto", value = "用户详细实体user", required = true, dataType = "UserDto")
     })
@@ -123,6 +123,17 @@ public class UserController extends BaseController {
     @GetMapping("/findUserByUsername/{username}")
     public UserVo findUserByUsername(@PathVariable String username) {
         return userService.findUserByUsername(username);
+    }
+
+    /**
+     * 通过手机号查询用户及其角色信息
+     *
+     * @param mobile 手机号
+     * @return UseVo 对象
+     */
+    @GetMapping("/findUserByMobile/{mobile}")
+    public UserVo findUserByMobile(@PathVariable String mobile) {
+        return userService.findUserByMobile(mobile);
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.github.pig.gateway.filter;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
@@ -28,7 +27,6 @@ import java.io.PrintWriter;
  * @date 2017-12-18
  * 验证码校验，true开启，false关闭校验
  * 更细化可以 clientId 进行区分
- *
  */
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter {
@@ -43,7 +41,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (isValidate && (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
-                || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN))) {
+                || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN)
+                || StringUtils.contains(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL))) {
             PrintWriter printWriter = null;
             try {
                 checkCode(request, response, filterChain);
@@ -66,10 +65,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     private void checkCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
         String code = httpServletRequest.getParameter("code");
         String randomStr = httpServletRequest.getParameter("randomStr");
+        if (StringUtils.isBlank(randomStr)) {
+            randomStr = httpServletRequest.getParameter("mobile");
+        }
         Object codeObj = redisTemplate.opsForValue().get(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
 
         if (codeObj == null) {
-            throw new ValidateCodeException("验证码已过期或已过期");
+            throw new ValidateCodeException("验证码为空或已过期");
         }
         String saveCode = codeObj.toString();
 

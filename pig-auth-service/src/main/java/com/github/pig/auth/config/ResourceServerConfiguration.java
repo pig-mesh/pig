@@ -1,5 +1,7 @@
 package com.github.pig.auth.config;
 
+import com.github.pig.auth.component.MobileAuthenticationFilter;
+import com.github.pig.auth.component.MobileSecurityConfigurer;
 import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.R
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Autowired
     private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
+    @Autowired
+    private MobileSecurityConfigurer mobileSecurityConfigurer;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -29,6 +33,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         registry.anyRequest().authenticated()
                 .and()
                 .csrf().disable();
+        http.apply(mobileSecurityConfigurer);
     }
 
 }

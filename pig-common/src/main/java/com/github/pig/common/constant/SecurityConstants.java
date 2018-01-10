@@ -20,9 +20,19 @@ public interface SecurityConstants {
     String OAUTH_TOKEN_URL = "/oauth/token";
 
     /**
+     * 手机登录URL
+     */
+    String MOBILE_TOKEN_URL = "/mobile/token";
+
+    /**
      * 默认的处理验证码的url前缀
      */
     String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
+
+    /**
+     * 手机号的处理验证码的url前缀
+     */
+    String MOBILE_VALIDATE_CODE_URL_PREFIX = "/smsCode";
 
     /**
      * 默认生成图形验证码宽度

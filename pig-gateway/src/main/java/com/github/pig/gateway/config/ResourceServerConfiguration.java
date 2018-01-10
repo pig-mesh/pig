@@ -1,7 +1,6 @@
 package com.github.pig.gateway.config;
 
 import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
-import com.github.pig.gateway.componet.MobileLoginSuccessHandler;
 import com.github.pig.gateway.componet.PigAccessDeniedHandler;
 import com.github.pig.gateway.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,16 +31,11 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Autowired
     private PigAccessDeniedHandler pigAccessDeniedHandler;
     @Autowired
-    private MobileLoginSuccessHandler mobileLoginSuccessHandler;
-    @Autowired
     private ValidateCodeFilter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
-        http.formLogin()
-                .loginProcessingUrl("/mobile/login")
-                .successHandler(mobileLoginSuccessHandler);
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
         for (String url : filterUrlsPropertiesConifg.getAnon()) {

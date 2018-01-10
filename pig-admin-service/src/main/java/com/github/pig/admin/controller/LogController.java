@@ -47,7 +47,6 @@ public class LogController extends BaseController {
      */
     @DeleteMapping("/{id}")
     public R<Boolean> delete(@PathVariable Integer id) {
-        int o = 11 / 0;
         return new R<>(sysLogService.updateByLogId(id));
     }
 }

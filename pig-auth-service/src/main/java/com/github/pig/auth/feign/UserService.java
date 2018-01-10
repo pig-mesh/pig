@@ -20,4 +20,13 @@ public interface UserService {
      */
     @GetMapping("/user/findUserByUsername/{username}")
     UserVo findUserByUsername(@PathVariable("username") String username);
+
+    /**
+     * 通过手机号查询用户、角色信息
+     *
+     * @param mobile 手机号
+     * @return UserVo
+     */
+    @GetMapping("/user/findUserByMobile/{mobile}")
+    UserVo findUserByMobile(@PathVariable("mobile") String mobile);
 }

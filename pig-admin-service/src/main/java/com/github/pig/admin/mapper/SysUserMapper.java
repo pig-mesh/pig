@@ -33,4 +33,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return list
      */
     List selectUserVoPage(Query query, Map<String, Object> params);
+
+    /**
+     * 通过手机号查询用户信息（含有角色信息）
+     *
+     * @param mobile 用户名
+     * @return userVo
+     */
+    UserVo selectUserVoByMobile(String mobile);
 }

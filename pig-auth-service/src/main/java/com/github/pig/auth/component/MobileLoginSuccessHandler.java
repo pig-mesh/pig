@@ -1,18 +1,25 @@
-package com.github.pig.gateway.componet;
+package com.github.pig.auth.component;
 
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
-import com.github.pig.gateway.feign.AuthSerivce;
+import com.xiaoleilu.hutool.util.MapUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+import org.springframework.security.oauth2.provider.*;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @author lengleng
@@ -21,8 +28,13 @@ import java.io.IOException;
  */
 @Component
 public class MobileLoginSuccessHandler implements org.springframework.security.web.authentication.AuthenticationSuccessHandler {
+    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    private AuthSerivce authSerivce;
+    private ObjectMapper objectMapper;
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+    @Autowired
+    private AuthorizationServerTokenServices authorizationServerTokenServices;
 
     /**
      * Called when a user has been successfully authenticated.
@@ -45,7 +57,24 @@ public class MobileLoginSuccessHandler implements org.springframework.security.w
             assert tokens.length == 2;
             String clientId = tokens[0];
             String clientSecret = tokens[1];
-            OAuth2AccessToken oAuth2AccessToken = authSerivce.createToken(clientId);
+
+            JSONObject params = new JSONObject();
+            params.put("clientId", clientId);
+            params.put("clientSecret", clientSecret);
+            params.put("authentication", authentication);
+
+            ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+            TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
+            OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+
+            OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+            OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+            logger.info("获取token 成功：{}", oAuth2AccessToken.getValue());
+
+            response.setCharacterEncoding(CommonConstant.UTF8);
+            response.setContentType(CommonConstant.CONTENT_TYPE);
+            PrintWriter printWriter = response.getWriter();
+            printWriter.append(objectMapper.writeValueAsString(oAuth2AccessToken));
         } catch (IOException e) {
             throw new BadCredentialsException(
                     "Failed to decode basic authentication token");

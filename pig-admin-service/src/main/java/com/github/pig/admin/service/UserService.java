@@ -41,7 +41,7 @@ public interface UserService extends IService<SysUser> {
      * 保存验证码
      *  @param randomStr 随机串
      * @param imageCode 验证码*/
-    void save(String randomStr, String imageCode);
+    void saveImageCode(String randomStr, String imageCode);
 
     /**
      * 删除用户
@@ -65,4 +65,18 @@ public interface UserService extends IService<SysUser> {
      * @return
      */
     Boolean updateUser(UserDto userDto, String username);
+
+    /**
+     * 通过手机号查询用户信息
+     * @param mobile 手机号
+     * @return 用户信息
+     */
+    UserVo findUserByMobile(String mobile);
+
+    /**
+     * 发送验证码
+     * @param mobile 手机号
+     * @return true、false
+     */
+    Boolean sendSmsCode(String mobile);
 }
