@@ -31,6 +31,7 @@ pig
       ■ 限流熔断和Hystrix
       ■ 服务限流 Zuul-Ratelimit
   ○ 后台服务
+      ■ 分布式文件系统(HDFS)
       ■ 消息服务MQ(RabbitMQ)
       ■ 任务调度Job(Elastic-job)
       ■ 缓存服务(CacheCloud)
