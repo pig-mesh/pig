@@ -1,6 +1,5 @@
 package com.github.pig.auth.config;
 
-import com.github.pig.auth.component.MobileAuthenticationFilter;
 import com.github.pig.auth.component.MobileSecurityConfigurer;
 import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
 import org.springframework.beans.factory.annotation.Autowired;
