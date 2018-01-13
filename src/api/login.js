@@ -13,6 +13,19 @@ export function login(username, password, randomStr, code) {
   })
 }
 
+export function mobileLogin(mobile, code) {
+  var grant_type = 'mobile'
+  var scope = 'server'
+  return request({
+    url: '/auth/mobile/token',
+    headers: {
+      'Authorization': 'Basic cGlnOnBpZw=='
+    },
+    method: 'post',
+    params: { mobile, code, grant_type, scope }
+  })
+}
+
 export function getInfo(token) {
   return request({
     url: '/admin/user/info',

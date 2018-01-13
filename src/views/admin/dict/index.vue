@@ -175,7 +175,7 @@
         this.getList()
       },
       handleDelete(row) {
-        delObj(row.id)
+        delObj(row)
           .then(response => {
             this.dialogFormVisible = false
             this.getList()

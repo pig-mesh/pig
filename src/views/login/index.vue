@@ -18,50 +18,85 @@
           <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
       </el-form-item>
 
-      <input name="randomStr" type="hidden" v-model="loginForm.randomStr" />
-      <el-form-item>
-        <el-col :span="2">
+          <input name="randomStr" type="hidden" v-model="loginForm.randomStr" />
+          <el-form-item>
+            <el-col :span="2">
           <span class="svg-container">
-          <icon-svg icon-class="form"/>
-        </span>
-        </el-col>
-        <el-col :span="11">
-          <el-input name="code" type="text" v-model="loginForm.code" @keyup.enter.native="handleLogin" autoComplete="on" placeholder="验证码"/>
-        </el-col>
-        <el-col :span="10" align="right">
-          <img :src="src" style="padding-bottom: 1px" @click="refreshCode"/>
-        </el-col>
-      </el-form-item>
+            <svg-icon icon-class="code"/>
+          </span>
+            </el-col>
+            <el-col :span="11">
+              <el-input name="code" type="text" v-model="loginForm.code" autoComplete="on" placeholder="验证码"/>
+            </el-col>
+            <el-col :span="10" align="right">
+              <img :src="src" style="padding-bottom: 1px" @click="refreshCode"/>
+            </el-col>
+          </el-form-item>
 
-      <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          登陆
-        </el-button>
-      </el-form-item>
+          <el-form-item>
+            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+              登陆
+            </el-button>
+          </el-form-item>
+        </el-tab-pane>
+        <el-tab-pane label="短信登录" name="second">
+          <el-form-item prop="mobile">
+            <span class="svg-container svg-container_login">
+              <svg-icon icon-class="mobile" />
+            </span>
+            <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="手机号" />
+          </el-form-item>
+          <el-form-item>
+            <el-col :span="2">
+              <span class="svg-container">
+                <svg-icon icon-class="code"/>
+              </span>
+            </el-col>
+            <el-col :span="11">
+              <el-input name="smsCode" type="text" v-model="loginForm.smsCode" autoComplete="on" placeholder="验证码"/>
+            </el-col>
+            <el-col :span="10" align="right">
+              <a @click="getMobileCode">{{text}}</a>
+            </el-col>
+          </el-form-item>
+
+          <el-form-item>
+            <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleMobileLogin">
+              登陆
+            </el-button>
+          </el-form-item>
+        </el-tab-pane>
+      </el-tabs>
     </el-form>
   </div>
 </template>
 
 <script>
 // import { isvalidUsername } from '@/utils/validate'
+import request from '@/utils/request'
 
 export default {
   name: 'login',
   data() {
     const validatePass = (rule, value, callback) => {
-      if (value.length < 6) {
+      if (!value || value.length < 6) {
         callback(new Error('密码不能小于6位'))
       } else {
         callback()
       }
     }
     return {
+      time: 60,
+      timeFlag: false,
+      activeName: 'first',
       src: '',
       loginForm: {
         username: null,
         password: null,
         code: '',
-        randomStr: Math.ceil(Math.random() * 100000) + "_" + Date.now()
+        randomStr: Math.ceil(Math.random() * 100000) + '_' + Date.now(),
+        mobile: null,
+        smsCode: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
@@ -100,6 +135,55 @@ export default {
           return false
         }
       })
+    },
+    handleMobileLogin() {
+      this.loading = true
+      if (!this.loginForm.smsCode || this.loginForm.smsCode.length !== 4) {
+        this.$message.error('验证码不合法')
+      }
+      this.$store.dispatch('MobileLogin', this.loginForm).then(() => {
+        this.loading = false
+        this.$router.push({ path: '/' })
+      }).catch(() => {
+        this.loading = false
+      })
+    },
+    getMobileCode: function() {
+      if (!this.loginForm.mobile) {
+        this.$message.error('请输入手机号码')
+      } else if (!(/^1[34578]\d{9}$/.test(this.loginForm.mobile))) {
+        this.$message.error('手机号格式不正确')
+      } else {
+        request({
+          url: '/admin/smsCode/' + this.loginForm.mobile,
+          method: 'get'
+        }).then(response => {
+          if (response.data) {
+            this.timer()
+            this.$message.success('验证码发送成功')
+          } else {
+            this.$message.error('验证码发送失败')
+          }
+        })
+      }
+    },
+    timer: function() {
+      if (this.time > 0) {
+        this.timeFlag = true
+        this.time--
+        setTimeout(this.timer, 1000)
+      } else {
+        this.timeFlag = false
+      }
+    }
+  },
+  computed: {
+    text: function() {
+      if (this.timeFlag === false) {
+        return '获取验证码'
+      } else {
+        return this.time > 0 ? this.time + 's' : '重新获取'
+      }
     }
   },
   created() {
@@ -114,9 +198,15 @@ export default {
   $dark_gray:#889aa4;
   $light_gray:#eee;
 
-  .login-container {
+.login-container {
     @include relative;
     height: 100vh;
+  .el-tabs__item{
+    color:#fff;
+  }
+  .el-tabs__item.is-active {
+    color: #409EFF;
+  }
     background-color: $bg;
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;

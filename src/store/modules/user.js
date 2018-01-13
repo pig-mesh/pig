@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/login'
+import { login, mobileLogin, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const user = {
@@ -50,7 +50,21 @@ const user = {
         })
       })
     },
-
+    // 手机登录
+    MobileLogin({ commit }, userInfo) {
+      const mobile = userInfo.mobile.trim()
+      return new Promise((resolve, reject) => {
+        mobileLogin(mobile, userInfo.smsCode).then(response => {
+          const data = response.data
+          setToken(data.access_token)
+          commit('SET_TOKEN', data.access_token)
+          commit('SET_REFRESH_TOKEN', data.refresh_token)
+          resolve()
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {

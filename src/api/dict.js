@@ -23,9 +23,9 @@ export function getObj(id) {
   })
 }
 
-export function delObj(id) {
+export function delObj(row) {
   return request({
-    url: '/admin/user/' + id,
+    url: '/admin/dict/' + row.id + '/' + row.type,
     method: 'delete'
   })
 }
