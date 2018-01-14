@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.pig</groupId>
-	<artifactId>pig-auth-service</artifactId>
+	<artifactId>pig-auth</artifactId>
 	<version>${pig.version}</version>
 	<packaging>jar</packaging>
 
-	<name>pig-auth-service</name>
+	<name>pig-auth</name>
 	<description>jwt 认证服务</description>
 
 	<parent>

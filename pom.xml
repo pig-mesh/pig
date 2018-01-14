@@ -45,13 +45,13 @@
     </dependencies>
 
     <modules>
+        <module>pig-auth</module>
+        <module>pig-config</module>
         <module>pig-common</module>
         <module>pig-eureka</module>
-        <module>pig-config</module>
-        <module>pig-visual</module>
         <module>pig-gateway</module>
-        <module>pig-auth-service</module>
-        <module>pig-admin-service</module>
+        <module>pig-modules</module>
+        <module>pig-visual</module>
     </modules>
 
     <dependencyManagement>
