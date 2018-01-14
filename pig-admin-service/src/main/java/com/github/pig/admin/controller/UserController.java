@@ -6,18 +6,15 @@ import com.github.pig.admin.dto.UserInfo;
 import com.github.pig.admin.entity.SysUser;
 import com.github.pig.admin.entity.SysUserRole;
 import com.github.pig.admin.service.UserService;
-import com.github.pig.common.bean.config.QiniuPropertiesConfig;
+import com.github.pig.common.bean.config.FdfsPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
 import com.github.pig.common.vo.UserVo;
 import com.github.pig.common.web.BaseController;
-import com.qiniu.common.Zone;
-import com.qiniu.storage.Configuration;
-import com.qiniu.storage.UploadManager;
-import com.qiniu.util.Auth;
+import com.luhuiguo.fastdfs.domain.StorePath;
+import com.luhuiguo.fastdfs.service.FastFileStorageClient;
 import com.xiaoleilu.hutool.io.FileUtil;
-import com.xiaoleilu.hutool.util.RandomUtil;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,9 +38,11 @@ import java.util.Map;
 public class UserController extends BaseController {
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
+    private FastFileStorageClient fastFileStorageClient;
+    @Autowired
     private UserService userService;
     @Autowired
-    private QiniuPropertiesConfig qiniuPropertiesConfig;
+    private FdfsPropertiesConfig fdfsPropertiesConfig;
 
 
     /**
@@ -157,19 +157,14 @@ public class UserController extends BaseController {
     @PostMapping("/upload")
     public Map<String, String> upload(@RequestParam("file") MultipartFile file) {
         String fileExt = FileUtil.extName(file.getOriginalFilename());
-        Configuration cfg = new Configuration(Zone.zone0());
-        UploadManager uploadManager = new UploadManager(cfg);
-        String key = RandomUtil.randomUUID() + "." + fileExt;
-        Auth auth = Auth.create(qiniuPropertiesConfig.getAccessKey(), qiniuPropertiesConfig.getSecretKey());
-        String upToken = auth.uploadToken(qiniuPropertiesConfig.getBucket());
+        Map<String, String> resultMap = new HashMap<>(1);
         try {
-            uploadManager.put(file.getInputStream(), key, upToken, null, null);
-        } catch (Exception e) {
+            StorePath storePath = fastFileStorageClient.uploadFile(file.getBytes(),fileExt);
+            resultMap.put("filename", fdfsPropertiesConfig.getFileHost() + storePath.getFullPath());
+        } catch (IOException e) {
             logger.error("文件上传异常", e);
             throw new RuntimeException(e);
         }
-        Map<String, String> resultMap = new HashMap<>(1);
-        resultMap.put("filename", qiniuPropertiesConfig.getQiniuHost() + key);
         return resultMap;
     }
 
