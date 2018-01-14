@@ -1,24 +1,28 @@
 <template>
   <div class="login-container">
-    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
-      class="card-box login-form">
+    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left"
+             label-width="0px"
+             class="card-box login-form">
       <h3 class="title">系统登录</h3>
-      <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名" />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
-        </span>
-        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="密码"></el-input>
-          <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
-      </el-form-item>
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="账号登录" name="first">
+          <el-form-item prop="username">
+            <span class="svg-container svg-container_login">
+              <svg-icon icon-class="user"/>
+            </span>
+            <el-input name="username" type="text" v-model="loginForm.username" autoComplete="on" placeholder="用户名"/>
+          </el-form-item>
+          <el-form-item prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password"></svg-icon>
+            </span>
+              <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password"
+                        autoComplete="on"
+                      placeholder="密码"></el-input>
+            <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye"/></span>
+          </el-form-item>
 
-          <input name="randomStr" type="hidden" v-model="loginForm.randomStr" />
+          <input name="randomStr" type="hidden" v-model="loginForm.randomStr"/>
           <el-form-item>
             <el-col :span="2">
           <span class="svg-container">
@@ -42,9 +46,9 @@
         <el-tab-pane label="短信登录" name="second">
           <el-form-item prop="mobile">
             <span class="svg-container svg-container_login">
-              <svg-icon icon-class="mobile" />
+              <svg-icon icon-class="mobile"/>
             </span>
-            <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="手机号" />
+            <el-input name="mobile" type="text" v-model="loginForm.mobile" autoComplete="on" placeholder="手机号"/>
           </el-form-item>
           <el-form-item>
             <el-col :span="2">
@@ -72,141 +76,142 @@
 </template>
 
 <script>
-// import { isvalidUsername } from '@/utils/validate'
-import request from '@/utils/request'
+  // import { isvalidUsername } from '@/utils/validate'
+  import request from '@/utils/request'
 
-export default {
-  name: 'login',
-  data() {
-    const validatePass = (rule, value, callback) => {
-      if (!value || value.length < 6) {
-        callback(new Error('密码不能小于6位'))
-      } else {
-        callback()
-      }
-    }
-    return {
-      time: 60,
-      timeFlag: false,
-      activeName: 'first',
-      src: '',
-      loginForm: {
-        username: null,
-        password: null,
-        code: '',
-        randomStr: Math.ceil(Math.random() * 100000) + '_' + Date.now(),
-        mobile: null,
-        smsCode: ''
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur' }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }],
-        code: [{ required: true, trigger: 'blur' }],
-      },
-      loading: false,
-      pwdType: 'password'
-    }
-  },
-  methods: {
-    refreshCode: function() {
-      this.loginForm.randomStr = Math.ceil(Math.random() * 100000) + Date.now()
-      this.src = '/admin/code/' + this.loginForm.randomStr
-    },
-    showPwd() {
-      if (this.pwdType === 'password') {
-        this.pwdType = ''
-      } else {
-        this.pwdType = 'password'
-      }
-    },
-    handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: '/' })
-          }).catch(() => {
-            this.loading = false
-            this.refreshCode()
-          })
+  export default {
+    name: 'login',
+    data() {
+      const validatePass = (rule, value, callback) => {
+        if (!value || value.length < 6) {
+          callback(new Error('密码不能小于6位'))
         } else {
-          console.log('想搞事情？？')
-          return false
+          callback()
         }
-      })
-    },
-    handleMobileLogin() {
-      this.loading = true
-      if (!this.loginForm.smsCode || this.loginForm.smsCode.length !== 4) {
-        this.$message.error('验证码不合法')
       }
-      this.$store.dispatch('MobileLogin', this.loginForm).then(() => {
-        this.loading = false
-        this.$router.push({ path: '/' })
-      }).catch(() => {
-        this.loading = false
-      })
+      return {
+        time: 60,
+        timeFlag: false,
+        activeName: 'first',
+        src: '',
+        loginForm: {
+          username: null,
+          password: null,
+          code: '',
+          randomStr: Math.ceil(Math.random() * 100000) + '_' + Date.now(),
+          mobile: null,
+          smsCode: ''
+        },
+        loginRules: {
+          username: [{required: true, trigger: 'blur'}],
+          password: [{required: true, trigger: 'blur', validator: validatePass}],
+          code: [{required: true, trigger: 'blur'}],
+        },
+        loading: false,
+        pwdType: 'password'
+      }
     },
-    getMobileCode: function() {
-      if (!this.loginForm.mobile) {
-        this.$message.error('请输入手机号码')
-      } else if (!(/^1[34578]\d{9}$/.test(this.loginForm.mobile))) {
-        this.$message.error('手机号格式不正确')
-      } else {
-        request({
-          url: '/admin/smsCode/' + this.loginForm.mobile,
-          method: 'get'
-        }).then(response => {
-          if (response.data) {
-            this.timer()
-            this.$message.success('验证码发送成功')
+    methods: {
+      refreshCode: function () {
+        this.loginForm.randomStr = Math.ceil(Math.random() * 100000) + Date.now()
+        this.src = '/admin/code/' + this.loginForm.randomStr
+      },
+      showPwd() {
+        if (this.pwdType === 'password') {
+          this.pwdType = ''
+        } else {
+          this.pwdType = 'password'
+        }
+      },
+      handleLogin() {
+        this.$refs.loginForm.validate(valid => {
+          if (valid) {
+            this.loading = true
+            this.$store.dispatch('Login', this.loginForm).then(() => {
+              this.loading = false
+              this.$router.push({path: '/'})
+            }).catch(() => {
+              this.loading = false
+              this.refreshCode()
+            })
           } else {
-            this.$message.error('验证码发送失败')
+            console.log('想搞事情？？')
+            return false
           }
         })
+      },
+      handleMobileLogin() {
+        this.loading = true
+        if (!this.loginForm.smsCode || this.loginForm.smsCode.length !== 4) {
+          this.$message.error('验证码不合法')
+        }
+        this.$store.dispatch('MobileLogin', this.loginForm).then(() => {
+          this.loading = false
+          this.$router.push({path: '/'})
+        }).catch(() => {
+          this.loading = false
+        })
+      },
+      getMobileCode: function () {
+        if (!this.loginForm.mobile) {
+          this.$message.error('请输入手机号码')
+        } else if (!(/^1[34578]\d{9}$/.test(this.loginForm.mobile))) {
+          this.$message.error('手机号格式不正确')
+        } else {
+          request({
+            url: '/admin/smsCode/' + this.loginForm.mobile,
+            method: 'get'
+          }).then(response => {
+            if (response.data) {
+              this.timer()
+              this.$message.success('验证码发送成功')
+            } else {
+              this.$message.error('验证码发送失败')
+            }
+          })
+        }
+      },
+      timer: function () {
+        if (this.time > 0) {
+          this.timeFlag = true
+          this.time--
+          setTimeout(this.timer, 1000)
+        } else {
+          this.timeFlag = false
+        }
       }
     },
-    timer: function() {
-      if (this.time > 0) {
-        this.timeFlag = true
-        this.time--
-        setTimeout(this.timer, 1000)
-      } else {
-        this.timeFlag = false
+    computed: {
+      text: function () {
+        if (this.timeFlag === false) {
+          return '获取验证码'
+        } else {
+          return this.time > 0 ? this.time + 's' : '重新获取'
+        }
       }
+    },
+    created() {
+      this.src = '/admin/code/' + this.loginForm.randomStr
     }
-  },
-  computed: {
-    text: function() {
-      if (this.timeFlag === false) {
-        return '获取验证码'
-      } else {
-        return this.time > 0 ? this.time + 's' : '重新获取'
-      }
-    }
-  },
-  created() {
-    this.src = '/admin/code/' + this.loginForm.randomStr
   }
-}
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
   @import "src/styles/mixin.scss";
-  $bg:#2d3a4b;
-  $dark_gray:#889aa4;
-  $light_gray:#eee;
 
-.login-container {
+  $bg: #2d3a4b;
+  $dark_gray: #889aa4;
+  $light_gray: #eee;
+
+  .login-container {
     @include relative;
     height: 100vh;
-  .el-tabs__item{
-    color:#fff;
-  }
-  .el-tabs__item.is-active {
-    color: #409EFF;
-  }
+    .el-tabs__item {
+      color: #fff;
+    }
+    .el-tabs__item.is-active {
+      color: #409EFF;
+    }
     background-color: $bg;
     input:-webkit-autofill {
       -webkit-box-shadow: 0 0 0px 1000px #293444 inset !important;
@@ -270,9 +275,9 @@ export default {
       font-size: 16px;
       color: $dark_gray;
       cursor: pointer;
-      user-select:none;
+      user-select: none;
     }
-    .thirdparty-button{
+    .thirdparty-button {
       position: absolute;
       right: 35px;
       bottom: 28px;
