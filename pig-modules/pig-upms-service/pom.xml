@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.github.pig</groupId>
-	<artifactId>pig-admin-service</artifactId>
+	<artifactId>pig-upms-service</artifactId>
 	<version>${pig.version}</version>
 	<packaging>jar</packaging>
 
-	<name>pig-admin-service</name>
-	<description>pig-admin-service</description>
+	<name>pig-upms-service</name>
+	<description>pig-upms-service</description>
 
 	<parent>
-		<groupId>com.github</groupId>
-		<artifactId>pig</artifactId>
+		<groupId>com.github.pig</groupId>
+		<artifactId>pig-modules</artifactId>
 		<version>${pig.version}</version>
 	</parent>
 

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pig-auth-service
+    name: pig-upms-service
   profiles:
     active: dev
   cloud:

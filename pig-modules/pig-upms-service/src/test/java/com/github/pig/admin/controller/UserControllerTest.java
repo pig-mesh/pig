@@ -2,7 +2,6 @@ package com.github.pig.admin.controller;
 
 import com.github.pig.admin.dto.UserDto;
 import com.xiaoleilu.hutool.http.HttpUtil;
-import com.xiaoleilu.hutool.json.JSON;
 import com.xiaoleilu.hutool.json.JSONUtil;
 import org.apache.commons.collections.MapUtils;
 import org.junit.Before;
