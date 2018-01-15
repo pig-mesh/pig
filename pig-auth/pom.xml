@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.github.pig</groupId>
+	<artifactId>pig-auth</artifactId>
+	<version>${pig.version}</version>
+	<packaging>jar</packaging>
+
+	<name>pig-auth</name>
+	<description>jwt 认证服务</description>
+
+	<parent>
+		<groupId>com.github</groupId>
+		<artifactId>pig</artifactId>
+		<version>${pig.version}</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.github.pig</groupId>
+			<artifactId>pig-common</artifactId>
+			<version>${pig.version}</version>
+		</dependency>
+		<!--oauth2.0-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-feign</artifactId>
+		</dependency>
+		<!--spring-social 相关-->
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-web</artifactId>
+		</dependency>
+		<!--微博登录：https://github.com/vergnes/spring-social-weibo-->
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.social</groupId>-->
+			<!--<artifactId>spring-social-weibo</artifactId>-->
+			<!--<version>1.0.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<finalName>${project.name}</finalName>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
