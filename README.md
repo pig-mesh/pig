@@ -8,6 +8,7 @@ pig
 ├── pig-eureka -- 服务注册与发现[1025]
 ├── pig-gateway -- ZUUL网关[9999]
 ├── pig-modules -- 微服务模块
+├    ├── pig-mc-service -- 消息中心[4050]
 ├    └── pig-upms-service -- 权限管理提供[4000]
 └── pig-visual  -- 图形化模块 
      ├── pig-monitor -- 服务状态监控、turbine [5001]
