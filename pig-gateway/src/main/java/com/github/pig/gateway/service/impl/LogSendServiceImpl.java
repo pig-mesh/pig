@@ -2,6 +2,7 @@ package com.github.pig.gateway.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.ErrorPojo;
@@ -104,7 +105,7 @@ public class LogSendServiceImpl implements LogSendService {
         logVo.setSysLog(log);
         if (StringUtils.isNotEmpty(request.getHeader(CommonConstant.REQ_HEADER))) {
             logVo.setToken(request.getHeader(CommonConstant.REQ_HEADER));
-            rabbitTemplate.convertAndSend(CommonConstant.LOG_QUEUE, logVo);
+            rabbitTemplate.convertAndSend(MqQueueConstant.LOG_QUEUE, logVo);
         }
     }
 }
