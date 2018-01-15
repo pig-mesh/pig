@@ -17,6 +17,9 @@
 
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
         <spring-cloud.version>Dalston.SR4</spring-cloud.version>
+
+        <!--Lombok-->
+        <lombok.version>[1.0.0,9.99.99]</lombok.version>
     </properties>
 
     <!--公共依赖-->
@@ -35,6 +38,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--Lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
