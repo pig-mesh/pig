@@ -16,7 +16,7 @@
         <pig.version>1.0-ALPHA</pig.version>
 
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
-        <spring-cloud.version>Dalston.SR4</spring-cloud.version>
+        <spring-cloud.version>Edgware.RELEASE</spring-cloud.version>
 
         <!--Lombok-->
         <lombok.version>[1.0.0,9.99.99]</lombok.version>

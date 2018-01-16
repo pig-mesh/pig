@@ -39,7 +39,6 @@
         <dependency>
             <groupId>io.zipkin.java</groupId>
             <artifactId>zipkin-autoconfigure-storage-elasticsearch-http</artifactId>
-            <version>1.28.0</version>
         </dependency>
     </dependencies>
 

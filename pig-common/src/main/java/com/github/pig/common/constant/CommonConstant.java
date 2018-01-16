@@ -57,4 +57,9 @@ public interface CommonConstant {
      * JSON 资源
      */
     String CONTENT_TYPE = "application/json; charset=utf-8";
+
+    /**
+     * 阿里大鱼
+     */
+    String ALIYUN_SMS = "aliyun_sms";
 }

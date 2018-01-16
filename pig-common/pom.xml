@@ -90,28 +90,7 @@
             <artifactId>fastdfs-spring-boot-starter</artifactId>
             <version>0.2.0</version>
         </dependency>
-
-        <!--阿里大于-->
-        <dependency>
-            <groupId>com.aliyun.taobao</groupId>
-            <artifactId>alidayu-sms</artifactId>
-            <version>1.0</version>
-        </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>nexus</id>
-            <name>nexus Repository</name>
-            <url>http://218.70.11.118:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <build>
         <plugins>

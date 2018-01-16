@@ -1,5 +1,7 @@
 package com.github.pig.common.util.template;
 
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -7,7 +9,8 @@ import java.io.Serializable;
  * @date 2018/1/15
  * 短信消息模板
  */
-public class MobileMsgTemplate implements Serializable{
+@Data
+public class MobileMsgTemplate implements Serializable {
     /**
      * 手机号
      */
@@ -16,25 +19,14 @@ public class MobileMsgTemplate implements Serializable{
      * 文本
      */
     private String text;
+    /**
+     * 类型（通道）
+     */
+    private String type;
 
-    public MobileMsgTemplate(String mobile, String text) {
+    public MobileMsgTemplate(String mobile, String text, String type) {
         this.mobile = mobile;
         this.text = text;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
+        this.type = type;
     }
 }
