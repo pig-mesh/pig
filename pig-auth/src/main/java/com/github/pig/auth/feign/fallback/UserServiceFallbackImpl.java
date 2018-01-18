@@ -32,4 +32,16 @@ public class UserServiceFallbackImpl implements UserService {
         logger.error("调用{}异常:{}", "通过手机号查询用户", mobile);
         return null;
     }
+
+    /**
+     * 根据OpenId查询用户信息
+     *
+     * @param openId openId
+     * @return UserVo
+     */
+    @Override
+    public UserVo findUserByOpenId(String openId) {
+        logger.error("调用{}异常:{}", "通过OpenId查询用户", openId);
+        return null;
+    }
 }

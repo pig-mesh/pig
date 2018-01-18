@@ -41,4 +41,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return userVo
      */
     UserVo selectUserVoByMobile(String mobile);
+
+    /**
+     * 通过openId查询用户信息
+     *
+     * @param openId openid
+     * @return userVo
+     */
+    UserVo selectUserVoByOpenId(String openId);
 }

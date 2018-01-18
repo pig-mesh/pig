@@ -79,4 +79,11 @@ public interface UserService extends IService<SysUser> {
      * @return true、false
      */
     Boolean sendSmsCode(String mobile);
+
+    /**
+     * 通过openId查询用户
+     * @param openId openId
+     * @return 用户信息
+     */
+    UserVo findUserByOpenId(String openId);
 }

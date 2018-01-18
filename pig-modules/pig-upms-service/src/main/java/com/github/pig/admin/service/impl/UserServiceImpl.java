@@ -95,6 +95,18 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
         return sysUserMapper.selectUserVoByMobile(mobile);
     }
 
+    /**
+     * 通过openId查询用户
+     *
+     * @param openId openId
+     * @return 用户信息
+     */
+    @Override
+    @Cacheable(value = "user_details_openid", key = "#openId")
+    public UserVo findUserByOpenId(String openId) {
+        return sysUserMapper.selectUserVoByOpenId(openId);
+    }
+
     @Override
     public Page selectWithRolePage(Query query) {
         query.setRecords(sysUserMapper.selectUserVoPage(query, query.getCondition()));
