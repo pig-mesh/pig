@@ -29,4 +29,12 @@ public interface UserService {
      */
     @GetMapping("/user/findUserByMobile/{mobile}")
     UserVo findUserByMobile(@PathVariable("mobile") String mobile);
+
+    /**
+     * 根据OpenId查询用户信息
+     * @param openId openId
+     * @return UserVo
+     */
+    @GetMapping("/user/findUserByOpenId/{openId}")
+    UserVo findUserByOpenId(@PathVariable("openId") String openId);
 }

@@ -1,6 +1,7 @@
 package com.github.pig.auth.config;
 
 import com.github.pig.auth.component.mobile.MobileSecurityConfigurer;
+import com.github.pig.auth.component.social.PigSocialConfigurer;
 import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +22,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
     @Autowired
     private MobileSecurityConfigurer mobileSecurityConfigurer;
+    @Autowired
+    private PigSocialConfigurer merryyouSpringSocialConfigurer;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -32,7 +35,9 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         registry.anyRequest().authenticated()
                 .and()
                 .csrf().disable();
-        http.apply(mobileSecurityConfigurer);
+        http.apply(mobileSecurityConfigurer)
+                .and()
+                .apply(merryyouSpringSocialConfigurer);
     }
 
 }

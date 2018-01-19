@@ -11,6 +11,7 @@ import com.github.pig.admin.mapper.SysUserMapper;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.UserService;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Query;
@@ -94,6 +95,18 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
         return sysUserMapper.selectUserVoByMobile(mobile);
     }
 
+    /**
+     * 通过openId查询用户
+     *
+     * @param openId openId
+     * @return 用户信息
+     */
+    @Override
+    @Cacheable(value = "user_details_openid", key = "#openId")
+    public UserVo findUserByOpenId(String openId) {
+        return sysUserMapper.selectUserVoByOpenId(openId);
+    }
+
     @Override
     public Page selectWithRolePage(Query query) {
         query.setRecords(sysUserMapper.selectUserVoPage(query, query.getCondition()));
@@ -129,7 +142,7 @@ public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impleme
         if (tempCode == null) {
             String code = RandomUtil.randomNumbers(4);
             logger.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
-            rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE,new MobileMsgTemplate(mobile,code));
+            rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE,new MobileMsgTemplate(mobile,code, CommonConstant.ALIYUN_SMS));
             redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
             result = true;
         }

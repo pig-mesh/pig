@@ -104,10 +104,6 @@ public class UserController extends BaseController {
      * @param userDto 用户信息
      * @return R
      */
-    @ApiOperation(value = "更新用户详细信息", notes = "根据传过来的UserDto信息来更新用户详细信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userDto", value = "用户详细实体user", required = true, dataType = "UserDto")
-    })
     @PutMapping
     public R<Boolean> userUpdate(@RequestBody UserDto userDto) {
         SysUser user = userService.selectById(userDto.getUserId());
@@ -136,6 +132,15 @@ public class UserController extends BaseController {
         return userService.findUserByMobile(mobile);
     }
 
+    /**
+     * 通过OpenId查询
+     * @param openId openid
+     * @return 对象
+     */
+    @GetMapping("/findUserByOpenId/{openId}")
+    public UserVo findUserByOpenId(@PathVariable String openId){
+        return userService.findUserByOpenId(openId);
+    }
     /**
      * 分页查询用户
      *

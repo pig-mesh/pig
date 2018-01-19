@@ -28,6 +28,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
+        <!--阿里大于-->
+        <dependency>
+            <groupId>com.aliyun.taobao</groupId>
+            <artifactId>alidayu-sms</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/lib/alidayu-sms-1.0.jar</systemPath>
+        </dependency>
     </dependencies>
 
     <build>

@@ -5,6 +5,7 @@ import com.github.pig.common.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,8 @@ public class UserController {
 
 
     @RequestMapping("/user")
-    public Object user(Principal user) {
-        return user;
+    public Object user(Authentication authentication) {
+        return authentication.getPrincipal();
     }
 
     /**

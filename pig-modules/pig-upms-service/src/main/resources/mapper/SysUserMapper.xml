@@ -34,7 +34,8 @@
             <result column="rupdate_time" property="updateTime" />
         </collection>
     </resultMap>
-    <select id="selectUserVoByUsername" resultMap="userVoResultMap">
+
+    <sql id="selectUserVo">
         SELECT
             `user`.user_id,
             `user`.username,
@@ -55,33 +56,21 @@
             sys_user AS `user`
             LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
             LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-        WHERE
-           `user`.username = #{username}
+    </sql>
+
+    <select id="selectUserVoByUsername" resultMap="userVoResultMap">
+          <include refid="selectUserVo"/>
+          WHERE `user`.username = #{username}
     </select>
 
     <select id="selectUserVoByMobile" resultMap="userVoResultMap">
-        SELECT
-        `user`.user_id,
-        `user`.username,
-        `user`.`password`,
-        `user`.salt,
-        `user`.introduction,
-        `user`.avatar,
-        `user`.create_time AS ucreate_time,
-        `user`.update_time AS uupdate_time,
-        `user`.del_flag AS udel_flag,
-        r.role_id,
-        r.role_name,
-        r.role_code,
-        r.role_desc,
-        r.create_time AS rcreate_time,
-        r.update_time AS rupdate_time
-        FROM
-        sys_user AS `user`
-        LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
-        LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-        WHERE
-        `user`.salt = #{mobile}
+        <include refid="selectUserVo"/>
+        WHERE `user`.introduction = #{mobile}
+    </select>
+
+    <select id="selectUserVoByOpenId" resultMap="userVoResultMap">
+        <include refid="selectUserVo"/>
+        WHERE `user`.salt = #{openId}
     </select>
 
     <select id="selectUserVoPage" resultMap="userVoResultMap" >

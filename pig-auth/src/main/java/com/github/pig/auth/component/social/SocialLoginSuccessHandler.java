@@ -1,7 +1,9 @@
-package com.github.pig.auth.component.mobile;
+package com.github.pig.auth.component.social;
 
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pig.auth.config.AuthServerConfig;
+import com.github.pig.auth.config.PigAuthorizationConfig;
 import com.github.pig.common.constant.CommonConstant;
 import com.xiaoleilu.hutool.util.MapUtil;
 import org.slf4j.Logger;
@@ -24,14 +26,16 @@ import java.io.PrintWriter;
 
 /**
  * @author lengleng
- * @date 2018/1/8
- * 手机号登录成功，返回oauth token
+ * @date 2018年01月18日09:44:16
+ * 社交登录成功，返回oauth token
  */
 @Component
-public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
+public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private AuthServerConfig AuthServerConfig;
     @Autowired
     private ClientDetailsService clientDetailsService;
     @Autowired
@@ -47,17 +51,9 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
      */
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        String header = request.getHeader("Authorization");
-
-        if (header == null || !header.startsWith("Basic ")) {
-            throw new UnapprovedClientAuthenticationException("请求头中client信息为空");
-        }
-
         try {
-            String[] tokens = extractAndDecodeHeader(header);
-            assert tokens.length == 2;
-            String clientId = tokens[0];
-            String clientSecret = tokens[1];
+            String clientId = AuthServerConfig.getClientId();
+            String clientSecret = AuthServerConfig.getClientSecret();
 
             JSONObject params = new JSONObject();
             params.put("clientId", clientId);
@@ -65,50 +61,20 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
             params.put("authentication", authentication);
 
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
-            TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
+            TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "social");
             OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
             logger.info("获取token 成功：{}", oAuth2AccessToken.getValue());
 
-            response.setCharacterEncoding(CommonConstant.UTF8);
-            response.setContentType(CommonConstant.CONTENT_TYPE);
-            PrintWriter printWriter = response.getWriter();
-            printWriter.append(objectMapper.writeValueAsString(oAuth2AccessToken));
+            String url = String.format("http://localhost:9527/#/login?access_token=%s&refresh_token=%s"
+                    , oAuth2AccessToken.getValue(), oAuth2AccessToken.getRefreshToken().getValue());
+            logger.info("social登录，回调地址：{}",url);
+            response.sendRedirect(url);
         } catch (IOException e) {
             throw new BadCredentialsException(
                     "Failed to decode basic authentication token");
         }
     }
-
-    /**
-     * Decodes the header into a username and password.
-     *
-     * @throws BadCredentialsException if the Basic header is not present or is not valid
-     *                                 Base64
-     */
-    private String[] extractAndDecodeHeader(String header)
-            throws IOException {
-
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
-        byte[] decoded;
-        try {
-            decoded = Base64.decode(base64Token);
-        } catch (IllegalArgumentException e) {
-            throw new BadCredentialsException(
-                    "Failed to decode basic authentication token");
-        }
-
-        String token = new String(decoded, CommonConstant.UTF8);
-
-        int delim = token.indexOf(":");
-
-        if (delim == -1) {
-            throw new BadCredentialsException("Invalid basic authentication token");
-        }
-        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
-    }
-
-
 }
