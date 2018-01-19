@@ -114,4 +114,31 @@
         </pluginManagement>
     </build>
 
+    <repositories>
+        <repository>
+            <id>nexus</id>
+            <name>nexus Repository</name>
+            <url>http://106.14.69.75:8081/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>nexus</id>
+            <name>nexus PluginRepository</name>
+            <url>http://106.14.69.75:8081/repository/maven-releases/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
 </project>
