@@ -65,6 +65,15 @@ const user = {
         })
       })
     },
+    // 手机登录
+    SocialLogin({ commit }, params) {
+      return new Promise((resolve, reject) => {
+        setToken(params.access_token)
+        commit('SET_TOKEN', params.access_token)
+        commit('SET_REFRESH_TOKEN', params.refresh_token)
+        resolve()
+      })
+    },
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {

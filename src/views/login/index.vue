@@ -70,6 +70,9 @@
             </el-button>
           </el-form-item>
         </el-tab-pane>
+        <el-tab-pane label="社交登录" name="three">
+            <a href="http://dsb.frps.shop/social/qq" style="color: white;">QQ登录</a>
+        </el-tab-pane>
       </el-tabs>
     </el-form>
   </div>
@@ -192,6 +195,21 @@
     },
     created() {
       this.src = '/admin/code/' + this.loginForm.randomStr
+      var params = this.$route.query
+      var access_token = params.access_token
+      var refresh_token = params.refresh_token
+      console.log(access_token)
+      console.log(refresh_token)
+      if (access_token !== undefined && refresh_token !== undefined) {
+        console.log('执行到1')
+        this.$store.dispatch('SocialLogin', params).then(() => {
+          console.log('执行到2')
+          this.loading = false
+          this.$router.push({path: '/'})
+        }).catch(() => {
+          this.loading = false
+        })
+      }
     }
   }
 </script>
