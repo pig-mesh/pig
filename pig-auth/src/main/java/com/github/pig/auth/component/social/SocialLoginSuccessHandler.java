@@ -68,10 +68,10 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
             logger.info("获取token 成功：{}", oAuth2AccessToken.getValue());
 
-            response.setCharacterEncoding(CommonConstant.UTF8);
-            response.setContentType(CommonConstant.CONTENT_TYPE);
-            PrintWriter printWriter = response.getWriter();
-            printWriter.append(objectMapper.writeValueAsString(oAuth2AccessToken));
+            String url = String.format("http://localhost:9527/#/login?access_token=%s&refresh_token=%s"
+                    , oAuth2AccessToken.getValue(), oAuth2AccessToken.getRefreshToken().getValue());
+            logger.info("social登录，回调地址：{}",url);
+            response.sendRedirect(url);
         } catch (IOException e) {
             throw new BadCredentialsException(
                     "Failed to decode basic authentication token");
