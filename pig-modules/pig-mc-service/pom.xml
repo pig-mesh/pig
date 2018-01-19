@@ -33,8 +33,8 @@
             <groupId>com.aliyun.taobao</groupId>
             <artifactId>alidayu-sms</artifactId>
             <version>1.0</version>
-            <!--<scope>system</scope>-->
-            <!--<systemPath>${basedir}/src/main/resources/lib/alidayu-sms-1.0.jar</systemPath>-->
+            <scope>system</scope>
+            <systemPath>${basedir}/src/main/resources/lib/alidayu-sms-1.0.jar</systemPath>
         </dependency>
     </dependencies>
 

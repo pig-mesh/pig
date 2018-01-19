@@ -21,6 +21,8 @@ public class PigAdminApplicationTest {
 		System.out.println(stringEncryptor.encrypt("g0HJr2Ltrs0k6tJDY6pDI2aVMUCPSWZDTROLcFMs"));
 		System.out.println(stringEncryptor.encrypt("24760324"));
 		System.out.println(stringEncryptor.encrypt("175d516debb916d3842d981dd3b76061"));
+		System.out.println(stringEncryptor.encrypt("101322838"));
+		System.out.println(stringEncryptor.encrypt("fe6ec1ed3fc45e664ce8ddbf78376ab7"));
 	}
 
 }

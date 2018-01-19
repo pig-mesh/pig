@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 1.0
  */
 @Component
-public class MyConnectionSignUp implements ConnectionSignUp {
+public class PigConnectionSignUp implements ConnectionSignUp {
     @Override
     public String execute(Connection<?> connection) {
         //根据社交用户信息，默认创建用户并返回用户唯一标识

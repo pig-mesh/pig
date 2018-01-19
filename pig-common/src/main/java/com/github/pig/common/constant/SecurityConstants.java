@@ -87,20 +87,6 @@ public interface SecurityConstants {
     String AUTH_SERVICE_ID = "auth-service";
 
     /**
-     * qq appID
-     */
-    String DEFAULT_SOCIAL_QQ_APP_ID = "101322838";
-
-    /**
-     * qq appsECRET
-     */
-    String DEFAULT_SOCIAL_QQ_APP_SECRET = "fe6ec1ed3fc45e664ce8ddbf78376ab7";
-    /**
-     * 提供商的ID
-     */
-    String DEFAULT_SOCIAL_QQ_PROVIDER_ID = "qq";
-
-    /**
      * 默认的social的登录地址
      */
     String DEFAULT_SOCIAL_PROCESS_URL = "/social";
