@@ -30,9 +30,15 @@ public class QQAuthConfig extends SocialAutoConfigurerAdapter {
         return new QQConnectionFactory(SecurityConstants.DEFAULT_SOCIAL_QQ_PROVIDER_ID, SecurityConstants.DEFAULT_SOCIAL_QQ_APP_ID, SecurityConstants.DEFAULT_SOCIAL_QQ_APP_SECRET);
     }
 
-    @Bean(name = "usersConnectionRepository")
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
+        PigUsersConnectionRepository repository = new PigUsersConnectionRepository();
+        repository.setConnectionSignUp(myConnectionSignUp);
+        return repository;
+    }
+
+    @Bean
+    public UsersConnectionRepository usersConnectionRepository(){
         PigUsersConnectionRepository repository = new PigUsersConnectionRepository();
         repository.setConnectionSignUp(myConnectionSignUp);
         return repository;
