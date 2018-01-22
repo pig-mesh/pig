@@ -2,7 +2,7 @@ package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.github.pig.admin.entity.SysMenu;
+import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.admin.mapper.SysMenuMapper;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;

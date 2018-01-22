@@ -2,9 +2,9 @@ package com.github.pig.admin.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.github.pig.admin.dto.UserDto;
-import com.github.pig.admin.dto.UserInfo;
-import com.github.pig.admin.entity.SysUser;
+import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserInfo;
+import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVo;
 
@@ -12,7 +12,7 @@ import com.github.pig.common.vo.UserVo;
  * @author lengleng
  * @date 2017/10/31
  */
-public interface UserService extends IService<SysUser> {
+public interface SysUserService extends IService<SysUser> {
     /**
      * 根据用户名查询用户角色信息
      *

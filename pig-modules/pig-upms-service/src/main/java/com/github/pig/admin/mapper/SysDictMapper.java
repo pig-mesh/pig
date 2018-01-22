@@ -1,6 +1,6 @@
 package com.github.pig.admin.mapper;
 
-import com.github.pig.admin.entity.SysDict;
+import com.github.pig.admin.model.entity.SysDict;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 
 /**

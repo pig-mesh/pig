@@ -3,7 +3,7 @@
 <mapper namespace="com.github.pig.admin.mapper.SysDictMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysDict">
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysDict">
 		<id column="id" property="id" />
 		<result column="value" property="value" />
 		<result column="label" property="label" />

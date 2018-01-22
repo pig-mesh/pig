@@ -1,3 +1,6 @@
+ ### 详细配置 wiki
+ https://gitee.com/log4j/pig/wikis/
+ 
  ### now
 ``` lua
 pig
@@ -15,38 +18,24 @@ pig
      ├── pig-zipkin-elk -- zipkin、ELK监控[5002、5601]
      └── pig-cache-cloud -- 缓存管理、统一监控[5005]
 ```
-###  future
-```
-  ○ 公共运行时服务
-      ■ 服务发现Eureka
-      ■ API网关Zuul --> Spring Gateway
-      ■ 配置中心Spring Cloud Config
-  ○ 服务框架和通信模式
-      ■ REST框架 Fegin
-      ■ 聚合层和后台服务层
-  ○ 监控告警和可靠性工程
-      ■ 综述三层监控体系
-      ■ 数据采集总线(Turbine + RabbitMQ)
-      ■ 统一日志(ELK)
-      ■ 调用链监控(Spring Cloud Sleuth)
-      ■ 统一告警(ZMON)
-      ■ 限流熔断和Hystrix
-      ■ 服务限流 Zuul-Ratelimit
-  ○ 后台服务
-      ■ 分布式文件系统(FASTDFS、七牛云服务)
-      ■ 消息服务MQ(RabbitMQ)
-      ■ 任务调度Job(Elastic-job)
-      ■ 缓存服务(CacheCloud)
-      ■ 分布式数据访问层(ShardingJDBC)
-      ■ 统一认证服务 (Spring Cloud Oauth 2.0)
-      ■ 代码自动生成 (Velocity Template)
-  ○ 持续交付
-      ■ 持续集成，多环境和发布流水线
-      ■ 蓝绿、金丝雀和灰度发布
-```  
+###  已完成功能
+- 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
+- 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
+- 机构管理：配置系统组织机构（公司、部门、小组），树结构展现，可随意调整上下级。
+- 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
+- 角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
+- 字典管理：对系统中经常使用的一些较为固定的数据进行维护，如：是否、男女、类别、级别等。
+- 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
+- 服务限流：多种维度的流量控制（服务、IP、用户等）
+- 数据权限: 使用mybatis对原查询做增强，业务代码不用控制，即可实现。
+- 文件系统: 支持FastDFS、七牛云，扩展API几行代码实现上传下载
+- 消息中心：短信、邮件模板发送，几行代码实现发送
+- 聚合文档：基于zuul实现 swagger各个模块的实现
+- 代码生成：前后端代码的生成，支持Vue
+- 缓存管理：基于Cache Cloud 保证Redis 的高可用
+- 服务监控: Spring Boot Admin
+- 链路追踪：服务链路追踪日志保存到ELK，支持数据可视化
+
 欢迎加入QQ交流群，互相学习  
 一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
-
-### 详细说明 wiki
-##### https://gitee.com/log4j/pig/wikis/ 

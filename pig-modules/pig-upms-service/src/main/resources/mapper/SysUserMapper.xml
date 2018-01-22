@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.github.pig.admin.mapper.SysUserMapper">
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysUser">
+    <resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysUser">
         <id column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>

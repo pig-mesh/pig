@@ -2,7 +2,7 @@ package com.github.pig.admin.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import com.github.pig.admin.entity.SysMenu;
+import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVo;
 
 import java.util.Set;

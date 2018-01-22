@@ -1,4 +1,4 @@
-package com.github.pig.admin.entity;
+package com.github.pig.admin.model.entity;
 
 import java.io.Serializable;
 

@@ -1,11 +1,12 @@
 package ${package.Controller};
-
+import java.util.Map;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.github.pig.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.common.util.Query;
 import ${package.Entity}.${entity};
 import ${package.Service}.${entity}Service;
 #if(${superControllerClassPackage})
@@ -38,19 +39,15 @@ public class ${table.controllerName} extends ${superControllerClass} {
 
 
     /**
-     * 分页查询
-     *
-     * @param page  分页对象
-     * @param limit 每页限制
-     * @return 分页对象
-     */
+    * 分页查询信息
+    *
+    * @param params 分页对象
+    * @return 分页对象
+    */
     @RequestMapping("/page")
-    public Page page(Integer page, Integer limit) {
-        ${entity} condition = new ${entity}();
-        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        EntityWrapper wrapper = new EntityWrapper(condition);
-        wrapper.orderBy("createTime", false);
-        return ${table.entityPath}Service.selectPage(new Page<>(page, limit), wrapper);
+    public Page page(@RequestParam Map<String, Object> params) {
+        params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
+        return ${table.entityPath}Service.selectPage(new Query<>(params), new EntityWrapper<>());
     }
 
     /**
@@ -59,7 +56,7 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @PostMapping
-    public Boolean add(${entity} ${table.entityPath}) {
+    public Boolean add(@RequestBody ${entity} ${table.entityPath}) {
         return ${table.entityPath}Service.insert(${table.entityPath});
     }
 
@@ -83,7 +80,7 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @PutMapping
-    public Boolean edit(${entity} ${table.entityPath}) {
+    public Boolean edit(@RequestBody ${entity} ${table.entityPath}) {
         ${table.entityPath}.setUpdateTime(new Date());
         return ${table.entityPath}Service.updateById(${table.entityPath});
     }

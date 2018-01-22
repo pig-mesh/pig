@@ -3,7 +3,7 @@
 <mapper namespace="com.github.pig.admin.mapper.SysRoleMenuMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysRoleMenu">
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysRoleMenu">
 		<id column="role_id" property="roleId" />
 		<result column="menu_id" property="menuId" />
 	</resultMap>

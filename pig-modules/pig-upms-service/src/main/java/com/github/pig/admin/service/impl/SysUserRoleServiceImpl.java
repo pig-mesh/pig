@@ -1,7 +1,7 @@
 package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.github.pig.admin.entity.SysUserRole;
+import com.github.pig.admin.model.entity.SysUserRole;
 import com.github.pig.admin.mapper.SysUserRoleMapper;
 import com.github.pig.admin.service.SysUserRoleService;
 import org.springframework.stereotype.Service;

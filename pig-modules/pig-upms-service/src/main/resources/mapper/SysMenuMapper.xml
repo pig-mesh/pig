@@ -3,7 +3,7 @@
 <mapper namespace="com.github.pig.admin.mapper.SysMenuMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysMenu">
+    <resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysMenu">
         <id column="menu_id" property="menuId" />
         <result column="name" property="name" />
         <result column="permission" property="permission" />

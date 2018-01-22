@@ -1,39 +1,47 @@
-package com.github.pig.admin.entity;
+package com.github.pig.admin.model.entity;
 
 import java.io.Serializable;
 
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
-
-import java.io.Serializable;
 
 /**
  * <p>
- * 角色菜单表
+ * 角色与部门对应关系
  * </p>
  *
  * @author lengleng
- * @since 2017-10-29
+ * @since 2018-01-20
  */
-@TableName("sys_role_menu")
-public class SysRoleMenu extends Model<SysRoleMenu> {
+@TableName("sys_role_dept")
+public class SysRoleDept extends Model<SysRoleDept> {
 
     private static final long serialVersionUID = 1L;
 
+	@TableId(value="id", type= IdType.AUTO)
+	private Integer id;
     /**
      * 角色ID
      */
-    @TableId(type = IdType.INPUT)
+	@TableField("role_id")
 	private Integer roleId;
     /**
-     * 菜单ID
+     * 部门ID
      */
-	@TableId(type = IdType.INPUT)
-	private Integer menuId;
+	@TableField("dept_id")
+	private Integer deptId;
 
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public Integer getRoleId() {
 		return roleId;
@@ -43,24 +51,25 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
 		this.roleId = roleId;
 	}
 
-	public Integer getMenuId() {
-		return menuId;
+	public Integer getDeptId() {
+		return deptId;
 	}
 
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
+	public void setDeptId(Integer deptId) {
+		this.deptId = deptId;
 	}
 
 	@Override
 	protected Serializable pkVal() {
-		return this.roleId;
+		return this.id;
 	}
 
 	@Override
 	public String toString() {
-		return "SysRoleMenu{" +
+		return "SysRoleDept{" +
+			", id=" + id +
 			", roleId=" + roleId +
-			", menuId=" + menuId +
+			", deptId=" + deptId +
 			"}";
 	}
 }

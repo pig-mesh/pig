@@ -2,8 +2,8 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.admin.entity.SysRole;
-import com.github.pig.admin.entity.SysRoleMenu;
+import com.github.pig.admin.model.dto.RoleDto;
+import com.github.pig.admin.model.entity.SysRole;
 import com.github.pig.admin.service.SysRoleMenuService;
 import com.github.pig.admin.service.SysRoleService;
 import com.github.pig.common.constant.CommonConstant;
@@ -11,10 +11,8 @@ import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -44,23 +42,23 @@ public class RoleController extends BaseController {
     /**
      * 添加角色
      *
-     * @param sysRole 角色信息
+     * @param roleDto 角色信息
      * @return success、false
      */
     @PostMapping
-    public R<Boolean> role(@RequestBody SysRole sysRole) {
-        return new R<>(sysRoleService.insert(sysRole));
+    public R<Boolean> role(@RequestBody RoleDto roleDto) {
+        return new R<>(sysRoleService.insertRole(roleDto));
     }
 
     /**
      * 修改角色
      *
-     * @param sysRole 角色信息
+     * @param roleDto 角色信息
      * @return success/false
      */
     @PutMapping
-    public R<Boolean> roleUpdate(@RequestBody SysRole sysRole) {
-        return new R<>(sysRoleService.updateById(sysRole));
+    public R<Boolean> roleUpdate(@RequestBody RoleDto roleDto) {
+        return new R<>(sysRoleService.updateRoleById(roleDto));
     }
 
     @DeleteMapping("/{id}")
@@ -92,7 +90,7 @@ public class RoleController extends BaseController {
     @RequestMapping("/rolePage")
     public Page rolePage(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return sysRoleService.selectPage(new Query<>(params), new EntityWrapper<>());
+        return sysRoleService.selectwithDeptPage(new Query<>(params), new EntityWrapper<>());
     }
 
     /**

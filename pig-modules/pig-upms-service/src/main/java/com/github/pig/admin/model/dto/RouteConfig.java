@@ -1,4 +1,4 @@
-package com.github.pig.admin.dto;
+package com.github.pig.admin.model.dto;
 
 import java.io.Serializable;
 import java.util.Map;

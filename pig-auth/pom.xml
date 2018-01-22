@@ -55,6 +55,16 @@
 			<!--<artifactId>spring-social-weibo</artifactId>-->
 			<!--<version>1.0.1-SNAPSHOT</version>-->
 		<!--</dependency>-->
+		<!--MySQL-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--spring data source-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

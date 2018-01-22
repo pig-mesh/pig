@@ -25,7 +25,7 @@ public class PigResourcesGenerator {
 
 
     public static void main(String[] args) {
-        String outputDir = "D://data";
+        String outputDir = "/Users/lengleng/work/source";
         final String viewOutputDir = outputDir + "/view/";
         AutoGenerator mpg = new AutoGenerator();
         // 全局配置
@@ -47,8 +47,8 @@ public class PigResourcesGenerator {
         dsc.setDbType(DbType.MYSQL);
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("root");
-        dsc.setUrl("jdbc:mysql://127.0.0.1:3306/pig?characterEncoding=utf8");
+        dsc.setPassword("lengleng");
+        dsc.setUrl("jdbc:mysql://106.14.69.75:3309/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false");
         mpg.setDataSource(dsc);
 
         // 策略配置
@@ -83,12 +83,6 @@ public class PigResourcesGenerator {
                 return getGeneratorViewPath(viewOutputDir, tableInfo, ".vue");
             }
         });
-        focList.add(new FileOutConfig("/templates/controller.java.vm") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return getGeneratorViewPath(viewOutputDir, tableInfo, ".java");
-            }
-        });
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
 
@@ -119,7 +113,7 @@ public class PigResourcesGenerator {
      */
     private static String getGeneratorViewPath(String viewOutputDir, TableInfo tableInfo, String suffixPath) {
         String name = StringUtils.firstToLowerCase(tableInfo.getEntityName());
-        String path = viewOutputDir + "/" + name + "/" + name + suffixPath;
+        String path = viewOutputDir + "/" + name + "/index"  + suffixPath;
         File viewDir = new File(path).getParentFile();
         if (!viewDir.exists()) {
             viewDir.mkdirs();

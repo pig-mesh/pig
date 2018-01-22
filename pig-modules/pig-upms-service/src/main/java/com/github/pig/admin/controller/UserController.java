@@ -1,11 +1,11 @@
 package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.admin.dto.UserDto;
-import com.github.pig.admin.dto.UserInfo;
-import com.github.pig.admin.entity.SysUser;
-import com.github.pig.admin.entity.SysUserRole;
-import com.github.pig.admin.service.UserService;
+import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserInfo;
+import com.github.pig.admin.model.entity.SysUser;
+import com.github.pig.admin.model.entity.SysUserRole;
+import com.github.pig.admin.service.SysUserService;
 import com.github.pig.common.bean.config.FdfsPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
@@ -15,9 +15,6 @@ import com.github.pig.common.web.BaseController;
 import com.luhuiguo.fastdfs.domain.StorePath;
 import com.luhuiguo.fastdfs.service.FastFileStorageClient;
 import com.xiaoleilu.hutool.io.FileUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -40,7 +37,7 @@ public class UserController extends BaseController {
     @Autowired
     private FastFileStorageClient fastFileStorageClient;
     @Autowired
-    private UserService userService;
+    private SysUserService userService;
     @Autowired
     private FdfsPropertiesConfig fdfsPropertiesConfig;
 

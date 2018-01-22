@@ -1,7 +1,7 @@
 package com.github.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.github.pig.admin.entity.SysMenu;
+import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVo;
 import org.apache.ibatis.annotations.Param;
 

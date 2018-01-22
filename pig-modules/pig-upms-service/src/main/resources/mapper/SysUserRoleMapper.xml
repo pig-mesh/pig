@@ -3,7 +3,7 @@
 <mapper namespace="com.github.pig.admin.mapper.SysUserRoleMapper">
 
 	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.github.pig.admin.entity.SysUserRole">
+	<resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysUserRole">
 		<id column="user_id" property="userId" />
 		<result column="role_id" property="roleId" />
 	</resultMap>

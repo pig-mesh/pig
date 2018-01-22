@@ -2,11 +2,10 @@ package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.github.pig.admin.entity.SysRoleMenu;
+import com.github.pig.admin.model.entity.SysRoleMenu;
 import com.github.pig.admin.mapper.SysRoleMenuMapper;
 import com.github.pig.admin.service.SysRoleMenuService;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

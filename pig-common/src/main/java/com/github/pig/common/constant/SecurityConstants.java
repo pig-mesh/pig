@@ -90,4 +90,8 @@ public interface SecurityConstants {
      * 默认的social的登录地址
      */
     String DEFAULT_SOCIAL_PROCESS_URL = "/social";
+    /**
+     * 默认的social的注册地址
+     */
+    String DEFAULT_SOCIAL_SIGNUP_URL = "/social/signup";
 }

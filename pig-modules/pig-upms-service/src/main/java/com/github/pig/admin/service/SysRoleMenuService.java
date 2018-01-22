@@ -2,7 +2,7 @@ package com.github.pig.admin.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import com.github.pig.admin.entity.SysRoleMenu;
+import com.github.pig.admin.model.entity.SysRoleMenu;
 
 /**
  * <p>

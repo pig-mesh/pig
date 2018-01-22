@@ -1,6 +1,6 @@
 package com.github.pig.admin.controller;
 
-import com.github.pig.admin.service.UserService;
+import com.github.pig.admin.service.SysUserService;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Assert;
 import com.github.pig.common.util.R;
@@ -28,7 +28,7 @@ public class ValidateCodeController {
     @Autowired
     private Producer producer;
     @Autowired
-    private UserService userService;
+    private SysUserService userService;
 
     /**
      * 创建验证码

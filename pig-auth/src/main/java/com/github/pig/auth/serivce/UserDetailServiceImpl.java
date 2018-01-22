@@ -6,7 +6,6 @@ import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -43,6 +42,9 @@ public class UserDetailServiceImpl implements UserDetailsService,SocialUserDetai
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         UserVo userVo = userService.findUserByOpenId(userId);
+        if (userVo == null){
+            throw new UsernameNotFoundException("用户未绑定");
+        }
         List<GrantedAuthority> authorityList = new ArrayList<>();
         for (SysRole role : userVo.getRoleList()) {
             authorityList.add(new SimpleGrantedAuthority(role.getRoleCode()));

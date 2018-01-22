@@ -52,8 +52,8 @@ public class UserUtils {
     /**
      * 通过token 获取用户名
      *
-     * @param authorization
-     * @return
+     * @param authorization token
+     * @return 用户名
      */
     public static String getUserName(String authorization) {
         String username = "";
@@ -108,9 +108,19 @@ public class UserUtils {
     }
 
     /**
+     * 从threadlocal 获取用户名
+     *
+     * @return 用户名
+     */
+
+    public static String getUser() {
+        return THREAD_LOCAL_USER.get();
+    }
+
+    /**
      * 如果没有登录，返回null
      *
-     * @return
+     * @return 用户名
      */
     public static String getUserName() {
         return THREAD_LOCAL_USER.get();

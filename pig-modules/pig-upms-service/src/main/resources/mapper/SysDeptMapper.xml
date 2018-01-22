@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.pig.admin.mapper.SysDeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysDept">
+        <id column="dept_id" property="deptId"/>
+        <result column="name" property="name"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="del_flag" property="delFlag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        dept_id AS deptId, parent_id AS parentId, name, order_num AS orderNum, create_time AS createTime, update_time AS updateTime, del_flag AS delFlag
+    </sql>
+    <delete id="deleteDeptRealtion">
+        DELETE
+        FROM
+            sys_dept_relation
+        WHERE
+            descendant IN (
+                SELECT
+                    temp.descendant
+                FROM
+                    (
+                        SELECT
+                            descendant
+                        FROM
+                            sys_dept_relation
+                        WHERE
+                            ancestor = #{id}
+                    ) temp
+            )
+    </delete>
+
+    <!--关联查询部门列表-->
+    <select id="selectDeptDtoList" resultType="com.github.pig.admin.model.entity.SysDept">
+		SELECT
+			t.*
+		FROM
+			sys_dept t
+		LEFT JOIN sys_dept_relation dr ON t.dept_id = dr.descendant
+		WHERE dr.ancestor = 0
+	</select>
+
+    <!--维护部门关系-->
+    <insert id="insertDeptRelation">
+        INSERT INTO sys_dept_relation (ancestor, descendant) SELECT
+            dt.ancestor,
+            #{descendant}
+        FROM
+            sys_dept_relation dt
+        WHERE
+            dt.descendant = #{ancestor}
+        UNION ALL
+            SELECT
+                #{descendant},
+                #{descendant}
+    </insert>
+</mapper>

@@ -1,7 +1,7 @@
 package com.github.pig.admin.common.util;
 
 
-import com.github.pig.admin.dto.TreeNode;
+import com.github.pig.admin.model.dto.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;

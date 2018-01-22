@@ -1,6 +1,6 @@
-package com.github.pig.admin.dto;
+package com.github.pig.admin.model.dto;
 
-import com.github.pig.admin.entity.SysUser;
+import com.github.pig.admin.model.entity.SysUser;
 
 import java.io.Serializable;
 

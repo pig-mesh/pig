@@ -1,4 +1,4 @@
-package com.github.pig.admin.dto;
+package com.github.pig.admin.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;

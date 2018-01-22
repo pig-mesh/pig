@@ -3,14 +3,14 @@ package com.github.pig.admin.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.github.pig.admin.dto.UserDto;
-import com.github.pig.admin.dto.UserInfo;
-import com.github.pig.admin.entity.SysUser;
-import com.github.pig.admin.entity.SysUserRole;
+import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserInfo;
+import com.github.pig.admin.model.entity.SysUser;
+import com.github.pig.admin.model.entity.SysUserRole;
 import com.github.pig.admin.mapper.SysUserMapper;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
-import com.github.pig.admin.service.UserService;
+import com.github.pig.admin.service.SysUserService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
@@ -41,8 +41,8 @@ import java.util.concurrent.TimeUnit;
  * @date 2017/10/31
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
+    private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private SysMenuService sysMenuService;
