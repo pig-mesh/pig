@@ -36,6 +36,8 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
+        http.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
         for (String url : filterUrlsPropertiesConifg.getAnon()) {
