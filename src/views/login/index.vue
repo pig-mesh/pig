@@ -71,7 +71,16 @@
           </el-form-item>
         </el-tab-pane>
         <el-tab-pane label="社交登录" name="three">
-            <a href="http://dsb.frps.shop/social/qq" style="color: white;">QQ登录</a>
+          <el-row>
+            <el-col :span="8">
+              <el-card :body-style="{ padding: '0px' }">
+                <svg-icon icon-class="qq"></svg-icon>
+                <div style="padding: 14px;">
+                  <a href="http://dsb.frps.shop/social/qq">QQ登录</a>
+                </div>
+              </el-card>
+            </el-col>
+          </el-row>
         </el-tab-pane>
       </el-tabs>
     </el-form>
@@ -81,8 +90,10 @@
 <script>
   // import { isvalidUsername } from '@/utils/validate'
   import request from '@/utils/request'
+  import ElRow from "element-ui/packages/row/src/row";
 
   export default {
+    components: {ElRow},
     name: 'login',
     data() {
       const validatePass = (rule, value, callback) => {
@@ -300,5 +311,10 @@
       right: 35px;
       bottom: 28px;
     }
+  }
+
+  .image {
+    width: 100%;
+    display: block;
   }
 </style>
