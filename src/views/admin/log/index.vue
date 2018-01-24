@@ -67,7 +67,7 @@
 
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini" type="danger" v-if="sys_dict_del"
+          <el-button size="mini" type="danger" v-if="sys_log_del"
                      @click="handleDelete(scope.row)">删除
           </el-button>
         </template>
@@ -167,8 +167,6 @@
         this.listQuery.page = 1
         this.getList()
       }
-
-
     }
   }
 </script>

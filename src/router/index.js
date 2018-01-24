@@ -53,9 +53,29 @@ export const asyncRouterMap = [
     children: [
       { menuId: 2, path: 'user', component: _import('admin/user/index'), name: '用户管理', meta: { title: '用户管理', icon: 'user' }},
       { menuId: 3, path: 'role', component: _import('admin/role/index'), name: '角色管理', meta: { title: '角色管理', icon: 'role' }},
+      { menuId: 7, path: 'dept', component: _import('admin/dept/index'), name: '部门管理', meta: { title: '部门管理', icon: 'dept' }},
       { menuId: 4, path: 'menu', component: _import('admin/menu/index'), name: '菜单管理', meta: { title: '菜单管理', icon: 'tree' }},
       { menuId: 5, path: 'dict', component: _import('admin/dict/index'), name: '字典管理', meta: { title: '字典管理', icon: 'dict' }},
       { menuId: 6, path: 'log', component: _import('admin/log/index'), name: '日志管理', meta: { title: '日志管理', icon: 'log' }}
+    ]
+  },
+  {
+    menuId: 8,
+    path: '/monitor',
+    component: Layout,
+    name: '系统监控',
+    hidden: false,
+    // icon: 'table',
+    meta: {
+      title: '系统监控',
+      icon: 'monitor'
+    },
+    children: [
+      { menuId: 9, path: 'service', component: _import('admin/monitor/service'), name: '服务状态', meta: { title: '服务状态', icon: 'service' }},
+      { menuId: 10, path: 'zipkin', component: _import('admin/monitor/zipkin'), name: '链路追踪', meta: { title: '链路追踪', icon: 'zipkin' }},
+      { menuId: 11, path: 'elk', component: _import('admin/monitor/elk'), name: 'ELK状态', meta: { title: 'ELK状态', icon: 'elk' }},
+      { menuId: 12, path: 'cache', component: _import('admin/monitor/cache'), name: '缓存状态', meta: { title: '缓存状态', icon: 'cache' }},
+      { menuId: 13, path: 'swagger', component: _import('admin/monitor/swagger'), name: '接口文档', meta: { title: '接口文档', icon: 'swagger' }}
     ]
   }
 ]

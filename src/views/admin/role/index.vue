@@ -32,13 +32,19 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="所属部门">
+        <template slot-scope="scope">
+          <span>{{scope.row.deptName }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
           <span>{{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="220">
         <template slot-scope="scope">
           <el-button size="mini" type="success"
                      @click="handleUpdate(scope.row)">编辑
@@ -72,6 +78,10 @@
         <el-form-item label="描述" prop="roleDesc">
           <el-input v-model="form.roleDesc" placeholder="描述"></el-input>
         </el-form-item>
+        <el-form-item label="所属部门" prop="roleDept">
+          <el-input v-model="form.deptName" placeholder="选择部门" @focus="handleDept()" readonly></el-input>
+          <el-input type="hidden" v-model="form.roleDeptId"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancel('form')">取 消</el-button>
@@ -79,6 +89,24 @@
         <el-button v-else type="primary" @click="update('form')">修 改</el-button>
       </div>
     </el-dialog>
+
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogDeptVisible">
+      <el-tree
+        class="filter-tree"
+        :data="treeDeptData"
+        :default-checked-keys="checkedKeys"
+        check-strictly
+        node-key="id"
+        highlight-current
+        ref="deptTree"
+        @node-click="getNodeData"
+        :props="defaultProps"
+        :filter-node-method="filterNode"
+        default-expand-all
+      >
+      </el-tree>
+    </el-dialog>
+
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogPermissionVisible">
       <el-tree
         class="filter-tree"
@@ -102,7 +130,7 @@
 </template>
 
 <script>
-  import { fetchList, getObj, addObj, putObj, delObj, permissionUpd, fetchRoleTree } from '@/api/role'
+  import { fetchList, getObj, addObj, putObj, delObj, permissionUpd, fetchRoleTree, fetchDeptTree } from '@/api/role'
   import { fetchTree } from '@/api/menu'
   import waves from '@/directive/waves/index.js' // 水波纹指令
 
@@ -114,6 +142,7 @@
     data() {
       return {
         treeData: [],
+        treeDeptData: [],
         checkedKeys: [],
         defaultProps: {
           children: 'children',
@@ -129,7 +158,9 @@
         form: {
           roleName: undefined,
           roleCode: undefined,
-          roleDesc: undefined
+          roleDesc: undefined,
+          deptName: undefined,
+          roleDeptId: undefined
         },
         roleId: undefined,
         roleCode: undefined,
@@ -177,12 +208,13 @@
         statusOptions: ['0', '1'],
         rolesOptions: undefined,
         dialogFormVisible: false,
+        dialogDeptVisible: false,
         dialogPermissionVisible: false,
         dialogStatus: '',
         textMap: {
           update: '编辑',
           create: '创建',
-          permission: '分配权限'
+          permission: '分配权限',
         },
         tableKey: 0
       }
@@ -216,6 +248,8 @@
         getObj(row.roleId)
           .then(response => {
             this.form = response.data
+            this.form.deptName = row.deptName
+            this.form.roleDeptId = row.roleDeptId
             this.dialogFormVisible = true
             this.dialogStatus = 'update'
           })
@@ -224,7 +258,6 @@
         fetchRoleTree(row.roleCode).then(response => {
           this.checkedKeys = response.data
         })
-
         fetchTree()
           .then(response => {
             this.treeData = response.data
@@ -234,11 +267,22 @@
             this.roleCode = row.roleCode
           })
       },
+      handleDept() {
+        fetchDeptTree()
+          .then(response => {
+            this.treeDeptData = response.data
+            this.dialogDeptVisible = true
+          })
+      },
       filterNode(value, data) {
         if (!value) return true
         return data.label.indexOf(value) !== -1
       },
       getNodeData(data) {
+        this.dialogDeptVisible = false
+        this.form.roleDeptId = data.id
+        this.form.deptName = data.name
+        console.log(data)
       },
       handleDelete(row) {
         delObj(row.roleId)
@@ -282,7 +326,6 @@
         set[formName].validate(valid => {
           if (valid) {
             this.dialogFormVisible = false
-            this.form.password = undefined
             putObj(this.form).then(() => {
               this.dialogFormVisible = false
               this.getList()

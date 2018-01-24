@@ -1,10 +1,10 @@
-<template>
+`<template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
       <el-button-group>
-        <el-button type="primary" v-if="menuManager_btn_add" icon="plus" @click="handlerAdd">添加</el-button>
-        <el-button type="primary" v-if="menuManager_btn_edit" icon="edit" @click="handlerEdit">编辑</el-button>
-        <el-button type="primary" v-if="menuManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
+        <el-button type="primary" v-if="deptManager_btn_add" icon="plus" @click="handlerAdd">添加</el-button>
+        <el-button type="primary" v-if="deptManager_btn_edit" icon="edit" @click="handlerEdit">编辑</el-button>
+        <el-button type="primary" v-if="deptManager_btn_del" icon="delete" @click="handleDelete">删除</el-button>
       </el-button-group>
     </div>
 
@@ -28,36 +28,14 @@
             <el-form-item label="父级节点" prop="parentId">
               <el-input v-model="form.parentId" :disabled="formEdit" placeholder="请输入父级节点"></el-input>
             </el-form-item>
-            <el-form-item label="节点ID" prop="parentId">
-              <el-input v-model="form.menuId" :disabled="formEdit" placeholder="请输入节点ID"></el-input>
+            <el-form-item label="节点编号" prop="parentId" v-if="formEdit">
+              <el-input v-model="form.deptId" :disabled="formEdit" placeholder="节点编号"></el-input>
             </el-form-item>
-            <el-form-item label="标题" prop="name">
-              <el-input v-model="form.name" :disabled="formEdit"  placeholder="请输入标题"></el-input>
+            <el-form-item label="部门名称" prop="name">
+              <el-input v-model="form.name" :disabled="formEdit"  placeholder="请输入名称"></el-input>
             </el-form-item>
-            <el-form-item label="权限标识" prop="permission">
-              <el-input v-model="form.permission" :disabled="formEdit" placeholder="请输入权限标识"></el-input>
-            </el-form-item>
-            <el-form-item label="图标" prop="icon">
-              <el-input v-model="form.icon" :disabled="formEdit" placeholder="请输入图标"></el-input>
-            </el-form-item>
-            <el-form-item label="资源路径" prop="url">
-              <el-input v-model="form.url" :disabled="formEdit" placeholder="请输入资源路径"></el-input>
-            </el-form-item>
-            <el-form-item label="请求方法" prop="method">
-              <el-select class="filter-item" v-model="form.method"  :disabled="formEdit"  placeholder="请输入资源请求类型">
-                <el-option v-for="item in  methodOptions" :key="item" :label="item" :value="item"> </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="类型" prop="type">
-              <el-select class="filter-item" v-model="form.type"  :disabled="formEdit"  placeholder="请输入资源请求类型">
-                <el-option v-for="item in  typeOptions" :key="item" :label="item | typeFilter" :value="item"> </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="排序" prop="sort">
-              <el-input v-model="form.sort" :disabled="formEdit" placeholder="请输入排序"></el-input>
-            </el-form-item>
-            <el-form-item label="前端组件"   prop="component">
-              <el-input v-model="form.component" :disabled="formEdit" placeholder="请输入描述"></el-input>
+            <el-form-item label="排序" prop="orderNum">
+              <el-input v-model="form.orderNum" :disabled="formEdit" placeholder="请输入排序"></el-input>
             </el-form-item>
             <el-form-item v-if="formStatus == 'update'">
               <el-button type="primary" @click="update">更新</el-button>
@@ -75,7 +53,7 @@
 </template>
 
 <script>
-  import { fetchTree, getObj, addObj, delObj, putObj } from '@/api/menu'
+  import { fetchTree, getObj, addObj, delObj, putObj } from '@/api/dept'
   import { mapGetters } from 'vuex'
   export default {
     name: 'menu',
@@ -99,21 +77,15 @@
         },
         labelPosition: 'right',
         form: {
-          permission: undefined,
           name: undefined,
-          menuId: undefined,
+          orderNum: undefined,
           parentId: undefined,
-          url: undefined,
-          icon: undefined,
-          sort: undefined,
-          component: undefined,
-          type: undefined,
-          method: undefined
+          deptId: undefined
         },
-        currentId: -1,
-        menuManager_btn_add: false,
-        menuManager_btn_edit: false,
-        menuManager_btn_del: false
+        currentId: 0,
+        deptManager_btn_add: false,
+        deptManager_btn_edit: false,
+        deptManager_btn_del: false
       }
     },
     filters: {
@@ -127,9 +99,9 @@
     },
     created() {
       this.getList()
-      this.menuManager_btn_add = this.permissions['sys_menu_add']
-      this.menuManager_btn_edit = this.permissions['sys_menu_edit']
-      this.menuManager_btn_del = this.permissions['sys_menu_del']
+      this.deptManager_btn_add = this.permissions['sys_dept_add']
+      this.deptManager_btn_edit = this.permissions['sys_dept_edit']
+      this.deptManager_btn_del = this.permissions['sys_dept_del']
     },
     computed: {
       ...mapGetters([
@@ -158,7 +130,7 @@
         this.showElement = true
       },
       handlerEdit() {
-        if (this.form.menuId) {
+        if (this.form.deptId) {
           this.formEdit = false
           this.formStatus = 'update'
         }
