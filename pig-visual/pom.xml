@@ -19,6 +19,7 @@
     <modules>
         <module>pig-monitor</module>
         <module>pig-zipkin-elk</module>
+        <module>pig-zipkin-db</module>
         <!--<module>pig-cache-cloud</module>-->
     </modules>
 </project>
