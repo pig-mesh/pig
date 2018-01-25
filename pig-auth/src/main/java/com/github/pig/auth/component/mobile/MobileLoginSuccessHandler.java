@@ -29,6 +29,7 @@ import java.io.PrintWriter;
  */
 @Component
 public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
+    public static final String BASIC_ = "Basic ";
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ObjectMapper objectMapper;
@@ -49,7 +50,7 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String header = request.getHeader("Authorization");
 
-        if (header == null || !header.startsWith("Basic ")) {
+        if (header == null || !header.startsWith(BASIC_)) {
             throw new UnapprovedClientAuthenticationException("请求头中client信息为空");
         }
 

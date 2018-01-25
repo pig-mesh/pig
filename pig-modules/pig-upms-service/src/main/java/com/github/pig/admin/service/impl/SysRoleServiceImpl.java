@@ -67,7 +67,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @param roleDto 含有部门信息
      * @return 成功、失败
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateRoleById(RoleDto roleDto) {
         //删除原有的角色部门关系

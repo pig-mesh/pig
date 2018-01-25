@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class PigWebResponseExceptionTranslator extends DefaultWebResponseExceptionTranslator {
+
     /**
      * @param e spring security内部异常
      * @return 经过处理的异常信息

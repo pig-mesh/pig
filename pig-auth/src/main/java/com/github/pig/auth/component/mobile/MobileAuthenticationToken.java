@@ -30,6 +30,7 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
         super.setAuthenticated(true);
     }
 
+    @Override
     public Object getPrincipal() {
         return this.principal;
     }
@@ -39,6 +40,7 @@ public class MobileAuthenticationToken extends AbstractAuthenticationToken {
         return null;
     }
 
+    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         if (isAuthenticated) {
             throw new IllegalArgumentException(
