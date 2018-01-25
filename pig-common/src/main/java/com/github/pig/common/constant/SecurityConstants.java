@@ -82,11 +82,6 @@ public interface SecurityConstants {
     String TOKEN_USER_DETAIL = "token-user-detail";
 
     /**
-     * 认证服务的SERVICEID（zuul 配置的对应）
-     */
-    String AUTH_SERVICE_ID = "auth-service";
-
-    /**
      * 默认的social的登录地址
      */
     String DEFAULT_SOCIAL_PROCESS_URL = "/social";
