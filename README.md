@@ -34,7 +34,8 @@ pig
 - 代码生成：前后端代码的生成，支持Vue
 - 缓存管理：基于Cache Cloud 保证Redis 的高可用
 - 服务监控: Spring Boot Admin
-- 链路追踪：服务链路追踪日志保存到ELK，支持数据可视化
+- zipkin链路追踪： 数据保存ELK，图形化展示
+- pinpoint链路追踪： 数据保存hbase，图形化展示
 
 欢迎加入QQ交流群，互相学习  
 一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
@@ -45,6 +46,7 @@ pig
 ![image](http://p0hpm86wj.bkt.clouddn.com/3.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/4.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/5.png)
+![image](http://p0hpm86wj.bkt.clouddn.com/34.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/21.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/22.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/23.png)
