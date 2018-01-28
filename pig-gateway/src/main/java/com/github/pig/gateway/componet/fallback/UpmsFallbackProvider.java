@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet;
+package com.github.pig.gateway.componet.fallback;
 
 import com.github.pig.common.constant.ServiceNameConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +15,11 @@ import java.io.InputStream;
 /**
  * @author lengleng
  * @date 2018/1/25
- * Auth 模块异常回调
+ * UPMS 模块异常回调
  */
 @Slf4j
 @Component
-public class AuthFallbackProvider implements FallbackProvider {
+public class UpmsFallbackProvider implements FallbackProvider {
     @Override
     public ClientHttpResponse fallbackResponse(Throwable cause) {
         log.error("调用:{} 异常：{}", getRoute(), cause.getMessage());
@@ -48,7 +48,7 @@ public class AuthFallbackProvider implements FallbackProvider {
                 if (cause != null && cause.getMessage() != null) {
                     return new ByteArrayInputStream(cause.getMessage().getBytes());
                 } else {
-                    return new ByteArrayInputStream("授权模块不可用".getBytes());
+                    return new ByteArrayInputStream("权限管理模块不可用".getBytes());
                 }
             }
 

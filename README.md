@@ -12,6 +12,7 @@ pig
 ├── pig-gateway -- ZUUL网关[9999]
 ├── pig-modules -- 微服务模块
 ├    ├── pig-mc-service -- 消息中心[4050]
+├    ├── pig-sso-client-demo -- 单点登录客户端示例[4040]
 ├    └── pig-upms-service -- 权限管理提供[4000]
 └── pig-visual  -- 图形化模块 
      ├── pig-monitor -- 服务状态监控、turbine [5001]
@@ -20,6 +21,7 @@ pig
 ```
 ###  已完成功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
+- 单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
 - 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
 - 机构管理：配置系统组织机构（公司、部门、小组），树结构展现，可随意调整上下级。
 - 菜单管理：配置系统菜单，操作权限，按钮权限标识等。

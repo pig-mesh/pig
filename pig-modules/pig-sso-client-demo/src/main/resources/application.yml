@@ -1,0 +1,48 @@
+server:
+  port: 4040
+
+security:
+  oauth2:
+    client:
+      client-id: pig
+      client-secret: pig
+      user-authorization-uri: http://localhost:3000/oauth/authorize
+      access-token-uri: http://localhost:3000/oauth/token
+      scope: server
+    resource:
+      jwt:
+        key-uri: http://localhost:3000/oauth/token_key
+  sessions: never
+
+spring:
+  application:
+    name: pig-sso-client-demo
+  profiles:
+    active: dev
+  redis:
+    remote: true        #是否是cachecloud 获取
+    host: 106.14.69.75
+    port: 6381
+    password:
+logging:
+  config: classpath:logback.xml
+
+---
+spring:
+  profiles: dev
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://pig:gip6666@localhost:1025/eureka
+
+---
+spring:
+  profiles: prd
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://pig:gip6666@pig-eureka:1025/eureka

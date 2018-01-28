@@ -4,12 +4,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.pig</groupId>
-    <artifactId>pig-mc-service</artifactId>
+    <artifactId>pig-sso-client-demo</artifactId>
     <version>${pig.version}</version>
     <packaging>jar</packaging>
 
-    <name>pig-mc-service</name>
-    <description>消息中心</description>
+    <name>pig-sso-client-demo</name>
+    <description>单点登录客户端</description>
 
     <parent>
         <groupId>com.github.pig</groupId>
@@ -19,22 +19,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.pig</groupId>
-            <artifactId>pig-common</artifactId>
-            <version>${pig.version}</version>
-        </dependency>
-        <!--rabbitMQ-->
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!--阿里大于-->
         <dependency>
-            <groupId>com.aliyun.taobao</groupId>
-            <artifactId>alidayu-sms</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/lib/alidayu-sms-1.0.jar</systemPath>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-jwt</artifactId>
         </dependency>
     </dependencies>
 

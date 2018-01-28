@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet;
+package com.github.pig.gateway.componet.fallback;
 
 import com.github.pig.common.constant.ServiceNameConstant;
 import org.apache.commons.lang.StringUtils;
