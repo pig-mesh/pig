@@ -37,8 +37,10 @@ service.interceptors.response.use(
       message(res.status + '： ' + res.data.msg, 'error')
     } else if (res.status === 400) {
       message(res.status + '： ' + res.data.error_description, 'error')
-    } else if (res.status === 202 ){ //三方未绑定
+    } else if (res.status === 202 ) { //三方未绑定
       this.$router.push({path: '/'})
+    } else if (res.status === 503 ) {//服务异常
+      message(res.status + '： ' + res.data, 'error')
     } else {
       message(res.status + '： ' + res.data.message, 'error')
     }
