@@ -105,39 +105,16 @@
                         <encoding>UTF-8</encoding>
                     </configuration>
                 </plugin>
-                <plugin>
-                    <groupId>org.sonarsource.scanner.maven</groupId>
-                    <artifactId>sonar-maven-plugin</artifactId>
-                    <version>3.3.0.603</version>
-                </plugin>
             </plugins>
         </pluginManagement>
     </build>
 
+    <!-- 使用aliyun镜像 -->
     <repositories>
         <repository>
-            <id>nexus</id>
-            <name>nexus Repository</name>
-            <url>http://106.14.69.75:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>nexus</id>
-            <name>nexus PluginRepository</name>
-            <url>http://106.14.69.75:8081/repository/maven-releases/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
 </project>
