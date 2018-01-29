@@ -45,6 +45,7 @@ export const asyncRouterMap = [
     component: Layout,
     name: '系统管理',
     hidden: false,
+    redirect: '/admin/user',
     // icon: 'table',
     meta: {
       title: '系统管理',
@@ -64,6 +65,7 @@ export const asyncRouterMap = [
     path: '/monitor',
     component: Layout,
     name: '系统监控',
+    redirect: '/monitor/service',
     hidden: false,
     // icon: 'table',
     meta: {
