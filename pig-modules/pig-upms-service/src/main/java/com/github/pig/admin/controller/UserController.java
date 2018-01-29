@@ -15,6 +15,8 @@ import com.github.pig.common.web.BaseController;
 import com.luhuiguo.fastdfs.domain.StorePath;
 import com.luhuiguo.fastdfs.service.FastFileStorageClient;
 import com.xiaoleilu.hutool.io.FileUtil;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -70,6 +72,8 @@ public class UserController extends BaseController {
      * @param id ID
      * @return R
      */
+    @ApiOperation(value="删除用户", notes="根据ID删除用户")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer")
     @DeleteMapping("/{id}")
     public R<Boolean> userDel(@PathVariable Integer id) {
         SysUser sysUser = userService.selectById(id);
