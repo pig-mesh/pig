@@ -1,6 +1,12 @@
  ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
  
+ ### 视频教程
+ 
+ 1. [课程介绍项目介绍](http://p3blpcsde.bkt.clouddn.com/1.mp4)
+ 2. ...还在录
+
+ 
  ### now
 ``` lua
 pig
