@@ -1,5 +1,16 @@
 server:
   port: 4040
+  context-path: /sso1
+
+#监控短点配置
+management:
+  security:
+    enabled: false
+endpoints:
+  actuator:
+    enabled: true
+  shutdown:
+    enabled: false
 
 security:
   oauth2:
@@ -12,7 +23,6 @@ security:
     resource:
       jwt:
         key-uri: http://localhost:3000/oauth/token_key
-  sessions: never
 
 spring:
   application:
@@ -24,9 +34,9 @@ spring:
     host: 106.14.69.75
     port: 6381
     password:
+
 logging:
   config: classpath:logback.xml
-
 ---
 spring:
   profiles: dev
