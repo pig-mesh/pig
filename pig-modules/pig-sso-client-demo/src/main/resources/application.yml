@@ -33,6 +33,8 @@ spring:
 eureka:
   instance:
     prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 20
   client:
     serviceUrl:
       defaultZone: http://pig:gip6666@localhost:1025/eureka
