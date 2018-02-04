@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : 106.14.69.75
+ Source Server         : 192.168.0.111
  Source Server Type    : MySQL
- Source Server Version : 50720
- Source Host           : 106.14.69.75
+ Source Server Version : 50721
+ Source Host           : 192.168.0.111
  Source Database       : pig
 
  Target Server Type    : MySQL
- Target Server Version : 50720
+ Target Server Version : 50721
  File Encoding         : utf-8
 
- Date: 01/25/2018 11:19:57 AM
+ Date: 02/04/2018 22:30:05 PM
 */
 
 SET NAMES utf8;
@@ -35,7 +35,7 @@ CREATE TABLE `sys_UserConnection` (
   `expireTime` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`userId`,`providerId`,`providerUserId`),
   UNIQUE KEY `UserConnectionRank` (`userId`,`providerId`,`rank`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `sys_UserConnection`
@@ -57,7 +57,7 @@ CREATE TABLE `sys_dept` (
   `del_flag` char(1) DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   `parent_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COMMENT='部门管理';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='部门管理';
 
 -- ----------------------------
 --  Records of `sys_dept`
@@ -74,9 +74,9 @@ CREATE TABLE `sys_dept_relation` (
   `ancestor` int(11) NOT NULL COMMENT '祖先节点',
   `descendant` int(11) NOT NULL COMMENT '后代节点',
   PRIMARY KEY (`ancestor`,`descendant`),
-  KEY `idx1` (`ancestor`) USING BTREE,
-  KEY `idx2` (`descendant`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `idx1` (`ancestor`),
+  KEY `idx2` (`descendant`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `sys_dept_relation`
@@ -104,7 +104,7 @@ CREATE TABLE `sys_dict` (
   KEY `sys_dict_value` (`value`),
   KEY `sys_dict_label` (`label`),
   KEY `sys_dict_del_flag` (`del_flag`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='字典表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='字典表';
 
 -- ----------------------------
 --  Records of `sys_dict`
@@ -134,11 +134,11 @@ CREATE TABLE `sys_log` (
   `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
   `exception` text COMMENT '异常信息',
   PRIMARY KEY (`id`),
-  KEY `sys_log_create_by` (`create_by`) USING BTREE,
-  KEY `sys_log_request_uri` (`request_uri`) USING BTREE,
-  KEY `sys_log_type` (`type`) USING BTREE,
-  KEY `sys_log_create_date` (`create_time`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=95937 DEFAULT CHARSET=utf8 COMMENT='日志表';
+  KEY `sys_log_create_by` (`create_by`),
+  KEY `sys_log_request_uri` (`request_uri`),
+  KEY `sys_log_type` (`type`),
+  KEY `sys_log_create_date` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 -- ----------------------------
 --  Table structure for `sys_menu`
@@ -160,13 +160,13 @@ CREATE TABLE `sys_menu` (
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) DEFAULT '0' COMMENT '0--正常 1--删除',
   PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
 
 -- ----------------------------
 --  Records of `sys_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_menu` VALUES ('1', '系统管理', null, '/admin', null, null, '-1', null, 'Layout', null, '0', '2017-11-07 20:56:00', '2017-11-14 14:26:03', '0'), ('2', '用户管理', null, 'user', null, null, '1', null, '_import(\'admin/user\')', null, '0', '2017-11-02 22:24:37', '2017-11-14 15:22:40', '0'), ('3', '菜单管理', null, 'menu', null, null, '1', null, '_import(\'admin/menu\')', null, '0', '2017-11-08 09:57:27', '2017-11-14 15:22:45', '0'), ('4', '角色管理', null, 'role', null, null, '1', null, '_import(\'admin/role\')', null, '0', '2017-11-08 10:13:37', '2017-11-14 15:22:51', '0'), ('5', '日志管理', null, 'log', null, null, '1', null, '_import(\'admin/log\')', null, '0', '2017-11-20 14:06:22', '2017-11-20 14:14:11', '0'), ('6', '字典管理', null, 'dict', null, null, '1', null, '_import(\'admin/dict\')', null, '0', '2017-11-29 11:30:52', '2017-11-29 11:31:15', '0'), ('7', '部门管理', null, null, null, null, '1', null, '_import(\'admin/dept\')', null, '0', '2018-01-20 13:17:19', null, '0'), ('8', '系统监控', null, null, null, null, '-1', null, '_import(\'admin/monitor\')', null, '1', '2018-01-22 12:30:41', '2018-01-23 10:51:46', '0'), ('9', '服务监控', null, null, null, null, '8', null, '_import(\'admin/monitor/service\')', null, null, '2018-01-23 10:53:33', null, '0'), ('10', 'zipkin监控', null, null, null, null, '8', null, '_import(\'admin/monitor/zipkin\')', null, '0', '2018-01-23 10:55:18', '2018-01-25 11:10:16', '0'), ('11', 'pinpoint监控', null, null, null, null, '8', null, '_import(\'admin/monitor/pinpoint\')', null, '0', '2018-01-25 11:08:52', '2018-01-25 11:11:01', '0'), ('12', '缓存状态', null, null, null, null, '8', null, '_import(\'admin/monitor/cache\')', null, '0', '2018-01-23 10:56:11', null, '0'), ('13', 'ELK状态', null, null, null, null, '8', null, '_import(\'admin/monitor/elk\')', null, '0', '2018-01-23 10:55:47', '2018-01-25 11:11:40', '0'), ('14', '接口文档', null, null, null, null, '8', null, '_import(\'admin/monitor/swagger\')', null, '0', '2018-01-23 10:56:43', '2018-01-25 11:11:45', '0'), ('21', '用户查看', '', null, '/admin/user/*', 'GET', '2', null, null, null, '1', '2017-11-07 20:58:05', '2017-11-28 17:33:19', '0'), ('22', '用户新增', 'sys_user_add', null, '/admin/user/*', 'POST', '2', null, null, null, '1', '2017-11-08 09:52:09', '2017-12-04 16:31:10', '0'), ('23', '用户修改', 'sys_user_upd', null, '/admin/user/**', 'PUT', '2', null, null, null, '1', '2017-11-08 09:52:48', '2018-01-17 17:40:01', '0'), ('24', '用户删除', 'sys_user_del', null, '/admin/user/*', 'DELETE', '2', null, null, null, '1', '2017-11-08 09:54:01', '2017-12-04 16:31:18', '0'), ('31', '菜单查看', null, null, '/admin/menu/**', 'GET', '3', null, null, null, '1', '2017-11-08 09:57:56', '2017-11-14 17:29:17', '0'), ('32', '菜单新增', 'sys_menu_add', null, '/admin/menu/*', 'POST', '3', null, null, null, '1', '2017-11-08 10:15:53', '2018-01-20 14:37:50', '0'), ('33', '菜单修改', 'sys_menu_edit', null, '/admin/menu/*', 'PUT', '3', null, null, null, '1', '2017-11-08 10:16:23', '2018-01-20 14:37:56', '0'), ('34', '菜单删除', 'sys_menu_del', null, '/admin/menu/*', 'DELETE', '3', null, null, null, '1', '2017-11-08 10:16:43', '2018-01-20 14:38:03', '0'), ('41', '角色查看', null, null, '/admin/role/*', 'GET', '4', null, null, null, '1', '2017-11-08 10:14:01', '2017-11-14 14:10:05', '0'), ('42', '角色新增', null, null, '/admin/role/*', 'POST', '4', null, null, null, '1', '2017-11-08 10:14:18', '2017-11-14 14:10:03', '0'), ('43', '角色修改', null, null, '/admin/role/*', 'PUT', '4', null, null, null, '1', '2017-11-08 10:14:41', '2017-11-08 20:35:33', '0'), ('44', '角色删除', null, null, '/admin/role/*', 'DELETE', '4', null, null, null, '1', '2017-11-08 10:14:59', '2017-11-08 20:35:35', '0'), ('51', '日志查看', null, null, '/admin/log/*', 'GET', '5', null, null, null, '1', '2017-11-20 14:07:25', '2017-11-20 14:16:49', '0'), ('52', '日志删除', 'sys_log_del', null, '/admin/log/*', 'DELETE', '5', null, null, null, '1', '2017-11-20 20:37:37', '2017-11-28 17:36:52', '0'), ('61', '字典查看', null, null, '/admin/dict/**', 'GET', '6', null, null, null, '1', '2017-11-19 22:04:24', '2017-11-29 11:31:24', '0'), ('62', '字典删除', 'sys_dict_del', null, '/admin/dict/**', 'DELETE', '6', null, null, null, '1', '2017-11-29 11:30:11', '2018-01-07 15:40:51', '0'), ('71', '部门查看', '', null, '/admin/dept/**', 'GET', '7', null, '', null, '1', '2018-01-20 13:17:19', '2018-01-20 14:55:24', '0'), ('72', '部门新增', 'sys_dept_add', null, '/admin/dept/**', 'POST', '7', null, null, null, '1', '2018-01-20 14:56:16', '2018-01-20 21:17:57', '0'), ('73', '部门修改', 'sys_dept_edit', null, '/admin/dept/**', 'PUT', '7', null, null, null, '1', '2018-01-20 14:56:59', '2018-01-20 21:17:59', '0'), ('74', '部门删除', 'sys_dept_del', null, '/admin/dept/**', 'DELETE', '7', null, null, null, '1', '2018-01-20 14:57:28', '2018-01-20 21:18:05', '0');
+INSERT INTO `sys_menu` VALUES ('1', '系统管理', null, '/admin', null, null, '-1', null, 'Layout', null, '0', '2017-11-07 20:56:00', '2017-11-14 14:26:03', '0'), ('2', '用户管理', null, 'user', null, null, '1', null, '_import(\'admin/user\')', null, '0', '2017-11-02 22:24:37', '2017-11-14 15:22:40', '0'), ('3', '菜单管理', null, 'menu', null, null, '1', null, '_import(\'admin/menu\')', null, '0', '2017-11-08 09:57:27', '2017-11-14 15:22:45', '0'), ('4', '角色管理', null, 'role', null, null, '1', null, '_import(\'admin/role\')', null, '0', '2017-11-08 10:13:37', '2017-11-14 15:22:51', '0'), ('5', '日志管理', null, 'log', null, null, '1', null, '_import(\'admin/log\')', null, '0', '2017-11-20 14:06:22', '2017-11-20 14:14:11', '0'), ('6', '字典管理', null, 'dict', null, null, '1', null, '_import(\'admin/dict\')', null, '0', '2017-11-29 11:30:52', '2017-11-29 11:31:15', '0'), ('7', '部门管理', null, null, null, null, '1', null, '_import(\'admin/dept\')', null, '0', '2018-01-20 13:17:19', null, '0'), ('8', '系统监控', null, null, null, null, '-1', null, '_import(\'admin/monitor\')', null, '1', '2018-01-22 12:30:41', '2018-01-23 10:51:46', '0'), ('9', '服务监控', null, null, null, null, '8', null, '_import(\'admin/monitor/service\')', null, null, '2018-01-23 10:53:33', null, '0'), ('10', 'zipkin监控', null, null, null, null, '8', null, '_import(\'admin/monitor/zipkin\')', null, '0', '2018-01-23 10:55:18', '2018-01-25 11:10:16', '0'), ('11', 'pinpoint监控', null, null, null, null, '8', null, '_import(\'admin/monitor/pinpoint\')', null, '0', '2018-01-25 11:08:52', '2018-01-25 11:11:01', '0'), ('12', '缓存状态', null, null, null, null, '8', null, '_import(\'admin/monitor/cache\')', null, '0', '2018-01-23 10:56:11', null, '0'), ('13', 'ELK状态', null, null, null, null, '8', null, '_import(\'admin/monitor/elk\')', null, '0', '2018-01-23 10:55:47', '2018-01-25 11:11:40', '0'), ('14', '接口文档', null, null, null, null, '8', null, '_import(\'admin/monitor/swagger\')', null, '0', '2018-01-23 10:56:43', '2018-01-25 11:11:45', '0'), ('21', '用户查看', '', null, '/admin/user/**', 'GET', '2', null, null, null, '1', '2017-11-07 20:58:05', '2018-02-04 14:28:49', '0'), ('22', '用户新增', 'sys_user_add', null, '/admin/user/*', 'POST', '2', null, null, null, '1', '2017-11-08 09:52:09', '2017-12-04 16:31:10', '0'), ('23', '用户修改', 'sys_user_upd', null, '/admin/user/**', 'PUT', '2', null, null, null, '1', '2017-11-08 09:52:48', '2018-01-17 17:40:01', '0'), ('24', '用户删除', 'sys_user_del', null, '/admin/user/*', 'DELETE', '2', null, null, null, '1', '2017-11-08 09:54:01', '2017-12-04 16:31:18', '0'), ('31', '菜单查看', null, null, '/admin/menu/**', 'GET', '3', null, null, null, '1', '2017-11-08 09:57:56', '2017-11-14 17:29:17', '0'), ('32', '菜单新增', 'sys_menu_add', null, '/admin/menu/*', 'POST', '3', null, null, null, '1', '2017-11-08 10:15:53', '2018-01-20 14:37:50', '0'), ('33', '菜单修改', 'sys_menu_edit', null, '/admin/menu/*', 'PUT', '3', null, null, null, '1', '2017-11-08 10:16:23', '2018-01-20 14:37:56', '0'), ('34', '菜单删除', 'sys_menu_del', null, '/admin/menu/*', 'DELETE', '3', null, null, null, '1', '2017-11-08 10:16:43', '2018-01-20 14:38:03', '0'), ('41', '角色查看', null, null, '/admin/role/**', 'GET', '4', null, null, null, '1', '2017-11-08 10:14:01', '2018-02-04 13:55:06', '0'), ('42', '角色新增', null, null, '/admin/role/*', 'POST', '4', null, null, null, '1', '2017-11-08 10:14:18', '2017-11-14 14:10:03', '0'), ('43', '角色修改', null, null, '/admin/role/*', 'PUT', '4', null, null, null, '1', '2017-11-08 10:14:41', '2017-11-08 20:35:33', '0'), ('44', '角色删除', null, null, '/admin/role/*', 'DELETE', '4', null, null, null, '1', '2017-11-08 10:14:59', '2017-11-08 20:35:35', '0'), ('51', '日志查看', null, null, '/admin/log/**', 'GET', '5', null, null, null, '1', '2017-11-20 14:07:25', '2018-02-04 14:28:53', '0'), ('52', '日志删除', 'sys_log_del', null, '/admin/log/*', 'DELETE', '5', null, null, null, '1', '2017-11-20 20:37:37', '2017-11-28 17:36:52', '0'), ('61', '字典查看', null, null, '/admin/dict/**', 'GET', '6', null, null, null, '1', '2017-11-19 22:04:24', '2017-11-29 11:31:24', '0'), ('62', '字典删除', 'sys_dict_del', null, '/admin/dict/**', 'DELETE', '6', null, null, null, '1', '2017-11-29 11:30:11', '2018-01-07 15:40:51', '0'), ('71', '部门查看', '', null, '/admin/dept/**', 'GET', '7', null, '', null, '1', '2018-01-20 13:17:19', '2018-01-20 14:55:24', '0'), ('72', '部门新增', 'sys_dept_add', null, '/admin/dept/**', 'POST', '7', null, null, null, '1', '2018-01-20 14:56:16', '2018-01-20 21:17:57', '0'), ('73', '部门修改', 'sys_dept_edit', null, '/admin/dept/**', 'PUT', '7', null, null, null, '1', '2018-01-20 14:56:59', '2018-01-20 21:17:59', '0'), ('74', '部门删除', 'sys_dept_del', null, '/admin/dept/**', 'DELETE', '7', null, null, null, '1', '2018-01-20 14:57:28', '2018-01-20 21:18:05', '0');
 COMMIT;
 
 -- ----------------------------
@@ -183,13 +183,13 @@ CREATE TABLE `sys_role` (
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_idx1_role_code` (`role_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 --  Records of `sys_role`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role` VALUES ('1', 'admin', 'admins', '超级管理员', '2017-10-29 15:45:51', '2017-11-14 10:59:14', '0'), ('2', 'user', 'user', '普通用户角色', '2017-11-06 22:02:21', '2017-11-21 20:21:54', '1'), ('4', 'test', 'test', '测试角色！！！', '2017-11-06 22:03:54', '2017-11-21 20:21:52', '1'), ('5', 'users', 'users', '用户角色', '2017-11-21 20:02:46', null, '0'), ('7', 'asdasdasd', 'saddas', 'asdasdas', '2017-11-21 20:25:26', '2018-01-20 23:10:12', '1'), ('8', 'qwyegiuqw', 'zxcxzczzxc', 'sadasdas', '2017-11-22 19:59:20', '2018-01-20 23:10:19', '1'), ('9', 'lxh_test', 'lxh_test', '李寻欢测试权限', '2018-01-09 17:39:52', '2018-01-20 23:10:22', '1'), ('10', 'testtest', 'tests', '测试部门', '2018-01-20 23:18:14', null, '0'), ('11', 'lxh_testa', 'lxh_testa', '测试只显示指定菜单', '2018-01-24 11:48:01', null, '0');
+INSERT INTO `sys_role` VALUES ('1', 'admin', 'ROLE_ADMIN', '超级管理员', '2017-10-29 15:45:51', '2018-01-28 12:46:43', '0');
 COMMIT;
 
 -- ----------------------------
@@ -201,13 +201,13 @@ CREATE TABLE `sys_role_dept` (
   `role_id` int(20) DEFAULT NULL COMMENT '角色ID',
   `dept_id` int(20) DEFAULT NULL COMMENT '部门ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='角色与部门对应关系';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色与部门对应关系';
 
 -- ----------------------------
 --  Records of `sys_role_dept`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_dept` VALUES ('1', '10', '3'), ('3', '5', '6'), ('4', '1', '6'), ('5', '11', null);
+INSERT INTO `sys_role_dept` VALUES ('1', '1', '1');
 COMMIT;
 
 -- ----------------------------
@@ -218,13 +218,13 @@ CREATE TABLE `sys_role_menu` (
   `role_id` int(11) NOT NULL COMMENT '角色ID',
   `menu_id` int(11) NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`,`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色菜单表';
 
 -- ----------------------------
 --  Records of `sys_role_menu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_menu` VALUES ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5'), ('1', '6'), ('1', '7'), ('1', '8'), ('1', '9'), ('1', '10'), ('1', '11'), ('1', '12'), ('1', '13'), ('1', '21'), ('1', '22'), ('1', '23'), ('1', '24'), ('1', '31'), ('1', '32'), ('1', '33'), ('1', '34'), ('1', '41'), ('1', '42'), ('1', '43'), ('1', '44'), ('1', '51'), ('1', '52'), ('1', '61'), ('1', '62'), ('1', '71'), ('1', '72'), ('1', '73'), ('1', '74'), ('2', '1'), ('2', '2'), ('2', '21'), ('2', '31'), ('9', '2'), ('9', '3'), ('9', '5'), ('9', '21'), ('9', '22'), ('9', '23'), ('9', '24'), ('9', '31'), ('9', '32'), ('9', '33'), ('9', '34'), ('9', '51'), ('9', '52'), ('11', '1'), ('11', '5'), ('11', '8'), ('11', '21'), ('11', '31'), ('11', '51'), ('11', '52');
+INSERT INTO `sys_role_menu` VALUES ('1', '1'), ('1', '2'), ('1', '3'), ('1', '4'), ('1', '5'), ('1', '6'), ('1', '7'), ('1', '8'), ('1', '9'), ('1', '10'), ('1', '11'), ('1', '12'), ('1', '13'), ('1', '14'), ('1', '21'), ('1', '22'), ('1', '23'), ('1', '24'), ('1', '31'), ('1', '32'), ('1', '33'), ('1', '34'), ('1', '41'), ('1', '42'), ('1', '43'), ('1', '44'), ('1', '51'), ('1', '52'), ('1', '61'), ('1', '62'), ('1', '71'), ('1', '72'), ('1', '73'), ('1', '74');
 COMMIT;
 
 -- ----------------------------
@@ -238,18 +238,19 @@ CREATE TABLE `sys_user` (
   `salt` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '随机盐',
   `introduction` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '简介',
   `avatar` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '头像',
+  `dept_id` int(11) DEFAULT NULL COMMENT '部门ID',
   `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '0-正常，1-删除',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_idx1_username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='用户表';
 
 -- ----------------------------
 --  Records of `sys_user`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES ('1', 'admin', '$2a$10$gBejTEife2WvJzysrRDXL.MVNCcBsso3adMZWQDsVewCDUaIsIvSK', null, '17034642119', 'http://p0hpm86wj.bkt.clouddn.com/10bd0c7c-03c7-4ad1-8366-b24b4201b969.png', '2017-10-29 15:45:13', '2018-01-24 11:22:39', '0'), ('4', 'lengleng', '$2a$10$K8i5X/zDE3pt2CerSGSyj.XFi9SU2Mm3PZnH9vBsEjL1IHaDJ3pI2', null, '', 'http://p0hpm86wj.bkt.clouddn.com/10bd0c7c-03c7-4ad1-8366-b24b4201b969.png', '2017-12-04 16:34:24', '2018-01-23 12:33:26', '0'), ('6', 'leng12245555556', '$2a$10$gBejTEife2WvJzysrRDXL.MVNCcBsso3adMZWQDsVewCDUaIsIvSK', null, null, null, '2017-12-04 22:33:46', '2018-01-17 19:17:35', '0'), ('9', 'lxh_test', '$2a$10$70tKVmHi7oSYE1Sh5SWZ1erK8XUm9v4/rVVe57lNw0S.pzi1w37Au', null, null, 'http://p0hpm86wj.bkt.clouddn.com/242b51e4-d66a-48e7-856e-1e4e617ab68e.png', '2018-01-09 17:41:58', '2018-01-24 11:23:18', '0'), ('10', 'spring', '$2a$10$HwSAxIBc6qAl3dm9v5ZI4ObTckVjuGeXhq.Fqp.WqT8igh/YY3/E.', null, null, null, '2018-01-16 17:07:56', null, '0'), ('11', 'lxh', '$2a$10$2bJacRd591QpgGdCY9Xbeev6wgPh9pTw4XIRSzmcSUIEZN/bys5S6', null, null, 'http://p0hpm86wj.bkt.clouddn.com/242b51e4-d66a-48e7-856e-1e4e617ab68e.png', '2018-01-24 11:24:27', '2018-01-24 11:24:38', '0'), ('12', 'lxh_testa', '$2a$10$LX62QifGmmNRgAID.5aJUeIp/5EchrfAwQ3R12tfoKXPfiC0kXipu', null, null, null, '2018-01-24 11:48:44', null, '0');
+INSERT INTO `sys_user` VALUES ('1', 'admin', '$2a$10$gBejTEife2WvJzysrRDXL.MVNCcBsso3adMZWQDsVewCDUaIsIvSK', null, '17034642119', 'http://p0hpm86wj.bkt.clouddn.com/10bd0c7c-03c7-4ad1-8366-b24b4201b969.png', '1', '2017-10-29 15:45:13', '2018-02-03 13:29:28', '0');
 COMMIT;
 
 -- ----------------------------
@@ -260,13 +261,13 @@ CREATE TABLE `sys_user_role` (
   `user_id` int(11) NOT NULL COMMENT '用户ID',
   `role_id` int(11) NOT NULL COMMENT '角色ID',
   PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色表';
 
 -- ----------------------------
 --  Records of `sys_user_role`
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES ('1', '1'), ('6', '2'), ('9', '9'), ('10', '2'), ('11', '1'), ('12', '11');
+INSERT INTO `sys_user_role` VALUES ('1', '1'), ('6', '2'), ('9', '9'), ('10', '2'), ('11', '1'), ('12', '11'), ('13', '1'), ('14', '5');
 COMMIT;
 
 -- ----------------------------
