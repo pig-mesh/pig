@@ -26,11 +26,11 @@
         </template>
       </el-table-column>
 
-      <!--<el-table-column align="center" label="密码" show-overflow-tooltip>-->
-      <!--<template slot-scope="scope">-->
-      <!--<span>{{scope.row.password}}</span>-->
-      <!--</template>-->
-      <!--</el-table-column>-->
+      <el-table-column align="center" label="所属部门" show-overflow-tooltip>
+        <template slot-scope="scope">
+        <span>{{scope.row.deptName}}</span>
+        </template>
+      </el-table-column>
 
       <el-table-column align="center" label="角色">
         <template slot-scope="scope">
@@ -71,6 +71,22 @@
       </el-pagination>
     </div>
 
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogDeptVisible">
+      <el-tree
+        class="filter-tree"
+        :data="treeDeptData"
+        :default-checked-keys="checkedKeys"
+        check-strictly
+        node-key="id"
+        highlight-current
+        ref="deptTree"
+        :props="defaultProps"
+        @node-click="getNodeData"
+        default-expand-all
+      >
+      </el-tree>
+    </el-dialog>
+
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
         <el-form-item label="用户名" prop="username">
@@ -81,6 +97,11 @@
           <el-input type="password" v-model="form.password"></el-input>
         </el-form-item>
 
+        <el-form-item label="所属部门" prop="deptName">
+          <el-input v-model="form.deptName" placeholder="选择部门" @focus="handleDept()" readonly></el-input>
+          <input type="hidden" v-model="form.deptId"/>
+        </el-form-item>
+
         <el-form-item label="角色" prop="role">
           <el-select class="filter-item" v-model="role" placeholder="请选择">
             <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId" :disabled="isDisabled[item.delFlag]">
@@ -88,9 +109,6 @@
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.roleCode }}</span>
             </el-option>
           </el-select>
-          <!--<el-radio-group v-model="form.role" placeholder="请选择">-->
-            <!--<el-radio v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId"></el-radio>-->
-          <!--</el-radio-group>-->
         </el-form-item>
 
         <el-form-item label="状态" v-if="dialogStatus == 'update' && sys_user_del " prop="delFlag" >
@@ -110,7 +128,7 @@
 
 <script>
   import { fetchList, getObj, addObj, putObj, delObj } from '@/api/user'
-  import { roleList } from '@/api/role'
+  import { deptRoleList, fetchDeptTree } from '@/api/role'
   import waves from '@/directive/waves/index.js' // 水波纹指令
   // import { parseTime } from '@/utils'
   import { mapGetters } from 'vuex'
@@ -127,6 +145,12 @@
     },
     data() {
       return {
+        treeDeptData: [],
+        checkedKeys: [],
+        defaultProps: {
+          children: 'children',
+          label: 'name'
+        },
         list: null,
         total: null,
         listLoading: true,
@@ -138,7 +162,8 @@
         form: {
           username: undefined,
           password: undefined,
-          delFlag: undefined
+          delFlag: undefined,
+          deptId: undefined
         },
         rules: {
           username: [
@@ -166,11 +191,26 @@
               message: '长度在 5 到 20 个字符',
               trigger: 'blur'
             }
+          ],
+          deptId: [
+            {
+              required: true,
+              message: '请选择部门',
+              trigger: 'blur'
+            }
+          ],
+          role: [
+            {
+              required: true,
+              message: '请选择角色',
+              trigger: 'blur'
+            }
           ]
         },
         statusOptions: ['0', '1'],
         rolesOptions: [],
         dialogFormVisible: false,
+        dialogDeptVisible: false,
         userAdd: false,
         userUpd: false,
         userDel: false,
@@ -218,6 +258,22 @@
           this.listLoading = false
         })
       },
+      getNodeData(data) {
+        this.dialogDeptVisible = false
+        this.form.deptId = data.id
+        this.form.deptName = data.name
+        deptRoleList(data.id)
+          .then(response => {
+            this.rolesOptions = response.data
+          })
+      },
+      handleDept() {
+        fetchDeptTree()
+          .then(response => {
+            this.treeDeptData = response.data
+            this.dialogDeptVisible = true
+          })
+      },
       handleFilter() {
         this.listQuery.page = 1
         this.getList()
@@ -234,10 +290,6 @@
         this.resetTemp()
         this.dialogStatus = 'create'
         this.dialogFormVisible = true
-        roleList()
-          .then(response => {
-            this.rolesOptions = response.data
-          })
       },
       handleUpdate(row) {
         getObj(row.userId)
@@ -246,17 +298,17 @@
             this.role = row.roleList[0].roleId
             this.dialogFormVisible = true
             this.dialogStatus = 'update'
-          })
-        roleList()
-          .then(response => {
-            this.rolesOptions = response.data
+            deptRoleList(response.data.deptId)
+              .then(response => {
+                this.rolesOptions = response.data
+              })
           })
       },
       create(formName) {
         const set = this.$refs
+        this.form.role = this.role
         set[formName].validate(valid => {
           if (valid) {
-            this.form.role = this.role
             addObj(this.form)
               .then(() => {
                 this.dialogFormVisible = false
@@ -279,11 +331,11 @@
       },
       update(formName) {
         const set = this.$refs
+        this.form.role = this.role
         set[formName].validate(valid => {
           if (valid) {
             this.dialogFormVisible = false
             this.form.password = undefined
-            this.form.role = this.role
             putObj(this.form).then(() => {
               this.dialogFormVisible = false
               this.getList()
