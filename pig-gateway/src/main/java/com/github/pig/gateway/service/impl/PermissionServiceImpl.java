@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.github.pig.common.vo.MenuVo;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
+import com.xiaoleilu.hutool.util.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.AntPathMatcher;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -36,7 +38,15 @@ public class PermissionServiceImpl implements PermissionService {
         boolean hasPermission = false;
 
         if (principal != null) {
-            Set<MenuVo> urls = menuService.findMenuByRole(grantedAuthorityList.get(0).getAuthority());
+            if (CollectionUtil.isEmpty(grantedAuthorityList)) {
+                return hasPermission;
+            }
+
+            Set<MenuVo> urls = new HashSet<>();
+            for (SimpleGrantedAuthority authority : grantedAuthorityList) {
+                urls.addAll(menuService.findMenuByRole(authority.getAuthority()));
+            }
+
             for (MenuVo menu : urls) {
                 if (StringUtils.isNotEmpty(menu.getUrl()) && antPathMatcher.match(menu.getUrl(), request.getRequestURI())
                         && request.getMethod().equalsIgnoreCase(menu.getMethod())) {
