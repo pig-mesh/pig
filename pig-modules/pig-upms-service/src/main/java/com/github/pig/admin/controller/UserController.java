@@ -62,8 +62,8 @@ public class UserController extends BaseController {
      * @return 用户信息
      */
     @GetMapping("/{id}")
-    public SysUser user(@PathVariable Integer id) {
-        return userService.selectById(id);
+    public UserVo user(@PathVariable Integer id) {
+        return userService.selectUserVoById(id);
     }
 
     /**

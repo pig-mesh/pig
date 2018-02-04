@@ -24,4 +24,12 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @return List
      */
     List<Object> selectRolePage(Query<Object> query, Map<String, Object> condition);
+
+    /**
+     * 通过部门ID查询角色列表
+     *
+     * @param deptId 部门ID
+     * @return 角色列表
+     */
+    List<SysRole> selectListByDeptId(Integer deptId);
 }

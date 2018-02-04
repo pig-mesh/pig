@@ -12,6 +12,8 @@ public class UserDto extends SysUser {
      */
     private Integer role;
 
+    private Integer deptId;
+
     /**
      * 新密码
      */
@@ -32,4 +34,5 @@ public class UserDto extends SysUser {
     public void setNewpassword1(String newpassword1) {
         this.newpassword1 = newpassword1;
     }
+
 }

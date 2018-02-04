@@ -71,13 +71,12 @@ public class RoleController extends BaseController {
     /**
      * 获取角色列表
      *
+     * @param deptId  部门ID
      * @return 角色列表
      */
-    @GetMapping("/roleList")
-    public List<SysRole> roleList() {
-        SysRole condition = new SysRole();
-        condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return sysRoleService.selectList(new EntityWrapper<>(condition));
+    @GetMapping("/roleList/{deptId}")
+    public List<SysRole> roleList(@PathVariable Integer deptId) {
+        return sysRoleService.selectListByDeptId(deptId);
 
     }
 

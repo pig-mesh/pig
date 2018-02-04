@@ -114,6 +114,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
+     * 通过ID查询用户信息
+     *
+     * @param id 用户ID
+     * @return 用户信息
+     */
+    @Override
+    public UserVo selectUserVoById(Integer id) {
+        return sysUserMapper.selectUserVoById(id);
+    }
+
+    /**
      * 保存用户验证码，和randomStr绑定
      *
      * @param randomStr 客户端生成

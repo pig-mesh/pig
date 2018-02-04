@@ -36,4 +36,16 @@
 		WHERE r.del_flag = 0
 		ORDER BY r.role_id ASC
 	</select>
+	<select id="selectListByDeptId" resultMap="BaseResultMap">
+		SELECT
+			r.role_id,
+			r.role_name,
+			r.role_code,
+			r.role_desc,
+			r.create_time,
+			r.update_time,
+			r.del_flag
+		FROM sys_role r LEFT OUTER JOIN sys_role_dept rd ON rd.role_id = r.role_id
+		WHERE rd.dept_id = #{deptId}
+	</select>
 </mapper>

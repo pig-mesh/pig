@@ -86,4 +86,11 @@ public interface SysUserService extends IService<SysUser> {
      * @return 用户信息
      */
     UserVo findUserByOpenId(String openId);
+
+    /**
+     * 通过ID查询用户信息
+     * @param id 用户ID
+     * @return 用户信息
+     */
+    UserVo selectUserVoById(Integer id);
 }

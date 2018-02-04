@@ -20,4 +20,9 @@ public interface MqQueueConstant {
      * 服务状态队列
      */
     String SERVICE_STATUS_CHANGE = "service_status_change";
+
+    /**
+     * zipkin 队列
+     */
+    String ZIPLIN_NAME_QUEUE = "zipkin";
 }
