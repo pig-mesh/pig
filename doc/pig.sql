@@ -11,7 +11,7 @@
  Target Server Version : 50721
  File Encoding         : utf-8
 
- Date: 02/04/2018 22:30:05 PM
+ Date: 02/05/2018 23:40:41 PM
 */
 
 SET NAMES utf8;
@@ -114,11 +114,38 @@ INSERT INTO `sys_dict` VALUES ('1', '0', '正常', 'log_type', '日志正常', '
 COMMIT;
 
 -- ----------------------------
---  Table structure for `sys_log`
+--  Table structure for `sys_log_0`
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_log`;
-CREATE TABLE `sys_log` (
-  `id` int(64) NOT NULL AUTO_INCREMENT COMMENT '编号',
+DROP TABLE IF EXISTS `sys_log_0`;
+CREATE TABLE `sys_log_0` (
+  `id` bigint(64) NOT NULL COMMENT '编号',
+  `type` char(1) DEFAULT '1' COMMENT '日志类型',
+  `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+  `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+  `user_agent` varchar(255) DEFAULT NULL COMMENT '用户代理',
+  `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+  `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+  `params` text COMMENT '操作提交的数据',
+  `time` mediumtext COMMENT '执行时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+  `exception` text COMMENT '异常信息',
+  PRIMARY KEY (`id`),
+  KEY `sys_log_create_by` (`create_by`),
+  KEY `sys_log_request_uri` (`request_uri`),
+  KEY `sys_log_type` (`type`),
+  KEY `sys_log_create_date` (`create_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='日志表';
+
+-- ----------------------------
+--  Table structure for `sys_log_1`
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_log_1`;
+CREATE TABLE `sys_log_1` (
+  `id` bigint(64) NOT NULL COMMENT '编号',
   `type` char(1) DEFAULT '1' COMMENT '日志类型',
   `title` varchar(255) DEFAULT '' COMMENT '日志标题',
   `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
