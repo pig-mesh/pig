@@ -1,6 +1,7 @@
 package com.github.pig.auth.util;
 
 import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
 import org.apache.commons.lang.StringUtils;
@@ -37,7 +38,7 @@ public class UserDetailsImpl implements UserDetails {
         for (SysRole role : roleList) {
             authorityList.add(new SimpleGrantedAuthority(role.getRoleCode()));
         }
-        authorityList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        authorityList.add(new SimpleGrantedAuthority(SecurityConstants.BASE_ROLE));
         return authorityList;
     }
 

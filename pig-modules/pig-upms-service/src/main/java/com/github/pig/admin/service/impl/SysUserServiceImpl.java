@@ -18,7 +18,9 @@ import com.github.pig.common.util.Query;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
+import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -66,8 +68,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         //设置角色列表
         List<SysRole> roleList = userVo.getRoleList();
         List<String> roleNames = new ArrayList<>();
-        for (SysRole sysRole : roleList) {
-            roleNames.add(sysRole.getRoleName());
+        if (CollectionUtil.isNotEmpty(roleList)) {
+            for (SysRole sysRole : roleList) {
+                if (!StrUtil.equals(SecurityConstants.BASE_ROLE, sysRole.getRoleName())) {
+                    roleNames.add(sysRole.getRoleName());
+                }
+            }
         }
         String[] roles = roleNames.toArray(new String[roleNames.size()]);
         userInfo.setRoles(roles);
@@ -153,7 +159,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (tempCode == null) {
             String code = RandomUtil.randomNumbers(4);
             logger.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
-            rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE,new MobileMsgTemplate(mobile,code, CommonConstant.ALIYUN_SMS));
+            rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE, new MobileMsgTemplate(mobile, code, CommonConstant.ALIYUN_SMS));
             redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
             result = true;
         }

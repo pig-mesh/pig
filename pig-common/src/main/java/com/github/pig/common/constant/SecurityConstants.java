@@ -6,6 +6,10 @@ package com.github.pig.common.constant;
  */
 public interface SecurityConstants {
     /**
+     * 基础角色
+     */
+    String BASE_ROLE = "ROLE_USER";
+    /**
      * 授权码模式
      */
     String AUTHORIZATION_CODE = "authorization_code";

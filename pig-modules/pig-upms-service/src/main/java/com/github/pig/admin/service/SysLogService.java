@@ -20,5 +20,5 @@ public interface SysLogService extends IService<SysLog> {
      * @param id 日志ID
      * @return true/false
      */
-    Boolean updateByLogId(Integer id);
+    Boolean updateByLogId(Long id);
 }

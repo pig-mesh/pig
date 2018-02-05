@@ -1,5 +1,8 @@
 package com.github.pig.common.entity;
 
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -18,7 +21,8 @@ public class SysLog implements Serializable {
     /**
      * 编号
      */
-    private Integer id;
+    @TableId(type = IdType.ID_WORKER)
+    private Long id;
     /**
      * 日志类型
      */
@@ -79,11 +83,11 @@ public class SysLog implements Serializable {
      */
     private String serviceId;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
