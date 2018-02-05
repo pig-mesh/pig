@@ -6,7 +6,8 @@
   <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
 </p>
 
-<h2 align="center">Supporting lengleng</h2> 
+<h2 align="center">Supporting lengleng</h2>   
+
 ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
  
