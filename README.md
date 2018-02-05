@@ -1,4 +1,13 @@
- ### 详细配置 wiki
+<p align="center">
+ <img src="https://img.shields.io/circleci/project/vuejs/vue/dev.svg" alt="Build Status">
+  <img src="https://img.shields.io/badge/Spring%20Cloud-Edgware-blue.svg" alt="Coverage Status">
+  <img src="https://img.shields.io/badge/Spring%20Boot-1.5.9-blue.svg" alt="Downloads">
+  <img src="https://img.shields.io/badge/npm-v5.5.1-blue.svg" alt="Version">
+  <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
+</p>
+
+<h2 align="center">Supporting lengleng</h2> 
+### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
  
  ### 视频教程
