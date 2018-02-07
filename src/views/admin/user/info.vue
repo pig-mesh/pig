@@ -116,7 +116,13 @@
                   type: 'success',
                   duration: 2000
                 })
-                this.$router.push({ path: '/' })
+                // 修改密码之后强制重新登陆
+                if (this.ruleForm2.newpassword1 !== '') {
+                  this.$store.dispatch('LogOut').then(() => {
+                    location.reload() // 为了重新实例化vue-router对象 避免bug
+                  })
+                }
+                // this.$router.push({ path: '/login' })
               } else {
                 this.$notify({
                   title: '失败',
