@@ -122,7 +122,7 @@
                     location.reload() // 为了重新实例化vue-router对象 避免bug
                   })
                 }
-                // this.$router.push({ path: '/login' })
+                // this.$router.push({ path: '/' })
               } else {
                 this.$notify({
                   title: '失败',

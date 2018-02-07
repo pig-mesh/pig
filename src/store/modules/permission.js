@@ -57,6 +57,7 @@ const permission = {
           } else {
             accessedRouters = filterAsyncRouter(asyncRouterMap, response.data)
           }
+          console.log('授权允许访问菜单：' + JSON.stringify(accessedRouters))
           commit('SET_ROUTERS', accessedRouters)
           resolve()
         })
