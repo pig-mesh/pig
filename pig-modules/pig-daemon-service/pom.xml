@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.pig</groupId>
+    <artifactId>pig-daemon-service</artifactId>
+    <version>${pig.version}</version>
+    <packaging>jar</packaging>
+
+    <name>pig-daemon-service</name>
+    <description>后台跑批定时任务模块</description>
+
+    <parent>
+        <groupId>com.github.pig</groupId>
+        <artifactId>pig-modules</artifactId>
+        <version>${pig.version}</version>
+    </parent>
+
+    <properties>
+        <elastic-job.version>2.1.5</elastic-job.version>
+        <curator.version>2.10.0</curator.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.pig</groupId>
+            <artifactId>pig-common</artifactId>
+            <version>${pig.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xjzrc.spring.boot</groupId>
+            <artifactId>elastic-job-lite-spring-boot-starter</artifactId>
+            <version>1.0.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-framework</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-recipes</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.curator</groupId>
+                    <artifactId>curator-framework</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>${project.name}</finalName>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -28,6 +28,7 @@ pig
 ├── pig-eureka -- 服务注册与发现[1025]
 ├── pig-gateway -- ZUUL网关[9999]
 ├── pig-modules -- 微服务模块
+├    ├── pig-daemon-service -- 分布式调度中心[4060]
 ├    ├── pig-mc-service -- 消息中心[4050]
 ├    ├── pig-sso-client-demo -- 单点登录客户端示例[4040]
 ├    └── pig-upms-service -- 权限管理提供[4000]
@@ -54,6 +55,7 @@ pig
 - 代码生成：前后端代码的生成，支持Vue
 - 缓存管理：基于Cache Cloud 保证Redis 的高可用
 - 服务监控: Spring Boot Admin
+- 分布式任务调度： 基于elastic-job的分布式文件系统，zookeeper做调度中心
 - zipkin链路追踪： 数据保存ELK，图形化展示
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
