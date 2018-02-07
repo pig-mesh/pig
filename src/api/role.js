@@ -15,6 +15,13 @@ export function fetchList(query) {
   })
 }
 
+export function deptRoleList(deptId) {
+  return request({
+    url: '/admin/role/roleList/' + deptId,
+    method: 'get'
+  })
+}
+
 export function getObj(id) {
   return request({
     url: '/admin/role/' + id,
