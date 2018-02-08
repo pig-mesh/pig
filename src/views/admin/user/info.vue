@@ -112,7 +112,7 @@
               if (response) {
                 this.$notify({
                   title: '成功',
-                  message: '创建成功',
+                  message: '修改成功',
                   type: 'success',
                   duration: 2000
                 })
