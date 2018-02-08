@@ -12,9 +12,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @ElasticJobConfig(cron = "0/2 * * * * ?", shardingTotalCount = 3,
-        shardingItemParameters = "0=Beijing,1=Shanghai,2=Guangzhou",
+        shardingItemParameters = "0=pig1,1=pig2,2=pig3",
         startedTimeoutMilliseconds = 5000L,
-        completedTimeoutMilliseconds = 10000L)
+        completedTimeoutMilliseconds = 10000L,
+        eventTraceRdbDataSource = "dataSource")
 public class DemoSimpleJob implements SimpleJob {
     /**
      * 业务执行逻辑
