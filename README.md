@@ -15,7 +15,7 @@
  
  1. [课程介绍项目介绍](http://p3blpcsde.bkt.clouddn.com/1.mp4)
  2. [环境搭建运行展示](http://p3blpcsde.bkt.clouddn.com/2.mp4)
- 3. Spring security oAuth2 源码详解 ...还在录
+ 3. [oAuth2认证授权及其源码详解](http://p3blpcsde.bkt.clouddn.com/3.mp4)
 
  
  ### now
