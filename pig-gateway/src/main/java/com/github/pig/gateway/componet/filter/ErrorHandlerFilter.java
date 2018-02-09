@@ -1,4 +1,4 @@
-package com.github.pig.gateway.filter;
+package com.github.pig.gateway.componet.filter;
 
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.ZuulFilter;
@@ -18,8 +18,6 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  */
 @Component
 public class ErrorHandlerFilter extends ZuulFilter {
-    private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
-
     @Autowired
     private LogSendService logSendService;
 

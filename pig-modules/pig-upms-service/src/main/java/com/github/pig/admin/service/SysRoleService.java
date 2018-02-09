@@ -7,6 +7,8 @@ import com.github.pig.admin.model.dto.RoleDto;
 import com.github.pig.admin.model.entity.SysRole;
 import com.github.pig.common.util.Query;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务类
@@ -40,4 +42,11 @@ public interface SysRoleService extends IService<SysRole> {
      * @return 成功、失败
      */
     Boolean updateRoleById(RoleDto roleDto);
+
+    /**
+     * 通过部门ID查询角色列表
+     * @param deptId 部门ID
+     * @return 角色列表
+     */
+    List<SysRole> selectListByDeptId(Integer deptId);
 }

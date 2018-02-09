@@ -1,4 +1,4 @@
-package com.github.pig.gateway.filter;
+package com.github.pig.gateway.componet.filter;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;

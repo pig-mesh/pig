@@ -1,4 +1,4 @@
-import com.github.pig.admin.PigAdminApplication;
+package com.github.pig.admin;
 import org.jasypt.encryption.StringEncryptor;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 服务实现类
@@ -67,7 +69,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @param roleDto 含有部门信息
      * @return 成功、失败
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Boolean updateRoleById(RoleDto roleDto) {
         //删除原有的角色部门关系
@@ -86,5 +88,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         roleDept.setDeptId(roleDto.getRoleDeptId());
         sysRoleDeptMapper.insert(roleDept);
         return true;
+    }
+
+    /**
+     * 通过部门ID查询角色列表
+     *
+     * @param deptId 部门ID
+     * @return 角色列表
+     */
+    @Override
+    public List<SysRole> selectListByDeptId(Integer deptId) {
+        return sysRoleMapper.selectListByDeptId(deptId);
     }
 }

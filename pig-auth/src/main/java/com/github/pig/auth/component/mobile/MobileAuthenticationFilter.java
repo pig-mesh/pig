@@ -26,6 +26,7 @@ public class MobileAuthenticationFilter extends AbstractAuthenticationProcessing
         super(new AntPathRequestMatcher(SecurityConstants.MOBILE_TOKEN_URL, "POST"));
     }
 
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         if (postOnly && !request.getMethod().equals(HttpMethod.POST.name())) {

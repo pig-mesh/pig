@@ -1,11 +1,8 @@
-package com.github.pig.gateway.filter;
+package com.github.pig.gateway.componet.filter;
 
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

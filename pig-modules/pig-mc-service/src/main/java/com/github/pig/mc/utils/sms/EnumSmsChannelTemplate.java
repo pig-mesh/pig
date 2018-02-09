@@ -6,6 +6,9 @@ package com.github.pig.mc.utils.sms;
  * 短信通道模板
  */
 public enum EnumSmsChannelTemplate {
+    /**
+     * 登录验证
+     */
     LOGIN_NAME_LOGIN("loginCodeChannel", "登录验证");
     /**
      * 模板名称

@@ -1,11 +1,9 @@
 package com.github.pig.gateway.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.vo.ErrorPojo;
 import com.github.pig.common.vo.LogVo;
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.context.RequestContext;
@@ -70,7 +68,7 @@ public class LogSendServiceImpl implements LogSendService {
             InputStream inputStream = requestContext.getResponseDataStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             InputStream stream1 = null;
-            InputStream stream2 = null;
+            InputStream stream2;
             byte[] buffer = IoUtil.readBytes(inputStream);
             try {
                 baos.write(buffer);
@@ -78,9 +76,8 @@ public class LogSendServiceImpl implements LogSendService {
                 stream1 = new ByteArrayInputStream(baos.toByteArray());
                 stream2 = new ByteArrayInputStream(baos.toByteArray());
                 String resp = IoUtil.read(stream1, CommonConstant.UTF8);
-                ErrorPojo error = JSONObject.parseObject(resp, ErrorPojo.class);
                 log.setType(CommonConstant.STATUS_LOCK);
-                log.setException(error.getMessage());
+                log.setException(resp);
                 requestContext.setResponseDataStream(stream2);
             } catch (IOException e) {
                 logger.error("响应流解析异常：", e);

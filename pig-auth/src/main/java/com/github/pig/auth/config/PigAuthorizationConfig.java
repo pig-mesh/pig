@@ -51,7 +51,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
         clients.inMemory()
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
-                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD)
+                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD,SecurityConstants.AUTHORIZATION_CODE)
                 .scopes(authServerConfig.getScope());
     }
 
@@ -70,7 +70,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
         security
                 .allowFormAuthenticationForClients()
-                .tokenKeyAccess("permitAll()")
+                .tokenKeyAccess("isAuthenticated()")
                 .checkTokenAccess("permitAll()");
     }
 

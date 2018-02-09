@@ -49,4 +49,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return userVo
      */
     UserVo selectUserVoByOpenId(String openId);
+
+    /**
+     * 通过ID查询用户信息
+     * @param id 用户ID
+     * @return userVo
+     */
+    UserVo selectUserVoById(Integer id);
 }

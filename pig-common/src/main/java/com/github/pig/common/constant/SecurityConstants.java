@@ -6,6 +6,14 @@ package com.github.pig.common.constant;
  */
 public interface SecurityConstants {
     /**
+     * 基础角色
+     */
+    String BASE_ROLE = "ROLE_USER";
+    /**
+     * 授权码模式
+     */
+    String AUTHORIZATION_CODE = "authorization_code";
+    /**
      * 密码模式
      */
     String PASSWORD = "password";
@@ -80,11 +88,6 @@ public interface SecurityConstants {
      * token-uservo
      */
     String TOKEN_USER_DETAIL = "token-user-detail";
-
-    /**
-     * 认证服务的SERVICEID（zuul 配置的对应）
-     */
-    String AUTH_SERVICE_ID = "auth-service";
 
     /**
      * 默认的social的登录地址

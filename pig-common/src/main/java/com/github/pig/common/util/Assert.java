@@ -1,6 +1,6 @@
 package com.github.pig.common.util;
 
-import com.github.pig.common.util.exception.CheckException;
+import com.github.pig.common.util.exception.CheckedException;
 import org.apache.commons.lang.StringUtils;
 
 import javax.validation.ConstraintViolation;
@@ -25,29 +25,29 @@ public class Assert {
      * 校验对象
      * @param object        待校验对象
      * @param groups        待校验的组
-     * @throws CheckException  校验不通过，则报RRException异常
+     * @throws CheckedException  校验不通过，则报RRException异常
      */
     public static void validateEntity(Object object, Class<?>... groups)
-            throws CheckException {
+            throws CheckedException {
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object, groups);
         if (!constraintViolations.isEmpty()) {
             StringBuilder msg = new StringBuilder();
             for(ConstraintViolation<Object> constraint:  constraintViolations){
                 msg.append(constraint.getMessage()).append("<br>");
             }
-            throw new CheckException(msg.toString());
+            throw new CheckedException(msg.toString());
         }
     }
 
     public static void isBlank(String str, String message) {
         if (StringUtils.isBlank(str)) {
-            throw new CheckException(message);
+            throw new CheckedException(message);
         }
     }
 
     public static void isNull(Object object, String message) {
         if (object == null) {
-            throw new CheckException(message);
+            throw new CheckedException(message);
         }
     }
 }

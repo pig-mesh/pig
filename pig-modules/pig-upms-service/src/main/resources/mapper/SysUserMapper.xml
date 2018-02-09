@@ -9,6 +9,7 @@
         <result column="introduction" property="introduction" />
         <result column="avatar" property="avatar" />
         <result column="salt" property="salt"/>
+        <result column="dept_id" property="deptId"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="del_flag" property="delFlag"/>
@@ -25,6 +26,8 @@
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
         <result column="udel_flag" property="delFlag"/>
+        <result column="deptId" property="deptId"/>
+        <result column="deptName" property="deptName"/>
         <collection property="roleList" ofType="com.github.pig.common.vo.SysRole">
             <id column="role_id" property="roleId" />
             <result column="role_name" property="roleName" />
@@ -43,9 +46,11 @@
             `user`.salt,
             `user`.introduction,
             `user`.avatar,
+            `user`.dept_id,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
             `user`.del_flag AS udel_flag,
+            `user`.dept_id AS deptId,
             r.role_id,
             r.role_name,
             r.role_code,
@@ -73,6 +78,34 @@
         WHERE `user`.salt = #{openId}
     </select>
 
+    <select id="selectUserVoById" resultMap="userVoResultMap">
+         SELECT
+            `user`.user_id,
+            `user`.username,
+            `user`.`password`,
+            `user`.salt,
+            `user`.introduction,
+            `user`.avatar,
+            `user`.create_time AS create_time,
+            `user`.update_time AS uupdate_time,
+            `user`.del_flag AS udel_flag,
+            r.role_id,
+            r.role_name,
+            r.role_code,
+            r.role_desc,
+            r.create_time AS rcreate_time,
+            r.update_time AS rupdate_time,
+            d.name AS deptName,
+            d.dept_id AS deptId
+        FROM
+            sys_user AS `user`
+            LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
+            LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
+            LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
+        WHERE
+           `user`.user_id = #{id}
+    </select>
+
     <select id="selectUserVoPage" resultMap="userVoResultMap" >
         SELECT
             `user`.user_id,
@@ -89,11 +122,14 @@
             r.role_code,
             r.role_desc,
             r.create_time AS rcreate_time,
-            r.update_time AS rupdate_time
+            r.update_time AS rupdate_time,
+            d.name AS deptName,
+            d.dept_id AS deptId
         FROM
             sys_user AS `user`
             LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
             LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
+            LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
         WHERE
             r.del_flag = 0
             <if test="username != null and username != ''">

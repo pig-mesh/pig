@@ -6,6 +6,9 @@ package com.github.pig.common.constant.enums;
  * 短信通道枚举
  */
 public enum EnumSmsChannel {
+    /**
+     * 阿里大鱼短信通道
+     */
     ALIYUN("ALIYUN_SMS", "阿里大鱼");
     /**
      * 通道名称

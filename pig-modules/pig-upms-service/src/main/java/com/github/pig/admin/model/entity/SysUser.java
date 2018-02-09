@@ -62,6 +62,11 @@ public class SysUser extends Model<SysUser> {
      */
     private String avatar;
 
+    /**
+     * 部门ID
+     */
+    @TableField("dept_id")
+    private Integer deptId;
 
 
     public Integer getUserId() {
@@ -141,16 +146,27 @@ public class SysUser extends Model<SysUser> {
         this.avatar = avatar;
     }
 
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
     @Override
     public String toString() {
         return "SysUser{" +
-                ", userId=" + userId +
-                ", username=" + username +
-                ", password=" + password +
-                ", salt=" + salt +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
-                ", delFlag=" + delFlag +
-                "}";
+                ", delFlag='" + delFlag + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", deptId=" + deptId +
+                '}';
     }
 }

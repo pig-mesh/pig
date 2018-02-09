@@ -1,12 +1,8 @@
 package com.github.pig.common.bean.aop;
 
 import com.github.pig.common.constant.SecurityConstants;
-import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.util.exception.CheckException;
-import com.github.pig.common.util.exception.UnloginException;
 import com.github.pig.common.vo.UserVo;
-import com.xiaoleilu.hutool.lang.Console;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -22,7 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * @author lengleng

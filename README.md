@@ -1,5 +1,22 @@
- ### 详细配置 wiki
+<p align="center">
+ <img src="https://img.shields.io/circleci/project/vuejs/vue/dev.svg" alt="Build Status">
+  <img src="https://img.shields.io/badge/Spring%20Cloud-Edgware-blue.svg" alt="Coverage Status">
+  <img src="https://img.shields.io/badge/Spring%20Boot-1.5.9-blue.svg" alt="Downloads">
+  <img src="https://img.shields.io/badge/npm-v5.5.1-blue.svg" alt="Version">
+  <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
+</p>
+
+<h2 align="center">Supporting lengleng</h2>   
+
+### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
+ 
+ ### 视频教程
+ 
+ 1. [课程介绍项目介绍](http://p3blpcsde.bkt.clouddn.com/1.mp4)
+ 2. [环境搭建运行展示](http://p3blpcsde.bkt.clouddn.com/2.mp4)
+ 3. Spring security oAuth2 源码详解 ...还在录
+
  
  ### now
 ``` lua
@@ -11,7 +28,9 @@ pig
 ├── pig-eureka -- 服务注册与发现[1025]
 ├── pig-gateway -- ZUUL网关[9999]
 ├── pig-modules -- 微服务模块
+├    ├── pig-daemon-service -- 分布式调度中心[4060]
 ├    ├── pig-mc-service -- 消息中心[4050]
+├    ├── pig-sso-client-demo -- 单点登录客户端示例[4040]
 ├    └── pig-upms-service -- 权限管理提供[4000]
 └── pig-visual  -- 图形化模块 
      ├── pig-monitor -- 服务状态监控、turbine [5001]
@@ -20,6 +39,7 @@ pig
 ```
 ###  已完成功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
+- 单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
 - 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
 - 机构管理：配置系统组织机构（公司、部门、小组），树结构展现，可随意调整上下级。
 - 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
@@ -27,6 +47,7 @@ pig
 - 字典管理：对系统中经常使用的一些较为固定的数据进行维护，如：是否、男女、类别、级别等。
 - 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
 - 服务限流：多种维度的流量控制（服务、IP、用户等）
+- 分库分表：shardingdbc分库分表策略
 - 数据权限: 使用mybatis对原查询做增强，业务代码不用控制，即可实现。
 - 文件系统: 支持FastDFS、七牛云，扩展API几行代码实现上传下载
 - 消息中心：短信、邮件模板发送，几行代码实现发送
@@ -34,7 +55,9 @@ pig
 - 代码生成：前后端代码的生成，支持Vue
 - 缓存管理：基于Cache Cloud 保证Redis 的高可用
 - 服务监控: Spring Boot Admin
-- 链路追踪：服务链路追踪日志保存到ELK，支持数据可视化
+- 分布式任务调度： 基于elastic-job的分布式文件系统，zookeeper做调度中心
+- zipkin链路追踪： 数据保存ELK，图形化展示
+- pinpoint链路追踪： 数据保存hbase，图形化展示
 
 欢迎加入QQ交流群，互相学习  
 一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
@@ -45,6 +68,7 @@ pig
 ![image](http://p0hpm86wj.bkt.clouddn.com/3.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/4.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/5.png)
+![image](http://p0hpm86wj.bkt.clouddn.com/34.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/21.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/22.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/23.png)

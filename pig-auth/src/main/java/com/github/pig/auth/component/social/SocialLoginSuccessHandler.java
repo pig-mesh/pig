@@ -33,9 +33,7 @@ import java.io.PrintWriter;
 public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
     private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
-    private ObjectMapper objectMapper;
-    @Autowired
-    private AuthServerConfig AuthServerConfig;
+    private AuthServerConfig authServerConfig;
     @Autowired
     private ClientDetailsService clientDetailsService;
     @Autowired
@@ -52,8 +50,8 @@ public class SocialLoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         try {
-            String clientId = AuthServerConfig.getClientId();
-            String clientSecret = AuthServerConfig.getClientSecret();
+            String clientId = authServerConfig.getClientId();
+            String clientSecret = authServerConfig.getClientSecret();
 
             JSONObject params = new JSONObject();
             params.put("clientId", clientId);

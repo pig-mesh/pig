@@ -34,7 +34,7 @@ public class SocialConnectionStatusView  extends AbstractView {
     protected void renderMergedOutputModel(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         Map<String, List<Connection<?>>> connections = (Map<String, List<Connection<?>>>) model.get("connectionMap");
 
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Boolean> result = new HashMap<>(8);
         for (String key : connections.keySet()) {
             result.put(key, CollectionUtils.isNotEmpty(connections.get(key)));
         }

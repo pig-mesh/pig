@@ -23,7 +23,7 @@ import java.util.Date;
 public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
 
     @Override
-    public Boolean updateByLogId(Integer id) {
+    public Boolean updateByLogId(Long id) {
         Assert.isNull(id, "日志ID为空");
 
         SysLog sysLog = new SysLog();
