@@ -74,5 +74,6 @@ pig
 ![image](http://p0hpm86wj.bkt.clouddn.com/23.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/24.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/26.png)
+![image](http://obq1lvsd9.bkt.clouddn.com/daemon.png)
 
 
