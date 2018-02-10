@@ -54,7 +54,7 @@ public class MenuController extends BaseController {
      *
      * @return 树形菜单
      */
-    @GetMapping("/userTree/")
+    @GetMapping("/userTree")
     public List<Integer> userTree() {
         Set<MenuVo> menus = sysMenuService.findMenuByRole(getRole().get(0));
         List<Integer> menuList = new ArrayList<>();
