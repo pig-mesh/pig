@@ -2,8 +2,10 @@ package com.github.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.github.pig.admin.model.entity.SysUser;
+import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVo;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -28,11 +30,11 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 分页查询用户信息（含角色）
      *
-     * @param query  查询条件
-     * @param params 参数
+     * @param dataScope 数据权限
+     * @param query     查询条件
      * @return list
      */
-    List selectUserVoPage(Query query, Map<String, Object> params);
+    List selectUserVoPageDataScope(Query query, DataScope dataScope);
 
     /**
      * 通过手机号查询用户信息（含有角色信息）
@@ -52,6 +54,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
     /**
      * 通过ID查询用户信息
+     *
      * @param id 用户ID
      * @return userVo
      */

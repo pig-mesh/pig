@@ -2,15 +2,17 @@ package com.github.pig.common.bean.interceptor;
 
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * @author lengleng
  * @date 2018/1/19
  * 数据权限、参考guns实现
+ * 2018年02月12日  增强查询参数
  */
 @Data
-public class DataScope {
+public class DataScope extends HashMap {
     /**
      * 限制范围的字段名称
      */

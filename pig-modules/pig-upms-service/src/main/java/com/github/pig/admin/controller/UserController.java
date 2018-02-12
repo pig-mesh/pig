@@ -5,6 +5,7 @@ import com.github.pig.admin.model.dto.UserDto;
 import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.admin.model.entity.SysUserRole;
+import com.github.pig.admin.service.SysDeptService;
 import com.github.pig.admin.service.SysUserService;
 import com.github.pig.common.bean.config.FdfsPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
@@ -19,6 +20,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -46,13 +48,15 @@ public class UserController extends BaseController {
 
     /**
      * 获取当前用户信息（角色、权限）
+     * 并且异步初始化用户部门信息
      *
      * @param userVo 当前用户信息
      * @return 用户名
      */
     @GetMapping("/info")
     public R<UserInfo> user(UserVo userVo) {
-        return new R<>(userService.findUserInfo(userVo));
+        UserInfo userInfo = userService.findUserInfo(userVo);
+        return new R<>(userInfo);
     }
 
     /**
@@ -185,5 +189,4 @@ public class UserController extends BaseController {
     public R<Boolean> editInfo(@RequestBody UserDto userDto, UserVo userVo) {
         return new R<>(userService.updateUserInfo(userDto, userVo.getUsername()));
     }
-
 }

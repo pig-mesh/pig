@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.SqlParserHandler;
 import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.baomidou.mybatisplus.toolkit.PluginUtils;
 import com.github.pig.common.util.UserUtils;
+import com.github.pig.common.vo.UserVo;
 import com.xiaoleilu.hutool.util.CollectionUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
@@ -14,6 +15,8 @@ import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
 import org.apache.ibatis.session.RowBounds;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -24,12 +27,11 @@ import java.util.Properties;
 /**
  * @author lengleng
  * @date 2018/1/19
- * 数据权限插件，参考PaginationInterceptor
+ * 数据权限插件，guns
  */
 @Slf4j
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 public class DataScopeInterceptor extends SqlParserHandler implements Interceptor {
-    private static final String DATA_SCOPE = "DataScope";
 
     @Override
     public Object intercept(Invocation invocation) throws Throwable {
@@ -42,37 +44,21 @@ public class DataScopeInterceptor extends SqlParserHandler implements Intercepto
             return invocation.proceed();
         }
 
-        // 如果mapper方法是DataScope结尾，则执行数据权限校验
-        if (mappedStatement.getId().endsWith(DATA_SCOPE)) {
-            BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
-            String sql = boundSql.getSql();
-            //查找参数中包含DataScope类型的参数
-            Object parameterObject = boundSql.getParameterObject();
-            DataScope dataScope = findDataScopeObject(parameterObject);
+        BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
+        String originalSql = boundSql.getSql();
+        Object parameterObject = boundSql.getParameterObject();
 
-            List<Integer> deptIds;
-            String scopeName = "dept_id";
-            //如果入参没有数据权限参数则按照默认的（本级和下级）
-            if (dataScope == null) {
-                deptIds = CollectionUtil.newArrayList(1, 2, 3, 4);
-            } else {
-                scopeName = dataScope.getScopeName();
-                deptIds = dataScope.getDeptIds();
+        //查找参数中包含DataScope类型的参数
+        DataScope dataScope = findDataScopeObject(parameterObject);
 
-                String username = UserUtils.getUser();
-                //只查询本部门
-                if (dataScope.getIsOnly()) {
-                    deptIds = CollectionUtil.newArrayList(1);
-                } else if (CollectionUtil.isEmpty(deptIds)) {
-                    //deptIds为空是查询本级和下级
-                    deptIds = CollectionUtil.newArrayList(1, 2, 3, 4);
-                }
-            }
-            String join = CollectionUtil.join(deptIds, ",");
-            sql = "select * from (" + sql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
-            metaObject.setValue("delegate.boundSql.sql", sql);
+        if (dataScope == null) {
             return invocation.proceed();
         } else {
+            String scopeName = dataScope.getScopeName();
+            List<Integer> deptIds = dataScope.getDeptIds();
+            String join = CollectionUtil.join(deptIds, ",");
+            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
+            metaObject.setValue("delegate.boundSql.sql", originalSql);
             return invocation.proceed();
         }
     }

@@ -5,22 +5,27 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.model.dto.UserDto;
 import com.github.pig.admin.model.dto.UserInfo;
+import com.github.pig.admin.model.entity.SysDeptRelation;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.admin.model.entity.SysUserRole;
 import com.github.pig.admin.mapper.SysUserMapper;
+import com.github.pig.admin.service.SysDeptRelationService;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.admin.service.SysUserRoleService;
 import com.github.pig.admin.service.SysUserService;
+import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVo;
 import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -56,6 +61,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private RabbitTemplate rabbitTemplate;
     @Autowired
     private SysUserRoleService sysUserRoleService;
+    @Autowired
+    private SysDeptRelationService sysDeptRelationService;
 
     @Override
     public UserInfo findUserInfo(UserVo userVo) {
@@ -115,7 +122,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Page selectWithRolePage(Query query) {
-        query.setRecords(sysUserMapper.selectUserVoPage(query, query.getCondition()));
+        DataScope dataScope = new DataScope();
+        dataScope.setScopeName("deptId");
+        dataScope.setIsOnly(true);
+        dataScope.setDeptIds(getChildDepts());
+        dataScope.putAll(query.getCondition());
+        query.setRecords(sysUserMapper.selectUserVoPageDataScope(query, dataScope));
         return query;
     }
 
@@ -185,12 +197,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public Boolean updateUserInfo(UserDto userDto, String username) {
         UserVo userVo = this.findUserByUsername(username);
 
-        if (!ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
-            return Boolean.FALSE;
-        }
         SysUser sysUser = new SysUser();
+        if (ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
+            sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+        }
         sysUser.setUserId(userVo.getUserId());
-        sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
         sysUser.setAvatar(userDto.getAvatar());
         return this.updateById(sysUser);
     }
@@ -209,4 +220,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUserRole.setRoleId(userDto.getRole());
         return sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
     }
+
+    /**
+     * 获取当前用户的子部门信息
+     *
+     * @return 子部门列表
+     */
+    private List<Integer> getChildDepts() {
+        //获取当前用户的部门
+        String username = UserUtils.getUser();
+        UserVo userVo = findUserByUsername(username);
+        Integer deptId = userVo.getDeptId();
+
+        //获取当前部门的子部门
+        SysDeptRelation deptRelation = new SysDeptRelation();
+        deptRelation.setAncestor(deptId);
+        List<SysDeptRelation> deptRelationList = sysDeptRelationService.selectList(new EntityWrapper<>(deptRelation));
+        List<Integer> deptIds = new ArrayList<>();
+        for (SysDeptRelation sysDeptRelation : deptRelationList) {
+            deptIds.add(sysDeptRelation.getDescendant());
+        }
+        return deptIds;
+    }
+
 }
