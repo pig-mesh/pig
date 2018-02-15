@@ -76,8 +76,8 @@ public class UserController extends BaseController {
      * @param id ID
      * @return R
      */
-    @ApiOperation(value="删除用户", notes="根据ID删除用户")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer")
+    @ApiOperation(value = "删除用户", notes = "根据ID删除用户")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
     @DeleteMapping("/{id}")
     public R<Boolean> userDel(@PathVariable Integer id) {
         SysUser sysUser = userService.selectById(id);
@@ -139,13 +139,15 @@ public class UserController extends BaseController {
 
     /**
      * 通过OpenId查询
+     *
      * @param openId openid
      * @return 对象
      */
     @GetMapping("/findUserByOpenId/{openId}")
-    public UserVo findUserByOpenId(@PathVariable String openId){
+    public UserVo findUserByOpenId(@PathVariable String openId) {
         return userService.findUserByOpenId(openId);
     }
+
     /**
      * 分页查询用户
      *
@@ -169,7 +171,7 @@ public class UserController extends BaseController {
         String fileExt = FileUtil.extName(file.getOriginalFilename());
         Map<String, String> resultMap = new HashMap<>(1);
         try {
-            StorePath storePath = fastFileStorageClient.uploadFile(file.getBytes(),fileExt);
+            StorePath storePath = fastFileStorageClient.uploadFile(file.getBytes(), fileExt);
             resultMap.put("filename", fdfsPropertiesConfig.getFileHost() + storePath.getFullPath());
         } catch (IOException e) {
             logger.error("文件上传异常", e);
