@@ -1,5 +1,5 @@
 <template>
-    <iframe ref="iframe" src="http://localhost:5005/manage/total/list.do" frameborder="0" style="border:0;" width="100%"></iframe>
+    <iframe ref="iframe" src="http://106.14.69.75:15005/manage/total/list.do" frameborder="0" style="border:0;" width="100%"></iframe>
 </template>
 
 <script>
