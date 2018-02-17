@@ -1,0 +1,5 @@
+FROM java:8-jre
+MAINTAINER Pig lengleng <wangiegie@gmail.com>
+
+ADD ./jar/pig-upms-service.jar /app/
+CMD ["java", "-Xmx200m", "-jar", "/app/pig-upms-service.jar"]
