@@ -20,9 +20,11 @@ import java.io.InputStream;
 @Slf4j
 @Component
 public class UpmsFallbackProvider implements FallbackProvider {
+
+    private static final String UPMS_SERVICE_DISABLE = "权限管理模块不可用";
+
     @Override
     public ClientHttpResponse fallbackResponse(Throwable cause) {
-        log.error("调用:{} 异常：{}", getRoute(), cause.getMessage());
         return new ClientHttpResponse() {
             @Override
             public HttpStatus getStatusCode() {
@@ -46,9 +48,11 @@ public class UpmsFallbackProvider implements FallbackProvider {
             @Override
             public InputStream getBody() {
                 if (cause != null && cause.getMessage() != null) {
+                    log.error("调用:{} 异常：{}", getRoute(), cause.getMessage());
                     return new ByteArrayInputStream(cause.getMessage().getBytes());
                 } else {
-                    return new ByteArrayInputStream("权限管理模块不可用".getBytes());
+                    log.error("调用:{} 异常：{}", getRoute(), UPMS_SERVICE_DISABLE);
+                    return new ByteArrayInputStream(UPMS_SERVICE_DISABLE.getBytes());
                 }
             }
 
