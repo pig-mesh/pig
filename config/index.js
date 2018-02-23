@@ -29,14 +29,14 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/auth': {
-        target: 'http://139.129.231.236:59999',
+        target: 'http://127.0.0.1:9999',
         changeOrigin: true,
         pathRewrite: {
           '^/auth' : '/auth'
         }
       },
       '/admin': {
-        target: 'http://139.129.231.236:59999',
+        target: 'http://127.0.0.1:9999',
         changeOrigin: true,
         pathRewrite: {
           '^/admin' : '/admin'
