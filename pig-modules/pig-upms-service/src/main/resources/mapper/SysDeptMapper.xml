@@ -45,19 +45,4 @@
 		LEFT JOIN sys_dept_relation dr ON t.dept_id = dr.descendant
 		WHERE dr.ancestor = 0
 	</select>
-
-    <!--维护部门关系-->
-    <insert id="insertDeptRelation">
-        INSERT INTO sys_dept_relation (ancestor, descendant) SELECT
-            dt.ancestor,
-            #{descendant}
-        FROM
-            sys_dept_relation dt
-        WHERE
-            dt.descendant = #{ancestor}
-        UNION ALL
-            SELECT
-                #{descendant},
-                #{descendant}
-    </insert>
 </mapper>
