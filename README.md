@@ -20,6 +20,9 @@
  2. [环境搭建运行展示](http://p3blpcsde.bkt.clouddn.com/2.mp4)
  3. [oAuth2认证授权及其源码详解](http://p3blpcsde.bkt.clouddn.com/3.mp4)
 
+
+ ### 默认账号：admin 密码：123456
+
  
  ### now
 ``` lua
