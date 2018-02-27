@@ -10,6 +10,9 @@
 
 ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
+
+### FQA、反馈
+ https://gitee.com/log4j/pig/issues
  
  ### 视频教程
  
