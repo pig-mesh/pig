@@ -7,20 +7,12 @@ services:
     restart: always
     ports:
       - 59025:1025
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   pig-config:
     build:
       context: ./
       dockerfile: Dockerfile-config
     restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
   pig-gateway:
     build:
@@ -29,27 +21,15 @@ services:
     restart: always
     ports:
       - 59999:9999
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
-  pig-auth-service:
+  pig-auth:
     build:
       context: ./
       dockerfile: Dockerfile-auth
     restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"
 
-  pig-admin-service:
+  pig-upms-service:
     build:
       context: ./
-      dockerfile: Dockerfile-admin
+      dockerfile: Dockerfile-upms
     restart: always
-    logging:
-      options:
-        max-size: "10m"
-        max-file: "10"

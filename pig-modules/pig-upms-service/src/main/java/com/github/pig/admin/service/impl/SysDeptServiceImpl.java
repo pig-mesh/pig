@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.common.util.TreeUtil;
 import com.github.pig.admin.mapper.SysDeptMapper;
+import com.github.pig.admin.mapper.SysDeptRelationMapper;
 import com.github.pig.admin.model.dto.DeptTree;
 import com.github.pig.admin.model.entity.SysDept;
 import com.github.pig.admin.model.entity.SysDeptRelation;
@@ -29,6 +30,8 @@ import java.util.List;
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
     @Autowired
     private SysDeptMapper sysDeptMapper;
+    @Autowired
+    private SysDeptRelationMapper sysDeptRelationMapper;
 
     /**
      * 添加信息部门
@@ -41,12 +44,28 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         SysDept sysDept = new SysDept();
         BeanUtils.copyProperties(dept, sysDept);
         this.insert(sysDept);
+        this.insertDeptRelation(sysDept);
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 维护部门关系
+     * @param sysDept 部门
+     */
+    private void insertDeptRelation(SysDept sysDept) {
         //增加部门关系表
         SysDeptRelation deptRelation = new SysDeptRelation();
-        deptRelation.setAncestor(dept.getParentId());
-        deptRelation.setDescendant(sysDept.getDeptId());
-        sysDeptMapper.insertDeptRelation(deptRelation);
-        return Boolean.TRUE;
+        deptRelation.setDescendant(sysDept.getParentId());
+        List<SysDeptRelation> deptRelationList = sysDeptRelationMapper.selectList(new EntityWrapper<>(deptRelation));
+        for (SysDeptRelation sysDeptRelation : deptRelationList) {
+            sysDeptRelation.setDescendant(sysDept.getDeptId());
+            sysDeptRelationMapper.insert(sysDeptRelation);
+        }
+        //自己也要维护到关系表中
+        SysDeptRelation own = new SysDeptRelation();
+        own.setDescendant(sysDept.getDeptId());
+        own.setAncestor(sysDept.getDeptId());
+        sysDeptRelationMapper.insert(own);
     }
 
     /**
@@ -79,10 +98,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         //删除部门关系
         sysDeptMapper.deleteDeptRealtion(sysDept.getDeptId());
         //新建部门关系
-        SysDeptRelation deptRelation = new SysDeptRelation();
-        deptRelation.setAncestor(sysDept.getParentId());
-        deptRelation.setDescendant(sysDept.getDeptId());
-        sysDeptMapper.insertDeptRelation(deptRelation);
+        this.insertDeptRelation(sysDept);
         return null;
     }
 

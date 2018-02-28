@@ -151,7 +151,7 @@
     </logger>
 
     <!-- root级别   DEBUG -->
-    <root level="INFO">
+    <root level="DEBUG">
         <!-- 控制台输出 -->
         <appender-ref ref="STDOUT" />
         <!-- 文件输出 -->

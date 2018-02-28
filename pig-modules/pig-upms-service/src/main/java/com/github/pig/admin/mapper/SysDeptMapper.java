@@ -25,14 +25,6 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
     List<SysDept> selectDeptDtoList(String delFlag);
 
     /**
-     * 维护部门关系表
-     *
-     * @param deptRelation 部门关系
-     * @return 成功、失败
-     */
-    void insertDeptRelation(SysDeptRelation deptRelation);
-
-    /**
      * 删除部门关系表数据
      * @param id 部门ID
      */
