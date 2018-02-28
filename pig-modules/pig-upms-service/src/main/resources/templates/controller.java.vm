@@ -1,13 +1,16 @@
-package import org.springframework.beans.factory.annotation.Autowired;
+package ${package.Controller};
+import java.util.Map;
+import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-${package.Controller}
-        ;
-${package.Entity}.${entity};
-${package.Service}.${entity}Service;
+import com.github.pig.common.constant.CommonConstant;
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.common.util.Query;
+import ${package.Entity}.${entity};
+import ${package.Service}.${entity}Service;
 #if(${superControllerClassPackage})
-    ${superControllerClassPackage}
-        ;
+import ${superControllerClassPackage};
 #end
 
 /**
