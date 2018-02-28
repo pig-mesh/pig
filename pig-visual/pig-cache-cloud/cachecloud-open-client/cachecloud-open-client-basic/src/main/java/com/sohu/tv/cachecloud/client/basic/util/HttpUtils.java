@@ -1,18 +1,13 @@
 package com.sohu.tv.cachecloud.client.basic.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import com.sohu.tv.cachecloud.client.basic.exception.CacheCloudClientHttpUtilsException;
+
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Map;
-
-import com.sohu.tv.cachecloud.client.basic.exception.CacheCloudClientHttpUtilsException;
 
 /**
  * http原生工具类

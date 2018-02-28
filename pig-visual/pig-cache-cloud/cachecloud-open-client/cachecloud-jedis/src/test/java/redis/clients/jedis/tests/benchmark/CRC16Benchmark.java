@@ -1,8 +1,8 @@
 package redis.clients.jedis.tests.benchmark;
 
-import java.util.Calendar;
-
 import redis.clients.util.JedisClusterCRC16;
+
+import java.util.Calendar;
 
 public class CRC16Benchmark {
   private static final int TOTAL_OPERATIONS = 100000000;

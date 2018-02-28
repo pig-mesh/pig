@@ -11,8 +11,6 @@ import redis.clients.jedis.tests.HostAndPortUtil;
 import redis.clients.jedis.tests.JedisTestBase;
 import redis.clients.util.JedisClusterCRC16;
 
-import java.util.*;
-
 public class ClusterBinaryJedisCommandsTest extends JedisTestBase {
   private Jedis node1;
   private static Jedis node2;

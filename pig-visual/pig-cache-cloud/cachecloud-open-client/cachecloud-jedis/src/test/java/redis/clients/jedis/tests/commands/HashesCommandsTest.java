@@ -1,22 +1,15 @@
 package redis.clients.jedis.tests.commands;
 
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
-
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.Response;
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
+
+import java.util.*;
+
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
 
 public class HashesCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

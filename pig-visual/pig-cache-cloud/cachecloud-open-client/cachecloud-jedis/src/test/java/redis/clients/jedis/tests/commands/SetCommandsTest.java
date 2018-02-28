@@ -1,16 +1,15 @@
 package redis.clients.jedis.tests.commands;
 
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
+import org.junit.Test;
+import redis.clients.jedis.ScanParams;
+import redis.clients.jedis.ScanResult;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
-
-import redis.clients.jedis.ScanParams;
-import redis.clients.jedis.ScanResult;
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
 
 public class SetCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

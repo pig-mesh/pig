@@ -12,16 +12,14 @@ import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.stats.instance.InstanceStatsCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.DemoCodeUtil;
-import com.sohu.cache.web.vo.AppDetailVO;
 import com.sohu.cache.web.chart.model.HighchartPoint;
 import com.sohu.cache.web.chart.model.SimpleChartData;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.util.AppEmailUtil;
 import com.sohu.cache.web.util.DateUtil;
 import com.sohu.cache.web.util.Page;
-
+import com.sohu.cache.web.vo.AppDetailVO;
 import net.sf.json.JSONArray;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -37,15 +35,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.sql.Timestamp;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 

@@ -1,13 +1,12 @@
 package com.sohu.cache.web.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.sohu.cache.entity.AppDesc;
+import com.sohu.cache.entity.AppUser;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppUser;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 应用详情

@@ -1,13 +1,11 @@
 package com.sohu.cache.entity;
 
-import java.io.Serializable;
-import java.util.Date;
-
+import com.sohu.cache.constant.AppAuditLogTypeEnum;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.sohu.cache.constant.AppAuditLogTypeEnum;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 资源的审批发布日志

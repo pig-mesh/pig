@@ -1,10 +1,10 @@
 package com.sohu.cache.client.service;
 
-import java.util.List;
-
 import com.sohu.cache.entity.AppClientCostTimeStat;
 import com.sohu.cache.entity.AppClientCostTimeTotalStat;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+
+import java.util.List;
 
 /**
  * @author leifu

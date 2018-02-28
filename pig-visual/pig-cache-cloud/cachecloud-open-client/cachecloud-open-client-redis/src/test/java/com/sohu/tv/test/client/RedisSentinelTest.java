@@ -2,10 +2,8 @@ package com.sohu.tv.test.client;
 
 import com.sohu.tv.builder.ClientBuilder;
 import com.sohu.tv.test.base.BaseTest;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Test;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;

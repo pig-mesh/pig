@@ -1,15 +1,15 @@
 package com.sohu.cache.entity;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import com.alibaba.fastjson.JSONObject;
 import com.sohu.cache.constant.AppDescEnum;
 import com.sohu.cache.constant.AppDescEnum.AppImportantLevel;
 import com.sohu.cache.constant.AppStatusEnum;
 import com.sohu.cache.util.ConstUtils;
+
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 应用的信息，包括分片、类型以及各分片的ip

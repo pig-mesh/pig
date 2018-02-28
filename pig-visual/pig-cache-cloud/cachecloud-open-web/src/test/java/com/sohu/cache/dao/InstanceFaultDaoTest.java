@@ -2,12 +2,10 @@ package com.sohu.cache.dao;
 
 import com.sohu.cache.entity.InstanceFault;
 import com.sohu.test.BaseTest;
-import org.junit.After;
 import org.junit.Test;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**

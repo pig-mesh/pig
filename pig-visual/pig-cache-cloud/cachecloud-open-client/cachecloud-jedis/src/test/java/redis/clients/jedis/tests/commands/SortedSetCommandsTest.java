@@ -1,15 +1,6 @@
 package redis.clients.jedis.tests.commands;
 
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
-import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
-
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
-
 import redis.clients.jedis.ScanParams;
 import redis.clients.jedis.ScanResult;
 import redis.clients.jedis.Tuple;
@@ -17,6 +8,14 @@ import redis.clients.jedis.ZParams;
 import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.jedis.params.sortedset.ZIncrByParams;
 import redis.clients.util.SafeEncoder;
+
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START;
+import static redis.clients.jedis.ScanParams.SCAN_POINTER_START_BINARY;
 
 public class SortedSetCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

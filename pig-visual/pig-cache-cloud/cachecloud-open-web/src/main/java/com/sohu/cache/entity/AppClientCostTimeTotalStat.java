@@ -1,12 +1,12 @@
 package com.sohu.cache.entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
-import org.apache.commons.lang.math.NumberUtils;
 
 /**
  * 基于应用全局耗时统计(uniquekey: app_id, command, collect_time)

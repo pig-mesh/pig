@@ -1,18 +1,13 @@
 package redis.clients.jedis.tests;
 
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.junit.*;
-import redis.clients.jedis.*;
 import redis.clients.jedis.JedisCluster.Reset;
-import redis.clients.jedis.exceptions.*;
 import redis.clients.jedis.tests.utils.ClientKillerUtil;
 import redis.clients.jedis.tests.utils.JedisClusterTestUtil;
 import redis.clients.util.ClusterNodeInformationParser;
 import redis.clients.util.JedisClusterCRC16;
 
 import java.io.IOException;
-import java.util.*;
-import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 public class JedisClusterTest extends Assert {

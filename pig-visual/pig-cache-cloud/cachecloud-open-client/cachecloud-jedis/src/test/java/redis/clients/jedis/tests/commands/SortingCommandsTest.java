@@ -1,11 +1,10 @@
 package redis.clients.jedis.tests.commands;
 
+import org.junit.Test;
+import redis.clients.jedis.SortingParams;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Test;
-
-import redis.clients.jedis.SortingParams;
 
 public class SortingCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

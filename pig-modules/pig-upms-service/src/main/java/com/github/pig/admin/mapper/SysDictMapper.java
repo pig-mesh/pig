@@ -1,7 +1,7 @@
 package com.github.pig.admin.mapper;
 
-import com.github.pig.admin.model.entity.SysDict;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.github.pig.admin.model.entity.SysDict;
 
 /**
  * <p>

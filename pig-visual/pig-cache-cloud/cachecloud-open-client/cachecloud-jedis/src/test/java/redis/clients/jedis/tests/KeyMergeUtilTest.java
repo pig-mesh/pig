@@ -1,9 +1,9 @@
 package redis.clients.jedis.tests;
 
 import org.junit.Test;
-
 import redis.clients.util.KeyMergeUtil;
 import redis.clients.util.SafeEncoder;
+
 import static org.junit.Assert.*;
 
 public class KeyMergeUtilTest {

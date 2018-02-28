@@ -1,12 +1,13 @@
 package com.sohu.cache.web.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.sohu.cache.constant.ErrorMessageEnum;
+import com.sohu.cache.dao.InstanceDao;
+import com.sohu.cache.entity.AppUser;
+import com.sohu.cache.entity.InstanceAlertConfig;
+import com.sohu.cache.entity.InstanceInfo;
+import com.sohu.cache.redis.enums.*;
+import com.sohu.cache.stats.instance.InstanceAlertConfigService;
+import com.sohu.cache.web.enums.SuccessEnum;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -15,18 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sohu.cache.constant.ErrorMessageEnum;
-import com.sohu.cache.dao.InstanceDao;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceAlertConfig;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.redis.enums.InstanceAlertCheckCycleEnum;
-import com.sohu.cache.redis.enums.InstanceAlertCompareTypeEnum;
-import com.sohu.cache.redis.enums.InstanceAlertStatusEnum;
-import com.sohu.cache.redis.enums.InstanceAlertTypeEnum;
-import com.sohu.cache.redis.enums.RedisAlertConfigEnum;
-import com.sohu.cache.stats.instance.InstanceAlertConfigService;
-import com.sohu.cache.web.enums.SuccessEnum;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 实例报警阀值

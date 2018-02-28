@@ -1,12 +1,11 @@
 package com.sohu.cache.schedule.jobs;
 
+import com.sohu.cache.schedule.jobs.CacheBaseJob;
+import com.sohu.cache.stats.app.AppDailyDataCenter;
 import org.quartz.JobExecutionContext;
 import org.quartz.SchedulerContext;
 import org.quartz.SchedulerException;
 import org.springframework.context.ApplicationContext;
-
-import com.sohu.cache.schedule.jobs.CacheBaseJob;
-import com.sohu.cache.stats.app.AppDailyDataCenter;
 
 /**
  * 发送日报

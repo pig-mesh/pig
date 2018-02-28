@@ -1,10 +1,10 @@
 package com.sohu.cache.web.service.impl;
 
-import java.util.List;
-
 import com.sohu.cache.dao.MemFaultDao;
 import com.sohu.cache.entity.InstanceFault;
 import com.sohu.cache.web.service.MemFaultService;
+
+import java.util.List;
 
 /**
  * 故障服务

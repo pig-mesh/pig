@@ -1,18 +1,17 @@
 package redis.clients.jedis.tests.commands;
 
-import java.util.List;
-
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisCluster.Reset;
 import redis.clients.jedis.tests.HostAndPortUtil;
 import redis.clients.jedis.tests.JedisTestBase;
 import redis.clients.jedis.tests.utils.JedisClusterTestUtil;
+
+import java.util.List;
 
 public class ClusterCommandsTest extends JedisTestBase {
   private static Jedis node1;

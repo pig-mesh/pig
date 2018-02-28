@@ -1,30 +1,14 @@
 package redis.clients.jedis.tests;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.Response;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPipeline;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisDataException;
+
+import java.io.UnsupportedEncodingException;
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class ShardedJedisPipelineTest {
 

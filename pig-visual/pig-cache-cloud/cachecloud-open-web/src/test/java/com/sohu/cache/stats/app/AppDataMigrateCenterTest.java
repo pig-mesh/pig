@@ -1,20 +1,18 @@
 package com.sohu.cache.stats.app;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.constant.AppDataMigrateEnum;
 import com.sohu.cache.constant.AppDataMigrateResult;
 import com.sohu.cache.constant.RedisMigrateToolConstant;
 import com.sohu.cache.stats.app.impl.AppDataMigrateCenterImpl;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * 测试迁移数据

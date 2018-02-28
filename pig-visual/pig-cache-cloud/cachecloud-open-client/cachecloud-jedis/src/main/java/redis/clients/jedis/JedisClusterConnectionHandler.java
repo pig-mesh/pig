@@ -1,14 +1,9 @@
 package redis.clients.jedis;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import redis.clients.jedis.exceptions.JedisConnectionException;
+
+import java.util.*;
 
 public abstract class JedisClusterConnectionHandler {
   protected final JedisClusterInfoCache cache;

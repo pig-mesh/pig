@@ -1,13 +1,12 @@
 package com.sohu.test.dao;
 
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.constant.AppAuditLogTypeEnum;
 import com.sohu.cache.dao.AppAuditLogDao;
 import com.sohu.cache.entity.AppAuditLog;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
 
 /**
  * @author leifu

@@ -1,13 +1,13 @@
 package com.sohu.cache.machine;
 
-import java.util.List;
-import java.util.Map;
-
 import com.sohu.cache.constant.MachineInfoEnum.TypeEnum;
 import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.entity.InstanceStats;
 import com.sohu.cache.entity.MachineInfo;
 import com.sohu.cache.entity.MachineStats;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 基于host的操作

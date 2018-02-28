@@ -1,13 +1,12 @@
 package com.sohu.cache.web.service.impl;
 
+import com.sohu.cache.util.ConstUtils;
+import com.sohu.cache.web.service.UserLoginStatusService;
+import org.apache.commons.lang.math.NumberUtils;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.math.NumberUtils;
-
-import com.sohu.cache.util.ConstUtils;
-import com.sohu.cache.web.service.UserLoginStatusService;
 
 /**
  * cookie保护登录状态

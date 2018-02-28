@@ -1,33 +1,20 @@
 package com.sohu.tv.jedis.stat.data;
 
-import java.text.DecimalFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.enums.ClientExceptionType;
 import com.sohu.tv.jedis.stat.enums.ValueSizeDistriEnum;
-import com.sohu.tv.jedis.stat.model.CostTimeDetailStatKey;
-import com.sohu.tv.jedis.stat.model.CostTimeDetailStatModel;
-import com.sohu.tv.jedis.stat.model.ExceptionModel;
-import com.sohu.tv.jedis.stat.model.UsefulDataModel;
-import com.sohu.tv.jedis.stat.model.ValueLengthModel;
+import com.sohu.tv.jedis.stat.model.*;
 import com.sohu.tv.jedis.stat.utils.AtomicLongMap;
 import com.sohu.tv.jedis.stat.utils.DateUtils;
 import com.sohu.tv.jedis.stat.utils.NamedThreadFactory;
 import com.sohu.tv.jedis.stat.utils.NumberUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.concurrent.*;
 
 /**
  * jedis有价值数据收集器(耗时,值分布,异常等)

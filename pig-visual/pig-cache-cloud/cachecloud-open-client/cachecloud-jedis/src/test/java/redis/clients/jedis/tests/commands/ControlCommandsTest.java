@@ -1,13 +1,12 @@
 package redis.clients.jedis.tests.commands;
 
-import java.util.List;
-
 import org.junit.Test;
-
 import redis.clients.jedis.DebugParams;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisMonitor;
 import redis.clients.jedis.exceptions.JedisDataException;
+
+import java.util.List;
 
 public class ControlCommandsTest extends JedisCommandTestBase {
   @Test

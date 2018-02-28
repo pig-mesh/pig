@@ -1,9 +1,9 @@
 package com.sohu.cache.redis.enums;
 
+import com.sohu.cache.constant.RedisConstant;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sohu.cache.constant.RedisConstant;
 
 /**
  * Redis报警配置枚举

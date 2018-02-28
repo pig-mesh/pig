@@ -1,13 +1,12 @@
 package com.sohu.cache.entity;
 
+import com.alibaba.fastjson.JSONObject;
+import com.sohu.cache.web.vo.AppDetailVO;
+import org.apache.commons.collections.MapUtils;
+
 import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.commons.collections.MapUtils;
-
-import com.alibaba.fastjson.JSONObject;
-import com.sohu.cache.web.vo.AppDetailVO;
 
 /**
  * 应用日报数据

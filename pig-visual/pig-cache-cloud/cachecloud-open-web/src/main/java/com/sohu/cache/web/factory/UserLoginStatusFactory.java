@@ -1,10 +1,10 @@
 package com.sohu.cache.web.factory;
 
-import java.util.Map;
-
 import com.sohu.cache.constant.UserLoginTypeEnum;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.web.service.UserLoginStatusService;
+
+import java.util.Map;
 
 /**
  * 用户登录状态信息服务工厂

@@ -1,14 +1,13 @@
 package redis.clients.jedis.tests.commands;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.junit.Test;
-
 import redis.clients.jedis.Client;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisDataException;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ListCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

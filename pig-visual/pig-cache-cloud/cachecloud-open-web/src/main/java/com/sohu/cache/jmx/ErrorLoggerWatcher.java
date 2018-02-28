@@ -2,13 +2,9 @@ package com.sohu.cache.jmx;
 
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
-
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.sohu.cache.log.statistic.ErrorStatisticsAppender;
-
 import org.slf4j.LoggerFactory;
-
-import java.util.*;
 
 /**
  * Created by yijunzhang on 14-2-19.

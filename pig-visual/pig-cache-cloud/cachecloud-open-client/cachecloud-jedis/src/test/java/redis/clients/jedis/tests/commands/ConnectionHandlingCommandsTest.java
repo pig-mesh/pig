@@ -1,7 +1,6 @@
 package redis.clients.jedis.tests.commands;
 
 import org.junit.Test;
-
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.tests.HostAndPortUtil;

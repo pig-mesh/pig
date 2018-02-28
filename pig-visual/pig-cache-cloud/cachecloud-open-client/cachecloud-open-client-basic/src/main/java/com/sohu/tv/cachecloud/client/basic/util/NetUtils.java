@@ -16,15 +16,14 @@
 package com.sohu.tv.cachecloud.client.basic.util;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
-import java.net.*;
 import java.util.Enumeration;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * IP and Port Helper for RPC,

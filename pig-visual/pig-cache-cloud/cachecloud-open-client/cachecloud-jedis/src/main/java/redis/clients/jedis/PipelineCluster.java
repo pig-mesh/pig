@@ -8,9 +8,6 @@ import redis.clients.jedis.valueobject.RangeScoreVO;
 import redis.clients.jedis.valueobject.SortedSetVO;
 import redis.clients.util.SafeEncoder;
 
-import java.nio.charset.Charset;
-import java.util.*;
-
 /**
  * Created by yijunzhang on 14-6-23.
  */

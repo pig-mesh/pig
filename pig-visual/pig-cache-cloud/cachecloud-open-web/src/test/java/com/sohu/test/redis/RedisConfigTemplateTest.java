@@ -1,15 +1,13 @@
 package com.sohu.test.redis;
 
+import com.sohu.cache.redis.RedisConfigTemplateService;
+import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
-import com.sohu.cache.redis.RedisConfigTemplateService;
-import com.sohu.test.BaseTest;
 
 /**
  * Redis配置模板测试

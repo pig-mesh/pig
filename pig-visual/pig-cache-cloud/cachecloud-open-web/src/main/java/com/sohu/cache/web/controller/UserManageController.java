@@ -1,22 +1,20 @@
 package com.sohu.cache.web.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.sohu.cache.constant.AppCheckEnum;
 import com.sohu.cache.constant.AppUserTypeEnum;
 import com.sohu.cache.entity.AppAudit;
 import com.sohu.cache.entity.AppUser;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.util.AppEmailUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 用户信息管理

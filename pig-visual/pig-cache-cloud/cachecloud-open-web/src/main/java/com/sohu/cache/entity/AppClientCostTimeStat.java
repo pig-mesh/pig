@@ -1,10 +1,10 @@
 package com.sohu.cache.entity;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * 客户端耗时统计

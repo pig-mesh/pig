@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
 import redis.clients.jedis.Connection;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 

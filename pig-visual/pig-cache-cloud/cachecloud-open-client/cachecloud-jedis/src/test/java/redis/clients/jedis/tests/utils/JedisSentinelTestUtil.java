@@ -1,10 +1,10 @@
 package redis.clients.jedis.tests.utils;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPubSub;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class JedisSentinelTestUtil {
   public static HostAndPort waitForNewPromotedMaster(final String masterName,

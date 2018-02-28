@@ -6,7 +6,6 @@ import com.github.pig.admin.service.SysLogService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.Assert;
-import com.github.pig.common.util.R;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;

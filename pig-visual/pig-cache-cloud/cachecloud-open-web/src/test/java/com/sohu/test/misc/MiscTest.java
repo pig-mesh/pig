@@ -1,8 +1,7 @@
 package com.sohu.test.misc;
 
-import com.sohu.test.SimpleBaseTest;
-
 import com.google.common.collect.ImmutableMap;
+import com.sohu.test.SimpleBaseTest;
 import org.apache.commons.collections4.MapUtils;
 import org.junit.Test;
 

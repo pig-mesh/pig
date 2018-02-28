@@ -1,24 +1,13 @@
 package com.sohu.cache.web.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.sohu.cache.constant.AppUserTypeEnum;
+import com.sohu.cache.entity.*;
+import com.sohu.cache.machine.MachineCenter;
+import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.web.service.AppService;
 import com.sohu.cache.web.service.UserLoginStatusService;
 import com.sohu.cache.web.service.UserService;
 import com.sohu.cache.web.util.DateUtil;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -28,15 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
 
-import com.sohu.cache.constant.AppUserTypeEnum;
-import com.sohu.cache.entity.AppToUser;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.InstanceSlotModel;
-import com.sohu.cache.entity.InstanceStats;
-import com.sohu.cache.entity.TimeBetween;
-import com.sohu.cache.machine.MachineCenter;
-import com.sohu.cache.redis.RedisCenter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * 基类controller

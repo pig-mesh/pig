@@ -1,8 +1,8 @@
 package com.sohu.cache.client.service;
 
-import java.util.List;
-
 import com.sohu.cache.entity.AppClientVersion;
+
+import java.util.List;
 
 /**
  * 客户端版本信息

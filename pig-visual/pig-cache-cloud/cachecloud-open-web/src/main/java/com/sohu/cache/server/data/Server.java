@@ -1,12 +1,12 @@
 package com.sohu.cache.server.data;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Pattern;
-
-import org.apache.commons.lang.math.NumberUtils;
 /**
  *	服务器基本状态
  */

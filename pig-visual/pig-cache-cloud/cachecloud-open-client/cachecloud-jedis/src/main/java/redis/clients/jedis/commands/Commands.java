@@ -1,7 +1,5 @@
 package redis.clients.jedis.commands;
 
-import java.util.Map;
-
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.BitOP;
 import redis.clients.jedis.ScanParams;
@@ -10,6 +8,8 @@ import redis.clients.jedis.ZParams;
 import redis.clients.jedis.params.set.SetParams;
 import redis.clients.jedis.params.sortedset.ZAddParams;
 import redis.clients.jedis.params.sortedset.ZIncrByParams;
+
+import java.util.Map;
 
 public interface Commands {
 

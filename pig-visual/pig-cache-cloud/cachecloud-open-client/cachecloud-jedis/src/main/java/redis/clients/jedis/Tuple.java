@@ -1,8 +1,8 @@
 package redis.clients.jedis;
 
-import java.util.Arrays;
-
 import redis.clients.util.SafeEncoder;
+
+import java.util.Arrays;
 
 public class Tuple implements Comparable<Tuple> {
   private byte[] element;

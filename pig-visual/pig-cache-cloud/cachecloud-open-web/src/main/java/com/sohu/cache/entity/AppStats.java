@@ -1,11 +1,11 @@
 package com.sohu.cache.entity;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang.math.NumberUtils;
 
 /**
  * Created by yijunzhang on 14-6-9.

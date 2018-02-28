@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" import="com.sohu.cache.web.enums.AppOrderByEnum" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/jsp/manage/commons/appConstants.jsp"%>
 
 <!DOCTYPE html>

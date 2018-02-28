@@ -11,7 +11,6 @@ import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.redis.RedisDeployCenter;
 import com.sohu.cache.stats.instance.InstanceDeployCenter;
 import com.sohu.cache.util.TypeUtil;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

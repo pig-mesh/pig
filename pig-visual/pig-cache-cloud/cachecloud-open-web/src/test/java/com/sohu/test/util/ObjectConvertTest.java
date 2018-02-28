@@ -4,11 +4,10 @@ import com.sohu.cache.dao.InstanceDao;
 import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.util.ObjectConvert;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
-import java.util.List;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * User: lingguo

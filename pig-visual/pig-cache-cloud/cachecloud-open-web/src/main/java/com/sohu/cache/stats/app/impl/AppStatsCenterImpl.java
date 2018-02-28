@@ -11,16 +11,14 @@ import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.TypeUtil;
-import com.sohu.cache.web.vo.AppDetailVO;
 import com.sohu.cache.web.service.UserService;
-
+import com.sohu.cache.web.vo.AppDetailVO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 import java.text.DecimalFormat;
-import java.util.*;
 
 /**
  * 基于app的统计信息的接口：包括app详情、app配置以及基于app的统计

@@ -1,7 +1,7 @@
 package com.github.pig.admin.service;
 
-import com.github.pig.admin.model.entity.SysDict;
 import com.baomidou.mybatisplus.service.IService;
+import com.github.pig.admin.model.entity.SysDict;
 
 /**
  * <p>

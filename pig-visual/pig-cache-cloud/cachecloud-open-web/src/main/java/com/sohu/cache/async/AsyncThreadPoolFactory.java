@@ -1,12 +1,12 @@
 package com.sohu.cache.async;
 
+import com.sohu.cache.client.service.impl.ClientReportDataServiceImpl;
+import com.sohu.cache.redis.impl.RedisCenterImpl;
+
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
-import com.sohu.cache.client.service.impl.ClientReportDataServiceImpl;
-import com.sohu.cache.redis.impl.RedisCenterImpl;
 
 /**
  * 异步线程池 Created by yijunzhang on 14-7-10.

@@ -1,13 +1,12 @@
 package com.sohu.test.util;
 
+import com.sohu.cache.entity.MachineStats;
+import com.sohu.cache.exception.SSHException;
+import com.sohu.cache.ssh.SSHUtil;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sohu.cache.entity.MachineStats;
-import com.sohu.cache.exception.SSHException;
-import com.sohu.cache.ssh.SSHUtil;
 
 /**
  * ssh工具测试

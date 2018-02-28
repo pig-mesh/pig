@@ -10,7 +10,6 @@ import com.sohu.cache.machine.MachineCenter;
 import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.schedule.TriggerCenter;
 import com.sohu.cache.util.ConstUtils;
-
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.TriggerKey;

@@ -1,20 +1,15 @@
 package redis.clients.jedis.tests;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Test;
-
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.Protocol;
-import redis.clients.jedis.ShardedJedis;
+import redis.clients.jedis.*;
 import redis.clients.jedis.tests.utils.ClientKillerUtil;
 import redis.clients.util.Hashing;
 import redis.clients.util.Sharded;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class ShardedJedisTest extends Assert {
   private static HostAndPort redis1 = HostAndPortUtil.getRedisServers().get(0);

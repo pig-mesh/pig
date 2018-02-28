@@ -1,17 +1,16 @@
 package redis.clients.jedis.tests;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.tests.utils.JedisSentinelTestUtil;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class JedisSentinelTest extends JedisTestBase {
   private static final String MASTER_NAME = "mymaster";

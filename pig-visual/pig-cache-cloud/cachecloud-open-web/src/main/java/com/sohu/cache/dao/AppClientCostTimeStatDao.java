@@ -1,10 +1,9 @@
 package com.sohu.cache.dao;
 
-import java.util.List;
-
+import com.sohu.cache.entity.AppClientCostTimeStat;
 import org.apache.ibatis.annotations.Param;
 
-import com.sohu.cache.entity.AppClientCostTimeStat;
+import java.util.List;
 
 /**
  * 客户端耗时dao

@@ -1,8 +1,8 @@
 package com.sohu.cache.web.service;
 
-import java.util.List;
-
 import com.sohu.cache.entity.InstanceFault;
+
+import java.util.List;
 
 /**
  * 故障服务

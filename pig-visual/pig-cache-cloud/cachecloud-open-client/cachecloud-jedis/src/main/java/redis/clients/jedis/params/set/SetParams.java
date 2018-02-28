@@ -1,9 +1,9 @@
 package redis.clients.jedis.params.set;
 
-import java.util.ArrayList;
-
 import redis.clients.jedis.params.Params;
 import redis.clients.util.SafeEncoder;
+
+import java.util.ArrayList;
 
 public class SetParams extends Params {
 

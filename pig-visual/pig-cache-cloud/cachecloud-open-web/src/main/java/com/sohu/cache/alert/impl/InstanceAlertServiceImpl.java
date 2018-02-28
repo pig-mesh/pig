@@ -1,12 +1,11 @@
 package com.sohu.cache.alert.impl;
 
-import java.util.List;
-
-import org.springframework.util.Assert;
-
 import com.sohu.cache.alert.InstanceAlertService;
 import com.sohu.cache.dao.InstanceFaultDao;
 import com.sohu.cache.entity.InstanceFault;
+import org.springframework.util.Assert;
+
+import java.util.List;
 
 /**
  * 实例报警

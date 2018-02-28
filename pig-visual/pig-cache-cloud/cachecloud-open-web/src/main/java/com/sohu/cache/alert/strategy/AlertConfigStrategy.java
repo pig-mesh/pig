@@ -1,12 +1,5 @@
 package com.sohu.cache.alert.strategy;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.math.NumberUtils;
-
 import com.sohu.cache.alert.bean.AlertConfigBaseData;
 import com.sohu.cache.entity.InstanceAlertConfig;
 import com.sohu.cache.entity.InstanceAlertValueResult;
@@ -14,6 +7,12 @@ import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.entity.StandardStats;
 import com.sohu.cache.redis.enums.InstanceAlertCompareTypeEnum;
 import com.sohu.cache.util.JsonUtil;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.math.NumberUtils;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * @author leifu

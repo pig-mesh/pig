@@ -2,7 +2,6 @@ package com.github.pig.admin.service;
 
 import com.baomidou.mybatisplus.service.IService;
 import com.github.pig.common.entity.SysLog;
-import com.github.pig.common.util.R;
 
 /**
  * <p>

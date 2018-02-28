@@ -1,13 +1,12 @@
 package redis.clients.util;
 
-import java.io.Closeable;
-
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
+
+import java.io.Closeable;
 
 public abstract class Pool<T> implements Closeable {
   protected GenericObjectPool<T> internalPool;

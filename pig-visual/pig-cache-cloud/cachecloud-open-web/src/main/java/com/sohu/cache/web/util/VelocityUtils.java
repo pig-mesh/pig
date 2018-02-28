@@ -8,7 +8,6 @@ import com.sohu.cache.entity.AppDailyData;
 import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.entity.InstanceAlertValueResult;
 import com.sohu.cache.util.ConstUtils;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;

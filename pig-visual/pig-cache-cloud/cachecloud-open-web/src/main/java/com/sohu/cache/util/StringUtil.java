@@ -1,17 +1,16 @@
 package com.sohu.cache.util;
 
-import static com.sohu.cache.constant.EmptyObjectConstant.EMPTY_STRING;
+import com.sohu.cache.constant.BaseConstant;
+import com.sohu.cache.constant.EmptyObjectConstant;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.sohu.cache.constant.BaseConstant;
-import com.sohu.cache.constant.EmptyObjectConstant;
+import static com.sohu.cache.constant.EmptyObjectConstant.EMPTY_STRING;
 
 /**
  * Description: String Utils

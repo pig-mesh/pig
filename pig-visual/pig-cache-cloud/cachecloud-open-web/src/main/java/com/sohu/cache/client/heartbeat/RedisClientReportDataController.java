@@ -1,19 +1,5 @@
 package com.sohu.cache.client.heartbeat;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
 import com.google.common.collect.Lists;
 import com.sohu.cache.client.service.ClientReportDataService;
 import com.sohu.cache.constant.ClientStatusEnum;
@@ -23,6 +9,18 @@ import com.sohu.cache.web.service.AppService;
 import com.sohu.cache.web.util.IpUtil;
 import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * cachecloud客户端上报数据接口

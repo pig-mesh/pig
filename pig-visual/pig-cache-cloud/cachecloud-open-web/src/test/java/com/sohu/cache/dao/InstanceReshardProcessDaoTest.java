@@ -1,13 +1,11 @@
 package com.sohu.cache.dao;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.entity.InstanceReshardProcess;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author leifu

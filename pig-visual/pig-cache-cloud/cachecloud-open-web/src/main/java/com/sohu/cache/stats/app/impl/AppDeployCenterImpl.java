@@ -1,48 +1,9 @@
 package com.sohu.cache.stats.app.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
-
 import com.sohu.cache.async.NamedThreadFactory;
-import com.sohu.cache.constant.AppAuditLogTypeEnum;
-import com.sohu.cache.constant.AppAuditType;
-import com.sohu.cache.constant.AppCheckEnum;
-import com.sohu.cache.constant.AppStatusEnum;
-import com.sohu.cache.constant.DataFormatCheckResult;
-import com.sohu.cache.constant.HorizontalResult;
-import com.sohu.cache.constant.InstanceStatusEnum;
-import com.sohu.cache.constant.PipelineEnum;
-import com.sohu.cache.constant.ReshardStatusEnum;
-import com.sohu.cache.dao.AppAuditDao;
-import com.sohu.cache.dao.AppAuditLogDao;
-import com.sohu.cache.dao.AppDao;
-import com.sohu.cache.dao.InstanceDao;
-import com.sohu.cache.dao.InstanceReshardProcessDao;
-import com.sohu.cache.entity.AppAudit;
-import com.sohu.cache.entity.AppAuditLog;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.InstanceReshardProcess;
-import com.sohu.cache.entity.InstanceSlotModel;
-import com.sohu.cache.entity.MachineInfo;
+import com.sohu.cache.constant.*;
+import com.sohu.cache.dao.*;
+import com.sohu.cache.entity.*;
 import com.sohu.cache.machine.MachineCenter;
 import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.redis.RedisClusterNode;
@@ -53,8 +14,20 @@ import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.TypeUtil;
 import com.sohu.cache.web.service.AppService;
 import com.sohu.cache.web.util.AppEmailUtil;
-
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 import redis.clients.jedis.HostAndPort;
+
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by yijunzhang on 14-10-20.

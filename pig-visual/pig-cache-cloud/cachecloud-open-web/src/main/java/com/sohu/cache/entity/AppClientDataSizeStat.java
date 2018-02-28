@@ -1,8 +1,8 @@
 package com.sohu.cache.entity;
 
-import java.util.Date;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import java.util.Date;
 
 /**
  * 客户端内收集数据map的尺寸

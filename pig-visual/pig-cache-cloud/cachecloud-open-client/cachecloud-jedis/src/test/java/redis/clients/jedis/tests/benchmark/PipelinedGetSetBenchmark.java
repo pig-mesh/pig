@@ -1,13 +1,13 @@
 package redis.clients.jedis.tests.benchmark;
 
-import java.io.IOException;
-import java.net.UnknownHostException;
-import java.util.Calendar;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Pipeline;
 import redis.clients.jedis.tests.HostAndPortUtil;
+
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.Calendar;
 
 public class PipelinedGetSetBenchmark {
   private static HostAndPort hnp = HostAndPortUtil.getRedisServers().get(0);

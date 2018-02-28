@@ -1,21 +1,5 @@
 package com.sohu.cache.client.service.impl;
 
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.client.service.AppInstanceClientRelationService;
 import com.sohu.cache.client.service.ClientReportCostDistriService;
 import com.sohu.cache.client.service.ClientReportInstanceService;
@@ -27,6 +11,16 @@ import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.enums.ClientCollectDataTypeEnum;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 客户端上报耗时分布

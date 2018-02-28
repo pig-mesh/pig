@@ -1,22 +1,16 @@
 package redis.clients.jedis.tests;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisShardInfo;
-import redis.clients.jedis.ShardedJedis;
-import redis.clients.jedis.ShardedJedisPipeline;
-import redis.clients.jedis.ShardedJedisPool;
+import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisConnectionException;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ShardedJedisPoolTest extends Assert {
   private static HostAndPort redis1 = HostAndPortUtil.getRedisServers().get(0);

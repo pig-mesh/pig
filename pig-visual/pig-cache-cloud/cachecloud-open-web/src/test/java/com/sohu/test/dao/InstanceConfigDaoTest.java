@@ -1,16 +1,14 @@
 package com.sohu.test.dao;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.dao.InstanceConfigDao;
 import com.sohu.cache.entity.InstanceConfig;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 配置模板测试

@@ -1,18 +1,16 @@
 package com.sohu.cache.web.controller;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.fastjson.JSONObject;
+import com.sohu.cache.client.service.AppInstanceClientRelationService;
+import com.sohu.cache.client.service.ClientReportCostDistriService;
+import com.sohu.cache.client.service.ClientReportExceptionService;
+import com.sohu.cache.client.service.ClientReportValueDistriService;
+import com.sohu.cache.entity.*;
+import com.sohu.cache.stats.instance.InstanceStatsCenter;
+import com.sohu.cache.web.service.AppService;
+import com.sohu.cache.web.util.DateUtil;
+import com.sohu.cache.web.util.Page;
+import com.sohu.tv.jedis.stat.utils.NumberUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -22,23 +20,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.alibaba.fastjson.JSONObject;
-import com.sohu.cache.client.service.AppInstanceClientRelationService;
-import com.sohu.cache.client.service.ClientReportCostDistriService;
-import com.sohu.cache.client.service.ClientReportExceptionService;
-import com.sohu.cache.client.service.ClientReportValueDistriService;
-import com.sohu.cache.entity.AppClientCostTimeStat;
-import com.sohu.cache.entity.AppClientCostTimeTotalStat;
-import com.sohu.cache.entity.AppClientExceptionStat;
-import com.sohu.cache.entity.AppClientValueDistriSimple;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppInstanceClientRelation;
-import com.sohu.cache.entity.TimeBetween;
-import com.sohu.cache.stats.instance.InstanceStatsCenter;
-import com.sohu.cache.web.service.AppService;
-import com.sohu.cache.web.util.DateUtil;
-import com.sohu.cache.web.util.Page;
-import com.sohu.tv.jedis.stat.utils.NumberUtil;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 应用客户端统计相关

@@ -1,25 +1,22 @@
 package com.sohu.test.redis;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.constant.InstanceStatusEnum;
 import com.sohu.cache.dao.InstanceDao;
 import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.redis.RedisCenter;
 import com.sohu.cache.util.TypeUtil;
 import com.sohu.test.BaseTest;
-
+import org.apache.commons.collections.CollectionUtils;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
+
+import javax.annotation.Resource;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * redis重要数据处理（请注意BaseTest是local环境）

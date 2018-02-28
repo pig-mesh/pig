@@ -1,8 +1,7 @@
 package com.sohu.cache.entity;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import com.sohu.tv.jedis.stat.enums.ValueSizeDistriEnum;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * 

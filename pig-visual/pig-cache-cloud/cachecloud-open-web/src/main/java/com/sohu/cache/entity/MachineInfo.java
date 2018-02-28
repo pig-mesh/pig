@@ -1,9 +1,9 @@
 package com.sohu.cache.entity;
 
 
-import java.util.Date;
-
 import com.sohu.cache.constant.MachineInfoEnum;
+
+import java.util.Date;
 
 /**
  * 机器的属性信息

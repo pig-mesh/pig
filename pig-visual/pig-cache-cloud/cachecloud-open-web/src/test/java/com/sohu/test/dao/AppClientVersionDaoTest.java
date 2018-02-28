@@ -1,14 +1,12 @@
 package com.sohu.test.dao;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.dao.AppClientVersionDao;
 import com.sohu.cache.entity.AppClientVersion;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 public class AppClientVersionDaoTest extends BaseTest{
 

@@ -1,10 +1,10 @@
 package redis.clients.jedis.tests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Protocol;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HostAndPortUtil {
   private static List<HostAndPort> redisHostAndPortList = new ArrayList<HostAndPort>();

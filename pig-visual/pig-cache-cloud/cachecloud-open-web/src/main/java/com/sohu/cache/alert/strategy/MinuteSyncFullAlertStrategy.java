@@ -1,15 +1,14 @@
 package com.sohu.cache.alert.strategy;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.lang.math.NumberUtils;
-
 import com.sohu.cache.alert.bean.AlertConfigBaseData;
 import com.sohu.cache.entity.InstanceAlertConfig;
 import com.sohu.cache.entity.InstanceAlertValueResult;
 import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.redis.enums.RedisInfoEnum;
+import org.apache.commons.lang.math.NumberUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 分钟全量复制次数

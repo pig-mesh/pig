@@ -1,12 +1,14 @@
 package redis.clients.jedis;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
-import redis.clients.jedis.params.geo.GeoRadiusParam;
-import redis.clients.jedis.params.sortedset.ZAddParams;
-import redis.clients.jedis.params.sortedset.ZIncrByParams;
 import redis.clients.jedis.commands.JedisClusterCommands;
 import redis.clients.jedis.commands.JedisClusterScriptingCommands;
 import redis.clients.jedis.commands.MultiKeyJedisClusterCommands;
+import redis.clients.jedis.params.geo.GeoRadiusParam;
+import redis.clients.jedis.params.set.SetParams;
+import redis.clients.jedis.params.sortedset.ZAddParams;
+import redis.clients.jedis.params.sortedset.ZIncrByParams;
 import redis.clients.util.KeyMergeUtil;
 
 import java.util.Collections;
@@ -14,10 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
-import redis.clients.jedis.params.set.SetParams;
 
 public class JedisCluster extends BinaryJedisCluster implements JedisClusterCommands,
     MultiKeyJedisClusterCommands, JedisClusterScriptingCommands {

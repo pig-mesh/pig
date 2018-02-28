@@ -1,19 +1,13 @@
 package com.sohu.cache.client.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import com.sohu.cache.client.service.ClientVersionService;
+import com.sohu.cache.dao.AppClientVersionDao;
+import com.sohu.cache.entity.AppClientVersion;
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sohu.cache.client.service.ClientVersionService;
-import com.sohu.cache.dao.AppClientVersionDao;
-import com.sohu.cache.entity.AppClientVersion;
+import java.util.*;
 
 /**
  * 客户端版本信息

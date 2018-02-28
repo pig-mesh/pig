@@ -1,12 +1,11 @@
 package com.sohu.cache.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-
 import com.sohu.cache.entity.ServerInfo;
 import com.sohu.cache.entity.ServerStatus;
 import com.sohu.cache.server.data.Server;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 服务器状态信息持久化

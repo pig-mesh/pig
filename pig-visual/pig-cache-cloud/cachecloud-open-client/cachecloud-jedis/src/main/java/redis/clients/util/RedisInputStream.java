@@ -9,8 +9,6 @@
 
 package redis.clients.util;
 
-import java.io.*;
-
 import redis.clients.jedis.exceptions.JedisConnectionException;
 
 /**

@@ -1,15 +1,12 @@
 package com.sohu.tv.builder;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sohu.tv.cachecloud.client.basic.util.ConstUtils;
 import com.sohu.tv.cachecloud.client.basic.util.HttpUtils;
 import com.sohu.tv.cachecloud.client.basic.util.StringUtil;
 import com.sohu.tv.cachecloud.client.jedis.stat.ClientDataCollectReportExecutor;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.Protocol;
 

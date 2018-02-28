@@ -1,15 +1,14 @@
 package redis.clients.jedis;
 
-import java.net.URI;
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
-
 import redis.clients.jedis.exceptions.InvalidURIException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.util.JedisURIHelper;
+
+import java.net.URI;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * PoolableObjectFactory custom impl.

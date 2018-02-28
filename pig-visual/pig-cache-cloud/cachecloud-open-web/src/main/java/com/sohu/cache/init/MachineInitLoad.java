@@ -4,7 +4,6 @@ import com.sohu.cache.dao.MachineDao;
 import com.sohu.cache.entity.MachineInfo;
 import com.sohu.cache.machine.MachineCenter;
 import com.sohu.cache.util.ConstUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;

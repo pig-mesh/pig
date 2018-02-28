@@ -1,14 +1,12 @@
 package com.sohu.test.dao;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.dao.AppClientReportDataSizeDao;
 import com.sohu.cache.entity.AppClientDataSizeStat;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 客户端内收集数据map的尺寸查询--测试

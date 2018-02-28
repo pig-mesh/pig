@@ -2,7 +2,6 @@ package redis.clients.jedis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.exceptions.*;
 import redis.clients.util.JedisClusterCRC16;
 
 /**

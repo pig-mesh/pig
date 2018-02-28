@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@page import="com.sohu.cache.redis.enums.RedisAlertConfigEnum"%>
-<%@page import="com.sohu.cache.redis.enums.InstanceAlertCompareTypeEnum"%>
 <%@page import="com.sohu.cache.redis.enums.InstanceAlertCheckCycleEnum"%>
+<%@page import="com.sohu.cache.redis.enums.InstanceAlertCompareTypeEnum"%>
+<%@page import="com.sohu.cache.redis.enums.RedisAlertConfigEnum"%>
 <%@ include file="/WEB-INF/jsp/manage/commons/taglibs.jsp"%>
 
 <script type="text/javascript">

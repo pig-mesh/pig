@@ -1,17 +1,5 @@
 package com.sohu.cache.stats.app.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Protocol;
-
 import com.sohu.cache.constant.ImportAppResult;
 import com.sohu.cache.constant.InstanceStatusEnum;
 import com.sohu.cache.dao.InstanceDao;
@@ -26,6 +14,16 @@ import com.sohu.cache.stats.app.ImportAppCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.IdempotentConfirmer;
 import com.sohu.cache.web.service.AppService;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Protocol;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 导入应用

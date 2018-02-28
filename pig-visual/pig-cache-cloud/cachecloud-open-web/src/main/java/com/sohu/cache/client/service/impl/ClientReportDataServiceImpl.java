@@ -1,20 +1,15 @@
 package com.sohu.cache.client.service.impl;
 
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.async.AsyncService;
 import com.sohu.cache.async.AsyncThreadPoolFactory;
 import com.sohu.cache.async.KeyCallable;
-import com.sohu.cache.client.service.ClientReportCostDistriService;
-import com.sohu.cache.client.service.ClientReportDataService;
-import com.sohu.cache.client.service.ClientReportDataSizeService;
-import com.sohu.cache.client.service.ClientReportExceptionService;
-import com.sohu.cache.client.service.ClientReportValueDistriService;
+import com.sohu.cache.client.service.*;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * cachecloud客户端数据统一处理

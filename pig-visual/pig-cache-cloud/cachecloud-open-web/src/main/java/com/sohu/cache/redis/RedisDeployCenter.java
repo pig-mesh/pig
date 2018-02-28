@@ -1,10 +1,10 @@
 package com.sohu.cache.redis;
 
-import java.util.List;
-
 import com.sohu.cache.constant.ClusterOperateResult;
 import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.web.enums.RedisOperateEnum;
+
+import java.util.List;
 
 /**
  * redis 部署配置

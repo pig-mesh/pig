@@ -1,17 +1,15 @@
 package com.sohu.test.machine;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.dao.MachineDao;
 import com.sohu.cache.entity.MachineInfo;
 import com.sohu.cache.exception.SSHException;
 import com.sohu.cache.machine.PortGenerator;
 import com.sohu.cache.ssh.SSHUtil;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 查找最大端口两种方法对比

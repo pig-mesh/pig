@@ -1,8 +1,7 @@
 package com.sohu.cache.dao;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.sohu.cache.entity.AppDailyData;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 应用日报

@@ -1,12 +1,12 @@
 package com.sohu.cache.entity;
 
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import com.alibaba.fastjson.JSONObject;
 import com.sohu.cache.redis.enums.InstanceAlertCheckCycleEnum;
 import com.sohu.cache.redis.enums.InstanceAlertCompareTypeEnum;
 import com.sohu.cache.redis.enums.InstanceAlertTypeEnum;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 实例报警阀值配置

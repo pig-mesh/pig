@@ -1,11 +1,10 @@
 package com.sohu.cache.dao;
 
-import java.util.Date;
-import java.util.List;
-
+import com.sohu.cache.entity.InstanceAlertConfig;
 import org.apache.ibatis.annotations.Param;
 
-import com.sohu.cache.entity.InstanceAlertConfig;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 实例报警配置Dao

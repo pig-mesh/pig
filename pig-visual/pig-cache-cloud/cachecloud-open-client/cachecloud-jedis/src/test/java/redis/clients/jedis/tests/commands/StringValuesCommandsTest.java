@@ -1,11 +1,10 @@
 package redis.clients.jedis.tests.commands;
 
+import org.junit.Test;
+import redis.clients.jedis.exceptions.JedisDataException;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.junit.Test;
-
-import redis.clients.jedis.exceptions.JedisDataException;
 
 public class StringValuesCommandsTest extends JedisCommandTestBase {
   @Test

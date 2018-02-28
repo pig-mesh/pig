@@ -1,8 +1,8 @@
 package com.sohu.cache.redis;
 
-import java.util.List;
-
 import com.sohu.cache.entity.InstanceConfig;
+
+import java.util.List;
 
 /**
  * redis配置模板服务

@@ -1,30 +1,6 @@
 package com.sohu.cache.stats.app.impl;
 
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.TreeMap;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.apache.velocity.app.VelocityEngine;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
-
-import com.sohu.cache.dao.AppClientExceptionStatDao;
-import com.sohu.cache.dao.AppClientValueStatDao;
-import com.sohu.cache.dao.AppDailyDao;
-import com.sohu.cache.dao.AppStatsDao;
-import com.sohu.cache.dao.InstanceSlowLogDao;
+import com.sohu.cache.dao.*;
 import com.sohu.cache.entity.AppClientValueDistriSimple;
 import com.sohu.cache.entity.AppDailyData;
 import com.sohu.cache.entity.AppDesc;
@@ -36,6 +12,18 @@ import com.sohu.cache.web.service.AppService;
 import com.sohu.cache.web.util.DateUtil;
 import com.sohu.cache.web.util.VelocityUtils;
 import com.sohu.cache.web.vo.AppDetailVO;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
+
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * 应用日报

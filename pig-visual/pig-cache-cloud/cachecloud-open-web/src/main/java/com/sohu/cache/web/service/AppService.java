@@ -1,10 +1,10 @@
 package com.sohu.cache.web.service;
 
-import java.util.List;
-
 import com.sohu.cache.constant.AppAuditType;
 import com.sohu.cache.entity.*;
 import com.sohu.cache.web.enums.SuccessEnum;
+
+import java.util.List;
 
 /**
  * 应用相关操作

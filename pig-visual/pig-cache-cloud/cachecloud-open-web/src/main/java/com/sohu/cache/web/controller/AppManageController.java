@@ -1,11 +1,6 @@
 package com.sohu.cache.web.controller;
 
-import com.sohu.cache.web.enums.RedisOperateEnum;
-import com.sohu.cache.constant.AppCheckEnum;
-import com.sohu.cache.constant.ClusterOperateResult;
-import com.sohu.cache.constant.DataFormatCheckResult;
-import com.sohu.cache.constant.ErrorMessageEnum;
-import com.sohu.cache.constant.HorizontalResult;
+import com.sohu.cache.constant.*;
 import com.sohu.cache.dao.InstanceReshardProcessDao;
 import com.sohu.cache.entity.*;
 import com.sohu.cache.machine.MachineCenter;
@@ -16,12 +11,11 @@ import com.sohu.cache.stats.app.AppDeployCenter;
 import com.sohu.cache.stats.instance.InstanceDeployCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.TypeUtil;
+import com.sohu.cache.web.enums.RedisOperateEnum;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.util.AppEmailUtil;
 import com.sohu.cache.web.util.DateUtil;
-
 import net.sf.json.JSONArray;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -35,9 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.text.ParseException;
-import java.util.*;
 
 /**
  * 应用后台管理

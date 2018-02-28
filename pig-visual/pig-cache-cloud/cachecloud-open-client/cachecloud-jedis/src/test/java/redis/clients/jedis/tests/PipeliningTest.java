@@ -1,22 +1,16 @@
 package redis.clients.jedis.tests;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
-
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Pipeline;
-import redis.clients.jedis.Response;
-import redis.clients.jedis.Tuple;
+import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.util.SafeEncoder;
+
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 

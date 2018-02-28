@@ -1,17 +1,16 @@
 package com.sohu.cache.client.service.impl;
 
-import java.util.Date;
-import java.util.Map;
-
-import org.apache.commons.collections.MapUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.client.service.ClientReportDataSizeService;
 import com.sohu.cache.dao.AppClientReportDataSizeDao;
 import com.sohu.cache.entity.AppClientDataSizeStat;
 import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.apache.commons.collections.MapUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * 记录客户端统计map的尺寸

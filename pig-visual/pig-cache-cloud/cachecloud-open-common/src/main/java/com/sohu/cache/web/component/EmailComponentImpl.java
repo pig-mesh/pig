@@ -1,11 +1,10 @@
 package com.sohu.cache.web.component;
 
+import com.sohu.cache.util.ConstUtils;
+import com.sohu.cache.web.util.HttpRequestUtil;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.sohu.cache.util.ConstUtils;
-import com.sohu.cache.web.util.HttpRequestUtil;
 
 import java.util.Arrays;
 import java.util.HashMap;

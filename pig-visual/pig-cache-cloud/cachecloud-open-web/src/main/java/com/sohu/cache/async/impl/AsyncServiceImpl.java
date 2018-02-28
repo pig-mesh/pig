@@ -8,8 +8,6 @@ import com.sohu.cache.async.NamedThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.*;
-
 /**
  * Created by yijunzhang on 14-6-18.
  */

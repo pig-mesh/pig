@@ -7,8 +7,6 @@ import redis.clients.jedis.exceptions.JedisMovedDataException;
 import redis.clients.jedis.exceptions.JedisRedirectionException;
 import redis.clients.util.JedisClusterCRC16;
 
-import java.util.*;
-
 /**
  * Created by yijunzhang on 14-5-26.
  */

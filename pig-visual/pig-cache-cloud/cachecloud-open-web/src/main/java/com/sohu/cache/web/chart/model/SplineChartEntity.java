@@ -2,8 +2,6 @@ package com.sohu.cache.web.chart.model;
 
 import com.sohu.cache.web.chart.key.ChartKeysUtil;
 
-import java.util.*;
-
 public class SplineChartEntity extends ChartEntity {
     public SplineChartEntity() {
         super();

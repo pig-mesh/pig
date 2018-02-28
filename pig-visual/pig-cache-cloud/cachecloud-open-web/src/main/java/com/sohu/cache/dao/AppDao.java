@@ -1,11 +1,10 @@
 package com.sohu.cache.dao;
 
-import java.util.List;
-
 import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.entity.AppSearch;
-
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 基于app的dao操作

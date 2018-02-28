@@ -1,16 +1,13 @@
 package com.sohu.cache.web.service.impl;
 
-import java.util.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.dao.AppToUserDao;
 import com.sohu.cache.dao.AppUserDao;
 import com.sohu.cache.entity.AppToUser;
 import com.sohu.cache.entity.AppUser;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 用户管理实现

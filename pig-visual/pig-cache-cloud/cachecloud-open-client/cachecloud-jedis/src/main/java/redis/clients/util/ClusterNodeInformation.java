@@ -1,9 +1,9 @@
 package redis.clients.util;
 
+import redis.clients.jedis.HostAndPort;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import redis.clients.jedis.HostAndPort;
 
 public class ClusterNodeInformation {
   private HostAndPort node;

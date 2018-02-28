@@ -1,16 +1,14 @@
 package com.sohu.test.app;
 
-import java.util.List;
-
 import com.sohu.cache.entity.AppCommandGroup;
 import com.sohu.cache.entity.AppCommandStats;
 import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.web.vo.AppDetailVO;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by yijunzhang on 14-8-29.

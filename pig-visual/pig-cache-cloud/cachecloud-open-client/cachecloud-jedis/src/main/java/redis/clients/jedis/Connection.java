@@ -1,16 +1,7 @@
 package redis.clients.jedis;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sohu.tv.jedis.stat.data.UsefulDataCollector;
 import com.sohu.tv.jedis.stat.model.UsefulDataModel;
-
 import redis.clients.jedis.commands.ProtocolCommand;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisDataException;
@@ -18,6 +9,14 @@ import redis.clients.util.IOUtils;
 import redis.clients.util.RedisInputStream;
 import redis.clients.util.RedisOutputStream;
 import redis.clients.util.SafeEncoder;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Connection implements Closeable {
 

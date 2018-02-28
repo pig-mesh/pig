@@ -1,19 +1,5 @@
 package com.sohu.cache.web.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.sohu.cache.constant.ErrorMessageEnum;
 import com.sohu.cache.constant.RedisConfigTemplateChangeEnum;
 import com.sohu.cache.entity.AppUser;
@@ -22,6 +8,18 @@ import com.sohu.cache.redis.RedisConfigTemplateService;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.util.AppEmailUtil;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Redis配置模板管理

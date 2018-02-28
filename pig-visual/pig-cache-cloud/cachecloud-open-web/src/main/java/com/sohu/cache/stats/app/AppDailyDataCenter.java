@@ -1,8 +1,8 @@
 package com.sohu.cache.stats.app;
 
-import java.util.Date;
-
 import com.sohu.cache.entity.AppDailyData;
+
+import java.util.Date;
 
 
 /**

@@ -1,12 +1,11 @@
 package com.sohu.tv.jedis.stat.data.test;
 
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.tv.jedis.stat.data.UsefulDataCollector;
 import com.sohu.tv.jedis.stat.model.CostTimeDetailStatModel;
 import com.sohu.tv.jedis.stat.utils.AtomicLongMap;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author leifu

@@ -1,15 +1,5 @@
 package com.sohu.cache.web.controller;
 
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.sohu.cache.constant.AppUserTypeEnum;
 import com.sohu.cache.entity.AppUser;
 import com.sohu.cache.entity.LoginResult;
@@ -18,6 +8,15 @@ import com.sohu.cache.web.enums.AdminEnum;
 import com.sohu.cache.web.enums.LoginEnum;
 import com.sohu.cache.web.service.UserLoginStatusService;
 import com.sohu.cache.web.util.LoginUtil;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 登录逻辑

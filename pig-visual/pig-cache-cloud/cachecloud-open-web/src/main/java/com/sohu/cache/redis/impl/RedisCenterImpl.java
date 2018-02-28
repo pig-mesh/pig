@@ -18,7 +18,6 @@ import com.sohu.cache.stats.instance.InstanceStatsCenter;
 import com.sohu.cache.util.*;
 import com.sohu.cache.web.util.DateUtil;
 import com.sohu.cache.web.vo.RedisSlowLog;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -29,15 +28,11 @@ import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-
-import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisAskDataException;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.exceptions.JedisMovedDataException;
-import redis.clients.util.*;
 
 import java.sql.Timestamp;
-import java.util.*;
 import java.util.Map.Entry;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

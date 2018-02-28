@@ -3,32 +3,21 @@ package com.sohu.cache.web.util;
 import com.sohu.cache.constant.AppAuditType;
 import com.sohu.cache.constant.AppCheckEnum;
 import com.sohu.cache.constant.RedisConfigTemplateChangeEnum;
-import com.sohu.cache.entity.AppAudit;
-import com.sohu.cache.entity.AppDailyData;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceAlertValueResult;
-import com.sohu.cache.entity.InstanceConfig;
+import com.sohu.cache.entity.*;
 import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.web.component.EmailComponent;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.service.UserService;
 import com.sohu.cache.web.vo.AppDetailVO;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.velocity.app.VelocityEngine;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 /**
  * 邮件通知应用的申请流程(方法内是具体的文案)

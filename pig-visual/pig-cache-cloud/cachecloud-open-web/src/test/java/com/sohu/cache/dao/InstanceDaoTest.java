@@ -1,14 +1,11 @@
 package com.sohu.cache.dao;
 
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;
-
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * 机器测试

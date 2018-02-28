@@ -1,10 +1,10 @@
 package com.sohu.cache.entity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.sohu.cache.constant.AppDataMigrateEnum;
 import com.sohu.cache.constant.AppDataMigrateStatusEnum;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 迁移状态

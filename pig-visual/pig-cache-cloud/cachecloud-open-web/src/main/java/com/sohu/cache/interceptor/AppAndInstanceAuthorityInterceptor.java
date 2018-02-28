@@ -1,20 +1,5 @@
 package com.sohu.cache.interceptor;
 
-import java.io.IOException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
 import com.sohu.cache.constant.AppUserTypeEnum;
 import com.sohu.cache.entity.AppToUser;
 import com.sohu.cache.entity.AppUser;
@@ -23,6 +8,19 @@ import com.sohu.cache.stats.instance.InstanceStatsCenter;
 import com.sohu.cache.web.service.AppService;
 import com.sohu.cache.web.service.UserLoginStatusService;
 import com.sohu.cache.web.service.UserService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 应用和实例权限验证

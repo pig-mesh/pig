@@ -1,9 +1,9 @@
 package com.sohu.cache.stats.instance;
 
+import com.sohu.cache.entity.InstanceAlertConfig;
+
 import java.util.Date;
 import java.util.List;
-
-import com.sohu.cache.entity.InstanceAlertConfig;
 
 /**
  * 实例报警阀值配置

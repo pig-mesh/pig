@@ -1,12 +1,8 @@
 package redis.clients.jedis.tests;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.junit.Before;
 import org.junit.Test;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;
@@ -14,6 +10,9 @@ import redis.clients.jedis.Transaction;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.jedis.tests.utils.JedisSentinelTestUtil;
+
+import java.util.HashSet;
+import java.util.Set;
 
 public class JedisSentinelPoolTest extends JedisTestBase {
   private static final String MASTER_NAME = "mymaster";

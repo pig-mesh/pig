@@ -5,7 +5,6 @@ import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.LogVo;
-import com.xiaoleilu.hutool.util.RandomUtil;
 import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

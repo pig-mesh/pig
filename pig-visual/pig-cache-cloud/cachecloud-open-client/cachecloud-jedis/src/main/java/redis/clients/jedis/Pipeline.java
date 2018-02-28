@@ -1,10 +1,10 @@
 package redis.clients.jedis;
 
+import redis.clients.jedis.exceptions.JedisDataException;
+
 import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.List;
-
-import redis.clients.jedis.exceptions.JedisDataException;
 
 public class Pipeline extends MultiKeyPipelineBase implements Closeable {
 

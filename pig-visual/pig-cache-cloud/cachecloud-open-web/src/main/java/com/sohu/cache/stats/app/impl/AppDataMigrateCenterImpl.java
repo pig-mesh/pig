@@ -1,36 +1,6 @@
 package com.sohu.cache.stats.app.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import redis.clients.jedis.Jedis;
-
-import com.sohu.cache.constant.AppDataMigrateEnum;
-import com.sohu.cache.constant.AppDataMigrateResult;
-import com.sohu.cache.constant.AppDataMigrateStatusEnum;
-import com.sohu.cache.constant.CommandResult;
-import com.sohu.cache.constant.ErrorMessageEnum;
-import com.sohu.cache.constant.RedisMigrateToolConstant;
+import com.sohu.cache.constant.*;
 import com.sohu.cache.dao.AppDataMigrateStatusDao;
 import com.sohu.cache.entity.AppDataMigrateSearch;
 import com.sohu.cache.entity.AppDataMigrateStatus;
@@ -43,6 +13,23 @@ import com.sohu.cache.ssh.SSHUtil;
 import com.sohu.cache.stats.app.AppDataMigrateCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.web.service.AppService;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import redis.clients.jedis.Jedis;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 数据迁移(使用唯品会的开源工具redis-migrate-tool进行迁移)

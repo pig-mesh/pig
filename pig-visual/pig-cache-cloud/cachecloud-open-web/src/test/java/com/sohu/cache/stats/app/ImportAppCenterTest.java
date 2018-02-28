@@ -1,15 +1,13 @@
 package com.sohu.cache.stats.app;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.constant.ImportAppResult;
 import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * 应用导入测试

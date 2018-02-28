@@ -1,9 +1,9 @@
 package com.sohu.cache.constant;
 
+import org.apache.commons.lang.math.NumberUtils;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.commons.lang.math.NumberUtils;
 
 /**
  * 时间维度枚举

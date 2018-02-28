@@ -1,6 +1,5 @@
 package com.github.pig.monitor.filter;
 
-import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.enums.EnumSmsChannel;
 import com.github.pig.common.util.template.MobileMsgTemplate;

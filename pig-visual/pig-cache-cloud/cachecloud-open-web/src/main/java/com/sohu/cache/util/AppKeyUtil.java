@@ -1,8 +1,8 @@
 package com.sohu.cache.util;
 
-import java.util.Arrays;
-
 import org.springframework.util.DigestUtils;
+
+import java.util.Arrays;
 
 /**
  * appkey计算工具

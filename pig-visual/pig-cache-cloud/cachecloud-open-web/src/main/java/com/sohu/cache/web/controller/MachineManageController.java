@@ -1,16 +1,11 @@
 package com.sohu.cache.web.controller;
 
 import com.sohu.cache.constant.MachineInfoEnum;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.InstanceStats;
-import com.sohu.cache.entity.MachineInfo;
-import com.sohu.cache.entity.MachineStats;
+import com.sohu.cache.entity.*;
 import com.sohu.cache.machine.MachineDeployCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.TypeUtil;
 import com.sohu.cache.web.enums.SuccessEnum;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -23,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;

@@ -1,5 +1,6 @@
 package redis.clients.jedis;
 
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.commands.BinaryJedisClusterCommands;
 import redis.clients.jedis.commands.JedisClusterBinaryScriptingCommands;
 import redis.clients.jedis.commands.MultiKeyBinaryJedisClusterCommands;
@@ -15,8 +16,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
 public class BinaryJedisCluster implements BinaryJedisClusterCommands,
     MultiKeyBinaryJedisClusterCommands, JedisClusterBinaryScriptingCommands, Closeable {

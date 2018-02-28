@@ -1,7 +1,6 @@
 package com.sohu.cache.util;
 
 import com.sohu.cache.entity.InstanceInfo;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

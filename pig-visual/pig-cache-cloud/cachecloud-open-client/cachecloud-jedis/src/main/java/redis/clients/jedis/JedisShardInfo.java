@@ -1,11 +1,11 @@
 package redis.clients.jedis;
 
-import java.net.URI;
-
 import redis.clients.jedis.exceptions.InvalidURIException;
 import redis.clients.util.JedisURIHelper;
 import redis.clients.util.ShardInfo;
 import redis.clients.util.Sharded;
+
+import java.net.URI;
 
 public class JedisShardInfo extends ShardInfo<Jedis> {
 

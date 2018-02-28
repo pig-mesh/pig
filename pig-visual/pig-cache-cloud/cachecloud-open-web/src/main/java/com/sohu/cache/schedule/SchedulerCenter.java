@@ -1,7 +1,6 @@
 package com.sohu.cache.schedule;
 
 import com.sohu.cache.entity.TriggerInfo;
-import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Trigger;
 import org.quartz.TriggerKey;

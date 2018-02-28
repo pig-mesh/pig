@@ -1,15 +1,14 @@
 package redis.clients.jedis;
 
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import redis.clients.util.Hashing;
 import redis.clients.util.Pool;
+
+import java.util.List;
+import java.util.regex.Pattern;
 
 public class ShardedJedisPool extends Pool<ShardedJedis> {
   public ShardedJedisPool(final GenericObjectPoolConfig poolConfig, List<JedisShardInfo> shards) {

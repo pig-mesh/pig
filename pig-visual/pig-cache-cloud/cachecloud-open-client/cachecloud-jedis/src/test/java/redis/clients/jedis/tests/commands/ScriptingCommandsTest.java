@@ -1,20 +1,19 @@
 package redis.clients.jedis.tests.commands;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.junit.Test;
-
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.exceptions.JedisConnectionException;
 import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.tests.utils.ClientKillerUtil;
 import redis.clients.util.SafeEncoder;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.equalTo;
 
 public class ScriptingCommandsTest extends JedisCommandTestBase {
 

@@ -1,22 +1,25 @@
 package com.sohu.cache.machine.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
+import com.google.common.base.Strings;
+import com.sohu.cache.async.AsyncService;
+import com.sohu.cache.async.AsyncThreadPoolFactory;
+import com.sohu.cache.async.KeyCallable;
+import com.sohu.cache.constant.InstanceStatusEnum;
+import com.sohu.cache.constant.MachineConstant;
+import com.sohu.cache.constant.MachineInfoEnum.TypeEnum;
+import com.sohu.cache.dao.*;
+import com.sohu.cache.entity.*;
+import com.sohu.cache.exception.SSHException;
+import com.sohu.cache.machine.MachineCenter;
+import com.sohu.cache.machine.PortGenerator;
+import com.sohu.cache.protocol.MachineProtocol;
+import com.sohu.cache.redis.RedisCenter;
+import com.sohu.cache.schedule.SchedulerCenter;
+import com.sohu.cache.ssh.SSHUtil;
+import com.sohu.cache.stats.instance.InstanceStatsCenter;
+import com.sohu.cache.util.*;
+import com.sohu.cache.web.component.EmailComponent;
+import com.sohu.cache.web.component.MobileAlertComponent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
@@ -26,42 +29,19 @@ import org.quartz.TriggerKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-
 import redis.clients.jedis.HostAndPort;
 
-import com.google.common.base.Strings;
-import com.sohu.cache.async.AsyncService;
-import com.sohu.cache.async.AsyncThreadPoolFactory;
-import com.sohu.cache.async.KeyCallable;
-import com.sohu.cache.constant.InstanceStatusEnum;
-import com.sohu.cache.constant.MachineConstant;
-import com.sohu.cache.constant.MachineInfoEnum.TypeEnum;
-import com.sohu.cache.dao.AppDao;
-import com.sohu.cache.dao.InstanceDao;
-import com.sohu.cache.dao.InstanceStatsDao;
-import com.sohu.cache.dao.MachineDao;
-import com.sohu.cache.dao.MachineStatsDao;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.InstanceStats;
-import com.sohu.cache.entity.MachineInfo;
-import com.sohu.cache.entity.MachineMemInfo;
-import com.sohu.cache.entity.MachineStats;
-import com.sohu.cache.exception.SSHException;
-import com.sohu.cache.machine.MachineCenter;
-import com.sohu.cache.machine.PortGenerator;
-import com.sohu.cache.protocol.MachineProtocol;
-import com.sohu.cache.redis.RedisCenter;
-import com.sohu.cache.schedule.SchedulerCenter;
-import com.sohu.cache.ssh.SSHUtil;
-import com.sohu.cache.stats.instance.InstanceStatsCenter;
-import com.sohu.cache.util.ConstUtils;
-import com.sohu.cache.util.IdempotentConfirmer;
-import com.sohu.cache.util.ObjectConvert;
-import com.sohu.cache.util.ScheduleUtil;
-import com.sohu.cache.util.TypeUtil;
-import com.sohu.cache.web.component.EmailComponent;
-import com.sohu.cache.web.component.MobileAlertComponent;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * 机器接口的实现

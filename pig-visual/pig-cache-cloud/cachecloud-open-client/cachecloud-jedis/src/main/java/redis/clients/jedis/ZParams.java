@@ -1,14 +1,14 @@
 package redis.clients.jedis;
 
-import static redis.clients.jedis.Protocol.Keyword.AGGREGATE;
-import static redis.clients.jedis.Protocol.Keyword.WEIGHTS;
+import redis.clients.util.SafeEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import redis.clients.util.SafeEncoder;
+import static redis.clients.jedis.Protocol.Keyword.AGGREGATE;
+import static redis.clients.jedis.Protocol.Keyword.WEIGHTS;
 
 public class ZParams {
   public enum Aggregate {

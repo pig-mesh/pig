@@ -1,23 +1,19 @@
 package com.sohu.test.stats.app;
 
-import com.sohu.cache.dao.AppStatsDao;
-import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.constant.AppTopology;
 import com.sohu.cache.entity.AppCommandStats;
-import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.entity.AppStats;
+import com.sohu.cache.stats.app.AppStatsCenter;
 import com.sohu.cache.util.ScheduleUtil;
 import com.sohu.test.BaseTest;
-
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Resource;
 
 /**
  * Created by lingguo on 14-6-26.

@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
@@ -14,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * 访问/connect会获取所有绑定社交的信息(显示是否绑定第三方社交信息)

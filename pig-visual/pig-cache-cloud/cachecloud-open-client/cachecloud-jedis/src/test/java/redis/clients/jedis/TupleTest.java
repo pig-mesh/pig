@@ -1,6 +1,7 @@
 package redis.clients.jedis;
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**

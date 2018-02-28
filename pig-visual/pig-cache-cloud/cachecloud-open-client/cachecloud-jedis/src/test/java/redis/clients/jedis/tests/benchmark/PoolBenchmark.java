@@ -1,15 +1,14 @@
 package redis.clients.jedis.tests.benchmark;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.tests.HostAndPortUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PoolBenchmark {
   private static HostAndPort hnp = HostAndPortUtil.getRedisServers().get(0);

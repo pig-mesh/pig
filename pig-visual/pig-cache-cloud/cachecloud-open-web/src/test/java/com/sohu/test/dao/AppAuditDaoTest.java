@@ -9,11 +9,9 @@ import com.sohu.cache.entity.AppAudit;
 import com.sohu.cache.entity.AppDesc;
 import com.sohu.cache.entity.AppUser;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;
-
 import java.util.Date;
 import java.util.List;
 

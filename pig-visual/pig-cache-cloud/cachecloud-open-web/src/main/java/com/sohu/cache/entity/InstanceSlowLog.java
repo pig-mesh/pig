@@ -1,8 +1,8 @@
 package com.sohu.cache.entity;
 
-import java.sql.Timestamp;
-
 import org.apache.commons.lang.StringUtils;
+
+import java.sql.Timestamp;
 
 /**
  * 实例慢查询日志

@@ -1,11 +1,5 @@
 package com.sohu.tv.cachecloud.client.jedis.stat;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.tv.cachecloud.client.basic.util.ConstUtils;
 import com.sohu.tv.cachecloud.client.basic.util.HttpUtils;
 import com.sohu.tv.cachecloud.client.basic.util.JsonUtil;
@@ -13,6 +7,11 @@ import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.data.UsefulDataCollector;
 import com.sohu.tv.jedis.stat.enums.ClientExceptionType;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 客户端常量和上报工具

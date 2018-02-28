@@ -11,7 +11,6 @@ import com.sohu.cache.stats.instance.InstanceStatsCenter;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.TypeUtil;
 import com.sohu.cache.web.vo.AppDetailVO;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 

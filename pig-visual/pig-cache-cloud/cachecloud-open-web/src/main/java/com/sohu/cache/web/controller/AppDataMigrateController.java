@@ -1,18 +1,14 @@
 package com.sohu.cache.web.controller;
 
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.sohu.cache.constant.*;
+import com.sohu.cache.entity.*;
+import com.sohu.cache.machine.MachineCenter;
+import com.sohu.cache.redis.RedisCenter;
+import com.sohu.cache.stats.app.AppDataMigrateCenter;
+import com.sohu.cache.util.ConstUtils;
+import com.sohu.cache.util.TypeUtil;
+import com.sohu.cache.web.service.AppService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -21,23 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sohu.cache.constant.CommandResult;
-import com.sohu.cache.constant.MachineInfoEnum;
-import com.sohu.cache.constant.AppDataMigrateEnum;
-import com.sohu.cache.constant.AppDataMigrateResult;
-import com.sohu.cache.constant.RedisMigrateToolConstant;
-import com.sohu.cache.entity.AppDataMigrateSearch;
-import com.sohu.cache.entity.AppDataMigrateStatus;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.MachineInfo;
-import com.sohu.cache.machine.MachineCenter;
-import com.sohu.cache.redis.RedisCenter;
-import com.sohu.cache.stats.app.AppDataMigrateCenter;
-import com.sohu.cache.util.ConstUtils;
-import com.sohu.cache.util.TypeUtil;
-import com.sohu.cache.web.service.AppService;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
 
 /**
  * 应用数据迁移入口

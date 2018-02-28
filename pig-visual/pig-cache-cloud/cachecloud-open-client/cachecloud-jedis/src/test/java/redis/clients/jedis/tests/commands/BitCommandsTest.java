@@ -1,7 +1,6 @@
 package redis.clients.jedis.tests.commands;
 
 import org.junit.Test;
-
 import redis.clients.jedis.BitOP;
 import redis.clients.jedis.BitPosParams;
 import redis.clients.jedis.Protocol;

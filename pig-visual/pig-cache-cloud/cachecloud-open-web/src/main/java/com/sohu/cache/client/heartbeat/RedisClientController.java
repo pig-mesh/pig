@@ -1,5 +1,6 @@
 package com.sohu.cache.client.heartbeat;
 
+import com.google.common.collect.Lists;
 import com.sohu.cache.client.service.ClientVersionService;
 import com.sohu.cache.constant.ClientStatusEnum;
 import com.sohu.cache.dao.AppDao;
@@ -9,8 +10,6 @@ import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.cache.util.ObjectConvert;
 import com.sohu.cache.web.util.IpUtil;
-import com.google.common.collect.Lists;
-
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +18,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * redis 客户端连接类

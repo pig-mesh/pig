@@ -8,10 +8,8 @@ import com.sohu.cache.util.IdempotentConfirmer;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.*;
 import redis.clients.jedis.exceptions.JedisException;
 
-import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**

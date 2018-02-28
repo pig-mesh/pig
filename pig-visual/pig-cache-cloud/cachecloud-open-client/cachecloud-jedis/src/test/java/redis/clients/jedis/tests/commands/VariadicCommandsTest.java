@@ -1,13 +1,8 @@
 package redis.clients.jedis.tests.commands;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.junit.Test;
+
+import java.util.*;
 
 public class VariadicCommandsTest extends JedisCommandTestBase {
   final byte[] bfoo = { 0x01, 0x02, 0x03, 0x04 };

@@ -1,7 +1,6 @@
 package redis.clients.jedis.tests.commands;
 
 import org.junit.Test;
-
 import redis.clients.util.SafeEncoder;
 
 public class HyperLogLogCommandsTest extends JedisCommandTestBase {

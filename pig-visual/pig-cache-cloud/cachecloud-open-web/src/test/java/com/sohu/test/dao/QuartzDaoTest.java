@@ -4,13 +4,10 @@ import com.sohu.cache.dao.QuartzDao;
 import com.sohu.cache.entity.TriggerInfo;
 import com.sohu.cache.util.ConstUtils;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
-import org.quartz.Trigger;
-
-import java.util.List;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author: lingguo

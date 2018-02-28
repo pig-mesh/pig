@@ -1,7 +1,6 @@
 package com.sohu.cache.dao;
 
 import com.sohu.cache.entity.MachineInfo;
-
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

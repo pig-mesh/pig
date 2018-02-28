@@ -1,11 +1,11 @@
 package redis.clients.jedis.params;
 
+import redis.clients.util.SafeEncoder;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import redis.clients.util.SafeEncoder;
 
 public abstract class Params {
 

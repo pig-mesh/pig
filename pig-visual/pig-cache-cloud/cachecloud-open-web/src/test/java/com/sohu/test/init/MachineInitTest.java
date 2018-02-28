@@ -2,7 +2,6 @@ package com.sohu.test.init;
 
 import com.sohu.cache.init.MachineInitLoad;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;

@@ -1,8 +1,8 @@
 package com.sohu.cache.entity;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import java.io.Serializable;
 
 /**
  * 系统用户信息

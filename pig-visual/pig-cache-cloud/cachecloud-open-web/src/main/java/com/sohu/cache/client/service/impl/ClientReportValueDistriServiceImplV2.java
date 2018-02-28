@@ -1,18 +1,5 @@
 package com.sohu.cache.client.service.impl;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.client.service.ClientReportInstanceService;
 import com.sohu.cache.client.service.ClientReportValueDistriService;
 import com.sohu.cache.dao.AppClientValueStatDao;
@@ -23,6 +10,13 @@ import com.sohu.tv.jedis.stat.constant.ClientReportConstant;
 import com.sohu.tv.jedis.stat.enums.ClientCollectDataTypeEnum;
 import com.sohu.tv.jedis.stat.enums.ValueSizeDistriEnum;
 import com.sohu.tv.jedis.stat.model.ClientReportBean;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
  * 客户端上报值分布serviceV2

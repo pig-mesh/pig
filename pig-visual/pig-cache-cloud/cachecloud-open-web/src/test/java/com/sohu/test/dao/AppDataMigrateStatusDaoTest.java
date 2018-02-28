@@ -1,16 +1,14 @@
 package com.sohu.test.dao;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.constant.AppDataMigrateStatusEnum;
 import com.sohu.cache.dao.AppDataMigrateStatusDao;
 import com.sohu.cache.entity.AppDataMigrateStatus;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 迁移状态dao测试

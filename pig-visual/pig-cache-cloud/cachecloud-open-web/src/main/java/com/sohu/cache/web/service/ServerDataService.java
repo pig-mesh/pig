@@ -1,10 +1,10 @@
 package com.sohu.cache.web.service;
 
-import java.util.List;
-
 import com.sohu.cache.entity.ServerInfo;
 import com.sohu.cache.entity.ServerStatus;
 import com.sohu.cache.server.data.Server;
+
+import java.util.List;
 
 public interface ServerDataService {
 	/**

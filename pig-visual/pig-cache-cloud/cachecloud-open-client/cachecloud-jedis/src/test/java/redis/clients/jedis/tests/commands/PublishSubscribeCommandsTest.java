@@ -1,5 +1,9 @@
 package redis.clients.jedis.tests.commands;
 
+import org.junit.Test;
+import redis.clients.jedis.exceptions.JedisConnectionException;
+import redis.clients.util.SafeEncoder;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -7,12 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import org.junit.Test;
-
-import redis.clients.jedis.*;
-import redis.clients.jedis.exceptions.JedisConnectionException;
-import redis.clients.util.SafeEncoder;
 
 public class PublishSubscribeCommandsTest extends JedisCommandTestBase {
   private void publishOne(final String channel, final String message) {

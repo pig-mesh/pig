@@ -1,10 +1,9 @@
 package redis.clients.jedis.tests.commands;
 
-import java.util.List;
-
 import org.junit.Test;
-
 import redis.clients.util.Slowlog;
+
+import java.util.List;
 
 public class SlowlogCommandsTest extends JedisCommandTestBase {
 

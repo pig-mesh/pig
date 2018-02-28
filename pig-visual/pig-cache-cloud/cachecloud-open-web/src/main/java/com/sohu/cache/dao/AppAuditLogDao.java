@@ -1,8 +1,7 @@
 package com.sohu.cache.dao;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.sohu.cache.entity.AppAuditLog;
+import org.apache.ibatis.annotations.Param;
 
 
 /**

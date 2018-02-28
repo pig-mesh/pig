@@ -2,7 +2,6 @@ package com.sohu.test.schedule;
 
 import com.sohu.cache.util.ScheduleUtil;
 import com.sohu.test.SimpleBaseTest;
-
 import org.junit.Test;
 
 /**

@@ -1,15 +1,11 @@
 package com.sohu.cache.web.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.sohu.cache.client.service.ClientReportExceptionService;
+import com.sohu.cache.client.service.ClientVersionService;
+import com.sohu.cache.entity.AppClientVersion;
+import com.sohu.cache.entity.AppDesc;
+import com.sohu.cache.entity.ClientInstanceException;
+import com.sohu.cache.web.enums.SuccessEnum;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Controller;
@@ -17,12 +13,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sohu.cache.client.service.ClientReportExceptionService;
-import com.sohu.cache.client.service.ClientVersionService;
-import com.sohu.cache.entity.AppClientVersion;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.ClientInstanceException;
-import com.sohu.cache.web.enums.SuccessEnum;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 客户端管理

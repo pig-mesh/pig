@@ -1,18 +1,16 @@
 package com.sohu.test.cache.inspect;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Resource;
-
-import org.junit.Test;
-
 import com.sohu.cache.entity.InstanceInfo;
 import com.sohu.cache.inspect.InspectParamEnum;
 import com.sohu.cache.inspect.impl.AppClientConnInspector;
 import com.sohu.cache.web.service.AppService;
 import com.sohu.test.BaseTest;
+import org.junit.Test;
+
+import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 应用客户端连接数测试

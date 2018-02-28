@@ -9,15 +9,10 @@ import com.sohu.cache.util.AppKeyUtil;
 import com.sohu.cache.util.TypeUtil;
 import com.sohu.cache.web.enums.SuccessEnum;
 import com.sohu.cache.web.service.AppService;
-
-import org.springframework.util.Assert;
-
-import java.util.*;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.util.Assert;
 import redis.clients.jedis.HostAndPort;
 
 /**

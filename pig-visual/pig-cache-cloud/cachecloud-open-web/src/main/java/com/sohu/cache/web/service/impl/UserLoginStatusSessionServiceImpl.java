@@ -1,12 +1,11 @@
 package com.sohu.cache.web.service.impl;
 
+import com.sohu.cache.web.service.UserLoginStatusService;
+import org.apache.commons.lang.math.NumberUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.math.NumberUtils;
-
-import com.sohu.cache.web.service.UserLoginStatusService;
 
 
 /**

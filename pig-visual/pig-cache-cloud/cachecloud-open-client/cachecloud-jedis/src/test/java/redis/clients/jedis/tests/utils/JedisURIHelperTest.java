@@ -1,15 +1,12 @@
 package redis.clients.jedis.tests.utils;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
+import org.junit.Test;
+import redis.clients.util.JedisURIHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.junit.Test;
-
-import redis.clients.util.JedisURIHelper;
+import static org.junit.Assert.*;
 
 public class JedisURIHelperTest {
 

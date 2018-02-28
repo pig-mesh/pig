@@ -1,11 +1,11 @@
 package com.github.pig.admin.model.entity;
 
-import java.io.Serializable;
-
-import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+
+import java.io.Serializable;
 
 /**
  * <p>

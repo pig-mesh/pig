@@ -3,9 +3,7 @@ package com.sohu.cache.schedule.impl;
 import com.sohu.cache.dao.QuartzDao;
 import com.sohu.cache.entity.TriggerInfo;
 import com.sohu.cache.schedule.SchedulerCenter;
-
 import org.apache.commons.lang.time.DateUtils;
-import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;

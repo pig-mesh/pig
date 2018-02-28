@@ -1,13 +1,6 @@
 package redis.clients.jedis.tests;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
-
 import redis.clients.jedis.BinaryJedis;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
@@ -18,6 +11,12 @@ import redis.clients.jedis.exceptions.JedisDataException;
 import redis.clients.jedis.exceptions.JedisException;
 import redis.clients.jedis.tests.commands.JedisCommandTestBase;
 import redis.clients.util.SafeEncoder;
+
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JedisTest extends JedisCommandTestBase {
   @Test

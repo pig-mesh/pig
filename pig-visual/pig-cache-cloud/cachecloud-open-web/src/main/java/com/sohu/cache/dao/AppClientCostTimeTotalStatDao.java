@@ -1,10 +1,9 @@
 package com.sohu.cache.dao;
 
-import java.util.List;
-
+import com.sohu.cache.entity.AppClientCostTimeTotalStat;
 import org.apache.ibatis.annotations.Param;
 
-import com.sohu.cache.entity.AppClientCostTimeTotalStat;
+import java.util.List;
 
 /**
  * 基于应用全局耗时统计(uniquekey: app_id, command, collect_time)

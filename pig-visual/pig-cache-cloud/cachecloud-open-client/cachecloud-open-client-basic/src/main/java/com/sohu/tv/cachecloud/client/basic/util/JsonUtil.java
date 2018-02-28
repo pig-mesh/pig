@@ -1,9 +1,8 @@
 package com.sohu.tv.cachecloud.client.basic.util;
 
+import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.alibaba.fastjson.JSONObject;
 
 /**
  * jackson Json转换工具

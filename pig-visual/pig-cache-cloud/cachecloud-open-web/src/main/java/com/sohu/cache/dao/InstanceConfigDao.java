@@ -1,10 +1,9 @@
 package com.sohu.cache.dao;
 
-import java.util.List;
-
+import com.sohu.cache.entity.InstanceConfig;
 import org.apache.ibatis.annotations.Param;
 
-import com.sohu.cache.entity.InstanceConfig;
+import java.util.List;
 
 /**
  * 配置模板Dao

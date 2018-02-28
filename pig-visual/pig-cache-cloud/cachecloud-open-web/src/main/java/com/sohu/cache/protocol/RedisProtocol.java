@@ -1,10 +1,9 @@
 package com.sohu.cache.protocol;
 
 import com.sohu.cache.web.util.DateUtil;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.Date;
-
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by yijunzhang on 14-11-26.

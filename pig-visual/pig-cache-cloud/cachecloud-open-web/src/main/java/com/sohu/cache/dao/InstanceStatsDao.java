@@ -1,7 +1,7 @@
 package com.sohu.cache.dao;
 
-import com.sohu.cache.entity.StandardStats;
 import com.sohu.cache.entity.InstanceStats;
+import com.sohu.cache.entity.StandardStats;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;

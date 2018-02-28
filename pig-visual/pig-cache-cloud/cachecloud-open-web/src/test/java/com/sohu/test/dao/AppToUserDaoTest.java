@@ -2,7 +2,6 @@ package com.sohu.test.dao;
 
 import com.sohu.cache.dao.AppToUserDao;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;

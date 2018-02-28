@@ -1,14 +1,14 @@
 package com.sohu.cache.stats.app;
 
-import java.util.List;
-import java.util.Map;
-
 import com.sohu.cache.constant.AppDataMigrateEnum;
 import com.sohu.cache.constant.AppDataMigrateResult;
 import com.sohu.cache.constant.CommandResult;
 import com.sohu.cache.constant.RedisMigrateToolConstant;
 import com.sohu.cache.entity.AppDataMigrateSearch;
 import com.sohu.cache.entity.AppDataMigrateStatus;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据迁移

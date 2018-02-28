@@ -1,16 +1,15 @@
 package com.sohu.cache.web.util;
 
+import com.sohu.cache.web.controller.AppController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.sohu.cache.web.controller.AppController;
 
 /**
  * 简单文件读取

@@ -1,10 +1,10 @@
 package redis.clients.jedis.tests.benchmark;
 
+import redis.clients.util.Hashing;
+
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Calendar;
-
-import redis.clients.util.Hashing;
 
 public class ShardedBenchmark {
   private static final int TOTAL_OPERATIONS = 10000000;

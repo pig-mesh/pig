@@ -2,7 +2,6 @@ package redis.clients.jedis.tests;
 
 import org.junit.Assert;
 import org.junit.Test;
-
 import redis.clients.jedis.BuilderFactory;
 
 public class BuilderFactoryTest extends Assert {

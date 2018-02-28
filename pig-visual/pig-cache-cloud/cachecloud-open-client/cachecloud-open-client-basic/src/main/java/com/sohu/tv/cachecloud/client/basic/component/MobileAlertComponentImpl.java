@@ -1,12 +1,11 @@
 package com.sohu.tv.cachecloud.client.basic.component;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.sohu.tv.cachecloud.client.basic.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.sohu.tv.cachecloud.client.basic.util.StringUtil;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 手机短信报警

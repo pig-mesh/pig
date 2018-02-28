@@ -1,13 +1,8 @@
 package com.sohu.cache.redis;
 
 import com.sohu.cache.constant.RedisConstant;
-import com.sohu.cache.entity.AppDesc;
-import com.sohu.cache.entity.AppUser;
-import com.sohu.cache.entity.InstanceInfo;
-import com.sohu.cache.entity.InstanceSlotModel;
-import com.sohu.cache.entity.InstanceSlowLog;
+import com.sohu.cache.entity.*;
 import com.sohu.cache.web.vo.RedisSlowLog;
-
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisSentinelPool;

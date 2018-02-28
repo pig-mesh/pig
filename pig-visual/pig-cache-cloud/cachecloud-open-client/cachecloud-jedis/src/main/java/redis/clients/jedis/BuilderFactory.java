@@ -1,16 +1,9 @@
 package redis.clients.jedis;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import redis.clients.util.JedisByteHashMap;
 import redis.clients.util.SafeEncoder;
+
+import java.util.*;
 
 public class BuilderFactory {
   public static final Builder<Double> DOUBLE = new Builder<Double>() {

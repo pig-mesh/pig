@@ -2,11 +2,9 @@ package com.sohu.cache.dao;
 
 import com.sohu.cache.entity.MachineInfo;
 import com.sohu.test.BaseTest;
-
 import org.junit.Test;
 
 import javax.annotation.Resource;
-
 import java.util.Date;
 
 /**

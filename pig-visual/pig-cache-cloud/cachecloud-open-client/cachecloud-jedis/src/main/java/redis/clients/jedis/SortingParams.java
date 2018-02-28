@@ -1,19 +1,13 @@
 package redis.clients.jedis;
 
-import static redis.clients.jedis.Protocol.Keyword.ALPHA;
-import static redis.clients.jedis.Protocol.Keyword.ASC;
-import static redis.clients.jedis.Protocol.Keyword.BY;
-import static redis.clients.jedis.Protocol.Keyword.DESC;
-import static redis.clients.jedis.Protocol.Keyword.GET;
-import static redis.clients.jedis.Protocol.Keyword.LIMIT;
-import static redis.clients.jedis.Protocol.Keyword.NOSORT;
+import redis.clients.util.SafeEncoder;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import redis.clients.util.SafeEncoder;
+import static redis.clients.jedis.Protocol.Keyword.*;
 
 /**
  * Builder Class for {@link Jedis#sort(String, SortingParams) SORT} Parameters.

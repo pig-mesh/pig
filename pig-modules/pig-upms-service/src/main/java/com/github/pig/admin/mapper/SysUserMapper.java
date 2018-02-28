@@ -5,10 +5,8 @@ import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVo;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * <p>

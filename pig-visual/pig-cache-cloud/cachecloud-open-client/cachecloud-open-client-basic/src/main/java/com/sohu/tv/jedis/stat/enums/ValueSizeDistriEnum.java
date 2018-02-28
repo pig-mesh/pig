@@ -1,9 +1,9 @@
 package com.sohu.tv.jedis.stat.enums;
 
+import com.sohu.tv.jedis.stat.utils.NumberUtil;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import com.sohu.tv.jedis.stat.utils.NumberUtil;
 
 /**
  * 值分布

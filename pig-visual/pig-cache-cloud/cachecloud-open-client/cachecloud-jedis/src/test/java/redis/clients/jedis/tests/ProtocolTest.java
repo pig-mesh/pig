@@ -1,21 +1,14 @@
 package redis.clients.jedis.tests;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
-
 import redis.clients.jedis.Protocol;
 import redis.clients.util.RedisInputStream;
 import redis.clients.util.RedisOutputStream;
 import redis.clients.util.SafeEncoder;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProtocolTest extends JedisTestBase {
   @Test

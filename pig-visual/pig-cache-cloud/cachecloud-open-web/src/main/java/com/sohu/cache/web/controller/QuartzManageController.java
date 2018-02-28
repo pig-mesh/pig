@@ -1,13 +1,8 @@
 package com.sohu.cache.web.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.sohu.cache.entity.TriggerInfo;
 import com.sohu.cache.schedule.SchedulerCenter;
+import com.sohu.cache.web.enums.SuccessEnum;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.TriggerKey;
 import org.springframework.stereotype.Controller;
@@ -15,7 +10,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.sohu.cache.web.enums.SuccessEnum;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * quartz管理test

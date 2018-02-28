@@ -1,15 +1,14 @@
 package redis.clients.jedis.tests.utils;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
+import redis.clients.util.JedisClusterCRC16;
+import redis.clients.util.SafeEncoder;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Test;
-
-import redis.clients.util.JedisClusterCRC16;
-import redis.clients.util.SafeEncoder;
+import static org.junit.Assert.assertEquals;
 
 public class JedisClusterCRC16Test {
 

@@ -1,10 +1,10 @@
 package redis.clients.jedis.tests;
 
+import org.junit.Assert;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import org.junit.Assert;
 
 public abstract class JedisTestBase extends Assert {
   protected void assertEquals(List<byte[]> expected, List<byte[]> actual) {

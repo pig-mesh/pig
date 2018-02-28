@@ -1,13 +1,12 @@
 package com.sohu.cache.client.service.impl;
 
-import java.util.concurrent.ConcurrentHashMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.sohu.cache.client.service.ClientReportInstanceService;
 import com.sohu.cache.dao.InstanceDao;
 import com.sohu.cache.entity.InstanceInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author leifu

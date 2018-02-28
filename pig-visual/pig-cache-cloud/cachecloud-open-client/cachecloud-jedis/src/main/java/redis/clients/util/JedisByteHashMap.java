@@ -1,13 +1,7 @@
 package redis.clients.util;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class JedisByteHashMap implements Map<byte[], byte[]>, Cloneable, Serializable {
   private static final long serialVersionUID = -6971431362627219416L;
