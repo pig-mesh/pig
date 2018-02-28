@@ -19,7 +19,7 @@ import Layout from '../views/layout/Layout'
   }
 **/
 export const constantRouterMap = [
-  { path: '/login', name: '登陆', component: _import('login/index'), hidden: true },
+  { path: '/login', name: '登录', component: _import('login/index'), hidden: true },
   { path: '/404', name: '404', component: _import('404'), hidden: true },
   {
     path: '/',

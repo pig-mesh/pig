@@ -56,6 +56,8 @@
       var validatePass = (rule, value, callback) => {
         if (value === '') {
           callback(new Error('请输入密码'))
+        } else if (value.length < 6) {
+          callback(new Error('密码不能小于6位'))
         } else {
           if (this.ruleForm2.newpassword1 !== '') {
             this.$refs.ruleForm2.validateField('newpassword1')
@@ -116,7 +118,7 @@
                   type: 'success',
                   duration: 2000
                 })
-                // 修改密码之后强制重新登陆
+                // 修改密码之后强制重新登录
                 if (this.ruleForm2.newpassword1 !== '') {
                   this.$store.dispatch('LogOut').then(() => {
                     location.reload() // 为了重新实例化vue-router对象 避免bug
