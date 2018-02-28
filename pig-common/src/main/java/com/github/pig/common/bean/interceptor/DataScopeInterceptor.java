@@ -1,11 +1,9 @@
 package com.github.pig.common.bean.interceptor;
 
 import com.baomidou.mybatisplus.plugins.SqlParserHandler;
-import com.baomidou.mybatisplus.plugins.pagination.PageHelper;
 import com.baomidou.mybatisplus.toolkit.PluginUtils;
-import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.vo.UserVo;
 import com.xiaoleilu.hutool.util.CollectionUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;
 import org.apache.ibatis.mapping.BoundSql;
@@ -14,12 +12,8 @@ import org.apache.ibatis.mapping.SqlCommandType;
 import org.apache.ibatis.plugin.*;
 import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.session.RowBounds;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.sql.Connection;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -56,9 +50,11 @@ public class DataScopeInterceptor extends SqlParserHandler implements Intercepto
         } else {
             String scopeName = dataScope.getScopeName();
             List<Integer> deptIds = dataScope.getDeptIds();
-            String join = CollectionUtil.join(deptIds, ",");
-            originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
-            metaObject.setValue("delegate.boundSql.sql", originalSql);
+            if(StrUtil.isNotBlank(scopeName) && CollectionUtil.isNotEmpty(deptIds)){
+                String join = CollectionUtil.join(deptIds, ",");
+                originalSql = "select * from (" + originalSql + ") temp_data_scope where temp_data_scope." + scopeName + " in (" + join + ")";
+                metaObject.setValue("delegate.boundSql.sql", originalSql);
+            }
             return invocation.proceed();
         }
     }
