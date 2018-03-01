@@ -10,10 +10,10 @@
 
 ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
-
-### FQA、反馈
- https://gitee.com/log4j/pig/issues
  
+### 系列博客
+https://my.oschina.net/giegie/blog
+
  ### 视频教程
  
  1. [课程介绍项目介绍](http://p3blpcsde.bkt.clouddn.com/1.mp4)
