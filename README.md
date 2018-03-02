@@ -10,6 +10,9 @@
 
 ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
+
+### 前端解决方案（像easyui一样写Vue）
+https://gitee.com/smallweigit/avue
  
 ### 系列博客
 https://my.oschina.net/giegie/blog
