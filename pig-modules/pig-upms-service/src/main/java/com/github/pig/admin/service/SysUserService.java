@@ -6,6 +6,7 @@ import com.github.pig.admin.model.dto.UserDto;
 import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.vo.UserVo;
 
 /**
@@ -76,9 +77,9 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 发送验证码
      * @param mobile 手机号
-     * @return true、false
+     * @return R
      */
-    Boolean sendSmsCode(String mobile);
+    R<Boolean> sendSmsCode(String mobile);
 
     /**
      * 通过openId查询用户

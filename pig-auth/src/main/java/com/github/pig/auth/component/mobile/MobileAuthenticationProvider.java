@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @author lengleng
@@ -21,10 +22,11 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
         MobileAuthenticationToken mobileAuthenticationToken = (MobileAuthenticationToken) authentication;
         UserVo userVo = userService.findUserByMobile((String) mobileAuthenticationToken.getPrincipal());
 
-        UserDetailsImpl userDetails = buildUserDeatils(userVo);
-        if (userDetails == null) {
-            throw new InternalAuthenticationServiceException("手机号不存在:" + mobileAuthenticationToken.getPrincipal());
+        if (userVo == null) {
+            throw new UsernameNotFoundException("手机号不存在:" + mobileAuthenticationToken.getPrincipal());
         }
+
+        UserDetailsImpl userDetails = buildUserDeatils(userVo);
 
         MobileAuthenticationToken authenticationToken = new MobileAuthenticationToken(userDetails, userDetails.getAuthorities());
         authenticationToken.setDetails(mobileAuthenticationToken.getDetails());

@@ -18,6 +18,7 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.common.vo.SysRole;
@@ -25,6 +26,7 @@ import com.github.pig.common.vo.UserVo;
 import com.xiaoleilu.hutool.util.CollectionUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -46,9 +48,9 @@ import java.util.concurrent.TimeUnit;
  * @author lengleng
  * @date 2017/10/31
  */
+@Slf4j
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
-    private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
     private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
     @Autowired
     private SysMenuService sysMenuService;
@@ -156,7 +158,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 发送验证码
      * <p>
      * 1. 先去redis 查询是否 60S内已经发送
-     * 2. 未发送： 产生4位数字  手机号-验证码
+     * 2. 未发送： 判断手机号是否存 ? false :产生4位数字  手机号-验证码
      * 3. 发往消息中心-》发送信息
      * 4. 保存redis
      *
@@ -164,17 +166,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return true、false
      */
     @Override
-    public Boolean sendSmsCode(String mobile) {
+    public R<Boolean> sendSmsCode(String mobile) {
         Object tempCode = redisTemplate.opsForValue().get(SecurityConstants.DEFAULT_CODE_KEY + mobile);
-        boolean result = false;
-        if (tempCode == null) {
-            String code = RandomUtil.randomNumbers(4);
-            logger.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
-            rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE, new MobileMsgTemplate(mobile, code, CommonConstant.ALIYUN_SMS));
-            redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
-            result = true;
+        if (tempCode != null) {
+            log.error("用户:{}验证码未失效{}", mobile, tempCode);
+            return new R<>(false, "验证码未失效，请失效后再次申请");
         }
-        return result;
+
+        SysUser params = new SysUser();
+        params.setIntroduction(mobile);
+        List<SysUser> userList = this.selectList(new EntityWrapper<>(params));
+
+        if (CollectionUtil.isEmpty(userList)) {
+            log.error("根据用户手机号{}查询用户为空", mobile);
+            return new R<>(false, "手机号不存在");
+        }
+
+        String code = RandomUtil.randomNumbers(4);
+        log.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
+        rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE, new MobileMsgTemplate(mobile, code, CommonConstant.ALIYUN_SMS));
+        redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
+        return new R<>(true);
     }
 
     /**

@@ -63,6 +63,6 @@ public class ValidateCodeController {
     @GetMapping(SecurityConstants.MOBILE_VALIDATE_CODE_URL_PREFIX + "/{mobile}")
     public R<Boolean> createCode(@PathVariable String mobile) {
         Assert.isBlank(mobile, "手机号不能为空");
-        return new R<>(userService.sendSmsCode(mobile));
+        return userService.sendSmsCode(mobile);
     }
 }
