@@ -158,6 +158,7 @@
         this.loading = true
         if (!this.loginForm.smsCode || this.loginForm.smsCode.length !== 4) {
           this.$message.error('验证码不合法')
+          return false
         }
         this.$store.dispatch('MobileLogin', this.loginForm).then(() => {
           this.loading = false
@@ -176,11 +177,12 @@
             url: '/admin/smsCode/' + this.loginForm.mobile,
             method: 'get'
           }).then(response => {
-            if (response.data) {
+            console.log(response)
+            if (response.data.data) {
               this.timer()
               this.$message.success('验证码发送成功')
             } else {
-              this.$message.error('验证码发送失败')
+              this.$message.error(response.data.msg)
             }
           })
         }
