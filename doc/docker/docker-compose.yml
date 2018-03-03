@@ -6,29 +6,37 @@ services:
       dockerfile: Dockerfile-eureka
     restart: always
     ports:
-      - 59025:1025
+      - 1025:1025
 
   pig-config:
+    links:
+      - pig-eureka:eureka
     build:
       context: ./
       dockerfile: Dockerfile-config
     restart: always
 
   pig-gateway:
+    links:
+      - pig-eureka:eureka
     build:
       context: ./
       dockerfile: Dockerfile-gateway
     restart: always
     ports:
-      - 59999:9999
+      - 9999:9999
 
   pig-auth:
+    links:
+      - pig-eureka:eureka
     build:
       context: ./
       dockerfile: Dockerfile-auth
     restart: always
 
   pig-upms-service:
+    links:
+      - pig-eureka:eureka
     build:
       context: ./
       dockerfile: Dockerfile-upms
