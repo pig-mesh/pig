@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration scan="true" scanPeriod="30 seconds">
+<configuration debug="false" scan="false">
 
-    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-        <resetJUL>true</resetJUL>
-    </contextListener>
+    <!-- Log file path ../../../../../../../ to disk root -->
+    <property name="log.path" value="logs" />
 
-    <property name="appname" value="pig"/>
+    <!-- Spring boot default -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
 
-    <!--定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
-    <property name="LOG_HOME" value="logs/ev_cmdb"/>
-
-    <!-- 按照每天生成日志文件 -->
-    <appender name="file"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!--日志文件输出的文件名 -->
-            <FileNamePattern>${LOG_HOME}/${appname}.log.%d{yyyy-MM-dd}.log
-            </FileNamePattern>
-            <MaxHistory>30</MaxHistory>
-        </rollingPolicy>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}  【%X{user}】[%thread] %-5level %logger{50} -%msg%n
-            </pattern>
-        </layout>
-        <!--日志文件最大的大小 -->
-        <triggeringPolicy
-                class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
-        </triggeringPolicy>
-    </appender>
-
-    <!-- To enable JMX Management -->
-    <jmxConfigurator/>
-
+    <!-- Console log output -->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} 【%X{user}】 [%thread] %-5level %logger{36} -%msg%n</pattern>
+            <pattern>%d{MM-dd HH:mm:ss.SSS} %-5level [%logger{50}] - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <logger name="com.github.pig" level="debug">
-        <!-- wenjie delete <appender-ref ref="file" /> <appender-ref ref="console"
-            /> -->
-    </logger>
-    <root level="info">
-        <!--
-        <appender-ref ref="file" />
-         -->
-        <appender-ref ref="console"/>
+    <!-- Log file debug output -->
+    <appender name="debug" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/debug.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/debug.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Log file error output -->
+    <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}/error.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+    </appender>
+
+    <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
+    <root level="INFO">
+        <appender-ref ref="console" />
+        <appender-ref ref="debug" />
+        <appender-ref ref="error" />
     </root>
+
+    <logger name="sun.rmi.loader" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.apache.http" level="WARN"/>
+    <logger name="com.ulisesbocchio" level="WARN"/>
+    <logger name="com.netflix.discovery" level="WARN"/>
 </configuration>
