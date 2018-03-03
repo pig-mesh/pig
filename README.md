@@ -10,15 +10,15 @@
 
 ### 详细配置 wiki
  https://gitee.com/log4j/pig/wikis/
+
+### 前端解决方案（像easyui一样写Vue）
+https://gitee.com/smallweigit/avue
  
 ### 系列博客
 https://my.oschina.net/giegie/blog
 
  ### 视频教程
- 
- 1. [课程介绍项目介绍](http://p3blpcsde.bkt.clouddn.com/1.mp4)
- 2. [环境搭建运行展示](http://p3blpcsde.bkt.clouddn.com/2.mp4)
- 3. [oAuth2认证授权及其源码详解](http://p3blpcsde.bkt.clouddn.com/3.mp4)
+https://www.bilibili.com/video/av20229859/
 
 
  ### 默认账号：admin 密码：123456
