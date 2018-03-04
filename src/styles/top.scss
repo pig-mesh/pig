@@ -33,10 +33,19 @@
   .header-button.is-right {
     text-align: right;
   }
-  
+  .header-userImg{
+    margin: 0 3px 0 10px;
+    padding: 2px;
+    width: 35px;
+    height:35px;
+    border-radius: 100%;
+    box-sizing: border-box;
+    border:1px solid #eee;
+  }
   .header-button {
-    flex: 0.5;
+    display: flex;
+    align-items: center;
   }
   .header-button>.header-item{
-    margin-right: 8px;
+    margin-right: 12px;
   }

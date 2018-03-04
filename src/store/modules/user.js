@@ -1,15 +1,16 @@
 import { getToken, setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
 import { validatenull } from '@/util/validate'
-import { loginByUsername, getUserInfo, getTableData, getMenu, logout, getMenuAll } from '@/api/user'
+import { loginByUsername, getUserInfo, logout } from '@/api/login'
+import { GetMenu } from '@/api/menu'
 const user = {
     state: {
-        userInfo: {},
-        permission: getStore('permission') || {},
-        roles: getStore('roles') || [],
+        userInfo: getStore({ name: 'userInfo' }) || {},
+        permissions: getStore({ name: 'permissions' }) || {},
+        roles: getStore({ name: 'roles' }) || [],
         menu: [],
-        menuAll: [],
-        token: getStore('token') || '',
+        access_token: getStore({ name: 'access_token' }) || '',
+        refresh_token: getStore({ name: 'refresh_token' }) || '',
     },
     actions: {
         //根据用户名登录
@@ -18,10 +19,12 @@ const user = {
                 loginByUsername(userInfo.username, userInfo.password, userInfo.code, userInfo.randomStr).then(response => {
                     const data = response.data
                     setToken(data.access_token)
-                    commit('SET_TOKEN', data.access_token)
+                    commit('SET_ACCESS_TOKEN', data.access_token)
                     commit('SET_REFRESH_TOKEN', data.refresh_token)
                     commit('CLEAR_LOCK');
                     resolve();
+                }, error => {
+                    reject();
                 })
             })
         },
@@ -31,7 +34,7 @@ const user = {
                 loginByUsername(userInfo.phone, userInfo.code).then(res => {
                     const data = response.data
                     setToken(data.access_token)
-                    commit('SET_TOKEN', data.access_token)
+                    commit('SET_ACCESS_TOKEN', data.access_token)
                     commit('SET_REFRESH_TOKEN', data.refresh_token)
                     commit('CLEAR_LOCK');
                     resolve();
@@ -48,28 +51,23 @@ const user = {
         },
         GetUserInfo({ commit, state, dispatch }) {
             return new Promise((resolve, reject) => {
-              getUserInfo(state.token).then(response => {
-                const data = response.data.data
-                commit('SET_ROLES', data.roles)
-                commit('SET_NAME', data.sysUser.username)
-                commit('SET_AVATAR', data.sysUser.avatar)
-                commit('SET_INTRODUCTION', data.sysUser.introduction)
-                const permissions = {}
-                for (let i = 0; i < data.permissions.length; i++) {
-                  permissions[data.permissions[i]] = true
-                }
-                commit('SET_PERMISSIONS', permissions)
-                resolve(response)
-              }).catch(error => {
-                reject(error)
-              })
+                getUserInfo(state.token).then(response => {
+                    const data = response.data.data
+                    commit('SET_ROLES', data.roles)
+                    commit('SET_USER_INFO', data.sysUser)
+                    commit('SET_PERMISSIONS', data.permissions)
+                    resolve(response)
+                }).catch(error => {
+                    reject(error)
+                })
             })
         },
         // 登出
         LogOut({ commit, state }) {
             return new Promise((resolve, reject) => {
-                logout().then(() => {
-                    commit('SET_TOKEN', '')
+                logout(state.access_token, state.refresh_token).then(() => {
+                    commit('SET_ACCESS_TOKEN', '')
+                    commit('SET_REFRESH_TOKEN', '')
                     commit('SET_ROLES', [])
                     commit('DEL_ALL_TAG');
                     removeToken()
@@ -82,7 +80,9 @@ const user = {
         //注销session
         FedLogOut({ commit }) {
             return new Promise(resolve => {
-                commit('SET_TOKEN', '')
+                commit('SET_ACCESS_TOKEN', '')
+                commit('SET_REFRESH_TOKEN', '')
+                commit('SET_ROLES', [])
                 commit('DEL_ALL_TAG');
                 removeToken()
                 resolve()
@@ -91,19 +91,9 @@ const user = {
         //获取系统菜单
         GetMenu({ commit }) {
             return new Promise(resolve => {
-                getMenu().then((res) => {
+                GetMenu().then((res) => {
                     const data = res.data;
                     commit('SET_MENU', data);
-                    resolve(data);
-                })
-            })
-        },
-        //获取全部菜单
-        GetMenuAll({ commit }) {
-            return new Promise(resolve => {
-                getMenuAll().then((res) => {
-                    const data = res.data;
-                    commit('SET_MENU_ALL', data);
                     resolve(data);
                 })
             })
@@ -111,46 +101,32 @@ const user = {
 
     },
     mutations: {
-        SET_TOKEN: (state, token) => {
-            state.token = token;
-            setStore({ name: 'token', content: state.token, type: 'session' })
+        SET_ACCESS_TOKEN: (state, access_token) => {
+            state.access_token = access_token;
+            setStore({ name: 'access_token', content: state.access_token, type: 'session' })
         },
         SET_MENU: (state, menu) => {
-            const list = menu.filter(ele => {
-                if (validatenull(ele.meta.roles)) {
-                    return true;
-                }
-                if (ele.meta.roles.indexOf(state.roles[0]) != -1) {
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-            state.menu = list;
+            state.menu = menu;
         },
-        SET_MENU_ALL: (state, menuAll) => {
-            state.menuAll = menuAll;
-        },
-        SET_TOKEN: (state, token) => {
-          state.token = token
+        SET_USER_INFO: (state, userInfo) => {
+            state.userInfo = userInfo
+            setStore({ name: 'userInfo', content: state.userInfo, type: 'session' })
         },
         SET_REFRESH_TOKEN: (state, rfToken) => {
-          state.refresh_token = rfToken
-        },
-        SET_INTRODUCTION: (state, introduction) => {
-          state.introduction = introduction
-        },
-        SET_NAME: (state, name) => {
-          state.name = name
-        },
-        SET_AVATAR: (state, avatar) => {
-          state.avatar = avatar
+            state.refresh_token = rfToken
+            setStore({ name: 'refresh_token', content: state.refresh_token, type: 'session' })
         },
         SET_ROLES: (state, roles) => {
-          state.roles = roles
+            state.roles = roles
+            setStore({ name: 'roles', content: state.roles, type: 'session' })
         },
         SET_PERMISSIONS: (state, permissions) => {
-          state.permissions = permissions
+            let list = {}
+            for (let i = 0; i < permissions.length; i++) {
+                list[permissions[i]] = true
+            }
+            state.permissions = list
+            setStore({ name: 'permissions', content: state.permissions, type: 'session' })
         }
     }
 }

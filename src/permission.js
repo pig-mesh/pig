@@ -23,9 +23,8 @@ router.beforeEach((to, from, next) => {
         } else {
             if (store.getters.roles.length === 0) {
                 store.dispatch('GetUserInfo').then(res => {
-                    const roles = res.roles
                     next({ ...to, replace: true })
-                }).catch(() => {
+                }).catch(error => {
                     store.dispatch('FedLogOut').then(() => {
                         next({ path: '/login' })
                     })

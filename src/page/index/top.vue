@@ -1,7 +1,7 @@
 <template>
 <div class="header">
 		<div class="header-button is-left">
-		  <h3 style="letter-spacing: 1px;">Pig 微服务系统快速开发框架</h3>
+		  <h3 style="letter-spacing: 1px;">Pig 微服务快速开发框架</h3>
 		</div>
 		<h1 class="header-title"></h1>
 		<div class="header-button is-right">
@@ -23,6 +23,9 @@
             <el-dropdown-item @click.native="logout">退出系统</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
+        <el-tooltip class="item" effect="dark" content="用户头像" placement="bottom">
+             <img class="header-userImg" :src="userInfo.avatar">
+         </el-tooltip>
 		</div>
 	</div>
 </template>

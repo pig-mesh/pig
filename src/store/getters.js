@@ -7,11 +7,11 @@ const getters = {
     tagList: state => state.tags.tagList,
     tagCurrent: state => state.tags.tagCurrent,
     tagWel: state => state.tags.tagWel,
-    token: state => state.user.token,
+    access_token: state => state.user.access_token,
+    refresh_token: state => state.user.refresh_token,
     roles: state => state.user.roles,
-    permission: state => state.user.permission,
+    permissions: state => state.user.permissions,
     menu: state => state.user.menu,
-    menuAll: state => state.user.menuAll,
     errLog: state => state.errLog.errLog
 }
 export default getters

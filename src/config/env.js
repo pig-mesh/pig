@@ -16,9 +16,9 @@ let iconfontVersion = 'j0ic7mgvwddt2o6r';
 let iconfontUrl = `//at.alicdn.com/t/font_567566_${iconfontVersion}.css`;
 let codeUrl = `/admin/code`
 if (process.env.NODE_ENV == 'development') {
-	baseUrl = `http://localhost`;
+	baseUrl = `http://api.frps.shop`;
 } else if (process.env.NODE_ENV == 'production') {
-	baseUrl = `http://localhost`;
+	baseUrl = `http://api.frps.shop`;
 }
 
 export { baseUrl, iconfontUrl, codeUrl }

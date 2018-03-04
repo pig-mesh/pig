@@ -91,6 +91,7 @@ export default {
   props: [],
   methods: {
     refreshCode() {
+      this.loginForm.code = "";
       this.loginForm.randomStr = randomLenNum(this.code.len, true);
       this.code.type == "text"
         ? (this.code.value = randomLenNum(this.code.len))
@@ -104,10 +105,15 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch("LoginByUsername", this.loginForm).then(res => {
-            this.$store.commit("ADD_TAG", this.tagWel);
-            this.$router.push({ path: this.tagWel.value });
-          });
+          this.$store.dispatch("LoginByUsername", this.loginForm).then(
+            res => {
+              this.$store.commit("ADD_TAG", this.tagWel);
+              this.$router.push({ path: this.tagWel.value });
+            },
+            error => {
+              this.refreshCode();
+            }
+          );
         }
       });
     }

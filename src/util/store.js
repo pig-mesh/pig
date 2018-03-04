@@ -17,7 +17,7 @@ export const setStore = (params) => {
  * 获取localStorage
  */
 export const getStore = (params) => {
-    let { name, type } = params;
+    let { name } = params;
     let obj = {}, content;
     obj = window.localStorage.getItem(name);
     if (validatenull(obj)) obj = window.sessionStorage.getItem(name);
