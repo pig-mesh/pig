@@ -1,40 +1,46 @@
-import request from '@/utils/request'
-
-export function fetchList(query) {
+import { baseUrl, khglUrl, dicUrl } from '@/config/env'
+import request from '@/router/axios'
+import { userInfo, tableData } from '@/mock/user'
+import { menu, menuAll } from '@/mock/menu'
+export const loginByUsername = (username, password, code, randomStr) => {
+  var grant_type = 'password'
+  var scope = 'server'
   return request({
-    url: '/admin/user/userPage',
-    method: 'get',
-    params: query
-  })
-}
-
-export function addObj(obj) {
-  return request({
-    url: '/admin/user/',
+    url: '/auth/oauth/token',
+    headers: {
+      'Authorization': 'Basic cGlnOnBpZw=='
+    },
     method: 'post',
-    data: obj
+    params: { username, password, randomStr, code, grant_type, scope }
   })
 }
 
-export function getObj(id) {
-  return request({
-    url: '/admin/user/' + id,
-    method: 'get'
-  })
+export const getUserInfo = () => {
+    return new Promise((resolve, reject) => {
+        resolve({ data: userInfo });
+    })
+}
+export const getMenu = () => {
+    return new Promise((resolve, reject) => {
+        resolve({ data: menu });
+    })
+}
+export const getMenuAll = () => {
+    return new Promise((resolve, reject) => {
+        resolve({ data: menu });
+    })
 }
 
-export function delObj(id) {
-  return request({
-    url: '/admin/user/' + id,
-    method: 'delete'
-  })
+export const getTableData = (page) => {
+    return new Promise((resolve, reject) => {
+        resolve({ data: tableData });
+    })
+}
+export const logout = () => {
+    return new Promise((resolve, reject) => {
+        resolve();
+    })
 }
 
-export function putObj(obj) {
-  return request({
-    url: '/admin/user',
-    method: 'put',
-    data: obj
-  })
-}
+
 

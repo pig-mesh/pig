@@ -1,0 +1,184 @@
+@import './variables.scss';
+@import './element-ui.scss';
+@import './top.scss';
+@import './btn.scss';
+@import './tags.scss';
+@import './mixin.scss';
+@import './sidebar.scss';
+/*禁止复制
+{
+	webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}*/
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
+@include scrollBar();
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+p,
+blockquote,
+th,
+td {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	color: #666;
+	font-family: Microsoft YaHei, SimSun;
+	// background: #f6f6f6;
+	line-height: 2;
+}
+
+html,
+body {
+	height: 100%;
+}
+
+fieldset,
+img {
+	border: 0;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+
+em {
+	font-style: normal;
+}
+
+input,
+button,
+select,
+textarea {
+	outline: none;
+}
+
+textarea {
+	resize: none;
+} 
+//禁用了文本的拖拉，尤其在谷歌下
+p {
+	text-align: justify;
+	text-justify: distribute;
+} 
+//为了使文本段落左右两边对齐
+p {
+	word-wrap: break-word
+}
+
+a {
+	text-decoration: none;
+}
+
+i {
+	display: inline-block;
+}
+
+
+
+/*a:hover { color: #f60; text-decoration:none; }*/
+
+address,
+cite,
+code,
+em,
+th {
+	font-weight: normal;
+	font-style: normal;
+}
+
+a {
+	color: inherit;
+	text-decoration: none;
+	display: inline-block;
+}
+
+
+/*a:link{color:#009;}*/
+
+
+/*a:visited{color:#800080;}*/
+
+a:hover,
+a:active,
+a:focus {
+	text-decoration: underline;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.hidden{
+	display: none;
+}
+.padding{
+	padding: 0 !important;
+}
+
+.margin{
+	margin: 0 !important;
+}
+
+.pull-right {
+	float: right!important;;
+}
+
+.pull-left {
+	float: left!important;
+}
+.pull-center {
+	text-align: center;
+}
+.pull-flex{
+	display: flex;
+}
+
+.pull-overflow{
+	overflow: hidden;
+}
+.pull-auto{
+	height: auto;
+	overflow: hidden;
+}
+.pull-height{
+	height: 100%;
+}
+.pull-chheight{
+	height: calc( 100% - 60px );
+}
+.pull-fixed{
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.text-white{
+	color: #fff;
+}

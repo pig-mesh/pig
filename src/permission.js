@@ -1,59 +1,90 @@
-import router from './router'
+import router from './router/router'
 import store from './store'
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条样式
-import { Message } from 'element-ui'
-import { getToken } from '@/utils/auth' // 验权
-
-// permissiom judge
+import { getToken } from '@/util/auth'
+import { vaildUtil } from '@/util/yun';
+import { setTitle } from '@/util/util';
+import { validatenull } from '@/util/validate';
+import { asyncRouterMap } from '@/router/router'
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) return true // admin权限 直接通过
-  if (!permissionRoles) return true
-  return roles.some(role => permissionRoles.indexOf(role) >= 0)
+    if (!permissionRoles) return true
+    return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
-
-const whiteList = ['/login'] // 不重定向白名单
-router.beforeEach((to, from, next) => { // 开启Progress
-  NProgress.start()
-  if (getToken()) { // 判断是否有token
-    if (to.path === '/login') {
-      next({ path: '/' })
-      NProgress.done() // router在hash模式下 手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
-    } else {
-      if (store.getters.roles.length === 0) { // 判断当前用户是否已拉取完user_info信息
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          const roles = res.data.data.roles
-          store.dispatch('GenerateRoutes', { roles }).then(() => { // 生成可访问的路由表
-            router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
-            next({ ...to }) // hack方法 确保addRoutes已完成
-          })
-        }).catch((e) => {
-          store.dispatch('FedLogOut').then(() => {
-            Message.error('验证失败,请重新登录')
-            next({ path: '/login' })
-          })
-        })
-      } else {
-        // 没有动态改变权限的需求可直接next() 删除下方权限判断 ↓
-        if (hasPermission(store.getters.roles, to.meta.role)) {
-          next()//
+const whiteList = ['/login', '/404', '/401']
+const lockPage = '/lock'
+router.addRoutes(asyncRouterMap); // 动态添加可访问路由表
+router.beforeEach((to, from, next) => {
+    store.commit('SET_TAG', from.query.src ? from.query.src : from.path);
+    if (getToken()) { // determine if there has token
+        /* has token*/
+        if (store.getters.isLock && to.path != lockPage) {
+            next({ path: lockPage })
+        } else if (to.path === '/login') {
+            next({ path: '/' })
         } else {
-          next({ path: '/401', query: { noGoBack: true }})
-          NProgress.done() // router在hash模式下 手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
+            if (store.getters.roles.length === 0) {
+                store.dispatch('GetUserInfo').then(res => {
+                    const roles = res.roles
+                    next({ ...to, replace: true })
+                }).catch(() => {
+                    store.dispatch('FedLogOut').then(() => {
+                        next({ path: '/login' })
+                    })
+                })
+            } else {
+                next()
+            }
         }
-        // 可删 ↑
-      }
-    }
-  } else {
-    if (whiteList.indexOf(to.path) !== -1) { // 在免登录白名单，直接进入
-      next()
     } else {
-      next('/login') // 否则全部重定向到登录页
-      NProgress.done() // router在hash模式下 手动改变hash 重定向回来 不会触发afterEach 暂时hack方案 ps：history模式下无问题，可删除该行！
+        /* has no token*/
+        if (whiteList.indexOf(to.path) !== -1) {
+            next()
+        } else {
+            next('/login')
+        }
     }
-  }
 })
 
-router.afterEach(() => {
-  NProgress.done() // 结束Progress
+//寻找子菜单的父类
+function findMenuParent(tagCurrent, tag, tagWel) {
+    let index = -1;
+    tagCurrent.forEach((ele, i) => {
+        if (ele.value == tag.value) {
+            index = i;
+        }
+    })
+    if (tag.value == tagWel.value) {//判断是否为首页
+        tagCurrent = [tagWel];
+    } else if (index != -1) {//判断是否存在了
+        tagCurrent.splice(index, tagCurrent.length - 1);
+    } else {//其他操作
+        let currentPathObj = store.getters.menu.filter(item => {
+            if (item.children.length == 1) {
+                return item.children[0].href === tag.value;
+            } else {
+                let i = 0;
+                let childArr = item.children;
+                let len = childArr.length;
+                while (i < len) {
+                    if (childArr[i].href === tag.value) {
+                        return true;
+                    }
+                    i++;
+                }
+                return false;
+            }
+        })[0];
+        tagCurrent = [tagWel];
+        validatenull(currentPathObj) ? '' : tagCurrent.push(currentPathObj);
+        tagCurrent.push(tag);
+    }
+    return tagCurrent;
+}
+router.afterEach((to, from) => {
+    setTimeout(() => {
+        const tag = store.getters.tag;
+        const tagWel = store.getters.tagWel;
+        let tagCurrent = store.getters.tagCurrent;
+        setTitle(tag.label);
+        store.commit('SET_TAG_CURRENT', findMenuParent(tagCurrent, tag, tagWel));
+    }, 0);
 })

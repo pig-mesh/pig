@@ -1,29 +1,12 @@
- //覆盖一些element-ui样式 覆盖css样式可在这里添加
-.el-upload {
-  input[type="file"] {
-    display: none !important;
-  }
-}
 
-.el-upload__input {
-  display: none;
+.el-input__inner{
+    height: 45px;
+    line-height: 45px;
 }
-
-//暂时性解决diolag 问题 https://github.com/ElemeFE/element/issues/2461
-.el-dialog {
-  transform: none;
-  left: 0;
-  position: relative;
-  margin: 0 auto;
+.el-dropdown-menu__item{
+    font-size: 12px;
+    line-height: 28px;
 }
-
-//element ui upload
-.upload-container {
-  .el-upload {
+.el-select,.el-date-editor.el-input, .el-date-editor.el-input__inner{
     width: 100%;
-    .el-upload-dragger {
-      width: 100%;
-      height: 200px;
-    }
-  }
 }

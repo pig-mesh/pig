@@ -1,27 +1,38 @@
-import Vue from 'vue'
-import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/zh-CN'
-import App from './App'
-import router from './router'
-import store from './store'
+import Vue from 'vue';
+import axios from './router/axios';
+import VueAxios from 'vue-axios';
+import App from './App';
+import './permission' // 权限
+import './errorLog' // 错误日志
+import router from './router/router';
+import store from './store';
+import ELEMENT from 'element-ui';
+import { loadStyle } from './util/util'
+import * as urls from '@/config/env';
+import { iconfontUrl } from '@/config/env';
 import * as filters from './filters' // 全局filter
-import '@/icons' // icon
-import '@/permission' // 权限
+import './styles/common.scss';
+Vue.use(ELEMENT)
+Vue.use(VueAxios, axios)
 
-Vue.use(ElementUI, { locale })
+Object.keys(urls).forEach(key => {
+  Vue.prototype[key] = urls[key];
+})
 
-// register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
-Vue.config.productionTip = false
+loadStyle(iconfontUrl);
 
-new Vue({
-  el: '#app',
-  router,
-  store,
-  template: '<App/>',
-  components: { App }
-})
+Vue.config.productionTip = false;
+
+
+export function createApp() {
+  const app = new Vue({
+    router,
+    store,
+    render: h => h(App)
+  })
+  return { app, router, store }
+}

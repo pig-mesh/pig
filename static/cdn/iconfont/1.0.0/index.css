@@ -1,0 +1,23 @@
+
+[class^="icon-"]{
+	font-family: "iconfont" !important;
+	/* 以下内容参照第三方图标库本身的规则 */
+	font-size: 18px !important;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.el-menu-item [class^=icon-] {
+    margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+    vertical-align: middle;
+}
+.el-submenu [class^=icon-] {
+    vertical-align: middle;
+    margin-right: 5px;
+    width: 24px;
+    text-align: center;
+    font-size: 18px;
+}
