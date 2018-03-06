@@ -2,7 +2,7 @@ package com.github.pig.auth.component.social;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.pig.auth.config.AuthServerConfig;
-import com.xiaoleilu.hutool.util.MapUtil;
+import com.xiaoleilu.hutool.map.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

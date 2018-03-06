@@ -50,6 +50,15 @@ public class MenuController extends BaseController {
     }
 
     /**
+     * 返回当前用户的树形菜单集合
+     * @return 当前用户的树形菜单
+     */
+    @GetMapping(value = "/getUserTree")
+    public List<MenuTree> getUserTree(){
+        return sysMenuService.findUserMenuTree(getRole().get(0));
+    }
+
+    /**
      * 返回当前用户树形菜单集合
      *
      * @return 树形菜单

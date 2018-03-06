@@ -3,7 +3,7 @@ package com.github.pig.auth.component.mobile;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
-import com.xiaoleilu.hutool.util.MapUtil;
+import com.xiaoleilu.hutool.map.MapUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.github.pig.common.vo.MenuVo;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
-import com.xiaoleilu.hutool.util.CollectionUtil;
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -2,7 +2,7 @@ package com.github.pig.common.bean.interceptor;
 
 import com.baomidou.mybatisplus.plugins.SqlParserHandler;
 import com.baomidou.mybatisplus.toolkit.PluginUtils;
-import com.xiaoleilu.hutool.util.CollectionUtil;
+import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.executor.statement.StatementHandler;

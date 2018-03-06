@@ -2,9 +2,11 @@ package com.github.pig.admin.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
+import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVo;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,4 +51,11 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 成功、失败
      */
     Boolean updateMenuById(SysMenu sysMenu, String role);
+
+    /**
+     * 返回角色的菜单
+     * @param roleName 角色
+     * @return 菜单列表
+     */
+    List<MenuTree> findUserMenuTree(String roleName);
 }

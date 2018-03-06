@@ -2,7 +2,9 @@ package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.github.pig.admin.common.util.TreeUtil;
 import com.github.pig.admin.mapper.SysMenuMapper;
+import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
@@ -14,7 +16,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -77,5 +81,33 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @CacheEvict(value = "menu_details", key = "#role + '_menu'")
     public Boolean updateMenuById(SysMenu sysMenu, String role) {
         return this.updateById(sysMenu);
+    }
+
+    /**
+     * 返回角色的菜单
+     *
+     * @param roleName 角色
+     * @return 菜单列表
+     */
+    @Override
+    public List<MenuTree> findUserMenuTree(String roleName) {
+        Set<MenuVo> all = findMenuByRole(roleName);
+        List<MenuTree> menuTreeList = new ArrayList<>();
+        MenuTree node = null;
+        for (MenuVo menuVo : all) {
+            if (CommonConstant.MENU.equals(menuVo.getType())) {
+                node = new MenuTree();
+                node.setId(menuVo.getMenuId());
+                node.setParentId(menuVo.getParentId());
+                node.setName(menuVo.getName());
+                node.setUrl(menuVo.getUrl());
+                node.setCode(menuVo.getPermission());
+                node.setLabel(menuVo.getName());
+                node.setComponent(menuVo.getComponent());
+                node.setIcon(menuVo.getIcon());
+                menuTreeList.add(node);
+            }
+        }
+        return TreeUtil.bulid(menuTreeList, -1);
     }
 }
