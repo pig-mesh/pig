@@ -27,6 +27,25 @@
 
         <!--Lombok-->
         <lombok.version>[1.0.0,9.99.99]</lombok.version>
+
+        <jjwt.version>0.9.0</jjwt.version>
+        <fastjson.version>1.2.46</fastjson.version>
+        <hutool.version>3.3.2</hutool.version>
+        <commons-io.version>2.6</commons-io.version>
+        <jasypt.version>1.18</jasypt.version>
+        <mybatis-plus.version>2.1.9</mybatis-plus.version>
+        <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+        <hibernate-validator.version>6.0.7.Final</hibernate-validator.version>
+        <swagger2.version>2.8.0</swagger2.version>
+        <fastdfs.version>0.2.0</fastdfs.version>
+        <sharding-jdbc-core-spring-boot-starter.version>2.0.1</sharding-jdbc-core-spring-boot-starter.version>
+        <velocity-engine-core.version>2.0</velocity-engine-core.version>
+        <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
+        <kaptcha.version>0.0.9</kaptcha.version>
+
+        <spring-boot-admin-server.version>1.5.6</spring-boot-admin-server.version>
+        <spring-boot-admin-server-ui.version>1.5.6</spring-boot-admin-server-ui.version>
+        <spring-boot-admin-server-ui-turbine.version>1.5.6</spring-boot-admin-server-ui-turbine.version>
     </properties>
 
     <!--公共依赖-->

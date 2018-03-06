@@ -22,7 +22,7 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
-            <version>0.7.0</version>
+            <version>${jjwt.version}</version>
         </dependency>
         <!--Redis-->
         <dependency>
@@ -38,29 +38,29 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.30</version>
+            <version>${fastjson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.xiaoleilu</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>3.2.0</version>
+            <version>${hutool.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>${commons-io.version}</version>
         </dependency>
         <!--配置属性加密工具-->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>1.16</version>
+            <version>${jasypt.version}</version>
         </dependency>
         <!--mybatis-plus-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
-            <version>2.1.4</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <!--切面增强AOP-->
         <dependency>
@@ -71,7 +71,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.4.1.Final</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
         <!-- okhttp -->
         <dependency>
@@ -82,13 +82,13 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
-            <version>2.7.0</version>
+            <version>${swagger2.version}</version>
         </dependency>
         <!--FastDFS-->
         <dependency>
             <groupId>com.luhuiguo</groupId>
             <artifactId>fastdfs-spring-boot-starter</artifactId>
-            <version>0.2.0</version>
+            <version>${fastdfs.version}</version>
         </dependency>
     </dependencies>
 
