@@ -65,9 +65,10 @@ pig
 - zipkin链路追踪： 数据保存ELK，图形化展示
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
-欢迎加入QQ交流群，互相学习  
+欢迎加入交流群，互相学习  
 一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
+![image](http://oss.wjg95.cn/pig_wechat_qun.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/11.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/1.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/2.png)
