@@ -14,7 +14,7 @@
 <script>
 import { mapGetters } from "vuex";
 import Tags from "./tags";
-import Top from "./top";
+import Top from "./top/";
 import Sidebar from "./sidebar/";
 export default {
   name: "index",

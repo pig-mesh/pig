@@ -1,14 +1,7 @@
 <template>
-      <el-menu  
-      unique-opened  
-      :default-active="tag.value" 
-      class="el-menu-vertical-demo"  
-      background-color="#495060" 
-      text-color="#c9cbd0" 
-      active-text-color="#409EFF"
-      :collapse="isCollapse">
-          <sidebar-item :menu="menu" :show="!isCollapse"></sidebar-item>
-      </el-menu>
+  <el-menu unique-opened :default-active="tag.value" class="el-menu-vertical-demo" background-color="#495060" text-color="#c9cbd0" active-text-color="#409EFF" :collapse="isCollapse">
+    <sidebar-item :menu="menu" :show="!isCollapse"></sidebar-item>
+  </el-menu>
 </template>
 
 <script>

@@ -1,4 +1,4 @@
-import { setStore, getStore } from '@/util/store'
+import { setStore, getStore, removeStore } from '@/util/store'
 import { validatenull } from '@/util/validate'
 import { getDic } from '@/api/admin'
 import { baseUrl } from '@/config/env';
@@ -8,6 +8,7 @@ const common = {
         isCollapse: false,
         isFullScren: false,
         isLock: getStore({ name: 'isLock' }) || false,
+        lockPasswd: getStore({ name: 'lockPasswd' }) || '',
     },
     actions: {
         //获取字典公用类
@@ -34,11 +35,17 @@ const common = {
         },
         SET_LOCK: (state, action) => {
             state.isLock = true;
-            setStore({ name: 'isLock', content: state.isLock })
+            setStore({ name: 'isLock', content: state.isLock, type: 'session' })
+        },
+        SET_LOCK_PASSWD: (state, lockPasswd) => {
+            state.lockPasswd = lockPasswd;
+            setStore({ name: 'lockPasswd', content: state.lockPasswd, type: 'session' })
         },
         CLEAR_LOCK: (state, action) => {
             state.isLock = false;
-            setStore({ name: 'isLock', content: state.isLock })
+            state.lockPasswd = '';
+            removeStore({ name: 'lockPasswd' });
+            removeStore({ name: 'isLock' });
         },
     }
 }
