@@ -19,6 +19,7 @@ services:
   pig-gateway:
     links:
       - pig-eureka:eureka
+      - pig-auth:auth
     build:
       context: ./
       dockerfile: Dockerfile-gateway
