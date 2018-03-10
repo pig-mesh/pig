@@ -22,7 +22,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://pig:gip6666@localhost:1025/eureka
-
+#认证服务器地址
+security:
+  auth:
+    server: http://localhost:3000
 ---
 spring:
   profiles: prd
@@ -32,3 +35,8 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://pig:gip6666@eureka:1025/eureka
+
+#建议使用ng负载均衡
+security:
+  auth:
+    server: http://localhost:3000
