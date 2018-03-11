@@ -22,10 +22,6 @@
     <modules>
         <module>pig-daemon-service</module>
         <module>pig-mc-service</module>
-        <module>pig-pay-api</module>
-        <module>pig-pay-biz</module>
-        <module>pig-pay-common</module>
-        <module>pig-pay-dal</module>
         <module>pig-sso-client-demo</module>
         <module>pig-upms-service</module>
     </modules>
