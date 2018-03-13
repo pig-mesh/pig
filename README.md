@@ -66,7 +66,7 @@ pig
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
 ### 交流群
-一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>
+一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/11.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/1.png)
