@@ -3,9 +3,11 @@ package com.github.pig.auth.controller;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.token.ConsumerTokenServices;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/authentication")
 public class AuthenticationController {
     @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
+    @Qualifier("consumerTokenServices")
+    private ConsumerTokenServices consumerTokenServices;
 
     /**
      * 认证页面
@@ -46,15 +49,11 @@ public class AuthenticationController {
      * 清除Redis中 accesstoken refreshtoken
      *
      * @param accesstoken  accesstoken
-     * @param refreshToken refreshToken
      * @return true/false
      */
     @PostMapping("/removeToken")
     @CacheEvict(value = SecurityConstants.TOKEN_USER_DETAIL, key = "#accesstoken")
-    public R<Boolean> removeToken(String accesstoken, String refreshToken) {
-        RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-        tokenStore.removeRefreshToken(refreshToken);
-        tokenStore.removeAccessToken(accesstoken);
-        return new R<>(Boolean.TRUE);
+    public R<Boolean> removeToken(String accesstoken) {
+        return new R<>( consumerTokenServices.revokeToken(accesstoken));
     }
 }
