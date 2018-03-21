@@ -1,14 +1,10 @@
 <template>
-	<div class="app-main">
-		<div class="yun-content">
-			<div class="banner-sky"></div>
-			<div class="banner-text">
-				<h2>Pig 微服务快速开发框架</h2>
-				<span :class="['actor',{typeing:isText}]">{{text}}</span>
-			</div>
-
-		</div>
-	</div>
+  <div class="pull-chheight wel-contailer">
+    <div class="banner-text">
+      <h2>Pig 微服务快速开发框架</h2>
+      <span :class="['actor',{typeing:isText}]">{{text}}</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -84,27 +80,25 @@ export default {
 </script>
 
 <style scoped="scoped" lang="scss">
-.yun-content {
-  background-color: #eee;
+.wel-contailer {
+  position: relative;
 }
-
-.banner-sky {
-  position: absolute;
-  top: -100px;
-  bottom: -15px;
-  width: 100%;
-  height: 100%;
-  transform: skewY(-4deg);
-  transform-origin: center;
-  background-color: #fcfcfc;
-}
-
 .banner-text {
   position: relative;
   padding: 0 20px;
+  font-size: 20px;
+  text-align: center;
   color: #333;
 }
-
+.banner-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  display: none;
+}
 .actor {
   height: 250px;
   overflow: hidden;

@@ -33,7 +33,8 @@
   </div>
 </template>
 <script>
-import { resolveUrlPath } from "@/util/util";
+import { resolveUrlPath, setUrlPath } from "@/util/util";
+import { baseUrl } from "@/config/env";
 import { mapState, mapGetters } from "vuex";
 import Breadcrumb from "./breadcrumb";
 export default {
@@ -77,11 +78,7 @@ export default {
   computed: {
     ...mapGetters(["tagWel", "tagList", "isCollapse", "tag"]),
     nowTagValue: function() {
-      const value = this.$route.query.src
-        ? this.$route.query.src
-        : this.$route.path;
-      this.$store.commit("SET_TAG", value);
-      return value;
+      return setUrlPath(this.$route);
     },
     tagListNum: function() {
       return this.tagList.length != 0;
@@ -91,12 +88,14 @@ export default {
     init() {
       this.refsTag = this.$refs.tagsPageOpened;
       setTimeout(() => {
-        this.refsTag.forEach((item, index) => {
-          if (this.tag.value === item.attributes.name.value) {
-            let tag = this.refsTag[index];
-            this.moveToView(tag);
-          }
-        });
+        if (this.refsTag) {
+          this.refsTag.forEach((item, index) => {
+            if (this.tag.value === item.attributes.name.value) {
+              let tag = this.refsTag[index];
+              this.moveToView(tag);
+            }
+          });
+        }
       }, 1);
     },
     showCollapse() {

@@ -7,7 +7,7 @@ import { getStore, getSessionStore, vaildUtil } from '@/util/yun'
 
 
 import Myiframe from '@/components/iframe/iframe.vue'
-import INDEX from '@/page/index/'
+import Layout from '@/page/index/'
 import errorPage404 from '@/components/errorPage/404.vue';
 import errorPage403 from '@/components/errorPage/403.vue';
 import errorPage500 from '@/components/errorPage/500.vue';
@@ -31,8 +31,8 @@ export default new VueRouter({
 	},
 });
 export const asyncRouterMap = [
-	{ path: '/login', name: '登录页', component: _import('login/index') },
-	{ path: '/lock', name: '锁屏页', component: _import('lock/index') },
+	{ path: '/login', name: '登录页', component: _import('page', 'login/index') },
+	{ path: '/lock', name: '锁屏页', component: _import('page', 'lock/index') },
 	{ path: '*', redirect: '/404', hidden: true },
 	{ path: '/404', component: errorPage404, name: '404' },
 	{ path: '/403', component: errorPage403, name: '403' },
@@ -44,7 +44,7 @@ export const asyncRouterMap = [
 	},
 	{
 		path: '/myiframe',
-		component: INDEX,
+		component: Layout,
 		redirect: '/myiframe',
 		children: [
 			{
@@ -57,91 +57,32 @@ export const asyncRouterMap = [
 
 	}, {
 		path: '/wel',
-		component: INDEX,
+		component: Layout,
 		redirect: '/wel/index',
 		children: [
 			{
 				path: 'index',
 				name: '首页',
-				component: _import('wel')
+				component: _import('page', 'wel')
 			}
 		]
 	}, {
-		path: '/role',
-		component: INDEX,
-		redirect: '/role/index',
-		children: [
-			{
-				path: 'index',
-				name: '权限测试页',
-				component: _import('role')
-			}
-		]
-	}, {
-		path: '/table',
-		component: INDEX,
-		redirect: '/table/index',
-		children: [
-			{
-				path: 'index',
-				name: '表格CRUD',
-				component: _import('table/index')
-			}
-		]
-	}, {
-		path: '/form',
-		component: INDEX,
-		redirect: '/form/index',
-		children: [
-			{
-				path: 'index',
-				name: '表单CRUD',
-				component: _import('form/index')
-			}
-		]
-	}, {
-		path: '/iconfont',
-		component: INDEX,
-		redirect: '/iconfont/index',
-		children: [
-			{
-				path: 'index',
-				name: '阿里图标',
-				component: _import('iconfont/index')
-			}
-		]
-	}, {
-		path: '/errlog',
-		component: INDEX,
-		redirect: '/errlog/index',
-		children: [
-			{
-				path: 'index',
-				name: '错误日志',
-				component: _import('errlog/index')
-			}, {
-				path: 'page',
-				name: '错误页面',
-				component: _import('errlog/errorPage')
-			}
-		]
-	}, {
+		menuId: 1,
 		path: '/admin',
-		component: INDEX,
+		component: Layout,
+		name: '系统管理',
+		hidden: false,
+		redirect: '/admin/user',
+		meta: {
+			title: '系统管理',
+		},
 		children: [
-			{
-				path: 'user',
-				name: '用户管理',
-				component: _import('admin/user/index')
-			}, {
-				path: 'role',
-				name: '角色管理',
-				component: _import('admin/role/index')
-			}, {
-				path: 'menu',
-				name: '菜单管理',
-				component: _import('admin/menu/index')
-			}
+			{ menuId: 2, path: 'user', component: _import('views', 'admin/user/index'), name: '用户管理', meta: { title: '用户管理' } },
+			{ menuId: 3, path: 'menu', component: _import('views', 'admin/menu/index'), name: '菜单管理', meta: { title: '菜单管理' } },
+			{ menuId: 4, path: 'role', component: _import('views', 'admin/role/index'), name: '角色管理', meta: { title: '角色管理' } },
+			{ menuId: 5, path: 'dept', component: _import('views', 'admin/dept/index'), name: '部门管理', meta: { title: '部门管理' } },
+			{ menuId: 6, path: 'dict', component: _import('views', 'admin/dict/index'), name: '字典管理', meta: { title: '字典管理' } },
+			{ menuId: 7, path: 'log', component: _import('views', 'admin/log/index'), name: '日志管理', meta: { title: '日志管理' } }
 		]
-	}
+	},
 ]

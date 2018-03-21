@@ -27,6 +27,7 @@
     "mockjs": "^1.0.1-beta3",
     "vue": "2.5.2",
     "vue-axios": "^2.0.2",
+    "vue-image-crop-upload": "^2.2.3",
     "vue-router": "^3.0.0",
     "vue-server-renderer": "2.5.2",
     "vue-template-compiler": "2.5.2",

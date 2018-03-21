@@ -12,13 +12,13 @@
 
 
 let baseUrl = '';
-let iconfontVersion = 'j0ic7mgvwddt2o6r';
-let iconfontUrl = `//at.alicdn.com/t/font_567566_${iconfontVersion}.css`;
+let iconfontVersion = ['567566_lgiis24af44bcsor', '599693_c3ju5pfa6altmx6r'];
+let iconfontUrl = `//at.alicdn.com/t/font_$key.css`;
 let codeUrl = `/admin/code`
 if (process.env.NODE_ENV == 'development') {
-	baseUrl = `http://api.frps.shop`;
+	baseUrl = `http://218.70.11.118`;
 } else if (process.env.NODE_ENV == 'production') {
-	baseUrl = `http://api.frps.shop`;
+	baseUrl = `http://218.70.11.118`;
 }
 
-export { baseUrl, iconfontUrl, codeUrl }
+export { baseUrl, iconfontUrl, iconfontVersion, codeUrl }

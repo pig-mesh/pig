@@ -58,13 +58,13 @@ function findMenuParent(tagCurrent, tag, tagWel) {
     } else {//其他操作
         let currentPathObj = store.getters.menu.filter(item => {
             if (item.children.length == 1) {
-                return item.children[0].href === tag.value;
+                return item.children[0].path === tag.value;
             } else {
                 let i = 0;
                 let childArr = item.children;
                 let len = childArr.length;
                 while (i < len) {
-                    if (childArr[i].href === tag.value) {
+                    if (childArr[i].path === tag.value) {
                         return true;
                     }
                     i++;

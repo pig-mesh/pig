@@ -24,7 +24,7 @@ export const getUserInfo = () => {
 
 export const logout = (accesstoken, refreshToken) => {
     return request({
-        url: '/auth/removeToken',
+        url: '/auth/authentication/removeToken',
         method: 'post',
         params: { accesstoken, refreshToken }
     })

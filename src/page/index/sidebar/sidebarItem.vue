@@ -1,7 +1,7 @@
 <template>
   <div class="menu-wrapper">
     <template v-for="item in menu">
-      <el-menu-item v-if="item.children.length===0 " :index="item.component" @click="open(item)" :key="item.label">
+      <el-menu-item v-if="item.children.length===0 " :index="item.path" @click="open(item)" :key="item.label">
         <i :class="item.icon"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
@@ -11,7 +11,7 @@
           <span slot="title" :class="{display:!show}">{{item.label}}</span>
         </template>
         <template v-for="child in item.children">
-          <el-menu-item v-if="child.children.length==0" :index="child.component" @click="open(child)">
+          <el-menu-item v-if="child.children.length==0" :index="child.path" @click="open(child)">
             <i :class="child.icon"></i>
             <span slot="title">{{child.label}}</span>
           </el-menu-item>
@@ -40,10 +40,10 @@ export default {
   mounted() {},
   methods: {
     open(item) {
-      this.$router.push({ path: resolveUrlPath(item.href) });
+      this.$router.push({ path: resolveUrlPath(item.path) });
       this.$store.commit("ADD_TAG", {
         label: item.label,
-        value: item.href
+        value: item.path
       });
     }
   }

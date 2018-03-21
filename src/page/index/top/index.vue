@@ -1,9 +1,11 @@
 <template>
   <div class="header">
     <div class="header-button is-left">
-      <h3 style="letter-spacing: 1px;">Avue 通用管理系统快速开发框架</h3>
+      <top-logo></top-logo>
     </div>
-    <h1 class="header-title"></h1>
+    <h1 class="header-title">
+      <!-- <topMenu></topMenu> -->
+    </h1>
     <div class="header-button is-right">
       <el-tooltip class="item" effect="dark" content="锁屏" placement="bottom">
         <span class="header-item">
@@ -43,9 +45,11 @@
 <script>
 import { mapState, mapGetters } from "vuex";
 import { fullscreenToggel } from "@/util/util";
+import topLogo from "./top-logo";
 import topLock from "./top-lock";
+import topMenu from "./top-menu";
 export default {
-  components: { topLock },
+  components: { topLock, topLogo, topMenu },
   name: "top",
   data() {
     return {};

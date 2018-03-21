@@ -1,22 +1,27 @@
 <template>
-	<div class="pull-height animated" :class="{'zoomOutUp': isLock}">
-    <Top></Top>
-		<div class="index">
-      <Sidebar class="left pull-chheight"></Sidebar>
-			<div class="right">
-          <Tags ref="nav" class="nav"></Tags>
-          <router-view class="main"></router-view>  
-			</div>
-		</div>
-	</div>
+  <div class="pull-height animated" :class="{'zoomOutUp': isLock}">
+    <top></top>
+    <div class="index">
+      <sidebar class="left pull-chheight"></sidebar>
+      <div class="right">
+        <tags ref="nav" class="nav"></tags>
+        <router-view class="main pull-chheight"></router-view>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import Tags from "./tags";
-import Top from "./top/";
-import Sidebar from "./sidebar/";
+import tags from "./tags";
+import top from "./top/";
+import sidebar from "./sidebar/";
 export default {
+  components: {
+    top,
+    tags,
+    sidebar
+  },
   name: "index",
   data() {
     return {};
@@ -25,12 +30,7 @@ export default {
   mounted() {},
   computed: mapGetters(["isLock"]),
   props: [],
-  methods: {},
-  components: {
-    Top,
-    Tags,
-    Sidebar
-  }
+  methods: {}
 };
 </script>
 
@@ -43,13 +43,14 @@ export default {
   min-height: 100%;
   background: #fff;
   overflow: hidden;
-  .left {
+  .left:not(.el-menu--collapse) {
+    width: 200px;
+    overflow-y: auto;
   }
   .right {
-    padding-top: 102px;
+    padding-top: 90px;
     position: relative;
     flex: 1;
-    overflow: auto;
     box-sizing: border-box;
   }
   .main {

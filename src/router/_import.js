@@ -1,1 +1,1 @@
-module.exports = file => require(`../page/${file}.vue`)
+module.exports = (path, file) => require(`../${path}/${file}.vue`)

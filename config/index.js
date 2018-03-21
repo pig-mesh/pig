@@ -1,6 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-
+var baseUrl = 'http://218.70.11.118:7777';
 module.exports = {
   build: {
     env: require('./prod.env'),
@@ -30,17 +30,17 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/auth': {
-        target: 'http://api.frps.shop',
+        target: baseUrl,
         changeOrigin: true,
         pathRewrite: {
-          '^/auth' : '/auth'
+          '^/auth': '/auth'
         }
       },
       '/admin': {
-        target: 'http://api.frps.shop',
+        target: baseUrl,
         changeOrigin: true,
         pathRewrite: {
-          '^/admin' : '/admin'
+          '^/admin': '/admin'
         }
       }
     },

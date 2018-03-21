@@ -8,17 +8,16 @@
 
 @mixin scrollBar {
   &::-webkit-scrollbar-track-piece {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);  
+    background-color: #fff; 
   }
   &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #999;  
+    width: 7px;
+    height: 7px;
+    background-color: #fff;  
   }
-  &::-webkit-scrollbar-thumb {
-    box-shadow: inset 0 0 6px rgba(0,0,0,.3);  
+  &::-webkit-scrollbar-thumb { 
     border-radius: 5px;
-    background-color: #48576a;
+    background-color: hsla(220,4%,58%,.3);
   }
 }
 @mixin radius($width,$size,$color){

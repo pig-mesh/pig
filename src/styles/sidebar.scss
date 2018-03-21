@@ -1,14 +1,4 @@
 
-    .el-menu:not(.el-menu--collapse) {
-      width: 200px;
-      overflow-y: auto;
-    }
-    .el-menu{
-        border-right: 0;
-        .is-active{
-          color:#fff !important;
-        }
-    }
     .hideSidebar {
         .sidebar-container,.sidebar-container .el-menu {
           width: 36px!important;

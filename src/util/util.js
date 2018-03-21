@@ -1,6 +1,5 @@
 import { validatenull } from './validate'
-
-
+import { baseUrl } from '@/config/env'
 
 
 /**
@@ -80,13 +79,36 @@ export const findParent = (menu, id) => {
  * 总体路由处理器
  */
 export const resolveUrlPath = (url) => {
+
     let reqUrl = url;
-    if (url.indexOf("http") != -1) {
+    if (url.indexOf("#") != -1 && url.indexOf("http") == -1) {
+        const port = reqUrl.substr(reqUrl.indexOf(':'));
+        reqUrl = `/myiframe/urlPath?src=${baseUrl}${port}${reqUrl.replace('#', '').replace(port, '')}`;
+    } else if (url.indexOf("http") != -1) {
         reqUrl = `/myiframe/urlPath?src=${reqUrl}`;
     } else {
         reqUrl = `${reqUrl}`;
     }
     return reqUrl;
+}
+/**
+ * 总体路由设置器
+ */
+export const setUrlPath = ($route) => {
+    let value = "";
+    if ($route.query.src) {
+        value = $route.query.src;
+        if (value.indexOf(baseUrl) != -1) {
+            const port = value
+                .substr(value.lastIndexOf(":"))
+                .replace(value.substr(value.lastIndexOf("/")), "");
+            const path = value.replace(baseUrl + port, "");
+            value = "#" + path + port;
+        }
+    } else {
+        value = $route.path;
+    }
+    return value;
 }
 /**
  * 动态插入css
