@@ -1,5 +1,6 @@
 package com.github.pig.admin.model.dto;
 
+import com.github.pig.common.vo.MenuVo;
 import lombok.Data;
 
 /**
@@ -35,5 +36,17 @@ public class MenuTree extends TreeNode {
         this.parentId = parent.getId();
         this.name = name;
         this.label = name;
+    }
+
+    public MenuTree(MenuVo menuVo) {
+        this.id = menuVo.getMenuId();
+        this.parentId = menuVo.getParentId();
+        this.icon = menuVo.getIcon();
+        this.name = menuVo.getName();
+        this.url = menuVo.getUrl();
+        this.path = menuVo.getPath();
+        this.component = menuVo.getComponent();
+        this.type = menuVo.getType();
+        this.label = menuVo.getName();
     }
 }
