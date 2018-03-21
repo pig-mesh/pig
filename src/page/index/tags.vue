@@ -34,7 +34,6 @@
 </template>
 <script>
 import { resolveUrlPath, setUrlPath } from "@/util/util";
-import { baseUrl } from "@/config/env";
 import { mapState, mapGetters } from "vuex";
 import Breadcrumb from "./breadcrumb";
 export default {

@@ -8,7 +8,7 @@ const user = {
         userInfo: getStore({ name: 'userInfo' }) || {},
         permissions: getStore({ name: 'permissions' }) || {},
         roles: getStore({ name: 'roles' }) || [],
-        menu: [],
+        menu: getStore({ name: 'menu' }) || [],
         access_token: getStore({ name: 'access_token' }) || '',
         refresh_token: getStore({ name: 'refresh_token' }) || '',
     },
@@ -107,6 +107,7 @@ const user = {
         },
         SET_MENU: (state, menu) => {
             state.menu = menu;
+            setStore({ name: 'menu', content: state.menu, type: 'session' })
         },
         SET_USER_INFO: (state, userInfo) => {
             state.userInfo = userInfo
