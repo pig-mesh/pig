@@ -91,23 +91,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
      */
     @Override
     public List<MenuTree> findUserMenuTree(String roleName) {
+        // 获取符合条件得菜单
         Set<MenuVo> all = findMenuByRole(roleName);
-        List<MenuTree> menuTreeList = new ArrayList<>();
-        MenuTree node = null;
-        for (MenuVo menuVo : all) {
+        final List<MenuTree> menuTreeList = new ArrayList<>();
+        all.stream().forEach((menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {
-                node = new MenuTree();
-                node.setId(menuVo.getMenuId());
-                node.setParentId(menuVo.getParentId());
-                node.setName(menuVo.getName());
-                node.setUrl(menuVo.getUrl());
-                node.setCode(menuVo.getPermission());
-                node.setLabel(menuVo.getName());
-                node.setComponent(menuVo.getComponent());
-                node.setIcon(menuVo.getIcon());
-                menuTreeList.add(node);
+                menuTreeList.add(new MenuTree(menuVo));
             }
-        }
+        }));
         return TreeUtil.bulid(menuTreeList, -1);
     }
 }
