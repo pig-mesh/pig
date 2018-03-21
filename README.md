@@ -8,9 +8,6 @@
 
 <h2 align="center">Supporting lengleng</h2>   
 
-### 详细配置 wiki
- https://gitee.com/log4j/pig/wikis/
-
 ### 前端解决方案（像easyui一样写Vue）
 https://gitee.com/smallweigit/avue
  
