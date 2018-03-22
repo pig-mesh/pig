@@ -10,12 +10,12 @@
           <i :class="item.icon"></i>
           <span slot="title" :class="{display:!show}">{{item.label}}</span>
         </template>
-        <template v-for="child in item.children">
-          <el-menu-item v-if="child.children.length==0" :index="child.path" @click="open(child)">
+        <template v-for="(child,cindex) in item.children">
+          <el-menu-item v-if="child.children.length==0" :index="child.path" @click="open(child)" :key="cindex">
             <i :class="child.icon"></i>
             <span slot="title">{{child.label}}</span>
           </el-menu-item>
-          <sidebar-item v-else :menu="[child]" :show="show"></sidebar-item>
+          <sidebar-item v-else :menu="[child]" :show="show" :key="cindex"></sidebar-item>
         </template>
       </el-submenu>
     </template>
