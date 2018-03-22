@@ -14,7 +14,7 @@ const lockPage = '/lock'
 router.addRoutes(asyncRouterMap); // 动态添加可访问路由表
 router.beforeEach((to, from, next) => {
     store.commit('SET_TAG', to.query.src ? to.query.src : to.path);
-    if (store.getters.access_token) { // determine if there has token
+    if (store.getters.token) { // determine if there has token
         /* has token*/
         if (store.getters.isLock && to.path != lockPage) {
             next({ path: lockPage })
@@ -49,12 +49,12 @@ function findMenuParent(tag) {
     let tagCurrent = [];
     const menu = store.getters.menu;
     //如果是一级菜单直接返回
-    menu.forEach(ele => {
-        if (ele.path == tag.value) {
+    for (let i = 0, j = menu.length; i < j; i++) {
+        if (menu[i].path == tag.value) {
             tagCurrent.push(tag);
             return tagCurrent;
         }
-    });
+    }
 
     let currentPathObj = menu.filter(item => {
         if (item.children.length == 1) {
@@ -73,7 +73,10 @@ function findMenuParent(tag) {
             return false;
         }
     })[0];
-    tagCurrent.push(currentPathObj);
+    tagCurrent.push({
+        label: currentPathObj.label,
+        value: currentPathObj.path
+    });
     tagCurrent.push(tag);
     return tagCurrent;
 
@@ -81,8 +84,8 @@ function findMenuParent(tag) {
 router.afterEach((to, from) => {
     setTimeout(() => {
         const tag = store.getters.tag;
-        let tagCurrent = store.getters.tagCurrent;
         setTitle(tag.label);
+        alert(findMenuParent(tag));
         store.commit('SET_TAG_CURRENT', findMenuParent(tag));
     }, 0);
 })
