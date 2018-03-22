@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { fullscreenToggel } from "@/util/util";
 import { validatenull } from "@/util/validate";
 import { mapGetters } from "vuex";
 export default {
@@ -43,7 +44,7 @@ export default {
       });
     },
     handleLock() {
-      if (validatenull(this.form.passwd)) {
+      if (validatenull(this.lockPasswd)) {
         this.box = true;
         return;
       }

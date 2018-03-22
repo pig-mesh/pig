@@ -17,7 +17,7 @@ export const setStore = (params) => {
  * 获取localStorage
  */
 export const getStore = (params) => {
-    let { name } = params;
+    let { name, type } = params;
     let obj = {}, content;
     obj = window.localStorage.getItem(name);
     if (validatenull(obj)) obj = window.sessionStorage.getItem(name);
@@ -37,7 +37,8 @@ export const getStore = (params) => {
 /**
  * 删除localStorage
  */
-export const removeStore = name => {
-    if (!name) return;
+export const removeStore = params => {
+    let { name } = params;
     window.localStorage.removeItem(name);
+    window.sessionStorage.removeItem(name);
 }

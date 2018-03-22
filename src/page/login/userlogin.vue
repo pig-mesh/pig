@@ -1,32 +1,32 @@
 <template>
-   <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0" >
-        <el-form-item prop="username">
-          <el-input @keyup.enter.native="handleLogin" v-model="loginForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
-        </el-form-item>
-        <el-form-item prop="password">
-          <el-input @keyup.enter.native="handleLogin" :type="passwordType" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码">
-              <i class="el-icon-view el-input__icon" slot="suffix" @click="showPassword"></i>
-          </el-input>
-        </el-form-item>
-        <el-form-item prop="code">
-          <el-row :span="24">
-            <el-col :span="14">
-                  <el-input @keyup.enter.native="handleLogin"  :maxlength="code.len" v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码"></el-input>
-            </el-col>
-             <el-col :span="10">
-               <div class="login-code">
-                  <span  class="login-code-img" @click="refreshCode" v-if="code.type == 'text'">{{code.value}}</span>
-                  <img :src="code.src" class="login-code-img" @click="refreshCode" v-else/>
-                  <i class="icon-shuaxin login-code-icon" @click="refreshCode"></i>
-               </div>
-            </el-col>
-          </el-row>
+  <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0">
+    <el-form-item prop="username">
+      <el-input @keyup.enter.native="handleLogin" v-model="loginForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
+    </el-form-item>
+    <el-form-item prop="password">
+      <el-input @keyup.enter.native="handleLogin" :type="passwordType" v-model="loginForm.password" auto-complete="off" placeholder="请输入密码">
+        <i class="el-icon-view el-input__icon" slot="suffix" @click="showPassword"></i>
+      </el-input>
+    </el-form-item>
+    <el-form-item prop="code">
+      <el-row :span="24">
+        <el-col :span="14">
+          <el-input @keyup.enter.native="handleLogin" :maxlength="code.len" v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码"></el-input>
+        </el-col>
+        <el-col :span="10">
+          <div class="login-code">
+            <span class="login-code-img" @click="refreshCode" v-if="code.type == 'text'">{{code.value}}</span>
+            <img :src="code.src" class="login-code-img" @click="refreshCode" v-else/>
+            <i class="icon-shuaxin login-code-icon" @click="refreshCode"></i>
+          </div>
+        </el-col>
+      </el-row>
 
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click.native.prevent="handleLogin"  class="login-submit">登录</el-button>
-        </el-form-item>
-    </el-form>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" @click.native.prevent="handleLogin" class="login-submit">登录</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>

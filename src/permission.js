@@ -14,7 +14,7 @@ const lockPage = '/lock'
 router.addRoutes(asyncRouterMap); // 动态添加可访问路由表
 router.beforeEach((to, from, next) => {
     store.commit('SET_TAG', from.query.src ? from.query.src : from.path);
-    if (getToken()) { // determine if there has token
+    if (store.getters.access_token) { // determine if there has token
         /* has token*/
         if (store.getters.isLock && to.path != lockPage) {
             next({ path: lockPage })
@@ -23,8 +23,9 @@ router.beforeEach((to, from, next) => {
         } else {
             if (store.getters.roles.length === 0) {
                 store.dispatch('GetUserInfo').then(res => {
+                    const roles = res.roles
                     next({ ...to, replace: true })
-                }).catch(error => {
+                }).catch(() => {
                     store.dispatch('FedLogOut').then(() => {
                         next({ path: '/login' })
                     })
@@ -56,9 +57,10 @@ function findMenuParent(tagCurrent, tag, tagWel) {
     } else if (index != -1) {//判断是否存在了
         tagCurrent.splice(index, tagCurrent.length - 1);
     } else {//其他操作
+        console.log(store.getters.menu)
         let currentPathObj = store.getters.menu.filter(item => {
             if (item.children.length == 1) {
-                return item.children[0].path === tag.value;
+                return item.children[0].href === tag.value;
             } else {
                 let i = 0;
                 let childArr = item.children;

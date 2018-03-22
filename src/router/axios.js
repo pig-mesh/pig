@@ -39,7 +39,7 @@ axios.interceptors.response.use(data => {
 	let errMsg = error.toString();
 	let code = errMsg.substr(errMsg.indexOf('code') + 5);
 	Message({
-		message: errorCode[code] || '系统未知错误,请反馈给管理员',
+		message: errorCode[code] || errorCode['default'],
 		type: 'error'
 	});
 	return Promise.reject(new Error(error));
