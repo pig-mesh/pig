@@ -52,7 +52,8 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
                 .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD,SecurityConstants.AUTHORIZATION_CODE)
-                .scopes(authServerConfig.getScope());
+                .scopes(authServerConfig.getScope())
+                .autoApprove(true);
     }
 
     @Override
