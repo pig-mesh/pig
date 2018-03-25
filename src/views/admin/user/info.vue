@@ -5,7 +5,7 @@
         <div class="grid-content bg-purple">
           <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-width="100px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="username">
-              <el-input type="text" :value="name" disabled></el-input>
+              <el-input type="text" :value="userInfo.username" disabled></el-input>
             </el-form-item>
             <el-form-item label="原密码" prop="pass">
               <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
@@ -18,7 +18,7 @@
             </el-form-item>
             <el-form-item label="头像">
               <my-upload field="file" @crop-upload-success="cropUploadSuccess" v-model="show" :width="300" :height="300" url="/admin/user/upload" :headers="headers" img-format="png"></my-upload>
-              <img :src="avatar">
+              <img :src="userInfo.avatar">
               <el-button type="primary" @click="toggleShow" size="mini">选择
                 <i class="el-icon-upload el-icon--right"></i>
               </el-button>
@@ -37,7 +37,7 @@
 
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 import myUpload from "vue-image-crop-upload";
 import { getToken } from "@/util/auth";
 import ElFormItem from "element-ui/packages/form/src/form-item.vue";
@@ -89,7 +89,9 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["name", "avatar"])
+    ...mapState({
+      userInfo: state => state.user.userInfo
+    }),
   },
   methods: {
     submitForm(formName) {
