@@ -5,6 +5,7 @@ import { vaildUtil } from '@/util/yun';
 import { setTitle } from '@/util/util';
 import { validatenull } from '@/util/validate';
 import { asyncRouterMap } from '@/router/router'
+import { Duplex } from 'stream';
 function hasPermission(roles, permissionRoles) {
     if (!permissionRoles) return true
     return roles.some(role => permissionRoles.indexOf(role) >= 0)
@@ -14,7 +15,7 @@ const lockPage = '/lock'
 router.addRoutes(asyncRouterMap); // 动态添加可访问路由表
 router.beforeEach((to, from, next) => {
     store.commit('SET_TAG', to.query.src ? to.query.src : to.path);
-    if (store.getters.token) { // determine if there has token
+    if (store.getters.access_token) { // determine if there has token
         /* has token*/
         if (store.getters.isLock && to.path != lockPage) {
             next({ path: lockPage })
@@ -73,10 +74,12 @@ function findMenuParent(tag) {
             return false;
         }
     })[0];
-    tagCurrent.push({
-        label: currentPathObj.label,
-        value: currentPathObj.path
-    });
+    if (!validatenull(tagCurrent)) {
+        tagCurrent.push({
+            label: currentPathObj.label,
+            value: currentPathObj.path
+        });
+    }
     tagCurrent.push(tag);
     return tagCurrent;
 
@@ -85,7 +88,6 @@ router.afterEach((to, from) => {
     setTimeout(() => {
         const tag = store.getters.tag;
         setTitle(tag.label);
-        alert(findMenuParent(tag));
         store.commit('SET_TAG_CURRENT', findMenuParent(tag));
     }, 0);
 })
