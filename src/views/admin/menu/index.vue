@@ -59,6 +59,9 @@
             <el-form-item label="前端组件"   prop="component">
               <el-input v-model="form.component" :disabled="formEdit" placeholder="请输入描述"></el-input>
             </el-form-item>
+            <el-form-item label="前端地址"   prop="component">
+              <el-input v-model="form.path" :disabled="formEdit" placeholder="iframe嵌套地址"></el-input>
+            </el-form-item>
             <el-form-item v-if="formStatus == 'update'">
               <el-button type="primary" @click="update">更新</el-button>
               <el-button @click="onCancel">取消</el-button>
@@ -108,7 +111,8 @@
           sort: undefined,
           component: undefined,
           type: undefined,
-          method: undefined
+          method: undefined,
+          path: undefined
         },
         currentId: -1,
         menuManager_btn_add: false,
@@ -224,7 +228,8 @@
           sort: undefined,
           component: undefined,
           type: undefined,
-          method: undefined
+          method: undefined,
+          path: undefined
         }
       }
     }

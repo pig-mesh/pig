@@ -15,6 +15,19 @@ export const loginByUsername = (username, password, code, randomStr) => {
     })
 }
 
+export function mobileLogin(mobile, code) {
+  var grant_type = 'mobile'
+  var scope = 'server'
+  return request({
+    url: '/auth/mobile/token',
+    headers: {
+      'Authorization': 'Basic cGlnOnBpZw=='
+    },
+    method: 'post',
+    params: { mobile, code, grant_type, scope }
+  })
+}
+
 export const getUserInfo = () => {
     return request({
         url: '/admin/user/info',

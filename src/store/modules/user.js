@@ -1,7 +1,7 @@
 import { getToken, setToken, removeToken } from '@/util/auth'
 import { setStore, getStore } from '@/util/store'
 import { validatenull } from '@/util/validate'
-import { loginByUsername, getUserInfo, logout } from '@/api/login'
+import { loginByUsername, mobileLogin, getUserInfo, logout } from '@/api/login'
 import { GetMenu } from '@/api/menu'
 const user = {
     state: {
@@ -30,16 +30,19 @@ const user = {
         },
         //根据手机号登录
         LoginByPhone({ commit, state, dispatch }, userInfo) {
-            return new Promise((resolve, reject) => {
-                loginByUsername(userInfo.phone, userInfo.code).then(res => {
-                    const data = response.data
-                    setToken(data.access_token)
-                    commit('SET_ACCESS_TOKEN', data.access_token)
-                    commit('SET_REFRESH_TOKEN', data.refresh_token)
-                    commit('CLEAR_LOCK');
-                    resolve();
-                })
+          const mobile = userInfo.mobile.trim()
+          return new Promise((resolve, reject) => {
+            mobileLogin(mobile, userInfo.smsCode).then(response => {
+              const data = response.data
+              setToken(data.access_token)
+              commit('SET_ACCESS_TOKEN', data.access_token)
+              commit('SET_REFRESH_TOKEN', data.refresh_token)
+              commit('CLEAR_LOCK');
+              resolve()
+            }).catch(error => {
+              reject(error)
             })
+          })
         },
         GetTableData({ commit, state, dispatch }, page) {
             return new Promise((resolve, reject) => {

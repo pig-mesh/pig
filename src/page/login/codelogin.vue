@@ -1,7 +1,7 @@
 <template>
    <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0" >
-        <el-form-item prop="phone">
-        <el-input @keyup.enter.native="handleLogin" v-model="loginForm.phone" auto-complete="off" placeholder="请输入手机号码"></el-input>
+        <el-form-item prop="mobile">
+        <el-input @keyup.enter.native="handleLogin" v-model="loginForm.mobile" auto-complete="off" placeholder="请输入手机号码"></el-input>
         </el-form-item>
         <el-form-item prop="code">
         <el-input @keyup.enter.native="handleLogin"  v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码">
@@ -21,6 +21,7 @@ const MSGINIT = "发送验证码",
   MSGTIME = 60;
 import { isvalidatemobile } from "@/util/validate";
 import { mapGetters } from "vuex";
+import request from '@/router/axios'
 export default {
   name: "codelogin",
   data() {
@@ -43,11 +44,11 @@ export default {
       msgTime: MSGTIME,
       msgKey: false,
       loginForm: {
-        phone: "17547400800",
+        mobile: "17034642119",
         code: ""
       },
       loginRules: {
-        phone: [{ required: true, trigger: "blur", validator: validatePhone }],
+        mobile: [{ required: true, trigger: "blur", validator: validatePhone }],
         code: [{ required: true, trigger: "blur", validator: validateCode }]
       }
     };
@@ -61,6 +62,23 @@ export default {
   methods: {
     handleSend() {
       if (this.msgKey) return;
+      if (!this.loginForm.mobile) {
+        this.$message.error('请输入手机号码')
+      } else if (!(/^1[34578]\d{9}$/.test(this.loginForm.mobile))) {
+        this.$message.error('手机号格式不正确')
+      } else {
+        request({
+          url: '/admin/smsCode/' + this.loginForm.mobile,
+          method: 'get'
+        }).then(response => {
+          if (response.data.data) {
+            this.timer()
+            this.$message.success('验证码发送成功')
+          } else {
+            this.$message.error(response.data.msg)
+          }
+        })
+      }
       this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
       this.msgKey = true;
       const time = setInterval(() => {
@@ -78,11 +96,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.$store.dispatch("LoginByPhone", this.loginForm).then(response => {
-            if (response.data.data) {
-              this.$message.success('验证码发送成功')
-            } else {
-              this.$message.error(response.data.msg)
-            }
+            console.log(response)
             this.$store.commit("ADD_TAG", this.tagWel);
             this.$router.push({ path: this.tagWel.value });
           });
