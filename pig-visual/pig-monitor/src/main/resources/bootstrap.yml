@@ -22,6 +22,7 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://pig:gip6666@localhost:1025/eureka
+    registry-fetch-interval-seconds: 10
 
 ---
 spring:
