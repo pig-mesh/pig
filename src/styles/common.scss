@@ -46,9 +46,9 @@ td {
 }
 
 body {
-	color: #666;
-	font-family: Microsoft YaHei, SimSun;
-	// background: #f6f6f6;
+	min-width: 1200px;
+	color: #333;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Microsoft YaHei";
 	line-height: 2;
 }
 
@@ -81,12 +81,12 @@ textarea {
 
 textarea {
 	resize: none;
-} 
+}
 //禁用了文本的拖拉，尤其在谷歌下
 p {
 	text-align: justify;
 	text-justify: distribute;
-} 
+}
 //为了使文本段落左右两边对齐
 p {
 	word-wrap: break-word
@@ -212,4 +212,3 @@ table {
 	padding: 20px;
 	box-sizing: border-box;
   }
-  

@@ -3,10 +3,29 @@ import { baseUrl } from '@/config/env'
 
 
 /**
+ * 加密处理
+ */
+export const encryption = (params) => {
+    let { data, type, param, key } = params;
+    let result = JSON.parse(JSON.stringify(data));
+    if (type == 'Base64') {
+        param.forEach(ele => {
+            result[ele] = btoa(result[ele]);
+        })
+    } else if (type == 'Aes') {
+        param.forEach(ele => {
+            result[ele] = CryptoJS.AES.encrypt(result[ele], key).toString();
+        })
+
+    }
+    return result;
+};
+
+/**
  * 设置浏览器头部标题
  */
 export const setTitle = function (title) {
-    title = title ? `${title} Pig 微服务系统快速开发框架` : 'Pig 微服务系统快速开发框架';
+    title = title ? `${title}——Avue 通用管理 系统快速开发框架` : 'Avue 通用管理 系统快速开发框架';
     window.document.title = title;
 };
 /**
@@ -19,7 +38,26 @@ export const fullscreenToggel = () => {
         reqFullScreen();
     }
 }
-
+/**
+ * esc监听全屏
+ */
+export const listenfullscreen = (callback) => {
+    function listen() {
+        callback()
+    }
+    document.addEventListener("fullscreenchange", function (e) {
+        listen();
+    });
+    document.addEventListener("mozfullscreenchange", function (e) {
+        listen();
+    });
+    document.addEventListener("webkitfullscreenchange", function (e) {
+        listen();
+    });
+    document.addEventListener("msfullscreenchange", function (e) {
+        listen();
+    });
+}
 /**
  * 浏览器判断是否全屏
  */
@@ -78,14 +116,14 @@ export const findParent = (menu, id) => {
 /**
  * 总体路由处理器
  */
-export const resolveUrlPath = (url) => {
+export const resolveUrlPath = (url, name) => {
 
     let reqUrl = url;
     if (url.indexOf("#") != -1 && url.indexOf("http") == -1) {
         const port = reqUrl.substr(reqUrl.indexOf(':'));
-        reqUrl = `/myiframe/urlPath?src=${baseUrl}${port}${reqUrl.replace('#', '').replace(port, '')}`;
+        reqUrl = `/myiframe/urlPath?src=${baseUrl}${port}${reqUrl.replace('#', '').replace(port, '')}}&name=${name}`;
     } else if (url.indexOf("http") != -1) {
-        reqUrl = `/myiframe/urlPath?src=${reqUrl}`;
+        reqUrl = `/myiframe/urlPath?src=${reqUrl}&name=${name}`;
     } else {
         reqUrl = `${reqUrl}`;
     }

@@ -1,6 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var baseUrl = 'http://192.168.0.101:9999';
+var baseUrl = 'http://218.70.11.118:7777';
 module.exports = {
   build: {
     env: require('./prod.env'),

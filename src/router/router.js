@@ -41,18 +41,18 @@ export const asyncRouterMap = [
 		path: '/',
 		name: '主页',
 		redirect: '/wel'
-	},{
-    path: '/info',
-    component: Layout,
-    redirect: '/info/index',
-    children: [
-      {
-        path: 'index',
-        name: '修改信息',
-        component: _import('admin/user/info', 'views')
-      }
-    ]
-  },
+	}, {
+		path: '/info',
+		component: Layout,
+		redirect: '/info/index',
+		children: [
+			{
+				path: 'index',
+				name: '修改信息',
+				component: _import('admin/user/info', 'views')
+			}
+		]
+	},
 	{
 		path: '/myiframe',
 		component: Layout,

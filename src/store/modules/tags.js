@@ -3,6 +3,7 @@ import { validatenull } from "@/util/validate"
 const tagObj = {
     label: '',
     value: '',
+    query: '',
     num: '',
     close: true,
 }
@@ -38,6 +39,7 @@ const navs = {
             state.tagList.push({
                 label: action.label,
                 value: action.value,
+                query: action.query,
             })
             state.tagList = setFistTag(state.tagList);
             setStore({ name: 'tagList', content: state.tagList })

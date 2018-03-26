@@ -1,19 +1,22 @@
 <template>
-	<iframe v-if="$route.query.src" :src='$route.query.src' class="iframe" ref="iframe"  v-loading.fullscreen.lock="fullscreenLoading"></iframe>  
-    <iframe v-else :src="urlPath" class="iframe" ref="iframe"  v-loading.fullscreen.lock="fullscreenLoading"></iframe>  
+  <iframe v-if="$route.query.src" :src='$route.query.src' class="iframe" ref="iframe"></iframe>
+  <iframe v-else :src="urlPath" class="iframe" ref="iframe"></iframe>
 </template>
 
 <script>
 import { mapState, mapGetters } from "vuex";
+import NProgress from "nprogress"; // progress bar
+import "nprogress/nprogress.css"; // progress bar style
 export default {
   name: "myiframe",
   data() {
     return {
-      fullscreenLoading: false,
       urlPath: this.getUrlPath() //iframe src 路径
     };
   },
-  created() {},
+  created() {
+    NProgress.configure({ showSpinner: false });
+  },
   mounted() {
     this.load();
     this.resize();
@@ -37,11 +40,11 @@ export default {
   methods: {
     // 显示等待框
     show() {
-      this.fullscreenLoading = true;
+      NProgress.start();
     },
     // 隐藏等待狂
     hide() {
-      this.fullscreenLoading = false;
+      NProgress.done();
     },
     // 加载浏览器窗口变化自适应
     resize() {

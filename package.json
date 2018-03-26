@@ -25,6 +25,7 @@
     "js-cookie": "2.1.4",
     "mock": "^0.1.1",
     "mockjs": "^1.0.1-beta3",
+    "nprogress": "^0.2.0",
     "vue": "2.5.2",
     "vue-axios": "^2.0.2",
     "vue-image-crop-upload": "^2.2.3",
