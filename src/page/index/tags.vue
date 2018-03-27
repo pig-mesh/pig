@@ -170,6 +170,10 @@ export default {
     },
     closeAllTags() {
       this.$store.commit("DEL_ALL_TAG");
+      this.$router.push({
+        path: resolveUrlPath(this.tagWel.value),
+        query: this.tagWel.query
+      });
     },
     moveToView(tag) {
       if (tag.offsetLeft < -this.tagBodyLeft) {
