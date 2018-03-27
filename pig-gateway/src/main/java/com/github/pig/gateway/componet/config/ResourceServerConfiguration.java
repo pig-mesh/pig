@@ -1,6 +1,6 @@
 package com.github.pig.gateway.componet.config;
 
-import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
+import com.github.pig.common.bean.config.FilterUrlsPropertiesConfig;
 import com.github.pig.gateway.componet.filter.ValidateCodeFilter;
 import com.github.pig.gateway.componet.handler.PigAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Autowired
-    private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
+    private FilterUrlsPropertiesConfig filterUrlsPropertiesConfig;
     @Autowired
     private OAuth2WebSecurityExpressionHandler expressionHandler;
     @Autowired
@@ -40,7 +40,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         http.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
-        for (String url : filterUrlsPropertiesConifg.getAnon()) {
+        for (String url : filterUrlsPropertiesConfig.getAnon()) {
             registry.antMatchers(url).permitAll();
         }
         registry.anyRequest()
