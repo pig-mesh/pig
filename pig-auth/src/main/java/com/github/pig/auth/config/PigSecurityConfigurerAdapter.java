@@ -1,7 +1,7 @@
 package com.github.pig.auth.config;
 
 import com.github.pig.auth.component.mobile.MobileSecurityConfigurer;
-import com.github.pig.common.bean.config.FilterUrlsPropertiesConifg;
+import com.github.pig.common.bean.config.FilterUrlsPropertiesConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,7 +17,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 @EnableWebSecurity
 public class PigSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
     @Autowired
-    private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
+    private FilterUrlsPropertiesConfig filterUrlsPropertiesConfig;
     @Autowired
     private MobileSecurityConfigurer mobileSecurityConfigurer;
 
@@ -28,7 +28,7 @@ public class PigSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                         .loginProcessingUrl("/authentication/form")
                         .and()
                         .authorizeRequests();
-        for (String url : filterUrlsPropertiesConifg.getAnon()) {
+        for (String url : filterUrlsPropertiesConfig.getAnon()) {
             registry.antMatchers(url).permitAll();
         }
         registry.anyRequest().authenticated()

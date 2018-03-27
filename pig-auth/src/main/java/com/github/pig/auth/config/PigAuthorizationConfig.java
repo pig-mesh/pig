@@ -1,6 +1,5 @@
 package com.github.pig.auth.config;
 
-import com.github.pig.auth.component.PigWebResponseExceptionTranslator;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,16 +42,14 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     @Autowired
     private RedisConnectionFactory redisConnectionFactory;
 
-    @Autowired
-    private PigWebResponseExceptionTranslator pigWebResponseExceptionTranslator;
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
                 .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD,SecurityConstants.AUTHORIZATION_CODE)
-                .scopes(authServerConfig.getScope());
+                .scopes(authServerConfig.getScope())
+                .autoApprove(true);
     }
 
     @Override
@@ -61,7 +58,6 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
                 .tokenStore(new RedisTokenStore(redisConnectionFactory))
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .authenticationManager(authenticationManager)
-                .exceptionTranslator(pigWebResponseExceptionTranslator)
                 .reuseRefreshTokens(false)
                 .userDetailsService(userDetailsService);
     }

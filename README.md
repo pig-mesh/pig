@@ -62,10 +62,13 @@ pig
 - zipkin链路追踪： 数据保存ELK，图形化展示
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
-### 交流群
-一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>  
+欢迎加入交流群，互相学习  
+一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;微信群 ↓  
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
-![image](http://p0hpm86wj.bkt.clouddn.com/11.png)
+![image](http://oss.wjg95.cn/pig_wechat_qun.png?x-oss-process=image/resize,w_250,h_250)
+
+![image](http://obq1lvsd9.bkt.clouddn.com/pig-1.png)
+![image](http://obq1lvsd9.bkt.clouddn.com/pig-2.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/1.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/2.png)
 ![image](http://p0hpm86wj.bkt.clouddn.com/3.png)

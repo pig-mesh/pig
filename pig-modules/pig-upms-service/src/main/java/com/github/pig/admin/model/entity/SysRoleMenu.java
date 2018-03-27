@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  * @author lengleng
  * @since 2017-10-29
  */
+@Data
 @TableName("sys_role_menu")
 public class SysRoleMenu extends Model<SysRoleMenu> {
 
@@ -30,23 +32,6 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
      */
 	@TableId(type = IdType.INPUT)
 	private Integer menuId;
-
-
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public Integer getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(Integer menuId) {
-		this.menuId = menuId;
-	}
 
 	@Override
 	protected Serializable pkVal() {

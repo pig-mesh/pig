@@ -1,6 +1,7 @@
 package com.github.pig.admin.model.dto;
 
 import com.github.pig.admin.model.entity.SysUser;
+import lombok.Data;
 
 import java.io.Serializable;
 
@@ -14,6 +15,7 @@ import java.io.Serializable;
  * commit('SET_INTRODUCTION', data)
  * commit('SET_PERMISSIONS', data)
  */
+@Data
 public class UserInfo implements Serializable {
     /**
      * 用户基本信息
@@ -28,28 +30,4 @@ public class UserInfo implements Serializable {
      * 角色集合
      */
     private String[] roles;
-
-    public String[] getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(String[] permissions) {
-        this.permissions = permissions;
-    }
-
-    public String[] getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String[] roles) {
-        this.roles = roles;
-    }
-
-    public SysUser getSysUser() {
-        return sysUser;
-    }
-
-    public void setSysUser(SysUser sysUser) {
-        this.sysUser = sysUser;
-    }
 }

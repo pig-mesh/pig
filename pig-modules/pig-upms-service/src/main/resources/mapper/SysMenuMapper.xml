@@ -28,6 +28,7 @@
         <result column="method" property="method" />
         <result column="parent_id" property="parentId" />
         <result column="icon" property="icon" />
+        <result column="path" property="path" />
         <result column="component" property="component" />
         <result column="sort" property="sort" />
         <result column="type" property="type" />

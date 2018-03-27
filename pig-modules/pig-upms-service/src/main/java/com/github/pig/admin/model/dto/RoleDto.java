@@ -1,12 +1,14 @@
 package com.github.pig.admin.model.dto;
 
 import com.github.pig.admin.model.entity.SysRole;
+import lombok.Data;
 
 /**
  * @author lengleng
  * @date 2018/1/20
  * 角色Dto
  */
+@Data
 public class RoleDto extends SysRole {
     /**
      * 角色部门Id
@@ -17,20 +19,4 @@ public class RoleDto extends SysRole {
      * 部门名称
      */
     private String deptName;
-
-    public Integer getRoleDeptId() {
-        return roleDeptId;
-    }
-
-    public void setRoleDeptId(Integer roleDeptId) {
-        this.roleDeptId = roleDeptId;
-    }
-
-    public String getDeptName() {
-        return deptName;
-    }
-
-    public void setDeptName(String deptName) {
-        this.deptName = deptName;
-    }
 }
