@@ -7,15 +7,15 @@
 }
 
 @mixin scrollBar {
-  &::-webkit-scrollbar-track-piece {
+  ::-webkit-scrollbar-track-piece {
     background-color: #fff; 
   }
-  &::-webkit-scrollbar {
+  ::-webkit-scrollbar {
     width: 7px;
     height: 7px;
     background-color: #fff;  
   }
-  &::-webkit-scrollbar-thumb { 
+  ::-webkit-scrollbar-thumb { 
     border-radius: 5px;
     background-color: hsla(220,4%,58%,.3);
   }
