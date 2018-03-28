@@ -90,6 +90,13 @@
             <artifactId>fastdfs-spring-boot-starter</artifactId>
             <version>${fastdfs.version}</version>
         </dependency>
+        <!-- TTL -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+            <version>${ttl.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

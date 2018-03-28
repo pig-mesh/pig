@@ -38,6 +38,7 @@
         <hibernate-validator.version>5.4.1.Final</hibernate-validator.version>
         <swagger2.version>2.8.0</swagger2.version>
         <fastdfs.version>0.2.0</fastdfs.version>
+        <ttl.version>2.2.0</ttl.version>
         <sharding-jdbc-core-spring-boot-starter.version>2.0.1</sharding-jdbc-core-spring-boot-starter.version>
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>

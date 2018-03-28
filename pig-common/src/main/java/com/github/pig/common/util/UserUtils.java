@@ -1,8 +1,10 @@
 package com.github.pig.common.util;
 
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.pig.common.constant.CommonConstant;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +19,9 @@ import java.util.List;
  * @date 2017/11/20
  * 用户相关工具类
  */
+@Slf4j
 public class UserUtils {
-    private static Logger logger = LoggerFactory.getLogger(UserUtils.class);
-    private static final ThreadLocal<String> THREAD_LOCAL_USER = new ThreadLocal<>();
+    private static final ThreadLocal<String> THREAD_LOCAL_USER = new TransmittableThreadLocal<>();
     private static final String KEY_USER = "user";
 
 
@@ -44,7 +46,7 @@ public class UserUtils {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
             username = claims.get("user_name").toString();
         } catch (Exception ex) {
-            logger.error("用户名解析异常,token:{},key:{}", token, key);
+            log.error("用户名解析异常,token:{},key:{}", token, key);
         }
         return username;
     }
@@ -66,7 +68,7 @@ public class UserUtils {
             Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
             username = claims.get("user_name").toString();
         } catch (Exception ex) {
-            logger.error("用户名解析异常,token:{},key:{}", token, key);
+            log.error("用户名解析异常,token:{},key:{}", token, key);
         }
         return username;
     }
