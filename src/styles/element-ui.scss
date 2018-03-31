@@ -13,3 +13,7 @@
 .el-select,.el-date-editor.el-input, .el-date-editor.el-input__inner{
     width: 100%;
 }
+.display,
+.display + .el-submenu__icon-arrow {
+  display: none;
+}
