@@ -24,5 +24,5 @@ public interface MqQueueConstant {
     /**
      * zipkin 队列
      */
-    String ZIPLIN_NAME_QUEUE = "zipkin";
+    String ZIPKIN_NAME_QUEUE = "zipkin";
 }

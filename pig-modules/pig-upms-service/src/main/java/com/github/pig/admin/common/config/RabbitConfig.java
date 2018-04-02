@@ -44,6 +44,6 @@ public class RabbitConfig {
 
     @Bean
     public Queue initZipkinQueue() {
-        return new Queue(MqQueueConstant.ZIPLIN_NAME_QUEUE);
+        return new Queue(MqQueueConstant.ZIPKIN_NAME_QUEUE);
     }
 }
