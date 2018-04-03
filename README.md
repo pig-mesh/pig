@@ -66,22 +66,22 @@ pig
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
 欢迎加入交流群，互相学习  
-一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;微信群 ↓  
+一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/1.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/2.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/3.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/4.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/5.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/6.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/7.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/8.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/9.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/10.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/11.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/12.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/13.png)
-![image](https://gitee.com/log4j/pig/blob/dev/doc/images/14.png)
+![image](doc/images/1.png)
+![image](doc/images/2.png)
+![image](doc/images/3.png)
+![image](doc/images/4.png)
+![image](doc/images/5.png)
+![image](doc/images/6.png)
+![image](doc/images/7.png)
+![image](doc/images/8.png)
+![image](doc/images/9.png)
+![image](doc/images/10.png)
+![image](doc/images/11.png)
+![image](doc/images/12.png)
+![image](doc/images/13.png)
+![image](doc/images/14.png)
 
 
