@@ -17,6 +17,9 @@ https://my.oschina.net/giegie/blog
  ### 视频教程
 https://www.bilibili.com/video/av20229859/
 
+### 使用文档
+[这是一本关于微服务权限框架pig的使用手册](https://www.kancloud.cn/lengleng/pig-guide/550709)
+
 
  ### 默认账号：admin 密码：123456
 
