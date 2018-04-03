@@ -86,7 +86,7 @@
             `user`.salt,
             `user`.introduction,
             `user`.avatar,
-            `user`.create_time AS create_time,
+            `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
             `user`.del_flag AS udel_flag,
             r.role_id,
