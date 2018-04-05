@@ -47,7 +47,27 @@
                     <finalName>${project.name}</finalName>
                 </configuration>
             </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                    <compilerArguments>
+                        <extdirs>${basedir}/src/main/resources/lib</extdirs>
+                    </compilerArguments>
+                </configuration>
+            </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <directory>${basedir}/src/main/resources/lib/</directory>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 </project>
