@@ -4,7 +4,7 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.vo.LogVo;
+import com.github.pig.common.vo.LogVO;
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.context.RequestContext;
 import com.xiaoleilu.hutool.http.HttpUtil;
@@ -98,7 +98,7 @@ public class LogSendServiceImpl implements LogSendService {
         }
 
         //保存发往MQ（只保存授权）
-        LogVo logVo = new LogVo();
+        LogVO logVo = new LogVO();
         logVo.setSysLog(log);
         if (StringUtils.isNotEmpty(request.getHeader(CommonConstant.REQ_HEADER))) {
             logVo.setToken(request.getHeader(CommonConstant.REQ_HEADER));

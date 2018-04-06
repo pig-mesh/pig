@@ -2,7 +2,7 @@ package com.github.pig.admin.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.IService;
-import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserDTO;
 import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.util.Query;
@@ -57,7 +57,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param username 用户名
      * @return Boolean
      */
-    Boolean updateUserInfo(UserDto userDto, String username);
+    Boolean updateUserInfo(UserDTO userDto, String username);
 
     /**
      * 更新指定用户信息
@@ -65,7 +65,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param username 用户信息
      * @return
      */
-    Boolean updateUser(UserDto userDto, String username);
+    Boolean updateUser(UserDTO userDto, String username);
 
     /**
      * 通过手机号查询用户信息

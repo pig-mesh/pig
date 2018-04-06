@@ -4,7 +4,7 @@ import com.github.pig.admin.service.SysLogService;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
 import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.vo.LogVo;
+import com.github.pig.common.vo.LogVO;
 import org.slf4j.MDC;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -24,7 +24,7 @@ public class LogReceiveListener {
     private SysLogService sysLogService;
 
     @RabbitHandler
-    public void receive(LogVo logVo) {
+    public void receive(LogVO logVo) {
         SysLog sysLog = logVo.getSysLog();
         String username = UserUtils.getUserName(logVo.getToken());
         MDC.put(KEY_USER, username);

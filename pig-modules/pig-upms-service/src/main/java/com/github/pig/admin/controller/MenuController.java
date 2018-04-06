@@ -7,7 +7,7 @@ import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;
-import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.vo.MenuVO;
 import com.github.pig.common.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,7 @@ public class MenuController extends BaseController {
      * @return 菜单列表
      */
     @GetMapping("/findMenuByRole/{role}")
-    public Set<MenuVo> findMenuByRole(@PathVariable String role) {
+    public Set<MenuVO> findMenuByRole(@PathVariable String role) {
         return sysMenuService.findMenuByRole(role);
     }
 
@@ -65,9 +65,9 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/userTree")
     public List<Integer> userTree() {
-        Set<MenuVo> menus = sysMenuService.findMenuByRole(getRole().get(0));
+        Set<MenuVO> menus = sysMenuService.findMenuByRole(getRole().get(0));
         List<Integer> menuList = new ArrayList<>();
-        for (MenuVo menuVo : menus) {
+        for (MenuVO menuVo : menus) {
             menuList.add(menuVo.getMenuId());
         }
         return menuList;
@@ -81,9 +81,9 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/roleTree/{roleName}")
     public List<Integer> roleTree(@PathVariable String roleName) {
-        Set<MenuVo> menus = sysMenuService.findMenuByRole(roleName);
+        Set<MenuVO> menus = sysMenuService.findMenuByRole(roleName);
         List<Integer> menuList = new ArrayList<>();
-        for (MenuVo menuVo : menus) {
+        for (MenuVO menuVo : menus) {
             menuList.add(menuVo.getMenuId());
         }
         return menuList;

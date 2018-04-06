@@ -9,7 +9,7 @@ import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Assert;
-import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.vo.MenuVO;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -36,20 +36,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     @Cacheable(value = "menu_details", key = "#role  + '_menu'")
-    public Set<MenuVo> findMenuByRole(String role) {
+    public Set<MenuVO> findMenuByRole(String role) {
         return sysMenuMapper.findMenuByRoleName(role);
     }
 
     @Override
     public String[] findPermission(String[] roles) {
-        Set<MenuVo> menuVoSet = new HashSet<>();
+        Set<MenuVO> menuVoSet = new HashSet<>();
         for (String role : roles) {
-            Set<MenuVo> menuVos = findMenuByRole(role);
+            Set<MenuVO> menuVos = findMenuByRole(role);
             menuVoSet.addAll(menuVos);
         }
 
         Set<String> permissions = new HashSet<>();
-        for (MenuVo menuVo : menuVoSet) {
+        for (MenuVO menuVo : menuVoSet) {
             if (StringUtils.isNotEmpty(menuVo.getPermission())) {
                 String permission = menuVo.getPermission();
                 permissions.add(permission);
@@ -92,7 +92,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<MenuTree> findUserMenuTree(String roleName) {
         // 获取符合条件得菜单
-        Set<MenuVo> all = findMenuByRole(roleName);
+        Set<MenuVO> all = findMenuByRole(roleName);
         final List<MenuTree> menuTreeList = new ArrayList<>();
         all.stream().forEach((menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {

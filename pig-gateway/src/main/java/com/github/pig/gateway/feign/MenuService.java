@@ -1,6 +1,6 @@
 package com.github.pig.gateway.feign;
 
-import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.fallback.MenuServiceFallbackImpl;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,5 +21,5 @@ public interface MenuService {
      * @return 菜单列表
      */
     @GetMapping(value = "/menu/findMenuByRole/{role}")
-    Set<MenuVo> findMenuByRole(@PathVariable("role") String role);
+    Set<MenuVO> findMenuByRole(@PathVariable("role") String role);
 }

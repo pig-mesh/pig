@@ -1,7 +1,7 @@
 package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserDTO;
 import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.admin.model.entity.SysUserRole;
@@ -89,7 +89,7 @@ public class UserController extends BaseController {
      * @return success/false
      */
     @PostMapping
-    public R<Boolean> user(@RequestBody UserDto userDto) {
+    public R<Boolean> user(@RequestBody UserDTO userDto) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
@@ -108,7 +108,7 @@ public class UserController extends BaseController {
      * @return R
      */
     @PutMapping
-    public R<Boolean> userUpdate(@RequestBody UserDto userDto) {
+    public R<Boolean> userUpdate(@RequestBody UserDTO userDto) {
         SysUser user = userService.selectById(userDto.getUserId());
         return new R<>(userService.updateUser(userDto, user.getUsername()));
     }
@@ -186,7 +186,7 @@ public class UserController extends BaseController {
      * @return success/false
      */
     @PutMapping("/editInfo")
-    public R<Boolean> editInfo(@RequestBody UserDto userDto, UserVo userVo) {
+    public R<Boolean> editInfo(@RequestBody UserDTO userDto, UserVo userVo) {
         return new R<>(userService.updateUserInfo(userDto, userVo.getUsername()));
     }
 }

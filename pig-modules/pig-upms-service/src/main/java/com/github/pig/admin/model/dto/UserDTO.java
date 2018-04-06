@@ -8,7 +8,7 @@ import lombok.Data;
  * @date 2017/11/5
  */
 @Data
-public class UserDto extends SysUser {
+public class UserDTO extends SysUser {
     /**
      * 角色ID
      */

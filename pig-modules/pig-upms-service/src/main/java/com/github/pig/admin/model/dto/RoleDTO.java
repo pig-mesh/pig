@@ -9,7 +9,7 @@ import lombok.Data;
  * 角色Dto
  */
 @Data
-public class RoleDto extends SysRole {
+public class RoleDTO extends SysRole {
     /**
      * 角色部门Id
      */

@@ -2,7 +2,7 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.admin.model.dto.RoleDto;
+import com.github.pig.admin.model.dto.RoleDTO;
 import com.github.pig.admin.model.entity.SysRole;
 import com.github.pig.admin.service.SysRoleMenuService;
 import com.github.pig.admin.service.SysRoleService;
@@ -46,7 +46,7 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PostMapping
-    public R<Boolean> role(@RequestBody RoleDto roleDto) {
+    public R<Boolean> role(@RequestBody RoleDTO roleDto) {
         return new R<>(sysRoleService.insertRole(roleDto));
     }
 
@@ -57,7 +57,7 @@ public class RoleController extends BaseController {
      * @return success/false
      */
     @PutMapping
-    public R<Boolean> roleUpdate(@RequestBody RoleDto roleDto) {
+    public R<Boolean> roleUpdate(@RequestBody RoleDTO roleDto) {
         return new R<>(sysRoleService.updateRoleById(roleDto));
     }
 

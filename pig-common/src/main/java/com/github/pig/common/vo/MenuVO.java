@@ -14,7 +14,7 @@ import java.util.Date;
  * @since 2017-11-08
  */
 @Data
-public class MenuVo implements Serializable {
+public class MenuVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

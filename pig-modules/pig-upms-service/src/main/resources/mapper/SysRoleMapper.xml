@@ -14,7 +14,7 @@
 	</resultMap>
 
 	<!--roleDto-->
-	<resultMap id="RoleDtoMap" type="com.github.pig.admin.model.dto.RoleDto">
+	<resultMap id="RoleDtoMap" type="com.github.pig.admin.model.dto.RoleDTO">
 		<id column="role_id" property="roleId" />
 		<result column="role_name" property="roleName" />
 		<result column="role_code" property="roleCode" />

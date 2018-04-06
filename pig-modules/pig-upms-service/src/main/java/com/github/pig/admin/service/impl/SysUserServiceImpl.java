@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.mapper.SysUserMapper;
-import com.github.pig.admin.model.dto.UserDto;
+import com.github.pig.admin.model.dto.UserDTO;
 import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysDeptRelation;
 import com.github.pig.admin.model.entity.SysUser;
@@ -203,7 +203,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @CacheEvict(value = "user_details", key = "#username")
-    public Boolean updateUserInfo(UserDto userDto, String username) {
+    public Boolean updateUserInfo(UserDTO userDto, String username) {
         UserVo userVo = this.findUserByUsername(username);
 
         SysUser sysUser = new SysUser();
@@ -217,7 +217,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @CacheEvict(value = "user_details", key = "#username")
-    public Boolean updateUser(UserDto userDto, String username) {
+    public Boolean updateUser(UserDTO userDto, String username) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setUpdateTime(new Date());

@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @date 2017/11/20
  */
 @Data
-public class LogVo implements Serializable {
+public class LogVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private SysLog sysLog;

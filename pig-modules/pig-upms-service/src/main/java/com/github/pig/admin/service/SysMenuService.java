@@ -4,7 +4,7 @@ package com.github.pig.admin.service;
 import com.baomidou.mybatisplus.service.IService;
 import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.entity.SysMenu;
-import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.vo.MenuVO;
 
 import java.util.List;
 import java.util.Set;
@@ -24,7 +24,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param role 角色名称
      * @return 菜单列表
      */
-    Set<MenuVo> findMenuByRole(String role);
+    Set<MenuVO> findMenuByRole(String role);
 
     /**
      * 通过角色获取菜单权限列表

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.mapper.SysRoleDeptMapper;
 import com.github.pig.admin.mapper.SysRoleMapper;
-import com.github.pig.admin.model.dto.RoleDto;
+import com.github.pig.admin.model.dto.RoleDTO;
 import com.github.pig.admin.model.entity.SysRole;
 import com.github.pig.admin.model.entity.SysRoleDept;
 import com.github.pig.admin.service.SysRoleService;
@@ -39,7 +39,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return 成功、失败
      */
     @Override
-    public Boolean insertRole(RoleDto roleDto) {
+    public Boolean insertRole(RoleDTO roleDto) {
         SysRole sysRole = new SysRole();
         BeanUtils.copyProperties(roleDto, sysRole);
         sysRoleMapper.insert(sysRole);
@@ -71,7 +71,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Boolean updateRoleById(RoleDto roleDto) {
+    public Boolean updateRoleById(RoleDTO roleDto) {
         //删除原有的角色部门关系
         SysRoleDept condition = new SysRoleDept();
         condition.setRoleId(roleDto.getRoleId());

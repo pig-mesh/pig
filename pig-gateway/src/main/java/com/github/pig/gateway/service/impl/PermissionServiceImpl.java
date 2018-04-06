@@ -1,7 +1,7 @@
 package com.github.pig.gateway.service.impl;
 
 import com.baomidou.mybatisplus.toolkit.StringUtils;
-import com.github.pig.common.vo.MenuVo;
+import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
@@ -42,12 +42,12 @@ public class PermissionServiceImpl implements PermissionService {
                 return hasPermission;
             }
 
-            Set<MenuVo> urls = new HashSet<>();
+            Set<MenuVO> urls = new HashSet<>();
             for (SimpleGrantedAuthority authority : grantedAuthorityList) {
                 urls.addAll(menuService.findMenuByRole(authority.getAuthority()));
             }
 
-            for (MenuVo menu : urls) {
+            for (MenuVO menu : urls) {
                 if (StringUtils.isNotEmpty(menu.getUrl()) && antPathMatcher.match(menu.getUrl(), request.getRequestURI())
                         && request.getMethod().equalsIgnoreCase(menu.getMethod())) {
                     hasPermission = true;
