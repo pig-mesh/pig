@@ -1,6 +1,6 @@
 package com.github.pig.gateway.feign;
 
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import com.github.pig.gateway.feign.fallback.UserServiceFallbackImpl;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,5 +19,5 @@ public interface UserService {
      * @return UserVo
      */
     @GetMapping("/user/findUserByUsername/{username}")
-    UserVo findUserByUsername(@PathVariable("username") String username);
+    UserVO findUserByUsername(@PathVariable("username") String username);
 }

@@ -10,7 +10,7 @@ import com.github.pig.common.bean.config.FdfsPropertiesConfig;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import com.github.pig.common.web.BaseController;
 import com.luhuiguo.fastdfs.domain.StorePath;
 import com.luhuiguo.fastdfs.service.FastFileStorageClient;
@@ -52,7 +52,7 @@ public class UserController extends BaseController {
      * @return 用户名
      */
     @GetMapping("/info")
-    public R<UserInfo> user(UserVo userVo) {
+    public R<UserInfo> user(UserVO userVo) {
         UserInfo userInfo = userService.findUserInfo(userVo);
         return new R<>(userInfo);
     }
@@ -64,7 +64,7 @@ public class UserController extends BaseController {
      * @return 用户信息
      */
     @GetMapping("/{id}")
-    public UserVo user(@PathVariable Integer id) {
+    public UserVO user(@PathVariable Integer id) {
         return userService.selectUserVoById(id);
     }
 
@@ -120,7 +120,7 @@ public class UserController extends BaseController {
      * @return UseVo 对象
      */
     @GetMapping("/findUserByUsername/{username}")
-    public UserVo findUserByUsername(@PathVariable String username) {
+    public UserVO findUserByUsername(@PathVariable String username) {
         return userService.findUserByUsername(username);
     }
 
@@ -131,7 +131,7 @@ public class UserController extends BaseController {
      * @return UseVo 对象
      */
     @GetMapping("/findUserByMobile/{mobile}")
-    public UserVo findUserByMobile(@PathVariable String mobile) {
+    public UserVO findUserByMobile(@PathVariable String mobile) {
         return userService.findUserByMobile(mobile);
     }
 
@@ -142,7 +142,7 @@ public class UserController extends BaseController {
      * @return 对象
      */
     @GetMapping("/findUserByOpenId/{openId}")
-    public UserVo findUserByOpenId(@PathVariable String openId) {
+    public UserVO findUserByOpenId(@PathVariable String openId) {
         return userService.findUserByOpenId(openId);
     }
 
@@ -186,7 +186,7 @@ public class UserController extends BaseController {
      * @return success/false
      */
     @PutMapping("/editInfo")
-    public R<Boolean> editInfo(@RequestBody UserDTO userDto, UserVo userVo) {
+    public R<Boolean> editInfo(@RequestBody UserDTO userDto, UserVO userVo) {
         return new R<>(userService.updateUserInfo(userDto, userVo.getUsername()));
     }
 }

@@ -3,7 +3,7 @@ package com.github.pig.common.bean.resolver;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.SysRole;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
      */
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return methodParameter.getParameterType().equals(UserVo.class);
+        return methodParameter.getParameterType().equals(UserVO.class);
     }
 
     /**
@@ -69,7 +69,7 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
             logger.error("resolveArgument error token is empty");
             return null;
         }
-        Optional<UserVo> optional = Optional.ofNullable(cacheManager.getCache(SecurityConstants.TOKEN_USER_DETAIL).get(token, UserVo.class));
+        Optional<UserVO> optional = Optional.ofNullable(cacheManager.getCache(SecurityConstants.TOKEN_USER_DETAIL).get(token, UserVO.class));
         if (optional.isPresent()) {
             logger.info("return cache user vo,token :{}", token);
             return optional.get();
@@ -77,11 +77,11 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
         return optional.orElseGet(() -> generatorByToken(request, token));
     }
 
-    private UserVo generatorByToken(HttpServletRequest request, String token) {
+    private UserVO generatorByToken(HttpServletRequest request, String token) {
         String username = UserUtils.getUserName(request);
         List<String> roles = UserUtils.getRole(request);
         logger.info("Auth-Token-User:{}-Roles:{}", username, roles);
-        UserVo userVo = new UserVo();
+        UserVO userVo = new UserVO();
         userVo.setUsername(username);
         List<SysRole> sysRoleList = new ArrayList<>();
         roles.stream().forEach(role -> {

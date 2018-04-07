@@ -16,7 +16,7 @@
     </resultMap>
 
     <!-- userVo结果集 -->
-    <resultMap id="userVoResultMap" type="com.github.pig.common.vo.UserVo">
+    <resultMap id="userVoResultMap" type="com.github.pig.common.vo.UserVO">
         <id column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>

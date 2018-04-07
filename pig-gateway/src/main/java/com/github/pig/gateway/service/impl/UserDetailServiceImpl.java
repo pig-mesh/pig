@@ -1,6 +1,6 @@
 package com.github.pig.gateway.service.impl;
 
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import com.github.pig.gateway.feign.UserService;
 import com.github.pig.gateway.util.UserDetailsImpl;
 import org.apache.commons.lang.StringUtils;
@@ -26,7 +26,7 @@ public class UserDetailServiceImpl implements UserDetailsService, Serializable {
         if (StringUtils.isBlank(username)) {
             throw new UsernameNotFoundException("用户不存在:" + username);
         }
-        UserVo userVo = userService.findUserByUsername(username);
+        UserVO userVo = userService.findUserByUsername(username);
         return new UserDetailsImpl(userVo);
     }
 }

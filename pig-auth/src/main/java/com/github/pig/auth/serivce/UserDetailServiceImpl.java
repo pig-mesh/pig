@@ -2,7 +2,7 @@ package com.github.pig.auth.serivce;
 
 import com.github.pig.auth.feign.UserService;
 import com.github.pig.auth.util.UserDetailsImpl;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +20,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetailsImpl loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserVo userVo = userService.findUserByUsername(username);
+        UserVO userVo = userService.findUserByUsername(username);
         return new UserDetailsImpl(userVo);
     }
 }

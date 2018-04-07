@@ -7,7 +7,7 @@ import com.github.pig.admin.model.dto.UserInfo;
 import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 
 /**
  * @author lengleng
@@ -20,7 +20,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param username 用户名
      * @return userVo
      */
-    UserVo findUserByUsername(String username);
+    UserVO findUserByUsername(String username);
 
     /**
      * 分页查询用户信息（含有角色信息）
@@ -36,7 +36,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param userVo 角色名
      * @return userInfo
      */
-    UserInfo findUserInfo(UserVo userVo);
+    UserInfo findUserInfo(UserVO userVo);
 
     /**
      * 保存验证码
@@ -72,7 +72,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param mobile 手机号
      * @return 用户信息
      */
-    UserVo findUserByMobile(String mobile);
+    UserVO findUserByMobile(String mobile);
 
     /**
      * 发送验证码
@@ -86,12 +86,12 @@ public interface SysUserService extends IService<SysUser> {
      * @param openId openId
      * @return 用户信息
      */
-    UserVo findUserByOpenId(String openId);
+    UserVO findUserByOpenId(String openId);
 
     /**
      * 通过ID查询用户信息
      * @param id 用户ID
      * @return 用户信息
      */
-    UserVo selectUserVoById(Integer id);
+    UserVO selectUserVoById(Integer id);
 }

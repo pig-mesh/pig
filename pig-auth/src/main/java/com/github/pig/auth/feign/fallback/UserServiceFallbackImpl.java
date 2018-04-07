@@ -1,7 +1,7 @@
 package com.github.pig.auth.feign.fallback;
 
 import com.github.pig.auth.feign.UserService;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ public class UserServiceFallbackImpl implements UserService {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
-    public UserVo findUserByUsername(String username) {
+    public UserVO findUserByUsername(String username) {
         logger.error("调用{}异常:{}", "findUserByUsername", username);
         return null;
     }
@@ -28,7 +28,7 @@ public class UserServiceFallbackImpl implements UserService {
      * @return UserVo
      */
     @Override
-    public UserVo findUserByMobile(String mobile) {
+    public UserVO findUserByMobile(String mobile) {
         logger.error("调用{}异常:{}", "通过手机号查询用户", mobile);
         return null;
     }
@@ -40,7 +40,7 @@ public class UserServiceFallbackImpl implements UserService {
      * @return UserVo
      */
     @Override
-    public UserVo findUserByOpenId(String openId) {
+    public UserVO findUserByOpenId(String openId) {
         logger.error("调用{}异常:{}", "通过OpenId查询用户", openId);
         return null;
     }

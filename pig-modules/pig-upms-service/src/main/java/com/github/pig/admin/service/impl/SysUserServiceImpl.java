@@ -22,7 +22,7 @@ import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.common.vo.SysRole;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
@@ -64,7 +64,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private SysDeptRelationService sysDeptRelationService;
 
     @Override
-    public UserInfo findUserInfo(UserVo userVo) {
+    public UserInfo findUserInfo(UserVO userVo) {
         SysUser condition = new SysUser();
         condition.setUsername(userVo.getUsername());
         SysUser sysUser = this.selectOne(new EntityWrapper<>(condition));
@@ -91,7 +91,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @Cacheable(value = "user_details", key = "#username")
-    public UserVo findUserByUsername(String username) {
+    public UserVO findUserByUsername(String username) {
         return sysUserMapper.selectUserVoByUsername(username);
     }
 
@@ -103,7 +103,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     @Cacheable(value = "user_details_mobile", key = "#mobile")
-    public UserVo findUserByMobile(String mobile) {
+    public UserVO findUserByMobile(String mobile) {
         return sysUserMapper.selectUserVoByMobile(mobile);
     }
 
@@ -115,7 +115,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     @Cacheable(value = "user_details_openid", key = "#openId")
-    public UserVo findUserByOpenId(String openId) {
+    public UserVO findUserByOpenId(String openId) {
         return sysUserMapper.selectUserVoByOpenId(openId);
     }
 
@@ -137,7 +137,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return 用户信息
      */
     @Override
-    public UserVo selectUserVoById(Integer id) {
+    public UserVO selectUserVoById(Integer id) {
         return sysUserMapper.selectUserVoById(id);
     }
 
@@ -204,7 +204,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @CacheEvict(value = "user_details", key = "#username")
     public Boolean updateUserInfo(UserDTO userDto, String username) {
-        UserVo userVo = this.findUserByUsername(username);
+        UserVO userVo = this.findUserByUsername(username);
 
         SysUser sysUser = new SysUser();
         if (ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
@@ -238,7 +238,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private List<Integer> getChildDepts() {
         //获取当前用户的部门
         String username = UserUtils.getUser();
-        UserVo userVo = findUserByUsername(username);
+        UserVO userVo = findUserByUsername(username);
         Integer deptId = userVo.getDeptId();
 
         //获取当前部门的子部门
