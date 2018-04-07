@@ -21,8 +21,13 @@ https://www.bilibili.com/video/av20229859/
 [这是一本关于微服务权限框架pig的使用手册](https://www.kancloud.cn/lengleng/pig-guide/550709)
 
 
- ### 默认账号：admin 密码：123456
-
+### 分支介绍
+分支 | 介绍
+---|---
+master | 稳定版本，推荐使用  
+dev | 开发分支，bug修复分支
+local | 配置中心本地化，开发使用不建议生产
+redis | 提供cachecloud的整合方案
  
  ### now
 ``` lua
