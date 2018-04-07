@@ -2,7 +2,7 @@ package com.github.pig.common.bean.aop;
 
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.UserUtils;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import org.apache.commons.lang.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -70,9 +70,9 @@ public class ControllerAop {
         HttpServletRequest request = attributes.getRequest();
 
         String token = UserUtils.getToken(request);
-        UserVo userVo = null;
+        UserVO userVo = null;
         if (StringUtils.isNotEmpty(token)) {
-            userVo = cacheManager.getCache(SecurityConstants.TOKEN_USER_DETAIL).get(token, UserVo.class);
+            userVo = cacheManager.getCache(SecurityConstants.TOKEN_USER_DETAIL).get(token, UserVO.class);
         }
         String username;
         if (userVo == null) {

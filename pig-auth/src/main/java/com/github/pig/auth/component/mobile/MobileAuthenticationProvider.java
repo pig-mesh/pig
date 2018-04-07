@@ -2,9 +2,8 @@ package com.github.pig.auth.component.mobile;
 
 import com.github.pig.auth.feign.UserService;
 import com.github.pig.auth.util.UserDetailsImpl;
-import com.github.pig.common.vo.UserVo;
+import com.github.pig.common.vo.UserVO;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,7 +19,7 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         MobileAuthenticationToken mobileAuthenticationToken = (MobileAuthenticationToken) authentication;
-        UserVo userVo = userService.findUserByMobile((String) mobileAuthenticationToken.getPrincipal());
+        UserVO userVo = userService.findUserByMobile((String) mobileAuthenticationToken.getPrincipal());
 
         if (userVo == null) {
             throw new UsernameNotFoundException("手机号不存在:" + mobileAuthenticationToken.getPrincipal());
@@ -33,7 +32,7 @@ public class MobileAuthenticationProvider implements AuthenticationProvider {
         return authenticationToken;
     }
 
-    private UserDetailsImpl buildUserDeatils(UserVo userVo) {
+    private UserDetailsImpl buildUserDeatils(UserVO userVo) {
         return new UserDetailsImpl(userVo);
     }
 

@@ -6,6 +6,14 @@ package com.github.pig.common.constant;
  */
 public interface SecurityConstants {
     /**
+     * 前缀
+     */
+    String PIG_PREFIX = "pig_";
+    /**
+     * 项目的license
+     */
+    String PIG_LICENSE = "made by pig";
+    /**
      * 基础角色
      */
     String BASE_ROLE = "ROLE_USER";
