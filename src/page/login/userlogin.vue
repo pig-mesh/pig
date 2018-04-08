@@ -30,19 +30,11 @@
 </template>
 
 <script>
-import { isvalidUsername } from "@/util/validate";
 import { randomLenNum } from "@/util/util";
 import { mapGetters } from "vuex";
 export default {
   name: "userlogin",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error("请输入正确的用户名"));
-      } else {
-        callback();
-      }
-    };
     const validateCode = (rule, value, callback) => {
       if (this.code.value != value) {
         this.loginForm.code = "";
@@ -66,9 +58,6 @@ export default {
         type: "image"
       },
       loginRules: {
-        username: [
-          { required: true, trigger: "blur", validator: validateUsername }
-        ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
           { min: 6, message: "密码长度最少为6位", trigger: "blur" }
