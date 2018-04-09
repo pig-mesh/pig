@@ -1,8 +1,9 @@
-<h1 align="center"><font color=red face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
-<h1 align="center"><font color=red face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
-<h1 align="center"><font color=red face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
+<h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
+<h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
+<h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
 
 <br/>  
+<hr />  
 <br/>  
 <br/>  
 <p align="center">
