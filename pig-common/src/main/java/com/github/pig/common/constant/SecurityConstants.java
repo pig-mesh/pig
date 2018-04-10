@@ -10,6 +10,15 @@ public interface SecurityConstants {
      */
     String PIG_PREFIX = "pig_";
     /**
+     * 用户信息头
+     */
+    String USER_HEADER = "x-user-header";
+
+    /**
+     * 角色信息头
+     */
+    String ROLE_HEADER = "x-role-header";
+    /**
      * 项目的license
      */
     String PIG_LICENSE = "made by pig";
