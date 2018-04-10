@@ -5,7 +5,8 @@
 <br/>  
 <hr />  
 <br/>  
-<br/>  
+<br/> 
+<p align="center"><img src="doc/images/logo.jpg"></p>
 <p align="center">
  <img src="https://img.shields.io/circleci/project/vuejs/vue/dev.svg" alt="Build Status">
   <img src="https://img.shields.io/badge/Spring%20Cloud-Edgware-blue.svg" alt="Coverage Status">
@@ -14,19 +15,16 @@
   <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
 </p>
 
-<h2 align="center">Supporting lengleng</h2>   
+<h2 align="center">Supporting pig group</h2>   
 
-### 前端解决方案（像easyui一样写Vue）
+### 前端解决方案
 https://gitee.com/smallweigit/avue
- 
-### 系列博客
-https://my.oschina.net/giegie/blog
 
  ### 视频教程
 https://www.bilibili.com/video/av20229859/
 
 ### 使用文档
-[这是一本关于微服务权限框架pig的使用手册](https://www.kancloud.cn/lengleng/pig-guide/550709)
+[pig开发文档V1.0](https://www.kancloud.cn/lengleng/pig-guide/550709)
 
 
 ### 分支介绍
