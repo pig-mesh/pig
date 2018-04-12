@@ -17,14 +17,9 @@
 
 <h2 align="center">Supporting pig group</h2>   
 
-### 前端解决方案
-https://gitee.com/smallweigit/avue
+### 项目官网
 
- ### 视频教程
-https://www.bilibili.com/video/av20229859/
-
-### 使用文档
-[pig开发文档V1.0](https://www.kancloud.cn/lengleng/pig-guide/550709)
+文档、视频：https://pig4cloud.com/
 
 
 ### 分支介绍

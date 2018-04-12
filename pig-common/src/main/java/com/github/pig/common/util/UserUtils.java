@@ -24,55 +24,6 @@ public class UserUtils {
     private static final ThreadLocal<String> THREAD_LOCAL_USER = new TransmittableThreadLocal<>();
     private static final String KEY_USER = "user";
 
-
-    /**
-     * 根据用户请求中的token 获取用户名
-     *
-     * @param request Request
-     * @return “”、username
-     */
-    public static String getUserName(HttpServletRequest request) {
-        String username = "";
-        String authorization = request.getHeader(CommonConstant.REQ_HEADER);
-        if (StringUtils.isEmpty(authorization)) {
-            return username;
-        }
-        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
-        if (StringUtils.isEmpty(token)) {
-            return username;
-        }
-        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
-        try {
-            Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-            username = claims.get("user_name").toString();
-        } catch (Exception ex) {
-            log.error("用户名解析异常,token:{},key:{}", token, key);
-        }
-        return username;
-    }
-
-    /**
-     * 通过token 获取用户名
-     *
-     * @param authorization token
-     * @return 用户名
-     */
-    public static String getUserName(String authorization) {
-        String username = "";
-        String token = StringUtils.substringAfter(authorization, CommonConstant.TOKEN_SPLIT);
-        if (StringUtils.isEmpty(token)) {
-            return username;
-        }
-        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
-        try {
-            Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
-            username = claims.get("user_name").toString();
-        } catch (Exception ex) {
-            log.error("用户名解析异常,token:{},key:{}", token, key);
-        }
-        return username;
-    }
-
     /**
      * 根据请求heard中的token获取用户角色
      *
@@ -105,7 +56,6 @@ public class UserUtils {
      */
     public static void setUser(String username) {
         THREAD_LOCAL_USER.set(username);
-
         MDC.put(KEY_USER, username);
     }
 

@@ -26,9 +26,8 @@ public class LogReceiveListener {
     @RabbitHandler
     public void receive(LogVO logVo) {
         SysLog sysLog = logVo.getSysLog();
-        String username = UserUtils.getUserName(logVo.getToken());
-        MDC.put(KEY_USER, username);
-        sysLog.setCreateBy(username);
+        MDC.put(KEY_USER, logVo.getUsername());
+        sysLog.setCreateBy(logVo.getUsername());
         sysLogService.insert(sysLog);
         MDC.remove(KEY_USER);
     }

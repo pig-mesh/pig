@@ -3,19 +3,20 @@ package com.github.pig.gateway.service.impl;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysLog;
-import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.vo.LogVO;
 import com.github.pig.gateway.service.LogSendService;
 import com.netflix.zuul.context.RequestContext;
 import com.xiaoleilu.hutool.http.HttpUtil;
 import com.xiaoleilu.hutool.io.IoUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
 import com.xiaoleilu.hutool.util.URLUtil;
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,7 +56,6 @@ public class LogSendServiceImpl implements LogSendService {
         log.setMethod(method);
         log.setUserAgent(request.getHeader("user-agent"));
         log.setParams(HttpUtil.toParams(request.getParameterMap()));
-        log.setCreateBy(UserUtils.getUserName(request));
         Long startTime = (Long) requestContext.get("startTime");
         log.setTime(System.currentTimeMillis() - startTime);
         if (requestContext.get(SERVICE_ID) != null) {
@@ -98,10 +98,12 @@ public class LogSendServiceImpl implements LogSendService {
         }
 
         //保存发往MQ（只保存授权）
-        LogVO logVo = new LogVO();
-        logVo.setSysLog(log);
-        if (StringUtils.isNotEmpty(request.getHeader(CommonConstant.REQ_HEADER))) {
-            logVo.setToken(request.getHeader(CommonConstant.REQ_HEADER));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && StrUtil.isNotBlank(authentication.getName())) {
+            LogVO logVo = new LogVO();
+            log.setCreateBy(authentication.getName());
+            logVo.setSysLog(log);
+            logVo.setUsername(authentication.getName());
             rabbitTemplate.convertAndSend(MqQueueConstant.LOG_QUEUE, logVo);
         }
     }

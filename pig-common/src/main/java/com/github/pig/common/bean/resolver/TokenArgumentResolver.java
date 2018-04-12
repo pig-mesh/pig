@@ -56,6 +56,8 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
         if (StrUtil.isBlank(username) || StrUtil.isBlank(roles)) {
             log.warn("resolveArgument error username or role is empty");
             return null;
+        } else {
+            log.info("resolveArgument username :{} roles:{}", username, roles);
         }
         UserVO userVO = new UserVO();
         userVO.setUsername(username);
