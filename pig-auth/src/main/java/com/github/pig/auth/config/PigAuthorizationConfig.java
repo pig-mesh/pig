@@ -55,7 +55,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
         clients.inMemory()
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
-                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD,SecurityConstants.AUTHORIZATION_CODE)
+                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD, SecurityConstants.AUTHORIZATION_CODE)
                 .scopes(authServerConfig.getScope())
                 .autoApprove(true);
     }
@@ -97,7 +97,11 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
 
     /**
      * tokenstore 定制化处理
+     *
      * @return TokenStore
+     * 1. 如果使用的 redis-cluster 模式请使用 PigRedisTokenStore
+     * PigRedisTokenStore tokenStore = new PigRedisTokenStore();
+     * tokenStore.setRedisTemplate(redisTemplate);
      */
     @Bean
     public TokenStore redisTokenStore() {
@@ -108,6 +112,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
 
     /**
      * jwt 生成token 定制化处理
+     *
      * @return TokenEnhancer
      */
     @Bean
