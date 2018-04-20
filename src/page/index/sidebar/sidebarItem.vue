@@ -1,7 +1,7 @@
 <template>
   <div class="menu-wrapper">
     <template v-for="(item,index) in menu">
-      <el-menu-item v-if="item.children.length===0 " :index="filterPath(item.href,index)" @click="open(item)" :key="item.label">
+      <el-menu-item v-if="item.children.length===0 " :index="filterPath(item.path,index)" @click="open(item)" :key="item.label">
         <i :class="item.icon"></i>
         <span slot="title">{{item.label}}</span>
       </el-menu-item>
@@ -11,7 +11,7 @@
           <span slot="title" :class="{display:!show}">{{item.label}}</span>
         </template>
         <template v-for="(child,cindex) in item.children">
-          <el-menu-item :index="filterPath(child.href,cindex)" @click="open(child)" v-if="child.children.length==0" :key="cindex">
+          <el-menu-item :index="filterPath(child.path,cindex)" @click="open(child)" v-if="child.children.length==0" :key="cindex">
             <i :class="child.icon"></i>
             <span slot="title">{{child.label}}</span>
           </el-menu-item>
@@ -44,7 +44,7 @@ export default {
     },
     open(item) {
       this.$router.push({
-        path: resolveUrlPath(item.href, item.label),
+        path: resolveUrlPath(item.path, item.name),
         query: item.query
       });
     }

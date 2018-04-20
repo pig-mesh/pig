@@ -110,6 +110,7 @@ import {
   fetchDeptTree
 } from "@/api/role";
 import { fetchTree } from "@/api/menu";
+import { mapGetters } from "vuex";
 import waves from "@/directive/waves/index.js"; // 水波纹指令
 
 export default {
@@ -194,11 +195,23 @@ export default {
         create: "创建",
         permission: "分配权限"
       },
-      tableKey: 0
+      tableKey: 0,
+      tableKey: 0,
+      roleManager_btn_add: false,
+      roleManager_btn_edit: false,
+      roleManager_btn_del: false,
+      roleManager_btn_perm: false
     };
   },
   created() {
     this.getList();
+    this.roleManager_btn_add = this.permissions["sys_role_add"];
+    this.roleManager_btn_edit = this.permissions["sys_role_edit"];
+    this.roleManager_btn_del = this.permissions["sys_role_del"];
+    this.roleManager_btn_perm = this.permissions["sys_role_perm"];
+  },
+  computed: {
+    ...mapGetters(["elements", "permissions"])
   },
   methods: {
     getList() {
