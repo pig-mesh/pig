@@ -94,7 +94,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 获取符合条件得菜单
         Set<MenuVO> all = findMenuByRole(roleName);
         final List<MenuTree> menuTreeList = new ArrayList<>();
-        all.stream().forEach((menuVo -> {
+        all.forEach((menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {
                 menuTreeList.add(new MenuTree(menuVo));
             }
