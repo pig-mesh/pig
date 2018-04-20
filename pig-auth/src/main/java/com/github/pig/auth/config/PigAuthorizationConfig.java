@@ -12,14 +12,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.token.AccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -58,7 +55,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
         clients.inMemory()
                 .withClient(authServerConfig.getClientId())
                 .secret(authServerConfig.getClientSecret())
-                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD,SecurityConstants.AUTHORIZATION_CODE)
+                .authorizedGrantTypes(SecurityConstants.REFRESH_TOKEN, SecurityConstants.PASSWORD, SecurityConstants.AUTHORIZATION_CODE)
                 .scopes(authServerConfig.getScope())
                 .autoApprove(true);
     }
@@ -93,14 +90,18 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
 
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter() {
-        JwtAccessTokenConverter jwtAccessTokenConverter = new PigJwtAccessTokenConverter();
+        PigJwtAccessTokenConverter jwtAccessTokenConverter = new PigJwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(CommonConstant.SIGN_KEY);
         return jwtAccessTokenConverter;
     }
 
     /**
      * tokenstore 定制化处理
+     *
      * @return TokenStore
+     * 1. 如果使用的 redis-cluster 模式请使用 PigRedisTokenStore
+     * PigRedisTokenStore tokenStore = new PigRedisTokenStore();
+     * tokenStore.setRedisTemplate(redisTemplate);
      */
     @Bean
     public TokenStore redisTokenStore() {
@@ -111,6 +112,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
 
     /**
      * jwt 生成token 定制化处理
+     *
      * @return TokenEnhancer
      */
     @Bean
