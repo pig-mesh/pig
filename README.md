@@ -15,7 +15,18 @@
   <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
 </p>
 
-<h2 align="center">Supporting pig group</h2>   
+<h2 align="center">Supporting lengleng</h2>   
+
+
+### 配套代码
+<a href="https://gitee.com/log4j/pig-ui" target="_blank">pig-ui</a>、<a href="https://gitee.com/cqzqxq_lxh/pig-config" target="_blank">pig-config</a>  
+
+### 前端解决方案（像easyui一样写Vue）
+https://gitee.com/smallweigit/avue
+ 
+### 系列博客
+https://my.oschina.net/giegie/blog
+
 
 ### 项目官网
 

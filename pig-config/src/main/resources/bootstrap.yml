@@ -12,6 +12,7 @@ spring:
         git:
           uri: https://gitee.com/cqzqxq_lxh/pig-config.git
       fail-fast: true
+
 ---
 spring:
   profiles: dev
