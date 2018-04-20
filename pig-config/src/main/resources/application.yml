@@ -10,7 +10,7 @@ spring:
     config:
       server:
         git:
-          uri: https://gitee.com/cqzqxq_lxh/pig-config.git
+          uri: https://gitee.com/hsLeng/pig-config.git
 ---
 spring:
   profiles: dev
