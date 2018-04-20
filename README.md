@@ -19,7 +19,7 @@
 
 
 ### 配套代码
-<a href="https://gitee.com/log4j/pig-ui">pig-ui</a>、<a href="https://gitee.com/cqzqxq_lxh/pig-config">pig-config</a>  
+<a href="https://gitee.com/log4j/pig-ui" target="_blank">pig-ui</a>、<a href="https://gitee.com/cqzqxq_lxh/pig-config" target="_blank">pig-config</a>  
 
 ### 前端解决方案（像easyui一样写Vue）
 https://gitee.com/smallweigit/avue
