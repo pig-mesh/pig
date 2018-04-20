@@ -18,7 +18,7 @@
 <h2 align="center">Supporting lengleng</h2>   
 
 ### 项目官网
-文档、视频：https://pig4cloud.com/
+文档、视频：https://pig4cloud.com
 
 ### 配套代码
 <a href="https://gitee.com/log4j/pig-ui" target="_blank">pig-ui</a>、<a href="https://gitee.com/cqzqxq_lxh/pig-config" target="_blank">pig-config</a>  
