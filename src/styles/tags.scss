@@ -1,16 +1,23 @@
+
+.tags-breadcrumb{
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  height: 50px;
+}
+.tags-breadcrumb-list{
+  padding: 0 15px;
+}
+.tag-collapse{
+  font-size: 36px !important;
+}
+.tag-collapse.tag-collapse_right {
+  transform: rotate(90deg);
+}
 .tags-container {
   position: relative;
   box-sizing: border-box;
   overflow: hidden;
-  .tags-breadcrumb{
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    height: 50px;
-  }
-  .tags-breadcrumb-list{
-    padding: 0 25px;
-  }
   .tags-box{
     position: relative;
     box-sizing: border-box;
@@ -19,12 +26,6 @@
     height: 40px;
     background: #f0f0f0;
     
-  }
-  .tag-collapse{
-    font-size: 36px !important;
-  }
-  .tag-collapse.tag-collapse_right {
-    transform: rotate(90deg);
   }
   .tags-list{
     position: absolute;

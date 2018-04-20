@@ -59,6 +59,7 @@ const navs = {
         DEL_ALL_TAG: (state, action) => {
             state.tag = tagObj;
             state.tagList = [];
+            state.tagList.push(state.tagWel);
             removeStore({ name: 'tag' });
             removeStore({ name: 'tagList' });
         },
@@ -79,8 +80,8 @@ const navs = {
                 if (ele.value === action.value) {
                     state.tagList.splice(num, 1)
                     state.tagList = setFistTag(state.tagList);
-                    setStore({ name: 'tag', content: state.tagList, type: 'session' })
-                    setStore({ name: 'tagList', content: state.tagList, type: 'session' })
+                    setStore({ name: 'tag', content: state.tag })
+                    setStore({ name: 'tagList', content: state.tagList })
                 }
             })
         },

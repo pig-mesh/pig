@@ -1,10 +1,5 @@
 <template>
   <div class="tags-container">
-    <!-- breadcrumb按钮和面包屑 -->
-    <div class="tags-breadcrumb">
-      <i class="icon-navicon tag-collapse" :class="[{ 'tag-collapse_right': isCollapse }]" @click="showCollapse"></i>
-      <Breadcrumb class="tags-breadcrumb-list"></Breadcrumb>
-    </div>
     <!-- tag盒子 -->
     <div class="tags-box" ref="tagBox">
       <div class="tags-list" ref="tagsList" @mousewheel="hadelMousewheel" @mouseup="hadelMouseUp" @mousemove="hadelMouse" @mousedown="hadelMousestart" @touchup="hadelMouseUp" @touchmove="hadelMouse" @touchstart="hadelMousestart">
@@ -35,12 +30,8 @@
 <script>
 import { resolveUrlPath, setUrlPath } from "@/util/util";
 import { mapState, mapGetters } from "vuex";
-import Breadcrumb from "./breadcrumb";
 export default {
   name: "tags",
-  components: {
-    Breadcrumb
-  },
   data() {
     return {
       visible: false,
@@ -94,9 +85,6 @@ export default {
           }
         });
       }, 1);
-    },
-    showCollapse() {
-      this.$store.commit("SET_COLLAPSE");
     },
     hadelMouseUp(e) {
       this.lock = false;

@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
+      <el-button class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit" v-if="roleManager_btn_add">添加
       </el-button>
     </div>
 
@@ -45,11 +45,11 @@
 
       <el-table-column label="操作" width="220">
         <template slot-scope="scope">
-          <el-button size="mini" type="success" @click="handleUpdate(scope.row)">编辑
+          <el-button size="mini" type="success" v-if="roleManager_btn_edit" @click="handleUpdate(scope.row)">编辑
           </el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.row)">删除
+          <el-button size="mini" type="danger" v-if="roleManager_btn_del" @click="handleDelete(scope.row)">删除
           </el-button>
-          <el-button size="mini" type="info" plain @click="handlePermission(scope.row)">权限
+          <el-button size="mini" type="info" plain @click="handlePermission(scope.row)" v-if="roleManager_btn_perm">权限
           </el-button>
         </template>
       </el-table-column>

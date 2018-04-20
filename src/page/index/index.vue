@@ -5,7 +5,7 @@
       <sidebar class="left pull-chheight"></sidebar>
       <div class="right">
         <tags ref="nav" class="nav"></tags>
-        <router-view class="main pull-chheight"></router-view>
+        <router-view class="main"></router-view>
       </div>
     </div>
   </div>
@@ -48,7 +48,7 @@ export default {
     overflow-y: auto;
   }
   .right {
-    padding-top: 90px;
+    padding-top: 42px;
     position: relative;
     flex: 1;
     box-sizing: border-box;

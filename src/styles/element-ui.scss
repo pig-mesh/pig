@@ -1,17 +1,13 @@
 
-.el-input__inner{
-    height: 45px;
-    line-height: 45px;
-}
 .el-dropdown-menu__item{
     font-size: 12px;
     line-height: 28px;
 }
-.el-menu--popup{
-    padding: 0;
-}
-.el-select,.el-date-editor.el-input, .el-date-editor.el-input__inner{
+.el-select,.el-date-editor.el-input, .el-date-editor.el-input__inner,.el-cascader,.el-input-number{
     width: 100%;
+}
+.el-col{
+    min-height: 63px;
 }
 .display,
 .display + .el-submenu__icon-arrow {

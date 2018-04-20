@@ -2,6 +2,9 @@
   <div class="header">
     <div class="header-button is-left">
       <top-logo></top-logo>
+      <div class="tags-breadcrumb">
+        <i class="icon-navicon tag-collapse" :class="[{ 'tag-collapse_right': isCollapse }]" @click="showCollapse"></i>
+      </div>
     </div>
     <h1 class="header-title">
       <topMenu></topMenu>
@@ -65,9 +68,12 @@ export default {
     ...mapState({
       userInfo: state => state.user.userInfo
     }),
-    ...mapGetters(["isFullScren"])
+    ...mapGetters(["isFullScren", "isCollapse"])
   },
   methods: {
+    showCollapse() {
+      this.$store.commit("SET_COLLAPSE");
+    },
     handleScreen() {
       fullscreenToggel();
     },

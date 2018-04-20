@@ -1,8 +1,8 @@
 <template>
   <div class="pull-auto top-menu">
     <el-menu :default-active="activeIndex" mode="horizontal">
-      <template v-for="item in items">
-        <el-menu-item :index="item.parentId+''" @click.native="openMenu(item)">{{item.label}}</el-menu-item>
+      <template v-for="(item,index) in items">
+        <el-menu-item :index="item.parentId+''" @click.native="openMenu(item)" :key="index">{{item.label}}</el-menu-item>
       </template>
     </el-menu>
   </div>
@@ -23,7 +23,8 @@ export default {
           parentId: 0
         },
         {
-          label: "设置",
+          label: "文档",
+          href: "https://www.kancloud.cn/lengleng/pig-guide/550709",
           parentId: 1
         }
       ]
@@ -36,19 +37,19 @@ export default {
   methods: {
     openMenu(item) {
       this.$store.dispatch("GetMenu", item.parentId).then(data => {
-        this.$store.commit("DEL_ALL_TAG");
-        let tagCurrent = Object.assign([], this.tagCurrent);
-        tagCurrent[0] = {
-          label: item.label,
-          value: item.href
-        };
-        this.$store.commit("SET_TAG_CURRENT", tagCurrent);
+        let itemActive,
+          childItemActive = 0;
+        if (item.href) {
+          itemActive = item;
+        } else {
+          if (this.menu[childItemActive].length == 0) {
+            itemActive = this.menu[childItemActive];
+          } else {
+            itemActive = this.menu[childItemActive].children[childItemActive];
+          }
+        }
         this.$router.push({
-          path: resolveUrlPath(item.href ? item.href : this.menu[0].href)
-        });
-        this.$store.commit("ADD_TAG", {
-          label: item.label ? item.label : this.menu[0].label,
-          value: item.href ? item.href : this.menu[0].href
+          path: resolveUrlPath(itemActive.href, itemActive.label)
         });
       });
     }
@@ -58,7 +59,6 @@ export default {
 
 <style scoped="scoped" lang="scss">
 .top-menu {
-  padding: 0 50px;
   margin-top: -4px;
   box-sizing: border-box;
 }

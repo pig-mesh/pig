@@ -8,7 +8,7 @@ const user = {
         userInfo: getStore({ name: 'userInfo' }) || {},
         permissions: getStore({ name: 'permissions' }) || {},
         roles: getStore({ name: 'roles' }) || [],
-        menu: getStore({ name: 'menu' }) || [],
+        menu: [],
         access_token: getStore({ name: 'access_token' }) || '',
         refresh_token: getStore({ name: 'refresh_token' }) || '',
     },
@@ -30,19 +30,19 @@ const user = {
         },
         //根据手机号登录
         LoginByPhone({ commit, state, dispatch }, userInfo) {
-          const mobile = userInfo.mobile.trim()
-          return new Promise((resolve, reject) => {
-            mobileLogin(mobile, userInfo.smsCode).then(response => {
-              const data = response.data
-              setToken(data.access_token)
-              commit('SET_ACCESS_TOKEN', data.access_token)
-              commit('SET_REFRESH_TOKEN', data.refresh_token)
-              commit('CLEAR_LOCK');
-              resolve()
-            }).catch(error => {
-              reject(error)
+            const mobile = userInfo.mobile.trim()
+            return new Promise((resolve, reject) => {
+                mobileLogin(mobile, userInfo.smsCode).then(response => {
+                    const data = response.data
+                    setToken(data.access_token)
+                    commit('SET_ACCESS_TOKEN', data.access_token)
+                    commit('SET_REFRESH_TOKEN', data.refresh_token)
+                    commit('CLEAR_LOCK');
+                    resolve()
+                }).catch(error => {
+                    reject(error)
+                })
             })
-          })
         },
         GetTableData({ commit, state, dispatch }, page) {
             return new Promise((resolve, reject) => {
@@ -110,7 +110,6 @@ const user = {
         },
         SET_MENU: (state, menu) => {
             state.menu = menu;
-            setStore({ name: 'menu', content: state.menu, type: 'session' })
         },
         SET_USER_INFO: (state, userInfo) => {
             state.userInfo = userInfo
