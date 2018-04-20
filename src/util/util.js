@@ -25,7 +25,7 @@ export const encryption = (params) => {
  * 设置浏览器头部标题
  */
 export const setTitle = function (title) {
-    title = title ? `${title}——Avue 通用管理 系统快速开发框架` : 'Avue 通用管理 系统快速开发框架';
+    title = title ? `${title}——Pig 微服务快速开发框架` : 'Pig 微服务快速开发框架';
     window.document.title = title;
 };
 /**
@@ -136,13 +136,6 @@ export const setUrlPath = ($route) => {
     let value = "";
     if ($route.query.src) {
         value = $route.query.src;
-        if (value.indexOf(baseUrl) != -1) {
-            const port = value
-                .substr(value.lastIndexOf(":"))
-                .replace(value.substr(value.lastIndexOf("/")), "");
-            const path = value.replace(baseUrl + port, "");
-            value = "#" + path + port;
-        }
     } else {
         value = $route.path;
     }
