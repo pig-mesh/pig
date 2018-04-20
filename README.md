@@ -229,7 +229,6 @@ npm run build:server
 ```
 
 
-
 ## License
 
 [MIT](https://gitee.com/smallweigit/avue/blob/master/LICENSE)
