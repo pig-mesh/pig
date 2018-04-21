@@ -12,7 +12,15 @@ spring:
         git:
           uri: https://gitee.com/cqzqxq_lxh/pig-config.git
       fail-fast: true
-
+#监控短点配置
+management:
+  security:
+    enabled: false
+endpoints:
+  actuator:
+    enabled: true
+  shutdown:
+    enabled: false
 ---
 spring:
   profiles: dev
