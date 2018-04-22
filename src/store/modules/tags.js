@@ -34,7 +34,7 @@ const navs = {
     mutations: {
         ADD_TAG: (state, action) => {
             state.tag = action;
-            setStore({ name: 'tag', content: state.tag })
+            setStore({ name: 'tag', content: state.tag,type:'session' })
             if (state.tagList.some(a => a.value === action.value)) return
             state.tagList.push({
                 label: action.label,
@@ -42,17 +42,17 @@ const navs = {
                 query: action.query,
             })
             state.tagList = setFistTag(state.tagList);
-            setStore({ name: 'tagList', content: state.tagList })
+            setStore({ name: 'tagList', content: state.tagList,type:'session' })
         },
         SET_TAG_CURRENT: (state, tagCurrent) => {
             state.tagCurrent = tagCurrent;
-            setStore({ name: 'tagCurrent', content: state.tagCurrent })
+            setStore({ name: 'tagCurrent', content: state.tagCurrent,type:'session' })
         },
         SET_TAG: (state, value) => {
             state.tagList.forEach((ele, num) => {
                 if (ele.value === value) {
                     state.tag = state.tagList[num];
-                    setStore({ name: 'tag', content: state.tag })
+                    setStore({ name: 'tag', content: state.tag,type:'session' })
                 }
             });
         },
@@ -69,8 +69,8 @@ const navs = {
                     state.tagList = state.tagList.slice(num, num + 1)
                     state.tag = state.tagList[0];
                     state.tagList[0].close = false;
-                    setStore({ name: 'tag', content: state.tag })
-                    setStore({ name: 'tagList', content: state.tagList })
+                    setStore({ name: 'tag', content: state.tag,type:'session' })
+                    setStore({ name: 'tagList', content: state.tagList,type:'session' })
                 }
             })
 
@@ -80,8 +80,8 @@ const navs = {
                 if (ele.value === action.value) {
                     state.tagList.splice(num, 1)
                     state.tagList = setFistTag(state.tagList);
-                    setStore({ name: 'tag', content: state.tag })
-                    setStore({ name: 'tagList', content: state.tagList })
+                    setStore({ name: 'tag', content: state.tag,type:'session' })
+                    setStore({ name: 'tagList', content: state.tagList,type:'session' })
                 }
             })
         },

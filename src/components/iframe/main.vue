@@ -8,7 +8,7 @@ import { mapState, mapGetters } from "vuex";
 import NProgress from "nprogress"; // progress bar
 import "nprogress/nprogress.css"; // progress bar style
 export default {
-  name: "myiframe",
+  name: "AvueIframe",
   data() {
     return {
       urlPath: this.getUrlPath() //iframe src 路径

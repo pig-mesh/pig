@@ -5,7 +5,10 @@
       <sidebar class="left pull-chheight"></sidebar>
       <div class="right">
         <tags ref="nav" class="nav"></tags>
-        <router-view class="main pull-chheight"></router-view>
+        <keep-alive>
+            <router-view v-if="!$route.meta.keepAlive" class="main pull-chheight"></router-view>
+        </keep-alive>
+        <router-view v-if="$route.meta.keepAlive" class="main pull-chheight"></router-view>
       </div>
     </div>
   </div>
