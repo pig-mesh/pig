@@ -36,7 +36,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     @Cacheable(value = "menu_details", key = "#role  + '_menu'")
-    public Set<MenuVO> findMenuByRole(String role) {
+    public List<MenuVO> findMenuByRole(String role) {
         return sysMenuMapper.findMenuByRoleName(role);
     }
 
@@ -44,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public String[] findPermission(String[] roles) {
         Set<MenuVO> menuVoSet = new HashSet<>();
         for (String role : roles) {
-            Set<MenuVO> menuVos = findMenuByRole(role);
+            List<MenuVO> menuVos = findMenuByRole(role);
             menuVoSet.addAll(menuVos);
         }
 
@@ -92,7 +92,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<MenuTree> findUserMenuTree(String roleName) {
         // 获取符合条件得菜单
-        Set<MenuVO> all = findMenuByRole(roleName);
+        List<MenuVO> all = findMenuByRole(roleName);
         final List<MenuTree> menuTreeList = new ArrayList<>();
         all.forEach((menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {

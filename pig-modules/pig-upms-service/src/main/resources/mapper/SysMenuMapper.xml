@@ -48,6 +48,6 @@
         sys_role.del_flag = 0
         AND sys_menu.del_flag = 0
         AND sys_role.role_code = #{role}
-        ORDER BY sys_menu.sort ASC
+        ORDER BY sys_menu.sort DESC
     </select>
 </mapper>

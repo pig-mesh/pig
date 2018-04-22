@@ -5,6 +5,7 @@ import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -41,13 +42,15 @@ public class PermissionServiceImpl implements PermissionService {
 
         if (principal != null) {
             if (CollectionUtil.isEmpty(grantedAuthorityList)) {
-                log.warn("角色列表为空：{}",authentication.getPrincipal());
+                log.warn("角色列表为空：{}", authentication.getPrincipal());
                 return hasPermission;
             }
 
             Set<MenuVO> urls = new HashSet<>();
             for (SimpleGrantedAuthority authority : grantedAuthorityList) {
-                urls.addAll(menuService.findMenuByRole(authority.getAuthority()));
+                if (!StrUtil.equals(authority.getAuthority(), "ROLE_USER")) {
+                    urls.addAll(menuService.findMenuByRole(authority.getAuthority()));
+                }
             }
 
             for (MenuVO menu : urls) {
