@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * 测试Job
  */
 @Slf4j
-@ElasticJobConfig(cron = "0/2 * * * * ?", shardingTotalCount = 3,
+@ElasticJobConfig(cron = "0 0 0/1 * * ?", shardingTotalCount = 3,
         shardingItemParameters = "0=pig1,1=pig2,2=pig3",
         startedTimeoutMilliseconds = 5000L,
         completedTimeoutMilliseconds = 10000L,

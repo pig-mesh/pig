@@ -1,6 +1,6 @@
 package com.github.pig.monitor.config;
 
-import com.github.pig.monitor.filter.MobileNotifier;
+import com.github.pig.monitor.filter.StatusChangeNotifier;
 import de.codecentric.boot.admin.notify.RemindingNotifier;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class PigNotifierConfiguration {
     @Autowired
     private RabbitTemplate rabbitTemplate;
     @Autowired
-    private MonitorMobilePropertiesConfig monitorMobilePropertiesConfig;
+    private MonitorPropertiesConfig monitorPropertiesConfig;
     @Bean
     @Primary
     public RemindingNotifier remindingNotifier() {
@@ -33,8 +33,8 @@ public class PigNotifierConfiguration {
     }
 
     @Bean
-    public MobileNotifier mobileNotifier(){
-        return new MobileNotifier(monitorMobilePropertiesConfig,rabbitTemplate);
+    public StatusChangeNotifier mobileNotifier(){
+        return new StatusChangeNotifier(monitorPropertiesConfig,rabbitTemplate);
     }
 
     @Scheduled(fixedRate = 60_000L)

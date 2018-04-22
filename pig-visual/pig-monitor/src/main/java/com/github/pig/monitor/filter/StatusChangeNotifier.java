@@ -1,9 +1,11 @@
 package com.github.pig.monitor.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.enums.EnumSmsChannel;
+import com.github.pig.common.util.template.DingTalkMsgTemplate;
 import com.github.pig.common.util.template.MobileMsgTemplate;
-import com.github.pig.monitor.config.MonitorMobilePropertiesConfig;
+import com.github.pig.monitor.config.MonitorPropertiesConfig;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.date.DateUtil;
 import de.codecentric.boot.admin.event.ClientApplicationEvent;
@@ -14,16 +16,16 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /**
  * @author lengleng
- * @date 2018/1/25
- * 服务下线手机短信通知
+ * @date 2018/4/22
+ * 服务下线通知
  */
 @Slf4j
-public class MobileNotifier extends AbstractStatusChangeNotifier {
+public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
     public static final String STATUS_CHANGE = "STATUS_CHANGE";
     private RabbitTemplate rabbitTemplate;
-    private MonitorMobilePropertiesConfig monitorMobilePropertiesConfig;
+    private MonitorPropertiesConfig monitorMobilePropertiesConfig;
 
-    public MobileNotifier(MonitorMobilePropertiesConfig monitorMobilePropertiesConfig, RabbitTemplate rabbitTemplate) {
+    public StatusChangeNotifier(MonitorPropertiesConfig monitorMobilePropertiesConfig, RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
         this.monitorMobilePropertiesConfig = monitorMobilePropertiesConfig;
     }
@@ -57,9 +59,21 @@ public class MobileNotifier extends AbstractStatusChangeNotifier {
             log.info("Application {} ({}) is {}", event.getApplication().getName(),
                     event.getApplication().getId(), ((ClientApplicationStatusChangedEvent) event).getTo().getStatus());
             String text = String.format("应用:%s 服务ID:%s 下线，时间：%s", event.getApplication().getName(), event.getApplication().getId(), DateUtil.date(event.getTimestamp()).toString());
-            rabbitTemplate.convertAndSend(MqQueueConstant.SERVICE_STATUS_CHANGE,
-                    new MobileMsgTemplate(CollectionUtil.join(monitorMobilePropertiesConfig.getUsers(), ","),
-                            text, EnumSmsChannel.ALIYUN.getName()));
+
+            //开启短信通知
+            if (monitorMobilePropertiesConfig.getMobile().getEnabled()) {
+                log.info("开始短信通知，内容：{}", text);
+                rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_SERVICE_STATUS_CHANGE,
+                        new MobileMsgTemplate(CollectionUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
+                                text, EnumSmsChannel.ALIYUN.getName()));
+            }
+
+            if (monitorMobilePropertiesConfig.getDingTalk().getEnabled()) {
+                log.info("开始钉钉通知，内容：{}", text);
+                rabbitTemplate.convertAndSend(MqQueueConstant.DINGTALK_SERVICE_STATUS_CHANGE, text);
+            }
+
+
         } else {
             log.info("Application {} ({}) {}", event.getApplication().getName(),
                     event.getApplication().getId(), event.getType());

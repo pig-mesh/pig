@@ -5,6 +5,7 @@ import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +21,7 @@ import java.util.Set;
  * @author lengleng
  * @date 2017/10/28
  */
+@Slf4j
 @Service("permissionService")
 public class PermissionServiceImpl implements PermissionService {
     @Autowired
@@ -39,6 +41,7 @@ public class PermissionServiceImpl implements PermissionService {
 
         if (principal != null) {
             if (CollectionUtil.isEmpty(grantedAuthorityList)) {
+                log.warn("角色列表为空：{}",authentication.getPrincipal());
                 return hasPermission;
             }
 

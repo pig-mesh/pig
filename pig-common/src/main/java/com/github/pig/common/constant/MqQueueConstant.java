@@ -17,9 +17,14 @@ public interface MqQueueConstant {
     String MOBILE_CODE_QUEUE = "mobile_code_queue";
 
     /**
-     * 服务状态队列
+     * 短信服务状态队列
      */
-    String SERVICE_STATUS_CHANGE = "service_status_change";
+    String MOBILE_SERVICE_STATUS_CHANGE = "mobile_service_status_change";
+
+    /**
+     * 钉钉服务状态队列
+     */
+    String DINGTALK_SERVICE_STATUS_CHANGE = "dingtalk_service_status_change";
 
     /**
      * zipkin 队列
