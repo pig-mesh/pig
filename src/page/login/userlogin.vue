@@ -21,7 +21,9 @@
           </div>
         </el-col>
       </el-row>
-
+      <el-form-item prop="username">
+        <p style="color: red;">体验账号：pig    密码：123456</p>
+      </el-form-item>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click.native.prevent="handleLogin" class="login-submit">登录</el-button>
@@ -46,8 +48,8 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
         code: "",
         randomStr: ""
       },

@@ -44,7 +44,7 @@ export default {
       msgTime: MSGTIME,
       msgKey: false,
       loginForm: {
-        mobile: "17034642119",
+        mobile: "",
         code: ""
       },
       loginRules: {
