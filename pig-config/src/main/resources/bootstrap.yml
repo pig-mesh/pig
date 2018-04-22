@@ -11,16 +11,7 @@ spring:
       server:
         git:
           uri: https://gitee.com/cqzqxq_lxh/pig-config.git
-      fail-fast: true
-#监控短点配置
-management:
-  security:
-    enabled: false
-endpoints:
-  actuator:
-    enabled: true
-  shutdown:
-    enabled: false
+          default-label: ${spring.profiles.active}   #解决监控down
 ---
 spring:
   profiles: dev
@@ -34,6 +25,9 @@ eureka:
       defaultZone: http://pig:gip6666@localhost:1025/eureka
     registry-fetch-interval-seconds: 10
 
+endpoints:
+  health:
+    sensitive: false
 ---
 spring:
   profiles: prd
