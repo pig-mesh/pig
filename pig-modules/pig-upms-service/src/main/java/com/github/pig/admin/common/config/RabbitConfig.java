@@ -38,8 +38,13 @@ public class RabbitConfig {
      * @return
      */
     @Bean
-    public Queue initServiceStatusChangeQueue() {
-        return new Queue(MqQueueConstant.SERVICE_STATUS_CHANGE);
+    public Queue initMobileServiceStatusChangeQueue() {
+        return new Queue(MqQueueConstant.MOBILE_SERVICE_STATUS_CHANGE);
+    }
+
+    @Bean
+    public Queue initDingTalkServiceStatusChangeQueue() {
+        return new Queue(MqQueueConstant.DINGTALK_SERVICE_STATUS_CHANGE);
     }
 
     @Bean

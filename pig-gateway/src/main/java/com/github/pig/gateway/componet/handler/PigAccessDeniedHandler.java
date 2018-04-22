@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.exception.PigDeniedException;
+import com.xiaoleilu.hutool.http.HttpUtil;
+import com.xiaoleilu.hutool.util.URLUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +27,9 @@ import java.io.PrintWriter;
  * 授权拒绝处理器，覆盖默认的OAuth2AccessDeniedHandler
  * 包装失败信息到PigDeniedException
  */
+@Slf4j
 @Component
 public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
-    private static Logger logger = LoggerFactory.getLogger(PigAccessDeniedHandler.class);
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -41,7 +44,7 @@ public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
      */
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException authException) throws IOException, ServletException {
-        logger.info("授权失败，禁止访问");
+        log.info("授权失败，禁止访问 {}", request.getRequestURI());
         response.setCharacterEncoding(CommonConstant.UTF8);
         response.setContentType(CommonConstant.CONTENT_TYPE);
         R<String> result = new R<>(new PigDeniedException("授权失败，禁止访问"));

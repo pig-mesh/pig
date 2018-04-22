@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@RabbitListener(queues = MqQueueConstant.SERVICE_STATUS_CHANGE)
-public class ServiceChangeReceiveListener {
+@RabbitListener(queues = MqQueueConstant.MOBILE_SERVICE_STATUS_CHANGE)
+public class MobileServiceChangeReceiveListener {
     @RabbitHandler
     public void receive(MobileMsgTemplate mobileMsgTemplate) {
         long startTime = System.currentTimeMillis();
