@@ -30,11 +30,14 @@
         </dependency>
         <!--阿里大于-->
         <dependency>
-            <groupId>com.aliyun.taobao</groupId>
-            <artifactId>alidayu-sms</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/src/main/resources/lib/alidayu-sms-1.0.jar</systemPath>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.1.0</version>
         </dependency>
     </dependencies>
 
@@ -47,27 +50,7 @@
                     <finalName>${project.name}</finalName>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                    <compilerArguments>
-                        <extdirs>${basedir}/src/main/resources/lib</extdirs>
-                    </compilerArguments>
-                </configuration>
-            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <targetPath>BOOT-INF/lib/</targetPath>
-                <directory>${basedir}/src/main/resources/lib/</directory>
-                <includes>
-                    <include>**/*.jar</include>
-                </includes>
-            </resource>
-        </resources>
     </build>
 
 </project>

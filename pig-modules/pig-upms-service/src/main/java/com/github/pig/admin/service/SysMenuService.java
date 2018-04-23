@@ -7,7 +7,6 @@ import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVO;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -24,7 +23,7 @@ public interface SysMenuService extends IService<SysMenu> {
      * @param role 角色名称
      * @return 菜单列表
      */
-    Set<MenuVO> findMenuByRole(String role);
+    List<MenuVO> findMenuByRole(String role);
 
     /**
      * 通过角色获取菜单权限列表
