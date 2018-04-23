@@ -1,7 +1,7 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
-      <el-select v-model="listQuery.type" filterable placeholder="请选择">
+      <el-select style="width: 200px;" v-model="listQuery.type" filterable placeholder="请选择">
         <el-option v-for="item in dicts" :key="item.value" :label="item.label" :value="item.value">
         </el-option>
       </el-select>
