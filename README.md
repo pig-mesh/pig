@@ -1,6 +1,6 @@
 <h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
 <h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
-<h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>  
+<h1 align="center"><font color="red" face="STCAIYUN">需要有Spring Boot和Spring Cloud基础！！</font></h1>
 
 <br/>  
 <hr />  
@@ -15,7 +15,8 @@
   <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
 </p>
 
-<h2 align="center">Supporting lengleng</h2> 
+<h2 align="center">Supporting Pig Developer Team</h2> 
+
    
 ### 在线体验
 地址： http://preview.pig4cloud.com
@@ -29,7 +30,10 @@
 ### 前端解决方案
 https://gitee.com/smallweigit/avue
 
-
+<hr />  
+<p align="center"><img src="doc/images/jz.png" style="width: 300px;"></p>   
+<h2 align="center">大佬们，捐赠了解下？？</h2>  
+<hr />  
 
 ### 分支介绍
 分支 | 介绍
@@ -81,7 +85,7 @@ pig
 - pinpoint链路追踪： 数据保存hbase，图形化展示
 
 欢迎加入交流群，互相学习  
-一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>   
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
 ![image](doc/images/1.png)
