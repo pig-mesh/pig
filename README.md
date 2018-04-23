@@ -30,7 +30,7 @@
 https://gitee.com/smallweigit/avue
 
 <hr />  
-<p align="center"><img src="doc/images/jz.png"></p>   
+<p align="center"><img src="doc/images/jz.png" style="width: 300px;"></p>   
 <h2 align="center">大佬们，捐赠了解下？？</h2>  
 <hr />  
 
