@@ -1,4 +1,4 @@
-package com.github.pig.auth.serivce;
+package com.github.pig.auth.service;
 
 import com.github.pig.auth.feign.UserService;
 import com.github.pig.auth.util.UserDetailsImpl;
