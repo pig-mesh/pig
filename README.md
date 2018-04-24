@@ -22,11 +22,6 @@
 ### 前端解决方案
 https://gitee.com/smallweigit/avue
 
-<hr />  
-<p align="center"><img src="doc/images/jz.png" style="width: 300px;"></p>   
-<h2 align="center">大佬们，捐赠了解下？？</h2>  
-<hr />  
-
 ### 分支介绍
 分支 | 介绍
 ---|---
