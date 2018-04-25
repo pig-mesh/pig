@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet.handler;
+package com.github.pig.gateway.component.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;

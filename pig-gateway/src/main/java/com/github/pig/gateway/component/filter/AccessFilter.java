@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet.filter;
+package com.github.pig.gateway.component.filter;
 
 import com.github.pig.common.constant.SecurityConstants;
 import com.netflix.zuul.ZuulFilter;
