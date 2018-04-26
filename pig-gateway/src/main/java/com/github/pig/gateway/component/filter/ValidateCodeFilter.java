@@ -32,7 +32,7 @@ import java.io.PrintWriter;
 public class ValidateCodeFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
 
-    private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取验证码";
+    private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取";
 
     @Value("${security.validate.code:true}")
     private boolean isValidate;
