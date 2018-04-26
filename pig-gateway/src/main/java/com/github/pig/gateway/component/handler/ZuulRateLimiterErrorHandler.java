@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet.handler;
+package com.github.pig.gateway.component.handler;
 
 import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.DefaultRateLimiterErrorHandler;
 import com.marcosbarbero.cloud.autoconfigure.zuul.ratelimit.config.repository.RateLimiterErrorHandler;

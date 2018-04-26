@@ -1,15 +1,11 @@
-package com.github.pig.gateway.componet.handler;
+package com.github.pig.gateway.component.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.exception.PigDeniedException;
-import com.xiaoleilu.hutool.http.HttpUtil;
-import com.xiaoleilu.hutool.util.URLUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;

@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet.fallback;
+package com.github.pig.gateway.component.fallback;
 
 import com.github.pig.common.constant.ServiceNameConstant;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +15,13 @@ import java.io.InputStream;
 /**
  * @author lengleng
  * @date 2018/1/25
- * UPMS 模块异常回调
+ * Auth 模块异常回调
  */
 @Slf4j
 @Component
-public class UpmsFallbackProvider implements FallbackProvider {
+public class AuthFallbackProvider implements FallbackProvider {
 
-    private static final String UPMS_SERVICE_DISABLE = "权限管理模块不可用";
+    private static final String AUTH_SERVICE_DISABLE = "授权模块不可用";
 
     @Override
     public ClientHttpResponse fallbackResponse(Throwable cause) {
@@ -51,8 +51,8 @@ public class UpmsFallbackProvider implements FallbackProvider {
                     log.error("调用:{} 异常：{}", getRoute(), cause.getMessage());
                     return new ByteArrayInputStream(cause.getMessage().getBytes());
                 } else {
-                    log.error("调用:{} 异常：{}", getRoute(), UPMS_SERVICE_DISABLE);
-                    return new ByteArrayInputStream(UPMS_SERVICE_DISABLE.getBytes());
+                    log.error("调用:{} 异常：{}", getRoute(), AUTH_SERVICE_DISABLE);
+                    return new ByteArrayInputStream(AUTH_SERVICE_DISABLE.getBytes());
                 }
             }
 
@@ -67,7 +67,7 @@ public class UpmsFallbackProvider implements FallbackProvider {
 
     @Override
     public String getRoute() {
-        return ServiceNameConstant.UMPS_SERVICE;
+        return ServiceNameConstant.AUTH_SERVICE;
     }
 
     @Override
