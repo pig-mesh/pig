@@ -1,4 +1,4 @@
-package com.github.pig.gateway.componet.filter;
+package com.github.pig.gateway.component.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
@@ -31,6 +31,9 @@ import java.io.PrintWriter;
 @Component("validateCodeFilter")
 public class ValidateCodeFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
+
+    private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取验证码";
+
     @Value("${security.validate.code:true}")
     private boolean isValidate;
     @Autowired
@@ -64,35 +67,38 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private void checkCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
         String code = httpServletRequest.getParameter("code");
+        if (StringUtils.isBlank(code)) {
+            throw new ValidateCodeException("请输入验证码");
+        }
+
         String randomStr = httpServletRequest.getParameter("randomStr");
         if (StringUtils.isBlank(randomStr)) {
             randomStr = httpServletRequest.getParameter("mobile");
         }
-        Object codeObj = redisTemplate.opsForValue().get(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
+
+        String key = SecurityConstants.DEFAULT_CODE_KEY + randomStr;
+        if (!redisTemplate.hasKey(key)) {
+            throw new ValidateCodeException(EXPIRED_CAPTCHA_ERROR);
+        }
+
+        Object codeObj = redisTemplate.opsForValue().get(key);
 
         if (codeObj == null) {
-            throw new ValidateCodeException("验证码为空或已过期");
+            throw new ValidateCodeException(EXPIRED_CAPTCHA_ERROR);
         }
+
         String saveCode = codeObj.toString();
-
-        if (StringUtils.isBlank(code)) {
-            redisTemplate.delete(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
-            throw new ValidateCodeException("验证码的值不能为空");
-        }
-
-        if (StringUtils.isEmpty(saveCode)) {
-            redisTemplate.delete(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
-            throw new ValidateCodeException("验证码已过期或已过期");
+        if (StringUtils.isBlank(saveCode)) {
+            redisTemplate.delete(key);
+            throw new ValidateCodeException(EXPIRED_CAPTCHA_ERROR);
         }
 
         if (!StringUtils.equals(saveCode, code)) {
-            redisTemplate.delete(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
-            throw new ValidateCodeException("验证码不匹配");
+            redisTemplate.delete(key);
+            throw new ValidateCodeException("验证码错误，请重新输入");
         }
 
-        if (StringUtils.equals(code, saveCode)) {
-            redisTemplate.delete(SecurityConstants.DEFAULT_CODE_KEY + randomStr);
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
-        }
+        redisTemplate.delete(key);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }
