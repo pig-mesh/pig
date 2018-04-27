@@ -1,6 +1,5 @@
 package com.github.pig.auth.component.mobile;
 
-import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.xiaoleilu.hutool.map.MapUtil;
@@ -58,12 +57,6 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
             String[] tokens = extractAndDecodeHeader(header);
             assert tokens.length == 2;
             String clientId = tokens[0];
-            String clientSecret = tokens[1];
-
-            JSONObject params = new JSONObject();
-            params.put("clientId", clientId);
-            params.put("clientSecret", clientSecret);
-            params.put("authentication", authentication);
 
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
             TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");

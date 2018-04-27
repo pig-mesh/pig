@@ -1,8 +1,7 @@
 package com.github.pig.gateway;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
@@ -15,10 +14,9 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
  * @author lengleng
  */
 @EnableZuulProxy
-@EnableDiscoveryClient
-@SpringBootApplication
 @EnableFeignClients
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+@SpringCloudApplication
 @ComponentScan(basePackages = {"com.github.pig.gateway", "com.github.pig.common.bean"})
 public class PigGatewayApplication {
 
