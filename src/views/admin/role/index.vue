@@ -245,16 +245,18 @@ export default {
       });
     },
     handlePermission(row) {
-      fetchRoleTree(row.roleCode).then(response => {
-        this.checkedKeys = response.data;
-      });
-      fetchTree().then(response => {
-        this.treeData = response.data;
-        this.dialogStatus = "permission";
-        this.dialogPermissionVisible = true;
-        this.roleId = row.roleId;
-        this.roleCode = row.roleCode;
-      });
+      fetchRoleTree(row.roleCode)
+        .then(response => {
+          this.checkedKeys = response.data;
+          return fetchTree();
+        })
+        .then(response => {
+          this.treeData = response.data;
+          this.dialogStatus = "permission";
+          this.dialogPermissionVisible = true;
+          this.roleId = row.roleId;
+          this.roleCode = row.roleCode;
+        });
     },
     handleDept() {
       fetchDeptTree().then(response => {
@@ -330,18 +332,20 @@ export default {
     updatePermession(roleId, roleCode) {
       permissionUpd(roleId, this.$refs.menuTree.getCheckedKeys()).then(() => {
         this.dialogPermissionVisible = false;
-        fetchTree().then(response => {
-          this.treeData = response.data;
-        });
-        fetchRoleTree(roleCode).then(response => {
-          this.checkedKeys = response.data;
-        });
-        this.$notify({
-          title: "成功",
-          message: "修改成功",
-          type: "success",
-          duration: 2000
-        });
+        fetchTree()
+          .then(response => {
+            this.treeData = response.data;
+            return fetchRoleTree(roleCode);
+          })
+          .then(response => {
+            this.checkedKeys = response.data;
+            this.$notify({
+              title: "成功",
+              message: "修改成功",
+              type: "success",
+              duration: 2000
+            });
+          });
       });
     },
     resetTemp() {

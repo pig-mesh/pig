@@ -1,5 +1,3 @@
-import { vaildUtil } from "../util/yun";
-
 function pluralize(time, label) {
   if (time === 1) {
     return time + label

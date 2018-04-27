@@ -17,7 +17,7 @@
     "axios": "^0.16.2",
     "compression": "^1.6.2",
     "cross-env": "^3.2.4",
-    "element-ui": "^2.0.5",
+    "element-ui": "^2.3.6",
     "es6-promise": "^4.1.1",
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^2.1.2",

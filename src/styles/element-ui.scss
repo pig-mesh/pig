@@ -3,13 +3,12 @@
     font-size: 12px;
     line-height: 28px;
 }
-.el-select,.el-date-editor.el-input, .el-date-editor.el-input__inner,.el-cascader,.el-input-number{
-    width: 100%;
+.el-loading-text{
+    text-align: center;
 }
-.el-col{
-    min-height: 63px;
-}
-.display,
-.display + .el-submenu__icon-arrow {
-  display: none;
+
+
+.el-menu--display,
+.el-menu--display + .el-submenu__icon-arrow {
+display: none;
 }

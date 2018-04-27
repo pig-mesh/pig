@@ -8,7 +8,7 @@
       <el-submenu v-else :index="filterPath(item.name,index)" :key="item.name">
         <template slot="title">
           <i :class="item.icon"></i>
-          <span slot="title" :class="{display:!show}">{{item.label}}</span>
+          <span slot="title" :class="{'el-menu--display':!show}">{{item.label}}</span>
         </template>
         <template v-for="(child,cindex) in item.children">
           <el-menu-item :index="filterPath(child.path,cindex)" @click="open(child)" v-if="child.children.length==0" :key="cindex">
@@ -52,9 +52,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.display,
-.display + .el-submenu__icon-arrow {
-  display: none;
-}
+
 </style>
 
