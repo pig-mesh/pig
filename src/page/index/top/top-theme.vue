@@ -16,9 +16,9 @@ export default {
   watch: {
     theme(val, oldVal) {
       if (typeof val !== "string") return;
+      const head = document.getElementsByTagName("head")[0];
       const themeCluster = this.getThemeCluster(val.replace("#", ""));
       const originalCluster = this.getThemeCluster(oldVal.replace("#", ""));
-      console.log(themeCluster, originalCluster);
       const getHandler = (variable, id) => {
         return () => {
           const originalCluster = this.getThemeCluster(
@@ -34,7 +34,7 @@ export default {
           if (!styleTag) {
             styleTag = document.createElement("style");
             styleTag.setAttribute("id", id);
-            document.head.appendChild(styleTag);
+            head.appendChild(styleTag);
           }
           styleTag.innerText = newStyle;
         };
@@ -47,6 +47,30 @@ export default {
         this.getCSSString(url, chalkHandler, "chalk");
       } else {
         chalkHandler();
+      }
+
+      const link = [].slice.call(
+        document.getElementsByTagName("head")[0].getElementsByTagName("link")
+      );
+      for (let i = link.length - 3; i < link.length; i++) {
+        const style = link[i];
+        this.getCSSString(style.href, innerText => {
+          const originalCluster = this.getThemeCluster(
+            ORIGINAL_THEME.replace("#", "")
+          );
+          const newStyle = this.updateStyle(
+            innerText,
+            originalCluster,
+            themeCluster
+          );
+          let styleTag = document.getElementById(i);
+          if (!styleTag) {
+            styleTag = document.createElement("style");
+            styleTag.id = i;
+            styleTag.innerText = newStyle;
+            head.appendChild(styleTag);
+          }
+        });
       }
 
       const styles = [].slice
@@ -86,8 +110,10 @@ export default {
       const xhr = new XMLHttpRequest();
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4 && xhr.status === 200) {
-          this[variable] = xhr.responseText.replace(/@font-face{[^}]+}/, "");
-          callback();
+          if (variable) {
+            this[variable] = xhr.responseText.replace(/@font-face{[^}]+}/, "");
+          }
+          callback(xhr.responseText);
         }
       };
       xhr.open("GET", url);

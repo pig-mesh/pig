@@ -1,11 +1,11 @@
 .top {
   align-items: center;
   background-color: #fff;
-  border-bottom:2px solid $menuBg;
-  color: #333;
+  border-bottom: 1px solid #eee;
+  color: rgba(0, 0, 0, .65);
   display: flex;
   font-size: 18px;
-  height: 60px;
+  height: 64px;
   line-height: 1;
   padding: 0 10px;
   white-space: nowrap;
@@ -20,19 +20,21 @@
   flex: 1;
 }
 
-.top-userImg{
-  margin: 0 3px 0 10px;
+.top-userImg {
+  margin: 0 8px 0 10px;
   padding: 2px;
-  width: 35px;
-  height:35px;
+  width: 30px;
+  height: 30px;
   border-radius: 100%;
   box-sizing: border-box;
-  border:1px solid #eee;
+  border: 1px solid #eee;
 }
+
 .top-button {
   display: flex;
   align-items: center;
 }
-.top-button>.top-item{
-  margin-right: 12px;
+
+.top-item {
+  margin-right: 8px;
 }

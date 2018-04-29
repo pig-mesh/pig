@@ -1,7 +1,6 @@
 <template>
   <div class="top">
     <div class="top-button is-left">
-      <top-logo></top-logo>
       <div class="tags-breadcrumb">
         <i class="icon-navicon tag-collapse" :class="[{ 'tag-collapse_right': isCollapse }]" @click="showCollapse"></i>
       </div>
@@ -10,7 +9,7 @@
       <topMenu></topMenu>
     </h1>
     <div class="top-button is-right">
-      <el-tooltip class="item" effect="dark" content="换肤" placement="bottom">
+      <el-tooltip class="item" effect="dark" content="主题色" placement="bottom">
         <span class="top-item">
           <top-theme></top-theme>
         </span>
@@ -24,6 +23,9 @@
         <span class="top-item">
           <i :class="isFullScren?'icon-tuichuquanping':'icon-quanping'" @click="handleScreen"></i>
         </span>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="用户头像" placement="bottom">
+        <img class="top-userImg" :src="userInfo.avatar">
       </el-tooltip>
       <el-dropdown>
         <span class="el-dropdown-link">
@@ -46,21 +48,17 @@
           <el-dropdown-item @click.native="logout" divided>退出系统</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
-      <el-tooltip class="item" effect="dark" content="用户头像" placement="bottom">
-        <img class="top-userImg" :src="userInfo.avatar">
-      </el-tooltip>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapGetters } from "vuex";
 import { fullscreenToggel, listenfullscreen } from "@/util/util";
-import topLogo from "./top-logo";
 import topLock from "./top-lock";
 import topMenu from "./top-menu";
 import topTheme from "./top-theme";
 export default {
-  components: { topLock, topLogo, topMenu, topTheme },
+  components: { topLock, topMenu, topTheme },
   name: "top",
   data() {
     return {};

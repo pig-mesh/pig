@@ -1,14 +1,17 @@
-
-.el-dropdown-menu__item{
-    font-size: 12px;
-    line-height: 28px;
-}
-.el-loading-text{
-    text-align: center;
+.el-dropdown-menu__item {
+  font-size: 12px;
+  line-height: 28px;
 }
 
+.el-menu--horizontal {
+  border-bottom: none;
+}
+
+.el-menu {
+  border-right: 0;
+}
 
 .el-menu--display,
-.el-menu--display + .el-submenu__icon-arrow {
-display: none;
+.el-menu--display+.el-submenu__icon-arrow {
+  display: none;
 }
