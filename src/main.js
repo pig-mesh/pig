@@ -7,12 +7,17 @@ import './errorLog' // 错误日志
 import router from './router/router';
 import store from './store';
 import ELEMENT from 'element-ui';
-import { loadStyle } from './util/util'
+import AVUE from 'avue-cli/packages/index.js';
+import {
+  loadStyle
+} from './util/util'
 import * as urls from '@/config/env';
-import { iconfontUrl, iconfontVersion } from '@/config/env';
+import {
+  iconfontUrl,
+  iconfontVersion
+} from '@/config/env';
 import * as filters from './filters' // 全局filter
 import './styles/common.scss';
-Vue.use(ELEMENT)
 Vue.use(VueAxios, axios)
 
 Object.keys(urls).forEach(key => {
@@ -36,5 +41,9 @@ export function createApp() {
     store,
     render: h => h(App)
   })
-  return { app, router, store }
+  return {
+    app,
+    router,
+    store
+  }
 }

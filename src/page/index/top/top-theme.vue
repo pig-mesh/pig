@@ -1,5 +1,5 @@
 <template>
-    <el-color-picker class="theme-picker" popper-class="theme-picker-dropdown" v-model="theme"></el-color-picker>
+  <el-color-picker size="small" class="theme-picker" popper-class="theme-picker-dropdown" v-model="theme"></el-color-picker>
 </template>
 
 <script>
