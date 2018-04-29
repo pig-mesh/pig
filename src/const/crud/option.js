@@ -44,8 +44,6 @@ export const tableOption = {
       "prop": "stars",
       "sortable": true,
       "solt": true,
-      "addVisdiplay": false,
-      "editVisdiplay": false
     },
     {
       "label": "码云",

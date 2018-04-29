@@ -14,9 +14,12 @@
           <el-form-item label="地址">
             <a :href="props.row.address" target="_blank">{{props.row.address}}</a>
           </el-form-item>
+          <el-form-item label="项目地址">
+            <a :href="props.row.git" target="_blank">{{props.row.git}}</a>
+          </el-form-item>
           <el-form-item label="stars">
-            <a :href='props.row.stars.git' target="_blank">
-              <img :src="props.row.stars.address" alt='star' />
+            <a :href='props.row.address' target="_blank">
+              <img :src="props.row.stars" alt='star' />
             </a>
           </el-form-item>
         </el-form>
@@ -25,12 +28,12 @@
         <el-tag>{{scope.row.username}}</el-tag>
       </template>
       <template slot-scope="scope" slot="stars">
-        <a :href='scope.row.stars.git' target="_blank">
-          <img :src="scope.row.stars.address" alt='star' />
+        <a :href='scope.row.git' target="_blank">
+          <img :src="scope.row.stars" alt='star' />
         </a>
       </template>
       <template slot-scope="scope" slot="address">
-        <a :href="scope.row.address" target="_blank">{{scope.row.address}}</a>
+        <a :href="scope.row.git" target="_blank">{{scope.row.address}}</a>
       </template>
     </avue-crud>
   </div>
