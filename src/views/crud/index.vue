@@ -1,39 +1,39 @@
 <template>
-    <div class="app-container pull-auto">
-        <el-button type="primary" @click="handleAdd" size="small">新 增</el-button>
-        <br /><br />
-        <avue-crud ref="crud" :table-data="tableData" :table-option="tableOption" @row-update="handleUpdate" @row-save="handleSave" @row-del="handleDel">
-            <template slot-scope="props" slot="expand">
-                <el-form label-position="left" inline class="demo-table-expand">
-                    <el-form-item label="姓名">
-                        <span>{{ props.row.name }}</span>
-                    </el-form-item>
-                    <el-form-item label="用户名">
-                        <span>{{ props.row.username }}</span>
-                    </el-form-item>
-                    <el-form-item label="地址">
-                        <a :href="props.row.address" target="_blank">{{props.row.address}}</a>
-                    </el-form-item>
-                    <el-form-item label="stars">
-                        <a :href='props.row.stars.git' target="_blank">
-                            <img :src="props.row.stars.address" alt='star' />
-                        </a>
-                    </el-form-item>
-                </el-form>
-            </template>
-            <template slot-scope="scope" slot="username">
-                <el-tag>{{scope.row.username}}</el-tag>
-            </template>
-            <template slot-scope="scope" slot="stars">
-                <a :href='scope.row.stars.git' target="_blank">
-                    <img :src="scope.row.stars.address" alt='star' />
-                </a>
-            </template>
-            <template slot-scope="scope" slot="address">
-                <a :href="scope.row.address" target="_blank">{{scope.row.address}}</a>
-            </template>
-        </avue-crud>
-    </div>
+  <div class="app-container pull-auto">
+    <el-button type="primary" @click="handleAdd" size="small">新 增</el-button>
+    <br /><br />
+    <avue-crud ref="crud" :table-data="tableData" :table-option="tableOption" @row-update="handleUpdate" @row-save="handleSave" @row-del="handleDel">
+      <template slot-scope="props" slot="expand">
+        <el-form label-position="left" inline class="demo-table-expand">
+          <el-form-item label="姓名">
+            <span>{{ props.row.name }}</span>
+          </el-form-item>
+          <el-form-item label="用户名">
+            <span>{{ props.row.username }}</span>
+          </el-form-item>
+          <el-form-item label="地址">
+            <a :href="props.row.address" target="_blank">{{props.row.address}}</a>
+          </el-form-item>
+          <el-form-item label="stars">
+            <a :href='props.row.stars.git' target="_blank">
+              <img :src="props.row.stars.address" alt='star' />
+            </a>
+          </el-form-item>
+        </el-form>
+      </template>
+      <template slot-scope="scope" slot="username">
+        <el-tag>{{scope.row.username}}</el-tag>
+      </template>
+      <template slot-scope="scope" slot="stars">
+        <a :href='scope.row.stars.git' target="_blank">
+          <img :src="scope.row.stars.address" alt='star' />
+        </a>
+      </template>
+      <template slot-scope="scope" slot="address">
+        <a :href="scope.row.address" target="_blank">{{scope.row.address}}</a>
+      </template>
+    </avue-crud>
+  </div>
 </template>
 
 <script>
@@ -59,7 +59,7 @@ export default {
     },
     handleDel: function(row, index) {
       var _this = this;
-      this.$confirm("是否确认删除序号为" + row.name, "提示", {
+      this.$confirm("是否确认删除序号为" + row.username, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"

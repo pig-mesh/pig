@@ -28,7 +28,6 @@ export const tableOption = {
       "label": "类型",
       "prop": "type",
       "width": 80,
-      "addDisabled": true,
       "type": "select",
       "sortable": true,
       "dicData": [{
@@ -45,15 +44,15 @@ export const tableOption = {
       "prop": "stars",
       "sortable": true,
       "solt": true,
+      "addVisdiplay": false,
+      "editVisdiplay": false
     },
     {
       "label": "码云",
       "solt": true,
+      "span": 24,
       "prop": "address",
       "type": "textarea",
-      "span": 24,
-      "maxRow": 4,
-      "minRow": 4,
       "overHidden": true
     }, {
       "label": "项目介绍",

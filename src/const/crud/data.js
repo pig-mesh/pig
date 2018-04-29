@@ -2,7 +2,7 @@ export const tableData = [{
     username: "lengleng",
     name: "lengleng",
     number: 12,
-    type: 0,
+    type: '0',
     stars: {
       address: 'https://gitee.com/log4j/pig/badge/star.svg?theme=white',
       git: 'https://gitee.com/smallweigit/avue',
@@ -14,7 +14,7 @@ export const tableData = [{
     username: "smallwei",
     name: "smallwei",
     number: 20,
-    type: 1,
+    type: '1',
     stars: {
       address: 'https://gitee.com/smallweigit/avue/badge/star.svg?theme=white',
       git: 'https://gitee.com/log4j/pig',
