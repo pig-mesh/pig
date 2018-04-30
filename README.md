@@ -1,4 +1,3 @@
-<p align="center"><img src="doc/images/logo.jpg"></p>
 <p align="center">
  <img src="https://img.shields.io/circleci/project/vuejs/vue/dev.svg" alt="Build Status">
   <img src="https://img.shields.io/badge/Spring%20Cloud-EdgwareSR3-blue.svg" alt="Coverage Status">
