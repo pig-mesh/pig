@@ -59,6 +59,7 @@ pig
 - 字典管理：对系统中经常使用的一些较为固定的数据进行维护，如：是否、男女、类别、级别等。
 - 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
 - 服务限流：多种维度的流量控制（服务、IP、用户等）
+- 消息总线：配置动态实时刷新
 - 分库分表：shardingdbc分库分表策略
 - 数据权限: 使用mybatis对原查询做增强，业务代码不用控制，即可实现。
 - 文件系统: 支持FastDFS、七牛云，扩展API几行代码实现上传下载
@@ -75,6 +76,7 @@ pig
 一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>   
 ![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
+### 截图 （点击可大图预览）
 <table>
     <tr>
         <td><img src="http://p3blpcsde.bkt.clouddn.com/login.png"/></td>
