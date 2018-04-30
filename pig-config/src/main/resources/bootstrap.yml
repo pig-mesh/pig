@@ -10,7 +10,7 @@ spring:
     config:
       server:
         git:
-          uri: https://gitee.com/hsLeng/pig-config.git
+          uri: https://gitee.com/cqzqxq_lxh/pig-config.git
           default-label: ${spring.profiles.active}   #解决监控down
 
 # 关闭安全管理
@@ -24,7 +24,7 @@ endpoints:
 spring:
   profiles: dev
   rabbitmq:
-    host: 139.224.200.249
+    host: 127.0.0.1
     port: 5682
     username: pig
     password: lengleng
@@ -41,7 +41,7 @@ eureka:
 spring:
   profiles: prd
   rabbitmq:
-    host: 139.224.200.249
+    host: 127.0.0.1
     port: 5682
     username: pig
     password: lengleng
