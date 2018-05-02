@@ -18,7 +18,7 @@
         <h4 class="login-title"> Pig 微服务快速开发框架
           <top-theme></top-theme>
         </h4>
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="用户密码" name="user">
             <userLogin></userLogin>
           </el-tab-pane>
