@@ -15,7 +15,9 @@
     </div>
     <div class="login-border  animated fadeInRight">
       <div class="login-main">
-        <h4 class="login-title"> Pig 微服务快速开发框架</h4>
+        <h4 class="login-title"> Pig 微服务快速开发框架
+          <top-theme></top-theme>
+        </h4>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="用户密码" name="user">
             <userLogin></userLogin>
@@ -36,8 +38,17 @@
 import userLogin from "./userlogin";
 import codeLogin from "./codelogin";
 import thirdLogin from "./thirdlogin";
+import topTheme from "../index/top/top-theme";
+import theme from "@/mixins/theme";
 export default {
   name: "login",
+  mixins: [theme()],
+  components: {
+    topTheme,
+    userLogin,
+    codeLogin,
+    thirdLogin
+  },
   data() {
     return {
       activeName: "user"
@@ -47,14 +58,7 @@ export default {
   mounted() {},
   computed: {},
   props: [],
-  methods: {
-    handleClick() {}
-  },
-  components: {
-    userLogin,
-    codeLogin,
-    thirdLogin
-  }
+  methods: {}
 };
 </script>
 
@@ -109,7 +113,7 @@ export default {
 .login-title {
   margin: 0 0 20px;
   text-align: center;
-  color: #3080fe;
+  color: #409eff;
   letter-spacing: 3px;
 }
 .login-submit {
