@@ -13,10 +13,9 @@
           <i class="el-icon-check"></i> QQ群：23754102 </li>
       </ul>
     </div>
-    <div class="login-border pull-height">
-      <div class="login-main animated fadeIn">
-        <h2>欢迎使用</h2>
-        <p>Pig 微服务快速开发框架</p>
+    <div class="login-border  animated fadeInRight">
+      <div class="login-main">
+        <h4 class="login-title"> Pig 微服务快速开发框架</h4>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="用户密码" name="user">
             <userLogin></userLogin>
@@ -24,9 +23,9 @@
           <el-tab-pane label="短信验证码" name="code">
             <codeLogin></codeLogin>
           </el-tab-pane>
-          <el-tab-pane label="第三方授权登录" name="third">
+          <!-- <el-tab-pane label="第三方授权登录" name="third">
             <thirdLogin></thirdLogin>
-          </el-tab-pane>
+          </el-tab-pane> -->
         </el-tabs>
       </div>
     </div>
@@ -63,8 +62,8 @@ export default {
 .login-container {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: rgba(0, 0, 0, 0.6);
+  justify-content: space-around;
+  background: rgba(0, 0, 0, 0.3);
   position: relative;
 }
 .login-container::before {
@@ -75,7 +74,7 @@ export default {
   top: 0;
   width: 100%;
   height: 100%;
-  background-image: url("../../assets/img/login.jpg");
+  background-image: url("../../assets/img/login.png");
   background-size: cover;
 }
 .login-info {
@@ -89,18 +88,17 @@ export default {
 }
 .login-border {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px 40px 25px 40px;
   background-color: #fff;
+  border-radius: 6px;
+  box-shadow: 1px 1px 2px #eee;
 }
 .login-main {
-  padding: 140px 60px;
-  width: 450px;
   border-radius: 3px;
   box-sizing: border-box;
   background-color: #fff;
-  & > .el-tabs {
-    margin-top: 30px;
-  }
 }
 .login-main > h3 {
   margin-bottom: 20px;
@@ -108,30 +106,57 @@ export default {
 .login-main > p {
   color: #76838f;
 }
+.login-title {
+  margin: 0 0 20px;
+  text-align: center;
+  color: #3080fe;
+  letter-spacing: 3px;
+}
 .login-submit {
+  margin-top: 20px;
   width: 100%;
+  background: #3080fe;
+  border-radius: 28px;
 }
 .login-form {
-  margin: 20px 0;
+  margin: 10px 0;
+  .el-form-item__content {
+    width: 270px;
+  }
+  .el-form-item {
+    margin-bottom: 12px;
+  }
+  .el-input {
+    input {
+      text-indent: 5px;
+      border-color: #dcdcdc;
+      border-radius: 3px;
+    }
+    .el-input__prefix {
+      i {
+        padding: 0 5px;
+        font-size: 16px !important;
+      }
+    }
+  }
 }
 .login-code {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 0 0 0 10px;
 }
 .login-code-img {
   width: 100px;
-  height: 43px;
-  background-color: #eee;
+  height: 38px;
+  background-color: #fdfdfd;
   border: 1px solid #f0f0f0;
   color: #333;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: bold;
-  letter-spacing: 2px;
-  text-indent: 2px;
+  letter-spacing: 5px;
+  line-height: 32px;
+  text-indent: 5px;
   text-align: center;
-}
-.login-code-icon {
 }
 </style>

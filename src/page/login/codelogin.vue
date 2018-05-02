@@ -1,17 +1,22 @@
 <template>
-   <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0" >
-        <el-form-item prop="mobile">
-        <el-input @keyup.enter.native="handleLogin" v-model="loginForm.mobile" auto-complete="off" placeholder="请输入手机号码"></el-input>
-        </el-form-item>
-        <el-form-item prop="code">
-        <el-input @keyup.enter.native="handleLogin"  v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码">
-          <template slot="append"><span  @click="handleSend" class="msg-text" :class="[{display:msgKey}]">{{msgText}}</span></template>
-        </el-input>
-        </el-form-item>
-        <el-form-item>
-        <el-button type="primary" @click.native.prevent="handleLogin"  class="login-submit">登录</el-button>
-        </el-form-item>
-    </el-form>
+  <el-form class="login-form" status-icon :rules="loginRules" ref="loginForm" :model="loginForm" label-width="0">
+    <el-form-item prop="mobile">
+      <el-input @keyup.enter.native="handleLogin" v-model="loginForm.mobile" auto-complete="off" placeholder="请输入手机号码">
+        <i slot="prefix" class="icon-shouji"></i>
+      </el-input>
+    </el-form-item>
+    <el-form-item prop="code">
+      <el-input @keyup.enter.native="handleLogin" v-model="loginForm.code" auto-complete="off" placeholder="请输入验证码">
+        <template slot="append">
+          <span @click="handleSend" class="msg-text" :class="[{display:msgKey}]">{{msgText}}</span>
+        </template>
+        <i slot="prefix" class="icon-yanzhengma" style="margin-top:10px;"></i>
+      </el-input>
+    </el-form-item>
+    <el-form-item>
+      <el-button type="primary" size="small" @click.native.prevent="handleLogin" class="login-submit">登录</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
@@ -21,7 +26,7 @@ const MSGINIT = "发送验证码",
   MSGTIME = 60;
 import { isvalidatemobile } from "@/util/validate";
 import { mapGetters } from "vuex";
-import request from '@/router/axios'
+import request from "@/router/axios";
 export default {
   name: "codelogin",
   data() {
@@ -63,21 +68,21 @@ export default {
     handleSend() {
       if (this.msgKey) return;
       if (!this.loginForm.mobile) {
-        this.$message.error('请输入手机号码')
-      } else if (!(/^1[34578]\d{9}$/.test(this.loginForm.mobile))) {
-        this.$message.error('手机号格式不正确')
+        this.$message.error("请输入手机号码");
+      } else if (!/^1[34578]\d{9}$/.test(this.loginForm.mobile)) {
+        this.$message.error("手机号格式不正确");
       } else {
         request({
-          url: '/admin/smsCode/' + this.loginForm.mobile,
-          method: 'get'
+          url: "/admin/smsCode/" + this.loginForm.mobile,
+          method: "get"
         }).then(response => {
           if (response.data.data) {
-            this.timer()
-            this.$message.success('验证码发送成功')
+            this.timer();
+            this.$message.success("验证码发送成功");
           } else {
-            this.$message.error(response.data.msg)
+            this.$message.error(response.data.msg);
           }
-        })
+        });
       }
       this.msgText = MSGSCUCCESS.replace("${time}", this.msgTime);
       this.msgKey = true;
@@ -95,11 +100,13 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch("LoginByPhone", this.loginForm).then(response => {
-            console.log(response)
-            this.$store.commit("ADD_TAG", this.tagWel);
-            this.$router.push({ path: this.tagWel.value });
-          });
+          this.$store
+            .dispatch("LoginByPhone", this.loginForm)
+            .then(response => {
+              console.log(response);
+              this.$store.commit("ADD_TAG", this.tagWel);
+              this.$router.push({ path: this.tagWel.value });
+            });
         }
       });
     }
