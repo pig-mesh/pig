@@ -44,7 +44,7 @@
         <!-- wenjie delete <appender-ref ref="file" /> <appender-ref ref="console"
             /> -->
     </logger>
-    <root level="DEBUG">
+    <root level="INFO">
         <!--
         <appender-ref ref="file" />
          -->
