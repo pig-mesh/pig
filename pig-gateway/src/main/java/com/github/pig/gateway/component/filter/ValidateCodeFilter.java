@@ -44,7 +44,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if (isValidate && (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
-                || StringUtils.contains(request.getRequestURI(), SecurityConstants.REFRESH_TOKEN)
                 || StringUtils.contains(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL))) {
             PrintWriter printWriter = null;
             try {
