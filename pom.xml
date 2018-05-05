@@ -94,7 +94,7 @@
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
-                <version>Brussels-SR6</version>
+                <version>Brussels-SR9</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
