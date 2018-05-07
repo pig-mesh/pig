@@ -43,6 +43,7 @@ export function timeAgo(time) {
 }
 
 export function parseTime(time, cFormat) {
+  time = Date.parse(new Date(time));
   if (arguments.length === 0) {
     return null
   }
