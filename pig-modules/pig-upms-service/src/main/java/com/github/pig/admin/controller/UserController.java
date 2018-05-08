@@ -75,7 +75,7 @@ public class UserController extends BaseController {
      * @return R
      */
     @ApiOperation(value = "删除用户", notes = "根据ID删除用户")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "int", paramType = "path")
     @DeleteMapping("/{id}")
     public R<Boolean> userDel(@PathVariable Integer id) {
         SysUser sysUser = userService.selectById(id);
