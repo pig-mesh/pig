@@ -11,6 +11,10 @@ spring:
         enabled: true
       profile: ${spring.profiles.active}
       label: ${spring.profiles.active}
+
+logging:
+  level: error
+
 ---
 spring:
   profiles: dev
