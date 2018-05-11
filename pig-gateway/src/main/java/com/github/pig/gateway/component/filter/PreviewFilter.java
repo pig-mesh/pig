@@ -52,9 +52,9 @@ public class PreviewFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        if (StrUtil.equals(request.getMethod(), HttpMethod.GET.name()) ||
+        if (StrUtil.equalsIgnoreCase(request.getMethod(), HttpMethod.GET.name()) ||
                 StrUtil.containsIgnoreCase(request.getRequestURI(), TOKEN)) {
-            isPreview = false;
+            return  false;
         }
         return isPreview;
     }
