@@ -1,6 +1,9 @@
 <template>
   <div class="app-container calendar-list-container">
     <div class="filter-container">
+      <el-input @keyup.enter.native="handleFilter" style="width: 200px;" class="filter-item" placeholder="类型" v-model="listQuery.type">
+      </el-input>
+      <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
       <el-button v-if="sys_dict_add" class="filter-item" style="margin-left: 10px;" @click="handleCreate" type="primary" icon="edit">添加
       </el-button>
     </div>
@@ -8,16 +11,6 @@
       <el-table-column align="center" label="编号">
         <template slot-scope="scope">
           <span>{{ scope.row.id }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="数据值">
-        <template slot-scope="scope">
-          <span>{{ scope.row.value }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="标签名">
-        <template slot-scope="scope">
-          <span>{{ scope.row.label }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="类型">
@@ -28,6 +21,16 @@
       <el-table-column align="center" label="描述">
         <template slot-scope="scope">
           <span>{{ scope.row.description }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="数据值">
+        <template slot-scope="scope">
+          <span>{{ scope.row.value }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" label="标签名">
+        <template slot-scope="scope">
+          <span>{{ scope.row.label }}</span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="排序">
@@ -45,7 +48,7 @@
           <span>{{ scope.row.remarks }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button v-if="sys_dict_upd" size="small" type="success" @click="handleUpdate(scope.row)">编辑
           </el-button>
@@ -60,28 +63,25 @@
     </div>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form :model="form" :rules="rules" ref="form" label-width="100px">
-        <el-form-item label="编号" prop="username">
-          <el-input v-model="form.id" placeholder="编号"></el-input>
+        <el-form-item label="编号" prop="id" v-if="dialogStatus == 'update'">
+          <el-input v-model="form.id" placeholder="编号" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="数据值" prop="username">
+        <el-form-item label="数据值" prop="value">
           <el-input v-model="form.value" placeholder="数据值"></el-input>
         </el-form-item>
-        <el-form-item label="标签名" prop="username">
+        <el-form-item label="标签名" prop="label">
           <el-input v-model="form.label" placeholder="标签名"></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="username">
+        <el-form-item label="类型" prop="type">
           <el-input v-model="form.type" placeholder="类型"></el-input>
         </el-form-item>
-        <el-form-item label="描述" prop="username">
+        <el-form-item label="描述" prop="description">
           <el-input v-model="form.description" placeholder="描述"></el-input>
         </el-form-item>
-        <el-form-item label="排序（升序）" prop="username">
+        <el-form-item label="排序" prop="sort">
           <el-input v-model="form.sort" placeholder="排序（升序）"></el-input>
         </el-form-item>
-        <el-form-item label="创建时间" prop="username">
-          <el-input v-model="form.createTime" placeholder="创建时间"></el-input>
-        </el-form-item>
-        <el-form-item label="备注信息" prop="username">
+        <el-form-item label="备注信息" prop="remarks">
           <el-input v-model="form.remarks" placeholder="备注信息"></el-input>
         </el-form-item>
       </el-form>
@@ -156,6 +156,10 @@ export default {
         this.listLoading = false;
       });
     },
+    handleFilter() {
+      this.listQuery.page = 1;
+      this.getList();
+    },
     handleSizeChange(val) {
       this.listQuery.limit = val;
       this.getList();
@@ -175,6 +179,17 @@ export default {
           duration: 2000
         });
       });
+    },
+    handleUpdate(row) {
+      this.dialogStatus = "update";
+      this.dialogFormVisible = true;
+      this.form.id = row.id;
+      this.form.type = row.type;
+      this.form.value = row.value;
+      this.form.label = row.label;
+      this.form.description = row.description;
+      this.form.sort = row.sort;
+      this.form.remarks = row.remarks;
     },
     handleCreate() {
       this.dialogStatus = "create";

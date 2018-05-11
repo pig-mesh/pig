@@ -1,13 +1,13 @@
 import request from '@/router/axios'
 export function GetMenu() {
     return request({
-        url: '/admin/menu/getUserTree',
+        url: '/admin/menu/userMenu',
         method: 'get'
     })
 }
 export function fetchTree(query) {
     return request({
-        url: '/admin/menu/tree',
+        url: '/admin/menu/allTree',
         method: 'get',
         params: query
     })

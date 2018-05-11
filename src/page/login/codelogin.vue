@@ -103,7 +103,6 @@ export default {
           this.$store
             .dispatch("LoginByPhone", this.loginForm)
             .then(response => {
-              console.log(response);
               this.$store.commit("ADD_TAG", this.tagWel);
               this.$router.push({ path: this.tagWel.value });
             });

@@ -16,6 +16,9 @@
             <el-form-item label="确认密码" prop="checkPass">
               <el-input type="password" v-model="ruleForm2.newpassword2" auto-complete="off"></el-input>
             </el-form-item>
+            <el-form-item label="手机号" prop="phone">
+              <el-input v-model="userInfo.phone" placeholder="验证码登录使用"></el-input>
+            </el-form-item>
             <el-form-item label="头像">
               <my-upload field="file" @crop-upload-success="cropUploadSuccess" v-model="show" :width="300" :height="300" url="/admin/user/upload" :headers="headers" img-format="png"></my-upload>
               <img :src="userInfo.avatar">
@@ -80,7 +83,8 @@ export default {
         password: "",
         newpassword1: "",
         newpassword2: "",
-        avatar: ""
+        avatar: "",
+        phone:""
       },
       rules2: {
         newpassword1: [{ validator: validatePass, trigger: "blur" }],

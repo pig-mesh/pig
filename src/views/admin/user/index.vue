@@ -23,15 +23,21 @@
         </template>
       </el-table-column>
 
+      <el-table-column align="center" label="手机号">
+        <template slot-scope="scope">
+          <span>{{scope.row.phone}}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column align="center" label="所属部门" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{scope.row.deptName}}</span>
+          <span>{{scope.row.deptName}} </span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="角色">
         <template slot-scope="scope">
-          <span>{{scope.row.roleList[0].roleDesc}}</span>
+          <span v-for="role in scope.row.roleList">{{role.roleDesc}} </span>
         </template>
       </el-table-column>
 
@@ -47,7 +53,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="操作">
+      <el-table-column align="center" label="操作" width="200">
         <template slot-scope="scope">
           <el-button v-if="sys_user_upd" size="small" type="success" @click="handleUpdate(scope.row)">编辑
           </el-button>
@@ -84,12 +90,16 @@
         </el-form-item>
 
         <el-form-item label="角色" prop="role">
-          <el-select class="filter-item" v-model="role" placeholder="请选择">
+          <el-select class="filter-item" v-model="role" placeholder="请选择" multiple>
             <el-option v-for="item in rolesOptions" :key="item.roleId" :label="item.roleDesc" :value="item.roleId" :disabled="isDisabled[item.delFlag]">
               <span style="float: left">{{ item.roleDesc }}</span>
               <span style="float: right; color: #8492a6; font-size: 13px">{{ item.roleCode }}</span>
             </el-option>
           </el-select>
+        </el-form-item>
+
+        <el-form-item label="手机号" prop="phone">
+          <el-input v-model="form.phone" placeholder="验证码登录使用"></el-input>
         </el-form-item>
 
         <el-form-item label="状态" v-if="dialogStatus == 'update' && sys_user_del " prop="delFlag">
@@ -140,12 +150,13 @@ export default {
         page: 1,
         limit: 20
       },
-      role: undefined,
+      role: [],
       form: {
         username: undefined,
         password: undefined,
         delFlag: undefined,
-        deptId: undefined
+        deptId: undefined,
+        phone: undefined
       },
       rules: {
         username: [
@@ -185,6 +196,18 @@ export default {
           {
             required: true,
             message: "请选择角色",
+            trigger: "blur"
+          }
+        ],phone: [
+          {
+            required: true,
+            message: "手机号",
+            trigger: "blur"
+          },
+          {
+            min: 11,
+            max: 11,
+            message: "长度在11 个字符",
             trigger: "blur"
           }
         ]
@@ -272,9 +295,12 @@ export default {
     handleUpdate(row) {
       getObj(row.userId).then(response => {
         this.form = response.data;
-        this.role = row.roleList[0].roleId;
         this.dialogFormVisible = true;
         this.dialogStatus = "update";
+        this.role = [];
+        for (var i=0;i < row.roleList.length;i++) {
+          this.role[i] = row.roleList[i].roleId
+        }
         deptRoleList(response.data.deptId).then(response => {
           this.rolesOptions = response.data;
         });
@@ -361,7 +387,10 @@ export default {
         id: undefined,
         username: "",
         password: "",
-        role: undefined
+        role: [],
+        delFlag: "",
+        deptId: "",
+        phone: ""
       };
     }
   }

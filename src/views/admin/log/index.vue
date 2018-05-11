@@ -113,12 +113,11 @@ export default {
     }
   },
   created() {
+    this.getList();
+    this.sys_log_del = this.permissions["sys_log_del"];
     remote("log_type").then(response => {
       this.dicts = response.data;
     });
-    console.log(this.dicts);
-    this.getList();
-    this.sys_log_del = this.permissions["sys_log_del"];
   },
   methods: {
     getList() {

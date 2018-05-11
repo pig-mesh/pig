@@ -32,7 +32,7 @@ const user = {
         LoginByPhone({ commit, state, dispatch }, userInfo) {
             const mobile = userInfo.mobile.trim()
             return new Promise((resolve, reject) => {
-                mobileLogin(mobile, userInfo.smsCode).then(response => {
+                mobileLogin(mobile, userInfo.code).then(response => {
                     const data = response.data
                     setToken(data.access_token)
                     commit('SET_ACCESS_TOKEN', data.access_token)
