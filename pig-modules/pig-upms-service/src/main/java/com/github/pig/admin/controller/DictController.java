@@ -3,6 +3,7 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.github.pig.admin.model.dto.RoleDTO;
 import com.github.pig.admin.model.entity.SysDict;
 import com.github.pig.admin.service.SysDictService;
 import com.github.pig.common.constant.CommonConstant;
@@ -70,6 +71,18 @@ public class DictController extends BaseController {
     }
 
     /**
+     * 添加字典
+     *
+     * @param sysDict 字典信息
+     * @return success、false
+     */
+    @PostMapping
+    @CacheEvict(value = "dict_details", key = "#sysDict.type")
+    public R<Boolean> dict(@RequestBody SysDict sysDict) {
+        return new R<>(sysDictService.insert(sysDict));
+    }
+
+    /**
      * 删除字典，并且清除字典缓存
      *
      * @param id   ID
@@ -80,5 +93,17 @@ public class DictController extends BaseController {
     @CacheEvict(value = "dict_details", key = "#type")
     public R<Boolean> deleteDict(@PathVariable Integer id, @PathVariable String type) {
         return new R<>(sysDictService.deleteById(id));
+    }
+
+    /**
+     * 修改字典
+     *
+     * @param sysDict 字典信息
+     * @return success/false
+     */
+    @PutMapping
+    @CacheEvict(value = "dict_details", key = "#sysDict.type")
+    public R<Boolean> editDict(@RequestBody SysDict sysDict) {
+        return new R<>(sysDictService.updateById(sysDict));
     }
 }

@@ -16,6 +16,9 @@
 ### 项目官网
 文档、视频：https://pig4cloud.com
 
+### ChangeLog
+https://gitee.com/log4j/pig/wikis/Changelog
+
 ### 配套代码
 <a href="https://gitee.com/log4j/pig-ui" target="_blank">pig-ui</a>、<a href="https://gitee.com/cqzqxq_lxh/pig-config" target="_blank">pig-config</a>  
 

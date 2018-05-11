@@ -78,11 +78,21 @@ public class MenuVO implements Serializable {
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return menuId.hashCode();
     }
 
+    /**
+     * menuId 相同则相同
+     *
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
+        if (obj instanceof MenuVO) {
+            Integer targetMenuId = ((MenuVO) obj).getMenuId();
+            return menuId.equals(targetMenuId);
+        }
         return super.equals(obj);
     }
 }

@@ -172,7 +172,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         SysUser params = new SysUser();
-        params.setIntroduction(mobile);
+        params.setPhone(mobile);
         List<SysUser> userList = this.selectList(new EntityWrapper<>(params));
 
         if (CollectionUtil.isEmpty(userList)) {
@@ -225,9 +225,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         SysUserRole condition = new SysUserRole();
         condition.setUserId(userDto.getUserId());
-        SysUserRole sysUserRole = sysUserRoleService.selectOne(new EntityWrapper<>(condition));
-        sysUserRole.setRoleId(userDto.getRole());
-        return sysUserRoleService.update(sysUserRole, new EntityWrapper<>(condition));
+        sysUserRoleService.delete(new EntityWrapper<>(condition));
+        userDto.getRole().forEach(roleId -> {
+            SysUserRole userRole = new SysUserRole();
+            userRole.setUserId(sysUser.getUserId());
+            userRole.setRoleId(roleId);
+            userRole.insert();
+        });
+        return Boolean.TRUE;
     }
 
     /**

@@ -36,7 +36,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     @Cacheable(value = "menu_details", key = "#role  + '_menu'")
-    public List<MenuVO> findMenuByRole(String role) {
+    public List<MenuVO> findMenuByRoleName(String role) {
         return sysMenuMapper.findMenuByRoleName(role);
     }
 
@@ -44,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public String[] findPermission(String[] roles) {
         Set<MenuVO> menuVoSet = new HashSet<>();
         for (String role : roles) {
-            List<MenuVO> menuVos = findMenuByRole(role);
+            List<MenuVO> menuVos = findMenuByRoleName(role);
             menuVoSet.addAll(menuVos);
         }
 
@@ -60,8 +60,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    @CacheEvict(value = "menu_details", key = "#role + '_menu'")
-    public Boolean deleteMenu(Integer id, String role) {
+    @CacheEvict(value = "menu_details", allEntries = true)
+    public Boolean deleteMenu(Integer id) {
         Assert.isNull(id, "菜单ID不能为空");
         // 删除当前节点
         SysMenu condition1 = new SysMenu();
@@ -78,21 +78,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    @CacheEvict(value = "menu_details", key = "#role + '_menu'")
-    public Boolean updateMenuById(SysMenu sysMenu, String role) {
+    @CacheEvict(value = "menu_details", allEntries = true)
+    public Boolean updateMenuById(SysMenu sysMenu) {
         return this.updateById(sysMenu);
     }
 
     /**
      * 返回角色的菜单
      *
-     * @param roleName 角色
+     * @param roleNames 角色
      * @return 菜单列表
      */
     @Override
-    public List<MenuTree> findUserMenuTree(String roleName) {
+    public List<MenuTree> findUserMenuTree(List<String> roleNames) {
         // 获取符合条件得菜单
-        List<MenuVO> all = findMenuByRole(roleName);
+        Set<MenuVO> all = new HashSet<>();
+        roleNames.forEach(roleName -> all.addAll(findMenuByRoleName(roleName)));
         final List<MenuTree> menuTreeList = new ArrayList<>();
         all.forEach(menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {
@@ -100,5 +101,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             }
         });
         return TreeUtil.bulid(menuTreeList, -1);
+    }
+
+    /**
+     * 返回多个角色的菜单
+     *
+     * @param roleNames 角色列表
+     * @return 菜单列表
+     */
+    @Override
+    public List<MenuVO> findMenuByRoles(List<String> roleNames) {
+        List<MenuVO> all = new ArrayList<>();
+        roleNames.forEach(roleName -> all.addAll(findMenuByRoleName(roleName)));
+        return all;
     }
 }

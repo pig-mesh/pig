@@ -58,7 +58,7 @@ public class SysUser extends Model<SysUser> {
     /**
      * 简介
      */
-    private String introduction;
+    private String phone;
     /**
      * 头像
      */
@@ -86,7 +86,7 @@ public class SysUser extends Model<SysUser> {
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 ", delFlag='" + delFlag + '\'' +
-                ", introduction='" + introduction + '\'' +
+                ", phone='" + phone + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", deptId=" + deptId +
                 '}';

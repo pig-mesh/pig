@@ -26,14 +26,23 @@ public class MenuController extends BaseController {
     private SysMenuService sysMenuService;
 
     /**
-     * 通过用户名查询用户菜单
+     * 通过角色名称查询用户菜单
      *
      * @param role 角色名称
      * @return 菜单列表
      */
     @GetMapping("/findMenuByRole/{role}")
     public List<MenuVO> findMenuByRole(@PathVariable String role) {
-        return sysMenuService.findMenuByRole(role);
+        return sysMenuService.findMenuByRoleName(role);
+    }
+
+    /**
+     * 返回当前用户的树形菜单集合
+     * @return 当前用户的树形菜单
+     */
+    @GetMapping(value = "/userMenu")
+    public List<MenuTree> userMenu(){
+        return sysMenuService.findUserMenuTree(getRole());
     }
 
     /**
@@ -41,20 +50,11 @@ public class MenuController extends BaseController {
      *
      * @return 树形菜单
      */
-    @GetMapping(value = "/tree")
+    @GetMapping(value = "/allTree")
     public List<MenuTree> getTree() {
         SysMenu condition = new SysMenu();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         return getMenuTree(sysMenuService.selectList(new EntityWrapper<>(condition)), -1);
-    }
-
-    /**
-     * 返回当前用户的树形菜单集合
-     * @return 当前用户的树形菜单
-     */
-    @GetMapping(value = "/getUserTree")
-    public List<MenuTree> getUserTree(){
-        return sysMenuService.findUserMenuTree(getRole().get(0));
     }
 
     /**
@@ -64,7 +64,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/userTree")
     public List<Integer> userTree() {
-        List<MenuVO> menus = sysMenuService.findMenuByRole(getRole().get(0));
+        List<MenuVO> menus = sysMenuService.findMenuByRoles(getRole());
         List<Integer> menuList = new ArrayList<>();
         for (MenuVO menuVo : menus) {
             menuList.add(menuVo.getMenuId());
@@ -80,7 +80,7 @@ public class MenuController extends BaseController {
      */
     @GetMapping("/roleTree/{roleName}")
     public List<Integer> roleTree(@PathVariable String roleName) {
-        List<MenuVO> menus = sysMenuService.findMenuByRole(roleName);
+        List<MenuVO> menus = sysMenuService.findMenuByRoleName(roleName);
         List<Integer> menuList = new ArrayList<>();
         for (MenuVO menuVo : menus) {
             menuList.add(menuVo.getMenuId());
@@ -119,17 +119,17 @@ public class MenuController extends BaseController {
      */
     @DeleteMapping("/{id}")
     public R<Boolean> menuDel(@PathVariable Integer id) {
-        return new R<>(sysMenuService.deleteMenu(id,getRole().get(0)));
+        return new R<>(sysMenuService.deleteMenu(id));
     }
 
     @PutMapping
     public R<Boolean> menuUpdate(@RequestBody SysMenu sysMenu) {
-        return new R<>(sysMenuService.updateMenuById(sysMenu,getRole().get(0)));
+        return new R<>(sysMenuService.updateMenuById(sysMenu));
     }
 
     private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {
         List<MenuTree> trees = new ArrayList<MenuTree>();
-        MenuTree node = null;
+        MenuTree node;
         for (SysMenu menu : menus) {
             node = new MenuTree();
             node.setId(menu.getMenuId());

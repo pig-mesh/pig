@@ -34,6 +34,8 @@ services:
       context: ./
       dockerfile: Dockerfile-auth
     restart: always
+    ports:
+      - 3000:3000
 
   pig-upms-service:
     links:

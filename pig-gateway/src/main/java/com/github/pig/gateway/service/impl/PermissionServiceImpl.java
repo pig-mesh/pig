@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.toolkit.StringUtils;
 import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.MenuService;
 import com.github.pig.gateway.service.PermissionService;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,10 @@ public class PermissionServiceImpl implements PermissionService {
             Set<MenuVO> urls = new HashSet<>();
             for (SimpleGrantedAuthority authority : grantedAuthorityList) {
                 if (!StrUtil.equals(authority.getAuthority(), "ROLE_USER")) {
-                    CollectionUtil.addAll(urls,menuService.findMenuByRole(authority.getAuthority()));
+                    Set<MenuVO> menuVOSet = menuService.findMenuByRole(authority.getAuthority());
+                    if (CollUtil.isNotEmpty(menuVOSet)) {
+                        CollUtil.addAll(urls, menuVOSet);
+                    }
                 }
             }
 

@@ -6,7 +6,7 @@
         <id column="user_id" property="userId"/>
         <result column="username" property="username"/>
         <result column="password" property="password"/>
-        <result column="introduction" property="introduction" />
+        <result column="phone" property="phone" />
         <result column="avatar" property="avatar" />
         <result column="salt" property="salt"/>
         <result column="dept_id" property="deptId"/>
@@ -21,7 +21,7 @@
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="salt" property="salt"/>
-        <result column="introduction" property="introduction" />
+        <result column="phone" property="phone" />
         <result column="avatar" property="avatar" />
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
@@ -44,7 +44,7 @@
             `user`.username,
             `user`.`password`,
             `user`.salt,
-            `user`.introduction,
+            `user`.phone,
             `user`.avatar,
             `user`.dept_id,
             `user`.create_time AS ucreate_time,
@@ -70,7 +70,7 @@
 
     <select id="selectUserVoByMobile" resultMap="userVoResultMap">
         <include refid="selectUserVo"/>
-        WHERE `user`.introduction = #{mobile}
+        WHERE `user`.phone = #{mobile}
     </select>
 
     <select id="selectUserVoByOpenId" resultMap="userVoResultMap">
@@ -84,7 +84,7 @@
             `user`.username,
             `user`.`password`,
             `user`.salt,
-            `user`.introduction,
+            `user`.phone,
             `user`.avatar,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,
@@ -112,7 +112,7 @@
             `user`.username,
             `user`.`password`,
             `user`.salt,
-            `user`.introduction,
+            `user`.phone,
             `user`.avatar,
             `user`.create_time AS ucreate_time,
             `user`.update_time AS uupdate_time,

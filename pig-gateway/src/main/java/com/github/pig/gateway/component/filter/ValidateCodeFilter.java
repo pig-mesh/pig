@@ -1,77 +1,92 @@
 package com.github.pig.gateway.component.filter;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.exception.ValidateCodeException;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.netflix.zuul.ZuulFilter;
+import com.netflix.zuul.context.RequestContext;
+import com.xiaoleilu.hutool.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * @author lengleng
- * @date 2017-12-18
+ * @date 2018/5/10
  * 验证码校验，true开启，false关闭校验
  * 更细化可以 clientId 进行区分
  */
+@Slf4j
+@RefreshScope
 @Component("validateCodeFilter")
-public class ValidateCodeFilter extends OncePerRequestFilter {
-    private static final Logger logger = LoggerFactory.getLogger(ValidateCodeFilter.class);
-
+public class ValidateCodeFilter extends ZuulFilter {
     private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取";
 
     @Value("${security.validate.code:true}")
     private boolean isValidate;
     @Autowired
     private RedisTemplate redisTemplate;
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (isValidate && (StringUtils.contains(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
-                || StringUtils.contains(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL))) {
-            PrintWriter printWriter = null;
-            try {
-                checkCode(request, response, filterChain);
-            } catch (ValidateCodeException e) {
-                logger.info("登录失败：{}", e.getMessage());
-                response.setCharacterEncoding(CommonConstant.UTF8);
-                response.setContentType(CommonConstant.CONTENT_TYPE);
-                R<String> result = new R<>(e);
-                response.setStatus(478);
-                printWriter = response.getWriter();
-                printWriter.append(objectMapper.writeValueAsString(result));
-            } finally {
-                IOUtils.closeQuietly(printWriter);
-            }
-        } else {
-            filterChain.doFilter(request, response);
-        }
+    public String filterType() {
+        return FilterConstants.PRE_TYPE;
     }
 
-    private void checkCode(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws IOException, ServletException {
+    @Override
+    public int filterOrder() {
+        return FilterConstants.SEND_ERROR_FILTER_ORDER + 1;
+    }
+
+    @Override
+    public boolean shouldFilter() {
+        HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
+        if (isValidate && (StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
+                || StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL))) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Object run() {
+        try {
+            checkCode(RequestContext.getCurrentContext().getRequest());
+        } catch (ValidateCodeException e) {
+            RequestContext ctx = RequestContext.getCurrentContext();
+            R<String> result = new R<>(e);
+            result.setCode(478);
+            result.setMsg("演示环境，没有权限操作");
+
+            ctx.setResponseStatusCode(478);
+            ctx.setSendZuulResponse(false);
+            ctx.getResponse().setContentType("application/json;charset=UTF-8");
+            ctx.setResponseBody(JSONObject.toJSONString(result));
+        }
+        return null;
+    }
+
+    /**
+     * 检查code
+     *
+     * @param httpServletRequest request
+     * @throws ValidateCodeException 验证码校验异常
+     */
+    private void checkCode(HttpServletRequest httpServletRequest) throws ValidateCodeException {
         String code = httpServletRequest.getParameter("code");
-        if (StringUtils.isBlank(code)) {
+        if (StrUtil.isBlank(code)) {
             throw new ValidateCodeException("请输入验证码");
         }
 
         String randomStr = httpServletRequest.getParameter("randomStr");
-        if (StringUtils.isBlank(randomStr)) {
+        if (StrUtil.isBlank(randomStr)) {
             randomStr = httpServletRequest.getParameter("mobile");
         }
 
@@ -87,17 +102,16 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         }
 
         String saveCode = codeObj.toString();
-        if (StringUtils.isBlank(saveCode)) {
+        if (StrUtil.isBlank(saveCode)) {
             redisTemplate.delete(key);
             throw new ValidateCodeException(EXPIRED_CAPTCHA_ERROR);
         }
 
-        if (!StringUtils.equals(saveCode, code)) {
+        if (!StrUtil.equals(saveCode, code)) {
             redisTemplate.delete(key);
             throw new ValidateCodeException("验证码错误，请重新输入");
         }
 
         redisTemplate.delete(key);
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }

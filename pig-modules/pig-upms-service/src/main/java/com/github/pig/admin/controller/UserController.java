@@ -95,10 +95,14 @@ public class UserController extends BaseController {
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
         sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
         userService.insert(sysUser);
-        SysUserRole userRole = new SysUserRole();
-        userRole.setUserId(sysUser.getUserId());
-        userRole.setRoleId(userDto.getRole());
-        return new R<>(userRole.insert());
+
+        userDto.getRole().forEach(roleId -> {
+            SysUserRole userRole = new SysUserRole();
+            userRole.setUserId(sysUser.getUserId());
+            userRole.setRoleId(roleId);
+            userRole.insert();
+        });
+        return new R<>(Boolean.TRUE);
     }
 
     /**

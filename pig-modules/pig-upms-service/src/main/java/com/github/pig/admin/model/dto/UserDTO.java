@@ -3,6 +3,8 @@ package com.github.pig.admin.model.dto;
 import com.github.pig.admin.model.entity.SysUser;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author lengleng
  * @date 2017/11/5
@@ -12,7 +14,7 @@ public class UserDTO extends SysUser {
     /**
      * 角色ID
      */
-    private Integer role;
+    private List<Integer> role;
 
     private Integer deptId;
 
