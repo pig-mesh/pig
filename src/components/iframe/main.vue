@@ -72,6 +72,9 @@ export default {
     //iframe窗口初始化
     iframeInit() {
       const iframe = this.$refs.iframe;
+      if (!iframe) {
+        return
+      }
       const clientHeight = document.documentElement.clientHeight - 120;
       iframe.style.height = `${clientHeight}px`;
       if (iframe.attachEvent) {

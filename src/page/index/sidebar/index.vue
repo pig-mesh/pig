@@ -13,6 +13,7 @@ import { setUrlPath } from "@/util/util";
 import { mapGetters } from "vuex";
 import SidebarItem from "./sidebarItem";
 import logo from "./logo";
+import { initMenu } from '@/util/util'
 export default {
   name: "sidebar",
   components: { SidebarItem, logo },
@@ -20,7 +21,12 @@ export default {
     return {};
   },
   created() {
-    this.$store.dispatch("GetMenu").then(data => {});
+    if (! this.$store.state.user.isInitMenu) {
+      this.$store.dispatch("GetMenu").then((data) => {
+          initMenu(this.$router, data)
+          this.$store.commit('IS_INIT_MENU', true)
+      });
+    }
   },
   computed: {
     ...mapGetters(["menu", "tag", "isCollapse"]),

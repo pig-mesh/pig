@@ -8,14 +8,13 @@
       <el-button class="filter-item" type="primary" v-waves icon="search" @click="handleFilter">搜索</el-button>
     </div>
     <el-table :key='tableKey' :data="list" v-loading="listLoading" element-loading-text="给我一点时间" border fit highlight-current-row style="width: 99%">
-
       <el-table-column align="center" label="序号">
         <template slot-scope="scope">
-          <span>{{Number(scope.row.id).toFixed()}}</span>
+          <span>{{ getSerialNumber(scope.$index) }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="类型" align="center">
+      <el-table-column align="center" label="类型">
         <template slot-scope="scope">
           <span>
             <el-button type="success" v-if="scope.row.type == 0">{{ scope.row.type | typeFilter }}</el-button>
@@ -26,41 +25,41 @@
 
       <el-table-column label="请求接口" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{ scope.row.requestUri}}</span>
+          <span>{{ scope.row.requestUri }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="IP地址">
         <template slot-scope="scope">
-          <span>{{scope.row.remoteAddr}}</span>
+          <span>{{ scope.row.remoteAddr }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="请求方式">
         <template slot-scope="scope">
-          <span>{{scope.row.method}}</span>
+          <span>{{ scope.row.method }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="传入参数" show-overflow-tooltip>
         <template slot-scope="scope">
-          <span>{{scope.row.params}}</span>
+          <span>{{ scope.row.params }}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="请求时间">
         <template slot-scope="scope">
-          <span>{{scope.row.time}}</span>
+          <span>{{ scope.row.time}}</span>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="创建时间">
         <template slot-scope="scope">
-          <span>{{scope.row.createTime | parseTime('{y}-{m}-{d} {h}:{i}')}}</span>
+          <span>{{ scope.row.createTime | moment('YYYY-MM-DD HH:mm') }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column label="操作">
+      <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" v-if="sys_log_del" @click="handleDelete(scope.row)">删除
           </el-button>
@@ -120,6 +119,9 @@ export default {
     });
   },
   methods: {
+    getSerialNumber(index) {
+      return index + 1 + (this.listQuery.page - 1) * this.listQuery.limit;
+    },
     getList() {
       this.listLoading = true;
       this.listQuery.orderByField = "create_time";

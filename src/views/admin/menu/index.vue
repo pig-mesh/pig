@@ -12,13 +12,15 @@
       <el-col :span="8" style='margin-top:15px;'>
         <el-tree
           class="filter-tree"
-          :data="treeData"
           node-key="id"
           highlight-current
-          :props="defaultProps"
+          :data="treeData"
+          :default-expanded-keys="aExpandedKeys"
           :filter-node-method="filterNode"
+          :props="defaultProps"
           @node-click="getNodeData"
-          default-expand-all
+          @node-expand="nodeExpand"
+          @node-collapse="nodeCollapse"
         >
         </el-tree>
       </el-col>
@@ -96,6 +98,14 @@
           name: undefined
         },
         treeData: [],
+        oExpandedKey: {
+          // key (from tree id) : expandedOrNot boolean
+        },
+        oTreeNodeChildren: {
+          // id1 : [children] (from tree node id1) 
+          // id2 : [children] (from tree node id2)
+        },
+        aExpandedKeys: [],
         defaultProps: {
           children: 'children',
           label: 'name'
@@ -148,9 +158,46 @@
         })
       },
       filterNode(value, data) {
+        // console.log(value);
         if (!value) return true
         return data.label.indexOf(value) !== -1
       },
+
+      nodeExpand(data) {
+          let aChildren = data.children
+          if (aChildren.length > 0) {
+            this.oExpandedKey[data.id] = true
+            this.oTreeNodeChildren[data.id] = aChildren
+          }
+          this.setExpandedKeys()  
+      },
+      nodeCollapse(data) {
+        this.oExpandedKey[data.id] = false
+        // 如果有子节点 
+        this.treeRecursion(this.oTreeNodeChildren[data.id], (oNode) => {
+          this.oExpandedKey[oNode.id] = false
+        });
+        this.setExpandedKeys()
+      },
+      setExpandedKeys() {
+        let oTemp = this.oExpandedKey
+        this.aExpandedKeys = []
+        for (let sKey in oTemp) {
+          if (oTemp[sKey]) {
+            this.aExpandedKeys.push(parseInt(sKey));
+          }
+        }
+      },
+      treeRecursion(aChildren, fnCallback) {
+        if (aChildren) {
+          for (let i = 0; i < aChildren.length; ++i) {
+            let oNode = aChildren[i]
+            fnCallback && fnCallback(oNode)
+            this.treeRecursion(oNode.children, fnCallback)
+          }
+        }
+      },
+
       getNodeData(data) {
         if (!this.formEdit) {
           this.formStatus = 'update'
