@@ -50,7 +50,7 @@ export default {
     };
     return {
       loginForm: {
-        username: "pig",
+        username: "admin",
         password: "123456",
         code: "",
         randomStr: ""
