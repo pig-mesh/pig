@@ -26,7 +26,7 @@ public class MobileCodeReceiveListener {
     @RabbitHandler
     public void receive(MobileMsgTemplate mobileMsgTemplate) {
         long startTime = System.currentTimeMillis();
-        log.info("消息中心接收到短信发送请求-> 手机号：{} -> 验证码: {} ", mobileMsgTemplate.getMobile(), mobileMsgTemplate.getText());
+        log.info("消息中心接收到短信发送请求-> 手机号：{} -> 验证码: {} ", mobileMsgTemplate.getMobile(), mobileMsgTemplate.getContext());
         String type = mobileMsgTemplate.getType();
         SmsMessageHandler messageHandler = messageHandlerMap.get(type);
         messageHandler.execute(mobileMsgTemplate);

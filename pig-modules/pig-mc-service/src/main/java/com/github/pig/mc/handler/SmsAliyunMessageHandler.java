@@ -1,6 +1,5 @@
 package com.github.pig.mc.handler;
 
-import com.alibaba.fastjson.JSONObject;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
@@ -12,8 +11,6 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Assert;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.mc.config.SmsAliyunPropertiesConfig;
-import com.github.pig.mc.utils.constant.SmsChannelTemplateConstant;
-import com.github.pig.mc.utils.sms.EnumSmsChannelTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,7 +36,7 @@ public class SmsAliyunMessageHandler extends AbstractMessageHandler {
     @Override
     public void check(MobileMsgTemplate mobileMsgTemplate) {
         Assert.isBlank(mobileMsgTemplate.getMobile(), "手机号不能为空");
-        Assert.isBlank(mobileMsgTemplate.getText(), "验证码不能为空");
+        Assert.isBlank(mobileMsgTemplate.getContext(), "短信内容不能为空");
     }
 
     /**
@@ -67,20 +64,21 @@ public class SmsAliyunMessageHandler extends AbstractMessageHandler {
         SendSmsRequest request = new SendSmsRequest();
         //必填:待发送手机号
         request.setPhoneNumbers(mobileMsgTemplate.getMobile());
+
         //必填:短信签名-可在短信控制台中找到
-        request.setSignName(EnumSmsChannelTemplate.LOGIN_NAME_LOGIN.getDescription());
+        request.setSignName(mobileMsgTemplate.getSignName());
+
         //必填:短信模板-可在短信控制台中找到
-        request.setTemplateCode(smsAliyunPropertiesConfig.getChannels().get(SmsChannelTemplateConstant.LOGIN_NAME_LOGIN));
-        //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("product", "pig_cloud");
-        jsonObject.put("code", mobileMsgTemplate.getText());
-        request.setTemplateParam(jsonObject.toJSONString());
+        request.setTemplateCode(smsAliyunPropertiesConfig.getChannels().get(mobileMsgTemplate.getTemplate()));
+
+        //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"
+        request.setTemplateParam(mobileMsgTemplate.getContext());
         request.setOutId(mobileMsgTemplate.getMobile());
 
         //hint 此处可能会抛出异常，注意catch
         try {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
+            log.info("短信发送完毕，手机号：{}，返回状态：{}", mobileMsgTemplate.getMobile(), sendSmsResponse.getCode());
         } catch (ClientException e) {
             log.error("发送异常");
             e.printStackTrace();

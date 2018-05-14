@@ -19,7 +19,7 @@ public class MobileServiceChangeReceiveListener {
     @RabbitHandler
     public void receive(MobileMsgTemplate mobileMsgTemplate) {
         long startTime = System.currentTimeMillis();
-        log.info("消息中心接收到短信发送请求-> 手机号：{} -> 验证码: {} ", mobileMsgTemplate.getMobile(), mobileMsgTemplate.getText());
+        log.info("消息中心接收到短信发送请求-> 手机号：{} -> 验证码: {} ", mobileMsgTemplate.getMobile(), mobileMsgTemplate.getContext());
         long useTime = System.currentTimeMillis() - startTime;
         log.info("调用 {} 短信网关处理完毕，耗时 {}毫秒", mobileMsgTemplate.getType(), useTime);
     }
