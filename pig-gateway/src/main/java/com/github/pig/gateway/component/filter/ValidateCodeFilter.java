@@ -11,8 +11,10 @@ import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,17 +23,19 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author lengleng
  * @date 2018/5/10
+ *
+ * security.validate.code.enabled 默认 为false，开启需要设置为true
+ *
  * 验证码校验，true开启，false关闭校验
  * 更细化可以 clientId 进行区分
  */
 @Slf4j
 @RefreshScope
-@Component("validateCodeFilter")
+@Configuration("validateCodeFilter")
+@ConditionalOnProperty(value = "security.validate.code.enabled", havingValue = "true")
 public class ValidateCodeFilter extends ZuulFilter {
     private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取";
 
-    @Value("${security.validate.code:true}")
-    private boolean isValidate;
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -48,8 +52,8 @@ public class ValidateCodeFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        if (isValidate && (StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
-                || StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL))) {
+        if (StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
+                || StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL)) {
             return true;
         }
         return false;
