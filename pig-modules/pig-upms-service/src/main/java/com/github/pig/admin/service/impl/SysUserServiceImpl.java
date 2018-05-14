@@ -1,5 +1,6 @@
 package com.github.pig.admin.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
@@ -17,6 +18,8 @@ import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
+import com.github.pig.common.constant.enums.EnumSmsChannel;
+import com.github.pig.common.constant.enums.EnumSmsChannelTemplate;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
@@ -181,8 +184,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         String code = RandomUtil.randomNumbers(4);
+        JSONObject contextJson = new JSONObject();
+        contextJson.put("code", code);
+        contextJson.put("product", "Pig4Cloud");
         log.info("短信发送请求消息中心 -> 手机号:{} -> 验证码：{}", mobile, code);
-        rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE, new MobileMsgTemplate(mobile, code, CommonConstant.ALIYUN_SMS));
+        rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_CODE_QUEUE,
+                new MobileMsgTemplate(
+                        mobile,
+                        contextJson.toJSONString(),
+                        EnumSmsChannel.ALIYUN.getName(),
+                        EnumSmsChannelTemplate.LOGIN_NAME_LOGIN.getSignName(),
+                        EnumSmsChannelTemplate.LOGIN_NAME_LOGIN.getTemplate()
+                ));
         redisTemplate.opsForValue().set(SecurityConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.DEFAULT_IMAGE_EXPIRE, TimeUnit.SECONDS);
         return new R<>(true);
     }
