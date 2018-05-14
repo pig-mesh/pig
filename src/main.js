@@ -8,7 +8,9 @@ import './errorLog' // 错误日志
 import router from './router/router'
 import store from './store'
 import AVUE from 'avue-cli/packages/index.js'
-import { loadStyle } from './util/util'
+import {
+  loadStyle
+} from './util/util'
 import * as urls from '@/config/env'
 import {
   iconfontUrl,

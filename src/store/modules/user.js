@@ -1,17 +1,47 @@
-import { getToken, setToken, removeToken } from '@/util/auth'
-import { setStore, getStore } from '@/util/store'
-import { validatenull } from '@/util/validate'
-import { loginByUsername, mobileLogin, getUserInfo, logout } from '@/api/login'
-import { GetMenu } from '@/api/menu'
+import {
+  getToken,
+  setToken,
+  removeToken
+} from '@/util/auth'
+import {
+  setStore,
+  getStore
+} from '@/util/store'
+import {
+  validatenull
+} from '@/util/validate'
+import {
+  loginByUsername,
+  mobileLogin,
+  getUserInfo,
+  logout
+} from '@/api/login'
+import {
+  GetMenu
+} from '@/api/menu'
 const user = {
   state: {
-    userInfo: getStore({ name: 'userInfo' }) || {},
-    permissions: getStore({ name: 'permissions' }) || {},
-    roles: getStore({ name: 'roles' }) || [],
-    menu: getStore({ name: 'menu' }) || [],
-    isInitMenu: getStore({ name: 'isInitMenu' }) || false,
-    access_token: getStore({ name: 'access_token' }) || '',
-    refresh_token: getStore({ name: 'refresh_token' }) || ''
+    userInfo: getStore({
+      name: 'userInfo'
+    }) || {},
+    permissions: getStore({
+      name: 'permissions'
+    }) || {},
+    roles: getStore({
+      name: 'roles'
+    }) || [],
+    menu: getStore({
+      name: 'menu'
+    }) || [],
+    isInitMenu: getStore({
+      name: 'isInitMenu'
+    }) || false,
+    access_token: getStore({
+      name: 'access_token'
+    }) || '',
+    refresh_token: getStore({
+      name: 'refresh_token'
+    }) || ''
   },
   actions: {
     // 根据用户名登录
@@ -133,6 +163,11 @@ const user = {
       return new Promise(resolve => {
         GetMenu().then((res) => {
           const data = res.data
+          data.forEach(ele => {
+            ele.children.forEach(child => {
+              if (!validatenull(child.component)) child.path = `${ele.path}/${child.path}`
+            });
+          });
           commit('SET_MENU', data)
           resolve(data)
         })
@@ -149,24 +184,10 @@ const user = {
       })
     },
     SET_MENU: (state, menu) => {
-      state.menu = menu || []
+      state.menu = menu
       setStore({
         name: 'menu',
         content: state.menu,
-        type: 'session'
-      })
-      state.isInitMenu = false
-      setStore({
-        name: 'isInitMenu',
-        content: state.isInitMenu,
-        type: 'session'
-      })
-    },
-    IS_INIT_MENU: (state, isInitMenu) => {
-      state.isInitMenu = isInitMenu
-      setStore({
-        name: 'isInitMenu',
-        content: state.isInitMenu,
         type: 'session'
       })
     },

@@ -1,5 +1,9 @@
-import { validatenull } from './validate'
-import { baseUrl } from '@/config/env'
+import {
+  validatenull
+} from './validate'
+import {
+  baseUrl
+} from '@/config/env'
 
 export const initMenu = (router, menu) => {
   if (menu.length === 0) {
@@ -16,35 +20,29 @@ export const formatRoutes = (aMenu) => {
       component,
       name,
       icon,
-      hidden,
-      redirect,
-      meta,
       children
     } = oMenu
-    const oRouter = {
-      path: path,
-      component(resolve) {
-        let componentPath = ''
-        if (component === 'Layout') {
-          require(['../page/index'], resolve)
-          return
-        } else if (component.indexOf('/') !== 0) {
-          componentPath = '/' + component
-        } else {
-          componentPath = component
-        }
-        require(['../views' + componentPath + '.vue'], resolve)
-      },
-      name: name,
-      icon: icon,
-      hidden: hidden,
-      meta: meta,
-      children: (children && children instanceof Array) ? formatRoutes(children) : []
+    if (!validatenull(component)) {
+      let filePath;
+      const oRouter = {
+        path: path,
+        component(resolve) {
+          let componentPath = ''
+          if (component === 'Layout') {
+            require(['../page/index'], resolve)
+            return
+          } else {
+            componentPath = component
+          }
+          require([`../${componentPath}.vue`], resolve)
+        },
+        name: name,
+        icon: icon,
+        children: validatenull(children) ? [] : formatRoutes(children)
+      }
+      aRouter.push(oRouter)
     }
-    if (redirect) {
-      oRouter.redirect = redirect
-    }
-    aRouter.push(oRouter)
+
   })
   return aRouter
 }

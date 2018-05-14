@@ -198,7 +198,8 @@ export default {
             message: "请选择角色",
             trigger: "blur"
           }
-        ],phone: [
+        ],
+        phone: [
           {
             required: true,
             message: "手机号",
@@ -298,8 +299,8 @@ export default {
         this.dialogFormVisible = true;
         this.dialogStatus = "update";
         this.role = [];
-        for (var i=0;i < row.roleList.length;i++) {
-          this.role[i] = row.roleList[i].roleId
+        for (var i = 0; i < row.roleList.length; i++) {
+          this.role[i] = row.roleList[i].roleId;
         }
         deptRoleList(response.data.deptId).then(response => {
           this.rolesOptions = response.data;

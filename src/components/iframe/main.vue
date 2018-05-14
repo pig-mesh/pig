@@ -19,7 +19,6 @@ export default {
   },
   mounted() {
     this.load();
-    this.resize();
   },
   props: ["routerPath"],
   watch: {
@@ -54,6 +53,7 @@ export default {
     },
     // 加载组件
     load() {
+      this.resize();
       this.show();
       this.$route.query.src = this.$route.query.src
         ? this.$route.query.src.replace("$", "#")
@@ -73,7 +73,7 @@ export default {
     iframeInit() {
       const iframe = this.$refs.iframe;
       if (!iframe) {
-        return
+        return;
       }
       const clientHeight = document.documentElement.clientHeight - 120;
       iframe.style.height = `${clientHeight}px`;
