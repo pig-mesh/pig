@@ -6,13 +6,15 @@ import com.github.pig.common.constant.enums.EnumSmsChannel;
 import com.github.pig.common.constant.enums.EnumSmsChannelTemplate;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.monitor.config.MonitorPropertiesConfig;
-import com.xiaoleilu.hutool.collection.CollectionUtil;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import com.xiaoleilu.hutool.date.DateUtil;
 import de.codecentric.boot.admin.event.ClientApplicationEvent;
 import de.codecentric.boot.admin.event.ClientApplicationStatusChangedEvent;
 import de.codecentric.boot.admin.notify.AbstractStatusChangeNotifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import java.nio.file.Paths;
 
 /**
  * @author lengleng
@@ -70,7 +72,7 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
                 log.info("开始短信通知，内容：{}", text);
                 rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_SERVICE_STATUS_CHANGE,
                         new MobileMsgTemplate(
-                                CollectionUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
+                                CollUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
                                 contextJson.toJSONString(),
                                 EnumSmsChannel.ALIYUN.getName(),
                                 EnumSmsChannelTemplate.SERVICE_STATUS_CHANGE.getSignName(),

@@ -1,6 +1,6 @@
 package com.github.pig.gateway.component.config;
 
-import com.github.pig.common.bean.config.FilterUrlsPropertiesConfig;
+import com.github.pig.common.bean.config.FilterIgnorePropertiesConfig;
 import com.github.pig.gateway.component.filter.ValidateCodeFilter;
 import com.github.pig.gateway.component.handler.PigAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 /**
  * @author lengleng
  * @date 2017/10/27
@@ -24,24 +23,19 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableResourceServer
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Autowired
-    private FilterUrlsPropertiesConfig filterUrlsPropertiesConfig;
+    private FilterIgnorePropertiesConfig filterIgnorePropertiesConfig;
     @Autowired
     private OAuth2WebSecurityExpressionHandler expressionHandler;
     @Autowired
     private PigAccessDeniedHandler pigAccessDeniedHandler;
-    @Autowired
-    private ValidateCodeFilter validateCodeFilter;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        //http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
         //允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
         http.headers().frameOptions().disable();
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = http
                 .authorizeRequests();
-        for (String url : filterUrlsPropertiesConfig.getAnon()) {
-            registry.antMatchers(url).permitAll();
-        }
+        filterIgnorePropertiesConfig.getUrls().forEach(url -> registry.antMatchers(url).permitAll());
         registry.anyRequest()
                 .access("@permissionService.hasPermission(request,authentication)");
     }

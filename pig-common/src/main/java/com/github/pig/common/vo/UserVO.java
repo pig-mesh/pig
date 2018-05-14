@@ -64,5 +64,5 @@ public class UserVO implements Serializable {
     /**
      * 角色列表
      */
-    private List<SysRole> roleList = new ArrayList<>();
+    private List<SysRole> roleList;
 }

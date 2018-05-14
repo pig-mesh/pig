@@ -1,43 +1,44 @@
 package com.github.pig.gateway.component.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pig.common.bean.config.FilterIgnorePropertiesConfig;
 import com.github.pig.common.constant.SecurityConstants;
+import com.github.pig.common.util.AuthUtils;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.exception.ValidateCodeException;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @author lengleng
  * @date 2018/5/10
- *
+ * <p>
  * security.validate.code.enabled 默认 为false，开启需要设置为true
- *
- * 验证码校验，true开启，false关闭校验
- * 更细化可以 clientId 进行区分
  */
 @Slf4j
 @RefreshScope
 @Configuration("validateCodeFilter")
-@ConditionalOnProperty(value = "security.validate.code.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "security.validate.code", havingValue = "true")
 public class ValidateCodeFilter extends ZuulFilter {
     private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取";
 
     @Autowired
     private RedisTemplate redisTemplate;
+    @Autowired
+    private FilterIgnorePropertiesConfig filterIgnorePropertiesConfig;
 
     @Override
     public String filterType() {
@@ -49,14 +50,33 @@ public class ValidateCodeFilter extends ZuulFilter {
         return FilterConstants.SEND_ERROR_FILTER_ORDER + 1;
     }
 
+    /**
+     * 是否校验验证码
+     * 1. 判断验证码开关是否开启
+     * 2. 判断请求是否登录请求
+     * 3. 判断终端是否支持
+     *
+     * @return true/false
+     */
     @Override
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
-        if (StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)
-                || StrUtil.containsIgnoreCase(request.getRequestURI(), SecurityConstants.MOBILE_TOKEN_URL)) {
-            return true;
+
+        if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(),
+                SecurityConstants.OAUTH_TOKEN_URL, SecurityConstants.MOBILE_TOKEN_URL)) {
+            return false;
         }
-        return false;
+
+        try {
+            String[] clientInfos = AuthUtils.extractAndDecodeHeader(request);
+            if (CollUtil.containsAny(filterIgnorePropertiesConfig.getClients(), Arrays.asList(clientInfos))) {
+                return false;
+            }
+        } catch (IOException e) {
+            log.error("解析终端信息失败", e);
+        }
+
+        return true;
     }
 
     @Override
@@ -67,7 +87,6 @@ public class ValidateCodeFilter extends ZuulFilter {
             RequestContext ctx = RequestContext.getCurrentContext();
             R<String> result = new R<>(e);
             result.setCode(478);
-            result.setMsg("演示环境，没有权限操作");
 
             ctx.setResponseStatusCode(478);
             ctx.setSendZuulResponse(false);

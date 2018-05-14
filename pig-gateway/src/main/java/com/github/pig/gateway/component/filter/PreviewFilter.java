@@ -15,8 +15,10 @@ import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,12 +34,11 @@ import static org.springframework.cloud.netflix.zuul.filters.support.FilterConst
  * 演示环境控制
  */
 @Slf4j
-@Component
 @RefreshScope
+@Configuration
+@ConditionalOnProperty(value = "security.validate.preview", havingValue = "true")
 public class PreviewFilter extends ZuulFilter {
     private static final String TOKEN = "token";
-    @Value("${security.validate.preview:true}")
-    private boolean isPreview;
 
     @Override
     public String filterType() {
@@ -53,15 +54,14 @@ public class PreviewFilter extends ZuulFilter {
     public boolean shouldFilter() {
         HttpServletRequest request = RequestContext.getCurrentContext().getRequest();
         if (StrUtil.equalsIgnoreCase(request.getMethod(), HttpMethod.GET.name()) ||
-                StrUtil.containsIgnoreCase(request.getRequestURI(), TOKEN)) {
-            return  false;
+                StrUtil.containsIgnoreCase(request.getRequestURI(), TOKEN)){
+            return false;
         }
-        return isPreview;
+        return true;
     }
 
     @Override
     public Object run() {
-        log.warn("演示环境，没有权限操作 -> {}", isPreview);
         RequestContext ctx = RequestContext.getCurrentContext();
         R<String> result = new R<>();
         result.setCode(479);

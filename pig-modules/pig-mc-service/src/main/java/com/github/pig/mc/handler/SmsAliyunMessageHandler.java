@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
 public class SmsAliyunMessageHandler extends AbstractMessageHandler {
     @Autowired
     private SmsAliyunPropertiesConfig smsAliyunPropertiesConfig;
-    private static final String product = "Dysmsapi";
-    private static final String domain = "dysmsapi.aliyuncs.com";
+    private static final String PRODUCT = "Dysmsapi";
+    private static final String DOMAIN = "dysmsapi.aliyuncs.com";
 
     /**
      * 数据校验
@@ -53,7 +53,7 @@ public class SmsAliyunMessageHandler extends AbstractMessageHandler {
         //初始化acsClient,暂不支持region化
         IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", smsAliyunPropertiesConfig.getAccessKey(), smsAliyunPropertiesConfig.getSecretKey());
         try {
-            DefaultProfile.addEndpoint("cn-hou", "cn-hangzhou", product, domain);
+            DefaultProfile.addEndpoint("cn-hou", "cn-hangzhou", PRODUCT, DOMAIN);
         } catch (ClientException e) {
             log.error("初始化SDK 异常", e);
             e.printStackTrace();
