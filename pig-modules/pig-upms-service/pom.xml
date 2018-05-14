@@ -57,11 +57,6 @@
 			<version>${velocity-engine-core.version}</version>
 		</dependency>
 		<!--mybatis-plus end -->
-		<!--rabbitMQ-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
 		<!--七牛-->
 		<dependency>
 			<groupId>com.qiniu</groupId>

@@ -23,11 +23,6 @@
             <artifactId>pig-common</artifactId>
             <version>${pig.version}</version>
         </dependency>
-        <!--rabbitMQ-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-amqp</artifactId>
-        </dependency>
         <!--阿里大于-->
         <dependency>
             <groupId>com.aliyun</groupId>
