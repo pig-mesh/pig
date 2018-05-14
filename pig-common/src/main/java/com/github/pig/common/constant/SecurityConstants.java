@@ -62,12 +62,12 @@ public interface SecurityConstants {
     /**
      * 默认生成图形验证码宽度
      */
-    String DEFAULT_IMAGE_WIDTH = "150";
+    String DEFAULT_IMAGE_WIDTH = "100";
 
     /**
      * 默认生成图像验证码高度
      */
-    String DEFAULT_IMAGE_HEIGHT = "32";
+    String DEFAULT_IMAGE_HEIGHT = "40";
 
     /**
      * 默认生成图形验证码长度
