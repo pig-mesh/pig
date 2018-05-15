@@ -1,16 +1,11 @@
 <template>
   <div class="login-container pull-height" @keyup.enter.native="handleLogin">
     <div class="login-info text-white animated fadeInLeft">
-      <h2 class="login-info-title">Pig 微服务快速开发框架</h2>
+      <h2 class="login-info-title">{{website.info.title}}</h2>
       <ul class="login-info-list">
-        <li class="login-info-item">
-          <i class="el-icon-check"></i> 是一个基于Spring Cloud、oAuth2.0开发基于Vue前后分离的开发平台</li>
-        <li class="login-info-item">
-          <i class="el-icon-check"></i> 是一个基于vue+vuex+vue-router快速后台管理系统，采用token交互验证方式。</li>
-        <li class="login-info-item">
-          <i class="el-icon-check"></i> 最大程度上帮助企业节省时间成本和费用开支。 </li>
-        <li class="login-info-item">
-          <i class="el-icon-check"></i> QQ群：23754102 </li>
+        <li class="login-info-item" v-for="(item,index) in website.info.list" :key="index">
+          <i class="el-icon-check"></i>&nbsp;{{item}}
+        </li>
       </ul>
     </div>
     <div class="login-border  animated fadeInRight">
@@ -40,6 +35,7 @@ import codeLogin from "./codelogin";
 import thirdLogin from "./thirdlogin";
 import topTheme from "../index/top/top-theme";
 import theme from "@/mixins/theme";
+import { mapGetters } from "vuex";
 export default {
   name: "login",
   mixins: [theme()],
@@ -56,7 +52,9 @@ export default {
   },
   created() {},
   mounted() {},
-  computed: {},
+  computed: {
+    ...mapGetters(["website"])
+  },
   props: [],
   methods: {}
 };

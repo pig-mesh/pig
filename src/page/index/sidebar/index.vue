@@ -12,6 +12,7 @@ import { setUrlPath } from "@/util/util";
 import { mapGetters } from "vuex";
 import SidebarItem from "./sidebarItem";
 import logo from "./logo";
+import { validatenull } from "@/util/validate";
 import { initMenu } from "@/util/util";
 export default {
   name: "sidebar",
@@ -20,9 +21,11 @@ export default {
     return {};
   },
   created() {
-    this.$store.dispatch("GetMenu").then(data => {
-      initMenu(this.$router, data);
-    });
+    if (validatenull(this.menu)) {
+      this.$store.dispatch("GetMenu").then(data => {
+        initMenu(this.$router, data);
+      });
+    }
   },
   computed: {
     ...mapGetters(["menu", "tag", "isCollapse"]),
@@ -35,6 +38,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
 </style>
 

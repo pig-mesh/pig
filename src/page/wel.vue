@@ -1,26 +1,30 @@
 <template>
   <div class="pull-chheight wel-contailer">
     <div class="banner-text">
-      <h2>Pig 微服务快速开发框架</h2>
+      <h2>{{website.wel.title}}</h2>
       <span :class="['actor',{typeing:isText}]">{{text}}</span>
     </div>
   </div>
 </template>
 
 <script>
-import DATA from "@/const/wel";
+import { mapGetters } from "vuex";
 export default {
   name: "wel",
   data() {
     return {
-      DATA: DATA,
+      DATA: [],
       text: "",
       actor: "",
       count: 0,
       isText: false
     };
   },
+  computed: {
+    ...mapGetters(["website"])
+  },
   created() {
+    this.DATA = this.website.wel.list;
     this.actor = this.DATA[this.count] || "";
     setTimeout(() => {
       this.isText = true;
