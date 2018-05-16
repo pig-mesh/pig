@@ -1,7 +1,7 @@
 {
-  "name": "avue",
-  "version": "0.0.1",
-  "description": "A Vue.js project",
+  "name": "pig-ui",
+  "version": "1.3.6",
+  "description": "基于avue的实战项目",
   "author": "smallwei <1634566606@qq.com>",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "karma": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {
-    "avue-cli": "^1.3.0",
+    "avue-cli": "^1.3.6",
     "axios": "^0.16.2",
     "compression": "^1.6.2",
     "cross-env": "^3.2.4",

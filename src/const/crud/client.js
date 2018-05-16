@@ -9,8 +9,8 @@ export const tableOption = {
   "dic": [],
   "column": [{
     width: 150,
-    "label": "client_id",
-    "prop": "clientId",
+    label: "client_id",
+    prop: "clientId",
     align: 'center',
     sortable: true,
     rules: [{
@@ -20,8 +20,8 @@ export const tableOption = {
     }]
   }, {
     width: 300,
-    "label": "client_secret",
-    "prop": "clientSecret",
+    label: "client_secret",
+    prop: "clientSecret",
     align: 'center',
     sortable: true,
     rules: [{
@@ -30,13 +30,13 @@ export const tableOption = {
       trigger: "blur"
     }]
   }, {
-    "label": "resource_ids",
-    "prop": "resourceIds",
+    label: "resource_ids",
+    prop: "resourceIds",
     align: 'center',
     width: 150,
   }, {
-    "label": "scope",
-    "prop": "scope",
+    label: "scope",
+    prop: "scope",
     align: 'center',
     width: 150,
     rules: [{
@@ -45,46 +45,46 @@ export const tableOption = {
       trigger: "blur"
     }]
   }, {
-    "label": "authorized_grant_types",
-    "prop": "authorizedGrantTypes",
+    label: "authorized_grant_types",
+    prop: "authorizedGrantTypes",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "web_server_redirect_uri",
-    "prop": "webServerRedirectUri",
+    label: "web_server_redirect_uri",
+    prop: "webServerRedirectUri",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "authorities",
-    "prop": "authorities",
+    label: "authorities",
+    prop: "authorities",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "access_token_validity",
-    "prop": "accessTokenValidity",
+    label: "access_token_validity",
+    prop: "accessTokenValidity",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "refresh_token_validity",
-    "prop": "refreshTokenValidity",
+    label: "refresh_token_validity",
+    prop: "refreshTokenValidity",
     type: 'number',
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "additional_information",
-    "prop": "additionalInformation",
+    label: "additional_information",
+    prop: "additionalInformation",
     type: 'number',
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    "label": "autoapprove",
-    "prop": "autoapprove",
+    label: "autoapprove",
+    prop: "autoapprove",
     align: 'center',
     type: 'radio',
     dicData: [{
