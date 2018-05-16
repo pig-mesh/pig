@@ -1,22 +1,22 @@
 <template>
   <div class="app-container pull-auto">
-    <el-button type="primary" @click="handleAdd" size="small" v-if="permissions.sys_client_add">新 增</el-button>
+    <el-button type="primary" @click="handleAdd" size="small" v-if="permissions.sys_route_add">新 增</el-button>
     <br /><br />
     <avue-crud ref="crud" :page="page" :table-data="tableData" :table-loading="tableLoading" :table-option="tableOption" @current-change="currentChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
       <template slot-scope="scope" slot="menu">
-        <el-button type="primary" v-if="permissions.sys_client_upd" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
-        <el-button type="danger" v-if="permissions.sys_client_del" icon="el-icon-delete" size="small" plain @click="handleDel(scope.row,scope.index)">删除</el-button>
+        <el-button type="primary" v-if="permissions.sys_route_upd" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
+        <el-button type="danger" v-if="permissions.sys_route_del" icon="el-icon-delete" size="small" plain @click="handleDel(scope.row,scope.index)">删除</el-button>
       </template>
     </avue-crud>
   </div>
 </template>
 
 <script>
-import { fetchList, getObj, addObj, putObj, delObj } from "@/api/client";
-import { tableOption } from "@/const/crud/client";
+import { fetchList, getObj, addObj, putObj, delObj } from "@/api/route";
+import { tableOption } from "@/const/crud/route";
 import { mapGetters } from "vuex";
 export default {
-  name: "client",
+  name: "route",
   data() {
     return {
       tableData: [],
@@ -68,13 +68,13 @@ export default {
     },
     rowDel: function(row, index) {
       var _this = this;
-      this.$confirm("是否确认删除ID为" + row.clientId, "提示", {
+      this.$confirm("是否确认删除ID为" + row.id, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(function() {
-          return delObj(row.clientId);
+          return delObj(row.id);
         })
         .then(data => {
           _this.tableData.splice(index, 1);
