@@ -10,16 +10,14 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Assert;
 import com.github.pig.common.vo.MenuVO;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * <p>
@@ -94,12 +92,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 获取符合条件得菜单
         Set<MenuVO> all = new HashSet<>();
         roleNames.forEach(roleName -> all.addAll(findMenuByRoleName(roleName)));
-        final List<MenuTree> menuTreeList = new ArrayList<>();
+        List<MenuTree> menuTreeList = new ArrayList<>();
         all.forEach(menuVo -> {
             if (CommonConstant.MENU.equals(menuVo.getType())) {
                 menuTreeList.add(new MenuTree(menuVo));
             }
         });
+        CollUtil.sort(menuTreeList, Comparator.comparingInt(MenuTree::getSort));
         return TreeUtil.bulid(menuTreeList, -1);
     }
 

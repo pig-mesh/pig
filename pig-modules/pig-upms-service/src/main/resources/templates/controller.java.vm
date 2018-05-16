@@ -7,6 +7,7 @@ import com.github.pig.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import ${package.Entity}.${entity};
 import ${package.Service}.${entity}Service;
 #if(${superControllerClassPackage})
@@ -33,8 +34,8 @@ public class ${table.controllerName} extends ${superControllerClass} {
     * @return ${entity}
     */
     @GetMapping("/{id}")
-    public ${entity} get(@PathVariable Integer id) {
-        return ${table.entityPath}Service.selectById(id);
+    public R<${entity}> get(@PathVariable Integer id) {
+        return new R<>(${table.entityPath}Service.selectById(id));
     }
 
 
@@ -56,8 +57,8 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @PostMapping
-    public Boolean add(@RequestBody ${entity} ${table.entityPath}) {
-        return ${table.entityPath}Service.insert(${table.entityPath});
+    public R<Boolean> add(@RequestBody ${entity} ${table.entityPath}) {
+        return new R<>(${table.entityPath}Service.insert(${table.entityPath}));
     }
 
     /**
@@ -66,12 +67,12 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
+    public R<Boolean> delete(@PathVariable Integer id) {
         ${entity} ${table.entityPath} = new ${entity}();
         ${table.entityPath}.setId(id);
         ${table.entityPath}.setUpdateTime(new Date());
         ${table.entityPath}.setDelFlag(CommonConstant.STATUS_DEL);
-        return ${table.entityPath}Service.updateById(${table.entityPath});
+        return new R<>(${table.entityPath}Service.updateById(${table.entityPath}));
     }
 
     /**
@@ -80,8 +81,8 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @PutMapping
-    public Boolean edit(@RequestBody ${entity} ${table.entityPath}) {
+    public R<Boolean> edit(@RequestBody ${entity} ${table.entityPath}) {
         ${table.entityPath}.setUpdateTime(new Date());
-        return ${table.entityPath}Service.updateById(${table.entityPath});
+        return new R<>(${table.entityPath}Service.updateById(${table.entityPath}));
     }
 }

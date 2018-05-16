@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.pig.admin.mapper.SysOauthClientDetailsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.github.pig.admin.model.entity.SysOauthClientDetails">
+        <id column="client_id" property="clientId" />
+        <result column="resource_ids" property="resourceIds" />
+        <result column="client_secret" property="clientSecret" />
+        <result column="scope" property="scope" />
+        <result column="authorized_grant_types" property="authorizedGrantTypes" />
+        <result column="web_server_redirect_uri" property="webServerRedirectUri" />
+        <result column="authorities" property="authorities" />
+        <result column="access_token_validity" property="accessTokenValidity" />
+        <result column="refresh_token_validity" property="refreshTokenValidity" />
+        <result column="additional_information" property="additionalInformation" />
+        <result column="autoapprove" property="autoapprove" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        client_id AS clientId, resource_ids AS resourceIds, client_secret AS clientSecret, scope, authorized_grant_types AS authorizedGrantTypes, web_server_redirect_uri AS webServerRedirectUri, authorities, access_token_validity AS accessTokenValidity, refresh_token_validity AS refreshTokenValidity, additional_information AS additionalInformation, autoapprove
+    </sql>
+
+</mapper>
