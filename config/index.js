@@ -1,6 +1,6 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
-var baseUrl = 'http://127.0.0.1:9999';
+var baseUrl = 'http://pig.frps.shop';
 module.exports = {
   build: {
     env: require('./prod.env'),
