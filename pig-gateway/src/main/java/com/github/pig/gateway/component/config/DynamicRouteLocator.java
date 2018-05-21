@@ -94,7 +94,7 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
                 zuulRoute.setStripPrefix(StrUtil.equals(result.getStripPrefix(), "0") ? Boolean.FALSE : Boolean.TRUE);
                 zuulRoute.setUrl(result.getUrl());
                 List<String> sensitiveHeadersList = StrUtil.splitTrim(result.getSensitiveheadersList(), ",");
-                if (CollUtil.isNotEmpty(sensitiveHeadersList)) {
+                if (sensitiveHeadersList != null) {
                     Set<String> sensitiveHeaderSet = CollUtil.newHashSet();
                     sensitiveHeadersList.forEach(sensitiveHeader -> sensitiveHeaderSet.add(sensitiveHeader));
                     zuulRoute.setSensitiveHeaders(sensitiveHeaderSet);
