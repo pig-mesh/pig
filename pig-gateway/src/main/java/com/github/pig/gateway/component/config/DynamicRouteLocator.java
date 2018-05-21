@@ -87,7 +87,7 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
 
             ZuulProperties.ZuulRoute zuulRoute = new ZuulProperties.ZuulRoute();
             try {
-                zuulRoute.setId(String.valueOf(result.getId()));
+                zuulRoute.setId(result.getServiceId());
                 zuulRoute.setPath(result.getPath());
                 zuulRoute.setServiceId(result.getServiceId());
                 zuulRoute.setRetryable(StrUtil.equals(result.getRetryable(), "0") ? Boolean.FALSE : Boolean.TRUE);
