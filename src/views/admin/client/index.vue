@@ -2,7 +2,7 @@
   <div class="app-container pull-auto">
     <el-button type="primary" @click="handleAdd" size="small" v-if="permissions.sys_client_add">新 增</el-button>
     <br /><br />
-    <avue-crud ref="crud" :page="page" :table-data="tableData" :table-loading="tableLoading" :table-option="tableOption" @current-change="currentChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
+    <avue-crud ref="crud" :page="page" :data="tableData" :table-loading="tableLoading" :option="tableOption" @current-change="currentChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
       <template slot-scope="scope" slot="menu">
         <el-button type="primary" v-if="permissions.sys_client_upd" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
         <el-button type="danger" v-if="permissions.sys_client_del" icon="el-icon-delete" size="small" plain @click="handleDel(scope.row,scope.index)">删除</el-button>
@@ -12,11 +12,11 @@
 </template>
 
 <script>
-import { fetchList, getObj, addObj, putObj, delObj } from "@/api/client";
-import { tableOption } from "@/const/crud/client";
-import { mapGetters } from "vuex";
+import { fetchList, getObj, addObj, putObj, delObj } from '@/api/client'
+import { tableOption } from '@/const/crud/client'
+import { mapGetters } from 'vuex'
 export default {
-  name: "client",
+  name: 'client',
   data() {
     return {
       tableData: [],
@@ -27,30 +27,30 @@ export default {
       },
       tableLoading: false,
       tableOption: tableOption
-    };
+    }
   },
   created() {
-    this.getList();
+    this.getList()
   },
   mounted: function() {},
   computed: {
-    ...mapGetters(["permissions"])
+    ...mapGetters(['permissions'])
   },
   methods: {
     getList() {
-      this.tableLoading = true;
+      this.tableLoading = true
       fetchList({
         page: this.page.currentPage,
         limit: this.page.pageSize
       }).then(response => {
-        this.tableData = response.data.records;
-        this.page.total = response.data.total;
-        this.tableLoading = false;
-      });
+        this.tableData = response.data.records
+        this.page.total = response.data.total
+        this.tableLoading = false
+      })
     },
     currentChange(val) {
-      console.log(val);
-      this.getList();
+      console.log(val)
+      this.getList()
     },
     /**
      * @title 打开新增窗口
@@ -58,33 +58,33 @@ export default {
      *
      **/
     handleAdd: function() {
-      this.$refs.crud.rowAdd();
+      this.$refs.crud.rowAdd()
     },
     handleEdit(row, index) {
-      this.$refs.crud.rowEdit(row, index);
+      this.$refs.crud.rowEdit(row, index)
     },
     handleDel(row, index) {
-      this.$refs.crud.rowDel(row, index);
+      this.$refs.crud.rowDel(row, index)
     },
     rowDel: function(row, index) {
-      var _this = this;
-      this.$confirm("是否确认删除ID为" + row.clientId, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      var _this = this
+      this.$confirm('是否确认删除ID为' + row.clientId, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(function() {
-          return delObj(row.clientId);
+          return delObj(row.clientId)
         })
         .then(data => {
-          _this.tableData.splice(index, 1);
+          _this.tableData.splice(index, 1)
           _this.$message({
             showClose: true,
-            message: "删除成功",
-            type: "success"
-          });
+            message: '删除成功',
+            type: 'success'
+          })
         })
-        .catch(function(err) {});
+        .catch(function(err) {})
     },
     /**
      * @title 数据更新
@@ -95,14 +95,14 @@ export default {
      **/
     handleUpdate: function(row, index, done) {
       putObj(row).then(data => {
-        this.tableData.splice(index, 1, Object.assign({}, row));
+        this.tableData.splice(index, 1, Object.assign({}, row))
         this.$message({
           showClose: true,
-          message: "修改成功",
-          type: "success"
-        });
-        done();
-      });
+          message: '修改成功',
+          type: 'success'
+        })
+        done()
+      })
     },
     /**
      * @title 数据添加
@@ -112,17 +112,17 @@ export default {
      **/
     handleSave: function(row, done) {
       addObj(row).then(data => {
-        this.tableData.push(Object.assign({}, row));
+        this.tableData.push(Object.assign({}, row))
         this.$message({
           showClose: true,
-          message: "添加成功",
-          type: "success"
-        });
-        done();
-      });
+          message: '添加成功',
+          type: 'success'
+        })
+        done()
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
