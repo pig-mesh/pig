@@ -41,8 +41,11 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
     @Override
     protected boolean shouldNotify(ClientApplicationEvent event) {
         boolean shouldNotify = false;
-        if (STATUS_CHANGE.equals(event.getType())
-                && event.getApplication().getStatusInfo().isOffline()
+        if (!STATUS_CHANGE.equals(event.getType())) {
+            return shouldNotify;
+        }
+
+        if (event.getApplication().getStatusInfo().isOffline()
                 || event.getApplication().getStatusInfo().isDown()) {
             shouldNotify = true;
         }

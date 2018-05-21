@@ -35,7 +35,7 @@ public class ZuulRouteVO {
      * Flag to determine whether the prefix for this route (the path, minus pattern
      * patcher) should be stripped before forwarding.
      */
-    private boolean stripPrefix = true;
+    private Boolean stripPrefix;
 
     /**
      * Flag to indicate that this route should be retryable (if supported). Generally

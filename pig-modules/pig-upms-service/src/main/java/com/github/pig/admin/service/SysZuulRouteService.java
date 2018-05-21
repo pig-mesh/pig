@@ -13,4 +13,9 @@ import com.github.pig.common.entity.SysZuulRoute;
  */
 public interface SysZuulRouteService extends IService<SysZuulRoute> {
 
+    /**
+     * 立即生效配置
+     * @return
+     */
+    Boolean applyZuulRoute();
 }

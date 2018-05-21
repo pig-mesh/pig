@@ -1,19 +1,18 @@
 package com.github.pig.admin.controller;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Date;
-
-import com.github.pig.common.entity.SysZuulRoute;
-import com.github.pig.common.util.R;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import com.github.pig.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.common.util.Query;
 import com.github.pig.admin.service.SysZuulRouteService;
+import com.github.pig.common.constant.CommonConstant;
+import com.github.pig.common.entity.SysZuulRoute;
+import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.web.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * <p>
@@ -28,7 +27,6 @@ import com.github.pig.common.web.BaseController;
 public class ZuulRouteController extends BaseController {
     @Autowired
     private SysZuulRouteService sysZuulRouteService;
-
     /**
      * 通过ID查询
      *
@@ -38,16 +36,6 @@ public class ZuulRouteController extends BaseController {
     @GetMapping("/{id}")
     public SysZuulRoute get(@PathVariable Integer id) {
         return sysZuulRouteService.selectById(id);
-    }
-
-    /**
-     * 查询全部路由配置
-     *
-     * @return 路由配置表
-     */
-    @GetMapping("/findAllZuulRoute")
-    public List<SysZuulRoute> findAllZuulRoute() {
-        return sysZuulRouteService.selectList(new EntityWrapper<>());
     }
 
     /**
@@ -98,5 +86,15 @@ public class ZuulRouteController extends BaseController {
     public R<Boolean> edit(@RequestBody SysZuulRoute sysZuulRoute) {
         sysZuulRoute.setUpdateTime(new Date());
         return new R<>(sysZuulRouteService.updateById(sysZuulRoute));
+    }
+
+    /**
+     * 刷新配置
+     *
+     * @return success/fasle
+     */
+    @GetMapping("/apply")
+    public R<Boolean> apply() {
+        return new R<>(sysZuulRouteService.applyZuulRoute());
     }
 }

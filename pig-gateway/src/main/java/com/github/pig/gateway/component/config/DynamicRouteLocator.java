@@ -1,18 +1,15 @@
 package com.github.pig.gateway.component.config;
 
-import com.github.pig.common.constant.ServiceNameConstant;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.entity.SysZuulRoute;
-import com.github.pig.gateway.feign.ZuulRouteService;
 import com.xiaoleilu.hutool.collection.CollUtil;
-import com.xiaoleilu.hutool.util.ArrayUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.netflix.zuul.filters.SimpleRouteLocator;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.discovery.DiscoveryClientRouteLocator;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -27,13 +24,13 @@ import java.util.Set;
 @Slf4j
 public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
     private ZuulProperties properties;
-    private RestTemplate restTemplate;
-    private ZuulRouteService zuulRouteService;
+    private RedisTemplate redisTemplate;
 
-    public DynamicRouteLocator(String servletPath, DiscoveryClient discovery, ZuulProperties properties, ServiceInstance localServiceInstance, ZuulRouteService zuulRouteService) {
+    public DynamicRouteLocator(String servletPath, DiscoveryClient discovery, ZuulProperties properties,
+                               ServiceInstance localServiceInstance, RedisTemplate redisTemplate) {
         super(servletPath, discovery, properties, localServiceInstance);
         this.properties = properties;
-        this.zuulRouteService = zuulRouteService;
+        this.redisTemplate = redisTemplate;
     }
 
     /**
@@ -50,7 +47,7 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
         LinkedHashMap<String, ZuulProperties.ZuulRoute> routesMap = new LinkedHashMap<>();
         //读取properties配置、eureka默认配置
         routesMap.putAll(super.locateRoutes());
-        log.info("初始默认的路由配置完成");
+        log.debug("初始默认的路由配置完成");
         routesMap.putAll(locateRoutesFromDb());
         LinkedHashMap<String, ZuulProperties.ZuulRoute> values = new LinkedHashMap<>();
         for (Map.Entry<String, ZuulProperties.ZuulRoute> entry : routesMap.entrySet()) {
@@ -70,21 +67,21 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
     }
 
     /**
-     * 拉去路由配置先采用RestTemplate 加载eureka中信息来是实现
+     * Redis中保存的，没有从upms拉去，避免启动链路依赖问题（取舍），网关依赖业务模块的问题
      *
      * @return
      */
     private Map<String, ZuulProperties.ZuulRoute> locateRoutesFromDb() {
         Map<String, ZuulProperties.ZuulRoute> routes = new LinkedHashMap<>();
 
-        String url = String.format("http://localhost:4000/route/findAllZuulRoute", ServiceNameConstant.UMPS_SERVICE);
-        SysZuulRoute[] response = restTemplate.getForObject(url, SysZuulRoute[].class);
-        if (ArrayUtil.isEmpty(response)) {
+        Object obj = redisTemplate.opsForValue().get(CommonConstant.ROUTE_KEY);
+        if (obj == null) {
             return routes;
         }
 
-        for (SysZuulRoute result : response) {
-            if (StrUtil.isBlank(result.getPath()) || StrUtil.isBlank(result.getUrl())) {
+        List<SysZuulRoute> results = (List<SysZuulRoute>) obj;
+        for (SysZuulRoute result : results) {
+            if (StrUtil.isBlank(result.getPath()) && StrUtil.isBlank(result.getUrl())) {
                 continue;
             }
 
@@ -106,7 +103,7 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
             } catch (Exception e) {
                 log.error("从数据库加载路由配置异常", e);
             }
-            log.info("添加数据库自定义的路由配置,path：{}，serviceId:{}", zuulRoute.getPath(), zuulRoute.getServiceId());
+            log.debug("添加数据库自定义的路由配置,path：{}，serviceId:{}", zuulRoute.getPath(), zuulRoute.getServiceId());
             routes.put(zuulRoute.getPath(), zuulRoute);
         }
         return routes;

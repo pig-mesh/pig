@@ -30,4 +30,9 @@ public interface MqQueueConstant {
      * zipkin 队列
      */
     String ZIPKIN_NAME_QUEUE = "zipkin";
+
+    /**
+     * 路由配置状态队列
+     */
+    String ROUTE_CONFIG_CHANGE = "route_config_change";
 }
