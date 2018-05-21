@@ -24,7 +24,9 @@ export const tableOption = {
     prop: "id",
     align: 'center',
     sortable: true,
-    hide: true
+    hide: true,
+    editDisabled: true,
+    addVisdiplay: false
   }, {
     width: 150,
     label: "服务名称",
@@ -55,21 +57,36 @@ export const tableOption = {
     align: 'center',
     width: 150,
     type: 'radio',
-    dicData: DIC.vaild
+    dicData: DIC.vaild,
+    rules: [{
+      required: true,
+      message: "是否去掉前缀",
+      trigger: "blur"
+    }]
   }, {
     label: "是否重试",
     prop: "retryable",
     align: 'center',
     width: 150,
     type: 'radio',
-    dicData: DIC.vaild
+    dicData: DIC.vaild,
+    rules: [{
+      required: true,
+      message: "是否重试",
+      trigger: "blur"
+    }]
   }, {
     label: "是否启用",
     prop: "enabled",
     align: 'center',
     width: 150,
     type: 'radio',
-    dicData: DIC.vaild
+    dicData: DIC.vaild,
+   rules: [{
+     required: true,
+     message: "是否启用",
+     trigger: "blur"
+   }]
   }, {
     label: "敏感头",
     prop: "sensitiveheadersList",

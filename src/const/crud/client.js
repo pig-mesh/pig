@@ -1,3 +1,14 @@
+const DIC = {
+  vaild: [{
+    label: '否',
+    value: '0'
+  },
+    {
+      label: '是',
+      value: '1'
+    }
+  ]
+}
 export const tableOption = {
   "border": true,
   "index": true,
@@ -9,7 +20,7 @@ export const tableOption = {
   "dic": [],
   "column": [{
     width: 150,
-    label: "client_id",
+    label: "编号",
     prop: "clientId",
     align: 'center',
     sortable: true,
@@ -20,7 +31,7 @@ export const tableOption = {
     }]
   }, {
     width: 300,
-    label: "client_secret",
+    label: "密钥",
     prop: "clientSecret",
     align: 'center',
     sortable: true,
@@ -30,12 +41,7 @@ export const tableOption = {
       trigger: "blur"
     }]
   }, {
-    label: "resource_ids",
-    prop: "resourceIds",
-    align: 'center',
-    width: 150,
-  }, {
-    label: "scope",
+    label: "域",
     prop: "scope",
     align: 'center',
     width: 150,
@@ -45,55 +51,62 @@ export const tableOption = {
       trigger: "blur"
     }]
   }, {
-    label: "authorized_grant_types",
+    label: "授权模式",
     prop: "authorizedGrantTypes",
     align: 'center',
     width: 150,
     hide: true,
+    rules: [{
+      required: true,
+      message: "请输入授权模式",
+      trigger: "blur"
+    }]
   }, {
-    label: "web_server_redirect_uri",
+    label: "回调地址",
     prop: "webServerRedirectUri",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    label: "authorities",
+    label: "权限",
     prop: "authorities",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    label: "access_token_validity",
+    label: "请求令牌",
     prop: "accessTokenValidity",
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    label: "refresh_token_validity",
+    label: "刷新令牌",
     prop: "refreshTokenValidity",
-    type: 'number',
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    label: "additional_information",
+    label: "扩展信息",
     prop: "additionalInformation",
-    type: 'number',
     align: 'center',
     width: 150,
     hide: true,
   }, {
-    label: "autoapprove",
+    label: "自动放行",
     prop: "autoapprove",
     align: 'center',
     type: 'radio',
-    dicData: [{
-      label: '假',
-      value: 'false',
-    }, {
-      label: '真',
-      value: 'true',
-    }],
+    dicData:DIC.vaild,
+    width: 150,
+    rules: [{
+      required: true,
+      message: "请选择是否放行",
+      trigger: "blur"
+    }]
+  },{
+    label: "资源ID",
+    prop: "resourceIds",
+    align: 'center',
     width: 150,
   }]
 }

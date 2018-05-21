@@ -37,3 +37,10 @@ export function putObj(obj) {
     data: obj
   })
 }
+
+export function applyObj() {
+  return request({
+    url: '/admin/route/apply',
+    method: 'get'
+  })
+}

@@ -1,6 +1,7 @@
 <template>
   <div class="app-container pull-auto">
     <el-button type="primary" @click="handleAdd" size="small" v-if="permissions.sys_route_add">新 增</el-button>
+    <el-button type="success" @click="handleApply" size="small" v-if="permissions.sys_route_add">同 步</el-button>
     <br /><br />
     <avue-crud ref="crud" :page="page" :table-data="tableData" :table-loading="tableLoading" :table-option="tableOption" @current-change="currentChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
       <template slot-scope="scope" slot="menu">
@@ -12,7 +13,7 @@
 </template>
 
 <script>
-import { fetchList, getObj, addObj, putObj, delObj } from "@/api/route";
+import { fetchList, getObj, addObj, putObj, delObj, applyObj } from "@/api/route";
 import { tableOption } from "@/const/crud/route";
 import { mapGetters } from "vuex";
 export default {
@@ -59,6 +60,25 @@ export default {
      **/
     handleAdd: function() {
       this.$refs.crud.rowAdd();
+    },
+    handleApply: function(){
+      var _this = this;
+      this.$confirm("是否确认同步至网关路由", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(function() {
+          return applyObj();
+        })
+        .then(data => {
+          _this.$message({
+            showClose: true,
+            message: "同步成功",
+            type: "success"
+          });
+        })
+        .catch(function(err) {});
     },
     handleEdit(row, index) {
       this.$refs.crud.rowEdit(row, index);

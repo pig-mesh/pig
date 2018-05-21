@@ -1,7 +1,7 @@
 {
   "name": "pig-ui",
-  "version": "1.3.6",
-  "description": "基于avue的实战项目",
+  "version": "1.0.0",
+  "description": "微服务实战",
   "author": "smallwei <1634566606@qq.com>",
   "private": true,
   "scripts": {
