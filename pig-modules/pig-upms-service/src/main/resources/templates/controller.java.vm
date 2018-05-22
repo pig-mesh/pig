@@ -1,4 +1,4 @@
-package ${package.Controller};
+package $!{package.Controller};
 import java.util.Map;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,10 +7,11 @@ import com.github.pig.common.constant.CommonConstant;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.github.pig.common.util.Query;
-import ${package.Entity}.${entity};
-import ${package.Service}.${entity}Service;
-#if(${superControllerClassPackage})
-import ${superControllerClassPackage};
+import com.github.pig.common.util.R;
+import $!{package.Entity}.$!{entity};
+import $!{package.Service}.$!{entity}Service;
+#if($!{superControllerClassPackage})
+import $!{superControllerClassPackage};
 #end
 
 /**
@@ -18,23 +19,23 @@ import ${superControllerClassPackage};
  * $!{table.comment} 前端控制器
  * </p>
  *
- * @author ${author}
- * @since ${date}
+ * @author $!{author}
+ * @since $!{date}
  */
 @RestController
-@RequestMapping("/${table.entityPath}")
-public class ${table.controllerName} extends ${superControllerClass} {
-    @Autowired private ${entity}Service ${table.entityPath}Service;
+@RequestMapping("/$!{table.entityPath}")
+public class $!{table.controllerName} extends $!{superControllerClass} {
+    @Autowired private $!{entity}Service $!{table.entityPath}Service;
 
     /**
     * 通过ID查询
     *
     * @param id ID
-    * @return ${entity}
+    * @return $!{entity}
     */
     @GetMapping("/{id}")
-    public ${entity} get(@PathVariable Integer id) {
-        return ${table.entityPath}Service.selectById(id);
+    public R<$!{entity}> get(@PathVariable Integer id) {
+        return new R<>($!{table.entityPath}Service.selectById(id));
     }
 
 
@@ -47,17 +48,17 @@ public class ${table.controllerName} extends ${superControllerClass} {
     @RequestMapping("/page")
     public Page page(@RequestParam Map<String, Object> params) {
         params.put(CommonConstant.DEL_FLAG, CommonConstant.STATUS_NORMAL);
-        return ${table.entityPath}Service.selectPage(new Query<>(params), new EntityWrapper<>());
+        return $!{table.entityPath}Service.selectPage(new Query<>(params), new EntityWrapper<>());
     }
 
     /**
      * 添加
-     * @param  ${table.entityPath}  实体
+     * @param  $!{table.entityPath}  实体
      * @return success/false
      */
     @PostMapping
-    public Boolean add(@RequestBody ${entity} ${table.entityPath}) {
-        return ${table.entityPath}Service.insert(${table.entityPath});
+    public R<Boolean> add(@RequestBody $!{entity} $!{table.entityPath}) {
+        return new R<>($!{table.entityPath}Service.insert($!{table.entityPath}));
     }
 
     /**
@@ -66,22 +67,22 @@ public class ${table.controllerName} extends ${superControllerClass} {
      * @return success/false
      */
     @DeleteMapping("/{id}")
-    public Boolean delete(@PathVariable Integer id) {
-        ${entity} ${table.entityPath} = new ${entity}();
-        ${table.entityPath}.setId(id);
-        ${table.entityPath}.setUpdateTime(new Date());
-        ${table.entityPath}.setDelFlag(CommonConstant.STATUS_DEL);
-        return ${table.entityPath}Service.updateById(${table.entityPath});
+    public R<Boolean> delete(@PathVariable Integer id) {
+        $!{entity} $!{table.entityPath} = new $!{entity}();
+        $!{table.entityPath}.setId(id);
+        $!{table.entityPath}.setUpdateTime(new Date());
+        $!{table.entityPath}.setDelFlag(CommonConstant.STATUS_DEL);
+        return new R<>($!{table.entityPath}Service.updateById($!{table.entityPath}));
     }
 
     /**
      * 编辑
-     * @param  ${table.entityPath}  实体
+     * @param  $!{table.entityPath}  实体
      * @return success/false
      */
     @PutMapping
-    public Boolean edit(@RequestBody ${entity} ${table.entityPath}) {
-        ${table.entityPath}.setUpdateTime(new Date());
-        return ${table.entityPath}Service.updateById(${table.entityPath});
+    public R<Boolean> edit(@RequestBody $!{entity} $!{table.entityPath}) {
+        $!{table.entityPath}.setUpdateTime(new Date());
+        return new R<>($!{table.entityPath}Service.updateById($!{table.entityPath}));
     }
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class DemoController {
-    @GetMapping("/user")
+    @GetMapping("/")
     public Authentication user(Authentication authentication) {
         return authentication;
     }

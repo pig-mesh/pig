@@ -1,18 +1,21 @@
 package com.github.pig.monitor.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.enums.EnumSmsChannel;
-import com.github.pig.common.util.template.DingTalkMsgTemplate;
+import com.github.pig.common.constant.enums.EnumSmsChannelTemplate;
 import com.github.pig.common.util.template.MobileMsgTemplate;
 import com.github.pig.monitor.config.MonitorPropertiesConfig;
-import com.xiaoleilu.hutool.collection.CollectionUtil;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import com.xiaoleilu.hutool.date.DateUtil;
 import de.codecentric.boot.admin.event.ClientApplicationEvent;
 import de.codecentric.boot.admin.event.ClientApplicationStatusChangedEvent;
 import de.codecentric.boot.admin.notify.AbstractStatusChangeNotifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+
+import java.nio.file.Paths;
 
 /**
  * @author lengleng
@@ -39,8 +42,11 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
     @Override
     protected boolean shouldNotify(ClientApplicationEvent event) {
         boolean shouldNotify = false;
-        if (STATUS_CHANGE.equals(event.getType())
-                && event.getApplication().getStatusInfo().isOffline()
+        if (!STATUS_CHANGE.equals(event.getType())) {
+            return shouldNotify;
+        }
+
+        if (event.getApplication().getStatusInfo().isOffline()
                 || event.getApplication().getStatusInfo().isDown()) {
             shouldNotify = true;
         }
@@ -60,12 +66,22 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
                     event.getApplication().getId(), ((ClientApplicationStatusChangedEvent) event).getTo().getStatus());
             String text = String.format("应用:%s 服务ID:%s 下线，时间：%s", event.getApplication().getName(), event.getApplication().getId(), DateUtil.date(event.getTimestamp()).toString());
 
+            JSONObject contextJson = new JSONObject();
+            contextJson.put("name", event.getApplication().getName());
+            contextJson.put("seid", event.getApplication().getId());
+            contextJson.put("time", DateUtil.date(event.getTimestamp()).toString());
+
             //开启短信通知
             if (monitorMobilePropertiesConfig.getMobile().getEnabled()) {
                 log.info("开始短信通知，内容：{}", text);
                 rabbitTemplate.convertAndSend(MqQueueConstant.MOBILE_SERVICE_STATUS_CHANGE,
-                        new MobileMsgTemplate(CollectionUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
-                                text, EnumSmsChannel.ALIYUN.getName()));
+                        new MobileMsgTemplate(
+                                CollUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
+                                contextJson.toJSONString(),
+                                CommonConstant.ALIYUN_SMS,
+                                EnumSmsChannelTemplate.SERVICE_STATUS_CHANGE.getSignName(),
+                                EnumSmsChannelTemplate.SERVICE_STATUS_CHANGE.getTemplate()
+                        ));
             }
 
             if (monitorMobilePropertiesConfig.getDingTalk().getEnabled()) {

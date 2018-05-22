@@ -29,14 +29,6 @@ spring:
     name: pig-sso-client-demo
   profiles:
     active: dev
-  redis:
-    remote: true        #是否是cachecloud 获取
-    host: 106.14.69.75
-    port: 6381
-    password:
-
-logging:
-  config: classpath:logback.xml
 ---
 spring:
   profiles: dev

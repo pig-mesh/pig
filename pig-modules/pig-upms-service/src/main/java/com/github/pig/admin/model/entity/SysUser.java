@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -34,10 +35,12 @@ public class SysUser extends Model<SysUser> {
      */
     private String username;
 
+    @JsonIgnore
     private String password;
     /**
      * 随机盐
      */
+    @JsonIgnore
     private String salt;
     /**
      * 创建时间

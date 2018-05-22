@@ -24,7 +24,7 @@ endpoints:
 spring:
   profiles: dev
   rabbitmq:
-    host: 127.0.0.1
+    host: 139.224.200.249
     port: 5682
     username: pig
     password: lengleng

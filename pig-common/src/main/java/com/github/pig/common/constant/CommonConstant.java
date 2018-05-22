@@ -62,4 +62,9 @@ public interface CommonConstant {
      * 阿里大鱼
      */
     String ALIYUN_SMS = "aliyun_sms";
+
+    /**
+     * 路由信息Redis保存的key
+     */
+    String ROUTE_KEY = "_ROUTE_KEY";
 }
