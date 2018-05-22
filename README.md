@@ -59,6 +59,8 @@ pig
 - 机构管理：配置系统组织机构（公司、部门、小组），树结构展现，可随意调整上下级。
 - 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
 - 角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
+- 动态路由：基于zuul实现动态路由，后端可配置化
+- 终端管理：动态配置oauth终端，后端可配置化
 - 字典管理：对系统中经常使用的一些较为固定的数据进行维护，如：是否、男女、类别、级别等。
 - 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
 - 服务限流：多种维度的流量控制（服务、IP、用户等）
@@ -98,6 +100,10 @@ pig
         <td><img src="http://p3blpcsde.bkt.clouddn.com/7.png"/></td>
     </tr>
     <tr>
+        <td><img src="http://obq1lvsd9.bkt.clouddn.com/12321.png"/></td>
+        <td><img src="http://obq1lvsd9.bkt.clouddn.com/WX20180522-182107@2x.png"/></td>
+    </tr>
+    <tr>
         <td><img src="http://p3blpcsde.bkt.clouddn.com/8.png"/></td>
         <td><img src="http://p3blpcsde.bkt.clouddn.com/9.png"/></td>
     </tr>
@@ -118,6 +124,3 @@ pig
         <td><img src="http://p3blpcsde.bkt.clouddn.com/17.png"/></td>
     </tr>
 </table>
-
-
-
