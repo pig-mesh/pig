@@ -191,7 +191,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 new MobileMsgTemplate(
                         mobile,
                         contextJson.toJSONString(),
-                        EnumSmsChannel.ALIYUN.getName(),
+                        CommonConstant.ALIYUN_SMS,
                         EnumSmsChannelTemplate.LOGIN_NAME_LOGIN.getSignName(),
                         EnumSmsChannelTemplate.LOGIN_NAME_LOGIN.getTemplate()
                 ));

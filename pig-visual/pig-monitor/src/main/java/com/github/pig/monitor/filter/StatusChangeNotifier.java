@@ -1,6 +1,7 @@
 package com.github.pig.monitor.filter;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.enums.EnumSmsChannel;
 import com.github.pig.common.constant.enums.EnumSmsChannelTemplate;
@@ -77,7 +78,7 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
                         new MobileMsgTemplate(
                                 CollUtil.join(monitorMobilePropertiesConfig.getMobile().getMobiles(), ","),
                                 contextJson.toJSONString(),
-                                EnumSmsChannel.ALIYUN.getName(),
+                                CommonConstant.ALIYUN_SMS,
                                 EnumSmsChannelTemplate.SERVICE_STATUS_CHANGE.getSignName(),
                                 EnumSmsChannelTemplate.SERVICE_STATUS_CHANGE.getTemplate()
                         ));
