@@ -63,7 +63,7 @@ public class LogSendServiceImpl implements LogSendService {
         }
 
         //正常发送服务异常解析
-        if (requestContext.getResponseStatusCode() != HttpStatus.SC_OK
+        if (requestContext.getResponseStatusCode() == HttpStatus.SC_INTERNAL_SERVER_ERROR
                 && requestContext.getResponseDataStream() != null) {
             InputStream inputStream = requestContext.getResponseDataStream();
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -87,7 +87,6 @@ public class LogSendServiceImpl implements LogSendService {
                 IoUtil.close(baos);
                 IoUtil.close(inputStream);
             }
-
         }
 
         //网关内部异常
