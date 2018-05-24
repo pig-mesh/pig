@@ -18,7 +18,6 @@ import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.constant.SecurityConstants;
-import com.github.pig.common.constant.enums.EnumSmsChannel;
 import com.github.pig.common.constant.enums.EnumSmsChannelTemplate;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
@@ -123,11 +122,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public Page selectWithRolePage(Query query) {
+    public Page selectWithRolePage(Query query, UserVO userVO) {
         DataScope dataScope = new DataScope();
         dataScope.setScopeName("deptId");
         dataScope.setIsOnly(true);
-        dataScope.setDeptIds(getChildDepts());
+        dataScope.setDeptIds(getChildDepts(userVO));
         query.setRecords(sysUserMapper.selectUserVoPageDataScope(query, dataScope));
         return query;
     }
@@ -251,11 +250,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 获取当前用户的子部门信息
      *
      * @return 子部门列表
+     * @param userVO 用户信息
      */
-    private List<Integer> getChildDepts() {
-        //获取当前用户的部门
-        String username = UserUtils.getUser();
-        UserVO userVo = findUserByUsername(username);
+    private List<Integer> getChildDepts(UserVO userVO) {
+        UserVO userVo = findUserByUsername(userVO.getUsername());
         Integer deptId = userVo.getDeptId();
 
         //获取当前部门的子部门
