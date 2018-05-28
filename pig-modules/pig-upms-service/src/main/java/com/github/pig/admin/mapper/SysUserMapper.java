@@ -5,6 +5,7 @@ import com.github.pig.admin.model.entity.SysUser;
 import com.github.pig.common.bean.interceptor.DataScope;
 import com.github.pig.common.util.Query;
 import com.github.pig.common.vo.UserVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,11 +29,12 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
     /**
      * 分页查询用户信息（含角色）
      *
-     * @param dataScope 数据权限
      * @param query     查询条件
+     * @param username  用户名
+     * @param dataScope 数据权限
      * @return list
      */
-    List selectUserVoPageDataScope(Query query, DataScope dataScope);
+    List selectUserVoPageDataScope(Query query, @Param("username") Object username, DataScope dataScope);
 
     /**
      * 通过手机号查询用户信息（含有角色信息）

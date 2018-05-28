@@ -2,6 +2,7 @@ package com.github.pig.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.mapper.SysUserMapper;
@@ -127,7 +128,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         dataScope.setScopeName("deptId");
         dataScope.setIsOnly(true);
         dataScope.setDeptIds(getChildDepts(userVO));
-        query.setRecords(sysUserMapper.selectUserVoPageDataScope(query, dataScope));
+        Object username = query.getCondition().get("username");
+        query.setRecords(sysUserMapper.selectUserVoPageDataScope(query,username, dataScope));
         return query;
     }
 
