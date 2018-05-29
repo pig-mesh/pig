@@ -93,7 +93,7 @@ public class UserController extends BaseController {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
-        sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
+        sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
         userService.insert(sysUser);
 
         userDto.getRole().forEach(roleId -> {
