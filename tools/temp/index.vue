@@ -2,7 +2,7 @@
   <div class="pull-auto">
     <el-button type="primary" @click="handleAdd" size="small">新 增</el-button>
     <br /><br />
-    <avue-crud ref="crud" :page="page" :data="tableData" :table-loading="tableLoading" :option="tableOption" @current-change="currentChange" @row-update="rowUpdate" @row-save="rowSave" @row-del="rowDel">
+    <avue-crud ref="crud" @size-change="sizeChange" :before-open="boxhandleOpen" v-model="form"  :page="page" :data="tableData" :table-loading="tableLoading" :option="tableOption" @current-change="currentChange" @row-update="rowUpdate" @row-save="rowSave" @row-del="rowDel">
       <template slot-scope="scope" slot="menu">
         <el-button type="primary" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编 辑</el-button>
         <el-button type="danger" icon="el-icon-delete" size="small" plain @click="handleDel(scope.row,scope.index)">删 除</el-button>
@@ -20,6 +20,7 @@ export default {
     return {
       tableOption: tableOption,
       tableData: [],
+      form:'',
       page: {
         total: 0, //总页数
         currentPage: 1, //当前页数
@@ -40,6 +41,23 @@ export default {
     },
     handleDel(row, index) {
       this.$refs.crud.rowDel(row, index);
+    },
+    /**
+     * @title 每页多少条回调函数
+     * @param val 显示多少条值
+     *
+     **/
+    sizeChange(val) {
+      this.page.pageSize = val;
+      this.getList();
+    },
+     /**
+     * @title 表单打开前执行函数
+     * @param show 展示方法
+     *
+     **/
+    boxhandleOpen(show) {
+      show();
     },
     /**
      * @title 首次加载获取列表
@@ -83,7 +101,7 @@ export default {
           return delObj(row["{{id}}"]);
         })
         .then(data => {
-          _this.tableData.splice(index, 1);
+          this.getList();
           _this.$message({
             showClose: true,
             message: "删除成功",
@@ -102,7 +120,7 @@ export default {
      **/
     rowUpdate: function(row, index, done) {
       putObj(row).then(data => {
-        this.tableData.splice(index, 1, Object.assign({}, row));
+        this.getList();
         this.$message({
           showClose: true,
           message: "修改成功",
@@ -119,7 +137,7 @@ export default {
      **/
     rowSave: function(row, done) {
       addObj(row).then(data => {
-        this.tableData.push(Object.assign({}, row));
+        this.getList();
         this.$message({
           showClose: true,
           message: "添加成功",

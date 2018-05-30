@@ -1,6 +1,7 @@
 export default {
-  maxHeight: 500,
+  height:'auto',
   index: true,
+  indexLabel:'序号'
   border: true,
   stripe: true,
   selection: true,
