@@ -2,7 +2,7 @@
   <div class="app-container pull-auto">
     <el-button type="primary" @click="handleAdd" size="small">新 增</el-button>
     <br /><br />
-    <avue-crud ref="crud" data="tableData" option="tableOption" @row-update="handleUpdate" @row-save="handleSave" @row-del="handleDel">
+    <avue-crud ref="crud" :data="tableData" :option="tableOption" @row-update="handleUpdate" @row-save="handleSave" @row-del="handleDel">
       <template slot-scope="props" slot="expand">
         <el-form label-position="left" inline class="demo-table-expand">
           <el-form-item label="姓名">
@@ -40,15 +40,15 @@
 </template>
 
 <script>
-import { tableOption } from "@/const/crud/option";
-import { tableData } from "@/const/crud/data";
+import { tableOption } from '@/const/crud/option'
+import { tableData } from '@/const/crud/data'
 export default {
-  name: "crud",
+  name: 'crud',
   data() {
     return {
       tableData: tableData,
       tableOption: tableOption
-    };
+    }
   },
   mounted: function() {},
   methods: {
@@ -58,24 +58,24 @@ export default {
      *
      **/
     handleAdd: function() {
-      this.$refs.crud.rowAdd();
+      this.$refs.crud.rowAdd()
     },
     handleDel: function(row, index) {
-      var _this = this;
-      this.$confirm("是否确认删除序号为" + row.username, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      var _this = this
+      this.$confirm('是否确认删除序号为' + row.username, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(function() {
-          _this.tableData.splice(index, 1);
+          _this.tableData.splice(index, 1)
           _this.$message({
             showClose: true,
-            message: "删除成功",
-            type: "success"
-          });
+            message: '删除成功',
+            type: 'success'
+          })
         })
-        .catch(function(err) {});
+        .catch(function(err) {})
     },
     /**
      * @title 数据更新
@@ -85,13 +85,13 @@ export default {
      *
      **/
     handleUpdate: function(row, index, done) {
-      this.tableData.splice(index, 1, Object.assign({}, row));
+      this.tableData.splice(index, 1, Object.assign({}, row))
       this.$message({
         showClose: true,
-        message: "修改成功",
-        type: "success"
-      });
-      done();
+        message: '修改成功',
+        type: 'success'
+      })
+      done()
     },
     /**
      * @title 数据添加
@@ -100,16 +100,16 @@ export default {
      *
      **/
     handleSave: function(row, done) {
-      this.tableData.push(Object.assign({}, row));
+      this.tableData.push(Object.assign({}, row))
       this.$message({
         showClose: true,
-        message: "添加成功",
-        type: "success"
-      });
-      done();
+        message: '添加成功',
+        type: 'success'
+      })
+      done()
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
