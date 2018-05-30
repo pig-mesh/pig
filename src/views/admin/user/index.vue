@@ -80,8 +80,8 @@
           <el-input v-model="form.username" placeholder="请输用户名"></el-input>
         </el-form-item>
 
-        <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="password">
-          <el-input type="password" v-model="form.password"></el-input>
+        <el-form-item v-if="dialogStatus == 'create'" label="密码" placeholder="请输入密码" prop="newpassword1">
+          <el-input type="password" v-model="form.newpassword1"></el-input>
         </el-form-item>
 
         <el-form-item label="所属部门" prop="deptName">
@@ -153,7 +153,7 @@ export default {
       role: [],
       form: {
         username: undefined,
-        password: undefined,
+        newpassword1: undefined,
         delFlag: undefined,
         deptId: undefined,
         phone: undefined
@@ -172,7 +172,7 @@ export default {
             trigger: "blur"
           }
         ],
-        password: [
+        newpassword1: [
           {
             required: true,
             message: "请输入密码",

@@ -113,7 +113,50 @@ export default {
         page: 1,
         limit: 20
       },
-      rules: {},
+      rules: {
+        value: [
+          {
+            required: true,
+            message: "数据值",
+            trigger: "blur"
+          }
+        ],
+        label: [
+          {
+            required: true,
+            message: "标签名",
+            trigger: "blur"
+          }
+        ],
+        type: [
+          {
+            required: true,
+            message: "类型",
+            trigger: "blur"
+          }
+        ],
+        description: [
+          {
+            required: true,
+            message: "描述",
+            trigger: "blur"
+          }
+        ],
+        sort: [
+          {
+            required: true,
+            message: "排序",
+            trigger: "blur"
+          }
+        ],
+        remarks: [
+          {
+            required: true,
+            message: "备注信息",
+            trigger: "blur"
+          }
+        ]
+      },
       form: {},
       dialogFormVisible: false,
       dialogStatus: "",
