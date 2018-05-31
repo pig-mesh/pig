@@ -213,7 +213,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_oauth_client_details`;
 CREATE TABLE `sys_oauth_client_details` (
-  `client_id` varchar(256) NOT NULL,
+  `client_id` varchar(64) NOT NULL,
   `resource_ids` varchar(256) DEFAULT NULL,
   `client_secret` varchar(256) DEFAULT NULL,
   `scope` varchar(256) DEFAULT NULL,
