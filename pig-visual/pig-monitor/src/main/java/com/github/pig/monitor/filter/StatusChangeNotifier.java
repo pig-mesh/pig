@@ -15,7 +15,6 @@ import de.codecentric.boot.admin.notify.AbstractStatusChangeNotifier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
-import java.nio.file.Paths;
 
 /**
  * @author lengleng
@@ -24,33 +23,12 @@ import java.nio.file.Paths;
  */
 @Slf4j
 public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
-    public static final String STATUS_CHANGE = "STATUS_CHANGE";
     private RabbitTemplate rabbitTemplate;
     private MonitorPropertiesConfig monitorMobilePropertiesConfig;
 
     public StatusChangeNotifier(MonitorPropertiesConfig monitorMobilePropertiesConfig, RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
         this.monitorMobilePropertiesConfig = monitorMobilePropertiesConfig;
-    }
-
-    /**
-     * 判断是否通知
-     *
-     * @param event 事件
-     * @return 是、否
-     */
-    @Override
-    protected boolean shouldNotify(ClientApplicationEvent event) {
-        boolean shouldNotify = false;
-        if (!STATUS_CHANGE.equals(event.getType())) {
-            return shouldNotify;
-        }
-
-        if (event.getApplication().getStatusInfo().isOffline()
-                || event.getApplication().getStatusInfo().isDown()) {
-            shouldNotify = true;
-        }
-        return shouldNotify;
     }
 
     /**
@@ -64,7 +42,11 @@ public class StatusChangeNotifier extends AbstractStatusChangeNotifier {
         if (event instanceof ClientApplicationStatusChangedEvent) {
             log.info("Application {} ({}) is {}", event.getApplication().getName(),
                     event.getApplication().getId(), ((ClientApplicationStatusChangedEvent) event).getTo().getStatus());
-            String text = String.format("应用:%s 服务ID:%s 下线，时间：%s", event.getApplication().getName(), event.getApplication().getId(), DateUtil.date(event.getTimestamp()).toString());
+            String text = String.format("应用:%s 服务ID:%s 状态改变为：%s，时间：%s"
+                    , event.getApplication().getName()
+                    , event.getApplication().getId()
+                    , ((ClientApplicationStatusChangedEvent) event).getTo().getStatus()
+                    , DateUtil.date(event.getTimestamp()).toString());
 
             JSONObject contextJson = new JSONObject();
             contextJson.put("name", event.getApplication().getName());
