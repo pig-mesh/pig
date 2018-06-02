@@ -26,9 +26,10 @@ public interface SysUserService extends IService<SysUser> {
      * 分页查询用户信息（含有角色信息）
      *
      * @param query 查询条件
+     * @param userVO
      * @return
      */
-    Page selectWithRolePage(Query query);
+    Page selectWithRolePage(Query query, UserVO userVO);
 
     /**
      * 查询用户信息

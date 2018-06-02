@@ -135,6 +135,7 @@
             <if test="username != null and username != ''">
                 and `user`.username LIKE CONCAT('%',#{username},'%')
             </if>
+            ORDER BY `user`.create_time DESC
     </select>
 
 </mapper>

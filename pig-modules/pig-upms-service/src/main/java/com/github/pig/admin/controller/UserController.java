@@ -93,7 +93,7 @@ public class UserController extends BaseController {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setDelFlag(CommonConstant.STATUS_NORMAL);
-        sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
+        sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
         userService.insert(sysUser);
 
         userDto.getRole().forEach(roleId -> {
@@ -154,11 +154,12 @@ public class UserController extends BaseController {
      * 分页查询用户
      *
      * @param params 参数集
+     * @param userVO 用户信息
      * @return 用户集合
      */
     @RequestMapping("/userPage")
-    public Page userPage(@RequestParam Map<String, Object> params) {
-        return userService.selectWithRolePage(new Query(params));
+    public Page userPage(@RequestParam Map<String, Object> params,UserVO userVO) {
+        return userService.selectWithRolePage(new Query(params),userVO);
     }
 
     /**

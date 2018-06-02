@@ -1,6 +1,7 @@
 package com.github.pig.admin.common.config;
 
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.github.pig.common.bean.interceptor.DataScopeInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,8 +28,8 @@ public class MybatisPlusConfig {
      *
      * @return DataScopeInterceptor
      */
-//    @Bean
-//    public DataScopeInterceptor dataScopeInterceptor() {
-//        return new DataScopeInterceptor();
-//    }
+    @Bean
+    public DataScopeInterceptor dataScopeInterceptor() {
+        return new DataScopeInterceptor();
+    }
 }

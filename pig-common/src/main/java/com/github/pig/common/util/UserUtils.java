@@ -69,15 +69,6 @@ public class UserUtils {
         return THREAD_LOCAL_USER.get();
     }
 
-    /**
-     * 如果没有登录，返回null
-     *
-     * @return 用户名
-     */
-    public static String getUserName() {
-        return THREAD_LOCAL_USER.get();
-    }
-
     public static void clearAllUserInfo() {
         THREAD_LOCAL_USER.remove();
         MDC.remove(KEY_USER);

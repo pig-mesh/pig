@@ -36,7 +36,7 @@ public class ControllerAop {
      * @return R  结果包装
      */
     @Around("pointCutR()")
-    public Object methodRHandler(ProceedingJoinPoint pjp) {
+    public Object methodRHandler(ProceedingJoinPoint pjp) throws Throwable {
         return methodHandler(pjp);
     }
 
@@ -52,18 +52,18 @@ public class ControllerAop {
      * @return R  结果包装
      */
     @Around("pointCutPage()")
-    public Object methodPageHandler(ProceedingJoinPoint pjp) {
+    public Object methodPageHandler(ProceedingJoinPoint pjp) throws Throwable {
         return methodHandler(pjp);
     }
 
-    private Object methodHandler(ProceedingJoinPoint pjp) {
+    private Object methodHandler(ProceedingJoinPoint pjp) throws Throwable {
         long startTime = System.currentTimeMillis();
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
 
         String username = request.getHeader(SecurityConstants.USER_HEADER);
-        if (StrUtil.isNotBlank(username)){
+        if (StrUtil.isNotBlank(username)) {
             log.info("Controller AOP get username:{}", username);
             UserUtils.setUser(username);
         }
@@ -76,16 +76,11 @@ public class ControllerAop {
 
         Object result;
 
-        try {
-            result = pjp.proceed();
-            log.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
-        } catch (Throwable e) {
-            log.error("异常信息：", e);
-            throw new RuntimeException(e);
-        } finally {
-            if (StrUtil.isNotEmpty(username)) {
-                UserUtils.clearAllUserInfo();
-            }
+        result = pjp.proceed();
+        log.info(pjp.getSignature() + "use time:" + (System.currentTimeMillis() - startTime));
+
+        if (StrUtil.isNotEmpty(username)) {
+            UserUtils.clearAllUserInfo();
         }
 
         return result;
