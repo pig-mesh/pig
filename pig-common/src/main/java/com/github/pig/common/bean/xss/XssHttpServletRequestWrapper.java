@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * @author lengleng
  * @date 2018/5/26
+ * https://gitee.com/renrenio/renren-fast
  */
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
     /**
