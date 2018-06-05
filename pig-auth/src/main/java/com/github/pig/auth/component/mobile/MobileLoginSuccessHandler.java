@@ -1,15 +1,29 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
 package com.github.pig.auth.component.mobile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.AuthUtils;
 import com.xiaoleilu.hutool.map.MapUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -27,10 +41,10 @@ import java.io.PrintWriter;
  * @date 2018/1/8
  * 手机号登录成功，返回oauth token
  */
+@Slf4j
 @Component
 public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
     public static final String BASIC_ = "Basic ";
-    private Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private ObjectMapper objectMapper;
     @Autowired
@@ -65,7 +79,7 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
 
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
-            logger.info("获取token 成功：{}", oAuth2AccessToken.getValue());
+            log.info("获取token 成功：{}", oAuth2AccessToken.getValue());
 
             response.setCharacterEncoding(CommonConstant.UTF8);
             response.setContentType(CommonConstant.CONTENT_TYPE);
