@@ -43,14 +43,6 @@ public interface SysMenuService extends IService<SysMenu> {
     List<MenuVO> findMenuByRoleName(String role);
 
     /**
-     * 通过角色获取菜单权限列表
-     *
-     * @param roles 角色
-     * @return 权限列表
-     */
-    String[] findPermission(String[] roles);
-
-    /**
      * 级联删除菜单
      *
      * @param id   菜单ID
@@ -65,18 +57,4 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 成功、失败
      */
     Boolean updateMenuById(SysMenu sysMenu);
-
-    /**
-     * 返回角色的菜单
-     * @param roleNames 角色
-     * @return 菜单列表
-     */
-    List<MenuTree> findUserMenuTree(List<String> roleNames);
-
-    /**
-     * 返回多个角色的菜单
-     * @param roleList 角色列表
-     * @return 菜单列表
-     */
-    List<MenuVO> findMenuByRoles(List<String> roleList);
 }

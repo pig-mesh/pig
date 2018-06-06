@@ -52,7 +52,6 @@ public class XssSecurityFilter extends OncePerRequestFilter {
      */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        log.error("执行XSS过滤");
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper(request);
         filterChain.doFilter(xssRequest, response);
     }

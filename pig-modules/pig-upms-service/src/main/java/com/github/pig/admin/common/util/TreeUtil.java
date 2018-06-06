@@ -18,7 +18,9 @@
 package com.github.pig.admin.common.util;
 
 
+import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.dto.TreeNode;
+import com.github.pig.admin.model.entity.SysMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,4 +92,29 @@ public class TreeUtil {
         return treeNode;
     }
 
+    /**
+     * 通过sysMenu创建树形节点
+     *
+     * @param menus
+     * @param root
+     * @return
+     */
+    public static List<MenuTree> bulidTree(List<SysMenu> menus, int root) {
+        List<MenuTree> trees = new ArrayList<MenuTree>();
+        MenuTree node;
+        for (SysMenu menu : menus) {
+            node = new MenuTree();
+            node.setId(menu.getMenuId());
+            node.setParentId(menu.getParentId());
+            node.setName(menu.getName());
+            node.setUrl(menu.getUrl());
+            node.setPath(menu.getPath());
+            node.setCode(menu.getPermission());
+            node.setLabel(menu.getName());
+            node.setComponent(menu.getComponent());
+            node.setIcon(menu.getIcon());
+            trees.add(node);
+        }
+        return TreeUtil.bulid(trees, root);
+    }
 }
