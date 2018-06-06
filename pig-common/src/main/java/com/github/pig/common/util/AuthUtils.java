@@ -78,22 +78,6 @@ public class AuthUtils {
             throw new CheckedException("请求头中client信息为空");
         }
 
-        byte[] base64Token = header.substring(6).getBytes("UTF-8");
-        byte[] decoded;
-        try {
-            decoded = Base64.decode(base64Token);
-        } catch (IllegalArgumentException e) {
-            throw new CheckedException(
-                    "Failed to decode basic authentication token");
-        }
-
-        String token = new String(decoded, CommonConstant.UTF8);
-
-        int delim = token.indexOf(":");
-
-        if (delim == -1) {
-            throw new CheckedException("Invalid basic authentication token");
-        }
-        return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+        return extractAndDecodeHeader(header);
     }
 }
