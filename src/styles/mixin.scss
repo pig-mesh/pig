@@ -1,3 +1,20 @@
+/*!
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -8,14 +25,14 @@
 
 @mixin scrollBar {
   ::-webkit-scrollbar-track-piece {
-    background-color: #fff; 
+    background-color: #fff;
   }
   ::-webkit-scrollbar {
     width: 7px;
     height: 7px;
-    background-color: #fff;  
+    background-color: #fff;
   }
-  ::-webkit-scrollbar-thumb { 
+  ::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background-color: hsla(220,4%,58%,.3);
   }
@@ -25,11 +42,11 @@
   height: $width;
   line-height: $width;
   border-radius: $width;
-  text-align: center; 
+  text-align: center;
   border-width: $size;
   border-style:solid;
   border-color: $color;
-  
+
 }
 @mixin relative {
   position: relative;

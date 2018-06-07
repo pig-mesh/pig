@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
 /**
  * Created by jiachenpan on 16/11/18.
  */
@@ -148,7 +165,7 @@ export function isvalidatemobile(phone) {
     let result = true;
     let msg = '';
     var isPhone = /^0\d{2,3}-?\d{7,8}$/;
-    //增加134 减少|1349[0-9]{7}，增加181,增加145，增加17[678]  
+    //增加134 减少|1349[0-9]{7}，增加181,增加145，增加17[678]
     var isMob = /^((\+?86)|(\(\+86\)))?(13[0123456789][0-9]{8}|15[012356789][0-9]{8}|18[012356789][0-9]{8}|14[57][0-9]{8}|17[3678][0-9]{8})$/;
     if (!validatenull(phone)) {
         if (phone.length == 11) {

@@ -1,9 +1,26 @@
+<!--
+  -    Copyright (c) 2018-2025, lengleng All rights reserved.
+  -
+  - Redistribution and use in source and binary forms, with or without
+  - modification, are permitted provided that the following conditions are met:
+  -
+  - Redistributions of source code must retain the above copyright notice,
+  - this list of conditions and the following disclaimer.
+  - Redistributions in binary form must reproduce the above copyright
+  - notice, this list of conditions and the following disclaimer in the
+  - documentation and/or other materials provided with the distribution.
+  - Neither the name of the pig4cloud.com developer nor the names of its
+  - contributors may be used to endorse or promote products derived from
+  - this software without specific prior written permission.
+  - Author: lengleng (wangiegie@gmail.com)
+  -->
+
 <template>
   <div class="app-container pull-auto">
     <el-button type="primary" @click="handleAdd" size="small" v-if="permissions.sys_route_add">新 增</el-button>
     <el-button type="success" @click="handleApply" size="small" v-if="permissions.sys_route_add">同 步</el-button>
     <br /><br />
-    <avue-crud ref="crud" :page="page" :data="tableData" :table-loading="tableLoading" :option="tableOption" @current-change="currentChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
+    <avue-crud ref="crud" :page="page" :data="tableData" :table-loading="tableLoading" :option="tableOption" @current-change="currentChange" @size-change="sizeChange" @row-update="handleUpdate" @row-save="handleSave" @row-del="rowDel">
       <template slot-scope="scope" slot="menu">
         <el-button type="primary" v-if="permissions.sys_route_upd" icon="el-icon-check" size="small" plain @click="handleEdit(scope.row,scope.index)">编辑</el-button>
         <el-button type="danger" v-if="permissions.sys_route_del" icon="el-icon-delete" size="small" plain @click="handleDel(scope.row,scope.index)">删除</el-button>
@@ -57,7 +74,11 @@ export default {
       })
     },
     currentChange(val) {
-      console.log(val)
+      this.page.currentPage = val
+      this.getList()
+    },
+    sizeChange(val) {
+      this.page.pageSize = val
       this.getList()
     },
     /**

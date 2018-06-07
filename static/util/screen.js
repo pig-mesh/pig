@@ -15,20 +15,15 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-/**
- * 判断是否为空
- */
-module.exports.validatenull = (val) => {
-  if (typeof val == 'boolean') {
-    return false;
-  }
-  if (val instanceof Array) {
-    if (val.length == 0) return true;
-  } else if (val instanceof Object) {
-    if (JSON.stringify(val) === '{}') return true;
-  } else {
-    if (val == 'null' || val == null || val == 'undefined' || val == undefined || val == '') return true;
-    return false;
-  }
-  return false;
-};
+var screenUtil =(function(){
+   function init(){
+        var viewport = document.querySelector("meta[name=viewport]");
+        var width=window.screen.width;
+        var r=width/1200;
+        if(r<1)viewport.setAttribute('content', 'width=device-width, initial-scale='+r+', maximum-scale=1, user-scalable=no');
+   }
+   return {
+       init,
+   }
+})()
+screenUtil.init();
