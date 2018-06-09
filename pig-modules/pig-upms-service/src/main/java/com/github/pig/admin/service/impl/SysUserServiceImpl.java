@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
 package com.github.pig.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
@@ -24,12 +41,14 @@ import com.github.pig.common.util.Query;
 import com.github.pig.common.util.R;
 import com.github.pig.common.util.UserUtils;
 import com.github.pig.common.util.template.MobileMsgTemplate;
+import com.github.pig.common.vo.MenuVO;
 import com.github.pig.common.vo.SysRole;
 import com.github.pig.common.vo.UserVO;
 import com.xiaoleilu.hutool.collection.CollectionUtil;
 import com.xiaoleilu.hutool.util.RandomUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +59,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -86,9 +103,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         String[] roles = roleNames.toArray(new String[roleNames.size()]);
         userInfo.setRoles(roles);
+
         //设置权限列表（menu.permission）
-        String[] permissions = sysMenuService.findPermission(roles);
-        userInfo.setPermissions(permissions);
+        Set<MenuVO> menuVoSet = new HashSet<>();
+        for (String role : roles) {
+            List<MenuVO> menuVos = sysMenuService.findMenuByRoleName(role);
+            menuVoSet.addAll(menuVos);
+        }
+        Set<String> permissions = new HashSet<>();
+        for (MenuVO menuVo : menuVoSet) {
+            if (StringUtils.isNotEmpty(menuVo.getPermission())) {
+                String permission = menuVo.getPermission();
+                permissions.add(permission);
+            }
+        }
+        userInfo.setPermissions(permissions.toArray(new String[permissions.size()]));
         return userInfo;
     }
 
@@ -129,7 +158,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         dataScope.setIsOnly(true);
         dataScope.setDeptIds(getChildDepts(userVO));
         Object username = query.getCondition().get("username");
-        query.setRecords(sysUserMapper.selectUserVoPageDataScope(query,username, dataScope));
+        query.setRecords(sysUserMapper.selectUserVoPageDataScope(query, username, dataScope));
         return query;
     }
 
@@ -251,8 +280,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 获取当前用户的子部门信息
      *
-     * @return 子部门列表
      * @param userVO 用户信息
+     * @return 子部门列表
      */
     private List<Integer> getChildDepts(UserVO userVO) {
         UserVO userVo = findUserByUsername(userVO.getUsername());

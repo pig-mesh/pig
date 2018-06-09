@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
 package com.github.pig.admin.service;
 
 
@@ -26,14 +43,6 @@ public interface SysMenuService extends IService<SysMenu> {
     List<MenuVO> findMenuByRoleName(String role);
 
     /**
-     * 通过角色获取菜单权限列表
-     *
-     * @param roles 角色
-     * @return 权限列表
-     */
-    String[] findPermission(String[] roles);
-
-    /**
      * 级联删除菜单
      *
      * @param id   菜单ID
@@ -48,18 +57,4 @@ public interface SysMenuService extends IService<SysMenu> {
      * @return 成功、失败
      */
     Boolean updateMenuById(SysMenu sysMenu);
-
-    /**
-     * 返回角色的菜单
-     * @param roleNames 角色
-     * @return 菜单列表
-     */
-    List<MenuTree> findUserMenuTree(List<String> roleNames);
-
-    /**
-     * 返回多个角色的菜单
-     * @param roleList 角色列表
-     * @return 菜单列表
-     */
-    List<MenuVO> findMenuByRoles(List<String> roleList);
 }

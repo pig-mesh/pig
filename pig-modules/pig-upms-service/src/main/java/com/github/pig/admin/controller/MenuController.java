@@ -1,3 +1,20 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
 package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
@@ -9,11 +26,11 @@ import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;
 import com.github.pig.common.vo.MenuVO;
 import com.github.pig.common.web.BaseController;
+import com.xiaoleilu.hutool.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -38,11 +55,22 @@ public class MenuController extends BaseController {
 
     /**
      * 返回当前用户的树形菜单集合
+     *
      * @return 当前用户的树形菜单
      */
     @GetMapping(value = "/userMenu")
-    public List<MenuTree> userMenu(){
-        return sysMenuService.findUserMenuTree(getRole());
+    public List<MenuTree> userMenu() {
+        // 获取符合条件得菜单
+        Set<MenuVO> all = new HashSet<>();
+        getRole().forEach(roleName -> all.addAll(sysMenuService.findMenuByRoleName(roleName)));
+        List<MenuTree> menuTreeList = new ArrayList<>();
+        all.forEach(menuVo -> {
+            if (CommonConstant.MENU.equals(menuVo.getType())) {
+                menuTreeList.add(new MenuTree(menuVo));
+            }
+        });
+        CollUtil.sort(menuTreeList, Comparator.comparingInt(MenuTree::getSort));
+        return TreeUtil.bulid(menuTreeList, -1);
     }
 
     /**
@@ -54,24 +82,9 @@ public class MenuController extends BaseController {
     public List<MenuTree> getTree() {
         SysMenu condition = new SysMenu();
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
-        return getMenuTree(sysMenuService.selectList(new EntityWrapper<>(condition)), -1);
+        return TreeUtil.bulidTree(sysMenuService.selectList(new EntityWrapper<>(condition)), -1);
     }
-
-    /**
-     * 返回当前用户树形菜单集合
-     *
-     * @return 树形菜单
-     */
-    @GetMapping("/userTree")
-    public List<Integer> userTree() {
-        List<MenuVO> menus = sysMenuService.findMenuByRoles(getRole());
-        List<Integer> menuList = new ArrayList<>();
-        for (MenuVO menuVo : menus) {
-            menuList.add(menuVo.getMenuId());
-        }
-        return menuList;
-    }
-
+    
     /**
      * 返回角色的菜单集合
      *
@@ -127,22 +140,4 @@ public class MenuController extends BaseController {
         return new R<>(sysMenuService.updateMenuById(sysMenu));
     }
 
-    private List<MenuTree> getMenuTree(List<SysMenu> menus, int root) {
-        List<MenuTree> trees = new ArrayList<MenuTree>();
-        MenuTree node;
-        for (SysMenu menu : menus) {
-            node = new MenuTree();
-            node.setId(menu.getMenuId());
-            node.setParentId(menu.getParentId());
-            node.setName(menu.getName());
-            node.setUrl(menu.getUrl());
-            node.setPath(menu.getPath());
-            node.setCode(menu.getPermission());
-            node.setLabel(menu.getName());
-            node.setComponent(menu.getComponent());
-            node.setIcon(menu.getIcon());
-            trees.add(node);
-        }
-        return TreeUtil.bulid(trees, root);
-    }
 }
