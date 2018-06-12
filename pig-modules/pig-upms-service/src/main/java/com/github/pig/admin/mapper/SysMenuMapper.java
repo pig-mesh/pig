@@ -21,10 +21,8 @@ import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * <p>
@@ -42,6 +40,5 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
      * @param role 角色名称
      * @return 菜单列表
      */
-    @Cacheable(value = "menu_details", key = "#role  + '_menu'")
     List<MenuVO> findMenuByRoleName(@Param("role") String role);
 }
