@@ -52,7 +52,6 @@ public class SysUser extends Model<SysUser> {
      */
     private String username;
 
-    @JsonIgnore
     private String password;
     /**
      * 随机盐

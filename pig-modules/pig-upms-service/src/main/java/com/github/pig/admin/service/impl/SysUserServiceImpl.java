@@ -245,16 +245,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     @CacheEvict(value = "user_details", key = "#username")
-    public Boolean updateUserInfo(UserDTO userDto, String username) {
+    public R<Boolean> updateUserInfo(UserDTO userDto, String username) {
         UserVO userVo = this.findUserByUsername(username);
-
         SysUser sysUser = new SysUser();
-        if (ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
-            sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+        if (StrUtil.isNotBlank(userDto.getPassword())
+                && StrUtil.isNotBlank(userDto.getNewpassword1())) {
+            if (ENCODER.matches(userDto.getPassword(), userVo.getPassword())) {
+                sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+            } else {
+                log.warn("原密码错误，修改密码失败:{}", username);
+                return new R<>(Boolean.FALSE, "原密码错误，修改失败");
+            }
         }
+        sysUser.setPhone(userDto.getPhone());
         sysUser.setUserId(userVo.getUserId());
         sysUser.setAvatar(userDto.getAvatar());
-        return this.updateById(sysUser);
+        return new R<>(this.updateById(sysUser));
     }
 
     @Override

@@ -209,6 +209,6 @@ public class UserController extends BaseController {
      */
     @PutMapping("/editInfo")
     public R<Boolean> editInfo(@RequestBody UserDTO userDto, UserVO userVo) {
-        return new R<>(userService.updateUserInfo(userDto, userVo.getUsername()));
+        return userService.updateUserInfo(userDto, userVo.getUsername());
     }
 }

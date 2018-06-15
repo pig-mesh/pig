@@ -80,7 +80,7 @@ public class DynamicRouteLocator extends DiscoveryClientRouteLocator {
             }
             values.put(path, entry.getValue());
         }
-        return routesMap;
+        return values;
     }
 
     /**
