@@ -8,10 +8,16 @@
 
 <h2 align="center">Supporting Pig Developer Team</h2> 
 
-   
 ### 在线体验
 地址： http://preview.pig4cloud.com
 
+### pigX 版本
+- 全网最新的Cloud 权限系统
+- 基于Spring Boot 2.0.3.RELEASE
+- 基于Spring Cloud  Finchley.RELEASE
+- 完整的OAuth 2.0 流程，资源服务器控制权限
+- 去除了部分对于开发不友好的中间件,快速上手   
+[源码获取](https://gitee.com/log4j/pig/wikis/pigx)
 ### 项目官网
 文档、视频：https://pig4cloud.com
 
