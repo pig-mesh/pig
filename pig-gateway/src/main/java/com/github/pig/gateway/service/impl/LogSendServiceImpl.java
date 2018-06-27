@@ -27,9 +27,8 @@ import com.xiaoleilu.hutool.http.HttpUtil;
 import com.xiaoleilu.hutool.io.IoUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import com.xiaoleilu.hutool.util.URLUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -47,10 +46,10 @@ import java.io.InputStream;
  * @date 2017/11/16
  * 消息发往消息队列工具类
  */
+@Slf4j
 @Component
 public class LogSendServiceImpl implements LogSendService {
     private static final String SERVICE_ID = "serviceId";
-    private Logger logger = LoggerFactory.getLogger(LogSendServiceImpl.class);
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -66,17 +65,17 @@ public class LogSendServiceImpl implements LogSendService {
         HttpServletRequest request = requestContext.getRequest();
         String requestUri = request.getRequestURI();
         String method = request.getMethod();
-        SysLog log = new SysLog();
-        log.setType(CommonConstant.STATUS_NORMAL);
-        log.setRemoteAddr(HttpUtil.getClientIP(request));
-        log.setRequestUri(URLUtil.getPath(requestUri));
-        log.setMethod(method);
-        log.setUserAgent(request.getHeader("user-agent"));
-        log.setParams(HttpUtil.toParams(request.getParameterMap()));
+        SysLog sysLog = new SysLog();
+        sysLog.setType(CommonConstant.STATUS_NORMAL);
+        sysLog.setRemoteAddr(HttpUtil.getClientIP(request));
+        sysLog.setRequestUri(URLUtil.getPath(requestUri));
+        sysLog.setMethod(method);
+        sysLog.setUserAgent(request.getHeader("user-agent"));
+        sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
         Long startTime = (Long) requestContext.get("startTime");
-        log.setTime(System.currentTimeMillis() - startTime);
+        sysLog.setTime(System.currentTimeMillis() - startTime);
         if (requestContext.get(SERVICE_ID) != null) {
-            log.setServiceId(requestContext.get(SERVICE_ID).toString());
+            sysLog.setServiceId(requestContext.get(SERVICE_ID).toString());
         }
 
         //正常发送服务异常解析
@@ -93,11 +92,11 @@ public class LogSendServiceImpl implements LogSendService {
                 stream1 = new ByteArrayInputStream(baos.toByteArray());
                 stream2 = new ByteArrayInputStream(baos.toByteArray());
                 String resp = IoUtil.read(stream1, CommonConstant.UTF8);
-                log.setType(CommonConstant.STATUS_LOCK);
-                log.setException(resp);
+                sysLog.setType(CommonConstant.STATUS_LOCK);
+                sysLog.setException(resp);
                 requestContext.setResponseDataStream(stream2);
             } catch (IOException e) {
-                logger.error("响应流解析异常：", e);
+                log.error("响应流解析异常：", e);
                 throw new RuntimeException(e);
             } finally {
                 IoUtil.close(stream1);
@@ -109,16 +108,15 @@ public class LogSendServiceImpl implements LogSendService {
         //网关内部异常
         Throwable throwable = requestContext.getThrowable();
         if (throwable != null) {
-            logger.error("网关异常", throwable);
-            log.setException(throwable.getMessage());
+            log.error("网关异常", throwable);
+            sysLog.setException(throwable.getMessage());
         }
-
         //保存发往MQ（只保存授权）
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && StrUtil.isNotBlank(authentication.getName())) {
             LogVO logVo = new LogVO();
-            log.setCreateBy(authentication.getName());
-            logVo.setSysLog(log);
+            sysLog.setCreateBy(authentication.getName());
+            logVo.setSysLog(sysLog);
             logVo.setUsername(authentication.getName());
             rabbitTemplate.convertAndSend(MqQueueConstant.LOG_QUEUE, logVo);
         }
