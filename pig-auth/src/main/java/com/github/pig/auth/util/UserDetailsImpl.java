@@ -40,7 +40,7 @@ public class UserDetailsImpl implements UserDetails {
     private String username;
     private String password;
     private String status;
-    private List<SysRole> roleList = new ArrayList<>();
+    private List<SysRole> roleList;
 
     public UserDetailsImpl(UserVO userVo) {
         this.username = userVo.getUsername();
