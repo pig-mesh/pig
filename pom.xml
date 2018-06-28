@@ -59,7 +59,7 @@
         <velocity-engine-core.version>2.0</velocity-engine-core.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <kaptcha.version>0.0.9</kaptcha.version>
-
+        <javadoc.version>3.0.0</javadoc.version>
         <spring-boot-admin-server.version>1.5.6</spring-boot-admin-server.version>
         <spring-boot-admin-server-ui.version>1.5.6</spring-boot-admin-server-ui.version>
         <spring-boot-admin-server-ui-turbine.version>1.5.6</spring-boot-admin-server-ui-turbine.version>
@@ -153,6 +153,11 @@
                         <source>${java.version}</source>
                         <encoding>UTF-8</encoding>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadoc.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>
