@@ -138,7 +138,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
             final Map<String, Object> additionalInfo = new HashMap<>(2);
             additionalInfo.put("license", SecurityConstants.PIG_LICENSE);
             UserDetailsImpl user = (UserDetailsImpl) authentication.getUserAuthentication().getPrincipal();
-            if(user!=null) {
+            if (user != null) {
                 additionalInfo.put("userId", user.getUserId());
             }
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

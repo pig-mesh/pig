@@ -43,7 +43,7 @@ public class UserDetailsImpl implements UserDetails {
     private List<SysRole> roleList;
 
     public UserDetailsImpl(UserVO userVo) {
-        this.userId=userVo.getUserId();
+        this.userId = userVo.getUserId();
         this.username = userVo.getUsername();
         this.password = userVo.getPassword();
         this.status = userVo.getDelFlag();
