@@ -56,6 +56,20 @@ public class UserUtils {
     }
 
     /**
+     * 根据header中的token获取用户ID
+     *
+     * @param httpServletRequest
+     * @return 用户ID
+     */
+    public static Integer getUserId(HttpServletRequest httpServletRequest) {
+        String token = getToken(httpServletRequest);
+        String key = Base64.getEncoder().encodeToString(CommonConstant.SIGN_KEY.getBytes());
+        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
+        Integer userId = (Integer) claims.get("userId");
+        return userId;
+    }
+
+    /**
      * 获取请求中token
      *
      * @param httpServletRequest request

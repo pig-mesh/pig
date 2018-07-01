@@ -41,5 +41,14 @@ public class BaseController {
         return UserUtils.getRole(request);
     }
 
+    /**
+     * 根据请求heard中的token获取用户ID
+     *
+     * @return 用户ID
+     */
+    public Integer getUserId() {
+        return UserUtils.getUserId(request);
+    }
+
 
 }

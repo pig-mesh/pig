@@ -17,6 +17,7 @@
 
 package com.github.pig.auth.config;
 
+import com.github.pig.auth.util.UserDetailsImpl;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,8 +135,12 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     @Bean
     public TokenEnhancer tokenEnhancer() {
         return (accessToken, authentication) -> {
-            final Map<String, Object> additionalInfo = new HashMap<>(1);
+            final Map<String, Object> additionalInfo = new HashMap<>(2);
             additionalInfo.put("license", SecurityConstants.PIG_LICENSE);
+            UserDetailsImpl user = (UserDetailsImpl) authentication.getUserAuthentication().getPrincipal();
+            if(user!=null) {
+                additionalInfo.put("userId", user.getUserId());
+            }
             ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
             return accessToken;
         };

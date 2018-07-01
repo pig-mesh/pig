@@ -36,13 +36,14 @@ import java.util.List;
  */
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
-
+    private Integer userId;
     private String username;
     private String password;
     private String status;
     private List<SysRole> roleList;
 
     public UserDetailsImpl(UserVO userVo) {
+        this.userId=userVo.getUserId();
         this.username = userVo.getUsername();
         this.password = userVo.getPassword();
         this.status = userVo.getDelFlag();
@@ -107,6 +108,10 @@ public class UserDetailsImpl implements UserDetails {
 
     public String getStatus() {
         return status;
+    }
+
+    public Integer getUserId() {
+        return userId;
     }
 
     public void setStatus(String status) {
