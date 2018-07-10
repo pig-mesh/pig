@@ -141,40 +141,40 @@ export default {
     },
     getList() {
       this.listLoading = true;
-      this.listQuery.orderByField = "create_time";
-      this.listQuery.isAsc = false;
+      this.listQuery.orderByField = 'create_time'
+      this.listQuery.isAsc = false
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.records;
-        this.total = response.data.total;
-        this.listLoading = false;
-      });
+        this.list = response.data.records
+        this.total = response.data.total
+        this.listLoading = false
+      })
     },
     handleSizeChange(val) {
-      this.listQuery.limit = val;
-      this.getList();
+      this.listQuery.limit = val
+      this.getList()
     },
     handleCurrentChange(val) {
-      this.listQuery.page = val;
-      this.getList();
+      this.listQuery.page = val
+      this.getList()
     },
     handleDelete(row) {
       delObj(row.id).then(response => {
-        this.dialogFormVisible = false;
-        this.getList();
+        this.dialogFormVisible = false
+        this.getList()
         this.$notify({
-          title: "成功",
-          message: "删除成功",
-          type: "success",
+          title: '成功',
+          message: '删除成功',
+          type: 'success',
           duration: 2000
-        });
-      });
+        })
+      })
     },
     handleFilter() {
-      this.listQuery.page = 1;
-      this.getList();
+      this.listQuery.page = 1
+      this.getList()
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 

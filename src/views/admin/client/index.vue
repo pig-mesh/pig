@@ -103,6 +103,7 @@ export default {
         })
         .then(data => {
           _this.tableData.splice(index, 1)
+          this.getList()
           _this.$message({
             showClose: true,
             message: '删除成功',
@@ -127,6 +128,7 @@ export default {
           type: 'success'
         })
         done()
+        this.getList()
       })
     },
     /**
@@ -144,6 +146,7 @@ export default {
           type: 'success'
         })
         done()
+        this.getList()
       })
     }
   }
