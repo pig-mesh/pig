@@ -338,17 +338,17 @@ public final class HtmlFilter {
         }
         m.appendTail(buf);
 
-        s = buf.toString();
+
 
         // these get tallied in processTag
         // (remember to reset before subsequent calls to filter method)
         for (String key : vTagCounts.keySet()) {
             for (int ii = 0; ii < vTagCounts.get(key); ii++) {
-                s += "</" + key + ">";
+                buf.append("</").append(key).append(">");
             }
         }
 
-        return s;
+        return buf.toString();
     }
 
     private String processRemoveBlanks(final String s) {
@@ -396,7 +396,7 @@ public final class HtmlFilter {
 
             //debug( "in a starting tag, name='" + name + "'; body='" + body + "'; ending='" + ending + "'" );
             if (allowed(name)) {
-                String params = "";
+                StringBuffer params = new StringBuffer();
 
                 final Matcher m2 = P_QUOTED_ATTRIBUTES.matcher(body);
                 final Matcher m3 = P_UNQUOTED_ATTRIBUTES.matcher(body);
@@ -419,7 +419,7 @@ public final class HtmlFilter {
                         if (inArray(paramName, vProtocolAtts)) {
                             paramValue = processParamProtocol(paramValue);
                         }
-                        params += " " + paramName + "=\"" + paramValue + "\"";
+                        params.append(" ").append(paramName).append("=\"").append(paramValue).append("\"");
                     }
                 }
 
@@ -440,7 +440,7 @@ public final class HtmlFilter {
                 } else {
                     ending = " /";
                 }
-                return "<" + name + params + ending + ">";
+                return "<" + name + params.toString() + ending + ">";
             } else {
                 return "";
             }
