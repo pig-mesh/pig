@@ -36,6 +36,7 @@ import {
 import {
   GetMenu
 } from '@/api/menu'
+import { encryption } from '@/util/util'
 const user = {
   state: {
     userInfo: getStore({
@@ -68,7 +69,13 @@ const user = {
       dispatch
     }, userInfo) {
       return new Promise((resolve, reject) => {
-        loginByUsername(userInfo.username, userInfo.password, userInfo.code, userInfo.randomStr).then(response => {
+        const user = encryption({
+          data: userInfo,
+          key: '1234567887654321',
+          param: ['password']
+        })
+
+        loginByUsername(user.username, user.password, user.code, user.randomStr).then(response => {
           const data = response.data
           setToken(data.access_token)
           commit('SET_ACCESS_TOKEN', data.access_token)

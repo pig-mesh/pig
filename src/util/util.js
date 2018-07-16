@@ -79,9 +79,20 @@ export const encryption = (params) => {
     param.forEach(ele => {
       result[ele] = btoa(result[ele])
     })
-  } else if (type === 'Aes') {
+  } else {
     param.forEach(ele => {
-      result[ele] = CryptoJS.AES.encrypt(result[ele], key).toString()
+      var data = result[ele]
+      key  = CryptoJS.enc.Latin1.parse(key)
+      var iv = key
+      //加密
+      var encrypted = CryptoJS.AES.encrypt(
+        data,
+        key,
+        { iv:iv,
+          mode:CryptoJS.mode.CBC,
+          padding:CryptoJS.pad.ZeroPadding
+        })
+      result[ele] = encrypted.toString()
     })
   }
   return result
