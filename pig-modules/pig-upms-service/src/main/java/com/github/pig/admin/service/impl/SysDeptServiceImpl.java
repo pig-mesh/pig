@@ -131,17 +131,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     }
 
     /**
-     * 查询部门列表
-     *
-     * @param sysDeptEntityWrapper sysDeptEntityWrapper
-     * @return 部门列表
-     */
-    private List<SysDept> selectDeptDtoList(EntityWrapper<SysDept> sysDeptEntityWrapper) {
-        return sysDeptMapper.selectDeptDtoList(sysDeptEntityWrapper.getEntity().getDelFlag());
-    }
-
-
-    /**
      * 构建部门树
      *
      * @param depts 部门

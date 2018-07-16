@@ -60,7 +60,6 @@ public class AccessFilter extends ZuulFilter {
             RequestContext requestContext = RequestContext.getCurrentContext();
             requestContext.addZuulRequestHeader(SecurityConstants.USER_HEADER, authentication.getName());
             requestContext.addZuulRequestHeader(SecurityConstants.ROLE_HEADER,  CollectionUtil.join(authentication.getAuthorities(),","));
-
         }
         return null;
     }
