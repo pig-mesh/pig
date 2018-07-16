@@ -25,8 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
+import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestValidator;
 import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -74,9 +76,17 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
             String clientId = tokens[0];
 
             ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
-            TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
-            OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 
+            //校验secret
+            if (!clientDetails.getClientSecret().equals(tokens[1])) {
+                throw new InvalidClientException("Given client ID does not match authenticated client");
+            }
+
+            TokenRequest tokenRequest = new TokenRequest(MapUtil.newHashMap(), clientId, clientDetails.getScope(), "mobile");
+
+            //校验scope
+            new DefaultOAuth2RequestValidator().validateScope(tokenRequest, clientDetails);
+            OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
             OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
             OAuth2AccessToken oAuth2AccessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
             log.info("获取token 成功：{}", oAuth2AccessToken.getValue());
@@ -90,7 +100,6 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
                     "Failed to decode basic authentication token");
         }
     }
-
 
 
 }
