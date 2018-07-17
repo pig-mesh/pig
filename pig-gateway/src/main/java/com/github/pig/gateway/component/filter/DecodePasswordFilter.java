@@ -83,7 +83,7 @@ public class DecodePasswordFilter extends ZuulFilter {
             return null;
         }
 
-        List<String> passList = params.get("password");
+        List<String> passList = params.get(PASSWORD);
         if (CollUtil.isEmpty(passList)) {
             return null;
         }
