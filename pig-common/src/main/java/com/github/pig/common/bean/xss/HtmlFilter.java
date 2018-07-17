@@ -222,10 +222,20 @@ public final class HtmlFilter {
 
     private void debug(final String msg) {
         if (vDebug) {
-            Logger.getAnonymousLogger().info(msg);
+            Logger.getAnonymousLogger().info(validMsg(msg));
         }
     }
-
+	/**
+     * valid msg
+     *
+     * @param msg
+     * @return encodeMsg
+     */
+	public static String validMsg(String msg) {
+		String encodeMsg = Normalizer.normalize(msg, Form.NFKC);
+		encodeMsg = encodeLog.replaceAll("(\r|\n|%0d|%0a)", "");
+		return encodeMsg;
+	}
     /**
      * my versions of some PHP library functions
      *
