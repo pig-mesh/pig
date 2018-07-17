@@ -38,8 +38,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <pig.version>1.1.5</pig.version>
-        <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
-        <spring-cloud.version>Edgware.SR3</spring-cloud.version>
+        <spring-boot.version>1.5.13.RELEASE</spring-boot.version>
+        <spring-cloud.version>Edgware.SR4</spring-cloud.version>
 
         <!--Lombok-->
         <lombok.version>1.16.20</lombok.version>
@@ -117,7 +117,7 @@
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>
-                <version>Brussels-SR9</version>
+                <version>Brussels-SR11</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
