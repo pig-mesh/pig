@@ -23,6 +23,8 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 
 /**
  * HTML filtering utility for protecting against XSS (Cross Site Scripting).
@@ -233,7 +235,7 @@ public final class HtmlFilter {
      */
 	public static String validMsg(String msg) {
 		String encodeMsg = Normalizer.normalize(msg, Form.NFKC);
-		encodeMsg = encodeLog.replaceAll("(\r|\n|%0d|%0a)", "");
+		encodeMsg = encodeMsg.replaceAll("(\r|\n|%0d|%0a)", "");
 		return encodeMsg;
 	}
     /**
