@@ -20,6 +20,9 @@
 
 - [pig-ui](https://gitee.com/log4j/pig-ui)、[pig-config](https://gitee.com/cqzqxq_lxh/pig-config)
 
+- <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群：23754102</a>   
+
+
 ## pigX
 - 全网最新的Cloud 权限系统
 - 基于Spring Boot 2.0.3.RELEASE
@@ -72,11 +75,6 @@ pig
      ├── pig-zipkin-elk -- zipkin、ELK监控[5002、5601]
      └── pig-cache-cloud -- 缓存管理、统一监控[5005]
 ```
-
-
-### 交流群
-一键加群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png"></a>   
-![image](http://oss.wjg95.cn/pig_qq_qun.png)
 
 ### 截图 （点击可大图预览）
 <table>
