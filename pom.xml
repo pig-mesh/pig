@@ -60,9 +60,9 @@
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <javadoc.version>3.0.0</javadoc.version>
-        <spring-boot-admin-server.version>1.5.6</spring-boot-admin-server.version>
-        <spring-boot-admin-server-ui.version>1.5.6</spring-boot-admin-server-ui.version>
-        <spring-boot-admin-server-ui-turbine.version>1.5.6</spring-boot-admin-server-ui-turbine.version>
+        <spring-boot-admin-server.version>1.5.7</spring-boot-admin-server.version>
+        <spring-boot-admin-server-ui.version>1.5.7</spring-boot-admin-server-ui.version>
+        <spring-boot-admin-server-ui-turbine.version>1.5.7</spring-boot-admin-server-ui-turbine.version>
     </properties>
 
     <!--公共依赖-->
