@@ -48,7 +48,7 @@ public class SwaggerConfig {
     @Bean
     public Docket createRestApi() {
         ParameterBuilder tokenBuilder = new ParameterBuilder();
-        List<Parameter> parameterList = new ArrayList<Parameter>();
+        List<Parameter> parameterList = new ArrayList<>();
         tokenBuilder.name("Authorization")
                 .defaultValue("去其他请求中获取heard中token参数")
                 .description("令牌")
