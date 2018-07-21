@@ -18,11 +18,11 @@
 const DIC = {
   vaild: [{
     label: '否',
-    value: '0'
+    value: 'false'
   },
     {
       label: '是',
-      value: '1'
+      value: 'true'
     }
   ]
 }
