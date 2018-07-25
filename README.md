@@ -20,7 +20,7 @@
 
 - [pig-ui](https://gitee.com/log4j/pig-ui)、[pig-config](https://gitee.com/cqzqxq_lxh/pig-config)
 
-- <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群：23754102</a>   
+- <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群：23754102 （人数有限，需要Spring Cloud 基础，小白必清，谢谢！）</a>   
 
 
 ## pigX
