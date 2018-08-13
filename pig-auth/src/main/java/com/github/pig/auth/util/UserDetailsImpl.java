@@ -77,7 +77,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return StringUtils.equals(CommonConstant.STATUS_LOCK, status) ? false : true;
+        return !StringUtils.equals(CommonConstant.STATUS_LOCK, status);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return StringUtils.equals(CommonConstant.STATUS_NORMAL, status) ? true : false;
+        return StringUtils.equals(CommonConstant.STATUS_NORMAL, status);
     }
 
     public void setUsername(String username) {
