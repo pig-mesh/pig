@@ -10,8 +10,6 @@
 ## 简介
 - [项目官网](https://pig4cloud.com) 
 
-- [在线体验](http://preview.pig4cloud.com)
-
 - [入门视频](https://www.bilibili.com/video/av20229859/)  
 
 - [部署文档](https://www.kancloud.cn/lengleng/pig-guide/550736)  
