@@ -77,8 +77,8 @@ pig
 ### 截图 （点击可大图预览）
 <table>
     <tr>
-        <td><img src="https://oss.pig4cloud.com/pic/201806/login.png"/></td>
-        <td><img src="https://oss.pig4cloud.com/pic/201806/1.png"/></td>
+        <td><img src="https://oss.pigx.top/pic/201806/login.png"/></td>
+        <td><img src="https://oss.pigx.top/pic/201806/1.png"/></td>
     </tr>
     <tr>
         <td><img src="https://oss.pigx.top/pic/201806/2.png"/></td>
