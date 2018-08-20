@@ -29,6 +29,7 @@
 - 基于Spring Cloud  Finchley.RELEASE
 - 网关基于 Spring Cloud Gateway
 - 提供Consul 服务注册发现版本pigxc
+- 最终一致性的分布式事务解决方案
 - 完整的OAuth 2.0 流程，资源服务器控制权限
 - 去除了部分对于开发不友好的中间件,快速上手   
 [源码获取](https://gitee.com/log4j/pig/wikis/pigx)
