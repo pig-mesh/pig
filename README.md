@@ -25,8 +25,8 @@
 
 ## pigX
 - 全网最新的Cloud 权限系统
-- 基于Spring Boot 2.0.3.RELEASE
-- 基于Spring Cloud  Finchley.RELEASE
+- 基于Spring Boot 2.0.4.RELEASE
+- 基于Spring Cloud  Finchley.SR1
 - 网关基于 Spring Cloud Gateway
 - 提供Consul 服务注册发现版本pigxc
 - 最终一致性的分布式事务解决方案
