@@ -30,6 +30,7 @@
 - 网关基于 Spring Cloud Gateway
 - 提供Consul 服务注册发现版本pigxc
 - 最终一致性的分布式事务解决方案
+- 图形化代码生成，不会vue也能做到敏捷开发
 - 基于 Spring Security oAuth 深度定制，支持社交登录等
 - 完整的OAuth 2.0 流程，资源服务器控制权限
 - 去除了部分对于开发不友好的中间件,快速上手   
