@@ -34,6 +34,7 @@
 - 基于 Spring Security oAuth 深度定制，支持社交登录等
 - 完整的OAuth 2.0 流程，资源服务器控制权限
 - 去除了部分对于开发不友好的中间件,快速上手   
+- [在线体验](http://pigx.pig4cloud.com) 
 [源码获取](https://gitee.com/log4j/pig/wikis/pigx)
 ### 功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
