@@ -88,7 +88,7 @@ public class RoleController extends BaseController {
     /**
      * 获取角色列表
      *
-     * @param deptId  部门ID
+     * @param deptId 部门ID
      * @return 角色列表
      */
     @GetMapping("/roleList/{deptId}")
@@ -117,7 +117,7 @@ public class RoleController extends BaseController {
      * @return success、false
      */
     @PutMapping("/roleMenuUpd")
-    public R<Boolean> roleMenuUpd(Integer roleId, @RequestParam("menuIds[]") Integer[] menuIds) {
+    public R<Boolean> roleMenuUpd(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
         SysRole sysRole = sysRoleService.selectById(roleId);
         return new R<>(sysRoleMenuService.insertRoleMenus(sysRole.getRoleCode(), roleId, menuIds));
     }

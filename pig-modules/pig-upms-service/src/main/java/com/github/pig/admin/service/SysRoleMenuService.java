@@ -40,5 +40,5 @@ public interface SysRoleMenuService extends IService<SysRoleMenu> {
      * @param menuIds 菜单列表
      * @return
      */
-    Boolean insertRoleMenus(String role, Integer roleId, Integer[] menuIds);
+    Boolean insertRoleMenus(String role, Integer roleId, String menuIds);
 }
