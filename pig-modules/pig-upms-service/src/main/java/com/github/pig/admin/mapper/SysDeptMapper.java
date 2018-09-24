@@ -39,10 +39,4 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
      * @return 数据列表
      */
     List<SysDept> selectDeptDtoList(String delFlag);
-
-    /**
-     * 删除部门关系表数据
-     * @param id 部门ID
-     */
-    void deleteDeptRealtion(Integer id);
 }

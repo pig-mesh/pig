@@ -33,25 +33,6 @@
     <sql id="Base_Column_List">
         dept_id AS deptId, parent_id AS parentId, name, order_num AS orderNum, create_time AS createTime, update_time AS updateTime, del_flag AS delFlag
     </sql>
-    <delete id="deleteDeptRealtion">
-        DELETE
-        FROM
-            sys_dept_relation
-        WHERE
-            descendant IN (
-                SELECT
-                    temp.descendant
-                FROM
-                    (
-                        SELECT
-                            descendant
-                        FROM
-                            sys_dept_relation
-                        WHERE
-                            ancestor = #{id}
-                    ) temp
-            )
-    </delete>
 
     <!--关联查询部门列表-->
     <select id="selectDeptDtoList" resultType="com.github.pig.admin.model.entity.SysDept">

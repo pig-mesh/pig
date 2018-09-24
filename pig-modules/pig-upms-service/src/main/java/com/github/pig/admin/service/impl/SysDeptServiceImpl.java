@@ -98,7 +98,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         sysDept.setUpdateTime(new Date());
         sysDept.setDelFlag(CommonConstant.STATUS_DEL);
         this.deleteById(sysDept);
-        sysDeptMapper.deleteDeptRealtion(id);
+        sysDeptRelationMapper.deleteAllDeptRealtion(id);
         return Boolean.TRUE;
     }
 
@@ -112,10 +112,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     public Boolean updateDeptById(SysDept sysDept) {
         //更新部门状态
         this.updateById(sysDept);
-        //删除部门关系
-        sysDeptMapper.deleteDeptRealtion(sysDept.getDeptId());
-        //新建部门关系
-        this.insertDeptRelation(sysDept);
+        //更新部门关系
+        SysDeptRelation relation = new SysDeptRelation();
+        relation.setAncestor(sysDept.getParentId());
+        relation.setDescendant(sysDept.getDeptId());
+        sysDeptRelationMapper.updateDeptRealtion(relation);
         return null;
     }
 
