@@ -51,6 +51,7 @@ import java.util.Arrays;
 @ConditionalOnProperty(value = "security.validate.code", havingValue = "true")
 public class ValidateCodeFilter extends ZuulFilter {
     private static final String EXPIRED_CAPTCHA_ERROR = "验证码已过期，请重新获取";
+    private static final String GRANT_TYPE = "grant_type";
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -71,6 +72,7 @@ public class ValidateCodeFilter extends ZuulFilter {
      * 是否校验验证码
      * 1. 判断验证码开关是否开启
      * 2. 判断请求是否登录请求
+     * 2.1 判断是不是刷新请求(不用单独在建立刷新客户端)
      * 3. 判断终端是否支持
      *
      * @return true/false
@@ -81,6 +83,10 @@ public class ValidateCodeFilter extends ZuulFilter {
 
         if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(),
                 SecurityConstants.OAUTH_TOKEN_URL, SecurityConstants.MOBILE_TOKEN_URL)) {
+            return false;
+        }
+
+        if (SecurityConstants.REFRESH_TOKEN.equals(request.getParameter(GRANT_TYPE))) {
             return false;
         }
 
