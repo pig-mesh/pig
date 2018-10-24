@@ -35,7 +35,7 @@
 - 完整的OAuth 2.0 流程，资源服务器控制权限
 - 去除了部分对于开发不友好的中间件,快速上手   
 - [在线体验](http://pigx.pigx.top) 
-[源码获取](https://gitee.com/log4j/pig/wikis/pigx)
+[源码获取](https://pig4cloud.com/pigx.html)
 ### 功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
 - 单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
