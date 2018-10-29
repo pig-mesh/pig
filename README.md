@@ -25,15 +25,16 @@
 
 ## pigX
 - 全网最新的Cloud 权限系统
-- 基于Spring Boot 2.0.4.RELEASE
-- 基于Spring Cloud  Finchley.SR1
-- 网关基于 Spring Cloud Gateway
-- 提供Consul 服务注册发现版本pigxc
-- 最终一致性的分布式事务解决方案
+- 前后端完全分离，基于Spring Boot 2.0.6.RELEASE丶Finchley.SR2 
+- 深度定义LCN 解决分布式事务问题 
 - 图形化代码生成，不会vue也能做到敏捷开发
-- 基于 Spring Security oAuth 深度定制，支持社交登录等
-- 完整的OAuth 2.0 流程，资源服务器控制权限
+- 基于Spring Cloud Gateway 定制webflux网关 
+- 封装部分Spring Cloud 原生组件，企业化开发更加方便 
+- 基于 Spring Security OAuth 深度权限定制,权限控制到菜单、token 
+- 完全打通常见社交登录，面对OAuth 前后端分离架构不在难办 
 - 去除了部分对于开发不友好的中间件,快速上手   
+- 提供Consul 服务注册发现版本pigxc 
+- 完全开源，持续更新 
 - [在线体验](http://pigx.pigx.top) 
 [源码获取](https://pig4cloud.com/pigx.html)
 ### 功能
