@@ -17,17 +17,17 @@
 
 package com.github.pig.admin.controller;
 
-import java.util.Map;
-
-import com.github.pig.admin.model.entity.SysOauthClientDetails;
-import com.github.pig.common.util.R;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.common.util.Query;
+import com.github.pig.admin.model.entity.SysOauthClientDetails;
 import com.github.pig.admin.service.SysOauthClientDetailsService;
+import com.github.pig.common.util.Query;
+import com.github.pig.common.util.R;
 import com.github.pig.common.web.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * <p>

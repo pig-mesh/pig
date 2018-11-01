@@ -18,7 +18,6 @@
 package com.github.pig.mc.listener;
 
 import com.github.pig.common.constant.MqQueueConstant;
-import com.github.pig.common.util.template.DingTalkMsgTemplate;
 import com.github.pig.mc.handler.DingTalkMessageHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;

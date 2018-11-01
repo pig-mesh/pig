@@ -18,12 +18,12 @@
 package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.github.pig.admin.mapper.SysZuulRouteMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.github.pig.admin.mapper.SysZuulRouteMapper;
+import com.github.pig.admin.service.SysZuulRouteService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.MqQueueConstant;
 import com.github.pig.common.entity.SysZuulRoute;
-import com.github.pig.admin.service.SysZuulRouteService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

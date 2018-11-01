@@ -19,22 +19,18 @@ package com.github.pig.admin.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
-import com.github.pig.admin.common.util.TreeUtil;
 import com.github.pig.admin.mapper.SysMenuMapper;
-import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.Assert;
 import com.github.pig.common.vo.MenuVO;
-import com.xiaoleilu.hutool.collection.CollUtil;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * <p>

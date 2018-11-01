@@ -19,7 +19,6 @@ package com.github.pig.admin.service;
 
 
 import com.baomidou.mybatisplus.service.IService;
-import com.github.pig.admin.model.dto.MenuTree;
 import com.github.pig.admin.model.entity.SysMenu;
 import com.github.pig.common.vo.MenuVO;
 

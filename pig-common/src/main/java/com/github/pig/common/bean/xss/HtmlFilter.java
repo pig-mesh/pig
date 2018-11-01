@@ -17,14 +17,14 @@
 
 package com.github.pig.common.bean.xss;
 
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
 
 /**
  * HTML filtering utility for protecting against XSS (Cross Site Scripting).

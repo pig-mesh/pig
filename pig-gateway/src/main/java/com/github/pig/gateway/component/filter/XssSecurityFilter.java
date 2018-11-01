@@ -18,9 +18,7 @@
 package com.github.pig.gateway.component.filter;
 
 import com.github.pig.common.bean.xss.XssHttpServletRequestWrapper;
-import com.netflix.zuul.ZuulFilter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 

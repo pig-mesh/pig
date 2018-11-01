@@ -25,12 +25,13 @@ import com.github.pig.admin.service.SysMenuService;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.util.R;
 import com.github.pig.common.vo.MenuVO;
+import com.github.pig.common.vo.UserVO;
 import com.github.pig.common.web.BaseController;
-import com.xiaoleilu.hutool.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -56,20 +57,20 @@ public class MenuController extends BaseController {
     /**
      * 返回当前用户的树形菜单集合
      *
+     * @param userVO
      * @return 当前用户的树形菜单
      */
     @GetMapping(value = "/userMenu")
-    public List<MenuTree> userMenu() {
+    public List<MenuTree> userMenu(UserVO userVO) {
         // 获取符合条件得菜单
         Set<MenuVO> all = new HashSet<>();
-        getRole().forEach(roleName -> all.addAll(sysMenuService.findMenuByRoleName(roleName)));
-        List<MenuTree> menuTreeList = new ArrayList<>();
-        all.forEach(menuVo -> {
-            if (CommonConstant.MENU.equals(menuVo.getType())) {
-                menuTreeList.add(new MenuTree(menuVo));
-            }
-        });
-        CollUtil.sort(menuTreeList, Comparator.comparingInt(MenuTree::getSort));
+        userVO.getRoleList().forEach(role -> all.addAll(sysMenuService.findMenuByRoleName(role.getRoleCode())));
+
+        List<MenuTree> menuTreeList = all.stream().filter(vo -> CommonConstant.MENU
+                .equals(vo.getType()))
+                .map(MenuTree::new)
+                .sorted(Comparator.comparingInt(MenuTree::getSort))
+                .collect(Collectors.toList());
         return TreeUtil.bulid(menuTreeList, -1);
     }
 
@@ -84,7 +85,7 @@ public class MenuController extends BaseController {
         condition.setDelFlag(CommonConstant.STATUS_NORMAL);
         return TreeUtil.bulidTree(sysMenuService.selectList(new EntityWrapper<>(condition)), -1);
     }
-    
+
     /**
      * 返回角色的菜单集合
      *

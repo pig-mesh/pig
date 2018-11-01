@@ -20,7 +20,6 @@ package com.github.pig.admin.controller;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.github.pig.admin.model.dto.RoleDTO;
 import com.github.pig.admin.model.entity.SysDict;
 import com.github.pig.admin.service.SysDictService;
 import com.github.pig.common.constant.CommonConstant;

@@ -21,8 +21,6 @@ import com.github.pig.common.vo.MenuVO;
 import com.github.pig.gateway.feign.MenuService;
 import com.xiaoleilu.hutool.collection.CollUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

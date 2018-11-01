@@ -22,7 +22,6 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.github.pig.admin.mapper.SysRoleMenuMapper;
 import com.github.pig.admin.model.entity.SysRoleMenu;
 import com.github.pig.admin.service.SysRoleMenuService;
-import com.xiaoleilu.hutool.collection.CollUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;

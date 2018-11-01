@@ -81,7 +81,7 @@ public class TokenArgumentResolver implements HandlerMethodArgumentResolver {
         List<SysRole> sysRoleList = new ArrayList<>();
         Arrays.stream(roles.split(",")).forEach(role -> {
             SysRole sysRole = new SysRole();
-            sysRole.setRoleName(role);
+            sysRole.setRoleCode(role);
             sysRoleList.add(sysRole);
         });
         userVO.setRoleList(sysRoleList);
