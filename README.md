@@ -36,7 +36,7 @@
 - 提供Consul 服务注册发现版本pigxc 
 - 完全开源，持续更新 
 - [在线体验](http://pigx.pigx.top) 
-[源码获取](https://pig4cloud.com/pigx.html)
+[源码获取](https://pig4cloud.com/#/docs/pigx/pigx)
 ### 功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
 - 单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
