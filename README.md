@@ -22,6 +22,8 @@
 
 - <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群：23754102 （人数有限，需要Spring Cloud 基础，小白必清，谢谢！）</a>   
 
+- 朋友的开源项目，大家有需要的可以支持一下：[thlws-payment](https://gitee.com/thlws)
+
 
 ## pigX
 - 全网最新的Cloud 权限系统
