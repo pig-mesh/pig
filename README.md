@@ -22,6 +22,8 @@
 
 - <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群：23754102 （人数有限，需要Spring Cloud 基础，小白必清，谢谢！）</a>   
 
+- 朋友的开源项目，大家有需要的可以支持一下：[thlws-payment](https://gitee.com/thlws)
+
 
 ## pigX
 - 全网最新的Cloud 权限系统
@@ -36,7 +38,7 @@
 - 提供Consul 服务注册发现版本pigxc 
 - 完全开源，持续更新 
 - [在线体验](http://pigx.pigx.top) 
-[源码获取](https://pig4cloud.com/pigx.html)
+[源码获取](https://pig4cloud.com/#/docs/pigx/pigx)
 ### 功能
 - 完善登录：账号密码模式、短信验证码模式、社交账号模式均整合Spring security oAuth
 - 单点登录：基于Srping security oAuth 提供单点登录接口，方便其他系统对接
