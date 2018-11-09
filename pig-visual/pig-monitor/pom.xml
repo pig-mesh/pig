@@ -22,7 +22,7 @@
 
     <groupId>com.github.pig</groupId>
     <artifactId>pig-monitor</artifactId>
-    <version>${pig.version}</version>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
 
     <name>pig-monitor</name>
@@ -31,14 +31,14 @@
     <parent>
         <groupId>com.github.pig</groupId>
         <artifactId>pig-visual</artifactId>
-        <version>${pig.version}</version>
+        <version>1.3.0</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.github.pig</groupId>
             <artifactId>pig-common</artifactId>
-            <version>${pig.version}</version>
+            <version>1.3.0</version>
         </dependency>
         <!--admin-->
         <dependency>

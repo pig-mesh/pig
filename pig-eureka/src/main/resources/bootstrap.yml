@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: pig-eureka-server
+  cloud:
+    config:
+      enabled: false
 
 security:
   basic:

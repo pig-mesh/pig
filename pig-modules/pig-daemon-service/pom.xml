@@ -22,7 +22,7 @@
 
     <groupId>com.github.pig</groupId>
     <artifactId>pig-daemon-service</artifactId>
-    <version>${pig.version}</version>
+    <version>1.3.0</version>
     <packaging>jar</packaging>
 
     <name>pig-daemon-service</name>
@@ -31,7 +31,7 @@
     <parent>
         <groupId>com.github.pig</groupId>
         <artifactId>pig-modules</artifactId>
-        <version>${pig.version}</version>
+        <version>1.3.0</version>
     </parent>
 
     <properties>
@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.github.pig</groupId>
             <artifactId>pig-common</artifactId>
-            <version>${pig.version}</version>
+            <version>1.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.xjzrc.spring.boot</groupId>
