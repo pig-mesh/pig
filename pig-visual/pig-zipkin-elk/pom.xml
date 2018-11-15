@@ -22,7 +22,7 @@
 
     <groupId>com.github.pig</groupId>
     <artifactId>pig-zipkin-elk</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <packaging>jar</packaging>
 
     <name>pig-zipkin-elk</name>
@@ -31,14 +31,14 @@
     <parent>
         <groupId>com.github.pig</groupId>
         <artifactId>pig-visual</artifactId>
-        <version>1.3.0</version>
+        <version>1.3.1</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.github.pig</groupId>
             <artifactId>pig-common</artifactId>
-            <version>1.3.0</version>
+            <version>1.3.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.github.openfeign</groupId>
