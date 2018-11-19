@@ -61,7 +61,7 @@
 - 代码生成：前后端代码的生成，支持Vue
 - 缓存管理：基于Cache Cloud 保证Redis 的高可用
 - 服务监控: Spring Boot Admin
-- 分布式任务调度： 基于elastic-job的分布式文件系统，zookeeper做调度中心
+- 分布式任务调度： 基于elastic-job的分布式任务，zookeeper做调度中心
 - zipkin链路追踪： 数据保存ELK，图形化展示
 - pinpoint链路追踪： 数据保存hbase，图形化展示
  ### 模块
