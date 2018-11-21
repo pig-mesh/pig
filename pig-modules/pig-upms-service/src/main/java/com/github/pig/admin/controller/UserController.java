@@ -130,8 +130,7 @@ public class UserController extends BaseController {
      */
     @PutMapping
     public R<Boolean> userUpdate(@RequestBody UserDTO userDto) {
-        SysUser user = userService.selectById(userDto.getUserId());
-        return new R<>(userService.updateUser(userDto, user.getUsername()));
+        return new R<>(userService.updateUser(userDto));
     }
 
     /**
@@ -175,8 +174,8 @@ public class UserController extends BaseController {
      * @return 用户集合
      */
     @RequestMapping("/userPage")
-    public Page userPage(@RequestParam Map<String, Object> params,UserVO userVO) {
-        return userService.selectWithRolePage(new Query(params),userVO);
+    public Page userPage(@RequestParam Map<String, Object> params, UserVO userVO) {
+        return userService.selectWithRolePage(new Query(params), userVO);
     }
 
     /**

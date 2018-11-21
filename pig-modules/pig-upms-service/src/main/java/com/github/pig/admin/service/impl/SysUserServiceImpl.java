@@ -250,8 +250,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    @CacheEvict(value = "user_details", key = "#username")
-    public Boolean updateUser(UserDTO userDto, String username) {
+    @CacheEvict(value = "user_details", key = "#userDto.username")
+    public Boolean updateUser(UserDTO userDto) {
         SysUser sysUser = new SysUser();
         BeanUtils.copyProperties(userDto, sysUser);
         sysUser.setUpdateTime(new Date());
