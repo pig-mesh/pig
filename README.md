@@ -67,7 +67,7 @@
  ### 模块
 ``` lua
 pig
-├── pig-ui -- element-vue-admin实现[9528]
+├── pig-ui -- element-vue-admin实现[8000]
 ├── pig-auth -- 授权服务提供[3000]
 ├── pig-common -- 系统公共模块 
 ├── pig-config -- 配置中心[4001]
