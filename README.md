@@ -6,14 +6,13 @@
   <img src="https://img.shields.io/npm/l/vue.svg" alt="License">
 </p>  
 
-## Pig Microservice Architecture   
-<br/>   
-
-基于Spring Cloud、OAuth2.0、Vue的前后端分离的权限管理系统      
-您可以点击这里<a target="_blank" href="http://pig.pigx.top">在线体验</a>  ,更多开发资料请参考<a target="_blank" href="https://pig4cloud.com">官网</a>,最新版本请关注<a target="_blank" href="https://pig4cloud.com/zh-cn/docs/dir/pigx.html">升级版</a>
-
-
+# Pig Microservice Architecture  
 ---
+**基于Spring Cloud、OAuth2.0、Vue的前后端分离的权限管理系统**      
+   
+您可以点击这里<a target="_blank" href="http://pig.pigx.top">在线体验</a> ,更多开发资料请参考<a target="_blank" href="https://pig4cloud.com">官网</a>。如需生产技术支持，请联系<a href="mailto:wangiegie@gmail.com">我们</a>免费支持   
+ 
+最新版本请关注<a target="_blank" href="https://pig4cloud.com/zh-cn/docs/dir/pigx.html">升级版</a>, 交流群<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">23754102</a> 
 <p align="center">
     <img src="http://a.pigx.top/pig架构图.png">
 </p>   
