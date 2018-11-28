@@ -7,11 +7,12 @@
 </p>  
 
 ## Pig Microservice Architecture   
+<br/>   
 
-基于Spring Cloud、OAuth2.0、Vue的前后端分离的权限管理系统   
-您可以点击这里[在线体验](http://pig.pigx.top)  ,更多开发资料请参考[官网](https://pig4cloud.com),最新版本请关注[升级版](https://pig4cloud.com/zh-cn/docs/dir/pigx.html)
+基于Spring Cloud、OAuth2.0、Vue的前后端分离的权限管理系统      
+您可以点击这里[在线体验](http://pig.pigx.top)  ,更多开发资料请参考[官网](https://pig4cloud.com),最新版本请关注[升级版](https://pig4cloud.com/zh-cn/docs/dir/pigx.html)  
+
 ---
-
 <p align="center">
     <img src="http://a.pigx.top/pig架构图.png">
 </p>   
