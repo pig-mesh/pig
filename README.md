@@ -12,7 +12,7 @@
    
 您可以点击这里<a target="_blank" href="http://pig.pigx.top">在线体验</a> ,更多开发资料请参考<a target="_blank" href="https://pig4cloud.com">官网</a>。如需生产技术支持，请联系<a href="mailto:wangiegie@gmail.com">我们</a>免费支持   
  
-非JAVA体系可以体验我们[前端解决方案](https://avue.top)，最新版本请关注<a target="_blank" href="https://pig4cloud.com/zh-cn/docs/dir/pigx.html">升级版</a>, 交流群<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">23754102</a> 
+非JAVA体系可以体验我们[前端解决方案](https://avue.top)，最新版本请关注<a target="_blank" href="http://pigx.pig4cloud.com">升级版</a>, 交流群<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">23754102</a> 
 <p align="center">
     <img src="http://a.pigx.top/pig架构图.png">
 </p>   
