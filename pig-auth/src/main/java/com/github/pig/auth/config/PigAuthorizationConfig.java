@@ -21,6 +21,7 @@ import com.github.pig.auth.util.UserDetailsImpl;
 import com.github.pig.common.constant.CommonConstant;
 import com.github.pig.common.constant.SecurityConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -61,7 +62,8 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
     private DataSource dataSource;
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    @Qualifier("authenticationManagerBean")
+    private AuthenticationManager authenticationManagerBean;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -87,7 +89,7 @@ public class PigAuthorizationConfig extends AuthorizationServerConfigurerAdapter
         endpoints
                 .tokenStore(redisTokenStore())
                 .tokenEnhancer(tokenEnhancerChain)
-                .authenticationManager(authenticationManager)
+                .authenticationManager(authenticationManagerBean)
                 .reuseRefreshTokens(false)
                 .userDetailsService(userDetailsService);
     }

@@ -19,10 +19,13 @@ package com.github.pig.auth.config;
 
 import com.github.pig.auth.component.mobile.MobileSecurityConfigurer;
 import com.github.pig.common.bean.config.FilterIgnorePropertiesConfig;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -53,5 +56,12 @@ public class PigSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable();
         http.apply(mobileSecurityConfigurer);
+    }
+
+    @Bean
+    @Override
+    @SneakyThrows
+    public AuthenticationManager authenticationManagerBean() {
+        return super.authenticationManagerBean();
     }
 }

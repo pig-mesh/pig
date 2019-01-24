@@ -22,7 +22,7 @@
 
     <groupId>com.github.pig</groupId>
     <artifactId>pig-mc-service</artifactId>
-    <version>1.3.1</version>
+    <version>1.3.2</version>
     <packaging>jar</packaging>
 
     <name>pig-mc-service</name>
@@ -31,14 +31,14 @@
     <parent>
         <groupId>com.github.pig</groupId>
         <artifactId>pig-modules</artifactId>
-        <version>1.3.1</version>
+        <version>1.3.2</version>
     </parent>
 
     <dependencies>
         <dependency>
             <groupId>com.github.pig</groupId>
             <artifactId>pig-common</artifactId>
-            <version>1.3.1</version>
+            <version>1.3.2</version>
         </dependency>
         <!--阿里大于-->
         <dependency>
