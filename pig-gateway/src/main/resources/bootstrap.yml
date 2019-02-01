@@ -1,0 +1,27 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: pig-gateway
+  # 配置中心
+  cloud:
+    config:
+      fail-fast: true
+      name: ${spring.application.name}
+      profile: ${spring.profiles.active}
+      discovery:
+        enabled: true
+        service-id: pig-config
+  profiles:
+    active: dev
+
+# 注册中心
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://pig:pig@pig-eureka:8761/eureka/
+
+

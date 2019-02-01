@@ -1,0 +1,26 @@
+server:
+  port: 5003
+
+spring:
+  application:
+    name: pig-codegen
+  #配置中心
+  cloud:
+    config:
+      fail-fast: true
+      name: ${spring.application.name}
+      profile: dev
+      discovery:
+        enabled: true
+        service-id: pig-config
+
+# 注册中心配置
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://pig:pig@pig-eureka:8761/eureka/
+logging:
+  level:
+    root: info

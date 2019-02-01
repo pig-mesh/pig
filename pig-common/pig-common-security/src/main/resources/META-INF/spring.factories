@@ -1,0 +1,7 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.pig4cloud.pig.common.security.component.PermissionService,\
+  com.pig4cloud.pig.common.security.component.PigAccessDeniedHandler,\
+  com.pig4cloud.pig.common.security.component.ResourceAuthExceptionEntryPoint,\
+  com.pig4cloud.pig.common.security.component.PigResourceServerTokenRelayAutoConfiguration,\
+  com.pig4cloud.pig.common.security.feign.PigFeignClientConfiguration,\
+  com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl

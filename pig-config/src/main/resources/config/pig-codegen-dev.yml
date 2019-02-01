@@ -1,0 +1,23 @@
+## spring security 配置
+security:
+  oauth2:
+    client:
+      client-id: ENC(27v1agvAug87ANOVnbKdsw==)
+      client-secret: ENC(VbnkopxrwgbFVKp+UxJ2pg==)
+      scope: server
+
+# 数据源配置
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai
+  resources:
+    static-locations: classpath:/static/,classpath:/views/
+
+# 直接放行URL
+ignore:
+  urls:
+    - /actuator/**
