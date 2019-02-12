@@ -24,8 +24,6 @@
 		<result column="role_name" property="roleName"/>
 		<result column="role_code" property="roleCode"/>
 		<result column="role_desc" property="roleDesc"/>
-		<result column="ds_type" property="dsType"/>
-		<result column="ds_scope" property="dsScope"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>

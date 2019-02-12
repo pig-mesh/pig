@@ -19,6 +19,7 @@ CREATE DATABASE  `pig` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 SET NAMES utf8;
 SET FOREIGN_KEY_CHECKS = 0;
 
+USE `pig`;
 -- ----------------------------
 --  Table structure for `sys_dept`
 -- ----------------------------
@@ -185,8 +186,6 @@ CREATE TABLE `sys_role` (
   `role_name` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `role_code` varchar(64) COLLATE utf8mb4_bin NOT NULL,
   `role_desc` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL,
-  `ds_type` char(1) COLLATE utf8mb4_bin NOT NULL DEFAULT '2' COMMENT '数据权限类型',
-  `ds_scope` varchar(255) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据权限范围',
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `del_flag` char(1) COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标识（0-正常,1-删除）',

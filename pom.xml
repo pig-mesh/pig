@@ -21,13 +21,12 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>${pig.version}</version>
+	<version>2.0.1</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<pig.version>2.0.0</pig.version>
 		<spring-boot.version>2.0.8.RELEASE</spring-boot.version>
 		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
 		<spring-platform.version>Cairo-SR5</spring-platform.version>

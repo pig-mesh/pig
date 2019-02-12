@@ -147,16 +147,14 @@
 		`user`.update_time AS uupdate_time,
 		`user`.del_flag AS udel_flag,
 		`user`.lock_flag AS lock_flag,
-		`user`.dept_id AS deptId
+		`user`.dept_id AS deptId,
+		d.name AS deptName
 		FROM
 		sys_user AS `user`
 		LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
 		<where>
 			<if test="query.username != null and query.username != ''">
 				and `user`.username LIKE CONCAT('%',#{query.username},'%')
-			</if>
-			<if test="query.deptId != null and query.deptId != ''">
-				and `user`.dept_id = #{query.deptId}
 			</if>
 		</where>
 		ORDER BY `user`.create_time DESC

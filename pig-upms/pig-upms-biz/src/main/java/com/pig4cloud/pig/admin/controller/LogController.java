@@ -76,7 +76,7 @@ public class LogController {
 	 * @return success/false
 	 */
 	@Inner
-	@PostMapping("/save")
+	@PostMapping
 	public R save(@Valid @RequestBody SysLog sysLog) {
 		return new R<>(sysLogService.save(sysLog));
 	}

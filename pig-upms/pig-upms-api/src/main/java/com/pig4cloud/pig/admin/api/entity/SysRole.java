@@ -24,7 +24,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -53,11 +52,6 @@ public class SysRole extends Model<SysRole> {
 
 	@NotBlank(message = "角色描述 不能为空")
 	private String roleDesc;
-
-	@NotNull(message = "数据权限类型 不能为空")
-	private Integer dsType;
-
-	private String dsScope;
 
 	private LocalDateTime createTime;
 	private LocalDateTime updateTime;
