@@ -25,6 +25,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -49,7 +50,7 @@ import java.util.Map;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	private final DataSource dataSource;
-	private final org.springframework.security.core.userdetails.UserDetailsService UserDetailsService;
+	private final UserDetailsService userDetailsService;
 	private final AuthenticationManager authenticationManager;
 	private final RedisConnectionFactory redisConnectionFactory;
 
@@ -74,7 +75,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
 			.tokenStore(tokenStore())
 			.tokenEnhancer(tokenEnhancer())
-			.userDetailsService(UserDetailsService)
+			.userDetailsService(userDetailsService)
 			.authenticationManager(authenticationManager)
 			.reuseRefreshTokens(false)
 			.exceptionTranslator(new PigWebResponseExceptionTranslator());

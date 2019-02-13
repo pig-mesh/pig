@@ -11,7 +11,7 @@ spring:
         - Path=/auth/**
         filters:
           # 验证码处理
-        - ImageCodeGatewayFilter
+        - ValidateCodeGatewayFilter
           # 前端密码解密
         - PasswordDecoderFilter
       #UPMS 模块
@@ -42,3 +42,8 @@ security:
   encode:
     # 前端密码密钥，必须16位
     key: 'thanks,pig4cloud'
+
+# 不校验验证码终端
+ignore:
+  clients:
+    - test

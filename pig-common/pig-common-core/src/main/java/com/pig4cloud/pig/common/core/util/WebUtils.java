@@ -16,10 +16,15 @@
 
 package com.pig4cloud.pig.common.core.util;
 
+import cn.hutool.core.codec.Base64;
 import cn.hutool.json.JSONUtil;
+import com.pig4cloud.pig.common.core.exception.CheckedException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -31,6 +36,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 
 
 /**
@@ -40,8 +46,8 @@ import java.io.PrintWriter;
  */
 @Slf4j
 public class WebUtils extends org.springframework.web.util.WebUtils {
-
-	public static final String UNKNOWN = "unknown";
+	private static final String BASIC_ = "Basic ";
+	private static final String UNKNOWN = "unknown";
 
 	/**
 	 * 判断是否ajax请求
@@ -187,6 +193,37 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 			ip = request.getRemoteAddr();
 		}
 		return StringUtils.isBlank(ip) ? null : ip.split(",")[0];
+	}
+
+	/**
+	 * 从request 获取CLIENT_ID
+	 *
+	 * @return
+	 */
+	@SneakyThrows
+	public static String[] getClientId(ServerHttpRequest request) {
+		String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+
+		if (header == null || !header.startsWith(BASIC_)) {
+			throw new CheckedException("请求头中client信息为空");
+		}
+		byte[] base64Token = header.substring(6).getBytes("UTF-8");
+		byte[] decoded;
+		try {
+			decoded = Base64.decode(base64Token);
+		} catch (IllegalArgumentException e) {
+			throw new CheckedException(
+				"Failed to decode basic authentication token");
+		}
+
+		String token = new String(decoded, StandardCharsets.UTF_8);
+
+		int delim = token.indexOf(":");
+
+		if (delim == -1) {
+			throw new CheckedException("Invalid basic authentication token");
+		}
+		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
 	}
 }
 
