@@ -23,6 +23,7 @@ import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -51,7 +52,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 	@Value("${security.encode.key:1234567812345678}")
 	private String encodeKey;
 
-	private static String decryptAES(String data, String pass) throws Exception {
+	private static String decryptAES(String data, String pass) {
 		AES aes = new AES(Mode.CBC, Padding.NoPadding,
 			new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
 			new IvParameterSpec(pass.getBytes()));
@@ -65,7 +66,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			ServerHttpRequest request = exchange.getRequest();
 
 			// 不是登录请求，直接向下执行
-			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), ImageCodeGatewayFilter.OAUTH_TOKEN_URL)) {
+			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
