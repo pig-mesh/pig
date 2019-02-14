@@ -278,12 +278,12 @@ public class GenUtils {
 		}
 
 		if (template.contains(API_JS_VM)) {
-			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "api" + File.separator + className.toLowerCase() + ".js";
+			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "api" + File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
 		}
 
 		if (template.contains(CRUD_JS_VM)) {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "const" +
-				File.separator + "crud" + File.separator + className.toLowerCase() + ".js";
+				File.separator + "crud" + File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
 		}
 
 		return null;
