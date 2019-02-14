@@ -25,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.springframework.core.Ordered;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lengleng
- * @date 2018/11/26
+ * @date 2019/02/14
  * <p>
  * 服务间接口不鉴权处理逻辑
  */
@@ -40,7 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Component
 @AllArgsConstructor
-public class PigxSecurityInnerAspect {
+public class PigSecurityInnerAspect implements Ordered {
 	private final HttpServletRequest request;
 
 	@SneakyThrows
@@ -54,4 +55,8 @@ public class PigxSecurityInnerAspect {
 		return point.proceed();
 	}
 
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE + 1;
+	}
 }
