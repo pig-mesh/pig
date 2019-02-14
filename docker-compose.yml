@@ -3,7 +3,7 @@ services:
   pig-mysql:
     build:
       context: ./
-      dockerfile: ./doc/db/Dockerfile
+      dockerfile: ./db/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always
