@@ -4,12 +4,14 @@ server:
 spring:
   application:
     name: pig-monitor
+  profiles:
+    active: dev
   #配置中心
   cloud:
     config:
       fail-fast: true
       name: ${spring.application.name}
-      profile: dev
+      profile: ${spring.profiles.active}
       discovery:
         enabled: true
         service-id: pig-config
