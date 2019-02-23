@@ -31,5 +31,6 @@
 	<modules>
 		<module>pig-codegen</module>
 		<module>pig-monitor</module>
+		<module>pig-zipkin</module>
 	</modules>
 </project>

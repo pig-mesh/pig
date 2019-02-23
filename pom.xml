@@ -29,7 +29,7 @@
 	<properties>
 		<spring-boot.version>2.0.8.RELEASE</spring-boot.version>
 		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
-		<spring-platform.version>Cairo-SR5</spring-platform.version>
+		<spring-platform.version>Cairo-SR7</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -41,6 +41,10 @@
 		<jasypt.version>2.1.0</jasypt.version>
 		<security.oauth.version>2.3.3.RELEASE</security.oauth.version>
 		<jackson.modules>2.9.6</jackson.modules>
+		<!--zipkin2.12.x需要此版本jooq-->
+		<jooq.version>3.11.9</jooq.version>
+		<zipkin.version>2.12.2</zipkin.version>
+		<zipkin-storage-mysql.version>2.8.4</zipkin-storage-mysql.version>
 		<docker.url>http://192.168.0.13:4243</docker.url>
 		<registry.url>192.168.0.13:5000</registry.url>
 	</properties>
@@ -72,6 +76,15 @@
 			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 			<version>${spring-boot-admin.version}</version>
+		</dependency>
+		<!--服务链路追踪-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-sleuth</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-sleuth-zipkin</artifactId>
 		</dependency>
 		<!--断路器依赖-->
 		<dependency>
