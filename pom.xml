@@ -28,19 +28,19 @@
 
 	<properties>
 		<spring-boot.version>2.0.8.RELEASE</spring-boot.version>
-		<spring-cloud.version>Finchley.SR2</spring-cloud.version>
+		<spring-cloud.version>Finchley.SR3</spring-cloud.version>
 		<spring-platform.version>Cairo-SR7</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.0.4</spring-boot-admin.version>
-		<hutool.version>4.4.3</hutool.version>
-		<mybatis-plus.version>3.0.6</mybatis-plus.version>
+		<hutool.version>4.5.0</hutool.version>
+		<mybatis-plus.version>3.1.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<security.oauth.version>2.3.3.RELEASE</security.oauth.version>
-		<jackson.modules>2.9.6</jackson.modules>
+		<jackson.modules>2.9.8</jackson.modules>
 		<!--zipkin2.12.x需要此版本jooq-->
 		<jooq.version>3.11.9</jooq.version>
 		<zipkin.version>2.12.2</zipkin.version>
