@@ -38,5 +38,5 @@ public interface SysUserRoleService extends IService<SysUserRole> {
 	 * @author 寻欢·李
 	 * @date 2017年12月7日 16:31:38
 	 */
-	Boolean deleteByUserId(Integer userId);
+	Boolean removeRoleByUserId(Integer userId);
 }

@@ -42,7 +42,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 	 * @date 2017年12月7日 16:31:38
 	 */
 	@Override
-	public Boolean deleteByUserId(Integer userId) {
+	public Boolean removeRoleByUserId(Integer userId) {
 		return baseMapper.deleteByUserId(userId);
 	}
 }

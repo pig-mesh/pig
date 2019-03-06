@@ -13,14 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.pig4cloud.pig.admin.controller;
-
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.admin.api.vo.PreLogVo;
 import com.pig4cloud.pig.admin.service.SysLogService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
@@ -29,7 +26,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 /**
  * <p>
@@ -81,14 +77,4 @@ public class LogController {
 		return new R<>(sysLogService.save(sysLog));
 	}
 
-	/**
-	 * 批量插入前端异常日志
-	 *
-	 * @param preLogVoList 日志实体
-	 * @return success/false
-	 */
-	@PostMapping("/logs")
-	public R saveBatchLogs(@RequestBody List<PreLogVo> preLogVoList) {
-		return new R<>(sysLogService.saveBatchLogs(preLogVoList));
-	}
 }

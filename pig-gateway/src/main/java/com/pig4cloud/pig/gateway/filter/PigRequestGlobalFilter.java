@@ -45,7 +45,6 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
  */
 @Component
 public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
-	private static final String HEADER_NAME = "X-Forwarded-Prefix";
 
 	/**
 	 * Process the Web request and (optionally) delegate to the next

@@ -50,7 +50,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	public List findRolesByUserId(Integer userId) {
+	public List listRolesByUserId(Integer userId) {
 		return baseMapper.listRolesByUserId(userId);
 	}
 

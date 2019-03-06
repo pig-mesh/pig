@@ -59,11 +59,11 @@ public class PigTokenEndpoint {
 	private final RedisTemplate redisTemplate;
 
 	/**
-	 * 退出token
+	 * 退出并删除token
 	 *
 	 * @param authHeader Authorization
 	 */
-	@GetMapping("/removeToken")
+	@GetMapping("/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StringUtils.hasText(authHeader)) {
 			String tokenValue = authHeader.replace("Bearer", "").trim();
@@ -83,8 +83,8 @@ public class PigTokenEndpoint {
 	 * @param token token
 	 * @param from  内部调用标志
 	 */
-	@DeleteMapping("/delToken/{token}")
-	public R<Boolean> delToken(@PathVariable("token") String token, @RequestHeader(required = false) String from) {
+	@DeleteMapping("/{token}")
+	public R<Boolean> removeToken(@PathVariable("token") String token, @RequestHeader(required = false) String from) {
 		if (StrUtil.isBlank(from)) {
 			return null;
 		}
@@ -98,8 +98,8 @@ public class PigTokenEndpoint {
 	 * @param params 分页参数
 	 * @param from   标志
 	 */
-	@PostMapping("/listToken")
-	public R tokenList(@RequestBody Map<String, Object> params, @RequestHeader(required = false) String from) {
+	@PostMapping("/token/page")
+	public R getTokenPage(@RequestBody Map<String, Object> params, @RequestHeader(required = false) String from) {
 		if (StrUtil.isBlank(from)) {
 			return null;
 		}

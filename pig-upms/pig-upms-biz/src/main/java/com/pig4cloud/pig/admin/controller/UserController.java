@@ -55,7 +55,7 @@ public class UserController {
 		if (user == null) {
 			return new R<>(Boolean.FALSE, "获取当前用户信息失败");
 		}
-		return new R<>(userService.findUserInfo(user));
+		return new R<>(userService.getUserInfo(user));
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class UserController {
 		if (user == null) {
 			return new R<>(Boolean.FALSE, String.format("用户信息为空 %s", username));
 		}
-		return new R<>(userService.findUserInfo(user));
+		return new R<>(userService.getUserInfo(user));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class UserController {
 	 */
 	@GetMapping("/{id}")
 	public R user(@PathVariable Integer id) {
-		return new R<>(userService.selectUserVoById(id));
+		return new R<>(userService.getUserVoById(id));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class UserController {
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R userDel(@PathVariable Integer id) {
 		SysUser sysUser = userService.getById(id);
-		return new R<>(userService.deleteUserById(sysUser));
+		return new R<>(userService.removeUserById(sysUser));
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class UserController {
 	 */
 	@GetMapping("/page")
 	public R getUserPage(Page page, UserDTO userDTO) {
-		return new R<>(userService.getUsersWithRolePage(page, userDTO));
+		return new R<>(userService.getUserWithRolePage(page, userDTO));
 	}
 
 	/**
@@ -168,6 +168,6 @@ public class UserController {
 	 */
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
-		return new R<>(userService.listAncestorUsers(username));
+		return new R<>(userService.listAncestorUsersByUsername(username));
 	}
 }

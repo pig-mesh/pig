@@ -37,14 +37,14 @@ public interface SysDeptService extends IService<SysDept> {
 	 *
 	 * @return 树
 	 */
-	List<DeptTree> selectTree();
+	List<DeptTree> listDeptTrees();
 
 	/**
 	 * 查询用户部门树
 	 *
 	 * @return
 	 */
-	List<DeptTree> getUserTree();
+	List<DeptTree> listCurrentUserDeptTrees();
 
 	/**
 	 * 添加信息部门

@@ -38,8 +38,8 @@ public interface RemoteTokenService {
 	 * @param from   内部调用标志
 	 * @return page
 	 */
-	@PostMapping("/oauth/listToken")
-	R selectPage(@RequestBody Map<String, Object> params, @RequestHeader(SecurityConstants.FROM) String from);
+	@PostMapping("/oauth/token/page")
+	R getTokenPage(@RequestBody Map<String, Object> params, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
 	 * 删除token
@@ -48,6 +48,6 @@ public interface RemoteTokenService {
 	 * @param from  调用标志
 	 * @return
 	 */
-	@DeleteMapping("/oauth/delToken/{token}")
-	R<Boolean> deleteTokenById(@PathVariable("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
+	@DeleteMapping("/oauth/{token}")
+	R<Boolean> removeToken(@PathVariable("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
 }

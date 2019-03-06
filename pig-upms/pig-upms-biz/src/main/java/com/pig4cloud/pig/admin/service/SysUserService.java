@@ -38,7 +38,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param sysUser 用户
 	 * @return userInfo
 	 */
-	UserInfo findUserInfo(SysUser sysUser);
+	UserInfo getUserInfo(SysUser sysUser);
 
 	/**
 	 * 分页查询用户信息（含有角色信息）
@@ -47,7 +47,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param userDTO 参数列表
 	 * @return
 	 */
-	IPage getUsersWithRolePage(Page page, UserDTO userDTO);
+	IPage getUserWithRolePage(Page page, UserDTO userDTO);
 
 	/**
 	 * 删除用户
@@ -55,7 +55,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param sysUser 用户
 	 * @return boolean
 	 */
-	Boolean deleteUserById(SysUser sysUser);
+	Boolean removeUserById(SysUser sysUser);
 
 	/**
 	 * 更新当前用户基本信息
@@ -79,7 +79,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserVO selectUserVoById(Integer id);
+	UserVO getUserVoById(Integer id);
 
 	/**
 	 * 查询上级部门的用户信息
@@ -87,7 +87,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param username 用户名
 	 * @return R
 	 */
-	List<SysUser> listAncestorUsers(String username);
+	List<SysUser> listAncestorUsersByUsername(String username);
 
 	/**
 	 * 保存用户信息

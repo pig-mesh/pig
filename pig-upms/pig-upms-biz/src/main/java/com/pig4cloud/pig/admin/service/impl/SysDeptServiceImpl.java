@@ -60,7 +60,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		SysDept sysDept = new SysDept();
 		BeanUtils.copyProperties(dept, sysDept);
 		this.save(sysDept);
-		sysDeptRelationService.insertDeptRelation(sysDept);
+		sysDeptRelationService.saveDeptRelation(sysDept);
 		return Boolean.TRUE;
 	}
 
@@ -87,7 +87,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		}
 
 		//删除部门级联关系
-		sysDeptRelationService.deleteAllDeptRealtion(id);
+		sysDeptRelationService.removeDeptRelationById(id);
 		return Boolean.TRUE;
 	}
 
@@ -106,7 +106,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		SysDeptRelation relation = new SysDeptRelation();
 		relation.setAncestor(sysDept.getParentId());
 		relation.setDescendant(sysDept.getDeptId());
-		sysDeptRelationService.updateDeptRealtion(relation);
+		sysDeptRelationService.updateDeptRelation(relation);
 		return Boolean.TRUE;
 	}
 
@@ -116,7 +116,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 树
 	 */
 	@Override
-	public List<DeptTree> selectTree() {
+	public List<DeptTree> listDeptTrees() {
 		return getDeptTree(this.list(Wrappers.emptyWrapper()));
 	}
 
@@ -126,7 +126,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return
 	 */
 	@Override
-	public List<DeptTree> getUserTree() {
+	public List<DeptTree> listCurrentUserDeptTrees() {
 		Integer deptId = SecurityUtils.getUser().getDeptId();
 		List<Integer> descendantIdList = sysDeptRelationService
 			.list(Wrappers.<SysDeptRelation>query().lambda()

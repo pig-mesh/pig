@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.pig4cloud.pig.admin.controller;
 
 import com.pig4cloud.pig.admin.api.entity.SysDept;
@@ -59,8 +58,8 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree() {
-		return new R<>(sysDeptService.selectTree());
+	public R listDeptTrees() {
+		return new R<>(sysDeptService.listDeptTrees());
 	}
 
 	/**
@@ -69,8 +68,8 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/user-tree")
-	public R getUserTree() {
-		return new R<>(sysDeptService.getUserTree());
+	public R listCurrentUserDeptTrees() {
+		return new R<>(sysDeptService.listCurrentUserDeptTrees());
 	}
 
 	/**

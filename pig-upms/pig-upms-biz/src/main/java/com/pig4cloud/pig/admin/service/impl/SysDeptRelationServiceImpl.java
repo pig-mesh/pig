@@ -50,7 +50,7 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public void insertDeptRelation(SysDept sysDept) {
+	public void saveDeptRelation(SysDept sysDept) {
 		//增加部门关系表
 		SysDeptRelation condition = new SysDeptRelation();
 		condition.setDescendant(sysDept.getParentId());
@@ -78,7 +78,7 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 * @param id
 	 */
 	@Override
-	public void deleteAllDeptRealtion(Integer id) {
+	public void removeDeptRelationById(Integer id) {
 		baseMapper.deleteDeptRelationsById(id);
 	}
 
@@ -88,7 +88,7 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 * @param relation
 	 */
 	@Override
-	public void updateDeptRealtion(SysDeptRelation relation) {
+	public void updateDeptRelation(SysDeptRelation relation) {
 		baseMapper.updateDeptRelations(relation);
 	}
 

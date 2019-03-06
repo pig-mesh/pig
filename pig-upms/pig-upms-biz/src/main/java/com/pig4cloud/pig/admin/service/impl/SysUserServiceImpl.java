@@ -94,11 +94,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return
 	 */
 	@Override
-	public UserInfo findUserInfo(SysUser sysUser) {
+	public UserInfo getUserInfo(SysUser sysUser) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setSysUser(sysUser);
 		//设置角色列表  （ID）
-		List<Integer> roleIds = sysRoleService.findRolesByUserId(sysUser.getUserId())
+		List<Integer> roleIds = sysRoleService.listRolesByUserId(sysUser.getUserId())
 			.stream()
 			.map(SysRole::getRoleId)
 			.collect(Collectors.toList());
@@ -107,7 +107,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		//设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
-			List<String> permissionList = sysMenuService.findMenuByRoleId(roleId)
+			List<String> permissionList = sysMenuService.getMenuByRoleId(roleId)
 				.stream()
 				.filter(menuVo -> StringUtils.isNotEmpty(menuVo.getPermission()))
 				.map(MenuVO::getPermission)
@@ -126,7 +126,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return
 	 */
 	@Override
-	public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
+	public IPage getUserWithRolePage(Page page, UserDTO userDTO) {
 		return baseMapper.getUserVosPage(page, userDTO);
 	}
 
@@ -137,7 +137,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return 用户信息
 	 */
 	@Override
-	public UserVO selectUserVoById(Integer id) {
+	public UserVO getUserVoById(Integer id) {
 		return baseMapper.getUserVoById(id);
 	}
 
@@ -149,8 +149,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	@CacheEvict(value = "user_details", key = "#sysUser.username")
-	public Boolean deleteUserById(SysUser sysUser) {
-		sysUserRoleService.deleteByUserId(sysUser.getUserId());
+	public Boolean removeUserById(SysUser sysUser) {
+		sysUserRoleService.removeRoleByUserId(sysUser.getUserId());
 		this.removeById(sysUser.getUserId());
 		return Boolean.TRUE;
 	}
@@ -205,7 +205,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return R
 	 */
 	@Override
-	public List<SysUser> listAncestorUsers(String username) {
+	public List<SysUser> listAncestorUsersByUsername(String username) {
 		SysUser sysUser = this.getOne(Wrappers.<SysUser>query().lambda()
 			.eq(SysUser::getUsername, username));
 

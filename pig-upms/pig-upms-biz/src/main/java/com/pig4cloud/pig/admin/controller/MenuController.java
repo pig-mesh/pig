@@ -57,7 +57,7 @@ public class MenuController {
 		// 获取符合条件的菜单
 		Set<MenuVO> all = new HashSet<>();
 		SecurityUtils.getRoles()
-				.forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
+				.forEach(roleId -> all.addAll(sysMenuService.getMenuByRoleId(roleId)));
 		List<MenuTree> menuTreeList = all.stream()
 				.filter(menuVo -> CommonConstants.MENU.equals(menuVo.getType()))
 				.map(MenuTree::new)
@@ -84,7 +84,7 @@ public class MenuController {
 	 */
 	@GetMapping("/tree/{roleId}")
 	public List getRoleTree(@PathVariable Integer roleId) {
-		return sysMenuService.findMenuByRoleId(roleId)
+		return sysMenuService.getMenuByRoleId(roleId)
 				.stream()
 				.map(MenuVO::getMenuId)
 				.collect(Collectors.toList());
