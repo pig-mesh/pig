@@ -50,7 +50,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/oauth")
+@RequestMapping("/token")
 public class PigTokenEndpoint {
 	private static final String PROJECT_OAUTH_ACCESS = SecurityConstants.PROJECT_PREFIX + SecurityConstants.OAUTH_PREFIX + "access:";
 	private static final String CURRENT = "current";
@@ -98,7 +98,7 @@ public class PigTokenEndpoint {
 	 * @param params 分页参数
 	 * @param from   标志
 	 */
-	@PostMapping("/token/page")
+	@PostMapping("/page")
 	public R getTokenPage(@RequestBody Map<String, Object> params, @RequestHeader(required = false) String from) {
 		if (StrUtil.isBlank(from)) {
 			return null;
