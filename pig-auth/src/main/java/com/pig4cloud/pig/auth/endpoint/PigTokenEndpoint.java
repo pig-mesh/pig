@@ -32,6 +32,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
@@ -66,7 +67,7 @@ public class PigTokenEndpoint {
 	@GetMapping("/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StringUtils.hasText(authHeader)) {
-			String tokenValue = authHeader.replace("Bearer", "").trim();
+			String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
 			OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
 			if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
 				return new R<>(false, "退出失败，token 为空");
@@ -118,16 +119,16 @@ public class PigTokenEndpoint {
 			Map<String, String> map = new HashMap<>(8);
 
 
-			map.put("token_type", token.getTokenType());
-			map.put("access_token", token.getValue());
-			map.put("expires_in", token.getExpiresIn() + "");
+			map.put(OAuth2AccessToken.TOKEN_TYPE, token.getTokenType());
+			map.put(OAuth2AccessToken.ACCESS_TOKEN, token.getValue());
+			map.put(OAuth2AccessToken.EXPIRES_IN, token.getExpiresIn() + "");
 
 
 			OAuth2Authentication oAuth2Auth = tokenStore.readAuthentication(token);
 			Authentication authentication = oAuth2Auth.getUserAuthentication();
 
-			map.put("client_id", oAuth2Auth.getOAuth2Request().getClientId());
-			map.put("grant_type", oAuth2Auth.getOAuth2Request().getGrantType());
+			map.put(OAuth2Utils.CLIENT_ID, oAuth2Auth.getOAuth2Request().getClientId());
+			map.put(OAuth2Utils.GRANT_TYPE, oAuth2Auth.getOAuth2Request().getGrantType());
 
 			if (authentication instanceof UsernamePasswordAuthenticationToken) {
 				UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) authentication;
