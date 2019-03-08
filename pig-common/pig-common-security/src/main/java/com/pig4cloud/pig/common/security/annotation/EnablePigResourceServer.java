@@ -14,32 +14,29 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.codegen.config;
+package com.pig4cloud.pig.common.security.annotation;
 
-import com.pig4cloud.pig.common.security.component.BaseResourceServerConfigurerAdapter;
-import lombok.AllArgsConstructor;
-import org.springframework.context.annotation.Configuration;
+import com.pig4cloud.pig.common.security.component.PigResourceServerAutoConfiguration;
+import com.pig4cloud.pig.common.security.component.PigSecurityBeanDefinitionRegistrar;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
+import java.lang.annotation.*;
 
 /**
  * @author lengleng
- * @date 2019/2/1
+ * @date 2019/03/08
+ * <p>
+ * 资源服务注解
  */
-@Configuration
+@Documented
+@Inherited
 @EnableResourceServer
-@AllArgsConstructor
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class ResourceServerConfigurer extends BaseResourceServerConfigurerAdapter {
+@Import({PigResourceServerAutoConfiguration.class, PigSecurityBeanDefinitionRegistrar.class})
+public @interface EnablePigResourceServer {
 
-	/**
-	 * 重写抽象类实现，不需要调用feign 获取 userDetailsService
-	 *
-	 * @param resources
-	 */
-	@Override
-	public void configure(ResourceServerSecurityConfigurer resources) {
-		notGetUser(resources);
-	}
 }

@@ -4,38 +4,38 @@ spring:
       locator:
         enabled: true
       routes:
-      # 认证中心
-      - id: pig-auth
-        uri: lb://pig-auth
-        predicates:
-        - Path=/auth/**
-        filters:
-          # 验证码处理
-        - ValidateCodeGatewayFilter
-          # 前端密码解密
-        - PasswordDecoderFilter
-      #UPMS 模块
-      - id: pig-upms
-        uri: lb://pig-upms
-        predicates:
-        - Path=/admin/**
-        filters:
-          # 限流配置
-        - name: RequestRateLimiter
-          args:
-            key-resolver: '#{@remoteAddrKeyResolver}'
-            redis-rate-limiter.replenishRate: 10
-            redis-rate-limiter.burstCapacity: 20
-          # 降级配置
-        - name: Hystrix
-          args:
-            name: default
-            fallbackUri: 'forward:/fallback'
-      # 代码生成模块
-      - id: pig-codegen
-        uri: lb://pig-codegen
-        predicates:
-        - Path=/gen/**
+        # 认证中心
+        - id: pig-auth
+          uri: lb://pig-auth
+          predicates:
+            - Path=/auth/**
+          filters:
+            # 验证码处理
+            - ValidateCodeGatewayFilter
+            # 前端密码解密
+            - PasswordDecoderFilter
+        #UPMS 模块
+        - id: pig-upms
+          uri: lb://pig-upms
+          predicates:
+            - Path=/admin/**
+          filters:
+            # 限流配置
+            - name: RequestRateLimiter
+              args:
+                key-resolver: '#{@remoteAddrKeyResolver}'
+                redis-rate-limiter.replenishRate: 10
+                redis-rate-limiter.burstCapacity: 20
+              # 降级配置
+            - name: Hystrix
+              args:
+                name: default
+                fallbackUri: 'forward:/fallback'
+        # 代码生成模块
+        - id: pig-codegen
+          uri: lb://pig-codegen
+          predicates:
+            - Path=/gen/**
 
 
 security:

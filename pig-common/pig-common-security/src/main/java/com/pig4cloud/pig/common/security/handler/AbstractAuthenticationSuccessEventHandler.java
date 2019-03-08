@@ -16,37 +16,36 @@
 
 package com.pig4cloud.pig.common.security.handler;
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.AbstractAuthenticationFailureEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author lengleng
  * @date 2019/2/1
- * 认证失败事件处理器
+ * 认证成功事件处理器
  */
-public abstract class AuthenticationFailureEvenHandler implements ApplicationListener<AbstractAuthenticationFailureEvent> {
-
+public abstract class AbstractAuthenticationSuccessEventHandler implements ApplicationListener<AuthenticationSuccessEvent> {
 	/**
 	 * Handle an application event.
 	 *
 	 * @param event the event to respond to
 	 */
 	@Override
-	public void onApplicationEvent(AbstractAuthenticationFailureEvent event) {
-		AuthenticationException authenticationException = event.getException();
+	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();
-
-		handle(authenticationException, authentication);
+		if (CollUtil.isNotEmpty(authentication.getAuthorities())) {
+			handle(authentication);
+		}
 	}
 
 	/**
 	 * 处理登录成功方法
 	 * <p>
+	 * 获取到登录的authentication 对象
 	 *
-	 * @param authenticationException 登录的authentication 对象
-	 * @param authentication          登录的authenticationException 对象
+	 * @param authentication 登录对象
 	 */
-	public abstract void handle(AuthenticationException authenticationException, Authentication authentication);
+	public abstract void handle(Authentication authentication);
 }

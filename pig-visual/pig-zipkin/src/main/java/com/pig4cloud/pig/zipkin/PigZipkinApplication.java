@@ -20,6 +20,7 @@ public class PigZipkinApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(PigZipkinApplication.class, args);
 	}
+
 	@Bean
 	public MySQLStorage mySQLStorage(DataSource datasource) {
 		return MySQLStorage.builder().datasource(datasource).executor(Runnable::run).build();

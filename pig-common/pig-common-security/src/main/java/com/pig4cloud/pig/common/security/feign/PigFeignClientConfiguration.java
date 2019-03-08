@@ -39,6 +39,6 @@ public class PigFeignClientConfiguration {
 	public RequestInterceptor oauth2FeignRequestInterceptor(OAuth2ClientContext oAuth2ClientContext,
 															OAuth2ProtectedResourceDetails resource,
 															AccessTokenContextRelay accessTokenContextRelay) {
-		return new PigFeignClientInterceptor(oAuth2ClientContext, resource,accessTokenContextRelay);
+		return new PigFeignClientInterceptor(oAuth2ClientContext, resource, accessTokenContextRelay);
 	}
 }

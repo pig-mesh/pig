@@ -20,9 +20,9 @@ import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenConfig;
-import com.pig4cloud.pig.codegen.util.GenUtils;
 import com.pig4cloud.pig.codegen.mapper.SysGeneratorMapper;
 import com.pig4cloud.pig.codegen.service.SysGeneratorService;
+import com.pig4cloud.pig.codegen.util.GenUtils;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class SysGeneratorServiceImpl implements SysGeneratorService {
 	 */
 	@Override
 	public IPage<List<Map<String, Object>>> queryPage(Page page, String tableName) {
-		return sysGeneratorMapper.queryList(page,tableName);
+		return sysGeneratorMapper.queryList(page, tableName);
 	}
 
 	/**

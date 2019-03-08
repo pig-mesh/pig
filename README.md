@@ -25,10 +25,10 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.0.8.RELEASE  
-Spring Cloud | Finchley.SR2   
+Spring Cloud | Finchley.SR3   
 Spring Security OAuth2 | 2.3.3
-Mybatis Plus | 3.0.6
-hutool | 4.3.3
+Mybatis Plus | 3.1.0
+hutool | 4.5.0
 Avue | 1.5.0
    
 
@@ -66,11 +66,7 @@ pig
 ![](http://a.pigx.top/20190201155120.png)
 
 
-#### 鸣谢 
+#### 关注我们
 
-avue [@smallwei](https://avue.top)    
-mica-auto [@dreamlu](https://dreamlu.net)   
-bladex [@smallc](http://bladex.vip)  
-mybatis-plus [@青苗](http://mp.baomidou.com)     
-hutool [@路小磊](https://dreamlu.net)   
 
+![](http://pic.pigx.top/20190308224043_luIWau_Screenshot.jpeg)

@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.codegen;
 
 import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
+import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -25,8 +26,9 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * @date 2019/2/1
  * 代码生成模块
  */
-@SpringCloudApplication
 @EnablePigFeignClients
+@EnablePigResourceServer
+@SpringCloudApplication
 public class PigCodeGenApplication {
 
 	public static void main(String[] args) {

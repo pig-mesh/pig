@@ -19,8 +19,9 @@
 
 <mapper namespace="com.pig4cloud.pig.codegen.mapper.SysGeneratorMapper">
 	<select id="queryList" resultType="map">
-		select table_name tableName, engine, table_comment tableComment, create_time createTime from information_schema.tables
-			where table_schema = (select database())
+		select table_name tableName, engine, table_comment tableComment, create_time createTime from
+		information_schema.tables
+		where table_schema = (select database())
 		<if test="tableName != null and tableName.trim() != ''">
 			and table_name like concat('%', #{tableName}, '%')
 		</if>

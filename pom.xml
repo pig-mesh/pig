@@ -21,7 +21,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.0.3</version>
+	<version>2.1.0</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
@@ -33,7 +33,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.0.4</spring-boot-admin.version>
+		<spring-boot-admin.version>2.0.5</spring-boot-admin.version>
 		<hutool.version>4.5.0</hutool.version>
 		<mybatis-plus.version>3.1.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>

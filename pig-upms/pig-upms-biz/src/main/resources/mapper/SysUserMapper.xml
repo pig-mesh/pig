@@ -112,25 +112,25 @@
 
 	<select id="getUserVoByUsername" resultMap="userVoResultMap">
 		SELECT
-			<include refid="userRoleSql"/>
+		<include refid="userRoleSql"/>
 		FROM
 		sys_user AS `user`
 		LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
 		LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-			WHERE `user`.username = #{username}
+		WHERE `user`.username = #{username}
 	</select>
 
 	<select id="getUserVoById" resultMap="userVoResultMap">
-        SELECT
-	   		<include refid="userRoleDeptSql"/>
-        FROM
-            sys_user AS `user`
-            LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
-            LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-            LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
-        WHERE
-           `user`.user_id = #{id}
-    </select>
+		SELECT
+		<include refid="userRoleDeptSql"/>
+		FROM
+		sys_user AS `user`
+		LEFT JOIN sys_user_role AS ur ON ur.user_id = `user`.user_id
+		LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
+		LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
+		WHERE
+		`user`.user_id = #{id}
+	</select>
 
 	<select id="getUserVosPage" resultMap="baseResultMap">
 		SELECT

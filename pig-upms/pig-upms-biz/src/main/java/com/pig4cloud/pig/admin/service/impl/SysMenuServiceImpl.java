@@ -60,16 +60,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	public R removeMenuById(Integer id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query()
-				.lambda().eq(SysMenu::getParentId, id));
+			.lambda().eq(SysMenu::getParentId, id));
 		if (CollUtil.isNotEmpty(menuList)) {
 			return R.builder()
-					.code(CommonConstants.FAIL)
-					.msg("菜单含有下级不能删除").build();
+				.code(CommonConstants.FAIL)
+				.msg("菜单含有下级不能删除").build();
 		}
 
 		sysRoleMenuMapper
-				.delete(Wrappers.<SysRoleMenu>query()
-						.lambda().eq(SysRoleMenu::getMenuId, id));
+			.delete(Wrappers.<SysRoleMenu>query()
+				.lambda().eq(SysRoleMenu::getMenuId, id));
 
 		//删除当前菜单及其子菜单
 		return new R(this.removeById(id));

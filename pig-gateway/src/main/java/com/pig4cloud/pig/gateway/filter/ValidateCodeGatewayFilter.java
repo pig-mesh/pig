@@ -57,7 +57,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
 			// 不是登录请求，直接向下执行
 			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath()
-					, SecurityConstants.OAUTH_TOKEN_URL)) {
+				, SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
@@ -81,9 +81,9 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
 				try {
 					return response.writeWith(Mono.just(response.bufferFactory()
-							.wrap(objectMapper.writeValueAsBytes(
-									R.builder().msg(e.getMessage())
-											.code(CommonConstants.FAIL).build()))));
+						.wrap(objectMapper.writeValueAsBytes(
+							R.builder().msg(e.getMessage())
+								.code(CommonConstants.FAIL).build()))));
 				} catch (JsonProcessingException e1) {
 					log.error("对象输出异常", e1);
 				}

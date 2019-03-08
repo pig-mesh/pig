@@ -16,8 +16,8 @@
 
 package com.pig4cloud.pig.admin.api.feign.factory;
 
-import com.pig4cloud.pig.admin.api.feign.fallback.RemoteUserServiceFallbackImpl;
 import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pig.admin.api.feign.fallback.RemoteUserServiceFallbackImpl;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 

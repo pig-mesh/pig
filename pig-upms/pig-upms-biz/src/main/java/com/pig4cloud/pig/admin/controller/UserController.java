@@ -51,7 +51,7 @@ public class UserController {
 	public R info() {
 		String username = SecurityUtils.getUser().getUsername();
 		SysUser user = userService.getOne(Wrappers.<SysUser>query()
-				.lambda().eq(SysUser::getUsername, username));
+			.lambda().eq(SysUser::getUsername, username));
 		if (user == null) {
 			return new R<>(Boolean.FALSE, "获取当前用户信息失败");
 		}
@@ -67,7 +67,7 @@ public class UserController {
 	@GetMapping("/info/{username}")
 	public R info(@PathVariable String username) {
 		SysUser user = userService.getOne(Wrappers.<SysUser>query()
-				.lambda().eq(SysUser::getUsername, username));
+			.lambda().eq(SysUser::getUsername, username));
 		if (user == null) {
 			return new R<>(Boolean.FALSE, String.format("用户信息为空 %s", username));
 		}

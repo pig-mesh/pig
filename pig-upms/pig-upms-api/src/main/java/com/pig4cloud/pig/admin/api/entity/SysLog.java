@@ -107,5 +107,4 @@ public class SysLog implements Serializable {
 	private String delFlag;
 
 
-
 }

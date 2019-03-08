@@ -67,13 +67,7 @@ public interface SecurityConstants {
 	/**
 	 * oauth 客户端信息
 	 */
-	String CLIENT_DETAILS_KEY = PROJECT_PREFIX+OAUTH_PREFIX+"client:details";
-
-	/**
-	 * 微信获取OPENID
-	 */
-	String WX_AUTHORIZATION_CODE_URL = "https://api.weixin.qq.com/sns/oauth2/access_token" +
-		"?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
+	String CLIENT_DETAILS_KEY = PROJECT_PREFIX + OAUTH_PREFIX + "client:details";
 
 	/**
 	 * {bcrypt} 加密的特征码
@@ -102,4 +96,8 @@ public interface SecurityConstants {
 	 */
 	String DEFAULT_SELECT_STATEMENT = BASE_FIND_STATEMENT + " where client_id = ?";
 
+	/***
+	 * 资源服务器默认bean名称
+	 */
+	String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
 }

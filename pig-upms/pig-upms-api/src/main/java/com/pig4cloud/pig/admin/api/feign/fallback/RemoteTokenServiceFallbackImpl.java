@@ -51,7 +51,6 @@ public class RemoteTokenServiceFallbackImpl implements RemoteTokenService {
 	/**
 	 * 删除token
 	 *
-	 *
 	 * @param s
 	 * @param id
 	 * @return

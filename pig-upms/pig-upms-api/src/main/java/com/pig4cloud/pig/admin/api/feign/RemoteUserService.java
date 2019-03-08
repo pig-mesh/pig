@@ -16,8 +16,8 @@
 
 package com.pig4cloud.pig.admin.api.feign;
 
-import com.pig4cloud.pig.admin.api.feign.factory.RemoteUserServiceFallbackFactory;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
+import com.pig4cloud.pig.admin.api.feign.factory.RemoteUserServiceFallbackFactory;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;

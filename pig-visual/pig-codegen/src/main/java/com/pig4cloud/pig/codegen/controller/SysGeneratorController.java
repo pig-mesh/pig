@@ -48,7 +48,7 @@ public class SysGeneratorController {
 	 */
 	@GetMapping("/page")
 	public R<IPage> list(Page page, String tableName) {
-		return new R<>(sysGeneratorService.queryPage(page,tableName));
+		return new R<>(sysGeneratorService.queryPage(page, tableName));
 	}
 
 	/**
