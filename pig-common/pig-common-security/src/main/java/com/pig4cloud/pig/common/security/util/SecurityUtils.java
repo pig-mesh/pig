@@ -40,7 +40,7 @@ public class SecurityUtils {
 	/**
 	 * 获取Authentication
 	 */
-	public static Authentication getAuthentication() {
+	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 

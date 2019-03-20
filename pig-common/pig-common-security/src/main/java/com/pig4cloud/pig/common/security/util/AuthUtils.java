@@ -18,6 +18,7 @@ package com.pig4cloud.pig.common.security.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.util.CharsetUtil;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 
@@ -30,8 +31,9 @@ import java.io.IOException;
  * 认证授权相关工具类
  */
 @Slf4j
+@UtilityClass
 public class AuthUtils {
-	private static final String BASIC_ = "Basic ";
+	private final String BASIC_ = "Basic ";
 
 	/**
 	 * 从header 请求中的clientId/clientsecect
@@ -40,7 +42,7 @@ public class AuthUtils {
 	 * @throws RuntimeException if the Basic header is not present or is not valid
 	 *                          Base64
 	 */
-	public static String[] extractAndDecodeHeader(String header)
+	public String[] extractAndDecodeHeader(String header)
 		throws IOException {
 
 		byte[] base64Token = header.substring(6).getBytes("UTF-8");
@@ -69,7 +71,7 @@ public class AuthUtils {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String[] extractAndDecodeHeader(HttpServletRequest request)
+	public String[] extractAndDecodeHeader(HttpServletRequest request)
 		throws IOException {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 
