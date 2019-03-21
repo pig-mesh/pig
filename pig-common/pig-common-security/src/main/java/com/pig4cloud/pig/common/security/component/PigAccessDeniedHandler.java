@@ -27,15 +27,14 @@ import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.PigDeniedException;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -55,11 +54,10 @@ public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
 	 * @param request       request
 	 * @param response      response
 	 * @param authException authException
-	 * @throws IOException      IOException
-	 * @throws ServletException ServletException
 	 */
 	@Override
-	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException authException) throws IOException, ServletException {
+	@SneakyThrows
+	public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException authException) {
 		log.info("授权失败，禁止访问 {}", request.getRequestURI());
 		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(CommonConstants.CONTENT_TYPE);

@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import lombok.SneakyThrows;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -24,8 +25,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.web.client.DefaultResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
-
-import java.io.IOException;
 
 /**
  * @author lengleng
@@ -40,7 +39,8 @@ public class PigResourceServerAutoConfiguration {
 		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.setErrorHandler(new DefaultResponseErrorHandler() {
 			@Override
-			public void handleError(ClientHttpResponse response) throws IOException {
+			@SneakyThrows
+			public void handleError(ClientHttpResponse response) {
 				if (response.getRawStatusCode() != HttpStatus.BAD_REQUEST.value()) {
 					super.handleError(response);
 				}

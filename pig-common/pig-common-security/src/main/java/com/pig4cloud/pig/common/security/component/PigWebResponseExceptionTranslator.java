@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.common.security.component;
 
 import com.pig4cloud.pig.common.security.exception.*;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,8 @@ public class PigWebResponseExceptionTranslator implements WebResponseExceptionTr
 	private ThrowableAnalyzer throwableAnalyzer = new DefaultThrowableAnalyzer();
 
 	@Override
-	public ResponseEntity<OAuth2Exception> translate(Exception e) throws Exception {
+	@SneakyThrows
+	public ResponseEntity<OAuth2Exception> translate(Exception e) {
 
 		// Try to extract a SpringSecurityException from the stacktrace
 		Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);

@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.core.util;
 
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
@@ -92,7 +93,8 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	 * 实现DisposableBean接口, 在Context关闭时清理静态变量.
 	 */
 	@Override
-	public void destroy() throws Exception {
+	@SneakyThrows
+	public void destroy() {
 		SpringContextHolder.clearHolder();
 	}
 

@@ -21,6 +21,7 @@ package com.pig4cloud.pig.eureka.security;
  * @date 2019/2/1
  */
 
+import lombok.SneakyThrows;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,7 +29,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@SneakyThrows
+	protected void configure(HttpSecurity http) {
 		http.csrf().disable()
 			.authorizeRequests()
 			.antMatchers("/actuator/**").permitAll()

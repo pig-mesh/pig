@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.monitor.config;
 
 import de.codecentric.boot.admin.server.config.AdminServerProperties;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -37,7 +38,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@SneakyThrows
+	protected void configure(HttpSecurity http) {
 		// @formatter:off
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		successHandler.setTargetUrlParameter("redirectTo");
