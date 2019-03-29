@@ -17,7 +17,7 @@
 
 
    
-![](http://a.pigx.top/20190201162417.png?imageView2/2/w/650)   
+![](https://images.gitee.com/uploads/images/2019/0330/065147_85756aea_410595.png)   
 
 #### 核心依赖 
 
@@ -59,14 +59,15 @@ pig
 
 2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
 
-3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>  
-4. <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=5zWEvg5">交流群 23754102</a>   
+3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>    
+
+4. QQ群: 175429071
 
 #### 开源协议
-![](http://a.pigx.top/20190201155120.png)
+![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
 
 
 #### 关注我们
 
 
-![](http://pic.pigx.top/20190308224043_luIWau_Screenshot.jpeg)
+![](https://images.gitee.com/uploads/images/2019/0330/065148_f0ada806_410595.jpeg)
