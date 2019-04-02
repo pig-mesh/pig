@@ -15,7 +15,8 @@ spring:
       discovery:
         enabled: true
         service-id: pig-config
-
+  main:
+    allow-bean-definition-overriding: true
 # 注册中心配置
 eureka:
   instance:
