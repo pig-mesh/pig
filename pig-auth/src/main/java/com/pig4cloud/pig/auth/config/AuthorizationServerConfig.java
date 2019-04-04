@@ -20,6 +20,7 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -55,7 +56,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private final RedisConnectionFactory redisConnectionFactory;
 
 	@Override
-	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+	@SneakyThrows
+	public void configure(ClientDetailsServiceConfigurer clients) {
 		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
 		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
 		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);

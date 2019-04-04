@@ -25,6 +25,7 @@ import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -57,10 +58,10 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	 *
 	 * @param username 用户名
 	 * @return
-	 * @throws UsernameNotFoundException
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	@SneakyThrows
+	public UserDetails loadUserByUsername(String username) {
 		Cache cache = cacheManager.getCache("user_details");
 		if (cache != null && cache.get(username) != null) {
 			return (PigUser) cache.get(username).get();

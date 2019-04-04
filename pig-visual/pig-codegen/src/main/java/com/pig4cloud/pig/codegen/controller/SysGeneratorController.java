@@ -23,6 +23,7 @@ import com.pig4cloud.pig.codegen.entity.GenConfig;
 import com.pig4cloud.pig.codegen.service.SysGeneratorService;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,7 +56,8 @@ public class SysGeneratorController {
 	 * 生成代码
 	 */
 	@PostMapping("/code")
-	public void code(@RequestBody GenConfig genConfig, HttpServletResponse response) throws IOException {
+	@SneakyThrows
+	public void code(@RequestBody GenConfig genConfig, HttpServletResponse response) {
 		byte[] data = sysGeneratorService.generatorCode(genConfig);
 
 		response.reset();

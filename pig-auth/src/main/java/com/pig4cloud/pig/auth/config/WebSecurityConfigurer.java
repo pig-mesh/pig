@@ -18,6 +18,7 @@ package com.pig4cloud.pig.auth.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.security.handler.MobileLoginSuccessHandler;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,7 +52,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	private AuthorizationServerTokenServices defaultAuthorizationServerTokenServices;
 
 	@Override
-	protected void configure(HttpSecurity http) throws Exception {
+	@SneakyThrows
+	protected void configure(HttpSecurity http) {
 		http
 			.authorizeRequests()
 			.antMatchers(
@@ -63,7 +65,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
+	@SneakyThrows
+	public AuthenticationManager authenticationManagerBean() {
 		return super.authenticationManagerBean();
 	}
 

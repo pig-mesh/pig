@@ -19,6 +19,7 @@ package com.pig4cloud.pig.auth.endpoint;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -64,18 +65,28 @@ public class PigTokenEndpoint {
 	 *
 	 * @param authHeader Authorization
 	 */
-	@GetMapping("/logout")
+	@DeleteMapping("/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
-		if (StringUtils.hasText(authHeader)) {
-			String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
-			OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
-			if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-				return new R<>(false, "退出失败，token 为空");
-			}
-			tokenStore.removeAccessToken(accessToken);
+		if (StrUtil.isBlank(authHeader)) {
+			return R.<Boolean>builder()
+				.code(CommonConstants.FAIL)
+				.data(Boolean.FALSE)
+				.msg("退出失败，token 为空").build();
 		}
 
-		return new R<>(Boolean.TRUE);
+		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
+		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
+			return R.<Boolean>builder()
+				.code(CommonConstants.FAIL)
+				.data(Boolean.FALSE)
+				.msg("退出失败，token 无效").build();
+		}
+		tokenStore.removeAccessToken(accessToken);
+		return R.<Boolean>builder()
+			.code(CommonConstants.SUCCESS)
+			.data(Boolean.TRUE)
+			.build();
 	}
 
 	/**
@@ -106,7 +117,7 @@ public class PigTokenEndpoint {
 		}
 
 		List<Map<String, String>> list = new ArrayList<>();
-		if (StringUtils.isEmpty(MapUtil.getInt(params, CURRENT)) || StringUtils.isEmpty(MapUtil.getInt(params, CURRENT))) {
+		if (StringUtils.isEmpty(MapUtil.getInt(params, CURRENT)) || StringUtils.isEmpty(MapUtil.getInt(params, SIZE))) {
 			params.put(CURRENT, 1);
 			params.put(SIZE, 20);
 		}
