@@ -27,6 +27,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -45,6 +46,8 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	protected RemoteTokenServices remoteTokenServices;
 	@Autowired
 	private FilterIgnorePropertiesConfig ignorePropertiesConfig;
+	@Autowired
+	private AccessDeniedHandler pigAccessDeniedHandler;
 	@Autowired
 	private RestTemplate lbRestTemplate;
 
@@ -76,6 +79,7 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 		remoteTokenServices.setRestTemplate(lbRestTemplate);
 		remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+			.accessDeniedHandler(pigAccessDeniedHandler)
 			.tokenServices(remoteTokenServices);
 	}
 }
