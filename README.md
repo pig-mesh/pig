@@ -61,9 +61,11 @@ pig
 
 3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>    
 
-4. QQ群: 175429071
+4. 冷冷QQ: 2270033969 |  技术问题 请码云提完工单再联系
 
 #### 开源协议
+
+
 ![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
 
 
