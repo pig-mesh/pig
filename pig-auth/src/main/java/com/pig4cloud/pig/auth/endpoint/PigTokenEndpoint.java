@@ -33,6 +33,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.common.util.OAuth2Utils;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -69,7 +70,7 @@ public class PigTokenEndpoint {
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
 			return R.<Boolean>builder()
-				.code(CommonConstants.FAIL)
+				.code(CommonConstants.SUCCESS)
 				.data(Boolean.FALSE)
 				.msg("退出失败，token 为空").build();
 		}
@@ -78,11 +79,15 @@ public class PigTokenEndpoint {
 		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
 			return R.<Boolean>builder()
-				.code(CommonConstants.FAIL)
+				.code(CommonConstants.SUCCESS)
 				.data(Boolean.FALSE)
 				.msg("退出失败，token 无效").build();
 		}
 		tokenStore.removeAccessToken(accessToken);
+
+		OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(tokenValue);
+		tokenStore.removeRefreshToken(refreshToken);
+
 		return R.<Boolean>builder()
 			.code(CommonConstants.SUCCESS)
 			.data(Boolean.TRUE)
