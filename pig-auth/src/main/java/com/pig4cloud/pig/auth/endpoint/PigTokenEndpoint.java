@@ -85,7 +85,7 @@ public class PigTokenEndpoint {
 		}
 		tokenStore.removeAccessToken(accessToken);
 
-		OAuth2RefreshToken refreshToken = tokenStore.readRefreshToken(tokenValue);
+		OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
 		tokenStore.removeRefreshToken(refreshToken);
 
 		return R.<Boolean>builder()

@@ -1,7 +1,7 @@
  <p align="center">
   <img src="https://img.shields.io/badge/Avue-1.5.0-green.svg" alt="Build Status">
    <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.RELEASE-blue.svg" alt="Coverage Status">
-   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.3.RELEASE-blue.svg" alt="Downloads">
+   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.5.RELEASE-blue.svg" alt="Downloads">
  </p>  
  
 **Pig Microservice Architecture**   
@@ -24,11 +24,11 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.3.RELEASE  
+Spring Boot |  2.1.5.RELEASE  
 Spring Cloud | Greenwich.RELEASE   
 Spring Security OAuth2 | 2.3.3
 Mybatis Plus | 3.1.0
-hutool | 4.5.0
+hutool | 4.5.10
 Avue | 1.5.0
    
 
@@ -46,11 +46,12 @@ pig
 ├── pig-eureka -- 服务注册与发现[8761]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]
 └── pig-upms -- 通用用户权限管理模块
-     └── pigx-upms-api -- 通用用户权限管理系统公共api模块
-     └── pigx-upms-biz -- 通用用户权限管理系统业务处理模块[4000]
-└── pigx-visual  -- 图形化模块 
-     ├── pigx-monitor -- Spring Boot Admin监控 [5001]
-     └── pigx-codegen -- 图形化代码生成[5003]
+     └── pig-upms-api -- 通用用户权限管理系统公共api模块
+     └── pig-upms-biz -- 通用用户权限管理系统业务处理模块[4000]
+└── pig-visual  -- 图形化模块 
+     ├── pig-monitor -- Spring Boot Admin监控 [5001]
+     ├── pig-zipkin -- 链路调用监控 [5002]
+     └── pig-codegen -- 图形化代码生成[5003]
 	 
 ```
 #### 提交反馈
@@ -61,7 +62,7 @@ pig
 
 3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>    
 
-4. 冷冷QQ: 2270033969 |  技术问题 请码云提完工单再联系
+4. QQ: [2270033969](http://wpa.qq.com/msgrd?v=3&uin=2270033969&site=qq&menu=yes)
 
 #### 开源协议
 
