@@ -29,7 +29,7 @@ import java.util.Map;
  * @author lengleng
  * @date 2019/2/1
  */
-@FeignClient(value = ServiceNameConstants.AUTH_SERVICE, fallbackFactory = RemoteTokenServiceFallbackFactory.class)
+@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE, fallbackFactory = RemoteTokenServiceFallbackFactory.class)
 public interface RemoteTokenService {
 	/**
 	 * 分页查询token 信息

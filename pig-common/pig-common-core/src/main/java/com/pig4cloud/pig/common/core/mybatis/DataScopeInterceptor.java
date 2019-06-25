@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.core.datascope;
+package com.pig4cloud.pig.common.core.mybatis;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
