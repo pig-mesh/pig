@@ -21,7 +21,6 @@ import com.pig4cloud.pig.common.log.aspect.SysLogAspect;
 import com.pig4cloud.pig.common.log.event.SysLogListener;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -35,7 +34,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration
 @AllArgsConstructor
 @ConditionalOnWebApplication
-@EnableFeignClients({"com.pig4cloud.pig.admin.api.feign"})
 public class LogAutoConfiguration {
 	private final RemoteLogService remoteLogService;
 

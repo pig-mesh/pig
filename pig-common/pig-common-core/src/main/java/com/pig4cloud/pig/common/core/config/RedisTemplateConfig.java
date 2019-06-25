@@ -17,6 +17,8 @@
 package com.pig4cloud.pig.common.core.config;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +35,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @EnableCaching
 @Configuration
 @AllArgsConstructor
-public class RedisConfig {
+@AutoConfigureBefore(RedisAutoConfiguration.class)
+public class RedisTemplateConfig {
 	private final RedisConnectionFactory factory;
 
 	@Bean
