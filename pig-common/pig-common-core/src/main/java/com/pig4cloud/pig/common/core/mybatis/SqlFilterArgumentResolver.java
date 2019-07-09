@@ -78,7 +78,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		if (StrUtil.isNotBlank(size)) {
-			page.setCurrent(Long.parseLong(size));
+			page.setSize(Long.parseLong(size));
 		}
 
 		page.setAsc(sqlInject(ascs));
