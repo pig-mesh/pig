@@ -62,7 +62,7 @@ pig
 
 3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>    
 
-4. QQ: [2270033969](http://wpa.qq.com/msgrd?v=3&uin=2270033969&site=qq&menu=yes)
+4. QQ群: [175429071](//shang.qq.com/wpa/qunwpa?idkey=ca3737e31f86da3b9e3ee6755a92bbc5c44b37d7cabf81fdb6ef0d2f551669c8)
 
 #### 开源协议
 
