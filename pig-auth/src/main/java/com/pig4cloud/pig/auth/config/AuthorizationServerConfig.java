@@ -19,6 +19,7 @@ package com.pig4cloud.pig.auth.config;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
+import com.pig4cloud.pig.common.security.service.PigUser;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -95,7 +96,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public TokenEnhancer tokenEnhancer() {
 		return (accessToken, authentication) -> {
 			final Map<String, Object> additionalInfo = new HashMap<>(1);
-			additionalInfo.put("license", SecurityConstants.PROJECT_LICENSE);
+			PigUser pigUser = (PigUser) authentication.getUserAuthentication().getPrincipal();
+			additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
+			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, pigUser.getId());
+			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, pigUser.getUsername());
+			additionalInfo.put(SecurityConstants.DETAILS_DEPT_ID, pigUser.getDeptId());
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		};

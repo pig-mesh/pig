@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -35,9 +36,6 @@ import java.util.Map;
  * 根据checktoken 的结果转化用户信息
  */
 public class PigUserAuthenticationConverter implements UserAuthenticationConverter {
-	private static final String USER_ID = "user_id";
-	private static final String DEPT_ID = "dept_id";
-	private static final String TENANT_ID = "tenant_id";
 	private static final String N_A = "N/A";
 
 	/**
@@ -67,9 +65,9 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 		if (map.containsKey(USERNAME)) {
 			Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
 
-			String username = (String) map.get(USERNAME);
-			Integer id = (Integer) map.get(USER_ID);
-			Integer deptId = (Integer) map.get(DEPT_ID);
+			String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
+			Integer id = (Integer) map.get(SecurityConstants.DETAILS_USER_ID);
+			Integer deptId = (Integer) map.get(SecurityConstants.DETAILS_DEPT_ID);
 			PigUser user = new PigUser(id, deptId, username, N_A, true
 				, true, true, true, authorities);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
