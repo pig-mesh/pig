@@ -54,7 +54,7 @@ public class DictController {
 	 */
 	@GetMapping("/{id}")
 	public R getById(@PathVariable Integer id) {
-		return new R<>(sysDictService.getById(id));
+		return R.ok(sysDictService.getById(id));
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class DictController {
 	 */
 	@GetMapping("/page")
 	public R<IPage> getDictPage(Page page, SysDict sysDict) {
-		return new R<>(sysDictService.page(page, Wrappers.query(sysDict)));
+		return R.ok(sysDictService.page(page, Wrappers.query(sysDict)));
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class DictController {
 	@GetMapping("/type/{type}")
 	@Cacheable(value = "dict_details", key = "#type")
 	public R getDictByType(@PathVariable String type) {
-		return new R<>(sysDictService.list(Wrappers
+		return R.ok(sysDictService.list(Wrappers
 			.<SysDict>query().lambda()
 			.eq(SysDict::getType, type)));
 	}
@@ -93,7 +93,7 @@ public class DictController {
 	@CacheEvict(value = "dict_details", key = "#sysDict.type")
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
 	public R save(@Valid @RequestBody SysDict sysDict) {
-		return new R<>(sysDictService.save(sysDict));
+		return R.ok(sysDictService.save(sysDict));
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class DictController {
 	@CacheEvict(value = "dict_details", key = "#type")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	public R removeById(@PathVariable Integer id, @PathVariable String type) {
-		return new R<>(sysDictService.removeById(id));
+		return R.ok(sysDictService.removeById(id));
 	}
 
 	/**
@@ -122,6 +122,6 @@ public class DictController {
 	@CacheEvict(value = "dict_details", key = "#sysDict.type")
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	public R updateById(@Valid @RequestBody SysDict sysDict) {
-		return new R<>(sysDictService.updateById(sysDict));
+		return R.ok(sysDictService.updateById(sysDict));
 	}
 }

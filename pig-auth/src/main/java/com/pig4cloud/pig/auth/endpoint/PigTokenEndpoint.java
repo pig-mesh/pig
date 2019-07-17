@@ -69,29 +69,19 @@ public class PigTokenEndpoint {
 	@DeleteMapping("/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
-			return R.<Boolean>builder()
-				.code(CommonConstants.SUCCESS)
-				.data(Boolean.FALSE)
-				.msg("退出失败，token 为空").build();
+			return R.failed("退出失败，token 为空");
 		}
 
 		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
 		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-			return R.<Boolean>builder()
-				.code(CommonConstants.SUCCESS)
-				.data(Boolean.FALSE)
-				.msg("退出失败，token 无效").build();
+			return R.failed("退出失败，token 无效");
 		}
 		tokenStore.removeAccessToken(accessToken);
 
 		OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
 		tokenStore.removeRefreshToken(refreshToken);
-
-		return R.<Boolean>builder()
-			.code(CommonConstants.SUCCESS)
-			.data(Boolean.TRUE)
-			.build();
+		return R.ok();
 	}
 
 	/**
@@ -105,7 +95,7 @@ public class PigTokenEndpoint {
 		if (StrUtil.isBlank(from)) {
 			return null;
 		}
-		return new R<>(redisTemplate.delete(PROJECT_OAUTH_ACCESS + token));
+		return R.ok(redisTemplate.delete(PROJECT_OAUTH_ACCESS + token));
 	}
 
 
@@ -169,7 +159,7 @@ public class PigTokenEndpoint {
 		Page result = new Page(MapUtil.getInt(params, CURRENT), MapUtil.getInt(params, SIZE));
 		result.setRecords(list);
 		result.setTotal(Long.valueOf(redisTemplate.keys(PROJECT_OAUTH_ACCESS + "*").size()));
-		return new R(result);
+		return R.ok(result);
 
 	}
 

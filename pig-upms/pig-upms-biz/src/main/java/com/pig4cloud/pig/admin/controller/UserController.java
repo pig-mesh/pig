@@ -53,9 +53,9 @@ public class UserController {
 		SysUser user = userService.getOne(Wrappers.<SysUser>query()
 			.lambda().eq(SysUser::getUsername, username));
 		if (user == null) {
-			return new R<>(Boolean.FALSE, "获取当前用户信息失败");
+			return R.failed("获取当前用户信息失败");
 		}
-		return new R<>(userService.getUserInfo(user));
+		return R.ok(userService.getUserInfo(user));
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class UserController {
 		SysUser user = userService.getOne(Wrappers.<SysUser>query()
 			.lambda().eq(SysUser::getUsername, username));
 		if (user == null) {
-			return new R<>(Boolean.FALSE, String.format("用户信息为空 %s", username));
+			return R.failed(String.format("用户信息为空 %s", username));
 		}
-		return new R<>(userService.getUserInfo(user));
+		return R.ok(userService.getUserInfo(user));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class UserController {
 	 */
 	@GetMapping("/{id}")
 	public R user(@PathVariable Integer id) {
-		return new R<>(userService.getUserVoById(id));
+		return R.ok(userService.getUserVoById(id));
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class UserController {
 	public R user(@PathVariable String username) {
 		SysUser condition = new SysUser();
 		condition.setUsername(username);
-		return new R<>(userService.getOne(new QueryWrapper<>(condition)));
+		return R.ok(userService.getOne(new QueryWrapper<>(condition)));
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class UserController {
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R userDel(@PathVariable Integer id) {
 		SysUser sysUser = userService.getById(id);
-		return new R<>(userService.removeUserById(sysUser));
+		return R.ok(userService.removeUserById(sysUser));
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class UserController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
 	public R user(@RequestBody UserDTO userDto) {
-		return new R<>(userService.saveUser(userDto));
+		return R.ok(userService.saveUser(userDto));
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class UserController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R updateUser(@Valid @RequestBody UserDTO userDto) {
-		return new R<>(userService.updateUser(userDto));
+		return R.ok(userService.updateUser(userDto));
 	}
 
 	/**
@@ -147,7 +147,7 @@ public class UserController {
 	 */
 	@GetMapping("/page")
 	public R getUserPage(Page page, UserDTO userDTO) {
-		return new R<>(userService.getUserWithRolePage(page, userDTO));
+		return R.ok(userService.getUserWithRolePage(page, userDTO));
 	}
 
 	/**
@@ -168,6 +168,6 @@ public class UserController {
 	 */
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
-		return new R<>(userService.listAncestorUsersByUsername(username));
+		return R.ok(userService.listAncestorUsersByUsername(username));
 	}
 }

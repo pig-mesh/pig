@@ -61,7 +61,7 @@ public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
 		log.info("授权失败，禁止访问 {}", request.getRequestURI());
 		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(CommonConstants.CONTENT_TYPE);
-		R<String> result = new R<>(new PigDeniedException("授权失败，禁止访问"));
+		R<PigDeniedException> result = R.failed(new PigDeniedException("授权失败，禁止访问"));
 		response.setStatus(HttpStatus.HTTP_FORBIDDEN);
 		PrintWriter printWriter = response.getWriter();
 		printWriter.append(objectMapper.writeValueAsString(result));

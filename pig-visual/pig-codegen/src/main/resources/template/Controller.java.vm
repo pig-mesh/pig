@@ -47,7 +47,7 @@ public class ${className}Controller {
    */
   @GetMapping("/page")
   public R<IPage<${className}>> get${className}Page(Page<${className}> page, ${className} ${classname}) {
-    return  new R<>(${classname}Service.get${className}Page(page,${classname}));
+    return R.ok(${classname}Service.get${className}Page(page,${classname}));
   }
 
 
@@ -58,7 +58,7 @@ public class ${className}Controller {
    */
   @GetMapping("/{${pk.lowerAttrName}}")
   public R<${className}> getById(@PathVariable("${pk.lowerAttrName}") ${pk.attrType} ${pk.lowerAttrName}){
-    return new R<>(${classname}Service.getById(${pk.lowerAttrName}));
+    return R.ok(${classname}Service.getById(${pk.lowerAttrName}));
   }
 
   /**
@@ -70,7 +70,7 @@ public class ${className}Controller {
   @PostMapping
   @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_add')")
   public R save(@RequestBody ${className} ${classname}){
-    return new R<>(${classname}Service.save(${classname}));
+    return R.ok(${classname}Service.save(${classname}));
   }
 
   /**
@@ -82,7 +82,7 @@ public class ${className}Controller {
   @PutMapping
   @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_edit')")
   public R update(@RequestBody ${className} ${classname}){
-    return new R<>(${classname}Service.updateById(${classname}));
+    return R.ok()(${classname}Service.updateById(${classname}));
   }
 
   /**
@@ -94,7 +94,7 @@ public class ${className}Controller {
   @DeleteMapping("/{${pk.lowerAttrName}}")
   @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_del')")
   public R removeById(@PathVariable ${pk.attrType} ${pk.lowerAttrName}){
-    return new R<>(${classname}Service.removeById(${pk.lowerAttrName}));
+    return R.ok(${classname}Service.removeById(${pk.lowerAttrName}));
   }
 
 }

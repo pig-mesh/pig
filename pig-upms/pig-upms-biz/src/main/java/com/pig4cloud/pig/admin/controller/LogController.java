@@ -50,7 +50,7 @@ public class LogController {
 	 */
 	@GetMapping("/page")
 	public R getLogPage(Page page, SysLog sysLog) {
-		return new R<>(sysLogService.page(page, Wrappers.query(sysLog)));
+		return R.ok(sysLogService.page(page, Wrappers.query(sysLog)));
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class LogController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_log_del')")
 	public R removeById(@PathVariable Long id) {
-		return new R<>(sysLogService.removeById(id));
+		return R.ok(sysLogService.removeById(id));
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class LogController {
 	@Inner
 	@PostMapping
 	public R save(@Valid @RequestBody SysLog sysLog) {
-		return new R<>(sysLogService.save(sysLog));
+		return R.ok(sysLogService.save(sysLog));
 	}
 
 }

@@ -63,7 +63,7 @@ public class MenuController {
 			.map(MenuTree::new)
 			.sorted(Comparator.comparingInt(MenuTree::getSort))
 			.collect(Collectors.toList());
-		return new R<>(TreeUtil.buildByLoop(menuTreeList, -1));
+		return R.ok(TreeUtil.buildByLoop(menuTreeList, -1));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class MenuController {
 	 */
 	@GetMapping(value = "/tree")
 	public R getTree() {
-		return new R<>(TreeUtil.buildTree(sysMenuService.list(Wrappers.emptyWrapper()), -1));
+		return R.ok(TreeUtil.buildTree(sysMenuService.list(Wrappers.emptyWrapper()), -1));
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class MenuController {
 	 */
 	@GetMapping("/{id}")
 	public R getById(@PathVariable Integer id) {
-		return new R<>(sysMenuService.getById(id));
+		return R.ok(sysMenuService.getById(id));
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class MenuController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_add')")
 	public R save(@Valid @RequestBody SysMenu sysMenu) {
-		return new R<>(sysMenuService.save(sysMenu));
+		return R.ok(sysMenuService.save(sysMenu));
 	}
 
 	/**
@@ -137,7 +137,7 @@ public class MenuController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
 	public R update(@Valid @RequestBody SysMenu sysMenu) {
-		return new R<>(sysMenuService.updateMenuById(sysMenu));
+		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}
 
 }

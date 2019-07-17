@@ -166,13 +166,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
 			} else {
 				log.warn("原密码错误，修改密码失败:{}", userDto.getUsername());
-				return new R<>(Boolean.FALSE, "原密码错误，修改失败");
+				return R.failed("原密码错误，修改失败");
 			}
 		}
 		sysUser.setPhone(userDto.getPhone());
 		sysUser.setUserId(userVO.getUserId());
 		sysUser.setAvatar(userDto.getAvatar());
-		return new R<>(this.updateById(sysUser));
+		return R.ok(this.updateById(sysUser));
 	}
 
 	@Override
