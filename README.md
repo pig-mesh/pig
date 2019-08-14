@@ -61,7 +61,7 @@ pig
 
 3. <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>    
 
-4. QQ群: [175429071](//shang.qq.com/wpa/qunwpa?idkey=ca3737e31f86da3b9e3ee6755a92bbc5c44b37d7cabf81fdb6ef0d2f551669c8)
+4. 个人QQ: 1022756131 <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2::51" alt="私人QQ，有问题走码云 issue" title="私人QQ，有问题走码云 issue"/></a>
 
 #### 开源协议
 
