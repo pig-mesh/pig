@@ -1,5 +1,5 @@
  <p align="center">
-  <img src="https://img.shields.io/badge/Avue-1.6.0-green.svg" alt="Build Status">
+  <img src="https://img.shields.io/badge/Avue-2.6.0-green.svg" alt="Build Status">
    <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR2-blue.svg" alt="Coverage Status">
    <img src="https://img.shields.io/badge/Spring%20Boot-2.1.7.RELEASE-blue.svg" alt="Downloads">
  </p>  
@@ -14,10 +14,12 @@
 
 <a href="http://pig4cloud.com/#/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="http://avue.top"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a>
     
+![](https://images.gitee.com/uploads/images/2019/0330/065147_85756aea_410595.png)
 
+#### 快速构架微服务应用  
 
+<img src="https://images.gitee.com/uploads/images/2019/0823/120112_98bb9619_410595.gif"/>  
    
-![](https://images.gitee.com/uploads/images/2019/0330/065147_85756aea_410595.png)   
 #### 核心依赖 
 
 
@@ -27,15 +29,16 @@ Spring Boot |  2.1.7.RELEASE
 Spring Cloud | Greenwich.SR2   
 Spring Security OAuth2 | 2.3.5
 Mybatis Plus | 3.1.2
-hutool | 4.6.1
-Avue | 1.6.0
+hutool | 4.6.3
+Avue | 2.0.6
    
 
 
 #### 模块说明
 ```lua
+pig-ui  -- https://gitee.com/log4j/pig-ui
+
 pig
-├── pig-ui -- 前端工程[8080]
 ├── pig-auth -- 授权服务提供[3000]
 └── pig-common -- 系统公共模块 
      ├── pig-common-core -- 公共工具类核心包
