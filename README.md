@@ -1,34 +1,33 @@
  <p align="center">
   <img src="https://img.shields.io/badge/Avue-1.6.0-green.svg" alt="Build Status">
    <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR2-blue.svg" alt="Coverage Status">
-   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.6.RELEASE-blue.svg" alt="Downloads">
+   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.7.RELEASE-blue.svg" alt="Downloads">
  </p>  
  
 **Pig Microservice Architecture**   
    
 - 基于 Spring Cloud Greenwich.SR2 、Spring Security OAuth2 的RBAC权限管理系统  
-- 基于数据驱动视图的理念封装 Element-ui，即使没有 vue 的使用经验也能快速上手  
+- 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持  
 - 提供 lambda 、stream api 、webflux 的生产实践   
 
 
-<a href="https://pig4cloud.com/#/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avue.top"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="https://pigx.pig4cloud.com"> PigX在线体验</a>
+<a href="http://pig4cloud.com/#/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="http://avue.top"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a>
     
 
 
    
 ![](https://images.gitee.com/uploads/images/2019/0330/065147_85756aea_410595.png)   
-
 #### 核心依赖 
 
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.6.RELEASE  
+Spring Boot |  2.1.7.RELEASE  
 Spring Cloud | Greenwich.SR2   
 Spring Security OAuth2 | 2.3.5
 Mybatis Plus | 3.1.2
-hutool | 4.5.16
+hutool | 4.6.1
 Avue | 1.6.0
    
 
@@ -60,7 +59,7 @@ pig
 
 2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
 
-3. <a href="mailto:wangiegie@gmail.com">wangiegie@gmail.com</a>    
+3. <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>    
 
 4. QQ群: [175429071](//shang.qq.com/wpa/qunwpa?idkey=ca3737e31f86da3b9e3ee6755a92bbc5c44b37d7cabf81fdb6ef0d2f551669c8)
 
@@ -72,5 +71,4 @@ pig
 
 #### 关注我们
 
-
-![](https://images.gitee.com/uploads/images/2019/0330/065148_f0ada806_410595.jpeg)
+![](https://images.gitee.com/uploads/images/2019/0808/102636_659bf088_410595.png)
