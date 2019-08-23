@@ -22,9 +22,6 @@ export const tableOption = {
   stripe: true,
   menuAlign: 'center',
   align: 'center',
-  editBtn: false,
-  delBtn: false,
-  addBtn: false,
   column: [
 #foreach ($column in $columns)
 	  {
