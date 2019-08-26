@@ -153,6 +153,7 @@
 		sys_user AS `user`
 		LEFT JOIN sys_dept AS d ON d.dept_id = `user`.dept_id
 		<where>
+			`user`.del_flag = '0'
 			<if test="query.username != null and query.username != ''">
 				and `user`.username LIKE CONCAT('%',#{query.username},'%')
 			</if>
