@@ -75,7 +75,7 @@ public class PigTokenEndpoint {
 		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
 		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-			return R.failed("退出失败，token 无效");
+			return R.ok();
 		}
 		tokenStore.removeAccessToken(accessToken);
 
