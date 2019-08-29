@@ -16,8 +16,6 @@
  */
 package ${package}.${moduleName}.service.impl;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
@@ -31,15 +29,5 @@ import org.springframework.stereotype.Service;
  */
 @Service("${classname}Service")
 public class ${className}ServiceImpl extends ServiceImpl<${className}Mapper, ${className}> implements ${className}Service {
-
-  /**
-   * ${comments}简单分页查询
-   * @param ${classname} ${comments}
-   * @return
-   */
-  @Override
-  public IPage<${className}> get${className}Page(Page<${className}> page, ${className} ${classname}){
-      return baseMapper.get${className}Page(page,${classname});
-  }
 
 }

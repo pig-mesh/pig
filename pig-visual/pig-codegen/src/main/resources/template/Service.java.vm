@@ -16,8 +16,6 @@
  */
 package ${package}.${moduleName}.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import ${package}.${moduleName}.entity.${className};
 
@@ -28,13 +26,5 @@ import ${package}.${moduleName}.entity.${className};
  * @date ${datetime}
  */
 public interface ${className}Service extends IService<${className}> {
-
-  /**
-   * ${comments}简单分页查询
-   * @param ${classname} ${comments}
-   * @return
-   */
-  IPage<${className}> get${className}Page(Page<${className}> page, ${className} ${classname});
-
 
 }

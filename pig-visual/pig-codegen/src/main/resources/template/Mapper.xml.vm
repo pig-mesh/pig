@@ -32,27 +32,4 @@
       #end
     #end
   </resultMap>
-
-  <!--${classname}简单分页查询-->
-  <select id="get${className}Page" resultMap="${classname}Map">
-    SELECT
-    #foreach($column in $columns)
-      #if($foreach.count==$!{columns.size()})
-        ${column.columnName}
-      #else
-        ${column.columnName},
-      #end
-    #end
-    FROM ${tableName}
-    <where>
-      #foreach($column in $columns)
-        <if test="${classname}.$column.lowerAttrName != null and ${classname}.${column.lowerAttrName}.trim() != ''">
-          AND ${column.columnName} = #{${classname}.$column.lowerAttrName}
-        </if>
-      #end
-    </where>
-  </select>
-
-
-
 </mapper>
