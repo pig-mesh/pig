@@ -40,7 +40,6 @@
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
-		<jackson.modules>2.9.8</jackson.modules>
 		<!--zipkin2.12.x需要此版本jooq-->
 		<jooq.version>3.11.11</jooq.version>
 		<zipkin.version>2.12.2</zipkin.version>
@@ -141,14 +140,6 @@
 				<groupId>org.springframework.security.oauth</groupId>
 				<artifactId>spring-security-oauth2</artifactId>
 				<version>${security.oauth.version}</version>
-			</dependency>
-			<!--jackson模块-->
-			<dependency>
-				<groupId>com.fasterxml.jackson.module</groupId>
-				<artifactId>jackson-modules-java8</artifactId>
-				<version>${jackson.modules}</version>
-				<type>pom</type>
-				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
