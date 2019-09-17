@@ -1,12 +1,12 @@
- <p align="center">
-  <img src="https://img.shields.io/badge/Avue-2.6.0-green.svg" alt="Build Status">
-   <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR2-blue.svg" alt="Coverage Status">
-   <img src="https://img.shields.io/badge/Spring%20Boot-2.1.7.RELEASE-blue.svg" alt="Downloads">
- </p>  
+<p align="center">
+  <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
+  <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR3-blue.svg" alt="Coverage Status">
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.1.8.RELEASE-blue.svg" alt="Downloads">
+</p>
  
 **Pig Microservice Architecture**   
    
-- 基于 Spring Cloud Greenwich.SR2 、Spring Security OAuth2 的RBAC权限管理系统  
+- 基于 Spring Cloud Greenwich.SR3 、Spring Security OAuth2 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持  
 - 提供 lambda 、stream api 、webflux 的生产实践   
@@ -25,12 +25,12 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.7.RELEASE  
-Spring Cloud | Greenwich.SR2   
-Spring Security OAuth2 | 2.3.5
-Mybatis Plus | 3.1.2
-hutool | 4.6.3
-Avue | 2.0.6
+Spring Boot |  2.1.8.RELEASE  
+Spring Cloud | Greenwich.SR3   
+Spring Security OAuth2 | 2.3.6
+Mybatis Plus | 3.2.0
+hutool | 4.6.5
+Avue | 2.1.0
    
 
 
