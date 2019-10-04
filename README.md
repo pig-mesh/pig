@@ -1,7 +1,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
   <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR3-blue.svg" alt="Coverage Status">
-  <img src="https://img.shields.io/badge/Spring%20Boot-2.1.8.RELEASE-blue.svg" alt="Downloads">
+  <img src="https://img.shields.io/badge/Spring%20Boot-2.1.9.RELEASE-blue.svg" alt="Downloads">
 </p>
  
 **Pig Microservice Architecture**   
@@ -25,11 +25,11 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.8.RELEASE  
+Spring Boot |  2.1.9.RELEASE  
 Spring Cloud | Greenwich.SR3   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.2.0
-hutool | 4.6.5
+hutool | 4.6.8
 Avue | 2.1.0
    
 
@@ -64,7 +64,7 @@ pig
 
 3. <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>    
 
-4. <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1022756131&site=qq&menu=yes"> 个人QQ: 1022756131</a>
+4. <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2270033969&site=qq&menu=yes"> 个人QQ: 2270033969</a>
 
 #### 开源协议
 
