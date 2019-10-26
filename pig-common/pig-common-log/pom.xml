@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-common</artifactId>
-		<version>2.4.3</version>
+		<version>2.4.4</version>
 	</parent>
 
 	<artifactId>pig-common-log</artifactId>
@@ -35,13 +35,13 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
-			<version>2.4.3</version>
+			<version>2.4.4</version>
 		</dependency>
 		<!--UPMS接口模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
-			<version>2.4.3</version>
+			<version>2.4.4</version>
 		</dependency>
 		<!--安全依赖获取上下文信息-->
 		<dependency>

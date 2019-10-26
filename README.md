@@ -18,7 +18,7 @@
 
 #### 快速构架微服务应用  
 
-<img src="https://images.gitee.com/uploads/images/2019/0823/120112_98bb9619_410595.gif"/>  
+<img src="https://images.gitee.com/uploads/images/2019/1026/004238_9a73e1e7_393021.gif"/>  
    
 #### 核心依赖 
 
@@ -29,7 +29,7 @@ Spring Boot |  2.1.9.RELEASE
 Spring Cloud | Greenwich.SR3   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.2.0
-hutool | 4.6.8
+hutool | 5.0.3
 Avue | 2.1.0
    
 
