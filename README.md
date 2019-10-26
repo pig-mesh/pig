@@ -1,3 +1,8 @@
+ 
+![](https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png) 
+ 
+
+
 **Pig Microservice Architecture** 
   
 <p align="center">
@@ -16,9 +21,6 @@
     
 
 
- 
-![](https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png) 
- 
 
 
 #### 快速构架微服务应用  
