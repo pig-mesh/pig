@@ -1,9 +1,7 @@
- 
-![](https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png) 
- 
+<p align="center">
+ <img src="https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png">
+</p>
 
-
-**Pig Microservice Architecture** 
   
 <p align="center">
  <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
@@ -19,7 +17,6 @@
 
 <a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="http://avue.top"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a>
     
-
 
 
 
@@ -79,6 +76,7 @@ pig
 ![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
 
 
-#### 关注我们
+#### 交流群
 
-![](https://images.gitee.com/uploads/images/2019/0808/102636_659bf088_410595.png)
+![](http://pigx.vip/20191030001916_Elfble_%E5%BE%AE%E4%BF%A1%E7%BE%A4.jpeg)
+
