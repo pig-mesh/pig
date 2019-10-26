@@ -1,10 +1,10 @@
+**Pig Microservice Architecture** 
+  
 <p align="center">
-  <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
-  <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR3-blue.svg" alt="Coverage Status">
-  <img src="https://img.shields.io/badge/Spring%20Boot-2.1.9.RELEASE-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR3-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.1.9.RELEASE-blue.svg" alt="Downloads">
 </p>
- 
-**Pig Microservice Architecture**   
    
 - 基于 Spring Cloud Greenwich.SR3 、Spring Security OAuth2 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手  
@@ -14,7 +14,12 @@
 
 <a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="http://avue.top"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a>
     
-![](https://images.gitee.com/uploads/images/2019/0330/065147_85756aea_410595.png)
+
+
+ 
+![](https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png) 
+ 
+
 
 #### 快速构架微服务应用  
 
