@@ -8,18 +8,6 @@ spring:
   redis:
     password:
     host: pig-redis
-  # zipkin
-  zipkin:
-    enabled: true
-    base-url: http://pig-zipkin
-  sleuth:
-    web:
-      client:
-        enabled: true
-    sampler:
-      # 默认的采样比率为0.1，不能看到所有请求数据
-      # 更改采样比率为1，就能看到所有的请求数据了，但是这样会增加接口调用延迟
-      probability: 1.0
 
 # 暴露监控端点
 management:

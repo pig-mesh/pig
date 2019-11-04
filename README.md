@@ -4,12 +4,12 @@
 
   
 <p align="center">
- <img src="https://img.shields.io/badge/Avue-2.1.0-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Greenwich.SR3-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.1.9.RELEASE-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Avue-2.2.0-green.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton.RC1-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.2.0.RELEASE-blue.svg" alt="Downloads">
 </p>
    
-- 基于 Spring Cloud Greenwich.SR3 、Spring Security OAuth2 的RBAC权限管理系统  
+- 基于 Spring Cloud Hoxton 、Spring Boot 2.2、 OAuth2 的RBAC权限管理系统  
 - 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手  
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持  
 - 提供 lambda 、stream api 、webflux 的生产实践   
@@ -22,6 +22,15 @@
 
 #### 快速构架微服务应用  
 
+```xml
+<!-- pig-gen archetype -->
+<dependency>
+    <groupId>com.pig4cloud.archetype</groupId>
+    <artifactId>pig-gen</artifactId>
+    <version>last.version</version>
+</dependency>
+```
+
 <img src="https://images.gitee.com/uploads/images/2019/1026/004238_9a73e1e7_393021.gif"/>  
    
 #### 核心依赖 
@@ -29,12 +38,12 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.1.9.RELEASE  
-Spring Cloud | Greenwich.SR3   
+Spring Boot |  2.2.0.RELEASE  
+Spring Cloud | Hoxton.RC1   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.2.0
 hutool | 5.0.3
-Avue | 2.1.0
+Avue | 2.2.0
    
 
 

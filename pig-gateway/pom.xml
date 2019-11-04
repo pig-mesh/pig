@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.4.4</version>
+		<version>2.5.0</version>
 	</parent>
 
 	<artifactId>pig-gateway</artifactId>
@@ -54,7 +54,7 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
-			<version>2.4.4</version>
+			<version>2.5.0</version>
 		</dependency>
 	</dependencies>
 
