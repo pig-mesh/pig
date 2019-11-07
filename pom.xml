@@ -27,13 +27,13 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.5.0</version>
+	<version>2.5.1</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.2.0.RELEASE</spring-boot.version>
+		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.RC1</spring-cloud.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
