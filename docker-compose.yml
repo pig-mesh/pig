@@ -88,13 +88,3 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
-
-  pig-zipkin:
-    build:
-      context: ./
-      dockerfile: ./pig-visual/pig-zipkin/Dockerfile
-    restart: always
-    image: pig-zipkin
-    container_name: pig-zipkin
-    ports:
-      - 5002:5002

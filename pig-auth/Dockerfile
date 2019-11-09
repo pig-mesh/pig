@@ -12,4 +12,4 @@ EXPOSE 3000
 
 ADD ./pig-auth/target/pig-auth.jar ./
 
-CMD java -Djava.security.egd=file:/dev/./urandom -jar pig-auth.jar
+CMD sleep 60;java -Djava.security.egd=file:/dev/./urandom -jar pig-auth.jar

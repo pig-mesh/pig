@@ -12,4 +12,4 @@ EXPOSE 4001
 
 ADD ./pig-config/target/pig-config.jar ./
 
-CMD java -Djava.security.egd=file:/dev/./urandom -jar pig-config.jar
+CMD sleep 20;java -Djava.security.egd=file:/dev/./urandom -jar pig-config.jar
