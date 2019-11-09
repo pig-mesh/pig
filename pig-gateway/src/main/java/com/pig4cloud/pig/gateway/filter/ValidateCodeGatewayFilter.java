@@ -19,12 +19,12 @@ package com.pig4cloud.pig.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.common.core.config.FilterIgnorePropertiesConfig;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
+import com.pig4cloud.pig.gateway.config.IgnoreClientConfiguration;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -46,9 +46,9 @@ import reactor.core.publisher.Mono;
 @Component
 @AllArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
+	private final IgnoreClientConfiguration ignoreClient;
 	private final ObjectMapper objectMapper;
 	private final RedisTemplate redisTemplate;
-	private final FilterIgnorePropertiesConfig filterIgnorePropertiesConfig;
 
 	@Override
 	public GatewayFilter apply(Object config) {
@@ -70,7 +70,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			// 终端设置不校验， 直接向下执行
 			try {
 				String[] clientInfos = WebUtils.getClientId(request);
-				if (filterIgnorePropertiesConfig.getClients().contains(clientInfos[0])) {
+				if (ignoreClient.getClients().contains(clientInfos[0])) {
 					return chain.filter(exchange);
 				}
 

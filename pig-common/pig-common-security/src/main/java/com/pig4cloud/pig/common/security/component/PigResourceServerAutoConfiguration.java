@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.common.security.component;
 
 import lombok.SneakyThrows;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,6 +31,7 @@ import org.springframework.web.client.RestTemplate;
  * @author lengleng
  * @date 2019/03/08
  */
+@ConfigurationPropertiesScan
 @ComponentScan("com.pig4cloud.pig.common.security")
 public class PigResourceServerAutoConfiguration {
 	@Bean

@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import com.pig4cloud.pig.common.core.config.FilterIgnorePropertiesConfig;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,9 +44,9 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	@Autowired
 	protected RemoteTokenServices remoteTokenServices;
 	@Autowired
-	private FilterIgnorePropertiesConfig ignorePropertiesConfig;
-	@Autowired
 	private AccessDeniedHandler pigAccessDeniedHandler;
+	@Autowired
+	private PermitAllUrlConfiguration permitAllUrl;
 	@Autowired
 	private RestTemplate lbRestTemplate;
 
@@ -64,7 +63,7 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 		ExpressionUrlAuthorizationConfigurer<HttpSecurity>
 			.ExpressionInterceptUrlRegistry registry = httpSecurity
 			.authorizeRequests();
-		ignorePropertiesConfig.getUrls()
+		permitAllUrl.getUrls()
 			.forEach(url -> registry.antMatchers(url).permitAll());
 		registry.anyRequest().authenticated()
 			.and().csrf().disable();

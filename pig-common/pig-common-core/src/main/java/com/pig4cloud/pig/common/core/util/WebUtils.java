@@ -138,7 +138,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 * @param result   结果对象
 	 */
 	public void renderJson(HttpServletResponse response, Object result) {
-		renderJson(response, result, MediaType.APPLICATION_JSON_UTF8_VALUE);
+		renderJson(response, result, MediaType.APPLICATION_JSON_VALUE);
 	}
 
 	/**
@@ -158,44 +158,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		}
 	}
 
-	/**
-	 * 获取ip
-	 *
-	 * @return {String}
-	 */
-	public String getIP() {
-		return getIP(WebUtils.getRequest());
-	}
-
-	/**
-	 * 获取ip
-	 *
-	 * @param request HttpServletRequest
-	 * @return {String}
-	 */
-	public String getIP(HttpServletRequest request) {
-		Assert.notNull(request, "HttpServletRequest is null");
-		String ip = request.getHeader("X-Requested-For");
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("X-Forwarded-For");
-		}
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("Proxy-Client-IP");
-		}
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("WL-Proxy-Client-IP");
-		}
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_CLIENT_IP");
-		}
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
-		}
-		if (StringUtils.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
-			ip = request.getRemoteAddr();
-		}
-		return StringUtils.isBlank(ip) ? null : ip.split(",")[0];
-	}
 
 	/**
 	 * 从request 获取CLIENT_ID

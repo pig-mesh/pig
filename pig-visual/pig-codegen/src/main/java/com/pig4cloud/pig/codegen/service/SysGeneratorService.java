@@ -39,6 +39,7 @@ public interface SysGeneratorService {
 	/**
 	 * 分页查询表
 	 *
+	 * @param page      分页参数
 	 * @param tableName 表名
 	 * @return
 	 */
