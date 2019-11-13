@@ -39,7 +39,7 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.2.1.RELEASE  
-Spring Cloud | Hoxton.RC1   
+Spring Cloud | Hoxton.RC2   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.2.0
 hutool | 5.0.3
