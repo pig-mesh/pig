@@ -32,7 +32,7 @@
 	<dependencies>
 		<!--监控服务端-->
 		<dependency>
-			<groupId>de.codecentric</groupId>
+			<groupId>com.pig4cloud</groupId>
 			<artifactId>spring-boot-admin-starter-server</artifactId>
 			<version>${spring-boot-admin.version}</version>
 		</dependency>

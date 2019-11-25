@@ -39,7 +39,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.2.0-SNAPSHOT</spring-boot-admin.version>
+		<spring-boot-admin.version>2.2.0</spring-boot-admin.version>
 		<hutool.version>5.0.5</hutool.version>
 		<mybatis-plus.version>3.2.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
@@ -72,7 +72,7 @@
 		</dependency>
 		<!--监控客户端-->
 		<dependency>
-			<groupId>de.codecentric</groupId>
+			<groupId>com.pig4cloud</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 			<version>${spring-boot-admin.version}</version>
 		</dependency>
@@ -190,17 +190,6 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
-		</repository>
-		<repository>
-			<id>sonatype-nexus-snapshots</id>
-			<name>Sonatype Nexus Snapshots</name>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
 		</repository>
 		<!--阿里云主仓库，代理了maven central和jcenter仓库-->
 		<repository>
