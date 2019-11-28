@@ -5,8 +5,8 @@
   
 <p align="center">
  <img src="https://img.shields.io/badge/Avue-2.2.1-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton.RC1-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.2.0.RELEASE-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.2.RELEASE-blue.svg" alt="Downloads">
 </p>
    
 - 基于 Spring Cloud Hoxton 、Spring Boot 2.2、 OAuth2 的RBAC权限管理系统  
@@ -17,8 +17,6 @@
 
 <a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://pig4cloud.com/images/20190918.pdf"> PigX白皮书</a>
     
-
-
 
 #### 快速构架微服务应用  
 
@@ -39,10 +37,10 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.2.1.RELEASE  
-Spring Cloud | Hoxton.RC2   
+Spring Cloud | Hoxton.RELEASE   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.2.0
-hutool | 5.0.5
+hutool | 5.0.6
 Avue | 2.2.0
    
 
@@ -56,7 +54,8 @@ pig
 └── pig-common -- 系统公共模块 
      ├── pig-common-core -- 公共工具类核心包
      ├── pig-common-log -- 日志服务
-     └── pig-common-security -- 安全工具类
+     ├── pig-common-security -- 安全工具类
+     └── pig-common-swagger -- 接口文档
 ├── pig-config -- 配置中心[8888]
 ├── pig-eureka -- 服务注册与发现[8761]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]

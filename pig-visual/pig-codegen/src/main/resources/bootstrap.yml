@@ -23,7 +23,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://pig:pig@pig-eureka:8761/eureka/
+      defaultZone: http://pig:pig@pig-eureka:8761/eureka
 logging:
   level:
     root: info

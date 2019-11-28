@@ -22,7 +22,7 @@ eureka:
     register-with-eureka: false
     fetch-registry: false
     service-url:
-      defaultZone: http://pig:pig@${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://pig:pig@${eureka.instance.hostname}:${server.port}/eureka
   server:
     eviction-interval-timer-in-ms: 4000
     enable-self-preservation: false
