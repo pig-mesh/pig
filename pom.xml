@@ -34,7 +34,7 @@
 
 	<properties>
 		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.RC2</spring-cloud.version>
+		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -45,6 +45,8 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
+		<swagger.fox.version>2.9.2</swagger.fox.version>
+		<knife4j.version.version>1.9.6</knife4j.version.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 	</properties>
 
@@ -183,14 +185,6 @@
 	</build>
 
 	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
 		<!--阿里云主仓库，代理了maven central和jcenter仓库-->
 		<repository>
 			<id>aliyun</id>
@@ -204,18 +198,4 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	<pluginRepositories>
-		<!--阿里云代理Spring 插件仓库-->
-		<pluginRepository>
-			<id>spring-plugin</id>
-			<name>spring-plugin</name>
-			<url>https://maven.aliyun.com/repository/spring-plugin</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
 </project>

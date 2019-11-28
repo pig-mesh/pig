@@ -33,5 +33,6 @@
 		<module>pig-common-core</module>
 		<module>pig-common-log</module>
 		<module>pig-common-security</module>
+		<module>pig-common-swagger</module>
 	</modules>
 </project>

@@ -70,3 +70,21 @@ security:
     resource:
       loadBalanced: true
       token-info-uri: http://pig-auth/oauth/check_token
+
+# swagger 配置
+swagger:
+  title: Pig Swagger API
+  license: Powered By pig4cloud
+  licenseUrl: https://pig4cloud.com
+  terms-of-service-url: https://pig4cloud.com
+  contact:
+    email: wangiegie@gmail.com
+    url: https://pig4cloud.com
+  authorization:
+    name: pig4cloud OAuth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://${GATEWAY-HOST:pig-gateway}:${GATEWAY-PORT:9999}/auth/oauth/token

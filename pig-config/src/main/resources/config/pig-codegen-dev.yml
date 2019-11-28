@@ -20,4 +20,5 @@ spring:
 # 直接放行URL
 ignore:
   urls:
+    - /v2/api-docs
     - /actuator/**

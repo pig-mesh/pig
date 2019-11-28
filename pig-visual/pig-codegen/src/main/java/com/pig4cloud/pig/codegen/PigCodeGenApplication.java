@@ -18,6 +18,7 @@ package com.pig4cloud.pig.codegen;
 
 import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
+import com.pig4cloud.pigx.common.swagger.annotation.EnablePigSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -26,6 +27,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * @date 2019/2/1
  * 代码生成模块
  */
+@EnablePigSwagger2
 @EnablePigFeignClients
 @EnablePigResourceServer
 @SpringCloudApplication
