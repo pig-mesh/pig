@@ -30,6 +30,6 @@ public interface ServiceNameConstants {
 	/**
 	 * UMPS模块
 	 */
-	String UMPS_SERVICE = "pig-upms";
+	String UMPS_SERVICE = "pig-upms-biz";
 
 }

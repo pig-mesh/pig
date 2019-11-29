@@ -3,27 +3,16 @@ server:
 
 spring:
   application:
-    name: pig-gateway
-  # 配置中心
+    name: @artifactId@
   cloud:
-    config:
-      fail-fast: true
-      name: ${spring.application.name}
-      profile: ${spring.profiles.active}
+    nacos:
       discovery:
-        enabled: true
-        service-id: pig-config
+        server-addr: ${NACOS-HOST:pig-register}:${NACOS-PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+        shared-dataids: application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
-    active: dev
-  main:
-    allow-bean-definition-overriding: true
-
-# 注册中心
-eureka:
-  instance:
-    prefer-ip-address: true
-  client:
-    service-url:
-      defaultZone: http://pig:pig@pig-eureka:8761/eureka
+    active: @profiles.active@
 
 

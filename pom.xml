@@ -35,6 +35,7 @@
 	<properties>
 		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -51,11 +52,6 @@
 	</properties>
 
 	<dependencies>
-		<!--eureka 客户端-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
 		<!--配置文件处理器-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -98,13 +94,13 @@
 	</dependencies>
 
 	<modules>
-		<module>pig-eureka</module>
-		<module>pig-config</module>
+		<module>pig-register</module>
 		<module>pig-gateway</module>
 		<module>pig-auth</module>
 		<module>pig-upms</module>
 		<module>pig-common</module>
-		<module>pig-visual</module>
+		<module>pig-codegen</module>
+		<module>pig-monitor</module>
 	</modules>
 
 	<dependencyManagement>
@@ -127,6 +123,14 @@
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
 				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!--spring cloud alibaba-->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
@@ -198,4 +202,17 @@
 			</snapshots>
 		</repository>
 	</repositories>
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<!-- 环境标识，需要与配置文件的名称相对应 -->
+				<profiles.active>dev</profiles.active>
+			</properties>
+			<activation>
+				<!-- 默认环境 -->
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
 </project>

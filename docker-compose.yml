@@ -20,25 +20,16 @@ services:
     container_name: pig-redis
     hostname: pig-redis
 
-  pig-eureka:
+  pig-register:
     build:
       context: ./
-      dockerfile: ./pig-eureka/Dockerfile
+      dockerfile: ./pig-register/Dockerfile
     restart: always
     ports:
-      - 8761:8761
-    container_name: pig-eureka
-    hostname: pig-eureka
-    image: pig-eureka
-
-  pig-config:
-    build:
-      context: ./
-      dockerfile: ./pig-config/Dockerfile
-    restart: always
-    container_name: pig-config
-    hostname: pig-config
-    image: pig-config
+      - 8848:8848
+    container_name: pig-register
+    hostname: pig-register
+    image: pig-register
 
   pig-gateway:
     build:
@@ -72,7 +63,7 @@ services:
   pig-monitor:
     build:
       context: ./
-      dockerfile: ./pig-visual/pig-monitor/Dockerfile
+      dockerfile: ./pig-monitor/Dockerfile
     restart: always
     ports:
       - 5001:5001
@@ -83,7 +74,7 @@ services:
   pig-codegen:
     build:
       context: ./
-      dockerfile: ./pig-visual/pig-codegen/Dockerfile
+      dockerfile: ./pig-codegen/Dockerfile
     restart: always
     container_name: pig-codegen
     hostname: pig-codegen

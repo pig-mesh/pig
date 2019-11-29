@@ -5,3 +5,5 @@ MAINTAINER lengleng(wangiegie@gmail.com)
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 
 COPY ./db/pig.sql /docker-entrypoint-initdb.d
+
+COPY ./db/pig_config.sql /docker-entrypoint-initdb.d
