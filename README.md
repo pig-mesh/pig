@@ -4,7 +4,7 @@
 
   
 <p align="center">
- <img src="https://img.shields.io/badge/Avue-2.2.1-green.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Avue-2.2-green.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.2.RELEASE-blue.svg" alt="Downloads">
 </p>
@@ -36,10 +36,10 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.2.1.RELEASE  
+Spring Boot |  2.2.2.RELEASE  
 Spring Cloud | Hoxton.RELEASE   
 Spring Security OAuth2 | 2.3.6
-Mybatis Plus | 3.2.0
+Mybatis Plus | 3.3.0
 hutool | 5.0.6
 Avue | 2.2.0
    
@@ -67,21 +67,21 @@ pig
 ```
 #### 提交反馈
 
-1. 欢迎提交 issue，请写清楚遇到问题的原因，开发环境，复显步骤。
+1. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 
-2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭。  
+2. 不接受`功能请求`的 [issue](https://gitee.com/log4j/pig/issues)，功能请求可能会被直接关闭。  
 
-3. <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>    
+3. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a> | <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2270033969&site=qq&menu=yes"> QQ: 2270033969</a>    
 
-4. <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2270033969&site=qq&menu=yes"> 个人QQ: 2270033969</a>
+#### 公开课
 
-#### 开源协议
-
-
-![](https://images.gitee.com/uploads/images/2019/0330/065147_e07bc645_410595.png)
-
+<table>
+  <tr>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="http://pigx.vip/20191208194856_IkbJYG_0.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="http://pigx.vip/20191208194911_jPR3JJ_1.jpeg"></a></td>
+  </tr>
+</table>
 
 #### 交流群
-
-![](http://pigx.vip/20191030001916_Elfble_%E5%BE%AE%E4%BF%A1%E7%BE%A4.jpeg)
+![](http://pigx.vip/20191208200835_Ox4gq0_qun.jpeg)
 
