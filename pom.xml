@@ -27,22 +27,22 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.6.0</version>
+	<version>2.6.1</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.2.1.RELEASE</spring-boot.version>
+		<spring-boot.version>2.2.2.RELEASE</spring-boot.version>
 		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>0.1.2</spring-boot-admin.version>
+		<spring-boot-admin.version>2.2.0</spring-boot-admin.version>
 		<hutool.version>5.0.6</hutool.version>
-		<mybatis-plus.version>3.2.0</mybatis-plus.version>
+		<mybatis-plus.version>3.3.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
@@ -70,7 +70,7 @@
 		</dependency>
 		<!--监控客户端-->
 		<dependency>
-			<groupId>com.pig4cloud</groupId>
+			<groupId>de.codecentric</groupId>
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 			<version>${spring-boot-admin.version}</version>
 		</dependency>

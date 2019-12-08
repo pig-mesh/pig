@@ -1,9 +1,5 @@
 <p align="center">
- <img src="https://images.gitee.com/uploads/images/2019/1026/161756_761c41a0_410595.png">
-</p>
-
-  
-<p align="center">
+ <img src="https://img.shields.io/badge/Pig-2.6-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.2-green.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.2.RELEASE-blue.svg" alt="Downloads">
