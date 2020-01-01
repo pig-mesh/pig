@@ -19,7 +19,7 @@ package com.pig4cloud.pig.monitor;
 
 import de.codecentric.boot.admin.server.config.EnableAdminServer;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
  * @author lengleng
@@ -27,7 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 监控中心
  */
 @EnableAdminServer
-@SpringBootApplication
+@SpringCloudApplication
 public class PigMonitorApplication {
 
 	public static void main(String[] args) {
