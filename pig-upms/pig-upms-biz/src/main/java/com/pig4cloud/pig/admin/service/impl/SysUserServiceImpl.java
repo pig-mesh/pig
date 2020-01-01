@@ -24,14 +24,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
-import com.pig4cloud.pig.admin.api.entity.*;
+import com.pig4cloud.pig.admin.api.entity.SysDept;
+import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.admin.api.entity.SysUser;
+import com.pig4cloud.pig.admin.api.entity.SysUserRole;
 import com.pig4cloud.pig.admin.api.vo.MenuVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.SysUserMapper;
 import com.pig4cloud.pig.admin.service.*;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -148,7 +151,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return Boolean
 	 */
 	@Override
-	@CacheEvict(value = "user_details", key = "#sysUser.username")
+	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#sysUser.username")
 	public Boolean removeUserById(SysUser sysUser) {
 		sysUserRoleService.removeRoleByUserId(sysUser.getUserId());
 		this.removeById(sysUser.getUserId());
@@ -156,7 +159,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
-	@CacheEvict(value = "user_details", key = "#userDto.username")
+	@CacheEvict(value =CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 		SysUser sysUser = new SysUser();
@@ -176,7 +179,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
-	@CacheEvict(value = "user_details", key = "#userDto.username")
+	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public Boolean updateUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
@@ -218,21 +221,4 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return this.list(Wrappers.<SysUser>query().lambda()
 			.eq(SysUser::getDeptId, parentId));
 	}
-
-	/**
-	 * 获取当前用户的子部门信息
-	 *
-	 * @return 子部门列表
-	 */
-	private List<Integer> getChildDepts() {
-		Integer deptId = SecurityUtils.getUser().getDeptId();
-		//获取当前部门的子部门
-		return sysDeptRelationService
-			.list(Wrappers.<SysDeptRelation>query().lambda()
-				.eq(SysDeptRelation::getAncestor, deptId))
-			.stream()
-			.map(SysDeptRelation::getDescendant)
-			.collect(Collectors.toList());
-	}
-
 }

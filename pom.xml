@@ -27,28 +27,26 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.6.1</version>
+	<version>2.6.2</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
 		<spring-boot.version>2.2.2.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
+		<spring-cloud.version>Hoxton.SR1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.1.1.RELEASE</spring-cloud-alibaba.version>
 		<spring-platform.version>Cairo-SR8</spring-platform.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.2.0</spring-boot-admin.version>
-		<hutool.version>5.0.6</hutool.version>
+		<spring-boot-admin.version>2.2.1</spring-boot-admin.version>
+		<hutool.version>5.1.0</hutool.version>
 		<mybatis-plus.version>3.3.0</mybatis-plus.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
-		<knife4j.version>1.9.6</knife4j.version>
-		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 	</properties>
 
 	<dependencies>
@@ -134,11 +132,18 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-			<!--稳定版本，替代spring security bom内置-->
+			<!--web 模块-->
 			<dependency>
-				<groupId>org.springframework.security.oauth</groupId>
-				<artifactId>spring-security-oauth2</artifactId>
-				<version>${security.oauth.version}</version>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+				<exclusions>
+					<!--排除tomcat依赖-->
+					<exclusion>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
+						<groupId>org.springframework.boot</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -171,15 +176,6 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<target>${maven.compiler.target}</target>
-					<source>${maven.compiler.source}</source>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>

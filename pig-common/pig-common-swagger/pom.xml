@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-common</artifactId>
-		<version>2.6.1</version>
+		<version>2.6.2</version>
 	</parent>
 
 	<artifactId>pig-common-swagger</artifactId>
@@ -39,12 +39,6 @@
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger2</artifactId>
 			<version>${swagger.fox.version}</version>
-		</dependency>
-		<!--knife4j是为Java MVC框架集成Swagger生成Api文档的增强-->
-		<dependency>
-			<groupId>com.github.xiaoymin</groupId>
-			<artifactId>knife4j-micro-spring-boot-starter</artifactId>
-			<version>${knife4j.version}</version>
 		</dependency>
 	</dependencies>
 </project>

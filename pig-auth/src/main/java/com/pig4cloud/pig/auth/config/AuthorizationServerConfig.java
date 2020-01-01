@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
@@ -81,14 +82,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			.userDetailsService(userDetailsService)
 			.authenticationManager(authenticationManager)
 			.reuseRefreshTokens(false)
+			.pathMapping("/oauth/confirm_access", "/token/confirm_access")
 			.exceptionTranslator(new PigWebResponseExceptionTranslator());
 	}
-
 
 	@Bean
 	public TokenStore tokenStore() {
 		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix(SecurityConstants.PROJECT_PREFIX + SecurityConstants.OAUTH_PREFIX);
+		tokenStore.setPrefix(CacheConstants.PROJECT_OAUTH_ACCESS);
 		return tokenStore;
 	}
 

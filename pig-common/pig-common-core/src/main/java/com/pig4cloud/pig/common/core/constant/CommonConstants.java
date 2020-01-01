@@ -73,4 +73,14 @@ public interface CommonConstants {
 	 * 验证码前缀
 	 */
 	String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY_";
+
+	/**
+	 * 当前页
+	 */
+	String CURRENT = "current";
+
+	/**
+	 * size
+	 */
+	String SIZE = "size";
 }

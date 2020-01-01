@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -53,7 +54,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = "menu_details", key = "#roleId + '_menu'")
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, key = "#roleId + '_menu'")
 	public Boolean saveRoleMenus(String role, Integer roleId, String menuIds) {
 		this.remove(Wrappers.<SysRoleMenu>query().lambda()
 			.eq(SysRoleMenu::getRoleId, roleId));
@@ -71,7 +72,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 			}).collect(Collectors.toList());
 
 		//清空userinfo
-		cacheManager.getCache("user_details").clear();
+		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();
 		return this.saveBatch(roleMenuList);
 	}
 }

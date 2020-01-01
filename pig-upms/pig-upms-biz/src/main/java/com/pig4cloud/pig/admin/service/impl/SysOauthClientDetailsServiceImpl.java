@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.mapper.SysOauthClientDetailsMapper;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
@@ -42,7 +42,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = SecurityConstants.CLIENT_DETAILS_KEY, key = "#id")
+	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#id")
 	public Boolean removeClientDetailsById(String id) {
 		return this.removeById(id);
 	}
@@ -54,7 +54,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = SecurityConstants.CLIENT_DETAILS_KEY, key = "#clientDetails.clientId")
+	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetails.clientId")
 	public Boolean updateClientDetailsById(SysOauthClientDetails clientDetails) {
 		return this.updateById(clientDetails);
 	}

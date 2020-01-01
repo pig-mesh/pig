@@ -31,10 +31,6 @@ public interface SecurityConstants {
 	String PROJECT_PREFIX = "pig_";
 
 	/**
-	 * oauth 相关前缀
-	 */
-	String OAUTH_PREFIX = "oauth:";
-	/**
 	 * 项目的license
 	 */
 	String PROJECT_LICENSE = "made by pig";
@@ -49,10 +45,6 @@ public interface SecurityConstants {
 	 */
 	String FROM = "from";
 
-	/**
-	 * 手机号登录URL
-	 */
-	String MOBILE_TOKEN_URL = "/mobile/token";
 
 	/**
 	 * 默认登录URL
@@ -63,11 +55,6 @@ public interface SecurityConstants {
 	 * grant_type
 	 */
 	String REFRESH_TOKEN = "refresh_token";
-
-	/**
-	 * oauth 客户端信息
-	 */
-	String CLIENT_DETAILS_KEY = PROJECT_PREFIX + OAUTH_PREFIX + "client:details";
 
 	/**
 	 * {bcrypt} 加密的特征码

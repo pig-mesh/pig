@@ -25,7 +25,7 @@ import com.pig4cloud.pig.admin.api.vo.MenuVO;
 import com.pig4cloud.pig.admin.mapper.SysMenuMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysMenuService;
-import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -49,14 +49,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	private final SysRoleMenuMapper sysRoleMenuMapper;
 
 	@Override
-	@Cacheable(value = "menu_details", key = "#roleId  + '_menu'")
+	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId  + '_menu'")
 	public List<MenuVO> getMenuByRoleId(Integer roleId) {
 		return baseMapper.listMenusByRoleId(roleId);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	public R removeMenuById(Integer id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query()
@@ -74,7 +74,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	}
 
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	public Boolean updateMenuById(SysMenu sysMenu) {
 		return this.updateById(sysMenu);
 	}

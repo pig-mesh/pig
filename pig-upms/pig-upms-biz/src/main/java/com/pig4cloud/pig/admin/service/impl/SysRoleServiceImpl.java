@@ -23,6 +23,7 @@ import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleService;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = "menu_details", allEntries = true)
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeRoleById(Integer id) {
 		sysRoleMenuMapper.delete(Wrappers
