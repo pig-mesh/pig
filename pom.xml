@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
-		<version>Hoxton.RELEASE</version>
+		<version>Hoxton.SR1</version>
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>

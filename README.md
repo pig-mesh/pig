@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.6-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Avue-2.2-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxton-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Avue-2.3-green.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR1-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.2.RELEASE-blue.svg" alt="Downloads">
 </p>
    
@@ -11,7 +11,7 @@
 - 提供 lambda 、stream api 、webflux 的生产实践   
 
 
-<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="https://gitee.com/log4j/pig/releases/v1.3.2"> 1.0  版本</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://pig4cloud.com/images/20190918.pdf"> PigX白皮书</a>
+<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://pig4cloud.com/images/20190918.pdf"> PigX白皮书</a>
     
 
 #### 快速构架微服务应用  
@@ -37,7 +37,7 @@ Spring Cloud | Hoxton.SR1
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.0
 hutool | 5.1.0
-Avue | 2.2.0
+Avue | 2.3.5
    
 
 
