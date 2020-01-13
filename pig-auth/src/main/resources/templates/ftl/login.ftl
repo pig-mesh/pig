@@ -10,8 +10,8 @@
 
     <title>PigX微服务统一认证</title>
 
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/signin.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/signin.css" rel="stylesheet">
 </head>
 
 <body class="sign_body">

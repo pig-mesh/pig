@@ -24,6 +24,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -55,6 +56,11 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 				"/mobile/**").permitAll()
 			.anyRequest().authenticated()
 			.and().csrf().disable();
+	}
+
+	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/css/**");
 	}
 
 	@Bean
