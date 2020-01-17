@@ -10,6 +10,6 @@ WORKDIR /pig-gateway
 
 EXPOSE 9999
 
-ADD ./pig-gateway/target/pig-gateway.jar ./
+ADD ./target/pig-gateway.jar ./
 
 CMD sleep 60;java -Djava.security.egd=file:/dev/./urandom -jar pig-gateway.jar

@@ -10,6 +10,6 @@ WORKDIR /pigx-upms
 
 EXPOSE 4000
 
-ADD ./pig-upms/pig-upms-biz/target/pig-upms-biz.jar ./
+ADD ./target/pig-upms-biz.jar ./
 
 CMD sleep 60;java -Djava.security.egd=file:/dev/./urandom -jar pig-upms-biz.jar
