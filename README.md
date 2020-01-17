@@ -32,11 +32,11 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.2.2.RELEASE  
+Spring Boot |  2.2.3.RELEASE  
 Spring Cloud | Hoxton.SR1   
 Spring Security OAuth2 | 2.3.6
-Mybatis Plus | 3.3.0
-hutool | 5.1.0
+Mybatis Plus | 3.3.1
+hutool | 5.1.1
 Avue | 2.3.5
    
 
