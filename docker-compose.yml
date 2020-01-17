@@ -2,8 +2,7 @@ version: '2'
 services:
   pig-mysql:
     build:
-      context: ./
-      dockerfile: ./db/Dockerfile
+      context: ./db
     environment:
       MYSQL_ROOT_PASSWORD: root
     restart: always
@@ -22,8 +21,7 @@ services:
 
   pig-register:
     build:
-      context: ./
-      dockerfile: ./pig-register/Dockerfile
+      context: ./pig-register
     restart: always
     ports:
       - 8848:8848
@@ -33,8 +31,7 @@ services:
 
   pig-gateway:
     build:
-      context: ./
-      dockerfile: ./pig-gateway/Dockerfile
+      context: ./pig-gateway
     restart: always
     ports:
       - 9999:9999
@@ -44,8 +41,7 @@ services:
 
   pig-auth:
     build:
-      context: ./
-      dockerfile: ./pig-auth/Dockerfile
+      context: ./pig-auth
     restart: always
     container_name: pig-auth
     hostname: pig-auth
@@ -53,8 +49,7 @@ services:
 
   pig-upms:
     build:
-      context: ./
-      dockerfile: ./pig-upms/pig-upms-biz/Dockerfile
+      context: ./pig-upms/pig-upms-biz
     restart: always
     container_name: pig-upms
     hostname: pig-upms
@@ -62,8 +57,7 @@ services:
 
   pig-monitor:
     build:
-      context: ./
-      dockerfile: ./pig-monitor/Dockerfile
+      context: ./pig-monitor
     restart: always
     ports:
       - 5001:5001
@@ -73,8 +67,7 @@ services:
 
   pig-codegen:
     build:
-      context: ./
-      dockerfile: ./pig-codegen/Dockerfile
+      context: ./pig-codegen
     restart: always
     container_name: pig-codegen
     hostname: pig-codegen

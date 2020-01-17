@@ -48,6 +48,12 @@
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
+		<docker.registry>http://172.17.0.111:2375</docker.registry>
+		<docker.host>172.17.0.111</docker.host>
+		<docker.namespace>library</docker.namespace>
+		<docker.username>admin</docker.username>
+		<docker.password>Harbor12345</docker.password>
+		<docker.plugin.version>0.32.0</docker.plugin.version>
 	</properties>
 
 	<dependencies>
@@ -179,6 +185,29 @@
 							</goals>
 						</execution>
 					</executions>
+				</plugin>
+				<plugin>
+					<groupId>io.fabric8</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>${docker.plugin.version}</version>
+					<configuration>
+						<dockerHost>${docker.host}</dockerHost>
+						<registry>${docker.registry}</registry>
+						<authConfig>
+							<push>
+								<username>${docker.username}</username>
+								<password>${docker.password}</password>
+							</push>
+						</authConfig>
+						<images>
+							<image>
+								<name>${docker.host}/${docker.namespace}/${project.name}:${project.version}</name>
+								<build>
+									<dockerFile>${project.basedir}/Dockerfile</dockerFile>
+								</build>
+							</image>
+						</images>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

@@ -10,6 +10,6 @@ WORKDIR /pig-codegen
 
 EXPOSE 5003
 
-ADD ./pig-codegen/target/pig-codegen.jar ./
+ADD ./target/pig-codegen.jar ./
 
 CMD sleep 60;java -Djava.security.egd=file:/dev/./urandom -jar pig-codegen.jar
