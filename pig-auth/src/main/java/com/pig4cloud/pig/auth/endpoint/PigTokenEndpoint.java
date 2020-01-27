@@ -120,9 +120,21 @@ public class PigTokenEndpoint {
 		}
 
 		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
-		OAuth2AccessToken accessToken = tokenStore.readAccessToken(tokenValue);
+		return removeToken(tokenValue);
+	}
+
+	/**
+	 * 令牌管理调用
+	 *
+	 * @param token token
+	 * @param from  内部调用标志
+	 */
+	@Inner
+	@DeleteMapping("/{token}")
+	public R<Boolean> removeToken(@PathVariable("token") String token) {
+		OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-			return R.ok(Boolean.TRUE, "退出失败，token 无效");
+			return R.failed("删除失败，token 无效");
 		}
 
 		OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(accessToken);
@@ -136,19 +148,7 @@ public class PigTokenEndpoint {
 		// 清空 refresh token
 		OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
 		tokenStore.removeRefreshToken(refreshToken);
-		return R.ok(Boolean.TRUE);
-	}
-
-	/**
-	 * 令牌管理调用
-	 *
-	 * @param token token
-	 * @param from  内部调用标志
-	 */
-	@Inner
-	@DeleteMapping("/{token}")
-	public R<Boolean> removeToken(@PathVariable("token") String token) {
-		return R.ok(redisTemplate.delete(CacheConstants.PROJECT_OAUTH_ACCESS + token));
+		return R.ok();
 	}
 
 
@@ -162,15 +162,15 @@ public class PigTokenEndpoint {
 	@PostMapping("/page")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
 		//根据分页参数获取对应数据
-		List<String> pages = findKeysForPage(CacheConstants.PROJECT_OAUTH_ACCESS
-			, MapUtil.getInt(params, CommonConstants.CURRENT)
+		String key = String.format("%sauth_to_access:*", CacheConstants.PROJECT_OAUTH_ACCESS);
+		List<String> pages = findKeysForPage(key, MapUtil.getInt(params, CommonConstants.CURRENT)
 			, MapUtil.getInt(params, CommonConstants.SIZE));
 
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 		Page result = new Page(MapUtil.getInt(params, CommonConstants.CURRENT), MapUtil.getInt(params, CommonConstants.SIZE));
 		result.setRecords(redisTemplate.opsForValue().multiGet(pages));
-		result.setTotal((long) redisTemplate.keys(CacheConstants.PROJECT_OAUTH_ACCESS).size());
+		result.setTotal((long) redisTemplate.keys(key).size());
 		return R.ok(result);
 	}
 
