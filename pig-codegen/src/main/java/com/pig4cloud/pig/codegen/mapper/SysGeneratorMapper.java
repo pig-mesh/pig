@@ -18,6 +18,7 @@ package com.pig4cloud.pig.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.Map;
  * @author lengleng
  * @date 2019/2/1
  */
+@Mapper
 public interface SysGeneratorMapper {
 
 	/**

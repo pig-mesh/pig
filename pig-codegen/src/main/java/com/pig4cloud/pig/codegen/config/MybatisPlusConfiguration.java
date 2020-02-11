@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.admin.config;
+package com.pig4cloud.pig.codegen.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.pig4cloud.pig.common.core.mybatis.DataScopeInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,8 +25,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2019/2/1
  */
 @Configuration
-@MapperScan("com.pig4cloud.pig.admin.mapper")
-public class MybatisPlusConfigurer {
+public class MybatisPlusConfiguration {
 	/**
 	 * 分页插件
 	 *
@@ -38,15 +35,4 @@ public class MybatisPlusConfigurer {
 	public PaginationInterceptor paginationInterceptor() {
 		return new PaginationInterceptor();
 	}
-
-	/**
-	 * 数据权限插件
-	 *
-	 * @return DataScopeInterceptor
-	 */
-	@Bean
-	public DataScopeInterceptor dataScopeInterceptor() {
-		return new DataScopeInterceptor();
-	}
-
 }
