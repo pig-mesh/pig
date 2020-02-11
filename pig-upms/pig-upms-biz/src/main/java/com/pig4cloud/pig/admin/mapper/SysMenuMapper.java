@@ -19,6 +19,7 @@ package com.pig4cloud.pig.admin.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.api.vo.MenuVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ import java.util.List;
  * @author lengleng
  * @since 2019/2/1
  */
+@Mapper
 public interface SysMenuMapper extends BaseMapper<SysMenu> {
 
 	/**

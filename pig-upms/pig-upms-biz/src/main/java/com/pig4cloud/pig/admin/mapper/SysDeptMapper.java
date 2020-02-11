@@ -18,6 +18,7 @@ package com.pig4cloud.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ import java.util.List;
  * @author lengleng
  * @since 2019/2/1
  */
+@Mapper
 public interface SysDeptMapper extends BaseMapper<SysDept> {
 
 	/**
