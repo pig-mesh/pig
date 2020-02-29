@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.6.4</version>
+		<version>2.6.5</version>
 	</parent>
 
 	<artifactId>pig-codegen</artifactId>
@@ -35,7 +35,7 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-swagger</artifactId>
-			<version>2.6.4</version>
+			<version>2.6.5</version>
 		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
@@ -61,13 +61,13 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
-			<version>2.6.4</version>
+			<version>2.6.5</version>
 		</dependency>
 		<!--安全模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-security</artifactId>
-			<version>2.6.4</version>
+			<version>2.6.5</version>
 		</dependency>
 		<!--代码生成模板引擎-->
 		<dependency>
