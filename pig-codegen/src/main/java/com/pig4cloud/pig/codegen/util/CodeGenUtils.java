@@ -120,8 +120,7 @@ public class CodeGenUtils {
 		String className = tableToJava(tableEntity.getTableName(), tablePrefix);
 		tableEntity.setCaseClassName(className);
 		tableEntity.setLowerClassName(StringUtils.uncapitalize(className));
-		//获取需要在swagger文档中隐藏的属性字段
-		List<Object> hiddenColumns = config.getList("hiddenColumn");
+
 		//列信息
 		List<ColumnEntity> columnList = new ArrayList<>();
 		for (Map<String, String> column : columns) {
@@ -132,12 +131,7 @@ public class CodeGenUtils {
 			columnEntity.setExtra(column.get("extra"));
 			columnEntity.setNullable("NO".equals(column.get("isNullable")));
 			columnEntity.setColumnType(column.get("columnType"));
-			//隐藏不需要的在接口文档中展示的字段
-			if (hiddenColumns.contains(column.get("columnName"))) {
-				columnEntity.setHidden(Boolean.TRUE);
-			} else {
-				columnEntity.setHidden(Boolean.FALSE);
-			}
+			columnEntity.setHidden(Boolean.FALSE);
 			//列名转换成Java属性名
 			String attrName = columnToJava(columnEntity.getColumnName());
 			columnEntity.setCaseAttrName(attrName);

@@ -72,9 +72,4 @@ public class GenDatasourceConf extends Model<GenDatasourceConf> {
 	 */
 	@TableLogic
 	private String delFlag;
-	/**
-	 * 租户ID
-	 */
-	private Integer tenantId;
-
 }

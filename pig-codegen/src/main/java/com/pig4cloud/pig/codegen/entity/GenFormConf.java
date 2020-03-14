@@ -72,9 +72,4 @@ public class GenFormConf extends Model<GenFormConf> {
 	 */
 	@ApiModelProperty(value = "删除标记")
 	private String delFlag;
-	/**
-	 * 所属租户
-	 */
-	@ApiModelProperty(value = "所属租户", hidden = true)
-	private Integer tenantId;
 }

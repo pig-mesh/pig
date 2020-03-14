@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.mapper.GenDatasourceConfMapper;
+import com.pig4cloud.pig.common.datasource.support.DataSourceConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
@@ -123,6 +124,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUrl(conf.getUrl());
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
+		dataSourceProperty.setDriverClassName(DataSourceConstants.DS_DRIVER);
 		DataSource dataSource = dataSourceCreator.createDataSource(dataSourceProperty);
 		dynamicRoutingDataSource.addDataSource(dataSourceProperty.getPollName(), dataSource);
 	}
