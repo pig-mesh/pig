@@ -1,17 +1,19 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
- *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  <p>
- * https://www.gnu.org/licenses/lgpl.html
- *  <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *
+ *  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  *  <p>
+ *  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+ *  *  you may not use this file except in compliance with the License.
+ *  *  You may obtain a copy of the License at
+ *  *  <p>
+ *  * https://www.gnu.org/licenses/lgpl.html
+ *  *  <p>
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
  */
 
 package com.pig4cloud.pig.admin.service.impl;
@@ -64,7 +66,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final SysRoleService sysRoleService;
 	private final SysDeptService sysDeptService;
 	private final SysUserRoleService sysUserRoleService;
-	private final SysDeptRelationService sysDeptRelationService;
 
 	/**
 	 * 保存用户信息
@@ -101,7 +102,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		UserInfo userInfo = new UserInfo();
 		userInfo.setSysUser(sysUser);
 		//设置角色列表  （ID）
-		List<Integer> roleIds = sysRoleService.listRolesByUserId(sysUser.getUserId())
+		List<Integer> roleIds = sysRoleService.findRolesByUserId(sysUser.getUserId())
 			.stream()
 			.map(SysRole::getRoleId)
 			.collect(Collectors.toList());
@@ -110,7 +111,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		//设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
-			List<String> permissionList = sysMenuService.getMenuByRoleId(roleId)
+			List<String> permissionList = sysMenuService.findMenuByRoleId(roleId)
 				.stream()
 				.filter(menuVo -> StringUtils.isNotEmpty(menuVo.getPermission()))
 				.map(MenuVO::getPermission)
@@ -159,7 +160,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
-	@CacheEvict(value =CacheConstants.USER_DETAILS, key = "#userDto.username")
+	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 		SysUser sysUser = new SysUser();

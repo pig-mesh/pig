@@ -1,17 +1,19 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
- *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  <p>
- * https://www.gnu.org/licenses/lgpl.html
- *  <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *
+ *  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  *  <p>
+ *  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+ *  *  you may not use this file except in compliance with the License.
+ *  *  You may obtain a copy of the License at
+ *  *  <p>
+ *  * https://www.gnu.org/licenses/lgpl.html
+ *  *  <p>
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
  */
 
 package com.pig4cloud.pig.auth.endpoint;
@@ -21,7 +23,6 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
@@ -116,7 +117,7 @@ public class PigTokenEndpoint {
 	@DeleteMapping("/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
-			return R.failed("退出失败，token 为空");
+			return R.ok();
 		}
 
 		String tokenValue = authHeader.replace(OAuth2AccessToken.BEARER_TYPE, StrUtil.EMPTY).trim();
@@ -127,14 +128,13 @@ public class PigTokenEndpoint {
 	 * 令牌管理调用
 	 *
 	 * @param token token
-	 * @param from  内部调用标志
 	 */
 	@Inner
 	@DeleteMapping("/{token}")
 	public R<Boolean> removeToken(@PathVariable("token") String token) {
 		OAuth2AccessToken accessToken = tokenStore.readAccessToken(token);
 		if (accessToken == null || StrUtil.isBlank(accessToken.getValue())) {
-			return R.failed("删除失败，token 无效");
+			return R.ok();
 		}
 
 		OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(accessToken);
@@ -170,7 +170,7 @@ public class PigTokenEndpoint {
 		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 		Page result = new Page(MapUtil.getInt(params, CommonConstants.CURRENT), MapUtil.getInt(params, CommonConstants.SIZE));
 		result.setRecords(redisTemplate.opsForValue().multiGet(pages));
-		result.setTotal((long) redisTemplate.keys(key).size());
+		result.setTotal(redisTemplate.keys(key).size());
 		return R.ok(result);
 	}
 

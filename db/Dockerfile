@@ -1,9 +1,13 @@
-FROM mysql:5.7
+FROM mysql:8.0.19
 
 MAINTAINER lengleng(wangiegie@gmail.com)
 
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+ENV TZ=Asia/Shanghai
+
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY ./pig.sql /docker-entrypoint-initdb.d
+
+COPY ./pig_codegen.sql /docker-entrypoint-initdb.d
 
 COPY ./pig_config.sql /docker-entrypoint-initdb.d

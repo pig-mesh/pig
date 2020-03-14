@@ -9,10 +9,12 @@ end_of_line = lf
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+# 对java, xml文件生效
 [*.{java, xml}]
 indent_style = tab
 indent_size = 4
 
+# 对yml, json文件生效
 [*.{yml, json}]
 indent_style = space
 indent_size = 2

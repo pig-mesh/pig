@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
-  ~  <p>
-  ~  Licensed under the GNU Lesser General Public License 3.0 (the "License");
-  ~  you may not use this file except in compliance with the License.
-  ~  You may obtain a copy of the License at
-  ~  <p>
-  ~ https://www.gnu.org/licenses/lgpl.html
-  ~  <p>
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ /*
+  ~  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+  ~  *  <p>
+  ~  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+  ~  *  you may not use this file except in compliance with the License.
+  ~  *  You may obtain a copy of the License at
+  ~  *  <p>
+  ~  * https://www.gnu.org/licenses/lgpl.html
+  ~  *  <p>
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -25,8 +27,6 @@
 		<result column="salt" property="salt"/>
 		<result column="phone" property="phone"/>
 		<result column="avatar" property="avatar"/>
-		<result column="wx_openid" property="wxOpenid"/>
-		<result column="qq_openid" property="qqOpenid"/>
 		<result column="ucreate_time" property="createTime"/>
 		<result column="uupdate_time" property="updateTime"/>
 		<result column="lock_flag" property="lockFlag"/>
@@ -46,8 +46,6 @@
 		<result column="salt" property="salt"/>
 		<result column="phone" property="phone"/>
 		<result column="avatar" property="avatar"/>
-		<result column="wx_openid" property="wxOpenid"/>
-		<result column="qq_openid" property="qqOpenid"/>
 		<result column="ucreate_time" property="createTime"/>
 		<result column="uupdate_time" property="updateTime"/>
 		<result column="lock_flag" property="lockFlag"/>
@@ -71,8 +69,6 @@
 		`user`.salt,
 		`user`.phone,
 		`user`.avatar,
-		`user`.wx_openid,
-		`user`.qq_openid,
 		`user`.dept_id,
 		`user`.create_time AS ucreate_time,
 		`user`.update_time AS uupdate_time,
@@ -94,8 +90,6 @@
 		`user`.salt,
 		`user`.phone,
 		`user`.avatar,
-		`user`.wx_openid,
-		`user`.qq_openid,
 		`user`.create_time AS ucreate_time,
 		`user`.update_time AS uupdate_time,
 		`user`.del_flag AS udel_flag,
@@ -140,8 +134,6 @@
 		`user`.salt,
 		`user`.phone,
 		`user`.avatar,
-		`user`.wx_openid,
-		`user`.qq_openid,
 		`user`.dept_id,
 		`user`.create_time AS ucreate_time,
 		`user`.update_time AS uupdate_time,

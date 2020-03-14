@@ -10,7 +10,7 @@ RUN mkdir -p /pig-codegen
 
 WORKDIR /pig-codegen
 
-EXPOSE 5003
+EXPOSE 5002
 
 ADD ./target/pig-codegen.jar ./
 

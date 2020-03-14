@@ -1,17 +1,19 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
- *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  <p>
- * https://www.gnu.org/licenses/lgpl.html
- *  <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *
+ *  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  *  <p>
+ *  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+ *  *  you may not use this file except in compliance with the License.
+ *  *  You may obtain a copy of the License at
+ *  *  <p>
+ *  * https://www.gnu.org/licenses/lgpl.html
+ *  *  <p>
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
  */
 
 package com.pig4cloud.pig.codegen.util;
@@ -22,9 +24,11 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.codegen.entity.ColumnEntity;
 import com.pig4cloud.pig.codegen.entity.GenConfig;
+import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.entity.TableEntity;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
+import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.Configuration;
@@ -37,33 +41,40 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器   工具类
+ * copy ruoyi-generator/src/main/java/com/ruoyi/generator/util/GenUtils.java
  *
+ * @author ruoyi
  * @author lengleng
- * @date 2019/2/1
+ * @date 2020-03-13
  */
 @Slf4j
 @UtilityClass
-public class GenUtils {
+public class CodeGenUtils {
+	public final String CRUD_PREFIX = "export const tableOption =";
+	private final String ENTITY_JAVA_VM = "Entity.java.vm";
+	private final String MAPPER_JAVA_VM = "Mapper.java.vm";
+	private final String SERVICE_JAVA_VM = "Service.java.vm";
+	private final String SERVICE_IMPL_JAVA_VM = "ServiceImpl.java.vm";
+	private final String CONTROLLER_JAVA_VM = "Controller.java.vm";
+	private final String MAPPER_XML_VM = "Mapper.xml.vm";
+	private final String MENU_SQL_VM = "menu.sql.vm";
+	private final String AVUE_INDEX_VUE_VM = "avue/index.vue.vm";
+	private final String AVUE_API_JS_VM = "avue/api.js.vm";
+	private final String AVUE_CRUD_JS_VM = "avue/crud.js.vm";
 
-	private static final String ENTITY_JAVA_VM = "Entity.java.vm";
-	private static final String MAPPER_JAVA_VM = "Mapper.java.vm";
-	private static final String SERVICE_JAVA_VM = "Service.java.vm";
-	private static final String SERVICE_IMPL_JAVA_VM = "ServiceImpl.java.vm";
-	private static final String CONTROLLER_JAVA_VM = "Controller.java.vm";
-	private static final String MAPPER_XML_VM = "Mapper.xml.vm";
-	private static final String MENU_SQL_VM = "menu.sql.vm";
-	private static final String INDEX_VUE_VM = "index.vue.vm";
-	private static final String API_JS_VM = "api.js.vm";
-	private static final String CRUD_JS_VM = "crud.js.vm";
-
+	/**
+	 * 配置
+	 *
+	 * @return
+	 */
 	private List<String> getTemplates() {
 		List<String> templates = new ArrayList<>();
 		templates.add("template/Entity.java.vm");
@@ -73,18 +84,18 @@ public class GenUtils {
 		templates.add("template/ServiceImpl.java.vm");
 		templates.add("template/Controller.java.vm");
 		templates.add("template/menu.sql.vm");
-
-		templates.add("template/index.vue.vm");
-		templates.add("template/api.js.vm");
-		templates.add("template/crud.js.vm");
+		templates.add("template/avue/api.js.vm");
+		templates.add("template/avue/index.vue.vm");
+		templates.add("template/avue/crud.js.vm");
 		return templates;
 	}
 
 	/**
 	 * 生成代码
 	 */
+	@SneakyThrows
 	public void generatorCode(GenConfig genConfig, Map<String, String> table,
-									 List<Map<String, String>> columns, ZipOutputStream zip) {
+							  List<Map<String, String>> columns, ZipOutputStream zip, GenFormConf formConf) {
 		//配置信息
 		Configuration config = getConfig();
 		boolean hasBigDecimal = false;
@@ -109,7 +120,8 @@ public class GenUtils {
 		String className = tableToJava(tableEntity.getTableName(), tablePrefix);
 		tableEntity.setCaseClassName(className);
 		tableEntity.setLowerClassName(StringUtils.uncapitalize(className));
-
+		//获取需要在swagger文档中隐藏的属性字段
+		List<Object> hiddenColumns = config.getList("hiddenColumn");
 		//列信息
 		List<ColumnEntity> columnList = new ArrayList<>();
 		for (Map<String, String> column : columns) {
@@ -118,7 +130,14 @@ public class GenUtils {
 			columnEntity.setDataType(column.get("dataType"));
 			columnEntity.setComments(column.get("columnComment"));
 			columnEntity.setExtra(column.get("extra"));
-
+			columnEntity.setNullable("NO".equals(column.get("isNullable")));
+			columnEntity.setColumnType(column.get("columnType"));
+			//隐藏不需要的在接口文档中展示的字段
+			if (hiddenColumns.contains(column.get("columnName"))) {
+				columnEntity.setHidden(Boolean.TRUE);
+			} else {
+				columnEntity.setHidden(Boolean.FALSE);
+			}
 			//列名转换成Java属性名
 			String attrName = columnToJava(columnEntity.getColumnName());
 			columnEntity.setCaseAttrName(attrName);
@@ -189,22 +208,29 @@ public class GenUtils {
 		//获取模板列表
 		List<String> templates = getTemplates();
 		for (String template : templates) {
+			// 如果是crud
+			if (template.contains(AVUE_CRUD_JS_VM) && formConf != null) {
+				zip.putNextEntry(new ZipEntry(Objects
+					.requireNonNull(getFileName(template, tableEntity.getCaseClassName()
+						, map.get("package").toString(), map.get("moduleName").toString()))));
+				IoUtil.write(zip, StandardCharsets.UTF_8, false, CRUD_PREFIX + formConf.getFormInfo());
+				zip.closeEntry();
+				continue;
+			}
+
+
 			//渲染模板
 			StringWriter sw = new StringWriter();
 			Template tpl = Velocity.getTemplate(template, CharsetUtil.UTF_8);
 			tpl.merge(context, sw);
 
-			try {
-				//添加到zip
-				zip.putNextEntry(new ZipEntry(Objects
-					.requireNonNull(getFileName(template, tableEntity.getCaseClassName()
-						, map.get("package").toString(), map.get("moduleName").toString()))));
-				IoUtil.write(zip, CharsetUtil.UTF_8, false, sw.toString());
-				IoUtil.close(sw);
-				zip.closeEntry();
-			} catch (IOException e) {
-				throw new CheckedException("渲染模板失败，表名：" + tableEntity.getTableName(), e);
-			}
+			//添加到zip
+			zip.putNextEntry(new ZipEntry(Objects
+				.requireNonNull(getFileName(template, tableEntity.getCaseClassName()
+					, map.get("package").toString(), map.get("moduleName").toString()))));
+			IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
+			IoUtil.close(sw);
+			zip.closeEntry();
 		}
 	}
 
@@ -212,7 +238,7 @@ public class GenUtils {
 	/**
 	 * 列名转换成Java属性名
 	 */
-	private String columnToJava(String columnName) {
+	public String columnToJava(String columnName) {
 		return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
 	}
 
@@ -221,7 +247,7 @@ public class GenUtils {
 	 */
 	private String tableToJava(String tableName, String tablePrefix) {
 		if (StringUtils.isNotBlank(tablePrefix)) {
-			tableName = tableName.replace(tablePrefix, "");
+			tableName = tableName.replaceFirst(tablePrefix, "");
 		}
 		return columnToJava(tableName);
 	}
@@ -241,7 +267,9 @@ public class GenUtils {
 	 * 获取文件名
 	 */
 	private String getFileName(String template, String className, String packageName, String moduleName) {
-		String packagePath = CommonConstants.BACK_END_PROJECT + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator;
+		String packagePath = CommonConstants.BACK_END_PROJECT + File.separator + "src"
+			+ File.separator + "main" + File.separator + "java" + File.separator;
+
 		if (StringUtils.isNotBlank(packageName)) {
 			packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
 		}
@@ -267,25 +295,27 @@ public class GenUtils {
 		}
 
 		if (template.contains(MAPPER_XML_VM)) {
-			return CommonConstants.BACK_END_PROJECT + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
+			return CommonConstants.BACK_END_PROJECT + File.separator + "src" + File.separator + "main"
+				+ File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
 		}
 
 		if (template.contains(MENU_SQL_VM)) {
 			return className.toLowerCase() + "_menu.sql";
 		}
 
-		if (template.contains(INDEX_VUE_VM)) {
+		if (template.contains(AVUE_INDEX_VUE_VM)) {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "views" +
 				File.separator + moduleName + File.separator + className.toLowerCase() + File.separator + "index.vue";
 		}
 
-		if (template.contains(API_JS_VM)) {
-			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "api" + File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
+		if (template.contains(AVUE_API_JS_VM)) {
+			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "api"
+				+ File.separator + className.toLowerCase() + ".js";
 		}
 
-		if (template.contains(CRUD_JS_VM)) {
-			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "const" +
-				File.separator + "crud" + File.separator + moduleName + File.separator + className.toLowerCase() + ".js";
+		if (template.contains(AVUE_CRUD_JS_VM)) {
+			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "const"
+				+ File.separator + "crud" + File.separator + className.toLowerCase() + ".js";
 		}
 
 		return null;

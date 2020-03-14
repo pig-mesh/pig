@@ -1,17 +1,19 @@
 /*
- *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
- *  <p>
- *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  <p>
- * https://www.gnu.org/licenses/lgpl.html
- *  <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ *
+ *  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  *  <p>
+ *  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+ *  *  you may not use this file except in compliance with the License.
+ *  *  You may obtain a copy of the License at
+ *  *  <p>
+ *  * https://www.gnu.org/licenses/lgpl.html
+ *  *  <p>
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
+ *
  */
 
 package com.pig4cloud.pig.admin.controller;
@@ -21,9 +23,13 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysDict;
+import com.pig4cloud.pig.admin.api.entity.SysDictItem;
+import com.pig4cloud.pig.admin.service.SysDictItemService;
 import com.pig4cloud.pig.admin.service.SysDictService;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -38,12 +44,14 @@ import javax.validation.Valid;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2019-03-19
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dict")
+@Api(value = "dict", tags = "字典管理模块")
 public class DictController {
+	private final SysDictItemService sysDictItemService;
 	private final SysDictService sysDictService;
 
 	/**
@@ -75,11 +83,11 @@ public class DictController {
 	 * @return 同类型字典
 	 */
 	@GetMapping("/type/{type}")
-	@Cacheable(value = "dict_details", key = "#type")
+	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#type")
 	public R getDictByType(@PathVariable String type) {
-		return R.ok(sysDictService.list(Wrappers
-			.<SysDict>query().lambda()
-			.eq(SysDict::getType, type)));
+		return R.ok(sysDictItemService.list(Wrappers
+			.<SysDictItem>query().lambda()
+			.eq(SysDictItem::getType, type)));
 	}
 
 	/**
@@ -90,7 +98,6 @@ public class DictController {
 	 */
 	@SysLog("添加字典")
 	@PostMapping
-	@CacheEvict(value = "dict_details", key = "#sysDict.type")
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
 	public R save(@Valid @RequestBody SysDict sysDict) {
 		return R.ok(sysDictService.save(sysDict));
@@ -99,16 +106,14 @@ public class DictController {
 	/**
 	 * 删除字典，并且清除字典缓存
 	 *
-	 * @param id   ID
-	 * @param type 类型
+	 * @param id ID
 	 * @return R
 	 */
 	@SysLog("删除字典")
-	@DeleteMapping("/{id}/{type}")
-	@CacheEvict(value = "dict_details", key = "#type")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	public R removeById(@PathVariable Integer id, @PathVariable String type) {
-		return R.ok(sysDictService.removeById(id));
+	public R removeById(@PathVariable Integer id) {
+		return sysDictService.removeDict(id);
 	}
 
 	/**
@@ -119,9 +124,69 @@ public class DictController {
 	 */
 	@PutMapping
 	@SysLog("修改字典")
-	@CacheEvict(value = "dict_details", key = "#sysDict.type")
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	public R updateById(@Valid @RequestBody SysDict sysDict) {
-		return R.ok(sysDictService.updateById(sysDict));
+		return sysDictService.updateDict(sysDict);
+	}
+
+	/**
+	 * 分页查询
+	 *
+	 * @param page        分页对象
+	 * @param sysDictItem 字典项
+	 * @return
+	 */
+	@GetMapping("/item/page")
+	public R getSysDictItemPage(Page page, SysDictItem sysDictItem) {
+		return R.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
+	}
+
+
+	/**
+	 * 通过id查询字典项
+	 *
+	 * @param id id
+	 * @return R
+	 */
+	@GetMapping("/item/{id}")
+	public R getDictItemById(@PathVariable("id") Integer id) {
+		return R.ok(sysDictItemService.getById(id));
+	}
+
+	/**
+	 * 新增字典项
+	 *
+	 * @param sysDictItem 字典项
+	 * @return R
+	 */
+	@SysLog("新增字典项")
+	@PostMapping("/item")
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	public R save(@RequestBody SysDictItem sysDictItem) {
+		return R.ok(sysDictItemService.save(sysDictItem));
+	}
+
+	/**
+	 * 修改字典项
+	 *
+	 * @param sysDictItem 字典项
+	 * @return R
+	 */
+	@SysLog("修改字典项")
+	@PutMapping("/item")
+	public R updateById(@RequestBody SysDictItem sysDictItem) {
+		return sysDictItemService.updateDictItem(sysDictItem);
+	}
+
+	/**
+	 * 通过id删除字典项
+	 *
+	 * @param id id
+	 * @return R
+	 */
+	@SysLog("删除字典项")
+	@DeleteMapping("/item/{id}")
+	public R removeDictItemById(@PathVariable Integer id) {
+		return sysDictItemService.removeDictItem(id);
 	}
 }
