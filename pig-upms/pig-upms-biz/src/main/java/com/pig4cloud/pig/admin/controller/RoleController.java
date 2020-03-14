@@ -21,10 +21,12 @@ package com.pig4cloud.pig.admin.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.admin.api.vo.RoleVo;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,7 @@ import javax.validation.Valid;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")
+@Api(value = "role", tags = "角色管理模块")
 public class RoleController {
 	private final SysRoleService sysRoleService;
 	private final SysRoleMenuService sysRoleMenuService;
@@ -116,15 +119,15 @@ public class RoleController {
 	/**
 	 * 更新角色菜单
 	 *
-	 * @param roleId  角色ID
-	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
+	 * @param roleVo 角色对象
 	 * @return success、false
 	 */
 	@SysLog("更新角色菜单")
 	@PutMapping("/menu")
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
-	public R saveRoleMenus(Integer roleId, @RequestParam(value = "menuIds", required = false) String menuIds) {
-		SysRole sysRole = sysRoleService.getById(roleId);
-		return R.ok(sysRoleMenuService.saveRoleMenus(sysRole.getRoleCode(), roleId, menuIds));
+	public R saveRoleMenus(@RequestBody RoleVo roleVo) {
+		SysRole sysRole = sysRoleService.getById(roleVo.getRoleId());
+		return R.ok(sysRoleMenuService.saveRoleMenus(sysRole.getRoleCode()
+			, roleVo.getRoleId(), roleVo.getMenuIds()));
 	}
 }

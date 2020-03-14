@@ -212,7 +212,7 @@ INSERT INTO `sys_menu` VALUES (2403, '客户端删除', 'sys_client_del', NULL, 
 INSERT INTO `sys_menu` VALUES (2500, '服务监控', NULL, 'http://127.0.0.1:5001', 2000, 'icon-server', NULL, 10, '0', '0', '2018-06-26 10:50:32', '2019-02-01 20:41:30', '0');
 INSERT INTO `sys_menu` VALUES (3000, '开发平台', NULL, '/gen', -1, 'icon-shejiyukaifa-', NULL, 3, '1', '0', '2020-03-11 22:15:40', '2020-03-11 23:52:54', '0');
 INSERT INTO `sys_menu` VALUES (3100, '数据源管理', NULL, '/gen/datasource', 3000, 'icon-mysql', NULL, 1, '1', '0', '2020-03-11 22:17:05', '2020-03-12 00:16:09', '0');
-INSERT INTO `sys_menu` VALUES (3200, '代码生成', NULL, '/gen/index', 3000, 'icon-weibiaoti46', NULL, 2, '1', '0', '2020-03-11 22:23:42', '2020-03-12 00:16:14', '0');
+INSERT INTO `sys_menu` VALUES (3200, '代码生成', NULL, '/gen/index', 3000, 'icon-weibiaoti46', NULL, 2, '0', '0', '2020-03-11 22:23:42', '2020-03-12 00:16:14', '0');
 INSERT INTO `sys_menu` VALUES (3300, '表单管理', NULL, '/gen/form', 3000, 'icon-record', NULL, 3, '1', '0', '2020-03-11 22:19:32', '2020-03-12 00:16:18', '0');
 INSERT INTO `sys_menu` VALUES (3301, '表单新增', 'gen_form_add', NULL, 3300, '', NULL, 0, '0', '1', '2018-05-15 21:35:18', '2020-03-11 22:39:08', '0');
 INSERT INTO `sys_menu` VALUES (3302, '表单修改', 'gen_form_edit', NULL, 3300, '', NULL, 1, '0', '1', '2018-05-15 21:35:18', '2020-03-11 22:39:09', '0');
