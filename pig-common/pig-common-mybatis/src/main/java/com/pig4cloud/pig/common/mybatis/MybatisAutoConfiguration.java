@@ -16,22 +16,28 @@
  *
  */
 
-package com.pig4cloud.pigx.common.swagger.annotation;
+package com.pig4cloud.pig.common.mybatis;
 
-import com.pig4cloud.pigx.common.swagger.config.SwaggerAutoConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * @author lengleng
- * @date 2018/7/21
- * 开启pig swagger
+ * @date 2020-03-14
+ * <p>
+ * mybatis plus 统一配置
  */
-@Target({ElementType.TYPE})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Inherited
-@Import({SwaggerAutoConfiguration.class})
-public @interface EnablePigSwagger2 {
+@Configuration(proxyBeanMethods = false)
+public class MybatisAutoConfiguration {
+	/**
+	 * 分页插件
+	 *
+	 * @return PaginationInterceptor
+	 */
+	@Bean
+	public PaginationInterceptor paginationInterceptor() {
+		return new PaginationInterceptor();
+	}
+
 }

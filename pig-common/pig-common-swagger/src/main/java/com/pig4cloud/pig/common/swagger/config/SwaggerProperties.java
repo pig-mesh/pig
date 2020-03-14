@@ -15,7 +15,7 @@
  *  * limitations under the License.
  *
  */
-package com.pig4cloud.pigx.common.swagger.config;
+package com.pig4cloud.pig.common.swagger.config;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

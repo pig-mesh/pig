@@ -49,21 +49,16 @@
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
 		</dependency>
-		<!--mybatis-->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>${mybatis-plus.version}</version>
-		</dependency>
-		<!--多数据源-->
+		<!--数据源-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-datasource</artifactId>
 			<version>2.7.0</version>
 		</dependency>
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-common-mybatis</artifactId>
+			<version>2.7.0</version>
 		</dependency>
 		<!--common-->
 		<dependency>

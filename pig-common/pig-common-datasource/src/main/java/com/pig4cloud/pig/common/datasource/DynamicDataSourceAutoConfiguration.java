@@ -37,8 +37,8 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * 动态数据源切换配置
  */
-@Configuration
 @AllArgsConstructor
+@Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {

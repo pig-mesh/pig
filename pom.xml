@@ -49,7 +49,7 @@
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
-		<swagger.core.version>1.5.22</swagger.core.version>
+		<swagger.core.version>1.5.24</swagger.core.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<docker.plugin.version>0.32.0</docker.plugin.version>
 		<docker.host>http://172.17.0.111:2375</docker.host>
@@ -140,6 +140,17 @@
 				<groupId>org.springframework.security.oauth</groupId>
 				<artifactId>spring-security-oauth2</artifactId>
 				<version>${security.oauth.version}</version>
+			</dependency>
+			<!--swagger 最新依赖内置版本-->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-models</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-annotations</artifactId>
+				<version>${swagger.core.version}</version>
 			</dependency>
 			<!--web 模块-->
 			<dependency>

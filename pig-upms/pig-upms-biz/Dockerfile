@@ -6,9 +6,9 @@ ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN mkdir -p /pigx-upms
+RUN mkdir -p /pig-upms
 
-WORKDIR /pigx-upms
+WORKDIR /pig-upms
 
 EXPOSE 4000
 

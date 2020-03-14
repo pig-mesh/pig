@@ -33,9 +33,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * 日志自动配置
  */
 @EnableAsync
-@Configuration
 @AllArgsConstructor
 @ConditionalOnWebApplication
+@Configuration(proxyBeanMethods = false)
 public class LogAutoConfiguration {
 	private final RemoteLogService remoteLogService;
 

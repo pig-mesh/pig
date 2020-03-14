@@ -63,6 +63,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			String password = rs.getString(DataSourceConstants.DS_USER_PWD);
 			String url = rs.getString(DataSourceConstants.DS_JDBC_URL);
 			DataSourceProperty property = new DataSourceProperty();
+			property.setDriverClassName(DataSourceConstants.DS_DRIVER);
 			property.setUsername(username);
 			property.setPassword(stringEncryptor.decrypt(password));
 			property.setUrl(url);

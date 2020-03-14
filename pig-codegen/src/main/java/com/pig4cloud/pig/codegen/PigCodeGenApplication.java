@@ -21,7 +21,6 @@ package com.pig4cloud.pig.codegen;
 import com.pig4cloud.pig.common.datasource.annotation.EnableDynamicDataSource;
 import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
-import com.pig4cloud.pigx.common.swagger.annotation.EnablePigSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -31,13 +30,10 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * 代码生成模块
  */
 @EnableDynamicDataSource
-@EnablePigSwagger2
 @EnablePigFeignClients
 @SpringCloudApplication
 @EnablePigResourceServer
 public class PigCodeGenApplication {
-
-
 	public static void main(String[] args) {
 		SpringApplication.run(PigCodeGenApplication.class, args);
 	}

@@ -56,6 +56,12 @@
 			<artifactId>pig-common-swagger</artifactId>
 			<version>2.7.0</version>
 		</dependency>
+		<!--mybatis 模块-->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-common-mybatis</artifactId>
+			<version>2.7.0</version>
+		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
@@ -65,17 +71,6 @@
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-		</dependency>
-		<!--mybatis-->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>${mybatis-plus.version}</version>
-		</dependency>
-		<!--数据库-->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<!--undertow容器-->
 		<dependency>

@@ -15,14 +15,14 @@
  *  * limitations under the License.
  *
  */
-package com.pig4cloud.pigx.common.swagger.config;
+package com.pig4cloud.pig.common.swagger;
 
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import com.pig4cloud.pig.common.swagger.config.SwaggerProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -43,9 +43,9 @@ import java.util.List;
  * @author lengleng
  * swagger配置
  */
-@Configuration
 @EnableSwagger2
-@EnableAutoConfiguration
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(SwaggerProperties.class)
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
 
@@ -55,11 +55,6 @@ public class SwaggerAutoConfiguration {
 	private static final List<String> DEFAULT_EXCLUDE_PATH = Arrays.asList("/error","/actuator/**");
 	private static final String BASE_PATH = "/**";
 
-	@Bean
-	@ConditionalOnMissingBean
-	public SwaggerProperties swaggerProperties() {
-		return new SwaggerProperties();
-	}
 
 	@Bean
 	public Docket api(SwaggerProperties swaggerProperties) {
@@ -85,8 +80,8 @@ public class SwaggerAutoConfiguration {
 			.apis(RequestHandlerSelectors.basePackage(swaggerProperties.getBasePackage()))
 			.paths(Predicates.and(Predicates.not(Predicates.or(excludePath)), Predicates.or(basePath)))
 			.build()
-			.securitySchemes(Collections.singletonList(securitySchema()))
-			.securityContexts(Collections.singletonList(securityContext()))
+			.securitySchemes(Collections.singletonList(securitySchema(swaggerProperties)))
+			.securityContexts(Collections.singletonList(securityContext(swaggerProperties)))
 			.pathMapping("/");
 	}
 
@@ -95,10 +90,10 @@ public class SwaggerAutoConfiguration {
 	 *
 	 * @return
 	 */
-	private SecurityContext securityContext() {
+	private SecurityContext securityContext(SwaggerProperties swaggerProperties) {
 		return SecurityContext.builder()
-			.securityReferences(defaultAuth())
-			.forPaths(PathSelectors.regex(swaggerProperties().getAuthorization().getAuthRegex()))
+			.securityReferences(defaultAuth(swaggerProperties))
+			.forPaths(PathSelectors.regex(swaggerProperties.getAuthorization().getAuthRegex()))
 			.build();
 	}
 
@@ -107,23 +102,23 @@ public class SwaggerAutoConfiguration {
 	 *
 	 * @return
 	 */
-	private List<SecurityReference> defaultAuth() {
+	private List<SecurityReference> defaultAuth(SwaggerProperties swaggerProperties) {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
+		swaggerProperties.getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
 		return Collections.singletonList(SecurityReference.builder()
-			.reference(swaggerProperties().getAuthorization().getName())
+			.reference(swaggerProperties.getAuthorization().getName())
 			.scopes(authorizationScopeList.toArray(authorizationScopes))
 			.build());
 	}
 
 
-	private OAuth securitySchema() {
+	private OAuth securitySchema(SwaggerProperties swaggerProperties) {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
+		swaggerProperties.getAuthorization().getAuthorizationScopeList().forEach(authorizationScope -> authorizationScopeList.add(new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
 		ArrayList<GrantType> grantTypes = new ArrayList<>();
-		swaggerProperties().getAuthorization().getTokenUrlList().forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
-		return new OAuth(swaggerProperties().getAuthorization().getName(), authorizationScopeList, grantTypes);
+		swaggerProperties.getAuthorization().getTokenUrlList().forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
+		return new OAuth(swaggerProperties.getAuthorization().getName(), authorizationScopeList, grantTypes);
 	}
 
 	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {

@@ -35,6 +35,7 @@
 		<module>pig-common-core</module>
 		<module>pig-common-datasource</module>
 		<module>pig-common-log</module>
+		<module>pig-common-mybatis</module>
 		<module>pig-common-security</module>
 		<module>pig-common-swagger</module>
 	</modules>
