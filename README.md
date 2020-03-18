@@ -63,7 +63,7 @@ pig
 ```
 #### 开源共建
 
-1. 欢迎提交 [pull request](https://gitee.com/log4j/pig/pulls)，注意对应提交对应 `dev` 分支
+1. 欢迎提交 [pull request](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
 
 2. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 
@@ -75,11 +75,11 @@ pig
 
 <table>
   <tr>
-    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="http://pigx.vip/20191208194856_IkbJYG_0.jpeg"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="http://pigx.vip/20191208194911_jPR3JJ_1.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://images.gitee.com/uploads/images/2020/0318/215612_b3d0375d_1824312.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://images.gitee.com/uploads/images/2020/0318/215612_f6d298c4_1824312.jpeg"></a></td>
   </tr>
 </table>
 
 #### 交流群
-![](http://pigx.vip/20191208200835_Ox4gq0_qun.jpeg)
+![](https://images.gitee.com/uploads/images/2020/0318/215612_66ede32c_1824312.jpeg)
 
