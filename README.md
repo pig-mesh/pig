@@ -36,7 +36,7 @@ Spring Boot |  2.2.5.RELEASE
 Spring Cloud | Hoxton.SR3   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.1
-hutool | 5.2.0
+hutool | 5.2.4
 Avue | 2.3.9
    
 
