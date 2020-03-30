@@ -48,7 +48,7 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-        <fastjson.version>1.2.67</fastjson.version>
+        <fastjson.version>1.2.68</fastjson.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
