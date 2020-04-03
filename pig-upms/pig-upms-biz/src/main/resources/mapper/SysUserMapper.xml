@@ -130,7 +130,6 @@
 		SELECT
 		`user`.user_id,
 		`user`.username,
-		`user`.`password`,
 		`user`.salt,
 		`user`.phone,
 		`user`.avatar,

@@ -17,6 +17,7 @@
  */
 package com.pig4cloud.pig.admin.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
@@ -115,4 +116,18 @@ public class DeptController {
 		sysDept.setUpdateTime(LocalDateTime.now());
 		return R.ok(sysDeptService.updateDeptById(sysDept));
 	}
+
+	/**
+	 * 根据部门名查询部门信息
+	 *
+	 * @param deptname 部门名
+	 * @return
+	 */
+	@GetMapping("/details/{deptname}")
+	public R user(@PathVariable String deptname) {
+		SysDept condition = new SysDept();
+		condition.setName(deptname);
+		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
+	}
+
 }
