@@ -14,5 +14,5 @@ spring:
         shared-configs:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
-    active: dev
+    active: @profiles.active@
 
