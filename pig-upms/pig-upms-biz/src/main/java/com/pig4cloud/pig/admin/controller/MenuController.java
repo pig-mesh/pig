@@ -102,13 +102,14 @@ public class MenuController {
 	 * 新增菜单
 	 *
 	 * @param sysMenu 菜单信息
-	 * @return success/false
+	 * @return 含ID 菜单信息
 	 */
 	@SysLog("新增菜单")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_add')")
 	public R save(@Valid @RequestBody SysMenu sysMenu) {
-		return R.ok(sysMenuService.save(sysMenu));
+		sysMenuService.save(sysMenu);
+		return R.ok(sysMenu);
 	}
 
 	/**

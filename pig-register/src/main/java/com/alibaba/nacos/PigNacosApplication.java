@@ -32,9 +32,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class PigNacosApplication {
 
 	public static void main(String[] args) {
-		System.setProperty(ConfigConstants.TOMCAT_DIR, "logs");
-		System.setProperty(ConfigConstants.TOMCAT_ACCESS_LOG, "false");
 		System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
+		System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
 		SpringApplication.run(PigNacosApplication.class, args);
 	}
 }

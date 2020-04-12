@@ -30,12 +30,7 @@ public interface ConfigConstants {
 	String STANDALONE_MODE = "nacos.standalone";
 
 	/**
-	 * tomcat 目录
+	 * 是否开启认证
 	 */
-	String TOMCAT_DIR = "server.tomcat.basedir";
-
-	/**
-	 * tomcat 日志配置
-	 */
-	String TOMCAT_ACCESS_LOG = "server.tomcat.accesslog.enabled";
+	String AUTH_ENABLED = "nacos.core.auth.enabled";
 }

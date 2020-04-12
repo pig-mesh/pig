@@ -49,11 +49,11 @@ public class OauthClientDetailsController {
 	/**
 	 * 通过ID查询
 	 *
-	 * @param id ID
+	 * @param id clientId
 	 * @return SysOauthClientDetails
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable Integer id) {
+	public R getById(@PathVariable String id) {
 		return R.ok(sysOauthClientDetailsService.getById(id));
 	}
 
