@@ -32,7 +32,7 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.2.5.RELEASE  
+Spring Boot |  2.2.6.RELEASE  
 Spring Cloud | Hoxton.SR3   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.1
