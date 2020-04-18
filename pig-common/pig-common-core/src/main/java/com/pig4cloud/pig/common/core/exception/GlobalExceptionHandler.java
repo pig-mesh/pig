@@ -52,17 +52,29 @@ public class GlobalExceptionHandler {
 	}
 
 	/**
-	 * validation Exception
+	 * validation Exception (以json形式传参)
 	 *
 	 * @param exception
 	 * @return R
 	 */
-	@ExceptionHandler({MethodArgumentNotValidException.class, BindException.class})
+	@ExceptionHandler({MethodArgumentNotValidException.class})
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		log.warn(fieldErrors.get(0).getDefaultMessage());
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
 	}
-
+	/**
+	 * validation Exception (以form-data形式传参)
+	 *
+	 * @param exception
+	 * @return R
+	 */
+	@ExceptionHandler({BindException.class})
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public R bindExceptionHandler(BindException exception) {
+		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+		log.warn(fieldErrors.get(0).getDefaultMessage());
+		return R.failed(fieldErrors.get(0).getDefaultMessage());
+	}
 }
