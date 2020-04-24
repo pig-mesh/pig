@@ -11,7 +11,7 @@
 - 提供 lambda 、stream api 、webflux 的生产实践   
 
 
-<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://pig4cloud.com/images/20190918.pdf"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
+<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
     
 
 #### 快速构架微服务应用  
