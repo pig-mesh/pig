@@ -11,7 +11,7 @@
 - 提供 lambda 、stream api 、webflux 的生产实践   
 
 
-<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://pig4cloud.com/images/20190918.pdf"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
+<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
     
 
 #### 快速构架微服务应用  
@@ -71,12 +71,16 @@ pig
 
 4. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a> | <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3130998334&site=qq&menu=yes"> QQ: 3130998334</a>    
 
-#### 公开课
+#### 免费公开课
 
 <table>
   <tr>
     <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://images.gitee.com/uploads/images/2020/0318/215612_b3d0375d_1824312.jpeg"></a></td>
     <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://images.gitee.com/uploads/images/2020/0318/215612_f6d298c4_1824312.jpeg"></a></td>
+  </tr>
+    <tr>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="http://pigx.vip/20200504210206_YDYTOA_k3s.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="http://pigx.vip/20200504210257_yXZBSx_zerotier.jpeg"></a></td>
   </tr>
 </table>
 
