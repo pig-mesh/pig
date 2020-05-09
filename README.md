@@ -15,7 +15,7 @@
 - provide lambda 、stream api 、webflux production practice   
 
 
-<a href="https://github.com/pigxcloud/pig/wiki" target="_blank">Documentation</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX Online</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX Paper</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
+<a href="https://github.com/pigxcloud/pig/wiki/deploy-doc" target="_blank">Documentation</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX Online</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX Paper</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
     
 
 #### Quickly structure microservice applications  
