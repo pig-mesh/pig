@@ -84,6 +84,20 @@ public class GenFormConfController {
 	}
 
 	/**
+	 * 新增生成记录
+	 *
+	 * @param formConf 生成记录
+	 * @return R
+	 */
+	@ApiOperation(value = "新增生成记录", notes = "新增生成记录")
+	@SysLog("新增生成记录")
+	@PostMapping
+	@PreAuthorize("@pms.hasPermission('gen_form_add')")
+	public R save(@RequestBody GenFormConf formConf) {
+		return R.ok(genRecordService.save(formConf));
+	}
+
+	/**
 	 * 通过id删除生成记录
 	 *
 	 * @param id id
