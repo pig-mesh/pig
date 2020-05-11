@@ -36,7 +36,7 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.2.7.RELEASE  
-Spring Cloud | Hoxton.SR3   
+Spring Cloud | Hoxton.SR4   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.1
 hutool | 5.3.3

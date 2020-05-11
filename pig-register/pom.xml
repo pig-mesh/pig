@@ -24,7 +24,7 @@
 	<artifactId>pig-register</artifactId>
 	<packaging>jar</packaging>
 	<name>pig-register</name>
-	<description>nacos 注册配置中</description>
+	<description>nacos 注册配置中心</description>
 
 	<dependencies>
 		<dependency>
