@@ -21,7 +21,7 @@ package com.pig4cloud.pig.common.security.component;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.annotation.Inner;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Slf4j
 @Aspect
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PigSecurityInnerAspect implements Ordered {
 	private final HttpServletRequest request;
 

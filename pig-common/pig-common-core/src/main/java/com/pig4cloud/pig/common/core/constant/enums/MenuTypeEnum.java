@@ -18,8 +18,8 @@
 
 package com.pig4cloud.pig.common.core.constant.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
@@ -28,7 +28,7 @@ import lombok.Getter;
  * 菜单类型
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum MenuTypeEnum {
 
 	/**
@@ -49,9 +49,9 @@ public enum MenuTypeEnum {
 	/**
 	 * 类型
 	 */
-	private String type;
+	private final String type;
 	/**
 	 * 描述
 	 */
-	private String description;
+	private final String description;
 }

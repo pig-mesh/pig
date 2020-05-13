@@ -23,7 +23,7 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import com.pig4cloud.pig.common.security.service.PigUser;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,7 +51,7 @@ import java.util.Map;
  * 认证服务器配置
  */
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 	private final DataSource dataSource;

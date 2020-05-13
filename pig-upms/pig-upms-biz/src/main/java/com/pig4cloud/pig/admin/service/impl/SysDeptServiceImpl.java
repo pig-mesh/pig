@@ -29,7 +29,7 @@ import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
 import com.pig4cloud.pig.admin.service.SysDeptRelationService;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 	private final SysDeptRelationService sysDeptRelationService;
 

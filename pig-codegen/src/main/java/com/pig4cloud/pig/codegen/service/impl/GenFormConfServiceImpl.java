@@ -27,7 +27,7 @@ import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pig.codegen.service.GenFormConfService;
 import com.pig4cloud.pig.codegen.util.CodeGenUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
@@ -49,7 +49,7 @@ import java.util.Properties;
  * @date 2019-08-12 15:55:35
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFormConf> implements GenFormConfService {
 	private final GeneratorMapper generatorMapper;
 

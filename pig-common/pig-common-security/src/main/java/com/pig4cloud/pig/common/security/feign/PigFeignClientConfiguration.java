@@ -19,7 +19,6 @@
 package com.pig4cloud.pig.common.security.feign;
 
 import feign.RequestInterceptor;
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.security.oauth2.client.AccessTokenContextRelay;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +33,6 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
  * 使用hystrix 的信号量模式
  */
 @Configuration
-@AllArgsConstructor
 @ConditionalOnProperty("security.oauth2.client.client-id")
 public class PigFeignClientConfiguration {
 	@Bean

@@ -26,7 +26,7 @@ import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +42,9 @@ import java.util.List;
  * @since 2019/2/1
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
-	private SysRoleMenuMapper sysRoleMenuMapper;
+	private final SysRoleMenuMapper sysRoleMenuMapper;
 
 	/**
 	 * 通过用户ID，查询角色信息

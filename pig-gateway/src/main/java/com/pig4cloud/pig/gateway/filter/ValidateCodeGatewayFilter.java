@@ -27,13 +27,14 @@ import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.gateway.config.IgnoreClientConfiguration;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -46,7 +47,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 	private final IgnoreClientConfiguration ignoreClient;
 	private final ObjectMapper objectMapper;
@@ -81,6 +82,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			} catch (Exception e) {
 				ServerHttpResponse response = exchange.getResponse();
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
+                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 				try {
 					return response.writeWith(Mono.just(response.bufferFactory()
 						.wrap(objectMapper.writeValueAsBytes(

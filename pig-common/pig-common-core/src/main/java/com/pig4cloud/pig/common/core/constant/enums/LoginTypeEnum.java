@@ -18,8 +18,8 @@
 
 package com.pig4cloud.pig.common.core.constant.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
@@ -27,7 +27,7 @@ import lombok.Getter;
  * 社交登录类型
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum LoginTypeEnum {
 	/**
 	 * 账号密码登录

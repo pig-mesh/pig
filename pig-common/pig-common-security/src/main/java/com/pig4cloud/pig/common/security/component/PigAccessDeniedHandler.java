@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.PigDeniedException;
 import com.pig4cloud.pig.common.core.util.R;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
@@ -46,7 +46,7 @@ import java.io.PrintWriter;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
 	private final ObjectMapper objectMapper;
 

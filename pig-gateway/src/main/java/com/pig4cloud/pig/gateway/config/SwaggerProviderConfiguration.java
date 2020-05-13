@@ -18,7 +18,7 @@
 
 package com.pig4cloud.pig.gateway.config;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Component
 @Primary
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SwaggerProviderConfiguration implements SwaggerResourcesProvider {
 	private static final String API_URI = "/v2/api-docs";
 	private final RouteLocator routeLocator;

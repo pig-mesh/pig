@@ -20,7 +20,7 @@ package com.pig4cloud.pig.gateway.handler;
 
 import com.google.code.kaptcha.Producer;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -46,7 +46,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 	private final Producer producer;
 	private final RedisTemplate redisTemplate;
