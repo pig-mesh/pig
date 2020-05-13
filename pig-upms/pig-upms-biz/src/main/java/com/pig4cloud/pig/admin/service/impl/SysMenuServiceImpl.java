@@ -38,6 +38,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.List;
@@ -70,9 +71,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query()
 			.lambda().eq(SysMenu::getParentId, id));
-		if (CollUtil.isNotEmpty(menuList)) {
-			return R.failed("菜单含有下级不能删除");
-		}
+		Assert.isNull(menuList,"菜单含有下级不能删除");
 
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query()
 			.lambda().eq(SysRoleMenu::getMenuId, id));

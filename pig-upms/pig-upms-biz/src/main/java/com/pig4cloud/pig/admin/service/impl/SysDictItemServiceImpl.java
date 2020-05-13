@@ -29,6 +29,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 /**
  * 字典项
@@ -54,9 +55,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 		SysDictItem dictItem = this.getById(id);
 		SysDict dict = dictService.getById(dictItem.getDictId());
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystem())) {
-			return R.failed("系统内置字典项目不能删除");
-		}
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()),"系统内置字典项目不能删除");
 		return R.ok(this.removeById(id));
 	}
 
@@ -72,9 +71,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 		//查询字典
 		SysDict dict = dictService.getById(item.getDictId());
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystem())) {
-			return R.failed("系统内置字典项目不能删除");
-		}
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()),"系统内置字典项目不能修改");
 		return R.ok(this.updateById(item));
 	}
 }

@@ -46,6 +46,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -164,15 +165,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 		SysUser sysUser = new SysUser();
-		if (StrUtil.isNotBlank(userDto.getPassword())
-			&& StrUtil.isNotBlank(userDto.getNewpassword1())) {
-			if (ENCODER.matches(userDto.getPassword(), userVO.getPassword())) {
-				sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
-			} else {
-				log.warn("原密码错误，修改密码失败:{}", userDto.getUsername());
-				return R.failed("原密码错误，修改失败");
-			}
-		}
+
+		Assert.notNull(userDto.getPassword(),"原密码不存在");
+		Assert.notNull(userDto.getNewpassword1(),"新密码不存在");
+		Assert.state(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),"原密码错误，修改失败");
+		sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+
 		sysUser.setPhone(userDto.getPhone());
 		sysUser.setUserId(userVO.getUserId());
 		sysUser.setAvatar(userDto.getAvatar());
