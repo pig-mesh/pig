@@ -27,7 +27,7 @@ import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.gateway.config.IgnoreClientConfiguration;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -46,7 +46,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 	private final IgnoreClientConfiguration ignoreClient;
 	private final ObjectMapper objectMapper;

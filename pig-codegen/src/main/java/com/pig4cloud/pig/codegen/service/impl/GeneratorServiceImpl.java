@@ -32,7 +32,7 @@ import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
 import com.pig4cloud.pig.codegen.util.CodeGenUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -47,7 +47,7 @@ import java.util.zip.ZipOutputStream;
  * 代码生成器
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GeneratorServiceImpl implements GeneratorService {
 	private final GeneratorMapper generatorMapper;
 	private final GenFormConfMapper genFormConfMapper;

@@ -26,7 +26,7 @@ import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
 import org.springframework.data.redis.core.ConvertingCursor;
@@ -61,7 +61,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/token")
 public class PigTokenEndpoint {
 	private final ClientDetailsService clientDetailsService;

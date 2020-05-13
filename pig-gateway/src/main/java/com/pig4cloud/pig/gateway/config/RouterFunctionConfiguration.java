@@ -18,12 +18,8 @@
 
 package com.pig4cloud.pig.gateway.config;
 
-import com.pig4cloud.pig.gateway.handler.HystrixFallbackHandler;
-import com.pig4cloud.pig.gateway.handler.ImageCodeHandler;
-import com.pig4cloud.pig.gateway.handler.SwaggerResourceHandler;
-import com.pig4cloud.pig.gateway.handler.SwaggerSecurityHandler;
-import com.pig4cloud.pig.gateway.handler.SwaggerUiHandler;
-import lombok.AllArgsConstructor;
+import com.pig4cloud.pig.gateway.handler.*;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,7 +35,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
  */
 @Slf4j
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RouterFunctionConfiguration {
 	private final HystrixFallbackHandler hystrixFallbackHandler;
 	private final ImageCodeHandler imageCodeHandler;

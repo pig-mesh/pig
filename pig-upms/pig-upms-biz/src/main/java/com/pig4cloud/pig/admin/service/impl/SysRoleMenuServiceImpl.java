@@ -25,7 +25,7 @@ import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
  * @since 2019/2/1
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 	private final CacheManager cacheManager;
 

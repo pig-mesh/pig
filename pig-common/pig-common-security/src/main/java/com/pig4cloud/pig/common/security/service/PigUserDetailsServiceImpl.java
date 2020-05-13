@@ -27,7 +27,7 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
@@ -51,7 +51,7 @@ import java.util.Set;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PigUserDetailsServiceImpl implements UserDetailsService {
 	private final RemoteUserService remoteUserService;
 	private final CacheManager cacheManager;

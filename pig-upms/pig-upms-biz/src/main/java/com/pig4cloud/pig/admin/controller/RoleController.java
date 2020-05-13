@@ -27,7 +27,7 @@ import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +38,7 @@ import javax.validation.Valid;
  * @date 2019/2/1
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/role")
 @Api(value = "role", tags = "角色管理模块")
 public class RoleController {
