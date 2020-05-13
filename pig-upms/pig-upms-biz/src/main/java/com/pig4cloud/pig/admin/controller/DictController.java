@@ -113,7 +113,8 @@ public class DictController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	public R removeById(@PathVariable Integer id) {
-		return sysDictService.removeDict(id);
+		sysDictService.removeDict(id);
+		return R.ok();
 	}
 
 	/**
@@ -126,7 +127,8 @@ public class DictController {
 	@SysLog("修改字典")
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	public R updateById(@Valid @RequestBody SysDict sysDict) {
-		return sysDictService.updateDict(sysDict);
+		sysDictService.updateDict(sysDict);
+		return R.ok();
 	}
 
 	/**

@@ -163,7 +163,7 @@ public class UserController {
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
 	public R updateUserInfo(@Valid @RequestBody UserDTO userDto) {
-		return userService.updateUserInfo(userDto);
+		return R.ok(userService.updateUserInfo(userDto));
 	}
 
 	/**

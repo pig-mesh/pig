@@ -18,7 +18,6 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.MenuTree;
@@ -32,7 +31,6 @@ import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.MenuTypeEnum;
-import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -64,10 +62,16 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return baseMapper.listMenusByRoleId(roleId);
 	}
 
+	/**
+	 * 级联删除菜单
+	 *
+	 * @param id 菜单ID
+	 * @return true成功,false失败
+	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-	public R removeMenuById(Integer id) {
+	public Boolean removeMenuById(Integer id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query()
 			.lambda().eq(SysMenu::getParentId, id));
@@ -76,7 +80,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query()
 			.lambda().eq(SysRoleMenu::getMenuId, id));
 		//删除当前菜单及其子菜单
-		return R.ok(this.removeById(id));
+		return this.removeById(id);
 	}
 
 	@Override
