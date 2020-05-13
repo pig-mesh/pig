@@ -16,11 +16,12 @@
  *
  */
 
-package com.pig4cloud.pig.common.core.exception;
+package com.pig4cloud.pig.common.security.component;
 
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,7 +38,7 @@ import java.util.List;
  */
 @Slf4j
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandlerResolver {
 	/**
 	 * 全局异常.
 	 *
@@ -49,6 +50,19 @@ public class GlobalExceptionHandler {
 	public R exception(Exception e) {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
 		return R.failed(e);
+	}
+
+	/**
+	 * AccessDeniedException
+	 *
+	 * @param e the e
+	 * @return R
+	 */
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(HttpStatus.FORBIDDEN)
+	public R handleAccessDeniedException(AccessDeniedException e) {
+		log.warn("拒绝授权异常信息 ex={}", e.getLocalizedMessage());
+		return R.failed(e.getLocalizedMessage());
 	}
 
 	/**
@@ -64,6 +78,7 @@ public class GlobalExceptionHandler {
 		log.warn(fieldErrors.get(0).getDefaultMessage());
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
 	}
+
 	/**
 	 * validation Exception (以form-data形式传参)
 	 *
