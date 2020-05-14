@@ -19,7 +19,6 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
@@ -38,6 +37,7 @@ import reactor.core.publisher.Mono;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -74,7 +74,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 			URI uri = exchange.getRequest().getURI();
 			String queryParam = uri.getRawQuery();
-			Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.UTF_8);
+			Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, Charset.defaultCharset());
 
 			String password = paramMap.get(PASSWORD);
 			if (StrUtil.isNotBlank(password)) {
