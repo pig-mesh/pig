@@ -21,6 +21,8 @@ package com.pig4cloud.pig.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -46,6 +48,7 @@ public class SysLog implements Serializable {
 	 */
 	@TableId(value = "id", type = IdType.AUTO)
 	@ApiModelProperty(value = "日志编号")
+	@JsonSerialize(using = ToStringSerializer.class)
 	private Long id;
 	/**
 	 * 日志类型
