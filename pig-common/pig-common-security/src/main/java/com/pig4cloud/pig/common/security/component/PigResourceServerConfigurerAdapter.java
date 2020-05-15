@@ -38,6 +38,7 @@ import org.springframework.web.client.RestTemplate;
  * <p>
  * 1. 支持remoteTokenServices 负载均衡
  * 2. 支持 获取用户全部信息
+ * 3. 接口对外暴露，不校验 Authentication Header 头
  */
 @Slf4j
 public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
@@ -51,6 +52,8 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	private PermitAllUrlProperties permitAllUrl;
 	@Autowired
 	private RestTemplate lbRestTemplate;
+	@Autowired
+	private PigBearerTokenExtractor pigBearerTokenExtractor;
 
 	/**
 	 * 默认的配置，对外暴露
@@ -80,6 +83,7 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 		remoteTokenServices.setRestTemplate(lbRestTemplate);
 		remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+			.tokenExtractor(pigBearerTokenExtractor)
 			.accessDeniedHandler(pigAccessDeniedHandler)
 			.tokenServices(remoteTokenServices);
 	}
