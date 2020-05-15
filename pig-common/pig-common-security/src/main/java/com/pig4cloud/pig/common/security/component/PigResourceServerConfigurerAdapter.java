@@ -51,6 +51,8 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	private PermitAllUrlProperties permitAllUrl;
 	@Autowired
 	private RestTemplate lbRestTemplate;
+	@Autowired
+	private PigBearerTokenExtractor pigBearerTokenExtractor;
 
 	/**
 	 * 默认的配置，对外暴露
@@ -80,6 +82,7 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 		remoteTokenServices.setRestTemplate(lbRestTemplate);
 		remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+			.tokenExtractor(pigBearerTokenExtractor)
 			.accessDeniedHandler(pigAccessDeniedHandler)
 			.tokenServices(remoteTokenServices);
 	}
