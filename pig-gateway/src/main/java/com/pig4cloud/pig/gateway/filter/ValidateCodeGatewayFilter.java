@@ -32,6 +32,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -82,14 +83,20 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			} catch (Exception e) {
 				ServerHttpResponse response = exchange.getResponse();
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
-                response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-				try {
-					return response.writeWith(Mono.just(response.bufferFactory()
-						.wrap(objectMapper.writeValueAsBytes(
-							R.failed(e.getMessage())))));
-				} catch (JsonProcessingException e1) {
-					log.error("对象输出异常", e1);
-				}
+				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+
+				final String errMsg = e.getMessage();
+				return response.writeWith(Mono.create(monoSink -> {
+					try {
+						byte[] bytes = objectMapper.writeValueAsBytes(R.failed(errMsg));
+						DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
+
+						monoSink.success(dataBuffer);
+					} catch (JsonProcessingException jsonProcessingException) {
+						log.error("对象输出异常", jsonProcessingException);
+						monoSink.error(jsonProcessingException);
+					}
+				}));
 			}
 
 			return chain.filter(exchange);
