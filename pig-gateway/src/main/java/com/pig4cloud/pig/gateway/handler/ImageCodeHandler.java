@@ -54,12 +54,14 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest serverRequest) {
+		final String randomStr = serverRequest.queryParam("randomStr").get();
+
 		return ServerResponse
 			.status(HttpStatus.OK)
 			.contentType(MediaType.IMAGE_JPEG)
 			.body(BodyInserters.fromDataBuffers(Mono.create(monoSink -> {
 				try {
-					byte[] bytes = createCodeImage(serverRequest);
+					byte[] bytes = createCodeImage(randomStr);
 					DefaultDataBuffer dataBuffer = new DefaultDataBufferFactory().wrap(bytes);
 
 					monoSink.success(dataBuffer);
@@ -70,13 +72,12 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 			})));
 	}
 
-	private byte[] createCodeImage(ServerRequest serverRequest) throws IOException {
+	private byte[] createCodeImage(String randomStr) throws IOException {
 		//生成验证码
 		String text = producer.createText();
 		BufferedImage image = producer.createImage(text);
 
 		//保存验证码信息
-		String randomStr = serverRequest.queryParam("randomStr").get();
 		redisTemplate.opsForValue().set(CommonConstants.DEFAULT_CODE_KEY + randomStr, text, 60, TimeUnit.SECONDS);
 
 		// 转换流信息写出

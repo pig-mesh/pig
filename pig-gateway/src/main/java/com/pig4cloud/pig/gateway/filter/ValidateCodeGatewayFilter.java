@@ -85,9 +85,10 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
 				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
+				final String errMsg = e.getMessage();
 				return response.writeWith(Mono.create(monoSink -> {
 					try {
-						byte[] bytes = objectMapper.writeValueAsBytes(R.failed(e.getMessage()));
+						byte[] bytes = objectMapper.writeValueAsBytes(R.failed(errMsg));
 						DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
 
 						monoSink.success(dataBuffer);
