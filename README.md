@@ -4,12 +4,12 @@
 
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.7-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Avue-2.3-green.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Avue-2.5-green.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR4-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.2.RELEASE-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
 </p>
    
-- based on Spring Cloud Hoxton 、Spring Boot 2.2、 OAuth2  RBAC web framework
+- based on Spring Cloud Hoxton 、Spring Boot 2.3、 OAuth2  RBAC web framework
 - Idea based on data-driven view,  if you don't use vue, you can get started quickly 
 - provide support for common containers like Docker、Kubernetes、Rancher2 
 - provide lambda 、stream api 、webflux production practice   
@@ -36,7 +36,7 @@
 
 dependencies | version
 ---|---
-Spring Boot |  2.2.7.RELEASE  
+Spring Boot |  2.3.0.RELEASE  
 Spring Cloud | Hoxton.SR4   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.1
