@@ -90,7 +90,7 @@ pig
 </table>
 
 #### 交流群
-![](https://images.gitee.com/uploads/images/2020/0318/215612_66ede32c_1824312.jpeg)
+![输入图片说明](https://images.gitee.com/uploads/images/2020/0519/142843_6032c52e_410595.png "qr.png")
 
 
 #### Star 历史
