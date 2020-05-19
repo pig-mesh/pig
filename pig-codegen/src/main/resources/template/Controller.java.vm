@@ -52,6 +52,7 @@ public class ${className}Controller {
      */
     @ApiOperation(value = "分页查询", notes = "分页查询")
     @GetMapping("/page" )
+    @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_get')" )
     public R get${className}Page(Page page, ${className} ${classname}) {
         return R.ok(${classname}Service.page(page, Wrappers.query(${classname})));
     }
@@ -64,6 +65,7 @@ public class ${className}Controller {
      */
     @ApiOperation(value = "通过id查询", notes = "通过id查询")
     @GetMapping("/{${pk.lowerAttrName}}" )
+    @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_get')" )
     public R getById(@PathVariable("${pk.lowerAttrName}" ) ${pk.attrType} ${pk.lowerAttrName}) {
         return R.ok(${classname}Service.getById(${pk.lowerAttrName}));
     }
