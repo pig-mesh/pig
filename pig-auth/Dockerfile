@@ -24,4 +24,4 @@ EXPOSE 3000
 
 ADD ${JAR_FILE} ./app.jar
 
-ENTRYPOINT ["wait-for-it.sh","$NACOS_HOST:$NACOS_PORT","--","java", "jar","app.jar" , "-Djava.security.egd=file:/dev/./urandom","$PARAMS"]
+ENTRYPOINT ["wait-for-it.sh","$NACOS_HOST:$NACOS_PORT","--","java", "-jar","app.jar" , "-Djava.security.egd=file:/dev/./urandom","$PARAMS"]

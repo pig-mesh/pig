@@ -24,4 +24,4 @@ EXPOSE 8848
 
 ADD ${JAR_FILE} ./app.jar
 
-ENTRYPOINT ["wait-for-it.sh","$MYSQL_HOST:$MYSQL_PORT","--","java", "jar","app.jar" , "-Djava.security.egd=file:/dev/./urandom","$PARAMS"]
+ENTRYPOINT ["wait-for-it.sh","$MYSQL_HOST:$MYSQL_PORT","--","java", "-jar","app.jar","-Djava.security.egd=file:/dev/./urandom","$PARAMS"]
