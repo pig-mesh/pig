@@ -86,6 +86,6 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 			return AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils
 				.collectionToCommaDelimitedString((Collection<?>) authorities));
 		}
-		throw new IllegalArgumentException("Authorities must be either a String or a Collection");
+		return AuthorityUtils.NO_AUTHORITIES;
 	}
 }
