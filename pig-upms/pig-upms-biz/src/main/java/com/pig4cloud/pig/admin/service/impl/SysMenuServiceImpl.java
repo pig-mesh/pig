@@ -18,6 +18,7 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.MenuTree;
@@ -31,12 +32,12 @@ import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.MenuTypeEnum;
+import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.List;
@@ -71,16 +72,19 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-	public Boolean removeMenuById(Integer id) {
+	public R removeMenuById(Integer id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query()
 			.lambda().eq(SysMenu::getParentId, id));
-		Assert.isNull(menuList,"菜单含有下级不能删除");
+
+		if (CollUtil.isNotEmpty(menuList)) {
+			return R.failed("菜单含有下级不能删除");
+		}
 
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query()
 			.lambda().eq(SysRoleMenu::getMenuId, id));
 		//删除当前菜单及其子菜单
-		return this.removeById(id);
+		return R.ok(this.removeById(id));
 	}
 
 	@Override
