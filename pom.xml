@@ -29,7 +29,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.7.4</version>
+	<version>2.7.5</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
@@ -48,7 +48,7 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-        <fastjson.version>1.2.68</fastjson.version>
+        <fastjson.version>1.2.69</fastjson.version>
 		<p6spy.version>3.9.0</p6spy.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
