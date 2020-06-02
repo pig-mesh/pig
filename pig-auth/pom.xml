@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.7.5</version>
+		<version>2.7.6</version>
 	</parent>
 
 	<artifactId>pig-auth</artifactId>
@@ -46,13 +46,13 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
-			<version>2.7.5</version>
+			<version>2.7.6</version>
 		</dependency>
 		<!--security-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-security</artifactId>
-			<version>2.7.5</version>
+			<version>2.7.6</version>
 		</dependency>
 		<!--JDBC相关-->
 		<dependency>
