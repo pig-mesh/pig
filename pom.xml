@@ -29,7 +29,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.7.6</version>
+	<version>2.7.8.snapshot</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
@@ -41,8 +41,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
+		<git.commit.plugin>2.2.5</git.commit.plugin>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
-		<hutool.version>5.3.5</hutool.version>
+		<hutool.version>5.3.6</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
 		<dynamic-ds.version>3.0.0</dynamic-ds.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
@@ -235,7 +236,7 @@
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
-				<version>2.2.5</version>
+				<version>${git.commit.plugin}</version>
 			</plugin>
 		</plugins>
 	</build>

@@ -4,7 +4,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.7-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.5-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR4-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR5-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
 </p>
    
@@ -36,10 +36,10 @@
 依赖 | 版本
 ---|---
 Spring Boot |  2.3.0.RELEASE  
-Spring Cloud | Hoxton.SR4   
+Spring Cloud | Hoxton.SR5   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.1
-hutool | 5.3.5
+hutool | 5.3.6
 Avue | 2.5.2
    
 
