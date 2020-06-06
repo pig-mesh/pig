@@ -16,7 +16,7 @@
 
 package com.alibaba.nacos;
 
-import com.alibaba.nacos.console.config.ConfigConstants;
+import com.alibaba.nacos.config.ConfigConstants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;

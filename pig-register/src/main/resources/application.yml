@@ -1,7 +1,5 @@
 server:
   port: 8848
-  tomcat:
-    basedir: logs
 
 db:
   num: 1
