@@ -79,20 +79,6 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<!--开发阶段支持p6spy方便调试-->
-		<profile>
-			<id>dev</id>
-			<dependencies>
-				<dependency>
-					<groupId>p6spy</groupId>
-					<artifactId>p6spy</artifactId>
-					<version>${p6spy.version}</version>
-				</dependency>
-			</dependencies>
-		</profile>
-	</profiles>
-
 	<build>
 		<plugins>
 			<plugin>
