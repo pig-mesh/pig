@@ -57,7 +57,7 @@ services:
 
   pig-monitor:
     build:
-      context: ./pig-monitor
+      context: ./pig-visual/pig-monitor
     restart: always
     ports:
       - 5001:5001
@@ -65,9 +65,18 @@ services:
     hostname: pig-monitor
     image: pig-monitor
 
+  pig-sentinel:
+    build:
+      context: ./pig-visual/pig-sentinel-dashboard
+    restart: always
+    image: pig-sentinel
+    container_name: pig-sentinel
+    ports:
+      - 5003:5003
+
   pig-codegen:
     build:
-      context: ./pig-codegen
+      context: ./pig-visual/pig-codegen
     restart: always
     container_name: pig-codegen
     hostname: pig-codegen

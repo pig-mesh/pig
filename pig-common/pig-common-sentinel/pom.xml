@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<groupId>com.pig4cloud</groupId>
+		<artifactId>pig-common</artifactId>
+		<version>2.7.8.snapshot</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
+	<artifactId>pig-common-sentinel</artifactId>
+	<description>sentinel服务降级熔断、限流组件</description>
+	<dependencies>
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-common-core</artifactId>
+			<version>2.7.8.snapshot</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+		</dependency>
+		<!--feign 依赖-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+	</dependencies>
+</project>

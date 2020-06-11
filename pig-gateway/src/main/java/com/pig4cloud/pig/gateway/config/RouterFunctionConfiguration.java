@@ -18,7 +18,10 @@
 
 package com.pig4cloud.pig.gateway.config;
 
-import com.pig4cloud.pig.gateway.handler.*;
+import com.pig4cloud.pig.gateway.handler.ImageCodeHandler;
+import com.pig4cloud.pig.gateway.handler.SwaggerResourceHandler;
+import com.pig4cloud.pig.gateway.handler.SwaggerSecurityHandler;
+import com.pig4cloud.pig.gateway.handler.SwaggerUiHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -29,15 +32,15 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 
 /**
- * @author lengleng
- * @date 2019/2/1
  * 路由配置信息
+ *
+ * @author lengleng
+ * @date 2020-06-11
  */
 @Slf4j
 @Configuration
 @RequiredArgsConstructor
 public class RouterFunctionConfiguration {
-	private final HystrixFallbackHandler hystrixFallbackHandler;
 	private final ImageCodeHandler imageCodeHandler;
 	private final SwaggerResourceHandler swaggerResourceHandler;
 	private final SwaggerSecurityHandler swaggerSecurityHandler;
@@ -47,9 +50,7 @@ public class RouterFunctionConfiguration {
 	@Bean
 	public RouterFunction routerFunction() {
 		return RouterFunctions.route(
-			RequestPredicates.path("/fallback")
-				.and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), hystrixFallbackHandler)
-			.andRoute(RequestPredicates.GET("/code")
+			RequestPredicates.path("/code")
 				.and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), imageCodeHandler)
 			.andRoute(RequestPredicates.GET("/swagger-resources")
 				.and(RequestPredicates.accept(MediaType.ALL)), swaggerResourceHandler)

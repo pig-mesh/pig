@@ -52,21 +52,23 @@ pig-ui  -- https://github.com/pigxcloud/pig-ui
 
 pig
 ├── pig-auth -- oauth-server[3000]
-├── pig-codegen -- graphical code generation[5002]
 └── pig-common 
      ├── pig-common-core -- tool core package
      ├── pig-common-datasource -- dynamic data source package
      ├── pig-common-log -- Log service package
      ├── pig-common-mybatis -- mybatis expand
      ├── pig-common-security -- security tools
-     └── pig-common-swagger -- api documentation
+     ├── pig-common-swagger -- api documentation
+     └── pig-common-sentinel -- sentinel auto fallbak
 ├── pig-register -- nacos server[8848]
 ├── pig-gateway -- spring cloud gateway[9999]
-├── pig-monitor -- spring boot admin[5001]
 └── pig-upms
      └── pig-upms-api -- user management system api
      └── pig-upms-biz -- user management system biz[4000]
-	 
+└── pig-visual
+     └── pig-monitor -- spring boot admin[5001]
+     ├── pig-codegen -- graphical code generation[5002]
+     └── pig-sentinel-dashboard -- sentinel dashboard [5003]	 
 ```
 #### Open source co-construction
 

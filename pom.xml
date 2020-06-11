@@ -49,7 +49,7 @@
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-        <fastjson.version>1.2.69</fastjson.version>
+		<fastjson.version>1.2.69</fastjson.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
@@ -85,11 +85,6 @@
 			<artifactId>spring-boot-admin-starter-client</artifactId>
 			<version>${spring-boot-admin.version}</version>
 		</dependency>
-		<!--断路器依赖-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-		</dependency>
 		<!--Lombok-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -110,8 +105,7 @@
 		<module>pig-auth</module>
 		<module>pig-upms</module>
 		<module>pig-common</module>
-		<module>pig-codegen</module>
-		<module>pig-monitor</module>
+		<module>pig-visual</module>
 	</modules>
 
 	<dependencyManagement>
@@ -155,7 +149,7 @@
 				<artifactId>swagger-annotations</artifactId>
 				<version>${swagger.core.version}</version>
 			</dependency>
-            <!--fastjson 版本-->
+			<!--fastjson 版本-->
 			<dependency>
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>

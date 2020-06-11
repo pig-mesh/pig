@@ -1,0 +1,26 @@
+server:
+  port: 5003
+  servlet:
+    encoding:
+      force: true
+
+logging:
+  level:
+    org:
+      springframework:
+        web: info
+  file:
+    name: ${user.home}/logs/csp/sentinel-dashboard.log
+  pattern:
+    file: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n'
+
+auth:
+  username: sentinel
+  password: sentinel
+  filter:
+    exclude-urls: /,/auth/login,/auth/logout,/registry/machine,/version
+    exclude-url-suffixes: htm,html,js,css,map,ico,ttf,woff,png
+
+sentinel:
+  dashboard:
+    version: 1.7.1

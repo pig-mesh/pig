@@ -37,6 +37,7 @@
 		<module>pig-common-log</module>
 		<module>pig-common-mybatis</module>
 		<module>pig-common-security</module>
+		<module>pig-common-sentinel</module>
 		<module>pig-common-swagger</module>
 	</modules>
 </project>
