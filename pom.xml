@@ -42,6 +42,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<git.commit.plugin>2.2.5</git.commit.plugin>
+		<spring.checkstyle.plugin>0.0.22</spring.checkstyle.plugin>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
 		<hutool.version>5.3.7</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
@@ -226,10 +227,17 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<!--打包jar 与git commit 关联插件-->
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
 				<version>${git.commit.plugin}</version>
+			</plugin>
+			<!--代码格式插件，默认使用spring 规则-->
+			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring.checkstyle.plugin}</version>
 			</plugin>
 		</plugins>
 	</build>
