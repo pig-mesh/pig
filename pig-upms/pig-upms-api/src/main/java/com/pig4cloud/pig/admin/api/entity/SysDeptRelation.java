@@ -42,11 +42,11 @@ public class SysDeptRelation extends Model<SysDeptRelation> {
 	 */
 	@ApiModelProperty(value = "祖先节点")
 	private Integer ancestor;
+
 	/**
 	 * 后代节点
 	 */
 	@ApiModelProperty(value = "后代节点")
 	private Integer descendant;
-
 
 }

@@ -25,225 +25,239 @@ import com.alibaba.csp.sentinel.slots.block.flow.FlowRule;
  */
 public class FlowRuleEntity implements RuleEntity {
 
-    private Long id;
-    private String app;
-    private String ip;
-    private Integer port;
-    private String limitApp;
-    private String resource;
-    /**
-     * 0为线程数;1为qps
-     */
-    private Integer grade;
-    private Double count;
-    /**
-     * 0为直接限流;1为关联限流;2为链路限流
-     ***/
-    private Integer strategy;
-    private String refResource;
-    /**
-     * 0. default, 1. warm up, 2. rate limiter
-     */
-    private Integer controlBehavior;
-    private Integer warmUpPeriodSec;
-    /**
-     * max queueing time in rate limiter behavior
-     */
-    private Integer maxQueueingTimeMs;
+	private Long id;
 
-    private boolean clusterMode;
-    /**
-     * Flow rule config for cluster mode.
-     */
-    private ClusterFlowConfig clusterConfig;
+	private String app;
 
-    private Date gmtCreate;
-    private Date gmtModified;
+	private String ip;
 
-    public static FlowRuleEntity fromFlowRule(String app, String ip, Integer port, FlowRule rule) {
-        FlowRuleEntity entity = new FlowRuleEntity();
-        entity.setApp(app);
-        entity.setIp(ip);
-        entity.setPort(port);
-        entity.setLimitApp(rule.getLimitApp());
-        entity.setResource(rule.getResource());
-        entity.setGrade(rule.getGrade());
-        entity.setCount(rule.getCount());
-        entity.setStrategy(rule.getStrategy());
-        entity.setRefResource(rule.getRefResource());
-        entity.setControlBehavior(rule.getControlBehavior());
-        entity.setWarmUpPeriodSec(rule.getWarmUpPeriodSec());
-        entity.setMaxQueueingTimeMs(rule.getMaxQueueingTimeMs());
-        entity.setClusterMode(rule.isClusterMode());
-        entity.setClusterConfig(rule.getClusterConfig());
-        return entity;
-    }
+	private Integer port;
 
-    @Override
-    public String getIp() {
-        return ip;
-    }
+	private String limitApp;
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	private String resource;
 
-    @Override
-    public Integer getPort() {
-        return port;
-    }
+	/**
+	 * 0为线程数;1为qps
+	 */
+	private Integer grade;
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+	private Double count;
 
-    @Override
-    public String getApp() {
-        return app;
-    }
+	/**
+	 * 0为直接限流;1为关联限流;2为链路限流
+	 ***/
+	private Integer strategy;
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	private String refResource;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * 0. default, 1. warm up, 2. rate limiter
+	 */
+	private Integer controlBehavior;
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Integer warmUpPeriodSec;
 
-    public String getLimitApp() {
-        return limitApp;
-    }
+	/**
+	 * max queueing time in rate limiter behavior
+	 */
+	private Integer maxQueueingTimeMs;
 
-    public void setLimitApp(String limitApp) {
-        this.limitApp = limitApp;
-    }
+	private boolean clusterMode;
 
-    public String getResource() {
-        return resource;
-    }
+	/**
+	 * Flow rule config for cluster mode.
+	 */
+	private ClusterFlowConfig clusterConfig;
 
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
+	private Date gmtCreate;
 
-    public Integer getGrade() {
-        return grade;
-    }
+	private Date gmtModified;
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+	public static FlowRuleEntity fromFlowRule(String app, String ip, Integer port, FlowRule rule) {
+		FlowRuleEntity entity = new FlowRuleEntity();
+		entity.setApp(app);
+		entity.setIp(ip);
+		entity.setPort(port);
+		entity.setLimitApp(rule.getLimitApp());
+		entity.setResource(rule.getResource());
+		entity.setGrade(rule.getGrade());
+		entity.setCount(rule.getCount());
+		entity.setStrategy(rule.getStrategy());
+		entity.setRefResource(rule.getRefResource());
+		entity.setControlBehavior(rule.getControlBehavior());
+		entity.setWarmUpPeriodSec(rule.getWarmUpPeriodSec());
+		entity.setMaxQueueingTimeMs(rule.getMaxQueueingTimeMs());
+		entity.setClusterMode(rule.isClusterMode());
+		entity.setClusterConfig(rule.getClusterConfig());
+		return entity;
+	}
 
-    public Double getCount() {
-        return count;
-    }
+	@Override
+	public String getIp() {
+		return ip;
+	}
 
-    public void setCount(Double count) {
-        this.count = count;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public Integer getStrategy() {
-        return strategy;
-    }
+	@Override
+	public Integer getPort() {
+		return port;
+	}
 
-    public void setStrategy(Integer strategy) {
-        this.strategy = strategy;
-    }
+	public void setPort(Integer port) {
+		this.port = port;
+	}
 
-    public String getRefResource() {
-        return refResource;
-    }
+	@Override
+	public String getApp() {
+		return app;
+	}
 
-    public void setRefResource(String refResource) {
-        this.refResource = refResource;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public Integer getControlBehavior() {
-        return controlBehavior;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    public void setControlBehavior(Integer controlBehavior) {
-        this.controlBehavior = controlBehavior;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Integer getWarmUpPeriodSec() {
-        return warmUpPeriodSec;
-    }
+	public String getLimitApp() {
+		return limitApp;
+	}
 
-    public void setWarmUpPeriodSec(Integer warmUpPeriodSec) {
-        this.warmUpPeriodSec = warmUpPeriodSec;
-    }
+	public void setLimitApp(String limitApp) {
+		this.limitApp = limitApp;
+	}
 
-    public Integer getMaxQueueingTimeMs() {
-        return maxQueueingTimeMs;
-    }
+	public String getResource() {
+		return resource;
+	}
 
-    public void setMaxQueueingTimeMs(Integer maxQueueingTimeMs) {
-        this.maxQueueingTimeMs = maxQueueingTimeMs;
-    }
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
 
-    public boolean isClusterMode() {
-        return clusterMode;
-    }
+	public Integer getGrade() {
+		return grade;
+	}
 
-    public FlowRuleEntity setClusterMode(boolean clusterMode) {
-        this.clusterMode = clusterMode;
-        return this;
-    }
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
 
-    public ClusterFlowConfig getClusterConfig() {
-        return clusterConfig;
-    }
+	public Double getCount() {
+		return count;
+	}
 
-    public FlowRuleEntity setClusterConfig(ClusterFlowConfig clusterConfig) {
-        this.clusterConfig = clusterConfig;
-        return this;
-    }
+	public void setCount(Double count) {
+		this.count = count;
+	}
 
-    @Override
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+	public Integer getStrategy() {
+		return strategy;
+	}
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+	public void setStrategy(Integer strategy) {
+		this.strategy = strategy;
+	}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+	public String getRefResource() {
+		return refResource;
+	}
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	public void setRefResource(String refResource) {
+		this.refResource = refResource;
+	}
 
-    @Override
-    public FlowRule toRule() {
-        FlowRule flowRule = new FlowRule();
-        flowRule.setCount(this.count);
-        flowRule.setGrade(this.grade);
-        flowRule.setResource(this.resource);
-        flowRule.setLimitApp(this.limitApp);
-        flowRule.setRefResource(this.refResource);
-        flowRule.setStrategy(this.strategy);
-        if (this.controlBehavior != null) {
-            flowRule.setControlBehavior(controlBehavior);
-        }
-        if (this.warmUpPeriodSec != null) {
-            flowRule.setWarmUpPeriodSec(warmUpPeriodSec);
-        }
-        if (this.maxQueueingTimeMs != null) {
-            flowRule.setMaxQueueingTimeMs(maxQueueingTimeMs);
-        }
-        flowRule.setClusterMode(clusterMode);
-        flowRule.setClusterConfig(clusterConfig);
-        return flowRule;
-    }
+	public Integer getControlBehavior() {
+		return controlBehavior;
+	}
+
+	public void setControlBehavior(Integer controlBehavior) {
+		this.controlBehavior = controlBehavior;
+	}
+
+	public Integer getWarmUpPeriodSec() {
+		return warmUpPeriodSec;
+	}
+
+	public void setWarmUpPeriodSec(Integer warmUpPeriodSec) {
+		this.warmUpPeriodSec = warmUpPeriodSec;
+	}
+
+	public Integer getMaxQueueingTimeMs() {
+		return maxQueueingTimeMs;
+	}
+
+	public void setMaxQueueingTimeMs(Integer maxQueueingTimeMs) {
+		this.maxQueueingTimeMs = maxQueueingTimeMs;
+	}
+
+	public boolean isClusterMode() {
+		return clusterMode;
+	}
+
+	public FlowRuleEntity setClusterMode(boolean clusterMode) {
+		this.clusterMode = clusterMode;
+		return this;
+	}
+
+	public ClusterFlowConfig getClusterConfig() {
+		return clusterConfig;
+	}
+
+	public FlowRuleEntity setClusterConfig(ClusterFlowConfig clusterConfig) {
+		this.clusterConfig = clusterConfig;
+		return this;
+	}
+
+	@Override
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	@Override
+	public FlowRule toRule() {
+		FlowRule flowRule = new FlowRule();
+		flowRule.setCount(this.count);
+		flowRule.setGrade(this.grade);
+		flowRule.setResource(this.resource);
+		flowRule.setLimitApp(this.limitApp);
+		flowRule.setRefResource(this.refResource);
+		flowRule.setStrategy(this.strategy);
+		if (this.controlBehavior != null) {
+			flowRule.setControlBehavior(controlBehavior);
+		}
+		if (this.warmUpPeriodSec != null) {
+			flowRule.setWarmUpPeriodSec(warmUpPeriodSec);
+		}
+		if (this.maxQueueingTimeMs != null) {
+			flowRule.setMaxQueueingTimeMs(maxQueueingTimeMs);
+		}
+		flowRule.setClusterMode(clusterMode);
+		flowRule.setClusterConfig(clusterConfig);
+		return flowRule;
+	}
 
 }

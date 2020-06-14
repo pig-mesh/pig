@@ -25,13 +25,13 @@ import org.springframework.security.core.Authentication;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 认证成功事件处理器
+ * @date 2019/2/1 认证成功事件处理器
  */
-public abstract class AbstractAuthenticationSuccessEventHandler implements ApplicationListener<AuthenticationSuccessEvent> {
+public abstract class AbstractAuthenticationSuccessEventHandler
+		implements ApplicationListener<AuthenticationSuccessEvent> {
+
 	/**
 	 * Handle an application event.
-	 *
 	 * @param event the event to respond to
 	 */
 	@Override
@@ -46,8 +46,8 @@ public abstract class AbstractAuthenticationSuccessEventHandler implements Appli
 	 * 处理登录成功方法
 	 * <p>
 	 * 获取到登录的authentication 对象
-	 *
 	 * @param authentication 登录对象
 	 */
 	public abstract void handle(Authentication authentication);
+
 }

@@ -23,136 +23,148 @@ import com.alibaba.csp.sentinel.slots.block.degrade.DegradeRule;
  * @author leyou
  */
 public class DegradeRuleEntity implements RuleEntity {
-    private Long id;
-    private String app;
-    private String ip;
-    private Integer port;
-    private String resource;
-    private String limitApp;
-    private Double count;
-    private Integer timeWindow;
-    /**
-     * 0 rt 限流; 1为异常;
-     */
-    private Integer grade;
-    private Date gmtCreate;
-    private Date gmtModified;
 
-    public static DegradeRuleEntity fromDegradeRule(String app, String ip, Integer port, DegradeRule rule) {
-        DegradeRuleEntity entity = new DegradeRuleEntity();
-        entity.setApp(app);
-        entity.setIp(ip);
-        entity.setPort(port);
-        entity.setResource(rule.getResource());
-        entity.setLimitApp(rule.getLimitApp());
-        entity.setCount(rule.getCount());
-        entity.setTimeWindow(rule.getTimeWindow());
-        entity.setGrade(rule.getGrade());
-        return entity;
-    }
+	private Long id;
 
-    @Override
-    public String getIp() {
-        return ip;
-    }
+	private String app;
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	private String ip;
 
-    @Override
-    public Integer getPort() {
-        return port;
-    }
+	private Integer port;
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+	private String resource;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	private String limitApp;
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Double count;
 
-    @Override
-    public String getApp() {
-        return app;
-    }
+	private Integer timeWindow;
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	/**
+	 * 0 rt 限流; 1为异常;
+	 */
+	private Integer grade;
 
-    public String getResource() {
-        return resource;
-    }
+	private Date gmtCreate;
 
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
+	private Date gmtModified;
 
-    public String getLimitApp() {
-        return limitApp;
-    }
+	public static DegradeRuleEntity fromDegradeRule(String app, String ip, Integer port, DegradeRule rule) {
+		DegradeRuleEntity entity = new DegradeRuleEntity();
+		entity.setApp(app);
+		entity.setIp(ip);
+		entity.setPort(port);
+		entity.setResource(rule.getResource());
+		entity.setLimitApp(rule.getLimitApp());
+		entity.setCount(rule.getCount());
+		entity.setTimeWindow(rule.getTimeWindow());
+		entity.setGrade(rule.getGrade());
+		return entity;
+	}
 
-    public void setLimitApp(String limitApp) {
-        this.limitApp = limitApp;
-    }
+	@Override
+	public String getIp() {
+		return ip;
+	}
 
-    public Double getCount() {
-        return count;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public void setCount(Double count) {
-        this.count = count;
-    }
+	@Override
+	public Integer getPort() {
+		return port;
+	}
 
-    public Integer getTimeWindow() {
-        return timeWindow;
-    }
+	public void setPort(Integer port) {
+		this.port = port;
+	}
 
-    public void setTimeWindow(Integer timeWindow) {
-        this.timeWindow = timeWindow;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    public Integer getGrade() {
-        return grade;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+	@Override
+	public String getApp() {
+		return app;
+	}
 
-    @Override
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+	public String getResource() {
+		return resource;
+	}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	public String getLimitApp() {
+		return limitApp;
+	}
 
-    @Override
-    public DegradeRule toRule() {
-        DegradeRule rule = new DegradeRule();
-        rule.setResource(resource);
-        rule.setLimitApp(limitApp);
-        rule.setCount(count);
-        rule.setTimeWindow(timeWindow);
-        rule.setGrade(grade);
-        return rule;
-    }
+	public void setLimitApp(String limitApp) {
+		this.limitApp = limitApp;
+	}
+
+	public Double getCount() {
+		return count;
+	}
+
+	public void setCount(Double count) {
+		this.count = count;
+	}
+
+	public Integer getTimeWindow() {
+		return timeWindow;
+	}
+
+	public void setTimeWindow(Integer timeWindow) {
+		this.timeWindow = timeWindow;
+	}
+
+	public Integer getGrade() {
+		return grade;
+	}
+
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
+
+	@Override
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
+
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	@Override
+	public DegradeRule toRule() {
+		DegradeRule rule = new DegradeRule();
+		rule.setResource(resource);
+		rule.setLimitApp(limitApp);
+		rule.setCount(count);
+		rule.setTimeWindow(timeWindow);
+		rule.setGrade(grade);
+		return rule;
+	}
+
 }

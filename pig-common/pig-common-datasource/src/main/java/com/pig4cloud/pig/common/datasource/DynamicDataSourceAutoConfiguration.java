@@ -42,7 +42,9 @@ import org.springframework.context.annotation.Configuration;
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
+
 	private final StringEncryptor stringEncryptor;
+
 	private final DataSourceProperties properties;
 
 	@Bean
@@ -54,4 +56,5 @@ public class DynamicDataSourceAutoConfiguration {
 	public DsProcessor dsProcessor() {
 		return new LastParamDsProcessor();
 	}
+
 }

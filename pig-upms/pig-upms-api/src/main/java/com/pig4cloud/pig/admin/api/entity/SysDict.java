@@ -38,6 +38,7 @@ import java.time.LocalDateTime;
 @ApiModel(value = "字典类型")
 @EqualsAndHashCode(callSuper = true)
 public class SysDict extends Model<SysDict> {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -46,41 +47,49 @@ public class SysDict extends Model<SysDict> {
 	@TableId
 	@ApiModelProperty(value = "字典编号")
 	private Integer id;
+
 	/**
 	 * 类型
 	 */
 	@ApiModelProperty(value = "字典类型")
 	private String type;
+
 	/**
 	 * 描述
 	 */
 	@ApiModelProperty(value = "字典描述")
 	private String description;
+
 	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
+
 	/**
 	 * 更新时间
 	 */
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updateTime;
+
 	/**
 	 * 是否是系统内置
 	 */
 	@TableField(value = "`system`")
 	@ApiModelProperty(value = "是否系统内置")
 	private String system;
+
 	/**
 	 * 备注信息
 	 */
-	@ApiModelProperty (value = "备注信息")
+	@ApiModelProperty(value = "备注信息")
 	private String remarks;
+
 	/**
 	 * 删除标记
 	 */
 	@TableLogic
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
+
 }

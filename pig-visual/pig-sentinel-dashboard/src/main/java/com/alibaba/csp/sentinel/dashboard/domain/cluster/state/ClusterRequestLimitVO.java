@@ -21,43 +21,43 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.state;
  */
 public class ClusterRequestLimitVO {
 
-    private String namespace;
-    private Double currentQps;
-    private Double maxAllowedQps;
+	private String namespace;
 
-    public String getNamespace() {
-        return namespace;
-    }
+	private Double currentQps;
 
-    public ClusterRequestLimitVO setNamespace(String namespace) {
-        this.namespace = namespace;
-        return this;
-    }
+	private Double maxAllowedQps;
 
-    public Double getCurrentQps() {
-        return currentQps;
-    }
+	public String getNamespace() {
+		return namespace;
+	}
 
-    public ClusterRequestLimitVO setCurrentQps(Double currentQps) {
-        this.currentQps = currentQps;
-        return this;
-    }
+	public ClusterRequestLimitVO setNamespace(String namespace) {
+		this.namespace = namespace;
+		return this;
+	}
 
-    public Double getMaxAllowedQps() {
-        return maxAllowedQps;
-    }
+	public Double getCurrentQps() {
+		return currentQps;
+	}
 
-    public ClusterRequestLimitVO setMaxAllowedQps(Double maxAllowedQps) {
-        this.maxAllowedQps = maxAllowedQps;
-        return this;
-    }
+	public ClusterRequestLimitVO setCurrentQps(Double currentQps) {
+		this.currentQps = currentQps;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterRequestLimitVO{" +
-            "namespace='" + namespace + '\'' +
-            ", currentQps=" + currentQps +
-            ", maxAllowedQps=" + maxAllowedQps +
-            '}';
-    }
+	public Double getMaxAllowedQps() {
+		return maxAllowedQps;
+	}
+
+	public ClusterRequestLimitVO setMaxAllowedQps(Double maxAllowedQps) {
+		this.maxAllowedQps = maxAllowedQps;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterRequestLimitVO{" + "namespace='" + namespace + '\'' + ", currentQps=" + currentQps
+				+ ", maxAllowedQps=" + maxAllowedQps + '}';
+	}
+
 }

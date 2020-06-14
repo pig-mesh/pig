@@ -21,56 +21,54 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster;
  */
 public class ClusterClientInfoVO {
 
-    private String serverHost;
-    private Integer serverPort;
+	private String serverHost;
 
-    private Integer clientState;
+	private Integer serverPort;
 
-    private Integer requestTimeout;
+	private Integer clientState;
 
-    public String getServerHost() {
-        return serverHost;
-    }
+	private Integer requestTimeout;
 
-    public ClusterClientInfoVO setServerHost(String serverHost) {
-        this.serverHost = serverHost;
-        return this;
-    }
+	public String getServerHost() {
+		return serverHost;
+	}
 
-    public Integer getServerPort() {
-        return serverPort;
-    }
+	public ClusterClientInfoVO setServerHost(String serverHost) {
+		this.serverHost = serverHost;
+		return this;
+	}
 
-    public ClusterClientInfoVO setServerPort(Integer serverPort) {
-        this.serverPort = serverPort;
-        return this;
-    }
+	public Integer getServerPort() {
+		return serverPort;
+	}
 
-    public Integer getClientState() {
-        return clientState;
-    }
+	public ClusterClientInfoVO setServerPort(Integer serverPort) {
+		this.serverPort = serverPort;
+		return this;
+	}
 
-    public ClusterClientInfoVO setClientState(Integer clientState) {
-        this.clientState = clientState;
-        return this;
-    }
+	public Integer getClientState() {
+		return clientState;
+	}
 
-    public Integer getRequestTimeout() {
-        return requestTimeout;
-    }
+	public ClusterClientInfoVO setClientState(Integer clientState) {
+		this.clientState = clientState;
+		return this;
+	}
 
-    public ClusterClientInfoVO setRequestTimeout(Integer requestTimeout) {
-        this.requestTimeout = requestTimeout;
-        return this;
-    }
+	public Integer getRequestTimeout() {
+		return requestTimeout;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterClientInfoVO{" +
-            "serverHost='" + serverHost + '\'' +
-            ", serverPort=" + serverPort +
-            ", clientState=" + clientState +
-            ", requestTimeout=" + requestTimeout +
-            '}';
-    }
+	public ClusterClientInfoVO setRequestTimeout(Integer requestTimeout) {
+		this.requestTimeout = requestTimeout;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterClientInfoVO{" + "serverHost='" + serverHost + '\'' + ", serverPort=" + serverPort
+				+ ", clientState=" + clientState + ", requestTimeout=" + requestTimeout + '}';
+	}
+
 }

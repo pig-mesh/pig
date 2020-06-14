@@ -36,8 +36,10 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @Configuration
 @ConditionalOnWebApplication(type = SERVLET)
 public class WebMvcConfig implements WebMvcConfigurer {
+
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(new SqlFilterArgumentResolver());
 	}
+
 }

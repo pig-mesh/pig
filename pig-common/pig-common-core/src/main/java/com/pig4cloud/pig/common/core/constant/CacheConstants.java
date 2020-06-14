@@ -36,7 +36,6 @@ public interface CacheConstants {
 	 */
 	String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY:";
 
-
 	/**
 	 * 菜单信息缓存
 	 */
@@ -52,15 +51,14 @@ public interface CacheConstants {
 	 */
 	String DICT_DETAILS = "dict_details";
 
-
 	/**
 	 * oauth 客户端信息
 	 */
 	String CLIENT_DETAILS_KEY = "pig_oauth:client:details";
 
-
 	/**
 	 * 参数缓存
 	 */
 	String PARAMS_DETAILS = "params_details";
+
 }

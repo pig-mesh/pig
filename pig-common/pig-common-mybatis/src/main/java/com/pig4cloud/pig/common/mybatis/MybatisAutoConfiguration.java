@@ -30,9 +30,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 public class MybatisAutoConfiguration {
+
 	/**
 	 * 分页插件
-	 *
 	 * @return PaginationInterceptor
 	 */
 	@Bean

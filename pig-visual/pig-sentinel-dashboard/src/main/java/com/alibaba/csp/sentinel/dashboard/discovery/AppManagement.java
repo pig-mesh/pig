@@ -27,44 +27,44 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppManagement implements MachineDiscovery {
 
-    @Autowired
-    private ApplicationContext context;
+	@Autowired
+	private ApplicationContext context;
 
-    private MachineDiscovery machineDiscovery;
+	private MachineDiscovery machineDiscovery;
 
-    @PostConstruct
-    public void init() {
-        machineDiscovery = context.getBean(SimpleMachineDiscovery.class);
-    }
+	@PostConstruct
+	public void init() {
+		machineDiscovery = context.getBean(SimpleMachineDiscovery.class);
+	}
 
-    @Override
-    public Set<AppInfo> getBriefApps() {
-        return machineDiscovery.getBriefApps();
-    }
+	@Override
+	public Set<AppInfo> getBriefApps() {
+		return machineDiscovery.getBriefApps();
+	}
 
-    @Override
-    public long addMachine(MachineInfo machineInfo) {
-        return machineDiscovery.addMachine(machineInfo);
-    }
-    
-    @Override
-    public boolean removeMachine(String app, String ip, int port) {
-        return machineDiscovery.removeMachine(app, ip, port);
-    }
+	@Override
+	public long addMachine(MachineInfo machineInfo) {
+		return machineDiscovery.addMachine(machineInfo);
+	}
 
-    @Override
-    public List<String> getAppNames() {
-        return machineDiscovery.getAppNames();
-    }
+	@Override
+	public boolean removeMachine(String app, String ip, int port) {
+		return machineDiscovery.removeMachine(app, ip, port);
+	}
 
-    @Override
-    public AppInfo getDetailApp(String app) {
-        return machineDiscovery.getDetailApp(app);
-    }
-    
-    @Override
-    public void removeApp(String app) {
-        machineDiscovery.removeApp(app);
-    }
+	@Override
+	public List<String> getAppNames() {
+		return machineDiscovery.getAppNames();
+	}
+
+	@Override
+	public AppInfo getDetailApp(String app) {
+		return machineDiscovery.getDetailApp(app);
+	}
+
+	@Override
+	public void removeApp(String app) {
+		machineDiscovery.removeApp(app);
+	}
 
 }

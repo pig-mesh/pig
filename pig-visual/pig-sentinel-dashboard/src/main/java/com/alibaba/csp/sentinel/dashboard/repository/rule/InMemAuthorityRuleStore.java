@@ -30,10 +30,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class InMemAuthorityRuleStore extends InMemoryRuleRepositoryAdapter<AuthorityRuleEntity> {
 
-    private static AtomicLong ids = new AtomicLong(0);
+	private static AtomicLong ids = new AtomicLong(0);
 
-    @Override
-    protected long nextId() {
-        return ids.incrementAndGet();
-    }
+	@Override
+	protected long nextId() {
+		return ids.incrementAndGet();
+	}
+
 }

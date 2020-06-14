@@ -24,68 +24,65 @@ import java.util.Set;
  */
 public class ClusterGroupEntity {
 
-    private String machineId;
+	private String machineId;
 
-    private String ip;
-    private Integer port;
+	private String ip;
 
-    private Set<String> clientSet = new HashSet<>();
+	private Integer port;
 
-    private Boolean belongToApp;
+	private Set<String> clientSet = new HashSet<>();
 
-    public String getMachineId() {
-        return machineId;
-    }
+	private Boolean belongToApp;
 
-    public ClusterGroupEntity setMachineId(String machineId) {
-        this.machineId = machineId;
-        return this;
-    }
+	public String getMachineId() {
+		return machineId;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public ClusterGroupEntity setMachineId(String machineId) {
+		this.machineId = machineId;
+		return this;
+	}
 
-    public ClusterGroupEntity setIp(String ip) {
-        this.ip = ip;
-        return this;
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public Integer getPort() {
-        return port;
-    }
+	public ClusterGroupEntity setIp(String ip) {
+		this.ip = ip;
+		return this;
+	}
 
-    public ClusterGroupEntity setPort(Integer port) {
-        this.port = port;
-        return this;
-    }
+	public Integer getPort() {
+		return port;
+	}
 
-    public Set<String> getClientSet() {
-        return clientSet;
-    }
+	public ClusterGroupEntity setPort(Integer port) {
+		this.port = port;
+		return this;
+	}
 
-    public ClusterGroupEntity setClientSet(Set<String> clientSet) {
-        this.clientSet = clientSet;
-        return this;
-    }
+	public Set<String> getClientSet() {
+		return clientSet;
+	}
 
-    public Boolean getBelongToApp() {
-        return belongToApp;
-    }
+	public ClusterGroupEntity setClientSet(Set<String> clientSet) {
+		this.clientSet = clientSet;
+		return this;
+	}
 
-    public ClusterGroupEntity setBelongToApp(Boolean belongToApp) {
-        this.belongToApp = belongToApp;
-        return this;
-    }
+	public Boolean getBelongToApp() {
+		return belongToApp;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterGroupEntity{" +
-            "machineId='" + machineId + '\'' +
-            ", ip='" + ip + '\'' +
-            ", port=" + port +
-            ", clientSet=" + clientSet +
-            ", belongToApp=" + belongToApp +
-            '}';
-    }
+	public ClusterGroupEntity setBelongToApp(Boolean belongToApp) {
+		this.belongToApp = belongToApp;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterGroupEntity{" + "machineId='" + machineId + '\'' + ", ip='" + ip + '\'' + ", port=" + port
+				+ ", clientSet=" + clientSet + ", belongToApp=" + belongToApp + '}';
+	}
+
 }

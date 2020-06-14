@@ -38,7 +38,6 @@ public interface GeneratorMapper {
 
 	/**
 	 * 分页查询表格
-	 *
 	 * @param page
 	 * @param tableName
 	 * @return
@@ -47,9 +46,8 @@ public interface GeneratorMapper {
 
 	/**
 	 * 查询表信息
-	 *
 	 * @param tableName 表名称
-	 * @param dsName    数据源名称
+	 * @param dsName 数据源名称
 	 * @return
 	 */
 	@DS("#last")
@@ -57,11 +55,11 @@ public interface GeneratorMapper {
 
 	/**
 	 * 查询表列信息
-	 *
 	 * @param tableName 表名称
-	 * @param dsName    数据源名称
+	 * @param dsName 数据源名称
 	 * @return
 	 */
 	@DS("#last")
 	List<Map<String, String>> queryColumns(@Param("tableName") String tableName, String dsName);
+
 }

@@ -47,6 +47,7 @@ public class SysUser implements Serializable {
 	@TableId(value = "user_id", type = IdType.AUTO)
 	@ApiModelProperty(value = "主键id")
 	private Integer userId;
+
 	/**
 	 * 用户名
 	 */
@@ -83,16 +84,19 @@ public class SysUser implements Serializable {
 	 */
 	@ApiModelProperty(value = "锁定标记")
 	private String lockFlag;
+
 	/**
 	 * 手机号
 	 */
 	@ApiModelProperty(value = "手机号")
 	private String phone;
+
 	/**
 	 * 头像
 	 */
 	@ApiModelProperty(value = "头像地址")
 	private String avatar;
+
 	/**
 	 * 部门ID
 	 */
@@ -104,4 +108,5 @@ public class SysUser implements Serializable {
 	 */
 	@TableLogic
 	private String delFlag;
+
 }

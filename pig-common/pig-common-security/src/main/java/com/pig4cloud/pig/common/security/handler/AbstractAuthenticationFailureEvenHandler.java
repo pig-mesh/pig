@@ -25,14 +25,13 @@ import org.springframework.security.core.AuthenticationException;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 认证失败事件处理器
+ * @date 2019/2/1 认证失败事件处理器
  */
-public abstract class AbstractAuthenticationFailureEvenHandler implements ApplicationListener<AbstractAuthenticationFailureEvent> {
+public abstract class AbstractAuthenticationFailureEvenHandler
+		implements ApplicationListener<AbstractAuthenticationFailureEvent> {
 
 	/**
 	 * Handle an application event.
-	 *
 	 * @param event the event to respond to
 	 */
 	@Override
@@ -46,9 +45,9 @@ public abstract class AbstractAuthenticationFailureEvenHandler implements Applic
 	/**
 	 * 处理登录成功方法
 	 * <p>
-	 *
 	 * @param authenticationException 登录的authentication 对象
-	 * @param authentication          登录的authenticationException 对象
+	 * @param authentication 登录的authenticationException 对象
 	 */
 	public abstract void handle(AuthenticationException authenticationException, Authentication authentication);
+
 }

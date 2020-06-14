@@ -32,14 +32,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class RemoteUserServiceFallbackImpl implements RemoteUserService {
+
 	@Setter
 	private Throwable cause;
 
 	/**
 	 * 通过用户名查询用户、角色信息
-	 *
 	 * @param username 用户名
-	 * @param from     内外标志
+	 * @param from 内外标志
 	 * @return R
 	 */
 	@Override
@@ -50,7 +50,6 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 
 	/**
 	 * 通过社交账号查询用户、角色信息
-	 *
 	 * @param inStr appid@code
 	 * @return
 	 */
@@ -59,4 +58,5 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 		log.error("feign 查询用户信息失败:{}", inStr, cause);
 		return null;
 	}
+
 }

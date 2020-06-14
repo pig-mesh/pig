@@ -15,7 +15,6 @@
  */
 package com.alibaba.nacos.config;
 
-
 import com.alibaba.nacos.core.code.ControllerMethodsCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,26 +37,27 @@ import javax.annotation.PostConstruct;
 @PropertySource("/application.properties")
 public class ConsoleConfig {
 
-    @Autowired
-    private ControllerMethodsCache methodsCache;
+	@Autowired
+	private ControllerMethodsCache methodsCache;
 
-    @PostConstruct
-    public void init() {
-        methodsCache.initClassMethod("com.alibaba.nacos.naming.controllers");
-        methodsCache.initClassMethod("com.alibaba.nacos.console.controller");
-        methodsCache.initClassMethod("com.alibaba.nacos.config.server.controller");
-    }
+	@PostConstruct
+	public void init() {
+		methodsCache.initClassMethod("com.alibaba.nacos.naming.controllers");
+		methodsCache.initClassMethod("com.alibaba.nacos.console.controller");
+		methodsCache.initClassMethod("com.alibaba.nacos.config.server.controller");
+	}
 
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.setMaxAge(18000L);
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
+	@Bean
+	public CorsFilter corsFilter() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.setMaxAge(18000L);
+		config.addAllowedMethod("*");
+		source.registerCorsConfiguration("/**", config);
+		return new CorsFilter(source);
+	}
+
 }

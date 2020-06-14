@@ -35,27 +35,24 @@ import java.util.Optional;
 
 /**
  * @author lengleng
- * @date 2018-07-19
- * SwaggerUiHandler
+ * @date 2018-07-19 SwaggerUiHandler
  */
 @Slf4j
 @Component
 public class SwaggerUiHandler implements HandlerFunction<ServerResponse> {
+
 	@Autowired(required = false)
 	private UiConfiguration uiConfiguration;
 
 	/**
 	 * Handle the given request.
-	 *
 	 * @param request the request to handler
 	 * @return the response
 	 */
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest request) {
-		return ServerResponse.status(HttpStatus.OK)
-			.contentType(MediaType.APPLICATION_JSON)
-			.body(BodyInserters.fromValue(
-				Optional.ofNullable(uiConfiguration)
-					.orElse(UiConfigurationBuilder.builder().build())));
+		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(BodyInserters
+				.fromValue(Optional.ofNullable(uiConfiguration).orElse(UiConfigurationBuilder.builder().build())));
 	}
+
 }

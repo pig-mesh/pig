@@ -36,4 +36,5 @@ public class RemoteLogServiceFallbackFactory implements FallbackFactory<RemoteLo
 		remoteLogServiceFallback.setCause(throwable);
 		return remoteLogServiceFallback;
 	}
+
 }

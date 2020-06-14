@@ -21,200 +21,198 @@ import java.util.Date;
  * @author leyou
  */
 public class MetricEntity {
-    private Long id;
-    private Date gmtCreate;
-    private Date gmtModified;
-    private String app;
-    /**
-     * 监控信息的时间戳
-     */
-    private Date timestamp;
-    private String resource;
-    private Long passQps;
-    private Long successQps;
-    private Long blockQps;
-    private Long exceptionQps;
 
-    /**
-     * summary rt of all success exit qps.
-     */
-    private double rt;
+	private Long id;
 
-    /**
-     * 本次聚合的总条数
-     */
-    private int count;
+	private Date gmtCreate;
 
-    private int resourceCode;
+	private Date gmtModified;
 
-    public static MetricEntity copyOf(MetricEntity oldEntity) {
-        MetricEntity entity = new MetricEntity();
-        entity.setId(oldEntity.getId());
-        entity.setGmtCreate(oldEntity.getGmtCreate());
-        entity.setGmtModified(oldEntity.getGmtModified());
-        entity.setApp(oldEntity.getApp());
-        entity.setTimestamp(oldEntity.getTimestamp());
-        entity.setResource(oldEntity.getResource());
-        entity.setPassQps(oldEntity.getPassQps());
-        entity.setBlockQps(oldEntity.getBlockQps());
-        entity.setSuccessQps(oldEntity.getSuccessQps());
-        entity.setExceptionQps(oldEntity.getExceptionQps());
-        entity.setRt(oldEntity.getRt());
-        entity.setCount(oldEntity.getCount());
-        entity.setResource(oldEntity.getResource());
-        return entity;
-    }
+	private String app;
 
-    public synchronized void addPassQps(Long passQps) {
-        this.passQps += passQps;
-    }
+	/**
+	 * 监控信息的时间戳
+	 */
+	private Date timestamp;
 
-    public synchronized void addBlockQps(Long blockQps) {
-        this.blockQps += blockQps;
-    }
+	private String resource;
 
-    public synchronized void addExceptionQps(Long exceptionQps) {
-        this.exceptionQps += exceptionQps;
-    }
+	private Long passQps;
 
-    public synchronized void addCount(int count) {
-        this.count += count;
-    }
+	private Long successQps;
 
-    public synchronized void addRtAndSuccessQps(double avgRt, Long successQps) {
-        this.rt += avgRt * successQps;
-        this.successQps += successQps;
-    }
+	private Long blockQps;
 
-    /**
-     * {@link #rt} = {@code avgRt * successQps}
-     *
-     * @param avgRt      average rt of {@code successQps}
-     * @param successQps
-     */
-    public synchronized void setRtAndSuccessQps(double avgRt, Long successQps) {
-        this.rt = avgRt * successQps;
-        this.successQps = successQps;
-    }
+	private Long exceptionQps;
 
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * summary rt of all success exit qps.
+	 */
+	private double rt;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * 本次聚合的总条数
+	 */
+	private int count;
 
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+	private int resourceCode;
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+	public static MetricEntity copyOf(MetricEntity oldEntity) {
+		MetricEntity entity = new MetricEntity();
+		entity.setId(oldEntity.getId());
+		entity.setGmtCreate(oldEntity.getGmtCreate());
+		entity.setGmtModified(oldEntity.getGmtModified());
+		entity.setApp(oldEntity.getApp());
+		entity.setTimestamp(oldEntity.getTimestamp());
+		entity.setResource(oldEntity.getResource());
+		entity.setPassQps(oldEntity.getPassQps());
+		entity.setBlockQps(oldEntity.getBlockQps());
+		entity.setSuccessQps(oldEntity.getSuccessQps());
+		entity.setExceptionQps(oldEntity.getExceptionQps());
+		entity.setRt(oldEntity.getRt());
+		entity.setCount(oldEntity.getCount());
+		entity.setResource(oldEntity.getResource());
+		return entity;
+	}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+	public synchronized void addPassQps(Long passQps) {
+		this.passQps += passQps;
+	}
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	public synchronized void addBlockQps(Long blockQps) {
+		this.blockQps += blockQps;
+	}
 
-    public String getApp() {
-        return app;
-    }
+	public synchronized void addExceptionQps(Long exceptionQps) {
+		this.exceptionQps += exceptionQps;
+	}
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	public synchronized void addCount(int count) {
+		this.count += count;
+	}
 
-    public Date getTimestamp() {
-        return timestamp;
-    }
+	public synchronized void addRtAndSuccessQps(double avgRt, Long successQps) {
+		this.rt += avgRt * successQps;
+		this.successQps += successQps;
+	}
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+	/**
+	 * {@link #rt} = {@code avgRt * successQps}
+	 * @param avgRt average rt of {@code successQps}
+	 * @param successQps
+	 */
+	public synchronized void setRtAndSuccessQps(double avgRt, Long successQps) {
+		this.rt = avgRt * successQps;
+		this.successQps = successQps;
+	}
 
-    public String getResource() {
-        return resource;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setResource(String resource) {
-        this.resource = resource;
-        this.resourceCode = resource.hashCode();
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public Long getPassQps() {
-        return passQps;
-    }
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
 
-    public void setPassQps(Long passQps) {
-        this.passQps = passQps;
-    }
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
 
-    public Long getBlockQps() {
-        return blockQps;
-    }
+	public Date getGmtModified() {
+		return gmtModified;
+	}
 
-    public void setBlockQps(Long blockQps) {
-        this.blockQps = blockQps;
-    }
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 
-    public Long getExceptionQps() {
-        return exceptionQps;
-    }
+	public String getApp() {
+		return app;
+	}
 
-    public void setExceptionQps(Long exceptionQps) {
-        this.exceptionQps = exceptionQps;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public double getRt() {
-        return rt;
-    }
+	public Date getTimestamp() {
+		return timestamp;
+	}
 
-    public void setRt(double rt) {
-        this.rt = rt;
-    }
+	public void setTimestamp(Date timestamp) {
+		this.timestamp = timestamp;
+	}
 
-    public int getCount() {
-        return count;
-    }
+	public String getResource() {
+		return resource;
+	}
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+	public void setResource(String resource) {
+		this.resource = resource;
+		this.resourceCode = resource.hashCode();
+	}
 
-    public int getResourceCode() {
-        return resourceCode;
-    }
+	public Long getPassQps() {
+		return passQps;
+	}
 
-    public Long getSuccessQps() {
-        return successQps;
-    }
+	public void setPassQps(Long passQps) {
+		this.passQps = passQps;
+	}
 
-    public void setSuccessQps(Long successQps) {
-        this.successQps = successQps;
-    }
+	public Long getBlockQps() {
+		return blockQps;
+	}
 
-    @Override
-    public String toString() {
-        return "MetricEntity{" +
-            "id=" + id +
-            ", gmtCreate=" + gmtCreate +
-            ", gmtModified=" + gmtModified +
-            ", app='" + app + '\'' +
-            ", timestamp=" + timestamp +
-            ", resource='" + resource + '\'' +
-            ", passQps=" + passQps +
-            ", blockQps=" + blockQps +
-            ", successQps=" + successQps +
-            ", exceptionQps=" + exceptionQps +
-            ", rt=" + rt +
-            ", count=" + count +
-            ", resourceCode=" + resourceCode +
-            '}';
-    }
+	public void setBlockQps(Long blockQps) {
+		this.blockQps = blockQps;
+	}
+
+	public Long getExceptionQps() {
+		return exceptionQps;
+	}
+
+	public void setExceptionQps(Long exceptionQps) {
+		this.exceptionQps = exceptionQps;
+	}
+
+	public double getRt() {
+		return rt;
+	}
+
+	public void setRt(double rt) {
+		this.rt = rt;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public int getResourceCode() {
+		return resourceCode;
+	}
+
+	public Long getSuccessQps() {
+		return successQps;
+	}
+
+	public void setSuccessQps(Long successQps) {
+		this.successQps = successQps;
+	}
+
+	@Override
+	public String toString() {
+		return "MetricEntity{" + "id=" + id + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", app='"
+				+ app + '\'' + ", timestamp=" + timestamp + ", resource='" + resource + '\'' + ", passQps=" + passQps
+				+ ", blockQps=" + blockQps + ", successQps=" + successQps + ", exceptionQps=" + exceptionQps + ", rt="
+				+ rt + ", count=" + count + ", resourceCode=" + resourceCode + '}';
+	}
 
 }

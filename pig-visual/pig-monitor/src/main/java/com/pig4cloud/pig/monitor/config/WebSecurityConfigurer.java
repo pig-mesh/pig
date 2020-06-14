@@ -33,6 +33,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
  */
 @Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+
 	private final String adminContextPath;
 
 	public WebSecurityConfigurer(AdminServerProperties adminServerProperties) {
@@ -65,4 +66,5 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 			.disable();
 		// @formatter:on
 	}
+
 }

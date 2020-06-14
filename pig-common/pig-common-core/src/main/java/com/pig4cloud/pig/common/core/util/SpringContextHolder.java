@@ -29,8 +29,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * Spring 工具类
+ * @date 2019/2/1 Spring 工具类
  */
 @Slf4j
 @Service
@@ -81,7 +80,6 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 
 	/**
 	 * 发布事件
-	 *
 	 * @param event
 	 */
 	public static void publishEvent(ApplicationEvent event) {

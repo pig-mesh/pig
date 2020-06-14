@@ -44,171 +44,177 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/degrade", produces = MediaType.APPLICATION_JSON_VALUE)
 public class DegradeController {
 
-    private final Logger logger = LoggerFactory.getLogger(DegradeController.class);
+	private final Logger logger = LoggerFactory.getLogger(DegradeController.class);
 
-    @Autowired
-    private InMemDegradeRuleStore repository;
-    @Autowired
-    private SentinelApiClient sentinelApiClient;
+	@Autowired
+	private InMemDegradeRuleStore repository;
 
-    @ResponseBody
-    @RequestMapping("/rules.json")
-    @AuthAction(PrivilegeType.READ_RULE)
-    public Result<List<DegradeRuleEntity>> queryMachineRules(String app, String ip, Integer port) {
+	@Autowired
+	private SentinelApiClient sentinelApiClient;
 
-        if (StringUtil.isEmpty(app)) {
-            return Result.ofFail(-1, "app can't be null or empty");
-        }
-        if (StringUtil.isEmpty(ip)) {
-            return Result.ofFail(-1, "ip can't be null or empty");
-        }
-        if (port == null) {
-            return Result.ofFail(-1, "port can't be null");
-        }
-        try {
-            List<DegradeRuleEntity> rules = sentinelApiClient.fetchDegradeRuleOfMachine(app, ip, port);
-            rules = repository.saveAll(rules);
-            return Result.ofSuccess(rules);
-        } catch (Throwable throwable) {
-            logger.error("queryApps error:", throwable);
-            return Result.ofThrowable(-1, throwable);
-        }
-    }
+	@ResponseBody
+	@RequestMapping("/rules.json")
+	@AuthAction(PrivilegeType.READ_RULE)
+	public Result<List<DegradeRuleEntity>> queryMachineRules(String app, String ip, Integer port) {
 
-    @ResponseBody
-    @RequestMapping("/new.json")
-    @AuthAction(PrivilegeType.WRITE_RULE)
-    public Result<DegradeRuleEntity> add(String app, String ip, Integer port, String limitApp, String resource,
-                                         Double count, Integer timeWindow, Integer grade) {
-        if (StringUtil.isBlank(app)) {
-            return Result.ofFail(-1, "app can't be null or empty");
-        }
-        if (StringUtil.isBlank(ip)) {
-            return Result.ofFail(-1, "ip can't be null or empty");
-        }
-        if (port == null) {
-            return Result.ofFail(-1, "port can't be null");
-        }
-        if (StringUtil.isBlank(limitApp)) {
-            return Result.ofFail(-1, "limitApp can't be null or empty");
-        }
-        if (StringUtil.isBlank(resource)) {
-            return Result.ofFail(-1, "resource can't be null or empty");
-        }
-        if (count == null) {
-            return Result.ofFail(-1, "count can't be null");
-        }
-        if (timeWindow == null) {
-            return Result.ofFail(-1, "timeWindow can't be null");
-        }
-        if (grade == null) {
-            return Result.ofFail(-1, "grade can't be null");
-        }
-        if (grade < RuleConstant.DEGRADE_GRADE_RT || grade > RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) {
-            return Result.ofFail(-1, "Invalid grade: " + grade);
-        }
-        DegradeRuleEntity entity = new DegradeRuleEntity();
-        entity.setApp(app.trim());
-        entity.setIp(ip.trim());
-        entity.setPort(port);
-        entity.setLimitApp(limitApp.trim());
-        entity.setResource(resource.trim());
-        entity.setCount(count);
-        entity.setTimeWindow(timeWindow);
-        entity.setGrade(grade);
-        Date date = new Date();
-        entity.setGmtCreate(date);
-        entity.setGmtModified(date);
-        try {
-            entity = repository.save(entity);
-        } catch (Throwable throwable) {
-            logger.error("add error:", throwable);
-            return Result.ofThrowable(-1, throwable);
-        }
-        if (!publishRules(app, ip, port)) {
-            logger.info("publish degrade rules fail after rule add");
-        }
-        return Result.ofSuccess(entity);
-    }
+		if (StringUtil.isEmpty(app)) {
+			return Result.ofFail(-1, "app can't be null or empty");
+		}
+		if (StringUtil.isEmpty(ip)) {
+			return Result.ofFail(-1, "ip can't be null or empty");
+		}
+		if (port == null) {
+			return Result.ofFail(-1, "port can't be null");
+		}
+		try {
+			List<DegradeRuleEntity> rules = sentinelApiClient.fetchDegradeRuleOfMachine(app, ip, port);
+			rules = repository.saveAll(rules);
+			return Result.ofSuccess(rules);
+		}
+		catch (Throwable throwable) {
+			logger.error("queryApps error:", throwable);
+			return Result.ofThrowable(-1, throwable);
+		}
+	}
 
-    @ResponseBody
-    @RequestMapping("/save.json")
-    @AuthAction(PrivilegeType.WRITE_RULE)
-    public Result<DegradeRuleEntity> updateIfNotNull(Long id, String app, String limitApp, String resource,
-                                                     Double count, Integer timeWindow, Integer grade) {
-        if (id == null) {
-            return Result.ofFail(-1, "id can't be null");
-        }
-        if (grade != null) {
-            if (grade < RuleConstant.DEGRADE_GRADE_RT || grade > RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) {
-                return Result.ofFail(-1, "Invalid grade: " + grade);
-            }
-        }
-        DegradeRuleEntity entity = repository.findById(id);
-        if (entity == null) {
-            return Result.ofFail(-1, "id " + id + " dose not exist");
-        }
+	@ResponseBody
+	@RequestMapping("/new.json")
+	@AuthAction(PrivilegeType.WRITE_RULE)
+	public Result<DegradeRuleEntity> add(String app, String ip, Integer port, String limitApp, String resource,
+			Double count, Integer timeWindow, Integer grade) {
+		if (StringUtil.isBlank(app)) {
+			return Result.ofFail(-1, "app can't be null or empty");
+		}
+		if (StringUtil.isBlank(ip)) {
+			return Result.ofFail(-1, "ip can't be null or empty");
+		}
+		if (port == null) {
+			return Result.ofFail(-1, "port can't be null");
+		}
+		if (StringUtil.isBlank(limitApp)) {
+			return Result.ofFail(-1, "limitApp can't be null or empty");
+		}
+		if (StringUtil.isBlank(resource)) {
+			return Result.ofFail(-1, "resource can't be null or empty");
+		}
+		if (count == null) {
+			return Result.ofFail(-1, "count can't be null");
+		}
+		if (timeWindow == null) {
+			return Result.ofFail(-1, "timeWindow can't be null");
+		}
+		if (grade == null) {
+			return Result.ofFail(-1, "grade can't be null");
+		}
+		if (grade < RuleConstant.DEGRADE_GRADE_RT || grade > RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) {
+			return Result.ofFail(-1, "Invalid grade: " + grade);
+		}
+		DegradeRuleEntity entity = new DegradeRuleEntity();
+		entity.setApp(app.trim());
+		entity.setIp(ip.trim());
+		entity.setPort(port);
+		entity.setLimitApp(limitApp.trim());
+		entity.setResource(resource.trim());
+		entity.setCount(count);
+		entity.setTimeWindow(timeWindow);
+		entity.setGrade(grade);
+		Date date = new Date();
+		entity.setGmtCreate(date);
+		entity.setGmtModified(date);
+		try {
+			entity = repository.save(entity);
+		}
+		catch (Throwable throwable) {
+			logger.error("add error:", throwable);
+			return Result.ofThrowable(-1, throwable);
+		}
+		if (!publishRules(app, ip, port)) {
+			logger.info("publish degrade rules fail after rule add");
+		}
+		return Result.ofSuccess(entity);
+	}
 
-        if (StringUtil.isNotBlank(app)) {
-            entity.setApp(app.trim());
-        }
+	@ResponseBody
+	@RequestMapping("/save.json")
+	@AuthAction(PrivilegeType.WRITE_RULE)
+	public Result<DegradeRuleEntity> updateIfNotNull(Long id, String app, String limitApp, String resource,
+			Double count, Integer timeWindow, Integer grade) {
+		if (id == null) {
+			return Result.ofFail(-1, "id can't be null");
+		}
+		if (grade != null) {
+			if (grade < RuleConstant.DEGRADE_GRADE_RT || grade > RuleConstant.DEGRADE_GRADE_EXCEPTION_COUNT) {
+				return Result.ofFail(-1, "Invalid grade: " + grade);
+			}
+		}
+		DegradeRuleEntity entity = repository.findById(id);
+		if (entity == null) {
+			return Result.ofFail(-1, "id " + id + " dose not exist");
+		}
 
-        if (StringUtil.isNotBlank(limitApp)) {
-            entity.setLimitApp(limitApp.trim());
-        }
-        if (StringUtil.isNotBlank(resource)) {
-            entity.setResource(resource.trim());
-        }
-        if (count != null) {
-            entity.setCount(count);
-        }
-        if (timeWindow != null) {
-            entity.setTimeWindow(timeWindow);
-        }
-        if (grade != null) {
-            entity.setGrade(grade);
-        }
-        Date date = new Date();
-        entity.setGmtModified(date);
-        try {
-            entity = repository.save(entity);
-        } catch (Throwable throwable) {
-            logger.error("save error:", throwable);
-            return Result.ofThrowable(-1, throwable);
-        }
-        if (!publishRules(entity.getApp(), entity.getIp(), entity.getPort())) {
-            logger.info("publish degrade rules fail after rule update");
-        }
-        return Result.ofSuccess(entity);
-    }
+		if (StringUtil.isNotBlank(app)) {
+			entity.setApp(app.trim());
+		}
 
-    @ResponseBody
-    @RequestMapping("/delete.json")
-    @AuthAction(PrivilegeType.DELETE_RULE)
-    public Result<Long> delete(Long id) {
-        if (id == null) {
-            return Result.ofFail(-1, "id can't be null");
-        }
+		if (StringUtil.isNotBlank(limitApp)) {
+			entity.setLimitApp(limitApp.trim());
+		}
+		if (StringUtil.isNotBlank(resource)) {
+			entity.setResource(resource.trim());
+		}
+		if (count != null) {
+			entity.setCount(count);
+		}
+		if (timeWindow != null) {
+			entity.setTimeWindow(timeWindow);
+		}
+		if (grade != null) {
+			entity.setGrade(grade);
+		}
+		Date date = new Date();
+		entity.setGmtModified(date);
+		try {
+			entity = repository.save(entity);
+		}
+		catch (Throwable throwable) {
+			logger.error("save error:", throwable);
+			return Result.ofThrowable(-1, throwable);
+		}
+		if (!publishRules(entity.getApp(), entity.getIp(), entity.getPort())) {
+			logger.info("publish degrade rules fail after rule update");
+		}
+		return Result.ofSuccess(entity);
+	}
 
-        DegradeRuleEntity oldEntity = repository.findById(id);
-        if (oldEntity == null) {
-            return Result.ofSuccess(null);
-        }
+	@ResponseBody
+	@RequestMapping("/delete.json")
+	@AuthAction(PrivilegeType.DELETE_RULE)
+	public Result<Long> delete(Long id) {
+		if (id == null) {
+			return Result.ofFail(-1, "id can't be null");
+		}
 
-        try {
-            repository.delete(id);
-        } catch (Throwable throwable) {
-            logger.error("delete error:", throwable);
-            return Result.ofThrowable(-1, throwable);
-        }
-        if (!publishRules(oldEntity.getApp(), oldEntity.getIp(), oldEntity.getPort())) {
-            logger.info("publish degrade rules fail after rule delete");
-        }
-        return Result.ofSuccess(id);
-    }
+		DegradeRuleEntity oldEntity = repository.findById(id);
+		if (oldEntity == null) {
+			return Result.ofSuccess(null);
+		}
 
-    private boolean publishRules(String app, String ip, Integer port) {
-        List<DegradeRuleEntity> rules = repository.findAllByMachine(MachineInfo.of(app, ip, port));
-        return sentinelApiClient.setDegradeRuleOfMachine(app, ip, port, rules);
-    }
+		try {
+			repository.delete(id);
+		}
+		catch (Throwable throwable) {
+			logger.error("delete error:", throwable);
+			return Result.ofThrowable(-1, throwable);
+		}
+		if (!publishRules(oldEntity.getApp(), oldEntity.getIp(), oldEntity.getPort())) {
+			logger.info("publish degrade rules fail after rule delete");
+		}
+		return Result.ofSuccess(id);
+	}
+
+	private boolean publishRules(String app, String ip, Integer port) {
+		List<DegradeRuleEntity> rules = repository.findAllByMachine(MachineInfo.of(app, ip, port));
+		return sentinelApiClient.setDegradeRuleOfMachine(app, ip, port, rules);
+	}
+
 }

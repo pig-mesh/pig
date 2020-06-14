@@ -30,17 +30,16 @@ import java.io.IOException;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 认证授权相关工具类
+ * @date 2019/2/1 认证授权相关工具类
  */
 @Slf4j
 @UtilityClass
 public class AuthUtils {
+
 	private final String BASIC_ = "Basic ";
 
 	/**
 	 * 从header 请求中的clientId/clientsecect
-	 *
 	 * @param header header中的参数
 	 */
 	@SneakyThrows
@@ -50,9 +49,9 @@ public class AuthUtils {
 		byte[] decoded;
 		try {
 			decoded = Base64.decode(base64Token);
-		} catch (IllegalArgumentException e) {
-			throw new RuntimeException(
-				"Failed to decode basic authentication token");
+		}
+		catch (IllegalArgumentException e) {
+			throw new RuntimeException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, CharsetUtil.UTF_8);
@@ -62,12 +61,11 @@ public class AuthUtils {
 		if (delim == -1) {
 			throw new RuntimeException("Invalid basic authentication token");
 		}
-		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
 	}
 
 	/**
 	 * *从header 请求中的clientId/clientsecect
-	 *
 	 * @param request
 	 * @return
 	 */
@@ -81,4 +79,5 @@ public class AuthUtils {
 
 		return extractAndDecodeHeader(header);
 	}
+
 }

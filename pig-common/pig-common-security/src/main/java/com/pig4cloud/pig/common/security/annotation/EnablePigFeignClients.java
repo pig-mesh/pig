@@ -31,11 +31,11 @@ import java.lang.annotation.*;
 @Documented
 @EnableFeignClients
 public @interface EnablePigFeignClients {
+
 	/**
 	 * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation
 	 * declarations e.g.: {@code @ComponentScan("org.my.pkg")} instead of
 	 * {@code @ComponentScan(basePackages="org.my.pkg")}.
-	 *
 	 * @return the array of 'basePackages'.
 	 */
 	String[] value() default {};
@@ -47,10 +47,9 @@ public @interface EnablePigFeignClients {
 	 * <p>
 	 * Use {@link #basePackageClasses()} for a type-safe alternative to String-based
 	 * package names.
-	 *
 	 * @return the array of 'basePackages'.
 	 */
-	String[] basePackages() default {"com.pig4cloud.pig"};
+	String[] basePackages() default { "com.pig4cloud.pig" };
 
 	/**
 	 * Type-safe alternative to {@link #basePackages()} for specifying the packages to
@@ -58,7 +57,6 @@ public @interface EnablePigFeignClients {
 	 * <p>
 	 * Consider creating a special no-op marker class or interface in each package that
 	 * serves no purpose other than being referenced by this attribute.
-	 *
 	 * @return the array of 'basePackageClasses'.
 	 */
 	Class<?>[] basePackageClasses() default {};
@@ -73,9 +71,10 @@ public @interface EnablePigFeignClients {
 	Class<?>[] defaultConfiguration() default {};
 
 	/**
-	 * List of classes annotated with @FeignClient. If not empty, disables classpath scanning.
-	 *
+	 * List of classes annotated with @FeignClient. If not empty, disables classpath
+	 * scanning.
 	 * @return
 	 */
 	Class<?>[] clients() default {};
+
 }

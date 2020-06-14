@@ -40,7 +40,6 @@ public class PigClientDetailsService extends JdbcClientDetailsService {
 
 	/**
 	 * 重写原生方法支持redis缓存
-	 *
 	 * @param clientId
 	 * @return
 	 */
@@ -50,4 +49,5 @@ public class PigClientDetailsService extends JdbcClientDetailsService {
 	public ClientDetails loadClientByClientId(String clientId) {
 		return super.loadClientByClientId(clientId);
 	}
+
 }

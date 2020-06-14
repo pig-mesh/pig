@@ -23,23 +23,24 @@ package com.alibaba.csp.sentinel.dashboard.domain.vo.gateway.api;
  */
 public class ApiPredicateItemVo {
 
-    private String pattern;
+	private String pattern;
 
-    private Integer matchStrategy;
+	private Integer matchStrategy;
 
-    public String getPattern() {
-        return pattern;
-    }
+	public String getPattern() {
+		return pattern;
+	}
 
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
+	public void setPattern(String pattern) {
+		this.pattern = pattern;
+	}
 
-    public Integer getMatchStrategy() {
-        return matchStrategy;
-    }
+	public Integer getMatchStrategy() {
+		return matchStrategy;
+	}
 
-    public void setMatchStrategy(Integer matchStrategy) {
-        this.matchStrategy = matchStrategy;
-    }
+	public void setMatchStrategy(Integer matchStrategy) {
+		this.matchStrategy = matchStrategy;
+	}
+
 }

@@ -41,11 +41,11 @@ import org.springframework.util.Assert;
 @Service
 @RequiredArgsConstructor
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
+
 	private final SysDictItemMapper dictItemMapper;
 
 	/**
 	 * 根据ID 删除字典
-	 *
 	 * @param id 字典ID
 	 * @return
 	 */
@@ -55,15 +55,13 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public void removeDict(Integer id) {
 		SysDict dict = this.getById(id);
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()),"系统内置字典项目不能删除");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()), "系统内置字典项目不能删除");
 		baseMapper.deleteById(id);
-		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery()
-				.eq(SysDictItem::getDictId, id));
+		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictId, id));
 	}
 
 	/**
 	 * 更新字典
-	 *
 	 * @param dict 字典
 	 * @return
 	 */
@@ -71,7 +69,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public void updateDict(SysDict dict) {
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystem()),"系统内置字典项目不能修改");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystem()), "系统内置字典项目不能修改");
 		this.updateById(dict);
 	}
+
 }

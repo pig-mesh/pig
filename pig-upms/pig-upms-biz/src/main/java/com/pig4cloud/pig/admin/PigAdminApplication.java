@@ -18,7 +18,6 @@
 
 package com.pig4cloud.pig.admin;
 
-
 import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import org.springframework.boot.SpringApplication;
@@ -26,13 +25,13 @@ import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
  * @author lengleng
- * @date 2018年06月21日
- * 用户统一管理系统
+ * @date 2018年06月21日 用户统一管理系统
  */
 @EnablePigResourceServer
 @EnablePigFeignClients
 @SpringCloudApplication
 public class PigAdminApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(PigAdminApplication.class, args);
 	}

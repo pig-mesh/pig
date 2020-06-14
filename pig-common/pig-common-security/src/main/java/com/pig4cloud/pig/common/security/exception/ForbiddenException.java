@@ -44,4 +44,3 @@ public class ForbiddenException extends PigAuth2Exception {
 	}
 
 }
-

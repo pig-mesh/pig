@@ -36,8 +36,7 @@ import java.lang.annotation.*;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 注入AccessTokenContextRelay 解决feign 传递token 为空问题
+ * @date 2019/2/1 注入AccessTokenContextRelay 解决feign 传递token 为空问题
  */
 @Configuration
 @AutoConfigureAfter(OAuth2AutoConfiguration.class)
@@ -50,7 +49,7 @@ public class PigResourceServerTokenRelayAutoConfiguration {
 		return new AccessTokenContextRelay(context);
 	}
 
-	@Target({ElementType.TYPE, ElementType.METHOD})
+	@Target({ ElementType.TYPE, ElementType.METHOD })
 	@Retention(RetentionPolicy.RUNTIME)
 	@Documented
 	@Conditional(OAuth2OnClientInResourceServerCondition.class)
@@ -58,8 +57,7 @@ public class PigResourceServerTokenRelayAutoConfiguration {
 
 	}
 
-	private static class OAuth2OnClientInResourceServerCondition
-		extends AllNestedConditions {
+	private static class OAuth2OnClientInResourceServerCondition extends AllNestedConditions {
 
 		public OAuth2OnClientInResourceServerCondition() {
 			super(ConfigurationPhase.REGISTER_BEAN);
@@ -67,11 +65,14 @@ public class PigResourceServerTokenRelayAutoConfiguration {
 
 		@ConditionalOnBean(ResourceServerConfiguration.class)
 		static class Server {
+
 		}
 
 		@ConditionalOnBean(OAuth2ClientConfiguration.class)
 		static class Client {
+
 		}
 
 	}
+
 }

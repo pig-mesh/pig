@@ -29,21 +29,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VersionController {
 
-    private static final String VERSION_PATTERN = "-";
+	private static final String VERSION_PATTERN = "-";
 
-    @Value("${sentinel.dashboard.version:}")
-    private String sentinelDashboardVersion;
+	@Value("${sentinel.dashboard.version:}")
+	private String sentinelDashboardVersion;
 
-    @GetMapping("/version")
-    public Result<String> apiGetVersion() {
-        if (StringUtil.isNotBlank(sentinelDashboardVersion)) {
-            String res = sentinelDashboardVersion;
-            if (sentinelDashboardVersion.contains(VERSION_PATTERN)) {
-                res = sentinelDashboardVersion.substring(0, sentinelDashboardVersion.indexOf(VERSION_PATTERN));
-            }
-            return Result.ofSuccess(res);
-        } else {
-            return Result.ofFail(1, "getVersion failed: empty version");
-        }
-    }
+	@GetMapping("/version")
+	public Result<String> apiGetVersion() {
+		if (StringUtil.isNotBlank(sentinelDashboardVersion)) {
+			String res = sentinelDashboardVersion;
+			if (sentinelDashboardVersion.contains(VERSION_PATTERN)) {
+				res = sentinelDashboardVersion.substring(0, sentinelDashboardVersion.indexOf(VERSION_PATTERN));
+			}
+			return Result.ofSuccess(res);
+		}
+		else {
+			return Result.ofFail(1, "getVersion failed: empty version");
+		}
+	}
+
 }

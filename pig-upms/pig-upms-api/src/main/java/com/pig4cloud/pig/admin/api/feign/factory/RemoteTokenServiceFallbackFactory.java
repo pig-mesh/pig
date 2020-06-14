@@ -36,4 +36,5 @@ public class RemoteTokenServiceFallbackFactory implements FallbackFactory<Remote
 		remoteTokenServiceFallback.setCause(throwable);
 		return remoteTokenServiceFallback;
 	}
+
 }

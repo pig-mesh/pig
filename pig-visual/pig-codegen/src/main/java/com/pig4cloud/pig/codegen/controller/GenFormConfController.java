@@ -30,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 表单管理
  *
@@ -42,12 +41,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/form")
 @Api(value = "form", tags = "表单管理")
 public class GenFormConfController {
+
 	private final GenFormConfService genRecordService;
 
 	/**
 	 * 分页查询
-	 *
-	 * @param page     分页对象
+	 * @param page 分页对象
 	 * @param formConf 生成记录
 	 * @return
 	 */
@@ -57,10 +56,8 @@ public class GenFormConfController {
 		return R.ok(genRecordService.page(page, Wrappers.query(formConf)));
 	}
 
-
 	/**
 	 * 通过id查询生成记录
-	 *
 	 * @param id id
 	 * @return R
 	 */
@@ -72,8 +69,7 @@ public class GenFormConfController {
 
 	/**
 	 * 通过id查询生成记录
-	 *
-	 * @param dsName      数据源ID
+	 * @param dsName 数据源ID
 	 * @param tableName tableName
 	 * @return R
 	 */
@@ -85,7 +81,6 @@ public class GenFormConfController {
 
 	/**
 	 * 新增生成记录
-	 *
 	 * @param formConf 生成记录
 	 * @return R
 	 */
@@ -99,7 +94,6 @@ public class GenFormConfController {
 
 	/**
 	 * 通过id删除生成记录
-	 *
 	 * @param id id
 	 * @return R
 	 */

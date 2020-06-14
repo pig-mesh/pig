@@ -36,7 +36,9 @@ import java.util.Map;
  * 从数据源中获取 配置信息
  */
 public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvider {
+
 	private final DataSourceProperties properties;
+
 	private final StringEncryptor stringEncryptor;
 
 	public JdbcDynamicDataSourceProvider(StringEncryptor stringEncryptor, DataSourceProperties properties) {
@@ -47,7 +49,6 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 	/**
 	 * 执行语句获得数据源参数
-	 *
 	 * @param statement 语句
 	 * @return 数据源参数
 	 * @throws SQLException sql异常
@@ -79,4 +80,5 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		map.put(DataSourceConstants.DS_MASTER, property);
 		return map;
 	}
+
 }

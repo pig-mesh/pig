@@ -15,7 +15,6 @@
  */
 package com.alibaba.nacos.controller;
 
-
 import com.alibaba.nacos.common.utils.VersionUtils;
 import com.alibaba.nacos.core.utils.ApplicationUtils;
 import org.springframework.http.ResponseEntity;
@@ -27,23 +26,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author xingxuechao
- * on:2019/2/27 11:17 AM
+ * @author xingxuechao on:2019/2/27 11:17 AM
  */
 @RestController
 @RequestMapping("/v1/console/server")
 public class ServerStateController {
 
-    @GetMapping("/state")
-    public ResponseEntity serverState() {
-        Map<String,String> serverState = new HashMap<>(3);
-        serverState.put("standalone_mode", ApplicationUtils.getStandaloneMode() ?
-                ApplicationUtils.STANDALONE_MODE_ALONE : ApplicationUtils.STANDALONE_MODE_CLUSTER);
+	@GetMapping("/state")
+	public ResponseEntity serverState() {
+		Map<String, String> serverState = new HashMap<>(3);
+		serverState.put("standalone_mode", ApplicationUtils.getStandaloneMode() ? ApplicationUtils.STANDALONE_MODE_ALONE
+				: ApplicationUtils.STANDALONE_MODE_CLUSTER);
 
-        serverState.put("function_mode", ApplicationUtils.getFunctionMode());
-        serverState.put("version", VersionUtils.VERSION);
+		serverState.put("function_mode", ApplicationUtils.getFunctionMode());
+		serverState.put("version", VersionUtils.VERSION);
 
-        return ResponseEntity.ok().body(serverState);
-    }
+		return ResponseEntity.ok().body(serverState);
+	}
 
 }

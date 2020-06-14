@@ -40,7 +40,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
-
 /**
  * Miscellaneous utilities for web applications.
  *
@@ -49,13 +48,13 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
+
 	private final String BASIC_ = "Basic ";
+
 	private final String UNKNOWN = "unknown";
 
 	/**
-	 * 判断是否ajax请求
-	 * spring ajax 返回含有 ResponseBody 或者 RestController注解
-	 *
+	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
 	 * @param handlerMethod HandlerMethod
 	 * @return 是否ajax请求
 	 */
@@ -66,7 +65,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 读取cookie
-	 *
 	 * @param name cookie name
 	 * @return cookie value
 	 */
@@ -78,9 +76,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 读取cookie
-	 *
 	 * @param request HttpServletRequest
-	 * @param name    cookie name
+	 * @param name cookie name
 	 * @return cookie value
 	 */
 	public String getCookieVal(HttpServletRequest request, String name) {
@@ -90,9 +87,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 清除 某个指定的cookie
-	 *
 	 * @param response HttpServletResponse
-	 * @param key      cookie key
+	 * @param key cookie key
 	 */
 	public void removeCookie(HttpServletResponse response, String key) {
 		setCookie(response, key, null, 0);
@@ -100,10 +96,9 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 设置cookie
-	 *
-	 * @param response        HttpServletResponse
-	 * @param name            cookie name
-	 * @param value           cookie value
+	 * @param response HttpServletResponse
+	 * @param name cookie name
+	 * @param value cookie value
 	 * @param maxAgeInSeconds maxage
 	 */
 	public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
@@ -116,7 +111,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 获取 HttpServletRequest
-	 *
 	 * @return {HttpServletRequest}
 	 */
 	public HttpServletRequest getRequest() {
@@ -125,7 +119,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 获取 HttpServletResponse
-	 *
 	 * @return {HttpServletResponse}
 	 */
 	public HttpServletResponse getResponse() {
@@ -134,9 +127,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 返回json
-	 *
 	 * @param response HttpServletResponse
-	 * @param result   结果对象
+	 * @param result 结果对象
 	 */
 	public void renderJson(HttpServletResponse response, Object result) {
 		renderJson(response, result, MediaType.APPLICATION_JSON_VALUE);
@@ -144,9 +136,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 返回json
-	 *
-	 * @param response    HttpServletResponse
-	 * @param result      结果对象
+	 * @param response HttpServletResponse
+	 * @param result 结果对象
 	 * @param contentType contentType
 	 */
 	public void renderJson(HttpServletResponse response, Object result, String contentType) {
@@ -154,15 +145,14 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		response.setContentType(contentType);
 		try (PrintWriter out = response.getWriter()) {
 			out.append(JSONUtil.toJsonStr(result));
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}
 	}
 
-
 	/**
 	 * 从request 获取CLIENT_ID
-	 *
 	 * @return
 	 */
 	@SneakyThrows
@@ -176,9 +166,9 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		byte[] decoded;
 		try {
 			decoded = Base64.decode(base64Token);
-		} catch (IllegalArgumentException e) {
-			throw new CheckedException(
-				"Failed to decode basic authentication token");
+		}
+		catch (IllegalArgumentException e) {
+			throw new CheckedException("Failed to decode basic authentication token");
 		}
 
 		String token = new String(decoded, StandardCharsets.UTF_8);
@@ -188,7 +178,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		if (delim == -1) {
 			throw new CheckedException("Invalid basic authentication token");
 		}
-		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
 	}
-}
 
+}

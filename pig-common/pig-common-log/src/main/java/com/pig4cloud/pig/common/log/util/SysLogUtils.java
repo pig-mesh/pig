@@ -40,9 +40,10 @@ import java.util.Objects;
  */
 @UtilityClass
 public class SysLogUtils {
+
 	public SysLog getSysLog() {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
-			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+				.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		SysLog sysLog = new SysLog();
 		sysLog.setCreateBy(Objects.requireNonNull(getUsername()));
 		sysLog.setType(CommonConstants.STATUS_NORMAL);
@@ -57,7 +58,6 @@ public class SysLogUtils {
 
 	/**
 	 * 获取客户端
-	 *
 	 * @return clientId
 	 */
 	private String getClientId() {
@@ -71,7 +71,6 @@ public class SysLogUtils {
 
 	/**
 	 * 获取用户名称
-	 *
 	 * @return username
 	 */
 	private String getUsername() {

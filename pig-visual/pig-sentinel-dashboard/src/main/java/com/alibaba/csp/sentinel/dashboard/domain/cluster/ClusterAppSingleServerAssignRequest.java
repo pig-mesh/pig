@@ -25,32 +25,32 @@ import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterAppAssig
  */
 public class ClusterAppSingleServerAssignRequest {
 
-    private ClusterAppAssignMap clusterMap;
-    private Set<String> remainingList;
+	private ClusterAppAssignMap clusterMap;
 
-    public ClusterAppAssignMap getClusterMap() {
-        return clusterMap;
-    }
+	private Set<String> remainingList;
 
-    public ClusterAppSingleServerAssignRequest setClusterMap(ClusterAppAssignMap clusterMap) {
-        this.clusterMap = clusterMap;
-        return this;
-    }
+	public ClusterAppAssignMap getClusterMap() {
+		return clusterMap;
+	}
 
-    public Set<String> getRemainingList() {
-        return remainingList;
-    }
+	public ClusterAppSingleServerAssignRequest setClusterMap(ClusterAppAssignMap clusterMap) {
+		this.clusterMap = clusterMap;
+		return this;
+	}
 
-    public ClusterAppSingleServerAssignRequest setRemainingList(Set<String> remainingList) {
-        this.remainingList = remainingList;
-        return this;
-    }
+	public Set<String> getRemainingList() {
+		return remainingList;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterAppSingleServerAssignRequest{" +
-            "clusterMap=" + clusterMap +
-            ", remainingList=" + remainingList +
-            '}';
-    }
+	public ClusterAppSingleServerAssignRequest setRemainingList(Set<String> remainingList) {
+		this.remainingList = remainingList;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterAppSingleServerAssignRequest{" + "clusterMap=" + clusterMap + ", remainingList=" + remainingList
+				+ '}';
+	}
+
 }

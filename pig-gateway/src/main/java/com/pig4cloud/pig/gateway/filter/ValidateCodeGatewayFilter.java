@@ -43,15 +43,17 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author lengleng
- * @date 2018/7/4
- * 验证码处理
+ * @date 2018/7/4 验证码处理
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
+
 	private final IgnoreClientConfiguration ignoreClient;
+
 	private final ObjectMapper objectMapper;
+
 	private final RedisTemplate redisTemplate;
 
 	@Override
@@ -60,8 +62,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			ServerHttpRequest request = exchange.getRequest();
 
 			// 不是登录请求，直接向下执行
-			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath()
-				, SecurityConstants.OAUTH_TOKEN_URL)) {
+			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
@@ -78,9 +79,10 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 					return chain.filter(exchange);
 				}
 
-				//校验验证码
+				// 校验验证码
 				checkCode(request);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				ServerHttpResponse response = exchange.getResponse();
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
 				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -92,7 +94,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 						DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
 
 						monoSink.success(dataBuffer);
-					} catch (JsonProcessingException jsonProcessingException) {
+					}
+					catch (JsonProcessingException jsonProcessingException) {
 						log.error("对象输出异常", jsonProcessingException);
 						monoSink.error(jsonProcessingException);
 					}
@@ -105,7 +108,6 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
 	/**
 	 * 检查code
-	 *
 	 * @param request
 	 */
 	@SneakyThrows
@@ -145,4 +147,5 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
 		redisTemplate.delete(key);
 	}
+
 }

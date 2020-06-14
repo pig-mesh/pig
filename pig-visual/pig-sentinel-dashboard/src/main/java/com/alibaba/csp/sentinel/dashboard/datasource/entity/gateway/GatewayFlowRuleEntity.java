@@ -31,324 +31,322 @@ import java.util.Objects;
  */
 public class GatewayFlowRuleEntity implements RuleEntity {
 
-    /**间隔单位*/
-    /**0-秒*/
-    public static final int INTERVAL_UNIT_SECOND = 0;
-    /**1-分*/
-    public static final int INTERVAL_UNIT_MINUTE = 1;
-    /**2-时*/
-    public static final int INTERVAL_UNIT_HOUR = 2;
-    /**3-天*/
-    public static final int INTERVAL_UNIT_DAY = 3;
+	/** 间隔单位 */
+	/** 0-秒 */
+	public static final int INTERVAL_UNIT_SECOND = 0;
 
-    private Long id;
-    private String app;
-    private String ip;
-    private Integer port;
+	/** 1-分 */
+	public static final int INTERVAL_UNIT_MINUTE = 1;
 
-    private Date gmtCreate;
-    private Date gmtModified;
+	/** 2-时 */
+	public static final int INTERVAL_UNIT_HOUR = 2;
 
-    private String resource;
-    private Integer resourceMode;
+	/** 3-天 */
+	public static final int INTERVAL_UNIT_DAY = 3;
 
-    private Integer grade;
-    private Double count;
-    private Long interval;
-    private Integer intervalUnit;
+	private Long id;
 
-    private Integer controlBehavior;
-    private Integer burst;
+	private String app;
 
-    private Integer maxQueueingTimeoutMs;
+	private String ip;
 
-    private GatewayParamFlowItemEntity paramItem;
+	private Integer port;
 
-    public static Long calIntervalSec(Long interval, Integer intervalUnit) {
-        switch (intervalUnit) {
-            case INTERVAL_UNIT_SECOND:
-                return interval;
-            case INTERVAL_UNIT_MINUTE:
-                return interval * 60;
-            case INTERVAL_UNIT_HOUR:
-                return interval * 60 * 60;
-            case INTERVAL_UNIT_DAY:
-                return interval * 60 * 60 * 24;
-            default:
-                break;
-        }
+	private Date gmtCreate;
 
-        throw new IllegalArgumentException("Invalid intervalUnit: " + intervalUnit);
-    }
+	private Date gmtModified;
 
-    public static Object[] parseIntervalSec(Long intervalSec) {
-        if (intervalSec % (60 * 60 * 24) == 0) {
-            return new Object[] {intervalSec / (60 * 60 * 24), INTERVAL_UNIT_DAY};
-        }
+	private String resource;
 
-        if (intervalSec % (60 * 60 ) == 0) {
-            return new Object[] {intervalSec / (60 * 60), INTERVAL_UNIT_HOUR};
-        }
+	private Integer resourceMode;
 
-        if (intervalSec % 60 == 0) {
-            return new Object[] {intervalSec / 60, INTERVAL_UNIT_MINUTE};
-        }
+	private Integer grade;
 
-        return new Object[] {intervalSec, INTERVAL_UNIT_SECOND};
-    }
+	private Double count;
 
-    public GatewayFlowRule toGatewayFlowRule() {
-        GatewayFlowRule rule = new GatewayFlowRule();
-        rule.setResource(resource);
-        rule.setResourceMode(resourceMode);
+	private Long interval;
 
-        rule.setGrade(grade);
-        rule.setCount(count);
-        rule.setIntervalSec(calIntervalSec(interval, intervalUnit));
+	private Integer intervalUnit;
 
-        rule.setControlBehavior(controlBehavior);
+	private Integer controlBehavior;
 
-        if (burst != null) {
-            rule.setBurst(burst);
-        }
+	private Integer burst;
 
-        if (maxQueueingTimeoutMs != null) {
-            rule.setMaxQueueingTimeoutMs(maxQueueingTimeoutMs);
-        }
+	private Integer maxQueueingTimeoutMs;
 
-        if (paramItem != null) {
-            GatewayParamFlowItem ruleItem = new GatewayParamFlowItem();
-            rule.setParamItem(ruleItem);
-            ruleItem.setParseStrategy(paramItem.getParseStrategy());
-            ruleItem.setFieldName(paramItem.getFieldName());
-            ruleItem.setPattern(paramItem.getPattern());
+	private GatewayParamFlowItemEntity paramItem;
 
-            if (paramItem.getMatchStrategy() != null) {
-                ruleItem.setMatchStrategy(paramItem.getMatchStrategy());
-            }
-        }
+	public static Long calIntervalSec(Long interval, Integer intervalUnit) {
+		switch (intervalUnit) {
+		case INTERVAL_UNIT_SECOND:
+			return interval;
+		case INTERVAL_UNIT_MINUTE:
+			return interval * 60;
+		case INTERVAL_UNIT_HOUR:
+			return interval * 60 * 60;
+		case INTERVAL_UNIT_DAY:
+			return interval * 60 * 60 * 24;
+		default:
+			break;
+		}
 
-        return rule;
-    }
+		throw new IllegalArgumentException("Invalid intervalUnit: " + intervalUnit);
+	}
 
-    public static GatewayFlowRuleEntity fromGatewayFlowRule(String app, String ip, Integer port, GatewayFlowRule rule) {
-        GatewayFlowRuleEntity entity = new GatewayFlowRuleEntity();
-        entity.setApp(app);
-        entity.setIp(ip);
-        entity.setPort(port);
+	public static Object[] parseIntervalSec(Long intervalSec) {
+		if (intervalSec % (60 * 60 * 24) == 0) {
+			return new Object[] { intervalSec / (60 * 60 * 24), INTERVAL_UNIT_DAY };
+		}
 
-        entity.setResource(rule.getResource());
-        entity.setResourceMode(rule.getResourceMode());
+		if (intervalSec % (60 * 60) == 0) {
+			return new Object[] { intervalSec / (60 * 60), INTERVAL_UNIT_HOUR };
+		}
 
-        entity.setGrade(rule.getGrade());
-        entity.setCount(rule.getCount());
-        Object[] intervalSecResult = parseIntervalSec(rule.getIntervalSec());
-        entity.setInterval((Long) intervalSecResult[0]);
-        entity.setIntervalUnit((Integer) intervalSecResult[1]);
+		if (intervalSec % 60 == 0) {
+			return new Object[] { intervalSec / 60, INTERVAL_UNIT_MINUTE };
+		}
 
-        entity.setControlBehavior(rule.getControlBehavior());
-        entity.setBurst(rule.getBurst());
-        entity.setMaxQueueingTimeoutMs(rule.getMaxQueueingTimeoutMs());
+		return new Object[] { intervalSec, INTERVAL_UNIT_SECOND };
+	}
 
-        GatewayParamFlowItem paramItem = rule.getParamItem();
-        if (paramItem != null) {
-            GatewayParamFlowItemEntity itemEntity = new GatewayParamFlowItemEntity();
-            entity.setParamItem(itemEntity);
-            itemEntity.setParseStrategy(paramItem.getParseStrategy());
-            itemEntity.setFieldName(paramItem.getFieldName());
-            itemEntity.setPattern(paramItem.getPattern());
-            itemEntity.setMatchStrategy(paramItem.getMatchStrategy());
-        }
+	public GatewayFlowRule toGatewayFlowRule() {
+		GatewayFlowRule rule = new GatewayFlowRule();
+		rule.setResource(resource);
+		rule.setResourceMode(resourceMode);
 
-        return entity;
-    }
+		rule.setGrade(grade);
+		rule.setCount(count);
+		rule.setIntervalSec(calIntervalSec(interval, intervalUnit));
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+		rule.setControlBehavior(controlBehavior);
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+		if (burst != null) {
+			rule.setBurst(burst);
+		}
 
-    @Override
-    public String getApp() {
-        return app;
-    }
+		if (maxQueueingTimeoutMs != null) {
+			rule.setMaxQueueingTimeoutMs(maxQueueingTimeoutMs);
+		}
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+		if (paramItem != null) {
+			GatewayParamFlowItem ruleItem = new GatewayParamFlowItem();
+			rule.setParamItem(ruleItem);
+			ruleItem.setParseStrategy(paramItem.getParseStrategy());
+			ruleItem.setFieldName(paramItem.getFieldName());
+			ruleItem.setPattern(paramItem.getPattern());
 
-    @Override
-    public String getIp() {
-        return ip;
-    }
+			if (paramItem.getMatchStrategy() != null) {
+				ruleItem.setMatchStrategy(paramItem.getMatchStrategy());
+			}
+		}
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+		return rule;
+	}
 
-    @Override
-    public Integer getPort() {
-        return port;
-    }
+	public static GatewayFlowRuleEntity fromGatewayFlowRule(String app, String ip, Integer port, GatewayFlowRule rule) {
+		GatewayFlowRuleEntity entity = new GatewayFlowRuleEntity();
+		entity.setApp(app);
+		entity.setIp(ip);
+		entity.setPort(port);
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+		entity.setResource(rule.getResource());
+		entity.setResourceMode(rule.getResourceMode());
 
-    @Override
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+		entity.setGrade(rule.getGrade());
+		entity.setCount(rule.getCount());
+		Object[] intervalSecResult = parseIntervalSec(rule.getIntervalSec());
+		entity.setInterval((Long) intervalSecResult[0]);
+		entity.setIntervalUnit((Integer) intervalSecResult[1]);
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+		entity.setControlBehavior(rule.getControlBehavior());
+		entity.setBurst(rule.getBurst());
+		entity.setMaxQueueingTimeoutMs(rule.getMaxQueueingTimeoutMs());
 
-    @Override
-    public Rule toRule() {
-        return null;
-    }
+		GatewayParamFlowItem paramItem = rule.getParamItem();
+		if (paramItem != null) {
+			GatewayParamFlowItemEntity itemEntity = new GatewayParamFlowItemEntity();
+			entity.setParamItem(itemEntity);
+			itemEntity.setParseStrategy(paramItem.getParseStrategy());
+			itemEntity.setFieldName(paramItem.getFieldName());
+			itemEntity.setPattern(paramItem.getPattern());
+			itemEntity.setMatchStrategy(paramItem.getMatchStrategy());
+		}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+		return entity;
+	}
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    public GatewayParamFlowItemEntity getParamItem() {
-        return paramItem;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setParamItem(GatewayParamFlowItemEntity paramItem) {
-        this.paramItem = paramItem;
-    }
+	@Override
+	public String getApp() {
+		return app;
+	}
 
-    public String getResource() {
-        return resource;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
+	@Override
+	public String getIp() {
+		return ip;
+	}
 
-    public Integer getResourceMode() {
-        return resourceMode;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public void setResourceMode(Integer resourceMode) {
-        this.resourceMode = resourceMode;
-    }
+	@Override
+	public Integer getPort() {
+		return port;
+	}
 
-    public Integer getGrade() {
-        return grade;
-    }
+	public void setPort(Integer port) {
+		this.port = port;
+	}
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+	@Override
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
 
-    public Double getCount() {
-        return count;
-    }
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
 
-    public void setCount(Double count) {
-        this.count = count;
-    }
+	@Override
+	public Rule toRule() {
+		return null;
+	}
 
-    public Long getInterval() {
-        return interval;
-    }
+	public Date getGmtModified() {
+		return gmtModified;
+	}
 
-    public void setInterval(Long interval) {
-        this.interval = interval;
-    }
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 
-    public Integer getIntervalUnit() {
-        return intervalUnit;
-    }
+	public GatewayParamFlowItemEntity getParamItem() {
+		return paramItem;
+	}
 
-    public void setIntervalUnit(Integer intervalUnit) {
-        this.intervalUnit = intervalUnit;
-    }
+	public void setParamItem(GatewayParamFlowItemEntity paramItem) {
+		this.paramItem = paramItem;
+	}
 
-    public Integer getControlBehavior() {
-        return controlBehavior;
-    }
+	public String getResource() {
+		return resource;
+	}
 
-    public void setControlBehavior(Integer controlBehavior) {
-        this.controlBehavior = controlBehavior;
-    }
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
 
-    public Integer getBurst() {
-        return burst;
-    }
+	public Integer getResourceMode() {
+		return resourceMode;
+	}
 
-    public void setBurst(Integer burst) {
-        this.burst = burst;
-    }
+	public void setResourceMode(Integer resourceMode) {
+		this.resourceMode = resourceMode;
+	}
 
-    public Integer getMaxQueueingTimeoutMs() {
-        return maxQueueingTimeoutMs;
-    }
+	public Integer getGrade() {
+		return grade;
+	}
 
-    public void setMaxQueueingTimeoutMs(Integer maxQueueingTimeoutMs) {
-        this.maxQueueingTimeoutMs = maxQueueingTimeoutMs;
-    }
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-        GatewayFlowRuleEntity that = (GatewayFlowRuleEntity) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(app, that.app) &&
-                Objects.equals(ip, that.ip) &&
-                Objects.equals(port, that.port) &&
-                Objects.equals(gmtCreate, that.gmtCreate) &&
-                Objects.equals(gmtModified, that.gmtModified) &&
-                Objects.equals(resource, that.resource) &&
-                Objects.equals(resourceMode, that.resourceMode) &&
-                Objects.equals(grade, that.grade) &&
-                Objects.equals(count, that.count) &&
-                Objects.equals(interval, that.interval) &&
-                Objects.equals(intervalUnit, that.intervalUnit) &&
-                Objects.equals(controlBehavior, that.controlBehavior) &&
-                Objects.equals(burst, that.burst) &&
-                Objects.equals(maxQueueingTimeoutMs, that.maxQueueingTimeoutMs) &&
-                Objects.equals(paramItem, that.paramItem);
-    }
+	public Double getCount() {
+		return count;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, app, ip, port, gmtCreate, gmtModified, resource, resourceMode, grade, count, interval, intervalUnit, controlBehavior, burst, maxQueueingTimeoutMs, paramItem);
-    }
+	public void setCount(Double count) {
+		this.count = count;
+	}
 
-    @Override
-    public String toString() {
-        return "GatewayFlowRuleEntity{" +
-                "id=" + id +
-                ", app='" + app + '\'' +
-                ", ip='" + ip + '\'' +
-                ", port=" + port +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                ", resource='" + resource + '\'' +
-                ", resourceMode=" + resourceMode +
-                ", grade=" + grade +
-                ", count=" + count +
-                ", interval=" + interval +
-                ", intervalUnit=" + intervalUnit +
-                ", controlBehavior=" + controlBehavior +
-                ", burst=" + burst +
-                ", maxQueueingTimeoutMs=" + maxQueueingTimeoutMs +
-                ", paramItem=" + paramItem +
-                '}';
-    }
+	public Long getInterval() {
+		return interval;
+	}
+
+	public void setInterval(Long interval) {
+		this.interval = interval;
+	}
+
+	public Integer getIntervalUnit() {
+		return intervalUnit;
+	}
+
+	public void setIntervalUnit(Integer intervalUnit) {
+		this.intervalUnit = intervalUnit;
+	}
+
+	public Integer getControlBehavior() {
+		return controlBehavior;
+	}
+
+	public void setControlBehavior(Integer controlBehavior) {
+		this.controlBehavior = controlBehavior;
+	}
+
+	public Integer getBurst() {
+		return burst;
+	}
+
+	public void setBurst(Integer burst) {
+		this.burst = burst;
+	}
+
+	public Integer getMaxQueueingTimeoutMs() {
+		return maxQueueingTimeoutMs;
+	}
+
+	public void setMaxQueueingTimeoutMs(Integer maxQueueingTimeoutMs) {
+		this.maxQueueingTimeoutMs = maxQueueingTimeoutMs;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		GatewayFlowRuleEntity that = (GatewayFlowRuleEntity) o;
+		return Objects.equals(id, that.id) && Objects.equals(app, that.app) && Objects.equals(ip, that.ip)
+				&& Objects.equals(port, that.port) && Objects.equals(gmtCreate, that.gmtCreate)
+				&& Objects.equals(gmtModified, that.gmtModified) && Objects.equals(resource, that.resource)
+				&& Objects.equals(resourceMode, that.resourceMode) && Objects.equals(grade, that.grade)
+				&& Objects.equals(count, that.count) && Objects.equals(interval, that.interval)
+				&& Objects.equals(intervalUnit, that.intervalUnit)
+				&& Objects.equals(controlBehavior, that.controlBehavior) && Objects.equals(burst, that.burst)
+				&& Objects.equals(maxQueueingTimeoutMs, that.maxQueueingTimeoutMs)
+				&& Objects.equals(paramItem, that.paramItem);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, app, ip, port, gmtCreate, gmtModified, resource, resourceMode, grade, count, interval,
+				intervalUnit, controlBehavior, burst, maxQueueingTimeoutMs, paramItem);
+	}
+
+	@Override
+	public String toString() {
+		return "GatewayFlowRuleEntity{" + "id=" + id + ", app='" + app + '\'' + ", ip='" + ip + '\'' + ", port=" + port
+				+ ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", resource='" + resource + '\''
+				+ ", resourceMode=" + resourceMode + ", grade=" + grade + ", count=" + count + ", interval=" + interval
+				+ ", intervalUnit=" + intervalUnit + ", controlBehavior=" + controlBehavior + ", burst=" + burst
+				+ ", maxQueueingTimeoutMs=" + maxQueueingTimeoutMs + ", paramItem=" + paramItem + '}';
+	}
+
 }

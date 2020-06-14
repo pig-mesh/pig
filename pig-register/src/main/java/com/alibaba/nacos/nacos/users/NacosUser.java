@@ -24,31 +24,29 @@ import com.alibaba.nacos.core.auth.User;
  */
 public class NacosUser extends User {
 
-    private String token;
+	private String token;
 
-    private boolean globalAdmin = false;
+	private boolean globalAdmin = false;
 
-    public String getToken() {
-        return token;
-    }
+	public String getToken() {
+		return token;
+	}
 
-    public void setToken(String token) {
-        this.token = token;
-    }
+	public void setToken(String token) {
+		this.token = token;
+	}
 
-    public boolean isGlobalAdmin() {
-        return globalAdmin;
-    }
+	public boolean isGlobalAdmin() {
+		return globalAdmin;
+	}
 
-    public void setGlobalAdmin(boolean globalAdmin) {
-        this.globalAdmin = globalAdmin;
-    }
+	public void setGlobalAdmin(boolean globalAdmin) {
+		this.globalAdmin = globalAdmin;
+	}
 
-    @Override
-    public String toString() {
-        return "NacosUser{" +
-            "token='" + token + '\'' +
-            ", globalAdmin=" + globalAdmin +
-            '}';
-    }
+	@Override
+	public String toString() {
+		return "NacosUser{" + "token='" + token + '\'' + ", globalAdmin=" + globalAdmin + '}';
+	}
+
 }

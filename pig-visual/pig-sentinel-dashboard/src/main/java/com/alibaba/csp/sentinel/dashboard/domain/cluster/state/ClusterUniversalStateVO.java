@@ -21,44 +21,43 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.state;
  */
 public class ClusterUniversalStateVO {
 
-    private ClusterStateSimpleEntity stateInfo;
-    private ClusterClientStateVO client;
-    private ClusterServerStateVO server;
+	private ClusterStateSimpleEntity stateInfo;
 
-    public ClusterClientStateVO getClient() {
-        return client;
-    }
+	private ClusterClientStateVO client;
 
-    public ClusterUniversalStateVO setClient(ClusterClientStateVO client) {
-        this.client = client;
-        return this;
-    }
+	private ClusterServerStateVO server;
 
-    public ClusterServerStateVO getServer() {
-        return server;
-    }
+	public ClusterClientStateVO getClient() {
+		return client;
+	}
 
-    public ClusterUniversalStateVO setServer(ClusterServerStateVO server) {
-        this.server = server;
-        return this;
-    }
+	public ClusterUniversalStateVO setClient(ClusterClientStateVO client) {
+		this.client = client;
+		return this;
+	}
 
-    public ClusterStateSimpleEntity getStateInfo() {
-        return stateInfo;
-    }
+	public ClusterServerStateVO getServer() {
+		return server;
+	}
 
-    public ClusterUniversalStateVO setStateInfo(
-        ClusterStateSimpleEntity stateInfo) {
-        this.stateInfo = stateInfo;
-        return this;
-    }
+	public ClusterUniversalStateVO setServer(ClusterServerStateVO server) {
+		this.server = server;
+		return this;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterUniversalStateVO{" +
-            "stateInfo=" + stateInfo +
-            ", client=" + client +
-            ", server=" + server +
-            '}';
-    }
+	public ClusterStateSimpleEntity getStateInfo() {
+		return stateInfo;
+	}
+
+	public ClusterUniversalStateVO setStateInfo(ClusterStateSimpleEntity stateInfo) {
+		this.stateInfo = stateInfo;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterUniversalStateVO{" + "stateInfo=" + stateInfo + ", client=" + client + ", server=" + server
+				+ '}';
+	}
+
 }

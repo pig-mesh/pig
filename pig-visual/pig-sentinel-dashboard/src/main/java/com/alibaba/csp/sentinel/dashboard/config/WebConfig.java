@@ -45,72 +45,73 @@ import javax.servlet.Filter;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final Logger logger = LoggerFactory.getLogger(WebConfig.class);
+	private final Logger logger = LoggerFactory.getLogger(WebConfig.class);
 
-    @Autowired
-    private LoginAuthenticationFilter loginAuthenticationFilter;
+	@Autowired
+	private LoginAuthenticationFilter loginAuthenticationFilter;
 
-    @Autowired
-    private AuthorizationInterceptor authorizationInterceptor;
+	@Autowired
+	private AuthorizationInterceptor authorizationInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**");
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**");
+	}
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/resources/");
-    }
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		registry.addResourceHandler("/**").addResourceLocations("classpath:/resources/");
+	}
 
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("forward:/index.htm");
-    }
+	@Override
+	public void addViewControllers(ViewControllerRegistry registry) {
+		registry.addViewController("/").setViewName("forward:/index.htm");
+	}
 
-    /**
-     * Add {@link CommonFilter} to the server, this is the simplest way to use Sentinel
-     * for Web application.
-     */
-    @Bean
-    public FilterRegistrationBean sentinelFilterRegistration() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(new CommonFilter());
-        registration.addUrlPatterns("/*");
-        registration.setName("sentinelFilter");
-        registration.setOrder(1);
-        // If this is enabled, the entrance of all Web URL resources will be unified as a single context name.
-        // In most scenarios that's enough, and it could reduce the memory footprint.
-        registration.addInitParameter(CommonFilter.WEB_CONTEXT_UNIFY, "true");
+	/**
+	 * Add {@link CommonFilter} to the server, this is the simplest way to use Sentinel
+	 * for Web application.
+	 */
+	@Bean
+	public FilterRegistrationBean sentinelFilterRegistration() {
+		FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+		registration.setFilter(new CommonFilter());
+		registration.addUrlPatterns("/*");
+		registration.setName("sentinelFilter");
+		registration.setOrder(1);
+		// If this is enabled, the entrance of all Web URL resources will be unified as a
+		// single context name.
+		// In most scenarios that's enough, and it could reduce the memory footprint.
+		registration.addInitParameter(CommonFilter.WEB_CONTEXT_UNIFY, "true");
 
-        logger.info("Sentinel servlet CommonFilter registered");
+		logger.info("Sentinel servlet CommonFilter registered");
 
-        return registration;
-    }
+		return registration;
+	}
 
-    @PostConstruct
-    public void doInit() {
-        Set<String> suffixSet = new HashSet<>(Arrays.asList(".js", ".css", ".html", ".ico", ".txt",
-            ".woff", ".woff2"));
-        // Example: register a UrlCleaner to exclude URLs of common static resources.
-        WebCallbackManager.setUrlCleaner(url -> {
-            if (StringUtil.isEmpty(url)) {
-                return url;
-            }
-            if (suffixSet.stream().anyMatch(url::endsWith)) {
-                return null;
-            }
-            return url;
-        });
-    }
+	@PostConstruct
+	public void doInit() {
+		Set<String> suffixSet = new HashSet<>(Arrays.asList(".js", ".css", ".html", ".ico", ".txt", ".woff", ".woff2"));
+		// Example: register a UrlCleaner to exclude URLs of common static resources.
+		WebCallbackManager.setUrlCleaner(url -> {
+			if (StringUtil.isEmpty(url)) {
+				return url;
+			}
+			if (suffixSet.stream().anyMatch(url::endsWith)) {
+				return null;
+			}
+			return url;
+		});
+	}
 
-    @Bean
-    public FilterRegistrationBean authenticationFilterRegistration() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(loginAuthenticationFilter);
-        registration.addUrlPatterns("/*");
-        registration.setName("authenticationFilter");
-        registration.setOrder(0);
-        return registration;
-    }
+	@Bean
+	public FilterRegistrationBean authenticationFilterRegistration() {
+		FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
+		registration.setFilter(loginAuthenticationFilter);
+		registration.addUrlPatterns("/*");
+		registration.setName("authenticationFilter");
+		registration.setOrder(0);
+		return registration;
+	}
+
 }

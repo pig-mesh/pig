@@ -24,8 +24,9 @@ package com.alibaba.nacos.config;
  * 覆盖nacos 默认配置
  */
 public interface ConfigConstants {
+
 	/**
-	 * The System property name of  Standalone mode
+	 * The System property name of Standalone mode
 	 */
 	String STANDALONE_MODE = "nacos.standalone";
 
@@ -33,4 +34,5 @@ public interface ConfigConstants {
 	 * 是否开启认证
 	 */
 	String AUTH_ENABLED = "nacos.core.auth.enabled";
+
 }

@@ -28,102 +28,99 @@ import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportC
  */
 public class ClusterServerStateVO {
 
-    private String appName;
+	private String appName;
 
-    private ServerTransportConfig transport;
-    private ServerFlowConfig flow;
-    private Set<String> namespaceSet;
+	private ServerTransportConfig transport;
 
-    private Integer port;
+	private ServerFlowConfig flow;
 
-    private List<ConnectionGroupVO> connection;
-    private List<ClusterRequestLimitVO> requestLimitData;
+	private Set<String> namespaceSet;
 
-    private Boolean embedded;
+	private Integer port;
 
-    public String getAppName() {
-        return appName;
-    }
+	private List<ConnectionGroupVO> connection;
 
-    public ClusterServerStateVO setAppName(String appName) {
-        this.appName = appName;
-        return this;
-    }
+	private List<ClusterRequestLimitVO> requestLimitData;
 
-    public ServerTransportConfig getTransport() {
-        return transport;
-    }
+	private Boolean embedded;
 
-    public ClusterServerStateVO setTransport(ServerTransportConfig transport) {
-        this.transport = transport;
-        return this;
-    }
+	public String getAppName() {
+		return appName;
+	}
 
-    public ServerFlowConfig getFlow() {
-        return flow;
-    }
+	public ClusterServerStateVO setAppName(String appName) {
+		this.appName = appName;
+		return this;
+	}
 
-    public ClusterServerStateVO setFlow(ServerFlowConfig flow) {
-        this.flow = flow;
-        return this;
-    }
+	public ServerTransportConfig getTransport() {
+		return transport;
+	}
 
-    public Set<String> getNamespaceSet() {
-        return namespaceSet;
-    }
+	public ClusterServerStateVO setTransport(ServerTransportConfig transport) {
+		this.transport = transport;
+		return this;
+	}
 
-    public ClusterServerStateVO setNamespaceSet(Set<String> namespaceSet) {
-        this.namespaceSet = namespaceSet;
-        return this;
-    }
+	public ServerFlowConfig getFlow() {
+		return flow;
+	}
 
-    public Integer getPort() {
-        return port;
-    }
+	public ClusterServerStateVO setFlow(ServerFlowConfig flow) {
+		this.flow = flow;
+		return this;
+	}
 
-    public ClusterServerStateVO setPort(Integer port) {
-        this.port = port;
-        return this;
-    }
+	public Set<String> getNamespaceSet() {
+		return namespaceSet;
+	}
 
-    public List<ConnectionGroupVO> getConnection() {
-        return connection;
-    }
+	public ClusterServerStateVO setNamespaceSet(Set<String> namespaceSet) {
+		this.namespaceSet = namespaceSet;
+		return this;
+	}
 
-    public ClusterServerStateVO setConnection(List<ConnectionGroupVO> connection) {
-        this.connection = connection;
-        return this;
-    }
+	public Integer getPort() {
+		return port;
+	}
 
-    public List<ClusterRequestLimitVO> getRequestLimitData() {
-        return requestLimitData;
-    }
+	public ClusterServerStateVO setPort(Integer port) {
+		this.port = port;
+		return this;
+	}
 
-    public ClusterServerStateVO setRequestLimitData(List<ClusterRequestLimitVO> requestLimitData) {
-        this.requestLimitData = requestLimitData;
-        return this;
-    }
+	public List<ConnectionGroupVO> getConnection() {
+		return connection;
+	}
 
-    public Boolean getEmbedded() {
-        return embedded;
-    }
+	public ClusterServerStateVO setConnection(List<ConnectionGroupVO> connection) {
+		this.connection = connection;
+		return this;
+	}
 
-    public ClusterServerStateVO setEmbedded(Boolean embedded) {
-        this.embedded = embedded;
-        return this;
-    }
+	public List<ClusterRequestLimitVO> getRequestLimitData() {
+		return requestLimitData;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterServerStateVO{" +
-            "appName='" + appName + '\'' +
-            ", transport=" + transport +
-            ", flow=" + flow +
-            ", namespaceSet=" + namespaceSet +
-            ", port=" + port +
-            ", connection=" + connection +
-            ", requestLimitData=" + requestLimitData +
-            ", embedded=" + embedded +
-            '}';
-    }
+	public ClusterServerStateVO setRequestLimitData(List<ClusterRequestLimitVO> requestLimitData) {
+		this.requestLimitData = requestLimitData;
+		return this;
+	}
+
+	public Boolean getEmbedded() {
+		return embedded;
+	}
+
+	public ClusterServerStateVO setEmbedded(Boolean embedded) {
+		this.embedded = embedded;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterServerStateVO{" + "appName='" + appName + '\'' + ", transport=" + transport + ", flow=" + flow
+				+ ", namespaceSet=" + namespaceSet + ", port=" + port + ", connection=" + connection
+				+ ", requestLimitData=" + requestLimitData + ", embedded=" + embedded + '}';
+	}
+
 }

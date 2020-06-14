@@ -42,6 +42,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @RequiredArgsConstructor
 public class PigSecurityInnerAspect implements Ordered {
+
 	private final HttpServletRequest request;
 
 	@SneakyThrows
@@ -59,4 +60,5 @@ public class PigSecurityInnerAspect implements Ordered {
 	public int getOrder() {
 		return Ordered.HIGHEST_PRECEDENCE + 1;
 	}
+
 }

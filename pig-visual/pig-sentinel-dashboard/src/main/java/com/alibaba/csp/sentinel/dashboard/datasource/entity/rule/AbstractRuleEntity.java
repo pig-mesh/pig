@@ -26,87 +26,91 @@ import com.alibaba.csp.sentinel.slots.block.Rule;
  */
 public abstract class AbstractRuleEntity<T extends AbstractRule> implements RuleEntity {
 
-    protected Long id;
+	protected Long id;
 
-    protected String app;
-    protected String ip;
-    protected Integer port;
+	protected String app;
 
-    protected T rule;
+	protected String ip;
 
-    private Date gmtCreate;
-    private Date gmtModified;
+	protected Integer port;
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	protected T rule;
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	private Date gmtCreate;
 
-    @Override
-    public String getApp() {
-        return app;
-    }
+	private Date gmtModified;
 
-    public AbstractRuleEntity<T> setApp(String app) {
-        this.app = app;
-        return this;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public String getIp() {
-        return ip;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public AbstractRuleEntity<T> setIp(String ip) {
-        this.ip = ip;
-        return this;
-    }
+	@Override
+	public String getApp() {
+		return app;
+	}
 
-    @Override
-    public Integer getPort() {
-        return port;
-    }
+	public AbstractRuleEntity<T> setApp(String app) {
+		this.app = app;
+		return this;
+	}
 
-    public AbstractRuleEntity<T> setPort(Integer port) {
-        this.port = port;
-        return this;
-    }
+	@Override
+	public String getIp() {
+		return ip;
+	}
 
-    public T getRule() {
-        return rule;
-    }
+	public AbstractRuleEntity<T> setIp(String ip) {
+		this.ip = ip;
+		return this;
+	}
 
-    public AbstractRuleEntity<T> setRule(T rule) {
-        this.rule = rule;
-        return this;
-    }
+	@Override
+	public Integer getPort() {
+		return port;
+	}
 
-    @Override
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+	public AbstractRuleEntity<T> setPort(Integer port) {
+		this.port = port;
+		return this;
+	}
 
-    public AbstractRuleEntity<T> setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-        return this;
-    }
+	public T getRule() {
+		return rule;
+	}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+	public AbstractRuleEntity<T> setRule(T rule) {
+		this.rule = rule;
+		return this;
+	}
 
-    public AbstractRuleEntity<T> setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-        return this;
-    }
+	@Override
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
 
-    @Override
-    public T toRule() {
-        return rule;
-    }
+	public AbstractRuleEntity<T> setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+		return this;
+	}
+
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public AbstractRuleEntity<T> setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+		return this;
+	}
+
+	@Override
+	public T toRule() {
+		return rule;
+	}
+
 }

@@ -25,11 +25,11 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 自定义OAuth2Exception
+ * @date 2019/2/1 自定义OAuth2Exception
  */
 @JsonSerialize(using = PigAuth2ExceptionSerializer.class)
 public class PigAuth2Exception extends OAuth2Exception {
+
 	@Getter
 	private String errorCode;
 
@@ -41,4 +41,5 @@ public class PigAuth2Exception extends OAuth2Exception {
 		super(msg);
 		this.errorCode = errorCode;
 	}
+
 }

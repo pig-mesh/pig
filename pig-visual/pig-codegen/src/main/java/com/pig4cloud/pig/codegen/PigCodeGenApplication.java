@@ -26,15 +26,16 @@ import org.springframework.cloud.client.SpringCloudApplication;
 
 /**
  * @author lengleng
- * @date 2020/03/11
- * 代码生成模块
+ * @date 2020/03/11 代码生成模块
  */
 @EnableDynamicDataSource
 @EnablePigFeignClients
 @SpringCloudApplication
 @EnablePigResourceServer
 public class PigCodeGenApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(PigCodeGenApplication.class, args);
 	}
+
 }

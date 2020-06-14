@@ -27,6 +27,7 @@ import reactor.core.publisher.Mono;
 @Configuration
 @RequiredArgsConstructor
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
+
 	private final ObjectMapper objectMapper;
 
 	@Override
@@ -43,16 +44,16 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 			response.setStatusCode(((ResponseStatusException) ex).getStatus());
 		}
 
-		return response
-			.writeWith(Mono.fromSupplier(() -> {
-				DataBufferFactory bufferFactory = response.bufferFactory();
-				try {
-					return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
-				} catch (JsonProcessingException e) {
-					log.error("Error writing response", ex);
-					return bufferFactory.wrap(new byte[0]);
-				}
-			}));
+		return response.writeWith(Mono.fromSupplier(() -> {
+			DataBufferFactory bufferFactory = response.bufferFactory();
+			try {
+				return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
+			}
+			catch (JsonProcessingException e) {
+				log.error("Error writing response", ex);
+				return bufferFactory.wrap(new byte[0]);
+			}
+		}));
 	}
 
 }

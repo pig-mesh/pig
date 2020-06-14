@@ -35,20 +35,19 @@ import java.io.PrintWriter;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 客户端异常处理
- * 1. 可以根据 AuthenticationException 不同细化异常处理
+ * @date 2019/2/1 客户端异常处理 1. 可以根据 AuthenticationException 不同细化异常处理
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
+
 	private final ObjectMapper objectMapper;
 
 	@Override
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,
-						 AuthenticationException authException) {
+			AuthenticationException authException) {
 		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(CommonConstants.CONTENT_TYPE);
 		R<String> result = new R<>();
@@ -61,4 +60,5 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 		PrintWriter printWriter = response.getWriter();
 		printWriter.append(objectMapper.writeValueAsString(result));
 	}
+
 }

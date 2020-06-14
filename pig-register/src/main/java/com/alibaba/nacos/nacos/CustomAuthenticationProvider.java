@@ -32,25 +32,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
-    private NacosUserDetailsServiceImpl userDetailsService;
+	@Autowired
+	private NacosUserDetailsServiceImpl userDetailsService;
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+	@Override
+	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        String username = (String) authentication.getPrincipal();
-        String password = (String) authentication.getCredentials();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+		String username = (String) authentication.getPrincipal();
+		String password = (String) authentication.getCredentials();
+		UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
-        if (!password.equals(userDetails.getPassword())) {
-            return new UsernamePasswordAuthenticationToken(username, null, null);
-        }
-        return null;
-    }
+		if (!password.equals(userDetails.getPassword())) {
+			return new UsernamePasswordAuthenticationToken(username, null, null);
+		}
+		return null;
+	}
 
-    @Override
-    public boolean supports(Class<?> aClass) {
-        return aClass.equals(UsernamePasswordAuthenticationToken.class);
-    }
+	@Override
+	public boolean supports(Class<?> aClass) {
+		return aClass.equals(UsernamePasswordAuthenticationToken.class);
+	}
 
 }

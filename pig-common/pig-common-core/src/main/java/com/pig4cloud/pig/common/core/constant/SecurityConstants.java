@@ -23,10 +23,12 @@ package com.pig4cloud.pig.common.core.constant;
  * @date 2019/2/1
  */
 public interface SecurityConstants {
+
 	/**
 	 * 角色前缀
 	 */
 	String ROLE = "ROLE_";
+
 	/**
 	 * 前缀
 	 */
@@ -47,7 +49,6 @@ public interface SecurityConstants {
 	 */
 	String FROM = "from";
 
-
 	/**
 	 * 默认登录URL
 	 */
@@ -62,18 +63,18 @@ public interface SecurityConstants {
 	 * {bcrypt} 加密的特征码
 	 */
 	String BCRYPT = "{bcrypt}";
+
 	/**
 	 * sys_oauth_client_details 表的字段，不包括client_id、client_secret
 	 */
 	String CLIENT_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "
-		+ "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
-		+ "refresh_token_validity, additional_information, autoapprove";
+			+ "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
+			+ "refresh_token_validity, additional_information, autoapprove";
 
 	/**
 	 * JdbcClientDetailsService 查询语句
 	 */
-	String BASE_FIND_STATEMENT = "select " + CLIENT_FIELDS
-		+ " from sys_oauth_client_details";
+	String BASE_FIND_STATEMENT = "select " + CLIENT_FIELDS + " from sys_oauth_client_details";
 
 	/**
 	 * 默认的查询语句
@@ -109,4 +110,5 @@ public interface SecurityConstants {
 	 * 协议字段
 	 */
 	String DETAILS_LICENSE = "license";
+
 }

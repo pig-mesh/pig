@@ -31,20 +31,24 @@ import java.util.List;
  */
 @Data
 public class UserVO implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 主键ID
 	 */
 	private Integer userId;
+
 	/**
 	 * 用户名
 	 */
 	private String username;
+
 	/**
 	 * 密码
 	 */
 	private String password;
+
 	/**
 	 * 随机盐
 	 */
@@ -54,10 +58,12 @@ public class UserVO implements Serializable {
 	 * 创建时间
 	 */
 	private LocalDateTime createTime;
+
 	/**
 	 * 修改时间
 	 */
 	private LocalDateTime updateTime;
+
 	/**
 	 * 0-正常，1-删除
 	 */
@@ -67,10 +73,12 @@ public class UserVO implements Serializable {
 	 * 锁定标记
 	 */
 	private String lockFlag;
+
 	/**
 	 * 简介
 	 */
 	private String phone;
+
 	/**
 	 * 头像
 	 */
@@ -90,4 +98,5 @@ public class UserVO implements Serializable {
 	 * 角色列表
 	 */
 	private List<SysRole> roleList;
+
 }

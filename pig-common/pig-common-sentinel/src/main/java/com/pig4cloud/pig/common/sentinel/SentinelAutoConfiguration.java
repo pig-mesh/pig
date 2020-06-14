@@ -60,4 +60,5 @@ public class SentinelAutoConfiguration {
 	public RequestOriginParser requestOriginParser() {
 		return new PigHeaderRequestOriginParser();
 	}
+
 }

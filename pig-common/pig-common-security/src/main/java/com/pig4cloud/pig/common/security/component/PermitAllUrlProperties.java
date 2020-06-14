@@ -51,7 +51,9 @@ import java.util.regex.Pattern;
 @Configuration
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
 public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware {
+
 	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
+
 	private ApplicationContext applicationContext;
 
 	@Getter
@@ -68,14 +70,12 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
 
 			// 获取方法上边的注解 替代path variable 为 *
 			Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
-			Optional.ofNullable(method)
-				.ifPresent(inner -> info.getPatternsCondition().getPatterns()
+			Optional.ofNullable(method).ifPresent(inner -> info.getPatternsCondition().getPatterns()
 					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, StringPool.ASTERISK))));
 
 			// 获取类上边的注解, 替代path variable 为 *
 			Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
-			Optional.ofNullable(controller)
-				.ifPresent(inner -> info.getPatternsCondition().getPatterns()
+			Optional.ofNullable(controller).ifPresent(inner -> info.getPatternsCondition().getPatterns()
 					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, StringPool.ASTERISK))));
 		});
 	}
@@ -84,4 +84,5 @@ public class PermitAllUrlProperties implements InitializingBean, ApplicationCont
 	public void setApplicationContext(ApplicationContext context) throws BeansException {
 		this.applicationContext = context;
 	}
+
 }

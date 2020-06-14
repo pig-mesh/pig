@@ -30,19 +30,18 @@ import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2018/9/4
- * getTokenPage 管理
+ * @date 2018/9/4 getTokenPage 管理
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/token")
 @Api(value = "token", tags = "令牌管理模块")
 public class TokenController {
+
 	private final RemoteTokenService remoteTokenService;
 
 	/**
 	 * 分页token 信息
-	 *
 	 * @param params 参数集
 	 * @return token集合
 	 */
@@ -53,7 +52,6 @@ public class TokenController {
 
 	/**
 	 * 删除
-	 *
 	 * @param id ID
 	 * @return success/false
 	 */
@@ -62,4 +60,5 @@ public class TokenController {
 	public R<Boolean> delete(@PathVariable String id) {
 		return remoteTokenService.removeToken(id, SecurityConstants.FROM_IN);
 	}
+
 }

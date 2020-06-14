@@ -40,51 +40,61 @@ public class MenuVO implements Serializable {
 	 * 菜单ID
 	 */
 	private Integer menuId;
+
 	/**
 	 * 菜单名称
 	 */
 	private String name;
+
 	/**
 	 * 菜单权限标识
 	 */
 	private String permission;
+
 	/**
 	 * 父菜单ID
 	 */
 	private Integer parentId;
+
 	/**
 	 * 图标
 	 */
 	private String icon;
+
 	/**
 	 * 前端路由标识路径
 	 */
 	private String path;
+
 	/**
 	 * 排序值
 	 */
 	private Integer sort;
+
 	/**
 	 * 菜单类型 （0菜单 1按钮）
 	 */
 	private String type;
+
 	/**
 	 * 是否缓冲
 	 */
 	private String keepAlive;
+
 	/**
 	 * 创建时间
 	 */
 	private LocalDateTime createTime;
+
 	/**
 	 * 更新时间
 	 */
 	private LocalDateTime updateTime;
+
 	/**
 	 * 0--正常 1--删除
 	 */
 	private String delFlag;
-
 
 	@Override
 	public int hashCode() {
@@ -93,7 +103,6 @@ public class MenuVO implements Serializable {
 
 	/**
 	 * menuId 相同则相同
-	 *
 	 * @param obj
 	 * @return
 	 */
@@ -105,4 +114,5 @@ public class MenuVO implements Serializable {
 		}
 		return super.equals(obj);
 	}
+
 }

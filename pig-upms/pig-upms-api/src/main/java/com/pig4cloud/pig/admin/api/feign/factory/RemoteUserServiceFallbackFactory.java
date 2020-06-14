@@ -36,4 +36,5 @@ public class RemoteUserServiceFallbackFactory implements FallbackFactory<RemoteU
 		remoteUserServiceFallback.setCause(throwable);
 		return remoteUserServiceFallback;
 	}
+
 }

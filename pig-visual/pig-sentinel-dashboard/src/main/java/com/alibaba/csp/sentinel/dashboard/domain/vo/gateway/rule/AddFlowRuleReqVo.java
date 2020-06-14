@@ -23,133 +23,134 @@ package com.alibaba.csp.sentinel.dashboard.domain.vo.gateway.rule;
  */
 public class AddFlowRuleReqVo {
 
-    private String app;
+	private String app;
 
-    private String ip;
+	private String ip;
 
-    private Integer port;
+	private Integer port;
 
-    private String resource;
+	private String resource;
 
-    private Integer resourceMode;
+	private Integer resourceMode;
 
-    private Integer grade;
+	private Integer grade;
 
-    private Double count;
+	private Double count;
 
-    private Long interval;
+	private Long interval;
 
-    private Integer intervalUnit;
+	private Integer intervalUnit;
 
-    private Integer controlBehavior;
+	private Integer controlBehavior;
 
-    private Integer burst;
+	private Integer burst;
 
-    private Integer maxQueueingTimeoutMs;
+	private Integer maxQueueingTimeoutMs;
 
-    private GatewayParamFlowItemVo paramItem;
+	private GatewayParamFlowItemVo paramItem;
 
-    public String getApp() {
-        return app;
-    }
+	public String getApp() {
+		return app;
+	}
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public Integer getPort() {
-        return port;
-    }
+	public Integer getPort() {
+		return port;
+	}
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+	public void setPort(Integer port) {
+		this.port = port;
+	}
 
-    public String getResource() {
-        return resource;
-    }
+	public String getResource() {
+		return resource;
+	}
 
-    public void setResource(String resource) {
-        this.resource = resource;
-    }
+	public void setResource(String resource) {
+		this.resource = resource;
+	}
 
-    public Integer getResourceMode() {
-        return resourceMode;
-    }
+	public Integer getResourceMode() {
+		return resourceMode;
+	}
 
-    public void setResourceMode(Integer resourceMode) {
-        this.resourceMode = resourceMode;
-    }
+	public void setResourceMode(Integer resourceMode) {
+		this.resourceMode = resourceMode;
+	}
 
-    public Integer getGrade() {
-        return grade;
-    }
+	public Integer getGrade() {
+		return grade;
+	}
 
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
+	public void setGrade(Integer grade) {
+		this.grade = grade;
+	}
 
-    public Double getCount() {
-        return count;
-    }
+	public Double getCount() {
+		return count;
+	}
 
-    public void setCount(Double count) {
-        this.count = count;
-    }
+	public void setCount(Double count) {
+		this.count = count;
+	}
 
-    public Long getInterval() {
-        return interval;
-    }
+	public Long getInterval() {
+		return interval;
+	}
 
-    public void setInterval(Long interval) {
-        this.interval = interval;
-    }
+	public void setInterval(Long interval) {
+		this.interval = interval;
+	}
 
-    public Integer getIntervalUnit() {
-        return intervalUnit;
-    }
+	public Integer getIntervalUnit() {
+		return intervalUnit;
+	}
 
-    public void setIntervalUnit(Integer intervalUnit) {
-        this.intervalUnit = intervalUnit;
-    }
+	public void setIntervalUnit(Integer intervalUnit) {
+		this.intervalUnit = intervalUnit;
+	}
 
-    public Integer getControlBehavior() {
-        return controlBehavior;
-    }
+	public Integer getControlBehavior() {
+		return controlBehavior;
+	}
 
-    public void setControlBehavior(Integer controlBehavior) {
-        this.controlBehavior = controlBehavior;
-    }
+	public void setControlBehavior(Integer controlBehavior) {
+		this.controlBehavior = controlBehavior;
+	}
 
-    public Integer getBurst() {
-        return burst;
-    }
+	public Integer getBurst() {
+		return burst;
+	}
 
-    public void setBurst(Integer burst) {
-        this.burst = burst;
-    }
+	public void setBurst(Integer burst) {
+		this.burst = burst;
+	}
 
-    public Integer getMaxQueueingTimeoutMs() {
-        return maxQueueingTimeoutMs;
-    }
+	public Integer getMaxQueueingTimeoutMs() {
+		return maxQueueingTimeoutMs;
+	}
 
-    public void setMaxQueueingTimeoutMs(Integer maxQueueingTimeoutMs) {
-        this.maxQueueingTimeoutMs = maxQueueingTimeoutMs;
-    }
+	public void setMaxQueueingTimeoutMs(Integer maxQueueingTimeoutMs) {
+		this.maxQueueingTimeoutMs = maxQueueingTimeoutMs;
+	}
 
-    public GatewayParamFlowItemVo getParamItem() {
-        return paramItem;
-    }
+	public GatewayParamFlowItemVo getParamItem() {
+		return paramItem;
+	}
 
-    public void setParamItem(GatewayParamFlowItemVo paramItem) {
-        this.paramItem = paramItem;
-    }
+	public void setParamItem(GatewayParamFlowItemVo paramItem) {
+		this.paramItem = paramItem;
+	}
+
 }

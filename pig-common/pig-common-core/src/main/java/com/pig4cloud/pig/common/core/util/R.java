@@ -24,7 +24,6 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
-
 /**
  * 响应信息主体
  *
@@ -36,6 +35,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Accessors(chain = true)
 public class R<T> implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 
 	@Getter
@@ -45,7 +45,6 @@ public class R<T> implements Serializable {
 	@Getter
 	@Setter
 	private String msg;
-
 
 	@Getter
 	@Setter
@@ -86,5 +85,5 @@ public class R<T> implements Serializable {
 		apiResult.setMsg(msg);
 		return apiResult;
 	}
-}
 
+}

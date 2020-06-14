@@ -38,23 +38,25 @@ import java.util.List;
 @Primary
 @RequiredArgsConstructor
 public class SwaggerProviderConfiguration implements SwaggerResourcesProvider {
-	private static final String API_URI = "/v2/api-docs";
-	private final RouteLocator routeLocator;
-	private final GatewayProperties gatewayProperties;
 
+	private static final String API_URI = "/v2/api-docs";
+
+	private final RouteLocator routeLocator;
+
+	private final GatewayProperties gatewayProperties;
 
 	@Override
 	public List<SwaggerResource> get() {
 		List<SwaggerResource> resources = new ArrayList<>();
 		List<String> routes = new ArrayList<>();
 		routeLocator.getRoutes().subscribe(route -> routes.add(route.getId()));
-		gatewayProperties.getRoutes().stream().filter(routeDefinition -> 	routes.contains(routeDefinition.getId()))
-			.forEach(routeDefinition -> routeDefinition.getPredicates().stream()
-				.filter(predicateDefinition -> "Path".equalsIgnoreCase(predicateDefinition.getName()))
-				.filter(predicateDefinition -> !"pig-auth".equalsIgnoreCase(routeDefinition.getId()))
-				.forEach(predicateDefinition -> resources.add(swaggerResource(routeDefinition.getId(),
-					predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
-						.replace("/**", API_URI)))));
+		gatewayProperties.getRoutes().stream().filter(routeDefinition -> routes.contains(routeDefinition.getId()))
+				.forEach(routeDefinition -> routeDefinition.getPredicates().stream()
+						.filter(predicateDefinition -> "Path".equalsIgnoreCase(predicateDefinition.getName()))
+						.filter(predicateDefinition -> !"pig-auth".equalsIgnoreCase(routeDefinition.getId()))
+						.forEach(predicateDefinition -> resources
+								.add(swaggerResource(routeDefinition.getId(), predicateDefinition.getArgs()
+										.get(NameUtils.GENERATED_NAME_PREFIX + "0").replace("/**", API_URI)))));
 		return resources;
 	}
 
@@ -65,4 +67,5 @@ public class SwaggerProviderConfiguration implements SwaggerResourcesProvider {
 		swaggerResource.setSwaggerVersion("2.0");
 		return swaggerResource;
 	}
+
 }

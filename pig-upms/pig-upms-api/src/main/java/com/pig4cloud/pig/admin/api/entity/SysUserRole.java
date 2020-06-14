@@ -48,4 +48,5 @@ public class SysUserRole extends Model<SysUserRole> {
 	 */
 	@ApiModelProperty(value = "角色id")
 	private Integer roleId;
+
 }

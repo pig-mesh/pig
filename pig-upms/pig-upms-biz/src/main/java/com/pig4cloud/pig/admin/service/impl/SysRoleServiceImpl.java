@@ -44,11 +44,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
+
 	private final SysRoleMenuMapper sysRoleMenuMapper;
 
 	/**
 	 * 通过用户ID，查询角色信息
-	 *
 	 * @param userId
 	 * @return
 	 */
@@ -59,7 +59,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
 	/**
 	 * 通过角色ID，删除角色,并清空角色菜单缓存
-	 *
 	 * @param id
 	 * @return
 	 */
@@ -67,9 +66,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeRoleById(Integer id) {
-		sysRoleMenuMapper.delete(Wrappers
-			.<SysRoleMenu>update().lambda()
-			.eq(SysRoleMenu::getRoleId, id));
+		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>update().lambda().eq(SysRoleMenu::getRoleId, id));
 		return this.removeById(id);
 	}
+
 }

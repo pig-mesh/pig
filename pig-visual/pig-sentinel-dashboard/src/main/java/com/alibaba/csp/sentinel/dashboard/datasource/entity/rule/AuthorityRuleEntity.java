@@ -26,37 +26,38 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class AuthorityRuleEntity extends AbstractRuleEntity<AuthorityRule> {
 
-    public AuthorityRuleEntity() {
-    }
+	public AuthorityRuleEntity() {
+	}
 
-    public AuthorityRuleEntity(AuthorityRule authorityRule) {
-        AssertUtil.notNull(authorityRule, "Authority rule should not be null");
-        this.rule = authorityRule;
-    }
+	public AuthorityRuleEntity(AuthorityRule authorityRule) {
+		AssertUtil.notNull(authorityRule, "Authority rule should not be null");
+		this.rule = authorityRule;
+	}
 
-    public static AuthorityRuleEntity fromAuthorityRule(String app, String ip, Integer port, AuthorityRule rule) {
-        AuthorityRuleEntity entity = new AuthorityRuleEntity(rule);
-        entity.setApp(app);
-        entity.setIp(ip);
-        entity.setPort(port);
-        return entity;
-    }
+	public static AuthorityRuleEntity fromAuthorityRule(String app, String ip, Integer port, AuthorityRule rule) {
+		AuthorityRuleEntity entity = new AuthorityRuleEntity(rule);
+		entity.setApp(app);
+		entity.setIp(ip);
+		entity.setPort(port);
+		return entity;
+	}
 
-    @JsonIgnore
-    @JSONField(serialize = false)
-    public String getLimitApp() {
-        return rule.getLimitApp();
-    }
+	@JsonIgnore
+	@JSONField(serialize = false)
+	public String getLimitApp() {
+		return rule.getLimitApp();
+	}
 
-    @JsonIgnore
-    @JSONField(serialize = false)
-    public String getResource() {
-        return rule.getResource();
-    }
+	@JsonIgnore
+	@JSONField(serialize = false)
+	public String getResource() {
+		return rule.getResource();
+	}
 
-    @JsonIgnore
-    @JSONField(serialize = false)
-    public int getStrategy() {
-        return rule.getStrategy();
-    }
+	@JsonIgnore
+	@JSONField(serialize = false)
+	public int getStrategy() {
+		return rule.getStrategy();
+	}
+
 }

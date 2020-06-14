@@ -27,7 +27,6 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-
 /**
  * 数据源管理
  *
@@ -39,13 +38,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/dsconf")
 @Api(value = "dsconf", tags = "数据源管理模块")
 public class GenDsConfController {
-	private final GenDatasourceConfService datasourceConfService;
 
+	private final GenDatasourceConfService datasourceConfService;
 
 	/**
 	 * 分页查询
-	 *
-	 * @param page           分页对象
+	 * @param page 分页对象
 	 * @param datasourceConf 数据源表
 	 * @return
 	 */
@@ -56,7 +54,6 @@ public class GenDsConfController {
 
 	/**
 	 * 查询全部数据源
-	 *
 	 * @return
 	 */
 	@GetMapping("/list")
@@ -64,10 +61,8 @@ public class GenDsConfController {
 		return R.ok(datasourceConfService.list());
 	}
 
-
 	/**
 	 * 通过id查询数据源表
-	 *
 	 * @param id id
 	 * @return R
 	 */
@@ -78,7 +73,6 @@ public class GenDsConfController {
 
 	/**
 	 * 新增数据源表
-	 *
 	 * @param datasourceConf 数据源表
 	 * @return R
 	 */
@@ -90,7 +84,6 @@ public class GenDsConfController {
 
 	/**
 	 * 修改数据源表
-	 *
 	 * @param conf 数据源表
 	 * @return R
 	 */
@@ -102,7 +95,6 @@ public class GenDsConfController {
 
 	/**
 	 * 通过id删除数据源表
-	 *
 	 * @param id id
 	 * @return R
 	 */
@@ -111,4 +103,5 @@ public class GenDsConfController {
 	public R removeById(@PathVariable Integer id) {
 		return R.ok(datasourceConfService.removeByDsId(id));
 	}
+
 }

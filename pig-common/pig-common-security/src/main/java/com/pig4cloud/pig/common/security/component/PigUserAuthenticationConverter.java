@@ -38,11 +38,12 @@ import java.util.Map;
  * 根据checktoken 的结果转化用户信息
  */
 public class PigUserAuthenticationConverter implements UserAuthenticationConverter {
+
 	private static final String N_A = "N/A";
 
 	/**
-	 * Extract information about the user to be used in an access token (i.e. for resource servers).
-	 *
+	 * Extract information about the user to be used in an access token (i.e. for resource
+	 * servers).
 	 * @param authentication an authentication representing a user
 	 * @return a map of key values representing the unique information about the user
 	 */
@@ -57,8 +58,8 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 	}
 
 	/**
-	 * Inverse of {@link #convertUserAuthentication(Authentication)}. Extracts an Authentication from a map.
-	 *
+	 * Inverse of {@link #convertUserAuthentication(Authentication)}. Extracts an
+	 * Authentication from a map.
 	 * @param map a map of user information
 	 * @return an Authentication representing the user or null if there is none
 	 */
@@ -70,8 +71,7 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 			String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
 			Integer id = (Integer) map.get(SecurityConstants.DETAILS_USER_ID);
 			Integer deptId = (Integer) map.get(SecurityConstants.DETAILS_DEPT_ID);
-			PigUser user = new PigUser(id, deptId, username, N_A, true
-				, true, true, true, authorities);
+			PigUser user = new PigUser(id, deptId, username, N_A, true, true, true, true, authorities);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
 		return null;
@@ -83,9 +83,10 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 			return AuthorityUtils.commaSeparatedStringToAuthorityList((String) authorities);
 		}
 		if (authorities instanceof Collection) {
-			return AuthorityUtils.commaSeparatedStringToAuthorityList(StringUtils
-				.collectionToCommaDelimitedString((Collection<?>) authorities));
+			return AuthorityUtils.commaSeparatedStringToAuthorityList(
+					StringUtils.collectionToCommaDelimitedString((Collection<?>) authorities));
 		}
 		return AuthorityUtils.NO_AUTHORITIES;
 	}
+
 }

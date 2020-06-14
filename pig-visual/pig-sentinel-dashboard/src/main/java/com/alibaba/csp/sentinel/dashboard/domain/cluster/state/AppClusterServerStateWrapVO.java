@@ -21,82 +21,79 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.state;
  */
 public class AppClusterServerStateWrapVO {
 
-    /**
-     * {ip}@{transport_command_port}.
-     */
-    private String id;
+	/**
+	 * {ip}@{transport_command_port}.
+	 */
+	private String id;
 
-    private String ip;
-    private Integer port;
+	private String ip;
 
-    private Integer connectedCount;
+	private Integer port;
 
-    private Boolean belongToApp;
+	private Integer connectedCount;
 
-    private ClusterServerStateVO state;
+	private Boolean belongToApp;
 
-    public String getId() {
-        return id;
-    }
+	private ClusterServerStateVO state;
 
-    public AppClusterServerStateWrapVO setId(String id) {
-        this.id = id;
-        return this;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public AppClusterServerStateWrapVO setId(String id) {
+		this.id = id;
+		return this;
+	}
 
-    public AppClusterServerStateWrapVO setIp(String ip) {
-        this.ip = ip;
-        return this;
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public Integer getPort() {
-        return port;
-    }
+	public AppClusterServerStateWrapVO setIp(String ip) {
+		this.ip = ip;
+		return this;
+	}
 
-    public AppClusterServerStateWrapVO setPort(Integer port) {
-        this.port = port;
-        return this;
-    }
+	public Integer getPort() {
+		return port;
+	}
 
-    public Boolean getBelongToApp() {
-        return belongToApp;
-    }
+	public AppClusterServerStateWrapVO setPort(Integer port) {
+		this.port = port;
+		return this;
+	}
 
-    public AppClusterServerStateWrapVO setBelongToApp(Boolean belongToApp) {
-        this.belongToApp = belongToApp;
-        return this;
-    }
+	public Boolean getBelongToApp() {
+		return belongToApp;
+	}
 
-    public Integer getConnectedCount() {
-        return connectedCount;
-    }
+	public AppClusterServerStateWrapVO setBelongToApp(Boolean belongToApp) {
+		this.belongToApp = belongToApp;
+		return this;
+	}
 
-    public AppClusterServerStateWrapVO setConnectedCount(Integer connectedCount) {
-        this.connectedCount = connectedCount;
-        return this;
-    }
+	public Integer getConnectedCount() {
+		return connectedCount;
+	}
 
-    public ClusterServerStateVO getState() {
-        return state;
-    }
+	public AppClusterServerStateWrapVO setConnectedCount(Integer connectedCount) {
+		this.connectedCount = connectedCount;
+		return this;
+	}
 
-    public AppClusterServerStateWrapVO setState(ClusterServerStateVO state) {
-        this.state = state;
-        return this;
-    }
+	public ClusterServerStateVO getState() {
+		return state;
+	}
 
-    @Override
-    public String toString() {
-        return "AppClusterServerStateWrapVO{" +
-            "id='" + id + '\'' +
-            ", ip='" + ip + '\'' +
-            ", port='" + port + '\'' +
-            ", belongToApp=" + belongToApp +
-            ", state=" + state +
-            '}';
-    }
+	public AppClusterServerStateWrapVO setState(ClusterServerStateVO state) {
+		this.state = state;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "AppClusterServerStateWrapVO{" + "id='" + id + '\'' + ", ip='" + ip + '\'' + ", port='" + port + '\''
+				+ ", belongToApp=" + belongToApp + ", state=" + state + '}';
+	}
+
 }

@@ -35,25 +35,28 @@ import org.springframework.stereotype.Component;
 @Component("flowRuleDefaultProvider")
 public class FlowRuleApiProvider implements DynamicRuleProvider<List<FlowRuleEntity>> {
 
-    @Autowired
-    private SentinelApiClient sentinelApiClient;
-    @Autowired
-    private AppManagement appManagement;
+	@Autowired
+	private SentinelApiClient sentinelApiClient;
 
-    @Override
-    public List<FlowRuleEntity> getRules(String appName) throws Exception {
-        if (StringUtil.isBlank(appName)) {
-            return new ArrayList<>();
-        }
-        List<MachineInfo> list = appManagement.getDetailApp(appName).getMachines()
-            .stream()
-            .filter(MachineInfo::isHealthy)
-            .sorted((e1, e2) -> Long.compare(e2.getLastHeartbeat(), e1.getLastHeartbeat())).collect(Collectors.toList());
-        if (list.isEmpty()) {
-            return new ArrayList<>();
-        } else {
-            MachineInfo machine = list.get(0);
-            return sentinelApiClient.fetchFlowRuleOfMachine(machine.getApp(), machine.getIp(), machine.getPort());
-        }
-    }
+	@Autowired
+	private AppManagement appManagement;
+
+	@Override
+	public List<FlowRuleEntity> getRules(String appName) throws Exception {
+		if (StringUtil.isBlank(appName)) {
+			return new ArrayList<>();
+		}
+		List<MachineInfo> list = appManagement.getDetailApp(appName).getMachines().stream()
+				.filter(MachineInfo::isHealthy)
+				.sorted((e1, e2) -> Long.compare(e2.getLastHeartbeat(), e1.getLastHeartbeat()))
+				.collect(Collectors.toList());
+		if (list.isEmpty()) {
+			return new ArrayList<>();
+		}
+		else {
+			MachineInfo machine = list.get(0);
+			return sentinelApiClient.fetchFlowRuleOfMachine(machine.getApp(), machine.getIp(), machine.getPort());
+		}
+	}
+
 }

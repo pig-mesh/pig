@@ -28,16 +28,17 @@ import java.util.List;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 放行参数配置
+ * @date 2019/2/1 放行参数配置
  */
 @Data
 @Component
 @RefreshScope
 @ConfigurationProperties(prefix = "ignore")
 public class IgnoreClientConfiguration {
+
 	/**
 	 * 放行终端配置，网关不校验此处的终端
 	 */
 	private List<String> clients = new ArrayList<>();
+
 }

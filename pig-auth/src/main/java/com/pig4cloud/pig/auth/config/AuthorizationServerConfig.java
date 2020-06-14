@@ -47,16 +47,19 @@ import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 认证服务器配置
+ * @date 2019/2/1 认证服务器配置
  */
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+
 	private final DataSource dataSource;
+
 	private final UserDetailsService userDetailsService;
+
 	private final AuthenticationManager authenticationManager;
+
 	private final RedisConnectionFactory redisConnectionFactory;
 
 	@Override
@@ -70,22 +73,16 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-		oauthServer
-			.allowFormAuthenticationForClients()
-			.checkTokenAccess("permitAll()");
+		oauthServer.allowFormAuthenticationForClients().checkTokenAccess("permitAll()");
 	}
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints
-			.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-			.tokenStore(tokenStore())
-			.tokenEnhancer(tokenEnhancer())
-			.userDetailsService(userDetailsService)
-			.authenticationManager(authenticationManager)
-			.reuseRefreshTokens(false)
-			.pathMapping("/oauth/confirm_access", "/token/confirm_access")
-			.exceptionTranslator(new PigWebResponseExceptionTranslator());
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
+				.tokenEnhancer(tokenEnhancer()).userDetailsService(userDetailsService)
+				.authenticationManager(authenticationManager).reuseRefreshTokens(false)
+				.pathMapping("/oauth/confirm_access", "/token/confirm_access")
+				.exceptionTranslator(new PigWebResponseExceptionTranslator());
 	}
 
 	@Bean
@@ -108,4 +105,5 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			return accessToken;
 		};
 	}
+
 }

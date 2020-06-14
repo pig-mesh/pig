@@ -50,8 +50,10 @@ public enum MenuTypeEnum {
 	 * 类型
 	 */
 	private final String type;
+
 	/**
 	 * 描述
 	 */
 	private final String description;
+
 }

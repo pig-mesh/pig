@@ -43,11 +43,11 @@ import java.time.LocalDateTime;
 @RequestMapping("/dept")
 @Api(value = "dept", tags = "部门管理模块")
 public class DeptController {
+
 	private final SysDeptService sysDeptService;
 
 	/**
 	 * 通过ID查询
-	 *
 	 * @param id ID
 	 * @return SysDept
 	 */
@@ -56,10 +56,8 @@ public class DeptController {
 		return R.ok(sysDeptService.getById(id));
 	}
 
-
 	/**
 	 * 返回树形菜单集合
-	 *
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
@@ -69,7 +67,6 @@ public class DeptController {
 
 	/**
 	 * 返回当前用户树形菜单集合
-	 *
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/user-tree")
@@ -79,7 +76,6 @@ public class DeptController {
 
 	/**
 	 * 添加
-	 *
 	 * @param sysDept 实体
 	 * @return success/false
 	 */
@@ -92,7 +88,6 @@ public class DeptController {
 
 	/**
 	 * 删除
-	 *
 	 * @param id ID
 	 * @return success/false
 	 */
@@ -105,7 +100,6 @@ public class DeptController {
 
 	/**
 	 * 编辑
-	 *
 	 * @param sysDept 实体
 	 * @return success/false
 	 */
@@ -119,7 +113,6 @@ public class DeptController {
 
 	/**
 	 * 根据部门名查询部门信息
-	 *
 	 * @param deptname 部门名
 	 * @return
 	 */

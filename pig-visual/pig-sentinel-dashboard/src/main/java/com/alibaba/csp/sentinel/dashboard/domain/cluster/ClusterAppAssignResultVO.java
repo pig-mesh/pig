@@ -23,44 +23,43 @@ import java.util.Set;
  */
 public class ClusterAppAssignResultVO {
 
-    private Set<String> failedServerSet;
-    private Set<String> failedClientSet;
+	private Set<String> failedServerSet;
 
-    private Integer totalCount;
+	private Set<String> failedClientSet;
 
-    public Set<String> getFailedServerSet() {
-        return failedServerSet;
-    }
+	private Integer totalCount;
 
-    public ClusterAppAssignResultVO setFailedServerSet(Set<String> failedServerSet) {
-        this.failedServerSet = failedServerSet;
-        return this;
-    }
+	public Set<String> getFailedServerSet() {
+		return failedServerSet;
+	}
 
-    public Set<String> getFailedClientSet() {
-        return failedClientSet;
-    }
+	public ClusterAppAssignResultVO setFailedServerSet(Set<String> failedServerSet) {
+		this.failedServerSet = failedServerSet;
+		return this;
+	}
 
-    public ClusterAppAssignResultVO setFailedClientSet(Set<String> failedClientSet) {
-        this.failedClientSet = failedClientSet;
-        return this;
-    }
+	public Set<String> getFailedClientSet() {
+		return failedClientSet;
+	}
 
-    public Integer getTotalCount() {
-        return totalCount;
-    }
+	public ClusterAppAssignResultVO setFailedClientSet(Set<String> failedClientSet) {
+		this.failedClientSet = failedClientSet;
+		return this;
+	}
 
-    public ClusterAppAssignResultVO setTotalCount(Integer totalCount) {
-        this.totalCount = totalCount;
-        return this;
-    }
+	public Integer getTotalCount() {
+		return totalCount;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterAppAssignResultVO{" +
-            "failedServerSet=" + failedServerSet +
-            ", failedClientSet=" + failedClientSet +
-            ", totalCount=" + totalCount +
-            '}';
-    }
+	public ClusterAppAssignResultVO setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterAppAssignResultVO{" + "failedServerSet=" + failedServerSet + ", failedClientSet="
+				+ failedClientSet + ", totalCount=" + totalCount + '}';
+	}
+
 }

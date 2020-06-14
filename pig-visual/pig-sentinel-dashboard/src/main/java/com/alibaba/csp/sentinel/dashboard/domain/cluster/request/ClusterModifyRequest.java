@@ -21,11 +21,12 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.request;
  */
 public interface ClusterModifyRequest {
 
-    String getApp();
+	String getApp();
 
-    String getIp();
+	String getIp();
 
-    Integer getPort();
+	Integer getPort();
 
-    Integer getMode();
+	Integer getMode();
+
 }

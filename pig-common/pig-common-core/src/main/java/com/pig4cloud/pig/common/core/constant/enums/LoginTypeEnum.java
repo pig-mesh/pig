@@ -23,12 +23,12 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
- * @date 2018/8/15
- * 社交登录类型
+ * @date 2018/8/15 社交登录类型
  */
 @Getter
 @RequiredArgsConstructor
 public enum LoginTypeEnum {
+
 	/**
 	 * 账号密码登录
 	 */
@@ -48,8 +48,10 @@ public enum LoginTypeEnum {
 	 * 类型
 	 */
 	private final String type;
+
 	/**
 	 * 描述
 	 */
 	private final String description;
+
 }

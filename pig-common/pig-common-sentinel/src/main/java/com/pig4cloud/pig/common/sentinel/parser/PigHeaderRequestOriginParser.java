@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2020-06-11
  */
 public class PigHeaderRequestOriginParser implements RequestOriginParser {
+
 	/**
 	 * 请求头获取allow
 	 */
@@ -35,7 +36,6 @@ public class PigHeaderRequestOriginParser implements RequestOriginParser {
 
 	/**
 	 * Parse the origin from given HTTP request.
-	 *
 	 * @param request HTTP request
 	 * @return parsed origin
 	 */
@@ -43,4 +43,5 @@ public class PigHeaderRequestOriginParser implements RequestOriginParser {
 	public String parseOrigin(HttpServletRequest request) {
 		return request.getHeader(ALLOW);
 	}
+
 }

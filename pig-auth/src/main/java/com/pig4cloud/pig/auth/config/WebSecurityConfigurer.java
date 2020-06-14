@@ -34,8 +34,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 认证相关配置
+ * @date 2019/2/1 认证相关配置
  */
 @Primary
 @Order(90)
@@ -45,19 +44,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
-		http
-			.formLogin()
-			.loginPage("/token/login")
-			.loginProcessingUrl("/token/form")
-			.failureHandler(authenticationFailureHandler())
-			.and()
-			.authorizeRequests()
-			.antMatchers(
-				"/token/**",
-				"/actuator/**",
-				"/mobile/**").permitAll()
-			.anyRequest().authenticated()
-			.and().csrf().disable();
+		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
+				.failureHandler(authenticationFailureHandler()).and().authorizeRequests()
+				.antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll().anyRequest().authenticated().and()
+				.csrf().disable();
 	}
 
 	@Override
@@ -80,7 +70,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	/**
 	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
 	 * Encoded password does not look like BCrypt
-	 *
 	 * @return PasswordEncoder
 	 */
 	@Bean

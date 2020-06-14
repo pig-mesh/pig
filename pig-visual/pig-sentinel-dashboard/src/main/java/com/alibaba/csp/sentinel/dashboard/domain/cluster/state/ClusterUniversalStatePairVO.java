@@ -21,52 +21,52 @@ package com.alibaba.csp.sentinel.dashboard.domain.cluster.state;
  */
 public class ClusterUniversalStatePairVO {
 
-    private String ip;
-    private Integer commandPort;
+	private String ip;
 
-    private ClusterUniversalStateVO state;
+	private Integer commandPort;
 
-    public ClusterUniversalStatePairVO() {}
+	private ClusterUniversalStateVO state;
 
-    public ClusterUniversalStatePairVO(String ip, Integer commandPort, ClusterUniversalStateVO state) {
-        this.ip = ip;
-        this.commandPort = commandPort;
-        this.state = state;
-    }
+	public ClusterUniversalStatePairVO() {
+	}
 
-    public String getIp() {
-        return ip;
-    }
+	public ClusterUniversalStatePairVO(String ip, Integer commandPort, ClusterUniversalStateVO state) {
+		this.ip = ip;
+		this.commandPort = commandPort;
+		this.state = state;
+	}
 
-    public ClusterUniversalStatePairVO setIp(String ip) {
-        this.ip = ip;
-        return this;
-    }
+	public String getIp() {
+		return ip;
+	}
 
-    public Integer getCommandPort() {
-        return commandPort;
-    }
+	public ClusterUniversalStatePairVO setIp(String ip) {
+		this.ip = ip;
+		return this;
+	}
 
-    public ClusterUniversalStatePairVO setCommandPort(Integer commandPort) {
-        this.commandPort = commandPort;
-        return this;
-    }
+	public Integer getCommandPort() {
+		return commandPort;
+	}
 
-    public ClusterUniversalStateVO getState() {
-        return state;
-    }
+	public ClusterUniversalStatePairVO setCommandPort(Integer commandPort) {
+		this.commandPort = commandPort;
+		return this;
+	}
 
-    public ClusterUniversalStatePairVO setState(ClusterUniversalStateVO state) {
-        this.state = state;
-        return this;
-    }
+	public ClusterUniversalStateVO getState() {
+		return state;
+	}
 
-    @Override
-    public String toString() {
-        return "ClusterUniversalStatePairVO{" +
-            "ip='" + ip + '\'' +
-            ", commandPort=" + commandPort +
-            ", state=" + state +
-            '}';
-    }
+	public ClusterUniversalStatePairVO setState(ClusterUniversalStateVO state) {
+		this.state = state;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "ClusterUniversalStatePairVO{" + "ip='" + ip + '\'' + ", commandPort=" + commandPort + ", state=" + state
+				+ '}';
+	}
+
 }

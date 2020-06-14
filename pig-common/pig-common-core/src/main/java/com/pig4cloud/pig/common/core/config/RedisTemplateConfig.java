@@ -31,14 +31,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * Redis 配置类
+ * @date 2019/2/1 Redis 配置类
  */
 @EnableCaching
 @Configuration
 @RequiredArgsConstructor
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisTemplateConfig {
+
 	private final RedisConnectionFactory factory;
 
 	@Bean
@@ -76,4 +76,5 @@ public class RedisTemplateConfig {
 	public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForZSet();
 	}
+
 }

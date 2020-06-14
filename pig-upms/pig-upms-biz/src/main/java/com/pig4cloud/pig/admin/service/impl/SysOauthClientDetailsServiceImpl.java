@@ -35,11 +35,11 @@ import org.springframework.stereotype.Service;
  * @since 2019/2/1
  */
 @Service
-public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClientDetailsMapper, SysOauthClientDetails> implements SysOauthClientDetailsService {
+public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClientDetailsMapper, SysOauthClientDetails>
+		implements SysOauthClientDetailsService {
 
 	/**
 	 * 通过ID删除客户端
-	 *
 	 * @param id
 	 * @return
 	 */
@@ -51,7 +51,6 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 
 	/**
 	 * 根据客户端信息
-	 *
 	 * @param clientDetails
 	 * @return
 	 */
@@ -60,4 +59,5 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	public Boolean updateClientDetailsById(SysOauthClientDetails clientDetails) {
 		return this.updateById(clientDetails);
 	}
+
 }

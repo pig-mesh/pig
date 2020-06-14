@@ -45,7 +45,7 @@ public class PigUrlBlockHandler implements BlockExceptionHandler {
 
 		response.setContentType(ContentType.JSON.toString());
 		response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-		response.getWriter().print(
-			JSONUtil.toJsonStr(R.failed(e.getMessage())));
+		response.getWriter().print(JSONUtil.toJsonStr(R.failed(e.getMessage())));
 	}
+
 }

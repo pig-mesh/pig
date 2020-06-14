@@ -25,33 +25,34 @@ import java.util.List;
  */
 public class UpdateApiReqVo {
 
-    private Long id;
+	private Long id;
 
-    private String app;
+	private String app;
 
-    private List<ApiPredicateItemVo> predicateItems;
+	private List<ApiPredicateItemVo> predicateItems;
 
-    public Long getId() {
-        return id;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getApp() {
-        return app;
-    }
+	public String getApp() {
+		return app;
+	}
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public List<ApiPredicateItemVo> getPredicateItems() {
-        return predicateItems;
-    }
+	public List<ApiPredicateItemVo> getPredicateItems() {
+		return predicateItems;
+	}
 
-    public void setPredicateItems(List<ApiPredicateItemVo> predicateItems) {
-        this.predicateItems = predicateItems;
-    }
+	public void setPredicateItems(List<ApiPredicateItemVo> predicateItems) {
+		this.predicateItems = predicateItems;
+	}
+
 }

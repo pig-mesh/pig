@@ -26,17 +26,20 @@ import java.util.Map;
 import static feign.Util.checkNotNull;
 
 /**
- * 支持自动降级注入
- * 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler}
+ * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelInvocationHandler}
  *
  * @author lengleng
  * @date 2020/6/9
  */
 @Slf4j
 public class PigSentinelInvocationHandler implements InvocationHandler {
+
 	public static final String EQUALS = "equals";
+
 	public static final String HASH_CODE = "hashCode";
+
 	public static final String TO_STRING = "toString";
+
 	private final Target<?> target;
 
 	private final Map<Method, InvocationHandlerFactory.MethodHandler> dispatch;
@@ -46,7 +49,7 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 	private Map<Method, Method> fallbackMethodMap;
 
 	PigSentinelInvocationHandler(Target<?> target, Map<Method, InvocationHandlerFactory.MethodHandler> dispatch,
-								 FallbackFactory fallbackFactory) {
+			FallbackFactory fallbackFactory) {
 		this.target = checkNotNull(target, "target");
 		this.dispatch = checkNotNull(dispatch, "dispatch");
 		this.fallbackFactory = fallbackFactory;
@@ -59,19 +62,20 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 	}
 
 	@Override
-	public Object invoke(final Object proxy, final Method method, final Object[] args)
-		throws Throwable {
+	public Object invoke(final Object proxy, final Method method, final Object[] args) throws Throwable {
 		if (EQUALS.equals(method.getName())) {
 			try {
-				Object otherHandler = args.length > 0 && args[0] != null
-					? Proxy.getInvocationHandler(args[0]) : null;
+				Object otherHandler = args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
 				return equals(otherHandler);
-			} catch (IllegalArgumentException e) {
+			}
+			catch (IllegalArgumentException e) {
 				return false;
 			}
-		} else if (HASH_CODE.equals(method.getName())) {
+		}
+		else if (HASH_CODE.equals(method.getName())) {
 			return hashCode();
-		} else if (TO_STRING.equals(method.getName())) {
+		}
+		else if (TO_STRING.equals(method.getName())) {
 			return toString();
 		}
 
@@ -81,53 +85,60 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 		if (target instanceof Target.HardCodedTarget) {
 			Target.HardCodedTarget hardCodedTarget = (Target.HardCodedTarget) target;
 			MethodMetadata methodMetadata = SentinelContractHolder.METADATA_MAP
-				.get(hardCodedTarget.type().getName()
-					+ Feign.configKey(hardCodedTarget.type(), method));
+					.get(hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
 			// resource default is HttpMethod:protocol://url
 			if (methodMetadata == null) {
 				result = methodHandler.invoke(args);
-			} else {
-				String resourceName = methodMetadata.template().method().toUpperCase()
-					+ ":" + hardCodedTarget.url() + methodMetadata.template().path();
+			}
+			else {
+				String resourceName = methodMetadata.template().method().toUpperCase() + ":" + hardCodedTarget.url()
+						+ methodMetadata.template().path();
 				Entry entry = null;
 				try {
 					ContextUtil.enter(resourceName);
 					entry = SphU.entry(resourceName, EntryType.OUT, 1, args);
 					result = methodHandler.invoke(args);
-				} catch (Throwable ex) {
+				}
+				catch (Throwable ex) {
 					// fallback handle
 					if (!BlockException.isBlockException(ex)) {
 						Tracer.trace(ex);
 					}
 					if (fallbackFactory != null) {
 						try {
-							Object fallbackResult = fallbackMethodMap.get(method)
-								.invoke(fallbackFactory.create(ex), args);
+							Object fallbackResult = fallbackMethodMap.get(method).invoke(fallbackFactory.create(ex),
+									args);
 							return fallbackResult;
-						} catch (IllegalAccessException e) {
+						}
+						catch (IllegalAccessException e) {
 							// shouldn't happen as method is public due to being an
 							// interface
 							throw new AssertionError(e);
-						} catch (InvocationTargetException e) {
+						}
+						catch (InvocationTargetException e) {
 							throw new AssertionError(e.getCause());
 						}
-					} else {
+					}
+					else {
 						// 若是R类型 执行自动降级返回R
 						if (R.class == method.getReturnType()) {
 							log.error("feign 服务间调用异常", ex);
 							return R.failed(ex.getLocalizedMessage());
-						} else {
+						}
+						else {
 							throw ex;
 						}
 					}
-				} finally {
+				}
+				finally {
 					if (entry != null) {
 						entry.exit(1, args);
 					}
 					ContextUtil.exit();
 				}
 			}
-		} else {
+		}
+		else {
 			// other target type using default strategy
 			result = methodHandler.invoke(args);
 		}
@@ -162,4 +173,5 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 		}
 		return result;
 	}
+
 }

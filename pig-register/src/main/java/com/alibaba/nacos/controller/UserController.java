@@ -50,186 +50,185 @@ import java.util.List;
  * @author nkorange
  */
 @RestController("user")
-@RequestMapping({"/v1/auth", "/v1/auth/users"})
+@RequestMapping({ "/v1/auth", "/v1/auth/users" })
 public class UserController {
 
-    @Autowired
-    private JwtTokenUtils jwtTokenUtils;
+	@Autowired
+	private JwtTokenUtils jwtTokenUtils;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private NacosUserDetailsServiceImpl userDetailsService;
+	@Autowired
+	private NacosUserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private NacosRoleServiceImpl roleService;
+	@Autowired
+	private NacosRoleServiceImpl roleService;
 
-    @Autowired
-    private AuthConfigs authConfigs;
+	@Autowired
+	private AuthConfigs authConfigs;
 
-    @Autowired
-    private NacosAuthManager authManager;
+	@Autowired
+	private NacosAuthManager authManager;
 
-    /**
-     * Create a new user
-     *
-     * @param username username
-     * @param password password
-     * @return ok if create succeed
-     * @throws IllegalArgumentException if user already exist
-     * @since 1.2.0
-     */
-    @Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
-    @PostMapping
-    public Object createUser(@RequestParam String username, @RequestParam String password) {
+	/**
+	 * Create a new user
+	 * @param username username
+	 * @param password password
+	 * @return ok if create succeed
+	 * @throws IllegalArgumentException if user already exist
+	 * @since 1.2.0
+	 */
+	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
+	@PostMapping
+	public Object createUser(@RequestParam String username, @RequestParam String password) {
 
-        User user = userDetailsService.getUserFromDatabase(username);
-        if (user != null) {
-            throw new IllegalArgumentException("user '" + username + "' already exist!");
-        }
-        userDetailsService.createUser(username, PasswordEncoderUtil.encode(password));
-        return new RestResult<>(200, "create user ok!");
-    }
+		User user = userDetailsService.getUserFromDatabase(username);
+		if (user != null) {
+			throw new IllegalArgumentException("user '" + username + "' already exist!");
+		}
+		userDetailsService.createUser(username, PasswordEncoderUtil.encode(password));
+		return new RestResult<>(200, "create user ok!");
+	}
 
-    /**
-     * Delete an existed user
-     *
-     * @param username username of user
-     * @return ok if deleted succeed, keep silent if user not exist
-     * @since 1.2.0
-     */
-    @DeleteMapping
-    @Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
-    public Object deleteUser(@RequestParam String username) {
-        List<RoleInfo> roleInfoList = roleService.getRoles(username);
-        if (roleInfoList != null) {
-            for (RoleInfo roleInfo : roleInfoList) {
-                if (roleInfo.getRole().equals(NacosRoleServiceImpl.GLOBAL_ADMIN_ROLE)) {
-                    throw new IllegalArgumentException("cannot delete admin: " + username);
-                }
-            }
-        }
-        userDetailsService.deleteUser(username);
-        return new RestResult<>(200, "delete user ok!");
-    }
+	/**
+	 * Delete an existed user
+	 * @param username username of user
+	 * @return ok if deleted succeed, keep silent if user not exist
+	 * @since 1.2.0
+	 */
+	@DeleteMapping
+	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
+	public Object deleteUser(@RequestParam String username) {
+		List<RoleInfo> roleInfoList = roleService.getRoles(username);
+		if (roleInfoList != null) {
+			for (RoleInfo roleInfo : roleInfoList) {
+				if (roleInfo.getRole().equals(NacosRoleServiceImpl.GLOBAL_ADMIN_ROLE)) {
+					throw new IllegalArgumentException("cannot delete admin: " + username);
+				}
+			}
+		}
+		userDetailsService.deleteUser(username);
+		return new RestResult<>(200, "delete user ok!");
+	}
 
-    /**
-     * Update an user
-     *
-     * @param username    username of user
-     * @param newPassword new password of user
-     * @return ok if update succeed
-     * @throws IllegalArgumentException if user not exist or oldPassword is incorrect
-     * @since 1.2.0
-     */
-    @PutMapping
-    @Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
-    public Object updateUser(@RequestParam String username, @RequestParam String newPassword) {
+	/**
+	 * Update an user
+	 * @param username username of user
+	 * @param newPassword new password of user
+	 * @return ok if update succeed
+	 * @throws IllegalArgumentException if user not exist or oldPassword is incorrect
+	 * @since 1.2.0
+	 */
+	@PutMapping
+	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
+	public Object updateUser(@RequestParam String username, @RequestParam String newPassword) {
 
-        User user = userDetailsService.getUserFromDatabase(username);
-        if (user == null) {
-            throw new IllegalArgumentException("user " + username + " not exist!");
-        }
+		User user = userDetailsService.getUserFromDatabase(username);
+		if (user == null) {
+			throw new IllegalArgumentException("user " + username + " not exist!");
+		}
 
-        userDetailsService.updateUserPassword(username, PasswordEncoderUtil.encode(newPassword));
+		userDetailsService.updateUserPassword(username, PasswordEncoderUtil.encode(newPassword));
 
-        return new RestResult<>(200, "update user ok!");
-    }
+		return new RestResult<>(200, "update user ok!");
+	}
 
-    /**
-     * Get paged users
-     *
-     * @param pageNo   number index of page
-     * @param pageSize size of page
-     * @return A collection of users, empty set if no user is found
-     * @since 1.2.0
-     */
-    @GetMapping
-    @Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.READ)
-    public Object getUsers(@RequestParam int pageNo, @RequestParam int pageSize) {
-        return userDetailsService.getUsersFromDatabase(pageNo, pageSize);
-    }
+	/**
+	 * Get paged users
+	 * @param pageNo number index of page
+	 * @param pageSize size of page
+	 * @return A collection of users, empty set if no user is found
+	 * @since 1.2.0
+	 */
+	@GetMapping
+	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.READ)
+	public Object getUsers(@RequestParam int pageNo, @RequestParam int pageSize) {
+		return userDetailsService.getUsersFromDatabase(pageNo, pageSize);
+	}
 
-    /**
-     * Login to Nacos
-     * <p>
-     * This methods uses username and password to require a new token.
-     *
-     * @param username username of user
-     * @param password password
-     * @param response http response
-     * @param request  http request
-     * @return new token of the user
-     * @throws AccessException if user info is incorrect
-     */
-    @PostMapping("/login")
-    public Object login(@RequestParam String username, @RequestParam String password,
-                        HttpServletResponse response, HttpServletRequest request) throws AccessException {
+	/**
+	 * Login to Nacos
+	 * <p>
+	 * This methods uses username and password to require a new token.
+	 * @param username username of user
+	 * @param password password
+	 * @param response http response
+	 * @param request http request
+	 * @return new token of the user
+	 * @throws AccessException if user info is incorrect
+	 */
+	@PostMapping("/login")
+	public Object login(@RequestParam String username, @RequestParam String password, HttpServletResponse response,
+			HttpServletRequest request) throws AccessException {
 
+		if (AuthSystemTypes.NACOS.name().equalsIgnoreCase(authConfigs.getNacosAuthSystemType())) {
+			NacosUser user = (NacosUser) authManager.login(request);
 
-        if (AuthSystemTypes.NACOS.name().equalsIgnoreCase(authConfigs.getNacosAuthSystemType())) {
-            NacosUser user = (NacosUser) authManager.login(request);
+			response.addHeader(NacosAuthConfig.AUTHORIZATION_HEADER, NacosAuthConfig.TOKEN_PREFIX + user.getToken());
 
-            response.addHeader(NacosAuthConfig.AUTHORIZATION_HEADER,
-                NacosAuthConfig.TOKEN_PREFIX + user.getToken());
+			ObjectNode result = JacksonUtils.createEmptyJsonNode();
+			// JSONObject result = new JSONObject();
+			result.put(Constants.ACCESS_TOKEN, user.getToken());
+			result.put(Constants.TOKEN_TTL, authConfigs.getTokenValidityInSeconds());
+			result.put(Constants.GLOBAL_ADMIN, user.isGlobalAdmin());
+			return result;
+		}
 
-            ObjectNode result = JacksonUtils.createEmptyJsonNode();
-//            JSONObject result = new JSONObject();
-            result.put(Constants.ACCESS_TOKEN, user.getToken());
-            result.put(Constants.TOKEN_TTL, authConfigs.getTokenValidityInSeconds());
-            result.put(Constants.GLOBAL_ADMIN, user.isGlobalAdmin());
-            return result;
-        }
+		// 通过用户名和密码创建一个 Authentication 认证对象，实现类为 UsernamePasswordAuthenticationToken
+		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username,
+				password);
 
-        // 通过用户名和密码创建一个 Authentication 认证对象，实现类为 UsernamePasswordAuthenticationToken
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
+		RestResult<String> rr = new RestResult<String>();
+		try {
+			// 通过 AuthenticationManager（默认实现为ProviderManager）的authenticate方法验证
+			// Authentication 对象
+			Authentication authentication = authenticationManager.authenticate(authenticationToken);
+			// 将 Authentication 绑定到 SecurityContext
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			// 生成Token
+			String token = jwtTokenUtils.createToken(authentication);
+			// 将Token写入到Http头部
+			response.addHeader(NacosAuthConfig.AUTHORIZATION_HEADER, "Bearer " + token);
+			rr.setCode(200);
+			rr.setData("Bearer " + token);
+			return rr;
+		}
+		catch (BadCredentialsException authentication) {
+			rr.setCode(401);
+			rr.setMessage("Login failed");
+			return rr;
+		}
+	}
 
-        RestResult<String> rr = new RestResult<String>();
-        try {
-            //通过 AuthenticationManager（默认实现为ProviderManager）的authenticate方法验证 Authentication 对象
-            Authentication authentication = authenticationManager.authenticate(authenticationToken);
-            //将 Authentication 绑定到 SecurityContext
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            //生成Token
-            String token = jwtTokenUtils.createToken(authentication);
-            //将Token写入到Http头部
-            response.addHeader(NacosAuthConfig.AUTHORIZATION_HEADER, "Bearer " + token);
-            rr.setCode(200);
-            rr.setData("Bearer " + token);
-            return rr;
-        } catch (BadCredentialsException authentication) {
-            rr.setCode(401);
-            rr.setMessage("Login failed");
-            return rr;
-        }
-    }
+	@PutMapping("/password")
+	@Deprecated
+	public RestResult<String> updatePassword(@RequestParam(value = "oldPassword") String oldPassword,
+			@RequestParam(value = "newPassword") String newPassword) {
 
-    @PutMapping("/password")
-    @Deprecated
-    public RestResult<String> updatePassword(@RequestParam(value = "oldPassword") String oldPassword,
-                                             @RequestParam(value = "newPassword") String newPassword) {
+		RestResult<String> rr = new RestResult<String>();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = ((UserDetails) principal).getUsername();
+		User user = userDetailsService.getUserFromDatabase(username);
+		String password = user.getPassword();
 
-        RestResult<String> rr = new RestResult<String>();
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = ((UserDetails) principal).getUsername();
-        User user = userDetailsService.getUserFromDatabase(username);
-        String password = user.getPassword();
+		// TODO: throw out more fine grained exceptions
+		try {
+			if (PasswordEncoderUtil.matches(oldPassword, password)) {
+				userDetailsService.updateUserPassword(username, PasswordEncoderUtil.encode(newPassword));
+				rr.setCode(200);
+				rr.setMessage("Update password success");
+			}
+			else {
+				rr.setCode(401);
+				rr.setMessage("Old password is invalid");
+			}
+		}
+		catch (Exception e) {
+			rr.setCode(500);
+			rr.setMessage("Update userpassword failed");
+		}
+		return rr;
+	}
 
-        // TODO: throw out more fine grained exceptions
-        try {
-            if (PasswordEncoderUtil.matches(oldPassword, password)) {
-                userDetailsService.updateUserPassword(username, PasswordEncoderUtil.encode(newPassword));
-                rr.setCode(200);
-                rr.setMessage("Update password success");
-            } else {
-                rr.setCode(401);
-                rr.setMessage("Old password is invalid");
-            }
-        } catch (Exception e) {
-            rr.setCode(500);
-            rr.setMessage("Update userpassword failed");
-        }
-        return rr;
-    }
 }

@@ -21,83 +21,77 @@ package com.alibaba.csp.sentinel.dashboard.domain;
  */
 public class Result<R> {
 
-    private boolean success;
-    private int code;
-    private String msg;
-    private R data;
+	private boolean success;
 
-    public static <R> Result<R> ofSuccess(R data) {
-        return new Result<R>()
-            .setSuccess(true)
-            .setMsg("success")
-            .setData(data);
-    }
+	private int code;
 
-    public static <R> Result<R> ofSuccessMsg(String msg) {
-        return new Result<R>()
-            .setSuccess(true)
-            .setMsg(msg);
-    }
+	private String msg;
 
-    public static <R> Result<R> ofFail(int code, String msg) {
-        Result<R> result = new Result<>();
-        result.setSuccess(false);
-        result.setCode(code);
-        result.setMsg(msg);
-        return result;
-    }
+	private R data;
 
-    public static <R> Result<R> ofThrowable(int code, Throwable throwable) {
-        Result<R> result = new Result<>();
-        result.setSuccess(false);
-        result.setCode(code);
-        result.setMsg(throwable.getClass().getName() + ", " + throwable.getMessage());
-        return result;
-    }
+	public static <R> Result<R> ofSuccess(R data) {
+		return new Result<R>().setSuccess(true).setMsg("success").setData(data);
+	}
 
-    public boolean isSuccess() {
-        return success;
-    }
+	public static <R> Result<R> ofSuccessMsg(String msg) {
+		return new Result<R>().setSuccess(true).setMsg(msg);
+	}
 
-    public Result<R> setSuccess(boolean success) {
-        this.success = success;
-        return this;
-    }
+	public static <R> Result<R> ofFail(int code, String msg) {
+		Result<R> result = new Result<>();
+		result.setSuccess(false);
+		result.setCode(code);
+		result.setMsg(msg);
+		return result;
+	}
 
-    public int getCode() {
-        return code;
-    }
+	public static <R> Result<R> ofThrowable(int code, Throwable throwable) {
+		Result<R> result = new Result<>();
+		result.setSuccess(false);
+		result.setCode(code);
+		result.setMsg(throwable.getClass().getName() + ", " + throwable.getMessage());
+		return result;
+	}
 
-    public Result<R> setCode(int code) {
-        this.code = code;
-        return this;
-    }
+	public boolean isSuccess() {
+		return success;
+	}
 
-    public String getMsg() {
-        return msg;
-    }
+	public Result<R> setSuccess(boolean success) {
+		this.success = success;
+		return this;
+	}
 
-    public Result<R> setMsg(String msg) {
-        this.msg = msg;
-        return this;
-    }
+	public int getCode() {
+		return code;
+	}
 
-    public R getData() {
-        return data;
-    }
+	public Result<R> setCode(int code) {
+		this.code = code;
+		return this;
+	}
 
-    public Result<R> setData(R data) {
-        this.data = data;
-        return this;
-    }
+	public String getMsg() {
+		return msg;
+	}
 
-    @Override
-    public String toString() {
-        return "Result{" +
-            "success=" + success +
-            ", code=" + code +
-            ", msg='" + msg + '\'' +
-            ", data=" + data +
-            '}';
-    }
+	public Result<R> setMsg(String msg) {
+		this.msg = msg;
+		return this;
+	}
+
+	public R getData() {
+		return data;
+	}
+
+	public Result<R> setData(R data) {
+		this.data = data;
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "Result{" + "success=" + success + ", code=" + code + ", msg='" + msg + '\'' + ", data=" + data + '}';
+	}
+
 }

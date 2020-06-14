@@ -43,12 +43,12 @@ import javax.validation.Valid;
 @RequestMapping("/log")
 @Api(value = "log", tags = "日志管理模块")
 public class LogController {
+
 	private final SysLogService sysLogService;
 
 	/**
 	 * 简单分页查询
-	 *
-	 * @param page   分页对象
+	 * @param page 分页对象
 	 * @param sysLog 系统日志
 	 * @return
 	 */
@@ -59,7 +59,6 @@ public class LogController {
 
 	/**
 	 * 删除日志
-	 *
 	 * @param id ID
 	 * @return success/false
 	 */
@@ -71,7 +70,6 @@ public class LogController {
 
 	/**
 	 * 插入日志
-	 *
 	 * @param sysLog 日志实体
 	 * @return success/false
 	 */

@@ -39,9 +39,9 @@ import java.util.List;
  */
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
+
 	/**
 	 * 通过用户名查询用户信息（含有角色信息）
-	 *
 	 * @param username 用户名
 	 * @return userVo
 	 */
@@ -49,8 +49,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 	/**
 	 * 分页查询用户信息（含角色）
-	 *
-	 * @param page    分页
+	 * @param page 分页
 	 * @param userDTO 查询参数
 	 * @return list
 	 */
@@ -58,9 +57,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 	/**
 	 * 通过ID查询用户信息
-	 *
 	 * @param id 用户ID
 	 * @return userVo
 	 */
 	UserVO getUserVoById(Integer id);
+
 }

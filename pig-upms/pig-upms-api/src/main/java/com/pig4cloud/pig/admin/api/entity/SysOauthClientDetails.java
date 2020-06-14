@@ -110,4 +110,5 @@ public class SysOauthClientDetails extends Model<SysOauthClientDetails> {
 	 */
 	@ApiModelProperty(value = "是否自动放行")
 	private String autoapprove;
+
 }

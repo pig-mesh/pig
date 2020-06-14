@@ -33,15 +33,14 @@ import java.util.List;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 全局的的异常处理器
+ * @date 2019/2/1 全局的的异常处理器
  */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandlerResolver {
+
 	/**
 	 * 全局异常.
-	 *
 	 * @param e the e
 	 * @return R
 	 */
@@ -54,7 +53,6 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * AccessDeniedException
-	 *
 	 * @param e the e
 	 * @return R
 	 */
@@ -67,11 +65,10 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * validation Exception (以json形式传参)
-	 *
 	 * @param exception
 	 * @return R
 	 */
-	@ExceptionHandler({MethodArgumentNotValidException.class})
+	@ExceptionHandler({ MethodArgumentNotValidException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R bodyValidExceptionHandler(MethodArgumentNotValidException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
@@ -81,15 +78,15 @@ public class GlobalExceptionHandlerResolver {
 
 	/**
 	 * validation Exception (以form-data形式传参)
-	 *
 	 * @param exception
 	 * @return R
 	 */
-	@ExceptionHandler({BindException.class})
+	@ExceptionHandler({ BindException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public R bindExceptionHandler(BindException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		log.warn(fieldErrors.get(0).getDefaultMessage());
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
 	}
+
 }

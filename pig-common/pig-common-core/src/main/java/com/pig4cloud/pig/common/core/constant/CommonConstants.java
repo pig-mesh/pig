@@ -23,10 +23,12 @@ package com.pig4cloud.pig.common.core.constant;
  * @date 2019/2/1
  */
 public interface CommonConstants {
+
 	/**
 	 * 删除
 	 */
 	String STATUS_DEL = "1";
+
 	/**
 	 * 正常
 	 */
@@ -71,6 +73,7 @@ public interface CommonConstants {
 	 * 成功标记
 	 */
 	Integer SUCCESS = 0;
+
 	/**
 	 * 失败标记
 	 */
@@ -90,4 +93,5 @@ public interface CommonConstants {
 	 * size
 	 */
 	String SIZE = "size";
+
 }

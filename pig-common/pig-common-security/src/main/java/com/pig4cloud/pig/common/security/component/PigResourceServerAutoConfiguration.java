@@ -36,6 +36,7 @@ import org.springframework.web.client.RestTemplate;
 @ConfigurationPropertiesScan
 @ComponentScan("com.pig4cloud.pig.common.security")
 public class PigResourceServerAutoConfiguration {
+
 	@Bean
 	@Primary
 	@LoadBalanced
@@ -52,4 +53,5 @@ public class PigResourceServerAutoConfiguration {
 		});
 		return restTemplate;
 	}
+
 }

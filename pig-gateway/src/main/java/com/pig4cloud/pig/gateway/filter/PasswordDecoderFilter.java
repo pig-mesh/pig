@@ -43,21 +43,22 @@ import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * 密码解密工具类
+ * @date 2019/2/1 密码解密工具类
  */
 @Slf4j
 @Component
 public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
+
 	private static final String PASSWORD = "password";
+
 	private static final String KEY_ALGORITHM = "AES";
+
 	@Value("${security.encode.key:1234567812345678}")
 	private String encodeKey;
 
 	private static String decryptAES(String data, String pass) {
-		AES aes = new AES(Mode.CBC, Padding.NoPadding,
-			new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
-			new IvParameterSpec(pass.getBytes()));
+		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
+				new IvParameterSpec(pass.getBytes()));
 		byte[] result = aes.decrypt(Base64.decode(data.getBytes(StandardCharsets.UTF_8)));
 		return new String(result, StandardCharsets.UTF_8);
 	}
@@ -80,20 +81,20 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			if (StrUtil.isNotBlank(password)) {
 				try {
 					password = decryptAES(password, encodeKey);
-				} catch (Exception e) {
+				}
+				catch (Exception e) {
 					log.error("密码解密失败:{}", password);
 					return Mono.error(e);
 				}
 				paramMap.put(PASSWORD, password.trim());
 			}
 
-			URI newUri = UriComponentsBuilder.fromUri(uri)
-				.replaceQuery(HttpUtil.toParams(paramMap))
-				.build(true)
-				.toUri();
+			URI newUri = UriComponentsBuilder.fromUri(uri).replaceQuery(HttpUtil.toParams(paramMap)).build(true)
+					.toUri();
 
 			ServerHttpRequest newRequest = exchange.getRequest().mutate().uri(newUri).build();
 			return chain.filter(exchange.mutate().request(newRequest).build());
 		};
 	}
+
 }

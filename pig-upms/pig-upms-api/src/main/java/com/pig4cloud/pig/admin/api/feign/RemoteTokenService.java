@@ -31,13 +31,14 @@ import java.util.Map;
  * @author lengleng
  * @date 2019/2/1
  */
-@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE, fallbackFactory = RemoteTokenServiceFallbackFactory.class)
+@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE,
+		fallbackFactory = RemoteTokenServiceFallbackFactory.class)
 public interface RemoteTokenService {
+
 	/**
 	 * 分页查询token 信息
-	 *
 	 * @param params 分页参数
-	 * @param from   内部调用标志
+	 * @param from 内部调用标志
 	 * @return page
 	 */
 	@PostMapping("/token/page")
@@ -45,11 +46,11 @@ public interface RemoteTokenService {
 
 	/**
 	 * 删除token
-	 *
 	 * @param token token
-	 * @param from  调用标志
+	 * @param from 调用标志
 	 * @return
 	 */
 	@DeleteMapping("/token/{token}")
 	R<Boolean> removeToken(@PathVariable("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
+
 }

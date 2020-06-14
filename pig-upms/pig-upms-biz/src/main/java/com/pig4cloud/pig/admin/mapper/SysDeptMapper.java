@@ -37,8 +37,8 @@ public interface SysDeptMapper extends BaseMapper<SysDept> {
 
 	/**
 	 * 关联dept——relation
-	 *
 	 * @return 数据列表
 	 */
 	List<SysDept> listDepts();
+
 }

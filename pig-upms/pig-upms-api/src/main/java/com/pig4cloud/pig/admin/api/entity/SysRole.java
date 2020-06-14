@@ -64,9 +64,11 @@ public class SysRole extends Model<SysRole> {
 
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
+
 	/**
 	 * 删除标识（0-正常,1-删除）
 	 */
 	@TableLogic
 	private String delFlag;
+
 }

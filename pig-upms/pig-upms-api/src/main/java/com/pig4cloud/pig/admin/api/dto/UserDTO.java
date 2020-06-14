@@ -31,6 +31,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class UserDTO extends SysUser {
+
 	/**
 	 * 角色ID
 	 */
@@ -42,4 +43,5 @@ public class UserDTO extends SysUser {
 	 * 新密码
 	 */
 	private String newpassword1;
+
 }

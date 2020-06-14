@@ -44,11 +44,11 @@ import javax.validation.Valid;
 @RequestMapping("/client")
 @Api(value = "client", tags = "客户端管理模块")
 public class OauthClientDetailsController {
+
 	private final SysOauthClientDetailsService sysOauthClientDetailsService;
 
 	/**
 	 * 通过ID查询
-	 *
 	 * @param id clientId
 	 * @return SysOauthClientDetails
 	 */
@@ -57,11 +57,9 @@ public class OauthClientDetailsController {
 		return R.ok(sysOauthClientDetailsService.getById(id));
 	}
 
-
 	/**
 	 * 简单分页查询
-	 *
-	 * @param page                  分页对象
+	 * @param page 分页对象
 	 * @param sysOauthClientDetails 系统终端
 	 * @return
 	 */
@@ -72,7 +70,6 @@ public class OauthClientDetailsController {
 
 	/**
 	 * 添加
-	 *
 	 * @param sysOauthClientDetails 实体
 	 * @return success/false
 	 */
@@ -85,7 +82,6 @@ public class OauthClientDetailsController {
 
 	/**
 	 * 删除
-	 *
 	 * @param id ID
 	 * @return success/false
 	 */
@@ -98,7 +94,6 @@ public class OauthClientDetailsController {
 
 	/**
 	 * 编辑
-	 *
 	 * @param sysOauthClientDetails 实体
 	 * @return success/false
 	 */
@@ -108,4 +103,5 @@ public class OauthClientDetailsController {
 	public R update(@Valid @RequestBody SysOauthClientDetails sysOauthClientDetails) {
 		return R.ok(sysOauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
 	}
+
 }

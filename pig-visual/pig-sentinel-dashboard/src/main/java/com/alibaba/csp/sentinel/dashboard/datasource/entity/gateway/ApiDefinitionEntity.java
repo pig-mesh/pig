@@ -34,175 +34,175 @@ import java.util.Set;
  */
 public class ApiDefinitionEntity implements RuleEntity {
 
-    private Long id;
-    private String app;
-    private String ip;
-    private Integer port;
+	private Long id;
 
-    private Date gmtCreate;
-    private Date gmtModified;
+	private String app;
 
-    private String apiName;
-    private Set<ApiPredicateItemEntity> predicateItems;
+	private String ip;
 
-    public static ApiDefinitionEntity fromApiDefinition(String app, String ip, Integer port, ApiDefinition apiDefinition) {
-        ApiDefinitionEntity entity = new ApiDefinitionEntity();
-        entity.setApp(app);
-        entity.setIp(ip);
-        entity.setPort(port);
-        entity.setApiName(apiDefinition.getApiName());
+	private Integer port;
 
-        Set<ApiPredicateItemEntity> predicateItems = new LinkedHashSet<>();
-        entity.setPredicateItems(predicateItems);
+	private Date gmtCreate;
 
-        Set<ApiPredicateItem> apiPredicateItems = apiDefinition.getPredicateItems();
-        if (apiPredicateItems != null) {
-            for (ApiPredicateItem apiPredicateItem : apiPredicateItems) {
-                ApiPredicateItemEntity itemEntity = new ApiPredicateItemEntity();
-                predicateItems.add(itemEntity);
-                ApiPathPredicateItem pathPredicateItem = (ApiPathPredicateItem) apiPredicateItem;
-                itemEntity.setPattern(pathPredicateItem.getPattern());
-                itemEntity.setMatchStrategy(pathPredicateItem.getMatchStrategy());
-            }
-        }
+	private Date gmtModified;
 
-        return entity;
-    }
+	private String apiName;
 
-    public ApiDefinition toApiDefinition() {
-        ApiDefinition apiDefinition = new ApiDefinition();
-        apiDefinition.setApiName(apiName);
+	private Set<ApiPredicateItemEntity> predicateItems;
 
-        Set<ApiPredicateItem> apiPredicateItems = new LinkedHashSet<>();
-        apiDefinition.setPredicateItems(apiPredicateItems);
+	public static ApiDefinitionEntity fromApiDefinition(String app, String ip, Integer port,
+			ApiDefinition apiDefinition) {
+		ApiDefinitionEntity entity = new ApiDefinitionEntity();
+		entity.setApp(app);
+		entity.setIp(ip);
+		entity.setPort(port);
+		entity.setApiName(apiDefinition.getApiName());
 
-        if (predicateItems != null) {
-            for (ApiPredicateItemEntity predicateItem : predicateItems) {
-                ApiPathPredicateItem apiPredicateItem = new ApiPathPredicateItem();
-                apiPredicateItems.add(apiPredicateItem);
-                apiPredicateItem.setMatchStrategy(predicateItem.getMatchStrategy());
-                apiPredicateItem.setPattern(predicateItem.getPattern());
-            }
-        }
+		Set<ApiPredicateItemEntity> predicateItems = new LinkedHashSet<>();
+		entity.setPredicateItems(predicateItems);
 
-        return apiDefinition;
-    }
+		Set<ApiPredicateItem> apiPredicateItems = apiDefinition.getPredicateItems();
+		if (apiPredicateItems != null) {
+			for (ApiPredicateItem apiPredicateItem : apiPredicateItems) {
+				ApiPredicateItemEntity itemEntity = new ApiPredicateItemEntity();
+				predicateItems.add(itemEntity);
+				ApiPathPredicateItem pathPredicateItem = (ApiPathPredicateItem) apiPredicateItem;
+				itemEntity.setPattern(pathPredicateItem.getPattern());
+				itemEntity.setMatchStrategy(pathPredicateItem.getMatchStrategy());
+			}
+		}
 
-    public ApiDefinitionEntity() {
+		return entity;
+	}
 
-    }
+	public ApiDefinition toApiDefinition() {
+		ApiDefinition apiDefinition = new ApiDefinition();
+		apiDefinition.setApiName(apiName);
 
-    public ApiDefinitionEntity(String apiName, Set<ApiPredicateItemEntity> predicateItems) {
-        this.apiName = apiName;
-        this.predicateItems = predicateItems;
-    }
+		Set<ApiPredicateItem> apiPredicateItems = new LinkedHashSet<>();
+		apiDefinition.setPredicateItems(apiPredicateItems);
 
-    public String getApiName() {
-        return apiName;
-    }
+		if (predicateItems != null) {
+			for (ApiPredicateItemEntity predicateItem : predicateItems) {
+				ApiPathPredicateItem apiPredicateItem = new ApiPathPredicateItem();
+				apiPredicateItems.add(apiPredicateItem);
+				apiPredicateItem.setMatchStrategy(predicateItem.getMatchStrategy());
+				apiPredicateItem.setPattern(predicateItem.getPattern());
+			}
+		}
 
-    public void setApiName(String apiName) {
-        this.apiName = apiName;
-    }
+		return apiDefinition;
+	}
 
-    public Set<ApiPredicateItemEntity> getPredicateItems() {
-        return predicateItems;
-    }
+	public ApiDefinitionEntity() {
 
-    public void setPredicateItems(Set<ApiPredicateItemEntity> predicateItems) {
-        this.predicateItems = predicateItems;
-    }
+	}
 
-    @Override
-    public Long getId() {
-        return id;
-    }
+	public ApiDefinitionEntity(String apiName, Set<ApiPredicateItemEntity> predicateItems) {
+		this.apiName = apiName;
+		this.predicateItems = predicateItems;
+	}
 
-    @Override
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public String getApiName() {
+		return apiName;
+	}
 
-    @Override
-    public String getApp() {
-        return app;
-    }
+	public void setApiName(String apiName) {
+		this.apiName = apiName;
+	}
 
-    public void setApp(String app) {
-        this.app = app;
-    }
+	public Set<ApiPredicateItemEntity> getPredicateItems() {
+		return predicateItems;
+	}
 
-    @Override
-    public String getIp() {
-        return ip;
-    }
+	public void setPredicateItems(Set<ApiPredicateItemEntity> predicateItems) {
+		this.predicateItems = predicateItems;
+	}
 
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
+	@Override
+	public Long getId() {
+		return id;
+	}
 
-    @Override
-    public Integer getPort() {
-        return port;
-    }
+	@Override
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public void setPort(Integer port) {
-        this.port = port;
-    }
+	@Override
+	public String getApp() {
+		return app;
+	}
 
-    @Override
-    public Date getGmtCreate() {
-        return gmtCreate;
-    }
+	public void setApp(String app) {
+		this.app = app;
+	}
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+	@Override
+	public String getIp() {
+		return ip;
+	}
 
-    public Date getGmtModified() {
-        return gmtModified;
-    }
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	@Override
+	public Integer getPort() {
+		return port;
+	}
 
-    @Override
-    public Rule toRule() {
-        return null;
-    }
+	public void setPort(Integer port) {
+		this.port = port;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) { return true; }
-        if (o == null || getClass() != o.getClass()) { return false; }
-        ApiDefinitionEntity entity = (ApiDefinitionEntity) o;
-        return Objects.equals(id, entity.id) &&
-                Objects.equals(app, entity.app) &&
-                Objects.equals(ip, entity.ip) &&
-                Objects.equals(port, entity.port) &&
-                Objects.equals(gmtCreate, entity.gmtCreate) &&
-                Objects.equals(gmtModified, entity.gmtModified) &&
-                Objects.equals(apiName, entity.apiName) &&
-                Objects.equals(predicateItems, entity.predicateItems);
-    }
+	@Override
+	public Date getGmtCreate() {
+		return gmtCreate;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, app, ip, port, gmtCreate, gmtModified, apiName, predicateItems);
-    }
+	public void setGmtCreate(Date gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
 
-    @Override
-    public String toString() {
-        return "ApiDefinitionEntity{" +
-                "id=" + id +
-                ", app='" + app + '\'' +
-                ", ip='" + ip + '\'' +
-                ", port=" + port +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                ", apiName='" + apiName + '\'' +
-                ", predicateItems=" + predicateItems +
-                '}';
-    }
+	public Date getGmtModified() {
+		return gmtModified;
+	}
+
+	public void setGmtModified(Date gmtModified) {
+		this.gmtModified = gmtModified;
+	}
+
+	@Override
+	public Rule toRule() {
+		return null;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		ApiDefinitionEntity entity = (ApiDefinitionEntity) o;
+		return Objects.equals(id, entity.id) && Objects.equals(app, entity.app) && Objects.equals(ip, entity.ip)
+				&& Objects.equals(port, entity.port) && Objects.equals(gmtCreate, entity.gmtCreate)
+				&& Objects.equals(gmtModified, entity.gmtModified) && Objects.equals(apiName, entity.apiName)
+				&& Objects.equals(predicateItems, entity.predicateItems);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, app, ip, port, gmtCreate, gmtModified, apiName, predicateItems);
+	}
+
+	@Override
+	public String toString() {
+		return "ApiDefinitionEntity{" + "id=" + id + ", app='" + app + '\'' + ", ip='" + ip + '\'' + ", port=" + port
+				+ ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + ", apiName='" + apiName + '\''
+				+ ", predicateItems=" + predicateItems + '}';
+	}
+
 }
