@@ -49,7 +49,7 @@ public class GlobalExceptionHandlerResolver {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R exception(Exception e) {
 		log.error("全局异常信息 ex={}", e.getMessage(), e);
-		return R.failed(e);
+		return R.failed(e.getLocalizedMessage());
 	}
 
 	/**
