@@ -27,7 +27,7 @@ import org.springframework.web.client.RestTemplate;
  * @date 2019/2/1 RestTemplate
  */
 @Configuration
-public class RestTemplateConfig {
+public class RestTemplateConfiguration {
 
 	@Bean
 	public RestTemplate restTemplate() {

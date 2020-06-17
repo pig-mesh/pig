@@ -35,15 +35,15 @@ import java.util.TimeZone;
 /**
  * JacksonConfig
  *
- * @author: lengleng
+ * @author lengleng
  * @author L.cm
- * @author: lishangbu
- * @date: 2018/10/22
+ * @author lishangbu
+ * @date 2020-06-17
  */
 @Configuration
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
-public class JacksonConfig {
+public class JacksonConfiguration {
 
 	@Bean
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {

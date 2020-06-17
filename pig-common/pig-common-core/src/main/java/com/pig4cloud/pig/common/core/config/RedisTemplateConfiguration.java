@@ -37,7 +37,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @RequiredArgsConstructor
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-public class RedisTemplateConfig {
+public class RedisTemplateConfiguration {
 
 	private final RedisConnectionFactory factory;
 
