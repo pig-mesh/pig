@@ -5,7 +5,7 @@ FROM pig4cloud/java:8-jre
 
 MAINTAINER wangiegie@gmail.com
 
-ARG JAR_FILE=./target/pig-sentinel-biz.jar
+ARG JAR_FILE=./target/pig-sentinel-dashboard.jar
 
 # JVM调优参数等额外参数
 ENV PARAMS ""

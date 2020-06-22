@@ -41,7 +41,7 @@ Spring Cloud | Hoxton.SR5
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
 hutool | 5.3.8
-Avue | 2.6.3
+Avue | 2.6.5
    
 
 
