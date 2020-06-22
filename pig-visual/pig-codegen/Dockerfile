@@ -1,7 +1,7 @@
-# pig4cloud/java:8-jre镜像增加了中文字体与wait-for-it.sh的支持
+# pig4cloud/java:8镜像增加了中文字体与wait-for-it.sh的支持
 # 镜像链接:https://hub.docker.com/r/pig4cloud/java/
 # wait-for-it.sh采用https://github.com/vishnubob/wait-for-it作为解决方案
-FROM pig4cloud/java:8-jre
+FROM pig4cloud/java:8
 
 MAINTAINER wangiegie@gmail.com
 
