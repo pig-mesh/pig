@@ -1,27 +1,19 @@
-# pig4cloud/java:8镜像增加了中文字体与wait-for-it.sh的支持
-# 镜像链接:https://hub.docker.com/r/pig4cloud/java/
-# wait-for-it.sh采用https://github.com/vishnubob/wait-for-it作为解决方案
-FROM pig4cloud/java:8
+FROM anapsix/alpine-java:8_server-jre_unlimited
 
 MAINTAINER wangiegie@gmail.com
 
-ARG JAR_FILE=./target/pig-register.jar
+ENV TZ=Asia/Shanghai
 
-# JVM调优参数等额外参数
-ENV PARAMS ""
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-ENV MYSQL_HOST pig-mysql
+RUN mkdir -p /pig-register
 
-ENV MYSQL_PORT 3306
-
-ENV TZ=PRC
-
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-WORKDIR /tmp
+WORKDIR /pig-register
 
 EXPOSE 8848
 
-ADD ${JAR_FILE} ./app.jar
+ADD ./target/pig-register.jar ./
 
-ENTRYPOINT ["wait-for-it.sh","$MYSQL_HOST:$MYSQL_PORT","--","java", "-jar","app.jar","-Djava.security.egd=file:/dev/./urandom","$PARAMS"]
+CMD sleep 30;java -Djava.security.egd=file:/dev/./urandom -jar pig-register.jar
+
+
