@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,7 @@ import java.util.TimeZone;
 public class JacksonConfiguration {
 
 	@Bean
+	@ConditionalOnMissingBean
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {
 		return builder -> {
 			builder.locale(Locale.CHINA);
