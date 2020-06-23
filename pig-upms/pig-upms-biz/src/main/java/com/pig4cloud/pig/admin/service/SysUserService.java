@@ -25,6 +25,7 @@ import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
+import com.pig4cloud.pig.common.core.util.R;
 
 import java.util.List;
 
@@ -61,7 +62,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param userDto 用户信息
 	 * @return Boolean
 	 */
-	Boolean updateUserInfo(UserDTO userDto);
+	R updateUserInfo(UserDTO userDto);
 
 	/**
 	 * 更新指定用户信息
