@@ -73,7 +73,9 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 
 		R<UserInfo> result = remoteUserService.info(username, SecurityConstants.FROM_IN);
 		UserDetails userDetails = getUserDetails(result);
-		cache.put(username, userDetails);
+        if (cache != null) {
+		    cache.put(username, userDetails);
+        }
 		return userDetails;
 	}
 
