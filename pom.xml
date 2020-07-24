@@ -35,8 +35,8 @@
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.3.1.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.SR5</spring-cloud.version>
+		<spring-boot.version>2.3.2.RELEASE</spring-boot.version>
+		<spring-cloud.version>Hoxton.SR6</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -44,7 +44,7 @@
 		<git.commit.plugin>2.2.5</git.commit.plugin>
 		<spring.checkstyle.plugin>0.0.22</spring.checkstyle.plugin>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
-		<hutool.version>5.3.8</hutool.version>
+		<hutool.version>5.3.9</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
 		<dynamic-ds.version>3.0.0</dynamic-ds.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
@@ -53,7 +53,6 @@
 		<fastjson.version>1.2.69</fastjson.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
-		<reactor.netty.version>0.9.7.RELEASE</reactor.netty.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<docker.plugin.version>0.32.0</docker.plugin.version>
 		<docker.host>http://172.17.0.111:2375</docker.host>

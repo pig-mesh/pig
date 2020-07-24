@@ -36,7 +36,7 @@
 
 dependencies | version
 ---|---
-Spring Boot |  2.3.1.RELEASE  
+Spring Boot |  2.3.2.RELEASE  
 Spring Cloud | Hoxton.SR5   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
