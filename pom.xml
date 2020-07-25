@@ -44,13 +44,13 @@
 		<git.commit.plugin>2.2.5</git.commit.plugin>
 		<spring.checkstyle.plugin>0.0.22</spring.checkstyle.plugin>
 		<spring-boot-admin.version>2.2.3</spring-boot-admin.version>
-		<hutool.version>5.3.9</hutool.version>
+		<hutool.version>5.3.10</hutool.version>
 		<mybatis-plus.version>3.3.2</mybatis-plus.version>
 		<dynamic-ds.version>3.0.0</dynamic-ds.version>
 		<kaptcha.version>0.0.9</kaptcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-		<fastjson.version>1.2.69</fastjson.version>
+		<fastjson.version>1.2.72</fastjson.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
@@ -138,12 +138,6 @@
 				<groupId>org.springframework.security.oauth</groupId>
 				<artifactId>spring-security-oauth2</artifactId>
 				<version>${security.oauth.version}</version>
-			</dependency>
-			<!--稳定版本，替代spring boot bom内置-->
-			<dependency>
-				<groupId>io.projectreactor.netty</groupId>
-				<artifactId>reactor-netty</artifactId>
-				<version>${reactor.netty.version}</version>
 			</dependency>
 			<!--swagger 最新依赖内置版本-->
 			<dependency>
