@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos.users;
 
 import com.alibaba.nacos.config.server.auth.UserPersistService;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Custem user service
+ * Custem user service.
  *
  * @author wfnuser
  * @author nkorange

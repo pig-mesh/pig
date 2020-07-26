@@ -19,6 +19,8 @@ package com.alibaba.nacos.nacos.users;
 import com.alibaba.nacos.core.auth.User;
 
 /**
+ * Nacos User.
+ *
  * @author nkorange
  * @since 1.2.0
  */

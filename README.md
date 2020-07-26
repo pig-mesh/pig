@@ -5,7 +5,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.8-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.6-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR5-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR6-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
 </p>
    
@@ -40,8 +40,8 @@ Spring Boot |  2.3.2.RELEASE
 Spring Cloud | Hoxton.SR5   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
-hutool | 5.3.8
-Avue | 2.6.5
+hutool | 5.3.10
+Avue | 2.6.13
    
 
 

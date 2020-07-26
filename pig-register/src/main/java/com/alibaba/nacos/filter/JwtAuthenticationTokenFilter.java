@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.filter;
 
 import com.alibaba.nacos.api.common.Constants;
@@ -30,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * jwt auth token filter
+ * jwt auth token filter.
  *
  * @author wfnuser
  */
@@ -38,7 +39,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
 	private static final String TOKEN_PREFIX = "Bearer ";
 
-	private JwtTokenManager tokenManager;
+	private final JwtTokenManager tokenManager;
 
 	public JwtAuthenticationTokenFilter(JwtTokenManager tokenManager) {
 		this.tokenManager = tokenManager;
@@ -59,7 +60,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	}
 
 	/**
-	 * Get token from header
+	 * Get token from header.
 	 */
 	private String resolveToken(HttpServletRequest request) {
 		String bearerToken = request.getHeader(NacosAuthConfig.AUTHORIZATION_HEADER);

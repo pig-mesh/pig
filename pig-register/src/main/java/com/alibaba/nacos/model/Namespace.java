@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.model;
 
 /**
- * Namespace
+ * Namespace.
  *
  * @author diamond
  */
@@ -31,7 +32,7 @@ public class Namespace {
 	private int configCount;
 
 	/**
-	 * 0 : Global configuration， 1 : Default private namespace ，2 : Custom namespace
+	 * 0 : Global configuration， 1 : Default private namespace ，2 : Custom namespace.
 	 */
 	private int type;
 
