@@ -81,7 +81,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
 				// 校验验证码
 				checkCode(request);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				ServerHttpResponse response = exchange.getResponse();
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
 				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
@@ -93,7 +94,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 						DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
 
 						monoSink.success(dataBuffer);
-					} catch (JsonProcessingException jsonProcessingException) {
+					}
+					catch (JsonProcessingException jsonProcessingException) {
 						log.error("对象输出异常", jsonProcessingException);
 						monoSink.error(jsonProcessingException);
 					}
@@ -106,7 +108,6 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
 	/**
 	 * 检查code
-	 *
 	 * @param request
 	 */
 	@SneakyThrows

@@ -39,15 +39,17 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author lengleng
- * @date 2018/7/5
- * 验证码生成逻辑处理类
+ * @date 2018/7/5 验证码生成逻辑处理类
  */
 @Slf4j
 @Component
 @AllArgsConstructor
 public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
+
 	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
+
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
+
 	private final RedisTemplate redisTemplate;
 
 	@Override
@@ -56,19 +58,18 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 
 		String result = captcha.text();
 
-		//保存验证码信息
+		// 保存验证码信息
 		String randomStr = serverRequest.queryParam("randomStr").get();
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result
-				, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result,
+				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
 		// 转换流信息写出
 		FastByteArrayOutputStream os = new FastByteArrayOutputStream();
 		captcha.out(os);
 
-		return ServerResponse
-				.status(HttpStatus.OK)
-				.contentType(MediaType.IMAGE_JPEG)
+		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.IMAGE_JPEG)
 				.body(BodyInserters.fromResource(new ByteArrayResource(os.toByteArray())));
 	}
+
 }

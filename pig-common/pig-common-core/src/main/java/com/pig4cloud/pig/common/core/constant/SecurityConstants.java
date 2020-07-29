@@ -68,8 +68,8 @@ public interface SecurityConstants {
 	 * sys_oauth_client_details 表的字段，不包括client_id、client_secret
 	 */
 	String CLIENT_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "
-		+ "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
-		+ "refresh_token_validity, additional_information, autoapprove";
+			+ "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
+			+ "refresh_token_validity, additional_information, autoapprove";
 
 	/**
 	 * JdbcClientDetailsService 查询语句
@@ -115,4 +115,5 @@ public interface SecurityConstants {
 	 * 验证码有效期,默认 60秒
 	 */
 	long CODE_TIME = 60;
+
 }
