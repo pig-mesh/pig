@@ -37,7 +37,7 @@
 dependencies | version
 ---|---
 Spring Boot |  2.3.2.RELEASE  
-Spring Cloud | Hoxton.SR5   
+Spring Cloud | Hoxton.SR6   
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
 hutool | 5.3.10
@@ -76,7 +76,7 @@ pig
 
 2. Welcome to submit [issue](https://gitee.com/log4j/pig/issues)，Please clearly write down the cause of the problem, the development environment, and the steps to reproduce.
 
-3. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a> | <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3130998334&site=qq&menu=yes"> QQ: 3130998334</a>    
+3. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>     
 
 #### Free Class
 

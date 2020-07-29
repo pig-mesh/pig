@@ -63,9 +63,9 @@
 		</dependency>
 		<!--验证码-->
 		<dependency>
-			<groupId>com.github.axet</groupId>
-			<artifactId>kaptcha</artifactId>
-			<version>${kaptcha.version}</version>
+			<groupId>com.github.whvcse</groupId>
+			<artifactId>easy-captcha</artifactId>
+			<version>${captcha.version}</version>
 		</dependency>
 		<!--接口文档-->
 		<dependency>
