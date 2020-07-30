@@ -61,9 +61,9 @@
 			<artifactId>pig-common-sentinel</artifactId>
 			<version>2.8.1</version>
 		</dependency>
-		<!--验证码-->
+		<!--验证码 源码： https://github.com/pig-mesh/EasyCaptcha-->
 		<dependency>
-			<groupId>com.github.whvcse</groupId>
+			<groupId>com.pig4cloud.plugin</groupId>
 			<artifactId>easy-captcha</artifactId>
 			<version>${captcha.version}</version>
 		</dependency>
