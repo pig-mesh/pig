@@ -18,9 +18,10 @@
 
 package com.pig4cloud.pig.common.log.aspect;
 
+import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
+import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -39,19 +40,32 @@ public class SysLogAspect {
 
 	@Around("@annotation(sysLog)")
 	@SneakyThrows
-	public Object around(ProceedingJoinPoint point, SysLog sysLog) {
+	public Object around(ProceedingJoinPoint point, com.pig4cloud.pig.common.log.annotation.SysLog sysLog) {
 		String strClassName = point.getTarget().getClass().getName();
 		String strMethodName = point.getSignature().getName();
 		log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 
-		com.pig4cloud.pig.admin.api.entity.SysLog logVo = SysLogUtils.getSysLog();
+		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle(sysLog.value());
+
 		// 发送异步日志事件
 		Long startTime = System.currentTimeMillis();
-		Object obj = point.proceed();
-		Long endTime = System.currentTimeMillis();
-		logVo.setTime(endTime - startTime);
-		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+		Object obj;
+
+		try {
+			obj = point.proceed();
+		}
+		catch (Exception e) {
+			logVo.setType(LogTypeEnum.ERROR.getType());
+			logVo.setException(e.getMessage());
+			throw e;
+		}
+		finally {
+			Long endTime = System.currentTimeMillis();
+			logVo.setTime(endTime - startTime);
+			SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+		}
+
 		return obj;
 	}
 
