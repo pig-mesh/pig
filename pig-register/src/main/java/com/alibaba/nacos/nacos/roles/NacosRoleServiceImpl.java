@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos.roles;
 
 import com.alibaba.nacos.config.server.auth.PermissionInfo;
@@ -32,7 +33,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 
@@ -59,11 +64,11 @@ public class NacosRoleServiceImpl {
 	@Autowired
 	private PermissionPersistService permissionPersistService;
 
-	private Set<String> roleSet = new ConcurrentHashSet<>();
+	private final Set<String> roleSet = new ConcurrentHashSet<>();
 
-	private Map<String, List<RoleInfo>> roleInfoMap = new ConcurrentHashMap<>();
+	private final Map<String, List<RoleInfo>> roleInfoMap = new ConcurrentHashMap<>();
 
-	private Map<String, List<PermissionInfo>> permissionInfoMap = new ConcurrentHashMap<>();
+	private final Map<String, List<PermissionInfo>> permissionInfoMap = new ConcurrentHashMap<>();
 
 	@Scheduled(initialDelay = 5000, fixedDelay = 15000)
 	private void reload() {
@@ -101,6 +106,7 @@ public class NacosRoleServiceImpl {
 
 	/**
 	 * Determine if the user has permission of the resource.
+	 *
 	 * <p>
 	 * Note if the user has many roles, this method returns true if any one role of the
 	 * user has the desired permission.
@@ -179,6 +185,11 @@ public class NacosRoleServiceImpl {
 		return permissionPersistService.getPermissions(role, pageNo, pageSize);
 	}
 
+	/**
+	 * Add role.
+	 * @param role role name
+	 * @param username user name
+	 */
 	public void addRole(String role, String username) {
 		if (userDetailsService.getUserFromDatabase(username) == null) {
 			throw new IllegalArgumentException("user '" + username + "' not found!");
@@ -207,6 +218,12 @@ public class NacosRoleServiceImpl {
 		return pageInfo;
 	}
 
+	/**
+	 * Add permission.
+	 * @param role role name
+	 * @param resource resource
+	 * @param action action
+	 */
 	public void addPermission(String role, String resource, String action) {
 		if (!roleSet.contains(role)) {
 			throw new IllegalArgumentException("role " + role + " not found!");

@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.controller;
 
 import com.alibaba.nacos.api.common.Constants;
@@ -27,9 +28,12 @@ import com.alibaba.nacos.nacos.users.NacosUser;
 import com.alibaba.nacos.nacos.users.NacosUserDetailsServiceImpl;
 import com.alibaba.nacos.utils.JwtTokenUtils;
 import com.alibaba.nacos.utils.PasswordEncoderUtil;
-import com.alibaba.nacos.core.auth.*;
+import com.alibaba.nacos.core.auth.AccessException;
+import com.alibaba.nacos.core.auth.ActionTypes;
+import com.alibaba.nacos.core.auth.AuthConfigs;
+import com.alibaba.nacos.core.auth.AuthSystemTypes;
+import com.alibaba.nacos.core.auth.Secured;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -37,14 +41,20 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
- * User related methods entry
+ * User related methods entry.
  *
  * @author wfnuser
  * @author nkorange
@@ -72,7 +82,7 @@ public class UserController {
 	private NacosAuthManager authManager;
 
 	/**
-	 * Create a new user
+	 * Create a new user.
 	 * @param username username
 	 * @param password password
 	 * @return ok if create succeed
@@ -92,7 +102,7 @@ public class UserController {
 	}
 
 	/**
-	 * Delete an existed user
+	 * Delete an existed user.
 	 * @param username username of user
 	 * @return ok if deleted succeed, keep silent if user not exist
 	 * @since 1.2.0
@@ -113,7 +123,7 @@ public class UserController {
 	}
 
 	/**
-	 * Update an user
+	 * Update an user.
 	 * @param username username of user
 	 * @param newPassword new password of user
 	 * @return ok if update succeed
@@ -135,7 +145,7 @@ public class UserController {
 	}
 
 	/**
-	 * Get paged users
+	 * Get paged users.
 	 * @param pageNo number index of page
 	 * @param pageSize size of page
 	 * @return A collection of users, empty set if no user is found
@@ -149,6 +159,7 @@ public class UserController {
 
 	/**
 	 * Login to Nacos
+	 *
 	 * <p>
 	 * This methods uses username and password to require a new token.
 	 * @param username username of user
@@ -201,6 +212,13 @@ public class UserController {
 		}
 	}
 
+	/**
+	 * Update password.
+	 * @param oldPassword old password
+	 * @param newPassword new password
+	 * @return Code 200 if update successfully, Code 401 if old password invalid,
+	 * otherwise 500
+	 */
 	@PutMapping("/password")
 	@Deprecated
 	public RestResult<String> updatePassword(@RequestParam(value = "oldPassword") String oldPassword,

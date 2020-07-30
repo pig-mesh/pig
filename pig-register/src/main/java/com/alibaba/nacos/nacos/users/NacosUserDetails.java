@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos.users;
 
 import com.alibaba.nacos.config.server.model.User;
@@ -23,13 +24,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 /**
- * custem user
+ * custom user.
  *
  * @author wfnuser
  */
 public class NacosUserDetails implements UserDetails {
 
-	private User user;
+	private final User user;
 
 	public NacosUserDetails(User user) {
 		this.user = user;

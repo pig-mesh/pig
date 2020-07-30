@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-upms</artifactId>
-		<version>2.8.0</version>
+		<version>2.8.1</version>
 	</parent>
 
 	<artifactId>pig-upms-biz</artifactId>
@@ -36,31 +36,31 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--安全模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-security</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--日志处理-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-log</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--接口文档-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-swagger</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--mybatis 模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-mybatis</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
@@ -76,7 +76,7 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-sentinel</artifactId>
-			<version>2.8.0</version>
+			<version>2.8.1</version>
 		</dependency>
 		<!--undertow容器-->
 		<dependency>

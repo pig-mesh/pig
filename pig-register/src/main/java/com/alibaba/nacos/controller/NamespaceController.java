@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.controller;
 
 import com.alibaba.nacos.common.model.RestResult;
@@ -25,7 +26,13 @@ import com.alibaba.nacos.core.auth.ActionTypes;
 import com.alibaba.nacos.core.auth.Secured;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +42,7 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 /**
- * namespace service
+ * namespace service.
  *
  * @author Nacos
  */
@@ -46,12 +53,12 @@ public class NamespaceController {
 	@Autowired
 	private PersistService persistService;
 
-	private Pattern namespaceIdCheckPattern = Pattern.compile("^[\\w-]+");
+	private final Pattern namespaceIdCheckPattern = Pattern.compile("^[\\w-]+");
 
 	private static final int NAMESPACE_ID_MAX_LENGTH = 128;
 
 	/**
-	 * Get namespace list
+	 * Get namespace list.
 	 * @param request request
 	 * @param response response
 	 * @return namespace list
@@ -76,7 +83,7 @@ public class NamespaceController {
 	}
 
 	/**
-	 * get namespace all info by namespace id
+	 * get namespace all info by namespace id.
 	 * @param request request
 	 * @param response response
 	 * @param namespaceId namespaceId
@@ -99,7 +106,7 @@ public class NamespaceController {
 	}
 
 	/**
-	 * create namespace
+	 * create namespace.
 	 * @param request request
 	 * @param response response
 	 * @param namespaceName namespace Name
@@ -133,11 +140,9 @@ public class NamespaceController {
 	}
 
 	/**
-	 * @author klw(213539@qq.com)
-	 * @Description: check namespaceId exist
-	 * @Date 2019/12/10 21:41
-	 * @param: namespaceId
-	 * @return java.lang.Boolean
+	 * check namespaceId exist.
+	 * @param namespaceId namespace id
+	 * @return true if exist, otherwise false
 	 */
 	@GetMapping(params = "checkNamespaceIdExist=true")
 	public Boolean checkNamespaceIdExist(@RequestParam("customNamespaceId") String namespaceId) {
@@ -148,7 +153,7 @@ public class NamespaceController {
 	}
 
 	/**
-	 * edit namespace
+	 * edit namespace.
 	 * @param namespace namespace
 	 * @param namespaceShowName namespace ShowName
 	 * @param namespaceDesc namespace Desc
@@ -165,7 +170,7 @@ public class NamespaceController {
 	}
 
 	/**
-	 * del namespace by id
+	 * del namespace by id.
 	 * @param request request
 	 * @param response response
 	 * @param namespaceId namespace Id

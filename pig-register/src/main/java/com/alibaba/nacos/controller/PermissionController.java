@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.controller;
 
 import com.alibaba.nacos.common.model.RestResult;
@@ -22,10 +23,15 @@ import com.alibaba.nacos.core.auth.ActionTypes;
 import com.alibaba.nacos.core.auth.Secured;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Permission operation controller
+ * Permission operation controller.
  *
  * @author nkorange
  * @since 1.2.0
@@ -38,7 +44,7 @@ public class PermissionController {
 	private NacosRoleServiceImpl nacosRoleService;
 
 	/**
-	 * Query permissions of a role
+	 * Query permissions of a role.
 	 * @param role the role
 	 * @param pageNo page index
 	 * @param pageSize page size
@@ -52,7 +58,7 @@ public class PermissionController {
 	}
 
 	/**
-	 * Add a permission to a role
+	 * Add a permission to a role.
 	 * @param role the role
 	 * @param resource the related resource
 	 * @param action the related action
@@ -66,7 +72,7 @@ public class PermissionController {
 	}
 
 	/**
-	 * Delete a permission from a role
+	 * Delete a permission from a role.
 	 * @param role the role
 	 * @param resource the related resource
 	 * @param action the related action

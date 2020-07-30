@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos;
 
 import com.alibaba.nacos.filter.JwtAuthenticationTokenFilter;
@@ -22,7 +23,6 @@ import com.alibaba.nacos.core.auth.AuthSystemTypes;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
@@ -38,11 +38,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * Spring security config
+ * Spring security config.
  *
  * @author Nacos
  */
-@Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class NacosAuthConfig extends WebSecurityConfigurerAdapter {
 
@@ -79,22 +78,18 @@ public class NacosAuthConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(WebSecurity web) {
 
-		String ignoreURLs = null;
-		//
+		String ignoreUrls = null;
 		if (AuthSystemTypes.NACOS.name().equalsIgnoreCase(authConfigs.getNacosAuthSystemType())) {
-			ignoreURLs = "/**";
+			ignoreUrls = "/**";
 		}
-		//
 		if (StringUtils.isBlank(authConfigs.getNacosAuthSystemType())) {
-			ignoreURLs = env.getProperty("nacos.security.ignore.urls", "/**");
+			ignoreUrls = env.getProperty("nacos.security.ignore.urls", "/**");
 		}
-
-		if (StringUtils.isNotBlank(ignoreURLs)) {
-			for (String ignoreURL : ignoreURLs.trim().split(SECURITY_IGNORE_URLS_SPILT_CHAR)) {
-				web.ignoring().antMatchers(ignoreURL.trim());
+		if (StringUtils.isNotBlank(ignoreUrls)) {
+			for (String each : ignoreUrls.trim().split(SECURITY_IGNORE_URLS_SPILT_CHAR)) {
+				web.ignoring().antMatchers(each.trim());
 			}
 		}
-
 	}
 
 	@Override

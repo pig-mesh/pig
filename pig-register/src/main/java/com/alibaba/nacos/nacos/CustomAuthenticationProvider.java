@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos;
 
 import com.alibaba.nacos.nacos.users.NacosUserDetailsServiceImpl;
@@ -25,7 +26,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
- * auth provider
+ * auth provider.
  *
  * @author wfnuser
  */

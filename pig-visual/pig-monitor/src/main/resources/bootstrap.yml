@@ -15,3 +15,5 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: @profiles.active@
+  autoconfigure:
+    exclude: com.pig4cloud.pig.common.core.config.JacksonConfiguration #排除全局Jackson配置，避免admin server时间显示问题

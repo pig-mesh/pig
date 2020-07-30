@@ -111,4 +111,9 @@ public interface SecurityConstants {
 	 */
 	String DETAILS_LICENSE = "license";
 
+	/**
+	 * 验证码有效期,默认 60秒
+	 */
+	long CODE_TIME = 60;
+
 }

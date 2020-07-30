@@ -21,7 +21,7 @@ package com.pig4cloud.pig.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.R;
@@ -123,7 +123,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			randomStr = request.getQueryParams().getFirst("mobile");
 		}
 
-		String key = CommonConstants.DEFAULT_CODE_KEY + randomStr;
+		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
 		if (!redisTemplate.hasKey(key)) {
 			throw new ValidateCodeException("验证码不合法");
 		}

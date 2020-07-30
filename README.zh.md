@@ -4,7 +4,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.8-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.6-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR5-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR6-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
 </p>
    
@@ -35,12 +35,13 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.3.1.RELEASE  
-Spring Cloud | Hoxton.SR5   
+Spring Boot |  2.3.2.RELEASE  
+Spring Cloud | Hoxton.SR6   
+Spring Cloud Alibaba | 2.2.1.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
-hutool | 5.3.8
-Avue | 2.6.3
+hutool | 5.3.10
+Avue | 2.6.14
    
 
 
@@ -76,7 +77,7 @@ pig
 
 3. 不接受`功能请求`的 [issue](https://gitee.com/log4j/pig/issues)，功能请求可能会被直接关闭。  
 
-4. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a> | <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3130998334&site=qq&menu=yes"> QQ: 3130998334</a>    
+4. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>     
 
 #### 免费公开课
 

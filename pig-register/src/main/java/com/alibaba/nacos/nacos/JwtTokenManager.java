@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.alibaba.nacos.nacos;
 
 import com.alibaba.nacos.core.auth.AuthConfigs;
@@ -31,7 +32,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * JWT token manager
+ * JWT token manager.
  *
  * @author wfnuser
  * @author nkorange
@@ -45,7 +46,7 @@ public class JwtTokenManager {
 	private AuthConfigs authConfigs;
 
 	/**
-	 * Create token
+	 * Create token.
 	 * @param authentication auth info
 	 * @return token
 	 */
@@ -53,9 +54,14 @@ public class JwtTokenManager {
 		return createToken(authentication.getName());
 	}
 
+	/**
+	 * Create token.
+	 * @param userName auth info
+	 * @return token
+	 */
 	public String createToken(String userName) {
 
-		long now = (new Date()).getTime();
+		long now = System.currentTimeMillis();
 
 		Date validity;
 		validity = new Date(now + authConfigs.getTokenValidityInSeconds() * 1000L);
@@ -67,14 +73,12 @@ public class JwtTokenManager {
 	}
 
 	/**
-	 * Get auth Info
+	 * Get auth Info.
 	 * @param token token
 	 * @return auth info
 	 */
 	public Authentication getAuthentication(String token) {
-		/**
-		 * parse the payload of token
-		 */
+
 		Claims claims = Jwts.parser().setSigningKey(authConfigs.getSecretKey()).parseClaimsJws(token).getBody();
 
 		List<GrantedAuthority> authorities = AuthorityUtils
@@ -85,9 +89,8 @@ public class JwtTokenManager {
 	}
 
 	/**
-	 * validate token
+	 * validate token.
 	 * @param token token
-	 * @return whether valid
 	 */
 	public void validateToken(String token) {
 		Jwts.parser().setSigningKey(authConfigs.getSecretKey()).parseClaimsJws(token);

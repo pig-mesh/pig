@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.pig4cloud.pig.common.sentinel.SentinelAutoConfiguration
+    com.pig4cloud.pig.common.sentinel.SentinelAutoConfiguration,\
+    com.pig4cloud.pig.common.sentinel.handle.GlobalBizExceptionHandler

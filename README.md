@@ -5,7 +5,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.8-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.6-green.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR5-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR6-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
 </p>
    
@@ -36,12 +36,13 @@
 
 dependencies | version
 ---|---
-Spring Boot |  2.3.1.RELEASE  
-Spring Cloud | Hoxton.SR5   
+Spring Boot |  2.3.2.RELEASE  
+Spring Cloud | Hoxton.SR6   
+Spring Cloud Alibaba | 2.2.1.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.3.2
-hutool | 5.3.8
-Avue | 2.6.5
+hutool | 5.3.10
+Avue | 2.6.14
    
 
 
@@ -76,7 +77,7 @@ pig
 
 2. Welcome to submit [issue](https://gitee.com/log4j/pig/issues)，Please clearly write down the cause of the problem, the development environment, and the steps to reproduce.
 
-3. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a> | <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=3130998334&site=qq&menu=yes"> QQ: 3130998334</a>    
+3. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>     
 
 #### Free Class
 
