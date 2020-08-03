@@ -2,6 +2,7 @@ package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import lombok.Cleanup;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStringCommands;
@@ -33,15 +34,15 @@ public class PigRedisTokenStore extends RedisTokenStore {
 	@Override
 	public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
 		super.storeAccessToken(token, authentication);
-		try (RedisConnection connection = connectionFactory.getConnection()) {
-			// KEY
-			byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
-			// value
-			byte[] tokenVal = StrUtil.bytes(token.getValue());
-			RedisStringCommands stringCommand = connection.stringCommands();
-			stringCommand.set(key, tokenVal, Expiration.seconds(token.getExpiresIn()),
-					RedisStringCommands.SetOption.SET_IF_ABSENT);
-		}
+		@Cleanup
+		RedisConnection connection = connectionFactory.getConnection();
+		// KEY
+		byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
+		// value
+		byte[] tokenVal = StrUtil.bytes(token.getValue());
+		RedisStringCommands stringCommand = connection.stringCommands();
+		stringCommand.set(key, tokenVal, Expiration.seconds(token.getExpiresIn()),
+				RedisStringCommands.SetOption.SET_IF_ABSENT);
 	}
 
 	/**
@@ -51,12 +52,12 @@ public class PigRedisTokenStore extends RedisTokenStore {
 	@Override
 	public void removeAccessToken(OAuth2AccessToken accessToken) {
 		super.removeAccessToken(accessToken);
-		try (RedisConnection connection = connectionFactory.getConnection()) {
-			// KEY
-			OAuth2Authentication authentication = readAuthentication(accessToken);
-			byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
-			connection.del(key);
-		}
+		@Cleanup
+		RedisConnection connection = connectionFactory.getConnection();
+		// KEY
+		OAuth2Authentication authentication = readAuthentication(accessToken);
+		byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
+		connection.del(key);
 	}
 
 }
