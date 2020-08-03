@@ -33,16 +33,15 @@ public class PigRedisTokenStore extends RedisTokenStore {
 	@Override
 	public void storeAccessToken(OAuth2AccessToken token, OAuth2Authentication authentication) {
 		super.storeAccessToken(token, authentication);
-		// KEY
-		byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
-		// value
-		byte[] tokenVal = StrUtil.bytes(token.getValue());
-		// 获取redis连接
-		RedisConnection connection = connectionFactory.getConnection();
-		RedisStringCommands stringCommand = connection.stringCommands();
-		stringCommand.set(key, tokenVal, Expiration.seconds(token.getExpiresIn()),
-				RedisStringCommands.SetOption.SET_IF_ABSENT);
-		connection.close();
+		try (RedisConnection connection = connectionFactory.getConnection()) {
+			// KEY
+			byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
+			// value
+			byte[] tokenVal = StrUtil.bytes(token.getValue());
+			RedisStringCommands stringCommand = connection.stringCommands();
+			stringCommand.set(key, tokenVal, Expiration.seconds(token.getExpiresIn()),
+					RedisStringCommands.SetOption.SET_IF_ABSENT);
+		}
 	}
 
 	/**
@@ -52,13 +51,12 @@ public class PigRedisTokenStore extends RedisTokenStore {
 	@Override
 	public void removeAccessToken(OAuth2AccessToken accessToken) {
 		super.removeAccessToken(accessToken);
-		// KEY
-		OAuth2Authentication authentication = readAuthentication(accessToken);
-		byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
-		// 获取redis连接
-		RedisConnection connection = connectionFactory.getConnection();
-		connection.del(key);
-		connection.close();
+		try (RedisConnection connection = connectionFactory.getConnection()) {
+			// KEY
+			OAuth2Authentication authentication = readAuthentication(accessToken);
+			byte[] key = StrUtil.bytes(CacheConstants.PROJECT_OAUTH_TOKEN + authentication.getName());
+			connection.del(key);
+		}
 	}
 
 }
