@@ -36,7 +36,7 @@
 
 dependencies | version
 ---|---
-Spring Boot |  2.3.2.RELEASE  
+Spring Boot |  2.3.3.RELEASE  
 Spring Cloud | Hoxton.SR7   
 Spring Cloud Alibaba | 2.2.1.RELEASE
 Spring Security OAuth2 | 2.3.6
