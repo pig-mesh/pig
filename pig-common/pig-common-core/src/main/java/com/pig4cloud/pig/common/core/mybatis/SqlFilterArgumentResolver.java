@@ -29,11 +29,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Predicate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -44,9 +40,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
-
-	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
-			"alter", "drop", "sleep" };
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -78,7 +71,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 
-		Page page = new Page();
+		Page<?> page = new Page<>();
 		if (StrUtil.isNotBlank(current)) {
 			page.setCurrent(Long.parseLong(current));
 		}
@@ -89,27 +82,32 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
+				Arrays.stream(s).filter(Objects::isNull).map(this::clear).map(OrderItem::asc).collect(Collectors.toList())));
 		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
+				Arrays.stream(s).filter(Objects::isNull).map(this::clear).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
 		return page;
 	}
 
 	/**
-	 * 判断用户输入里面有没有关键字
-	 * @return Predicate
+	 * 参数清理
+	 *
+	 * @param param 参数
+	 * @return String
 	 */
-	private Predicate<String> sqlInjectPredicate() {
-		return sql -> {
-			for (String keyword : KEYWORDS) {
-				if (StrUtil.containsIgnoreCase(sql, keyword)) {
-					return false;
-				}
+	private String clear(String param) {
+		if (StrUtil.isBlank(param)) {
+			return StrUtil.trim(param);
+		}
+		StringBuilder builder = new StringBuilder();
+		for (int i = 0; i < param.length(); i++) {
+			char c = param.charAt(i);
+			if (Character.isJavaIdentifierPart(c)) {
+				builder.append(c);
 			}
-			return true;
-		};
+		}
+		return builder.toString();
 	}
 
 }
