@@ -40,7 +40,7 @@ Spring Cloud | Hoxton.SR8
 Spring Cloud Alibaba | 2.2.1.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.4.0
-hutool | 5.4.0
+hutool | 5.4.1
 Avue | 2.6.15
    
 
