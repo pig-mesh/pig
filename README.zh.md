@@ -2,7 +2,7 @@
 **中文** | [English](https://github.com/pigxcloud/pig/blob/master/README.md)
 
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-2.8-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-2.9-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.6-green.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR8-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">

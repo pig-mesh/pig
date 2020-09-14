@@ -16,6 +16,6 @@ EXPOSE 8848
 ADD ./target/pig-register.jar ./
 
 
-CMD sleep 60;java $JAVA_OPTS -jar pig-register.jar
+CMD sleep 30;java $JAVA_OPTS -jar pig-register.jar
 
 
