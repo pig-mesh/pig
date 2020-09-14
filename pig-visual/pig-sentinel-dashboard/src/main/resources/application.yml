@@ -1,9 +1,10 @@
 server:
-  port: 5003
-  servlet:
+  port: 5020
+
+spring:
+  http:
     encoding:
       force: true
-
 logging:
   level:
     org:
@@ -23,4 +24,4 @@ auth:
 
 sentinel:
   dashboard:
-    version: 1.7.1
+    version: @project.version@

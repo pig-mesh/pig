@@ -21,7 +21,7 @@ import com.alibaba.nacos.config.server.model.TenantInfo;
 import com.alibaba.nacos.config.server.service.repository.PersistService;
 import com.alibaba.nacos.model.Namespace;
 import com.alibaba.nacos.model.NamespaceAllInfo;
-import com.alibaba.nacos.nacos.NacosAuthConfig;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
 import com.alibaba.nacos.core.auth.ActionTypes;
 import com.alibaba.nacos.core.auth.Secured;
 import org.apache.commons.lang3.StringUtils;
