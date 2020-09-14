@@ -81,3 +81,19 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
+
+  pig-xxl-job:
+    build:
+      context: ./pig-visual/pig-xxl-job
+    restart: always
+    image: pig-xxl-job
+    container_name: pig-xxl-job
+
+  pig-xxl-job-admin:
+    container_name: pig-xxl-job-admin
+    image: xuxueli/xxl-job-admin:2.2.0
+    restart: always
+    environment:
+      PARAMS: "--server.port=8080 --spring.datasource.url=jdbc:mysql://pig-mysql:3306/pig_job?Unicode=true&characterEncoding=UTF-8 --spring.datasource.username=root --spring.datasource.password=root"
+    ports:
+      - 8080:8080

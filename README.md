@@ -41,7 +41,7 @@ Spring Cloud | Hoxton.SR8
 Spring Cloud Alibaba | 2.2.1.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.4.0
-hutool | 5.4.0
+hutool | 5.4.1
 Avue | 2.6.15
    
 
@@ -57,6 +57,7 @@ pig
      ├── pig-common-core -- tool core package
      ├── pig-common-datasource -- dynamic data source package
      ├── pig-common-log -- Log service package
+     ├── pig-common-job -- xxl-job expand
      ├── pig-common-mybatis -- mybatis expand
      ├── pig-common-security -- security tools
      ├── pig-common-swagger -- api documentation
@@ -69,7 +70,8 @@ pig
 └── pig-visual
      └── pig-monitor -- spring boot admin[5001]
      ├── pig-codegen -- graphical code generation[5002]
-     └── pig-sentinel-dashboard -- sentinel dashboard [5003]	 
+     └── pig-sentinel-dashboard -- sentinel dashboard [5003]
+     └── pig-xxl-job -- distributed task scheduling [5004]		 
 ```
 #### Open source co-construction
 

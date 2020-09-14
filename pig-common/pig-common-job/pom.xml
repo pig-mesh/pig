@@ -22,23 +22,22 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig</artifactId>
+		<artifactId>pig-common</artifactId>
 		<version>2.8.1</version>
 	</parent>
 
-	<artifactId>pig-common</artifactId>
-	<packaging>pom</packaging>
+	<artifactId>pig-common-job</artifactId>
+	<packaging>jar</packaging>
 
-	<description>pig 公共聚合模块</description>
+	<description>pig 定时任务,基于xxl-job</description>
 
-	<modules>
-		<module>pig-common-core</module>
-		<module>pig-common-datasource</module>
-		<module>pig-common-job</module>
-		<module>pig-common-log</module>
-		<module>pig-common-mybatis</module>
-		<module>pig-common-security</module>
-		<module>pig-common-sentinel</module>
-		<module>pig-common-swagger</module>
-	</modules>
+
+	<dependencies>
+		<!--xxl job-->
+		<dependency>
+			<groupId>com.xuxueli</groupId>
+			<artifactId>xxl-job-core</artifactId>
+			<version>${xxl-job.version}</version>
+		</dependency>
+	</dependencies>
 </project>

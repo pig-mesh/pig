@@ -54,6 +54,7 @@ pig
 └── pig-common -- 系统公共模块 
      ├── pig-common-core -- 公共工具类核心包
      ├── pig-common-datasource -- 动态数据源包
+     ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
      ├── pig-common-mybatis -- mybatis 扩展封装
      ├── pig-common-security -- 安全工具类
@@ -67,7 +68,8 @@ pig
 └── pig-visual
      └── pig-monitor -- 服务监控 [5001]
      ├── pig-codegen -- 图形化代码生成 [5002]
-     └── pig-sentinel-dashboard -- 流量高可用 [5003]		 
+     └── pig-sentinel-dashboard -- 流量高可用 [5003]	
+     └── pig-xxl-job -- 分布式任务调度 [5004]		 
 ```
 #### 开源共建
 
