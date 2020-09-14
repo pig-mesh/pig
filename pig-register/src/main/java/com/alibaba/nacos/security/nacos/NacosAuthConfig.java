@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.nacos;
+package com.alibaba.nacos.security.nacos;
 
 import com.alibaba.nacos.filter.JwtAuthenticationTokenFilter;
-import com.alibaba.nacos.nacos.users.NacosUserDetailsServiceImpl;
+import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
 import com.alibaba.nacos.core.auth.AuthConfigs;
 import com.alibaba.nacos.core.auth.AuthSystemTypes;
 import org.apache.commons.lang3.StringUtils;

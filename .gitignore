@@ -35,7 +35,10 @@ target/
 *.tar
 *.tar.gz
 
-### logs ####
+### vscode ###
+.vscode
+
+### logs ###
 /logs/
 *.log
 

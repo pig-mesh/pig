@@ -1,24 +1,6 @@
-root = true
+root=true
 
-# 对所有文件生效
-[*]
-charset = utf-8
-indent_style = space
-indent_size = 2
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-# 对java, xml文件生效
-[*.{java, xml}]
+[*.{groovy,java,kt,xml}]
 indent_style = tab
 indent_size = 4
-
-# 对yml, json文件生效
-[*.{yml, json}]
-indent_style = space
-indent_size = 2
-
-# 对后缀名为 .md 的文件生效
-[*.md]
-trim_trailing_whitespace = false
+continuation_indent_size = 8

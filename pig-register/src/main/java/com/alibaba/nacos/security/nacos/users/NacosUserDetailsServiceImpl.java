@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.nacos.users;
+package com.alibaba.nacos.security.nacos.users;
 
 import com.alibaba.nacos.config.server.auth.UserPersistService;
 import com.alibaba.nacos.config.server.model.Page;
