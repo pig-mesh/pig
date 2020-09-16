@@ -1,6 +1,6 @@
 package com.pig4cloud.pig.common.job.annotation;
 
-import com.pig4cloud.pig.common.job.properties.XxlJobProperties;
+import com.pig4cloud.pig.common.job.XxlJobAutoConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({ XxlJobProperties.class })
+@Import({ XxlJobAutoConfiguration.class })
 public @interface EnablePigXxlJob {
 
 }
