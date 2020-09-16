@@ -2,7 +2,7 @@
 **中文** | [English](https://github.com/pigxcloud/pig/blob/master/README.md)
 
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-2.8-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-2.9-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Avue-2.6-green.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR8-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
@@ -14,7 +14,7 @@
 - 提供 lambda 、stream api 、webflux 的生产实践   
 
 
-<a href="http://pig4cloud.com/doc/pig" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
+<a href="https://wiki.pig4cloud.com" target="_blank">部署文档</a> | <a target="_blank" href="https://avuejs.com"> 前端解决方案</a> | <a target="_blank" href="http://pigx.pig4cloud.com"> PigX在线体验</a> | <a target="_blank" href="https://paper.pig4cloud.com/"> PigX白皮书</a> | <a target="_blank" href="https://start.pig4cloud.com"> pig4cloud initializr</a>
     
 
 #### 快速构架微服务应用  
@@ -37,10 +37,10 @@
 ---|---
 Spring Boot |  2.3.3.RELEASE  
 Spring Cloud | Hoxton.SR8  
-Spring Cloud Alibaba | 2.2.1.RELEASE
+Spring Cloud Alibaba | 2.2.2.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.4.0
-hutool | 5.4.1
+hutool | 5.4.2
 Avue | 2.6.15
    
 
@@ -71,7 +71,9 @@ pig
      └── pig-sentinel-dashboard -- 流量高可用 [5003]	
      └── pig-xxl-job -- 分布式任务调度 [5004]		 
 ```
+
 #### 开源共建
+
 
 1. 欢迎提交 [pull request](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
 
@@ -81,6 +83,11 @@ pig
 
 4. mail: <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>     
 
+#### 使用协议
+
+pig 开源软件遵循 [Apache 2.0协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
+允许商业使用，但务必保留类作者、Copyright 信息。
+
 #### 免费公开课
 
 <table>
@@ -89,7 +96,7 @@ pig
     <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133059.png"></a></td>
   </tr>
     <tr>
-    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133114.png)"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133114.png"></a></td>
     <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133124.png"></a></td>
   </tr>
 </table>

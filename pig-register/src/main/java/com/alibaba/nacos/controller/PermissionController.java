@@ -17,8 +17,8 @@
 package com.alibaba.nacos.controller;
 
 import com.alibaba.nacos.common.model.RestResult;
-import com.alibaba.nacos.nacos.NacosAuthConfig;
-import com.alibaba.nacos.nacos.roles.NacosRoleServiceImpl;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
+import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
 import com.alibaba.nacos.core.auth.ActionTypes;
 import com.alibaba.nacos.core.auth.Secured;
 import org.apache.commons.lang3.StringUtils;

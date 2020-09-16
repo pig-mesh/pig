@@ -137,7 +137,7 @@ public class FlowControllerV2 {
 	}
 
 	@PostMapping("/rule")
-	@AuthAction(value = PrivilegeType.WRITE_RULE)
+	@AuthAction(value = AuthService.PrivilegeType.WRITE_RULE)
 	public Result<FlowRuleEntity> apiAddFlowRule(@RequestBody FlowRuleEntity entity) {
 
 		Result<FlowRuleEntity> checkResult = checkEntityInternal(entity);
@@ -162,7 +162,7 @@ public class FlowControllerV2 {
 	}
 
 	@PutMapping("/rule/{id}")
-	@AuthAction(PrivilegeType.WRITE_RULE)
+	@AuthAction(AuthService.PrivilegeType.WRITE_RULE)
 
 	public Result<FlowRuleEntity> apiUpdateFlowRule(@PathVariable("id") Long id, @RequestBody FlowRuleEntity entity) {
 		if (id == null || id <= 0) {

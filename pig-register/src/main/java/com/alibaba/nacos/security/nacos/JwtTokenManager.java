@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.nacos;
+package com.alibaba.nacos.security.nacos;
 
 import com.alibaba.nacos.core.auth.AuthConfigs;
 import io.jsonwebtoken.Claims;
