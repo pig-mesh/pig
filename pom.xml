@@ -51,6 +51,7 @@
 		<fastjson.version>1.2.73</fastjson.version>
 		<swagger.fox.version>2.9.2</swagger.fox.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
+		<xxl-job.version>2.2.0</xxl-job.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<docker.plugin.version>0.32.0</docker.plugin.version>
 		<docker.host>http://172.17.0.111:2375</docker.host>

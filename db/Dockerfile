@@ -1,4 +1,4 @@
-FROM mysql:8.0.20
+FROM mysql:8.0.21
 
 MAINTAINER lengleng(wangiegie@gmail.com)
 
@@ -11,3 +11,5 @@ COPY ./pig.sql /docker-entrypoint-initdb.d
 COPY ./pig_codegen.sql /docker-entrypoint-initdb.d
 
 COPY ./pig_config.sql /docker-entrypoint-initdb.d
+
+COPY ./pig_job.sql /docker-entrypoint-initdb.d

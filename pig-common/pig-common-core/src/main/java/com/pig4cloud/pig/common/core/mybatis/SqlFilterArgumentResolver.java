@@ -79,10 +79,10 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		List<OrderItem> orderItemList = new ArrayList<>();
-		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(Objects::isNull).map(this::clear).map(OrderItem::asc).collect(Collectors.toList())));
-		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(Objects::isNull).map(this::clear).map(OrderItem::desc).collect(Collectors.toList())));
+		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(Objects::isNull)
+				.map(this::clear).map(OrderItem::asc).collect(Collectors.toList())));
+		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(Objects::isNull)
+				.map(this::clear).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
 		return page;
@@ -90,7 +90,6 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 	/**
 	 * 参数清理
-	 *
 	 * @param param 参数
 	 * @return String
 	 */

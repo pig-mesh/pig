@@ -18,7 +18,6 @@ package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.component.PigRedisTokenStore;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -38,6 +37,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -85,7 +85,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Bean
 	public TokenStore tokenStore() {
-		PigRedisTokenStore tokenStore = new PigRedisTokenStore(redisConnectionFactory);
+		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
 		tokenStore.setPrefix(CacheConstants.PROJECT_OAUTH_ACCESS);
 		return tokenStore;
 	}
