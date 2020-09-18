@@ -28,3 +28,10 @@ spring:
 
 useAddressServer: true
 
+management:
+  metrics:
+    export:
+      influx:
+        enabled: false
+      elastic:
+        enabled: false
