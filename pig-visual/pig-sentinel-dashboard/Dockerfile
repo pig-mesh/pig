@@ -10,8 +10,8 @@ RUN mkdir -p /pig-sentinel-dashboard
 
 WORKDIR /pig-sentinel-dashboard
 
-EXPOSE 5020
+EXPOSE 5003
 
 ADD ./target/pig-sentinel-dashboard.jar ./
 
-CMD sleep 120;java $JAVA_OPTS -jar pig-sentinel-dashboard.jar
+CMD sleep 60;java $JAVA_OPTS -jar pig-sentinel-dashboard.jar
