@@ -68,7 +68,8 @@ pig
 └── pig-visual
      └── pig-monitor -- 服务监控 [5001]
      ├── pig-codegen -- 图形化代码生成 [5002]
-     └── pig-sentinel-dashboard -- 流量高可用 [5003]	
+     ├── pig-sentinel-dashboard -- 流量高可用 [5003]	
+     └── pig-xxl-job-admin -- 分布式定时任务管理台 [5004]	 
 ```
 
 #### 开源共建

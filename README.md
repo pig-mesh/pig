@@ -70,7 +70,8 @@ pig
 └── pig-visual
      └── pig-monitor -- spring boot admin[5001]
      ├── pig-codegen -- graphical code generation[5002]
-     └── pig-sentinel-dashboard -- sentinel dashboard [5003]	 
+     ├── pig-sentinel-dashboard -- sentinel dashboard [5003]
+     └── pig-xxl-job-admin -- xxl-job-admin [5004]	 
 ```
 #### Open source co-construction
 
