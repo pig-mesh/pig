@@ -36,12 +36,12 @@
 
 dependencies | version
 ---|---
-Spring Boot |  2.3.3.RELEASE  
+Spring Boot |  2.3.4.RELEASE  
 Spring Cloud | Hoxton.SR8  
-Spring Cloud Alibaba | 2.2.2.RELEASE
+Spring Cloud Alibaba | 2.2.3.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.4.0
-hutool | 5.4.2
+hutool | 5.4.3
 Avue | 2.6.15
    
 

@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.9.1-snapshot</version>
+		<version>2.9.1</version>
 	</parent>
 
 	<artifactId>pig-register</artifactId>
