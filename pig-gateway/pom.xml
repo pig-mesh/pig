@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.9.0</version>
+		<version>2.9.1</version>
 	</parent>
 
 	<artifactId>pig-gateway</artifactId>
@@ -57,7 +57,7 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-sentinel</artifactId>
-			<version>2.9.0</version>
+			<version>2.9.1</version>
 		</dependency>
 		<!--验证码 源码： https://github.com/pig-mesh/EasyCaptcha-->
 		<dependency>

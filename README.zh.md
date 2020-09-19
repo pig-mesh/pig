@@ -35,12 +35,12 @@
 
 依赖 | 版本
 ---|---
-Spring Boot |  2.3.3.RELEASE  
+Spring Boot |  2.3.4.RELEASE  
 Spring Cloud | Hoxton.SR8  
-Spring Cloud Alibaba | 2.2.2.RELEASE
+Spring Cloud Alibaba | 2.2.3.RELEASE
 Spring Security OAuth2 | 2.3.6
 Mybatis Plus | 3.4.0
-hutool | 5.4.2
+hutool | 5.4.3
 Avue | 2.6.15
    
 
@@ -68,7 +68,8 @@ pig
 └── pig-visual
      └── pig-monitor -- 服务监控 [5001]
      ├── pig-codegen -- 图形化代码生成 [5002]
-     └── pig-sentinel-dashboard -- 流量高可用 [5003]	
+     ├── pig-sentinel-dashboard -- 流量高可用 [5003]	
+     └── pig-xxl-job-admin -- 分布式定时任务管理台 [5004]	 
 ```
 
 #### 开源共建
