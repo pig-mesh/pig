@@ -72,7 +72,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>pigx-sentinel-dashboard</finalName>
+		<finalName>pig-sentinel-dashboard</finalName>
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
