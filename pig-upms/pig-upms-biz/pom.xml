@@ -81,11 +81,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-test</artifactId>
-			<version>2.9.2-snapshot</version>
-		</dependency>
 	</dependencies>
 
 	<build>
