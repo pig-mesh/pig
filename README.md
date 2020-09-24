@@ -61,7 +61,8 @@ pig
      ├── pig-common-mybatis -- mybatis expand
      ├── pig-common-security -- security tools
      ├── pig-common-swagger -- api documentation
-     └── pig-common-sentinel -- sentinel auto fallbak
+     ├── pig-common-sentinel -- sentinel auto fallbak
+     └── pig-common-test -- spring security oauth2 test ext
 ├── pig-register -- nacos server[8848]
 ├── pig-gateway -- spring cloud gateway[9999]
 └── pig-upms
