@@ -59,6 +59,7 @@ public class TreeUtil {
 						treeNode.setChildren(new ArrayList<>());
 					}
 					treeNode.add(it);
+					treeNode.setHasChildren(true);
 				}
 			}
 		}
@@ -117,7 +118,7 @@ public class TreeUtil {
 			node.setIcon(menu.getIcon());
 			node.setType(menu.getType());
 			node.setSort(menu.getSort());
-			node.setHasChildren(true);
+			node.setHasChildren(false);
 			node.setKeepAlive(menu.getKeepAlive());
 			trees.add(node);
 		}

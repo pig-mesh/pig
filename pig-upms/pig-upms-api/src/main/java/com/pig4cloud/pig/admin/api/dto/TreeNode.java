@@ -41,6 +41,8 @@ public class TreeNode {
 
 	protected List<TreeNode> children = new ArrayList<TreeNode>();
 
+	protected Boolean hasChildren;
+
 	public void add(TreeNode node) {
 		children.add(node);
 	}
