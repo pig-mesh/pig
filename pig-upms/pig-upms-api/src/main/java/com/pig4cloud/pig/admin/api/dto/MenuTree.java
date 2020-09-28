@@ -107,6 +107,7 @@ public class MenuTree extends TreeNode implements Serializable {
 		this.label = menuVo.getName();
 		this.sort = menuVo.getSort();
 		this.keepAlive = menuVo.getKeepAlive();
+		this.hasChildren = false;
 	}
 
 }
