@@ -1,17 +1,20 @@
+FROM openjdk:8-jre as builder
+WORKDIR build
+ARG JAR_FILE=target/pig-auth.jar
+COPY ${JAR_FILE} app.jar
+RUN java -Djarmode=layertools -jar app.jar extract && rm app.jar
+
 FROM moxm/java:1.8-full
+LABEL maintainer="jclazz@outlook.com"
+ENV TZ=Asia/Shanghai
+ENV JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
+WORKDIR pig-auth
 
-MAINTAINER wangiegie@gmail.com
-
-ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
-
-RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
-RUN mkdir -p /pig-auth
-
-WORKDIR /pig-auth
+COPY --from=builder build/dependencies/ ./
+COPY --from=builder build/snapshot-dependencies/ ./
+COPY --from=builder build/spring-boot-loader/ ./
+COPY --from=builder build/application/ ./
 
 EXPOSE 3000
 
-ADD ./target/pig-auth.jar ./
-
-CMD sleep 60;java $JAVA_OPTS -jar pig-auth.jar
+CMD sleep 60; java $JAVA_OPTS org.springframework.boot.loader.JarLauncher

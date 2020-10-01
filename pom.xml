@@ -187,6 +187,9 @@
 					<version>${spring-boot.version}</version>
 					<configuration>
 						<finalName>${project.build.finalName}</finalName>
+						<layers>
+							<enabled>true</enabled>
+						</layers>
 					</configuration>
 					<executions>
 						<execution>
