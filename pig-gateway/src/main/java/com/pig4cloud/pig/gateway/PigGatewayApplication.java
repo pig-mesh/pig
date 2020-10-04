@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.gateway;
 
+import com.pig4cloud.pig.common.swagger.annotation.EnablePigSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -25,6 +26,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * <p>
  * 网关应用
  */
+@EnablePigSwagger2
 @SpringCloudApplication
 public class PigGatewayApplication {
 

@@ -14,29 +14,25 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.gateway.config;
+package com.pig4cloud.pig.common.swagger.annotation;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
-import org.springframework.stereotype.Component;
+import com.pig4cloud.pig.common.swagger.config.GatewaySwaggerAutoConfiguration;
+import com.pig4cloud.pig.common.swagger.config.SwaggerAutoConfiguration;
+import org.springframework.context.annotation.Import;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.lang.annotation.*;
 
 /**
  * @author lengleng
- * @date 2019/2/1 放行参数配置
+ * @date 2020/10/2 开启pig swagger
  */
-@Data
-@Component
-@RefreshScope
-@ConfigurationProperties(prefix = "ignore")
-public class IgnoreClientConfiguration {
-
-	/**
-	 * 放行终端配置，网关不校验此处的终端
-	 */
-	private List<String> clients = new ArrayList<>();
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited
+@EnableSwagger2
+@Import({ SwaggerAutoConfiguration.class, GatewaySwaggerAutoConfiguration.class })
+public @interface EnablePigSwagger2 {
 
 }

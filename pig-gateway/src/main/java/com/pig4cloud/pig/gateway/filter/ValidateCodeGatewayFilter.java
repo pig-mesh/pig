@@ -24,7 +24,7 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
-import com.pig4cloud.pig.gateway.config.IgnoreClientConfiguration;
+import com.pig4cloud.pig.gateway.config.GatewayConfigProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,7 +48,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
-	private final IgnoreClientConfiguration ignoreClient;
+	private final GatewayConfigProperties configProperties;
 
 	private final ObjectMapper objectMapper;
 
@@ -73,7 +73,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 			// 终端设置不校验， 直接向下执行
 			try {
 				String[] clientInfos = WebUtils.getClientId(request);
-				if (ignoreClient.getClients().contains(clientInfos[0])) {
+				if (configProperties.getIgnoreClients().contains(clientInfos[0])) {
 					return chain.filter(exchange);
 				}
 
