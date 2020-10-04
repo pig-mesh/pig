@@ -53,7 +53,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 	private static final String KEY_ALGORITHM = "AES";
 
-	private GatewayConfigProperties configProperties;
+	private final GatewayConfigProperties configProperties;
 
 	private static String decryptAES(String data, String pass) {
 		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
