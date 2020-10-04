@@ -61,7 +61,7 @@
 		<!--验证码 源码： https://github.com/pig-mesh/easy-captcha -->
 		<dependency>
 			<groupId>com.pig4cloud.plugin</groupId>
-			<artifactId>easy-captcha</artifactId>
+			<artifactId>captcha-spring-boot-starter</artifactId>
 			<version>${captcha.version}</version>
 		</dependency>
 		<!--接口文档-->
