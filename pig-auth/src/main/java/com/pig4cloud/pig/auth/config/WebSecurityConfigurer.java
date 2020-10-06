@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
+import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +30,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * @author lengleng
@@ -43,9 +45,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
 		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				.failureHandler(authenticationFailureHandler()).and().authorizeRequests()
-				.antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll().anyRequest().authenticated().and()
-				.csrf().disable();
+				.failureHandler(authenticationFailureHandler()).and().logout()
+				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
+				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
+				.anyRequest().authenticated().and().csrf().disable();
 	}
 
 	@Override
@@ -63,6 +66,15 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Bean
 	public AuthenticationFailureHandler authenticationFailureHandler() {
 		return new FormAuthenticationFailureHandler();
+	}
+
+	/**
+	 * 支持SSO 退出
+	 * @return LogoutSuccessHandler
+	 */
+	@Bean
+	public LogoutSuccessHandler logoutSuccessHandler() {
+		return new SsoLogoutSuccessHandler();
 	}
 
 	/**
