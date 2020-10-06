@@ -47,17 +47,14 @@
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
-		<fastjson.version>1.2.73</fastjson.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
-		<swagger.core.version>1.5.24</swagger.core.version>
 		<xxl-job.version>2.2.0</xxl-job.version>
-		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<docker.plugin.version>0.32.0</docker.plugin.version>
-		<docker.host>http://172.16.1.192:2375</docker.host>
-		<docker.registry>registry.cn-qingdao.aliyuncs.com</docker.registry>
+		<docker.host>http://192.168.0.100:2375</docker.host>
+		<docker.registry>192.168.0.100</docker.registry>
 		<docker.namespace>pig4cloud</docker.namespace>
-		<docker.username>154987607@qq.com</docker.username>
-		<docker.password>qq154987607</docker.password>
+		<docker.username>username</docker.username>
+		<docker.password>password</docker.password>
 	</properties>
 
 	<dependencies>
