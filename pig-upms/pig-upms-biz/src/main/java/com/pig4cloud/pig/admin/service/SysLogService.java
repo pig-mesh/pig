@@ -16,7 +16,9 @@
 
 package com.pig4cloud.pig.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 
 /**
@@ -28,5 +30,13 @@ import com.pig4cloud.pig.admin.api.entity.SysLog;
  * @since 2019/2/1
  */
 public interface SysLogService extends IService<SysLog> {
+
+	/**
+	 * 分页查询日志
+	 * @param page
+	 * @param sysLog
+	 * @return
+	 */
+	Page getLogByPage(Page page, SysLogDTO sysLog);
 
 }

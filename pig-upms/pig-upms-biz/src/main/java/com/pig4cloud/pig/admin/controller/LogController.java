@@ -15,8 +15,8 @@
  */
 package com.pig4cloud.pig.admin.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.service.SysLogService;
 import com.pig4cloud.pig.common.core.util.R;
@@ -51,8 +51,8 @@ public class LogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getLogPage(Page page, SysLog sysLog) {
-		return R.ok(sysLogService.page(page, Wrappers.query(sysLog)));
+	public R getLogPage(Page page, SysLogDTO sysLog) {
+		return R.ok(sysLogService.getLogByPage(page, sysLog));
 	}
 
 	/**

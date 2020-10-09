@@ -20,7 +20,7 @@
  * @ Apache-2.0
  */
 
-package com.pig4cloud.pig.admin.api.vo;
+package com.pig4cloud.pig.admin.api.util;
 
 import com.pig4cloud.pig.admin.api.dto.MenuTree;
 import com.pig4cloud.pig.admin.api.dto.TreeNode;
