@@ -55,6 +55,16 @@ public class GeneratorController {
 	}
 
 	/**
+	 * 预览代码
+	 * @param genConfig 数据表配置
+	 * @return
+	 */
+	@GetMapping("/preview")
+	public R previewCode(GenConfig genConfig) {
+		return R.ok(generatorService.previewCode(genConfig));
+	}
+
+	/**
 	 * 生成代码
 	 */
 	@SneakyThrows

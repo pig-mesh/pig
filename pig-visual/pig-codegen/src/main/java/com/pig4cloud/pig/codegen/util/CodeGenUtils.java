@@ -39,6 +39,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -102,8 +103,8 @@ public class CodeGenUtils {
 	 * 生成代码
 	 */
 	@SneakyThrows
-	public void generatorCode(GenConfig genConfig, Map<String, String> table, List<Map<String, String>> columns,
-			ZipOutputStream zip, GenFormConf formConf) {
+	public Map<String, String> generatorCode(GenConfig genConfig, Map<String, String> table,
+			List<Map<String, String>> columns, ZipOutputStream zip, GenFormConf formConf) {
 		// 配置信息
 		Configuration config = getConfig();
 		boolean hasBigDecimal = false;
@@ -211,18 +212,48 @@ public class CodeGenUtils {
 			map.put("package", config.getString("package"));
 			map.put("mainPath", config.getString("mainPath"));
 		}
+
+		// 渲染数据
+		return renderData(genConfig, zip, formConf, tableEntity, map);
+	}
+
+	/**
+	 * 渲染数据
+	 * @param genConfig 配置信息
+	 * @param zip 流 （为空，直接返回Map）
+	 * @param formConf 表单信息
+	 * @param tableEntity 表基本信息
+	 * @param map 模板参数
+	 * @return map key-filename value-contents
+	 * @throws IOException
+	 */
+	private Map<String, String> renderData(GenConfig genConfig, ZipOutputStream zip, GenFormConf formConf,
+			TableEntity tableEntity, Map<String, Object> map) throws IOException {
+		// 设置velocity资源加载器
+		Properties prop = new Properties();
+		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		Velocity.init(prop);
 		VelocityContext context = new VelocityContext(map);
 
 		// 获取模板列表
 		List<String> templates = getTemplates();
+		Map<String, String> resultMap = new HashMap<>(8);
+
 		for (String template : templates) {
 			// 如果是crud
 			if (template.contains(AVUE_CRUD_JS_VM) && formConf != null) {
-				zip.putNextEntry(
-						new ZipEntry(Objects.requireNonNull(getFileName(template, tableEntity.getCaseClassName(),
-								map.get("package").toString(), map.get("moduleName").toString()))));
-				IoUtil.write(zip, StandardCharsets.UTF_8, false, CRUD_PREFIX + formConf.getFormInfo());
-				zip.closeEntry();
+
+				String fileName = getFileName(template, tableEntity.getCaseClassName(), map.get("package").toString(),
+						map.get("moduleName").toString());
+				String contents = CRUD_PREFIX + formConf.getFormInfo();
+
+				if (zip != null) {
+					zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
+					IoUtil.write(zip, StandardCharsets.UTF_8, false, contents);
+					zip.closeEntry();
+				}
+
+				resultMap.put(template, contents);
 				continue;
 			}
 
@@ -232,12 +263,19 @@ public class CodeGenUtils {
 			tpl.merge(context, sw);
 
 			// 添加到zip
-			zip.putNextEntry(new ZipEntry(Objects.requireNonNull(getFileName(template, tableEntity.getCaseClassName(),
-					map.get("package").toString(), map.get("moduleName").toString()))));
-			IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
-			IoUtil.close(sw);
-			zip.closeEntry();
+			String fileName = getFileName(template, tableEntity.getCaseClassName(), map.get("package").toString(),
+					map.get("moduleName").toString());
+
+			if (zip != null) {
+				zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
+				IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
+				IoUtil.close(sw);
+				zip.closeEntry();
+			}
+			resultMap.put(template, sw.toString());
 		}
+
+		return resultMap;
 	}
 
 	/**

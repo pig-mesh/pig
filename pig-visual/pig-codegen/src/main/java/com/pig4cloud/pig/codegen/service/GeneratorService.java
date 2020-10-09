@@ -45,4 +45,11 @@ public interface GeneratorService {
 	 */
 	IPage<List<Map<String, Object>>> getPage(Page page, String tableName, String name);
 
+	/**
+	 * 预览代码
+	 * @param genConfig 查询条件
+	 * @return
+	 */
+	Map<String, String> previewCode(GenConfig genConfig);
+
 }
