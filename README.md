@@ -65,6 +65,12 @@ pig
 
 ## 快速开始
 
+### 本地开发 运行
+
+pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
+
+请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
+
 ### Docker 运行
 
 ```
@@ -113,10 +119,10 @@ npm run build:docker && docker-compose up -d
 
 ### 开源协议
 
-![](https://gitee.com/pig4cloud/oss/raw/master/2020-10-9/1602229452602-image.png)
-
 pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
 允许商业使用，但务必保留类作者、Copyright 信息。
+
+![](https://gitee.com/pig4cloud/oss/raw/master/2020-10-9/1602229452602-image.png)
 
 ### 其他说明
 
