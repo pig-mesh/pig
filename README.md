@@ -91,11 +91,16 @@ npm run build:docker && docker-compose up -d
 
 ```xml
 <!-- pig-gen archetype -->
-<dependency>
-    <groupId>com.pig4cloud.archetype</groupId>
-    <artifactId>pig-gen</artifactId>
-    <version>2.10.0</version>
-</dependency>
+# 在空文件夹执行以下命令，注意 windows 下  \ 修改成 ^
+mvn archetype:generate \
+       -DgroupId=com.pig4cloud \
+       -DartifactId=demo \
+       -Dversion=1.0.0-SNAPSHOT \
+       -Dpackage=com.pig4cloud.pig.demo \
+       -DarchetypeGroupId=com.pig4cloud.archetype \
+       -DarchetypeArtifactId=pig-gen \
+       -DarchetypeVersion=2.10.0 \
+       -DarchetypeCatalog=local
 ```
 
 ## 免费公开课
