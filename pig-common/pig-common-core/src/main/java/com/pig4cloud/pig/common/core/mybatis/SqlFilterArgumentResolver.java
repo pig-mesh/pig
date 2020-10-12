@@ -79,9 +79,9 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		List<OrderItem> orderItemList = new ArrayList<>();
-		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(Objects::isNull)
+		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(StrUtil::isNotBlank)
 				.map(this::clear).map(OrderItem::asc).collect(Collectors.toList())));
-		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(Objects::isNull)
+		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(StrUtil::isNotBlank)
 				.map(this::clear).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
