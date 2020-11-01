@@ -1,17 +1,19 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *  *  Copyright (c) 2019-2020, 冷冷 (wangiegie@gmail.com).
+ *  *  <p>
+ *  *  Licensed under the GNU Lesser General Public License 3.0 (the "License");
+ *  *  you may not use this file except in compliance with the License.
+ *  *  You may obtain a copy of the License at
+ *  *  <p>
+ *  * https://www.gnu.org/licenses/lgpl.html
+ *  *  <p>
+ *  * Unless required by applicable law or agreed to in writing, software
+ *  * distributed under the License is distributed on an "AS IS" BASIS,
+ *  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  * See the License for the specific language governing permissions and
+ *  * limitations under the License.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 package com.pig4cloud.pig.common.core.mybatis;
@@ -27,7 +29,11 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +44,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
+
+	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
+			"alter", "drop", "sleep" };
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -69,7 +78,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 
-		Page<?> page = new Page<>();
+		Page page = new Page();
 		if (StrUtil.isNotBlank(current)) {
 			page.setCurrent(Long.parseLong(current));
 		}
@@ -79,32 +88,28 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		List<OrderItem> orderItemList = new ArrayList<>();
-		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(StrUtil::isNotBlank)
-				.map(this::clear).map(OrderItem::asc).collect(Collectors.toList())));
-		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(Arrays.stream(s).filter(StrUtil::isNotBlank)
-				.map(this::clear).map(OrderItem::desc).collect(Collectors.toList())));
+		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(
+				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
+		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(
+				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
 		return page;
 	}
 
 	/**
-	 * 参数清理
-	 * @param param 参数
-	 * @return String
+	 * 判断用户输入里面有没有关键字
+	 * @return Predicate
 	 */
-	private String clear(String param) {
-		if (StrUtil.isBlank(param)) {
-			return StrUtil.trim(param);
-		}
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < param.length(); i++) {
-			char c = param.charAt(i);
-			if (Character.isJavaIdentifierPart(c)) {
-				builder.append(c);
+	private Predicate<String> sqlInjectPredicate() {
+		return sql -> {
+			for (String keyword : KEYWORDS) {
+				if (StrUtil.containsIgnoreCase(sql, keyword)) {
+					return false;
+				}
 			}
-		}
-		return builder.toString();
+			return true;
+		};
 	}
 
 }
