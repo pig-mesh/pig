@@ -22,7 +22,7 @@
 | Spring Cloud           | Hoxton.SR8    |
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
-| Mybatis Plus           | 3.4.0         |
+| Mybatis Plus           | 3.4.1         |
 | hutool                 | 5.4.7         |
 | Avue                   | 2.6.16        |
 
