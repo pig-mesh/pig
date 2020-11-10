@@ -35,4 +35,14 @@ public interface ConfigConstants {
 	 */
 	String AUTH_ENABLED = "nacos.core.auth.enabled";
 
+	/**
+	 * 开启 MCP server
+	 */
+	String MCP_SERVER_ENABLED = "nacos.istio.mcp.server.enabled";
+
+	/**
+	 * nacos tomcat basedir
+	 */
+	String NACOS_TOMCAT_BASEDIR = "server.tomcat.basedir";
+
 }

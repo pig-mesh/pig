@@ -16,19 +16,16 @@
 
 package com.alibaba.nacos.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.model.RestResult;
 import com.alibaba.nacos.security.nacos.NacosAuthConfig;
 import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
-import com.alibaba.nacos.core.auth.ActionTypes;
-import com.alibaba.nacos.core.auth.Secured;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Role operation controller.
@@ -55,6 +52,17 @@ public class RoleController {
 	public Object getRoles(@RequestParam int pageNo, @RequestParam int pageSize,
 			@RequestParam(name = "username", defaultValue = "") String username) {
 		return roleService.getRolesFromDatabase(username, pageNo, pageSize);
+	}
+
+	/**
+	 * Fuzzy matching role name .
+	 * @param role role id
+	 * @return role list
+	 */
+	@GetMapping("/search")
+	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "roles", action = ActionTypes.READ)
+	public List<String> searchRoles(@RequestParam String role) {
+		return roleService.findRolesLikeRoleName(role);
 	}
 
 	/**
