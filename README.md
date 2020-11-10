@@ -1,6 +1,6 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.10-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR8-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR9-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
@@ -19,7 +19,7 @@
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
 | Spring Boot            | 2.3.5.RELEASE |
-| Spring Cloud           | Hoxton.SR8    |
+| Spring Cloud           | Hoxton.SR9    |
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.0         |
