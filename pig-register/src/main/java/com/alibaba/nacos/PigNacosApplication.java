@@ -16,7 +16,7 @@
 
 package com.alibaba.nacos;
 
-import com.alibaba.nacos.config.ConfigConstants;
+import com.alibaba.nacos.utils.StartUpEnvInitUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -31,8 +31,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class PigNacosApplication {
 
 	public static void main(String[] args) {
-		System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
-		System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
+		StartUpEnvInitUtil.init();
 		SpringApplication.run(PigNacosApplication.class, args);
 	}
 
