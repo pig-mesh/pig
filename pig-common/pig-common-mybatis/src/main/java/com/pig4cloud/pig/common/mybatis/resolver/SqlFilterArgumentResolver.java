@@ -16,7 +16,7 @@
  *
  */
 
-package com.pig4cloud.pig.common.core.mybatis;
+package com.pig4cloud.pig.common.mybatis.resolver;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;

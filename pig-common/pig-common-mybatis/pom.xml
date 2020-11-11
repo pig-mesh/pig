@@ -31,6 +31,12 @@
 
 
 	<dependencies>
+		<!--hutool-->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-core</artifactId>
+			<version>${hutool.version}</version>
+		</dependency>
 		<!--mybatis-->
 		<dependency>
 			<groupId>com.baomidou</groupId>
@@ -41,6 +47,16 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--server-api-->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 	</dependencies>
 </project>
