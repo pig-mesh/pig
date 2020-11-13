@@ -1,15 +1,14 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-2.10-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR8-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.3.RELEASE-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
    
    
 ## 系统说明
 
-- 基于 Spring Cloud Hoxton 、Spring Boot 2.3、 OAuth2 的 RBAC **权限管理系统**
+- 基于 Spring Cloud Hoxton 、Spring Boot 2.4、 OAuth2 的 RBAC **权限管理系统**
 - 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
 - 提供 lambda 、stream api 、webflux 的生产实践
@@ -18,7 +17,7 @@
 
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
-| Spring Boot            | 2.3.5.RELEASE |
+| Spring Boot            | 2.4.0 |
 | Spring Cloud           | Hoxton.SR8    |
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
