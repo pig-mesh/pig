@@ -18,7 +18,7 @@
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
 | Spring Boot            | 2.3.6.RELEASE |
-| Spring Cloud           | Hoxton.SR8    |
+| Spring Cloud           | Hoxton.SR9    |
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.1         |

@@ -11,6 +11,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 
 /**
  * 权限拦截
@@ -20,6 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
+	/**
+	 * 针对 spring boot admin 对外暴露的接口
+	 */
+	private static final String[] ACTUATOR_IGNORE = { "/actuator", "/details", "/health" };
+
 	@Resource
 	private LoginService loginService;
 
@@ -28,6 +34,10 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		if (!(handler instanceof HandlerMethod)) {
+			return super.preHandle(request, response, handler);
+		}
+
+		if (Arrays.stream(ACTUATOR_IGNORE).anyMatch(s -> request.getRequestURI().contains(s))) {
 			return super.preHandle(request, response, handler);
 		}
 

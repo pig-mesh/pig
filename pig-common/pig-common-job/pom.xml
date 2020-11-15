@@ -39,5 +39,10 @@
 			<artifactId>xxl-job-core</artifactId>
 			<version>${xxl-job.version}</version>
 		</dependency>
+		<!--提供服务发现能力-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-commons</artifactId>
+		</dependency>
 	</dependencies>
 </project>
