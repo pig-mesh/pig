@@ -13,6 +13,11 @@
 	<packaging>jar</packaging>
 
 	<dependencies>
+		<!--注册中心客户端-->
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba.csp</groupId>
 			<artifactId>sentinel-core</artifactId>
