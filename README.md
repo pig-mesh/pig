@@ -88,7 +88,7 @@ npm run build:docker && docker-compose up -d
 
 ### 快速构架微服务
 
-```xml
+```bash
 <!-- pig-gen archetype -->
 # 在空文件夹执行以下命令，注意 windows 下  \ 修改成 ^
 mvn archetype:generate \
@@ -98,7 +98,7 @@ mvn archetype:generate \
        -Dpackage=com.pig4cloud.pig.demo \
        -DarchetypeGroupId=com.pig4cloud.archetype \
        -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=2.10.1 \
+       -DarchetypeVersion=2.10.2 \
        -DarchetypeCatalog=local
 ```
 
