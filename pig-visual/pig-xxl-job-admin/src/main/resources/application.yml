@@ -1,9 +1,3 @@
-# 此配置只适合开发测试环境，详细配置参考： http://t.cn/A64RaHJm
-server:
-  port: 5004
-  servlet:
-    context-path: /xxl-job-admin
-
 # xxl
 xxl:
   job:
@@ -20,7 +14,7 @@ mybatis:
 # spring
 spring:
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST:pig-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pig_job}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${MYSQL_HOST:pigx-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pigxx_job}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${MYSQL-PWD:root}
     password: ${MYSQL-PWD:root}
@@ -46,9 +40,16 @@ spring:
           ssl.enable: true
           starttls.enable: false
           required: false
+# spring boot admin 配置
 
-# close mail health check
 management:
   health:
     mail:
       enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS

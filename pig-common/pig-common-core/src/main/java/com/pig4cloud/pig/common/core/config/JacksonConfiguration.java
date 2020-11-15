@@ -18,6 +18,7 @@ package com.pig4cloud.pig.common.core.config;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -51,6 +52,7 @@ public class JacksonConfiguration {
 			builder.locale(Locale.CHINA);
 			builder.timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
 			builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);
+			builder.serializerByType(Long.class, ToStringSerializer.instance);
 			builder.modules(new PigJavaTimeModule());
 		};
 	}
