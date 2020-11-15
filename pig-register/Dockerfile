@@ -4,7 +4,7 @@ ARG JAR_FILE=target/pig-register.jar
 COPY ${JAR_FILE} app.jar
 RUN java -Djarmode=layertools -jar app.jar extract && rm app.jar
 
-FROM moxm/java:1.8-full
+FROM openjdk:8-jre
 LABEL maintainer="jclazz@outlook.com"
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
 WORKDIR pig-register

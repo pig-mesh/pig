@@ -10,7 +10,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: ${NACOS_HOST:pigx-register}:${NACOS_PORT:8848}
+        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
         metadata:
           management.context-path: ${server.servlet.context-path}/actuator
   profiles:
