@@ -21,7 +21,6 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -76,8 +75,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
 				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
 
-		DynamicDataSourceContextHolder.push(genConfig.getDsName());
-
 		String tableNames = genConfig.getTableName();
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
@@ -92,6 +89,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 				return CodeGenUtils.generatorCode(genConfig, table, columns, null, null);
 			}
 		}
+
 		return MapUtil.empty();
 	}
 
