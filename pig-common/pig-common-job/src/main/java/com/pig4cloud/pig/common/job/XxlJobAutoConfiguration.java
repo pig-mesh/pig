@@ -51,10 +51,10 @@ public class XxlJobAutoConfiguration {
 					.flatMap(s -> discoveryClient.getInstances(s).stream()).map(instance -> String
 							.format("http://%s:%s/%s", instance.getHost(), instance.getPort(), XXL_JOB_ADMIN))
 					.collect(Collectors.joining(","));
-			xxlJobSpringExecutor.setAddress(serverList);
+			xxlJobSpringExecutor.setAdminAddresses(serverList);
 		}
 		else {
-			xxlJobSpringExecutor.setAddress(xxlJobProperties.getAdmin().getAddresses());
+			xxlJobSpringExecutor.setAdminAddresses(xxlJobProperties.getAdmin().getAddresses());
 		}
 
 		return xxlJobSpringExecutor;
