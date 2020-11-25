@@ -49,3 +49,7 @@ management:
         enabled: false
       influx:
         enabled: false
+
+logging:
+   level:
+     org.apache.tomcat.util.scan.StandardJarScanner: ERROR
