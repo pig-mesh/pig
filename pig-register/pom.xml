@@ -28,31 +28,8 @@
 
 	<properties>
 		<jjwt.version>0.11.2</jjwt.version>
-		<nacos.version>1.4.0</nacos.version>
-		<netty-all.version>4.1.42.Final</netty-all.version>
-		<grpc-java.version>1.24.0</grpc-java.version>
+		<nacos.version>1.3.2</nacos.version>
 	</properties>
-
-	<!-- 管理依赖版本号,子项目不会默认依赖 -->
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.grpc</groupId>
-				<artifactId>grpc-bom</artifactId>
-				<version>${grpc-java.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>io.netty</groupId>
-				<artifactId>netty-bom</artifactId>
-				<version>${netty-all.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
 
 	<dependencies>
 		<dependency>
@@ -64,6 +41,7 @@
 			<groupId>org.apache.tomcat.embed</groupId>
 			<artifactId>tomcat-embed-jasper</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>com.pig4cloud.nacos</groupId>
 			<artifactId>nacos-naming</artifactId>

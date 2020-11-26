@@ -17,11 +17,6 @@
 package com.alibaba.nacos.controller;
 
 import com.alibaba.nacos.api.common.Constants;
-import com.alibaba.nacos.auth.annotation.Secured;
-import com.alibaba.nacos.auth.common.ActionTypes;
-import com.alibaba.nacos.auth.common.AuthConfigs;
-import com.alibaba.nacos.auth.common.AuthSystemTypes;
-import com.alibaba.nacos.auth.exception.AccessException;
 import com.alibaba.nacos.common.model.RestResult;
 import com.alibaba.nacos.common.utils.JacksonUtils;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
@@ -33,6 +28,11 @@ import com.alibaba.nacos.security.nacos.users.NacosUser;
 import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
 import com.alibaba.nacos.utils.JwtTokenUtils;
 import com.alibaba.nacos.utils.PasswordEncoderUtil;
+import com.alibaba.nacos.core.auth.AccessException;
+import com.alibaba.nacos.core.auth.ActionTypes;
+import com.alibaba.nacos.core.auth.AuthConfigs;
+import com.alibaba.nacos.core.auth.AuthSystemTypes;
+import com.alibaba.nacos.core.auth.Secured;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -247,17 +247,6 @@ public class UserController {
 			rr.setMessage("Update userpassword failed");
 		}
 		return rr;
-	}
-
-	/**
-	 * Fuzzy matching username.
-	 * @param username username
-	 * @return Matched username
-	 */
-	@GetMapping("/search")
-	@Secured(resource = NacosAuthConfig.CONSOLE_RESOURCE_NAME_PREFIX + "users", action = ActionTypes.WRITE)
-	public List<String> searchUsersLikeUsername(@RequestParam String username) {
-		return userDetailsService.findUserLikeUsername(username);
 	}
 
 }
