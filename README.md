@@ -22,7 +22,7 @@
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.1         |
-| hutool                 | 5.4.7         |
+| hutool                 | 5.5.1         |
 | Avue                   | 2.6.16        |
 
 ### 模块说明
@@ -98,7 +98,7 @@ mvn archetype:generate \
        -Dpackage=com.pig4cloud.pig.demo \
        -DarchetypeGroupId=com.pig4cloud.archetype \
        -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=2.10.2 \
+       -DarchetypeVersion=2.10.3 \
        -DarchetypeCatalog=local
 ```
 
