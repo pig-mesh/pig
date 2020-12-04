@@ -59,7 +59,7 @@
 		<!--网关 swagger 聚合依赖-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-gateway-core</artifactId>
+			<artifactId>spring-cloud-gateway-server</artifactId>
 			<scope>provided</scope>
 		</dependency>
         <dependency>
