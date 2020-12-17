@@ -24,6 +24,7 @@
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
 		<version>2.10.4-SNAPSHOT</version>
+		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>
@@ -191,6 +192,18 @@
 			</plugins>
 		</pluginManagement>
 	</build>
+
+	<repositories>
+		<!-- 快照包下载， 正式版本全部源码在中央仓库-->
+		<repository>
+			<id>nexus-snapshots</id>
+			<name>nexus Snapshots</name>
+			<url>https://nexus.pigx.vip/repository/maven-public/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
 	<profiles>
 		<profile>
