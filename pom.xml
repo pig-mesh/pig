@@ -23,12 +23,12 @@
 		<!-- 源码: https://gitee.com/log4j/pig-cloud-dependencies-parent -->
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
-		<version>2.10.3</version>
+		<version>2.10.4-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.10.3</version>
+	<version>2.10.4-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
@@ -41,7 +41,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<hutool.version>5.5.1</hutool.version>
+		<hutool.version>5.5.3</hutool.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
 		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
