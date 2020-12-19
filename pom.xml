@@ -34,8 +34,8 @@
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.4.1-SNAPSHOT</spring-boot.version>
-		<spring-cloud.version>2020.0.0-M6</spring-cloud.version>
+		<spring-boot.version>2.4.1</spring-boot.version>
+		<spring-cloud.version>2020.0.0-RC1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
