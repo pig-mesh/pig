@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.sentinel;
+package com.pig4cloud.pig.common.feign;
 
 import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
-import com.pig4cloud.pig.common.sentinel.feign.PigSentinelFeign;
-import com.pig4cloud.pig.common.sentinel.handle.PigUrlBlockHandler;
-import com.pig4cloud.pig.common.sentinel.parser.PigHeaderRequestOriginParser;
+import com.pig4cloud.pig.common.feign.ext.PigSentinelFeign;
+import com.pig4cloud.pig.common.feign.handle.PigUrlBlockHandler;
+import com.pig4cloud.pig.common.feign.parser.PigHeaderRequestOriginParser;
 import feign.Feign;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -38,7 +38,7 @@ import org.springframework.context.annotation.Scope;
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
-public class SentinelAutoConfiguration {
+public class PigFeignAutoConfiguration {
 
 	@Bean
 	@Scope("prototype")

@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.codegen;
 
 import com.pig4cloud.pig.common.datasource.annotation.EnableDynamicDataSource;
-import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
+import com.pig4cloud.pig.common.feign.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;

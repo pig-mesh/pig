@@ -23,20 +23,19 @@
 		<!-- 源码: https://gitee.com/log4j/pig-cloud-dependencies-parent -->
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
-		<version>2.10.4-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<version>3.0.0</version>
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<version>2.10.4-SNAPSHOT</version>
+	<version>3.0.0</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.3.7.RELEASE</spring-boot.version>
-		<spring-cloud.version>Hoxton.SR9</spring-cloud.version>
+		<spring-boot.version>2.4.1</spring-boot.version>
+		<spring-cloud.version>2020.0.0</spring-cloud.version>
 		<spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -44,7 +43,7 @@
 		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
 		<hutool.version>5.5.3</hutool.version>
 		<mybatis-plus.version>3.4.1</mybatis-plus.version>
-		<dynamic-ds.version>3.2.1</dynamic-ds.version>
+		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
@@ -59,6 +58,11 @@
 	</properties>
 
 	<dependencies>
+		<!--bootstrap 启动器-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-bootstrap</artifactId>
+		</dependency>
 		<!--配置文件处理器-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -193,18 +197,6 @@
 		</pluginManagement>
 	</build>
 
-	<repositories>
-		<!-- 快照包下载， 正式版本全部源码在中央仓库-->
-		<repository>
-			<id>nexus-snapshots</id>
-			<name>nexus Snapshots</name>
-			<url>https://nexus.pigx.vip/repository/maven-public/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -218,4 +210,5 @@
 			</activation>
 		</profile>
 	</profiles>
+
 </project>

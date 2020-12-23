@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration,\
+    com.pig4cloud.pig.common.feign.handle.GlobalBizExceptionHandler

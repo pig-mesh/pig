@@ -1,14 +1,14 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-2.10-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-Hoxto.SR9-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-2.3-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Pig-3.0.0-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2020-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
    
    
 ## 系统说明
 
-- 基于 Spring Cloud Hoxton 、Spring Boot 2.3、 OAuth2 的 RBAC **权限管理系统**
+- 基于 Spring Cloud Hoxton 、Spring Boot 2.4、 OAuth2 的 RBAC **权限管理系统**
 - 基于数据驱动视图的理念封装 element-ui，即使没有 vue 的使用经验也能快速上手
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
 - 提供 lambda 、stream api 、webflux 的生产实践
@@ -17,8 +17,8 @@
 
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
-| Spring Boot            | 2.3.7.RELEASE |
-| Spring Cloud           | Hoxton.SR9    |
+| Spring Boot            | 2.4.1 |
+| Spring Cloud           | 2020    |
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.1         |
@@ -40,7 +40,7 @@ pig
      ├── pig-common-mybatis -- mybatis 扩展封装
      ├── pig-common-security -- 安全工具类
      ├── pig-common-swagger -- 接口文档
-     ├── pig-common-sentinel -- sentinel 扩展封装
+     ├── pig-common-feign -- feign 扩展封装
      └── pig-common-test -- oauth2.0 单元测试扩展封装
 ├── pig-register -- Nacos Server[8848]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]
