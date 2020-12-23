@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.security.annotation;
+package com.pig4cloud.pig.common.feign.annotation;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.lang.annotation.*;
@@ -28,6 +29,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableFeignClients
+@EnableAutoConfiguration(excludeName = "org.springframework.cloud.netflix.ribbon.RibbonAutoConfiguration")
 public @interface EnablePigFeignClients {
 
 	/**

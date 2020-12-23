@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.sentinel.handle;
+package com.pig4cloud.pig.common.feign.handle;
 
 import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONUtil;

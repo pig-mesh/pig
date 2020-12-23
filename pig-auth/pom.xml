@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>2.11.0</version>
+		<version>3.0.0.RC</version>
 	</parent>
 
 	<artifactId>pig-auth</artifactId>
@@ -43,20 +43,20 @@
 		<!--断路器依赖-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-sentinel</artifactId>
-			<version>2.11.0</version>
+			<artifactId>pig-common-feign</artifactId>
+			<version>3.0.0.RC</version>
 		</dependency>
 		<!--upms api、model 模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
-			<version>2.11.0</version>
+			<version>3.0.0.RC</version>
 		</dependency>
 		<!--security-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-security</artifactId>
-			<version>2.11.0</version>
+			<version>3.0.0.RC</version>
 		</dependency>
 		<!--JDBC相关-->
 		<dependency>

@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-2.11-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-3.0.0.RC-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2020-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
@@ -40,7 +40,7 @@ pig
      ├── pig-common-mybatis -- mybatis 扩展封装
      ├── pig-common-security -- 安全工具类
      ├── pig-common-swagger -- 接口文档
-     ├── pig-common-sentinel -- sentinel 扩展封装
+     ├── pig-common-feign -- feign 扩展封装
      └── pig-common-test -- oauth2.0 单元测试扩展封装
 ├── pig-register -- Nacos Server[8848]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]

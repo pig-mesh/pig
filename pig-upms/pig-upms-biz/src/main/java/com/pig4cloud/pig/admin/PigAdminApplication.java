@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.admin;
 
-import com.pig4cloud.pig.common.security.annotation.EnablePigFeignClients;
+import com.pig4cloud.pig.common.feign.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import com.pig4cloud.pig.common.swagger.annotation.EnablePigSwagger2;
 import org.springframework.boot.SpringApplication;
