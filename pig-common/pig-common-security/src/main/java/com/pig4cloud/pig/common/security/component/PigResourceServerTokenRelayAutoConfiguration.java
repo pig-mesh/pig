@@ -22,7 +22,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.OAuth2AutoConfiguration;
-import org.springframework.cloud.security.oauth2.client.AccessTokenContextRelay;
+import org.springframework.cloud.commons.security.AccessTokenContextRelay;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;

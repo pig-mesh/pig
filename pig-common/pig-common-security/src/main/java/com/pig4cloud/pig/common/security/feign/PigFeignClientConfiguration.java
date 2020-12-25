@@ -18,7 +18,7 @@ package com.pig4cloud.pig.common.security.feign;
 
 import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.security.oauth2.client.AccessTokenContextRelay;
+import org.springframework.cloud.commons.security.AccessTokenContextRelay;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;

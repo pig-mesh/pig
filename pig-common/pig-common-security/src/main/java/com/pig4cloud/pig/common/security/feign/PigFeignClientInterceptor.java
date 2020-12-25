@@ -20,8 +20,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cloud.security.oauth2.client.AccessTokenContextRelay;
-import org.springframework.cloud.security.oauth2.client.feign.OAuth2FeignRequestInterceptor;
+import org.springframework.cloud.commons.security.AccessTokenContextRelay;
+import org.springframework.cloud.openfeign.security.OAuth2FeignRequestInterceptor;
 import org.springframework.security.oauth2.client.OAuth2ClientContext;
 import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 
