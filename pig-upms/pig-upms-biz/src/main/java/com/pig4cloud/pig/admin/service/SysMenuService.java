@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.dto.MenuTree;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.api.vo.MenuVO;
-import com.pig4cloud.pig.common.core.util.R;
 
 import java.util.List;
 import java.util.Set;
@@ -47,7 +46,7 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param id 菜单ID
 	 * @return true成功,false失败
 	 */
-	R removeMenuById(Integer id);
+	Boolean removeMenuById(Integer id);
 
 	/**
 	 * 更新菜单信息

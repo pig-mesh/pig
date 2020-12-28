@@ -22,7 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.DeptTree;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.api.entity.SysDeptRelation;
-import com.pig4cloud.pig.admin.api.util.TreeUtil;
+import com.pig4cloud.pig.admin.api.util.TreeUtils;
 import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
 import com.pig4cloud.pig.admin.service.SysDeptRelationService;
 import com.pig4cloud.pig.admin.service.SysDeptService;
@@ -143,7 +143,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					node.setName(dept.getName());
 					return node;
 				}).collect(Collectors.toList());
-		return TreeUtil.build(treeList, 0);
+		return TreeUtils.build(treeList, 0);
 	}
 
 }

@@ -22,7 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.MenuTree;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
-import com.pig4cloud.pig.admin.api.util.TreeUtil;
+import com.pig4cloud.pig.admin.api.util.TreeUtils;
 import com.pig4cloud.pig.admin.api.vo.MenuVO;
 import com.pig4cloud.pig.admin.mapper.SysMenuMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
@@ -36,7 +36,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -70,17 +72,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-	public R removeMenuById(Integer id) {
+	public Boolean removeMenuById(Integer id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
 
-		if (CollUtil.isNotEmpty(menuList)) {
-			return R.failed("菜单含有下级不能删除");
-		}
+		Assert.isTrue(CollUtil.isEmpty(menuList),"菜单含有下级不能删除");
 
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getMenuId, id));
 		// 删除当前菜单及其子菜单
-		return R.ok(this.removeById(id));
+		return this.removeById(id);
 	}
 
 	@Override
@@ -98,13 +98,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<MenuTree> treeMenu(boolean lazy, Integer parentId) {
 		if (!lazy) {
-			return TreeUtil.buildTree(
+			return buildTree(
 					baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort)),
 					CommonConstants.MENU_TREE_ROOT_ID);
 		}
 
 		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
-		return TreeUtil.buildTree(
+		return buildTree(
 				baseMapper.selectList(
 						Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent).orderByAsc(SysMenu::getSort)),
 				parent);
@@ -121,7 +121,35 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		List<MenuTree> menuTreeList = all.stream().filter(vo -> MenuTypeEnum.LEFT_MENU.getType().equals(vo.getType()))
 				.map(MenuTree::new).sorted(Comparator.comparingInt(MenuTree::getSort)).collect(Collectors.toList());
 		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
-		return TreeUtil.build(menuTreeList, parent);
+		return TreeUtils.build(menuTreeList, parent);
+	}
+
+
+	/**
+	 * 通过sysMenu创建树形节点
+	 * @param menus
+	 * @param root
+	 * @return
+	 */
+	private List<MenuTree> buildTree(List<SysMenu> menus, int root) {
+		List<MenuTree> trees = new ArrayList<>();
+		MenuTree node;
+		for (SysMenu menu : menus) {
+			node = new MenuTree();
+			node.setId(menu.getMenuId());
+			node.setParentId(menu.getParentId());
+			node.setName(menu.getName());
+			node.setPath(menu.getPath());
+			node.setPermission(menu.getPermission());
+			node.setLabel(menu.getName());
+			node.setIcon(menu.getIcon());
+			node.setType(menu.getType());
+			node.setSort(menu.getSort());
+			node.setHasChildren(false);
+			node.setKeepAlive(menu.getKeepAlive());
+			trees.add(node);
+		}
+		return TreeUtils.build(trees, root);
 	}
 
 }

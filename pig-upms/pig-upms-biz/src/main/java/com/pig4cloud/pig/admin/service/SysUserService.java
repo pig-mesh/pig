@@ -58,9 +58,9 @@ public interface SysUserService extends IService<SysUser> {
 	/**
 	 * 更新当前用户基本信息
 	 * @param userDto 用户信息
-	 * @return Boolean
+	 * @return Boolean 操作成功返回true,操作失败返回false
 	 */
-	R updateUserInfo(UserDTO userDto);
+	Boolean updateUserInfo(UserDTO userDto);
 
 	/**
 	 * 更新指定用户信息

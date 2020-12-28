@@ -36,7 +36,7 @@ import java.util.List;
  * @date 2020-02-09
  */
 @UtilityClass
-public class TreeUtil {
+public class TreeUtils {
 
 	/**
 	 * 两层循环实现建树
@@ -96,33 +96,6 @@ public class TreeUtil {
 			}
 		}
 		return treeNode;
-	}
-
-	/**
-	 * 通过sysMenu创建树形节点
-	 * @param menus
-	 * @param root
-	 * @return
-	 */
-	public List<MenuTree> buildTree(List<SysMenu> menus, int root) {
-		List<MenuTree> trees = new ArrayList<>();
-		MenuTree node;
-		for (SysMenu menu : menus) {
-			node = new MenuTree();
-			node.setId(menu.getMenuId());
-			node.setParentId(menu.getParentId());
-			node.setName(menu.getName());
-			node.setPath(menu.getPath());
-			node.setPermission(menu.getPermission());
-			node.setLabel(menu.getName());
-			node.setIcon(menu.getIcon());
-			node.setType(menu.getType());
-			node.setSort(menu.getSort());
-			node.setHasChildren(false);
-			node.setKeepAlive(menu.getKeepAlive());
-			trees.add(node);
-		}
-		return TreeUtil.build(trees, root);
 	}
 
 }

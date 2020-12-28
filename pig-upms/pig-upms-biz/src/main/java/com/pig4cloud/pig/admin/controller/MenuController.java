@@ -112,7 +112,7 @@ public class MenuController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
 	public R removeById(@PathVariable Integer id) {
-		return sysMenuService.removeMenuById(id);
+		return R.ok(sysMenuService.removeMenuById(id));
 	}
 
 	/**
