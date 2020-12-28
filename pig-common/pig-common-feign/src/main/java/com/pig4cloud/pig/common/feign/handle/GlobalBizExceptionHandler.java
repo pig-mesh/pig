@@ -23,6 +23,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -58,6 +59,23 @@ public class GlobalBizExceptionHandler {
 		// 业务异常交由 sentinel 记录
 		Tracer.trace(e);
 		return R.failed(e.getLocalizedMessage());
+	}
+
+	/**
+	 * 处理业务校验过程中碰到的非法参数异常 该异常基本由{@link org.springframework.util.Assert}抛出
+	 * @see Assert#hasLength(String, String)
+	 * @see Assert#hasText(String, String)
+	 * @see Assert#isTrue(boolean, String)
+	 * @see Assert#isNull(Object, String)
+	 * @see Assert#notNull(Object, String)
+	 * @param exception 参数校验异常
+	 * @return API返回结果对象包装后的错误输出结果
+	 */
+	@ExceptionHandler(IllegalArgumentException.class)
+	@ResponseStatus(HttpStatus.OK)
+	public R handleIllegalArgumentException(IllegalArgumentException exception) {
+		log.error("非法参数,ex = {}", exception.getMessage(), exception);
+		return R.failed(exception.getMessage());
 	}
 
 	/**
