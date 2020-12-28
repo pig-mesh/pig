@@ -157,7 +157,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public Boolean updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 
-		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),"原密码错误，修改失败");
+		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()), "原密码错误，修改失败");
 
 		SysUser sysUser = new SysUser();
 		sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));

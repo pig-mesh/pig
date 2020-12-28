@@ -76,7 +76,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
 
-		Assert.isTrue(CollUtil.isEmpty(menuList),"菜单含有下级不能删除");
+		Assert.isTrue(CollUtil.isEmpty(menuList), "菜单含有下级不能删除");
 
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getMenuId, id));
 		// 删除当前菜单及其子菜单
@@ -98,8 +98,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<MenuTree> treeMenu(boolean lazy, Integer parentId) {
 		if (!lazy) {
-			return buildTree(
-					baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort)),
+			return buildTree(baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort)),
 					CommonConstants.MENU_TREE_ROOT_ID);
 		}
 
@@ -123,7 +122,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtils.build(menuTreeList, parent);
 	}
-
 
 	/**
 	 * 通过sysMenu创建树形节点
