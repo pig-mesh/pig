@@ -40,7 +40,7 @@ import java.util.TimeZone;
  * @author lishangbu
  * @date 2020-06-17
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
 public class JacksonConfiguration {

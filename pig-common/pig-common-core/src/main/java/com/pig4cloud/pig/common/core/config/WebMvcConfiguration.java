@@ -33,7 +33,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
  * <p>
  * 注入自自定义SQL 过滤
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = SERVLET)
 public class WebMvcConfiguration implements WebMvcConfigurer {
 

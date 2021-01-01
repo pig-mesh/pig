@@ -33,7 +33,7 @@ import org.springframework.web.reactive.function.server.RouterFunctions;
  * @date 2020-06-11
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class RouterFunctionConfiguration {
 

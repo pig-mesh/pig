@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  * @author lishangbu
  * @date 2020/9/14
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @EnableAutoConfiguration
 @ComponentScan("com.pig4cloud.pig.common.job.properties")
 public class XxlJobAutoConfiguration {

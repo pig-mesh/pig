@@ -46,7 +46,7 @@ import java.util.regex.Pattern;
  * 资源服务器对外直接暴露URL,如果设置contex-path 要特殊处理
  */
 @Slf4j
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
 public class PermitAllUrlProperties implements InitializingBean, ApplicationContextAware {
 
