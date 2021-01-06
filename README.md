@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-3.0.0-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-3.0-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2020-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
@@ -22,7 +22,7 @@
 | Spring Cloud Alibaba   | 2.2.3.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.1         |
-| hutool                 | 5.5.3         |
+| hutool                 | 5.5.5         |
 | Avue                   | 2.6.16        |
 
 ### 模块说明
@@ -98,7 +98,7 @@ mvn archetype:generate \
        -Dpackage=com.pig4cloud.pig.demo \
        -DarchetypeGroupId=com.pig4cloud.archetype \
        -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=2.10.3 \
+       -DarchetypeVersion=3.0.1 \
        -DarchetypeCatalog=local
 ```
 
