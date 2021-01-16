@@ -27,8 +27,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<jjwt.version>0.11.2</jjwt.version>
-		<nacos.version>1.3.2</nacos.version>
+		<nacos.version>1.4.1</nacos.version>
 	</properties>
 
 	<dependencies>
@@ -56,23 +55,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-api</artifactId>
-			<version>${jjwt.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-impl</artifactId>
-			<version>${jjwt.version}</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>io.jsonwebtoken</groupId>
-			<artifactId>jjwt-jackson</artifactId>
-			<version>${jjwt.version}</version>
-			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 	<build>

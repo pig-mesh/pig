@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.exception;
+package com.alibaba.nacos.console.exception;
 
+import com.alibaba.nacos.auth.exception.AccessException;
 import com.alibaba.nacos.common.utils.ExceptionUtil;
-import com.alibaba.nacos.core.auth.AccessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

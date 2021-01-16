@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.security.nacos.users;
+package com.alibaba.nacos.console.security.nacos.users;
 
 import com.alibaba.nacos.config.server.model.User;
 import org.springframework.security.core.GrantedAuthority;

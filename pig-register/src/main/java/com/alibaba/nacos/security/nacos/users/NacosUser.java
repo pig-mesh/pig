@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.security.nacos.users;
+package com.alibaba.nacos.console.security.nacos.users;
 
-import com.alibaba.nacos.core.auth.User;
+import com.alibaba.nacos.auth.model.User;
 
 /**
  * Nacos User.

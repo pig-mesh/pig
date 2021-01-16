@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.security.nacos;
+package com.alibaba.nacos.console.security.nacos;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

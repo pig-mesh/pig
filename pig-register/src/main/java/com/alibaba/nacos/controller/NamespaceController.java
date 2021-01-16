@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.controller;
+package com.alibaba.nacos.console.controller;
 
+import com.alibaba.nacos.auth.annotation.Secured;
+import com.alibaba.nacos.auth.common.ActionTypes;
 import com.alibaba.nacos.common.model.RestResult;
 import com.alibaba.nacos.config.server.model.TenantInfo;
 import com.alibaba.nacos.config.server.service.repository.PersistService;
-import com.alibaba.nacos.model.Namespace;
-import com.alibaba.nacos.model.NamespaceAllInfo;
-import com.alibaba.nacos.security.nacos.NacosAuthConfig;
-import com.alibaba.nacos.core.auth.ActionTypes;
-import com.alibaba.nacos.core.auth.Secured;
+import com.alibaba.nacos.console.model.Namespace;
+import com.alibaba.nacos.console.model.NamespaceAllInfo;
+import com.alibaba.nacos.console.security.nacos.NacosAuthConfig;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

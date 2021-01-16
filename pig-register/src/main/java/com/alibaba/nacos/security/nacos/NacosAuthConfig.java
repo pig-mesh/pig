@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.security.nacos;
+package com.alibaba.nacos.console.security.nacos;
 
-import com.alibaba.nacos.filter.JwtAuthenticationTokenFilter;
-import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
-import com.alibaba.nacos.core.auth.AuthConfigs;
-import com.alibaba.nacos.core.auth.AuthSystemTypes;
+import com.alibaba.nacos.auth.common.AuthConfigs;
+import com.alibaba.nacos.auth.common.AuthSystemTypes;
+import com.alibaba.nacos.console.filter.JwtAuthenticationTokenFilter;
+import com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -56,6 +56,8 @@ public class NacosAuthConfig extends WebSecurityConfigurerAdapter {
 	public static final String TOKEN_PREFIX = "Bearer ";
 
 	public static final String CONSOLE_RESOURCE_NAME_PREFIX = "console/";
+
+	public static final String UPDATE_PASSWORD_ENTRY_POINT = CONSOLE_RESOURCE_NAME_PREFIX + "user/password";
 
 	@Autowired
 	private Environment env;
