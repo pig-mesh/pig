@@ -14,21 +14,23 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.console.filter;
+package com.alibaba.nacos.filter;
 
-import com.alibaba.nacos.api.common.Constants;
-import com.alibaba.nacos.console.security.nacos.JwtTokenManager;
-import com.alibaba.nacos.console.security.nacos.NacosAuthConfig;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.OncePerRequestFilter;
+import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.alibaba.nacos.api.common.Constants;
+import com.alibaba.nacos.security.nacos.JwtTokenManager;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
+import org.apache.commons.lang3.StringUtils;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * jwt auth token filter.

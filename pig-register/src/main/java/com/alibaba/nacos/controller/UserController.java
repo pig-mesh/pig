@@ -34,12 +34,12 @@ import com.alibaba.nacos.common.utils.Objects;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.model.User;
 import com.alibaba.nacos.config.server.utils.RequestUtil;
-import com.alibaba.nacos.console.security.nacos.JwtTokenManager;
-import com.alibaba.nacos.console.security.nacos.NacosAuthConfig;
-import com.alibaba.nacos.console.security.nacos.NacosAuthManager;
-import com.alibaba.nacos.console.security.nacos.roles.NacosRoleServiceImpl;
-import com.alibaba.nacos.console.security.nacos.users.NacosUser;
-import com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl;
+import com.alibaba.nacos.security.nacos.JwtTokenManager;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
+import com.alibaba.nacos.security.nacos.NacosAuthManager;
+import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
+import com.alibaba.nacos.security.nacos.users.NacosUser;
+import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
 import com.alibaba.nacos.utils.PasswordEncoderUtil;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 

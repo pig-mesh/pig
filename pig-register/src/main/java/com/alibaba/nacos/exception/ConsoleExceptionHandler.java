@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.console.exception;
+package com.alibaba.nacos.exception;
 
 import com.alibaba.nacos.auth.exception.AccessException;
 import com.alibaba.nacos.common.utils.ExceptionUtil;
