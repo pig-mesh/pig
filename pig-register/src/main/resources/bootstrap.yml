@@ -31,6 +31,8 @@ spring:
         url: http://pig-monitor:5001
         username: pig
         password: pig
+        instance:
+          prefer-ip: true
   application:
     name: @project.artifactId@
 
