@@ -18,14 +18,16 @@ package com.pig4cloud.pig.auth;
 
 import com.pig4cloud.pig.common.feign.annotation.EnablePigFeignClients;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author lengleng
  * @date 2018年06月21日 认证授权中心
  */
 @EnablePigFeignClients
-@SpringCloudApplication
+@EnableDiscoveryClient
+@SpringBootApplication
 public class PigAuthApplication {
 
 	public static void main(String[] args) {

@@ -18,7 +18,8 @@ package com.pig4cloud.pig.gateway;
 
 import com.pig4cloud.pig.common.swagger.annotation.EnablePigSwagger2;
 import org.springframework.boot.SpringApplication;
-import org.springframework.cloud.client.SpringCloudApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author lengleng
@@ -27,7 +28,8 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * 网关应用
  */
 @EnablePigSwagger2
-@SpringCloudApplication
+@EnableDiscoveryClient
+@SpringBootApplication
 public class PigGatewayApplication {
 
 	public static void main(String[] args) {
