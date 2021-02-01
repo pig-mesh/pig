@@ -19,7 +19,7 @@
 | ---------------------- | ------------- |
 | Spring Boot            | 2.4.2 |
 | Spring Cloud           | 2020    |
-| Spring Cloud Alibaba   | 2.2.4.RELEASE |
+| Spring Cloud Alibaba   | 2.2.5.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.2         |
 | hutool                 | 5.5.7         |
