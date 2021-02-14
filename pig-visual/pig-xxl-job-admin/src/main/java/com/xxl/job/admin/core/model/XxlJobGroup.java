@@ -2,6 +2,7 @@ package com.xxl.job.admin.core.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,6 +19,8 @@ public class XxlJobGroup {
 	private int addressType; // 执行器地址类型：0=自动注册、1=手动录入
 
 	private String addressList; // 执行器地址列表，多地址逗号分隔(手动录入)
+
+	private Date updateTime;
 
 	// registry list
 	private List<String> registryList; // 执行器地址列表(系统注册)
@@ -63,6 +66,14 @@ public class XxlJobGroup {
 
 	public String getAddressList() {
 		return addressList;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 
 	public void setAddressList(String addressList) {

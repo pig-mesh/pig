@@ -48,7 +48,7 @@
 		<velocity.version>1.7</velocity.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
-		<xxl-job.version>2.2.0</xxl-job.version>
+		<xxl-job.version>2.3.0</xxl-job.version>
 		<docker.plugin.version>0.32.0</docker.plugin.version>
 		<docker.host>http://192.168.0.100:2375</docker.host>
 		<docker.registry>192.168.0.100</docker.registry>

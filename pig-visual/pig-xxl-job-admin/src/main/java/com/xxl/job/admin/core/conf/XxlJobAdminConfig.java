@@ -1,17 +1,22 @@
 package com.xxl.job.admin.core.conf;
 
+import java.util.Arrays;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+
 import com.xxl.job.admin.core.alarm.JobAlarmer;
 import com.xxl.job.admin.core.scheduler.XxlJobScheduler;
-import com.xxl.job.admin.dao.*;
+import com.xxl.job.admin.dao.XxlJobGroupDao;
+import com.xxl.job.admin.dao.XxlJobInfoDao;
+import com.xxl.job.admin.dao.XxlJobLogDao;
+import com.xxl.job.admin.dao.XxlJobLogReportDao;
+import com.xxl.job.admin.dao.XxlJobRegistryDao;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-import java.util.Arrays;
 
 /**
  * xxl-job config

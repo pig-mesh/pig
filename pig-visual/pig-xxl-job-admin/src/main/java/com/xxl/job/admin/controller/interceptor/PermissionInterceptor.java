@@ -1,17 +1,18 @@
 package com.xxl.job.admin.controller.interceptor;
 
+import java.util.Arrays;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.xxl.job.admin.controller.annotation.PermissionLimit;
 import com.xxl.job.admin.core.model.XxlJobUser;
 import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.service.LoginService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+import org.springframework.web.servlet.HandlerInterceptor;
 
 /**
  * 权限拦截
@@ -19,7 +20,7 @@ import java.util.Arrays;
  * @author xuxueli 2015-12-12 18:09:04
  */
 @Component
-public class PermissionInterceptor extends HandlerInterceptorAdapter {
+public class PermissionInterceptor implements HandlerInterceptor {
 
 	/**
 	 * 针对 spring boot admin 对外暴露的接口
@@ -34,11 +35,11 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		if (!(handler instanceof HandlerMethod)) {
-			return super.preHandle(request, response, handler);
+			return true;
 		}
 
 		if (Arrays.stream(ACTUATOR_IGNORE).anyMatch(s -> request.getRequestURI().contains(s))) {
-			return super.preHandle(request, response, handler);
+			return true;
 		}
 
 		// if need login
@@ -64,7 +65,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 			request.setAttribute(LoginService.LOGIN_IDENTITY_KEY, loginUser);
 		}
 
-		return super.preHandle(request, response, handler);
+		return true;
 	}
 
 }
