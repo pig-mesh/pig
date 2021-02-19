@@ -40,8 +40,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.3.1</spring-boot-admin.version>
-		<hutool.version>5.5.7</hutool.version>
+		<spring-boot-admin.version>2.4.0</spring-boot-admin.version>
+		<hutool.version>5.5.8</hutool.version>
 		<mybatis-plus.version>3.4.2</mybatis-plus.version>
 		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
