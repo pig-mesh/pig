@@ -20,8 +20,6 @@ spring:
     password: ${MYSQL-PWD:root}
   mvc:
     static-path-pattern: /static/**
-  resources:
-    static-locations: classpath:/static/
   freemarker:
     suffix: .ftl
     request-context-attribute: request

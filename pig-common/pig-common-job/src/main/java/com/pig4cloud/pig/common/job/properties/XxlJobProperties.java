@@ -28,7 +28,7 @@ public class XxlJobProperties implements InitializingBean, EnvironmentAware {
 	@Override
 	public void afterPropertiesSet() {
 		// 若是没有设置appname 则取 application Name
-		if (StringUtils.isEmpty(executor.getAppname())) {
+		if (!StringUtils.hasText(executor.getAppname())) {
 			executor.setAppname(environment.getProperty("spring.application.name"));
 		}
 	}

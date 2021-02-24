@@ -17,12 +17,12 @@
 
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
-| Spring Boot            | 2.4.2 |
+| Spring Boot            | 2.4.3 |
 | Spring Cloud           | 2020    |
 | Spring Cloud Alibaba   | 2.2.5.RELEASE |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.2         |
-| hutool                 | 5.5.7         |
+| hutool                 | 5.5.8         |
 | Avue                   | 2.6.16        |
 
 ### 模块说明
@@ -98,7 +98,7 @@ mvn archetype:generate \
        -Dpackage=com.pig4cloud.pig.demo \
        -DarchetypeGroupId=com.pig4cloud.archetype \
        -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=3.0.4 \
+       -DarchetypeVersion=3.0.5 \
        -DarchetypeCatalog=local
 ```
 

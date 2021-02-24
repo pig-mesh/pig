@@ -1,5 +1,7 @@
 package com.pig4cloud.pig.common.job;
 
+import java.util.stream.Collectors;
+
 import com.pig4cloud.pig.common.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -8,8 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
-
-import java.util.stream.Collectors;
 
 /**
  * xxl-job自动装配
@@ -46,7 +46,7 @@ public class XxlJobAutoConfiguration {
 		xxlJobSpringExecutor.setLogRetentionDays(xxlJobProperties.getExecutor().getLogRetentionDays());
 
 		// 如果配置为空则获取注册中心的服务列表 "http://pigx-xxl:9080/xxl-job-admin"
-		if (StringUtils.isEmpty(xxlJobProperties.getAdmin().getAddresses())) {
+		if (!StringUtils.hasText(xxlJobProperties.getAdmin().getAddresses())) {
 			String serverList = discoveryClient.getServices().stream().filter(s -> s.contains(XXL_JOB_ADMIN))
 					.flatMap(s -> discoveryClient.getInstances(s).stream()).map(instance -> String
 							.format("http://%s:%s/%s", instance.getHost(), instance.getPort(), XXL_JOB_ADMIN))
