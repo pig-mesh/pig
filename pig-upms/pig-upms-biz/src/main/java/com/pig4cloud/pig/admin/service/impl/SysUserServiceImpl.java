@@ -48,6 +48,7 @@ import org.springframework.util.Assert;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -160,7 +161,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()), "原密码错误，修改失败");
 
 		SysUser sysUser = new SysUser();
-		sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+		if (StrUtil.isNotBlank(userDto.getNewpassword1())) {
+			sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+		}
 		sysUser.setPhone(userDto.getPhone());
 		sysUser.setUserId(userVO.getUserId());
 		sysUser.setAvatar(userDto.getAvatar());
