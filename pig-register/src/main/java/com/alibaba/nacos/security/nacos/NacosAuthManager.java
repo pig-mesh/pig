@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.console.security.nacos;
+package com.alibaba.nacos.security.nacos;
 
 import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.auth.AuthManager;
@@ -23,8 +23,8 @@ import com.alibaba.nacos.auth.model.Permission;
 import com.alibaba.nacos.auth.model.User;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.utils.RequestUtil;
-import com.alibaba.nacos.console.security.nacos.roles.NacosRoleServiceImpl;
-import com.alibaba.nacos.console.security.nacos.users.NacosUser;
+import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
+import com.alibaba.nacos.security.nacos.users.NacosUser;
 import com.alibaba.nacos.core.utils.Loggers;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.console.security.nacos.roles;
+package com.alibaba.nacos.security.nacos.roles;
 
 import com.alibaba.nacos.auth.common.AuthConfigs;
 import com.alibaba.nacos.auth.model.Permission;
@@ -23,8 +23,8 @@ import com.alibaba.nacos.config.server.auth.PermissionPersistService;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.auth.RolePersistService;
 import com.alibaba.nacos.config.server.model.Page;
-import com.alibaba.nacos.console.security.nacos.NacosAuthConfig;
-import com.alibaba.nacos.console.security.nacos.users.NacosUserDetailsServiceImpl;
+import com.alibaba.nacos.security.nacos.NacosAuthConfig;
+import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
 import com.alibaba.nacos.core.utils.Loggers;
 import io.jsonwebtoken.lang.Collections;
 import org.apache.commons.lang3.StringUtils;

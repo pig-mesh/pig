@@ -35,4 +35,9 @@ public interface ConfigConstants {
 	 */
 	String AUTH_ENABLED = "nacos.core.auth.enabled";
 
+	/**
+	 * 日志目录
+	 */
+	String LOG_BASEDIR = "server.tomcat.basedir";
+
 }
