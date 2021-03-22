@@ -44,89 +44,90 @@ import org.springframework.web.cors.CorsUtils;
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class NacosAuthConfig extends WebSecurityConfigurerAdapter {
-    
-    public static final String AUTHORIZATION_HEADER = "Authorization";
-    
-    public static final String SECURITY_IGNORE_URLS_SPILT_CHAR = ",";
-    
-    public static final String LOGIN_ENTRY_POINT = "/v1/auth/login";
-    
-    public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/v1/auth/**";
-    
-    public static final String TOKEN_PREFIX = "Bearer ";
-    
-    public static final String CONSOLE_RESOURCE_NAME_PREFIX = "console/";
 
-    public static final String UPDATE_PASSWORD_ENTRY_POINT = CONSOLE_RESOURCE_NAME_PREFIX + "user/password";
+	public static final String AUTHORIZATION_HEADER = "Authorization";
 
-    @Autowired
-    private Environment env;
-    
-    @Autowired
-    private JwtTokenManager tokenProvider;
-    
-    @Autowired
-    private AuthConfigs authConfigs;
-    
-    @Autowired
-    private NacosUserDetailsServiceImpl userDetailsService;
-    
-    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
-    
-    @Override
-    public void configure(WebSecurity web) {
-        
-        String ignoreUrls = null;
-        if (AuthSystemTypes.NACOS.name().equalsIgnoreCase(authConfigs.getNacosAuthSystemType())) {
-            ignoreUrls = "/**";
-        }
-        if (StringUtils.isBlank(authConfigs.getNacosAuthSystemType())) {
-            ignoreUrls = env.getProperty("nacos.security.ignore.urls", "/**");
-        }
-        if (StringUtils.isNotBlank(ignoreUrls)) {
-            for (String each : ignoreUrls.trim().split(SECURITY_IGNORE_URLS_SPILT_CHAR)) {
-                web.ignoring().antMatchers(each.trim());
-            }
-        }
-    }
-    
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-    }
-    
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        
-        if (StringUtils.isBlank(authConfigs.getNacosAuthSystemType())) {
-            http
-                    
-                    .csrf().disable().cors() // We don't need CSRF for JWT based authentication
-                    
-                    .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    
-                    .and().authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers(LOGIN_ENTRY_POINT).permitAll()
-                    
-                    .and().authorizeRequests().antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
-                    
-                    .and().exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint());
-            
-            // disable cache
-            http.headers().cacheControl();
-            
-            http.addFilterBefore(new JwtAuthenticationTokenFilter(tokenProvider),
-                    UsernamePasswordAuthenticationFilter.class);
-        }
-    }
-    
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    
+	public static final String SECURITY_IGNORE_URLS_SPILT_CHAR = ",";
+
+	public static final String LOGIN_ENTRY_POINT = "/v1/auth/login";
+
+	public static final String TOKEN_BASED_AUTH_ENTRY_POINT = "/v1/auth/**";
+
+	public static final String TOKEN_PREFIX = "Bearer ";
+
+	public static final String CONSOLE_RESOURCE_NAME_PREFIX = "console/";
+
+	public static final String UPDATE_PASSWORD_ENTRY_POINT = CONSOLE_RESOURCE_NAME_PREFIX + "user/password";
+
+	@Autowired
+	private Environment env;
+
+	@Autowired
+	private JwtTokenManager tokenProvider;
+
+	@Autowired
+	private AuthConfigs authConfigs;
+
+	@Autowired
+	private NacosUserDetailsServiceImpl userDetailsService;
+
+	@Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
+
+	@Override
+	public void configure(WebSecurity web) {
+
+		String ignoreUrls = null;
+		if (AuthSystemTypes.NACOS.name().equalsIgnoreCase(authConfigs.getNacosAuthSystemType())) {
+			ignoreUrls = "/**";
+		}
+		if (StringUtils.isBlank(authConfigs.getNacosAuthSystemType())) {
+			ignoreUrls = env.getProperty("nacos.security.ignore.urls", "/**");
+		}
+		if (StringUtils.isNotBlank(ignoreUrls)) {
+			for (String each : ignoreUrls.trim().split(SECURITY_IGNORE_URLS_SPILT_CHAR)) {
+				web.ignoring().antMatchers(each.trim());
+			}
+		}
+	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	}
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+
+		if (StringUtils.isBlank(authConfigs.getNacosAuthSystemType())) {
+			http
+
+					.csrf().disable().cors() // We don't need CSRF for JWT based
+												// authentication
+
+					.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+
+					.and().authorizeRequests().requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+					.antMatchers(LOGIN_ENTRY_POINT).permitAll()
+
+					.and().authorizeRequests().antMatchers(TOKEN_BASED_AUTH_ENTRY_POINT).authenticated()
+
+					.and().exceptionHandling().authenticationEntryPoint(new JwtAuthenticationEntryPoint());
+
+			// disable cache
+			http.headers().cacheControl();
+
+			http.addFilterBefore(new JwtAuthenticationTokenFilter(tokenProvider),
+					UsernamePasswordAuthenticationFilter.class);
+		}
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 }

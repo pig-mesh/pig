@@ -65,6 +65,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>${configuration.version}</version>
+		</dependency>
 		<!--日志处理-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
