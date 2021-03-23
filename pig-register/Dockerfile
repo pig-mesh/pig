@@ -6,6 +6,7 @@ RUN java -Djarmode=layertools -jar app.jar extract && rm app.jar
 
 FROM moxm/java:1.8-full
 LABEL maintainer="jclazz@outlook.com"
+sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && apk --no-cache add libstdc++
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
 WORKDIR pig-register
 
