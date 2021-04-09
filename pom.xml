@@ -137,6 +137,12 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!--强制指定 nacos-client 版本-->
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${nacos.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
