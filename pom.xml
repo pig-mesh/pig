@@ -36,12 +36,12 @@
 	<properties>
 		<spring-boot.version>2.4.4</spring-boot.version>
 		<spring-cloud.version>2020.0.2</spring-cloud.version>
-		<spring-cloud-alibaba.version>2020.0.RC1</spring-cloud-alibaba.version>
+		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.4.0</spring-boot-admin.version>
-		<hutool.version>5.6.1</hutool.version>
+		<hutool.version>5.6.2</hutool.version>
 		<mybatis-plus.version>3.4.2</mybatis-plus.version>
 		<dynamic-ds.version>3.2.0</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
