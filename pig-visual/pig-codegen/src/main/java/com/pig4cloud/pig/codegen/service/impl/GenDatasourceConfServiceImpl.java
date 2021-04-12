@@ -48,7 +48,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	private final StringEncryptor stringEncryptor;
 
-	private final DataSourceCreator dataSourceCreator;
+	private final DataSourceCreator hikariDataSourceCreator;
 
 	/**
 	 * 保存数据源并且加密
@@ -121,7 +121,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
 		dataSourceProperty.setDriverClassName(DataSourceConstants.DS_DRIVER);
-		DataSource dataSource = dataSourceCreator.createDataSource(dataSourceProperty);
+		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
 				dataSource);
 	}
