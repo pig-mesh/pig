@@ -64,6 +64,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			DataSourceProperty property = new DataSourceProperty();
 			property.setDriverClassName(DataSourceConstants.DS_DRIVER);
 			property.setUsername(username);
+			property.setLazy(true);
 			property.setPassword(stringEncryptor.decrypt(password));
 			property.setUrl(url);
 			map.put(name, property);
@@ -74,6 +75,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		property.setUsername(properties.getUsername());
 		property.setPassword(properties.getPassword());
 		property.setUrl(properties.getUrl());
+		property.setLazy(true);
 		property.setDriverClassName(DataSourceConstants.DS_DRIVER);
 		map.put(DataSourceConstants.DS_MASTER, property);
 		return map;
