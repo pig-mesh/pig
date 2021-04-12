@@ -18,6 +18,8 @@ package com.pig4cloud.pig.common.swagger.annotation;
 
 import com.pig4cloud.pig.common.swagger.config.GatewaySwaggerAutoConfiguration;
 import com.pig4cloud.pig.common.swagger.config.SwaggerAutoConfiguration;
+import com.pig4cloud.pig.common.swagger.support.SwaggerProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -32,6 +34,7 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @EnableSwagger2
+@EnableConfigurationProperties(SwaggerProperties.class)
 @Import({ SwaggerAutoConfiguration.class, GatewaySwaggerAutoConfiguration.class })
 public @interface EnablePigSwagger2 {
 

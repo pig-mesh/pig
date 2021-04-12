@@ -17,9 +17,9 @@
 
 package com.pig4cloud.pig.common.swagger.support;
 
-import com.pig4cloud.pig.common.swagger.config.SwaggerProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.support.NameUtils;
@@ -38,6 +38,7 @@ import java.util.List;
 @Primary
 @Component
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerProvider implements SwaggerResourcesProvider {
 
 	private static final String API_URI = "/v2/api-docs";

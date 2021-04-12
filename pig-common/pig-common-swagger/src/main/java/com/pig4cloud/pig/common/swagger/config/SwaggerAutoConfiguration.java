@@ -16,9 +16,11 @@
  */
 package com.pig4cloud.pig.common.swagger.config;
 
+import com.pig4cloud.pig.common.swagger.support.SwaggerProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -45,6 +47,7 @@ import java.util.function.Predicate;
  */
 @Configuration
 @EnableAutoConfiguration
+@RequiredArgsConstructor
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
 public class SwaggerAutoConfiguration {
 
@@ -55,14 +58,10 @@ public class SwaggerAutoConfiguration {
 
 	private static final String BASE_PATH = "/**";
 
-	@Bean
-	@ConditionalOnMissingBean
-	public SwaggerProperties swaggerProperties() {
-		return new SwaggerProperties();
-	}
+	private final SwaggerProperties swaggerProperties;
 
 	@Bean
-	public Docket api(SwaggerProperties swaggerProperties) {
+	public Docket api() {
 		// base-path处理
 		if (swaggerProperties.getBasePath().isEmpty()) {
 			swaggerProperties.getBasePath().add(BASE_PATH);
@@ -109,24 +108,24 @@ public class SwaggerAutoConfiguration {
 	 */
 	private List<SecurityReference> defaultAuth() {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList()
+		swaggerProperties.getAuthorization().getAuthorizationScopeList()
 				.forEach(authorizationScope -> authorizationScopeList.add(
 						new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
 		AuthorizationScope[] authorizationScopes = new AuthorizationScope[authorizationScopeList.size()];
 		return Collections
-				.singletonList(SecurityReference.builder().reference(swaggerProperties().getAuthorization().getName())
+				.singletonList(SecurityReference.builder().reference(swaggerProperties.getAuthorization().getName())
 						.scopes(authorizationScopeList.toArray(authorizationScopes)).build());
 	}
 
 	private OAuth securitySchema() {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
-		swaggerProperties().getAuthorization().getAuthorizationScopeList()
+		swaggerProperties.getAuthorization().getAuthorizationScopeList()
 				.forEach(authorizationScope -> authorizationScopeList.add(
 						new AuthorizationScope(authorizationScope.getScope(), authorizationScope.getDescription())));
 		ArrayList<GrantType> grantTypes = new ArrayList<>();
-		swaggerProperties().getAuthorization().getTokenUrlList()
+		swaggerProperties.getAuthorization().getTokenUrlList()
 				.forEach(tokenUrl -> grantTypes.add(new ResourceOwnerPasswordCredentialsGrant(tokenUrl)));
-		return new OAuth(swaggerProperties().getAuthorization().getName(), authorizationScopeList, grantTypes);
+		return new OAuth(swaggerProperties.getAuthorization().getName(), authorizationScopeList, grantTypes);
 	}
 
 	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {

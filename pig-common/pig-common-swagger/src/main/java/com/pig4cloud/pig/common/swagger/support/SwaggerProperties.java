@@ -14,11 +14,12 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
-package com.pig4cloud.pig.common.swagger.config;
+package com.pig4cloud.pig.common.swagger.support;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class SwaggerProperties {
 	/**
 	 * 是否开启swagger
 	 */
-	private Boolean enabled;
+	private Boolean enabled = true;
 
 	/**
 	 * swagger会解析的包路径
