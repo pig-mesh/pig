@@ -45,10 +45,10 @@ public class PigNacosApplication {
 	 */
 	private static boolean initEnv() {
 		// 特殊处理 window 且用户名包含中文的用户，避免RocksDB 初始化失败
+		// System.setProperty(SystemUtil.USER_HOME, "/nacos-path/");
 		if (SystemUtil.getOsInfo().isWindows()
-				&& Validator.hasChinese(SystemUtil.getUserInfo().getName())) {
-			log.error("路径包含中文,需要在以下配置指定不包含中文目录");
-			System.setProperty(SystemUtil.USER_HOME, "/nacos-path/");
+				&& Validator.hasChinese(SystemUtil.getUserInfo().getHomeDir())) {
+			log.error("路径包含中文,需要打开以上注释配置指定不包含中文目录");
 			return false;
 		}
 
