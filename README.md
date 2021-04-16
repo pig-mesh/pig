@@ -17,7 +17,7 @@
 
 | 依赖                   | 版本          |
 | ---------------------- | ------------- |
-| Spring Boot            | 2.4.4 |
+| Spring Boot            | 2.4.5 |
 | Spring Cloud           | 2020.0.2    |
 | Spring Cloud Alibaba   | 2021.1|
 | Spring Security OAuth2 | 2.3.6         |
