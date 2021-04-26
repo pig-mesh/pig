@@ -4,8 +4,8 @@
  <img src="https://img.shields.io/badge/Spring%20Boot-2.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
-   
-   
+
+
 ## 系统说明
 
 - 基于 Spring Cloud 2020 、Spring Boot 2.4、 OAuth2 的 RBAC **权限管理系统**
@@ -22,7 +22,7 @@
 | Spring Cloud Alibaba   | 2021.1|
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.2         |
-| hutool                 | 5.6.3         |
+| hutool                 | 5.6.4         |
 | Avue                   | 2.6.16        |
 
 ### 模块说明
@@ -98,7 +98,7 @@ mvn archetype:generate \
        -Dpackage=com.pig4cloud.pig.demo \
        -DarchetypeGroupId=com.pig4cloud.archetype \
        -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=3.1.2 \
+       -DarchetypeVersion=3.1.3 \
        -DarchetypeCatalog=local
 ```
 
