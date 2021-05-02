@@ -16,10 +16,6 @@
 
 package com.alibaba.nacos.security.nacos;
 
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.alibaba.nacos.api.common.Constants;
 import com.alibaba.nacos.api.remote.request.Request;
 import com.alibaba.nacos.auth.AuthManager;
@@ -28,9 +24,9 @@ import com.alibaba.nacos.auth.model.Permission;
 import com.alibaba.nacos.auth.model.User;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.utils.RequestUtil;
-import com.alibaba.nacos.core.utils.Loggers;
 import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
 import com.alibaba.nacos.security.nacos.users.NacosUser;
+import com.alibaba.nacos.core.utils.Loggers;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +36,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * Builtin access control entry of Nacos.
@@ -184,17 +183,25 @@ public class NacosAuthManager implements AuthManager {
 	}
 
 	private String resolveTokenFromUser(String userName, String rawPassword) throws AccessException {
-
+		String finalName;
+		Authentication authenticate;
 		try {
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName,
 					rawPassword);
-			authenticationManager.authenticate(authenticationToken);
+			authenticate = authenticationManager.authenticate(authenticationToken);
 		}
 		catch (AuthenticationException e) {
 			throw new AccessException("unknown user!");
 		}
 
-		return tokenManager.createToken(userName);
+		if (null == authenticate || StringUtils.isBlank(authenticate.getName())) {
+			finalName = userName;
+		}
+		else {
+			finalName = authenticate.getName();
+		}
+
+		return tokenManager.createToken(finalName);
 	}
 
 }
