@@ -20,10 +20,10 @@
 | Spring Boot            | 2.4.5 |
 | Spring Cloud           | 2020.0.2    |
 | Spring Cloud Alibaba   | 2021.1|
-| Spring Security OAuth2 | 2.3.6         |
+| Spring Security OAuth2 | 2.5.1         |
 | Mybatis Plus           | 3.4.2         |
 | hutool                 | 5.6.4         |
-| Avue                   | 2.6.16        |
+| Avue                   | 2.6.18        |
 
 ### 模块说明
 
