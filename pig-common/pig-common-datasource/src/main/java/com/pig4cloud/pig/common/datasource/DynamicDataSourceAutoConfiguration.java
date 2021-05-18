@@ -21,7 +21,6 @@ import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.pig4cloud.pig.common.datasource.config.DataSourceProperties;
 import com.pig4cloud.pig.common.datasource.config.JdbcDynamicDataSourceProvider;
 import com.pig4cloud.pig.common.datasource.config.LastParamDsProcessor;
-import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -35,18 +34,14 @@ import org.springframework.context.annotation.Configuration;
  * <p>
  * 动态数据源切换配置
  */
-@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
 
-	private final StringEncryptor stringEncryptor;
-
-	private final DataSourceProperties properties;
-
 	@Bean
-	public DynamicDataSourceProvider dynamicDataSourceProvider() {
+	public DynamicDataSourceProvider dynamicDataSourceProvider(StringEncryptor stringEncryptor,
+															   DataSourceProperties properties) {
 		return new JdbcDynamicDataSourceProvider(stringEncryptor, properties);
 	}
 
