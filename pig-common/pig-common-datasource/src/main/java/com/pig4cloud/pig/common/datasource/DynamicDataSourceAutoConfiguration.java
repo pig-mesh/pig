@@ -41,7 +41,7 @@ public class DynamicDataSourceAutoConfiguration {
 
 	@Bean
 	public DynamicDataSourceProvider dynamicDataSourceProvider(StringEncryptor stringEncryptor,
-															   DataSourceProperties properties) {
+			DataSourceProperties properties) {
 		return new JdbcDynamicDataSourceProvider(stringEncryptor, properties);
 	}
 
