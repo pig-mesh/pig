@@ -25,7 +25,7 @@ import reactor.core.publisher.Mono;
  * @author lengleng
  * @date 2019/2/1 路由限流配置
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class RateLimiterConfiguration {
 
 	@Bean(value = "remoteAddrKeyResolver")

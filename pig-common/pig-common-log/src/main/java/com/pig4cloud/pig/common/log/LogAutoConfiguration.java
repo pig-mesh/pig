@@ -35,10 +35,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @Configuration(proxyBeanMethods = false)
 public class LogAutoConfiguration {
 
-	private final RemoteLogService remoteLogService;
-
 	@Bean
-	public SysLogListener sysLogListener() {
+	public SysLogListener sysLogListener(RemoteLogService remoteLogService) {
 		return new SysLogListener(remoteLogService);
 	}
 

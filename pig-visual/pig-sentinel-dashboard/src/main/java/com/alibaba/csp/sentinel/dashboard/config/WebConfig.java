@@ -42,7 +42,7 @@ import javax.servlet.Filter;
 /**
  * @author leyou
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 public class WebConfig implements WebMvcConfigurer {
 
 	private final Logger logger = LoggerFactory.getLogger(WebConfig.class);
