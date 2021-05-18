@@ -1,15 +1,17 @@
 package com.pig4cloud.pig.common.job;
 
-import java.util.stream.Collectors;
-
+import com.pig4cloud.pig.common.job.properties.XxlExecutorProperties;
 import com.pig4cloud.pig.common.job.properties.XxlJobProperties;
 import com.xxl.job.core.executor.impl.XxlJobSpringExecutor;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.util.StringUtils;
+
+import java.util.stream.Collectors;
 
 /**
  * xxl-job自动装配
@@ -19,7 +21,7 @@ import org.springframework.util.StringUtils;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableAutoConfiguration
-@ComponentScan("com.pig4cloud.pig.common.job.properties")
+@EnableConfigurationProperties(XxlJobProperties.class)
 public class XxlJobAutoConfiguration {
 
 	/**
@@ -34,16 +36,22 @@ public class XxlJobAutoConfiguration {
 	 * @return
 	 */
 	@Bean
-	public XxlJobSpringExecutor xxlJobSpringExecutor(XxlJobProperties xxlJobProperties,
+	public XxlJobSpringExecutor xxlJobSpringExecutor(XxlJobProperties xxlJobProperties, Environment environment,
 			DiscoveryClient discoveryClient) {
 		XxlJobSpringExecutor xxlJobSpringExecutor = new XxlJobSpringExecutor();
-		xxlJobSpringExecutor.setAppname(xxlJobProperties.getExecutor().getAppname());
-		xxlJobSpringExecutor.setAddress(xxlJobProperties.getExecutor().getAddress());
-		xxlJobSpringExecutor.setIp(xxlJobProperties.getExecutor().getIp());
-		xxlJobSpringExecutor.setPort(xxlJobProperties.getExecutor().getPort());
-		xxlJobSpringExecutor.setAccessToken(xxlJobProperties.getExecutor().getAccessToken());
-		xxlJobSpringExecutor.setLogPath(xxlJobProperties.getExecutor().getLogPath());
-		xxlJobSpringExecutor.setLogRetentionDays(xxlJobProperties.getExecutor().getLogRetentionDays());
+		XxlExecutorProperties executor = xxlJobProperties.getExecutor();
+		// 应用名默认为服务名
+		String appName = executor.getAppname();
+		if (!StringUtils.hasText(appName)) {
+			appName = environment.getProperty("spring.application.name");
+		}
+		xxlJobSpringExecutor.setAppname(appName);
+		xxlJobSpringExecutor.setAddress(executor.getAddress());
+		xxlJobSpringExecutor.setIp(executor.getIp());
+		xxlJobSpringExecutor.setPort(executor.getPort());
+		xxlJobSpringExecutor.setAccessToken(executor.getAccessToken());
+		xxlJobSpringExecutor.setLogPath(executor.getLogPath());
+		xxlJobSpringExecutor.setLogRetentionDays(executor.getLogRetentionDays());
 
 		// 如果配置为空则获取注册中心的服务列表 "http://pigx-xxl:9080/xxl-job-admin"
 		if (!StringUtils.hasText(xxlJobProperties.getAdmin().getAddresses())) {
