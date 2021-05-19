@@ -17,12 +17,9 @@
 package com.pig4cloud.pig.common.swagger.config;
 
 import com.pig4cloud.pig.common.swagger.support.SwaggerProperties;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -33,6 +30,7 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.ApiSelectorBuilder;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -41,14 +39,21 @@ import java.util.List;
 import java.util.function.Predicate;
 
 /**
- * @author lengleng swagger配置 禁用方法1：使用注解@Profile({"dev","test"})
+ * swagger配置
+ *
+ * <p>
+ * 禁用方法1：使用注解@Profile({"dev","test"})
+ *
  * 表示在开发或测试环境开启，而在生产关闭。（推荐使用） 禁用方法2：使用注解@ConditionalOnProperty(name = "swagger.enable",
+ *
  * havingValue = "true") 然后在测试配置或者开发配置中添加swagger.enable=true即可开启，生产环境不填则默认关闭Swagger.
+ * </p>
+ *
+ * @author lengleng
  */
-@Configuration
-@EnableAutoConfiguration
-@RequiredArgsConstructor
+@EnableSwagger2
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
+@ConditionalOnMissingClass("org.springframework.cloud.gateway.config.GatewayAutoConfiguration")
 public class SwaggerAutoConfiguration {
 
 	/**
@@ -58,10 +63,8 @@ public class SwaggerAutoConfiguration {
 
 	private static final String BASE_PATH = "/**";
 
-	private final SwaggerProperties swaggerProperties;
-
 	@Bean
-	public Docket api() {
+	public Docket api(SwaggerProperties swaggerProperties) {
 		// base-path处理
 		if (swaggerProperties.getBasePath().isEmpty()) {
 			swaggerProperties.getBasePath().add(BASE_PATH);
@@ -90,23 +93,23 @@ public class SwaggerAutoConfiguration {
 		swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
 		swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
 
-		return builder.build().securitySchemes(Collections.singletonList(securitySchema()))
-				.securityContexts(Collections.singletonList(securityContext())).pathMapping("/");
+		return builder.build().securitySchemes(Collections.singletonList(securitySchema(swaggerProperties)))
+				.securityContexts(Collections.singletonList(securityContext(swaggerProperties))).pathMapping("/");
 	}
 
 	/**
 	 * 配置默认的全局鉴权策略的开关，通过正则表达式进行匹配；默认匹配所有URL
 	 * @return
 	 */
-	private SecurityContext securityContext() {
-		return SecurityContext.builder().securityReferences(defaultAuth()).build();
+	private static SecurityContext securityContext(SwaggerProperties swaggerProperties) {
+		return SecurityContext.builder().securityReferences(defaultAuth(swaggerProperties)).build();
 	}
 
 	/**
 	 * 默认的全局鉴权策略
 	 * @return
 	 */
-	private List<SecurityReference> defaultAuth() {
+	private static List<SecurityReference> defaultAuth(SwaggerProperties swaggerProperties) {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
 		swaggerProperties.getAuthorization().getAuthorizationScopeList()
 				.forEach(authorizationScope -> authorizationScopeList.add(
@@ -117,7 +120,7 @@ public class SwaggerAutoConfiguration {
 						.scopes(authorizationScopeList.toArray(authorizationScopes)).build());
 	}
 
-	private OAuth securitySchema() {
+	private static OAuth securitySchema(SwaggerProperties swaggerProperties) {
 		ArrayList<AuthorizationScope> authorizationScopeList = new ArrayList<>();
 		swaggerProperties.getAuthorization().getAuthorizationScopeList()
 				.forEach(authorizationScope -> authorizationScopeList.add(
@@ -128,7 +131,7 @@ public class SwaggerAutoConfiguration {
 		return new OAuth(swaggerProperties.getAuthorization().getName(), authorizationScopeList, grantTypes);
 	}
 
-	private ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
+	private static ApiInfo apiInfo(SwaggerProperties swaggerProperties) {
 		return new ApiInfoBuilder().title(swaggerProperties.getTitle()).description(swaggerProperties.getDescription())
 				.license(swaggerProperties.getLicense()).licenseUrl(swaggerProperties.getLicenseUrl())
 				.termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
