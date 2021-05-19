@@ -11,6 +11,7 @@ ${AnsiColor.BRIGHT_YELLOW}
                        www.pig4cloud.com
 
                   Pig Microservice Architecture
+${AnsiColor.DEFAULT}
 
 
 
