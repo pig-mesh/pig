@@ -32,6 +32,7 @@ public class XxlJobAutoConfiguration {
 	/**
 	 * 配置xxl-job 执行器，提供自动发现 xxl-job-admin 能力
 	 * @param xxlJobProperties xxl 配置
+	 * @param environment  环境变量
 	 * @param discoveryClient 注册发现客户端
 	 * @return
 	 */
