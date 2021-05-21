@@ -47,7 +47,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -195,7 +194,7 @@ public class PigTokenEndpoint {
 		try {
 			cursor.close();
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			log.error("关闭cursor 失败");
 		}
 		return result;
