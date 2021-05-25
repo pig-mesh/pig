@@ -34,23 +34,8 @@
 		<result column="del_flag" property="delFlag"/>
 	</resultMap>
 
-	<resultMap id="MenuVoResultMap" type="com.pig4cloud.pig.admin.api.vo.MenuVO">
-		<id column="menu_id" property="menuId"/>
-		<result column="name" property="name"/>
-		<result column="permission" property="permission"/>
-		<result column="parent_id" property="parentId"/>
-		<result column="icon" property="icon"/>
-		<result column="path" property="path"/>
-		<result column="sort" property="sort"/>
-		<result column="keep_alive" property="keepAlive"/>
-		<result column="type" property="type"/>
-		<result column="create_time" property="createTime"/>
-		<result column="update_time" property="updateTime"/>
-		<result column="del_flag" property="delFlag"/>
-	</resultMap>
-
 	<!--通过角色查询菜单信息-->
-	<select id="listMenusByRoleId" resultMap="MenuVoResultMap">
+	<select id="listMenusByRoleId" resultMap="BaseResultMap">
 		SELECT
 			sys_menu.*
 		FROM

@@ -16,12 +16,6 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -30,18 +24,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
-import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
-import com.pig4cloud.pig.admin.api.entity.SysUser;
-import com.pig4cloud.pig.admin.api.entity.SysUserRole;
-import com.pig4cloud.pig.admin.api.vo.MenuVO;
+import com.pig4cloud.pig.admin.api.entity.*;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.SysUserMapper;
-import com.pig4cloud.pig.admin.service.SysDeptService;
-import com.pig4cloud.pig.admin.service.SysMenuService;
-import com.pig4cloud.pig.admin.service.SysRoleService;
-import com.pig4cloud.pig.admin.service.SysUserRoleService;
-import com.pig4cloud.pig.admin.service.SysUserService;
+import com.pig4cloud.pig.admin.service.*;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +39,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -113,7 +105,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		Set<String> permissions = new HashSet<>();
 		roleIds.forEach(roleId -> {
 			List<String> permissionList = sysMenuService.findMenuByRoleId(roleId).stream()
-					.filter(menuVo -> StrUtil.isNotEmpty(menuVo.getPermission())).map(MenuVO::getPermission)
+					.filter(menuVo -> StrUtil.isNotEmpty(menuVo.getPermission())).map(SysMenu::getPermission)
 					.collect(Collectors.toList());
 			permissions.addAll(permissionList);
 		});

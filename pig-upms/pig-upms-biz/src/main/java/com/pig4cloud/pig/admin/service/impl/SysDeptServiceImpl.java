@@ -17,12 +17,13 @@
 package com.pig4cloud.pig.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pig.admin.api.dto.DeptTree;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.api.entity.SysDeptRelation;
-import com.pig4cloud.pig.admin.api.util.TreeUtils;
 import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
 import com.pig4cloud.pig.admin.service.SysDeptRelationService;
 import com.pig4cloud.pig.admin.service.SysDeptService;
@@ -110,7 +111,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 树
 	 */
 	@Override
-	public List<DeptTree> listDeptTrees() {
+	public List<Tree<Integer>> listDeptTrees() {
 		return getDeptTree(this.list(Wrappers.emptyWrapper()));
 	}
 
@@ -119,7 +120,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return
 	 */
 	@Override
-	public List<DeptTree> listCurrentUserDeptTrees() {
+	public List<Tree<Integer>> listCurrentUserDeptTrees() {
 		Integer deptId = SecurityUtils.getUser().getDeptId();
 		List<Integer> descendantIdList = sysDeptRelationService
 				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, deptId)).stream()
@@ -134,16 +135,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @param depts 部门
 	 * @return
 	 */
-	private List<DeptTree> getDeptTree(List<SysDept> depts) {
-		List<DeptTree> treeList = depts.stream().filter(dept -> !dept.getDeptId().equals(dept.getParentId()))
+	private List<Tree<Integer>> getDeptTree(List<SysDept> depts) {
+		List<TreeNode<Integer>> collect = depts.stream()
+				.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
 				.sorted(Comparator.comparingInt(SysDept::getSort)).map(dept -> {
-					DeptTree node = new DeptTree();
-					node.setId(dept.getDeptId());
-					node.setParentId(dept.getParentId());
-					node.setName(dept.getName());
-					return node;
+					TreeNode<Integer> treeNode = new TreeNode();
+					treeNode.setId(dept.getDeptId());
+					treeNode.setParentId(dept.getParentId());
+					treeNode.setName(dept.getName());
+					return treeNode;
 				}).collect(Collectors.toList());
-		return TreeUtils.build(treeList, 0);
+
+		return TreeUtil.build(collect, 0);
 	}
 
 }
