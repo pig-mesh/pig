@@ -125,8 +125,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<Tree<Integer>> filterMenu(Set<SysMenu> all, Integer parentId) {
 		List<TreeNode<Integer>> collect = all.stream()
-				.filter(menu -> MenuTypeEnum.LEFT_MENU.getType().equals(menu.getType()))
-				.map(getNodeFunction()).collect(Collectors.toList());
+				.filter(menu -> MenuTypeEnum.LEFT_MENU.getType().equals(menu.getType())).map(getNodeFunction())
+				.collect(Collectors.toList());
 		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);
 	}
