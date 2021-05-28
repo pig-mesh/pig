@@ -16,11 +16,11 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -35,9 +35,28 @@ import java.util.Collections;
  * @author lengleng
  * @date 2020-06-23
  */
-@ConfigurationPropertiesScan
-@ComponentScan("com.pig4cloud.pig.common.security")
+@EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class PigResourceServerAutoConfiguration {
+
+	@Bean("pms")
+	public PermissionService permissionService() {
+		return new PermissionService();
+	}
+
+	@Bean
+	public PigAccessDeniedHandler pigAccessDeniedHandler(ObjectMapper objectMapper) {
+		return new PigAccessDeniedHandler(objectMapper);
+	}
+
+	@Bean
+	public PigBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+		return new PigBearerTokenExtractor(urlProperties);
+	}
+
+	@Bean
+	public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
+		return new ResourceAuthExceptionEntryPoint(objectMapper);
+	}
 
 	@Bean
 	@Primary

@@ -17,11 +17,9 @@
 package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
@@ -31,8 +29,6 @@ import java.util.Collection;
  * @author lengleng
  * @date 2019/2/1 接口权限判断工具
  */
-@Slf4j
-@Component("pms")
 public class PermissionService {
 
 	/**
