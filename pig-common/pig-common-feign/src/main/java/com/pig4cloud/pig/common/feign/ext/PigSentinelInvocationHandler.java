@@ -60,12 +60,12 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 
 	private final Map<Method, InvocationHandlerFactory.MethodHandler> dispatch;
 
-	private FallbackFactory fallbackFactory;
+	private FallbackFactory<?> fallbackFactory;
 
 	private Map<Method, Method> fallbackMethodMap;
 
 	PigSentinelInvocationHandler(Target<?> target, Map<Method, InvocationHandlerFactory.MethodHandler> dispatch,
-			FallbackFactory fallbackFactory) {
+			FallbackFactory<?> fallbackFactory) {
 		this.target = checkNotNull(target, "target");
 		this.dispatch = checkNotNull(dispatch, "dispatch");
 		this.fallbackFactory = fallbackFactory;
@@ -99,7 +99,7 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 		InvocationHandlerFactory.MethodHandler methodHandler = this.dispatch.get(method);
 		// only handle by HardCodedTarget
 		if (target instanceof Target.HardCodedTarget) {
-			Target.HardCodedTarget hardCodedTarget = (Target.HardCodedTarget) target;
+			Target.HardCodedTarget<?> hardCodedTarget = (Target.HardCodedTarget) target;
 			MethodMetadata methodMetadata = SentinelContractHolder.METADATA_MAP
 					.get(hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
 			// resource default is HttpMethod:protocol://url
@@ -107,7 +107,7 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 				result = methodHandler.invoke(args);
 			}
 			else {
-				String resourceName = methodMetadata.template().method().toUpperCase() + ":" + hardCodedTarget.url()
+				String resourceName = methodMetadata.template().method().toUpperCase() + ':' + hardCodedTarget.url()
 						+ methodMetadata.template().path();
 				Entry entry = null;
 				try {
@@ -122,9 +122,7 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 					}
 					if (fallbackFactory != null) {
 						try {
-							Object fallbackResult = fallbackMethodMap.get(method).invoke(fallbackFactory.create(ex),
-									args);
-							return fallbackResult;
+							return fallbackMethodMap.get(method).invoke(fallbackFactory.create(ex), args);
 						}
 						catch (IllegalAccessException e) {
 							// shouldn't happen as method is public due to being an

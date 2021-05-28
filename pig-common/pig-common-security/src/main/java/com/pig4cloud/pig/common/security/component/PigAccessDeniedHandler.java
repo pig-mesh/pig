@@ -29,9 +29,9 @@ import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +41,7 @@ import java.io.PrintWriter;
  * @author lengleng 授权拒绝处理器，覆盖默认的OAuth2AccessDeniedHandler 包装失败信息到PigDeniedException
  */
 @Slf4j
-@Component
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class PigAccessDeniedHandler extends OAuth2AccessDeniedHandler {
 

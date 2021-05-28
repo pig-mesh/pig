@@ -17,9 +17,9 @@
 package com.pig4cloud.pig.common.security.component;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.authentication.BearerTokenExtractor;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 
@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author caiqy
  * @date 2020.05.15
  */
-@Component
+@Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class PigBearerTokenExtractor extends BearerTokenExtractor {
 

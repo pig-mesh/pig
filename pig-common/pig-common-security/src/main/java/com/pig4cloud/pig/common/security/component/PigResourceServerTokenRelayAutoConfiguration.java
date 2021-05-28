@@ -36,7 +36,7 @@ import java.lang.annotation.*;
  * @author lengleng
  * @date 2019/2/1 注入AccessTokenContextRelay 解决feign 传递token 为空问题
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(OAuth2AutoConfiguration.class)
 @ConditionalOnWebApplication
 @ConditionalOnProperty("security.oauth2.client.client-id")

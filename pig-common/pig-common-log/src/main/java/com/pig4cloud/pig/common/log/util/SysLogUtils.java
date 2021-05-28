@@ -21,6 +21,7 @@ import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import lombok.experimental.UtilityClass;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -47,7 +48,7 @@ public class SysLogUtils {
 		sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
-		sysLog.setUserAgent(request.getHeader("user-agent"));
+		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
 		sysLog.setServiceId(getClientId());
 		return sysLog;

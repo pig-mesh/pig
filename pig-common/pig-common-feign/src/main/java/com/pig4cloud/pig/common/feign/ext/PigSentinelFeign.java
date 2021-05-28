@@ -79,8 +79,8 @@ public final class PigSentinelFeign {
 
 					// 查找 FeignClient 上的 降级策略
 					FeignClient feignClient = AnnotationUtils.findAnnotation(target.type(), FeignClient.class);
-					Class fallback = feignClient.fallback();
-					Class fallbackFactory = feignClient.fallbackFactory();
+					Class<?> fallback = feignClient.fallback();
+					Class<?> fallbackFactory = feignClient.fallbackFactory();
 
 					String beanName = feignClient.contextId();
 					if (!StringUtils.hasText(beanName)) {
@@ -88,7 +88,7 @@ public final class PigSentinelFeign {
 					}
 
 					Object fallbackInstance;
-					FallbackFactory fallbackFactoryInstance;
+					FallbackFactory<?> fallbackFactoryInstance;
 					if (void.class != fallback) {
 						fallbackInstance = getFromContext(beanName, "fallback", fallback, target.type());
 						return new PigSentinelInvocationHandler(target, dispatch,
@@ -96,14 +96,14 @@ public final class PigSentinelFeign {
 					}
 
 					if (void.class != fallbackFactory) {
-						fallbackFactoryInstance = (FallbackFactory) getFromContext(beanName, "fallbackFactory",
+						fallbackFactoryInstance = (FallbackFactory<?>) getFromContext(beanName, "fallbackFactory",
 								fallbackFactory, FallbackFactory.class);
 						return new PigSentinelInvocationHandler(target, dispatch, fallbackFactoryInstance);
 					}
 					return new PigSentinelInvocationHandler(target, dispatch);
 				}
 
-				private Object getFromContext(String name, String type, Class fallbackType, Class targetType) {
+				private Object getFromContext(String name, String type, Class<?> fallbackType, Class<?> targetType) {
 					Object fallbackInstance = feignContext.getInstance(name, fallbackType);
 					if (fallbackInstance == null) {
 						throw new IllegalStateException(String.format(

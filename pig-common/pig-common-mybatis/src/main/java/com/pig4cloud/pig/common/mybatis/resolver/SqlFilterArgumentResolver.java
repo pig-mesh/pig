@@ -78,7 +78,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 
-		Page page = new Page();
+		Page<?> page = new Page<>();
 		if (StrUtil.isNotBlank(current)) {
 			page.setCurrent(Long.parseLong(current));
 		}

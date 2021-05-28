@@ -18,7 +18,6 @@ package com.pig4cloud.pig.common.datasource.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * @author lengleng
@@ -26,7 +25,6 @@ import org.springframework.stereotype.Component;
  * <p>
  */
 @Data
-@Component
 @ConfigurationProperties("spring.datasource")
 public class DataSourceProperties {
 
