@@ -19,14 +19,13 @@ package com.pig4cloud.pig.gateway.handler;
 import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -41,8 +40,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2018/7/5 验证码生成逻辑处理类
  */
 @Slf4j
-@Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 
 	private static final Integer DEFAULT_IMAGE_WIDTH = 100;

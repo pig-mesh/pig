@@ -36,7 +36,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 /**
@@ -44,7 +43,6 @@ import reactor.core.publisher.Mono;
  * @date 2018/7/4 验证码处理
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 

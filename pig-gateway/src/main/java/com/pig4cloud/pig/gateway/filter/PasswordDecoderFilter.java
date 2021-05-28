@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
@@ -45,7 +44,6 @@ import java.util.Map;
  * @date 2019/2/1 密码解密工具类
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
 public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
