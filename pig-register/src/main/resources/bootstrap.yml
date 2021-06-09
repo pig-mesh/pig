@@ -21,6 +21,8 @@ nacos:
       urls: /,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/**,/v1/console/health/**,/actuator/**,/v1/console/server/**
 
 spring:
+  datasource:
+    platform: mysql  #这个过期属性不能修改，nacos 代码对此有硬编码
   security:
     enabled: true
   boot:  # 接入 spring boot admin
@@ -33,9 +35,6 @@ spring:
           prefer-ip: true
   application:
     name: @project.artifactId@
-  sql:
-    init:
-      platform: mysql
 
 useAddressServer: true
 
