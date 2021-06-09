@@ -34,6 +34,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -49,7 +50,7 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest serverRequest) {
@@ -58,10 +59,10 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 		String result = captcha.text();
 
 		// 保存验证码信息
-		String randomStr = serverRequest.queryParam("randomStr").get();
+		Optional<String> randomStr = serverRequest.queryParam("randomStr");
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result,
-				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		randomStr.ifPresent(s -> redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + s, result,
+																 SecurityConstants.CODE_TIME, TimeUnit.SECONDS));
 
 		// 转换流信息写出
 		FastByteArrayOutputStream os = new FastByteArrayOutputStream();

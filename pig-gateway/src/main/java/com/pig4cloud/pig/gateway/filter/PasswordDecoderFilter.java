@@ -17,8 +17,8 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
@@ -42,7 +42,7 @@ import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2019/2/1 密码解密工具类
+ * @date 2019 /2/1 密码解密工具类
  */
 @Slf4j
 @Component
@@ -55,20 +55,13 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 	private final GatewayConfigProperties configProperties;
 
-	private static String decryptAES(String data, String pass) {
-		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
-				new IvParameterSpec(pass.getBytes()));
-		byte[] result = aes.decrypt(Base64.decode(data.getBytes(StandardCharsets.UTF_8)));
-		return new String(result, StandardCharsets.UTF_8);
-	}
-
 	@Override
 	public GatewayFilter apply(Object config) {
 		return (exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
 
 			// 不是登录请求，直接向下执行
-			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
+			if (!CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
@@ -77,9 +70,9 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			Map<String, String> paramMap = HttpUtil.decodeParamMap(queryParam, CharsetUtil.CHARSET_UTF_8);
 
 			String password = paramMap.get(PASSWORD);
-			if (StrUtil.isNotBlank(password)) {
+			if (CharSequenceUtil.isNotBlank(password)) {
 				try {
-					password = decryptAES(password, configProperties.getEncodeKey());
+					password = decrypt(password, configProperties.getEncodeKey());
 				}
 				catch (Exception e) {
 					log.error("密码解密失败:{}", password);
@@ -94,6 +87,13 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			ServerHttpRequest newRequest = exchange.getRequest().mutate().uri(newUri).build();
 			return chain.filter(exchange.mutate().request(newRequest).build());
 		};
+	}
+
+	private static String decrypt(String data, String pass) {
+		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
+						  new IvParameterSpec(pass.getBytes()));
+		byte[] result = aes.decrypt(Base64.decode(data.getBytes(StandardCharsets.UTF_8)));
+		return new String(result, StandardCharsets.UTF_8);
 	}
 
 }

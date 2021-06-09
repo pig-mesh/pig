@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.gateway.filter;
 
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,45 +41,35 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 /**
+ * The type Validate code gateway filter.
+ *
  * @author lengleng
- * @date 2018/7/4 验证码处理
+ * @date 2018 /7/4 验证码处理
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
+public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Object> {
 
 	private final GatewayConfigProperties configProperties;
 
 	private final ObjectMapper objectMapper;
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	@Override
 	public GatewayFilter apply(Object config) {
 		return (exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
-
-			// 不是登录请求，直接向下执行
-			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
-				return chain.filter(exchange);
-			}
-
-			// 刷新token，直接向下执行
-			String grantType = request.getQueryParams().getFirst("grant_type");
-			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
-				return chain.filter(exchange);
-			}
-
-			// 终端设置不校验， 直接向下执行
+			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
+																		 SecurityConstants.OAUTH_TOKEN_URL);
+			boolean isIgnoreClient = configProperties.getIgnoreClients()
+					.contains(WebUtils.getClientId(request)[0]);
 			try {
-				String[] clientInfos = WebUtils.getClientId(request);
-				if (configProperties.getIgnoreClients().contains(clientInfos[0])) {
-					return chain.filter(exchange);
+				// only oauth and the request not in ignore clients need check code.
+				if (isAuthToken && !isIgnoreClient) {
+					checkCode(request);
 				}
-
-				// 校验验证码
-				checkCode(request);
 			}
 			catch (Exception e) {
 				ServerHttpResponse response = exchange.getResponse();
@@ -104,25 +95,21 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		};
 	}
 
-	/**
-	 * 检查code
-	 * @param request
-	 */
 	@SneakyThrows
 	private void checkCode(ServerHttpRequest request) {
 		String code = request.getQueryParams().getFirst("code");
 
-		if (StrUtil.isBlank(code)) {
+		if (CharSequenceUtil.isBlank(code)) {
 			throw new ValidateCodeException("验证码不能为空");
 		}
 
 		String randomStr = request.getQueryParams().getFirst("randomStr");
-		if (StrUtil.isBlank(randomStr)) {
+		if (CharSequenceUtil.isBlank(randomStr)) {
 			randomStr = request.getQueryParams().getFirst("mobile");
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		if (!redisTemplate.hasKey(key)) {
+		if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
@@ -133,12 +120,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		}
 
 		String saveCode = codeObj.toString();
-		if (StrUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		if (!StrUtil.equals(saveCode, code)) {
+		if (CharSequenceUtil.isBlank(saveCode)) {
 			redisTemplate.delete(key);
 			throw new ValidateCodeException("验证码不合法");
 		}
