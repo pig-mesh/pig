@@ -38,7 +38,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
  */
 @Primary
 @Order(90)
-@Configuration(proxyBeanMethods = false)
+@Configuration
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override

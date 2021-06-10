@@ -47,9 +47,9 @@ import java.util.Map;
  * @author lengleng
  * @date 2019/2/1 认证服务器配置
  */
+@Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
-@Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
 	private final DataSource dataSource;
