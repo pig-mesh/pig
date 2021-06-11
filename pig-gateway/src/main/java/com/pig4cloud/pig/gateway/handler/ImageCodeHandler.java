@@ -60,7 +60,7 @@ public class ImageCodeHandler implements HandlerFunction<ServerResponse> {
 		Optional<String> randomStr = serverRequest.queryParam("randomStr");
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		randomStr.ifPresent(s -> redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + s, result,
-																 SecurityConstants.CODE_TIME, TimeUnit.SECONDS));
+				SecurityConstants.CODE_TIME, TimeUnit.SECONDS));
 
 		// 转换流信息写出
 		FastByteArrayOutputStream os = new FastByteArrayOutputStream();

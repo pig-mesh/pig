@@ -59,7 +59,8 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			ServerHttpRequest request = exchange.getRequest();
 
 			// 不是登录请求，直接向下执行
-			if (!CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
+			if (!CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
+					SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
@@ -89,7 +90,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 	private static String decrypt(String data, String pass) {
 		AES aes = new AES(Mode.CBC, Padding.NoPadding, new SecretKeySpec(pass.getBytes(), KEY_ALGORITHM),
-						  new IvParameterSpec(pass.getBytes()));
+				new IvParameterSpec(pass.getBytes()));
 		byte[] result = aes.decrypt(Base64.decode(data.getBytes(StandardCharsets.UTF_8)));
 		return new String(result, StandardCharsets.UTF_8);
 	}

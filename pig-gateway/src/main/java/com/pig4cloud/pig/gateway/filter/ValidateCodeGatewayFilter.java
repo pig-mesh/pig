@@ -17,7 +17,6 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
-import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -60,9 +59,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 		return (exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
 			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
-																		 SecurityConstants.OAUTH_TOKEN_URL);
-			boolean isIgnoreClient = configProperties.getIgnoreClients()
-					.contains(WebUtils.getClientId(request)[0]);
+					SecurityConstants.OAUTH_TOKEN_URL);
+			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request)[0]);
 			try {
 				// only oauth and the request not in ignore clients need check code.
 				if (isAuthToken && !isIgnoreClient) {
