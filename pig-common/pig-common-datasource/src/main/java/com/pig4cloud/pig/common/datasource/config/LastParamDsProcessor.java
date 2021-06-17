@@ -38,8 +38,6 @@ public class LastParamDsProcessor extends DsProcessor {
 	@Override
 	public boolean matches(String key) {
 		if (key.startsWith(LAST_PREFIX)) {
-			// https://github.com/baomidou/dynamic-datasource-spring-boot-starter/issues/213
-			DynamicDataSourceContextHolder.clear();
 			return true;
 		}
 		return false;
