@@ -60,7 +60,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			ServerHttpRequest request = exchange.getRequest();
 			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
 					SecurityConstants.OAUTH_TOKEN_URL);
-			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request)[0]);
+			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request));
 			try {
 				// only oauth and the request not in ignore clients need check code.
 				if (isAuthToken && !isIgnoreClient) {
