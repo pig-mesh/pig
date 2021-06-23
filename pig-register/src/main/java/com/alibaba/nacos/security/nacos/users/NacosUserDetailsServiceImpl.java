@@ -40,78 +40,76 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class NacosUserDetailsServiceImpl implements UserDetailsService {
+    
+    private Map<String, User> userMap = new ConcurrentHashMap<>();
+    
+    @Autowired
+    private UserPersistService userPersistService;
+    
+    @Autowired
+    private AuthConfigs authConfigs;
+    
+    @Scheduled(initialDelay = 5000, fixedDelay = 15000)
+    private void reload() {
+        try {
+            Page<User> users = getUsersFromDatabase(1, Integer.MAX_VALUE);
+            if (users == null) {
+                return;
+            }
+            
+            Map<String, User> map = new ConcurrentHashMap<>(16);
+            for (User user : users.getPageItems()) {
+                map.put(user.getUsername(), user);
+            }
+            userMap = map;
+        } catch (Exception e) {
+            Loggers.AUTH.warn("[LOAD-USERS] load failed", e);
+        }
+    }
+    
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        
+        User user = userMap.get(username);
+        if (!authConfigs.isCachingEnabled()) {
+            user = userPersistService.findUserByUsername(username);
+        }
+        
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return new NacosUserDetails(user);
+    }
+    
+    public void updateUserPassword(String username, String password) {
+        userPersistService.updateUserPassword(username, password);
+    }
+    
+    public Page<User> getUsersFromDatabase(int pageNo, int pageSize) {
+        return userPersistService.getUsers(pageNo, pageSize);
+    }
+    
+    public User getUser(String username) {
+        User user = userMap.get(username);
+        if (!authConfigs.isCachingEnabled()) {
+            user = getUserFromDatabase(username);
+        }
+        return user;
+    }
+    
+    public User getUserFromDatabase(String username) {
+        return userPersistService.findUserByUsername(username);
+    }
 
-	private Map<String, User> userMap = new ConcurrentHashMap<>();
+    public List<String> findUserLikeUsername(String username) {
+        return userPersistService.findUserLikeUsername(username);
+    }
 
-	@Autowired
-	private UserPersistService userPersistService;
-
-	@Autowired
-	private AuthConfigs authConfigs;
-
-	@Scheduled(initialDelay = 5000, fixedDelay = 15000)
-	private void reload() {
-		try {
-			Page<User> users = getUsersFromDatabase(1, Integer.MAX_VALUE);
-			if (users == null) {
-				return;
-			}
-
-			Map<String, User> map = new ConcurrentHashMap<>(16);
-			for (User user : users.getPageItems()) {
-				map.put(user.getUsername(), user);
-			}
-			userMap = map;
-		}
-		catch (Exception e) {
-			Loggers.AUTH.warn("[LOAD-USERS] load failed", e);
-		}
-	}
-
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-		User user = userMap.get(username);
-		if (!authConfigs.isCachingEnabled()) {
-			user = userPersistService.findUserByUsername(username);
-		}
-
-		if (user == null) {
-			throw new UsernameNotFoundException(username);
-		}
-		return new NacosUserDetails(user);
-	}
-
-	public void updateUserPassword(String username, String password) {
-		userPersistService.updateUserPassword(username, password);
-	}
-
-	public Page<User> getUsersFromDatabase(int pageNo, int pageSize) {
-		return userPersistService.getUsers(pageNo, pageSize);
-	}
-
-	public User getUser(String username) {
-		User user = userMap.get(username);
-		if (!authConfigs.isCachingEnabled()) {
-			user = getUserFromDatabase(username);
-		}
-		return user;
-	}
-
-	public User getUserFromDatabase(String username) {
-		return userPersistService.findUserByUsername(username);
-	}
-
-	public List<String> findUserLikeUsername(String username) {
-		return userPersistService.findUserLikeUsername(username);
-	}
-
-	public void createUser(String username, String password) {
-		userPersistService.createUser(username, password);
-	}
-
-	public void deleteUser(String username) {
-		userPersistService.deleteUser(username);
-	}
-
+    public void createUser(String username, String password) {
+        userPersistService.createUser(username, password);
+    }
+    
+    public void deleteUser(String username) {
+        userPersistService.deleteUser(username);
+    }
 }

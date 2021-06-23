@@ -36,42 +36,41 @@ import java.io.IOException;
  * @author wfnuser
  */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-
-	private static final String TOKEN_PREFIX = "Bearer ";
-
-	private final JwtTokenManager tokenManager;
-
-	public JwtAuthenticationTokenFilter(JwtTokenManager tokenManager) {
-		this.tokenManager = tokenManager;
-	}
-
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
-
-		String jwt = resolveToken(request);
-
-		if (StringUtils.isNotBlank(jwt) && SecurityContextHolder.getContext().getAuthentication() == null) {
-			this.tokenManager.validateToken(jwt);
-			Authentication authentication = this.tokenManager.getAuthentication(jwt);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-		}
-		chain.doFilter(request, response);
-	}
-
-	/**
-	 * Get token from header.
-	 */
-	private String resolveToken(HttpServletRequest request) {
-		String bearerToken = request.getHeader(NacosAuthConfig.AUTHORIZATION_HEADER);
-		if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
-			return bearerToken.substring(7);
-		}
-		String jwt = request.getParameter(Constants.ACCESS_TOKEN);
-		if (StringUtils.isNotBlank(jwt)) {
-			return jwt;
-		}
-		return null;
-	}
-
+    
+    private static final String TOKEN_PREFIX = "Bearer ";
+    
+    private final JwtTokenManager tokenManager;
+    
+    public JwtAuthenticationTokenFilter(JwtTokenManager tokenManager) {
+        this.tokenManager = tokenManager;
+    }
+    
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+        
+        String jwt = resolveToken(request);
+        
+        if (StringUtils.isNotBlank(jwt) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            this.tokenManager.validateToken(jwt);
+            Authentication authentication = this.tokenManager.getAuthentication(jwt);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+        chain.doFilter(request, response);
+    }
+    
+    /**
+     * Get token from header.
+     */
+    private String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader(NacosAuthConfig.AUTHORIZATION_HEADER);
+        if (StringUtils.isNotBlank(bearerToken) && bearerToken.startsWith(TOKEN_PREFIX)) {
+            return bearerToken.substring(TOKEN_PREFIX.length());
+        }
+        String jwt = request.getParameter(Constants.ACCESS_TOKEN);
+        if (StringUtils.isNotBlank(jwt)) {
+            return jwt;
+        }
+        return null;
+    }
 }

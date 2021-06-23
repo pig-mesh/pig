@@ -47,7 +47,7 @@
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<configuration.version>1.10</configuration.version>
-		<nacos.version>2.0.1</nacos.version>
+		<nacos.version>2.0.2</nacos.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<xxl-job.version>2.3.0</xxl-job.version>

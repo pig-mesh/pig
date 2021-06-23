@@ -42,37 +42,37 @@ import org.springframework.web.filter.CorsFilter;
 @EnableScheduling
 @PropertySource("/application.properties")
 public class ConsoleConfig {
-
-	@Autowired
-	private ControllerMethodsCache methodsCache;
-
-	/**
-	 * Init.
-	 */
-	@PostConstruct
-	public void init() {
-		methodsCache.initClassMethod("com.alibaba.nacos.core.controller");
-		methodsCache.initClassMethod("com.alibaba.nacos.naming.controllers");
-		methodsCache.initClassMethod("com.alibaba.nacos.config.server.controller");
-		methodsCache.initClassMethod("com.alibaba.nacos.controller");
-	}
-
-	@Bean
-	public CorsFilter corsFilter() {
-		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOriginPattern("*");
-		config.addAllowedHeader("*");
-		config.setMaxAge(18000L);
-		config.addAllowedMethod("*");
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", config);
-		return new CorsFilter(source);
-	}
-
-	@Bean
-	public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization() {
-		return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(ZoneId.systemDefault().toString());
-	}
+    
+    @Autowired
+    private ControllerMethodsCache methodsCache;
+    
+    /**
+     * Init.
+     */
+    @PostConstruct
+    public void init() {
+        methodsCache.initClassMethod("com.alibaba.nacos.core.controller");
+        methodsCache.initClassMethod("com.alibaba.nacos.naming.controllers");
+        methodsCache.initClassMethod("com.alibaba.nacos.config.server.controller");
+        methodsCache.initClassMethod("com.alibaba.nacos.controller");
+    }
+    
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("*");
+        config.addAllowedHeader("*");
+        config.setMaxAge(18000L);
+        config.addAllowedMethod("*");
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
+    }
+    
+    @Bean
+    public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization() {
+        return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(ZoneId.systemDefault().toString());
+    }
 
 }
