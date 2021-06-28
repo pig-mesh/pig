@@ -16,6 +16,11 @@
 
 package com.pig4cloud.pig.auth.handler;
 
+import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.log.event.SysLogEvent;
+import com.pig4cloud.pig.common.log.util.LogTypeEnum;
+import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import com.pig4cloud.pig.common.security.handler.AbstractAuthenticationFailureEvenHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -39,6 +44,15 @@ public class PigAuthenticationFailureEvenHandler extends AbstractAuthenticationF
 	@Override
 	public void handle(AuthenticationException authenticationException, Authentication authentication) {
 		log.info("用户：{} 登录失败，异常：{}", authentication.getPrincipal(), authenticationException.getLocalizedMessage());
+		SysLog logVo = SysLogUtils.getSysLog();
+		logVo.setTitle("登录失败");
+		logVo.setType(LogTypeEnum.ERROR.getType());
+		logVo.setException(authenticationException.getMessage());
+		// 发送异步日志事件
+		Long startTime = System.currentTimeMillis();
+		Long endTime = System.currentTimeMillis();
+		logVo.setTime(endTime - startTime);
+		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 	}
 
 }
