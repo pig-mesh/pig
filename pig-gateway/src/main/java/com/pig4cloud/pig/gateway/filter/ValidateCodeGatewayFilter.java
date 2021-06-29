@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -60,10 +61,22 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			ServerHttpRequest request = exchange.getRequest();
 			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
 					SecurityConstants.OAUTH_TOKEN_URL);
+
+			// 不是登录请求，直接向下执行
+			if (!isAuthToken) {
+				return chain.filter(exchange);
+			}
+
+			// 刷新token，直接向下执行
+			String grantType = request.getQueryParams().getFirst("grant_type");
+			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
+				return chain.filter(exchange);
+			}
+
 			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request));
 			try {
 				// only oauth and the request not in ignore clients need check code.
-				if (isAuthToken && !isIgnoreClient) {
+				if (!isIgnoreClient) {
 					checkCode(request);
 				}
 			}
