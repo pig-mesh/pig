@@ -19,9 +19,12 @@ package com.pig4cloud.pig.auth.endpoint;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.auth.handler.PigLogoutSuccessEventHandler;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +38,8 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
@@ -142,6 +147,9 @@ public class PigTokenEndpoint {
 		// 清空 refresh token
 		OAuth2RefreshToken refreshToken = accessToken.getRefreshToken();
 		tokenStore.removeRefreshToken(refreshToken);
+
+		//处理自定义退出事件，保存相关日志
+		SpringContextHolder.publishEvent(new LogoutSuccessEvent(auth2Authentication));
 		return R.ok();
 	}
 
