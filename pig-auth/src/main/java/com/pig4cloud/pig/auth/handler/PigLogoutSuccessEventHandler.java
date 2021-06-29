@@ -23,6 +23,7 @@ import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import com.pig4cloud.pig.common.security.handler.AbstractLogoutSuccessEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +53,11 @@ public class PigLogoutSuccessEventHandler extends AbstractLogoutSuccessEventHand
 		Long startTime = System.currentTimeMillis();
 		Long endTime = System.currentTimeMillis();
 		logVo.setTime(endTime - startTime);
+		// 这边设置ServiceId
+		if (authentication instanceof OAuth2Authentication) {
+			OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
+			logVo.setServiceId(auth2Authentication.getOAuth2Request().getClientId());
+		}
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 	}
 
