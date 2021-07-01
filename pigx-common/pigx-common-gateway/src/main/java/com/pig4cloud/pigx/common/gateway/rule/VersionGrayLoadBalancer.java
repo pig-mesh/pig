@@ -46,9 +46,8 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 
 	/**
 	 * 根据serviceId 筛选可用服务
-	 *
 	 * @param serviceId 服务ID
-	 * @param request   当前请求
+	 * @param request 当前请求
 	 * @return
 	 */
 	@Override
