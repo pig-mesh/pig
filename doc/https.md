@@ -14,27 +14,27 @@
 
 **注：如若域名和服务器不在同一运营商，须在云服务器所在运营商进行购买配置ssl证书**
 
-![image-20210630172121982](img\img\image-20210630172121982.png)
+![image-20210630172121982](img\https://www.xingyijiankang.com/pig/img/image-20210630172121982.png)
 
 ### 2.2 弹出ssl证书相关内容,点击立即购买证书->选购证书
 
-![image-20210630172232250](img\image-20210630172232250.png)
+![image-20210630172232250](https://www.xingyijiankang.com/pig/img/image-20210630172232250.png)
 
 ### 2.3 选择商品属性并点击立即购买
 
-![image-20210630174600004](img\image-20210630174600004.png)
+![image-20210630174600004](https://www.xingyijiankang.com/pig/img/image-20210630174600004.png)
 
 ## 3. ssl证书申请
 
 ### 3.1 进去证书管理控制台,可以回到首页搜索ssl,选择管理控制台
 
-![image-20210630174945686](img\image-20210630174945686.png)
+![image-20210630174945686](https://www.xingyijiankang.com/pig/img/image-20210630174945686.png)
 
 ### 3.2 点击左侧SSL证书,右侧的证书申请
 
 > **注意:免费证书可以为你域名提供https的服务,但是不能为你的2级域名,3级域名提供,只限于你的1级域名使用**
 
-![image-20210630175518787](img\image-20210630175518787.png)
+![image-20210630175518787](https://www.xingyijiankang.com/pig/img/image-20210630175518787.png)
 
 ### 3.3 点击创建证书并且填写认证申请信息
 
@@ -42,7 +42,7 @@
 
 * 点击申请
 
-  ![image-20210630180048714](img\image-20210630180048714.png)
+  ![image-20210630180048714](https://www.xingyijiankang.com/pig/img/image-20210630180048714.png)
 
 * 填写信息
 
@@ -52,11 +52,11 @@
 
   * 填写基本信息
 
-    ![image-20210630180207905](img\image-20210630180207905.png)
+    ![image-20210630180207905](https://www.xingyijiankang.com/pig/img/image-20210630180207905.png)
 
   * 域名验证,提交审核
 
-    ![image-20210701093145300](img\image-20210701093145300.png)
+    ![image-20210701093145300](https://www.xingyijiankang.com/pig/img/image-20210701093145300.png)
 
 ## 4. 证书下载
 
@@ -66,25 +66,25 @@
 
 * 点击下载
 
-  ![image-20210630201101990](img\image-20210630201101990.png)
+  ![image-20210630201101990](https://www.xingyijiankang.com/pig/img/image-20210630201101990.png)
 
 * 下载nginx
 
-![image-20210630201206960](img\image-20210630201206960.png)
+![image-20210630201206960](https://www.xingyijiankang.com/pig/img/image-20210630201206960.png)
 
 * 开放安全组，默认没有开始443安全组，需开启
 
   1. 点击**`实例`**，在选择你的服务器
 
-  ![image-20210702093422557](img\image-20210702093422557.png)
+  ![image-20210702093422557](https://www.xingyijiankang.com/pig/img/image-20210702093422557.png)
 
   2. 点击**`安全组`**，在点击**`内网入方向全部规则`**查看是否开启443端口，如果没有开启，请选择**`安全组`**列表**`加入安全组`**并**`配置规则`**
 
-  ![image-20210702093622581](img\image-20210702093622581.png)
+  ![image-20210702093622581](https://www.xingyijiankang.com/pig/img/image-20210702093622581.png)
 
-  ​	![image-20210702093929827](img\image-20210702093929827.png)
+  ​	![image-20210702093929827](https://www.xingyijiankang.com/pig/img/image-20210702093929827.png)
 
-  ![image-20210702094036002](img\image-20210702094036002.png)
+  ![image-20210702094036002](https://www.xingyijiankang.com/pig/img/image-20210702094036002.png)
 
   
 
