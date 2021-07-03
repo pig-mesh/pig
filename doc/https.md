@@ -14,7 +14,7 @@
 
 **注：如若域名和服务器不在同一运营商，须在云服务器所在运营商进行购买配置ssl证书**
 
-![image-20210630172121982](img\https://www.xingyijiankang.com/pig/img/image-20210630172121982.png)
+![image-20210630172121982](https://www.xingyijiankang.com/pig/img/image-20210630172121982.png)
 
 ### 2.2 弹出ssl证书相关内容,点击立即购买证书->选购证书
 
@@ -85,9 +85,6 @@
   ​	![image-20210702093929827](https://www.xingyijiankang.com/pig/img/image-20210702093929827.png)
 
   ![image-20210702094036002](https://www.xingyijiankang.com/pig/img/image-20210702094036002.png)
-
-  
-
   
 
 ## 5. 拷贝证书文件
