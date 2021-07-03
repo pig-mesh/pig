@@ -1,5 +1,5 @@
 # pig-ui https证书配置和使用教程
-
+csdn文档：https://blog.csdn.net/if_deram/article/details/118443403
 **须知:** centos部署参考https://www.yuque.com/pig4cloud/pig/ggffp7 ,此文档只提供https=》前端和nginx部署
 
 > 必须拥有域名,并且域名备案解析到服务器,教程以阿里云为主,腾讯云等云服务配置大同小异
