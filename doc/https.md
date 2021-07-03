@@ -1,6 +1,6 @@
 # pig-ui https证书配置和使用教程
 
-**须知:** centos部署参考https://www.yuque.com/pig4cloud/pig/ggffp7,此文档只提供https=》前端和nginx部署
+**须知:** centos部署参考https://www.yuque.com/pig4cloud/pig/ggffp7 ,此文档只提供https=》前端和nginx部署
 
 > 必须拥有域名,并且域名备案解析到服务器,教程以阿里云为主,腾讯云等云服务配置大同小异
 
@@ -214,9 +214,9 @@ http {
         #替换你自己的域名
         server_name www.domian.com domian.com;
         # 配置ssl证书,替换你自己下载的nginx证书,可以是相对路径或绝对路径
-        ssl_certificate cert/5887362_www.your.com.pem;
+        ssl_certificate cert/5887362_www.yourpem.com.pem;
         # 配置证书秘钥,替换你自己下载的nginx密钥,可以是相对路径或绝对路径
-        ssl_certificate_key cert/5887362_www.your.com.key;
+        ssl_certificate_key cert/5887362_www.yourkey.com.key;
         # ssl会话cache
         ssl_session_cache shared:SSL:1m;
         # ssl会话超时时间
@@ -236,9 +236,9 @@ http {
             location ~* ^/(code|auth|admin|gen) {
                 proxy_pass http://127.0.0.1:9999;
                 proxy_set_header   Host              $host;
-            proxy_set_header   X-Forwarded-Proto $scheme;
-            add_header Cache-Control no-store;
-            proxy_connect_timeout 15s;
+                proxy_set_header   X-Forwarded-Proto $scheme;
+                add_header Cache-Control no-store;
+                proxy_connect_timeout 15s;
                 proxy_send_timeout 15s;
                 proxy_read_timeout 15s;
                 proxy_set_header X-Real-IP $remote_addr;
