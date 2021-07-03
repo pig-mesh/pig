@@ -45,15 +45,81 @@
   ![image-20210630180048714](https://www.xingyijiankang.com/pig/img/image-20210630180048714.png)
 
 * 填写信息
-
+  **注： 域名验证方式：如果您绑定的域名在本账号下，可以使用自动验证**
+  
   >  推荐选择
 
   **域名验证方式** ->手工DNS验证       **CSR生成方式** ->系统生成
-
-  * 填写基本信息
-
+  
+  * (推荐)填写基本信息：**域名验证方式** ->自动DNS验证，**CSR生成方式** ->系统生成
+ 
     ![image-20210630180207905](https://www.xingyijiankang.com/pig/img/image-20210630180207905.png)
+  
+  * （不推荐）填写基本信息：**域名验证方式** ->自动DNS验证， **CSR生成方式** ->手动填写
+    
+    > 注意：手动填写CSR的证书不支持部署到阿里云产品。
+    > 在制作CSR文件时请务必保存好您的私钥文件。私钥和SSL证书一一对应，一旦丢失了私钥，您的数字证书也将不可使用
+    
+    **手动生成证书的密钥和CSR文件,
+    window下默认提供Keytool工具生成CSR文件**
+    
+    创建一个文件夹，在该文件夹下执行如下命令
+ 
+    1. 执行以下命令，生成keystore证书文件
+    
+        ```shell
+          keytool -genkey -alias [$Alias] -keyalg RSA -keysize 2048 -storepass [123456] -keystore [$Keytool_Path] 
+        ```
 
+        > 说明
+        >
+        >  -alias: 证书别名，[$Alias]可自定义
+        >
+        >  -keyalg: 使用的RSA算法，不可以修改
+        >
+        >  -keysize: 密钥长度为2048bit，不可以修改
+        >
+        >  -storepass: 密钥库口令，自定义
+        >
+        >  -keystore: 密钥库文件名
+        >
+        >  -Keytool_Path: 证书文件保存路径，默认当前路径
+        
+    2. 根据系统返回的提示，输入生成CSR文件所需的信息。以下是关于提示的说明：
+    
+            您的名字与姓氏是什么?(first and last name)：申请证书的域名。
+            您的组织单位名称是什么?(name of your organizational unit)：部门名称。
+            您的组织名称是什么?(name of your organization)：公司名称。
+            您所在的城市或区域名称是什么?(name of your City or Locality)：城市名称。
+            您所在的城市或区域名称是什么?(name of your State or Province)：州名或省份名称。
+            该单位的双字母国家/地区代码是什么?(two-letter country code for this unit)：两位字符的ISO国家代码。
+            
+    3. 确认输入内容是否正确，输入Y表示正确
+    
+          ![image-20210630180207905](https://www.xingyijiankang.com/pig/img/image_20210703163909.png)
+           
+    4. 执行以下命令，生成CSR文件
+    
+            ```shell
+                keytool -certreq -sigalg SHA256withRSA -alias [$Alias] -storepass [123456] -keystore [$Keytool_Path] -file [$Keytool_CSR]
+            ```
+         
+       >说明：
+       >
+       >   -sigalg: 摘要算法
+       >
+       >   [$Keytool_CSR]：CSR文件存放路径
+       >
+       >   -alias、-storepass、-keystore:与keystore证书文件一致
+       
+        ![image-20210630180207905](https://www.xingyijiankang.com/pig/img/image_20210703164115.png)
+        
+    5. 打开CSR文件，复制进`CSR文件内容`，点击确定
+    
+        如果生成keystore证书填写域名和当前认证域名不一致，或修改加密位数或算法报如下错误，解决方案：`检查域名是否一直，输入文件是否按照要求`
+        
+          ![image-20210630180207905](https://www.xingyijiankang.com/pig/img/image_20210703163922.png)
+          
   * 域名验证,提交审核
 
     ![image-20210701093145300](https://www.xingyijiankang.com/pig/img/image-20210701093145300.png)
@@ -215,7 +281,7 @@ http {
         server_name www.domian.com domian.com;
         # 配置ssl证书,替换你自己下载的nginx证书,可以是相对路径或绝对路径
         ssl_certificate cert/5887362_www.yourpem.com.pem;
-        # 配置证书秘钥,替换你自己下载的nginx密钥,可以是相对路径或绝对路径
+        # 配置证书秘钥,系统生成=》替换你自己下载的nginx密钥,手动填写=》需要你通过openssl生成密钥上传，可以是相对路径或绝对路径
         ssl_certificate_key cert/5887362_www.yourkey.com.key;
         # ssl会话cache
         ssl_session_cache shared:SSL:1m;
@@ -281,9 +347,9 @@ server {
 	#替换你自己的域名
 	server_name www.domian.com domian.com;
 	# 配置ssl证书,替换你自己下载的nginx证书,可以是相对路径或绝对路径
-	ssl_certificate cert/5887362_www.your.com.pem;
-	# 配置证书秘钥,替换你自己下载的nginx密钥,可以是相对路径或绝对路径
-	ssl_certificate_key cert/5887362_www.your.com.key;
+	ssl_certificate cert/5887362_www.yourpem.com.pem;
+	# 配置证书秘钥,系统生成=》替换你自己下载的nginx密钥,手动填写=》需要你通过openssl生成密钥上传，
+	ssl_certificate_key cert/5887362_www.yourkey.com.key;
 	# ssl会话cache
 	ssl_session_cache shared:SSL:1m;
 	# ssl会话超时时间
