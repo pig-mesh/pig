@@ -69,13 +69,14 @@ public class SysLogUtils {
 			OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
 			return auth2Authentication.getOAuth2Request().getClientId();
 		}
-		if (authentication instanceof UsernamePasswordAuthenticationToken){
+		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			// 通过请求参数拿到clientId
 			String authorizationHeaderValue = request.getHeader("Authorization");
 			String base64AuthorizationHeader = Optional.ofNullable(authorizationHeaderValue)
-					.map(headerValue->headerValue.substring("Basic ".length())).orElse("");
-			if(StrUtil.isNotEmpty(base64AuthorizationHeader)) {
-				String decodedAuthorizationHeader = new String(Base64.getDecoder().decode(base64AuthorizationHeader), Charset.forName("UTF-8"));
+					.map(headerValue -> headerValue.substring("Basic ".length())).orElse("");
+			if (StrUtil.isNotEmpty(base64AuthorizationHeader)) {
+				String decodedAuthorizationHeader = new String(Base64.getDecoder().decode(base64AuthorizationHeader),
+						Charset.forName("UTF-8"));
 				return decodedAuthorizationHeader.split(":")[0];
 			}
 		}

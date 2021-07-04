@@ -26,8 +26,7 @@ import org.springframework.security.core.Authentication;
  * @author zhangran
  * @date 2021/6/23 退出成功事件处理器
  */
-public abstract class AbstractLogoutSuccessEventHandler
-		implements ApplicationListener<LogoutSuccessEvent> {
+public abstract class AbstractLogoutSuccessEventHandler implements ApplicationListener<LogoutSuccessEvent> {
 
 	/**
 	 * Handle an application event.

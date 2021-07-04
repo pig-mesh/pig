@@ -39,7 +39,6 @@ public class PigLogoutSuccessEventHandler extends AbstractLogoutSuccessEventHand
 	 * 处理退出成功方法
 	 * <p>
 	 * 获取到登录的authentication 对象
-	 *
 	 * @param authentication 登录对象
 	 */
 	@Override
