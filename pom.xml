@@ -23,18 +23,18 @@
 		<!-- 源码: https://gitee.com/log4j/pig-cloud-dependencies-parent -->
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
-		<version>3.2.1</version>
+		<version>3.2.2</version>
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.2.1</version>
+	<version>3.2.2</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.5.1</spring-boot.version>
+		<spring-boot.version>2.5.2</spring-boot.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
