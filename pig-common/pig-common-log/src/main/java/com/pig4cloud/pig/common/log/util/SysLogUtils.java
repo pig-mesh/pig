@@ -58,7 +58,6 @@ public class SysLogUtils {
 
 	/**
 	 * 获取客户端
-	 *
 	 * @return clientId
 	 */
 	private String getClientId(HttpServletRequest request) {
@@ -69,7 +68,8 @@ public class SysLogUtils {
 		}
 		if (authentication instanceof UsernamePasswordAuthenticationToken) {
 			BasicAuthenticationConverter basicAuthenticationConverter = new BasicAuthenticationConverter();
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = basicAuthenticationConverter.convert(request);
+			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = basicAuthenticationConverter
+					.convert(request);
 			if (usernamePasswordAuthenticationToken != null) {
 				return usernamePasswordAuthenticationToken.getName();
 			}
@@ -79,7 +79,6 @@ public class SysLogUtils {
 
 	/**
 	 * 获取用户名称
-	 *
 	 * @return username
 	 */
 	private String getUsername() {
@@ -89,4 +88,5 @@ public class SysLogUtils {
 		}
 		return authentication.getName();
 	}
+
 }
