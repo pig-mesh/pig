@@ -17,7 +17,6 @@ package com.pig4cloud.pig.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.entity.SysDictItem;
-import com.pig4cloud.pig.common.core.util.R;
 
 /**
  * 字典项
@@ -32,13 +31,13 @@ public interface SysDictItemService extends IService<SysDictItem> {
 	 * @param id 字典项ID
 	 * @return
 	 */
-	R removeDictItem(Integer id);
+	void removeDictItem(Integer id);
 
 	/**
 	 * 更新字典项
 	 * @param item 字典项
 	 * @return
 	 */
-	R updateDictItem(SysDictItem item);
+	void updateDictItem(SysDictItem item);
 
 }
