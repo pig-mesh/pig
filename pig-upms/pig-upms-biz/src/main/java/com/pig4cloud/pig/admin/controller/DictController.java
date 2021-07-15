@@ -163,7 +163,8 @@ public class DictController {
 	@SysLog("修改字典项")
 	@PutMapping("/item")
 	public R updateById(@RequestBody SysDictItem sysDictItem) {
-		return sysDictItemService.updateDictItem(sysDictItem);
+		sysDictItemService.updateDictItem(sysDictItem);
+		return R.ok();
 	}
 
 	/**
@@ -174,7 +175,8 @@ public class DictController {
 	@SysLog("删除字典项")
 	@DeleteMapping("/item/{id}")
 	public R removeDictItemById(@PathVariable Integer id) {
-		return sysDictItemService.removeDictItem(id);
+		sysDictItemService.removeDictItem(id);
+		return R.ok();
 	}
 
 }
