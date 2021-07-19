@@ -13,6 +13,9 @@
 	<packaging>jar</packaging>
 
 	<description>支付系统</description>
+	<properties>
+		<hutool.version>5.4.0</hutool.version>
+	</properties>
 
 	<dependencies>
 		<!--注册中心客户端-->
@@ -115,6 +118,15 @@
 		</dependency>
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-core</artifactId>
+				<version>${hutool.version}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>

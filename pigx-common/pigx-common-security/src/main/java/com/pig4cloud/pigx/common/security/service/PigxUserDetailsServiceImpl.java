@@ -31,6 +31,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -47,6 +48,7 @@ import java.util.Set;
  * @author lengleng
  */
 @Slf4j
+@Primary
 @RequiredArgsConstructor
 public class PigxUserDetailsServiceImpl implements PigxUserDetailsService {
 
