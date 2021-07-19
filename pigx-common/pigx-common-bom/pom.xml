@@ -24,7 +24,7 @@
 		<mysql.connector.version>8.0.23</mysql.connector.version>
 		<swagger.core.version>1.5.22</swagger.core.version>
 		<mp.weixin.version>3.9.0</mp.weixin.version>
-		<ijpay.version>2.7.0</ijpay.version>
+		<ijpay.version>2.7.6</ijpay.version>
 		<groovy.version>3.0.3</groovy.version>
 		<jsoup.version>1.13.1</jsoup.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
