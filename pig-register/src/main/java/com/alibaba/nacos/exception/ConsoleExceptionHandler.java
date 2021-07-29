@@ -51,5 +51,4 @@ public class ConsoleExceptionHandler {
 		LOGGER.error("CONSOLE", e);
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtil.getAllExceptionMsg(e));
 	}
-
 }

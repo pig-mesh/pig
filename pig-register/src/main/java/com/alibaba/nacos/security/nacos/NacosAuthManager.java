@@ -22,13 +22,13 @@ import com.alibaba.nacos.auth.AuthManager;
 import com.alibaba.nacos.auth.exception.AccessException;
 import com.alibaba.nacos.auth.model.Permission;
 import com.alibaba.nacos.auth.model.User;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.utils.RequestUtil;
 import com.alibaba.nacos.core.utils.Loggers;
 import com.alibaba.nacos.security.nacos.roles.NacosRoleServiceImpl;
 import com.alibaba.nacos.security.nacos.users.NacosUser;
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -74,11 +74,9 @@ public class NacosAuthManager implements AuthManager {
 
 		try {
 			tokenManager.validateToken(token);
-		}
-		catch (ExpiredJwtException e) {
+		} catch (ExpiredJwtException e) {
 			throw new AccessException("token expired!");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new AccessException("token invalid!");
 		}
 
@@ -112,11 +110,9 @@ public class NacosAuthManager implements AuthManager {
 
 		try {
 			tokenManager.validateToken(token);
-		}
-		catch (ExpiredJwtException e) {
+		} catch (ExpiredJwtException e) {
 			throw new AccessException("token expired!");
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			throw new AccessException("token invalid!");
 		}
 
@@ -193,19 +189,16 @@ public class NacosAuthManager implements AuthManager {
 			UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userName,
 					rawPassword);
 			authenticate = authenticationManager.authenticate(authenticationToken);
-		}
-		catch (AuthenticationException e) {
+		} catch (AuthenticationException e) {
 			throw new AccessException("unknown user!");
 		}
 
 		if (null == authenticate || StringUtils.isBlank(authenticate.getName())) {
 			finalName = userName;
-		}
-		else {
+		} else {
 			finalName = authenticate.getName();
 		}
 
 		return tokenManager.createToken(finalName);
 	}
-
 }

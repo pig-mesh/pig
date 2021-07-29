@@ -32,5 +32,4 @@ public class PasswordEncoderUtil {
 	public static String encode(String raw) {
 		return new BCryptPasswordEncoder().encode(raw);
 	}
-
 }

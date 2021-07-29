@@ -37,7 +37,7 @@ public class NamespaceAllInfo extends Namespace {
 	}
 
 	public NamespaceAllInfo(String namespace, String namespaceShowName, int quota, int configCount, int type,
-			String namespaceDesc) {
+	                        String namespaceDesc) {
 		super(namespace, namespaceShowName, quota, configCount, type);
 		this.namespaceDesc = namespaceDesc;
 	}

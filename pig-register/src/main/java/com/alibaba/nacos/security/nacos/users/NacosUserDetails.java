@@ -71,5 +71,4 @@ public class NacosUserDetails implements UserDetails {
 	public boolean isEnabled() {
 		return true;
 	}
-
 }

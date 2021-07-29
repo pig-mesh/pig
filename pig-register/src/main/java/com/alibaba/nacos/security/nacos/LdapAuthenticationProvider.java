@@ -89,8 +89,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
 			UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 			if (PasswordEncoderUtil.matches(password, userDetails.getPassword())) {
 				return new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-			}
-			else {
+			} else {
 				return null;
 			}
 		}
@@ -102,8 +101,7 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
 		UserDetails userDetails;
 		try {
 			userDetails = userDetailsService.loadUserByUsername(LDAP_PREFIX + username);
-		}
-		catch (UsernameNotFoundException exception) {
+		} catch (UsernameNotFoundException exception) {
 			String nacosPassword = PasswordEncoderUtil.encode(DEFAULT_PASSWORD);
 			userDetailsService.createUser(LDAP_PREFIX + username, nacosPassword);
 			User user = new User();
@@ -139,15 +137,16 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
 		LdapContext ctx = null;
 		try {
 			ctx = new InitialLdapContext(env, null);
-		}
-		catch (CommunicationException e) {
+		} catch (CommunicationException e) {
+			LOG.error("LDAP Service connect timeout:{}", e.getMessage());
 			throw new RuntimeException("LDAP Service connect timeout");
-		}
-		catch (Exception e) {
+		} catch (javax.naming.AuthenticationException e) {
+			LOG.error("login error:{}", e.getMessage());
+			throw new RuntimeException("login error!");
+		} catch (Exception e) {
 			LOG.warn("Exception cause by:{}", e.getMessage());
 			return false;
-		}
-		finally {
+		} finally {
 			closeContext(ctx);
 		}
 		return true;
@@ -162,11 +161,9 @@ public class LdapAuthenticationProvider implements AuthenticationProvider {
 		if (ctx != null) {
 			try {
 				ctx.close();
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				LOG.error("Exception closing context", e);
 			}
 		}
 	}
-
 }

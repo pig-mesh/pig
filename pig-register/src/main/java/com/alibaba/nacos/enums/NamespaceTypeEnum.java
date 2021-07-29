@@ -17,8 +17,8 @@
 package com.alibaba.nacos.enums;
 
 /**
- * the enum of namespace. 0 : Global configuration， 1 : Default private namespace ，2 :
- * Custom namespace.
+ * the enum of namespace.
+ * 0 : Global configuration， 1 : Default private namespace ，2 : Custom namespace.
  *
  * @author chenglu
  * @date 2021-05-25 17:01
@@ -62,5 +62,4 @@ public enum NamespaceTypeEnum {
 	public String getDescription() {
 		return description;
 	}
-
 }
