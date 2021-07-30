@@ -48,7 +48,6 @@ public class JwtTokenManager {
 
 	/**
 	 * Create token.
-	 *
 	 * @param authentication auth info
 	 * @return token
 	 */
@@ -58,7 +57,6 @@ public class JwtTokenManager {
 
 	/**
 	 * Create token.
-	 *
 	 * @param userName auth info
 	 * @return token
 	 */
@@ -76,7 +74,6 @@ public class JwtTokenManager {
 
 	/**
 	 * Get auth Info.
-	 *
 	 * @param token token
 	 * @return auth info
 	 */
@@ -93,7 +90,6 @@ public class JwtTokenManager {
 
 	/**
 	 * validate token.
-	 *
 	 * @param token token
 	 */
 	public void validateToken(String token) {

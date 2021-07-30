@@ -50,4 +50,5 @@ public class NacosUser extends User {
 	public String toString() {
 		return "NacosUser{" + "token='" + token + '\'' + ", globalAdmin=" + globalAdmin + '}';
 	}
+
 }

@@ -73,4 +73,5 @@ public class ConsoleConfig {
 	public Jackson2ObjectMapperBuilderCustomizer jacksonObjectMapperCustomization() {
 		return jacksonObjectMapperBuilder -> jacksonObjectMapperBuilder.timeZone(ZoneId.systemDefault().toString());
 	}
+
 }

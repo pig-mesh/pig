@@ -62,7 +62,8 @@ public class NacosUserDetailsServiceImpl implements UserDetailsService {
 				map.put(user.getUsername(), user);
 			}
 			userMap = map;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			Loggers.AUTH.warn("[LOAD-USERS] load failed", e);
 		}
 	}
@@ -112,4 +113,5 @@ public class NacosUserDetailsServiceImpl implements UserDetailsService {
 	public void deleteUser(String username) {
 		userPersistService.deleteUser(username);
 	}
+
 }

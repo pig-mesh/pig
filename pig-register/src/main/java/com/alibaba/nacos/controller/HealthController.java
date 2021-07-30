@@ -51,10 +51,10 @@ public class HealthController {
 	}
 
 	/**
-	 * Whether the Nacos is in broken states or not, and cannot recover except by being restarted.
-	 *
-	 * @return HTTP code equal to 200 indicates that Nacos is in right states. HTTP code equal to 500 indicates that
-	 * Nacos is in broken states.
+	 * Whether the Nacos is in broken states or not, and cannot recover except by being
+	 * restarted.
+	 * @return HTTP code equal to 200 indicates that Nacos is in right states. HTTP code
+	 * equal to 500 indicates that Nacos is in broken states.
 	 */
 	@GetMapping("/liveness")
 	public ResponseEntity<String> liveness() {
@@ -63,9 +63,8 @@ public class HealthController {
 
 	/**
 	 * Ready to receive the request or not.
-	 *
-	 * @return HTTP code equal to 200 indicates that Nacos is ready. HTTP code equal to 500 indicates that Nacos is not
-	 * ready.
+	 * @return HTTP code equal to 200 indicates that Nacos is ready. HTTP code equal to
+	 * 500 indicates that Nacos is not ready.
 	 */
 	@GetMapping("/readiness")
 	public ResponseEntity<String> readiness(HttpServletRequest request) {
@@ -77,7 +76,8 @@ public class HealthController {
 		}
 
 		if (!isConfigReadiness && !isNamingReadiness) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Config and Naming are not in readiness");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body("Config and Naming are not in readiness");
 		}
 
 		if (!isConfigReadiness) {
@@ -92,7 +92,8 @@ public class HealthController {
 		try {
 			persistService.configInfoCount("");
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			LOGGER.error("Config health check fail.", e);
 		}
 		return false;
@@ -102,9 +103,11 @@ public class HealthController {
 		try {
 			apiCommands.metrics(request);
 			return true;
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			LOGGER.error("Naming health check fail.", e);
 		}
 		return false;
 	}
+
 }
