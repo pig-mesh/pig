@@ -24,7 +24,7 @@ import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pig.codegen.service.GenFormConfService;
-import com.pig4cloud.pig.codegen.util.CodeGenUtils;
+import com.pig4cloud.pig.codegen.support.CodeGenKits;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
@@ -80,14 +80,13 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 		for (Map<String, String> column : columns) {
 			ColumnEntity columnEntity = new ColumnEntity();
 			columnEntity.setComments(column.get("columnComment"));
-			columnEntity
-					.setLowerAttrName(StringUtils.uncapitalize(CodeGenUtils.columnToJava(column.get("columnName"))));
+			columnEntity.setLowerAttrName(StringUtils.uncapitalize(CodeGenKits.columnToJava(column.get("columnName"))));
 			columnList.add(columnEntity);
 		}
 		context.put("columns", columnList);
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), CodeGenUtils.CRUD_PREFIX));
+		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), CodeGenKits.CRUD_PREFIX));
 	}
 
 }

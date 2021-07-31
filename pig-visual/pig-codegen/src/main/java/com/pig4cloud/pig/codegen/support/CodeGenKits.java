@@ -14,20 +14,7 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.codegen.util;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
+package com.pig4cloud.pig.codegen.support;
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
@@ -51,6 +38,14 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 /**
  * 代码生成器 工具类 copy
  * elunez/eladmin/blob/master/eladmin-generator/src/main/java/me/zhengjie/utils/GenUtil.java
@@ -61,7 +56,7 @@ import org.apache.velocity.app.Velocity;
  */
 @Slf4j
 @UtilityClass
-public class CodeGenUtils {
+public class CodeGenKits {
 
 	public final String CRUD_PREFIX = "export const tableOption =";
 
@@ -81,15 +76,21 @@ public class CodeGenUtils {
 
 	private final String AVUE_INDEX_VUE_VM = "avue/index.vue.vm";
 
+	private final String ELE_INDEX_VUE_VM = "element/index.vue.vm";
+
+	private final String ELE_ADD_UPDATE_VUE_VM = "element/form.vue.vm";
+
 	private final String AVUE_API_JS_VM = "avue/api.js.vm";
 
 	private final String AVUE_CRUD_JS_VM = "avue/crud.js.vm";
 
 	/**
 	 * 配置
+	 *
+	 * @param config
 	 * @return
 	 */
-	private List<String> getTemplates() {
+	private List<String> getTemplates(GenConfig config) {
 		List<String> templates = new ArrayList<>();
 		templates.add("template/Entity.java.vm");
 		templates.add("template/Mapper.java.vm");
@@ -99,17 +100,26 @@ public class CodeGenUtils {
 		templates.add("template/Controller.java.vm");
 		templates.add("template/menu.sql.vm");
 		templates.add("template/avue/api.js.vm");
-		templates.add("template/avue/index.vue.vm");
-		templates.add("template/avue/crud.js.vm");
+
+		if (StyleTypeEnum.AVUE.getStyle().equals(config.getStyle())) {
+			templates.add("template/avue/index.vue.vm");
+			templates.add("template/avue/crud.js.vm");
+		} else {
+			templates.add("template/element/index.vue.vm");
+			templates.add("template/element/form.vue.vm");
+		}
+
 		return templates;
 	}
 
 	/**
 	 * 生成代码
+	 *
+	 * @return
 	 */
 	@SneakyThrows
 	public Map<String, String> generatorCode(GenConfig genConfig, Map<String, String> table,
-			List<Map<String, String>> columns, ZipOutputStream zip, GenFormConf formConf) {
+											 List<Map<String, String>> columns, ZipOutputStream zip, GenFormConf formConf) {
 		// 配置信息
 		Configuration config = getConfig();
 		boolean hasBigDecimal = false;
@@ -119,16 +129,14 @@ public class CodeGenUtils {
 
 		if (StrUtil.isNotBlank(genConfig.getComments())) {
 			tableEntity.setComments(genConfig.getComments());
-		}
-		else {
+		} else {
 			tableEntity.setComments(table.get("tableComment"));
 		}
 
 		String tablePrefix;
 		if (StrUtil.isNotBlank(genConfig.getTablePrefix())) {
 			tablePrefix = genConfig.getTablePrefix();
-		}
-		else {
+		} else {
 			tablePrefix = config.getString("tablePrefix");
 		}
 
@@ -136,25 +144,39 @@ public class CodeGenUtils {
 		String className = tableToJava(tableEntity.getTableName(), tablePrefix);
 		tableEntity.setCaseClassName(className);
 		tableEntity.setLowerClassName(StringUtils.uncapitalize(className));
-
+		// 获取需要在swagger文档中隐藏的属性字段
+		List<Object> hiddenColumns = config.getList("hiddenColumn");
 		// 列信息
 		List<ColumnEntity> columnList = new ArrayList<>();
 		for (Map<String, String> column : columns) {
 			ColumnEntity columnEntity = new ColumnEntity();
 			columnEntity.setColumnName(column.get("columnName"));
 			columnEntity.setDataType(column.get("dataType"));
-			columnEntity.setComments(column.get("columnComment"));
 			columnEntity.setExtra(column.get("extra"));
 			columnEntity.setNullable("NO".equals(column.get("isNullable")));
 			columnEntity.setColumnType(column.get("columnType"));
-			columnEntity.setHidden(Boolean.FALSE);
+			// 隐藏不需要的在接口文档中展示的字段
+			if (hiddenColumns.contains(column.get("columnName"))) {
+				columnEntity.setHidden(Boolean.TRUE);
+			} else {
+				columnEntity.setHidden(Boolean.FALSE);
+			}
 			// 列名转换成Java属性名
 			String attrName = columnToJava(columnEntity.getColumnName());
 			columnEntity.setCaseAttrName(attrName);
 			columnEntity.setLowerAttrName(StringUtils.uncapitalize(attrName));
 
+			// 判断注释是否为空
+			if (StrUtil.isNotBlank(column.get("comments"))) {
+				// 注意去除换行符号
+				columnEntity.setComments(StrUtil.removeAllLineBreaks(column.get("comments")));
+			} else {
+				columnEntity.setComments(columnEntity.getLowerAttrName());
+			}
+
 			// 列的数据类型，转换成Java类型
-			String attrType = config.getString(columnEntity.getDataType(), "unknowType");
+			String dataType = StrUtil.subBefore(columnEntity.getDataType(), "(", false);
+			String attrType = config.getString(dataType, "unknowType");
 			columnEntity.setAttrType(attrType);
 			if (!hasBigDecimal && "BigDecimal".equals(attrType)) {
 				hasBigDecimal = true;
@@ -173,10 +195,6 @@ public class CodeGenUtils {
 			tableEntity.setPk(tableEntity.getColumns().get(0));
 		}
 
-		// 设置velocity资源加载器
-		Properties prop = new Properties();
-		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		Velocity.init(prop);
 		// 封装模板数据
 		Map<String, Object> map = new HashMap<>(16);
 		map.put("tableName", tableEntity.getTableName());
@@ -190,30 +208,26 @@ public class CodeGenUtils {
 
 		if (StrUtil.isNotBlank(genConfig.getComments())) {
 			map.put("comments", genConfig.getComments());
-		}
-		else {
+		} else {
 			map.put("comments", tableEntity.getComments());
 		}
 
 		if (StrUtil.isNotBlank(genConfig.getAuthor())) {
 			map.put("author", genConfig.getAuthor());
-		}
-		else {
+		} else {
 			map.put("author", config.getString("author"));
 		}
 
 		if (StrUtil.isNotBlank(genConfig.getModuleName())) {
 			map.put("moduleName", genConfig.getModuleName());
-		}
-		else {
+		} else {
 			map.put("moduleName", config.getString("moduleName"));
 		}
 
 		if (StrUtil.isNotBlank(genConfig.getPackageName())) {
 			map.put("package", genConfig.getPackageName());
 			map.put("mainPath", genConfig.getPackageName());
-		}
-		else {
+		} else {
 			map.put("package", config.getString("package"));
 			map.put("mainPath", config.getString("mainPath"));
 		}
@@ -224,16 +238,17 @@ public class CodeGenUtils {
 
 	/**
 	 * 渲染数据
-	 * @param genConfig 配置信息
-	 * @param zip 流 （为空，直接返回Map）
-	 * @param formConf 表单信息
+	 *
+	 * @param genConfig   配置信息
+	 * @param zip         流 （为空，直接返回Map）
+	 * @param formConf    表单信息
 	 * @param tableEntity 表基本信息
-	 * @param map 模板参数
+	 * @param map         模板参数
 	 * @return map key-filename value-contents
 	 * @throws IOException
 	 */
 	private Map<String, String> renderData(GenConfig genConfig, ZipOutputStream zip, GenFormConf formConf,
-			TableEntity tableEntity, Map<String, Object> map) throws IOException {
+										   TableEntity tableEntity, Map<String, Object> map) throws IOException {
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
 		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
@@ -241,7 +256,7 @@ public class CodeGenUtils {
 		VelocityContext context = new VelocityContext(map);
 
 		// 获取模板列表
-		List<String> templates = getTemplates();
+		List<String> templates = getTemplates(genConfig);
 		Map<String, String> resultMap = new HashMap<>(8);
 
 		for (String template : templates) {
@@ -287,7 +302,7 @@ public class CodeGenUtils {
 	 * 列名转换成Java属性名
 	 */
 	public String columnToJava(String columnName) {
-		return WordUtils.capitalizeFully(columnName, new char[] { '_' }).replace("_", "");
+		return WordUtils.capitalizeFully(columnName, new char[]{'_'}).replace("_", "");
 	}
 
 	/**
@@ -303,11 +318,10 @@ public class CodeGenUtils {
 	/**
 	 * 获取配置信息
 	 */
-	private Configuration getConfig() {
+	public Configuration getConfig() {
 		try {
 			return new PropertiesConfiguration("generator.properties");
-		}
-		catch (ConfigurationException e) {
+		} catch (ConfigurationException e) {
 			throw new CheckedException("获取配置文件失败，", e);
 		}
 	}
@@ -352,7 +366,7 @@ public class CodeGenUtils {
 			return className.toLowerCase() + "_menu.sql";
 		}
 
-		if (template.contains(AVUE_INDEX_VUE_VM)) {
+		if (template.contains(AVUE_INDEX_VUE_VM) || template.contains(ELE_INDEX_VUE_VM)) {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "views"
 					+ File.separator + moduleName + File.separator + className.toLowerCase() + File.separator
 					+ "index.vue";
@@ -366,6 +380,12 @@ public class CodeGenUtils {
 		if (template.contains(AVUE_CRUD_JS_VM)) {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "const"
 					+ File.separator + "crud" + File.separator + className.toLowerCase() + ".js";
+		}
+
+		if (template.contains(ELE_ADD_UPDATE_VUE_VM)) {
+			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "views"
+					+ File.separator + moduleName + File.separator + className.toLowerCase() + File.separator
+					+ className.toLowerCase() + "-form.vue";
 		}
 
 		return null;

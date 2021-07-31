@@ -29,7 +29,7 @@ import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
-import com.pig4cloud.pig.codegen.util.CodeGenUtils;
+import com.pig4cloud.pig.codegen.support.CodeGenKits;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -83,10 +83,10 @@ public class GeneratorServiceImpl implements GeneratorService {
 			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, genConfig.getDsName());
 			// 生成代码
 			if (CollUtil.isNotEmpty(formConfList)) {
-				return CodeGenUtils.generatorCode(genConfig, table, columns, null, formConfList.get(0));
+				return CodeGenKits.generatorCode(genConfig, table, columns, null, formConfList.get(0));
 			}
 			else {
-				return CodeGenUtils.generatorCode(genConfig, table, columns, null, null);
+				return CodeGenKits.generatorCode(genConfig, table, columns, null, null);
 			}
 		}
 
@@ -115,10 +115,10 @@ public class GeneratorServiceImpl implements GeneratorService {
 			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, genConfig.getDsName());
 			// 生成代码
 			if (CollUtil.isNotEmpty(formConfList)) {
-				CodeGenUtils.generatorCode(genConfig, table, columns, zip, formConfList.get(0));
+				CodeGenKits.generatorCode(genConfig, table, columns, zip, formConfList.get(0));
 			}
 			else {
-				CodeGenUtils.generatorCode(genConfig, table, columns, zip, null);
+				CodeGenKits.generatorCode(genConfig, table, columns, zip, null);
 			}
 		}
 		IoUtil.close(zip);
