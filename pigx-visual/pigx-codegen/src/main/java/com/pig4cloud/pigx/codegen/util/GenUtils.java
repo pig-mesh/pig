@@ -17,29 +17,12 @@
 
 package com.pig4cloud.pigx.codegen.util;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.pig4cloud.pigx.codegen.entity.ColumnEntity;
-import com.pig4cloud.pigx.codegen.entity.GenConfig;
-import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
-import com.pig4cloud.pigx.codegen.entity.TableEntity;
+import com.pig4cloud.pigx.codegen.entity.*;
 import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pigx.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -59,6 +42,14 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.springframework.context.ApplicationContext;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成器 工具类
@@ -112,13 +103,13 @@ public class GenUtils {
 		templates.add("template/menu.sql.vm");
 		templates.add("template/avue/api.js.vm");
 
-		if (StyleTypeEnum.ELEMENT.getStyle().equals(config.getStyle())) {
-			templates.add("template/element/index.vue.vm");
-			templates.add("template/element/form.vue.vm");
-		}
-		else {
+		if (StyleTypeEnum.AVUE.getStyle().equals(config.getStyle())) {
 			templates.add("template/avue/index.vue.vm");
 			templates.add("template/avue/crud.js.vm");
+		}
+		else {
+			templates.add("template/element/index.vue.vm");
+			templates.add("template/element/form.vue.vm");
 		}
 
 		return templates;

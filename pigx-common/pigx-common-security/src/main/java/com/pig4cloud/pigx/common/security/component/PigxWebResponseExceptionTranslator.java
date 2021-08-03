@@ -17,14 +17,7 @@
 
 package com.pig4cloud.pigx.common.security.component;
 
-import java.util.Locale;
-
-import com.pig4cloud.pigx.common.security.exception.ForbiddenException;
-import com.pig4cloud.pigx.common.security.exception.InvalidException;
-import com.pig4cloud.pigx.common.security.exception.MethodNotAllowedException;
-import com.pig4cloud.pigx.common.security.exception.PigxAuth2Exception;
-import com.pig4cloud.pigx.common.security.exception.ServerErrorException;
-import com.pig4cloud.pigx.common.security.exception.UnauthorizedException;
+import com.pig4cloud.pigx.common.security.exception.*;
 import com.pig4cloud.pigx.common.security.util.PigxSecurityMessageSourceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -34,10 +27,13 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.DefaultThrowableAnalyzer;
 import org.springframework.security.oauth2.common.exceptions.ClientAuthenticationException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+
+import java.util.Locale;
 
 /**
  * @author lengleng
@@ -84,6 +80,13 @@ public class PigxWebResponseExceptionTranslator implements WebResponseExceptionT
 
 		if (ase != null) {
 			return handleOAuth2Exception((OAuth2Exception) ase);
+		}
+
+		// 处理不合法的令牌错误 401 返回
+		ase = (InvalidTokenException) throwableAnalyzer.getFirstThrowableOfType(InvalidTokenException.class,
+				causeChain);
+		if (ase != null) {
+			return handleOAuth2Exception(new UnauthorizedException(ase.getMessage(), ase));
 		}
 
 		return handleOAuth2Exception(new ServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), e));
