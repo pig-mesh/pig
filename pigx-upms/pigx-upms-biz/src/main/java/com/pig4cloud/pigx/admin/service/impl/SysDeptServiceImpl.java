@@ -23,7 +23,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
-import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
@@ -38,7 +37,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -59,6 +60,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 添加信息部门
+	 *
 	 * @param dept 部门
 	 * @return
 	 */
@@ -74,6 +76,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 删除部门
+	 *
 	 * @param id 部门 ID
 	 * @return 成功、失败
 	 */
@@ -96,6 +99,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 更新部门
+	 *
 	 * @param sysDept 部门信息
 	 * @return 成功、失败
 	 */
@@ -114,6 +118,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 查询全部部门树
+	 *
 	 * @return 树
 	 */
 	@Override
@@ -132,8 +137,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
 					treeNode.setName(dept.getName());
+					treeNode.setWeight(dept.getSort());
 					// 有权限不返回标识
-					treeNode.setExtra(MapUtil.of("isLock", !deptOwnIdList.contains(dept.getDeptId())));
+					Map<String, Object> extra = new HashMap<>(8);
+					extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
+					extra.put("createTime", dept.getCreateTime());
+					treeNode.setExtra(extra);
 					return treeNode;
 				}).collect(Collectors.toList());
 
