@@ -19,7 +19,7 @@
 	<properties>
 		<pigx.version>4.1.0</pigx.version>
 		<mybatis-plus.version>3.4.3</mybatis-plus.version>
-		<dynamic-ds.version>3.4.0</dynamic-ds.version>
+		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<druid.version>1.2.5</druid.version>
 		<mysql.connector.version>8.0.23</mysql.connector.version>
 		<swagger.core.version>1.5.22</swagger.core.version>
