@@ -118,9 +118,6 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
-			throw new ValidateCodeException("验证码不合法");
-		}
 
 		Object codeObj = redisTemplate.opsForValue().get(key);
 
@@ -128,13 +125,10 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		String saveCode = codeObj.toString();
-		if (CharSequenceUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
+		redisTemplate.delete(key);
+		if (!code.equals(codeObj)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
-
-		redisTemplate.delete(key);
 	}
 
 }
