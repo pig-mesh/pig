@@ -35,7 +35,6 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
-import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -69,8 +68,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final SysDeptService sysDeptService;
 
 	private final SysUserRoleService sysUserRoleService;
-
-	private final SysDeptRelationService sysDeptRelationService;
 
 	/**
 	 * 保存用户信息
@@ -174,6 +171,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public Boolean updateUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
@@ -212,18 +210,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		Integer parentId = sysDept.getParentId();
 		return this.list(Wrappers.<SysUser>query().lambda().eq(SysUser::getDeptId, parentId));
-	}
-
-	/**
-	 * 获取当前用户的子部门信息
-	 * @return 子部门列表
-	 */
-	private List<Integer> getChildDepts() {
-		Integer deptId = SecurityUtils.getUser().getDeptId();
-		// 获取当前部门的子部门
-		return sysDeptRelationService
-				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, deptId)).stream()
-				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 	}
 
 }
