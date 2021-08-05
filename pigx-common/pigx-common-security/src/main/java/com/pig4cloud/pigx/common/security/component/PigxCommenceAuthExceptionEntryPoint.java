@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.common.security.component;
 
-import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -25,12 +24,14 @@ import com.pig4cloud.pigx.common.security.util.PigxSecurityMessageSourceUtil;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationProcessingFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * 异常处理 {@link org.springframework.security.core.AuthenticationException } 不同细化异常处理
+ * 针对资源服务器的异常处理 {@link OAuth2AuthenticationProcessingFilter}不同细化异常处理
  *
  * @author lengleng
  * @date 2020-06-14
@@ -60,6 +61,7 @@ public class PigxCommenceAuthExceptionEntryPoint implements AuthenticationEntryP
 		R<String> result = new R<>();
 		result.setMsg(authException.getMessage());
 		result.setData(authException.getMessage());
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		result.setCode(CommonConstants.FAIL);
 
 		if (authException instanceof CredentialsExpiredException
@@ -81,7 +83,13 @@ public class PigxCommenceAuthExceptionEntryPoint implements AuthenticationEntryP
 			result.setMsg(msg);
 		}
 
-		response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
+		if (authException instanceof InsufficientAuthenticationException) {
+			String msg = PigxSecurityMessageSourceUtil.getAccessor()
+					.getMessage("AbstractAccessDecisionManager.expireToken", authException.getMessage());
+			response.setStatus(HttpStatus.FAILED_DEPENDENCY.value());
+			result.setMsg(msg);
+		}
+
 		PrintWriter printWriter = response.getWriter();
 		printWriter.append(objectMapper.writeValueAsString(result));
 	}

@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.security.exception;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.pig4cloud.pigx.common.security.component.PigxAuth2ExceptionSerializer;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author lengleng
@@ -40,7 +41,7 @@ public class TokenInvalidException extends PigxAuth2Exception {
 
 	@Override
 	public int getHttpErrorCode() {
-		return 427;
+		return HttpStatus.FAILED_DEPENDENCY.value();
 	}
 
 }
