@@ -76,11 +76,11 @@ public class PigxWebResponseExceptionTranslator implements WebResponseExceptionT
 			return handleOAuth2Exception(new MethodNotAllowedException(ase.getMessage(), ase));
 		}
 
-		// 处理不合法的令牌错误 401 返回
+		// 处理不合法的令牌错误 427 返回
 		ase = (InvalidTokenException) throwableAnalyzer.getFirstThrowableOfType(InvalidTokenException.class,
 				causeChain);
 		if (ase != null) {
-			return handleOAuth2Exception(new UnauthorizedException(ase.getMessage(), ase));
+			return handleOAuth2Exception(new TokenInvalidException(ase.getMessage(), ase));
 		}
 
 		ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(OAuth2Exception.class, causeChain);
