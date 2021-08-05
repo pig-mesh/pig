@@ -3,7 +3,6 @@ package com.pig4cloud.pigx.common.core.config;
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.pig4cloud.pigx.common.core.jackson.PigxJavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -50,7 +49,6 @@ public class JacksonConfig implements WebMvcConfigurer {
 			builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);
 			builder.serializerByType(Long.class, ToStringSerializer.instance);
 			builder.modules(new PigxJavaTimeModule());
-			builder.modules(new JavaTimeModule());
 		};
 	}
 
