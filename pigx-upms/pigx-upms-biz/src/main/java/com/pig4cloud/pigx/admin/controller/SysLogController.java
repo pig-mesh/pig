@@ -19,12 +19,15 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
+import com.pig4cloud.pigx.admin.api.entity.SysLog;
 import com.pig4cloud.pigx.admin.api.vo.PreLogVO;
 import com.pig4cloud.pigx.admin.service.SysLogService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -90,6 +93,18 @@ public class SysLogController {
 	@PostMapping("/logs")
 	public R saveBatchLogs(@RequestBody List<PreLogVO> preLogVoList) {
 		return R.ok(sysLogService.saveBatchLogs(preLogVoList));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param sysLog 查询条件
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	public List<SysLog> export(SysLog sysLog) {
+		return sysLogService.list(Wrappers.query(sysLog));
 	}
 
 }

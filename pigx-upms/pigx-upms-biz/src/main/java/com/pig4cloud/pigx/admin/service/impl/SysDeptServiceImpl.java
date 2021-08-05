@@ -60,7 +60,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 添加信息部门
-	 *
 	 * @param dept 部门
 	 * @return
 	 */
@@ -76,7 +75,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 删除部门
-	 *
 	 * @param id 部门 ID
 	 * @return 成功、失败
 	 */
@@ -99,7 +97,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 更新部门
-	 *
 	 * @param sysDept 部门信息
 	 * @return 成功、失败
 	 */
@@ -118,7 +115,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 查询全部部门树
-	 *
 	 * @return 树
 	 */
 	@Override

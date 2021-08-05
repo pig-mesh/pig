@@ -29,6 +29,8 @@ import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * <p>
  * 用户表 Mapper 接口
@@ -62,5 +64,13 @@ public interface SysUserMapper extends PigxBaseMapper<SysUser> {
 	 * @return userVo
 	 */
 	UserVO getUserVoById(Integer id);
+
+	/**
+	 * 查询用户列表
+	 * @param userDTO 查询条件
+	 * @param dataScope 数据权限声明
+	 * @return
+	 */
+	List<UserVO> selectVoListByScope(@Param("query") UserDTO userDTO, DataScope dataScope);
 
 }

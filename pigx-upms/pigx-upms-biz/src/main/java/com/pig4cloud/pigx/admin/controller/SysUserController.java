@@ -24,19 +24,25 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -168,6 +174,33 @@ public class SysUserController {
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
 		return R.ok(userService.listAncestorUsers(username));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param userDTO 查询条件
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	public List export(UserDTO userDTO) {
+		return userService.listUser(userDTO);
+	}
+
+	/**
+	 * 导入用户
+	 * @param excelVOList 用户列表
+	 * @param bindingResult 错误信息列表
+	 * @return R
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
+		// 通用校验获取失败的数据
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+
+		return userService.importUser(excelVOList, bindingResult);
 	}
 
 }

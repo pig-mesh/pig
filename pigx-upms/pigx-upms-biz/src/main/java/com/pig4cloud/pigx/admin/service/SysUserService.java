@@ -25,8 +25,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.common.core.util.R;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -92,5 +94,20 @@ public interface SysUserService extends IService<SysUser> {
 	 * @return success/fail
 	 */
 	Boolean saveUser(UserDTO userDto);
+
+	/**
+	 * 查询全部的用户
+	 * @param userDTO 查询条件
+	 * @return list
+	 */
+	List<UserExcelVO> listUser(UserDTO userDTO);
+
+	/**
+	 * excel 导入用户
+	 * @param excelVOList excel 列表数据
+	 * @param bindingResult 错误数据
+	 * @return ok fail
+	 */
+	R importUser(List<UserExcelVO> excelVOList, BindingResult bindingResult);
 
 }
