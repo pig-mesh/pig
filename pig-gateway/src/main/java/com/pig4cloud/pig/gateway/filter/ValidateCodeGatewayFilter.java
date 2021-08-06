@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -121,12 +122,9 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 		Object codeObj = redisTemplate.opsForValue().get(key);
 
-		if (codeObj == null) {
-			throw new ValidateCodeException("验证码不合法");
-		}
-
 		redisTemplate.delete(key);
-		if (!code.equals(codeObj)) {
+
+		if (ObjectUtil.isEmpty(codeObj) || !code.equals(codeObj)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 	}
