@@ -169,9 +169,9 @@ public class CodeGenKits {
 			columnEntity.setLowerAttrName(StringUtils.uncapitalize(attrName));
 
 			// 判断注释是否为空
-			if (StrUtil.isNotBlank(column.get("comments"))) {
+			if (StrUtil.isNotBlank(column.get("columnComment"))) {
 				// 注意去除换行符号
-				columnEntity.setComments(StrUtil.removeAllLineBreaks(column.get("comments")));
+				columnEntity.setComments(StrUtil.removeAllLineBreaks(column.get("columnComment")));
 			}
 			else {
 				columnEntity.setComments(columnEntity.getLowerAttrName());
