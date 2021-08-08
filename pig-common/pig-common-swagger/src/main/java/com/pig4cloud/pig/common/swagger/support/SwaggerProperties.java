@@ -19,7 +19,6 @@ package com.pig4cloud.pig.common.swagger.support;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +103,11 @@ public class SwaggerProperties {
 	 **/
 	private Authorization authorization = new Authorization();
 
+	/**
+	 * 认证参数
+	 */
+	private SwaggerBasic basic = new SwaggerBasic();
+
 	@Data
 	@NoArgsConstructor
 	public static class Contact {
@@ -161,6 +165,26 @@ public class SwaggerProperties {
 		 * 作用域描述
 		 */
 		private String description = "";
+
+	}
+
+	@Data
+	public static class SwaggerBasic {
+
+		/**
+		 * 是否开启 basic 认证
+		 */
+		private Boolean enabled;
+
+		/**
+		 * 用户名
+		 */
+		private String username;
+
+		/**
+		 * 密码
+		 */
+		private String password;
 
 	}
 

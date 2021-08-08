@@ -2,6 +2,7 @@ package com.pig4cloud.pig.common.swagger.config;
 
 import com.pig4cloud.pig.common.swagger.support.*;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.cloud.gateway.config.GatewayProperties;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +11,10 @@ import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
-import springfox.documentation.swagger.web.*;
+import springfox.documentation.swagger.web.SecurityConfiguration;
+import springfox.documentation.swagger.web.SecurityConfigurationBuilder;
+import springfox.documentation.swagger.web.UiConfiguration;
+import springfox.documentation.swagger.web.UiConfigurationBuilder;
 
 /**
  * 网关swagger 配置类，仅在webflux 环境生效哦
@@ -34,6 +38,12 @@ public class GatewaySwaggerAutoConfiguration {
 	@Bean
 	public WebFluxSwaggerConfiguration fluxSwaggerConfiguration() {
 		return new WebFluxSwaggerConfiguration();
+	}
+
+	@Bean
+	@ConditionalOnProperty(value = "swagger.basic.enabled", havingValue = "true")
+	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SwaggerProperties swaggerProperties) {
+		return new SwaggerBasicGatewayFilter(swaggerProperties);
 	}
 
 	@Bean
