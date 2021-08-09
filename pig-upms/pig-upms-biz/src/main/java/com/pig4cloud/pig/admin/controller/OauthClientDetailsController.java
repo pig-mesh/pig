@@ -50,11 +50,11 @@ public class OauthClientDetailsController {
 	 * @param id clientId
 	 * @return SysOauthClientDetails
 	 */
-	@GetMapping("/{id}")
-	public R getById(@PathVariable String id) {
-		return R.ok(sysOauthClientDetailsService.getById(id));
+	@GetMapping("/{clientId}")
+	public R getByClientId(@PathVariable String clientId) {
+		return R.ok(sysOauthClientDetailsService
+				.list(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId)));
 	}
-
 	/**
 	 * 简单分页查询
 	 * @param page 分页对象
