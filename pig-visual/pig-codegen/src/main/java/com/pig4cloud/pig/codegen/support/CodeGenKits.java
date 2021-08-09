@@ -148,7 +148,7 @@ public class CodeGenKits {
 		// 获取需要在swagger文档中隐藏的属性字段
 		List<Object> hiddenColumns = config.getList("hiddenColumn");
 		// 排除不需要处理的字段
-		List<Object> excludeColumns = config.getList("excludeColumn");
+		List<Object> excludeColumns = config.getList("excludeColumns");
 		// 列信息
 		List<ColumnEntity> columnList = new ArrayList<>();
 		for (Map<String, String> column : columns) {

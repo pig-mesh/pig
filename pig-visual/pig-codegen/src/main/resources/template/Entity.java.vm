@@ -53,4 +53,5 @@ private static final long serialVersionUID = 1L;
 @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
     #end
+
 }
