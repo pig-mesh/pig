@@ -17,8 +17,10 @@
 package com.pig4cloud.pig.common.mybatis;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.pig4cloud.pig.common.mybatis.config.MybatisPlusMetaObjectHandler;
 import com.pig4cloud.pig.common.mybatis.resolver.SqlFilterArgumentResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +55,15 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
 		interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
 		return interceptor;
+	}
+
+	/**
+	 * 审计字段自动填充
+	 * @return {@link MetaObjectHandler}
+	 */
+	@Bean
+	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
+		return new MybatisPlusMetaObjectHandler();
 	}
 
 }

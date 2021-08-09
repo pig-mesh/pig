@@ -18,13 +18,11 @@ package com.pig4cloud.pig.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDateTime;
 
 /**
  * 字典表
@@ -35,7 +33,7 @@ import java.time.LocalDateTime;
 @Data
 @ApiModel(value = "字典类型")
 @EqualsAndHashCode(callSuper = true)
-public class SysDict extends Model<SysDict> {
+public class SysDict extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -57,18 +55,6 @@ public class SysDict extends Model<SysDict> {
 	 */
 	@ApiModelProperty(value = "字典描述")
 	private String description;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 	/**
 	 * 是否是系统内置

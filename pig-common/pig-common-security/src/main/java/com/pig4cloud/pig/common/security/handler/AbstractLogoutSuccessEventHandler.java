@@ -18,7 +18,6 @@ package com.pig4cloud.pig.common.security.handler;
 
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.context.ApplicationListener;
-import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.core.Authentication;
 

@@ -21,12 +21,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -37,7 +36,7 @@ import java.time.LocalDateTime;
  * @since 2019/2/1
  */
 @Data
-public class SysLog implements Serializable {
+public class SysLog extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -62,24 +61,6 @@ public class SysLog implements Serializable {
 	@NotBlank(message = "日志标题不能为空")
 	@ApiModelProperty(value = "日志标题")
 	private String title;
-
-	/**
-	 * 创建者
-	 */
-	@ApiModelProperty(value = "创建人")
-	private String createBy;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 	/**
 	 * 操作IP地址

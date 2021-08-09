@@ -20,11 +20,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -35,7 +33,7 @@ import java.time.LocalDateTime;
  * @since 2019/2/1
  */
 @Data
-public class SysUser implements Serializable {
+public class SysUser extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,18 +62,6 @@ public class SysUser implements Serializable {
 	@JsonIgnore
 	@ApiModelProperty(value = "随机盐")
 	private String salt;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@ApiModelProperty(value = "修改时间")
-	private LocalDateTime updateTime;
 
 	/**
 	 * 锁定标记

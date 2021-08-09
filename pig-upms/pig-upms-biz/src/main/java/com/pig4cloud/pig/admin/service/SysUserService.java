@@ -23,7 +23,6 @@ import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
-import com.pig4cloud.pig.common.core.util.R;
 
 import java.util.List;
 

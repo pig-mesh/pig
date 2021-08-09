@@ -19,7 +19,7 @@ package ${package}.${moduleName}.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,7 +40,7 @@ import java.time.LocalDateTime;
 @TableName("${tableName}")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "${comments}")
-public class ${className} extends Model<${className}> {
+public class ${className} extends BaseEntity {
 private static final long serialVersionUID = 1L;
 
     #foreach ($column in $columns)

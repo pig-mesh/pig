@@ -57,6 +57,8 @@ public class PigLogoutSuccessEventHandler extends AbstractLogoutSuccessEventHand
 			OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
 			logVo.setServiceId(auth2Authentication.getOAuth2Request().getClientId());
 		}
+		logVo.setCreateBy(authentication.getName());
+		logVo.setUpdateBy(authentication.getName());
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 	}
 

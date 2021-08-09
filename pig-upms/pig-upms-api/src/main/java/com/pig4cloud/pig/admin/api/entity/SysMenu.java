@@ -19,14 +19,13 @@ package com.pig4cloud.pig.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -38,7 +37,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysMenu extends Model<SysMenu> {
+public class SysMenu extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -98,18 +97,6 @@ public class SysMenu extends Model<SysMenu> {
 	 */
 	@ApiModelProperty(value = "路由缓冲")
 	private String keepAlive;
-
-	/**
-	 * 创建时间
-	 */
-	@ApiModelProperty(value = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@ApiModelProperty(value = "更新时间")
-	private LocalDateTime updateTime;
 
 	/**
 	 * 0--正常 1--删除

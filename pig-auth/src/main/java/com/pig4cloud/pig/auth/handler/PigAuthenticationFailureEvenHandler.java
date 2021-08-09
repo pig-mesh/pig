@@ -52,6 +52,8 @@ public class PigAuthenticationFailureEvenHandler extends AbstractAuthenticationF
 		Long startTime = System.currentTimeMillis();
 		Long endTime = System.currentTimeMillis();
 		logVo.setTime(endTime - startTime);
+		logVo.setCreateBy(authentication.getName());
+		logVo.setUpdateBy(authentication.getName());
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 	}
 

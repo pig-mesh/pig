@@ -46,5 +46,10 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-feign</artifactId>
 		</dependency>
+		<!--mybatis 依赖-->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-common-mybatis</artifactId>
+		</dependency>
 	</dependencies>
 </project>

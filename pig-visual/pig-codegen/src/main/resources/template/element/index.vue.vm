@@ -51,10 +51,11 @@
 </template>
 
 <script>
-  import {fetchList, delObj} from '@/api/${pathName}'
-  import TableForm from './${pathName}-form'
-  import {mapGetters} from 'vuex'
-  export default {
+    import {delObj, fetchList} from '@/api/'
+    import TableForm from './'
+    import {mapGetters} from 'vuex'
+
+    export default {
     data () {
       return {
         dataForm: {

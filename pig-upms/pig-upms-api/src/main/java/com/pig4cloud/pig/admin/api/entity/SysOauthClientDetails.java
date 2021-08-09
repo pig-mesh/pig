@@ -18,7 +18,7 @@ package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,7 +35,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SysOauthClientDetails extends Model<SysOauthClientDetails> {
+public class SysOauthClientDetails extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
