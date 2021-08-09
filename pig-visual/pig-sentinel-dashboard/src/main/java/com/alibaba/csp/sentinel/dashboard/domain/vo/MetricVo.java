@@ -15,11 +15,11 @@
  */
 package com.alibaba.csp.sentinel.dashboard.domain.vo;
 
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.MetricEntity;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.MetricEntity;
 
 /**
  * @author leyou

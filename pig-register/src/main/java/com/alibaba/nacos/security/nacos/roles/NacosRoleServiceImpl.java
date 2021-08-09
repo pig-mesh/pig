@@ -24,20 +24,16 @@ import com.alibaba.nacos.config.server.auth.PermissionPersistService;
 import com.alibaba.nacos.config.server.auth.RoleInfo;
 import com.alibaba.nacos.config.server.auth.RolePersistService;
 import com.alibaba.nacos.config.server.model.Page;
+import com.alibaba.nacos.core.utils.Loggers;
 import com.alibaba.nacos.security.nacos.NacosAuthConfig;
 import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
-import com.alibaba.nacos.core.utils.Loggers;
 import io.jsonwebtoken.lang.Collections;
 import org.apache.mina.util.ConcurrentHashSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Pattern;
 

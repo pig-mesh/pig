@@ -15,9 +15,9 @@
  */
 package com.alibaba.csp.sentinel.dashboard.datasource.entity;
 
-import java.util.Date;
-
 import com.alibaba.csp.sentinel.dashboard.discovery.AppInfo;
+
+import java.util.Date;
 
 /**
  * @author leyou

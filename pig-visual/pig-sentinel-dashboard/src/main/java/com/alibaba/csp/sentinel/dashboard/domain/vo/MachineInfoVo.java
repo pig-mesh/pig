@@ -15,10 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.domain.vo;
 
+import com.alibaba.csp.sentinel.dashboard.discovery.MachineInfo;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.alibaba.csp.sentinel.dashboard.discovery.MachineInfo;
 
 /**
  * @author leyou
