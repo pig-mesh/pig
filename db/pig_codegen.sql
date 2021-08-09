@@ -6,52 +6,51 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 USE `pig_codegen`;
-
-/*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 -- ----------------------------
 -- Table structure for gen_datasource_conf
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_datasource_conf`;
 CREATE TABLE `gen_datasource_conf` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(64) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `username` varchar(64) DEFAULT NULL,
-  `password` varchar(64) DEFAULT NULL,
-  `create_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新',
-  `del_flag` char(1) DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='数据源表';
+                                       `id` int NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                       `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '数据源名称',
+                                       `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'jdbc-url',
+                                       `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户名',
+                                       `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '密码',
+                                       `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0' COMMENT '删除标记',
+                                       `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                       `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+                                       `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                                       `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+                                       PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='数据源表';
+
+-- ----------------------------
+-- Records of gen_datasource_conf
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for gen_form_conf
 -- ----------------------------
 DROP TABLE IF EXISTS `gen_form_conf`;
 CREATE TABLE `gen_form_conf` (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `table_name` varchar(64) DEFAULT NULL,
-  `form_info` json NOT NULL COMMENT '表单信息',
-  `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` char(1) DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `table_name` (`table_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='表单配置';
+                                 `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
+                                 `table_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '表名',
+                                 `form_info` json NOT NULL COMMENT '表单信息',
+                                 `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0' COMMENT '删除标记',
+                                 `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                 `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+                                 `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                                 `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+                                 PRIMARY KEY (`id`) USING BTREE,
+                                 KEY `table_name` (`table_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='表单配置';
+
+-- ----------------------------
+-- Records of gen_form_conf
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

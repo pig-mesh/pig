@@ -55,6 +55,7 @@ public class OauthClientDetailsController {
 		return R.ok(sysOauthClientDetailsService
 				.list(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId)));
 	}
+
 	/**
 	 * 简单分页查询
 	 * @param page 分页对象
