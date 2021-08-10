@@ -117,7 +117,7 @@ mvn archetype:generate \
 
 ## 微信群 [禁广告]
 
-![](https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133142.png)
+![微服务交流群](https://images.gitee.com/uploads/images/2021/0810/163111_295c5e59_441246.png "加我邀请入群")
 
 ## 开源共建
 
