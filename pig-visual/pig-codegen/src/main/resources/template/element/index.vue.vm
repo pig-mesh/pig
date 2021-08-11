@@ -51,11 +51,10 @@
 </template>
 
 <script>
-    import {delObj, fetchList} from '@/api/'
-    import TableForm from './'
-    import {mapGetters} from 'vuex'
-
-    export default {
+  import {fetchList, delObj} from '@/api/${pathName}'
+  import TableForm from './${pathName}-form'
+  import {mapGetters} from 'vuex'
+  export default {
     data () {
       return {
         dataForm: {
@@ -120,7 +119,7 @@
         }).then(data => {
           this.$message.success('删除成功')
           this.getDataList()
-        })
+        }).catch(() => {})
       }
     }
   }

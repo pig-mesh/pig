@@ -1,3 +1,5 @@
+#set($excludeColumns = ["create_time","update_time","create_by","update_by"])
+
 export const tableOption = {
   "border": true,
   "index": true,
@@ -8,11 +10,22 @@ export const tableOption = {
   "searchMenuSpan": 6,
   "column": [
 #foreach ($column in $columns)
-	  {
+## 当列是主键 或者 列是审计字段时候， 新增不显示，编辑的时候显示单不能编辑
+#if($column.columnName == $pk.columnName || $excludeColumns.contains($column.columnName))
+    {
+      "type": "input",
+      "label": "$column.comments",
+      "prop": "$column.lowerAttrName",
+      "addDisplay": false,
+      "editDisabled": true
+    }#if($foreach.hasNext),#end
+#else
+    {
       "type": "input",
       "label": "$column.comments",
       "prop": "$column.lowerAttrName"
     }#if($foreach.hasNext),#end
+#end
 #end
   ]
 }

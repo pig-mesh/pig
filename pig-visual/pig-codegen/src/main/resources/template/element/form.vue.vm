@@ -1,13 +1,20 @@
+#set($excludeColumns = ["create_time","update_time","create_by","update_by"])
 <template>
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"
     :close-on-click-modal="false"
+    @close="closeDialog()"
     :visible.sync="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
 #foreach($column in $columns)
-#if($column.columnName != $pk.columnName)
+## 当列是主键  新增不显示，编辑(dataForm.id 有值)的时候显示单不能编辑
+#if($column.columnName == $pk.columnName || $excludeColumns.contains($column.columnName))
+    <el-form-item label="${column.comments}" prop="${column.lowerAttrName}" v-if="dataForm.id">
+        <el-input v-model="dataForm.${column.lowerAttrName}" placeholder="${column.comments}" disabled></el-input>
+    </el-form-item>
+#else
     <el-form-item label="${column.comments}" prop="${column.lowerAttrName}">
-      <el-input v-model="dataForm.${column.lowerAttrName}" placeholder="${column.comments}"></el-input>
+        <el-input v-model="dataForm.${column.lowerAttrName}" placeholder="${column.comments}"></el-input>
     </el-form-item>
 #end
 #end
@@ -20,7 +27,7 @@
 </template>
 
 <script>
-    import {addObj, getObj, putObj} from '@/api/'
+    import {getObj, addObj, putObj} from '@/api/${pathName}'
 
     export default {
     data () {
@@ -39,7 +46,7 @@
         },
         dataRule: {
 #foreach($column in $columns)
-#if($column.columnName != $pk.columnName)
+#if($column.columnName != $pk.columnName && !$excludeColumns.contains($column.columnName))
           ${column.lowerAttrName}: [
             { required: true, message: '${column.comments}不能为空', trigger: 'blur' }
           ]#if($velocityCount != $columns.size()),#end
@@ -51,13 +58,12 @@
     },
     methods: {
       init (id) {
-        this.dataForm.${pk.lowerAttrName} = id || 0;
         this.visible = true;
         this.canSubmit = true;
         this.$nextTick(() => {
-          this.$refs['dataForm'].resetFields()
-          if (this.dataForm.${pk.lowerAttrName}) {
-            getObj(this.dataForm.${pk.lowerAttrName}).then(response => {
+            this.$refs['dataForm'].resetFields()
+            if (id) {
+            getObj(id).then(response => {
                 this.dataForm = response.data.data
             })
           }
@@ -87,6 +93,10 @@
             }
           }
         })
+      },
+      //重置表单
+      closeDialog() {
+          this.$refs["dataForm"].resetFields()
       }
     }
   }

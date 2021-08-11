@@ -14,7 +14,7 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
-
+#set($excludeColumns = ["create_time","update_time","create_by","update_by"])
 package ${package}.${moduleName}.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -27,8 +27,6 @@ import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
 import java.math.BigDecimal;
 #end
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * ${comments}
@@ -41,17 +39,20 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "${comments}")
 public class ${className} extends BaseEntity {
-private static final long serialVersionUID = 1L;
 
-    #foreach ($column in $columns)
-/**
+#foreach ($column in $columns)
+## 排除部分字段
+#if(!$excludeColumns.contains($column.columnName))
+    /**
      * $column.comments
      */
-    #if($column.columnName == $pk.columnName)
-@TableId
-    #end
-@ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
+#if($column.columnName == $pk.columnName)
+    @TableId
+#end
+    @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
-    #end
+
+#end
+#end
 
 }

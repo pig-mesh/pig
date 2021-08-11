@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.common.mybatis.config;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -7,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ClassUtils;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -50,7 +52,8 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		}
 		// 2. 如果用户有手动设置的值
 		Object userSetValue = metaObject.getValue(fieldName);
-		if (userSetValue != null && !isCover) {
+		String setValueStr = StrUtil.str(userSetValue, Charset.defaultCharset());
+		if (StrUtil.isNotBlank(setValueStr) && !isCover) {
 			return;
 		}
 		// 3. field 类型相同时设置
