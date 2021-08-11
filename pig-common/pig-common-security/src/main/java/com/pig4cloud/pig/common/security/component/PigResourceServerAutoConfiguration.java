@@ -75,9 +75,14 @@ public class PigResourceServerAutoConfiguration {
 			@Override
 			@SneakyThrows
 			public void handleError(ClientHttpResponse response) {
-				if (response.getRawStatusCode() != HttpStatus.BAD_REQUEST.value()) {
-					super.handleError(response);
+				// 当认证中心返回 400 或者 424 错误码不抛异常，交给资源服务自行处理
+				if (response.getRawStatusCode() == HttpStatus.FAILED_DEPENDENCY.value()
+						|| response.getRawStatusCode() == HttpStatus.BAD_REQUEST.value()) {
+					return;
 				}
+
+				// 原有异常处理逻辑
+				super.handleError(response);
 			}
 		});
 		return restTemplate;

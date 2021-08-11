@@ -42,6 +42,8 @@ public class PigAuth2ExceptionSerializer extends StdSerializer<PigAuth2Exception
 		gen.writeObjectField("code", CommonConstants.FAIL);
 		gen.writeStringField("msg", value.getMessage());
 		gen.writeStringField("data", value.getErrorCode());
+		// 资源服务器会读取这个字段
+		gen.writeStringField("error", value.getMessage());
 		gen.writeEndObject();
 	}
 
