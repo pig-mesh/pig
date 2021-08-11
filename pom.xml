@@ -23,13 +23,13 @@
 		<!-- 源码: https://gitee.com/log4j/pig-cloud-dependencies-parent -->
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-cloud-dependencies-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.3.0</version>
 	</parent>
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.2.3</version>
+	<version>3.3.0</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
