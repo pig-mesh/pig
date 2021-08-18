@@ -22,7 +22,7 @@ CREATE TABLE `sys_dept` (
                             `update_time` datetime DEFAULT NULL COMMENT '修改时间',
                             `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
                             PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='部门管理';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部门管理';
 
 -- ----------------------------
 -- Records of sys_dept
@@ -47,7 +47,7 @@ CREATE TABLE `sys_dept_relation` (
                                      PRIMARY KEY (`ancestor`,`descendant`),
                                      KEY `idx1` (`ancestor`),
                                      KEY `idx2` (`descendant`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=DYNAMIC COMMENT='部门关系表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='部门关系表';
 
 -- ----------------------------
 -- Records of sys_dept_relation
@@ -158,7 +158,7 @@ CREATE TABLE `sys_log` (
                            KEY `sys_log_request_uri` (`request_uri`),
                            KEY `sys_log_type` (`type`),
                            KEY `sys_log_create_date` (`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='日志表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 -- ----------------------------
 -- Records of sys_log
@@ -187,7 +187,7 @@ CREATE TABLE `sys_menu` (
                             `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '修改人',
                             `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`menu_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=10001 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='菜单权限表';
 
 -- ----------------------------
 -- Records of sys_menu
@@ -305,7 +305,7 @@ CREATE TABLE `sys_role_menu` (
                                  `role_id` int NOT NULL COMMENT '角色ID',
                                  `menu_id` int NOT NULL COMMENT '菜单ID',
                                  PRIMARY KEY (`role_id`,`menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='角色菜单表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='角色菜单表';
 
 -- ----------------------------
 -- Records of sys_role_menu
@@ -391,7 +391,7 @@ CREATE TABLE `sys_user_role` (
                                  `user_id` int NOT NULL COMMENT '用户ID',
                                  `role_id` int NOT NULL COMMENT '角色ID',
                                  PRIMARY KEY (`user_id`,`role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户角色表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of sys_user_role
