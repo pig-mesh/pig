@@ -34,15 +34,15 @@
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.5.3</spring-boot.version>
+		<spring-boot.version>2.5.4</spring-boot.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<spring-boot-admin.version>2.4.3</spring-boot-admin.version>
-		<hutool.version>5.7.8</hutool.version>
-		<mybatis-plus.version>3.4.3</mybatis-plus.version>
+		<spring-boot-admin.version>2.5.0</spring-boot-admin.version>
+		<hutool.version>5.7.9</hutool.version>
+		<mybatis-plus.version>3.4.3.2</mybatis-plus.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<captcha.version>2.2.0</captcha.version>
 		<velocity.version>1.7</velocity.version>
