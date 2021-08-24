@@ -61,6 +61,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 	@Override
 	@DS("#last")
 	public IPage<List<Map<String, Object>>> getPage(Page page, String tableName, String dsName) {
+		page.setOptimizeCountSql(false);
 		return generatorMapper.queryList(page, tableName);
 	}
 
