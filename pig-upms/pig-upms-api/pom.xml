@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-upms</artifactId>
-		<version>3.3.0</version>
+		<version>3.3.1</version>
 	</parent>
 
 	<artifactId>pig-upms-api</artifactId>
@@ -51,11 +51,10 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-mybatis</artifactId>
 		</dependency>
-		<!-- excel 导入导出 -->
+		<!-- excel 导入导出 https://github.com/pig-mesh/excel-spring-boot-starter -->
 		<dependency>
 			<groupId>com.pig4cloud.excel</groupId>
 			<artifactId>excel-spring-boot-starter</artifactId>
-			<version>0.5.0</version>
 		</dependency>
 	</dependencies>
 </project>
