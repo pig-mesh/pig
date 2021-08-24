@@ -29,8 +29,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 /**
  * <p>
  * 服务实现类
@@ -44,16 +42,6 @@ import java.util.List;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
 	private final SysRoleMenuMapper sysRoleMenuMapper;
-
-	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
-	 */
-	@Override
-	public List<SysRole> findRolesByUserId(Integer userId) {
-		return baseMapper.listRolesByUserId(userId);
-	}
 
 	/**
 	 * 通过角色ID，删除角色,并清空角色菜单缓存

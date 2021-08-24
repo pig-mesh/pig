@@ -21,6 +21,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 
+import java.util.List;
+
 /**
  * <p>
  * 日志表 服务类
@@ -37,6 +39,13 @@ public interface SysLogService extends IService<SysLog> {
 	 * @param sysLog
 	 * @return
 	 */
-	Page getLogByPage(Page page, SysLogDTO sysLog);
+	Page<SysLog> getLogByPage(Page page, SysLogDTO sysLog);
+
+	/**
+	 * 列表查询日志
+	 * @param sysLog 查询条件
+	 * @return List
+	 */
+	List<SysLog> getLogList(SysLogDTO sysLog);
 
 }

@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -38,13 +38,6 @@ public interface SysMenuMapper extends BaseMapper<SysMenu> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	List<SysMenu> listMenusByRoleId(Integer roleId);
-
-	/**
-	 * 通过角色ID查询权限
-	 * @param roleIds Ids
-	 * @return
-	 */
-	List<String> listPermissionsByRoleIds(String roleIds);
+	Set<SysMenu> listMenusByRoleId(String roleIds);
 
 }

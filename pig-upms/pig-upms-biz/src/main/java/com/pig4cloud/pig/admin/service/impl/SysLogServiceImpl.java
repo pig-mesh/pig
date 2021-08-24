@@ -28,6 +28,8 @@ import com.pig4cloud.pig.admin.mapper.SysLogMapper;
 import com.pig4cloud.pig.admin.service.SysLogService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * <p>
  * 日志表 服务实现类
@@ -41,6 +43,25 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	@Override
 	public Page getLogByPage(Page page, SysLogDTO sysLog) {
+		return baseMapper.selectPage(page, buildQueryWrapper(sysLog));
+	}
+
+	/**
+	 * 列表查询日志
+	 * @param sysLog 查询条件
+	 * @return List
+	 */
+	@Override
+	public List getLogList(SysLogDTO sysLog) {
+		return baseMapper.selectList(buildQueryWrapper(sysLog));
+	}
+
+	/**
+	 * 构建查询的 wrapper
+	 * @param sysLog 查询条件
+	 * @return LambdaQueryWrapper
+	 */
+	private LambdaQueryWrapper buildQueryWrapper(SysLogDTO sysLog) {
 		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
 		if (StrUtil.isNotBlank(sysLog.getType())) {
 			wrapper.eq(SysLog::getType, sysLog.getType());
@@ -51,7 +72,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 					sysLog.getCreateTime()[1]);
 		}
 
-		return baseMapper.selectPage(page, wrapper);
+		return wrapper;
 	}
 
 }

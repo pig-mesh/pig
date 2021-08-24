@@ -16,6 +16,8 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.util.R;
@@ -27,7 +29,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,11 +51,10 @@ public class MenuController {
 	 */
 	@GetMapping
 	public R getUserMenu(Integer parentId) {
-
 		// 获取符合条件的菜单
-		Set<SysMenu> all = new HashSet<>();
-		SecurityUtils.getRoles().forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
-		return R.ok(sysMenuService.filterMenu(all, parentId));
+		Set<SysMenu> sysMenuList = sysMenuService
+				.findMenuByRoleId(CollUtil.join(SecurityUtils.getRoles(), StrUtil.COMMA));
+		return R.ok(sysMenuService.filterMenu(sysMenuList, parentId));
 	}
 
 	/**
@@ -75,8 +75,8 @@ public class MenuController {
 	 */
 	@GetMapping("/tree/{roleId}")
 	public R getRoleTree(@PathVariable Integer roleId) {
-		return R.ok(
-				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+		return R.ok(sysMenuService.findMenuByRoleId(String.valueOf(roleId)).stream().map(SysMenu::getMenuId)
+				.collect(Collectors.toList()));
 	}
 
 	/**

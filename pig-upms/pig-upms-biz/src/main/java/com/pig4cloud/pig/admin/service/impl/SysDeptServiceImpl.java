@@ -34,7 +34,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -143,6 +145,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
 					treeNode.setName(dept.getName());
+					treeNode.setWeight(dept.getSort());
+					// 扩展属性
+					Map<String, Object> extra = new HashMap<>(4);
+					extra.put("createTime", dept.getCreateTime());
+					treeNode.setExtra(extra);
 					return treeNode;
 				}).collect(Collectors.toList());
 

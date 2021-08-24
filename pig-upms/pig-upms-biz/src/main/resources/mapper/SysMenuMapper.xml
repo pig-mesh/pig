@@ -37,22 +37,14 @@
 	<!--通过角色查询菜单信息-->
 	<select id="listMenusByRoleId" resultMap="BaseResultMap">
 		SELECT
-			sys_menu.*
+		sys_menu.*
 		FROM
-			sys_menu
+		sys_menu
 		LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
 		WHERE
-			sys_menu.del_flag = 0
-		AND sys_role_menu.role_id = #{roleId}
+		sys_menu.del_flag = 0
+		AND sys_role_menu.role_id IN (#{roleIds})
 		ORDER BY
-			sys_menu.sort DESC
-    </select>
-
-	<!--通过角色ID 查询权限-->
-	<select id="listPermissionsByRoleIds" resultType="java.lang.String">
-        SELECT
-            m.permission
-        FROM
-        sys_menu m, sys_role_menu rm WHERE m.menu_id = rm.menu_id AND m.del_flag = 0 AND rm.role_id IN (#{roleIds})
-    </select>
+		sys_menu.sort DESC
+	</select>
 </mapper>

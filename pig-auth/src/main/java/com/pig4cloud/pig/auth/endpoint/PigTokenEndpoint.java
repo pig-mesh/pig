@@ -172,5 +172,4 @@ public class PigTokenEndpoint {
 		return R.ok(result);
 	}
 
-
 }
