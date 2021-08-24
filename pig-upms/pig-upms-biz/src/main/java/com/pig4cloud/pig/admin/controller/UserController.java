@@ -21,17 +21,22 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
+import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -161,6 +166,30 @@ public class UserController {
 	@GetMapping("/ancestor/{username}")
 	public R listAncestorUsers(@PathVariable String username) {
 		return R.ok(userService.listAncestorUsersByUsername(username));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param userDTO 查询条件
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
+	public List export(UserDTO userDTO) {
+		return userService.listUser(userDTO);
+	}
+
+	/**
+	 * 导入用户
+	 * @param excelVOList 用户列表
+	 * @param bindingResult 错误信息列表
+	 * @return R
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
+	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
+		return userService.importUser(excelVOList, bindingResult);
 	}
 
 }

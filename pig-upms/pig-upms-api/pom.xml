@@ -51,5 +51,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-mybatis</artifactId>
 		</dependency>
+		<!-- excel 导入导出 -->
+		<dependency>
+			<groupId>com.pig4cloud.excel</groupId>
+			<artifactId>excel-spring-boot-starter</artifactId>
+			<version>0.5.0</version>
+		</dependency>
 	</dependencies>
 </project>

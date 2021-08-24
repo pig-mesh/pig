@@ -70,7 +70,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
-
+		<!--单元测试-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-test</artifactId>
@@ -88,6 +88,24 @@
 				<artifactId>docker-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.xlsx</exclude>
+					<exclude>**/*.xls</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.xlsx</include>
+					<include>**/*.xls</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 
 </project>

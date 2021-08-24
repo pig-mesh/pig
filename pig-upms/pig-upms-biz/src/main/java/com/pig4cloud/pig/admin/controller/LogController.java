@@ -21,12 +21,14 @@ import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.service.SysLogService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -75,6 +77,18 @@ public class LogController {
 	@PostMapping
 	public R save(@Valid @RequestBody SysLog sysLog) {
 		return R.ok(sysLogService.save(sysLog));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param sysLog 查询条件
+	 * @return EXCEL
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_log_import_export')")
+	public List<SysLog> export(SysLogDTO sysLog) {
+		return sysLogService.getLogList(sysLog);
 	}
 
 }
