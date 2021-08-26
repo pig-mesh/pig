@@ -33,6 +33,7 @@ pig-ui  -- https://gitee.com/log4j/pig-ui
 pig
 ├── pig-auth -- 授权服务提供[3000]
 └── pig-common -- 系统公共模块
+     ├── pig-common-bom -- 全局依赖管理控制
      ├── pig-common-core -- 公共工具类核心包
      ├── pig-common-datasource -- 动态数据源包
      ├── pig-common-job -- xxl-job 封装
