@@ -45,11 +45,10 @@ public class PigJavaTimeModule extends SimpleModule {
 	public PigJavaTimeModule() {
 		super(PackageVersion.VERSION);
 
-		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN);
-
 		// ======================= 时间序列化规则 ===============================
 		// yyyy-MM-dd HH:mm:ss
-		this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
+		this.addSerializer(LocalDateTime.class,
+				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
 		// yyyy-MM-dd
 		this.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
 		// HH:mm:ss
@@ -59,7 +58,8 @@ public class PigJavaTimeModule extends SimpleModule {
 
 		// ======================= 时间反序列化规则 ==============================
 		// yyyy-MM-dd HH:mm:ss
-		this.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
+		this.addDeserializer(LocalDateTime.class,
+				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
 		// yyyy-MM-dd
 		this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
 		// HH:mm:ss
