@@ -45,30 +45,25 @@ public class PigJavaTimeModule extends SimpleModule {
 	public PigJavaTimeModule() {
 		super(PackageVersion.VERSION);
 
+		DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN);
+
 		// ======================= 时间序列化规则 ===============================
 		// yyyy-MM-dd HH:mm:ss
-		this.addSerializer(LocalDateTime.class,
-				new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+		this.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(dateTimeFormatter));
 		// yyyy-MM-dd
-		this.addSerializer(LocalDate.class,
-				new LocalDateSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
+		this.addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ISO_LOCAL_DATE));
 		// HH:mm:ss
-		this.addSerializer(LocalTime.class,
-				new LocalTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
-
+		this.addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ISO_LOCAL_TIME));
 		// Instant 类型序列化
 		this.addSerializer(Instant.class, InstantSerializer.INSTANCE);
 
 		// ======================= 时间反序列化规则 ==============================
 		// yyyy-MM-dd HH:mm:ss
-		this.addDeserializer(LocalDateTime.class,
-				new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+		this.addDeserializer(LocalDateTime.class, new LocalDateTimeDeserializer(dateTimeFormatter));
 		// yyyy-MM-dd
-		this.addDeserializer(LocalDate.class,
-				new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
+		this.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ISO_LOCAL_DATE));
 		// HH:mm:ss
-		this.addDeserializer(LocalTime.class,
-				new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
+		this.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ISO_LOCAL_TIME));
 		// Instant 反序列化
 		this.addDeserializer(Instant.class, InstantDeserializer.INSTANT);
 	}
