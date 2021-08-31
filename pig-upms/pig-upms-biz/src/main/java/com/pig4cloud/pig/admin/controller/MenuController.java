@@ -53,7 +53,7 @@ public class MenuController {
 	public R getUserMenu(Integer parentId) {
 		// 获取符合条件的菜单
 		Set<SysMenu> sysMenuList = sysMenuService
-				.findMenuByRoleId(CollUtil.join(SecurityUtils.getRoles(), StrUtil.COMMA));
+				.findMenuByRoleId(CollUtil.join(SecurityUtils.getRoles(), StrUtil.COMMA)).stream().collect(Collectors.toSet());
 		return R.ok(sysMenuService.filterMenu(sysMenuList, parentId));
 	}
 

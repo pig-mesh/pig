@@ -38,7 +38,7 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param roleIds 角色ID
 	 * @return 菜单列表
 	 */
-	Set<SysMenu> findMenuByRoleId(String roleIds);
+	List<SysMenu> findMenuByRoleId(String roleIds);
 
 	/**
 	 * 级联删除菜单

@@ -62,7 +62,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 	@Override
 	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleIds  + '_menu'", unless = "#result == null")
-	public Set<SysMenu> findMenuByRoleId(String roleIds) {
+	public List<SysMenu> findMenuByRoleId(String roleIds) {
 		return baseMapper.listMenusByRoleId(roleIds);
 	}
 
