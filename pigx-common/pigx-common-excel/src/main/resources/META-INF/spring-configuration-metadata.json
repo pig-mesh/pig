@@ -1,0 +1,19 @@
+{
+  "groups": [
+    {
+      "name": "excel",
+      "type": "com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties",
+      "sourceType": "com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "excel.template-path",
+      "type": "java.lang.String",
+      "description": "模板路径",
+      "defaultValue": "excel",
+      "sourceType": "com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties"
+    }
+  ],
+  "hints": []
+}

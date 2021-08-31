@@ -27,7 +27,7 @@ import com.pig4cloud.pigx.admin.api.vo.PreLogVO;
 import com.pig4cloud.pigx.admin.service.SysLogService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
-import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;

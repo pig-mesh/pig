@@ -30,7 +30,18 @@
                        @current-change="currentChange"
                        @row-update="handleUpdate"
                        @row-save="handleSave"
-                       @row-del="rowDel">
+                       @row-del="handleDel">
+                <template slot="menuLeft">
+                    <el-button
+                            v-if="permissions.${moduleName}_${pathName}_export"
+                            class="filter-item"
+                            plain
+                            type="primary"
+                            size="small"
+                            icon="el-icon-download"
+                            @click="exportExcel">导出
+                    </el-button>
+                </template>
             </avue-crud>
         </basic-container>
     </div>
@@ -67,6 +78,7 @@
             }
         },
         methods: {
+            // 列表查询
             getList(page, params) {
                 this.tableLoading = true
                 fetchList(Object.assign({
@@ -80,7 +92,8 @@
                     this.tableLoading=false
                 })
             },
-            rowDel: function (row, index) {
+            // 删除
+            handleDel: function (row, index) {
                 this.$confirm('是否确认删除ID为' + row.$pk.lowerAttrName, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -92,6 +105,7 @@
                     this.getList(this.page)
                 })
             },
+            // 更新
             handleUpdate: function (row, index, done,loading) {
                 putObj(row).then(data => {
                     this.$message.success('修改成功')
@@ -101,6 +115,7 @@
                     loading();
                 });
             },
+            // 保存
             handleSave: function (row, done,loading) {
                 addObj(row).then(data => {
                     this.$message.success('添加成功')
@@ -110,20 +125,28 @@
                     loading();
                 });
             },
+            // 每页条数改变事件
             sizeChange(pageSize){
                 this.page.pageSize = pageSize
             },
+            // 当前页发生改变事件
             currentChange(current){
                 this.page.currentPage = current
             },
+            // 查询事件
             searchChange(form, done) {
                 this.searchForm = form
                 this.page.currentPage = 1
                 this.getList(this.page, form)
                 done()
             },
+            // 刷新事件
             refreshChange() {
                 this.getList(this.page)
+            },
+            //  导出excel
+            exportExcel() {
+                this.downBlobFile('/${moduleName}/${pathName}/export',this.searchForm, '${pathName}.xlsx')
             }
         }
     }

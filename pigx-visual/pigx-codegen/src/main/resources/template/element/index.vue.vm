@@ -4,6 +4,7 @@
       <el-form :inline="true" :model="dataForm" @keyup.enter.native="getDataList()">
         <el-form-item>
           <el-button v-if="permissions.${moduleName}_${pathName}_add" icon="el-icon-plus" type="primary" @click="addOrUpdateHandle()">新增</el-button>
+          <el-button v-if="permissions.${moduleName}_${pathName}_export" icon="el-icon-download" type="primary" plain @click="exportExcel()">导出</el-button>
         </el-form-item>
       </el-form>
 
@@ -60,6 +61,7 @@
         dataForm: {
           key: ''
         },
+        searchForm: {},
         dataList: [],
         pageIndex: 1,
         pageSize: 10,
@@ -120,6 +122,10 @@
           this.$message.success('删除成功')
           this.getDataList()
         })
+      },
+      //  导出excel
+      exportExcel() {
+        this.downFile('/${moduleName}/${pathName}/export', this.searchForm,'${pathName}.xlsx')
       }
     }
   }

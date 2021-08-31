@@ -24,11 +24,13 @@ import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import ${package}.${moduleName}.entity.${className};
 import ${package}.${moduleName}.service.${className}Service;
 import org.springframework.security.access.prepost.PreAuthorize;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 /**
  * ${comments}
@@ -109,4 +111,16 @@ public class ${className}Controller {
         return R.ok(${classname}Service.removeById(${pk.lowerAttrName}));
     }
 
+
+    /**
+     * 导出excel 表格
+     * @param ${classname} 查询条件
+     * @return excel 文件流
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_export')" )
+    public List<${className}> export(${className} ${classname}) {
+        return ${classname}Service.list(Wrappers.query(${classname}));
+    }
 }
