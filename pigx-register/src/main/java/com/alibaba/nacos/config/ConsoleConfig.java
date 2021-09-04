@@ -59,8 +59,7 @@ public class ConsoleConfig {
 	@Bean
 	public CorsFilter corsFilter() {
 		CorsConfiguration config = new CorsConfiguration();
-		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
+		config.addAllowedOriginPattern("*");
 		config.addAllowedHeader("*");
 		config.setMaxAge(18000L);
 		config.addAllowedMethod("*");
