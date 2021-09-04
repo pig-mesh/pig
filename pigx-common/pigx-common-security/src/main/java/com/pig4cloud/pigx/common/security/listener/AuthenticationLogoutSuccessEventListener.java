@@ -46,6 +46,11 @@ public class AuthenticationLogoutSuccessEventListener implements ApplicationList
 	 */
 	@Override
 	public void onApplicationEvent(LogoutSuccessEvent event) {
+		// 健壮性判断
+		if (!(event.getSource() instanceof OAuth2Authentication)) {
+			return;
+		}
+
 		OAuth2Authentication authentication = (OAuth2Authentication) event.getSource();
 		if (logoutHandler != null && isUserAuthentication(authentication)) {
 			ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
