@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.admin.api.dto;
+package com.pig4cloud.pig.admin.api.vo;
 
-import com.pig4cloud.pig.admin.api.entity.SysMenu;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author lengleng
@@ -33,7 +29,7 @@ import java.util.Set;
  * commit('SET_INTRODUCTION', data) commit('SET_PERMISSIONS', data)
  */
 @Data
-public class UserInfo implements Serializable {
+public class UserInfoVO implements Serializable {
 
 	/**
 	 * 用户基本信息
@@ -49,10 +45,5 @@ public class UserInfo implements Serializable {
 	 * 角色集合
 	 */
 	private Integer[] roles;
-
-	/**
-	 * 角色集合
-	 */
-	private List<SysRole> roleList;
 
 }

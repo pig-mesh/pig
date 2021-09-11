@@ -33,6 +33,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +107,16 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		relation.setDescendant(sysDept.getDeptId());
 		sysDeptRelationService.updateDeptRelation(relation);
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public List<Integer> listChildDeptId(Integer deptId) {
+		List<SysDeptRelation> deptRelations = sysDeptRelationService
+				.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId));
+		if (CollUtil.isNotEmpty(deptRelations)) {
+			return deptRelations.stream().map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+		}
+		return new ArrayList<>();
 	}
 
 	/**

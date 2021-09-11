@@ -69,7 +69,8 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 			String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
 			Integer id = (Integer) map.get(SecurityConstants.DETAILS_USER_ID);
 			Integer deptId = (Integer) map.get(SecurityConstants.DETAILS_DEPT_ID);
-			PigUser user = new PigUser(id, deptId, username, N_A, true, true, true, true, authorities);
+			// TODO 数据权限获取
+			PigUser user = new PigUser(id, deptId, username, N_A, true, true, true, true, authorities, null);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
 		return null;

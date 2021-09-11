@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.admin.api.feign;
 
-import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.feign.factory.RemoteUserServiceFallbackFactory;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
@@ -25,44 +24,22 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Set;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * @author hccake
  */
-@FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.UMPS_SERVICE,
+@FeignClient(contextId = "remoteDeptService", value = ServiceNameConstants.UMPS_SERVICE,
 		fallbackFactory = RemoteUserServiceFallbackFactory.class)
-public interface RemoteUserService {
+public interface RemoteDeptService {
 
 	/**
-	 * 通过用户名查询用户、角色信息
-	 * @param username 用户名
-	 * @param from 调用标志
-	 * @return R
+	 * 查收子级id列表
+	 * @return 返回子级id列表
 	 */
-	@GetMapping("/user/info/{username}")
-	R<UserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
-
-	/**
-	 * 通过社交账号查询用户、角色信息
-	 * @param inStr appid@code
-	 * @return
-	 */
-	@GetMapping("/social/info/{inStr}")
-	R<UserInfo> social(@PathVariable("inStr") String inStr);
-
-	/**
-	 * 根据部门id，查询对应的用户 id 集合
-	 * @param deptIds 部门id 集合
-	 * @param from 调用标志
-	 * @return 用户 id 集合
-	 */
-	@GetMapping("/user/ids")
-	R<List<Integer>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Integer> deptIds,
+	@GetMapping("/child-id/{deptId}")
+	R<List<Integer>> listChildDeptId(@PathVariable("deptId") Integer deptId,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 }
