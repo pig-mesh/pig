@@ -22,7 +22,7 @@
 | Spring Cloud Alibaba   | 2021.1        |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.3.2         |
-| hutool                 | 5.7.9         |
+| hutool                 | 5.7.12         |
 | Avue                   | 2.6.18        |
 
 ### 模块说明
@@ -71,6 +71,11 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
 
+### 定制自己微服务
+
+[PIG DIY](https://diy.pig4cloud.com)
+[PIG ARCHETYPE](https://archetype.pig4cloud.com)
+
 ### Docker 运行
 
 ```
@@ -85,22 +90,6 @@ git clone https://gitee.com/log4j/pig-ui.git
 cd pig-ui && npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 npm run build:docker && docker-compose up -d
-```
-
-### 快速构架微服务
-
-```bash
-<!-- pig-gen archetype -->
-# 在空文件夹执行以下命令，注意 windows 下  \ 修改成 ^
-mvn archetype:generate \
-       -DgroupId=com.pig4cloud \
-       -DartifactId=demo \
-       -Dversion=1.0.0-SNAPSHOT \
-       -Dpackage=com.pig4cloud.pig.demo \
-       -DarchetypeGroupId=com.pig4cloud.archetype \
-       -DarchetypeArtifactId=pig-gen \
-       -DarchetypeVersion=3.3.2 \
-       -DarchetypeCatalog=local
 ```
 
 ## 免费公开课
@@ -132,7 +121,7 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
 
 ### 其他说明
 
-1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
+1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支 代码规范 [spring-javaformat](https://github.com/spring-io/spring-javaformat)
 
 2. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 

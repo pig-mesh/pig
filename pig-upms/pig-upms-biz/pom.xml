@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-upms</artifactId>
-		<version>3.3.3</version>
+		<version>3.3.4</version>
 	</parent>
 
 	<artifactId>pig-upms-biz</artifactId>
@@ -34,6 +34,11 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
+		</dependency>
+		<!--文件管理-->
+		<dependency>
+			<groupId>com.pig4cloud.plugin</groupId>
+			<artifactId>oss-spring-boot-starter</artifactId>
 		</dependency>
 		<!--安全模块-->
 		<dependency>

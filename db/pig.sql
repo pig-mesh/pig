@@ -227,6 +227,10 @@ INSERT INTO `sys_menu` VALUES (2401, '客户端新增', 'sys_client_add', NULL, 
 INSERT INTO `sys_menu` VALUES (2402, '客户端修改', 'sys_client_edit', NULL, 2400, NULL, NULL, 1, '0', '1', '0', NULL, '2018-05-15 21:37:06', NULL, '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2403, '客户端删除', 'sys_client_del', NULL, 2400, NULL, NULL, 1, '0', '1', '0', NULL, '2018-05-15 21:39:16', NULL, '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2500, '服务监控', NULL, 'http://localhost:5001', 2000, 'icon-server', NULL, 10, '0', '0', '0', NULL, '2018-06-26 10:50:32', NULL, '2019-02-01 20:41:30');
+INSERT INTO `sys_menu` VALUES (2600, '文件管理', NULL, '/admin/file/index', 2000, 'icon-wenjianguanli', NULL, 10, '0', '0', '0', NULL, '2018-06-26 10:50:32', NULL, '2019-02-01 20:41:30');
+INSERT INTO `sys_menu` VALUES (2601, '文件删除', 'sys_file_del', NULL, 2600, NULL, NULL, 1, '0', '1', '0', NULL, '2017-11-29 11:30:11', NULL, '2021-05-25 06:48:34');
+INSERT INTO `sys_menu` VALUES (2602, '文件新增', 'sys_file_add', NULL, 2600, NULL, NULL, 1, '0', '1', '0', NULL, '2018-05-11 22:34:55', NULL, '2021-05-25 06:48:34');
+INSERT INTO `sys_menu` VALUES (2603, '文件修改', 'sys_file_edit', NULL, 2600, NULL, NULL, 1, '0', '1', '0', NULL, '2018-05-11 22:36:03', NULL, '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (3000, '开发平台', NULL, '/gen', -1, 'icon-shejiyukaifa-', NULL, 3, '1', '0', '0', NULL, '2020-03-11 22:15:40', NULL, '2020-03-11 23:52:54');
 INSERT INTO `sys_menu` VALUES (3100, '数据源管理', NULL, '/gen/datasource', 3000, 'icon-mysql', NULL, 1, '1', '0', '0', NULL, '2020-03-11 22:17:05', NULL, '2020-03-12 00:16:09');
 INSERT INTO `sys_menu` VALUES (3200, '代码生成', NULL, '/gen/index', 3000, 'icon-weibiaoti46', NULL, 2, '0', '0', '0', NULL, '2020-03-11 22:23:42', NULL, '2020-03-12 00:16:14');
@@ -346,7 +350,10 @@ INSERT INTO `sys_role_menu` VALUES (1, 2400);
 INSERT INTO `sys_role_menu` VALUES (1, 2401);
 INSERT INTO `sys_role_menu` VALUES (1, 2402);
 INSERT INTO `sys_role_menu` VALUES (1, 2403);
-INSERT INTO `sys_role_menu` VALUES (1, 2500);
+INSERT INTO `sys_role_menu` VALUES (1, 2600);
+INSERT INTO `sys_role_menu` VALUES (1, 2601);
+INSERT INTO `sys_role_menu` VALUES (1, 2602);
+INSERT INTO `sys_role_menu` VALUES (1, 2603);
 INSERT INTO `sys_role_menu` VALUES (1, 3000);
 INSERT INTO `sys_role_menu` VALUES (1, 3100);
 INSERT INTO `sys_role_menu` VALUES (1, 3200);
@@ -403,5 +410,21 @@ CREATE TABLE `sys_user_role` (
 BEGIN;
 INSERT INTO `sys_user_role` VALUES (1, 1);
 COMMIT;
+
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file` (
+                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+                            `file_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                            `bucket_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                            `original` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                            `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+                            `file_size` bigint DEFAULT NULL COMMENT '文件大小',
+                            `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '0-正常，1-删除',
+                            `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                            `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+                            `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+                            `update_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+                            PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件管理表';
 
 SET FOREIGN_KEY_CHECKS = 1;
