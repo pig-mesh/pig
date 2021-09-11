@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.admin.api.feign;
 
-import com.pig4cloud.pig.admin.api.feign.factory.RemoteUserServiceFallbackFactory;
+import com.pig4cloud.pig.admin.api.feign.factory.RemoteDeptServiceFallbackFactory;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;
@@ -31,14 +31,14 @@ import java.util.List;
  * @author hccake
  */
 @FeignClient(contextId = "remoteDeptService", value = ServiceNameConstants.UMPS_SERVICE,
-		fallbackFactory = RemoteUserServiceFallbackFactory.class)
+		fallbackFactory = RemoteDeptServiceFallbackFactory.class)
 public interface RemoteDeptService {
 
 	/**
 	 * 查收子级id列表
 	 * @return 返回子级id列表
 	 */
-	@GetMapping("/child-id/{deptId}")
+	@GetMapping("/dept/child-id/{deptId}")
 	R<List<Integer>> listChildDeptId(@PathVariable("deptId") Integer deptId,
 			@RequestHeader(SecurityConstants.FROM) String from);
 

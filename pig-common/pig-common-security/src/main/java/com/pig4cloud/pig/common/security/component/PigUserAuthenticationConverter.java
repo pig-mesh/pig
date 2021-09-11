@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.common.security.component;
 
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.security.datascope.UserDataScope;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,11 @@ import org.springframework.security.oauth2.provider.token.UserAuthenticationConv
 import org.springframework.util.StringUtils;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -69,8 +73,17 @@ public class PigUserAuthenticationConverter implements UserAuthenticationConvert
 			String username = (String) map.get(SecurityConstants.DETAILS_USERNAME);
 			Integer id = (Integer) map.get(SecurityConstants.DETAILS_USER_ID);
 			Integer deptId = (Integer) map.get(SecurityConstants.DETAILS_DEPT_ID);
-			// TODO 数据权限获取
-			PigUser user = new PigUser(id, deptId, username, N_A, true, true, true, true, authorities, null);
+
+			UserDataScope userDataScope = new UserDataScope();
+			Object value = map.get(SecurityConstants.DETAILS_USER_DATA_SCOPE);
+			if (value != null) {
+				Map<String, ?> userDataScopeMap = (Map) value;
+				userDataScope.setAllScope((boolean) userDataScopeMap.get("allScope"));
+				userDataScope.setOnlySelf((boolean) userDataScopeMap.get("onlySelf"));
+				userDataScope.setScopeUserIds(new HashSet<>((List) userDataScopeMap.get("scopeUserIds")));
+				userDataScope.setScopeDeptIds(new HashSet<>((List) userDataScopeMap.get("scopeDeptIds")));
+			}
+			PigUser user = new PigUser(id, deptId, username, N_A, true, true, true, true, authorities, userDataScope);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
 		return null;

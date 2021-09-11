@@ -110,6 +110,11 @@ public interface SecurityConstants {
 	String DETAILS_LICENSE = "license";
 
 	/**
+	 * 用户数据权限信息
+	 */
+	String DETAILS_USER_DATA_SCOPE = "user_data_scope";
+
+	/**
 	 * 验证码有效期,默认 60秒
 	 */
 	long CODE_TIME = 60;

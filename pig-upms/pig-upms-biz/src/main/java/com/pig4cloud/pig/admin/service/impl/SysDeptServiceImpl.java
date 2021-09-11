@@ -111,8 +111,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	@Override
 	public List<Integer> listChildDeptId(Integer deptId) {
-		List<SysDeptRelation> deptRelations = sysDeptRelationService
-				.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId));
+		List<SysDeptRelation> deptRelations = sysDeptRelationService.list(Wrappers.<SysDeptRelation>lambdaQuery()
+				.eq(SysDeptRelation::getAncestor, deptId).ne(SysDeptRelation::getDescendant, deptId));
 		if (CollUtil.isNotEmpty(deptRelations)) {
 			return deptRelations.stream().map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 		}

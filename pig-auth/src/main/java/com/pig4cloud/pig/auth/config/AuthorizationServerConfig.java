@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.auth.converter.CustomAccessTokenConverter;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
@@ -63,10 +64,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	@SneakyThrows
 	public void configure(ClientDetailsServiceConfigurer clients) {
-		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
-		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-		clients.withClientDetails(clientDetailsService);
+		clients.withClientDetails(pigClientDetailsService());
 	}
 
 	@Override
@@ -80,7 +78,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.tokenEnhancer(tokenEnhancer()).userDetailsService(userDetailsService)
 				.authenticationManager(authenticationManager).reuseRefreshTokens(false)
 				.pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.exceptionTranslator(new PigWebResponseExceptionTranslator());
+				.exceptionTranslator(new PigWebResponseExceptionTranslator())
+				.accessTokenConverter(new CustomAccessTokenConverter(pigClientDetailsService()));
 	}
 
 	@Bean
@@ -102,6 +101,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		};
+	}
+
+	@Bean
+	public PigClientDetailsService pigClientDetailsService() {
+		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
+		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
+		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+		return clientDetailsService;
 	}
 
 }
