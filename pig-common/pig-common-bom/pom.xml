@@ -6,7 +6,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig-common-bom</artifactId>
-	<version>3.3.3</version>
+	<version>3.3.4</version>
 	<packaging>pom</packaging>
 
 	<name>pig-common-bom</name>
@@ -24,8 +24,7 @@
 		<spring.checkstyle.plugin>0.0.28</spring.checkstyle.plugin>
 		<fastjson.version>1.2.75</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
-		<mybatis-plus.version>3.4.3.2</mybatis-plus.version>
-		<rocksdbjni.version>5.18.3</rocksdbjni.version>
+		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.0.0</excel.version>
 	</properties>
@@ -105,12 +104,6 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
-			</dependency>
-			<!--nacos 2.0 -->
-			<dependency>
-				<groupId>org.rocksdb</groupId>
-				<artifactId>rocksdbjni</artifactId>
-				<version>${rocksdbjni.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.alibaba.nacos</groupId>
