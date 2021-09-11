@@ -27,7 +27,7 @@ jobs:
       run: mvn spring-javaformat:validate
 
     - name: success
-      if: ${{ success() }}
+      if:  success() && github.repository == 'pig-mesh/pig'
       uses: fifsky/dingtalk-action@master
       with:
         url: ${{ secrets.DINGTALK_WEBHOOK}}
@@ -38,7 +38,7 @@ jobs:
           > ^_^ from github action message
 
     - name:  failure
-      if: ${{ failure() }}
+      if: failure() && github.repository == 'pig-mesh/pig'
       uses: fifsky/dingtalk-action@master
       with:
         url: ${{ secrets.DINGTALK_WEBHOOK}}
