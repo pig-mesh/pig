@@ -20,6 +20,7 @@ import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -119,6 +121,16 @@ public class DeptController {
 		SysDept condition = new SysDept();
 		condition.setName(deptname);
 		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
+	}
+
+	/**
+	 * 查收子级id列表
+	 * @return 返回子级id列表
+	 */
+	@Inner
+	@GetMapping(value = "/child-id/{deptId}")
+	public R<List<Integer>> listChildDeptId(@PathVariable Integer deptId) {
+		return R.ok(sysDeptService.listChildDeptId(deptId));
 	}
 
 }

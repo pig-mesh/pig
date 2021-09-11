@@ -25,6 +25,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -55,6 +56,13 @@ public class SysRole extends BaseEntity {
 	@NotBlank(message = "角色描述 不能为空")
 	@ApiModelProperty(value = "角色描述")
 	private String roleDesc;
+
+	@NotNull(message = "数据范围类型 不能为null")
+	@ApiModelProperty(value = "数据范围类型")
+	private Integer scopeType;
+
+	@ApiModelProperty(value = "数据范围资源")
+	private String scopeResources;
 
 	/**
 	 * 删除标识（0-正常,1-删除）

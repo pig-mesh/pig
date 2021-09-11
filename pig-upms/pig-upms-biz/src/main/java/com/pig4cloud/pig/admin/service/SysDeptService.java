@@ -65,4 +65,11 @@ public interface SysDeptService extends IService<SysDept> {
 	 */
 	Boolean updateDeptById(SysDept sysDept);
 
+	/**
+	 * 查找指定部门的子部门id列表
+	 * @param deptId 部门id
+	 * @return List<Integer>
+	 */
+	List<Integer> listChildDeptId(Integer deptId);
+
 }

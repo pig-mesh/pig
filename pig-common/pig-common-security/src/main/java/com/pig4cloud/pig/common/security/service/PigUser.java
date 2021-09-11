@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.security.service;
 
+import com.pig4cloud.pig.common.security.datascope.UserDataScope;
 import lombok.Getter;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,13 +34,19 @@ public class PigUser extends User {
 	 * 用户ID
 	 */
 	@Getter
-	private Integer id;
+	private final Integer id;
 
 	/**
 	 * 部门ID
 	 */
 	@Getter
-	private Integer deptId;
+	private final Integer deptId;
+
+	/**
+	 * 用户数据权限信息
+	 */
+	@Getter
+	private final UserDataScope userDataScope;
 
 	/**
 	 * Construct the <code>User</code> with the details required by
@@ -62,10 +69,11 @@ public class PigUser extends User {
 	 */
 	public PigUser(Integer id, Integer deptId, String username, String password, boolean enabled,
 			boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
+			Collection<? extends GrantedAuthority> authorities, UserDataScope userDataScope) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		this.id = id;
 		this.deptId = deptId;
+		this.userDataScope = userDataScope;
 	}
 
 }
