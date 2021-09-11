@@ -25,6 +25,9 @@
 		<fastjson.version>1.2.75</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
+		<mybatis.version>3.5.7</mybatis.version>
+		<jsqlparser.version>4.1</jsqlparser.version>
+		<rocksdbjni.version>5.18.3</rocksdbjni.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.0.0</excel.version>
 		<oss.version>1.0.1</oss.version>
@@ -36,6 +39,11 @@
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
 				<artifactId>pig-common-core</artifactId>
+				<version>${pig.common.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-datascope</artifactId>
 				<version>${pig.common.version}</version>
 			</dependency>
 			<dependency>
@@ -123,11 +131,21 @@
 				<artifactId>oss-spring-boot-starter</artifactId>
 				<version>${oss.version}</version>
 			</dependency>
-			<!--mybatis-plus-->
+			<!--orm 相关-->
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
 				<version>${mybatis-plus.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.mybatis</groupId>
+				<artifactId>mybatis</artifactId>
+				<version>${mybatis.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>${jsqlparser.version}</version>
 			</dependency>
 			<!--web 模块-->
 			<dependency>

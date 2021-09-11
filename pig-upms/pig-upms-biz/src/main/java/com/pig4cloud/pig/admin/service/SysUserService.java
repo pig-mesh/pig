@@ -28,6 +28,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -106,5 +107,12 @@ public interface SysUserService extends IService<SysUser> {
 	 * @return ok fail
 	 */
 	R importUser(List<UserExcelVO> excelVOList, BindingResult bindingResult);
+
+	/**
+	 * 根据部门 id 列表查询对应的用户 id 集合
+	 * @param deptIds 部门 id 列表
+	 * @return userIdList
+	 */
+	List<Integer> listUserIdByDeptIds(Set<Integer> deptIds);
 
 }
