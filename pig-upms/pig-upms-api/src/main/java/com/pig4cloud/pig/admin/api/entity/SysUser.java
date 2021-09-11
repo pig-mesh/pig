@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * <p>
@@ -33,6 +34,7 @@ import lombok.Data;
  * @since 2019/2/1
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class SysUser extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

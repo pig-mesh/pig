@@ -27,6 +27,7 @@
 		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.0.0</excel.version>
+		<oss.version>1.0.1</oss.version>
 	</properties>
 
 	<!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号-->
@@ -116,6 +117,13 @@
 				<artifactId>excel-spring-boot-starter</artifactId>
 				<version>${excel.version}</version>
 			</dependency>
+			<!--mybatis-plus-->
+			<dependency>
+				<groupId>com.pig4cloud.plugin</groupId>
+				<artifactId>oss-spring-boot-starter</artifactId>
+				<version>${oss.version}</version>
+			</dependency>
+			<!--mybatis-plus-->
 			<dependency>
 				<groupId>com.baomidou</groupId>
 				<artifactId>mybatis-plus-boot-starter</artifactId>
