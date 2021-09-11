@@ -28,10 +28,11 @@ jobs:
 
     - name: success
       if:  success() && github.repository == 'pig-mesh/pig'
-      uses: fifsky/dingtalk-action@master
+      uses: chf007/action-wechat-work@master
+      env:
+        WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
       with:
-        url: ${{ secrets.DINGTALK_WEBHOOK}}
-        type: markdown
+        msgtype: markdown
         content: |
           # 💯👨‍💻 Success 🎉🎉🎉
           > Github Action: https://github.com/pig-mesh/pig success
@@ -39,10 +40,11 @@ jobs:
 
     - name:  failure
       if: failure() && github.repository == 'pig-mesh/pig'
-      uses: fifsky/dingtalk-action@master
+      uses: chf007/action-wechat-work@master
+      env:
+        WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
       with:
-        url: ${{ secrets.DINGTALK_WEBHOOK}}
-        type: markdown
+        msgtype: markdown
         content: |
           # 💤🤷‍♀️ failure 🙅‍♂️💣
           > Github Action: https://github.com/pig-mesh/pig failure
