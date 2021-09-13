@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
+import com.pig4cloud.pigx.common.security.exception.UnauthorizedException;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -44,7 +46,15 @@ public class PigxLocalResourceServerTokenServices implements ResourceServerToken
 
 		// 根据 username 查询 spring cache 最新的值 并返回
 		PigxUser pigxUser = (PigxUser) oAuth2Authentication.getPrincipal();
-		UserDetails userDetails = userDetailsService.loadUserByUsername(pigxUser.getUsername());
+
+		UserDetails userDetails;
+		try {
+			userDetails = userDetailsService.loadUserByUsername(pigxUser.getUsername());
+		}
+		catch (UsernameNotFoundException notFoundException) {
+			throw new UnauthorizedException(String.format("%s username not found", pigxUser.getUsername()),
+					notFoundException);
+		}
 		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(userDetails, "N/A",
 				userDetails.getAuthorities());
 		OAuth2Authentication authentication = new OAuth2Authentication(oAuth2Request, userAuthentication);
