@@ -273,8 +273,8 @@ INSERT INTO `sys_oauth_client_details` VALUES ('app', NULL, 'app', 'server', 'pa
 INSERT INTO `sys_oauth_client_details` VALUES ('ASD', '', 'ASD', 'ASD', 'ASDddddxxxxxxxxxxxx', '', '', NULL, NULL, '', 'false', '2021-08-09 14:19:21', '2021-08-09 14:35:29', 'admin', 'admin');
 INSERT INTO `sys_oauth_client_details` VALUES ('daemon', NULL, 'daemon', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('gen', NULL, 'gen', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` VALUES ('pig', NULL, 'pig', 'server', 'password,refresh_token,authorization_code,client_credentials', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_oauth_client_details` VALUES ('pig', NULL, 'pig', 'server', 'password,phone,refresh_token,authorization_code,client_credentials', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', 'password,phone,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('zxc', '', 'zxc', 'zxcxzc', 'cxz', 'cxz', 'zcxzxcxcxzccxz', NULL, NULL, 'zxc', 'true', '2021-08-09 14:37:45', '2021-08-09 14:37:55', 'admin', 'admin');
 COMMIT;
 

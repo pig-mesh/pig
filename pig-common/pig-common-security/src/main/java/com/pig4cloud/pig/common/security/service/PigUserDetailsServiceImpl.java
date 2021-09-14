@@ -62,6 +62,7 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 
 	/**
 	 * 用户密码登录
+	 *
 	 * @param username 用户名
 	 * @return
 	 */
@@ -82,7 +83,20 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	/**
+	 * 手机号码登录
+	 *
+	 * @param phone 手机号码
+	 * @return 用户信息
+	 */
+	public UserDetails loadUserByPhone(String phone) {
+		R<UserInfo> result = remoteUserService.infoByPhone(phone, SecurityConstants.FROM_IN);
+		UserDetails userDetails = getUserDetails(result);
+		return userDetails;
+	}
+
+	/**
 	 * 构建userdetails
+	 *
 	 * @param result 用户信息
 	 * @return UserDetails
 	 */

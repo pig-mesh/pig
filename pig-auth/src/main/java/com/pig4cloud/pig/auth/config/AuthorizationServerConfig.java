@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.auth.converter.CustomAccessTokenConverter;
+import com.pig4cloud.pig.auth.grant.ResourceOwnerPhoneTokenGranter;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
@@ -36,11 +37,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,6 +85,18 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.exceptionTranslator(new PigWebResponseExceptionTranslator())
 				.accessTokenConverter(new CustomAccessTokenConverter(pigClientDetailsService()));
+		setTokenGranter(endpoints);
+	}
+
+	private void setTokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
+		// 获取默认授权类型
+		TokenGranter tokenGranter = endpoints.getTokenGranter();
+		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
+		ResourceOwnerPhoneTokenGranter resourceOwnerPhoneTokenGranter = new ResourceOwnerPhoneTokenGranter(authenticationManager,
+				endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory());
+		tokenGranters.add(resourceOwnerPhoneTokenGranter);
+		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
+		endpoints.tokenGranter(compositeTokenGranter);
 	}
 
 	@Bean
