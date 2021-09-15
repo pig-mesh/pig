@@ -58,8 +58,10 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated().and().csrf().disable();
 	}
 
-	@Bean
-	public PhoneAuthenticationProvider phoneAuthenticationProvider() {
+	/**
+	 * 不要直接使用@Bean注入 会导致默认的提供者无法注入（DaoAuthenticationProvider）
+	 */
+	private PhoneAuthenticationProvider phoneAuthenticationProvider() {
 		PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider();
 		phoneAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		phoneAuthenticationProvider.setUserDetailsService(userDetailsService);
