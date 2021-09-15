@@ -56,6 +56,7 @@ public interface SecurityConstants {
 	 * grant_type
 	 */
 	String REFRESH_TOKEN = "refresh_token";
+	String PHONE = "phone";
 
 	/**
 	 * {bcrypt} 加密的特征码
