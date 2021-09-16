@@ -16,8 +16,10 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.auth.grant.PhoneAuthenticationProvider;
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +29,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -39,16 +42,30 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Primary
 @Order(90)
 @Configuration
+@AllArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+
+	private final UserDetailsService userDetailsService;
 
 	@Override
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
-		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
+		http.authenticationProvider(phoneAuthenticationProvider())
+				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
 				.failureHandler(authenticationFailureHandler()).and().logout()
 				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
 				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
 				.anyRequest().authenticated().and().csrf().disable();
+	}
+
+	/**
+	 * 不要直接使用@Bean注入 会导致默认的提供者无法注入（DaoAuthenticationProvider）
+	 */
+	private PhoneAuthenticationProvider phoneAuthenticationProvider() {
+		PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider();
+		phoneAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		phoneAuthenticationProvider.setUserDetailsService(userDetailsService);
+		return phoneAuthenticationProvider;
 	}
 
 	@Override
@@ -70,6 +87,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	/**
 	 * 支持SSO 退出
+	 *
 	 * @return LogoutSuccessHandler
 	 */
 	@Bean
@@ -80,6 +98,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	/**
 	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
 	 * Encoded password does not look like BCrypt
+	 *
 	 * @return PasswordEncoder
 	 */
 	@Bean
