@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-common</artifactId>
-		<version>3.3.4</version>
+		<version>3.3.5</version>
 	</parent>
 
 	<artifactId>pig-common-log</artifactId>
@@ -35,13 +35,11 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
-			<version>3.3.4</version>
 		</dependency>
 		<!--UPMS接口模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-upms-api</artifactId>
-			<version>3.3.4</version>
 		</dependency>
 		<!--安全依赖获取上下文信息-->
 		<dependency>
@@ -49,8 +47,8 @@
 			<artifactId>spring-security-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security.oauth</groupId>
-			<artifactId>spring-security-oauth2</artifactId>
+			<groupId>org.springframework.security.oauth.boot</groupId>
+			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
 		</dependency>
 	</dependencies>
 </project>
