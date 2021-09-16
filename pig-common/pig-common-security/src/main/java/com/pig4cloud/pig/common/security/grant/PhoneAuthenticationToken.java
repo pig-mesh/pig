@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.grant;
+package com.pig4cloud.pig.common.security.grant;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 public class PhoneAuthenticationToken extends AbstractAuthenticationToken {
 
-	private Object principal;
+	private final Object principal;
 
 	// 验证码/密码
 	private String code;

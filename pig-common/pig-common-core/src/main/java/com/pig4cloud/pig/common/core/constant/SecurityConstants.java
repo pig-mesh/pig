@@ -56,6 +56,10 @@ public interface SecurityConstants {
 	 * grant_type
 	 */
 	String REFRESH_TOKEN = "refresh_token";
+
+	/**
+	 * 手机号登录
+	 */
 	String PHONE = "phone";
 
 	/**
@@ -119,5 +123,10 @@ public interface SecurityConstants {
 	 * 验证码有效期,默认 60秒
 	 */
 	long CODE_TIME = 60;
+
+	/**
+	 * 验证码长度
+	 */
+	String CODE_SIZE = "6";
 
 }

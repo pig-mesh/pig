@@ -33,14 +33,9 @@ public enum LoginTypeEnum {
 	PWD("PWD", "账号密码登录"),
 
 	/**
-	 * QQ登录
+	 * 验证码登录
 	 */
-	QQ("QQ", "QQ登录"),
-
-	/**
-	 * 微信登录
-	 */
-	WECHAT("WX", "微信登录");
+	SMS("SMS", "验证码登录");
 
 	/**
 	 * 类型

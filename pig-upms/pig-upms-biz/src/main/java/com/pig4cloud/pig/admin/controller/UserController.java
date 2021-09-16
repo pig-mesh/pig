@@ -95,20 +95,6 @@ public class UserController {
 	}
 
 	/**
-	 * 获取指定用户全部信息
-	 * @return 用户信息
-	 */
-	@Inner
-	@GetMapping("/infoByPhone/{phone}")
-	public R infoByPhone(@PathVariable String phone) {
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
-		if (user == null) {
-			return R.failed(String.format("用户信息为空 %s", phone));
-		}
-		return R.ok(userService.getUserInfo(user));
-	}
-
-	/**
 	 * 根据部门id，查询对应的用户 id 集合
 	 * @param deptIds 部门id 集合
 	 * @return 用户 id 集合

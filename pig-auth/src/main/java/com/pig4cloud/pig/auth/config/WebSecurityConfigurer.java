@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.grant.PhoneAuthenticationProvider;
+import com.pig4cloud.pig.common.security.grant.PhoneAuthenticationProvider;
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
 import lombok.AllArgsConstructor;
@@ -50,9 +50,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	@Override
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
-		http.authenticationProvider(phoneAuthenticationProvider())
-				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				.failureHandler(authenticationFailureHandler()).and().logout()
+		http.authenticationProvider(phoneAuthenticationProvider()).formLogin().loginPage("/token/login")
+				.loginProcessingUrl("/token/form").failureHandler(authenticationFailureHandler()).and().logout()
 				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
 				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
 				.anyRequest().authenticated().and().csrf().disable();
@@ -87,7 +86,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	/**
 	 * 支持SSO 退出
-	 *
 	 * @return LogoutSuccessHandler
 	 */
 	@Bean
@@ -98,7 +96,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	/**
 	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
 	 * Encoded password does not look like BCrypt
-	 *
 	 * @return PasswordEncoder
 	 */
 	@Bean

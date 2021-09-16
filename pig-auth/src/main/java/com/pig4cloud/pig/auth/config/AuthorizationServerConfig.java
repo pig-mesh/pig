@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.auth.converter.CustomAccessTokenConverter;
-import com.pig4cloud.pig.auth.grant.ResourceOwnerPhoneTokenGranter;
+import com.pig4cloud.pig.common.security.grant.ResourceOwnerPhoneTokenGranter;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
@@ -92,8 +92,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		// 获取默认授权类型
 		TokenGranter tokenGranter = endpoints.getTokenGranter();
 		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
-		ResourceOwnerPhoneTokenGranter resourceOwnerPhoneTokenGranter = new ResourceOwnerPhoneTokenGranter(authenticationManager,
-				endpoints.getTokenServices(), endpoints.getClientDetailsService(), endpoints.getOAuth2RequestFactory());
+		ResourceOwnerPhoneTokenGranter resourceOwnerPhoneTokenGranter = new ResourceOwnerPhoneTokenGranter(
+				authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+				endpoints.getOAuth2RequestFactory());
 		tokenGranters.add(resourceOwnerPhoneTokenGranter);
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
 		endpoints.tokenGranter(compositeTokenGranter);
