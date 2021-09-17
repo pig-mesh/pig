@@ -18,3 +18,9 @@ create database `pigxx_pay` default character set utf8mb4 collate utf8mb4_genera
 
 -- pigx codegen相关库
 create database `pigxx_codegen` default character set utf8mb4 collate utf8mb4_general_ci;
+
+-- pigx report相关库
+create database `pigxx_report` default character set utf8mb4 collate utf8mb4_general_ci;
+
+-- pigx report 演示数据相关库 （可以不初始化）
+create database `pigxx_report_init` default character set utf8mb4 collate utf8mb4_general_ci;

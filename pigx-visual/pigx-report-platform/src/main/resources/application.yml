@@ -1,0 +1,55 @@
+server:
+  port: 9095
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: aj-report
+  servlet:
+    multipart:
+      max-file-size: 10MB #上传图片大小限制为10MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  messages:
+    basename: i18n/messages
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:pigx-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pigxx_report}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PWD:root}
+  druid:
+    initial-size: 10 # 初始化时建立物理连接的个数。初始化发生在显示调用init方法，或者第一次getConnection时
+    min-idle: 10 # 最小连接池数量
+    maxActive: 200 # 最大连接池数量
+    maxWait: 3000 # 获取连接时最大等待时间，单位毫秒。配置了maxWait之后，缺省启用公平锁，并发效率会有所下降，如果需要可以通过配置
+    timeBetweenEvictionRunsMillis: 60000 # 关闭空闲连接的检测时间间隔.Destroy线程会检测连接的间隔时间，如果连接空闲时间大于等于minEvictableIdleTimeMillis则关闭物理连接。
+    minEvictableIdleTimeMillis: 300000 # 连接的最小生存时间.连接保持空闲而不被驱逐的最小时间
+    testWhileIdle: true # 申请连接时检测空闲时间，根据空闲时间再检测连接是否有效.建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRun
+    poolPreparedStatements: true # 开启PSCache
+    maxPoolPreparedStatementPerConnectionSize: 20 #设置PSCache值
+    connectionErrorRetryAttempts: 3 # 连接出错后再尝试连接三次
+    breakAfterAcquireFailure: true # 数据库服务宕机自动重连机制
+    timeBetweenConnectErrorMillis: 300000 # 连接出错后重试时间间隔
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+  mapperLocations:
+    - classpath*:/mapper/**/*.xml
+    - classpath*:/modeler-mybatis-mappings/**/*.xml
+
+# 本应用自定义参数
+customer:
+  # 开发测试用本地文件，如果是生产，请考虑使用对象存储
+  file:
+    #上传对应本地全路径
+    dist-path: /Users/lengleng/Downloads/file/
+    white-list: .png|.jpg|.gif|.icon|.pdf|.xlsx|.xls|.csv|.mp4|.avi
+    excelSuffix: .xlsx|.xls|.csv
+    downloadPath: http://127.0.0.1:9095/file/download

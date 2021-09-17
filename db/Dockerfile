@@ -21,3 +21,7 @@ COPY ./6pigxx_config.sql /docker-entrypoint-initdb.d
 COPY ./7pigxx_pay.sql /docker-entrypoint-initdb.d
 
 COPY ./8pigxx_codegen.sql /docker-entrypoint-initdb.d
+
+COPY ./9pigxx_report.sql /docker-entrypoint-initdb.d
+
+COPY ./99pigxx_report_init.sql /docker-entrypoint-initdb.d

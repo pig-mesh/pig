@@ -1,0 +1,27 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anjiplus.template.gaea.business.modules.accessauthority.dao.AccessAuthorityMapper">
+
+    <resultMap type="com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity.AccessAuthority" id="AccessAuthorityMap">
+        <!--jdbcType="{column.columnType}"-->
+        <result property="id" column="id"  />
+        <result property="parentTarget" column="parent_target"  />
+        <result property="target" column="target"  />
+        <result property="targetName" column="target_name"  />
+        <result property="action" column="action"  />
+        <result property="actionName" column="action_name"  />
+        <result property="deleteFlag" column="delete_flag"  />
+        <result property="enableFlag" column="enable_flag"  />
+        <result property="sort" column="sort"  />
+        <result property="createBy" column="create_by"  />
+        <result property="createTime" column="create_time"  />
+        <result property="updateBy" column="update_by"  />
+        <result property="updateTime" column="update_time"  />
+        <result property="version" column="version"  />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,parent_target,target,target_name,action,action_name,create_by,create_time,delete_flag,enable_flag,sort,update_by,update_time,version
+    </sql>
+
+</mapper>
