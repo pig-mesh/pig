@@ -3,21 +3,22 @@ USE pigxx_report;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+
 -- ----------------------------
 -- Table structure for gaea_dict
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_dict`;
 CREATE TABLE `gaea_dict` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `dict_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
-  `dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
-  `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新用户',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL COMMENT '版本',
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` int NOT NULL AUTO_INCREMENT,
+                             `dict_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典名称',
+                             `dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典编码',
+                             `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+                             `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                             `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                             `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新用户',
+                             `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                             `version` int DEFAULT NULL COMMENT '版本',
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数组字典';
 
 -- ----------------------------
@@ -55,21 +56,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_dict_item`;
 CREATE TABLE `gaea_dict_item` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据字典编码',
-  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项名称',
-  `item_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项值',
-  `item_extend` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '字典扩展项',
-  `enabled` int DEFAULT '1' COMMENT '1:启用 0:禁用',
-  `locale` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '语言标识',
-  `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-  `sort` int DEFAULT NULL COMMENT '排序',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新用户',
-  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL COMMENT '版本',
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` int NOT NULL AUTO_INCREMENT,
+                                  `dict_code` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据字典编码',
+                                  `item_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项名称',
+                                  `item_value` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '字典项值',
+                                  `item_extend` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '字典扩展项',
+                                  `enabled` int DEFAULT '1' COMMENT '1:启用 0:禁用',
+                                  `locale` varchar(16) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '语言标识',
+                                  `remark` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+                                  `sort` int DEFAULT NULL COMMENT '排序',
+                                  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                                  `create_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+                                  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新用户',
+                                  `update_time` timestamp NULL DEFAULT NULL COMMENT '更新时间',
+                                  `version` int DEFAULT NULL COMMENT '版本',
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=319 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据字典项';
 
 -- ----------------------------
@@ -192,18 +193,18 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_file`;
 CREATE TABLE `gaea_file` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `file_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '生成的唯一uuid',
-  `file_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型，字典FILE_TYPE',
-  `file_path` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件在linux中的完整目录，比如/app/dist/export/excel/${fileid}.xlsx',
-  `url_path` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '通过接口的下载完整http路径',
-  `file_instruction` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件内容说明，比如 对账单(202001~202012)',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `create_time` timestamp NULL DEFAULT NULL,
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                             `id` bigint NOT NULL AUTO_INCREMENT,
+                             `file_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '生成的唯一uuid',
+                             `file_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件类型，字典FILE_TYPE',
+                             `file_path` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件在linux中的完整目录，比如/app/dist/export/excel/${fileid}.xlsx',
+                             `url_path` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '通过接口的下载完整http路径',
+                             `file_instruction` varchar(1024) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '文件内容说明，比如 对账单(202001~202012)',
+                             `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                             `create_time` timestamp NULL DEFAULT NULL,
+                             `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                             `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+                             `version` int DEFAULT NULL,
+                             PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -217,28 +218,33 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report`;
 CREATE TABLE `gaea_report` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `report_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
-  `report_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表编码',
-  `report_group` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '分组',
-  `report_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表类型',
-  `report_image` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表缩略图',
-  `report_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表描述',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL COMMENT '版本号',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UNIQUE_REPORT_CODE` (`report_code`) USING BTREE
+                               `id` bigint NOT NULL AUTO_INCREMENT,
+                               `report_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '名称',
+                               `report_code` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表编码',
+                               `report_group` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '分组',
+                               `report_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表类型',
+                               `report_image` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表缩略图',
+                               `report_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '报表描述',
+                               `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                               `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                               `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                               `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                               `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
+                               `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                               `version` int DEFAULT NULL COMMENT '版本号',
+                               PRIMARY KEY (`id`) USING BTREE,
+                               UNIQUE KEY `UNIQUE_REPORT_CODE` (`report_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of gaea_report
 -- ----------------------------
 BEGIN;
+INSERT INTO `gaea_report` VALUES (187, '日志大屏', 'log_ajreport', NULL, NULL, NULL, '', 1, 0, 'admin', '2021-06-30 10:06:31', 'admin', '2021-06-30 10:06:31', 1);
+INSERT INTO `gaea_report` VALUES (188, '汽车生产销售大屏', 'car_ajreport', NULL, NULL, NULL, '', 1, 0, 'admin', '2021-06-30 14:32:53', 'admin', '2021-06-30 14:32:53', 1);
+INSERT INTO `gaea_report` VALUES (189, '访问大屏', 'acc_ajreport', NULL, NULL, NULL, '', 1, 0, 'admin', '2021-06-30 15:19:59', 'admin', '2021-06-30 15:19:59', 1);
+INSERT INTO `gaea_report` VALUES (190, '空白大屏', 'blank', NULL, 'report_screen', '', '', 1, 0, 'admin', '2021-06-30 16:34:40', 'admin', '2021-07-01 15:19:56', 3);
+INSERT INTO `gaea_report` VALUES (193, '物流大屏1', 'logistics_one', NULL, 'report_screen', '', '', 1, 0, 'admin', '2021-09-17 19:13:15', 'admin', '2021-09-17 19:13:15', 2);
 COMMIT;
 
 -- ----------------------------
@@ -246,25 +252,25 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_dashboard`;
 CREATE TABLE `gaea_report_dashboard` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '看板id',
-  `report_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表编码',
-  `title` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '看板标题',
-  `width` bigint DEFAULT NULL COMMENT '宽度px',
-  `height` bigint DEFAULT NULL COMMENT '高度px',
-  `background_color` varchar(24) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '背景色',
-  `background_image` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '背景图片',
-  `preset_line` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '工作台中的辅助线',
-  `refresh_seconds` int DEFAULT NULL COMMENT '自动刷新间隔秒',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT ' 0--未删除 1--已删除 DIC_NAME=DEL_FLAG',
-  `sort` int DEFAULT '0' COMMENT '排序，降序',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `version` int DEFAULT NULL COMMENT '版本号',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UNIQUE_REPORT_CODE` (`report_code`) USING BTREE
+                                         `id` bigint NOT NULL AUTO_INCREMENT COMMENT '看板id',
+                                         `report_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表编码',
+                                         `title` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '看板标题',
+                                         `width` bigint DEFAULT NULL COMMENT '宽度px',
+                                         `height` bigint DEFAULT NULL COMMENT '高度px',
+                                         `background_color` varchar(24) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '背景色',
+                                         `background_image` varchar(254) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '背景图片',
+                                         `preset_line` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '工作台中的辅助线',
+                                         `refresh_seconds` int DEFAULT NULL COMMENT '自动刷新间隔秒',
+                                         `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                         `delete_flag` int DEFAULT '0' COMMENT ' 0--未删除 1--已删除 DIC_NAME=DEL_FLAG',
+                                         `sort` int DEFAULT '0' COMMENT '排序，降序',
+                                         `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+                                         `create_time` datetime DEFAULT NULL,
+                                         `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+                                         `update_time` datetime DEFAULT NULL,
+                                         `version` int DEFAULT NULL COMMENT '版本号',
+                                         PRIMARY KEY (`id`) USING BTREE,
+                                         UNIQUE KEY `UNIQUE_REPORT_CODE` (`report_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -283,24 +289,24 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_dashboard_widget`;
 CREATE TABLE `gaea_report_dashboard_widget` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '组件id',
-  `report_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表编码',
-  `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件类型参考字典DASHBOARD_PANEL_TYPE',
-  `setup` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的渲染属性json',
-  `data` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的数据属性json',
-  `collapse` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的配置属性json',
-  `position` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的大小位置属性json',
-  `options` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'options配置项',
-  `refresh_seconds` int DEFAULT NULL COMMENT '自动刷新间隔秒',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT ' 0--未删除 1--已删除 DIC_NAME=DEL_FLAG',
-  `sort` bigint DEFAULT '0' COMMENT '排序，图层的概念',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `version` int DEFAULT NULL COMMENT '版本号',
-  PRIMARY KEY (`id`) USING BTREE
+                                                `id` bigint NOT NULL AUTO_INCREMENT COMMENT '组件id',
+                                                `report_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '报表编码',
+                                                `type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件类型参考字典DASHBOARD_PANEL_TYPE',
+                                                `setup` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的渲染属性json',
+                                                `data` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的数据属性json',
+                                                `collapse` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的配置属性json',
+                                                `position` varchar(4096) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '组件的大小位置属性json',
+                                                `options` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT 'options配置项',
+                                                `refresh_seconds` int DEFAULT NULL COMMENT '自动刷新间隔秒',
+                                                `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                                `delete_flag` int DEFAULT '0' COMMENT ' 0--未删除 1--已删除 DIC_NAME=DEL_FLAG',
+                                                `sort` bigint DEFAULT '0' COMMENT '排序，图层的概念',
+                                                `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+                                                `create_time` datetime DEFAULT NULL,
+                                                `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+                                                `update_time` datetime DEFAULT NULL,
+                                                `version` int DEFAULT NULL COMMENT '版本号',
+                                                PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=8713 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
@@ -387,54 +393,54 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_data_set`;
 CREATE TABLE `gaea_report_data_set` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
-  `set_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集名称',
-  `set_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集描述',
-  `source_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据源编码',
-  `dyn_sentence` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '动态查询sql或者接口中的请求体',
-  `case_result` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '结果案例',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `unique_set_code` (`set_code`) USING BTREE
+                                        `id` bigint NOT NULL AUTO_INCREMENT,
+                                        `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
+                                        `set_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集名称',
+                                        `set_desc` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集描述',
+                                        `source_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据源编码',
+                                        `dyn_sentence` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '动态查询sql或者接口中的请求体',
+                                        `case_result` text CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '结果案例',
+                                        `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                        `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                                        `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                                        `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                        `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
+                                        `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                        `version` int DEFAULT NULL,
+                                        PRIMARY KEY (`id`) USING BTREE,
+                                        UNIQUE KEY `unique_set_code` (`set_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据集管理';
 
 -- ----------------------------
 -- Records of gaea_report_data_set
 -- ----------------------------
 BEGIN;
-INSERT INTO `gaea_report_data_set` VALUES (46, 'log_ajdevices', '日志-资产统计', '', 'mysql_ajreport', 'SELECT device_type,COUNT(device_id)as nums from aj_report_devices GROUP BY device_type;', '[{\"device_type\":\"交换机\",\"nums\":12},{\"device_type\":\"服务器\",\"nums\":10},{\"device_type\":\"路由器\",\"nums\":4},{\"device_type\":\"防火墙\",\"nums\":2}]', 1, 0, 'admin', '2021-06-30 09:57:47', 'admin', '2021-06-30 09:57:47', 1);
-INSERT INTO `gaea_report_data_set` VALUES (47, 'log_ajfireacl', '日志-防火墙ACL次数', '', 'mysql_ajreport', 'SELECT acl_type,COUNT(id) as nums from aj_report_init.aj_report_fireacl GROUP BY acl_type;', '[{\"acl_type\":\"LDAP389\",\"nums\":13},{\"acl_type\":\"Server1433\",\"nums\":9},{\"acl_type\":\"共享文件445\",\"nums\":7},{\"acl_type\":\"存储514\",\"nums\":14},{\"acl_type\":\"网页浏览443\",\"nums\":31},{\"acl_type\":\"远程桌面3389\",\"nums\":62},{\"acl_type\":\"远程登陆23\",\"nums\":66}]', 1, 0, 'admin', '2021-06-30 10:41:36', 'admin', '2021-06-30 10:41:36', 1);
-INSERT INTO `gaea_report_data_set` VALUES (48, 'log_ajattack', '日志-攻击占比', '', 'mysql_ajreport', 'SELECT attack_type,COUNT(id)as nums from aj_report_fireattack GROUP BY attack_type;', '[{\"attack_type\":\"SQL注入\",\"nums\":9},{\"attack_type\":\"UDP\",\"nums\":11},{\"attack_type\":\"WEB\",\"nums\":7},{\"attack_type\":\"僵尸网络\",\"nums\":24},{\"attack_type\":\"弱口令\",\"nums\":6},{\"attack_type\":\"端口扫描\",\"nums\":16},{\"attack_type\":\"网站扫描\",\"nums\":8},{\"attack_type\":\"超大ICMP\",\"nums\":19}]', 1, 0, 'admin', '2021-06-30 10:44:01', 'admin', '2021-06-30 13:13:56', 3);
-INSERT INTO `gaea_report_data_set` VALUES (50, 'log_ajmailfailtop5', '日志-邮件认证失败top5', '', 'mysql_ajreport', 'SELECT username,count(id)as nums from aj_report_mail WHERE status=0 GROUP BY username ORDER BY nums desc limit 5;', '[{\"nums\":63,\"username\":\"zhangsi\"},{\"nums\":52,\"username\":\"wangwu\"},{\"nums\":39,\"username\":\"liliu\"},{\"nums\":39,\"username\":\"IT1\"},{\"nums\":30,\"username\":\"IT2\"}]', 1, 0, 'admin', '2021-06-30 11:07:53', 'admin', '2021-06-30 11:07:53', 1);
-INSERT INTO `gaea_report_data_set` VALUES (51, 'log_ajmailfail', '日志-邮件认证失败趋势', '', 'mysql_ajreport', 'SELECT DATE_FORMAT(create_time,\'%Y-%m-%d\')as date,count(id)as nums from aj_report_mail WHERE status=0 \ngroup by date', '[{\"date\":\"2021-06-21\",\"nums\":25},{\"date\":\"2021-06-22\",\"nums\":16},{\"date\":\"2021-06-23\",\"nums\":89},{\"date\":\"2021-06-24\",\"nums\":61},{\"date\":\"2021-06-25\",\"nums\":53}]', 1, 0, 'admin', '2021-06-30 12:58:19', 'admin', '2021-06-30 12:58:19', 1);
-INSERT INTO `gaea_report_data_set` VALUES (52, 'log_ajwifiamount', '日志-wifi登陆趋势', '', 'mysql_ajreport', 'SELECT * from aj_report_wifiamount;', '[{\"fail\":15,\"datetime\":\"2021-06-17\",\"success\":210},{\"fail\":43,\"datetime\":\"2021-06-18\",\"success\":234},{\"fail\":28,\"datetime\":\"2021-06-19\",\"success\":199},{\"fail\":80,\"datetime\":\"2021-06-20\",\"success\":260},{\"fail\":45,\"datetime\":\"2021-06-21\",\"success\":245},{\"fail\":26,\"datetime\":\"2021-06-22\",\"success\":216},{\"fail\":10,\"datetime\":\"2021-06-23\",\"success\":150}]', 1, 0, 'admin', '2021-06-30 13:07:35', 'admin', '2021-06-30 13:07:35', 1);
-INSERT INTO `gaea_report_data_set` VALUES (53, 'car_ajpro', '汽车-生产趋势', '', 'mysql_ajreport', 'SELECT datetime,sum(manus)as nums from aj_report_manus GROUP BY datetime;', '[{\"datetime\":\"2021-06-18\",\"nums\":252},{\"datetime\":\"2021-06-19\",\"nums\":133},{\"datetime\":\"2021-06-20\",\"nums\":189},{\"datetime\":\"2021-06-21\",\"nums\":219},{\"datetime\":\"2021-06-22\",\"nums\":159}]', 1, 0, 'admin', '2021-06-30 14:23:02', 'admin', '2021-06-30 14:23:02', 1);
-INSERT INTO `gaea_report_data_set` VALUES (54, 'car_ajsale', '汽车-销售趋势', '', 'mysql_ajreport', 'SELECT datetime,sum(sales)as nums from aj_report_manus GROUP BY datetime;', '[{\"datetime\":\"2021-06-18\",\"nums\":231},{\"datetime\":\"2021-06-19\",\"nums\":140},{\"datetime\":\"2021-06-20\",\"nums\":170},{\"datetime\":\"2021-06-21\",\"nums\":191},{\"datetime\":\"2021-06-22\",\"nums\":144}]', 1, 0, 'admin', '2021-06-30 14:24:33', 'admin', '2021-06-30 14:24:33', 1);
-INSERT INTO `gaea_report_data_set` VALUES (55, 'car_ajproTop5', '汽车-生产TOP5', '', 'mysql_ajreport', 'SELECT brand,sum(manus)as nums from aj_report_manus GROUP BY brand ORDER BY nums desc limit 5;', '[{\"brand\":\"E-30\",\"nums\":215},{\"brand\":\"C-50\",\"nums\":210},{\"brand\":\"D-40\",\"nums\":175},{\"brand\":\"A-100\",\"nums\":100},{\"brand\":\"A-110\",\"nums\":97}]', 1, 0, 'admin', '2021-06-30 14:26:55', 'admin', '2021-06-30 14:26:55', 1);
-INSERT INTO `gaea_report_data_set` VALUES (56, 'car_ajsaleTop5', '汽车-销售TOP5', '', 'mysql_ajreport', 'SELECT brand,sum(sales)as nums from aj_report_manus GROUP BY brand ORDER BY nums desc limit 5;', '[{\"brand\":\"E-30\",\"nums\":221},{\"brand\":\"C-50\",\"nums\":189},{\"brand\":\"D-40\",\"nums\":169},{\"brand\":\"A-100\",\"nums\":81},{\"brand\":\"B-100\",\"nums\":80}]', 1, 0, 'admin', '2021-06-30 14:30:00', 'admin', '2021-06-30 14:30:00', 1);
-INSERT INTO `gaea_report_data_set` VALUES (57, 'car_ajunsale', '汽车-滞销', '', 'mysql_ajreport', 'SELECT brand,sum(unsales) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"C-50\",\"nums\":21},{\"brand\":\"A-110\",\"nums\":20},{\"brand\":\"A-100\",\"nums\":19},{\"brand\":\"B-110\",\"nums\":11},{\"brand\":\"E-30\",\"nums\":9},{\"brand\":\"D-40\",\"nums\":6},{\"brand\":\"B-100\",\"nums\":5}]', 1, 0, 'admin', '2021-06-30 14:30:46', 'admin', '2021-06-30 14:30:46', 1);
-INSERT INTO `gaea_report_data_set` VALUES (58, 'car_ajrework', '汽车-返修', '', 'mysql_ajreport', 'SELECT brand,sum(rework) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"E-30\",\"nums\":58},{\"brand\":\"D-40\",\"nums\":27},{\"brand\":\"C-50\",\"nums\":22},{\"brand\":\"A-100\",\"nums\":5},{\"brand\":\"A-110\",\"nums\":5},{\"brand\":\"B-110\",\"nums\":5},{\"brand\":\"B-100\",\"nums\":4}]', 1, 0, 'admin', '2021-06-30 14:31:16', 'admin', '2021-06-30 14:31:16', 1);
-INSERT INTO `gaea_report_data_set` VALUES (59, 'car_ajreturn', '汽车-退货', '', 'mysql_ajreport', 'SELECT brand,sum(`return`) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"E-30\",\"nums\":24},{\"brand\":\"C-50\",\"nums\":10},{\"brand\":\"D-40\",\"nums\":6},{\"brand\":\"A-110\",\"nums\":2},{\"brand\":\"B-110\",\"nums\":1},{\"brand\":\"A-100\",\"nums\":0},{\"brand\":\"B-100\",\"nums\":0}]', 1, 0, 'admin', '2021-06-30 14:31:45', 'admin', '2021-06-30 14:31:45', 1);
-INSERT INTO `gaea_report_data_set` VALUES (60, 'acc_ajacc', '访问-访问人数趋势', '', 'mysql_ajreport', 'SELECT datetime,access from aj_report_access ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"access\":1000},{\"datetime\":\"2021-06-19\",\"access\":1200},{\"datetime\":\"2021-06-20\",\"access\":1600},{\"datetime\":\"2021-06-21\",\"access\":2000},{\"datetime\":\"2021-06-22\",\"access\":800}]', 1, 0, 'admin', '2021-06-30 15:15:17', 'admin', '2021-06-30 15:16:04', 2);
-INSERT INTO `gaea_report_data_set` VALUES (61, 'acc_ajregister', '访问-注册人数趋势', '', 'mysql_ajreport', 'SELECT datetime,register from aj_report_access ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"register\":12},{\"datetime\":\"2021-06-19\",\"register\":20},{\"datetime\":\"2021-06-20\",\"register\":40},{\"datetime\":\"2021-06-21\",\"register\":100},{\"datetime\":\"2021-06-22\",\"register\":30}]', 1, 0, 'admin', '2021-06-30 15:15:55', 'admin', '2021-06-30 15:15:55', 1);
-INSERT INTO `gaea_report_data_set` VALUES (62, 'acc_ajrt', '访问-系统RT', '', 'mysql_ajreport', 'SELECT datetime,rt from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"rt\":90.92},{\"datetime\":\"2021-06-19\",\"rt\":100.02},{\"datetime\":\"2021-06-20\",\"rt\":98.89},{\"datetime\":\"2021-06-21\",\"rt\":110.99},{\"datetime\":\"2021-06-22\",\"rt\":89.78}]', 1, 0, 'admin', '2021-06-30 15:16:37', 'admin', '2021-07-01 16:06:00', 2);
-INSERT INTO `gaea_report_data_set` VALUES (63, 'acc_ajqps', '访问-系统QPS', '', 'mysql_ajreport', 'SELECT datetime,qps from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"qps\":9000},{\"datetime\":\"2021-06-19\",\"qps\":10000},{\"datetime\":\"2021-06-20\",\"qps\":9560},{\"datetime\":\"2021-06-21\",\"qps\":13456},{\"datetime\":\"2021-06-22\",\"qps\":8990}]', 1, 0, 'admin', '2021-06-30 15:19:06', 'admin', '2021-06-30 15:19:06', 1);
-INSERT INTO `gaea_report_data_set` VALUES (64, 'acc_ajerror', '访问-系统ERROR', '', 'mysql_ajreport', 'SELECT datetime,error from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"error\":2},{\"datetime\":\"2021-06-19\",\"error\":3},{\"datetime\":\"2021-06-20\",\"error\":1},{\"datetime\":\"2021-06-21\",\"error\":9},{\"datetime\":\"2021-06-22\",\"error\":3}]', 1, 0, 'admin', '2021-06-30 15:19:33', 'admin', '2021-06-30 15:19:33', 1);
-INSERT INTO `gaea_report_data_set` VALUES (65, 'amount_1', 'amount1', '', 'mysql_ajreport', 'SELECT sum(success)as nums from aj_report_wifiamount;', '[{\"nums\":1514}]', 1, 0, 'admin', '2021-07-05 15:00:18', 'admin', '2021-07-05 15:00:18', 1);
-INSERT INTO `gaea_report_data_set` VALUES (66, 'logis_1', '库存', '', 'mysql_ajreport', 'select name,nums from aj_report_common1 order by nums', '[{\"name\":\"上海\",\"nums\":500},{\"name\":\"北京\",\"nums\":600},{\"name\":\"西安\",\"nums\":1000},{\"name\":\"河南\",\"nums\":1200},{\"name\":\"武汉\",\"nums\":2000}]', 1, 0, 'admin', '2021-07-06 15:44:41', 'admin', '2021-07-06 15:54:16', 3);
-INSERT INTO `gaea_report_data_set` VALUES (67, 'logis_2', '收车量', '', 'mysql_ajreport', 'select name,nums from aj_report_common2 order by nums;', '[{\"name\":\"武汉\",\"nums\":20},{\"name\":\"河南\",\"nums\":50},{\"name\":\"西安\",\"nums\":70},{\"name\":\"北京\",\"nums\":100},{\"name\":\"上海\",\"nums\":200}]', 1, 0, 'admin', '2021-07-06 16:51:27', 'admin', '2021-07-06 16:51:27', 1);
-INSERT INTO `gaea_report_data_set` VALUES (68, 'logis_3', '收发车情况', '', 'mysql_ajreport', 'select time,collect,start from aj_report_common3;', '[{\"start\":8,\"time\":\"1月\",\"collect\":10},{\"start\":12,\"time\":\"2月\",\"collect\":15},{\"start\":22,\"time\":\"3月\",\"collect\":20},{\"start\":28,\"time\":\"4月\",\"collect\":30},{\"start\":35,\"time\":\"5月\",\"collect\":28},{\"start\":38,\"time\":\"6月\",\"collect\":40},{\"start\":100,\"time\":\"7月\",\"collect\":80},{\"start\":120,\"time\":\"8月\",\"collect\":90},{\"start\":89,\"time\":\"9月\",\"collect\":65},{\"start\":50,\"time\":\"10月\",\"collect\":50},{\"start\":34,\"time\":\"11月\",\"collect\":35},{\"start\":23,\"time\":\"12月\",\"collect\":27}]', 1, 0, 'admin', '2021-07-06 17:24:16', 'admin', '2021-07-06 17:30:15', 2);
-INSERT INTO `gaea_report_data_set` VALUES (69, 'logis_table', '表格测试', '', 'mysql_ajreport', 'select date,address,name from aj_report_table;', '[{\"date\":\"2021-05-01\",\"address\":\"这是一条测试表格事件1\",\"name\":\"上汽安吉\"},{\"date\":\"2021-05-02\",\"address\":\"这是一条测试表格事件2\",\"name\":\"上汽大通\"},{\"date\":\"2021-05-03\",\"address\":\"这是一条测试表格事件3\",\"name\":\"上汽智行\"},{\"date\":\"2021-05-04\",\"address\":\"这是一条测试表格事件4\",\"name\":\"上汽国际\"},{\"date\":\"2021-05-05\",\"address\":\"这是一条测试表格事件5\",\"name\":\"上汽国内\"},{\"date\":\"2021-05-06\",\"address\":\"这是一条测试表格事件6\",\"name\":\"上汽运输\"},{\"date\":\"2021-05-07\",\"address\":\"这是一条测试表格事件7\",\"name\":\"上汽大众\"}]', 1, 0, 'admin', '2021-07-06 17:56:23', 'admin', '2021-07-07 10:59:34', 4);
-INSERT INTO `gaea_report_data_set` VALUES (70, 'per', '百分比', '', 'mysql_ajreport', 'select doub from aj_report_nums where id =2;', '[{\"doub\":55.33}]', 1, 0, 'admin', '2021-07-14 16:17:14', 'admin', '2021-07-15 10:35:21', 2);
-INSERT INTO `gaea_report_data_set` VALUES (71, 'barstack_ajreport', '柱状堆叠数据', '', 'mysql_ajreport', 'select time,type,nums from aj_report_barstack', '[{\"time\":\"2021-07-27\",\"type\":\"A\",\"nums\":12},{\"time\":\"2021-07-27\",\"type\":\"B\",\"nums\":20},{\"time\":\"2021-07-27\",\"type\":\"C\",\"nums\":11},{\"time\":\"2021-07-26\",\"type\":\"A\",\"nums\":11},{\"time\":\"2021-07-26\",\"type\":\"B\",\"nums\":30},{\"time\":\"2021-07-25\",\"type\":\"B\",\"nums\":20},{\"time\":\"2021-07-25\",\"type\":\"C\",\"nums\":15}]', 1, 0, 'admin', '2021-07-27 19:50:52', 'admin', '2021-08-16 14:08:51', 7);
-INSERT INTO `gaea_report_data_set` VALUES (72, 'compare_ajreport', '柱状对比图示例数据', '', 'mysql_ajreport', 'SELECT time,type,nums from aj_report_comparestack', '[{\"time\":\"2021-08-23\",\"type\":\"成功\",\"nums\":12},{\"time\":\"2021-08-23\",\"type\":\"失败\",\"nums\":1},{\"time\":\"2021-08-24\",\"type\":\"成功\",\"nums\":24},{\"time\":\"2021-08-24\",\"type\":\"失败\",\"nums\":5},{\"time\":\"2021-08-25\",\"type\":\"成功\",\"nums\":13},{\"time\":\"2021-08-25\",\"type\":\"失败\",\"nums\":8},{\"time\":\"2021-08-26\",\"type\":\"成功\",\"nums\":19},{\"time\":\"2021-08-26\",\"type\":\"失败\",\"nums\":3},{\"time\":\"2021-08-27\",\"type\":\"成功\",\"nums\":9},{\"time\":\"2021-08-27\",\"type\":\"失败\",\"nums\":15}]', 1, 0, 'admin', '2021-08-27 13:48:33', 'admin', '2021-08-27 13:48:33', 1);
+INSERT INTO `gaea_report_data_set` VALUES (46, 'log_ajdevices', '日志-资产统计', '', 'pigx_report_init', 'SELECT device_type,COUNT(device_id)as nums from aj_report_devices GROUP BY device_type;', '[{\"device_type\":\"交换机\",\"nums\":12},{\"device_type\":\"服务器\",\"nums\":10},{\"device_type\":\"路由器\",\"nums\":4},{\"device_type\":\"防火墙\",\"nums\":2}]', 1, 0, 'admin', '2021-06-30 09:57:47', 'admin', '2021-06-30 09:57:47', 1);
+INSERT INTO `gaea_report_data_set` VALUES (47, 'log_ajfireacl', '日志-防火墙ACL次数', '', 'pigx_report_init', 'SELECT acl_type,COUNT(id) as nums from aj_report_init.aj_report_fireacl GROUP BY acl_type;', '[{\"acl_type\":\"LDAP389\",\"nums\":13},{\"acl_type\":\"Server1433\",\"nums\":9},{\"acl_type\":\"共享文件445\",\"nums\":7},{\"acl_type\":\"存储514\",\"nums\":14},{\"acl_type\":\"网页浏览443\",\"nums\":31},{\"acl_type\":\"远程桌面3389\",\"nums\":62},{\"acl_type\":\"远程登陆23\",\"nums\":66}]', 1, 0, 'admin', '2021-06-30 10:41:36', 'admin', '2021-06-30 10:41:36', 1);
+INSERT INTO `gaea_report_data_set` VALUES (48, 'log_ajattack', '日志-攻击占比', '', 'pigx_report_init', 'SELECT attack_type,COUNT(id)as nums from aj_report_fireattack GROUP BY attack_type;', '[{\"attack_type\":\"SQL注入\",\"nums\":9},{\"attack_type\":\"UDP\",\"nums\":11},{\"attack_type\":\"WEB\",\"nums\":7},{\"attack_type\":\"僵尸网络\",\"nums\":24},{\"attack_type\":\"弱口令\",\"nums\":6},{\"attack_type\":\"端口扫描\",\"nums\":16},{\"attack_type\":\"网站扫描\",\"nums\":8},{\"attack_type\":\"超大ICMP\",\"nums\":19}]', 1, 0, 'admin', '2021-06-30 10:44:01', 'admin', '2021-06-30 13:13:56', 3);
+INSERT INTO `gaea_report_data_set` VALUES (50, 'log_ajmailfailtop5', '日志-邮件认证失败top5', '', 'pigx_report_init', 'SELECT username,count(id)as nums from aj_report_mail WHERE status=0 GROUP BY username ORDER BY nums desc limit 5;', '[{\"nums\":63,\"username\":\"zhangsi\"},{\"nums\":52,\"username\":\"wangwu\"},{\"nums\":39,\"username\":\"liliu\"},{\"nums\":39,\"username\":\"IT1\"},{\"nums\":30,\"username\":\"IT2\"}]', 1, 0, 'admin', '2021-06-30 11:07:53', 'admin', '2021-06-30 11:07:53', 1);
+INSERT INTO `gaea_report_data_set` VALUES (51, 'log_ajmailfail', '日志-邮件认证失败趋势', '', 'pigx_report_init', 'SELECT DATE_FORMAT(create_time,\'%Y-%m-%d\')as date,count(id)as nums from aj_report_mail WHERE status=0 \ngroup by date', '[{\"date\":\"2021-06-21\",\"nums\":25},{\"date\":\"2021-06-22\",\"nums\":16},{\"date\":\"2021-06-23\",\"nums\":89},{\"date\":\"2021-06-24\",\"nums\":61},{\"date\":\"2021-06-25\",\"nums\":53}]', 1, 0, 'admin', '2021-06-30 12:58:19', 'admin', '2021-06-30 12:58:19', 1);
+INSERT INTO `gaea_report_data_set` VALUES (52, 'log_ajwifiamount', '日志-wifi登陆趋势', '', 'pigx_report_init', 'SELECT * from aj_report_wifiamount;', '[{\"fail\":15,\"datetime\":\"2021-06-17\",\"success\":210},{\"fail\":43,\"datetime\":\"2021-06-18\",\"success\":234},{\"fail\":28,\"datetime\":\"2021-06-19\",\"success\":199},{\"fail\":80,\"datetime\":\"2021-06-20\",\"success\":260},{\"fail\":45,\"datetime\":\"2021-06-21\",\"success\":245},{\"fail\":26,\"datetime\":\"2021-06-22\",\"success\":216},{\"fail\":10,\"datetime\":\"2021-06-23\",\"success\":150}]', 1, 0, 'admin', '2021-06-30 13:07:35', 'admin', '2021-06-30 13:07:35', 1);
+INSERT INTO `gaea_report_data_set` VALUES (53, 'car_ajpro', '汽车-生产趋势', '', 'pigx_report_init', 'SELECT datetime,sum(manus)as nums from aj_report_manus GROUP BY datetime;', '[{\"datetime\":\"2021-06-18\",\"nums\":252},{\"datetime\":\"2021-06-19\",\"nums\":133},{\"datetime\":\"2021-06-20\",\"nums\":189},{\"datetime\":\"2021-06-21\",\"nums\":219},{\"datetime\":\"2021-06-22\",\"nums\":159}]', 1, 0, 'admin', '2021-06-30 14:23:02', 'admin', '2021-06-30 14:23:02', 1);
+INSERT INTO `gaea_report_data_set` VALUES (54, 'car_ajsale', '汽车-销售趋势', '', 'pigx_report_init', 'SELECT datetime,sum(sales)as nums from aj_report_manus GROUP BY datetime;', '[{\"datetime\":\"2021-06-18\",\"nums\":231},{\"datetime\":\"2021-06-19\",\"nums\":140},{\"datetime\":\"2021-06-20\",\"nums\":170},{\"datetime\":\"2021-06-21\",\"nums\":191},{\"datetime\":\"2021-06-22\",\"nums\":144}]', 1, 0, 'admin', '2021-06-30 14:24:33', 'admin', '2021-06-30 14:24:33', 1);
+INSERT INTO `gaea_report_data_set` VALUES (55, 'car_ajproTop5', '汽车-生产TOP5', '', 'pigx_report_init', 'SELECT brand,sum(manus)as nums from aj_report_manus GROUP BY brand ORDER BY nums desc limit 5;', '[{\"brand\":\"E-30\",\"nums\":215},{\"brand\":\"C-50\",\"nums\":210},{\"brand\":\"D-40\",\"nums\":175},{\"brand\":\"A-100\",\"nums\":100},{\"brand\":\"A-110\",\"nums\":97}]', 1, 0, 'admin', '2021-06-30 14:26:55', 'admin', '2021-06-30 14:26:55', 1);
+INSERT INTO `gaea_report_data_set` VALUES (56, 'car_ajsaleTop5', '汽车-销售TOP5', '', 'pigx_report_init', 'SELECT brand,sum(sales)as nums from aj_report_manus GROUP BY brand ORDER BY nums desc limit 5;', '[{\"brand\":\"E-30\",\"nums\":221},{\"brand\":\"C-50\",\"nums\":189},{\"brand\":\"D-40\",\"nums\":169},{\"brand\":\"A-100\",\"nums\":81},{\"brand\":\"B-100\",\"nums\":80}]', 1, 0, 'admin', '2021-06-30 14:30:00', 'admin', '2021-06-30 14:30:00', 1);
+INSERT INTO `gaea_report_data_set` VALUES (57, 'car_ajunsale', '汽车-滞销', '', 'pigx_report_init', 'SELECT brand,sum(unsales) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"C-50\",\"nums\":21},{\"brand\":\"A-110\",\"nums\":20},{\"brand\":\"A-100\",\"nums\":19},{\"brand\":\"B-110\",\"nums\":11},{\"brand\":\"E-30\",\"nums\":9},{\"brand\":\"D-40\",\"nums\":6},{\"brand\":\"B-100\",\"nums\":5}]', 1, 0, 'admin', '2021-06-30 14:30:46', 'admin', '2021-06-30 14:30:46', 1);
+INSERT INTO `gaea_report_data_set` VALUES (58, 'car_ajrework', '汽车-返修', '', 'pigx_report_init', 'SELECT brand,sum(rework) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"E-30\",\"nums\":58},{\"brand\":\"D-40\",\"nums\":27},{\"brand\":\"C-50\",\"nums\":22},{\"brand\":\"A-100\",\"nums\":5},{\"brand\":\"A-110\",\"nums\":5},{\"brand\":\"B-110\",\"nums\":5},{\"brand\":\"B-100\",\"nums\":4}]', 1, 0, 'admin', '2021-06-30 14:31:16', 'admin', '2021-06-30 14:31:16', 1);
+INSERT INTO `gaea_report_data_set` VALUES (59, 'car_ajreturn', '汽车-退货', '', 'pigx_report_init', 'SELECT brand,sum(`return`) as nums from aj_report_manus GROUP BY brand ORDER BY nums desc;', '[{\"brand\":\"E-30\",\"nums\":24},{\"brand\":\"C-50\",\"nums\":10},{\"brand\":\"D-40\",\"nums\":6},{\"brand\":\"A-110\",\"nums\":2},{\"brand\":\"B-110\",\"nums\":1},{\"brand\":\"A-100\",\"nums\":0},{\"brand\":\"B-100\",\"nums\":0}]', 1, 0, 'admin', '2021-06-30 14:31:45', 'admin', '2021-06-30 14:31:45', 1);
+INSERT INTO `gaea_report_data_set` VALUES (60, 'acc_ajacc', '访问-访问人数趋势', '', 'pigx_report_init', 'SELECT datetime,access from aj_report_access ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"access\":1000},{\"datetime\":\"2021-06-19\",\"access\":1200},{\"datetime\":\"2021-06-20\",\"access\":1600},{\"datetime\":\"2021-06-21\",\"access\":2000},{\"datetime\":\"2021-06-22\",\"access\":800}]', 1, 0, 'admin', '2021-06-30 15:15:17', 'admin', '2021-06-30 15:16:04', 2);
+INSERT INTO `gaea_report_data_set` VALUES (61, 'acc_ajregister', '访问-注册人数趋势', '', 'pigx_report_init', 'SELECT datetime,register from aj_report_access ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"register\":12},{\"datetime\":\"2021-06-19\",\"register\":20},{\"datetime\":\"2021-06-20\",\"register\":40},{\"datetime\":\"2021-06-21\",\"register\":100},{\"datetime\":\"2021-06-22\",\"register\":30}]', 1, 0, 'admin', '2021-06-30 15:15:55', 'admin', '2021-06-30 15:15:55', 1);
+INSERT INTO `gaea_report_data_set` VALUES (62, 'acc_ajrt', '访问-系统RT', '', 'pigx_report_init', 'SELECT datetime,rt from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"rt\":90.92},{\"datetime\":\"2021-06-19\",\"rt\":100.02},{\"datetime\":\"2021-06-20\",\"rt\":98.89},{\"datetime\":\"2021-06-21\",\"rt\":110.99},{\"datetime\":\"2021-06-22\",\"rt\":89.78}]', 1, 0, 'admin', '2021-06-30 15:16:37', 'admin', '2021-07-01 16:06:00', 2);
+INSERT INTO `gaea_report_data_set` VALUES (63, 'acc_ajqps', '访问-系统QPS', '', 'pigx_report_init', 'SELECT datetime,qps from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"qps\":9000},{\"datetime\":\"2021-06-19\",\"qps\":10000},{\"datetime\":\"2021-06-20\",\"qps\":9560},{\"datetime\":\"2021-06-21\",\"qps\":13456},{\"datetime\":\"2021-06-22\",\"qps\":8990}]', 1, 0, 'admin', '2021-06-30 15:19:06', 'admin', '2021-06-30 15:19:06', 1);
+INSERT INTO `gaea_report_data_set` VALUES (64, 'acc_ajerror', '访问-系统ERROR', '', 'pigx_report_init', 'SELECT datetime,error from aj_report_exper ORDER BY datetime;', '[{\"datetime\":\"2021-06-18\",\"error\":2},{\"datetime\":\"2021-06-19\",\"error\":3},{\"datetime\":\"2021-06-20\",\"error\":1},{\"datetime\":\"2021-06-21\",\"error\":9},{\"datetime\":\"2021-06-22\",\"error\":3}]', 1, 0, 'admin', '2021-06-30 15:19:33', 'admin', '2021-06-30 15:19:33', 1);
+INSERT INTO `gaea_report_data_set` VALUES (65, 'amount_1', 'amount1', '', 'pigx_report_init', 'SELECT sum(success)as nums from aj_report_wifiamount;', '[{\"nums\":1514}]', 1, 0, 'admin', '2021-07-05 15:00:18', 'admin', '2021-07-05 15:00:18', 1);
+INSERT INTO `gaea_report_data_set` VALUES (66, 'logis_1', '库存', '', 'pigx_report_init', 'select name,nums from aj_report_common1 order by nums', '[{\"name\":\"上海\",\"nums\":500},{\"name\":\"北京\",\"nums\":600},{\"name\":\"西安\",\"nums\":1000},{\"name\":\"河南\",\"nums\":1200},{\"name\":\"武汉\",\"nums\":2000}]', 1, 0, 'admin', '2021-07-06 15:44:41', 'admin', '2021-07-06 15:54:16', 3);
+INSERT INTO `gaea_report_data_set` VALUES (67, 'logis_2', '收车量', '', 'pigx_report_init', 'select name,nums from aj_report_common2 order by nums;', '[{\"name\":\"武汉\",\"nums\":20},{\"name\":\"河南\",\"nums\":50},{\"name\":\"西安\",\"nums\":70},{\"name\":\"北京\",\"nums\":100},{\"name\":\"上海\",\"nums\":200}]', 1, 0, 'admin', '2021-07-06 16:51:27', 'admin', '2021-07-06 16:51:27', 1);
+INSERT INTO `gaea_report_data_set` VALUES (68, 'logis_3', '收发车情况', '', 'pigx_report_init', 'select time,collect,start from aj_report_common3;', '[{\"start\":8,\"time\":\"1月\",\"collect\":10},{\"start\":12,\"time\":\"2月\",\"collect\":15},{\"start\":22,\"time\":\"3月\",\"collect\":20},{\"start\":28,\"time\":\"4月\",\"collect\":30},{\"start\":35,\"time\":\"5月\",\"collect\":28},{\"start\":38,\"time\":\"6月\",\"collect\":40},{\"start\":100,\"time\":\"7月\",\"collect\":80},{\"start\":120,\"time\":\"8月\",\"collect\":90},{\"start\":89,\"time\":\"9月\",\"collect\":65},{\"start\":50,\"time\":\"10月\",\"collect\":50},{\"start\":34,\"time\":\"11月\",\"collect\":35},{\"start\":23,\"time\":\"12月\",\"collect\":27}]', 1, 0, 'admin', '2021-07-06 17:24:16', 'admin', '2021-07-06 17:30:15', 2);
+INSERT INTO `gaea_report_data_set` VALUES (69, 'logis_table', '表格测试', '', 'pigx_report_init', 'select date,address,name from aj_report_table;', '[{\"date\":\"2021-05-01\",\"address\":\"这是一条测试表格事件1\",\"name\":\"上汽安吉\"},{\"date\":\"2021-05-02\",\"address\":\"这是一条测试表格事件2\",\"name\":\"上汽大通\"},{\"date\":\"2021-05-03\",\"address\":\"这是一条测试表格事件3\",\"name\":\"上汽智行\"},{\"date\":\"2021-05-04\",\"address\":\"这是一条测试表格事件4\",\"name\":\"上汽国际\"},{\"date\":\"2021-05-05\",\"address\":\"这是一条测试表格事件5\",\"name\":\"上汽国内\"},{\"date\":\"2021-05-06\",\"address\":\"这是一条测试表格事件6\",\"name\":\"上汽运输\"},{\"date\":\"2021-05-07\",\"address\":\"这是一条测试表格事件7\",\"name\":\"上汽大众\"}]', 1, 0, 'admin', '2021-07-06 17:56:23', 'admin', '2021-07-07 10:59:34', 4);
+INSERT INTO `gaea_report_data_set` VALUES (70, 'per', '百分比', '', 'pigx_report_init', 'select doub from aj_report_nums where id =2;', '[{\"doub\":55.33}]', 1, 0, 'admin', '2021-07-14 16:17:14', 'admin', '2021-07-15 10:35:21', 2);
+INSERT INTO `gaea_report_data_set` VALUES (71, 'barstack_ajreport', '柱状堆叠数据', '', 'pigx_report_init', 'select time,type,nums from aj_report_barstack', '[{\"time\":\"2021-07-27\",\"type\":\"A\",\"nums\":12},{\"time\":\"2021-07-27\",\"type\":\"B\",\"nums\":20},{\"time\":\"2021-07-27\",\"type\":\"C\",\"nums\":11},{\"time\":\"2021-07-26\",\"type\":\"A\",\"nums\":11},{\"time\":\"2021-07-26\",\"type\":\"B\",\"nums\":30},{\"time\":\"2021-07-25\",\"type\":\"B\",\"nums\":20},{\"time\":\"2021-07-25\",\"type\":\"C\",\"nums\":15}]', 1, 0, 'admin', '2021-07-27 19:50:52', 'admin', '2021-08-16 14:08:51', 7);
+INSERT INTO `gaea_report_data_set` VALUES (72, 'compare_ajreport', '柱状对比图示例数据', '', 'pigx_report_init', 'SELECT time,type,nums from aj_report_comparestack', '[{\"time\":\"2021-08-23\",\"type\":\"成功\",\"nums\":12},{\"time\":\"2021-08-23\",\"type\":\"失败\",\"nums\":1},{\"time\":\"2021-08-24\",\"type\":\"成功\",\"nums\":24},{\"time\":\"2021-08-24\",\"type\":\"失败\",\"nums\":5},{\"time\":\"2021-08-25\",\"type\":\"成功\",\"nums\":13},{\"time\":\"2021-08-25\",\"type\":\"失败\",\"nums\":8},{\"time\":\"2021-08-26\",\"type\":\"成功\",\"nums\":19},{\"time\":\"2021-08-26\",\"type\":\"失败\",\"nums\":3},{\"time\":\"2021-08-27\",\"type\":\"成功\",\"nums\":9},{\"time\":\"2021-08-27\",\"type\":\"失败\",\"nums\":15}]', 1, 0, 'admin', '2021-08-27 13:48:33', 'admin', '2021-08-27 13:48:33', 1);
 COMMIT;
 
 -- ----------------------------
@@ -442,23 +448,23 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_data_set_param`;
 CREATE TABLE `gaea_report_data_set_param` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
-  `param_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数名',
-  `param_desc` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数描述',
-  `param_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数类型，字典=',
-  `sample_item` varchar(1080) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数示例项',
-  `required_flag` int DEFAULT '1' COMMENT '0--非必填 1--必填 DIC_NAME=REQUIRED_FLAG',
-  `validation_rules` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'js校验字段值规则，满足校验返回 true',
-  `order_num` int DEFAULT NULL COMMENT '排序',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                              `id` bigint NOT NULL AUTO_INCREMENT,
+                                              `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
+                                              `param_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数名',
+                                              `param_desc` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数描述',
+                                              `param_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数类型，字典=',
+                                              `sample_item` varchar(1080) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '参数示例项',
+                                              `required_flag` int DEFAULT '1' COMMENT '0--非必填 1--必填 DIC_NAME=REQUIRED_FLAG',
+                                              `validation_rules` varchar(2048) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'js校验字段值规则，满足校验返回 true',
+                                              `order_num` int DEFAULT NULL COMMENT '排序',
+                                              `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                              `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                                              `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                                              `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                              `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
+                                              `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                              `version` int DEFAULT NULL,
+                                              PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据集查询参数';
 
 -- ----------------------------
@@ -472,19 +478,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_data_set_transform`;
 CREATE TABLE `gaea_report_data_set_transform` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
-  `transform_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据转换类型，DIC_NAME=TRANSFORM_TYPE; js，javaBean，字典转换',
-  `transform_script` varchar(10800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据转换script,处理逻辑',
-  `order_num` int DEFAULT NULL COMMENT '排序,执行数据转换顺序',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
+                                                  `id` bigint NOT NULL AUTO_INCREMENT,
+                                                  `set_code` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据集编码',
+                                                  `transform_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据转换类型，DIC_NAME=TRANSFORM_TYPE; js，javaBean，字典转换',
+                                                  `transform_script` varchar(10800) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '数据转换script,处理逻辑',
+                                                  `order_num` int DEFAULT NULL COMMENT '排序,执行数据转换顺序',
+                                                  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                                  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                                                  `create_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
+                                                  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                                  `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
+                                                  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                                  `version` int DEFAULT NULL,
+                                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='数据集数据转换';
 
 -- ----------------------------
@@ -498,21 +504,21 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_data_source`;
 CREATE TABLE `gaea_report_data_source` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `source_code` varchar(100) DEFAULT NULL COMMENT '数据源编码',
-  `source_name` varchar(100) DEFAULT NULL COMMENT '数据源名称',
-  `source_desc` varchar(255) DEFAULT NULL COMMENT '数据源描述',
-  `source_type` varchar(50) DEFAULT NULL COMMENT '数据源类型 DIC_NAME=SOURCE_TYPE; mysql，orace，sqlserver，elasticsearch，接口，javaBean，数据源类型字典中item-extend动态生成表单',
-  `source_config` varchar(2048) DEFAULT NULL COMMENT '数据源连接配置json：关系库{ jdbcUrl:'''', username:'''', password:'''' } ES{ hostList:''ip1:9300,ip2:9300,ip3:9300'', clusterName:''elasticsearch_cluster'' }  接口{ apiUrl:''http://ip:port/url'', method:'''' } javaBean{ beanNamw:''xxx'' }',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `unique_source_code` (`source_code`) USING BTREE
+                                           `id` bigint NOT NULL AUTO_INCREMENT,
+                                           `source_code` varchar(100) DEFAULT NULL COMMENT '数据源编码',
+                                           `source_name` varchar(100) DEFAULT NULL COMMENT '数据源名称',
+                                           `source_desc` varchar(255) DEFAULT NULL COMMENT '数据源描述',
+                                           `source_type` varchar(50) DEFAULT NULL COMMENT '数据源类型 DIC_NAME=SOURCE_TYPE; mysql，orace，sqlserver，elasticsearch，接口，javaBean，数据源类型字典中item-extend动态生成表单',
+                                           `source_config` varchar(2048) DEFAULT NULL COMMENT '数据源连接配置json：关系库{ jdbcUrl:'''', username:'''', password:'''' } ES{ hostList:''ip1:9300,ip2:9300,ip3:9300'', clusterName:''elasticsearch_cluster'' }  接口{ apiUrl:''http://ip:port/url'', method:'''' } javaBean{ beanNamw:''xxx'' }',
+                                           `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                           `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                                           `create_by` varchar(255) DEFAULT NULL COMMENT '创建人',
+                                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                           `update_by` varchar(255) DEFAULT NULL COMMENT '更新人',
+                                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                           `version` int DEFAULT NULL,
+                                           PRIMARY KEY (`id`) USING BTREE,
+                                           UNIQUE KEY `unique_source_code` (`source_code`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='数据源管理';
 
 -- ----------------------------
@@ -527,22 +533,22 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `gaea_report_share`;
 CREATE TABLE `gaea_report_share` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `share_code` varchar(50) DEFAULT NULL COMMENT '分享编码，系统生成，默认UUID',
-  `share_valid_type` int DEFAULT NULL COMMENT '分享有效期类型，DIC_NAME=SHARE_VAILD',
-  `share_valid_time` datetime DEFAULT NULL COMMENT '分享有效期',
-  `share_token` varchar(255) DEFAULT NULL COMMENT '分享token',
-  `share_url` varchar(100) DEFAULT NULL COMMENT '分享url',
-  `report_code` varchar(50) DEFAULT NULL COMMENT '报表编码',
-  `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
-  `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
-  `create_by` varchar(255) DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_by` varchar(255) DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `version` int DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `UNIQUE_SHARE_CODE` (`share_code`)
+                                     `id` bigint NOT NULL AUTO_INCREMENT,
+                                     `share_code` varchar(50) DEFAULT NULL COMMENT '分享编码，系统生成，默认UUID',
+                                     `share_valid_type` int DEFAULT NULL COMMENT '分享有效期类型，DIC_NAME=SHARE_VAILD',
+                                     `share_valid_time` datetime DEFAULT NULL COMMENT '分享有效期',
+                                     `share_token` varchar(255) DEFAULT NULL COMMENT '分享token',
+                                     `share_url` varchar(100) DEFAULT NULL COMMENT '分享url',
+                                     `report_code` varchar(50) DEFAULT NULL COMMENT '报表编码',
+                                     `enable_flag` int DEFAULT '1' COMMENT '0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG',
+                                     `delete_flag` int DEFAULT '0' COMMENT '0--未删除 1--已删除 DIC_NAME=DELETE_FLAG',
+                                     `create_by` varchar(255) DEFAULT NULL COMMENT '创建人',
+                                     `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+                                     `update_by` varchar(255) DEFAULT NULL COMMENT '更新人',
+                                     `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+                                     `version` int DEFAULT NULL,
+                                     PRIMARY KEY (`id`) USING BTREE,
+                                     UNIQUE KEY `UNIQUE_SHARE_CODE` (`share_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='报表分享';
 
 -- ----------------------------

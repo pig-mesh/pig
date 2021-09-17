@@ -34,6 +34,12 @@ public class TokenFilter implements Filter {
 
 		String method = request.getMethod();
 
+		if (request.getRequestURI().contains("reportDashboard")){
+			// 执行
+			filterChain.doFilter(request, response);
+			return;
+		}
+
 		if (HttpMethod.POST.name().equalsIgnoreCase(method) || HttpMethod.PUT.name().equalsIgnoreCase(method)
 				|| HttpMethod.DELETE.name().equalsIgnoreCase(method)) {
 			ResponseBean responseBean = ResponseBean.builder().code("50001").message("在线体验版本，不允许此操作。").build();
