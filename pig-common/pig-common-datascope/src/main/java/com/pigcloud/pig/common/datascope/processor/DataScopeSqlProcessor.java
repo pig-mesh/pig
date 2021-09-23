@@ -32,6 +32,8 @@ import java.util.Objects;
 @Slf4j
 public class DataScopeSqlProcessor extends JsqlParserSupport {
 
+	private static final String MYSQL_ESCAPE_CHARACTER = "`";
+
 	/**
 	 * select 类型SQL处理
 	 * @param select jsqlparser Statement Select
@@ -283,7 +285,9 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 	 * @return 修改后的 where/or 条件
 	 */
 	private Expression injectExpression(Expression currentExpression, Table table) {
-		String tableName = table.getName();
+		// 获取表名
+		String tableName = getTableName(table.getName());
+
 		List<DataScope> dataScopes = DataScopeHolder.get();
 		Expression dataFilterExpression = dataScopes.stream().filter(x -> x.getTableNames().contains(tableName))
 				.map(x -> x.getExpression(tableName, table.getAlias())).filter(Objects::nonNull)
@@ -302,6 +306,19 @@ public class DataScopeSqlProcessor extends JsqlParserSupport {
 			return new AndExpression(currentExpression, dataFilterExpression);
 		}
 	}
+
+	/**
+	 * 兼容 mysql 转义表名 `t_xxx`
+	 * @param tableName 表名
+	 * @return 去除转移字符后的表名
+	 */
+	protected static String getTableName(String tableName) {
+		if (tableName.startsWith(MYSQL_ESCAPE_CHARACTER) && tableName.endsWith(MYSQL_ESCAPE_CHARACTER)) {
+			tableName = tableName.substring(1, tableName.length() - 1);
+		}
+		return tableName;
+	}
+
 
 	/**
 	 * 根据当前表是否有别名，动态对字段名前添加表别名 eg. 表名： table_1 as t 原始字段：column1 返回： t.column1
