@@ -25,6 +25,10 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -44,11 +48,22 @@ public interface RemoteUserService {
 	R<UserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
-	 * 通过社交账号查询用户、角色信息
-	 * @param inStr appid@code
-	 * @return
+	 * 通过手机号码查询用户、角色信息
+	 * @param phone 手机号码
+	 * @param from 调用标志
+	 * @return R
 	 */
-	@GetMapping("/social/info/{inStr}")
-	R<UserInfo> social(@PathVariable("inStr") String inStr);
+	@GetMapping("/mobile/{phone}")
+	R<UserInfo> infoByPhone(@PathVariable("phone") String phone, @RequestHeader(SecurityConstants.FROM) String from);
+
+	/**
+	 * 根据部门id，查询对应的用户 id 集合
+	 * @param deptIds 部门id 集合
+	 * @param from 调用标志
+	 * @return 用户 id 集合
+	 */
+	@GetMapping("/user/ids")
+	R<List<Integer>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Integer> deptIds,
+			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

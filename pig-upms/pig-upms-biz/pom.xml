@@ -60,6 +60,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-mybatis</artifactId>
 		</dependency>
+		<!--数据权限 模块-->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-common-datascope</artifactId>
+		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>

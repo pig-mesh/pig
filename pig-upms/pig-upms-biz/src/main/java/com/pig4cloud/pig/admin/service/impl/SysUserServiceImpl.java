@@ -25,7 +25,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
-import com.pig4cloud.pig.admin.api.entity.*;
+import com.pig4cloud.pig.admin.api.entity.SysDept;
+import com.pig4cloud.pig.admin.api.entity.SysMenu;
+import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.admin.api.entity.SysUser;
+import com.pig4cloud.pig.admin.api.entity.SysUserRole;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
@@ -107,9 +111,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public UserInfo getUserInfo(SysUser sysUser) {
 		UserInfo userInfo = new UserInfo();
 		userInfo.setSysUser(sysUser);
+		// 设置角色列表
+		List<SysRole> roleList = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
+		userInfo.setRoleList(roleList);
 		// 设置角色列表 （ID）
-		List<Integer> roleIds = sysRoleMapper.listRolesByUserId(sysUser.getUserId()).stream().map(SysRole::getRoleId)
-				.collect(Collectors.toList());
+		List<Integer> roleIds = roleList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, Integer.class));
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = sysMenuService.findMenuByRoleId(CollUtil.join(roleIds, StrUtil.COMMA)).stream()
@@ -117,6 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				.filter(m -> StrUtil.isNotBlank(m.getPermission())).map(SysMenu::getPermission)
 				.collect(Collectors.toSet());
 		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
+
 		return userInfo;
 	}
 
@@ -293,6 +300,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return R.failed(errorMessageList);
 		}
 		return R.ok();
+	}
+
+	@Override
+	public List<Integer> listUserIdByDeptIds(Set<Integer> deptIds) {
+		return this.listObjs(
+				Wrappers.lambdaQuery(SysUser.class).select(SysUser::getUserId).in(SysUser::getDeptId, deptIds),
+				Integer.class::cast);
 	}
 
 	/**

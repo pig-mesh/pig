@@ -25,6 +25,8 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.security.datascope.DataScopeProcessor;
+import com.pig4cloud.pig.common.security.datascope.UserDataScope;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +47,7 @@ import java.util.Set;
 /**
  * 用户详细信息
  *
- * @author lengleng
+ * @author lengleng hccake
  */
 @Slf4j
 @Service
@@ -55,6 +57,8 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	private final RemoteUserService remoteUserService;
 
 	private final CacheManager cacheManager;
+
+	private final DataScopeProcessor dataScopeProcessor;
 
 	/**
 	 * 用户密码登录
@@ -78,9 +82,20 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	}
 
 	/**
+	 * 手机号码登录
+	 * @param phone 手机号码
+	 * @return 用户信息
+	 */
+	public UserDetails loadUserByPhone(String phone) {
+		R<UserInfo> result = remoteUserService.infoByPhone(phone, SecurityConstants.FROM_IN);
+		UserDetails userDetails = getUserDetails(result);
+		return userDetails;
+	}
+
+	/**
 	 * 构建userdetails
 	 * @param result 用户信息
-	 * @return
+	 * @return UserDetails
 	 */
 	private UserDetails getUserDetails(R<UserInfo> result) {
 		if (result == null || result.getData() == null) {
@@ -100,10 +115,14 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		SysUser user = info.getSysUser();
 
+		// 数据权限填充
+		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(user, info.getRoleList());
+
 		// 构造security用户
 		return new PigUser(user.getUserId(), user.getDeptId(), user.getUsername(),
 				SecurityConstants.BCRYPT + user.getPassword(),
-				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), true, true, true, authorities);
+				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), true, true, true, authorities,
+				userDataScope);
 	}
 
 }

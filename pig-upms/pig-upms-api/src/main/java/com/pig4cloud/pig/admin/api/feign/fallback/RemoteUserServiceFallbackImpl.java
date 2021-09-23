@@ -23,6 +23,9 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * @author lengleng
  * @date 2019/2/1
@@ -47,13 +50,20 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 	}
 
 	/**
-	 * 通过社交账号查询用户、角色信息
-	 * @param inStr appid@code
-	 * @return
+	 * 通过手机号码查询用户、角色信息
+	 * @param phone 手机号码
+	 * @param from 调用标志
+	 * @return R
 	 */
 	@Override
-	public R<UserInfo> social(String inStr) {
-		log.error("feign 查询用户信息失败:{}", inStr, cause);
+	public R<UserInfo> infoByPhone(String phone, String from) {
+		log.error("feign 查询用户信息失败手机号码:{}", phone, cause);
+		return null;
+	}
+
+	@Override
+	public R<List<Integer>> listUserIdByDeptIds(Set<Integer> deptIds, String from) {
+		log.error("feign 根据部门ids查询用户Id集合失败:{}", deptIds, cause);
 		return null;
 	}
 

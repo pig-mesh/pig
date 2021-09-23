@@ -40,5 +40,6 @@
 		<module>pig-common-feign</module>
 		<module>pig-common-swagger</module>
 		<module>pig-common-test</module>
-	</modules>
+        <module>pig-common-datascope</module>
+    </modules>
 </project>

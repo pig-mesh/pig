@@ -1,19 +1,15 @@
-FROM moxm/java:1.8-full as builder
-WORKDIR /build
-ARG JAR_FILE=target/pig-xxl-job-admin.jar
-COPY ${JAR_FILE} app.jar
-RUN java -Djarmode=layertools -jar app.jar extract && rm app.jar
-
 FROM moxm/java:1.8-full
-LABEL maintainer="jclazz@outlook.com"
-ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
-WORKDIR pig-xxl-job-admin
 
-COPY --from=builder /build/dependencies/ ./
-COPY --from=builder /build/snapshot-dependencies/ ./
-COPY --from=builder /build/spring-boot-loader/ ./
-COPY --from=builder /build/application/ ./
+RUN mkdir -p /pig-xxl-job-admin
+
+WORKDIR /pig-xxl-job-admin
+
+ARG JAR_FILE=target/pig-xxl-job-admin.jar
+
+COPY ${JAR_FILE} app.jar
 
 EXPOSE 5004
 
-CMD sleep 60; java $JAVA_OPTS org.springframework.boot.loader.JarLauncher
+ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
+
+CMD sleep 60; java -jar app.jar $JAVA_OPTS

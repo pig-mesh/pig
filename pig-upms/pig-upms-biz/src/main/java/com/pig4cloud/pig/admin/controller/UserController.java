@@ -20,8 +20,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
+import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
+import com.pig4cloud.pig.admin.api.vo.UserInfoVO;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
@@ -33,10 +35,19 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -61,7 +72,12 @@ public class UserController {
 		if (user == null) {
 			return R.failed("获取当前用户信息失败");
 		}
-		return R.ok(userService.getUserInfo(user));
+		UserInfo userInfo = userService.getUserInfo(user);
+		UserInfoVO vo = new UserInfoVO();
+		vo.setSysUser(userInfo.getSysUser());
+		vo.setRoles(userInfo.getRoles());
+		vo.setPermissions(userInfo.getPermissions());
+		return R.ok(vo);
 	}
 
 	/**
@@ -76,6 +92,17 @@ public class UserController {
 			return R.failed(String.format("用户信息为空 %s", username));
 		}
 		return R.ok(userService.getUserInfo(user));
+	}
+
+	/**
+	 * 根据部门id，查询对应的用户 id 集合
+	 * @param deptIds 部门id 集合
+	 * @return 用户 id 集合
+	 */
+	@Inner
+	@GetMapping("/ids")
+	public R<List<Integer>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Integer> deptIds) {
+		return R.ok(userService.listUserIdByDeptIds(deptIds));
 	}
 
 	/**
