@@ -33,7 +33,6 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
-			<version>3.3.5</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>

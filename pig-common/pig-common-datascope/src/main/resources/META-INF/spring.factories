@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.pigcloud.pig.common.datascope.DataScopeAutoConfiguration
-
