@@ -62,7 +62,6 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	 */
 	private PhoneAuthenticationProvider phoneAuthenticationProvider() {
 		PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider();
-		phoneAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 		phoneAuthenticationProvider.setUserDetailsService(userDetailsService);
 		return phoneAuthenticationProvider;
 	}

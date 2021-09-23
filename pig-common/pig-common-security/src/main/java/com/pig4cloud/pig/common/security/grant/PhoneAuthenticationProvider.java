@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
@@ -13,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * @author hzq
@@ -24,9 +22,6 @@ public class PhoneAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
 	@Setter
 	private UserDetailsService userDetailsService;
-
-	@Setter
-	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * 校验 请求信息userDetails
@@ -51,7 +46,7 @@ public class PhoneAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
 		if (authentication.getCredentials() == null) {
 			log.debug("Failed to authenticate since no credentials provided");
-			throw new BeanCreationException("Bad credentials");
+			throw new BadCredentialsException("Bad credentials");
 		}
 
 		// 手机号
