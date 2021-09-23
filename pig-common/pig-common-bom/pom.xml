@@ -24,9 +24,9 @@
 		<spring.checkstyle.plugin>0.0.28</spring.checkstyle.plugin>
 		<fastjson.version>1.2.75</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
-		<mybatis-plus.version>3.4.3.3</mybatis-plus.version>
+		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<mybatis.version>3.5.7</mybatis.version>
-		<jsqlparser.version>4.1</jsqlparser.version>
+		<jsqlparser.version>4.2</jsqlparser.version>
 		<rocksdbjni.version>5.18.3</rocksdbjni.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.0.0</excel.version>
