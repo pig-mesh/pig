@@ -19,13 +19,11 @@ package com.pig4cloud.pig.admin.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.mapper.SysUserMapper;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +42,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class MobileServiceImpl implements MobileService {
+public class AppServiceImpl implements AppService {
 
 	private final RedisTemplate redisTemplate;
 
@@ -65,8 +63,7 @@ public class MobileServiceImpl implements MobileService {
 			return R.ok(Boolean.FALSE, "手机号未注册");
 		}
 
-		Object codeObj = redisTemplate.opsForValue()
-				.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
+		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + mobile);
 
 		if (codeObj != null) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -75,9 +72,8 @@ public class MobileServiceImpl implements MobileService {
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.debug("手机号生成验证码成功:{},{}", mobile, code);
-		redisTemplate.opsForValue().set(
-				CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code,
-				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME,
+				TimeUnit.SECONDS);
 		return R.ok(Boolean.TRUE, code);
 	}
 

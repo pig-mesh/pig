@@ -1,6 +1,5 @@
 package com.pig4cloud.pig.common.security.grant;
 
-import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,14 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * @author hzq
  * @since 2021-09-14
  */
 @Slf4j
-public class PhoneAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
 	@Setter
 	private UserDetailsService userDetailsService;
@@ -51,14 +49,8 @@ public class PhoneAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
 		// 手机号
 		String phone = authentication.getName();
-
-		if (StrUtil.equals(phone, "17034642999")) {
-			throw new UsernameNotFoundException(phone);
-		}
-
-		String code = authentication.getCredentials().toString();
 		UserDetails userDetails = ((PigUserDetailsServiceImpl) userDetailsService).loadUserByPhone(phone);
-		PhoneAuthenticationToken token = new PhoneAuthenticationToken(userDetails);
+		CustomAppAuthenticationToken token = new CustomAppAuthenticationToken(userDetails);
 		token.setDetails(authentication.getDetails());
 		return token;
 	}
@@ -71,7 +63,7 @@ public class PhoneAuthenticationProvider extends AbstractUserDetailsAuthenticati
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return authentication.isAssignableFrom(PhoneAuthenticationToken.class);
+		return authentication.isAssignableFrom(CustomAppAuthenticationToken.class);
 	}
 
 }

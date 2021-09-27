@@ -70,8 +70,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 			// 刷新token，手机号登录（也可以这里进行校验） 直接向下执行
 			String grantType = request.getQueryParams().getFirst("grant_type");
-			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)
-					|| StrUtil.equals(SecurityConstants.PHONE, grantType)) {
+			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
 				return chain.filter(exchange);
 			}
 

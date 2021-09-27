@@ -60,7 +60,7 @@ public interface SecurityConstants {
 	/**
 	 * 手机号登录
 	 */
-	String PHONE = "phone";
+	String APP = "app";
 
 	/**
 	 * {bcrypt} 加密的特征码

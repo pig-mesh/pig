@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.common.security.grant.PhoneAuthenticationProvider;
+import com.pig4cloud.pig.common.security.grant.CustomAppAuthenticationProvider;
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
 import lombok.AllArgsConstructor;
@@ -60,8 +60,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	/**
 	 * 不要直接使用@Bean注入 会导致默认的提供者无法注入（DaoAuthenticationProvider）
 	 */
-	private PhoneAuthenticationProvider phoneAuthenticationProvider() {
-		PhoneAuthenticationProvider phoneAuthenticationProvider = new PhoneAuthenticationProvider();
+	private CustomAppAuthenticationProvider phoneAuthenticationProvider() {
+		CustomAppAuthenticationProvider phoneAuthenticationProvider = new CustomAppAuthenticationProvider();
 		phoneAuthenticationProvider.setUserDetailsService(userDetailsService);
 		return phoneAuthenticationProvider;
 	}

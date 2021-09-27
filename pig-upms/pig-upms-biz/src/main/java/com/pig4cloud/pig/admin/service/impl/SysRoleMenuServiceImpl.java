@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -68,9 +69,9 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 		}).collect(Collectors.toList());
 
 		// 清空userinfo
-		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();
+		Objects.requireNonNull(cacheManager.getCache(CacheConstants.USER_DETAILS)).clear();
 		// 清空全部的菜单缓存 fix #I4BM58
-		cacheManager.getCache(CacheConstants.MENU_DETAILS).clear();
+		Objects.requireNonNull(cacheManager.getCache(CacheConstants.MENU_DETAILS)).clear();
 		return this.saveBatch(roleMenuList);
 	}
 

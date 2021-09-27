@@ -16,11 +16,10 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.converter.CustomAccessTokenConverter;
-import com.pig4cloud.pig.common.security.grant.ResourceOwnerPhoneTokenGranter;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
+import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import lombok.RequiredArgsConstructor;
@@ -83,8 +82,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 				.tokenEnhancer(tokenEnhancer()).userDetailsService(userDetailsService)
 				.authenticationManager(authenticationManager).reuseRefreshTokens(false)
 				.pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.exceptionTranslator(new PigWebResponseExceptionTranslator())
-				.accessTokenConverter(new CustomAccessTokenConverter(pigClientDetailsService()));
+				.exceptionTranslator(new PigWebResponseExceptionTranslator());
 		setTokenGranter(endpoints);
 	}
 
@@ -92,10 +90,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		// 获取默认授权类型
 		TokenGranter tokenGranter = endpoints.getTokenGranter();
 		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
-		ResourceOwnerPhoneTokenGranter resourceOwnerPhoneTokenGranter = new ResourceOwnerPhoneTokenGranter(
+		ResourceOwnerCustomeAppTokenGranter resourceOwnerCustomeAppTokenGranter = new ResourceOwnerCustomeAppTokenGranter(
 				authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory());
-		tokenGranters.add(resourceOwnerPhoneTokenGranter);
+		tokenGranters.add(resourceOwnerCustomeAppTokenGranter);
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
 		endpoints.tokenGranter(compositeTokenGranter);
 	}

@@ -87,7 +87,7 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	 * @return 用户信息
 	 */
 	public UserDetails loadUserByPhone(String phone) {
-		R<UserInfo> result = remoteUserService.infoByPhone(phone, SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.infoByMobile(phone, SecurityConstants.FROM_IN);
 		UserDetails userDetails = getUserDetails(result);
 		return userDetails;
 	}

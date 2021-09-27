@@ -20,19 +20,19 @@ import java.util.Map;
  * @author hzq
  * @since 2021-09-14
  */
-public class ResourceOwnerPhoneTokenGranter extends AbstractTokenGranter {
+public class ResourceOwnerCustomeAppTokenGranter extends AbstractTokenGranter {
 
-	private static final String GRANT_TYPE = "phone";
+	private static final String GRANT_TYPE = "app";
 
 	private final AuthenticationManager authenticationManager;
 
-	public ResourceOwnerPhoneTokenGranter(AuthenticationManager authenticationManager,
+	public ResourceOwnerCustomeAppTokenGranter(AuthenticationManager authenticationManager,
 			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
 			OAuth2RequestFactory requestFactory) {
 		this(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
 	}
 
-	protected ResourceOwnerPhoneTokenGranter(AuthenticationManager authenticationManager,
+	protected ResourceOwnerCustomeAppTokenGranter(AuthenticationManager authenticationManager,
 			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
 			OAuth2RequestFactory requestFactory, String grantType) {
 		super(tokenServices, clientDetailsService, requestFactory, grantType);
@@ -45,18 +45,18 @@ public class ResourceOwnerPhoneTokenGranter extends AbstractTokenGranter {
 		Map<String, String> parameters = new LinkedHashMap<>(tokenRequest.getRequestParameters());
 
 		// 手机号
-		String phone = parameters.get("phone");
+		String mobile = parameters.get("mobile");
 		// 验证码/密码
 		String code = parameters.get("code");
 
-		if (StrUtil.isBlank(phone) || StrUtil.isBlank(code)) {
+		if (StrUtil.isBlank(mobile) || StrUtil.isBlank(code)) {
 			throw new InvalidGrantException("Bad credentials [ params must be has phone with code ]");
 		}
 
 		// Protect from downstream leaks of code
 		parameters.remove("code");
 
-		Authentication userAuth = new PhoneAuthenticationToken(phone, code);
+		Authentication userAuth = new CustomAppAuthenticationToken(mobile, code);
 		((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 		try {
 			userAuth = authenticationManager.authenticate(userAuth);
@@ -68,7 +68,7 @@ public class ResourceOwnerPhoneTokenGranter extends AbstractTokenGranter {
 		// If the phone/code are wrong the spec says we should send 400/invalid grant
 
 		if (userAuth == null || !userAuth.isAuthenticated()) {
-			throw new InvalidGrantException("Could not authenticate user: " + phone);
+			throw new InvalidGrantException("Could not authenticate user: " + mobile);
 		}
 
 		OAuth2Request storedOAuth2Request = getRequestFactory().createOAuth2Request(client, tokenRequest);
