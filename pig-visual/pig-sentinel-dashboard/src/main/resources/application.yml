@@ -1,9 +1,3 @@
-server:
-  port: 5003
-  servlet:
-    encoding:
-      force: true
-
 management:
   endpoints:
     web:
