@@ -25,7 +25,6 @@ import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,7 +54,6 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = CacheConstants.MENU_DETAILS, key = "#roleId + '_menu'")
 	public Boolean saveRoleMenus(String role, Integer roleId, String menuIds) {
 		this.remove(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleId, roleId));
 
@@ -71,6 +69,8 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
 		// 清空userinfo
 		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();
+		// 清空全部的菜单缓存 fix #I4BM58
+		cacheManager.getCache(CacheConstants.MENU_DETAILS).clear();
 		return this.saveBatch(roleMenuList);
 	}
 
