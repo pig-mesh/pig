@@ -25,8 +25,6 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.security.datascope.DataScopeProcessor;
-import com.pig4cloud.pig.common.security.datascope.UserDataScope;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -57,8 +55,6 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 	private final RemoteUserService remoteUserService;
 
 	private final CacheManager cacheManager;
-
-	private final DataScopeProcessor dataScopeProcessor;
 
 	/**
 	 * 用户密码登录
@@ -115,14 +111,10 @@ public class PigUserDetailsServiceImpl implements UserDetailsService {
 				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		SysUser user = info.getSysUser();
 
-		// 数据权限填充
-		UserDataScope userDataScope = dataScopeProcessor.mergeScopeType(user, info.getRoleList());
-
 		// 构造security用户
 		return new PigUser(user.getUserId(), user.getDeptId(), user.getUsername(),
 				SecurityConstants.BCRYPT + user.getPassword(),
-				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), true, true, true, authorities,
-				userDataScope);
+				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), true, true, true, authorities);
 	}
 
 }

@@ -23,6 +23,7 @@ import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import com.pig4cloud.pig.common.security.handler.AbstractLogoutSuccessEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,7 @@ public class PigLogoutSuccessEventHandler extends AbstractLogoutSuccessEventHand
 	@Override
 	public void handle(Authentication authentication) {
 		log.info("用户：{} 退出成功", authentication.getPrincipal());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("退出成功");
 		OAuth2AuthenticationDetails authenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();

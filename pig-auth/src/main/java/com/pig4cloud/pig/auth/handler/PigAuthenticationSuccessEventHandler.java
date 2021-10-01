@@ -23,6 +23,7 @@ import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import com.pig4cloud.pig.common.security.handler.AbstractAuthenticationSuccessEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,6 +43,7 @@ public class PigAuthenticationSuccessEventHandler extends AbstractAuthentication
 	@Override
 	public void handle(Authentication authentication) {
 		log.info("用户：{} 登录成功", authentication.getPrincipal());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("登录成功");
 		// 发送异步日志事件

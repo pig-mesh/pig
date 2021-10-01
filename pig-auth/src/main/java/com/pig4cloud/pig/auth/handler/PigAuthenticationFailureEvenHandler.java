@@ -25,6 +25,7 @@ import com.pig4cloud.pig.common.security.handler.AbstractAuthenticationFailureEv
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,6 +45,7 @@ public class PigAuthenticationFailureEvenHandler extends AbstractAuthenticationF
 	@Override
 	public void handle(AuthenticationException authenticationException, Authentication authentication) {
 		log.info("用户：{} 登录失败，异常：{}", authentication.getPrincipal(), authenticationException.getLocalizedMessage());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("登录失败");
 		logVo.setType(LogTypeEnum.ERROR.getType());
