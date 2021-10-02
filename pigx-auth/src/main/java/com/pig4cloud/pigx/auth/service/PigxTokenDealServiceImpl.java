@@ -2,6 +2,8 @@ package com.pig4cloud.pigx.auth.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
@@ -46,6 +48,8 @@ public class PigxTokenDealServiceImpl {
 
 	private final KeyStrResolver keyStrResolver;
 
+	private final RemoteClientDetailsService clientDetailsService;
+
 	/**
 	 * 删除 请求令牌 和 刷新令牌
 	 * @param token 请求令牌
@@ -81,20 +85,12 @@ public class PigxTokenDealServiceImpl {
 	 * @return R
 	 */
 	public R queryTokenByUsername(Page page, String username) {
-		String key = keyStrResolver.extract(
-				SecurityConstants.PIGX_PREFIX + SecurityConstants.OAUTH_PREFIX + "uname_to_access_z:", StrUtil.COLON);
-
-		Object collect = redisTemplate.keys("*:" + username).stream().filter(k -> ((String) k).contains(key))
-				.flatMap(k -> {
-					redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
-					return redisTemplate.opsForZSet().range(k, 0, System.currentTimeMillis()).stream();
-				}).collect(Collectors.toList());
-
-		if (collect instanceof List) {
-			List objSet = (List<?>) collect;
-			page.setRecords(objSet);
-			page.setTotal(objSet.size());
-		}
+		List<OAuth2AccessToken> oAuth2AccessTokenList = clientDetailsService
+				.listClientDetails(SecurityConstants.FROM_IN).getData().stream().map(SysOauthClientDetails::getClientId)
+				.flatMap(clientId -> tokenStore.findTokensByClientIdAndUserName(clientId, username).stream()).distinct()
+				.collect(Collectors.toList());
+		page.setRecords(oAuth2AccessTokenList);
+		page.setTotal(oAuth2AccessTokenList.size());
 		return R.ok(page);
 	}
 

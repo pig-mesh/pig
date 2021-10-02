@@ -2,7 +2,8 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.pig4cloud.pigx.common.security.component.PigxTokenEnhancer,\
   com.pig4cloud.pigx.common.security.component.PigxSecurityInnerAspect,\
   com.pig4cloud.pigx.common.security.service.PigxUserDetailsServiceImpl,\
-  com.pig4cloud.pigx.common.security.serializer.PigxTokenStoreAutoConfiguration,\
+  com.pig4cloud.pigx.common.security.component.PigxTokenStoreAutoConfiguration,\
+  com.pig4cloud.pigx.common.security.component.PigxTokenStoreCleanSchedule,\
   com.pig4cloud.pigx.common.security.listener.AuthenticationFailureEventListener,\
   com.pig4cloud.pigx.common.security.listener.AuthenticationSuccessEventListener,\
   com.pig4cloud.pigx.common.security.listener.AuthenticationLogoutSuccessEventListener

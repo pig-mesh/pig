@@ -115,4 +115,14 @@ public class SysClientController {
 				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
 	}
 
+	/**
+	 * 查询全部客户端
+	 * @return
+	 */
+	@Inner(false)
+	@GetMapping("/list")
+	public R listClients() {
+		return R.ok(clientDetailsService.list());
+	}
+
 }

@@ -34,7 +34,7 @@ public class TokenFilter implements Filter {
 
 		String method = request.getMethod();
 
-		if (request.getRequestURI().contains("reportDashboard")){
+		if (request.getRequestURI().contains("reportDashboard")) {
 			// 执行
 			filterChain.doFilter(request, response);
 			return;
