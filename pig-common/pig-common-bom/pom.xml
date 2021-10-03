@@ -41,11 +41,6 @@
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-datascope</artifactId>
-				<version>${pig.common.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.pig4cloud</groupId>
 				<artifactId>pig-common-datasource</artifactId>
 				<version>${pig.common.version}</version>
 			</dependency>
