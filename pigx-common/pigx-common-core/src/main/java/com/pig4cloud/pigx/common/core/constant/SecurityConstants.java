@@ -171,6 +171,11 @@ public interface SecurityConstants {
 	String CLIENT_CREDENTIALS = "client_credentials";
 
 	/**
+	 * 客户端编号
+	 */
+	String CLIENT_ID = "client_id";
+
+	/**
 	 * 用户ID字段
 	 */
 	String DETAILS_USER_ID = "id";

@@ -45,15 +45,21 @@ public class PigxTokenEnhancer implements TokenEnhancer {
 	 */
 	@Override
 	public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+
+		final Map<String, Object> additionalInfo = new HashMap<>(8);
+		String clientId = authentication.getOAuth2Request().getClientId();
+		additionalInfo.put(SecurityConstants.CLIENT_ID, clientId);
+		additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PIGX_LICENSE);
+		additionalInfo.put(SecurityConstants.ACTIVE, Boolean.TRUE);
+
+		// 客户端模式不返回具体用户信息
 		if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
+			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		}
 
-		final Map<String, Object> additionalInfo = new HashMap<>(8);
 		PigxUser pigxUser = (PigxUser) authentication.getUserAuthentication().getPrincipal();
 		additionalInfo.put(SecurityConstants.DETAILS_USER, pigxUser);
-		additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PIGX_LICENSE);
-		additionalInfo.put(SecurityConstants.ACTIVE, Boolean.TRUE);
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 		return accessToken;
 	}
