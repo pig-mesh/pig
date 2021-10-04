@@ -1,4 +1,4 @@
-package com.pig4cloud.pigx.auth.service;
+package com.pig4cloud.pigx.common.security.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
@@ -11,12 +11,12 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
-import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -28,7 +28,7 @@ import java.util.Map;
  * 扩展 JdbcClientDetailsService 支持多租户
  */
 @Slf4j
-@Service
+@Primary
 @RequiredArgsConstructor
 public class PigxClientDetailsServiceImpl implements ClientDetailsService {
 
