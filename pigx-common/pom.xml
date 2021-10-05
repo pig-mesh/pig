@@ -50,6 +50,7 @@
 		<module>pigx-common-swagger</module>
 		<module>pigx-common-test</module>
 		<module>pigx-common-transaction</module>
+		<module>pigx-common-websocket</module>
 		<module>pigx-common-xss</module>
 	</modules>
 </project>

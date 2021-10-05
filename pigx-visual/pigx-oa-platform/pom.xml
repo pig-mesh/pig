@@ -76,10 +76,10 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
 		</dependency>
-		<!--websocket-->
+		<!--websocket 支持-->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-websocket</artifactId>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-websocket</artifactId>
 		</dependency>
 		<!-- activiti -->
 		<dependency>

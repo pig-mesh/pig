@@ -122,6 +122,11 @@
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
+				<artifactId>pigx-common-websocket</artifactId>
+				<version>${pigx.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
 				<artifactId>pigx-common-excel</artifactId>
 				<version>${pigx.version}</version>
 			</dependency>

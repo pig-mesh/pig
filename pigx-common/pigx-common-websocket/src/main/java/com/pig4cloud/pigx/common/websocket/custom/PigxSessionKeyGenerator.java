@@ -1,0 +1,33 @@
+package com.pig4cloud.pigx.common.websocket.custom;
+
+import com.pig4cloud.pigx.common.security.service.PigxUser;
+import com.pig4cloud.pigx.common.websocket.holder.SessionKeyGenerator;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.socket.WebSocketSession;
+
+/**
+ * @author lengleng
+ * @date 2021/10/4 websocket session 标识生成规则
+ */
+@Configuration
+public class PigxSessionKeyGenerator implements SessionKeyGenerator {
+
+	/**
+	 * 获取当前session的唯一标识
+	 * @param webSocketSession 当前session
+	 * @return session唯一标识
+	 */
+	@Override
+	public Object sessionKey(WebSocketSession webSocketSession) {
+
+		Object obj = webSocketSession.getAttributes().get("USER_KEY_ATTR_NAME");
+
+		if (obj instanceof PigxUser) {
+			PigxUser user = (PigxUser) obj;
+			return String.format("%s%s", user.getTenantId(), user.getUsername());
+		}
+
+		return null;
+	}
+
+}
