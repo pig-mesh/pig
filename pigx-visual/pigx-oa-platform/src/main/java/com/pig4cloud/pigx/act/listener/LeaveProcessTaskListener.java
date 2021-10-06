@@ -22,7 +22,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
-import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.common.websocket.distribute.MessageDO;
 import com.pig4cloud.pigx.common.websocket.distribute.RedisMessageDistributor;
@@ -51,25 +50,24 @@ public class LeaveProcessTaskListener implements TaskListener {
 		RemoteUserService userService = SpringContextHolder.getBean(RemoteUserService.class);
 
 		R<List<SysUser>> result = userService.ancestorUsers(SecurityUtils.getUser().getUsername());
-		List<String> remindUserList = new ArrayList<>();
+		List<Object> remindUserList = new ArrayList<>();
 
 		if (CollUtil.isEmpty(result.getData())) {
 			log.info("用户 {} 不存在上级,任务单由当前用户审批", SecurityUtils.getUser().getUsername());
 			delegateTask.addCandidateUser(SecurityUtils.getUser().getUsername());
-			remindUserList.add(SecurityUtils.getUser().getUsername());
+			remindUserList.add(SecurityUtils.getUser().getId());
 		}
 		else {
 			List<String> userList = result.getData().stream().map(SysUser::getUsername).collect(Collectors.toList());
+			List<Integer> userIdList = result.getData().stream().map(SysUser::getUserId).collect(Collectors.toList());
 			log.info("当前任务 {}，由 {}处理", delegateTask.getId(), userList);
 			delegateTask.addCandidateUsers(userList);
-			remindUserList.addAll(userList);
+			remindUserList.addAll(userIdList);
 		}
 
 		// websocket 发送消息
-		List<Object> sessionKey = remindUserList.stream().map(s -> TenantContextHolder.getTenantId() + s)
-				.collect(Collectors.toList());
 		MessageDO messageDO = new MessageDO();
-		messageDO.setSessionKeys(sessionKey);
+		messageDO.setSessionKeys(remindUserList);
 		messageDO.setMessageText(String.format("协同办公 %s 的任务需要您处理", delegateTask.getName()));
 		messageDistributor.distribute(messageDO);
 	}

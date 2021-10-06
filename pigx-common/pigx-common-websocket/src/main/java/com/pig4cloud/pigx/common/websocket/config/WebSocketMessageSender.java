@@ -27,7 +27,7 @@ public class WebSocketMessageSender {
 	public static boolean send(Object sessionKey, String message) {
 		WebSocketSession session = WebSocketSessionHolder.getSession(sessionKey);
 		if (session == null) {
-			log.trace("[send] 当前 sessionKey：{} 对应 session 不在本服务中", sessionKey);
+			log.info("[send] 当前 sessionKey：{} 对应 session 不在本服务中", sessionKey);
 			return false;
 		}
 		else {
