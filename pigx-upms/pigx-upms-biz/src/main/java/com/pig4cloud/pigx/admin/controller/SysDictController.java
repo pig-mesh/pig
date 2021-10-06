@@ -178,4 +178,14 @@ public class SysDictController {
 		return sysDictItemService.removeDictItem(id);
 	}
 
+	/**
+	 * 同步缓存字典
+	 * @return R
+	 */
+	@SysLog("同步字典")
+	@PutMapping("/sync")
+	public R sync() {
+		return sysDictService.syncDictCache();
+	}
+
 }

@@ -50,4 +50,10 @@ public interface SysPublicParamService extends IService<SysPublicParam> {
 	 */
 	R removeParam(Long publicId);
 
+	/**
+	 * 同步缓存
+	 * @return R
+	 */
+	R syncDictCache();
+
 }

@@ -42,4 +42,10 @@ public interface SysDictService extends IService<SysDict> {
 	 */
 	R updateDict(SysDict sysDict);
 
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
+	R syncDictCache();
+
 }

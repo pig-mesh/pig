@@ -118,4 +118,14 @@ public class SysPublicParamController {
 		return sysPublicParamService.removeParam(publicId);
 	}
 
+	/**
+	 * 同步参数
+	 * @return R
+	 */
+	@SysLog("同步参数")
+	@PutMapping("/sync")
+	public R sync() {
+		return sysPublicParamService.syncDictCache();
+	}
+
 }

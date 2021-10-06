@@ -69,6 +69,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	 * @return
 	 */
 	@Override
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
 	public R updateDict(SysDict dict) {
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
@@ -76,6 +77,16 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 			return R.failed("系统内置字典不能修改");
 		}
 		return R.ok(this.updateById(dict));
+	}
+
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	public R syncDictCache() {
+		return R.ok();
 	}
 
 }

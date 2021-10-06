@@ -85,4 +85,14 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 		return R.ok(this.removeById(publicId));
 	}
 
+	/**
+	 * 同步缓存
+	 * @return R
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
+	public R syncDictCache() {
+		return R.ok();
+	}
+
 }
