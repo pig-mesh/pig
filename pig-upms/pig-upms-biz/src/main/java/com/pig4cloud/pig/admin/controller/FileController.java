@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
@@ -27,6 +28,8 @@ import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -93,6 +96,19 @@ public class FileController {
 	@GetMapping("/{bucket}/{fileName}")
 	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
 		sysFileService.getFile(bucket, fileName, response);
+	}
+
+	/**
+	 * 获取本地（resources）文件
+	 * @param fileName 文件名称
+	 * @param response 本地文件
+	 */
+	@SneakyThrows
+	@GetMapping("/local/{fileName}")
+	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
+		ClassPathResource resource = new ClassPathResource("file/" + fileName);
+		response.setContentType("application/octet-stream; charset=UTF-8");
+		IoUtil.copy(resource.getInputStream(), response.getOutputStream());
 	}
 
 }
