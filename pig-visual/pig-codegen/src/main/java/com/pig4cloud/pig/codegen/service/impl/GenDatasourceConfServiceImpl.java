@@ -24,7 +24,6 @@ import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
-import com.pig4cloud.pig.common.datasource.support.DataSourceConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
@@ -52,6 +51,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 保存数据源并且加密
+	 *
 	 * @param conf
 	 * @return
 	 */
@@ -73,6 +73,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 更新数据源
+	 *
 	 * @param conf 数据源信息
 	 * @return
 	 */
@@ -98,6 +99,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 通过数据源名称删除
+	 *
 	 * @param dsId 数据源ID
 	 * @return
 	 */
@@ -111,6 +113,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 添加动态数据源
+	 *
 	 * @param conf 数据源信息
 	 */
 	@Override
@@ -120,7 +123,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUrl(conf.getUrl());
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
-		dataSourceProperty.setDriverClassName(DataSourceConstants.DS_DRIVER);
+		dataSourceProperty.setDriverClassName(conf.getDriverClassName());
 		dataSourceProperty.setLazy(true);
 		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
@@ -129,6 +132,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 校验数据源配置是否有效
+	 *
 	 * @param conf 数据源信息
 	 * @return 有效/无效
 	 */
@@ -136,8 +140,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	public Boolean checkDataSource(GenDatasourceConf conf) {
 		try {
 			DriverManager.getConnection(conf.getUrl(), conf.getUsername(), conf.getPassword());
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			log.error("数据源配置 {} , 获取链接失败", conf.getName(), e);
 			return Boolean.FALSE;
 		}

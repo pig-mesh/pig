@@ -30,11 +30,6 @@ public interface DataSourceConstants {
 	String DS_NAME = "name";
 
 	/**
-	 * 默认驱动
-	 */
-	String DS_DRIVER = "com.mysql.cj.jdbc.Driver";
-
-	/**
 	 * 默认数据源（master）
 	 */
 	String DS_MASTER = "master";
