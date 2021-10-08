@@ -54,4 +54,9 @@ public interface DataSourceConstants {
 	 */
 	String DS_USER_PWD = "password";
 
+	/**
+	 * 驱动包名称
+	 */
+	String DS_DRIVER_CLASS_NAME = "driver_class_name";
+
 }
