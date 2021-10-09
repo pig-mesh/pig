@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>group.springframework</groupId>
 		<artifactId>spring-cloud-dependencies-parent</artifactId>
-		<version>2020.0.3</version>
+		<version>2020.0.4</version>
 		<relativePath/>
 	</parent>
 
@@ -17,10 +17,10 @@
 	<description>pigx 公共版本控制</description>
 
 	<properties>
-		<pigx.version>4.1.0</pigx.version>
-		<mybatis-plus.version>3.4.3</mybatis-plus.version>
+		<pigx.version>4.2.0</pigx.version>
+		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
-		<druid.version>1.2.5</druid.version>
+		<druid.version>1.2.8</druid.version>
 		<mysql.connector.version>8.0.23</mysql.connector.version>
 		<swagger.core.version>1.5.22</swagger.core.version>
 		<mp.weixin.version>3.9.0</mp.weixin.version>
@@ -225,12 +225,6 @@
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>${jsoup.version}</version>
-			</dependency>
-			<!-- excel 导入导出 https://github.com/pig-mesh/excel-spring-boot-starter -->
-			<dependency>
-				<groupId>com.pig4cloud.excel</groupId>
-				<artifactId>excel-spring-boot-starter</artifactId>
-				<version>${excel.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

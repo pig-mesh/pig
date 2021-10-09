@@ -149,7 +149,7 @@ public class SysJobController {
 	@ApiOperation(value = "暂停全部定时任务")
 	public R shutdownJobs() {
 		taskUtil.pauseJobs(scheduler);
-		int count = this.sysJobService
+		long count = this.sysJobService
 				.count(new LambdaQueryWrapper<SysJob>().eq(SysJob::getJobStatus, JOB_STATUS_RUNNING.getType()));
 		if (count <= 0) {
 			return R.ok("无正在运行定时任务");
