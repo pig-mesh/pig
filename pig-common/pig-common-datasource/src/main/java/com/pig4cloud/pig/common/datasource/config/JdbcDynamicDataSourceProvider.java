@@ -47,6 +47,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 	/**
 	 * 执行语句获得数据源参数
+	 *
 	 * @param statement 语句
 	 * @return 数据源参数
 	 * @throws SQLException sql异常
@@ -61,8 +62,9 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			String username = rs.getString(DataSourceConstants.DS_USER_NAME);
 			String password = rs.getString(DataSourceConstants.DS_USER_PWD);
 			String url = rs.getString(DataSourceConstants.DS_JDBC_URL);
+			String driverClassName = rs.getString(DataSourceConstants.DS_DRIVER_CLASS_NAME);
 			DataSourceProperty property = new DataSourceProperty();
-			property.setDriverClassName(DataSourceConstants.DS_DRIVER);
+			property.setDriverClassName(driverClassName);
 			property.setUsername(username);
 			property.setLazy(true);
 			property.setPassword(stringEncryptor.decrypt(password));
@@ -76,7 +78,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		property.setPassword(properties.getPassword());
 		property.setUrl(properties.getUrl());
 		property.setLazy(true);
-		property.setDriverClassName(DataSourceConstants.DS_DRIVER);
+		property.setDriverClassName(property.getDriverClassName());
 		map.put(DataSourceConstants.DS_MASTER, property);
 		return map;
 	}
