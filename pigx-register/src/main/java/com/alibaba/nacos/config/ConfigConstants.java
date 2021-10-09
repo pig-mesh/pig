@@ -40,4 +40,9 @@ public interface ConfigConstants {
 	 */
 	String LOG_BASEDIR = "server.tomcat.basedir";
 
+	/**
+	 * ACCSESS日志关闭
+	 */
+	String LOG_ENABLED = "server.tomcat.accesslog.enabled";
+
 }
