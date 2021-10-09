@@ -67,6 +67,7 @@ public class LeaveProcessTaskListener implements TaskListener {
 
 		// websocket 发送消息
 		MessageDO messageDO = new MessageDO();
+		messageDO.setNeedBroadcast(Boolean.FALSE);
 		messageDO.setSessionKeys(remindUserList);
 		messageDO.setMessageText(String.format("协同办公 %s 的任务需要您处理", delegateTask.getName()));
 		messageDistributor.distribute(messageDO);
