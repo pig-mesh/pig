@@ -17,9 +17,11 @@
 
 package com.pig4cloud.pigx.common.data.resolver;
 
+import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -79,6 +81,10 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		Page page = new Page();
 		if (StrUtil.isNotBlank(current)) {
+			// 如果current page 小于零 视为不合法数据
+			if (CompareUtil.compare(Long.parseLong(current), 0L) < 0) {
+				throw new CheckedException("current page error");
+			}
 			page.setCurrent(Long.parseLong(current));
 		}
 
