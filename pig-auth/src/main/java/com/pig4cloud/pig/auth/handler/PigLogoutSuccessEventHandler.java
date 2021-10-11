@@ -18,14 +18,15 @@ package com.pig4cloud.pig.auth.handler;
 
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
 import com.pig4cloud.pig.common.security.handler.AbstractLogoutSuccessEventHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.stereotype.Component;
 
 /**
@@ -46,14 +47,17 @@ public class PigLogoutSuccessEventHandler extends AbstractLogoutSuccessEventHand
 	public void handle(Authentication authentication) {
 		log.info("用户：{} 退出成功", authentication.getPrincipal());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
+
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("退出成功");
-		OAuth2AuthenticationDetails authenticationDetails = (OAuth2AuthenticationDetails) authentication.getDetails();
-		logVo.setParams(authenticationDetails == null ? null : authenticationDetails.getTokenValue());
 		// 发送异步日志事件
 		Long startTime = System.currentTimeMillis();
 		Long endTime = System.currentTimeMillis();
 		logVo.setTime(endTime - startTime);
+
+		// 设置对应的token
+		WebUtils.getRequest().ifPresent(request -> logVo.setParams(request.getHeader(HttpHeaders.AUTHORIZATION)));
+
 		// 这边设置ServiceId
 		if (authentication instanceof OAuth2Authentication) {
 			OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;

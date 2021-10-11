@@ -22,6 +22,9 @@ public class SsoLogoutSuccessHandler implements LogoutSuccessHandler {
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {
+		if (response == null) {
+			return;
+		}
 
 		// 获取请求参数中是否包含 回调地址
 		String redirectUrl = request.getParameter(REDIRECT_URL);
