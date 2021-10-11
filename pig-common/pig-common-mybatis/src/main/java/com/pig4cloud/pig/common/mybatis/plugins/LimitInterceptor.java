@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.ParameterUtils;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
@@ -21,6 +23,8 @@ import java.sql.SQLException;
  * @author seven
  * @since 2021年10月11日
  */
+@Data
+@NoArgsConstructor
 public class LimitInterceptor extends PaginationInnerInterceptor {
 
 	/**
