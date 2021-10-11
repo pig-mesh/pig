@@ -17,6 +17,7 @@ CREATE TABLE `gen_datasource_conf` (
                                        `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名',
                                        `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码',
                                        `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+                                       `driver_class_name` varchar (255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据驱动名称',
                                        `create_time` datetime DEFAULT NULL COMMENT '创建时间',
                                        `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
                                        `update_time` datetime DEFAULT NULL COMMENT '修改时间',
