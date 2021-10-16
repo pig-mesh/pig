@@ -40,6 +40,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
 
 import java.net.URI;
+import java.util.Map;
 
 /**
  * @author lengleng
@@ -74,7 +75,7 @@ public class DynamicRouteInitRunner {
 			vo.setFilters(filterObj.toList(FilterDefinition.class));
 			JSONArray predicateObj = JSONUtil.parseArray(route.getPredicates());
 			vo.setPredicates(predicateObj.toList(PredicateDefinition.class));
-
+			vo.setMetadata(JSONUtil.toBean(route.getMetadata(), Map.class));
 			log.info("加载路由ID：{},{}", route.getRouteId(), vo);
 			redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
 			redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);

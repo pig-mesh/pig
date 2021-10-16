@@ -85,6 +85,9 @@ public class SysRouteConf extends Model<SysRouteConf> {
 	@ApiModelProperty(value = "排序值")
 	private Integer order;
 
+	@ApiModelProperty(value = "元数据")
+	private String metadata;
+
 	/**
 	 * 创建时间
 	 */

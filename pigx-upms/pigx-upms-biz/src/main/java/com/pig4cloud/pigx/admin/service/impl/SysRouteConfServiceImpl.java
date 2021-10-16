@@ -116,6 +116,13 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
 				if (order != null) {
 					vo.setOrder(Integer.parseInt(String.valueOf(order)));
 				}
+
+				Object metadata = map.get("metadata");
+				if (metadata != null) {
+					Map<String, Object> metadataMap = JSONUtil.toBean(String.valueOf(metadata), Map.class);
+					vo.setMetadata(metadataMap);
+				}
+
 				redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
 				redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, vo.getId(), vo);
 				routeDefinitionVoList.add(vo);
@@ -135,6 +142,7 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
 				routeConf.setPredicates(JSONUtil.toJsonStr(vo.getPredicates()));
 				routeConf.setOrder(vo.getOrder());
 				routeConf.setUri(vo.getUri().toString());
+				routeConf.setMetadata(JSONUtil.toJsonStr(vo.getMetadata()));
 				return routeConf;
 			}).collect(Collectors.toList());
 			this.saveBatch(routeConfList);
