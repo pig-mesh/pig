@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.security.handler;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.CharsetUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pigx.common.security.service.PigxCustomTokenServices;
 import com.pig4cloud.pigx.common.security.util.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ import org.springframework.security.oauth2.common.exceptions.InvalidClientExcept
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestValidator;
-import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,7 +61,7 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 	@Lazy
 	@Autowired
-	private AuthorizationServerTokenServices defaultAuthorizationServerTokenServices;
+	private PigxCustomTokenServices tokenServices;
 
 	/**
 	 * Called when a user has been successfully authenticated. 调用spring security oauth API
@@ -99,8 +99,7 @@ public class MobileLoginSuccessHandler implements AuthenticationSuccessHandler {
 			new DefaultOAuth2RequestValidator().validateScope(tokenRequest, clientDetails);
 			OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
 			OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-			OAuth2AccessToken oAuth2AccessToken = defaultAuthorizationServerTokenServices
-					.createAccessToken(oAuth2Authentication);
+			OAuth2AccessToken oAuth2AccessToken = tokenServices.createAccessToken(oAuth2Authentication);
 			log.info("获取token 成功：{}", oAuth2AccessToken.getValue());
 
 			response.setCharacterEncoding(CharsetUtil.UTF_8);

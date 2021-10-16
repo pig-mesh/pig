@@ -22,11 +22,15 @@ package com.pig4cloud.pigx.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.security.component.PigxCommenceAuthExceptionEntryPoint;
 import com.pig4cloud.pigx.common.security.component.PigxWebResponseExceptionTranslator;
+import com.pig4cloud.pigx.common.security.service.PigxCustomTokenServices;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -37,6 +41,9 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
+
+import java.util.Collections;
 
 /**
  * @author lengleng
@@ -76,11 +83,31 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(redisTokenStore)
-				.tokenEnhancer(tokenEnhancer).userDetailsService(pigxUserDetailsService)
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenServices(tokenServices())
+				.tokenStore(redisTokenStore).tokenEnhancer(tokenEnhancer).userDetailsService(pigxUserDetailsService)
 				.authorizationCodeServices(authorizationCodeServices).authenticationManager(authenticationManagerBean)
 				.reuseRefreshTokens(false).pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.exceptionTranslator(new PigxWebResponseExceptionTranslator());
+	}
+
+	@Bean
+	public PigxCustomTokenServices tokenServices() {
+		PigxCustomTokenServices tokenServices = new PigxCustomTokenServices();
+		tokenServices.setTokenStore(redisTokenStore);
+		tokenServices.setSupportRefreshToken(true);
+		tokenServices.setReuseRefreshToken(false);
+		tokenServices.setClientDetailsService(pigxClientDetailsServiceImpl);
+		tokenServices.setTokenEnhancer(tokenEnhancer);
+		addUserDetailsService(tokenServices, pigxUserDetailsService);
+		return tokenServices;
+	}
+
+	private void addUserDetailsService(PigxCustomTokenServices tokenServices, UserDetailsService userDetailsService) {
+		if (userDetailsService != null) {
+			PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+			provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
+			tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
+		}
 	}
 
 }
