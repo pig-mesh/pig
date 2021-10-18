@@ -23,11 +23,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
+import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * @author lengleng
@@ -52,10 +50,10 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	private PermitAllUrlProperties permitAllUrl;
 
 	@Autowired
-	private RestTemplate lbRestTemplate;
+	private PigBearerTokenExtractor pigBearerTokenExtractor;
 
 	@Autowired
-	private PigBearerTokenExtractor pigBearerTokenExtractor;
+	private ResourceServerTokenServices resourceServerTokenServices;
 
 	/**
 	 * 默认的配置，对外暴露
@@ -74,14 +72,8 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
-		DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-		UserAuthenticationConverter userTokenConverter = new PigUserAuthenticationConverter();
-		accessTokenConverter.setUserTokenConverter(userTokenConverter);
-
-		remoteTokenServices.setRestTemplate(lbRestTemplate);
-		remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenExtractor(pigBearerTokenExtractor)
-				.accessDeniedHandler(pigAccessDeniedHandler).tokenServices(remoteTokenServices);
+				.accessDeniedHandler(pigAccessDeniedHandler).tokenServices(resourceServerTokenServices);
 	}
 
 }

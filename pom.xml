@@ -22,7 +22,7 @@
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.3.5</version>
+	<version>3.4.0</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
@@ -34,9 +34,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.5.2</spring-boot-admin.version>
-		<hutool.version>5.7.13</hutool.version>
+		<hutool.version>5.7.14</hutool.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
-		<captcha.version>2.2.0</captcha.version>
+		<captcha.version>2.2.1</captcha.version>
 		<velocity.version>1.7</velocity.version>
 		<configuration.version>1.10</configuration.version>
 		<nacos.version>2.0.3</nacos.version>
@@ -49,8 +49,8 @@
 		<docker.namespace>pig4cloud</docker.namespace>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
-		<git.commit.plugin>2.2.5</git.commit.plugin>
-		<spring.checkstyle.plugin>0.0.28</spring.checkstyle.plugin>
+		<git.commit.plugin>5.0.0</git.commit.plugin>
+		<spring.checkstyle.plugin>0.0.29</spring.checkstyle.plugin>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
@@ -203,9 +203,21 @@
 		<plugins>
 			<!--打包jar 与git commit 关联插件-->
 			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
 				<version>${git.commit.plugin}</version>
+				<executions>
+					<execution>
+						<id>get-the-git-infos</id>
+						<goals>
+							<goal>revision</goal>
+						</goals>
+						<phase>initialize</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+				</configuration>
 			</plugin>
 			<!--代码格式插件，默认使用spring 规则-->
 			<plugin>

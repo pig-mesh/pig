@@ -16,19 +16,19 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
-import com.pig4cloud.pig.common.security.service.PigUser;
+import com.pig4cloud.pig.common.security.service.PigCustomTokenServices;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -36,17 +36,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -63,7 +61,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	private final AuthenticationManager authenticationManager;
 
-	private final RedisConnectionFactory redisConnectionFactory;
+	private final TokenStore redisTokenStore;
 
 	@Override
 	@SneakyThrows
@@ -78,8 +76,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenStore(tokenStore())
-				.tokenEnhancer(tokenEnhancer()).userDetailsService(userDetailsService)
+		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenServices(tokenServices())
+				.tokenStore(redisTokenStore).tokenEnhancer(tokenEnhancer()).userDetailsService(userDetailsService)
 				.authenticationManager(authenticationManager).reuseRefreshTokens(false)
 				.pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.exceptionTranslator(new PigWebResponseExceptionTranslator());
@@ -99,32 +97,41 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	}
 
 	@Bean
-	public TokenStore tokenStore() {
-		RedisTokenStore tokenStore = new RedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix(CacheConstants.PROJECT_OAUTH_ACCESS);
-		return tokenStore;
-	}
-
-	@Bean
 	public TokenEnhancer tokenEnhancer() {
 		return (accessToken, authentication) -> {
 			final Map<String, Object> additionalInfo = new HashMap<>(4);
-			PigUser pigUser = (PigUser) authentication.getUserAuthentication().getPrincipal();
 			additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
-			additionalInfo.put(SecurityConstants.DETAILS_USER_ID, pigUser.getId());
-			additionalInfo.put(SecurityConstants.DETAILS_USERNAME, pigUser.getUsername());
-			additionalInfo.put(SecurityConstants.DETAILS_DEPT_ID, pigUser.getDeptId());
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		};
 	}
 
 	@Bean
-	public PigClientDetailsService pigClientDetailsService() {
+	public ClientDetailsService pigClientDetailsService() {
 		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
 		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
 		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
 		return clientDetailsService;
+	}
+
+	@Bean
+	public PigCustomTokenServices tokenServices() {
+		PigCustomTokenServices tokenServices = new PigCustomTokenServices();
+		tokenServices.setTokenStore(redisTokenStore);
+		tokenServices.setSupportRefreshToken(true);
+		tokenServices.setReuseRefreshToken(false);
+		tokenServices.setClientDetailsService(pigClientDetailsService());
+		tokenServices.setTokenEnhancer(tokenEnhancer());
+		addUserDetailsService(tokenServices, userDetailsService);
+		return tokenServices;
+	}
+
+	private void addUserDetailsService(PigCustomTokenServices tokenServices, UserDetailsService userDetailsService) {
+		if (userDetailsService != null) {
+			PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+			provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
+			tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
+		}
 	}
 
 }

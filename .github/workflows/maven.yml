@@ -55,12 +55,3 @@ jobs:
             # 💤🤷‍♀️ failure 🙅‍♂️💣 [pig-mesh/pig](https://github.com/pig-mesh/pig)
             > Github Action: https://github.com/pig-mesh/pig failure
             > (⋟﹏⋞)   from github action message
-      - uses: shaowenchen/debugger-action@v2
-        if: github.repository == 'pig-mesh/pig'
-        name: debugger
-        continue-on-error: true
-        with:
-          frp_server_addr: ${{ secrets.FRP_SERVER_ADDR }}
-          frp_server_port: ${{ secrets.FRP_SERVER_PORT }}
-          frp_token: ${{ secrets.FRP_TOKEN }}
-          ssh_port: ${{ secrets.SSH_PORT }}

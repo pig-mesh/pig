@@ -13,6 +13,20 @@
 - 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
 - 提供 lambda 、stream api 、webflux 的生产实践
 
+## 文档视频
+
+[文档视频 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+
+[PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
+
+[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
+
+## 微信群 [禁广告]
+
+![1628762721](https://minio.pigx.vip/oss/1628762721.png)
+
+## 快速开始
+
 ### 核心依赖
 
 | 依赖                   | 版本           |
@@ -22,7 +36,7 @@
 | Spring Cloud Alibaba   | 2021.1        |
 | Spring Security OAuth2 | 2.3.6         |
 | Mybatis Plus           | 3.4.3.5         |
-| hutool                 | 5.7.13        |
+| hutool                 | 5.7.14        |
 | Avue                   | 2.6.18        |
 
 ### 模块说明
@@ -55,16 +69,6 @@ pig
      └── pig-xxl-job-admin -- 分布式定时任务管理台 [5004]
 ```
 
-## 文档视频
-
-[文档视频 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
-
-[PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
-
-[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
-
-## 快速开始
-
 ### 本地开发 运行
 
 pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
@@ -73,7 +77,8 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 
 ### 定制自己微服务
 
-[PIG DIY](https://diy.pig4cloud.com)
+[PIG DIY](https://diy.pig4cloud.com)  
+
 [PIG ARCHETYPE](https://archetype.pig4cloud.com)
 
 ### Docker 运行
@@ -104,11 +109,6 @@ npm run build:docker && docker-compose up -d
     <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133124.png"></a></td>
   </tr>
 </table>
-
-## 微信群 [禁广告]
-
-![1628762721](https://minio.pigx.vip/oss/1628762721.png)
-
 
 ## 开源共建
 

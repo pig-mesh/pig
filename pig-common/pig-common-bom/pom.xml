@@ -6,7 +6,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig-common-bom</artifactId>
-	<version>3.3.5</version>
+	<version>3.4.0</version>
 	<packaging>pom</packaging>
 
 	<name>pig-common-bom</name>
@@ -20,9 +20,9 @@
 		<security.oauth.version>2.1.8.RELEASE</security.oauth.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git.commit.plugin>2.2.5</git.commit.plugin>
-		<spring.checkstyle.plugin>0.0.28</spring.checkstyle.plugin>
-		<fastjson.version>1.2.75</fastjson.version>
+		<git.commit.plugin>5.0.0</git.commit.plugin>
+		<spring.checkstyle.plugin>0.0.29</spring.checkstyle.plugin>
+		<fastjson.version>1.2.78</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
@@ -150,8 +150,8 @@
 		<plugins>
 			<!--打包jar 与git commit 关联插件-->
 			<plugin>
-				<groupId>pl.project13.maven</groupId>
-				<artifactId>git-commit-id-plugin</artifactId>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
 				<version>${git.commit.plugin}</version>
 			</plugin>
 			<!--代码格式插件，默认使用spring 规则-->
