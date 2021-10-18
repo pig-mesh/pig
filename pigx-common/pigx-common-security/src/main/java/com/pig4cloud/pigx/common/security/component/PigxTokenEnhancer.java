@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.security.service.PigxUser;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -52,14 +51,6 @@ public class PigxTokenEnhancer implements TokenEnhancer {
 		additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PIGX_LICENSE);
 		additionalInfo.put(SecurityConstants.ACTIVE, Boolean.TRUE);
 
-		// 客户端模式不返回具体用户信息
-		if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
-			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-			return accessToken;
-		}
-
-		PigxUser pigxUser = (PigxUser) authentication.getUserAuthentication().getPrincipal();
-		additionalInfo.put(SecurityConstants.DETAILS_USER, pigxUser);
 		((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 		return accessToken;
 	}
