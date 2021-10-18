@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-common</artifactId>
-		<version>4.1.0</version>
+		<version>4.2.0</version>
 	</parent>
 
 	<artifactId>pigx-common-websocket</artifactId>
