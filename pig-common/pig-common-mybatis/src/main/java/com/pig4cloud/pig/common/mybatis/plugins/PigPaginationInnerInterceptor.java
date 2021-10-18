@@ -25,7 +25,7 @@ import java.sql.SQLException;
  */
 @Data
 @NoArgsConstructor
-public class LimitInterceptor extends PaginationInnerInterceptor {
+public class PigPaginationInnerInterceptor extends PaginationInnerInterceptor {
 
 	/**
 	 * 数据库类型
@@ -41,16 +41,17 @@ public class LimitInterceptor extends PaginationInnerInterceptor {
 	 */
 	private IDialect dialect;
 
-	public LimitInterceptor(DbType dbType) {
+	public PigPaginationInnerInterceptor(DbType dbType) {
 		this.dbType = dbType;
 	}
 
-	public LimitInterceptor(IDialect dialect) {
+	public PigPaginationInnerInterceptor(IDialect dialect) {
 		this.dialect = dialect;
 	}
 
 	@Override
-	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
+	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
+			ResultHandler resultHandler, BoundSql boundSql) throws SQLException {
 		IPage<?> page = ParameterUtils.findPage(parameter).orElse(null);
 		// size 小于 0 直接设置为 0 , 即不查询任何数据
 		if (null != page && page.getSize() < 0) {
@@ -58,4 +59,5 @@ public class LimitInterceptor extends PaginationInnerInterceptor {
 		}
 		super.beforeQuery(executor, ms, page, rowBounds, resultHandler, boundSql);
 	}
+
 }
