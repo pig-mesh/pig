@@ -96,6 +96,7 @@ CREATE TABLE `sys_dict` (
 BEGIN;
 INSERT INTO `sys_dict` VALUES (1, 'dict_type', '字典类型', '系统类不能修改', '1', '0', '2019-05-16 14:16:20', NULL, NULL, '2019-05-16 14:20:16');
 INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', '0-正常 1 异常', '1', '0', '2020-03-13 14:21:01', NULL, NULL, '2020-03-13 14:21:01');
+INSERT INTO `sys_dict` VALUES (3, 'ds_type', '驱动类型', '数据库驱动类型', '1', '0', '2021-10-15 16:24:35', NULL, NULL, '2021-10-15 16:24:38');
 COMMIT;
 
 -- ----------------------------
@@ -130,6 +131,14 @@ INSERT INTO `sys_dict_item` VALUES (1, 1, '1', '系统类', 'dict_type', '系统
 INSERT INTO `sys_dict_item` VALUES (2, 1, '0', '业务类', 'dict_type', '业务类字典', 0, '可以修改', '0', '2019-05-16 14:20:59', NULL, NULL, '2019-05-16 14:20:59');
 INSERT INTO `sys_dict_item` VALUES (3, 2, '0', '正常', 'log_type', '正常', 0, '正常', '0', '2020-03-13 14:23:22', NULL, NULL, '2020-03-13 14:23:22');
 INSERT INTO `sys_dict_item` VALUES (4, 2, '9', '异常', 'log_type', '异常', 1, '异常', '0', '2020-03-13 14:23:35', NULL, NULL, '2020-03-13 14:23:35');
+INSERT INTO `sys_dict_item` VALUES (5, 3, 'com.mysql.cj.jdbc.Driver', 'MYSQL8', 'ds_type', 'MYSQL8', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (6, 3, 'com.mysql.jdbc.Driver', 'MYSQL5', 'ds_type', 'MYSQL5', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (7, 3, 'oracle.jdbc.OracleDriver', 'Oracle', 'ds_type', 'Oracle', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (8, 3, 'org.mariadb.jdbc.Driver', 'mariadb', 'ds_type', 'mariadb', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (9, 3, 'com.microsoft.sqlserver.jdbc.SQLServerDriver', 'sqlserver2005+', 'ds_type', 'sqlserver2005+', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (10, 3, 'com.microsoft.jdbc.sqlserver.SQLServerDriver', 'sqlserver2000', 'ds_type', 'sqlserver2000', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (11, 3, 'com.ibm.db2.jcc.DB2Driver', 'db2', 'ds_type', 'db2', 0, NULL, '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (12, 3, 'org.postgresql.Driver', 'postgresql', 'ds_type', 'postgresql', 0, NULL, '0', NULL, NULL, NULL, NULL);
 COMMIT;
 
 -- ----------------------------

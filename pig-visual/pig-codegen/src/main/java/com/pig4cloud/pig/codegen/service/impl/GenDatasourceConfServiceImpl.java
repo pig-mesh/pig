@@ -51,7 +51,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 保存数据源并且加密
-	 *
 	 * @param conf
 	 * @return
 	 */
@@ -73,7 +72,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 更新数据源
-	 *
 	 * @param conf 数据源信息
 	 * @return
 	 */
@@ -99,7 +97,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 通过数据源名称删除
-	 *
 	 * @param dsId 数据源ID
 	 * @return
 	 */
@@ -113,7 +110,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 添加动态数据源
-	 *
 	 * @param conf 数据源信息
 	 */
 	@Override
@@ -132,7 +128,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 校验数据源配置是否有效
-	 *
 	 * @param conf 数据源信息
 	 * @return 有效/无效
 	 */
@@ -140,7 +135,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	public Boolean checkDataSource(GenDatasourceConf conf) {
 		try {
 			DriverManager.getConnection(conf.getUrl(), conf.getUsername(), conf.getPassword());
-		} catch (SQLException e) {
+		}
+		catch (SQLException e) {
 			log.error("数据源配置 {} , 获取链接失败", conf.getName(), e);
 			return Boolean.FALSE;
 		}

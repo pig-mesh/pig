@@ -20,15 +20,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.datasource.support.DriverClassNameConstants;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * 数据源管理
@@ -42,14 +37,11 @@ import java.util.Optional;
 @Api(value = "dsconf", tags = "数据源管理模块")
 public class GenDsConfController {
 
-	private static List<String> driverList = null;
-
 	private final GenDatasourceConfService datasourceConfService;
 
 	/**
 	 * 分页查询
-	 *
-	 * @param page           分页对象
+	 * @param page 分页对象
 	 * @param datasourceConf 数据源表
 	 * @return
 	 */
@@ -60,7 +52,6 @@ public class GenDsConfController {
 
 	/**
 	 * 查询全部数据源
-	 *
 	 * @return
 	 */
 	@GetMapping("/list")
@@ -70,7 +61,6 @@ public class GenDsConfController {
 
 	/**
 	 * 通过id查询数据源表
-	 *
 	 * @param id id
 	 * @return R
 	 */
@@ -81,7 +71,6 @@ public class GenDsConfController {
 
 	/**
 	 * 新增数据源表
-	 *
 	 * @param datasourceConf 数据源表
 	 * @return R
 	 */
@@ -93,7 +82,6 @@ public class GenDsConfController {
 
 	/**
 	 * 修改数据源表
-	 *
 	 * @param conf 数据源表
 	 * @return R
 	 */
@@ -105,7 +93,6 @@ public class GenDsConfController {
 
 	/**
 	 * 通过id删除数据源表
-	 *
 	 * @param id id
 	 * @return R
 	 */
@@ -113,23 +100,6 @@ public class GenDsConfController {
 	@DeleteMapping("/{id}")
 	public R removeById(@PathVariable Integer id) {
 		return R.ok(datasourceConfService.removeByDsId(id));
-	}
-
-	/**
-	 * 获得支持的数据库驱动
-	 *
-	 * @return 数据库驱动列表
-	 */
-	@SysLog("获得支持的数据库驱动")
-	@GetMapping("/driver")
-	public R<List<String>> driverList() {
-		return Optional.ofNullable(driverList).map(R::ok).orElseGet(() -> {
-			driverList = new ArrayList<>();
-			for (DriverClassNameConstants driverClassNameConstant : DriverClassNameConstants.values()) {
-				driverList.add(driverClassNameConstant.getDriverClassName());
-			}
-			return R.ok(driverList);
-		});
 	}
 
 }

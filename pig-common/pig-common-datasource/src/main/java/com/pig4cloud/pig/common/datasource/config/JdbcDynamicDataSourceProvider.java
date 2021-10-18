@@ -47,7 +47,6 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 	/**
 	 * 执行语句获得数据源参数
-	 *
 	 * @param statement 语句
 	 * @return 数据源参数
 	 * @throws SQLException sql异常
