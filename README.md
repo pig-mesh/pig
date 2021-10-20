@@ -94,7 +94,8 @@ git clone https://gitee.com/log4j/pig-ui.git
 
 cd pig-ui && npm install -g cnpm --registry=https://registry.npm.taobao.org
 
-npm run build:docker && docker-compose up -d
+
+cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 ```
 
 ## 免费公开课
