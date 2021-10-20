@@ -20,7 +20,7 @@
 		<security.oauth.version>2.1.8.RELEASE</security.oauth.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<git.commit.plugin>5.0.0</git.commit.plugin>
+		<git.commit.plugin>4.9.9</git.commit.plugin>
 		<spring.checkstyle.plugin>0.0.29</spring.checkstyle.plugin>
 		<fastjson.version>1.2.78</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
