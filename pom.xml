@@ -218,6 +218,11 @@
 				<configuration>
 					<failOnNoGitDirectory>false</failOnNoGitDirectory>
 					<generateGitPropertiesFile>true</generateGitPropertiesFile>
+					<dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+					<includeOnlyProperties>
+						<includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+						<includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
+					</includeOnlyProperties>
 				</configuration>
 			</plugin>
 			<!--代码格式插件，默认使用spring 规则-->
