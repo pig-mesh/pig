@@ -33,11 +33,9 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -76,6 +74,7 @@ public class DataSourceServiceImpl implements DataSourceService {
 		LambdaQueryWrapper<DataSource> wrapper = Wrappers.lambdaQuery();
 		wrapper.select(DataSource::getSourceCode, DataSource::getSourceName).eq(DataSource::getEnableFlag,
 				Enabled.YES.getValue());
+		wrapper.orderByDesc(DataSource::getUpdateTime);
 		return dataSourceMapper.selectList(wrapper);
 	}
 
@@ -241,7 +240,9 @@ public class DataSourceServiceImpl implements DataSourceService {
 				columns.forEach(t -> {
 					try {
 						Object value = rs.getObject(t);
-						jo.put(t, value);
+						// 数据类型转换
+						Object result = dealResult(value);
+						jo.put(t, result);
 					}
 					catch (SQLException throwable) {
 						log.error("error", throwable);
@@ -268,6 +269,26 @@ public class DataSourceServiceImpl implements DataSourceService {
 						throwable.getMessage());
 			}
 		}
+	}
+
+	/**
+	 * 解决sql返回值 类型问题 (through reference chain:
+	 * java.util.HashMap["pageData"]->java.util.ArrayList[0]->java.util.HashMap["UPDATE_TIME"]->oracle.sql.TIMESTAMP["stream"])
+	 * @param result
+	 * @return
+	 * @throws SQLException
+	 */
+	private Object dealResult(Object result) throws SQLException {
+		if (null == result) {
+			return result;
+		}
+		String type = result.getClass().getName();
+		if ("oracle.sql.TIMESTAMP".equals(type)) {
+			// oracle.sql.TIMESTAMP处理逻辑
+			return new Date((Long) JSONObject.toJSON(result));
+		}
+
+		return result;
 	}
 
 	/**

@@ -11,7 +11,7 @@ import lombok.Data;
  * @author Raod
  * @date 2021-03-18 12:13:15.591309400
  **/
-@TableName(value = "gaea_report_data_set_transform")
+@TableName(keepGlobalPrefix = true, value = "gaea_report_data_set_transform")
 @Data
 public class DataSetTransform extends GaeaBaseEntity {
 

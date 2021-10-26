@@ -1,16 +1,19 @@
 
 package com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import javax.validation.constraints.*;
+import java.util.Date;
 
 /**
  * @description 权限管理 entity
  * @author 木子李·De <lide1202@hotmail.com>
  * @date 2019-02-17 08:50:10.009
  **/
-@TableName(value = "access_authority")
+@TableName(keepGlobalPrefix = true, value = "access_authority")
 @Data
 public class AccessAuthority extends GaeaBaseEntity {
 

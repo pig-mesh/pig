@@ -1,5 +1,6 @@
 package com.anjiplus.template.gaea.business.util;
 
+import java.security.SecureRandom;
 import java.util.UUID;
 
 /**
@@ -28,14 +29,34 @@ public class UuidUtil {
 
 	}
 
+	/**
+	 * 获取随机小写密码
+	 * @param num
+	 * @return
+	 */
+	public static String getRandomPwd(int num) {
+		StringBuilder builder = new StringBuilder();
+		// 因为已经把 4 种字符放进list了，所以 i 取值从 4开始
+		// 产生随机数用于随机调用生成字符的函数
+		for (int i = 0; i < num; i++) {
+			SecureRandom random = new SecureRandom();
+			int funNum = random.nextInt(chars.length);
+			builder.append(chars[funNum]);
+		}
+
+		return builder.toString().toLowerCase();
+	}
+
 	public static String generateUuid() {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
 
 	public static void main(String[] args) {
 		for (int i = 0; i < 100; i++) {
-			System.out.println(generateShortUuid());
+			// System.out.println(generateShortUuid());
+			System.out.println(getRandomPwd(4));
 		}
+
 	}
 
 }

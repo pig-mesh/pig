@@ -13,7 +13,7 @@ import lombok.Data;
  * @author Raod
  * @date 2021-03-18 12:09:57.728203200
  **/
-@TableName(value = "gaea_report_data_source")
+@TableName(keepGlobalPrefix = true, value = "gaea_report_data_source")
 @Data
 public class DataSource extends GaeaBaseEntity {
 

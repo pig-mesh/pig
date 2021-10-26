@@ -13,8 +13,10 @@ import com.anji.plus.gaea.utils.GaeaUtils;
 import com.anji.plus.gaea.utils.JwtBean;
 import com.anjiplus.template.gaea.business.code.ResponseCode;
 import com.anjiplus.template.gaea.business.constant.BusinessConstant;
+import com.anjiplus.template.gaea.business.modules.accessrole.dao.AccessRoleAuthorityMapper;
 import com.anjiplus.template.gaea.business.modules.accessrole.dao.AccessRoleMapper;
 import com.anjiplus.template.gaea.business.modules.accessrole.dao.entity.AccessRole;
+import com.anjiplus.template.gaea.business.modules.accessrole.dao.entity.AccessRoleAuthority;
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.AccessUserDto;
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.GaeaUserDto;
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.UpdatePasswordDto;
@@ -31,10 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -53,6 +52,9 @@ public class AccessUserServiceImpl implements AccessUserService {
 
 	@Autowired
 	private AccessUserRoleMapper accessUserRoleMapper;
+
+	@Autowired
+	private AccessRoleAuthorityMapper accessRoleAuthorityMapper;
 
 	@Value("${customer.user.default.password:'123456'}")
 	private String defaultPassword;
@@ -168,11 +170,35 @@ public class AccessUserServiceImpl implements AccessUserService {
 		// 4.读取用户最新人权限主信息
 		String userKey = String.format(BusinessConstant.GAEA_SECURITY_LOGIN_USER, loginName);
 
-		List<String> authorities = accessUserMapper.queryAuthoritiesByLoginName(loginName);
+		// 为了兼容底层其他数据库，不再写自定义sql
+		// List<String> authorities =
+		// accessUserMapper.queryAuthoritiesByLoginName(loginName);
+
+		// 当前用户的roleCode集合
+		LambdaQueryWrapper<AccessUserRole> accessUserWrapper = Wrappers.lambdaQuery();
+		accessUserWrapper.select(AccessUserRole::getRoleCode);
+		accessUserWrapper.eq(AccessUserRole::getLoginName, loginName);
+		List<AccessUserRole> accessUserRoles = accessUserRoleMapper.selectList(accessUserWrapper);
+		Set<String> roleCodeSet = accessUserRoles.stream().map(AccessUserRole::getRoleCode).collect(Collectors.toSet());
+		if (roleCodeSet.size() < 1) {
+			gaeaUser.setAuthorities(new ArrayList<>());
+		}
+		else {
+			LambdaQueryWrapper<AccessRoleAuthority> accessRoleAuthorityWrapper = Wrappers.lambdaQuery();
+			accessRoleAuthorityWrapper.select(AccessRoleAuthority::getTarget, AccessRoleAuthority::getAction);
+			accessRoleAuthorityWrapper.in(AccessRoleAuthority::getRoleCode, roleCodeSet);
+			List<AccessRoleAuthority> accessRoleAuthorities = accessRoleAuthorityMapper
+					.selectList(accessRoleAuthorityWrapper);
+			List<String> authorities = accessRoleAuthorities.stream().map(accessRoleAuthority -> accessRoleAuthority
+					.getTarget().concat(":").concat(accessRoleAuthority.getAction())).distinct()
+					.collect(Collectors.toList());
+			gaeaUser.setAuthorities(authorities);
+		}
+
 		gaeaUser.setLoginName(loginName);
 		gaeaUser.setRealName(accessUser.getRealName());
 		gaeaUser.setToken(token);
-		gaeaUser.setAuthorities(authorities);
+
 		String gaeaUserStr = JSONObject.toJSONString(gaeaUser);
 		cacheHelper.stringSetExpire(userKey, gaeaUserStr, 3600);
 

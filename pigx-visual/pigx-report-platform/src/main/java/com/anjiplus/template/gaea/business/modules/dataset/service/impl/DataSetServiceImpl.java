@@ -205,12 +205,14 @@ public class DataSetServiceImpl implements DataSetService {
 		DataSource dataSource = dataSourceService.selectOne("source_code", dataSetDto.getSourceCode());
 		// 3.参数替换
 		// 3.1参数校验
+		log.debug("参数校验替换前：{}", dto.getContextData());
 		boolean verification = dataSetParamService.verification(dataSetDto.getDataSetParamDtoList(),
 				dto.getContextData());
 		if (!verification) {
 			throw BusinessExceptionBuilder.build(ResponseCode.RULE_FIELDS_CHECK_ERROR);
 		}
 		String dynSentence = dataSetParamService.transform(dto.getContextData(), dataSetDto.getDynSentence());
+		log.debug("参数校验替换后：{}", dto.getContextData());
 		// 4.获取数据
 		DataSourceDto dataSourceDto = new DataSourceDto();
 		BeanUtils.copyProperties(dataSource, dataSourceDto);
@@ -278,6 +280,7 @@ public class DataSetServiceImpl implements DataSetService {
 		LambdaQueryWrapper<DataSet> wrapper = Wrappers.lambdaQuery();
 		wrapper.select(DataSet::getSetCode, DataSet::getSetName, DataSet::getSetDesc, DataSet::getId)
 				.eq(DataSet::getEnableFlag, Enabled.YES.getValue());
+		wrapper.orderByDesc(DataSet::getUpdateTime);
 		return dataSetMapper.selectList(wrapper);
 	}
 
@@ -286,14 +289,16 @@ public class DataSetServiceImpl implements DataSetService {
 		if (null == dataSetParamDtoList || dataSetParamDtoList.size() <= 0) {
 			return;
 		}
-		List<DataSetParam> dataSetParamList = new ArrayList<>();
+		// List<DataSetParam> dataSetParamList = new ArrayList<>();
 		dataSetParamDtoList.forEach(dataSetParamDto -> {
 			DataSetParam dataSetParam = new DataSetParam();
 			BeanUtils.copyProperties(dataSetParamDto, dataSetParam);
 			dataSetParam.setSetCode(setCode);
-			dataSetParamList.add(dataSetParam);
+			// 不采用批量
+			dataSetParamService.insert(dataSetParam);
+			// dataSetParamList.add(dataSetParam);
 		});
-		dataSetParamService.insertBatch(dataSetParamList);
+		// dataSetParamService.insertBatch(dataSetParamList);
 
 	}
 
@@ -303,15 +308,17 @@ public class DataSetServiceImpl implements DataSetService {
 		if (null == dataSetTransformDtoList || dataSetTransformDtoList.size() <= 0) {
 			return;
 		}
-		List<DataSetTransform> dataSetTransformList = new ArrayList<>();
+		// List<DataSetTransform> dataSetTransformList = new ArrayList<>();
 		for (int i = 0; i < dataSetTransformDtoList.size(); i++) {
 			DataSetTransform dataSetTransform = new DataSetTransform();
 			BeanUtils.copyProperties(dataSetTransformDtoList.get(i), dataSetTransform);
 			dataSetTransform.setOrderNum(i + 1);
 			dataSetTransform.setSetCode(setCode);
-			dataSetTransformList.add(dataSetTransform);
+			// 不采用批量
+			dataSetTransformService.insert(dataSetTransform);
+			// dataSetTransformList.add(dataSetTransform);
 		}
-		dataSetTransformService.insertBatch(dataSetTransformList);
+		// dataSetTransformService.insertBatch(dataSetTransformList);
 	}
 
 }

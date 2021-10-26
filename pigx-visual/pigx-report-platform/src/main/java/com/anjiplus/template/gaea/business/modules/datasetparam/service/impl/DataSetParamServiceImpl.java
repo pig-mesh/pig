@@ -91,7 +91,7 @@ public class DataSetParamServiceImpl implements DataSetParamService {
 	 * @return
 	 */
 	@Override
-	public boolean verification(DataSetParamDto dataSetParamDto) {
+	public Object verification(DataSetParamDto dataSetParamDto) {
 
 		String validationRules = dataSetParamDto.getValidationRules();
 		if (StringUtils.isNotBlank(validationRules)) {
@@ -101,7 +101,13 @@ public class DataSetParamServiceImpl implements DataSetParamService {
 					Invocable invocable = (Invocable) engine;
 					Object exec = invocable.invokeFunction("verification", dataSetParamDto);
 					ObjectMapper objectMapper = new ObjectMapper();
-					return objectMapper.convertValue(exec, Boolean.class);
+					if (exec instanceof Boolean) {
+						return objectMapper.convertValue(exec, Boolean.class);
+					}
+					else {
+						return objectMapper.convertValue(exec, String.class);
+					}
+
 				}
 
 			}
@@ -129,9 +135,21 @@ public class DataSetParamServiceImpl implements DataSetParamService {
 				String value = contextData.getOrDefault(dataSetParamDto.getParamName(), "").toString();
 				dataSetParamDto.setSampleItem(value);
 			}
-			if (!verification(dataSetParamDto)) {
-				return false;
+
+			Object verification = verification(dataSetParamDto);
+			if (verification instanceof Boolean) {
+				if (!(Boolean) verification) {
+					return false;
+				}
 			}
+			else {
+				// 将得到的值重新赋值给contextData
+				if (null != contextData) {
+					contextData.put(dataSetParamDto.getParamName(), verification);
+				}
+				dataSetParamDto.setSampleItem(verification.toString());
+			}
+
 		}
 		return true;
 	}

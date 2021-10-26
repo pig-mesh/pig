@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author lr
  * @since 2021-02-23 10:01:02
  */
-@TableName("gaea_dict")
+@TableName(keepGlobalPrefix = true, value = "gaea_dict")
 public class GaeaDict extends GaeaBaseEntity implements Serializable {
 
 	/**

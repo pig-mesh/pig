@@ -13,9 +13,11 @@ import com.anjiplus.template.gaea.business.modules.reportshare.dao.entity.Report
 import com.anjiplus.template.gaea.business.modules.reportshare.service.ReportShareService;
 import com.anjiplus.template.gaea.business.util.DateUtil;
 import com.anjiplus.template.gaea.business.util.JwtUtil;
+import com.anjiplus.template.gaea.business.util.MD5Util;
 import com.anjiplus.template.gaea.business.util.UuidUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,12 +53,18 @@ public class ReportShareServiceImpl implements ReportShareService {
 
 	@Override
 	public ReportShareDto insertShare(ReportShareDto dto) {
+		// 设置分享码
+		if (dto.isSharePasswordFlag()) {
+			dto.setSharePassword(UuidUtil.getRandomPwd(4));
+		}
+
 		ReportShareDto reportShareDto = new ReportShareDto();
 		ReportShare entity = new ReportShare();
 		BeanUtils.copyProperties(dto, entity);
 		insert(entity);
 		// 将分享链接返回
 		reportShareDto.setShareUrl(entity.getShareUrl());
+		reportShareDto.setSharePassword(dto.getSharePassword());
 		return reportShareDto;
 	}
 
@@ -68,6 +76,12 @@ public class ReportShareServiceImpl implements ReportShareService {
 		ReportShare reportShare = selectOne(wrapper);
 		if (null == reportShare) {
 			throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID);
+		}
+		// 解析jwt token，获取密码
+		String password = JwtUtil.getPassword(reportShare.getShareToken());
+		if (StringUtils.isNotBlank(password)) {
+			// md5加密返回
+			reportShare.setSharePassword(MD5Util.encrypt(password));
 		}
 		return reportShare;
 	}
@@ -103,8 +117,10 @@ public class ReportShareServiceImpl implements ReportShareService {
 		else {
 			entity.setShareUrl(entity.getShareUrl() + SHARE_FLAG + shareCode);
 		}
+
 		entity.setShareValidTime(DateUtil.getFutureDateTmdHms(entity.getShareValidType()));
-		entity.setShareToken(JwtUtil.createToken(entity.getReportCode(), shareCode, entity.getShareValidTime()));
+		entity.setShareToken(JwtUtil.createToken(entity.getReportCode(), shareCode, entity.getSharePassword(),
+				entity.getShareValidTime()));
 	}
 
 }

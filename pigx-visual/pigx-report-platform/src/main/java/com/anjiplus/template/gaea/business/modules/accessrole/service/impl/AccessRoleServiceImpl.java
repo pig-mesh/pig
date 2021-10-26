@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @desc AccessRole 角色管理服务实现
@@ -52,7 +53,16 @@ public class AccessRoleServiceImpl implements AccessRoleService {
 		List<TreeNode> treeData = accessAuthorityService.getAuthorityTree(operator, true);
 
 		// 该角色已选中的菜单及按钮
-		List<String> checkedKeys = accessRoleMapper.checkedAuthoritys(roleCode);
+		// List<String> checkedKeys = accessRoleMapper.checkedAuthoritys(roleCode);
+
+		LambdaQueryWrapper<AccessRoleAuthority> accessRoleAuthorityWrapper = Wrappers.lambdaQuery();
+		accessRoleAuthorityWrapper.select(AccessRoleAuthority::getTarget, AccessRoleAuthority::getAction);
+		accessRoleAuthorityWrapper.eq(AccessRoleAuthority::getRoleCode, roleCode);
+		List<AccessRoleAuthority> accessRoleAuthorities = accessRoleAuthorityMapper
+				.selectList(accessRoleAuthorityWrapper);
+		List<String> checkedKeys = accessRoleAuthorities.stream().map(accessRoleAuthority -> accessRoleAuthority
+				.getTarget().concat("_").concat(accessRoleAuthority.getAction())).distinct()
+				.collect(Collectors.toList());
 
 		result.put("treeData", treeData);
 		result.put("checkedKeys", checkedKeys);

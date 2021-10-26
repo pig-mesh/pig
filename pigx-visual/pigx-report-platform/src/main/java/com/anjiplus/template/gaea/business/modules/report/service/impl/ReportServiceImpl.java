@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * TODO
- *
  * @author chenkening
  * @date 2021/3/26 10:35
  */
@@ -30,12 +28,13 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public void delReport(ReportDto reportDto) {
 		deleteById(reportDto.getId());
+		// 删除gaea_report_excel、gaea_report_dashboard、gaea_report_dashboard_widget
+		// ...
 	}
 
 	@Override
 	public void processBeforeOperation(Report entity, BaseOperationEnum operationEnum) throws BusinessException {
-		// 目前只有大屏一种类型
-		entity.setReportType("report_screen");
+
 	}
 
 }

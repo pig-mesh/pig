@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author peiyanni
  * @since 2021-02-18 14:48:20
  */
-@TableName("gaea_file")
+@TableName(keepGlobalPrefix = true, value = "gaea_file")
 @Data
 public class GaeaFile extends GaeaBaseEntity implements Serializable {
 

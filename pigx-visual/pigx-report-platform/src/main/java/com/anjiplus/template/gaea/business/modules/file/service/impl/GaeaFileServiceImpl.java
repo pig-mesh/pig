@@ -100,7 +100,7 @@ public class GaeaFileServiceImpl implements GaeaFileService {
 			String newFileName = fileId + suffixName;
 			// 本地文件保存路径
 			String filePath = dictPath + newFileName;
-			String urlPath = fileDownloadPath + File.separator + fileId;
+			String urlPath = fileDownloadPath + "/" + fileId;
 
 			GaeaFile gaeaFile = new GaeaFile();
 			gaeaFile.setFilePath(filePath);
@@ -111,8 +111,8 @@ public class GaeaFileServiceImpl implements GaeaFileService {
 			gaeaFileMapper.insert(gaeaFile);
 
 			// 写文件 将文件保存/app/dictPath/upload/下
-			File dest = new File(dictPath + newFileName);
-			File parentFile = dest.getParentFile();
+			java.io.File dest = new java.io.File(dictPath + newFileName);
+			java.io.File parentFile = dest.getParentFile();
 			if (!parentFile.exists()) {
 				parentFile.mkdirs();
 			}

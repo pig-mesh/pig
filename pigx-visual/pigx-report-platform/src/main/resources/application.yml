@@ -38,7 +38,6 @@ spring:
 
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
   mapperLocations:
     - classpath*:/mapper/**/*.xml
@@ -46,7 +45,6 @@ mybatis-plus:
 
 # 本应用自定义参数
 customer:
-  # 开发测试用本地文件，如果是生产，请考虑使用对象存储
   file:
     #上传对应本地全路径
     dist-path: /Users/lengleng/Downloads/file/

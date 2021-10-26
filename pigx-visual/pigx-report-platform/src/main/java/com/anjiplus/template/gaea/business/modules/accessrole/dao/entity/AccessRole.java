@@ -12,7 +12,7 @@ import java.util.Date;
  * @author 木子李·De <lide1202@hotmail.com>
  * @date 2019-02-17 08:50:14.136
  **/
-@TableName(value = "access_role")
+@TableName(keepGlobalPrefix = true, value = "access_role")
 @Data
 public class AccessRole extends GaeaBaseEntity {
 

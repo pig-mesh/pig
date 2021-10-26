@@ -11,20 +11,20 @@ import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.Char
 import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.ReportDashboardDto;
 import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.ReportDashboardObjectDto;
 import com.anjiplus.template.gaea.business.modules.dashboard.dao.ReportDashboardMapper;
-import com.anjiplus.template.gaea.business.modules.dashboard.dao.entity.ReportDashboard;
 import com.anjiplus.template.gaea.business.modules.dashboard.service.ChartStrategy;
 import com.anjiplus.template.gaea.business.modules.dashboard.service.ReportDashboardService;
+import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
+import com.anjiplus.template.gaea.business.modules.file.service.GaeaFileService;
+import com.anjiplus.template.gaea.business.modules.file.util.FileUtils;
+import com.anjiplus.template.gaea.business.util.DateUtil;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.controller.dto.ReportDashboardWidgetDto;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.controller.dto.ReportDashboardWidgetValueDto;
+import com.anjiplus.template.gaea.business.modules.dashboard.dao.entity.ReportDashboard;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.dao.entity.ReportDashboardWidget;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.service.ReportDashboardWidgetService;
 import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.DataSetDto;
 import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.OriginalDataDto;
 import com.anjiplus.template.gaea.business.modules.dataset.service.DataSetService;
-import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
-import com.anjiplus.template.gaea.business.modules.file.service.GaeaFileService;
-import com.anjiplus.template.gaea.business.modules.file.util.FileUtils;
-import com.anjiplus.template.gaea.business.util.DateUtil;
 import com.anjiplus.template.gaea.business.util.FileUtil;
 import com.anjiplus.template.gaea.business.util.UuidUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -48,6 +48,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -162,7 +163,7 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 				.eq(ReportDashboardWidget::getReportCode, reportCode));
 		List<ReportDashboardWidgetDto> widgets = dto.getWidgets();
 
-		List<ReportDashboardWidget> reportDashboardWidgetList = new ArrayList<>();
+		// List<ReportDashboardWidget> reportDashboardWidgetList = new ArrayList<>();
 		for (int i = 0; i < widgets.size(); i++) {
 			ReportDashboardWidget reportDashboardWidget = new ReportDashboardWidget();
 			ReportDashboardWidgetDto reportDashboardWidgetDto = widgets.get(i);
@@ -181,9 +182,13 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 			reportDashboardWidget.setEnableFlag(1);
 			reportDashboardWidget.setDeleteFlag(0);
 			reportDashboardWidget.setSort((long) (i + 1));
-			reportDashboardWidgetList.add(reportDashboardWidget);
+
+			// 兼容底层，不采用批量插入
+			reportDashboardWidgetService.insert(reportDashboardWidget);
+
+			// reportDashboardWidgetList.add(reportDashboardWidget);
 		}
-		reportDashboardWidgetService.insertBatch(reportDashboardWidgetList);
+		// reportDashboardWidgetService.insertBatch(reportDashboardWidgetList);
 
 	}
 
@@ -349,6 +354,9 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 	}
 
 	private String replaceUrl(String imageAddress, Map<String, String> fileMap) {
+		if (StringUtils.isBlank(imageAddress)) {
+			return "";
+		}
 		String fileId = imageAddress.substring(imageAddress.trim().length() - 36);
 		String orDefault = fileMap.getOrDefault(fileId, null);
 		if (StringUtils.isBlank(orDefault)) {
@@ -442,14 +450,18 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 			return data;
 		}
 		// 获取时间轴字段和解析时间颗粒度
-		chartProperties.forEach((key, value) -> {
+
+		for (Map.Entry<String, String> entry : chartProperties.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
 			dto.setParticles(value);
 			setTimeLineFormat(dto);
 			if (StringUtils.isNotBlank(dto.getDataTimeFormat())) {
 				dto.setTimeLineFiled(key);
-				return;
+				break;
 			}
-		});
+
+		}
 
 		if (StringUtils.isBlank(dto.getDataTimeFormat())) {
 			return data;

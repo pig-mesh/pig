@@ -21,7 +21,7 @@
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<druid.version>1.2.8</druid.version>
-		<mysql.connector.version>8.0.23</mysql.connector.version>
+		<mysql.connector.version>8.0.27</mysql.connector.version>
 		<swagger.core.version>1.5.22</swagger.core.version>
 		<mp.weixin.version>3.9.0</mp.weixin.version>
 		<ijpay.version>2.7.6</ijpay.version>

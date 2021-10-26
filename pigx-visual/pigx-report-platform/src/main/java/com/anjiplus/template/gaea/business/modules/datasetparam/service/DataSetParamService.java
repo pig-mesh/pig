@@ -37,7 +37,7 @@ public interface DataSetParamService extends GaeaBaseService<DataSetParamParam, 
 	 * @param dataSetParamDto
 	 * @return
 	 */
-	boolean verification(DataSetParamDto dataSetParamDto);
+	Object verification(DataSetParamDto dataSetParamDto);
 
 	/**
 	 * 参数校验 js脚本

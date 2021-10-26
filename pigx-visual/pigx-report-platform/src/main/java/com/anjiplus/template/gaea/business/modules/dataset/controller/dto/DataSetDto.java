@@ -54,4 +54,7 @@ public class DataSetDto extends GaeaBaseDTO implements Serializable {
 
 	private Set<String> setParamList;
 
+	/** 指定字段 */
+	private String fieldLabel;
+
 }
