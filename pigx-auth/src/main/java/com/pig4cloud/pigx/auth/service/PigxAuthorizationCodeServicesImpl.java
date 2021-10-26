@@ -4,8 +4,11 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStringCommands;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.store.redis.JdkSerializationStrategy;
@@ -21,6 +24,12 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class PigxAuthorizationCodeServicesImpl extends RandomValueAuthorizationCodeServices {
+
+	/**
+	 * 授权码模式时: 验证码有效期设置, 默认有效期为5分钟, 单位秒
+	 */
+	@Value("${pigx.authorizationCode.expirationTime:300}")
+	private Long expirationTime;
 
 	private final RedisConnectionFactory connectionFactory;
 
@@ -39,7 +48,10 @@ public class PigxAuthorizationCodeServicesImpl extends RandomValueAuthorizationC
 	protected void store(String code, OAuth2Authentication authentication) {
 		@Cleanup
 		RedisConnection connection = connectionFactory.getConnection();
-		connection.set(serializationStrategy.serialize(prefix + code), serializationStrategy.serialize(authentication));
+		connection.set(serializationStrategy.serialize(prefix + code),
+				serializationStrategy.serialize(authentication),
+				Expiration.seconds(expirationTime),
+				RedisStringCommands.SetOption.UPSERT);
 	}
 
 	/**
