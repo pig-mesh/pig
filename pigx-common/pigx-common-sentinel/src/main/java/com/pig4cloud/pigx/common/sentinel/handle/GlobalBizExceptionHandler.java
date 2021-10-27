@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,11 +75,11 @@ public class GlobalBizExceptionHandler {
 	 * @param exception
 	 * @return R
 	 */
-	@ExceptionHandler({ MethodArgumentNotValidException.class })
+	@ExceptionHandler({ BindException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R handleBodyValidException(MethodArgumentNotValidException exception) {
+	public R handleBodyValidException(BindException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-		log.warn("参数绑定异常,ex = {}", fieldErrors.get(0).getDefaultMessage());
+		// 插入log 的逻辑
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
 	}
 
