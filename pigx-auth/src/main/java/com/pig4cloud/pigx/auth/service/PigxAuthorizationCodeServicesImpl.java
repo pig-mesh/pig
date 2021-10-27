@@ -48,10 +48,8 @@ public class PigxAuthorizationCodeServicesImpl extends RandomValueAuthorizationC
 	protected void store(String code, OAuth2Authentication authentication) {
 		@Cleanup
 		RedisConnection connection = connectionFactory.getConnection();
-		connection.set(serializationStrategy.serialize(prefix + code),
-				serializationStrategy.serialize(authentication),
-				Expiration.seconds(expirationTime),
-				RedisStringCommands.SetOption.UPSERT);
+		connection.set(serializationStrategy.serialize(prefix + code), serializationStrategy.serialize(authentication),
+				Expiration.seconds(expirationTime), RedisStringCommands.SetOption.UPSERT);
 	}
 
 	/**
