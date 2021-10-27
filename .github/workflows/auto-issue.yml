@@ -1,0 +1,18 @@
+name: PIG Github 自动回复消息
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  titlePrefixCheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Issue
+        uses: peter-evans/close-issue@v1
+        with:
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          comment:
+            您好！技术问题请在 https://issue.pig4cloud.com 反馈，
+            Github 提问不会处理，此issue将自动关闭。
+
