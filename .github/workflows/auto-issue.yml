@@ -9,6 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Close Issue
+        if: github.repository == 'pig-mesh/pig'
         uses: peter-evans/close-issue@v1
         with:
           token: ${{ secrets.ACTIONS_BOT_TOKEN }}
