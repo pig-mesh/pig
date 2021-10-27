@@ -1,0 +1,23 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: PIG Github 自动回复消息
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Issue
+        if: github.repository == 'pig-mesh/pig'
+        uses: peter-evans/close-issue@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          token: ${{ secrets.ACTIONS_BOT_TOKEN }}
+          comment:
+            您好！技术问题请在 https://issue.pig4cloud.com 反馈，
+            Github 提问不会处理，此issue将自动关闭。
+
