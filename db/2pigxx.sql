@@ -666,6 +666,7 @@ CREATE TABLE `sys_route_conf` (
   `filters` json DEFAULT NULL COMMENT '过滤器',
   `uri` varchar(50) DEFAULT NULL,
   `order` int(2) DEFAULT '0' COMMENT '排序',
+  `metadata` json DEFAULT NULL COMMENT '路由元信息',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `del_flag` char(1) DEFAULT '0',
