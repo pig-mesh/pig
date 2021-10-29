@@ -13,6 +13,6 @@ WORKDIR /pigx-report-platform
 
 EXPOSE 9095
 
-ADD ./target/pigx-pay-platform.jar ./
+ADD ./target/pigx-report-platform.jar ./
 
 CMD sleep 180;java $JAVA_OPTS -jar pigx-report-platform.jar
