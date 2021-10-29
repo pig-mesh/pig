@@ -134,6 +134,15 @@ services:
     ports:
       - 5006:5006
 
+  pigx-report-platform:
+    build:
+      context: ./pigx-visual/pigx-report-platform
+    restart: always
+    image: pigx-report-platform
+    container_name: pigx-report-platform
+    ports:
+      - 9095:9095
+
   pigxx-job:
     build:
       context: ./pigx-visual/pigx-xxl-job-admin

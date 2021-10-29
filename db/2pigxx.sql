@@ -410,7 +410,7 @@ INSERT INTO `sys_menu` VALUES (9003, '表单修改', 'gen_form_edit', NULL, 9001
 INSERT INTO `sys_menu` VALUES (9004, '表单删除', 'gen_form_del', NULL, 9001, '1', 2, '0', '1', '2018-05-15 21:35:18', '2020-03-24 08:58:47', '0', 1);
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource', 9000, 'icon-mysql', 0, '0', '0', '2019-08-12 09:42:11', '2020-03-24 08:58:49', '0', 1);
 INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', 2, '0', '0', '2019-08-16 10:08:56', '2020-03-24 08:58:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, 'http://127.0.0.1:9095/', -1, 'icon-shuju', 2, '0', '0', '2019-08-16 10:08:56', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, 'http://127.0.0.1:9095/', -1, 'icon-shuju', 10, '0', '0', '2019-08-16 10:08:56', '2020-03-24 08:58:53', '0', 1);
 COMMIT;
 
 -- ----------------------------
