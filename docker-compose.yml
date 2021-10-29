@@ -43,6 +43,9 @@ services:
       - MINIO_SECRET_KEY=lengleng
 
   pigx-register:
+    build:
+      context: ./pigx-register
+    restart: always
     container_name: pigx-register
     image: pigx-register
     ports:
