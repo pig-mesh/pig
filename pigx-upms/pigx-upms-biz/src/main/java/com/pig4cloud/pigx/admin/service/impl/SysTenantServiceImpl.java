@@ -41,6 +41,8 @@ import java.util.stream.Collectors;
 /**
  * 租户
  *
+ * mybatis-plus 3.4.3.3 特殊处理 https://github.com/baomidou/mybatis-plus/pull/3592
+ *
  * @author lengleng
  * @date 2019-05-15 15:55:41
  */
@@ -167,16 +169,19 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			}).collect(Collectors.toList());
 			roleMenuMapper.insertBatchSomeColumn(roleMenuList);
 			// 插入系统字典
-			dictService.saveBatch(dictList);
+			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 处理字典项最新关联的字典ID
-			List<SysDictItem> itemList = dictList.stream().flatMap(dict -> dictItemList.stream()
-					.filter(item -> item.getType().equals(dict.getType())).peek(item -> item.setDictId(dict.getId())))
-					.collect(Collectors.toList());
+			List<SysDictItem> itemList = dictList.stream().flatMap(
+					dict -> dictItemList.stream().filter(item -> item.getType().equals(dict.getType())).peek(item -> {
+						item.setDictId(dict.getId());
+						item.setId(null);
+					})).collect(Collectors.toList());
 
 			// 插入客户端
-			clientServices.saveBatch(clientDetailsList);
+			clientServices.saveBatch(clientDetailsList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 插入系统配置
-			paramService.saveBatch(publicParamList);
+			paramService
+					.saveBatch(publicParamList.stream().peek(d -> d.setPublicId(null)).collect(Collectors.toList()));
 			return dictItemService.saveBatch(itemList);
 		}));
 
@@ -192,6 +197,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		menuList.stream().filter(menu -> menu.getParentId().equals(originParentId)).forEach(menu -> {
 			// 保存菜单原始menuId， 方便查询子节点使用
 			Integer originMenuId = menu.getMenuId();
+			menu.setMenuId(null);
 			menu.setParentId(targetParentId);
 			menuService.save(menu);
 			// 查找此节点的子节点，然后子节点的重新插入父节点更改为新的menuId
