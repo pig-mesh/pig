@@ -125,7 +125,7 @@
       },
       //  导出excel
       exportExcel() {
-        this.downFile('/${moduleName}/${pathName}/export', this.searchForm,'${pathName}.xlsx')
+        this.downBlobFile('/${moduleName}/${pathName}/export', this.searchForm,'${pathName}.xlsx')
       }
     }
   }
