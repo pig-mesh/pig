@@ -19,6 +19,7 @@
 	<properties>
 		<pigx.version>4.2.0</pigx.version>
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
+		<jsqlparser.version>4.0</jsqlparser.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<druid.version>1.2.8</druid.version>
 		<mysql.connector.version>8.0.27</mysql.connector.version>
@@ -151,6 +152,11 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
 				<version>${dynamic-ds.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.jsqlparser</groupId>
+				<artifactId>jsqlparser</artifactId>
+				<version>${jsqlparser.version}</version>
 			</dependency>
 			<!-- druid 连接池 -->
 			<dependency>
