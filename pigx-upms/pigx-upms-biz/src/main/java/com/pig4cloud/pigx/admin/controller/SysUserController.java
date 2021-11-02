@@ -19,14 +19,18 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
+import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.datascope.DataScope;
+import com.pig4cloud.pigx.common.data.datascope.DataScopeFuncEnum;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -52,6 +56,8 @@ import java.util.List;
 @RequestMapping("/user")
 @Api(value = "user", tags = "用户管理模块")
 public class SysUserController {
+
+	private final SysUserMapper userMapper;
 
 	private final SysUserService userService;
 
@@ -197,6 +203,15 @@ public class SysUserController {
 	@PreAuthorize("@pms.hasPermission('sys_log_export')")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
+	}
+
+	@Inner(value = false)
+	@GetMapping("/count")
+	public R get() {
+		DataScope dataScope = new DataScope();
+		dataScope.setFunc(DataScopeFuncEnum.COUNT);
+		dataScope.setDeptIds(CollUtil.newArrayList(14, 15, 16));
+		return R.ok(userMapper.selectCountByScope(Wrappers.emptyWrapper(), dataScope));
 	}
 
 }
