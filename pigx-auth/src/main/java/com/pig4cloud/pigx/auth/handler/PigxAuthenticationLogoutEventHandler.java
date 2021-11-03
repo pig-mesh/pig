@@ -62,7 +62,7 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 	public void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
 		String username = authentication.getName();
 		SysLogDTO sysLog = SysLogUtils.getSysLog(request, username);
-		sysLog.setTitle(username + "用户退出");
+		sysLog.setTitle(username + "用户登录");
 		sysLog.setParams(username);
 
 		// 获取clientId 信息
