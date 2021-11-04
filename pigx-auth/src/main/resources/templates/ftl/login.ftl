@@ -17,7 +17,7 @@
 <body class="sign_body">
 <div class="container form-margin-top">
     <form class="form-signin" action="/token/form" method="post">
-        <h2 class="form-signin-hea   ding" align="center">统一认证系统</h2>
+        <h2 class="form-signin-heading" align="center">统一认证系统</h2>
 
         <#if tenantList??>
             <select class="form-control form-margin-top" placeholder="所属租户" name="TENANT-ID">
