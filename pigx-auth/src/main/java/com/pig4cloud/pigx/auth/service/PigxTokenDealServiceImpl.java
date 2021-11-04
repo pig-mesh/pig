@@ -9,6 +9,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
@@ -18,9 +19,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
+import org.springframework.security.oauth2.common.exceptions.InvalidRequestException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
@@ -148,6 +152,21 @@ public class PigxTokenDealServiceImpl {
 			log.error("关闭cursor 失败");
 		}
 		return result;
+	}
+
+	/**
+	 * 根据访问令牌获取用户信息
+	 * @param accessToken 访问令牌
+	 * @return 登录用户信息
+	 */
+	public ResponseEntity<PigxUser> getUserInfo(String accessToken) {
+		OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
+		if (oAuth2AccessToken == null || StrUtil.isBlank(oAuth2AccessToken.getValue()) || oAuth2AccessToken.isExpired()) {
+			throw new InvalidRequestException("The access token is invalid or expired");
+		}
+		OAuth2Authentication auth2Authentication = tokenStore.readAuthentication(oAuth2AccessToken);
+		PigxUser userInfo = (PigxUser) auth2Authentication.getUserAuthentication().getPrincipal();
+		return new ResponseEntity<PigxUser>(userInfo, HttpStatus.OK);
 	}
 
 }
