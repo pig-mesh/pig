@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.common.websocket.config;
 
 import com.pig4cloud.pigx.common.websocket.custom.PigxSessionKeyGenerator;
 import com.pig4cloud.pigx.common.websocket.custom.UserAttributeHandshakeInterceptor;
+import com.pig4cloud.pigx.common.websocket.handler.CustomPlanTextMessageHandler;
 import com.pig4cloud.pigx.common.websocket.handler.CustomWebSocketHandler;
 import com.pig4cloud.pigx.common.websocket.handler.PingJsonMessageHandler;
 import com.pig4cloud.pigx.common.websocket.handler.PlanTextMessageHandler;
@@ -38,6 +39,12 @@ public class WebSocketHandlerConfig {
 	@Bean
 	public HandshakeInterceptor handshakeInterceptor() {
 		return new UserAttributeHandshakeInterceptor();
+	}
+
+	@Bean
+	@ConditionalOnMissingBean(PlanTextMessageHandler.class)
+	public PlanTextMessageHandler planTextMessageHandler() {
+		return new CustomPlanTextMessageHandler();
 	}
 
 	@Bean
