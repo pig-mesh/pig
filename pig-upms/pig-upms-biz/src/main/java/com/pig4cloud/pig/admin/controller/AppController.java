@@ -39,11 +39,11 @@ public class AppController {
 	 * @return 用户信息
 	 */
 	@Inner
-	@GetMapping("/info/{mobile}")
-	public R infoByMobile(@PathVariable String mobile) {
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
+	@GetMapping("/info/{phone}")
+	public R infoByMobile(@PathVariable String phone) {
+		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
 		if (user == null) {
-			return R.failed(String.format("用户信息为空 %s", mobile));
+			return R.failed(String.format("用户信息为空 %s", phone));
 		}
 		return R.ok(userService.getUserInfo(user));
 	}
