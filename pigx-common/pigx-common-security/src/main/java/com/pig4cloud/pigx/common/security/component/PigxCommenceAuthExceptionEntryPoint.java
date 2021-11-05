@@ -64,8 +64,7 @@ public class PigxCommenceAuthExceptionEntryPoint implements AuthenticationEntryP
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		result.setCode(CommonConstants.FAIL);
 
-		if (authException instanceof CredentialsExpiredException
-				|| authException instanceof InsufficientAuthenticationException) {
+		if (authException instanceof CredentialsExpiredException) {
 			String msg = PigxSecurityMessageSourceUtil.getAccessor().getMessage(
 					"AbstractUserDetailsAuthenticationProvider.credentialsExpired", authException.getMessage());
 			result.setMsg(msg);
