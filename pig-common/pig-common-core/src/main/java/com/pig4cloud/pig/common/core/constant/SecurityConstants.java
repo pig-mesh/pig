@@ -95,29 +95,14 @@ public interface SecurityConstants {
 	String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
 
 	/**
-	 * 用户ID字段
+	 * 用户信息
 	 */
-	String DETAILS_USER_ID = "user_id";
-
-	/**
-	 * 用户名字段
-	 */
-	String DETAILS_USERNAME = "username";
-
-	/**
-	 * 用户部门字段
-	 */
-	String DETAILS_DEPT_ID = "dept_id";
+	String DETAILS_USER = "user_info";
 
 	/**
 	 * 协议字段
 	 */
 	String DETAILS_LICENSE = "license";
-
-	/**
-	 * 用户数据权限信息
-	 */
-	String DETAILS_USER_DATA_SCOPE = "user_data_scope";
 
 	/**
 	 * 验证码有效期,默认 60秒
@@ -128,5 +113,15 @@ public interface SecurityConstants {
 	 * 验证码长度
 	 */
 	String CODE_SIZE = "6";
+
+	/**
+	 * 客户端模式
+	 */
+	String CLIENT_CREDENTIALS = "client_credentials";
+
+	/**
+	 * 客户端ID
+	 */
+	String CLIENT_ID = "clientId";
 
 }

@@ -93,7 +93,7 @@ public class PigRedisTokenStore implements TokenStore {
 	}
 
 	private byte[] serializeKey(String object) {
-		return serialize(object);
+		return serialize(prefix + object);
 	}
 
 	private OAuth2AccessToken deserializeAccessToken(byte[] bytes) {

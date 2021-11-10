@@ -21,6 +21,7 @@ import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTransl
 import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import com.pig4cloud.pig.common.security.service.PigCustomTokenServices;
+import com.pig4cloud.pig.common.security.service.PigUser;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
@@ -101,6 +102,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 		return (accessToken, authentication) -> {
 			final Map<String, Object> additionalInfo = new HashMap<>(4);
 			additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
+			String clientId = authentication.getOAuth2Request().getClientId();
+			additionalInfo.put(SecurityConstants.CLIENT_ID, clientId);
+
+			// 客户端模式不返回具体用户信息
+			if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
+				((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+				return accessToken;
+			}
+
+			PigUser pigUser = (PigUser) authentication.getUserAuthentication().getPrincipal();
+			additionalInfo.put(SecurityConstants.DETAILS_USER, pigUser);
 			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
 			return accessToken;
 		};
