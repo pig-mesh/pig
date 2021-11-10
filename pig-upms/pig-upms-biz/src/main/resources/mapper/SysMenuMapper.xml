@@ -43,10 +43,7 @@
 		LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
 		WHERE
 		sys_menu.del_flag = 0
-		AND sys_role_menu.role_id IN
-		<foreach collection="array" item="roleid" index="index" open="(" close=")" separator=",">
-			#{roleid}
-		</foreach>
+		AND sys_role_menu.role_id = #{roleId}
 		ORDER BY
 		sys_menu.sort DESC
 	</select>

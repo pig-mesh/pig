@@ -55,8 +55,7 @@ public class AppServiceImpl implements AppService {
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String phone) {
-		List<SysUser> userList = userMapper
-				.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
+		List<SysUser> userList = userMapper.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", phone);
