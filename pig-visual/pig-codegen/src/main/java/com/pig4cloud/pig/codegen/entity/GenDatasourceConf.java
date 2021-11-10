@@ -60,11 +60,6 @@ public class GenDatasourceConf extends BaseEntity {
 	private String password;
 
 	/**
-	 * 驱动类型
-	 */
-	private String driverClassName;
-
-	/**
 	 * 删除标记
 	 */
 	@TableLogic

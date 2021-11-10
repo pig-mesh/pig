@@ -119,7 +119,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUrl(conf.getUrl());
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
-		dataSourceProperty.setDriverClassName(conf.getDriverClassName());
 		dataSourceProperty.setLazy(true);
 		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
