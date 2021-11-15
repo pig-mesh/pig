@@ -21,7 +21,6 @@ import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
@@ -31,7 +30,6 @@ import java.util.Set;
  * @date 2019/2/1
  */
 @Slf4j
-@Component
 public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 
 	@Setter

@@ -20,7 +20,6 @@ import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 
@@ -29,7 +28,6 @@ import java.util.Map;
  * @date 2019/2/1 feign token fallback
  */
 @Slf4j
-@Component
 public class RemoteTokenServiceFallbackImpl implements RemoteTokenService {
 
 	@Setter
