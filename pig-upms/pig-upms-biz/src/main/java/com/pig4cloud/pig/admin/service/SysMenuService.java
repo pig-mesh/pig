@@ -35,10 +35,10 @@ public interface SysMenuService extends IService<SysMenu> {
 
 	/**
 	 * 通过角色编号查询URL 权限
-	 * @param roleIds 角色ID
+	 * @param roleId 角色ID
 	 * @return 菜单列表
 	 */
-	Set<SysMenu> findMenuByRoleId(String roleIds);
+	Set<SysMenu> findMenuByRoleId(Integer roleId);
 
 	/**
 	 * 级联删除菜单

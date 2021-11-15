@@ -56,8 +56,8 @@ public class RemoteUserServiceFallbackImpl implements RemoteUserService {
 	 * @return R
 	 */
 	@Override
-	public R<UserInfo> infoByMobile(String mobile, String from) {
-		log.error("feign 查询用户信息失败手机号码:{}", mobile, cause);
+	public R<UserInfo> infoByMobile(String phone, String from) {
+		log.error("feign 查询用户信息失败手机号码:{}", phone, cause);
 		return null;
 	}
 

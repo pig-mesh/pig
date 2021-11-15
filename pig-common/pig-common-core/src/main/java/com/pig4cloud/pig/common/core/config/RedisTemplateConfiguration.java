@@ -23,8 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * @author lengleng
@@ -38,10 +37,10 @@ public class RedisTemplateConfiguration {
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
-		redisTemplate.setHashValueSerializer(new JdkSerializationRedisSerializer());
+		redisTemplate.setKeySerializer(RedisSerializer.string());
+		redisTemplate.setHashKeySerializer(RedisSerializer.string());
+		redisTemplate.setValueSerializer(RedisSerializer.java());
+		redisTemplate.setHashValueSerializer(RedisSerializer.java());
 		redisTemplate.setConnectionFactory(factory);
 		return redisTemplate;
 	}

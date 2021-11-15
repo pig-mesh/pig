@@ -47,7 +47,7 @@ public class OauthClientDetailsController {
 
 	/**
 	 * 通过ID查询
-	 * @param id clientId
+	 * @param clientId 客户端id
 	 * @return SysOauthClientDetails
 	 */
 	@GetMapping("/{clientId}")

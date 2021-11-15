@@ -53,8 +53,8 @@ public interface RemoteUserService {
 	 * @param from 调用标志
 	 * @return R
 	 */
-	@GetMapping("/app/info/{mobile}")
-	R<UserInfo> infoByMobile(@PathVariable("mobile") String mobile, @RequestHeader(SecurityConstants.FROM) String from);
+	@GetMapping("/app/info/{phone}")
+	R<UserInfo> infoByMobile(@PathVariable("phone") String phone, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
 	 * 根据部门id，查询对应的用户 id 集合

@@ -25,11 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
-import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.api.entity.SysMenu;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
-import com.pig4cloud.pig.admin.api.entity.SysUser;
-import com.pig4cloud.pig.admin.api.entity.SysUserRole;
+import com.pig4cloud.pig.admin.api.entity.*;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
@@ -55,10 +51,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -118,10 +111,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<Integer> roleIds = roleList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, Integer.class));
 		// 设置权限列表（menu.permission）
-		Set<String> permissions = sysMenuService.findMenuByRoleId(CollUtil.join(roleIds, StrUtil.COMMA)).stream()
-				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType()))
-				.filter(m -> StrUtil.isNotBlank(m.getPermission())).map(SysMenu::getPermission)
-				.collect(Collectors.toSet());
+		Set<String> permissions = roleIds.stream().map(sysMenuService::findMenuByRoleId).flatMap(Collection::stream)
+				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType())).map(SysMenu::getPermission)
+				.filter(StrUtil::isNotBlank).collect(Collectors.toSet());
 		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
 
 		return userInfo;

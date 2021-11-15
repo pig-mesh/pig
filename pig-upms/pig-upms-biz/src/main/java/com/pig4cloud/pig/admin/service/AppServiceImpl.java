@@ -50,29 +50,28 @@ public class AppServiceImpl implements AppService {
 
 	/**
 	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
-	 * @param mobile mobile
+	 * @param phone 手机号
 	 * @return code
 	 */
 	@Override
-	public R<Boolean> sendSmsCode(String mobile) {
-		List<SysUser> userList = userMapper
-				.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
+	public R<Boolean> sendSmsCode(String phone) {
+		List<SysUser> userList = userMapper.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
 
 		if (CollUtil.isEmpty(userList)) {
-			log.info("手机号未注册:{}", mobile);
+			log.info("手机号未注册:{}", phone);
 			return R.ok(Boolean.FALSE, "手机号未注册");
 		}
 
-		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + mobile);
+		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + phone);
 
 		if (codeObj != null) {
-			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
+			log.info("手机号验证码未过期:{}，{}", phone, codeObj);
 			return R.ok(Boolean.FALSE, "验证码发送过频繁");
 		}
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
-		log.info("手机号生成验证码成功:{},{}", mobile, code);
-		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME,
+		log.info("手机号生成验证码成功:{},{}", phone, code);
+		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + phone, code, SecurityConstants.CODE_TIME,
 				TimeUnit.SECONDS);
 		return R.ok(Boolean.TRUE, code);
 	}
