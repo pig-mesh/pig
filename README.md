@@ -15,7 +15,9 @@
 
 ## 文档视频
 
-[文档视频 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+
+[ 配套视频 bilibili.com/video/BV12t411B7e9](https://www.bilibili.com/video/BV12t411B7e9)
 
 [PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
 
@@ -23,7 +25,7 @@
 
 ## 微信群 [禁广告]
 
-![1628762721](https://minio.pigx.vip/oss/1628762721.png)
+![](https://minio.pigx.vip/oss/1628762721.png)
 
 ## 快速开始
 
