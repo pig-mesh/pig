@@ -41,14 +41,14 @@ public class PigLocalResourceServerTokenServices implements ResourceServerTokenS
 		}
 
 		// 根据 username 查询 spring cache 最新的值 并返回
-		PigUser pigxUser = (PigUser) oAuth2Authentication.getPrincipal();
+		PigUser pigUser = (PigUser) oAuth2Authentication.getPrincipal();
 
 		UserDetails userDetails;
 		try {
-			userDetails = userDetailsService.loadUserByUsername(pigxUser.getUsername());
+			userDetails = userDetailsService.loadUserByUsername(pigUser.getUsername());
 		}
 		catch (UsernameNotFoundException notFoundException) {
-			throw new UnauthorizedException(String.format("%s username not found", pigxUser.getUsername()),
+			throw new UnauthorizedException(String.format("%s username not found", pigUser.getUsername()),
 					notFoundException);
 		}
 		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(userDetails, "N/A",
