@@ -108,7 +108,7 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!--pigx 公共版本定义-->
+			<!--pig 公共版本定义-->
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
 				<artifactId>pig-common-bom</artifactId>
