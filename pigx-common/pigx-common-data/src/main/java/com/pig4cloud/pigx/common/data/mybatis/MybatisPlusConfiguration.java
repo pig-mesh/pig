@@ -90,7 +90,7 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 		interceptor.addInnerInterceptor(dataScopeInnerInterceptor);
 		// 分页支持
 		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
-		paginationInnerInterceptor.setDbType(DbType.MYSQL);
+		paginationInnerInterceptor.setDbType();
 		paginationInnerInterceptor.setMaxLimit(1000L);
 		interceptor.addInnerInterceptor(paginationInnerInterceptor);
 		return interceptor;
