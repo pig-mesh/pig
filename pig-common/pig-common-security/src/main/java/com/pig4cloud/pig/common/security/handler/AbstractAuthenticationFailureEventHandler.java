@@ -25,7 +25,7 @@ import org.springframework.security.core.AuthenticationException;
  * @author lengleng
  * @date 2019/2/1 认证失败事件处理器
  */
-public abstract class AbstractAuthenticationFailureEvenHandler
+public abstract class AbstractAuthenticationFailureEventHandler
 		implements ApplicationListener<AbstractAuthenticationFailureEvent> {
 
 	/**
