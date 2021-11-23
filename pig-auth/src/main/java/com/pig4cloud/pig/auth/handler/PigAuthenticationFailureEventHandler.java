@@ -21,7 +21,7 @@ import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
-import com.pig4cloud.pig.common.security.handler.AbstractAuthenticationFailureEvenHandler;
+import com.pig4cloud.pig.common.security.handler.AbstractAuthenticationFailureEventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-public class PigAuthenticationFailureEvenHandler extends AbstractAuthenticationFailureEvenHandler {
+public class PigAuthenticationFailureEventHandler extends AbstractAuthenticationFailureEventHandler {
 
 	/**
 	 * 处理登录失败方法
