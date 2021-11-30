@@ -17,18 +17,25 @@
 
 package com.pig4cloud.pigx.codegen.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.smallbun.screw.boot.config.Screw;
+import cn.smallbun.screw.boot.properties.ScrewProperties;
+import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenConfig;
 import com.pig4cloud.pigx.codegen.service.GenTableColumnService;
 import com.pig4cloud.pigx.codegen.service.GeneratorService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 /**
  * 代码生成器
@@ -40,6 +47,8 @@ import javax.servlet.http.HttpServletResponse;
 @AllArgsConstructor
 @RequestMapping("/generator")
 public class GeneratorController {
+
+	private final Screw screw;
 
 	private final GeneratorService generatorService;
 
@@ -91,6 +100,26 @@ public class GeneratorController {
 		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
 		response.setContentType("application/octet-stream; charset=UTF-8");
 
+		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
+	}
+
+	@SneakyThrows
+	@GetMapping("/doc")
+	public void generatorDoc(String[] tableNames, String dsName, HttpServletResponse response) {
+		// 设置指定的数据源
+		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
+		DynamicDataSourceContextHolder.push(dsName);
+		DataSource dataSource = dynamicRoutingDataSource.determineDataSource();
+
+		// 设置指定的目标表
+		ScrewProperties screwProperties = SpringContextHolder.getBean(ScrewProperties.class);
+		screwProperties.setDesignatedTableName(CollUtil.toList(tableNames));
+
+		// 生成
+		byte[] data = screw.documentGeneration(dataSource, screwProperties).toByteArray();
+		response.reset();
+		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
 	}
 
