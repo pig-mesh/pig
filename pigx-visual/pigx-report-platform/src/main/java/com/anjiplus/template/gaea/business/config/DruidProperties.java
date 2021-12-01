@@ -79,22 +79,6 @@ public class DruidProperties {
 		datasource.setUsername(username);
 		datasource.setPassword(password);
 		datasource.setDriverClassName(driverClassName);
-		// configuration
-		datasource.setInitialSize(initialSize);
-		datasource.setMinIdle(minIdle);
-		datasource.setMaxActive(maxActive);
-		datasource.setMaxWait(maxWait);
-
-		datasource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-		datasource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-		datasource.setTestWhileIdle(testWhileIdle);
-
-		datasource.setPoolPreparedStatements(poolPreparedStatements);
-		datasource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-
-		datasource.setConnectionErrorRetryAttempts(connectionErrorRetryAttempts);
-		datasource.setBreakAfterAcquireFailure(breakAfterAcquireFailure);
-		datasource.setTimeBetweenConnectErrorMillis(timeBetweenConnectErrorMillis);
 		return datasource;
 	}
 
