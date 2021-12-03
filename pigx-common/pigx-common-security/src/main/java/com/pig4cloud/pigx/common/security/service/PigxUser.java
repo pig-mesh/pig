@@ -106,12 +106,12 @@ public class PigxUser extends User {
 	 * a parameter or as an element in the <code>GrantedAuthority</code> collection
 	 */
 	@JsonCreator
-	public PigxUser(@JsonProperty("nickname") String nickname, @JsonProperty("name") String name,
-			@JsonProperty("email") String email, @JsonProperty("id") Integer id, @JsonProperty("deptId") Integer deptId,
-			@JsonProperty("phone") String phone, @JsonProperty("avatar") String avatar,
-			@JsonProperty("tenantId") Integer tenantId, @JsonProperty("username") String username,
-			@JsonProperty("password") String password, @JsonProperty("enabled") boolean enabled,
-			@JsonProperty("accountNonExpired") boolean accountNonExpired,
+	public PigxUser(@JsonProperty("id") Integer id, @JsonProperty("username") String username,
+			@JsonProperty("deptId") Integer deptId, @JsonProperty("phone") String phone,
+			@JsonProperty("avatar") String avatar, @JsonProperty("nickname") String nickname,
+			@JsonProperty("name") String name, @JsonProperty("email") String email,
+			@JsonProperty("tenantId") Integer tenantId, @JsonProperty("password") String password,
+			@JsonProperty("enabled") boolean enabled, @JsonProperty("accountNonExpired") boolean accountNonExpired,
 			@JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
 			@JsonProperty("accountNonLocked") boolean accountNonLocked,
 			@JsonProperty("authorities") Collection<? extends GrantedAuthority> authorities) {

@@ -300,7 +300,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		if (CollUtil.isNotEmpty(errorMessageList)) {
 			return R.failed(errorMessageList);
 		}
-		return R.ok();
+		return R.ok(null, "用户导入成功，默认密码为手机号");
 	}
 
 	/**

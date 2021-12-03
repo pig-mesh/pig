@@ -62,7 +62,6 @@ public class PigxUserAuthenticationConverter implements UserAuthenticationConver
 	/**
 	 * Extract information about the user to be used in an access token (i.e. for resource
 	 * servers).
-	 *
 	 * @param authentication an authentication representing a user
 	 * @return a map of key values representing the unique information about the user
 	 */
@@ -79,7 +78,6 @@ public class PigxUserAuthenticationConverter implements UserAuthenticationConver
 	/**
 	 * Inverse of {@link #convertUserAuthentication(Authentication)}. Extracts an
 	 * Authentication from a map.
-	 *
 	 * @param responseMap a map of user information
 	 * @return an Authentication representing the user or null if there is none
 	 */
@@ -98,7 +96,7 @@ public class PigxUserAuthenticationConverter implements UserAuthenticationConver
 			Integer tenantId = MapUtil.getInt(map, SecurityConstants.DETAILS_TENANT_ID);
 			String phone = MapUtil.getStr(map, SecurityConstants.DETAILS_PHONE);
 			String avatar = MapUtil.getStr(map, SecurityConstants.DETAILS_AVATAR);
-			PigxUser user = new PigxUser(nickname, name, email, id, deptId, phone, avatar, tenantId, username, N_A,
+			PigxUser user = new PigxUser(id, username, deptId, phone, avatar, nickname, name, email, tenantId, N_A,
 					true, true, true, true, authorities);
 			return new UsernamePasswordAuthenticationToken(user, N_A, authorities);
 		}
@@ -124,7 +122,7 @@ public class PigxUserAuthenticationConverter implements UserAuthenticationConver
 			log.warn("请求头中的租户ID({})和用户的租户ID({})不一致", headerValue, userValue);
 			// TODO: 不要提示租户ID不对，可能被穷举
 			throw new PigxAuth2Exception(PigxSecurityMessageSourceUtil.getAccessor().getMessage(
-					"AbstractUserDetailsAuthenticationProvider.badTenantId", new Object[]{headerValue},
+					"AbstractUserDetailsAuthenticationProvider.badTenantId", new Object[] { headerValue },
 					"Bad tenant ID"));
 		}
 	}
