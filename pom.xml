@@ -33,7 +33,7 @@
 	</organization>
 
 	<properties>
-		<spring-boot.version>2.5.6</spring-boot.version>
+		<spring-boot.version>2.5.7</spring-boot.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

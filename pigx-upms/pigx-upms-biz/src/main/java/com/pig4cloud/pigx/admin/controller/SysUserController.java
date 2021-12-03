@@ -188,7 +188,7 @@ public class SysUserController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	@PreAuthorize("@pms.hasPermission('sys_user_export')")
 	public List export(UserDTO userDTO) {
 		return userService.listUser(userDTO);
 	}
@@ -200,7 +200,7 @@ public class SysUserController {
 	 * @return R
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	@PreAuthorize("@pms.hasPermission('sys_user_export')")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
 	}

@@ -15,6 +15,7 @@
 	<description>代码生成模块</description>
 
 	<properties>
+		<screw.version>0.0.1</screw.version>
 		<sqlserver.version>4.0</sqlserver.version>
 		<db2.version>11.5.0.0</db2.version>
 		<oracle.version>12.1.0.1-atlassian-hosted</oracle.version>
@@ -122,6 +123,12 @@
 			<artifactId>velocity</artifactId>
 			<groupId>org.apache.velocity</groupId>
 			<version>${velocity.version}</version>
+		</dependency>
+		<!--生成文档-->
+		<dependency>
+			<groupId>io.springboot.plugin</groupId>
+			<artifactId>screw-spring-boot-starter</artifactId>
+			<version>${screw.version}</version>
 		</dependency>
 		<!--web 模块-->
 		<dependency>

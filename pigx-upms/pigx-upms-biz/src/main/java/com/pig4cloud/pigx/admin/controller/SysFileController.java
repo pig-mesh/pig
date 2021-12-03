@@ -104,7 +104,7 @@ public class SysFileController {
 	 * @param response 本地文件
 	 */
 	@SneakyThrows
-	@GetMapping("/local/{fileName}")
+	@GetMapping("/local/file/{fileName}")
 	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
 		ClassPathResource resource = new ClassPathResource("file/" + fileName);
 		response.setContentType("application/octet-stream; charset=UTF-8");
