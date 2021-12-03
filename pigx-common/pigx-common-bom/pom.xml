@@ -30,7 +30,7 @@
 		<excel.version>0.5.0</excel.version>
 		<security.oauth.version>2.3.6.RELEASE</security.oauth.version>
 		<fastjson.version>1.2.75</fastjson.version>
-		<xxl.job.version>2.2.0</xxl.job.version>
+		<xxl.job.version>2.3.0</xxl.job.version>
 		<aliyun.version>3.0.52.ALL</aliyun.version>
 		<aws.version>1.11.543</aws.version>
 		<javaformat.plugin.version>0.0.23</javaformat.plugin.version>
