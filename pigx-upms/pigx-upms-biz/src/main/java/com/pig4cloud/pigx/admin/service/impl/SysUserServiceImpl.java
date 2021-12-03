@@ -172,6 +172,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		sysUser.setPhone(userDto.getPhone());
 		sysUser.setUserId(userVO.getUserId());
 		sysUser.setAvatar(userDto.getAvatar());
+		sysUser.setNickname(userDto.getNickname());
+		sysUser.setName(userDto.getName());
+		sysUser.setEmail(userDto.getEmail());
 		return R.ok(this.updateById(sysUser));
 	}
 
@@ -307,6 +310,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(excel.getUsername());
 		userDTO.setPhone(excel.getPhone());
+		userDTO.setNickname(excel.getNickname());
+		userDTO.setName(excel.getName());
+		userDTO.setEmail(excel.getEmail());
 		// 批量导入初始密码为手机号
 		userDTO.setPassword(userDTO.getPhone());
 		// 根据部门名称查询部门ID

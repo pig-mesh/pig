@@ -41,6 +41,27 @@ public class UserExcelVO implements Serializable {
 	private String phone;
 
 	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "昵称不能为空")
+	@ExcelProperty("昵称")
+	private String nickname;
+
+	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "姓名不能为空")
+	@ExcelProperty("姓名")
+	private String name;
+
+	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "邮箱不能为空")
+	@ExcelProperty("邮箱")
+	private String email;
+
+	/**
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
