@@ -764,6 +764,9 @@ CREATE TABLE `sys_user` (
   `gitee_login` varchar(100) DEFAULT NULL COMMENT '码云 标识',
   `osc_id` varchar(100) DEFAULT NULL COMMENT '开源中国 标识',
   `tenant_id` int(11) NOT NULL DEFAULT '0' COMMENT '所属租户',
+  `nickname` varchar(255)  DEFAULT NULL COMMENT '拓展字段:昵称',
+  `name` varchar(64)  DEFAULT NULL COMMENT '拓展字段:姓名',
+  `email` varchar(255) DEFAULT NULL COMMENT '拓展字段:邮箱',
   PRIMARY KEY (`user_id`) USING BTREE,
   KEY `user_wx_openid` (`wx_openid`) USING BTREE,
   KEY `user_qq_openid` (`qq_openid`) USING BTREE,
@@ -774,7 +777,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$IVzj1Wd.ZQdOIWdb1htQjexU94uoNeuk1crlQ9ExVupPi0Iy1uv.C', '', '17034642888', '/admin/sys-file/lengleng/c5a85e0770cd4fe78bc14b63b3bd05ae.jpg', 1, '2018-04-20 07:15:18', '2019-11-02 22:12:11', '0', '0', 'o_0FT0uyg_H1vVy2H0JpSwlVGhWQ', 'oBxPy5E-v82xWGsfzZVzkD3wEX64', NULL, 'log4j', '2303656', 1);
+INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$IVzj1Wd.ZQdOIWdb1htQjexU94uoNeuk1crlQ9ExVupPi0Iy1uv.C', '', '17034642888', '/admin/sys-file/lengleng/c5a85e0770cd4fe78bc14b63b3bd05ae.jpg', 1, '2018-04-20 07:15:18', '2019-11-02 22:12:11', '0', '0', 'o_0FT0uyg_H1vVy2H0JpSwlVGhWQ', 'oBxPy5E-v82xWGsfzZVzkD3wEX64', NULL, 'log4j', '2303656', 1,NULL,NULL,NULL);
 COMMIT;
 
 -- ----------------------------
