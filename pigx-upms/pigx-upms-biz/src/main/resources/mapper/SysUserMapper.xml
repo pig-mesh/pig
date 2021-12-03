@@ -37,6 +37,9 @@
 		<result column="dept_id" property="deptId"/>
 		<result column="tenant_id" property="tenantId"/>
 		<result column="dept_name" property="deptName"/>
+		<result column="nickname" property="nickname"/>
+		<result column="name" property="name"/>
+		<result column="email" property="email"/>
 		<collection property="roleList" ofType="com.pig4cloud.pigx.admin.api.entity.SysRole"
 					select="com.pig4cloud.pigx.admin.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
 		</collection>
@@ -93,7 +96,10 @@
 	</sql>
 
 	<sql id="userRoleDeptSql">
-		u.user_id,
+		u
+		.
+		user_id
+		,
 		u.username,
 		u.password,
 		u.salt,
@@ -114,29 +120,29 @@
 		r.update_time  rupdate_time,
 		d.name  dept_name,
 		d.dept_id
-    </sql>
+	</sql>
 
 	<select id="getUserVoByUsername" resultMap="userVoResultMap">
 		SELECT
-			<include refid="userRoleSql"/>
+		<include refid="userRoleSql"/>
 		FROM
-		sys_user  u
-		LEFT JOIN sys_user_role  ur ON ur.user_id = u.user_id
-		LEFT JOIN sys_role  r ON r.role_id = ur.role_id
-			WHERE u.username = #{username}
+		sys_user u
+		LEFT JOIN sys_user_role ur ON ur.user_id = u.user_id
+		LEFT JOIN sys_role r ON r.role_id = ur.role_id
+		WHERE u.username = #{username}
 	</select>
 
 	<select id="getUserVoById" resultMap="userVoResultMap">
-        SELECT
-	   		<include refid="userRoleDeptSql"/>
-        FROM
-            sys_user  u
-            LEFT JOIN sys_user_role  ur ON ur.user_id = u.user_id
-            LEFT JOIN sys_role  r ON r.role_id = ur.role_id
-            LEFT JOIN sys_dept  d ON d.dept_id = u.dept_id
-        WHERE
-           u.user_id = #{id}
-    </select>
+		SELECT
+		<include refid="userRoleDeptSql"/>
+		FROM
+		sys_user u
+		LEFT JOIN sys_user_role ur ON ur.user_id = u.user_id
+		LEFT JOIN sys_role r ON r.role_id = ur.role_id
+		LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
+		WHERE
+		u.user_id = #{id}
+	</select>
 
 	<select id="getUserVosPage" resultMap="baseResultMap">
 		SELECT
@@ -149,15 +155,18 @@
 		u.wx_openid,
 		u.qq_openid,
 		u.dept_id,
-		u.create_time  ucreate_time,
-		u.update_time  uupdate_time,
+		u.create_time ucreate_time,
+		u.update_time uupdate_time,
 		u.del_flag,
 		u.lock_flag,
 		u.tenant_id,
-		 d.name  dept_name
+		u.nickname,
+		u.name,
+		u.email,
+		d.name dept_name
 		FROM
-		sys_user  u
-		LEFT JOIN sys_dept  d ON d.dept_id = u.dept_id
+		sys_user u
+		LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
 		<where>
 			u.del_flag = '0'
 			<if test="query.username != null and query.username != ''">
@@ -181,15 +190,18 @@
 		u.wx_openid,
 		u.qq_openid,
 		u.dept_id,
-		u.create_time  ucreate_time,
-		u.update_time  uupdate_time,
+		u.create_time ucreate_time,
+		u.update_time uupdate_time,
 		u.del_flag,
 		u.lock_flag,
 		u.tenant_id,
-		d.name  dept_name
+		u.nickname,
+		u.name,
+		u.email,
+		d.name dept_name
 		FROM
-		sys_user  u
-		LEFT JOIN sys_dept  d ON d.dept_id = u.dept_id
+		sys_user u
+		LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
 		<where>
 			u.del_flag = '0'
 			<if test="query.username != null and query.username != ''">

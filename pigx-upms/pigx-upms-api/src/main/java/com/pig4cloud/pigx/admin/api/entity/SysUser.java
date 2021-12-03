@@ -149,4 +149,22 @@ public class SysUser implements Serializable {
 	@ApiModelProperty(value = "开源中国唯一标识")
 	private String oscId;
 
+	/**
+	 * 昵称
+	 */
+	@ApiModelProperty(value = "昵称")
+	private String nickname;
+
+	/**
+	 * 姓名
+	 */
+	@ApiModelProperty(value = "姓名")
+	private String name;
+
+	/**
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "邮箱")
+	private String email;
+
 }

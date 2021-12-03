@@ -137,4 +137,22 @@ public class UserVO implements Serializable {
 	@ApiModelProperty(value = "拥有的角色列表")
 	private List<SysRole> roleList;
 
+	/**
+	 * 昵称
+	 */
+	@ApiModelProperty(value = "昵称")
+	private String nickname;
+
+	/**
+	 * 姓名
+	 */
+	@ApiModelProperty(value = "姓名")
+	private String name;
+
+	/**
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "邮箱")
+	private String email;
+
 }

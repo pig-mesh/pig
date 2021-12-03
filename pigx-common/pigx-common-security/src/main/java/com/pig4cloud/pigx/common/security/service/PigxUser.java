@@ -66,12 +66,32 @@ public class PigxUser extends User {
 	private Integer tenantId;
 
 	/**
+	 * 拓展字段:昵称
+	 */
+	@Getter
+	private String nickname;
+
+	/**
+	 * 拓展字段:姓名
+	 */
+	@Getter
+	private String name;
+
+	/**
+	 * 拓展字段:邮箱
+	 */
+	@Getter
+	private String email;
+
+	/**
 	 * Construct the <code>User</code> with the details required by
 	 * {@link DaoAuthenticationProvider}.
 	 * @param id 用户ID
 	 * @param deptId 部门ID
 	 * @param tenantId 租户ID
-	 * @param username the username presented to the
+	 * @param nickname 昵称
+	 * @param name 姓名
+	 * @param email 邮箱 the username presented to the
 	 * <code>DaoAuthenticationProvider</code>
 	 * @param password the password that should be presented to the
 	 * <code>DaoAuthenticationProvider</code>
@@ -86,7 +106,8 @@ public class PigxUser extends User {
 	 * a parameter or as an element in the <code>GrantedAuthority</code> collection
 	 */
 	@JsonCreator
-	public PigxUser(@JsonProperty("id") Integer id, @JsonProperty("deptId") Integer deptId,
+	public PigxUser(@JsonProperty("nickname") String nickname, @JsonProperty("name") String name,
+			@JsonProperty("email") String email, @JsonProperty("id") Integer id, @JsonProperty("deptId") Integer deptId,
 			@JsonProperty("phone") String phone, @JsonProperty("avatar") String avatar,
 			@JsonProperty("tenantId") Integer tenantId, @JsonProperty("username") String username,
 			@JsonProperty("password") String password, @JsonProperty("enabled") boolean enabled,
@@ -100,6 +121,9 @@ public class PigxUser extends User {
 		this.phone = phone;
 		this.avatar = avatar;
 		this.tenantId = tenantId;
+		this.nickname = nickname;
+		this.name = name;
+		this.email = email;
 	}
 
 }
