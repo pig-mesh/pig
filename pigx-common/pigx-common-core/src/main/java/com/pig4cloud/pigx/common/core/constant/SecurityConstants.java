@@ -201,6 +201,21 @@ public interface SecurityConstants {
 	String DETAILS_AVATAR = "avatar";
 
 	/**
+	 * 昵称
+	 */
+	String NICKNAME = "nickname";
+
+	/**
+	 * 姓名
+	 */
+	String NAME = "name";
+
+	/**
+	 * 邮箱
+	 */
+	String EMAIL = "email";
+
+	/**
 	 * 用户部门字段
 	 */
 	String DETAILS_DEPT_ID = "deptId";
