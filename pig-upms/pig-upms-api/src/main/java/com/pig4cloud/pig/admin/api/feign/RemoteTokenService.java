@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.admin.api.feign;
 
-import com.pig4cloud.pig.admin.api.feign.factory.RemoteTokenServiceFallbackFactory;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;
@@ -29,8 +28,7 @@ import java.util.Map;
  * @author lengleng
  * @date 2019/2/1
  */
-@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE,
-		fallbackFactory = RemoteTokenServiceFallbackFactory.class)
+@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE)
 public interface RemoteTokenService {
 
 	/**

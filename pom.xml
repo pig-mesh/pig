@@ -22,13 +22,13 @@
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.4.1</version>
+	<version>3.4.2</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.5.6</spring-boot.version>
-		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<spring-boot.version>2.6.1</spring-boot.version>
+		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
