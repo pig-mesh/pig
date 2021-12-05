@@ -17,13 +17,6 @@
 
 package com.pig4cloud.pigx.gateway.filter;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
@@ -60,6 +53,13 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.Charset;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 
 /**
  * @author lengleng
@@ -174,7 +174,9 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 			else {
 				log.error("非法请求数据:{}", s);
 			}
-			return Mono.just(HttpUtil.toParams(inParamsMap));
+
+			// 使用
+			return Mono.just(HttpUtil.toParams(inParamsMap, Charset.defaultCharset(),true));
 		};
 	}
 
