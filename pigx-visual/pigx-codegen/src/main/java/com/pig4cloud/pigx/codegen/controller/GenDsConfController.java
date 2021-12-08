@@ -65,7 +65,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
 
@@ -100,7 +100,7 @@ public class GenDsConfController {
 	 */
 	@SysLog("删除数据源表")
 	@DeleteMapping("/{id}")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(datasourceConfService.removeByDsId(id));
 	}
 

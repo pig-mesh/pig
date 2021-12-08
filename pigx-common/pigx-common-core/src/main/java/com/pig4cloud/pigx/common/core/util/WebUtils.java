@@ -118,7 +118,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 			RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
 			return ((ServletRequestAttributes) requestAttributes).getRequest();
 		}
-		catch (IllegalStateException e) {
+		catch (Exception e) {
 			return null;
 		}
 	}

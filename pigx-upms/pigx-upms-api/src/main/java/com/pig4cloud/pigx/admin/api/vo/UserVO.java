@@ -44,7 +44,7 @@ public class UserVO implements Serializable {
 	 * 主键ID
 	 */
 	@ApiModelProperty(value = "主键")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名
@@ -117,13 +117,13 @@ public class UserVO implements Serializable {
 	 * 部门ID
 	 */
 	@ApiModelProperty(value = "所属部门")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 租户ID
 	 */
 	@ApiModelProperty(value = "所属租户")
-	private Integer tenantId;
+	private Long tenantId;
 
 	/**
 	 * 部门名称

@@ -39,13 +39,13 @@ public class PigxUser extends User {
 	 * 用户ID
 	 */
 	@Getter
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 部门ID
 	 */
 	@Getter
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 手机号
@@ -63,7 +63,7 @@ public class PigxUser extends User {
 	 * 租户ID
 	 */
 	@Getter
-	private Integer tenantId;
+	private Long tenantId;
 
 	/**
 	 * 拓展字段:昵称
@@ -106,11 +106,11 @@ public class PigxUser extends User {
 	 * a parameter or as an element in the <code>GrantedAuthority</code> collection
 	 */
 	@JsonCreator
-	public PigxUser(@JsonProperty("id") Integer id, @JsonProperty("username") String username,
-			@JsonProperty("deptId") Integer deptId, @JsonProperty("phone") String phone,
+	public PigxUser(@JsonProperty("id") Long id, @JsonProperty("username") String username,
+			@JsonProperty("deptId") Long deptId, @JsonProperty("phone") String phone,
 			@JsonProperty("avatar") String avatar, @JsonProperty("nickname") String nickname,
 			@JsonProperty("name") String name, @JsonProperty("email") String email,
-			@JsonProperty("tenantId") Integer tenantId, @JsonProperty("password") String password,
+			@JsonProperty("tenantId") Long tenantId, @JsonProperty("password") String password,
 			@JsonProperty("enabled") boolean enabled, @JsonProperty("accountNonExpired") boolean accountNonExpired,
 			@JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
 			@JsonProperty("accountNonLocked") boolean accountNonLocked,

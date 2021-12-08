@@ -62,7 +62,7 @@ public class GenFormConfController {
 	 */
 	@ApiOperation(value = "通过id查询", notes = "通过id查询")
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(genRecordService.getById(id));
 	}
 
@@ -113,7 +113,7 @@ public class GenFormConfController {
 	@SysLog("通过id删除生成记录")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('gen_form_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(genRecordService.removeById(id));
 	}
 

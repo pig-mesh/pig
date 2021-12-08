@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.common.data.mybatis;
 
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
@@ -121,6 +122,15 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	@Bean
 	public DruidSqlLogFilter sqlLogFilter(PigxMybatisProperties properties) {
 		return new DruidSqlLogFilter(properties);
+	}
+
+	/**
+	 * 审计字段自动填充
+	 * @return {@link MetaObjectHandler}
+	 */
+	@Bean
+	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
+		return new MybatisPlusMetaObjectHandler();
 	}
 
 }

@@ -42,6 +42,6 @@ public interface SysUserRoleMapper extends PigxBaseMapper<SysUserRole> {
 	 * @author 寻欢·李
 	 * @date 2017年12月7日 16:31:38
 	 */
-	Boolean deleteByUserId(@Param("userId") Integer userId);
+	Boolean deleteByUserId(@Param("userId") Long userId);
 
 }

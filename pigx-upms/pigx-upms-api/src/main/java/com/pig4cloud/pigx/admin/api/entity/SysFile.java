@@ -44,7 +44,7 @@ public class SysFile extends Model<SysFile> {
 	/**
 	 * 编号
 	 */
-	@TableId(type = IdType.AUTO)
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "文件编号")
 	private Long id;
 

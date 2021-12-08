@@ -60,7 +60,7 @@ public class WxAccountController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(wxAccountService.getById(id));
 	}
 
@@ -100,7 +100,7 @@ public class WxAccountController {
 	@SysLog("删除公众号账户")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('mp_wxaccount_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		wxAccountService.removeById(id);
 		redisTemplate.convertAndSend(CacheConstants.MP_REDIS_RELOAD_TOPIC, "重新加载公众号配置");
 		return R.ok();

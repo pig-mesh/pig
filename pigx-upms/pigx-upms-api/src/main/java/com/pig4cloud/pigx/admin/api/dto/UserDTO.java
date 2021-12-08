@@ -40,13 +40,13 @@ public class UserDTO extends SysUser {
 	 * 角色ID
 	 */
 	@ApiModelProperty(value = "角色id集合")
-	private List<Integer> role;
+	private List<Long> role;
 
 	/**
 	 * 部门id
 	 */
 	@ApiModelProperty(value = "部门id")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 新密码

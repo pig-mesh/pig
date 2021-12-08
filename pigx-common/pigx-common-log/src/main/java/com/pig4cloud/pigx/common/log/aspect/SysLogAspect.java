@@ -31,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-
 import org.springframework.context.ApplicationEventPublisher;
 
 /**
@@ -71,7 +70,7 @@ public class SysLogAspect {
 		finally {
 			Long endTime = System.currentTimeMillis();
 			logDTO.setTime(endTime - startTime);
-			logDTO.setTenantId(Integer.parseInt(tenantKeyStrResolver.key()));
+			logDTO.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 			publisher.publishEvent(new SysLogEvent(logDTO));
 		}
 		return obj;

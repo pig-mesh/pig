@@ -17,9 +17,6 @@
 
 package com.pig4cloud.pigx.pay.handler.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.EnumUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -37,6 +34,9 @@ import com.pig4cloud.pigx.pay.utils.TradeStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lengleng
@@ -63,7 +63,7 @@ public class WeChatPayNotifyCallbackHandler extends AbstractPayNotifyCallbakHand
 	 */
 	@Override
 	public void before(Map<String, String> params) {
-		Integer tenant = MapUtil.getInt(params, "attach");
+		Long tenant = MapUtil.getLong(params, "attach");
 		TenantContextHolder.setTenantId(tenant);
 	}
 

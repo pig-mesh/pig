@@ -49,7 +49,7 @@ public class SysLog implements Serializable {
 	/**
 	 * 编号
 	 */
-	@TableId(type = IdType.AUTO)
+	@TableId(type = IdType.ASSIGN_ID)
 	@ExcelProperty("日志编号")
 	@ApiModelProperty(value = "日志编号")
 	private Long id;

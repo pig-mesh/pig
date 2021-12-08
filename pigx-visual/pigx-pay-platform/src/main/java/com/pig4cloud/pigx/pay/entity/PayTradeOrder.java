@@ -45,7 +45,7 @@ public class PayTradeOrder extends Model<PayTradeOrder> {
 	/**
 	 * 支付订单号
 	 */
-	@TableId(type = IdType.INPUT)
+	@TableId(type = IdType.ASSIGN_ID)
 	private String orderId;
 
 	/**
@@ -167,6 +167,6 @@ public class PayTradeOrder extends Model<PayTradeOrder> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

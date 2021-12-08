@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.pay.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -44,7 +45,7 @@ public class PayNotifyRecord extends Model<PayNotifyRecord> {
 	/**
 	 * ID
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**
@@ -91,6 +92,6 @@ public class PayNotifyRecord extends Model<PayNotifyRecord> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

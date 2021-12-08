@@ -59,7 +59,7 @@ public class LeaveProcessTaskListener implements TaskListener {
 		}
 		else {
 			List<String> userList = result.getData().stream().map(SysUser::getUsername).collect(Collectors.toList());
-			List<Integer> userIdList = result.getData().stream().map(SysUser::getUserId).collect(Collectors.toList());
+			List<Long> userIdList = result.getData().stream().map(SysUser::getUserId).collect(Collectors.toList());
 			log.info("当前任务 {}，由 {}处理", delegateTask.getId(), userList);
 			delegateTask.addCandidateUsers(userList);
 			remindUserList.addAll(userIdList);

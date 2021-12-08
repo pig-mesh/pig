@@ -56,7 +56,7 @@ public class WxFansMsgController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(wxMsgService.getById(id));
 	}
 

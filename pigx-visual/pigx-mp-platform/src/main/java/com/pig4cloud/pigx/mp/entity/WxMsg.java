@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.mp.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -26,8 +27,8 @@ public class WxMsg extends Model<WxMsg> {
 	/**
 	 * 主键
 	 */
-	@TableId
-	private Integer id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 创建时间
@@ -67,7 +68,7 @@ public class WxMsg extends Model<WxMsg> {
 	/**
 	 * 微信用户ID
 	 */
-	private Integer wxUserId;
+	private Long wxUserId;
 
 	/**
 	 * 昵称

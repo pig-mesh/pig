@@ -156,7 +156,7 @@ public class ProcessServiceImpl implements ProcessService {
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveStartProcess(Integer leaveId) {
+	public Boolean saveStartProcess(Long leaveId) {
 		LeaveBill leaveBill = leaveBillMapper.selectById(leaveId);
 		leaveBill.setState(TaskStatusEnum.CHECK.getStatus());
 

@@ -17,8 +17,7 @@
 
 package com.pig4cloud.pigx.pay.entity;
 
-import java.time.LocalDateTime;
-
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -27,6 +26,8 @@ import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * 渠道
@@ -45,8 +46,8 @@ public class PayChannel extends Model<PayChannel> {
 	/**
 	 * 渠道主键ID
 	 */
-	@TableId
-	private Integer id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 应用ID
@@ -114,6 +115,6 @@ public class PayChannel extends Model<PayChannel> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

@@ -33,7 +33,7 @@ public interface SysDictService extends IService<SysDict> {
 	 * @param id
 	 * @return
 	 */
-	R removeDict(Integer id);
+	R removeDict(Long id);
 
 	/**
 	 * 更新字典

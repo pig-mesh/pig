@@ -38,7 +38,7 @@ public interface CommonConstants {
 	/**
 	 * 租户ID
 	 */
-	Integer TENANT_ID_1 = 1;
+	Long TENANT_ID_1 = 1L;
 
 	/**
 	 * 删除
@@ -58,7 +58,7 @@ public interface CommonConstants {
 	/**
 	 * 菜单树根节点
 	 */
-	Integer MENU_TREE_ROOT_ID = -1;
+	Long MENU_TREE_ROOT_ID = -1L;
 
 	/**
 	 * 编码

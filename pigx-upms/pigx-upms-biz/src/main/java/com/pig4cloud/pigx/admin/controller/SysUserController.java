@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,8 +28,6 @@ import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.data.datascope.DataScope;
-import com.pig4cloud.pigx.common.data.datascope.DataScopeFuncEnum;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -95,7 +92,7 @@ public class SysUserController {
 	 * @return 用户信息
 	 */
 	@GetMapping("/{id}")
-	public R user(@PathVariable Integer id) {
+	public R user(@PathVariable Long id) {
 		return R.ok(userService.selectUserVoById(id));
 	}
 
@@ -121,7 +118,7 @@ public class SysUserController {
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	@ApiOperation(value = "删除用户", notes = "根据ID删除用户")
 	@ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "int", paramType = "path")
-	public R userDel(@PathVariable Integer id) {
+	public R userDel(@PathVariable Long id) {
 		SysUser sysUser = userService.getById(id);
 		return R.ok(userService.deleteUserById(sysUser));
 	}
@@ -203,15 +200,6 @@ public class SysUserController {
 	@PreAuthorize("@pms.hasPermission('sys_user_export')")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
-	}
-
-	@Inner(value = false)
-	@GetMapping("/count")
-	public R get() {
-		DataScope dataScope = new DataScope();
-		dataScope.setFunc(DataScopeFuncEnum.COUNT);
-		dataScope.setDeptIds(CollUtil.newArrayList(14, 15, 16));
-		return R.ok(userMapper.selectCountByScope(Wrappers.emptyWrapper(), dataScope));
 	}
 
 }

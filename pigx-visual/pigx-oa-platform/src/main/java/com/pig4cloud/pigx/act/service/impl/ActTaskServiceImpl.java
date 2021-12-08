@@ -140,7 +140,7 @@ public class ActTaskServiceImpl implements ActTaskService {
 	public Boolean submitTask(LeaveBillDto leaveBillDto) {
 		String taskId = leaveBillDto.getTaskId();
 		String message = leaveBillDto.getComment();
-		Integer id = leaveBillDto.getLeaveId();
+		Long id = leaveBillDto.getLeaveId();
 
 		Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
 

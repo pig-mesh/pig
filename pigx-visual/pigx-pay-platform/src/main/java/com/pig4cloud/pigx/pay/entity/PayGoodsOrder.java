@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.pay.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -44,8 +45,8 @@ public class PayGoodsOrder extends Model<PayGoodsOrder> {
 	/**
 	 * 商品订单ID
 	 */
-	@TableId
-	private String goodsOrderId;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long goodsOrderId;
 
 	/**
 	 * 商品ID
@@ -96,6 +97,6 @@ public class PayGoodsOrder extends Model<PayGoodsOrder> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

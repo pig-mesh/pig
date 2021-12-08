@@ -78,7 +78,7 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 * @param id
 	 */
 	@Override
-	public void deleteAllDeptRealtion(Integer id) {
+	public void deleteAllDeptRealtion(Long id) {
 		baseMapper.deleteDeptRelationsById(id);
 	}
 

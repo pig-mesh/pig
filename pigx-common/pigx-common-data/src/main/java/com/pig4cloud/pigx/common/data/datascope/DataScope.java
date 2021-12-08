@@ -40,7 +40,7 @@ public class DataScope extends HashMap {
 	/**
 	 * 具体的数据范围
 	 */
-	private List<Integer> deptIds = new ArrayList<>();
+	private List<Long> deptIds = new ArrayList<>();
 
 	/**
 	 * 是否只查询本部门

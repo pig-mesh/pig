@@ -64,7 +64,7 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 		sysLog.setParams(username);
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		sysLog.setServiceId(WebUtils.extractClientId(header).orElse("N/A"));
-		sysLog.setTenantId(Integer.parseInt(tenantKeyStrResolver.key()));
+		sysLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 
 		logService.saveLog(sysLog, SecurityConstants.FROM_IN);
 		log.info("用户：{} 登录成功", username);

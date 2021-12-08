@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -44,7 +45,7 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	/**
 	 * 编号
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "公共参数编号")
 	private Long publicId;
 

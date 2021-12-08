@@ -80,9 +80,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeDeptById(Integer id) {
+	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
-		List<Integer> idList = sysDeptRelationService
+		List<Long> idList = sysDeptRelationService
 				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, id)).stream()
 				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 
@@ -118,18 +118,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 树
 	 */
 	@Override
-	public List<Tree<Integer>> selectTree() {
+	public List<Tree<Long>> selectTree() {
 		// 查询全部部门
 		List<SysDept> deptAllList = deptMapper.selectList(Wrappers.emptyWrapper());
 		// 查询数据权限内部门
-		List<Integer> deptOwnIdList = deptMapper.selectListByScope(Wrappers.emptyWrapper(), new DataScope()).stream()
+		List<Long> deptOwnIdList = deptMapper.selectListByScope(Wrappers.emptyWrapper(), new DataScope()).stream()
 				.map(SysDept::getDeptId).collect(Collectors.toList());
 
 		// 权限内部门
-		List<TreeNode<Integer>> collect = deptAllList.stream()
+		List<TreeNode<Long>> collect = deptAllList.stream()
 				.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
 				.sorted(Comparator.comparingInt(SysDept::getSort)).map(dept -> {
-					TreeNode<Integer> treeNode = new TreeNode();
+					TreeNode<Long> treeNode = new TreeNode();
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
 					treeNode.setName(dept.getName());
@@ -142,7 +142,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					return treeNode;
 				}).collect(Collectors.toList());
 
-		return TreeUtil.build(collect, 0);
+		return TreeUtil.build(collect, 0L);
 	}
 
 }

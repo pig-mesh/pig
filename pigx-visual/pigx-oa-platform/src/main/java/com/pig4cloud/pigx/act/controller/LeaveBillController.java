@@ -61,7 +61,7 @@ public class LeaveBillController {
 	 * @return R
 	 */
 	@GetMapping("/{leaveId}")
-	public R getById(@PathVariable("leaveId") Integer leaveId) {
+	public R getById(@PathVariable("leaveId") Long leaveId) {
 		return R.ok(leaveBillService.getById(leaveId));
 	}
 
@@ -95,7 +95,7 @@ public class LeaveBillController {
 	 * @return R
 	 */
 	@DeleteMapping("/{leaveId}")
-	public R removeById(@PathVariable Integer leaveId) {
+	public R removeById(@PathVariable Long leaveId) {
 		return R.ok(leaveBillService.removeById(leaveId));
 	}
 
@@ -105,7 +105,7 @@ public class LeaveBillController {
 	 * @return R
 	 */
 	@GetMapping("/submit/{leaveId}")
-	public R submit(@PathVariable("leaveId") Integer leaveId) {
+	public R submit(@PathVariable("leaveId") Long leaveId) {
 		return R.ok(processService.saveStartProcess(leaveId));
 	}
 

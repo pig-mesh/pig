@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.codegen.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -44,9 +45,9 @@ public class GenFormConf extends Model<GenFormConf> {
 	/**
 	 * ID
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 表名称
@@ -82,6 +83,6 @@ public class GenFormConf extends Model<GenFormConf> {
 	 * 所属租户
 	 */
 	@ApiModelProperty(value = "所属租户", hidden = true)
-	private Integer tenantId;
+	private Long tenantId;
 
 }

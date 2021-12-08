@@ -46,13 +46,13 @@ public class SysJobLog extends Model<SysJobLog> {
 	/**
 	 * 任务日志ID
 	 */
-	@TableId(value = "job_log_id", type = IdType.AUTO)
-	private Integer jobLogId;
+	@TableId(value = "job_log_id", type = IdType.ASSIGN_ID)
+	private Long jobLogId;
 
 	/**
 	 * 任务id
 	 */
-	private Integer jobId;
+	private Long jobId;
 
 	/**
 	 * 任务名称
@@ -127,6 +127,6 @@ public class SysJobLog extends Model<SysJobLog> {
 	/**
 	 * 租户id
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

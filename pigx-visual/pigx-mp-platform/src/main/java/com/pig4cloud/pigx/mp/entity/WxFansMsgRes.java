@@ -16,6 +16,7 @@
  */
 package com.pig4cloud.pigx.mp.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
@@ -38,13 +39,13 @@ public class WxFansMsgRes extends Model<WxFansMsgRes> {
 	/**
 	 * 主键
 	 */
-	@TableId
-	private Integer id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 粉丝消息ID
 	 */
-	private Integer fansMsgId;
+	private Long fansMsgId;
 
 	/**
 	 * 回复内容
@@ -54,7 +55,7 @@ public class WxFansMsgRes extends Model<WxFansMsgRes> {
 	/**
 	 * 用户ID
 	 */
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名

@@ -91,6 +91,6 @@ public class SysLogDTO {
 	/**
 	 * 租户编号
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

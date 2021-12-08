@@ -58,7 +58,7 @@ public class SysDeptController {
 	 * @return SysDept
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable Integer id) {
+	public R getById(@PathVariable Long id) {
 		return R.ok(sysDeptService.getById(id));
 	}
 
@@ -91,7 +91,7 @@ public class SysDeptController {
 	@SysLog("删除部门")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
 
@@ -113,7 +113,7 @@ public class SysDeptController {
 	 * @return 返回子级
 	 */
 	@GetMapping(value = "/getDescendantList/{deptId}")
-	public R getDescendantList(@PathVariable Integer deptId) {
+	public R getDescendantList(@PathVariable Long deptId) {
 		return R.ok(
 				relationService.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId)));
 	}

@@ -17,8 +17,6 @@
 
 package com.pig4cloud.pigx.pay.handler.impl;
 
-import java.util.Map;
-
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.StrUtil;
@@ -36,6 +34,8 @@ import com.pig4cloud.pigx.pay.utils.TradeStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @author lengleng
@@ -62,7 +62,7 @@ public class AlipayPayNotifyCallbackHandler extends AbstractPayNotifyCallbakHand
 	 */
 	@Override
 	public void before(Map<String, String> params) {
-		Integer tenant = MapUtil.getInt(params, "passback_params");
+		Long tenant = MapUtil.getLong(params, "passback_params");
 		TenantContextHolder.setTenantId(tenant);
 	}
 

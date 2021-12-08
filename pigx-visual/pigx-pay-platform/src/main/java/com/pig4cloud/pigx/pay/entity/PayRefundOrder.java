@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.pay.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -44,13 +45,13 @@ public class PayRefundOrder extends Model<PayRefundOrder> {
 	/**
 	 * 退款订单号
 	 */
-	@TableId
-	private String refundOrderId;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long refundOrderId;
 
 	/**
 	 * 支付订单号
 	 */
-	private String payOrderId;
+	private Long payOrderId;
 
 	/**
 	 * 渠道支付单号
@@ -191,6 +192,6 @@ public class PayRefundOrder extends Model<PayRefundOrder> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 }

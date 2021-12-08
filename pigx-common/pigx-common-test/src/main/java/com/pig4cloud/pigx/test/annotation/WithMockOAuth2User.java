@@ -1,11 +1,10 @@
 package com.pig4cloud.pigx.test.annotation;
 
+import com.pig4cloud.pigx.test.WithMockSecurityContextFactory;
+import org.springframework.security.test.context.support.WithSecurityContext;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-
-import com.pig4cloud.pigx.test.WithMockSecurityContextFactory;
-
-import org.springframework.security.test.context.support.WithSecurityContext;
 
 /**
  * @author lengleng
@@ -30,6 +29,6 @@ public @interface WithMockOAuth2User {
 	/**
 	 * 租户编号 默认租户编号1
 	 */
-	int tenant() default 1;
+	long tenant() default 1L;
 
 }

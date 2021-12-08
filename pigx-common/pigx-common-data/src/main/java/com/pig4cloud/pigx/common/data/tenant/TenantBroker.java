@@ -73,8 +73,8 @@ public class TenantBroker {
 	 * @param tenant 租户ID
 	 * @param func
 	 */
-	public void runAs(Integer tenant, RunAs<Integer> func) {
-		final Integer pre = TenantContextHolder.getTenantId();
+	public void runAs(Long tenant, RunAs<Long> func) {
+		final Long pre = TenantContextHolder.getTenantId();
 		try {
 			log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
 			TenantContextHolder.setTenantId(tenant);
@@ -96,8 +96,8 @@ public class TenantBroker {
 	 * @param <T> 返回数据类型
 	 * @return
 	 */
-	public <T> T applyAs(Integer tenant, ApplyAs<Integer, T> func) {
-		final Integer pre = TenantContextHolder.getTenantId();
+	public <T> T applyAs(Long tenant, ApplyAs<Long, T> func) {
+		final Long pre = TenantContextHolder.getTenantId();
 		try {
 			log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
 			TenantContextHolder.setTenantId(tenant);
@@ -117,7 +117,7 @@ public class TenantBroker {
 	 * @param supplier
 	 * @param func
 	 */
-	public void runAs(Supplier<Integer> supplier, RunAs<Integer> func) {
+	public void runAs(Supplier<Long> supplier, RunAs<Long> func) {
 		runAs(supplier.get(), func);
 	}
 
@@ -128,7 +128,7 @@ public class TenantBroker {
 	 * @param <T> 返回数据类型
 	 * @return
 	 */
-	public <T> T applyAs(Supplier<Integer> supplier, ApplyAs<Integer, T> func) {
+	public <T> T applyAs(Supplier<Long> supplier, ApplyAs<Long, T> func) {
 		return applyAs(supplier.get(), func);
 	}
 

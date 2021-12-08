@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -44,9 +45,9 @@ public class SysSocialDetails extends Model<SysSocialDetails> {
 	/**
 	 * 主鍵
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "主键")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 类型

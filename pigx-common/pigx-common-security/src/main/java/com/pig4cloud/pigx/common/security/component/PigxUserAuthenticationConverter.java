@@ -91,9 +91,9 @@ public class PigxUserAuthenticationConverter implements UserAuthenticationConver
 			String email = MapUtil.getStr(map, SecurityConstants.EMAIL);
 			String nickname = MapUtil.getStr(map, SecurityConstants.NICKNAME);
 			String username = MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME);
-			Integer id = MapUtil.getInt(map, SecurityConstants.DETAILS_USER_ID);
-			Integer deptId = MapUtil.getInt(map, SecurityConstants.DETAILS_DEPT_ID);
-			Integer tenantId = MapUtil.getInt(map, SecurityConstants.DETAILS_TENANT_ID);
+			Long id = MapUtil.getLong(map, SecurityConstants.DETAILS_USER_ID);
+			Long deptId = MapUtil.getLong(map, SecurityConstants.DETAILS_DEPT_ID);
+			Long tenantId = MapUtil.getLong(map, SecurityConstants.DETAILS_TENANT_ID);
 			String phone = MapUtil.getStr(map, SecurityConstants.DETAILS_PHONE);
 			String avatar = MapUtil.getStr(map, SecurityConstants.DETAILS_AVATAR);
 			PigxUser user = new PigxUser(id, username, deptId, phone, avatar, nickname, name, email, tenantId, N_A,

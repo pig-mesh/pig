@@ -68,7 +68,7 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 		// 获取clientId 信息
 		OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
 		sysLog.setServiceId(auth2Authentication.getOAuth2Request().getClientId());
-		sysLog.setTenantId(Integer.parseInt(tenantKeyStrResolver.key()));
+		sysLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 		// 保存退出的token
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 		sysLog.setParams(token);

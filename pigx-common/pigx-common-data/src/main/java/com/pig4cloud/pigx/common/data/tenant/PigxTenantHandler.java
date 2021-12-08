@@ -43,7 +43,7 @@ public class PigxTenantHandler implements TenantLineHandler {
 	 */
 	@Override
 	public Expression getTenantId() {
-		Integer tenantId = TenantContextHolder.getTenantId();
+		Long tenantId = TenantContextHolder.getTenantId();
 		log.debug("当前租户为 >> {}", tenantId);
 
 		if (tenantId == null) {
@@ -70,7 +70,7 @@ public class PigxTenantHandler implements TenantLineHandler {
 	 */
 	@Override
 	public boolean ignoreTable(String tableName) {
-		Integer tenantId = TenantContextHolder.getTenantId();
+		Long tenantId = TenantContextHolder.getTenantId();
 		// 租户中ID 为空，查询全部，不进行过滤
 		if (tenantId == null) {
 			return Boolean.TRUE;

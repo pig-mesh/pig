@@ -22,8 +22,8 @@ public class ParamResolver {
 	 * @param defaultVal 默认值
 	 * @return value
 	 */
-	public Integer getInt(String key, Integer... defaultVal) {
-		return checkAndGet(key, Integer.class, defaultVal);
+	public Long getLong(String key, Long... defaultVal) {
+		return checkAndGet(key, Long.class, defaultVal);
 	}
 
 	/**

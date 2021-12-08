@@ -56,7 +56,7 @@ public class WxAccountFansController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(wxAccountFansService.getById(id));
 	}
 
@@ -92,7 +92,7 @@ public class WxAccountFansController {
 	@SysLog("删除微信公众号粉丝")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(wxAccountFansService.removeById(id));
 	}
 

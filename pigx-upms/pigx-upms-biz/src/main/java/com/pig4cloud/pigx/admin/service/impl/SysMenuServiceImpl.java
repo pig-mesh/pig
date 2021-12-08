@@ -65,14 +65,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 	@Override
 	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId", unless = "#result.isEmpty()")
-	public List<SysMenu> findMenuByRoleId(Integer roleId) {
+	public List<SysMenu> findMenuByRoleId(Long roleId) {
 		return baseMapper.listMenusByRoleId(roleId);
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-	public R removeMenuById(Integer id) {
+	public R removeMenuById(Long id) {
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
 		if (CollUtil.isNotEmpty(menuList)) {
@@ -97,18 +97,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 * @return
 	 */
 	@Override
-	public List<Tree<Integer>> treeMenu(boolean lazy, Integer parentId) {
+	public List<Tree<Long>> treeMenu(boolean lazy, Long parentId) {
 		if (!lazy) {
-			List<TreeNode<Integer>> collect = baseMapper
+			List<TreeNode<Long>> collect = baseMapper
 					.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort)).stream()
 					.map(getNodeFunction()).collect(Collectors.toList());
 
 			return TreeUtil.build(collect, CommonConstants.MENU_TREE_ROOT_ID);
 		}
 
-		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
+		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
-		List<TreeNode<Integer>> collect = baseMapper
+		List<TreeNode<Long>> collect = baseMapper
 				.selectList(
 						Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent).orderByAsc(SysMenu::getSort))
 				.stream().map(getNodeFunction()).collect(Collectors.toList());
@@ -124,17 +124,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 * @return
 	 */
 	@Override
-	public List<Tree<Integer>> filterMenu(Set<SysMenu> all, String type, Integer parentId) {
-		List<TreeNode<Integer>> collect = all.stream().filter(menuTypePredicate(type)).map(getNodeFunction())
+	public List<Tree<Long>> filterMenu(Set<SysMenu> all, String type, Long parentId) {
+		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).map(getNodeFunction())
 				.collect(Collectors.toList());
-		Integer parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
+		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);
 	}
 
 	@NotNull
-	private Function<SysMenu, TreeNode<Integer>> getNodeFunction() {
+	private Function<SysMenu, TreeNode<Long>> getNodeFunction() {
 		return menu -> {
-			TreeNode<Integer> node = new TreeNode<>();
+			TreeNode<Long> node = new TreeNode<>();
 			node.setId(menu.getMenuId());
 			node.setName(menu.getName());
 			node.setParentId(menu.getParentId());

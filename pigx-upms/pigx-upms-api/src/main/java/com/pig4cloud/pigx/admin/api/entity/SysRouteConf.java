@@ -44,9 +44,9 @@ public class SysRouteConf extends Model<SysRouteConf> {
 	private static final long serialVersionUID = 1L;
 
 	@JsonIgnore
-	@TableId(type = IdType.AUTO)
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "主键")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 路由ID

@@ -16,6 +16,7 @@
  */
 package com.pig4cloud.pigx.mp.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -39,8 +40,8 @@ public class WxAccountFans extends Model<WxAccountFans> {
 	/**
 	 * 主键
 	 */
-	@TableId
-	private Integer id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 用户标识
@@ -100,7 +101,7 @@ public class WxAccountFans extends Model<WxAccountFans> {
 	/**
 	 * 微信公众号ID
 	 */
-	private Integer wxAccountId;
+	private Long wxAccountId;
 
 	/**
 	 * 微信公众号appid

@@ -45,8 +45,8 @@ public class SysJob extends Model<SysJob> {
 	/**
 	 * 任务id
 	 */
-	@TableId(value = "job_id", type = IdType.AUTO)
-	private Integer jobId;
+	@TableId(value = "job_id", type = IdType.ASSIGN_ID)
+	private Long jobId;
 
 	/**
 	 * 任务名称
@@ -151,7 +151,7 @@ public class SysJob extends Model<SysJob> {
 	/**
 	 * 租户id
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 	/**
 	 * 备注信息

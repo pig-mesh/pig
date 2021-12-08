@@ -16,6 +16,7 @@
  */
 package com.pig4cloud.pigx.admin.api.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -42,15 +43,15 @@ public class SysDictItem extends Model<SysDictItem> {
 	/**
 	 * 编号
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "字典项id")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 所属字典类id
 	 */
 	@ApiModelProperty(value = "所属字典类id")
-	private Integer dictId;
+	private Long dictId;
 
 	/**
 	 * 数据值

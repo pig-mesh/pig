@@ -66,7 +66,7 @@ public class SysTenantController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(sysTenantService.getById(id));
 	}
 
@@ -105,7 +105,7 @@ public class SysTenantController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('admin_systenant_del')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysTenantService.removeById(id));
 	}
 

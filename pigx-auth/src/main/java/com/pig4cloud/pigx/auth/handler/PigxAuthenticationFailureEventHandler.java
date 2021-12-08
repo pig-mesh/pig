@@ -17,9 +17,6 @@
 
 package com.pig4cloud.pigx.auth.handler;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -31,12 +28,14 @@ import com.pig4cloud.pigx.common.security.handler.AuthenticationFailureHandler;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author lengleng
@@ -72,7 +71,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		sysLog.setException(authenticationException.getLocalizedMessage());
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		sysLog.setServiceId(WebUtils.extractClientId(header).orElse("N/A"));
-		sysLog.setTenantId(Integer.parseInt(tenantKeyStrResolver.key()));
+		sysLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 
 		logService.saveLog(sysLog, SecurityConstants.FROM_IN);
 

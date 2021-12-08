@@ -53,7 +53,7 @@ public class WxMpInitConfigRunner {
 	/**
 	 * 保存 appid-tenantId 的对应关系
 	 */
-	private static Map<String, Integer> tenants = Maps.newHashMap();
+	private static final Map<String, Long> tenants = Maps.newHashMap();
 
 	private final RemoteTenantService tenantService;
 
@@ -169,7 +169,7 @@ public class WxMpInitConfigRunner {
 		return container;
 	}
 
-	public static Map<String, Integer> getTenants() {
+	public static Map<String, Long> getTenants() {
 		return tenants;
 	}
 

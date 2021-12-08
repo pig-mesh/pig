@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.mp.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -25,8 +26,8 @@ public class WxAutoReply extends Model<WxAutoReply> {
 	/**
 	 * 主键
 	 */
-	@TableId
-	private Integer id;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 公众号ID

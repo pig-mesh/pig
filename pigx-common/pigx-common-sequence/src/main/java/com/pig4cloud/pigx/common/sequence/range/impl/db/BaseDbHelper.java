@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
+import cn.hutool.core.util.RandomUtil;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 
 import javax.sql.DataSource;
@@ -19,8 +20,8 @@ abstract class BaseDbHelper {
 			+ "gmt_create DATETIME NOT NULL," + "gmt_modified DATETIME NOT NULL,"
 			+ "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
 
-	private final static String SQL_INSERT_RANGE = "INSERT IGNORE INTO #tableName(name,value,gmt_create,gmt_modified)"
-			+ " VALUE(?,?,?,?)";
+	private final static String SQL_INSERT_RANGE = "INSERT IGNORE INTO #tableName(id,name,value,gmt_create,gmt_modified)"
+			+ " VALUE(?,?,?,?,?)";
 
 	private final static String SQL_UPDATE_RANGE = "UPDATE #tableName SET value=?,gmt_modified=? WHERE name=? AND "
 			+ "value=?";
@@ -66,10 +67,11 @@ abstract class BaseDbHelper {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(SQL_INSERT_RANGE.replace("#tableName", tableName));
-			stmt.setString(1, name);
-			stmt.setLong(2, stepStart);
-			stmt.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+			stmt.setLong(1, RandomUtil.randomLong());
+			stmt.setString(2, name);
+			stmt.setLong(3, stepStart);
 			stmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+			stmt.setTimestamp(5, new Timestamp(System.currentTimeMillis()));
 			stmt.executeUpdate();
 		}
 		catch (SQLException e) {

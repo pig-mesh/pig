@@ -1,7 +1,5 @@
 package com.pig4cloud.pigx.pay.handler.impl;
 
-import java.util.Map;
-
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
@@ -20,6 +18,8 @@ import com.pig4cloud.pigx.pay.utils.PayConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @author lengleng
@@ -46,8 +46,10 @@ public class YungouosMergePayNotifyCallbakHandler extends AbstractPayNotifyCallb
 	 */
 	@Override
 	public void before(Map<String, String> params) {
-		Integer tenant = MapUtil.getInt(params, "attach");
+		Long tenant = MapUtil.getLong(params, "attach");
 		TenantContextHolder.setTenantId(tenant);
+
+
 	}
 
 	/**

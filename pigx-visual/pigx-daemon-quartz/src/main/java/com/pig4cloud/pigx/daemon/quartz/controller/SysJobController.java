@@ -212,7 +212,7 @@ public class SysJobController {
 	@PostMapping("/start-job/{id}")
 	@PreAuthorize("@pms.hasPermission('job_sys_job_start_job')")
 	@ApiOperation(value = "启动定时任务")
-	public R startJob(@PathVariable("id") Integer jobId) {
+	public R startJob(@PathVariable("id") Long jobId) {
 		SysJob querySysJob = this.sysJobService.getById(jobId);
 		if (querySysJob != null && JOB_LOG_STATUS_FAIL.getType().equals(querySysJob.getJobStatus())) {
 			taskUtil.addOrUpateJob(querySysJob, scheduler);

@@ -27,7 +27,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class TenantContextHolder {
 
-	private final ThreadLocal<Integer> THREAD_LOCAL_TENANT = new TransmittableThreadLocal<>();
+	private final ThreadLocal<Long> THREAD_LOCAL_TENANT = new TransmittableThreadLocal<>();
 
 	/**
 	 * TTL 设置租户ID<br/>
@@ -35,7 +35,7 @@ public class TenantContextHolder {
 	 * @param tenantId
 	 * @see TenantBroker
 	 */
-	public void setTenantId(Integer tenantId) {
+	public void setTenantId(Long tenantId) {
 		THREAD_LOCAL_TENANT.set(tenantId);
 	}
 
@@ -43,7 +43,7 @@ public class TenantContextHolder {
 	 * 获取TTL中的租户ID
 	 * @return
 	 */
-	public Integer getTenantId() {
+	public Long getTenantId() {
 		return THREAD_LOCAL_TENANT.get();
 	}
 

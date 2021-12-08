@@ -101,7 +101,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	public Boolean saveTenant(SysTenant sysTenant) {
 		this.save(sysTenant);
 		// 查询系统默认租户配置参数
-		Integer defaultId = ParamResolver.getInt("TENANT_DEFAULT_ID", 1);
+		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
 		String defaultDeptName = ParamResolver.getStr("TENANT_DEFAULT_DEPTNAME", "租户默认部门");
 		String defaultUsername = ParamResolver.getStr("TENANT_DEFAULT_USERNAME", "admin");
 		String defaultPassword = ParamResolver.getStr("TENANT_DEFAULT_PASSWORD", "123456");
@@ -109,7 +109,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		String defaultRoleName = ParamResolver.getStr("TENANT_DEFAULT_ROLENAME", "租户默认角色");
 
 		List<SysDict> dictList = new ArrayList<>(32);
-		List<Integer> dictIdList = new ArrayList<>(32);
+		List<Long> dictIdList = new ArrayList<>(32);
 		List<SysDictItem> dictItemList = new ArrayList<>(64);
 		List<SysMenu> menuList = new ArrayList<>(128);
 		List<SysOauthClientDetails> clientDetailsList = new ArrayList<>(16);
@@ -136,7 +136,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			// 插入部门
 			SysDept dept = new SysDept();
 			dept.setName(defaultDeptName);
-			dept.setParentId(0);
+			dept.setParentId(0L);
 			deptService.save(dept);
 			// 维护部门关系
 			deptRelationService.insertDeptRelation(dept);
@@ -193,10 +193,10 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	 * @param originParentId 原始上级
 	 * @param targetParentId 目标上级
 	 */
-	private void saveTenantMenu(List<SysMenu> menuList, Integer originParentId, Integer targetParentId) {
+	private void saveTenantMenu(List<SysMenu> menuList, Long originParentId, Long targetParentId) {
 		menuList.stream().filter(menu -> menu.getParentId().equals(originParentId)).forEach(menu -> {
 			// 保存菜单原始menuId， 方便查询子节点使用
-			Integer originMenuId = menu.getMenuId();
+			Long originMenuId = menu.getMenuId();
 			menu.setMenuId(null);
 			menu.setParentId(targetParentId);
 			menuService.save(menu);

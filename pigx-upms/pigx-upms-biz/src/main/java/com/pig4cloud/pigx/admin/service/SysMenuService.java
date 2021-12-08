@@ -42,14 +42,14 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param roleId 角色ID
 	 * @return 菜单列表
 	 */
-	List<SysMenu> findMenuByRoleId(Integer roleId);
+	List<SysMenu> findMenuByRoleId(Long roleId);
 
 	/**
 	 * 级联删除菜单
 	 * @param id 菜单ID
 	 * @return 成功、失败
 	 */
-	R removeMenuById(Integer id);
+	R removeMenuById(Long id);
 
 	/**
 	 * 更新菜单信息
@@ -64,7 +64,7 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param parentId 父节点ID
 	 * @return
 	 */
-	List<Tree<Integer>> treeMenu(boolean lazy, Integer parentId);
+	List<Tree<Long>> treeMenu(boolean lazy, Long parentId);
 
 	/**
 	 * 查询菜单
@@ -72,6 +72,6 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param parentId
 	 * @return
 	 */
-	List<Tree<Integer>> filterMenu(Set<SysMenu> voSet, String type, Integer parentId);
+	List<Tree<Long>> filterMenu(Set<SysMenu> voSet, String type, Long parentId);
 
 }

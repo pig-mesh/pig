@@ -100,7 +100,7 @@ public class SysSocialDetailsController {
 	@SysLog("删除三方信息")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_social_details_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysSocialDetailsService.removeById(id));
 	}
 

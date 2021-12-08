@@ -48,7 +48,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public R removeDictItem(Integer id) {
+	public R removeDictItem(Long id) {
 		// 根据ID查询字典ID
 		SysDictItem dictItem = this.getById(id);
 		SysDict dict = dictService.getById(dictItem.getDictId());

@@ -50,6 +50,6 @@ public class UserInfo implements Serializable {
 	 * 角色集合
 	 */
 	@ApiModelProperty(value = "角色标识集合")
-	private Integer[] roles;
+	private Long[] roles;
 
 }

@@ -41,7 +41,7 @@ public interface SysMenuMapper extends PigxBaseMapper<SysMenu> {
 	 * @param roleId 角色ID
 	 * @return
 	 */
-	List<SysMenu> listMenusByRoleId(Integer roleId);
+	List<SysMenu> listMenusByRoleId(Long roleId);
 
 	/**
 	 * 通过角色ID查询权限

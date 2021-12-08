@@ -52,6 +52,6 @@ public interface RemoteDataScopeService {
 	 * @return
 	 */
 	@GetMapping("/dept/getDescendantList/{deptId}")
-	R<List<SysDeptRelation>> getDescendantList(@PathVariable("deptId") Integer deptId);
+	R<List<SysDeptRelation>> getDescendantList(@PathVariable("deptId") Long deptId);
 
 }

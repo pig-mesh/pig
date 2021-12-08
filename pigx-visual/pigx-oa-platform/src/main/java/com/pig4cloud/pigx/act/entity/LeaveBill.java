@@ -44,8 +44,8 @@ public class LeaveBill extends Model<LeaveBill> {
 	/**
 	 * ID
 	 */
-	@TableId(type = IdType.AUTO)
-	private Integer leaveId;
+	@TableId(type = IdType.ASSIGN_ID)
+	private Long leaveId;
 
 	/**
 	 * 申请人

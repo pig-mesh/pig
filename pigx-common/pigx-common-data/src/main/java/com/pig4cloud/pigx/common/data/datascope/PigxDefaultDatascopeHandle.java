@@ -50,7 +50,7 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 	 * @return
 	 */
 	@Override
-	public Boolean calcScope(List<Integer> deptList) {
+	public Boolean calcScope(List<Long> deptList) {
 		PigxUser user = SecurityUtils.getUser();
 		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
@@ -74,11 +74,11 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 		if (DataScopeTypeEnum.CUSTOM.getType() == dsType && StrUtil.isNotBlank(role.getDsScope())) {
 			String dsScope = role.getDsScope();
 			deptList.addAll(
-					Arrays.stream(dsScope.split(StrUtil.COMMA)).map(Integer::parseInt).collect(Collectors.toList()));
+					Arrays.stream(dsScope.split(StrUtil.COMMA)).map(Long::parseLong).collect(Collectors.toList()));
 		}
 		// 查询本级及其下级
 		if (DataScopeTypeEnum.OWN_CHILD_LEVEL.getType() == dsType) {
-			List<Integer> deptIdList = dataScopeService.getDescendantList(user.getDeptId()).getData().stream()
+			List<Long> deptIdList = dataScopeService.getDescendantList(user.getDeptId()).getData().stream()
 					.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 			deptList.addAll(deptIdList);
 		}

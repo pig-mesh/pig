@@ -53,7 +53,7 @@ public class SysMenuController {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping
-	public R getUserMenu(String type, Integer parentId) {
+	public R getUserMenu(String type, Long parentId) {
 
 		// 获取符合条件的菜单
 		Set<SysMenu> all = new HashSet<>();
@@ -68,7 +68,7 @@ public class SysMenuController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(boolean lazy, Integer parentId) {
+	public R getTree(boolean lazy, Long parentId) {
 		return R.ok(sysMenuService.treeMenu(lazy, parentId));
 	}
 
@@ -78,7 +78,7 @@ public class SysMenuController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/tree/{roleId}")
-	public R getRoleTree(@PathVariable Integer roleId) {
+	public R getRoleTree(@PathVariable Long roleId) {
 		return R.ok(
 				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
 	}
@@ -89,7 +89,7 @@ public class SysMenuController {
 	 * @return 菜单详细信息
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable Integer id) {
+	public R getById(@PathVariable Long id) {
 		return R.ok(sysMenuService.getById(id));
 	}
 
@@ -114,7 +114,7 @@ public class SysMenuController {
 	@SysLog("删除菜单")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return sysMenuService.removeMenuById(id);
 	}
 

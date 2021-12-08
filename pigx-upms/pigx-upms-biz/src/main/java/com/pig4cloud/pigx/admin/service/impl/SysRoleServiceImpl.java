@@ -55,7 +55,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	public List findRolesByUserId(Integer userId) {
+	public List findRolesByUserId(Long userId) {
 		return baseMapper.listRolesByUserId(userId);
 	}
 
@@ -67,7 +67,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key")
-	public List<SysRole> findRolesByRoleIds(List<Integer> roleIdList, String key) {
+	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
 		return baseMapper.selectBatchIds(roleIdList);
 	}
 
@@ -78,7 +78,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeRoleById(Integer id) {
+	public Boolean removeRoleById(Long id) {
 		roleMenuService.remove(Wrappers.<SysRoleMenu>update().lambda().eq(SysRoleMenu::getRoleId, id));
 		return this.removeById(id);
 	}

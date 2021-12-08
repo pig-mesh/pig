@@ -49,7 +49,7 @@ public class SysUser implements Serializable {
 	 */
 	@TableId(value = "user_id", type = IdType.AUTO)
 	@ApiModelProperty(value = "主键id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名
@@ -111,13 +111,13 @@ public class SysUser implements Serializable {
 	 * 部门ID
 	 */
 	@ApiModelProperty(value = "用户所属部门id")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 租户ID
 	 */
 	@ApiModelProperty(value = "用户所属租户id")
-	private Integer tenantId;
+	private Long tenantId;
 
 	/**
 	 * 微信openid

@@ -38,7 +38,7 @@ public interface SysDeptRelationMapper extends PigxBaseMapper<SysDeptRelation> {
 	 * 删除部门关系表数据
 	 * @param id 部门ID
 	 */
-	void deleteDeptRelationsById(Integer id);
+	void deleteDeptRelationsById(Long id);
 
 	/**
 	 * 更改部分关系表数据

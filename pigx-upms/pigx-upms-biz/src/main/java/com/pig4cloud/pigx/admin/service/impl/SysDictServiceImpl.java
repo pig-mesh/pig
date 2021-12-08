@@ -51,7 +51,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public R removeDict(Integer id) {
+	public R removeDict(Long id) {
 		SysDict dict = this.getById(id);
 		// 系统内置
 		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystem())) {

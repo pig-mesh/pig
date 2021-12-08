@@ -43,7 +43,7 @@ public class WxAutoReplyController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") String id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(wxAutoReplyService.getById(id));
 	}
 

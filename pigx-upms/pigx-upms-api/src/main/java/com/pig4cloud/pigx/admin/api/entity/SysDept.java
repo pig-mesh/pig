@@ -47,9 +47,9 @@ public class SysDept extends Model<SysDept> {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "dept_id", type = IdType.AUTO)
+	@TableId(value = "dept_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "部门id")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 部门名称
@@ -81,7 +81,7 @@ public class SysDept extends Model<SysDept> {
 	 * 父级部门id
 	 */
 	@ApiModelProperty(value = "父级部门id")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 是否删除 1：已删除 0：正常
