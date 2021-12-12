@@ -33,6 +33,7 @@
 		<xxl.job.version>2.3.0</xxl.job.version>
 		<aliyun.version>3.0.52.ALL</aliyun.version>
 		<aws.version>1.11.543</aws.version>
+		<log4j.version>2.15.0</log4j.version>
 		<javaformat.plugin.version>0.0.23</javaformat.plugin.version>
 		<docker.plugin.version>0.33.0</docker.plugin.version>
 		<cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -225,6 +226,17 @@
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>${jsoup.version}</version>
+			</dependency>
+			<!--  指定 log4j 版本-->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-api</artifactId>
+				<version>${log4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-core</artifactId>
+				<version>${log4j.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
