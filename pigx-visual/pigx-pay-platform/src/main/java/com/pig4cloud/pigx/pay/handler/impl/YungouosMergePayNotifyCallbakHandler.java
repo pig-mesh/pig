@@ -49,7 +49,6 @@ public class YungouosMergePayNotifyCallbakHandler extends AbstractPayNotifyCallb
 		Long tenant = MapUtil.getLong(params, "attach");
 		TenantContextHolder.setTenantId(tenant);
 
-
 	}
 
 	/**
