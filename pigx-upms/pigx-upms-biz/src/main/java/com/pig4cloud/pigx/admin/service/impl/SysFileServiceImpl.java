@@ -16,11 +16,6 @@
  */
 package com.pig4cloud.pigx.admin.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletResponse;
-
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
@@ -37,10 +32,13 @@ import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 文件管理
@@ -71,7 +69,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream());
+			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
+					file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
 		}

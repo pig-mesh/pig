@@ -17,16 +17,6 @@
 
 package com.pig4cloud.pigx.common.oss.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Optional;
-
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -35,18 +25,18 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.ObjectListing;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectResult;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import com.pig4cloud.pigx.common.oss.OssProperties;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.InitializingBean;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.*;
 
 /**
  * aws-s3 通用存储操作 支持所有兼容s3协议的云存储: {阿里云OSS，腾讯云COS，七牛云，京东云，minio 等}
@@ -161,7 +151,20 @@ public class OssTemplate implements InitializingBean {
 	 * @throws Exception
 	 */
 	public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
-		putObject(bucketName, objectName, stream, (long) stream.available(), "application/octet-stream");
+		putObject(bucketName, objectName, stream, stream.available(), "application/octet-stream");
+	}
+
+	/**
+	 * 上传文件
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
+	 * @param stream 文件流
+	 * @param contextType 文件类型
+	 * @throws Exception
+	 */
+	public void putObject(String bucketName, String objectName, InputStream stream, String contextType)
+			throws Exception {
+		putObject(bucketName, objectName, stream, stream.available(), contextType);
 	}
 
 	/**
