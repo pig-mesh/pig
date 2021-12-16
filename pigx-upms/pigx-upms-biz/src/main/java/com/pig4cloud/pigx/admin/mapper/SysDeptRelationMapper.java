@@ -35,15 +35,21 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysDeptRelationMapper extends PigxBaseMapper<SysDeptRelation> {
 
 	/**
-	 * 删除部门关系表数据
+	 * 删除部门 > 删除所有关联此部门子节点的闭包关系
 	 * @param id 部门ID
 	 */
-	void deleteDeptRelationsById(Long id);
+	void deleteDeptRelationsByDeptId(Long id);
 
 	/**
-	 * 更改部分关系表数据
-	 * @param deptRelation
+	 * 删除节点数据
+	 * @param deptRelation 关系节点
 	 */
-	void updateDeptRelations(SysDeptRelation deptRelation);
+	void deleteDeptRelations(SysDeptRelation deptRelation);
+
+	/**
+	 * 新增节点数据
+	 * @param deptRelation 关系节点
+	 */
+	void insertDeptRelations(SysDeptRelation deptRelation);
 
 }

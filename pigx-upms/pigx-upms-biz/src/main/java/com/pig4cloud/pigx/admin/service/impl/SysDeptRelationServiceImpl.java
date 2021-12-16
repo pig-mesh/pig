@@ -79,7 +79,7 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 */
 	@Override
 	public void deleteAllDeptRealtion(Long id) {
-		baseMapper.deleteDeptRelationsById(id);
+		baseMapper.deleteDeptRelationsByDeptId(id);
 	}
 
 	/**
@@ -87,8 +87,10 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 * @param relation
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void updateDeptRealtion(SysDeptRelation relation) {
-		baseMapper.updateDeptRelations(relation);
+		baseMapper.deleteDeptRelations(relation);
+		baseMapper.insertDeptRelations(relation);
 	}
 
 }
