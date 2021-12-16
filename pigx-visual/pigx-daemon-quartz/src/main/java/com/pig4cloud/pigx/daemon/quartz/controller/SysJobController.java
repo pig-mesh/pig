@@ -274,8 +274,8 @@ public class SysJobController {
 	@ApiOperation(value = "检验任务名称和任务组联合是否唯一")
 	public R isValidTaskName(@RequestParam String jobName, @RequestParam String jobGroup) {
 		return this.sysJobService
-				.count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0 ? R.failed()
-						: R.ok();
+				.count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0
+						? R.failed("任务重复，请检查此组内是否已包含同名任务") : R.ok();
 	}
 
 }
