@@ -61,7 +61,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	public Boolean saveBatchLogs(List<PreLogVO> preLogVoList) {
 		List<SysLog> sysLogs = preLogVoList.stream().map(pre -> {
 			SysLog log = new SysLog();
-			log.setType(CommonConstants.STATUS_LOCK);
+			log.setLogType(CommonConstants.STATUS_LOCK);
 			log.setTitle(pre.getInfo());
 			log.setException(pre.getStack());
 			log.setParams(pre.getMessage());
@@ -77,8 +77,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	public Page getLogByPage(Page page, SysLogDTO sysLog) {
 
 		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
-		if (StrUtil.isNotBlank(sysLog.getType())) {
-			wrapper.eq(SysLog::getType, sysLog.getType());
+		if (StrUtil.isNotBlank(sysLog.getLogType())) {
+			wrapper.eq(SysLog::getLogType, sysLog.getLogType());
 		}
 
 		if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {

@@ -19,9 +19,7 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -73,12 +71,14 @@ public class SysUser implements Serializable {
 	/**
 	 * 创建时间
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 修改时间
 	 */
+	@TableField(fill = FieldFill.UPDATE)
 	@ApiModelProperty(value = "修改时间")
 	private LocalDateTime updateTime;
 
@@ -92,6 +92,7 @@ public class SysUser implements Serializable {
 	/**
 	 * 锁定标记
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "锁定标记")
 	private String lockFlag;
 

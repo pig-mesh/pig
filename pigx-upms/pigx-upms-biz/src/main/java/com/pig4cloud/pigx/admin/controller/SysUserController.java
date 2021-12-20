@@ -25,7 +25,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
-import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
@@ -53,8 +52,6 @@ import java.util.List;
 @RequestMapping("/user")
 @Api(value = "user", tags = "用户管理模块")
 public class SysUserController {
-
-	private final SysUserMapper userMapper;
 
 	private final SysUserService userService;
 

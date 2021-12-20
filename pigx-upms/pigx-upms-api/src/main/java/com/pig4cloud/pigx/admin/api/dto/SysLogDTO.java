@@ -25,7 +25,7 @@ public class SysLogDTO {
 	 * 日志类型
 	 */
 	@NotBlank(message = "日志类型不能为空")
-	private String type;
+	private String logType;
 
 	/**
 	 * 日志标题

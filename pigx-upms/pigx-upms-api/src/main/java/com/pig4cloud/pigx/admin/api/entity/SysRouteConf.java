@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -81,9 +80,8 @@ public class SysRouteConf extends Model<SysRouteConf> {
 	/**
 	 * 排序
 	 */
-	@TableField(value = "`order`")
 	@ApiModelProperty(value = "排序值")
-	private Integer order;
+	private Integer sortOrder;
 
 	@ApiModelProperty(value = "元数据")
 	private String metadata;

@@ -33,6 +33,11 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
+		<!-- 数据库驱动 -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+		</dependency>
 		<!--upms api、model 模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
@@ -101,11 +106,6 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
-		</dependency>
-		<!--数据库-->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<!--web 模块-->
 		<dependency>

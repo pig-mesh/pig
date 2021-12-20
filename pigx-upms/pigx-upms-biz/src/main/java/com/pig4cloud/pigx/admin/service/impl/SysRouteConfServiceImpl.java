@@ -140,7 +140,7 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
 				routeConf.setRouteName(vo.getRouteName());
 				routeConf.setFilters(JSONUtil.toJsonStr(vo.getFilters()));
 				routeConf.setPredicates(JSONUtil.toJsonStr(vo.getPredicates()));
-				routeConf.setOrder(vo.getOrder());
+				routeConf.setSortOrder(vo.getOrder());
 				routeConf.setUri(vo.getUri().toString());
 				routeConf.setMetadata(JSONUtil.toJsonStr(vo.getMetadata()));
 				return routeConf;

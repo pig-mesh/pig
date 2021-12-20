@@ -69,7 +69,7 @@ public class DynamicRouteInitRunner {
 			vo.setRouteName(route.getRouteName());
 			vo.setId(route.getRouteId());
 			vo.setUri(URI.create(route.getUri()));
-			vo.setOrder(route.getOrder());
+			vo.setOrder(route.getSortOrder());
 
 			JSONArray filterObj = JSONUtil.parseArray(route.getFilters());
 			vo.setFilters(filterObj.toList(FilterDefinition.class));

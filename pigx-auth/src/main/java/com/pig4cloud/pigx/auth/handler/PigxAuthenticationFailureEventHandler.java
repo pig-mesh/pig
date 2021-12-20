@@ -66,7 +66,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		String username = authentication.getName();
 		SysLogDTO sysLog = SysLogUtils.getSysLog(request, username);
 		sysLog.setTitle(username + "用户登录");
-		sysLog.setType(LogTypeEnum.ERROR.getType());
+		sysLog.setLogType(LogTypeEnum.ERROR.getType());
 		sysLog.setParams(username);
 		sysLog.setException(authenticationException.getLocalizedMessage());
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);

@@ -19,21 +19,19 @@
 
 package com.pig4cloud.pigx.common.log.util;
 
-import java.util.Objects;
-
-import javax.servlet.http.HttpServletRequest;
-
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import lombok.experimental.UtilityClass;
-
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 /**
  * 系统日志工具类
@@ -48,7 +46,7 @@ public class SysLogUtils {
 				.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		SysLogDTO sysLog = new SysLogDTO();
 		sysLog.setCreateBy(Objects.requireNonNull(getUsername()));
-		sysLog.setType(LogTypeEnum.NORMAL.getType());
+		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
 		sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
@@ -61,7 +59,7 @@ public class SysLogUtils {
 	public SysLogDTO getSysLog(HttpServletRequest request, String username) {
 		SysLogDTO sysLog = new SysLogDTO();
 		sysLog.setCreateBy(username);
-		sysLog.setType(LogTypeEnum.NORMAL.getType());
+		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
 		sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());

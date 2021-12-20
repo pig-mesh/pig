@@ -17,9 +17,7 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -93,12 +91,14 @@ public class SysFile extends Model<SysFile> {
 	/**
 	 * 更新人
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "更新者")
 	private String updateUser;
 
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.UPDATE)
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updateTime;
 
@@ -106,6 +106,7 @@ public class SysFile extends Model<SysFile> {
 	 * 删除标识：1-删除，0-正常
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private Integer delFlag;
 

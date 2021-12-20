@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.common.websocket.distribute;
 
 import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,6 +14,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * @author Hccake 2021/1/12
  * @version 1.0
  */
+@Slf4j
 @RequiredArgsConstructor
 public class RedisWebsocketMessageListener implements MessageListener, MessageSender {
 
@@ -22,6 +24,7 @@ public class RedisWebsocketMessageListener implements MessageListener, MessageSe
 
 	@Override
 	public void onMessage(Message message, byte[] bytes) {
+		log.info("redis channel Listener message send {}", message);
 		byte[] channelBytes = message.getChannel();
 		RedisSerializer<String> stringSerializer = stringRedisTemplate.getStringSerializer();
 		String channel = stringSerializer.deserialize(channelBytes);

@@ -18,7 +18,6 @@
 		<screw.version>0.0.1</screw.version>
 		<sqlserver.version>4.0</sqlserver.version>
 		<db2.version>11.5.0.0</db2.version>
-		<oracle.version>12.1.0.1-atlassian-hosted</oracle.version>
 		<configuration.version>1.10</configuration.version>
 	</properties>
 
@@ -59,9 +58,8 @@
 		</dependency>
 		<!-- oracle 驱动 -->
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc6</artifactId>
-			<version>${oracle.version}</version>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
 		</dependency>
 		<!-- sqlserver 驱动 -->
 		<dependency>

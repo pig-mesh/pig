@@ -23,21 +23,4 @@
 
 <mapper namespace="com.pig4cloud.pigx.admin.mapper.SysLogMapper">
 
-	<resultMap id="sysLogMap" type="com.pig4cloud.pigx.admin.api.entity.SysLog">
-		<id property="id" column="id"/>
-		<result property="type" column="type"/>
-		<result property="title" column="title"/>
-		<result property="serviceId" column="service_id"/>
-		<result property="createBy" column="create_by"/>
-		<result property="createTime" column="create_time"/>
-		<result property="updateTime" column="update_time"/>
-		<result property="remoteAddr" column="remote_addr"/>
-		<result property="userAgent" column="user_agent"/>
-		<result property="requestUri" column="request_uri"/>
-		<result property="method" column="method"/>
-		<result property="params" column="params"/>
-		<result property="time" column="time"/>
-		<result property="delFlag" column="del_flag"/>
-		<result property="exception" column="exception"/>
-	</resultMap>
 </mapper>

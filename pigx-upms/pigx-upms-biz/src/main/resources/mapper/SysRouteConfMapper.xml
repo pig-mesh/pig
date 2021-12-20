@@ -20,17 +20,4 @@
 
 <mapper namespace="com.pig4cloud.pigx.admin.mapper.SysRouteConfMapper">
 
-	<!-- 可根据自己的需求，是否要使用 -->
-    <resultMap type="com.pig4cloud.pigx.admin.api.entity.SysRouteConf" id="sysRouteConfMap">
-        <result property="routeId" column="route_id"/>
-        <result property="predicates" column="predicates"/>
-        <result property="filters" column="filters"/>
-        <result property="uri" column="uri"/>
-        <result property="order" column="order"/>
-        <result property="createTime" column="create_time"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="delFlag" column="del_flag"/>
-    </resultMap>
-
-
 </mapper>

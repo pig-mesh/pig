@@ -21,9 +21,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -60,7 +58,7 @@ public class SysLog implements Serializable {
 	@NotBlank(message = "日志类型不能为空")
 	@ExcelProperty("日志类型（0-正常 9-错误）")
 	@ApiModelProperty(value = "日志类型")
-	private String type;
+	private String logType;
 
 	/**
 	 * 日志标题
@@ -81,6 +79,7 @@ public class SysLog implements Serializable {
 	 * 创建时间
 	 */
 	@ExcelProperty("创建时间")
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
 
@@ -88,6 +87,7 @@ public class SysLog implements Serializable {
 	 * 更新时间
 	 */
 	@ExcelIgnore
+	@TableField(fill = FieldFill.UPDATE)
 	@ApiModelProperty(value = "更新时间")
 	private LocalDateTime updateTime;
 
@@ -151,6 +151,7 @@ public class SysLog implements Serializable {
 	 */
 	@TableLogic
 	@ExcelIgnore
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
