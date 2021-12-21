@@ -84,8 +84,10 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 	 * @param relation
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public void updateDeptRelation(SysDeptRelation relation) {
-		baseMapper.updateDeptRelations(relation);
+		baseMapper.deleteDeptRelations(relation);
+		baseMapper.insertDeptRelations(relation);
 	}
 
 }

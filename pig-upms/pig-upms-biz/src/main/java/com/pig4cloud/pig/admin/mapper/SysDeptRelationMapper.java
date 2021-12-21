@@ -42,5 +42,16 @@ public interface SysDeptRelationMapper extends BaseMapper<SysDeptRelation> {
 	 * @param deptRelation
 	 */
 	void updateDeptRelations(SysDeptRelation deptRelation);
+	/**
+	 * 删除部门关系
+	 * @param deptRelation
+	 */
+	void deleteDeptRelations(SysDeptRelation deptRelation);
+
+	/**
+	 * 新增部门关系
+	 * @param deptRelation
+	 */
+	void insertDeptRelations(SysDeptRelation deptRelation);
 
 }
