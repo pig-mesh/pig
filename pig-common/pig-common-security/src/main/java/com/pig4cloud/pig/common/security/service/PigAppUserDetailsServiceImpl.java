@@ -35,36 +35,52 @@ import org.springframework.security.core.userdetails.UserDetails;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class PigUserDetailsServiceImpl implements PigUserDetailsService {
+public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 
 	private final RemoteUserService remoteUserService;
 
 	private final CacheManager cacheManager;
 
 	/**
-	 * 用户名密码登录
-	 * @param username 用户名
+	 * 手机号登录
+	 * @param phone 手机号
 	 * @return
 	 */
 	@Override
 	@SneakyThrows
-	public UserDetails loadUserByUsername(String username) {
+	public UserDetails loadUserByUsername(String phone) {
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-		if (cache != null && cache.get(username) != null) {
-			return (PigUser) cache.get(username).get();
+		if (cache != null && cache.get(phone) != null) {
+			return (PigUser) cache.get(phone).get();
 		}
 
-		R<UserInfo> result = remoteUserService.info(username, SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.infoByMobile(phone, SecurityConstants.FROM_IN);
+
 		UserDetails userDetails = getUserDetails(result);
 		if (cache != null) {
-			cache.put(username, userDetails);
+			cache.put(phone, userDetails);
 		}
 		return userDetails;
 	}
 
+	/**
+	 * check-token 使用
+	 * @param pigUser user
+	 * @return
+	 */
 	@Override
-	public int getOrder() {
-		return Integer.MIN_VALUE;
+	public UserDetails loadUserByUser(PigUser pigUser) {
+		return this.loadUserByUsername(pigUser.getPhone());
+	}
+
+	/**
+	 * 是否支持此客户端校验
+	 * @param clientId 目标客户端
+	 * @return true/false
+	 */
+	@Override
+	public boolean support(String clientId) {
+		return "app".equals(clientId);
 	}
 
 }

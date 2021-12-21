@@ -20,7 +20,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
@@ -53,9 +52,8 @@ public class PigResourceServerAutoConfiguration {
 
 	@Bean
 	@Primary
-	public ResourceServerTokenServices resourceServerTokenServices(TokenStore tokenStore,
-			UserDetailsService userDetailsService) {
-		return new PigLocalResourceServerTokenServices(tokenStore, userDetailsService);
+	public ResourceServerTokenServices resourceServerTokenServices(TokenStore tokenStore) {
+		return new PigLocalResourceServerTokenServices(tokenStore);
 	}
 
 }

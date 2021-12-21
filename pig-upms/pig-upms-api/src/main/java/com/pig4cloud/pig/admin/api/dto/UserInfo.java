@@ -16,14 +16,12 @@
 
 package com.pig4cloud.pig.admin.api.dto;
 
-import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author lengleng

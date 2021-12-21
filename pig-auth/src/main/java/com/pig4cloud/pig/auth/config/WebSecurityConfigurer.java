@@ -19,7 +19,6 @@ package com.pig4cloud.pig.auth.config;
 import com.pig4cloud.pig.common.security.grant.CustomAppAuthenticationProvider;
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
-import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +28,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -42,10 +40,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Primary
 @Order(90)
 @Configuration
-@AllArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
-
-	private final UserDetailsService userDetailsService;
 
 	@Override
 	@SneakyThrows
@@ -61,9 +56,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	 * 不要直接使用@Bean注入 会导致默认的提供者无法注入（DaoAuthenticationProvider）
 	 */
 	private CustomAppAuthenticationProvider phoneAuthenticationProvider() {
-		CustomAppAuthenticationProvider phoneAuthenticationProvider = new CustomAppAuthenticationProvider();
-		phoneAuthenticationProvider.setUserDetailsService(userDetailsService);
-		return phoneAuthenticationProvider;
+		return new CustomAppAuthenticationProvider();
 	}
 
 	@Override

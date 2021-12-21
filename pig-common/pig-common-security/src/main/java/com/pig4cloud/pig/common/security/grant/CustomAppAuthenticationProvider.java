@@ -1,15 +1,21 @@
 package com.pig4cloud.pig.common.security.grant;
 
-import com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl;
-import lombok.Setter;
+import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.Ordered;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+
+import java.util.Comparator;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author hzq
@@ -17,9 +23,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
  */
 @Slf4j
 public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
-
-	@Setter
-	private UserDetailsService userDetailsService;
 
 	/**
 	 * 校验 请求信息userDetails
@@ -47,9 +50,21 @@ public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenti
 			throw new BadCredentialsException("Bad credentials");
 		}
 
+		// 此处已获得 客户端认证 获取对应 userDetailsService
+		Authentication clientAuthentication = SecurityContextHolder.getContext().getAuthentication();
+		String clientId = clientAuthentication.getName();
+		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
+				.getBeansOfType(PigUserDetailsService.class);
+		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
+				.filter(service -> service.support(clientId)).max(Comparator.comparingInt(Ordered::getOrder));
+
+		if (!optional.isPresent()) {
+			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");
+		}
+
 		// 手机号
 		String phone = authentication.getName();
-		UserDetails userDetails = ((PigUserDetailsServiceImpl) userDetailsService).loadUserByPhone(phone);
+		UserDetails userDetails = optional.get().loadUserByUsername(phone);
 		CustomAppAuthenticationToken token = new CustomAppAuthenticationToken(userDetails);
 		token.setDetails(authentication.getDetails());
 		return token;
