@@ -15,7 +15,7 @@
 
 	<properties>
 		<pig.common.version>${project.version}</pig.common.version>
-		<spring-boot.version>2.6.1</spring-boot.version>
+		<spring-boot.version>2.6.2</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<security.oauth.version>2.1.8.RELEASE</security.oauth.version>
 		<maven.compiler.source>1.8</maven.compiler.source>

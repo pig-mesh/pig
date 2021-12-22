@@ -31,15 +31,15 @@
 
 ### 核心依赖
 
-| 依赖                   | 版本           |
-| ---------------------- | ------------- |
-| Spring Boot            | 2.6.1         |
-| Spring Cloud           | 2021.0.0      |
-| Spring Cloud Alibaba   | 2021.1        |
-| Spring Security OAuth2 | 2.3.6         |
-| Mybatis Plus           | 3.4.3.4       |
-| hutool                 | 5.7.16        |
-| Avue                   | 2.6.18        |
+| 依赖                   | 版本       |
+| ---------------------- |----------|
+| Spring Boot            | 2.6.2    |
+| Spring Cloud           | 2021.0.0 |
+| Spring Cloud Alibaba   | 2021.1   |
+| Spring Security OAuth2 | 2.3.6    |
+| Mybatis Plus           | 3.4.3.4  |
+| hutool                 | 5.7.17   |
+| Avue                   | 2.6.18   |
 
 ### 模块说明
 
