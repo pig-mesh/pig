@@ -32,25 +32,20 @@ import org.apache.ibatis.annotations.Mapper;
 public interface SysDeptRelationMapper extends BaseMapper<SysDeptRelation> {
 
 	/**
-	 * 删除部门关系表数据
-	 * @param id 部门ID
-	 */
-	void deleteDeptRelationsById(Integer id);
-
-	/**
-	 * 更改部分关系表数据
-	 * @param deptRelation
-	 */
-	void updateDeptRelations(SysDeptRelation deptRelation);
-	/**
-	 * 删除部门关系
-	 * @param deptRelation
+	 * 删除部门节点关系
+	 * @param deptRelation 待删除的某一个部门节点
 	 */
 	void deleteDeptRelations(SysDeptRelation deptRelation);
 
 	/**
-	 * 新增部门关系
-	 * @param deptRelation
+	 * 删除部门节点关系,同时删除所有关联此部门子节点的部门关系
+	 * @param id 待删除的部门节点ID
+	 */
+	void deleteDeptRelationsById(Integer id);
+
+	/**
+	 * 新增部门节点关系
+	 * @param deptRelation 待新增的部门节点关系
 	 */
 	void insertDeptRelations(SysDeptRelation deptRelation);
 
