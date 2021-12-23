@@ -26,6 +26,7 @@ import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import io.springboot.sms.core.SmsClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -48,6 +49,8 @@ public class AppServiceImpl implements AppService {
 	private final RedisTemplate redisTemplate;
 
 	private final SysUserMapper userMapper;
+
+	private final SmsClient smsClient;
 
 	/**
 	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
@@ -74,6 +77,9 @@ public class AppServiceImpl implements AppService {
 		log.info("手机号生成验证码成功:{},{}", phone, code);
 		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + phone, code, SecurityConstants.CODE_TIME,
 				TimeUnit.SECONDS);
+
+		// 调用短信通道发送
+		this.smsClient.sendCode(code, phone);
 		return R.ok(Boolean.TRUE, code);
 	}
 
