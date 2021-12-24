@@ -42,11 +42,4 @@ public interface PigxBaseMapper<T> extends BaseMapper<T> {
 	 */
 	Integer selectCountByScope(@Param(Constants.WRAPPER) Wrapper<T> queryWrapper, DataScope scope);
 
-	/**
-	 * 批量插入 仅适用于 mysql
-	 * @param entityList 实体列表
-	 * @return 影响行数
-	 */
-	Integer insertBatchSomeColumn(List<T> entityList);
-
 }

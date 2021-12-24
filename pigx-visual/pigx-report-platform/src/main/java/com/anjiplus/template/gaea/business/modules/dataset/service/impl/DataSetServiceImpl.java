@@ -8,8 +8,8 @@ import com.anji.plus.gaea.curd.mapper.GaeaBaseMapper;
 import com.anji.plus.gaea.exception.BusinessExceptionBuilder;
 import com.anji.plus.gaea.utils.GaeaBeanUtils;
 import com.anjiplus.template.gaea.business.code.ResponseCode;
-import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.OriginalDataDto;
 import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.DataSetDto;
+import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.OriginalDataDto;
 import com.anjiplus.template.gaea.business.modules.dataset.dao.DataSetMapper;
 import com.anjiplus.template.gaea.business.modules.dataset.dao.entity.DataSet;
 import com.anjiplus.template.gaea.business.modules.dataset.service.DataSetService;
@@ -296,9 +296,7 @@ public class DataSetServiceImpl implements DataSetService {
 			dataSetParam.setSetCode(setCode);
 			// 不采用批量
 			dataSetParamService.insert(dataSetParam);
-			// dataSetParamList.add(dataSetParam);
 		});
-		// dataSetParamService.insertBatch(dataSetParamList);
 
 	}
 
@@ -316,9 +314,7 @@ public class DataSetServiceImpl implements DataSetService {
 			dataSetTransform.setSetCode(setCode);
 			// 不采用批量
 			dataSetTransformService.insert(dataSetTransform);
-			// dataSetTransformList.add(dataSetTransform);
 		}
-		// dataSetTransformService.insertBatch(dataSetTransformList);
 	}
 
 }
