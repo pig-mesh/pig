@@ -17,6 +17,7 @@
 #set($excludeColumns = ["create_time","update_time","create_by","update_by"])
 package ${package}.${moduleName}.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
@@ -47,7 +48,7 @@ public class ${className} extends BaseEntity {
      * $column.comments
      */
 #if($column.columnName == $pk.columnName)
-    @TableId
+    @TableId(type = IdType.ASSIGN_ID)
 #end
     @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;

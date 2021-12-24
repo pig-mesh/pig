@@ -39,12 +39,12 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
 	 * 角色ID
 	 */
 	@ApiModelProperty(value = "角色id")
-	private Integer roleId;
+	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
 	@ApiModelProperty(value = "菜单id")
-	private Integer menuId;
+	private Long menuId;
 
 }

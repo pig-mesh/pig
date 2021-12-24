@@ -37,7 +37,7 @@ public interface RemoteDeptService {
 	 * @return 返回子级id列表
 	 */
 	@GetMapping("/dept/child-id/{deptId}")
-	R<List<Integer>> listChildDeptId(@PathVariable("deptId") Integer deptId,
+	R<List<Long>> listChildDeptId(@PathVariable("deptId") Long deptId,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

@@ -55,7 +55,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveRoleMenus(String role, Integer roleId, String menuIds) {
+	public Boolean saveRoleMenus(String role, Long roleId, String menuIds) {
 		this.remove(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleId, roleId));
 
 		if (StrUtil.isBlank(menuIds)) {
@@ -64,7 +64,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 		List<SysRoleMenu> roleMenuList = Arrays.stream(menuIds.split(StrUtil.COMMA)).map(menuId -> {
 			SysRoleMenu roleMenu = new SysRoleMenu();
 			roleMenu.setRoleId(roleId);
-			roleMenu.setMenuId(Integer.valueOf(menuId));
+			roleMenu.setMenuId(Long.valueOf(menuId));
 			return roleMenu;
 		}).collect(Collectors.toList());
 

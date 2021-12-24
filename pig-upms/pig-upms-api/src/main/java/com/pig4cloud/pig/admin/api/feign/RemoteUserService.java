@@ -61,7 +61,7 @@ public interface RemoteUserService {
 	 * @return 用户 id 集合
 	 */
 	@GetMapping("/user/ids")
-	R<List<Integer>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Integer> deptIds,
+	R<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

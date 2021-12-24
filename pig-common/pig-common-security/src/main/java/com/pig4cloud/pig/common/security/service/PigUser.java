@@ -32,13 +32,13 @@ public class PigUser extends User {
 	 * 用户ID
 	 */
 	@Getter
-	private final Integer id;
+	private final Long id;
 
 	/**
 	 * 部门ID
 	 */
 	@Getter
-	private final Integer deptId;
+	private final Long deptId;
 
 	/**
 	 * 手机号
@@ -46,7 +46,7 @@ public class PigUser extends User {
 	@Getter
 	private final String phone;
 
-	public PigUser(Integer id, Integer deptId, String username, String password, String phone, boolean enabled,
+	public PigUser(Long id, Long deptId, String username, String password, String phone, boolean enabled,
 			boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked,
 			Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);

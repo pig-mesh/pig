@@ -42,9 +42,9 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 主键ID
 	 */
-	@TableId(value = "user_id", type = IdType.AUTO)
+	@TableId(value = "user_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "主键id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名
@@ -87,7 +87,7 @@ public class SysUser extends BaseEntity {
 	 * 部门ID
 	 */
 	@ApiModelProperty(value = "用户所属部门id")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 0-正常，1-删除

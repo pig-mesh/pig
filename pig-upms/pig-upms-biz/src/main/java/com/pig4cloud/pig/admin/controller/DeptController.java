@@ -51,8 +51,8 @@ public class DeptController {
 	 * @param id ID
 	 * @return SysDept
 	 */
-	@GetMapping("/{id}")
-	public R getById(@PathVariable Integer id) {
+	@GetMapping("/{id:\\d+}")
+	public R getById(@PathVariable Long id) {
 		return R.ok(sysDeptService.getById(id));
 	}
 
@@ -94,7 +94,7 @@ public class DeptController {
 	@SysLog("删除部门")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
 
@@ -107,7 +107,6 @@ public class DeptController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
 	public R update(@Valid @RequestBody SysDept sysDept) {
-		sysDept.setUpdateTime(LocalDateTime.now());
 		return R.ok(sysDeptService.updateDeptById(sysDept));
 	}
 
@@ -129,7 +128,7 @@ public class DeptController {
 	 */
 	@Inner
 	@GetMapping(value = "/child-id/{deptId}")
-	public R<List<Integer>> listChildDeptId(@PathVariable Integer deptId) {
+	public R<List<Long>> listChildDeptId(@PathVariable Long deptId) {
 		return R.ok(sysDeptService.listChildDeptId(deptId));
 	}
 

@@ -108,8 +108,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysRole> roleList = sysRoleMapper.listRolesByUserId(sysUser.getUserId());
 		userInfo.setRoleList(roleList);
 		// 设置角色列表 （ID）
-		List<Integer> roleIds = roleList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
-		userInfo.setRoles(ArrayUtil.toArray(roleIds, Integer.class));
+		List<Long> roleIds = roleList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
+		userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = roleIds.stream().map(sysMenuService::findMenuByRoleId).flatMap(Collection::stream)
 				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType())).map(SysMenu::getPermission)
@@ -136,7 +136,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return 用户信息
 	 */
 	@Override
-	public UserVO getUserVoById(Integer id) {
+	public UserVO getUserVoById(Long id) {
 		return baseMapper.getUserVoById(id);
 	}
 
@@ -208,7 +208,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return null;
 		}
 
-		Integer parentId = sysDept.getParentId();
+		Long parentId = sysDept.getParentId();
 		return this.list(Wrappers.<SysUser>query().lambda().eq(SysUser::getDeptId, parentId));
 	}
 
@@ -295,10 +295,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	@Override
-	public List<Integer> listUserIdByDeptIds(Set<Integer> deptIds) {
+	public List<Long> listUserIdByDeptIds(Set<Long> deptIds) {
 		return this.listObjs(
 				Wrappers.lambdaQuery(SysUser.class).select(SysUser::getUserId).in(SysUser::getDeptId, deptIds),
-				Integer.class::cast);
+				Long.class::cast);
 	}
 
 	/**
@@ -313,7 +313,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 根据部门名称查询部门ID
 		userDTO.setDeptId(deptOptional.get().getDeptId());
 		// 根据角色名称查询角色ID
-		List<Integer> roleIdList = roleCollList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
+		List<Long> roleIdList = roleCollList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
 		userDTO.setRole(roleIdList);
 		// 插入用户
 		this.saveUser(userDTO);

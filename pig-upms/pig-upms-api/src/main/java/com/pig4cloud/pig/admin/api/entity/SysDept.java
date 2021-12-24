@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,15 +35,16 @@ import javax.validation.constraints.NotBlank;
  * @author lengleng
  * @since 2019/2/1
  */
+@ApiModel(value = "部门")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysDept extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "dept_id", type = IdType.AUTO)
+	@TableId(value = "dept_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "部门id")
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 部门名称
@@ -61,7 +63,7 @@ public class SysDept extends BaseEntity {
 	 * 父级部门id
 	 */
 	@ApiModelProperty(value = "父级部门id")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 是否删除 -1：已删除 0：正常

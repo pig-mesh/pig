@@ -40,7 +40,7 @@ public interface CommonConstants {
 	/**
 	 * 菜单树根节点
 	 */
-	Integer MENU_TREE_ROOT_ID = -1;
+	Long MENU_TREE_ROOT_ID = -1L;
 
 	/**
 	 * 菜单

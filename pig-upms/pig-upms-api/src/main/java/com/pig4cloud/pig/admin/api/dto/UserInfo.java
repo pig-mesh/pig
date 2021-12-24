@@ -46,7 +46,7 @@ public class UserInfo implements Serializable {
 	/**
 	 * 角色集合
 	 */
-	private Integer[] roles;
+	private Long[] roles;
 
 	/**
 	 * 角色集合

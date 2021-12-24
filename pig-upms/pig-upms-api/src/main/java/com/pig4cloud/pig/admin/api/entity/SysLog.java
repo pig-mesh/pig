@@ -47,7 +47,7 @@ public class SysLog extends BaseEntity {
 	/**
 	 * 编号
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	@ExcelProperty("日志编号")
 	@ApiModelProperty(value = "日志编号")
 	@JsonSerialize(using = ToStringSerializer.class)

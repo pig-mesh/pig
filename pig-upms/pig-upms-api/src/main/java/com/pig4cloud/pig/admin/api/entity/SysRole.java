@@ -40,9 +40,9 @@ public class SysRole extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	@TableId(value = "role_id", type = IdType.AUTO)
+	@TableId(value = "role_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "角色编号")
-	private Integer roleId;
+	private Long roleId;
 
 	@NotBlank(message = "角色名称 不能为空")
 	@ApiModelProperty(value = "角色名称")

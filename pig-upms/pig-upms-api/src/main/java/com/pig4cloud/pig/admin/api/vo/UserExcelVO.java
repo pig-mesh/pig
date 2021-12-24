@@ -24,7 +24,7 @@ public class UserExcelVO implements Serializable {
 	 * 主键ID
 	 */
 	@ExcelProperty("用户编号")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名

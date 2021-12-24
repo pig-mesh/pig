@@ -93,7 +93,7 @@ public class UserController {
 	 */
 	@Inner
 	@GetMapping("/ids")
-	public R<List<Integer>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Integer> deptIds) {
+	public R<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds) {
 		return R.ok(userService.listUserIdByDeptIds(deptIds));
 	}
 
@@ -103,7 +103,7 @@ public class UserController {
 	 * @return 用户信息
 	 */
 	@GetMapping("/{id}")
-	public R user(@PathVariable Integer id) {
+	public R user(@PathVariable Long id) {
 		return R.ok(userService.getUserVoById(id));
 	}
 
@@ -127,7 +127,7 @@ public class UserController {
 	@SysLog("删除用户信息")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public R userDel(@PathVariable Integer id) {
+	public R userDel(@PathVariable Long id) {
 		SysUser sysUser = userService.getById(id);
 		return R.ok(userService.removeUserById(sysUser));
 	}

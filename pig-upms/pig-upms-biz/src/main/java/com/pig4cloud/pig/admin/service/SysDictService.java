@@ -31,7 +31,7 @@ public interface SysDictService extends IService<SysDict> {
 	 * @param id
 	 * @return
 	 */
-	void removeDict(Integer id);
+	void removeDict(Long id);
 
 	/**
 	 * 更新字典

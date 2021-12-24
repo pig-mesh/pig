@@ -77,7 +77,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param id 用户ID
 	 * @return 用户信息
 	 */
-	UserVO getUserVoById(Integer id);
+	UserVO getUserVoById(Long id);
 
 	/**
 	 * 查询上级部门的用户信息
@@ -113,6 +113,6 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param deptIds 部门 id 列表
 	 * @return userIdList
 	 */
-	List<Integer> listUserIdByDeptIds(Set<Integer> deptIds);
+	List<Long> listUserIdByDeptIds(Set<Long> deptIds);
 
 }

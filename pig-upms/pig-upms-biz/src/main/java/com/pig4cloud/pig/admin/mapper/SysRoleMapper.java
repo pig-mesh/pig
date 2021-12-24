@@ -38,6 +38,6 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
 	 * @param userId
 	 * @return
 	 */
-	List<SysRole> listRolesByUserId(Integer userId);
+	List<SysRole> listRolesByUserId(Long userId);
 
 }

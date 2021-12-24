@@ -40,7 +40,7 @@ public interface SysDeptRelationService extends IService<SysDeptRelation> {
 	 * 通过ID删除部门关系
 	 * @param id
 	 */
-	void removeDeptRelationById(Integer id);
+	void removeDeptRelationById(Long id);
 
 	/**
 	 * 更新部门关系

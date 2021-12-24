@@ -31,7 +31,7 @@ public class RoleDTO extends SysRole {
 	/**
 	 * 角色部门Id
 	 */
-	private Integer roleDeptId;
+	private Long roleDeptId;
 
 	/**
 	 * 部门名称

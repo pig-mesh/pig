@@ -35,7 +35,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 主键ID
 	 */
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 用户名
@@ -85,7 +85,7 @@ public class UserVO implements Serializable {
 	/**
 	 * 部门ID
 	 */
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 部门名称

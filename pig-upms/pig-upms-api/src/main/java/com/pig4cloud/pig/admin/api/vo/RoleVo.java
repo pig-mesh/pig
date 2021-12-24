@@ -30,7 +30,7 @@ public class RoleVo {
 	/**
 	 * 角色id
 	 */
-	private Integer roleId;
+	private Long roleId;
 
 	/**
 	 * 菜单列表

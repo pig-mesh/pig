@@ -58,7 +58,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	 * @param id 用户ID
 	 * @return userVo
 	 */
-	UserVO getUserVoById(Integer id);
+	UserVO getUserVoById(Long id);
 
 	/**
 	 * 查询用户列表

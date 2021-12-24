@@ -17,7 +17,6 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysRoleMapper">
-
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysRole">
 		<id column="role_id" property="roleId"/>
@@ -27,13 +26,27 @@
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="create_by" property="createBy"/>
+		<result column="update_by" property="updateBy"/>
 	</resultMap>
 
 	<!-- 通过用户ID，查询角色信息-->
 	<select id="listRolesByUserId" resultMap="BaseResultMap">
-        SELECT
-            r.*
-        FROM
-        sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 0 and  ur.user_id IN (#{userId})
-    </select>
+		SELECT r.role_id,
+			   r.role_name,
+			   r.role_code,
+			   r.role_desc,
+			   r.del_flag,
+			   r.create_time,
+			   r.update_time,
+			   r.update_by,
+			   r.create_by
+		FROM sys_role r,
+			 sys_user_role ur
+		WHERE r.role_id = ur.role_id
+		  AND r.del_flag = 0
+		  and ur.user_id = #{userId}
+	</select>
 </mapper>

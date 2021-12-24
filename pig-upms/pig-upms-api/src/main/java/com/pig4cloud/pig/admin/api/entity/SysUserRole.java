@@ -39,12 +39,12 @@ public class SysUserRole extends Model<SysUserRole> {
 	 * 用户ID
 	 */
 	@ApiModelProperty(value = "用户id")
-	private Integer userId;
+	private Long userId;
 
 	/**
 	 * 角色ID
 	 */
 	@ApiModelProperty(value = "角色id")
-	private Integer roleId;
+	private Long roleId;
 
 }

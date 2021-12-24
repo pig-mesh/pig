@@ -49,7 +49,7 @@ public class MenuController {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping
-	public R getUserMenu(Integer parentId) {
+	public R getUserMenu(Long parentId) {
 		// 获取符合条件的菜单
 		Set<SysMenu> menuSet = SecurityUtils.getRoles().stream().map(sysMenuService::findMenuByRoleId)
 				.flatMap(Collection::stream).collect(Collectors.toSet());
@@ -63,7 +63,7 @@ public class MenuController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(boolean lazy, Integer parentId) {
+	public R getTree(boolean lazy, Long parentId) {
 		return R.ok(sysMenuService.treeMenu(lazy, parentId));
 	}
 
@@ -73,7 +73,7 @@ public class MenuController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/tree/{roleId}")
-	public R getRoleTree(@PathVariable Integer roleId) {
+	public R getRoleTree(@PathVariable Long roleId) {
 		return R.ok(
 				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
 	}
@@ -83,8 +83,8 @@ public class MenuController {
 	 * @param id 菜单ID
 	 * @return 菜单详细信息
 	 */
-	@GetMapping("/{id}")
-	public R getById(@PathVariable Integer id) {
+	@GetMapping("/{id:\\d+}")
+	public R getById(@PathVariable Long id) {
 		return R.ok(sysMenuService.getById(id));
 	}
 
@@ -107,9 +107,9 @@ public class MenuController {
 	 * @return success/false
 	 */
 	@SysLog("删除菜单")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysMenuService.removeMenuById(id));
 	}
 

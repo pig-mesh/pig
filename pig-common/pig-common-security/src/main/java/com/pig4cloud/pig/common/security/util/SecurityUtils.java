@@ -69,15 +69,15 @@ public class SecurityUtils {
 	 * 获取用户角色信息
 	 * @return 角色集合
 	 */
-	public List<Integer> getRoles() {
+	public List<Long> getRoles() {
 		Authentication authentication = getAuthentication();
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-		List<Integer> roleIds = new ArrayList<>();
+		List<Long> roleIds = new ArrayList<>();
 		authorities.stream().filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
 				.forEach(granted -> {
 					String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-					roleIds.add(Integer.parseInt(id));
+					roleIds.add(Long.parseLong(id));
 				});
 		return roleIds;
 	}

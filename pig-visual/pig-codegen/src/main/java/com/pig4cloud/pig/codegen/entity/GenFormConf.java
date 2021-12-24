@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.codegen.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
@@ -39,9 +40,9 @@ public class GenFormConf extends BaseEntity {
 	/**
 	 * ID
 	 */
-	@TableId
+	@TableId(type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "ID")
-	private Integer id;
+	private Long id;
 
 	/**
 	 * 表名称

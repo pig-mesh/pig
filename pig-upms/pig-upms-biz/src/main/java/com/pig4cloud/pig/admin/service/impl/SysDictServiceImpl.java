@@ -50,7 +50,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public void removeDict(Integer id) {
+	public void removeDict(Long id) {
 		SysDict dict = this.getById(id);
 		// 系统内置
 		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()), "系统内置字典项目不能删除");

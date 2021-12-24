@@ -44,9 +44,9 @@ public class SysMenu extends BaseEntity {
 	/**
 	 * 菜单ID
 	 */
-	@TableId(value = "menu_id", type = IdType.AUTO)
+	@TableId(value = "menu_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "菜单id")
-	private Integer menuId;
+	private Long menuId;
 
 	/**
 	 * 菜单名称
@@ -66,7 +66,7 @@ public class SysMenu extends BaseEntity {
 	 */
 	@NotNull(message = "菜单父ID不能为空")
 	@ApiModelProperty(value = "菜单父id")
-	private Integer parentId;
+	private Long parentId;
 
 	/**
 	 * 图标

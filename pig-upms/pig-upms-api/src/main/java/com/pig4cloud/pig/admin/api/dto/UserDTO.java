@@ -33,9 +33,9 @@ public class UserDTO extends SysUser {
 	/**
 	 * 角色ID
 	 */
-	private List<Integer> role;
+	private List<Long> role;
 
-	private Integer deptId;
+	private Long deptId;
 
 	/**
 	 * 新密码
