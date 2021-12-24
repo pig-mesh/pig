@@ -18,6 +18,7 @@
 		<spring-boot.version>2.6.2</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<security.oauth.version>2.1.8.RELEASE</security.oauth.version>
+		<log4j2.version>2.17.0</log4j2.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<git.commit.plugin>4.9.9</git.commit.plugin>
@@ -149,6 +150,19 @@
 						<groupId>org.springframework.boot</groupId>
 					</exclusion>
 				</exclusions>
+			</dependency>
+			<!--  指定 log4j 版本-->
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-to-slf4j</artifactId>
+				<version>${log4j2.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-bom</artifactId>
+				<version>${log4j2.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
