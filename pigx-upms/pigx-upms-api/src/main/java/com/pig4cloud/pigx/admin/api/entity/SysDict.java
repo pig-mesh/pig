@@ -49,7 +49,7 @@ public class SysDict extends Model<SysDict> {
 	 * 类型
 	 */
 	@ApiModelProperty(value = "字典类型")
-	private String type;
+	private String dictType;
 
 	/**
 	 * 描述
@@ -74,9 +74,8 @@ public class SysDict extends Model<SysDict> {
 	/**
 	 * 是否是系统内置
 	 */
-	@TableField(value = "`system`")
 	@ApiModelProperty(value = "是否系统内置")
-	private String system;
+	private String systemFlag;
 
 	/**
 	 * 备注信息

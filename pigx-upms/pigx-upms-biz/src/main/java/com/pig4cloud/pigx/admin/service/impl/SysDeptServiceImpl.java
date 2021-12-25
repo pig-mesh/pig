@@ -128,12 +128,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		// 权限内部门
 		List<TreeNode<Long>> collect = deptAllList.stream()
 				.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSort)).map(dept -> {
+				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
 					TreeNode<Long> treeNode = new TreeNode();
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
 					treeNode.setName(dept.getName());
-					treeNode.setWeight(dept.getSort());
+					treeNode.setWeight(dept.getSortOrder());
 					// 有权限不返回标识
 					Map<String, Object> extra = new HashMap<>(8);
 					extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));

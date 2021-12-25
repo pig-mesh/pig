@@ -88,14 +88,14 @@ public class SysMenu extends Model<SysMenu> {
 	 * 排序值
 	 */
 	@ApiModelProperty(value = "排序值")
-	private Integer sort;
+	private Integer sortOrder;
 
 	/**
 	 * 菜单类型 （0菜单 1按钮）
 	 */
 	@NotNull(message = "菜单类型不能为空")
 	@ApiModelProperty(value = "菜单类型,0:菜单 1:按钮")
-	private String type;
+	private String menuType;
 
 	/**
 	 * 路由缓冲
