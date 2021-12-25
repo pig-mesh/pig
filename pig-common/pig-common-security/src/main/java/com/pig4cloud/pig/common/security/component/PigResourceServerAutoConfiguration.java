@@ -35,7 +35,6 @@ public class PigResourceServerAutoConfiguration {
 		return new PermissionService();
 	}
 
-
 	@Bean
 	public PigBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
 		return new PigBearerTokenExtractor(urlProperties);

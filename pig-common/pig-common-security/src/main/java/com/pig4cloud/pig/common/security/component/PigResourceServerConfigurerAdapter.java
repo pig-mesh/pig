@@ -44,9 +44,6 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	protected RemoteTokenServices remoteTokenServices;
 
 	@Autowired
-	private AccessDeniedHandler pigAccessDeniedHandler;
-
-	@Autowired
 	private PermitAllUrlProperties permitAllUrl;
 
 	@Autowired
@@ -73,7 +70,7 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenExtractor(pigBearerTokenExtractor)
-				.accessDeniedHandler(pigAccessDeniedHandler).tokenServices(resourceServerTokenServices);
+				.tokenServices(resourceServerTokenServices);
 	}
 
 }
