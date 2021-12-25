@@ -35,10 +35,6 @@ public class PigResourceServerAutoConfiguration {
 		return new PermissionService();
 	}
 
-	@Bean
-	public PigAccessDeniedHandler pigAccessDeniedHandler(ObjectMapper objectMapper) {
-		return new PigAccessDeniedHandler(objectMapper);
-	}
 
 	@Bean
 	public PigBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
