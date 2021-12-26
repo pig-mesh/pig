@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
 
 	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
-			"alter", "drop", "sleep" };
+			"alter", "drop", "sleep", "extractvalue", "concat" };
 
 	/**
 	 * 判断Controller是否包含page 参数
