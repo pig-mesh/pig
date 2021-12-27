@@ -28,7 +28,7 @@
 		<mybatis-plus.version>3.4.3.4</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.0.0</excel.version>
-		<oss.version>1.0.1</oss.version>
+		<oss.version>1.0.3</oss.version>
 		<sms.version>2.0.2</sms.version>
 		<jaxb.version>2.3.5</jaxb.version>
 	</properties>

@@ -52,7 +52,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	private final OssProperties ossProperties;
 
-	private final OssTemplate minioTemplate;
+	private final OssTemplate ossTemplate;
 
 	/**
 	 * 上传文件
@@ -68,7 +68,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream());
+			ossTemplate.putObject(ossProperties.getBucketName(), fileName,file.getContentType(), file.getInputStream());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
 		}
@@ -87,7 +87,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {
+		try (S3Object s3Object = ossTemplate.getObject(bucket, fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
 		}
@@ -106,7 +106,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteFile(Long id) {
 		SysFile file = this.getById(id);
-		minioTemplate.removeObject(ossProperties.getBucketName(), file.getFileName());
+		ossTemplate.removeObject(ossProperties.getBucketName(), file.getFileName());
 		return this.removeById(id);
 	}
 
