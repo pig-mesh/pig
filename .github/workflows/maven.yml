@@ -32,18 +32,6 @@ jobs:
       - name: Start containers
         run: docker-compose build && docker-compose up -d
 
-      - name: success
-        if:  success() && github.repository == 'pig-mesh/pig'
-        uses: chf007/action-wechat-work@master
-        env:
-          WECHAT_WORK_BOT_WEBHOOK: ${{secrets.WECHAT_WORK_BOT_WEBHOOK}}
-        with:
-          msgtype: markdown
-          content: |
-            # 💯👨‍💻 Success 🎉🎉🎉 [pig-mesh/pig](https://github.com/pig-mesh/pig)
-            > Github Action: https://github.com/pig-mesh/pig success
-            > ^_^ from github action message
-
       - name:  failure
         if: failure() && github.repository == 'pig-mesh/pig'
         uses: chf007/action-wechat-work@master
