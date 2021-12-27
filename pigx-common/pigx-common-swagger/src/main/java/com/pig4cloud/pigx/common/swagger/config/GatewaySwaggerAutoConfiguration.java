@@ -76,7 +76,9 @@ public class GatewaySwaggerAutoConfiguration {
 		else {
 			// 关闭时，返回404
 			return RouterFunctions
-					.route(RequestPredicates.GET("/swagger-ui/**").and(RequestPredicates.accept(MediaType.ALL)),
+					.route(RequestPredicates.GET("/*/v2/api-docs").and(RequestPredicates.accept(MediaType.ALL)),
+							serverRequest -> ServerResponse.notFound().build())
+					.andRoute(RequestPredicates.GET("/swagger-ui/**").and(RequestPredicates.accept(MediaType.ALL)),
 							serverRequest -> ServerResponse.notFound().build())
 					.andRoute(RequestPredicates.GET("/doc.html").and(RequestPredicates.accept(MediaType.ALL)),
 							serverRequest -> ServerResponse.notFound().build());
