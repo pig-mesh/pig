@@ -79,7 +79,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 * 排序（升序）
 	 */
 	@ApiModelProperty(value = "排序值，默认升序")
-	private Integer sort;
+	private Integer sortOrder;
 
 	/**
 	 * 创建时间

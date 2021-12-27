@@ -61,7 +61,7 @@ public class SysDept extends Model<SysDept> {
 	 */
 	@NotNull(message = "排序值不能为空")
 	@ApiModelProperty(value = "排序值")
-	private Integer sort;
+	private Integer sortOrder;
 
 	/**
 	 * 创建时间

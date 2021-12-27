@@ -54,7 +54,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public R removeDict(Long id) {
 		SysDict dict = this.getById(id);
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystem())) {
+		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
 			return R.failed("系统内置字典不能删除");
 		}
 
@@ -73,7 +73,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public R updateDict(SysDict dict) {
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystem())) {
+		if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag())) {
 			return R.failed("系统内置字典不能修改");
 		}
 		return R.ok(this.updateById(dict));

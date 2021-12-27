@@ -11,20 +11,20 @@ import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.Char
 import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.ReportDashboardDto;
 import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.ReportDashboardObjectDto;
 import com.anjiplus.template.gaea.business.modules.dashboard.dao.ReportDashboardMapper;
+import com.anjiplus.template.gaea.business.modules.dashboard.dao.entity.ReportDashboard;
 import com.anjiplus.template.gaea.business.modules.dashboard.service.ChartStrategy;
 import com.anjiplus.template.gaea.business.modules.dashboard.service.ReportDashboardService;
-import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
-import com.anjiplus.template.gaea.business.modules.file.service.GaeaFileService;
-import com.anjiplus.template.gaea.business.modules.file.util.FileUtils;
-import com.anjiplus.template.gaea.business.util.DateUtil;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.controller.dto.ReportDashboardWidgetDto;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.controller.dto.ReportDashboardWidgetValueDto;
-import com.anjiplus.template.gaea.business.modules.dashboard.dao.entity.ReportDashboard;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.dao.entity.ReportDashboardWidget;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.service.ReportDashboardWidgetService;
 import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.DataSetDto;
 import com.anjiplus.template.gaea.business.modules.dataset.controller.dto.OriginalDataDto;
 import com.anjiplus.template.gaea.business.modules.dataset.service.DataSetService;
+import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
+import com.anjiplus.template.gaea.business.modules.file.service.GaeaFileService;
+import com.anjiplus.template.gaea.business.modules.file.util.FileUtils;
+import com.anjiplus.template.gaea.business.util.DateUtil;
 import com.anjiplus.template.gaea.business.util.FileUtil;
 import com.anjiplus.template.gaea.business.util.UuidUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -48,7 +48,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -84,7 +83,7 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 
 	private final static String JSON_PATH = "dashboard.json";
 
-	private Map<String, ChartStrategy> queryServiceImplMap = new HashMap<>();
+	private final Map<String, ChartStrategy> queryServiceImplMap = new HashMap<>();
 
 	private ApplicationContext applicationContext;
 
@@ -185,10 +184,7 @@ public class ReportDashboardServiceImpl implements ReportDashboardService, Initi
 
 			// 兼容底层，不采用批量插入
 			reportDashboardWidgetService.insert(reportDashboardWidget);
-
-			// reportDashboardWidgetList.add(reportDashboardWidget);
 		}
-		// reportDashboardWidgetService.insertBatch(reportDashboardWidgetList);
 
 	}
 

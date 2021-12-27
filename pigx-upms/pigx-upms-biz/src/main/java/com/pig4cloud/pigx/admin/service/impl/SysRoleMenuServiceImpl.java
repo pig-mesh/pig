@@ -74,8 +74,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
 		// 清空userinfo
 		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();
-
-		baseMapper.insertBatchSomeColumn(roleMenuList);
+		roleMenuList.forEach(ele -> baseMapper.insert(ele));
 		return Boolean.TRUE;
 	}
 

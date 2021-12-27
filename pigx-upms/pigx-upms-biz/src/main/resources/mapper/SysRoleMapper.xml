@@ -20,7 +20,6 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pigx.admin.mapper.SysRoleMapper">
-
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.pig4cloud.pigx.admin.api.entity.SysRole">
 		<id column="role_id" property="roleId"/>
@@ -36,9 +35,19 @@
 
 	<!-- 通过用户ID，查询角色信息-->
 	<select id="listRolesByUserId" resultMap="BaseResultMap">
-        SELECT
-            r.*
-        FROM
-        sys_role r, sys_user_role ur WHERE r.role_id = ur.role_id AND r.del_flag = 0 and  ur.user_id IN (#{userId})
-    </select>
+		SELECT sys_role.role_id,
+			   sys_role.role_name,
+			   sys_role.role_code,
+			   sys_role.role_desc,
+			   sys_role.ds_type,
+			   sys_role.ds_scope,
+			   sys_role.create_time,
+			   sys_role.update_time,
+			   sys_role.del_flag
+		FROM sys_role,
+			 sys_user_role
+		WHERE sys_role.role_id = sys_user_role.role_id
+		  AND sys_role.del_flag = 0
+		  and sys_user_role.user_id = #{userId}
+	</select>
 </mapper>

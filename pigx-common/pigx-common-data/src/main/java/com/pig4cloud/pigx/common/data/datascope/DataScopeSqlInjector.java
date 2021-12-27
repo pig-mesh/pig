@@ -2,7 +2,6 @@ package com.pig4cloud.pigx.common.data.datascope;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
-import com.baomidou.mybatisplus.extension.injector.methods.InsertBatchSomeColumn;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class DataScopeSqlInjector extends DefaultSqlInjector {
 		methodList.add(new SelectListByScope());
 		methodList.add(new SelectPageByScope());
 		methodList.add(new SelectCountByScope());
-		methodList.add(new InsertBatchSomeColumn());
 		return methodList;
 	}
 

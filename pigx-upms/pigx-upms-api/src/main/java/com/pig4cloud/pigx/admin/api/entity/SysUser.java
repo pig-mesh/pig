@@ -45,7 +45,7 @@ public class SysUser implements Serializable {
 	/**
 	 * 主键ID
 	 */
-	@TableId(value = "user_id", type = IdType.AUTO)
+	@TableId(value = "user_id", type = IdType.ASSIGN_ID)
 	@ApiModelProperty(value = "主键id")
 	private Long userId;
 

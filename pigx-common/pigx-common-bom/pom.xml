@@ -34,7 +34,7 @@
 		<xxl.job.version>2.3.0</xxl.job.version>
 		<aliyun.version>3.0.52.ALL</aliyun.version>
 		<aws.version>1.11.543</aws.version>
-		<log4j.version>2.17.0</log4j.version>
+		<log4j2.version>2.17.0</log4j2.version>
 		<javaformat.plugin.version>0.0.23</javaformat.plugin.version>
 		<docker.plugin.version>0.33.0</docker.plugin.version>
 		<cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -237,13 +237,15 @@
 			<!--  指定 log4j 版本-->
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-api</artifactId>
-				<version>${log4j.version}</version>
+				<artifactId>log4j-to-slf4j</artifactId>
+				<version>${log4j2.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.logging.log4j</groupId>
-				<artifactId>log4j-core</artifactId>
-				<version>${log4j.version}</version>
+				<artifactId>log4j-bom</artifactId>
+				<version>${log4j2.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
