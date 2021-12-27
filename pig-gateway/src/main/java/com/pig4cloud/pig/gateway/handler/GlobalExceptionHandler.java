@@ -61,6 +61,7 @@ public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 		return response.writeWith(Mono.fromSupplier(() -> {
 			DataBufferFactory bufferFactory = response.bufferFactory();
 			try {
+				log.warn("Error Spring Cloud Gateway : {}", ex.getMessage());
 				return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
 			}
 			catch (JsonProcessingException e) {
