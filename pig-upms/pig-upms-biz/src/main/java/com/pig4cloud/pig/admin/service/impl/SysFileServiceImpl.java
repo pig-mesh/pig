@@ -68,7 +68,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try {
-			ossTemplate.putObject(ossProperties.getBucketName(), fileName,file.getContentType(), file.getInputStream());
+			ossTemplate.putObject(ossProperties.getBucketName(), fileName, file.getContentType(),
+					file.getInputStream());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
 		}

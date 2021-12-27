@@ -77,9 +77,11 @@ public class GatewaySwaggerAutoConfiguration {
 		}
 		else {
 			// 关闭时，返回404
-			return RouterFunctions.route(
-					RequestPredicates.GET("/swagger-ui/**").and(RequestPredicates.accept(MediaType.ALL)),
-					serverRequest -> ServerResponse.notFound().build());
+			return RouterFunctions
+					.route(RequestPredicates.GET("/swagger-ui/**").and(RequestPredicates.accept(MediaType.ALL)),
+							serverRequest -> ServerResponse.notFound().build())
+					.andRoute(RequestPredicates.GET("/*/v2/api-docs").and(RequestPredicates.accept(MediaType.ALL)),
+							serverRequest -> ServerResponse.notFound().build());
 		}
 	}
 
