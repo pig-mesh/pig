@@ -3,7 +3,7 @@
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
 
-version: '2'
+version: '3'
 services:
   pigx-mysql:
     build:
@@ -29,7 +29,7 @@ services:
 
   pigx-minio:
     container_name: pigx-minio
-    image: minio/minio:RELEASE.2021-08-25T00-41-18Z.fips
+    image: minio/minio:RELEASE.2021-12-27T07-23-18Z.fips
     command: server /data --console-address ":9001"
     ports:
       - 9000:9000
@@ -39,8 +39,8 @@ services:
       - ./config:/root/.minio
     environment:
       - MINIO_DOMAIN=pigx-minio
-      - MINIO_ACCESS_KEY=lengleng
-      - MINIO_SECRET_KEY=lengleng
+      - MINIO_ROOT_USER=lengleng
+      - MINIO_ROOT_PASSWORD=lengleng
 
   pigx-register:
     build:
