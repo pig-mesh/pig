@@ -17,28 +17,32 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysDeptMapper">
-
 	<!-- 通用查询映射结果 -->
 	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysDept">
 		<id column="dept_id" property="deptId"/>
 		<result column="name" property="name"/>
+		<result column="sort_order" property="sortOrder"/>
+		<result column="parent_id" property="parentId"/>
 		<result column="create_time" property="createTime"/>
+		<result column="create_by" property="createBy"/>
 		<result column="update_time" property="updateTime"/>
+		<result column="update_by" property="updateBy"/>
 		<result column="del_flag" property="delFlag"/>
 	</resultMap>
 
-	<!-- 通用查询结果列 -->
-	<sql id="Base_Column_List">
-        dept_id AS deptId, parent_id AS parentId, name, sort, create_time AS createTime, update_time AS updateTime, del_flag AS delFlag
-    </sql>
-
 	<!--关联查询部门列表-->
-	<select id="listDepts" resultType="com.pig4cloud.pig.admin.api.entity.SysDept">
-		SELECT
-			t.*
-		FROM
-			sys_dept t
-		LEFT JOIN sys_dept_relation dr ON t.dept_id = dr.descendant
+	<select id="listDepts" resultMap="BaseResultMap">
+		SELECT t.dept_id,
+			   t.name,
+			   t.sort_order,
+			   t.del_flag,
+			   t.parent_id,
+			   t.create_time,
+			   t.create_by,
+			   t.update_time,
+			   t.update_by
+		FROM sys_dept t
+					 LEFT JOIN sys_dept_relation dr ON t.dept_id = dr.descendant
 		WHERE dr.ancestor = 0
 	</select>
 </mapper>

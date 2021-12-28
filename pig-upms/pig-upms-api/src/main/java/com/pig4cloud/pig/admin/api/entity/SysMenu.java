@@ -84,7 +84,7 @@ public class SysMenu extends BaseEntity {
 	 * 排序值
 	 */
 	@ApiModelProperty(value = "排序值")
-	private Integer sort;
+	private Integer sortOrder;
 
 	/**
 	 * 菜单类型 （0菜单 1按钮）

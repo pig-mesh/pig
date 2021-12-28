@@ -50,7 +50,7 @@ public class RoleController {
 	 * @param id ID
 	 * @return 角色信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/{id:\\d+}")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysRoleService.getById(id));
 	}
@@ -85,7 +85,7 @@ public class RoleController {
 	 * @return
 	 */
 	@SysLog("删除角色")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysRoleService.removeRoleById(id));

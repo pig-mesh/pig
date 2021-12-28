@@ -146,12 +146,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 */
 	private List<Tree<Long>> getDeptTree(List<SysDept> depts) {
 		List<TreeNode<Long>> collect = depts.stream().filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSort)).map(dept -> {
+				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
 					TreeNode<Long> treeNode = new TreeNode();
 					treeNode.setId(dept.getDeptId());
 					treeNode.setParentId(dept.getParentId());
 					treeNode.setName(dept.getName());
-					treeNode.setWeight(dept.getSort());
+					treeNode.setWeight(dept.getSortOrder());
 					// 扩展属性
 					Map<String, Object> extra = new HashMap<>(4);
 					extra.put("createTime", dept.getCreateTime());

@@ -78,13 +78,13 @@ public class SysDictItem extends BaseEntity {
 	 * 排序（升序）
 	 */
 	@ApiModelProperty(value = "排序值，默认升序")
-	private Integer sort;
+	private Integer sortOrder;
 
 	/**
 	 * 备注信息
 	 */
 	@ApiModelProperty(value = "备注信息")
-	private String remarks;
+	private String remark;
 
 	/**
 	 * 删除标记

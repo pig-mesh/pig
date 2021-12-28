@@ -58,7 +58,7 @@ public class DictController {
 	 * @param id ID
 	 * @return 字典信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/{id:\\d+}")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysDictService.getById(id));
 	}
@@ -102,7 +102,7 @@ public class DictController {
 	 * @return R
 	 */
 	@SysLog("删除字典")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
 	public R removeById(@PathVariable Long id) {
 		sysDictService.removeDict(id);
@@ -138,7 +138,7 @@ public class DictController {
 	 * @param id id
 	 * @return R
 	 */
-	@GetMapping("/item/{id}")
+	@GetMapping("/item/{id:\\d+}")
 	public R getDictItemById(@PathVariable("id") Long id) {
 		return R.ok(sysDictItemService.getById(id));
 	}
@@ -173,7 +173,7 @@ public class DictController {
 	 * @return R
 	 */
 	@SysLog("删除字典项")
-	@DeleteMapping("/item/{id}")
+	@DeleteMapping("/item/{id:\\d+}")
 	public R removeDictItemById(@PathVariable Long id) {
 		sysDictItemService.removeDictItem(id);
 		return R.ok();

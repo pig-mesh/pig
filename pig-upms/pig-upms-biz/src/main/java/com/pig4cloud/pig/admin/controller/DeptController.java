@@ -92,7 +92,7 @@ public class DeptController {
 	 * @return success/false
 	 */
 	@SysLog("删除部门")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
@@ -127,7 +127,7 @@ public class DeptController {
 	 * @return 返回子级id列表
 	 */
 	@Inner
-	@GetMapping(value = "/child-id/{deptId}")
+	@GetMapping(value = "/child-id/{deptId:\\d+}")
 	public R<List<Long>> listChildDeptId(@PathVariable Long deptId) {
 		return R.ok(sysDeptService.listChildDeptId(deptId));
 	}

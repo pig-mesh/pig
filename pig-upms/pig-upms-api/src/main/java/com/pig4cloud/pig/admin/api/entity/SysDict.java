@@ -60,15 +60,14 @@ public class SysDict extends BaseEntity {
 	/**
 	 * 是否是系统内置
 	 */
-	@TableField(value = "`system`")
 	@ApiModelProperty(value = "是否系统内置")
-	private String system;
+	private String systemFlag;
 
 	/**
 	 * 备注信息
 	 */
 	@ApiModelProperty(value = "备注信息")
-	private String remarks;
+	private String remark;
 
 	/**
 	 * 删除标记

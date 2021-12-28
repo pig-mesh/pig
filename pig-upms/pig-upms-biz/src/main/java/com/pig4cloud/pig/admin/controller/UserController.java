@@ -102,7 +102,7 @@ public class UserController {
 	 * @param id ID
 	 * @return 用户信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/{id:\\d+}")
 	public R user(@PathVariable Long id) {
 		return R.ok(userService.getUserVoById(id));
 	}
@@ -125,7 +125,7 @@ public class UserController {
 	 * @return R
 	 */
 	@SysLog("删除用户信息")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	public R userDel(@PathVariable Long id) {
 		SysUser sysUser = userService.getById(id);

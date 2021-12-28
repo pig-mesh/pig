@@ -101,7 +101,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	public List<Tree<Long>> treeMenu(boolean lazy, Long parentId) {
 		if (!lazy) {
 			List<TreeNode<Long>> collect = baseMapper
-					.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSort)).stream()
+					.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSortOrder)).stream()
 					.map(getNodeFunction()).collect(Collectors.toList());
 
 			return TreeUtil.build(collect, CommonConstants.MENU_TREE_ROOT_ID);
@@ -110,8 +110,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
 		List<TreeNode<Long>> collect = baseMapper
-				.selectList(
-						Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent).orderByAsc(SysMenu::getSort))
+				.selectList(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent)
+						.orderByAsc(SysMenu::getSortOrder))
 				.stream().map(getNodeFunction()).collect(Collectors.toList());
 
 		return TreeUtil.build(collect, parent);
@@ -139,7 +139,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			node.setId(menu.getMenuId());
 			node.setName(menu.getName());
 			node.setParentId(menu.getParentId());
-			node.setWeight(menu.getSort());
+			node.setWeight(menu.getSortOrder());
 			// 扩展属性
 			Map<String, Object> extra = new HashMap<>();
 			extra.put("icon", menu.getIcon());
@@ -147,7 +147,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			extra.put("type", menu.getType());
 			extra.put("permission", menu.getPermission());
 			extra.put("label", menu.getName());
-			extra.put("sort", menu.getSort());
+			extra.put("sortOrder", menu.getSortOrder());
 			extra.put("keepAlive", menu.getKeepAlive());
 			node.setExtra(extra);
 			return node;

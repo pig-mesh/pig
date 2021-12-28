@@ -69,7 +69,7 @@ public class FileController {
 	 */
 	@ApiOperation(value = "通过id删除文件管理", notes = "通过id删除文件管理")
 	@SysLog("删除文件管理")
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysFileService.deleteFile(id));

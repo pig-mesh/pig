@@ -26,6 +26,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -50,14 +51,15 @@ public class SysDept extends BaseEntity {
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
-	@ApiModelProperty(value = "部门名称")
+	@ApiModelProperty(value = "部门名称", required = true)
 	private String name;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty(value = "排序值")
-	private Integer sort;
+	@NotNull(message = "部门排序值不能为空")
+	@ApiModelProperty(value = "排序值", required = true)
+	private Integer sortOrder;
 
 	/**
 	 * 父级部门id

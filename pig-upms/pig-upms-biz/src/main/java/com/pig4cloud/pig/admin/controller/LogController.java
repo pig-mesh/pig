@@ -62,7 +62,7 @@ public class LogController {
 	 * @param id ID
 	 * @return success/false
 	 */
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_log_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysLogService.removeById(id));

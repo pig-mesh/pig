@@ -53,7 +53,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public void removeDict(Long id) {
 		SysDict dict = this.getById(id);
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystem()), "系统内置字典项目不能删除");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()), "系统内置字典项目不能删除");
 		baseMapper.deleteById(id);
 		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictId, id));
 	}
@@ -67,7 +67,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	public void updateDict(SysDict dict) {
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystem()), "系统内置字典项目不能修改");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag()), "系统内置字典项目不能修改");
 		this.updateById(dict);
 	}
 
