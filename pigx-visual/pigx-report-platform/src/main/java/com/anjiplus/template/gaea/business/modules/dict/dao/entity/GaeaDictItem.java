@@ -60,7 +60,7 @@ public class GaeaDictItem extends GaeaBaseEntity implements Serializable {
 	/**
 	 * 排序
 	 */
-	private Integer sortOrder;
+	private Integer sort;
 
 	public String getDictCode() {
 		return dictCode;
@@ -102,12 +102,12 @@ public class GaeaDictItem extends GaeaBaseEntity implements Serializable {
 		this.remark = remark;
 	}
 
-	public Integer getSortOrder() {
-		return sortOrder;
+	public Integer getSort() {
+		return sort;
 	}
 
-	public void setSortOrder(Integer sortOrder) {
-		this.sortOrder = sortOrder;
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
 
 	public Integer getEnabled() {

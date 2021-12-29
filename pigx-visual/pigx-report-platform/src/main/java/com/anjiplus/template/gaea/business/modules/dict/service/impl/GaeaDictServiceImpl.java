@@ -86,7 +86,7 @@ public class GaeaDictServiceImpl implements GaeaDictService {
 		if (CollectionUtils.isEmpty(dictMap)) {
 			LambdaQueryWrapper<GaeaDictItem> wrapper = Wrappers.lambdaQuery();
 			wrapper.eq(GaeaDictItem::getDictCode, dictCode).eq(GaeaDictItem::getEnabled, Enabled.YES.getValue())
-					.eq(GaeaDictItem::getLocale, language).orderByAsc(GaeaDictItem::getSortOrder);
+					.eq(GaeaDictItem::getLocale, language).orderByAsc(GaeaDictItem::getSort);
 
 			List<GaeaDictItem> list = gaeaDictItemMapper.selectList(wrapper);
 
@@ -154,7 +154,7 @@ public class GaeaDictServiceImpl implements GaeaDictService {
 	public Map<String, List<KeyValue>> all(String language) {
 		LambdaQueryWrapper<GaeaDictItem> wrapper = Wrappers.lambdaQuery();
 		wrapper.eq(GaeaDictItem::getEnabled, Enabled.YES.getValue()).eq(GaeaDictItem::getLocale, language)
-				.orderByAsc(GaeaDictItem::getSortOrder);
+				.orderByAsc(GaeaDictItem::getSort);
 
 		List<GaeaDictItem> list = gaeaDictItemMapper.selectList(wrapper);
 		Map<String, List<KeyValue>> all = list.stream()
