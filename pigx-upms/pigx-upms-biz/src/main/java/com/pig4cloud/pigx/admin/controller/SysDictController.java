@@ -84,7 +84,7 @@ public class SysDictController {
 	@GetMapping("/type/{type}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#type", unless = "#result.data.isEmpty()")
 	public R getDictByType(@PathVariable String type) {
-		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getType, type)));
+		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getDictType, type)));
 	}
 
 	/**

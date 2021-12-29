@@ -172,7 +172,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 处理字典项最新关联的字典ID
 			List<SysDictItem> itemList = dictList.stream().flatMap(dict -> dictItemList.stream()
-					.filter(item -> item.getType().equals(dict.getDictType())).peek(item -> {
+					.filter(item -> item.getDictType().equals(dict.getDictType())).peek(item -> {
 						item.setDictId(dict.getId());
 						item.setId(null);
 					})).collect(Collectors.toList());

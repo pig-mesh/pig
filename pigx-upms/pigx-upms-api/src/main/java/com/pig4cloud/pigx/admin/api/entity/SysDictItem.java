@@ -67,7 +67,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 * 类型
 	 */
 	@ApiModelProperty(value = "类型")
-	private String type;
+	private String dictType;
 
 	/**
 	 * 描述
