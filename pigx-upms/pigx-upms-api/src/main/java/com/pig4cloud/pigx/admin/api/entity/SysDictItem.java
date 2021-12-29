@@ -55,7 +55,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 * 数据值
 	 */
 	@ApiModelProperty(value = "数据值")
-	private String value;
+	private String itemValue;
 
 	/**
 	 * 标签名
