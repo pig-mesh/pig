@@ -1,14 +1,11 @@
 package com.pig4cloud.pigx.test;
 
-import java.nio.charset.StandardCharsets;
-
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.test.annotation.WithMockOAuth2User;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,6 +20,8 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author lengleng
@@ -80,9 +79,16 @@ public class WithMockSecurityContextFactory implements WithSecurityContextFactor
 		RestTemplate restTemplate = SpringContextHolder.getBean(RestTemplate.class);
 
 		// 优先获取配置文件URI 配置
-		String url = StrUtil.isBlank(clientProperties.getAccessTokenUri()) ? TOKEN_URL
-				: clientProperties.getAccessTokenUri();
-		String result = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class).getBody();
+		String result;
+		if (StrUtil.isBlank(clientProperties.getAccessTokenUri())) {
+			result = restTemplate.exchange(TOKEN_URL, HttpMethod.POST, requestEntity, String.class).getBody();
+		}
+		else {
+			result = new RestTemplate()
+					.exchange(clientProperties.getAccessTokenUri(), HttpMethod.POST, requestEntity, String.class)
+					.getBody();
+		}
+
 		return JSONUtil.parseObj(result).getStr("access_token");
 	}
 
