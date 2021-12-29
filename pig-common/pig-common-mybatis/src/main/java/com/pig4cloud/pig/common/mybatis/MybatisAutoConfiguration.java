@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.mybatis;
 
-import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.pig4cloud.pig.common.mybatis.config.MybatisPlusMetaObjectHandler;
@@ -53,7 +52,7 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
 	@Bean
 	public MybatisPlusInterceptor mybatisPlusInterceptor() {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		interceptor.addInnerInterceptor(new PigPaginationInnerInterceptor(DbType.MYSQL));
+		interceptor.addInnerInterceptor(new PigPaginationInnerInterceptor());
 		return interceptor;
 	}
 
