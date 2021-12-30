@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pig4cloud</groupId>
+		<artifactId>pigx-common</artifactId>
+		<version>4.2.0</version>
+	</parent>
+
+	<artifactId>pigx-common-idempotent</artifactId>
+	<packaging>jar</packaging>
+
+	<description>pigx 幂等插件</description>
+
+	<properties>
+		<redisson.version>3.16.7</redisson.version>
+	</properties>
+
+	<dependencies>
+		<!--aop-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--redisson-->
+		<dependency>
+			<groupId>org.redisson</groupId>
+			<artifactId>redisson-spring-boot-starter</artifactId>
+			<version>${redisson.version}</version>
+		</dependency>
+
+		<!--servlet 依赖-->
+		<dependency>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
+		</dependency>
+	</dependencies>
+</project>
