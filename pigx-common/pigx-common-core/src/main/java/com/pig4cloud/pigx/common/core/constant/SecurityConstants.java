@@ -178,32 +178,12 @@ public interface SecurityConstants {
 	/**
 	 * 用户ID字段
 	 */
-	String DETAILS_USER_ID = "id";
+	String DETAILS_USER_ID = "user_id";
 
 	/**
 	 * 用户名
 	 */
 	String DETAILS_USERNAME = "username";
-
-	/**
-	 * 用户基本信息
-	 */
-	String DETAILS_USER = "user_info";
-
-	/**
-	 * 用户名phone
-	 */
-	String DETAILS_PHONE = "phone";
-
-	/**
-	 * 头像
-	 */
-	String DETAILS_AVATAR = "avatar";
-
-	/**
-	 * 昵称
-	 */
-	String NICKNAME = "nickname";
 
 	/**
 	 * 姓名

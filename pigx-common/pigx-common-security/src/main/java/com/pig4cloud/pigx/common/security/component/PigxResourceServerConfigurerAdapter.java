@@ -25,9 +25,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.authentication.TokenExtractor;
-import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.web.client.RestTemplate;
 
@@ -73,12 +71,7 @@ public class PigxResourceServerConfigurerAdapter extends ResourceServerConfigure
 
 	@Override
 	public void configure(ResourceServerSecurityConfigurer resources) {
-		DefaultAccessTokenConverter accessTokenConverter = new DefaultAccessTokenConverter();
-		UserAuthenticationConverter userTokenConverter = new PigxUserAuthenticationConverter();
-		accessTokenConverter.setUserTokenConverter(userTokenConverter);
-
 		remoteTokenServices.setRestTemplate(lbRestTemplate);
-		remoteTokenServices.setAccessTokenConverter(accessTokenConverter);
 		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenExtractor(tokenExtractor)
 				.tokenServices(remoteTokenServices);
 	}
