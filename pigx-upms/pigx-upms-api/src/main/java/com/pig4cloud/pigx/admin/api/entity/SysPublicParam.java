@@ -24,8 +24,6 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Date;
-
 /**
  * 公共参数配置
  *
@@ -85,25 +83,10 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	private String validateCode;
 
 	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间", example = "2019-03-21 12:28:48")
-	private Date createTime;
-
-	/**
-	 * 修改时间
-	 */
-	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改时间", example = "2019-03-21 12:28:48")
-	private Date updateTime;
-
-	/**
 	 * 是否是系统内置
 	 */
-	@TableField(value = "`system`")
 	@ApiModelProperty(value = "是否是系统内置")
-	private String system;
+	private String systemFlag;
 
 	/**
 	 * 配置类型：0-默认；1-检索；2-原文；3-报表；4-安全；5-文档；6-消息；9-其他
