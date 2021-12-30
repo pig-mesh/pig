@@ -41,6 +41,7 @@
 		<module>pigx-common-feign</module>
 		<module>pigx-common-gateway</module>
 		<module>pigx-common-gray</module>
+		<module>pigx-common-idempotent</module>
 		<module>pigx-common-job</module>
 		<module>pigx-common-log</module>
 		<module>pigx-common-oss</module>
