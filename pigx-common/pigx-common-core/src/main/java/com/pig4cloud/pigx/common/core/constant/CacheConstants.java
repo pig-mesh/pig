@@ -66,6 +66,11 @@ public interface CacheConstants {
 	String ROUTE_REDIS_RELOAD_TOPIC = "upms_redis_route_reload_topic";
 
 	/**
+	 * redis 重新加载客户端信息
+	 */
+	String CLIENT_REDIS_RELOAD_TOPIC = "upms_redis_client_reload_topic";
+
+	/**
 	 * 公众号 reload
 	 */
 	String MP_REDIS_RELOAD_TOPIC = "mp_redis_reload_topic";

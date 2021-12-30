@@ -33,6 +33,10 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-idempotent</artifactId>
+		</dependency>
 		<!-- 数据库驱动 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
