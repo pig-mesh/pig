@@ -5,17 +5,17 @@ USE `pig`;
 
 -- 修正老数据
 
-update `sys_dept` set create_by='' where  create_by is null ;
+update `sys_dept` set create_by=' ' where  create_by is null ;
 
-update `sys_dept` set update_by='' where  update_by is null ;
+update `sys_dept` set update_by=' ' where  update_by is null ;
 
 update `sys_dept` set create_time=NOW() where  create_time is null ;
 
 update `sys_dept` set update_time=NOW() where  update_time is null ;
 
-update `sys_dict` set create_by='' where  create_by is null ;
+update `sys_dict` set create_by=' ' where  create_by is null ;
 
-update `sys_dict` set update_by='' where  update_by is null ;
+update `sys_dict` set update_by=' ' where  update_by is null ;
 
 update `sys_dict` set create_time=NOW() where  create_time is null ;
 
@@ -27,15 +27,17 @@ UPDATE `sys_dict` SET `type` = 'log_type', `description` = '日志类型', `rema
 
 UPDATE `sys_dict` SET `type` = 'ds_type', `description` = '驱动类型', `remarks` = '', `system` = '1', `del_flag` = '0', `create_time` = '2021-10-15 16:24:35', `create_by` = '', `update_by` = 'admin', `update_time` = '2021-12-29 12:30:18' WHERE `id` = 3;
 
-update `sys_menu` set create_by='' where  create_by is null ;
+update `sys_menu` set create_by=' ' where  create_by is null ;
 
-update `sys_menu` set update_by='' where  update_by is null ;
+update `sys_menu` set update_by=' ' where  update_by is null ;
 
 update `sys_menu` set create_time=NOW() where  create_time is null ;
 
 update `sys_menu` set update_time=NOW() where  update_time is null ;
 
 -- 变更表结构
+
+alter table sys_dept modify dept_id BIGINT;
 
 ALTER TABLE `sys_dept` ADD COLUMN `sort_order` int NOT NULL DEFAULT 0 COMMENT '排序' AFTER `name`;
 
@@ -47,21 +49,27 @@ ALTER TABLE `sys_dept` MODIFY COLUMN `parent_id` bigint NOT NULL COMMENT '父节
 
 ALTER TABLE `sys_dept` MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间' AFTER `parent_id`;
 
-ALTER TABLE `sys_dept` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人' AFTER `create_time`;
+ALTER TABLE `sys_dept` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人' AFTER `create_time`;
 
 ALTER TABLE `sys_dept` MODIFY COLUMN `update_time` datetime NOT NULL COMMENT '修改时间' AFTER `create_by`;
 
-ALTER TABLE `sys_dept` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '更新人' AFTER `update_time`;
+ALTER TABLE `sys_dept` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '更新人' AFTER `update_time`;
 
 ALTER TABLE `sys_dept` DROP COLUMN `sort`;
 
-ALTER TABLE `sys_dict` ADD COLUMN `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注' AFTER `description`;
+alter table `sys_dept_relation` modify ancestor BIGINT;
+
+alter table `sys_dept_relation` modify descendant BIGINT;
+
+alter table `sys_dict` modify id BIGINT;
+
+ALTER TABLE `sys_dict` ADD COLUMN `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '备注' AFTER `description`;
 
 ALTER TABLE `sys_dict` ADD COLUMN `system_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否是系统内置' AFTER `remark`;
 
 ALTER TABLE `sys_dict` MODIFY COLUMN `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型' AFTER `id`;
 
-ALTER TABLE `sys_dict` MODIFY COLUMN `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '描述' AFTER `type`;
+ALTER TABLE `sys_dict` MODIFY COLUMN `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '描述' AFTER `type`;
 
 ALTER TABLE `sys_dict` MODIFY COLUMN `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记' AFTER `system_flag`;
 
@@ -77,21 +85,25 @@ ALTER TABLE `sys_dict` DROP COLUMN `remarks`;
 
 ALTER TABLE `sys_dict` DROP COLUMN `system`;
 
+alter table `sys_dict_item` modify id BIGINT;
+
 ALTER TABLE `sys_dict_item` ADD COLUMN `sort_order` int NOT NULL DEFAULT 0 COMMENT '排序（升序）' AFTER `description`;
 
-ALTER TABLE `sys_dict_item` ADD COLUMN `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注' AFTER `sort_order`;
+ALTER TABLE `sys_dict_item` ADD COLUMN `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '备注' AFTER `sort_order`;
 
 ALTER TABLE `sys_dict_item` MODIFY COLUMN `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '值' AFTER `dict_id`;
 
-ALTER TABLE `sys_dict_item` MODIFY COLUMN `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '标签' AFTER `value`;
+ALTER TABLE `sys_dict_item` MODIFY COLUMN `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '标签' AFTER `value`;
 
 ALTER TABLE `sys_dict_item` MODIFY COLUMN `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字典类型' AFTER `label`;
 
-ALTER TABLE `sys_dict_item` MODIFY COLUMN `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '描述' AFTER `type`;
+ALTER TABLE `sys_dict_item` MODIFY COLUMN `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '描述' AFTER `type`;
 
 ALTER TABLE `sys_dict_item` DROP COLUMN `sort`;
 
 ALTER TABLE `sys_dict_item` DROP COLUMN `remarks`;
+
+alter table `sys_file` modify id BIGINT;
 
 ALTER TABLE `sys_file` MODIFY COLUMN `file_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL AFTER `id`;
 
@@ -113,19 +125,21 @@ ALTER TABLE `sys_file` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8m
 
 ALTER TABLE `sys_file` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新人' AFTER `create_by`;
 
+alter table `sys_log` modify id BIGINT;
+
 ALTER TABLE `sys_log` MODIFY COLUMN `type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '日志类型' AFTER `id`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '日志标题' AFTER `type`;
+ALTER TABLE `sys_log` MODIFY COLUMN `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '日志标题' AFTER `type`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '服务ID' AFTER `title`;
+ALTER TABLE `sys_log` MODIFY COLUMN `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '服务ID' AFTER `title`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `remote_addr` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作IP地址' AFTER `service_id`;
+ALTER TABLE `sys_log` MODIFY COLUMN `remote_addr` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '操作IP地址' AFTER `service_id`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `user_agent` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户代理' AFTER `remote_addr`;
+ALTER TABLE `sys_log` MODIFY COLUMN `user_agent` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '用户代理' AFTER `remote_addr`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `request_uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '请求URI' AFTER `user_agent`;
+ALTER TABLE `sys_log` MODIFY COLUMN `request_uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '请求URI' AFTER `user_agent`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '操作方式' AFTER `request_uri`;
+ALTER TABLE `sys_log` MODIFY COLUMN `method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '操作方式' AFTER `request_uri`;
 
 ALTER TABLE `sys_log` MODIFY COLUMN `params` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '操作提交的数据' AFTER `method`;
 
@@ -139,9 +153,11 @@ ALTER TABLE `sys_log` MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创
 
 ALTER TABLE `sys_log` MODIFY COLUMN `update_time` datetime NOT NULL COMMENT '更新时间' AFTER `create_time`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人' AFTER `update_time`;
+ALTER TABLE `sys_log` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人' AFTER `update_time`;
 
-ALTER TABLE `sys_log` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '更新人' AFTER `create_by`;
+ALTER TABLE `sys_log` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '更新人' AFTER `create_by`;
+
+alter table `sys_menu` modify menu_id BIGINT;
 
 ALTER TABLE `sys_menu` ADD COLUMN `sort_order` int NOT NULL DEFAULT 0 COMMENT '排序值' AFTER `icon`;
 
@@ -151,11 +167,11 @@ ALTER TABLE `sys_menu` MODIFY COLUMN `type` char(1) CHARACTER SET utf8mb4 COLLAT
 
 ALTER TABLE `sys_menu` MODIFY COLUMN `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '逻辑删除标记(0--正常 1--删除)' AFTER `type`;
 
-ALTER TABLE `sys_menu` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '创建人' AFTER `del_flag`;
+ALTER TABLE `sys_menu` MODIFY COLUMN `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人' AFTER `del_flag`;
 
 ALTER TABLE `sys_menu` MODIFY COLUMN `create_time` datetime NOT NULL COMMENT '创建时间' AFTER `create_by`;
 
-ALTER TABLE `sys_menu` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '修改人' AFTER `create_time`;
+ALTER TABLE `sys_menu` MODIFY COLUMN `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人' AFTER `create_time`;
 
 ALTER TABLE `sys_menu` MODIFY COLUMN `update_time` datetime NOT NULL COMMENT '更新时间' AFTER `update_by`;
 
@@ -163,11 +179,27 @@ ALTER TABLE `sys_menu` DROP COLUMN `sort`;
 
 ALTER TABLE `sys_menu` DROP COLUMN `component`;
 
+alter table `sys_role` modify role_id BIGINT;
+
+alter table `sys_role_menu` modify role_id BIGINT;
+
+alter table `sys_role_menu` modify menu_id BIGINT;
+
+alter table `sys_user` modify user_id BIGINT;
+
+alter table `sys_user_role` modify user_id BIGINT;
+
+alter table `sys_user_role` modify role_id BIGINT;
+
 -- 代码生成器
 USE `pig_codegen`;
 
-ALTER TABLE `pig_codegen_backup`.`gen_datasource_conf` MODIFY COLUMN `id` bigint NOT NULL COMMENT '主键' FIRST;
+alter table `gen_datasource_conf` modify id BIGINT;
 
-ALTER TABLE `pig_codegen_backup`.`gen_form_conf` MODIFY COLUMN `id` bigint NOT NULL COMMENT 'ID' FIRST;
+ALTER TABLE `gen_datasource_conf` MODIFY COLUMN `id` bigint NOT NULL COMMENT '主键' FIRST;
+
+alter table `gen_form_conf` modify id BIGINT;
+
+ALTER TABLE `gen_form_conf` MODIFY COLUMN `id` bigint NOT NULL COMMENT 'ID' FIRST;
 
 SET FOREIGN_KEY_CHECKS=1;
