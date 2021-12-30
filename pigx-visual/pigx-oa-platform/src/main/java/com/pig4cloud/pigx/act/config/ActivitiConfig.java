@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.act.config;
 
+import com.alibaba.druid.util.DruidDataSourceUtils;
 import lombok.AllArgsConstructor;
 import org.activiti.spring.SpringProcessEngineConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -50,7 +51,6 @@ public class ActivitiConfig {
 
 		config.setDataSource(dataSource);
 		config.setTransactionManager(transactionManager);
-		config.setDatabaseType("mysql");
 		config.setDatabaseSchemaUpdate("true");
 		return config;
 	}

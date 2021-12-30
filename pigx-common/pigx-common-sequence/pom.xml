@@ -23,5 +23,10 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-core</artifactId>
 		</dependency>
+		<!--mybatis plus-->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-extension</artifactId>
+		</dependency>
 	</dependencies>
 </project>

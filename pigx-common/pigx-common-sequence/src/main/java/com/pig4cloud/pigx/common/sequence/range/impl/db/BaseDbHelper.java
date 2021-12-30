@@ -1,7 +1,10 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
+import com.pig4cloud.pigx.common.sequence.range.impl.db.provider.SqlProviderFactory;
 
 import javax.sql.DataSource;
 import java.sql.*;
@@ -13,20 +16,9 @@ import java.sql.*;
  */
 abstract class BaseDbHelper {
 
+	private static final SqlProviderFactory SQL_PROVIDER_FACTORY = SpringUtil.getBean(SqlProviderFactory.class);
+
 	private static final long DELTA = 100000000L;
-
-	private final static String SQL_CREATE_TABLE = "CREATE TABLE IF NOT EXISTS #tableName("
-			+ "id bigint(20) NOT NULL AUTO_INCREMENT," + "value bigint(20) NOT NULL," + "name varchar(32) NOT NULL,"
-			+ "gmt_create DATETIME NOT NULL," + "gmt_modified DATETIME NOT NULL,"
-			+ "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
-
-	private final static String SQL_INSERT_RANGE = "INSERT IGNORE INTO #tableName(id,name,value,gmt_create,gmt_modified)"
-			+ " VALUE(?,?,?,?,?)";
-
-	private final static String SQL_UPDATE_RANGE = "UPDATE #tableName SET value=?,gmt_modified=? WHERE name=? AND "
-			+ "value=?";
-
-	private final static String SQL_SELECT_RANGE = "SELECT value FROM #tableName WHERE name=?";
 
 	/**
 	 * 创建表
@@ -41,7 +33,7 @@ abstract class BaseDbHelper {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
-			stmt.executeUpdate(SQL_CREATE_TABLE.replace("#tableName", tableName));
+			stmt.executeUpdate(SQL_PROVIDER_FACTORY.getCreateTableSql().replace("#tableName", tableName));
 		}
 		catch (SQLException e) {
 			throw new SeqException(e);
@@ -66,7 +58,7 @@ abstract class BaseDbHelper {
 
 		try {
 			conn = dataSource.getConnection();
-			stmt = conn.prepareStatement(SQL_INSERT_RANGE.replace("#tableName", tableName));
+			stmt = conn.prepareStatement(SQL_PROVIDER_FACTORY.getInsertRangeSql().replace("#tableName", tableName));
 			stmt.setLong(1, RandomUtil.randomLong());
 			stmt.setString(2, name);
 			stmt.setLong(3, stepStart);
@@ -99,7 +91,7 @@ abstract class BaseDbHelper {
 
 		try {
 			conn = dataSource.getConnection();
-			stmt = conn.prepareStatement(SQL_UPDATE_RANGE.replace("#tableName", tableName));
+			stmt = conn.prepareStatement(SQL_PROVIDER_FACTORY.getUpdateRangeSql().replace("#tableName", tableName));
 			stmt.setLong(1, newValue);
 			stmt.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
 			stmt.setString(3, name);
@@ -132,7 +124,7 @@ abstract class BaseDbHelper {
 
 		try {
 			conn = dataSource.getConnection();
-			stmt = conn.prepareStatement(SQL_SELECT_RANGE.replace("#tableName", tableName));
+			stmt = conn.prepareStatement(SQL_PROVIDER_FACTORY.getSelectRangeSql().replace("#tableName", tableName));
 			stmt.setString(1, name);
 
 			rs = stmt.executeQuery();
