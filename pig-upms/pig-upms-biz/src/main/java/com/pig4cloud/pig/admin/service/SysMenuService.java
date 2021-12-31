@@ -70,4 +70,9 @@ public interface SysMenuService extends IService<SysMenu> {
 	 */
 	List<Tree<Long>> filterMenu(Set<SysMenu> menuSet, Long parentId);
 
+	/**
+	 * 清除菜单缓存
+	 */
+	void clearMenuCache();
+
 }

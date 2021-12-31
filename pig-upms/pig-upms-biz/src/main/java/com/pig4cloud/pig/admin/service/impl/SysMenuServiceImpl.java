@@ -132,6 +132,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return TreeUtil.build(collect, parent);
 	}
 
+	@Override
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
+	public void clearMenuCache() {
+
+	}
+
 	@NotNull
 	private Function<SysMenu, TreeNode<Long>> getNodeFunction() {
 		return menu -> {
