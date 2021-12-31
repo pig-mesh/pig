@@ -62,6 +62,8 @@ public interface LoginHandler {
 	 * @param identify 渠道返回唯一标识
 	 * @return
 	 */
-	Boolean bind(SysUser user, String identify);
+	default Boolean bind(SysUser user, String identify) {
+		return false;
+	}
 
 }

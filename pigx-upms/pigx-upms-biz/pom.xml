@@ -33,10 +33,6 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-idempotent</artifactId>
-		</dependency>
 		<!-- 数据库驱动 -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
@@ -110,6 +106,12 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-starter</artifactId>
+		</dependency>
+		<!-- cas sdk -->
+		<dependency>
+			<groupId>org.jasig.cas.client</groupId>
+			<artifactId>cas-client-core</artifactId>
+			<version>${cas.sdk.version}</version>
 		</dependency>
 		<!--web 模块-->
 		<dependency>
