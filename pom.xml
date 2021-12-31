@@ -45,6 +45,7 @@
 		<spring-boot-admin.version>2.5.5</spring-boot-admin.version>
 		<hutool.version>5.7.18</hutool.version>
 		<captcha.version>1.2.7</captcha.version>
+		<cas.sdk.version>3.6.4</cas.sdk.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<knife4j.version>2.0.9</knife4j.version>
 		<velocity.version>1.7</velocity.version>

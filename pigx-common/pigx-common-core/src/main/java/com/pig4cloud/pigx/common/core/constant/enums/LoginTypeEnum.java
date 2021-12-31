@@ -61,7 +61,12 @@ public enum LoginTypeEnum {
 	/**
 	 * 开源中国登录
 	 */
-	OSC("OSC", "开源中国登录");
+	OSC("OSC", "开源中国登录"),
+
+	/**
+	 * CAS 登录
+	 */
+	CAS("CAS", "CAS 登录");
 
 	/**
 	 * 类型
