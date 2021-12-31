@@ -34,6 +34,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -59,7 +60,7 @@ public class DictController {
 	 * @return 字典信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R getById(@PathVariable Long id) {
+	public R<SysDict> getById(@PathVariable Long id) {
 		return R.ok(sysDictService.getById(id));
 	}
 
@@ -69,7 +70,7 @@ public class DictController {
 	 * @return 分页对象
 	 */
 	@GetMapping("/page")
-	public R<IPage> getDictPage(Page page, SysDict sysDict) {
+	public R<IPage<SysDict>> getDictPage(Page page, SysDict sysDict) {
 		return R.ok(sysDictService.page(page, Wrappers.query(sysDict)));
 	}
 
@@ -80,7 +81,7 @@ public class DictController {
 	 */
 	@GetMapping("/type/{type}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#type")
-	public R getDictByType(@PathVariable String type) {
+	public R<List<SysDictItem>> getDictByType(@PathVariable String type) {
 		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getType, type)));
 	}
 
@@ -92,7 +93,7 @@ public class DictController {
 	@SysLog("添加字典")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
-	public R save(@Valid @RequestBody SysDict sysDict) {
+	public R<Boolean> save(@Valid @RequestBody SysDict sysDict) {
 		return R.ok(sysDictService.save(sysDict));
 	}
 
@@ -129,7 +130,7 @@ public class DictController {
 	 * @return
 	 */
 	@GetMapping("/item/page")
-	public R getSysDictItemPage(Page page, SysDictItem sysDictItem) {
+	public R<IPage<SysDictItem>> getSysDictItemPage(Page page, SysDictItem sysDictItem) {
 		return R.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
 	}
 
@@ -139,7 +140,7 @@ public class DictController {
 	 * @return R
 	 */
 	@GetMapping("/item/{id:\\d+}")
-	public R getDictItemById(@PathVariable("id") Long id) {
+	public R<SysDictItem> getDictItemById(@PathVariable("id") Long id) {
 		return R.ok(sysDictItemService.getById(id));
 	}
 
@@ -151,7 +152,7 @@ public class DictController {
 	@SysLog("新增字典项")
 	@PostMapping("/item")
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public R save(@RequestBody SysDictItem sysDictItem) {
+	public R<Boolean> save(@RequestBody SysDictItem sysDictItem) {
 		return R.ok(sysDictItemService.save(sysDictItem));
 	}
 

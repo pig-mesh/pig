@@ -15,6 +15,7 @@
  */
 package com.pig4cloud.pig.codegen.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
@@ -24,6 +25,8 @@ import com.pig4cloud.pig.common.log.annotation.SysLog;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 数据源管理
@@ -46,7 +49,7 @@ public class GenDsConfController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
+	public R<IPage<GenDatasourceConf>> getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.page(page, Wrappers.query(datasourceConf)));
 	}
 
@@ -55,7 +58,7 @@ public class GenDsConfController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public R list() {
+	public R<List<GenDatasourceConf>> list() {
 		return R.ok(datasourceConfService.list());
 	}
 
@@ -65,7 +68,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R<GenDatasourceConf> getById(@PathVariable("id") Integer id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
 
@@ -76,7 +79,7 @@ public class GenDsConfController {
 	 */
 	@SysLog("新增数据源表")
 	@PostMapping
-	public R save(@RequestBody GenDatasourceConf datasourceConf) {
+	public R<Boolean> save(@RequestBody GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.saveDsByEnc(datasourceConf));
 	}
 
@@ -87,7 +90,7 @@ public class GenDsConfController {
 	 */
 	@SysLog("修改数据源表")
 	@PutMapping
-	public R updateById(@RequestBody GenDatasourceConf conf) {
+	public R<Boolean> updateById(@RequestBody GenDatasourceConf conf) {
 		return R.ok(datasourceConfService.updateDsByEnc(conf));
 	}
 
@@ -98,7 +101,7 @@ public class GenDsConfController {
 	 */
 	@SysLog("删除数据源表")
 	@DeleteMapping("/{id}")
-	public R removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable Integer id) {
 		return R.ok(datasourceConfService.removeByDsId(id));
 	}
 

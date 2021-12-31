@@ -1,6 +1,7 @@
 package com.pig4cloud.pig.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.admin.service.SysUserService;
@@ -29,7 +30,7 @@ public class AppController {
 
 	@Inner(value = false)
 	@GetMapping("/{mobile}")
-	public R sendSmsCode(@PathVariable String mobile) {
+	public R<Boolean> sendSmsCode(@PathVariable String mobile) {
 		return appService.sendSmsCode(mobile);
 	}
 
@@ -40,7 +41,7 @@ public class AppController {
 	 */
 	@Inner
 	@GetMapping("/info/{phone}")
-	public R infoByMobile(@PathVariable String phone) {
+	public R<UserInfo> infoByMobile(@PathVariable String phone) {
 		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
 		if (user == null) {
 			return R.failed(String.format("用户信息为空 %s", phone));

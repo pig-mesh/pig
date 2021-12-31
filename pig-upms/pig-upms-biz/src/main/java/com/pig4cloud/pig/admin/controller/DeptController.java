@@ -15,6 +15,7 @@
  */
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.service.SysDeptService;
@@ -52,7 +53,7 @@ public class DeptController {
 	 * @return SysDept
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R getById(@PathVariable Long id) {
+	public R<SysDept> getById(@PathVariable Long id) {
 		return R.ok(sysDeptService.getById(id));
 	}
 
@@ -61,7 +62,7 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R listDeptTrees() {
+	public R<List<Tree<Long>>> listDeptTrees() {
 		return R.ok(sysDeptService.listDeptTrees());
 	}
 
@@ -70,7 +71,7 @@ public class DeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/user-tree")
-	public R listCurrentUserDeptTrees() {
+	public R<List<Tree<Long>>> listCurrentUserDeptTrees() {
 		return R.ok(sysDeptService.listCurrentUserDeptTrees());
 	}
 
@@ -82,7 +83,7 @@ public class DeptController {
 	@SysLog("添加部门")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_add')")
-	public R save(@Valid @RequestBody SysDept sysDept) {
+	public R<Boolean> save(@Valid @RequestBody SysDept sysDept) {
 		return R.ok(sysDeptService.saveDept(sysDept));
 	}
 
@@ -94,7 +95,7 @@ public class DeptController {
 	@SysLog("删除部门")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	public R removeById(@PathVariable Long id) {
+	public R<Boolean> removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
 
@@ -106,7 +107,7 @@ public class DeptController {
 	@SysLog("编辑部门")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
-	public R update(@Valid @RequestBody SysDept sysDept) {
+	public R<Boolean> update(@Valid @RequestBody SysDept sysDept) {
 		return R.ok(sysDeptService.updateDeptById(sysDept));
 	}
 
@@ -116,7 +117,7 @@ public class DeptController {
 	 * @return
 	 */
 	@GetMapping("/details/{deptname}")
-	public R user(@PathVariable String deptname) {
+	public R<SysDept> user(@PathVariable String deptname) {
 		SysDept condition = new SysDept();
 		condition.setName(deptname);
 		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));

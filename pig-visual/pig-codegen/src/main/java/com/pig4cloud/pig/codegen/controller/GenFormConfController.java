@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.codegen.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenFormConf;
@@ -50,7 +51,7 @@ public class GenFormConfController {
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
-	public R getGenFormConfPage(Page page, GenFormConf formConf) {
+	public R<IPage<GenFormConf>> getGenFormConfPage(Page page, GenFormConf formConf) {
 		return R.ok(genRecordService.page(page, Wrappers.query(formConf)));
 	}
 
@@ -61,7 +62,7 @@ public class GenFormConfController {
 	 */
 	@ApiOperation(value = "通过id查询", notes = "通过id查询")
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	public R<GenFormConf> getById(@PathVariable("id") Integer id) {
 		return R.ok(genRecordService.getById(id));
 	}
 
@@ -73,7 +74,7 @@ public class GenFormConfController {
 	 */
 	@ApiOperation(value = "通过tableName查询表单信息")
 	@GetMapping("/info")
-	public R form(String dsName, String tableName) {
+	public R<String> form(String dsName, String tableName) {
 		return R.ok(genRecordService.getForm(dsName, tableName));
 	}
 
@@ -86,7 +87,7 @@ public class GenFormConfController {
 	@SysLog("新增生成记录")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_form_add')")
-	public R save(@RequestBody GenFormConf formConf) {
+	public R<Boolean> save(@RequestBody GenFormConf formConf) {
 		return R.ok(genRecordService.save(formConf));
 	}
 
@@ -99,7 +100,7 @@ public class GenFormConfController {
 	@SysLog("通过id删除生成记录")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('gen_form_del')")
-	public R removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable Integer id) {
 		return R.ok(genRecordService.removeById(id));
 	}
 

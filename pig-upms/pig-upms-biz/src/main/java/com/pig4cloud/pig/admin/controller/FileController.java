@@ -18,6 +18,7 @@
 package com.pig4cloud.pig.admin.controller;
 
 import cn.hutool.core.io.IoUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
@@ -58,7 +59,7 @@ public class FileController {
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
-	public R getSysFilePage(Page page, SysFile sysFile) {
+	public R<IPage<SysFile>> getSysFilePage(Page page, SysFile sysFile) {
 		return R.ok(sysFileService.page(page, Wrappers.query(sysFile)));
 	}
 
@@ -71,7 +72,7 @@ public class FileController {
 	@SysLog("删除文件管理")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
-	public R removeById(@PathVariable Long id) {
+	public R<Boolean> removeById(@PathVariable Long id) {
 		return R.ok(sysFileService.deleteFile(id));
 	}
 

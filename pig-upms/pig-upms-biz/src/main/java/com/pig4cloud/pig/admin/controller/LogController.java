@@ -15,6 +15,7 @@
  */
 package com.pig4cloud.pig.admin.controller;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
@@ -53,7 +54,7 @@ public class LogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getLogPage(Page page, SysLogDTO sysLog) {
+	public R<IPage<SysLog>> getLogPage(Page page, SysLogDTO sysLog) {
 		return R.ok(sysLogService.getLogByPage(page, sysLog));
 	}
 
@@ -64,7 +65,7 @@ public class LogController {
 	 */
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_log_del')")
-	public R removeById(@PathVariable Long id) {
+	public R<Boolean> removeById(@PathVariable Long id) {
 		return R.ok(sysLogService.removeById(id));
 	}
 
@@ -75,7 +76,7 @@ public class LogController {
 	 */
 	@Inner
 	@PostMapping
-	public R save(@Valid @RequestBody SysLog sysLog) {
+	public R<Boolean> save(@Valid @RequestBody SysLog sysLog) {
 		return R.ok(sysLogService.save(sysLog));
 	}
 

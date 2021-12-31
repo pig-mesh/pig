@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.util.R;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -49,7 +51,7 @@ public class MenuController {
 	 * @return 当前用户的树形菜单
 	 */
 	@GetMapping
-	public R getUserMenu(Long parentId) {
+	public R<List<Tree<Long>>> getUserMenu(Long parentId) {
 		// 获取符合条件的菜单
 		Set<SysMenu> menuSet = SecurityUtils.getRoles().stream().map(sysMenuService::findMenuByRoleId)
 				.flatMap(Collection::stream).collect(Collectors.toSet());
@@ -63,7 +65,7 @@ public class MenuController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(boolean lazy, Long parentId) {
+	public R<List<Tree<Long>>> getTree(boolean lazy, Long parentId) {
 		return R.ok(sysMenuService.treeMenu(lazy, parentId));
 	}
 
@@ -73,7 +75,7 @@ public class MenuController {
 	 * @return 属性集合
 	 */
 	@GetMapping("/tree/{roleId}")
-	public R getRoleTree(@PathVariable Long roleId) {
+	public R<List<Long>> getRoleTree(@PathVariable Long roleId) {
 		return R.ok(
 				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
 	}
@@ -84,7 +86,7 @@ public class MenuController {
 	 * @return 菜单详细信息
 	 */
 	@GetMapping("/{id:\\d+}")
-	public R getById(@PathVariable Long id) {
+	public R<SysMenu> getById(@PathVariable Long id) {
 		return R.ok(sysMenuService.getById(id));
 	}
 
@@ -96,7 +98,7 @@ public class MenuController {
 	@SysLog("新增菜单")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_add')")
-	public R save(@Valid @RequestBody SysMenu sysMenu) {
+	public R<SysMenu> save(@Valid @RequestBody SysMenu sysMenu) {
 		sysMenuService.save(sysMenu);
 		return R.ok(sysMenu);
 	}
@@ -109,7 +111,7 @@ public class MenuController {
 	@SysLog("删除菜单")
 	@DeleteMapping("/{id:\\d+}")
 	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
-	public R removeById(@PathVariable Long id) {
+	public R<Boolean> removeById(@PathVariable Long id) {
 		return R.ok(sysMenuService.removeMenuById(id));
 	}
 
@@ -121,7 +123,7 @@ public class MenuController {
 	@SysLog("更新菜单")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
-	public R update(@Valid @RequestBody SysMenu sysMenu) {
+	public R<Boolean> update(@Valid @RequestBody SysMenu sysMenu) {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}
 
