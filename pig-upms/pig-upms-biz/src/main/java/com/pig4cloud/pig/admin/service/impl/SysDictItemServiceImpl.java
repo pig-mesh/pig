@@ -62,7 +62,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#item.type")
 	public void updateDictItem(SysDictItem item) {
 		// 查询字典
 		SysDict dict = dictService.getById(item.getDictId());
