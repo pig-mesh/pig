@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wxmenu")
+@RequestMapping("/wx-menu")
 public class WxMenuController {
 
 	private final WxMenuService wxMenuService;

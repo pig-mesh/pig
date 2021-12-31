@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wxaccount")
+@RequestMapping("/wx-account")
 public class WxAccountController {
 
 	private final WxAccountService wxAccountService;

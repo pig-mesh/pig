@@ -21,7 +21,7 @@ import java.util.List;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wxautoreply")
+@RequestMapping("/wx-auto-reply")
 public class WxAutoReplyController {
 
 	private final WxAutoReplyService wxAutoReplyService;
