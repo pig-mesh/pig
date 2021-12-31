@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.SysOauthClientDetailsDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pigx.common.core.util.R;
 
 /**
  * <p>
@@ -62,5 +63,11 @@ public interface SysOauthClientDetailsService extends IService<SysOauthClientDet
 	 * @return
 	 */
 	Page queryPage(Page page, SysOauthClientDetails query);
+
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
+	R syncClientCache();
 
 }

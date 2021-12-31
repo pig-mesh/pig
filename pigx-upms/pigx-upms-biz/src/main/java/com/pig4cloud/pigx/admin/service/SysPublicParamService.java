@@ -54,6 +54,6 @@ public interface SysPublicParamService extends IService<SysPublicParam> {
 	 * 同步缓存
 	 * @return R
 	 */
-	R syncDictCache();
+	R syncParamCache();
 
 }

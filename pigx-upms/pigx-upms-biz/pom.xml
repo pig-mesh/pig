@@ -33,10 +33,10 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
-		<!-- 数据库驱动 -->
+		<!-- mysql -->
 		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 		<!--upms api、model 模块-->
 		<dependency>

@@ -125,7 +125,7 @@ public class SysPublicParamController {
 	@SysLog("同步参数")
 	@PutMapping("/sync")
 	public R sync() {
-		return sysPublicParamService.syncDictCache();
+		return sysPublicParamService.syncParamCache();
 	}
 
 }

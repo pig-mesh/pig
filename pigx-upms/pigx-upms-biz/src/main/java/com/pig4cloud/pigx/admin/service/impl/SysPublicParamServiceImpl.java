@@ -91,7 +91,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
-	public R syncDictCache() {
+	public R syncParamCache() {
 		return R.ok();
 	}
 
