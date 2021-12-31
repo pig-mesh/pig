@@ -58,4 +58,13 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		return this.updateById(clientDetails);
 	}
 
+	/**
+	 * 清除客户端缓存
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
+	public void clearClientCache() {
+
+	}
+
 }

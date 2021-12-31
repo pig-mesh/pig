@@ -40,4 +40,9 @@ public interface SysDictService extends IService<SysDict> {
 	 */
 	void updateDict(SysDict sysDict);
 
+	/**
+	 * 清除缓存
+	 */
+	void clearDictCache();
+
 }

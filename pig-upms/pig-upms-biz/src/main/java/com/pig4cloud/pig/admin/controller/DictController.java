@@ -179,4 +179,12 @@ public class DictController {
 		return R.ok();
 	}
 
+	@SysLog("清除字典缓存")
+	@DeleteMapping("/cache")
+	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
+	public R clearDictCache() {
+		sysDictService.clearDictCache();
+		return R.ok();
+	}
+
 }

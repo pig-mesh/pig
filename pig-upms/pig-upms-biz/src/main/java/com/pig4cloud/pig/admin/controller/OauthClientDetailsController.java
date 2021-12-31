@@ -103,4 +103,12 @@ public class OauthClientDetailsController {
 		return R.ok(sysOauthClientDetailsService.updateClientDetailsById(sysOauthClientDetails));
 	}
 
+	@SysLog("清除终端缓存")
+	@DeleteMapping("/cache")
+	@PreAuthorize("@pms.hasPermission('sys_client_del')")
+	public R clearClientCache() {
+		sysOauthClientDetailsService.clearClientCache();
+		return R.ok();
+	}
+
 }
