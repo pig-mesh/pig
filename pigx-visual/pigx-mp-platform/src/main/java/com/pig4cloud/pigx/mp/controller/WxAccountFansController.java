@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wxaccountfans")
+@RequestMapping("/wx-account-fans")
 public class WxAccountFansController {
 
 	private final WxAccountFansService wxAccountFansService;

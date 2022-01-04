@@ -18,6 +18,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -55,6 +56,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 * 数据值
 	 */
 	@ApiModelProperty(value = "数据值")
+	@JsonProperty(value = "value")
 	private String itemValue;
 
 	/**

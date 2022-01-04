@@ -63,7 +63,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	public R updateParam(SysPublicParam sysPublicParam) {
 		SysPublicParam param = this.getById(sysPublicParam.getPublicId());
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystem())) {
+		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystemFlag())) {
 			return R.failed("系统内置参数不能删除");
 		}
 		return R.ok(this.updateById(sysPublicParam));
@@ -79,7 +79,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	public R removeParam(Long publicId) {
 		SysPublicParam param = this.getById(publicId);
 		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystem())) {
+		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystemFlag())) {
 			return R.failed("系统内置参数不能删除");
 		}
 		return R.ok(this.removeById(publicId));
@@ -91,7 +91,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
-	public R syncDictCache() {
+	public R syncParamCache() {
 		return R.ok();
 	}
 

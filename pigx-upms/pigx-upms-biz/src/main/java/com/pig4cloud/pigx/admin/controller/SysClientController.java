@@ -125,4 +125,14 @@ public class SysClientController {
 		return R.ok(clientDetailsService.list());
 	}
 
+	/**
+	 * 同步缓存字典
+	 * @return R
+	 */
+	@SysLog("同步终端")
+	@PutMapping("/sync")
+	public R sync() {
+		return clientDetailsService.syncClientCache();
+	}
+
 }

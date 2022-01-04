@@ -31,6 +31,7 @@ import com.pig4cloud.pigx.admin.mapper.SysOauthClientDetailsMapper;
 import com.pig4cloud.pigx.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -149,6 +150,12 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		Page<SysOauthClientDetailsDTO> dtoPage = new Page<>(page.getCurrent(), page.getSize(), selectPage.getTotal());
 		dtoPage.setRecords(collect);
 		return dtoPage;
+	}
+
+	@Override
+	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
+	public R syncClientCache() {
+		return R.ok();
 	}
 
 }

@@ -38,7 +38,7 @@ import java.util.Map;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/wxmaterial")
+@RequestMapping("/wx-material")
 public class WxMaterialController {
 
 	/**

@@ -14,46 +14,20 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
+package com.pig4cloud.pigx.mp.mapper;
 
-package com.pig4cloud.pigx.admin.service;
-
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.admin.api.entity.SysPublicParam;
-import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
+import com.pig4cloud.pigx.mp.entity.WxAccount;
+import com.pig4cloud.pigx.mp.entity.WxAccountTag;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 公共参数配置
+ * 公众号账户
  *
- * @author Lucky
- * @date 2019-04-29
+ * @author lengleng
+ * @date 2019-03-26 22:07:53
  */
-public interface SysPublicParamService extends IService<SysPublicParam> {
-
-	/**
-	 * 通过key查询公共参数指定值
-	 * @param publicKey
-	 * @return
-	 */
-	String getSysPublicParamKeyToValue(String publicKey);
-
-	/**
-	 * 更新参数
-	 * @param sysPublicParam
-	 * @return
-	 */
-	R updateParam(SysPublicParam sysPublicParam);
-
-	/**
-	 * 删除参数
-	 * @param publicId
-	 * @return
-	 */
-	R removeParam(Long publicId);
-
-	/**
-	 * 同步缓存
-	 * @return R
-	 */
-	R syncParamCache();
+@Mapper
+public interface WxAccountTagMapper extends PigxBaseMapper<WxAccountTag> {
 
 }
