@@ -104,8 +104,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
 		List<TreeNode<Long>> collect = baseMapper
-				.selectList(Wrappers.<SysMenu>lambdaQuery().like(SysMenu::getName, menuName)
-						.orderByAsc(SysMenu::getSortOrder))
+				.selectList(
+						Wrappers.<SysMenu>lambdaQuery().like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName)
+								.orderByAsc(SysMenu::getSortOrder))
 				.stream().map(getNodeFunction()).collect(Collectors.toList());
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑

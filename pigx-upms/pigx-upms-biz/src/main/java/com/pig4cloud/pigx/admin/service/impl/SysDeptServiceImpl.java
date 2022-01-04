@@ -125,9 +125,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		List<SysDept> deptAllList = deptMapper
 				.selectList(Wrappers.<SysDept>lambdaQuery().like(SysDept::getName, deptName));
 		// 查询数据权限内部门
-		List<Long> deptOwnIdList = deptMapper
-				.selectListByScope(Wrappers.<SysDept>lambdaQuery().like(SysDept::getName, deptName), new DataScope())
-				.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> deptOwnIdList = deptMapper.selectListByScope(
+				Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
+				new DataScope()).stream().map(SysDept::getDeptId).collect(Collectors.toList());
 
 		// 权限内部门
 		List<TreeNode<Long>> collect = deptAllList.stream()
