@@ -92,7 +92,6 @@ public class SysUser implements Serializable {
 	/**
 	 * 锁定标记
 	 */
-	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "锁定标记")
 	private String lockFlag;
 
