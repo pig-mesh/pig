@@ -38,8 +38,9 @@ public interface SysDeptService extends IService<SysDept> {
 	/**
 	 * 查询部门树菜单
 	 * @return 树
+	 * @param deptName 部门名称
 	 */
-	List<Tree<Long>> selectTree();
+	List<Tree<Long>> selectTree(String deptName);
 
 	/**
 	 * 添加信息部门

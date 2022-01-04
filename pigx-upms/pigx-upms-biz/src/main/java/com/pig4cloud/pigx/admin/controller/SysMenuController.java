@@ -63,13 +63,13 @@ public class SysMenuController {
 
 	/**
 	 * 返回树形菜单集合
-	 * @param lazy 是否是懒加载
 	 * @param parentId 父节点ID
+	 * @param menuName 菜单名称
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(boolean lazy, Long parentId) {
-		return R.ok(sysMenuService.treeMenu(lazy, parentId));
+	public R getTree(Long parentId, String menuName) {
+		return R.ok(sysMenuService.treeMenu(parentId, menuName));
 	}
 
 	/**

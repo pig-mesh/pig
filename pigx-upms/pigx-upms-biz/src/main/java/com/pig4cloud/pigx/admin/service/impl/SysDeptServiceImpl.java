@@ -23,6 +23,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
@@ -115,15 +116,18 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 查询全部部门树
-	 * @return 树
+	 * @return 树 部门名称
+	 * @param deptName
 	 */
 	@Override
-	public List<Tree<Long>> selectTree() {
+	public List<Tree<Long>> selectTree(String deptName) {
 		// 查询全部部门
-		List<SysDept> deptAllList = deptMapper.selectList(Wrappers.emptyWrapper());
+		List<SysDept> deptAllList = deptMapper
+				.selectList(Wrappers.<SysDept>lambdaQuery().like(SysDept::getName, deptName));
 		// 查询数据权限内部门
-		List<Long> deptOwnIdList = deptMapper.selectListByScope(Wrappers.emptyWrapper(), new DataScope()).stream()
-				.map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> deptOwnIdList = deptMapper
+				.selectListByScope(Wrappers.<SysDept>lambdaQuery().like(SysDept::getName, deptName), new DataScope())
+				.stream().map(SysDept::getDeptId).collect(Collectors.toList());
 
 		// 权限内部门
 		List<TreeNode<Long>> collect = deptAllList.stream()
@@ -141,6 +145,16 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					treeNode.setExtra(extra);
 					return treeNode;
 				}).collect(Collectors.toList());
+
+		// 模糊查询 不组装树结构 直接返回 表格方便编辑
+		if (StrUtil.isNotBlank(deptName)) {
+			return collect.stream().map(node -> {
+				Tree<Long> tree = new Tree<>();
+				tree.putAll(node.getExtra());
+				BeanUtils.copyProperties(node, tree);
+				return tree;
+			}).collect(Collectors.toList());
+		}
 
 		return TreeUtil.build(collect, 0L);
 	}

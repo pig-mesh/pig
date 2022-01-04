@@ -60,11 +60,11 @@ public interface SysMenuService extends IService<SysMenu> {
 
 	/**
 	 * 构建树
-	 * @param lazy 是否是懒加载
 	 * @param parentId 父节点ID
+	 * @param menuName 菜单名称
 	 * @return
 	 */
-	List<Tree<Long>> treeMenu(boolean lazy, Long parentId);
+	List<Tree<Long>> treeMenu(Long parentId, String menuName);
 
 	/**
 	 * 查询菜单

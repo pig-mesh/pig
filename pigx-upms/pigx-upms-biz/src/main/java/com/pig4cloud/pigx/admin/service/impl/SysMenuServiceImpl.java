@@ -23,6 +23,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
@@ -35,6 +36,7 @@ import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.MenuTypeEnum;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -94,24 +96,27 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 * 构建树查询 1. 不是懒加载情况，查询全部 2. 是懒加载，根据parentId 查询 2.1 父节点为空，则查询ID -1
 	 * @param lazy 是否是懒加载
 	 * @param parentId 父节点ID
+	 * @param menuName 菜单名称
 	 * @return
 	 */
 	@Override
-	public List<Tree<Long>> treeMenu(boolean lazy, Long parentId) {
-		if (!lazy) {
-			List<TreeNode<Long>> collect = baseMapper
-					.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSortOrder)).stream()
-					.map(getNodeFunction()).collect(Collectors.toList());
-
-			return TreeUtil.build(collect, CommonConstants.MENU_TREE_ROOT_ID);
-		}
-
+	public List<Tree<Long>> treeMenu(Long parentId, String menuName) {
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
 		List<TreeNode<Long>> collect = baseMapper
-				.selectList(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent)
+				.selectList(Wrappers.<SysMenu>lambdaQuery().like(SysMenu::getName, menuName)
 						.orderByAsc(SysMenu::getSortOrder))
 				.stream().map(getNodeFunction()).collect(Collectors.toList());
+
+		// 模糊查询 不组装树结构 直接返回 表格方便编辑
+		if (StrUtil.isNotBlank(menuName)) {
+			return collect.stream().map(node -> {
+				Tree<Long> tree = new Tree<>();
+				tree.putAll(node.getExtra());
+				BeanUtils.copyProperties(node, tree);
+				return tree;
+			}).collect(Collectors.toList());
+		}
 
 		return TreeUtil.build(collect, parent);
 	}

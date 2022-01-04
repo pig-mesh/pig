@@ -64,11 +64,12 @@ public class SysDeptController {
 
 	/**
 	 * 返回树形菜单集合
+	 * @param deptName 部门名称
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree() {
-		return R.ok(sysDeptService.selectTree());
+	public R getTree(String deptName) {
+		return R.ok(sysDeptService.selectTree(deptName));
 	}
 
 	/**
