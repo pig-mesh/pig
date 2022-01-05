@@ -1,7 +1,5 @@
 package com.pig4cloud.pigx.mp.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.mp.entity.WxAccountTag;
 
@@ -29,9 +27,16 @@ public interface WxAccountTagService extends IService<WxAccountTag> {
 
 	/**
 	 * 删除账户标签
-	 * @param id 待删除的账户标签主键
+	 * @param wxAccountTag 待删除的账户标签
 	 * @return 删除成功返回true,删除失败返回false
 	 */
-	Boolean removeAccountTagById(Long id);
+	Boolean removeAccountTagById(WxAccountTag wxAccountTag);
+
+	/**
+	 * 同步账户标签
+	 * @param appId appId
+	 * @return Boolean
+	 */
+	Boolean syncAccountTags(String appId);
 
 }

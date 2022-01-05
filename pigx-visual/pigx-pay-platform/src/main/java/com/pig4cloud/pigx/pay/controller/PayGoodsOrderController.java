@@ -17,11 +17,6 @@
 
 package com.pig4cloud.pigx.pay.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONObject;
@@ -43,23 +38,20 @@ import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
-import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 商品
@@ -157,8 +149,8 @@ public class PayGoodsOrderController {
 		storage.setSecret(params.getStr("secret"));
 		wxMpService.setWxMpConfigStorage(storage);
 
-		WxMpOAuth2AccessToken mpOAuth2AccessToken = wxMpService.getOAuth2Service().getAccessToken(code);
-		goods.setUserId(mpOAuth2AccessToken.getOpenId());
+		WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
+		goods.setUserId(accessToken.getOpenId());
 		goods.setAmount(goods.getAmount());
 		modelAndView.setViewName("pay");
 		modelAndView.addAllObjects(payGoodsOrderService.buy(goods, false));

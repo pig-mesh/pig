@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.mp.handler;
 
+import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.hutool.core.util.BooleanUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.mp.builder.TextBuilder;
@@ -67,12 +68,11 @@ public class SubscribeHandler extends AbstractHandler {
 			wxAccountFans.setSubscribeStatus(String.valueOf(BooleanUtil.toInt(wxMpUser.getSubscribe())));
 			wxAccountFans.setSubscribeTime(LocalDateTime
 					.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
-			wxAccountFans.setNickname(wxMpUser.getNickname());
-			wxAccountFans.setGender(String.valueOf(wxMpUser.getSex()));
+
+			// 随机生成一个昵称，方便平台内部使用
+			String generatedName = ChineseNameGenerator.getInstance().generate();
+			wxAccountFans.setNickname(generatedName);
 			wxAccountFans.setLanguage(wxMpUser.getLanguage());
-			wxAccountFans.setCountry(wxMpUser.getCountry());
-			wxAccountFans.setProvince(wxMpUser.getProvince());
-			wxAccountFans.setCity(wxMpUser.getCity());
 			wxAccountFans.setHeadimgUrl(wxMpUser.getHeadImgUrl());
 			wxAccountFans.setRemark(wxMpUser.getRemark());
 

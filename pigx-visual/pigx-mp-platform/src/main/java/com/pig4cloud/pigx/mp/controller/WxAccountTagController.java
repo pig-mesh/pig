@@ -5,10 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.mp.entity.WxAccountTag;
-import com.pig4cloud.pigx.mp.entity.WxAutoReply;
 import com.pig4cloud.pigx.mp.service.WxAccountTagService;
 import lombok.AllArgsConstructor;
-import org.apache.ibatis.annotations.Delete;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -54,6 +53,7 @@ public class WxAccountTagController {
 	 * @return 包含保存成功后的账户标签的API调用结果
 	 */
 	@PostMapping
+	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_add')")
 	public R<WxAccountTag> saveAccountTag(@RequestBody @Valid WxAccountTag wxAccountTag) {
 		return R.ok(wxAccountTagService.saveAccountTag(wxAccountTag));
 	}
@@ -64,13 +64,31 @@ public class WxAccountTagController {
 	 * @return 包含修改成功后的账户标签的API调用结果
 	 */
 	@PutMapping
+	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_edit')")
 	public R<WxAccountTag> updateAccountTag(@RequestBody @Valid WxAccountTag wxAccountTag) {
 		return R.ok(wxAccountTagService.updateAccountTag(wxAccountTag));
 	}
 
-	@DeleteMapping("/{id:\\d+}")
-	public R<Boolean> removeAccountTagById(@PathVariable Long id) {
-		return R.ok(wxAccountTagService.removeAccountTagById(id));
+	/**
+	 * 删除
+	 * @param wxAccountTag 标签
+	 * @return R
+	 */
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_del')")
+	public R<Boolean> removeAccountTagById(@RequestBody WxAccountTag wxAccountTag) {
+		return R.ok(wxAccountTagService.removeAccountTagById(wxAccountTag));
+	}
+
+	/**
+	 * 同步粉丝
+	 * @param appId
+	 * @return
+	 */
+	@PostMapping("/sync/{appId}")
+	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_sync')")
+	public R sync(@PathVariable String appId) {
+		return R.ok(wxAccountTagService.syncAccountTags(appId));
 	}
 
 }

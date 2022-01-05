@@ -16,6 +16,7 @@
  */
 package com.pig4cloud.pigx.mp.service.impl;
 
+import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
@@ -137,12 +138,11 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 			wxAccountFans.setSubscribeTime(LocalDateTime
 					.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
 		}
-		wxAccountFans.setNickname(wxMpUser.getNickname());
-		wxAccountFans.setGender(String.valueOf(wxMpUser.getSex()));
+
+		// 随机生成一个昵称，方便平台内部使用
+		String generatedName = ChineseNameGenerator.getInstance().generate();
+		wxAccountFans.setNickname(generatedName);
 		wxAccountFans.setLanguage(wxMpUser.getLanguage());
-		wxAccountFans.setCountry(wxMpUser.getCountry());
-		wxAccountFans.setProvince(wxMpUser.getProvince());
-		wxAccountFans.setCity(wxMpUser.getCity());
 		wxAccountFans.setHeadimgUrl(wxMpUser.getHeadImgUrl());
 		wxAccountFans.setRemark(wxMpUser.getRemark());
 		wxAccountFans.setWxAccountId(wxAccount.getId());
