@@ -16,8 +16,7 @@
  */
 package com.pig4cloud.pigx.mp.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -65,11 +64,13 @@ public class WxFansMsgRes extends Model<WxFansMsgRes> {
 	/**
 	 * 创建时间
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
 
 }

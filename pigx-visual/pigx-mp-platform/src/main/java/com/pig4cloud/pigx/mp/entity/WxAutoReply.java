@@ -1,8 +1,6 @@
 package com.pig4cloud.pigx.mp.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,24 +33,9 @@ public class WxAutoReply extends Model<WxAutoReply> {
 	private String appId;
 
 	/**
-	 * 创建时间
-	 */
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	private LocalDateTime updateTime;
-
-	/**
 	 * 备注
 	 */
 	private String remark;
-
-	/**
-	 * 逻辑删除标记（0：显示；1：隐藏）
-	 */
-	private String delFlag;
 
 	/**
 	 * 类型（1、关注时回复；2、消息回复；3、关键词回复）
@@ -125,5 +108,24 @@ public class WxAutoReply extends Model<WxAutoReply> {
 	 * 图文消息的内容
 	 */
 	private String content;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private LocalDateTime updateTime;
+
+	/**
+	 * 是否删除 -1：已删除 0：正常
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	private String delFlag;
 
 }
