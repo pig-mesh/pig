@@ -21,9 +21,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.mp.config.WxMpInitConfigRunner;
 import com.pig4cloud.pigx.mp.entity.WxAccount;
 import com.pig4cloud.pigx.mp.service.WxAccountService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -136,6 +139,15 @@ public class WxAccountController {
 	@GetMapping("/statistics")
 	public R statistics(String appId, String interval) {
 		return wxAccountService.statistics(appId, interval);
+	}
+
+	@SneakyThrows
+	@PostMapping("/clear-quota/{appId}")
+	@PreAuthorize("@pms.hasPermission('mp_wxaccount_del')")
+	public R clearQuota(@PathVariable String appId) {
+		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
+		wxMpService.clearQuota(appId);
+		return R.ok();
 	}
 
 }
