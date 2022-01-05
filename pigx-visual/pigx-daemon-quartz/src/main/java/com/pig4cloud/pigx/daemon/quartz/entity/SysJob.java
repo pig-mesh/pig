@@ -17,7 +17,9 @@
 
 package com.pig4cloud.pigx.daemon.quartz.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
@@ -116,21 +118,25 @@ public class SysJob extends Model<SysJob> {
 	/**
 	 * 创建者
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	private String createBy;
-
-	/**
-	 * 创建时间
-	 */
-	private LocalDateTime createTime;
 
 	/**
 	 * 更新者
 	 */
+	@TableField(fill = FieldFill.UPDATE)
 	private String updateBy;
 
 	/**
-	 * 更新时间
+	 * 创建时间
 	 */
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
+
+	/**
+	 * 修改时间
+	 */
+	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
 
 	/**

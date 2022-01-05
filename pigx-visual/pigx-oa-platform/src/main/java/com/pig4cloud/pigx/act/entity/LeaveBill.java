@@ -17,10 +17,7 @@
 
 package com.pig4cloud.pigx.act.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -68,24 +65,22 @@ public class LeaveBill extends Model<LeaveBill> {
 	private String state;
 
 	/**
-	 * 提交时间
+	 * 创建时间
 	 */
-	private LocalDateTime leaveTime;
-
-	/**
-	 * 提交时间
-	 */
+	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
-	 * 修改时间
+	 * 更新时间
 	 */
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
 
 	/**
-	 * 删除标志
+	 * 是否删除 -1：已删除 0：正常
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
 
 	/**
