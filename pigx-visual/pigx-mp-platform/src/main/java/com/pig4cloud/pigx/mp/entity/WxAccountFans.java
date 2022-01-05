@@ -112,6 +112,11 @@ public class WxAccountFans extends Model<WxAccountFans> {
 	private String wxAccountName;
 
 	/**
+	 * 标签ID列表
+	 */
+	private Long[] tagIds;
+
+	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)

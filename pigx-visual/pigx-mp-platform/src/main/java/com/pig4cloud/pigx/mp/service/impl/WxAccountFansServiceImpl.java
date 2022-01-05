@@ -18,9 +18,11 @@ package com.pig4cloud.pigx.mp.service.impl;
 
 import cn.binarywang.tools.generator.ChineseNameGenerator;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -28,17 +30,24 @@ import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.mp.config.WxMpInitConfigRunner;
 import com.pig4cloud.pigx.mp.entity.WxAccount;
 import com.pig4cloud.pigx.mp.entity.WxAccountFans;
+import com.pig4cloud.pigx.mp.entity.WxAccountTag;
+import com.pig4cloud.pigx.mp.entity.vo.WxAccountFansVo;
 import com.pig4cloud.pigx.mp.mapper.WxAccountFansMapper;
 import com.pig4cloud.pigx.mp.mapper.WxAccountMapper;
+import com.pig4cloud.pigx.mp.mapper.WxAccountTagMapper;
 import com.pig4cloud.pigx.mp.service.WxAccountFansService;
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
+import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
+import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -61,7 +70,79 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 
 	private static final int SIZE = 100;
 
+	private final WxAccountTagMapper wxAccountTagMapper;
+
 	private final WxAccountMapper wxAccountMapper;
+
+	/**
+	 * 分页查询粉丝
+	 * @param page 粉丝
+	 * @param wxAccountFans 查询条件
+	 * @return
+	 */
+	@Override
+	public IPage getFansWithTagPage(Page page, WxAccountFans wxAccountFans) {
+		// 查询当前公众号的标签
+		List<WxAccountTag> wxAccountTags = wxAccountTagMapper.selectList(Wrappers.emptyWrapper());
+
+		// 翻页查询粉丝
+		IPage<WxAccountFans> fansPage = baseMapper.selectPage(page, Wrappers.query(wxAccountFans));
+		List<WxAccountFansVo> voList = fansPage.getRecords().stream().map(fans -> {//
+			WxAccountFansVo vo = new WxAccountFansVo();
+			BeanUtils.copyProperties(fans, vo);
+			// 赋值 TAG_NAME
+			if (ArrayUtil.isNotEmpty(fans.getTagIds())) {
+				List<WxAccountTag> tagList = wxAccountTags.stream()
+						.filter(tag -> tag.getWxAccountAppid().endsWith(fans.getWxAccountAppid()) //
+								&& ArrayUtil.contains(fans.getTagIds(), tag.getTagId()))
+						.collect(Collectors.toList());
+				vo.setTagList(tagList);
+			}
+			return vo;
+		}).collect(Collectors.toList());
+
+		page.setRecords(voList);
+		page.setTotal(fansPage.getTotal());
+		return page;
+	}
+
+	/**
+	 * 更新粉丝信息
+	 * @param wxAccountFans 信息
+	 * @return
+	 */
+	@Override
+	@SneakyThrows
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean updateFans(WxAccountFans wxAccountFans) {
+		baseMapper.updateById(wxAccountFans);
+
+		// 获取操作微信接口类
+		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(wxAccountFans.getWxAccountAppid());
+
+		if (StrUtil.isNotBlank(wxAccountFans.getRemark())) {
+			WxMpUserService wxMpUserService = wxMpService.getUserService();
+			wxMpUserService.userUpdateRemark(wxAccountFans.getOpenid(), wxAccountFans.getRemark());
+
+		}
+
+		// 更新用户标签
+		WxMpUserTagService userTagService = wxMpService.getUserTagService();
+		if (ArrayUtil.isNotEmpty(wxAccountFans.getTagIds())) {
+			// 移除原有标签
+			List<Long> oldTag = userTagService.userTagList(wxAccountFans.getOpenid());
+			for (Long tagId : oldTag) {
+				userTagService.batchUntagging(tagId, new String[] { wxAccountFans.getOpenid() });
+			}
+
+			// 添加新标签
+			for (Long tagId : wxAccountFans.getTagIds()) {
+
+				userTagService.batchTagging(tagId, new String[] { wxAccountFans.getOpenid() });
+			}
+		}
+		return Boolean.TRUE;
+	}
 
 	/**
 	 * 获取公众号粉丝，生产建议异步
@@ -145,6 +226,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 		wxAccountFans.setLanguage(wxMpUser.getLanguage());
 		wxAccountFans.setHeadimgUrl(wxMpUser.getHeadImgUrl());
 		wxAccountFans.setRemark(wxMpUser.getRemark());
+		wxAccountFans.setTagIds(wxAccountFans.getTagIds());
 		wxAccountFans.setWxAccountId(wxAccount.getId());
 		wxAccountFans.setWxAccountAppid(wxAccount.getAppid());
 		wxAccountFans.setWxAccountName(wxAccount.getName());

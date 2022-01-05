@@ -16,7 +16,6 @@
  */
 package com.pig4cloud.pigx.mp.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -47,7 +46,7 @@ public class WxAccountFansController {
 	 */
 	@GetMapping("/page")
 	public R getWxAccountFansPage(Page page, WxAccountFans wxAccountFans) {
-		return R.ok(wxAccountFansService.page(page, Wrappers.query(wxAccountFans)));
+		return R.ok(wxAccountFansService.getFansWithTagPage(page, wxAccountFans));
 	}
 
 	/**
@@ -61,18 +60,6 @@ public class WxAccountFansController {
 	}
 
 	/**
-	 * 新增微信公众号粉丝
-	 * @param wxAccountFans 微信公众号粉丝
-	 * @return R
-	 */
-	@SysLog("新增微信公众号粉丝")
-	@PostMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_add')")
-	public R save(@RequestBody WxAccountFans wxAccountFans) {
-		return R.ok(wxAccountFansService.save(wxAccountFans));
-	}
-
-	/**
 	 * 修改微信公众号粉丝
 	 * @param wxAccountFans 微信公众号粉丝
 	 * @return R
@@ -81,7 +68,7 @@ public class WxAccountFansController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_edit')")
 	public R updateById(@RequestBody WxAccountFans wxAccountFans) {
-		return R.ok(wxAccountFansService.updateById(wxAccountFans));
+		return R.ok(wxAccountFansService.updateFans(wxAccountFans));
 	}
 
 	/**

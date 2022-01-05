@@ -75,6 +75,7 @@ public class SubscribeHandler extends AbstractHandler {
 			wxAccountFans.setLanguage(wxMpUser.getLanguage());
 			wxAccountFans.setHeadimgUrl(wxMpUser.getHeadImgUrl());
 			wxAccountFans.setRemark(wxMpUser.getRemark());
+			wxAccountFans.setTagIds(wxAccountFans.getTagIds());
 
 			WxAccount wxAccount = wxAccountMapper
 					.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, WxMpContextHolder.getAppId()));

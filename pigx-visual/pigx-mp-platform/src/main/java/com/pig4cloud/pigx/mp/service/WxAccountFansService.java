@@ -16,6 +16,8 @@
  */
 package com.pig4cloud.pigx.mp.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.mp.entity.WxAccountFans;
 
@@ -33,5 +35,20 @@ public interface WxAccountFansService extends IService<WxAccountFans> {
 	 * @return
 	 */
 	Boolean syncAccountFans(String appId);
+
+	/**
+	 * 分页查询粉丝
+	 * @param page 粉丝
+	 * @param wxAccountFans 查询条件
+	 * @return
+	 */
+	IPage getFansWithTagPage(Page page, WxAccountFans wxAccountFans);
+
+	/**
+	 * 更新粉丝信息
+	 * @param wxAccountFans 信息
+	 * @return
+	 */
+	Boolean updateFans(WxAccountFans wxAccountFans);
 
 }
