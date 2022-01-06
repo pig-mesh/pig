@@ -69,8 +69,8 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 
 		// 构造security用户
 		return new PigUser(user.getUserId(), user.getDeptId(), user.getUsername(),
-				SecurityConstants.BCRYPT + user.getPassword(), user.getPhone(),
-				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), true, true, true, authorities);
+				SecurityConstants.BCRYPT + user.getPassword(), user.getPhone(), true, true, true,
+				StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL), authorities);
 	}
 
 	/**

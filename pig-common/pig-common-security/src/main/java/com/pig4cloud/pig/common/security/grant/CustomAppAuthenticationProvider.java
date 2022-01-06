@@ -2,8 +2,10 @@ package com.pig4cloud.pig.common.security.grant;
 
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
+import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 
 import java.util.Comparator;
 import java.util.Map;
@@ -23,6 +26,12 @@ import java.util.Optional;
  */
 @Slf4j
 public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
+
+	/**
+	 * user 属性校验
+	 */
+	@Setter
+	private UserDetailsChecker preAuthenticationChecks = new AccountStatusUserDetailsChecker();
 
 	/**
 	 * 校验 请求信息userDetails
@@ -65,6 +74,10 @@ public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenti
 		// 手机号
 		String phone = authentication.getName();
 		UserDetails userDetails = optional.get().loadUserByUsername(phone);
+
+		// userDeails 校验
+		preAuthenticationChecks.check(userDetails);
+
 		CustomAppAuthenticationToken token = new CustomAppAuthenticationToken(userDetails);
 		token.setDetails(authentication.getDetails());
 		return token;

@@ -40,23 +40,17 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Primary
 @Order(90)
 @Configuration
-public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
-		http.authenticationProvider(phoneAuthenticationProvider()).formLogin().loginPage("/token/login")
-				.loginProcessingUrl("/token/form").failureHandler(authenticationFailureHandler()).and().logout()
+		http.authenticationProvider(new CustomAppAuthenticationProvider())//
+				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
+				.failureHandler(authenticationFailureHandler()).and().logout()
 				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
 				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
 				.anyRequest().authenticated().and().csrf().disable();
-	}
-
-	/**
-	 * 不要直接使用@Bean注入 会导致默认的提供者无法注入（DaoAuthenticationProvider）
-	 */
-	private CustomAppAuthenticationProvider phoneAuthenticationProvider() {
-		return new CustomAppAuthenticationProvider();
 	}
 
 	@Override

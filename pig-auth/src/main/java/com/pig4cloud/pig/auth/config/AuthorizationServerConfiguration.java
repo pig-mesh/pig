@@ -55,7 +55,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableAuthorizationServer
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
 	private final DataSource dataSource;
 
