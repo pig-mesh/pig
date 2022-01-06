@@ -105,7 +105,7 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_dict_item`;
 CREATE TABLE `sys_dict_item` (
                                  `id` bigint NOT NULL,
-                                 `dict_id` int NOT NULL COMMENT '字典ID',
+                                 `dict_id` bigint NOT NULL COMMENT '字典ID',
                                  `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '值',
                                  `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签',
                                  `type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',

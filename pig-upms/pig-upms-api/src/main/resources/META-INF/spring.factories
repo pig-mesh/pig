@@ -1,5 +1,5 @@
-# ?? feignclient ??????? ?????????????
 com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration=\
+  com.pig4cloud.pig.admin.api.feign.RemoteDictSe rvice,\
   com.pig4cloud.pig.admin.api.feign.RemoteDeptService,\
   com.pig4cloud.pig.admin.api.feign.RemoteLogService,\
   com.pig4cloud.pig.admin.api.feign.RemoteTokenService,\
