@@ -71,7 +71,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 		SysDict dict = dictService.getById(item.getDictId());
 		// 系统内置
 		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
-			return R.failed("系统内置字典项目不能删除");
+			return R.failed("系统内置字典项目不能编辑");
 		}
 		return R.ok(this.updateById(item));
 	}
