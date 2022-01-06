@@ -37,7 +37,7 @@
 | Spring Cloud           | 2021.0.0 |
 | Spring Cloud Alibaba   | 2021.1   |
 | Spring Security OAuth2 | 2.3.6    |
-| Mybatis Plus           | 3.4.3.4  |
+| Mybatis Plus           | 3.5.0  |
 | hutool                 | 5.7.18   |
 | Avue                   | 2.6.18   |
 
