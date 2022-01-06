@@ -139,7 +139,8 @@
 		<where>
 			sys_user.del_flag = '0'
 			<if test="query.username != null and query.username != ''">
-				and sys_user.username LIKE CONCAT('%', #{query.username}, '%')
+				<bind name="usernameLike" value="'%' + query.username + '%'" />
+				and sys_user.username LIKE  #{usernameLike}
 			</if>
 		</where>
 		ORDER BY sys_user.create_time DESC
@@ -163,7 +164,8 @@
 		<where>
 			u.del_flag = '0'
 			<if test="query.username != null and query.username != ''">
-				AND u.username LIKE CONCAT('%', #{query.username}, '%')
+				<bind name="usernameLike" value="'%' + query.username + '%'" />
+				AND u.username LIKE #{usernameLike}
 			</if>
 			<if test="query.deptId != null and query.deptId != ''">
 				AND u.dept_id = #{query.deptId}
