@@ -33,7 +33,7 @@
 	</organization>
 
 	<properties>
-		<spring-boot.version>2.5.7</spring-boot.version>
+		<spring-boot.version>2.5.8</spring-boot.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -282,9 +282,17 @@
 			</activation>
 		</profile>
 		<profile>
-			<id>test</id>
+			<id>oracle</id>
 			<properties>
-				<profiles.active>test</profiles.active>
+				<profiles.active>dev</profiles.active>
+				<db.type>oracle</db.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>pg</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+				<db.type>pg</db.type>
 			</properties>
 		</profile>
 		<profile>
