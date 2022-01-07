@@ -37,6 +37,8 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
+import org.apache.velocity.tools.generic.DateTool;
+import org.apache.velocity.tools.generic.MathTool;
 
 import java.io.File;
 import java.io.IOException;
@@ -259,7 +261,11 @@ public class CodeGenKits {
 		Properties prop = new Properties();
 		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		Velocity.init(prop);
+
 		VelocityContext context = new VelocityContext(map);
+		// 函数库
+		context.put("math", new MathTool());
+		context.put("dateTool", new DateTool());
 
 		// 获取模板列表
 		List<String> templates = getTemplates(genConfig);

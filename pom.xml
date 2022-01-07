@@ -37,7 +37,7 @@
 		<hutool.version>5.7.18</hutool.version>
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<captcha.version>2.2.1</captcha.version>
-		<velocity.version>1.7</velocity.version>
+		<velocity.version>2.3</velocity.version>
 		<configuration.version>1.10</configuration.version>
 		<nacos.version>2.0.3</nacos.version>
 		<jasypt.version>2.1.0</jasypt.version>

@@ -209,7 +209,7 @@ CREATE TABLE `sys_menu` (
                             `name` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
                             `permission` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单权限标识',
                             `path` varchar(128) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '前端URL',
-                            `parent_id` int DEFAULT NULL COMMENT '父菜单ID',
+                            `parent_id` bigint DEFAULT NULL COMMENT '父菜单ID',
                             `icon` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '图标',
                             `sort_order` int NOT NULL DEFAULT '0' COMMENT '排序值',
                             `keep_alive` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '0-开启，1- 关闭',
