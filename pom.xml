@@ -38,6 +38,7 @@
 		<dynamic-ds.version>3.4.1</dynamic-ds.version>
 		<captcha.version>2.2.1</captcha.version>
 		<velocity.version>2.3</velocity.version>
+		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
 		<nacos.version>2.0.3</nacos.version>
 		<jasypt.version>2.1.0</jasypt.version>
