@@ -94,7 +94,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 	/**
 	 * 构建树查询 1. 不是懒加载情况，查询全部 2. 是懒加载，根据parentId 查询 2.1 父节点为空，则查询ID -1
-	 * @param lazy 是否是懒加载
 	 * @param parentId 父节点ID
 	 * @param menuName 菜单名称
 	 * @return

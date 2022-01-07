@@ -123,7 +123,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	public List<Tree<Long>> selectTree(String deptName) {
 		// 查询全部部门
 		List<SysDept> deptAllList = deptMapper
-				.selectList(Wrappers.<SysDept>lambdaQuery().like(SysDept::getName, deptName));
+				.selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName),SysDept::getName, deptName));
 		// 查询数据权限内部门
 		List<Long> deptOwnIdList = deptMapper.selectListByScope(
 				Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
