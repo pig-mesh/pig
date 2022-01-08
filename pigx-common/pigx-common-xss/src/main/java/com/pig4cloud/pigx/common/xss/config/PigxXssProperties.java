@@ -35,7 +35,7 @@ import java.util.List;
 @ConfigurationProperties(PigxXssProperties.PREFIX)
 public class PigxXssProperties {
 
-	public static final String PREFIX = "mica.xss";
+	public static final String PREFIX = "security.xss";
 
 	/**
 	 * 开启xss
