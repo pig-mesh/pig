@@ -17,9 +17,9 @@
 package com.alibaba.nacos.filter;
 
 import com.alibaba.nacos.api.common.Constants;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.security.nacos.JwtTokenManager;
 import com.alibaba.nacos.security.nacos.NacosAuthConfig;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;

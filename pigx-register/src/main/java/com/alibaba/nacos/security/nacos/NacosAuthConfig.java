@@ -18,9 +18,9 @@ package com.alibaba.nacos.security.nacos;
 
 import com.alibaba.nacos.auth.common.AuthConfigs;
 import com.alibaba.nacos.auth.common.AuthSystemTypes;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.alibaba.nacos.filter.JwtAuthenticationTokenFilter;
 import com.alibaba.nacos.security.nacos.users.NacosUserDetailsServiceImpl;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
