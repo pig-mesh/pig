@@ -31,6 +31,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 import java.util.Iterator;
@@ -41,6 +42,7 @@ import java.util.Properties;
 /**
  * @author 郑健楠
  */
+@EnableAsync
 @Configuration
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
 @EnableConfigurationProperties({ QuartzProperties.class })

@@ -27,11 +27,10 @@ import com.pig4cloud.pigx.daemon.quartz.service.SysJobService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Aspect;
 import org.quartz.CronTrigger;
 import org.quartz.Trigger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
 import java.util.Date;
@@ -42,14 +41,13 @@ import java.util.Date;
  * @author 郑健楠
  */
 @Slf4j
-@Aspect
+@Component
 @RequiredArgsConstructor
 public class TaskInvokUtil {
 
 	private final ApplicationEventPublisher publisher;
 
-	@Autowired
-	private SysJobService sysJobService;
+	private final SysJobService sysJobService;
 
 	@SneakyThrows
 	public void invokMethod(SysJob sysJob, Trigger trigger) {

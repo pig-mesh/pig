@@ -31,7 +31,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020/1/12
  */
 @Configuration
-@ConditionalOnProperty(value = "gray.rule.enabled", havingValue = "true")
+@ConditionalOnProperty(value = "gray.rule.enabled", matchIfMissing = true)
 @LoadBalancerClients(defaultConfiguration = GrayLoadBalancerClientConfiguration.class)
 public class GrayLoadBalancerAutoConfiguration {
 

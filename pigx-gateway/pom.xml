@@ -73,9 +73,15 @@
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-alibaba-sentinel-gateway</artifactId>
 		</dependency>
+		<!-- LB 扩展 -->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-sentinel</artifactId>
+		</dependency>
+		<!--caffeine 替换LB 默认缓存实现-->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
 		</dependency>
 		<!--swagger 依赖-->
 		<dependency>
