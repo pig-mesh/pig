@@ -33,8 +33,8 @@
 	</organization>
 
 	<properties>
-		<spring-boot.version>2.5.8</spring-boot.version>
-		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<spring-boot.version>2.6.2</spring-boot.version>
+		<spring-cloud.version>2021.0.0</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -42,13 +42,14 @@
 		<maven.compiler.version>3.8.1</maven.compiler.version>
 		<spring.checkstyle.version>0.0.28</spring.checkstyle.version>
 		<git.commit.version>2.2.5</git.commit.version>
-		<spring-boot-admin.version>2.5.5</spring-boot-admin.version>
+		<spring-boot-admin.version>2.6.0</spring-boot-admin.version>
 		<hutool.version>5.7.18</hutool.version>
 		<captcha.version>1.2.7</captcha.version>
 		<cas.sdk.version>3.6.4</cas.sdk.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<knife4j.version>2.0.9</knife4j.version>
-		<velocity.version>1.7</velocity.version>
+		<velocity.version>2.3</velocity.version>
+		<velocity.tool.version>3.1</velocity.tool.version>
 		<lcn.version>4.1.0</lcn.version>
 		<jasypt.version>3.0.3</jasypt.version>
 		<ttl.version>2.11.4</ttl.version>
