@@ -27,7 +27,7 @@
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<mybatis-plus.version>3.5.0</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
-		<excel.version>1.0.0</excel.version>
+		<excel.version>1.1.0</excel.version>
 		<oss.version>1.0.3</oss.version>
 		<sms.version>2.0.2</sms.version>
 		<jaxb.version>2.3.5</jaxb.version>
