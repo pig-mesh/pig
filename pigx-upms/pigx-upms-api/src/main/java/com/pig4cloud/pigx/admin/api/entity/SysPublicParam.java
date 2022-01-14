@@ -24,6 +24,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
+
 /**
  * 公共参数配置
  *
@@ -69,14 +71,6 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	private String status;
 
 	/**
-	 * 删除状态（0：正常 1：已删除）
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "状态[0-正常，1-删除]", example = "0")
-	private String delFlag;
-
-	/**
 	 * 公共参数编码
 	 */
 	@ApiModelProperty(value = "编码", example = "^(PIG|PIGX)$")
@@ -93,5 +87,27 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	 */
 	@ApiModelProperty(value = "类型[1-检索；2-原文...]", example = "1")
 	private String publicType;
+
+	/**
+	 * 删除标记
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	private String delFlag;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建时间")
+	private LocalDateTime createTime;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "更新时间")
+	private LocalDateTime updateTime;
 
 }

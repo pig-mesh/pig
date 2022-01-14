@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pigx-sentinel-dashboard</artifactId>

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>4.2.0</version>
+		<version>4.3.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pigx-codegen</artifactId>
@@ -16,7 +16,6 @@
 
 	<properties>
 		<screw.version>0.0.1</screw.version>
-		<sqlserver.version>4.0</sqlserver.version>
 		<db2.version>11.5.0.0</db2.version>
 		<configuration.version>1.10</configuration.version>
 	</properties>
@@ -64,8 +63,7 @@
 		<!-- sqlserver 驱动 -->
 		<dependency>
 			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>sqljdbc4</artifactId>
-			<version>${sqlserver.version}</version>
+			<artifactId>mssql-jdbc</artifactId>
 		</dependency>
 		<!-- db2 驱动-->
 		<dependency>

@@ -24,7 +24,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pigx</artifactId>
-	<version>4.2.0</version>
+	<version>4.3.0-SNAPSHOT</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<organization>
@@ -288,6 +288,13 @@
 			<properties>
 				<profiles.active>dev</profiles.active>
 				<db.type>oracle</db.type>
+			</properties>
+		</profile>
+		<profile>
+			<id>mssql</id>
+			<properties>
+				<profiles.active>dev</profiles.active>
+				<db.type>mssql</db.type>
 			</properties>
 		</profile>
 		<profile>
