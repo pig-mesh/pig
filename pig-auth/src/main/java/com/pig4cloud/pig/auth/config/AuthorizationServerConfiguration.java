@@ -20,7 +20,6 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
 import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
-import com.pig4cloud.pig.common.security.service.PigCustomAuthenticationProvider;
 import com.pig4cloud.pig.common.security.service.PigCustomTokenServices;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -83,6 +81,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		setTokenGranter(endpoints);
 	}
 
+	/**
+	 * 自定义 APP 认证类型
+	 * @param endpoints AuthorizationServerEndpointsConfigurer
+	 */
 	private void setTokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
 		// 获取默认授权类型
 		TokenGranter tokenGranter = endpoints.getTokenGranter();
@@ -95,6 +97,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		endpoints.tokenGranter(compositeTokenGranter);
 	}
 
+	/**
+	 * token 生成接口输出增强
+	 * @return TokenEnhancer
+	 */
 	@Bean
 	public TokenEnhancer tokenEnhancer() {
 		return (accessToken, authentication) -> {
@@ -116,6 +122,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		};
 	}
 
+	/**
+	 * 客户端信息加载处理
+	 * @return ClientDetailsService
+	 */
 	@Bean
 	public ClientDetailsService pigClientDetailsService() {
 		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
@@ -124,13 +134,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		return clientDetailsService;
 	}
 
-	@Bean
-	public PigCustomAuthenticationProvider authenticationProvider(PasswordEncoder passwordEncoder) {
-		PigCustomAuthenticationProvider authenticationProvider = new PigCustomAuthenticationProvider();
-		authenticationProvider.setPasswordEncoder(passwordEncoder);
-		return authenticationProvider;
-	}
-
+	/**
+	 * token 核心处理
+	 * @return tokenServices
+	 */
 	@Bean
 	public PigCustomTokenServices tokenServices() {
 		PigCustomTokenServices tokenServices = new PigCustomTokenServices();
