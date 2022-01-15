@@ -2,8 +2,8 @@ package com.anjiplus.template.gaea.business.modules.dict.dao.entity;
 
 import com.anji.plus.gaea.annotation.UnionUnique;
 import com.anji.plus.gaea.annotation.UnionUniqueCode;
-import com.anjiplus.template.gaea.business.code.*;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
+import com.anjiplus.template.gaea.business.code.ResponseCode;
 import com.anjiplus.template.gaea.business.constant.BusinessConstant;
 import com.baomidou.mybatisplus.annotation.TableName;
 

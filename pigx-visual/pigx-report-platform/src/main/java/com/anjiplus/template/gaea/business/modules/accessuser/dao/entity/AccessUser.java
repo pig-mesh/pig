@@ -1,10 +1,10 @@
 
 package com.anjiplus.template.gaea.business.modules.accessuser.dao.entity;
 
-import lombok.Data;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import javax.validation.constraints.*;
+import lombok.Data;
+
 import java.util.Date;
 
 /**

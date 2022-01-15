@@ -17,10 +17,6 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
@@ -37,6 +33,10 @@ import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lengleng

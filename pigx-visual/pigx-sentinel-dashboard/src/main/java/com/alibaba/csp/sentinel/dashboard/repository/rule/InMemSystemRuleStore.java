@@ -15,11 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.repository.rule;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.SystemRuleEntity;
-
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * @author leyou

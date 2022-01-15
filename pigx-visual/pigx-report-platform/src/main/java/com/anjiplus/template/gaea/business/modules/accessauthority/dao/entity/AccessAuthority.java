@@ -1,12 +1,9 @@
 
 package com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import javax.validation.constraints.*;
-import java.util.Date;
+import lombok.Data;
 
 /**
  * @description 权限管理 entity

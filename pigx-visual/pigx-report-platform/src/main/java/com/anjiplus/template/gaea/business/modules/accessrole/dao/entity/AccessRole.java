@@ -1,11 +1,9 @@
 
 package com.anjiplus.template.gaea.business.modules.accessrole.dao.entity;
 
-import lombok.Data;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
 import com.baomidou.mybatisplus.annotation.TableName;
-import javax.validation.constraints.*;
-import java.util.Date;
+import lombok.Data;
 
 /**
  * @description 角色管理 entity

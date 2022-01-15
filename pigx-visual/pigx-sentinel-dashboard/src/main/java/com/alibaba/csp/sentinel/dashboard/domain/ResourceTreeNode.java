@@ -15,12 +15,12 @@
  */
 package com.alibaba.csp.sentinel.dashboard.domain;
 
+import com.alibaba.csp.sentinel.command.vo.NodeVo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.alibaba.csp.sentinel.command.vo.NodeVo;
 
 /**
  * @author leyou

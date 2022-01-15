@@ -2,9 +2,9 @@
 package com.anjiplus.template.gaea.business.modules.accessauthority.service;
 
 import com.anji.plus.gaea.bean.TreeNode;
-import com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity.AccessAuthority;
-import com.anjiplus.template.gaea.business.modules.accessauthority.controller.param.AccessAuthorityParam;
 import com.anji.plus.gaea.curd.service.GaeaBaseService;
+import com.anjiplus.template.gaea.business.modules.accessauthority.controller.param.AccessAuthorityParam;
+import com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity.AccessAuthority;
 
 import java.util.List;
 

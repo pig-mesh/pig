@@ -1,6 +1,5 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db.provider;
 
-import cn.hutool.db.DbUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
 import lombok.RequiredArgsConstructor;

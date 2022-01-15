@@ -1,8 +1,6 @@
 package com.anjiplus.template.gaea.business.modules.file.controller.dto;
 
 import com.anji.plus.gaea.curd.dto.GaeaBaseDTO;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**

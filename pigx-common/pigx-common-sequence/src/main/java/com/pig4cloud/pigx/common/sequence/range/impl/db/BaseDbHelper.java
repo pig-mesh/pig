@@ -2,7 +2,6 @@ package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 import com.pig4cloud.pigx.common.sequence.range.impl.db.provider.SqlProviderFactory;
 

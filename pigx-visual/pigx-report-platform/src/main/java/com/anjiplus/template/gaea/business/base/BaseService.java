@@ -3,7 +3,6 @@ package com.anjiplus.template.gaea.business.base;
 import com.anji.plus.gaea.curd.entity.BaseEntity;
 import com.anji.plus.gaea.curd.params.PageParam;
 import com.anji.plus.gaea.curd.service.GaeaBaseService;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 /**
  * 项目级的Service公共处理基类

@@ -1,9 +1,5 @@
 package com.pig4cloud.pigx.common.sentinel.feign;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.Map;
-
 import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
 import feign.Contract;
 import feign.Feign;
@@ -17,6 +13,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.StringUtils;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
  * 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign} 支持自动降级注入

@@ -15,9 +15,9 @@
  */
 package com.alibaba.csp.sentinel.dashboard.repository.rule;
 
-import java.util.List;
-
 import com.alibaba.csp.sentinel.dashboard.discovery.MachineInfo;
+
+import java.util.List;
 
 /**
  * Interface to store and find rules.

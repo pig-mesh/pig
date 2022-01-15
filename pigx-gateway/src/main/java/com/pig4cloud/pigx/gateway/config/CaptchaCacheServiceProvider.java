@@ -1,10 +1,10 @@
 package com.pig4cloud.pigx.gateway.config;
 
-import java.util.concurrent.TimeUnit;
-
 import com.anji.captcha.service.CaptchaCacheService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lengleng

@@ -1,17 +1,14 @@
 
 package com.anjiplus.template.gaea.business.modules.accessrole.controller.dto;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-
-import com.anji.plus.gaea.annotation.Query;
-import com.anji.plus.gaea.constant.QueryEnum;
 import com.anji.plus.gaea.curd.dto.GaeaBaseDTO;
 import io.swagger.annotations.ApiModelProperty;
-import com.anji.plus.gaea.annotation.Formatter;
 import lombok.Data;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * @description 角色管理 dto

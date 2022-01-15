@@ -6,21 +6,16 @@ import com.anji.plus.gaea.bean.ResponseBean;
 import com.anji.plus.gaea.curd.controller.GaeaBaseController;
 import com.anji.plus.gaea.curd.service.GaeaBaseService;
 import com.anji.plus.gaea.holder.UserContentHolder;
+import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.AccessUserDto;
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.GaeaUserDto;
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.UpdatePasswordDto;
+import com.anjiplus.template.gaea.business.modules.accessuser.controller.param.AccessUserParam;
 import com.anjiplus.template.gaea.business.modules.accessuser.dao.entity.AccessUser;
 import com.anjiplus.template.gaea.business.modules.accessuser.service.AccessUserService;
-import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.AccessUserDto;
-import com.anjiplus.template.gaea.business.modules.accessuser.controller.param.AccessUserParam;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 

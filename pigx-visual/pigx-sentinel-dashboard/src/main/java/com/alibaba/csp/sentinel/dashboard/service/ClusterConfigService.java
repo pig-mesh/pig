@@ -15,31 +15,30 @@
  */
 package com.alibaba.csp.sentinel.dashboard.service;
 
+import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
+import com.alibaba.csp.sentinel.dashboard.client.SentinelApiClient;
+import com.alibaba.csp.sentinel.dashboard.discovery.AppInfo;
+import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterGroupEntity;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterClientModifyRequest;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterServerModifyRequest;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterClientStateVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterUniversalStatePairVO;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterUniversalStateVO;
+import com.alibaba.csp.sentinel.dashboard.util.AsyncUtils;
+import com.alibaba.csp.sentinel.dashboard.util.ClusterEntityUtils;
+import com.alibaba.csp.sentinel.util.StringUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-
-import com.alibaba.csp.sentinel.cluster.ClusterStateManager;
-import com.alibaba.csp.sentinel.dashboard.client.SentinelApiClient;
-import com.alibaba.csp.sentinel.dashboard.discovery.AppInfo;
-import com.alibaba.csp.sentinel.dashboard.discovery.AppManagement;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterServerModifyRequest;
-import com.alibaba.csp.sentinel.dashboard.util.AsyncUtils;
-import com.alibaba.csp.sentinel.dashboard.util.ClusterEntityUtils;
-import com.alibaba.csp.sentinel.util.StringUtil;
-
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterGroupEntity;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterClientModifyRequest;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterClientStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterUniversalStatePairVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.state.ClusterUniversalStateVO;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ClusterClientConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * @author Eric Zhao

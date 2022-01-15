@@ -15,12 +15,12 @@
  */
 package com.alibaba.csp.sentinel.dashboard.domain.cluster.state;
 
-import java.util.List;
-import java.util.Set;
-
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.ConnectionGroupVO;
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerFlowConfig;
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.config.ServerTransportConfig;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Eric Zhao

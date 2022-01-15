@@ -1,14 +1,12 @@
 /**/
 package com.anjiplus.template.gaea.business.modules.accessrole.controller.param;
 
-import lombok.Data;
-import java.io.Serializable;
 import com.anji.plus.gaea.annotation.Query;
 import com.anji.plus.gaea.constant.QueryEnum;
 import com.anji.plus.gaea.curd.params.PageParam;
-import java.util.List;
+import lombok.Data;
 
-import java.util.Date;
+import java.io.Serializable;
 
 /**
  * @desc AccessRole 角色管理查询输入类

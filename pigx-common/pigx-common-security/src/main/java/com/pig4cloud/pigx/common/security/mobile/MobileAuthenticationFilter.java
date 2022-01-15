@@ -17,9 +17,6 @@
 
 package com.pig4cloud.pigx.common.security.mobile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +29,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author lengleng

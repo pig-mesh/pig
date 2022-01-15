@@ -1,10 +1,8 @@
 package com.anjiplus.template.gaea.business.modules.accessrole.dao.entity;
 
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.baomidou.mybatisplus.annotation.Version;
 import lombok.Data;
 
 import java.util.Date;

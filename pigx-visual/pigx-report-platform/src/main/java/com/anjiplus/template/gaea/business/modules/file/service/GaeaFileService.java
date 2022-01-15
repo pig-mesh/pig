@@ -1,8 +1,8 @@
 package com.anjiplus.template.gaea.business.modules.file.service;
 
 import com.anji.plus.gaea.curd.service.GaeaBaseService;
-import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
 import com.anjiplus.template.gaea.business.modules.file.controller.param.GaeaFileParam;
+import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 

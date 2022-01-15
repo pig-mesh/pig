@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.common.gateway.support;
 import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.gateway.vo.RouteDefinitionVo;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;

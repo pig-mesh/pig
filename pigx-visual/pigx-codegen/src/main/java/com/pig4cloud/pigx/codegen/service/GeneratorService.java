@@ -17,11 +17,11 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import java.util.Map;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenConfig;
+
+import java.util.Map;
 
 /**
  * @author lengleng

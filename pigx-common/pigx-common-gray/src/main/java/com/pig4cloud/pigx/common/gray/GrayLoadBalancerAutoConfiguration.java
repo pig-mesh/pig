@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.common.gray;
 import com.pig4cloud.pigx.common.gray.feign.GrayFeignRequestInterceptor;
 import com.pig4cloud.pigx.common.gray.rule.GrayLoadBalancerClientConfiguration;
 import feign.RequestInterceptor;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;

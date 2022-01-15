@@ -1,7 +1,7 @@
 package com.anjiplus.template.gaea.business.modules.file.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
 import com.anji.plus.gaea.curd.entity.GaeaBaseEntity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

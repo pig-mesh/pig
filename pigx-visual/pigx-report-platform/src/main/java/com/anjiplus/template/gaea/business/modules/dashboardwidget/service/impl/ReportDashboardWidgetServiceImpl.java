@@ -2,13 +2,11 @@
 package com.anjiplus.template.gaea.business.modules.dashboardwidget.service.impl;
 
 import com.anji.plus.gaea.curd.mapper.GaeaBaseMapper;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.anjiplus.template.gaea.business.modules.dashboardwidget.dao.ReportDashboardWidgetMapper;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.dao.entity.ReportDashboardWidget;
 import com.anjiplus.template.gaea.business.modules.dashboardwidget.service.ReportDashboardWidgetService;
-import com.anjiplus.template.gaea.business.modules.dashboardwidget.dao.ReportDashboardWidgetMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @desc ReportDashboardWidget 大屏看板数据渲染服务实现

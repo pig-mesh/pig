@@ -17,7 +17,6 @@
 package com.pig4cloud.pigx.mp.mapper;
 
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
-import com.pig4cloud.pigx.mp.entity.WxAccount;
 import com.pig4cloud.pigx.mp.entity.WxAccountTag;
 import org.apache.ibatis.annotations.Mapper;
 

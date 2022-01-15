@@ -1,15 +1,13 @@
 
 package com.anjiplus.template.gaea.business.modules.accessuser.controller.dto;
 
-import java.io.Serializable;
+import com.anji.plus.gaea.curd.dto.GaeaBaseDTO;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import com.anji.plus.gaea.curd.dto.GaeaBaseDTO;
-import com.anjiplus.template.gaea.business.modules.accessuser.dao.entity.AccessUser;
-import io.swagger.annotations.ApiModelProperty;
-import com.anji.plus.gaea.annotation.Formatter;
-import lombok.Data;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
