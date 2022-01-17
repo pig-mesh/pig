@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.datasource.config;
 
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
+import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
 import com.pig4cloud.pigx.common.datasource.support.DataSourceConstants;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
@@ -66,6 +67,10 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			Integer confType = rs.getInt(DataSourceConstants.DS_CONFIG_TYPE);
 			String dsType = rs.getString(DataSourceConstants.DS_TYPE);
 
+			DataSourceProperty property = new DataSourceProperty();
+			property.setUsername(username);
+			property.setPassword(stringEncryptor.decrypt(password));
+
 			String url;
 			// JDBC 配置形式
 			DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(dsType);
@@ -73,6 +78,11 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 				url = rs.getString(DataSourceConstants.DS_JDBC_URL);
 			}
 			else if (DsJdbcUrlEnum.MSSQL.getDbName().equals(dsType)) {
+				// Druid Config
+				DruidConfig druidConfig = new DruidConfig();
+				druidConfig.setValidationQuery("select 'x'");
+				property.setDruid(druidConfig);
+
 				String host = rs.getString(DataSourceConstants.DS_HOST);
 				String port = rs.getString(DataSourceConstants.DS_PORT);
 				String dsName = rs.getString(DataSourceConstants.DS_NAME);
@@ -85,11 +95,8 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 				String dsName = rs.getString(DataSourceConstants.DS_NAME);
 				url = String.format(urlEnum.getUrl(), host, port, dsName);
 			}
-
-			DataSourceProperty property = new DataSourceProperty();
-			property.setUsername(username);
-			property.setPassword(stringEncryptor.decrypt(password));
 			property.setUrl(url);
+
 			map.put(name, property);
 		}
 
