@@ -77,24 +77,17 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			if (DsConfTypeEnum.JDBC.getType().equals(confType)) {
 				url = rs.getString(DataSourceConstants.DS_JDBC_URL);
 			}
-			else if (DsJdbcUrlEnum.MSSQL.getDbName().equals(dsType)) {
-				// Druid Config
-				DruidConfig druidConfig = new DruidConfig();
-				druidConfig.setValidationQuery("select 'x'");
-				property.setDruid(druidConfig);
-
-				String host = rs.getString(DataSourceConstants.DS_HOST);
-				String port = rs.getString(DataSourceConstants.DS_PORT);
-				String dsName = rs.getString(DataSourceConstants.DS_NAME);
-				String instance = rs.getString(DataSourceConstants.DS_INSTANCE);
-				url = String.format(urlEnum.getUrl(), host, instance, port, dsName);
-			}
 			else {
 				String host = rs.getString(DataSourceConstants.DS_HOST);
 				String port = rs.getString(DataSourceConstants.DS_PORT);
 				String dsName = rs.getString(DataSourceConstants.DS_NAME);
 				url = String.format(urlEnum.getUrl(), host, port, dsName);
 			}
+
+			// Druid Config
+			DruidConfig druidConfig = new DruidConfig();
+			druidConfig.setValidationQuery(urlEnum.getValidationQuery());
+			property.setDruid(druidConfig);
 			property.setUrl(url);
 
 			map.put(name, property);

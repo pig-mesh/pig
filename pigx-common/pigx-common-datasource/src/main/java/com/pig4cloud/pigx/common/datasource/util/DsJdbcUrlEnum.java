@@ -22,31 +22,33 @@ public enum DsJdbcUrlEnum {
 			"jdbc:mysql://%s:%s/%s?characterEncoding=utf8"
 					+ "&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true"
 					+ "&useLegacyDatetimeCode=false&allowMultiQueries=true&allowPublicKeyRetrieval=true",
-			"mysql8 链接"),
+			"select 1", "mysql8 链接"),
 
 	/**
 	 * pg 数据库
 	 */
-	PG("pg", "jdbc:postgresql://%s:%s/%s", "postgresql 链接"),
+	PG("pg", "jdbc:postgresql://%s:%s/%s", "select 1", "postgresql 链接"),
 
 	/**
 	 * SQL SERVER
 	 */
-	MSSQL("mssql", "jdbc:sqlserver://%s\\%s:%s;database=%s;characterEncoding=UTF-8", "sqlserver 链接"),
+	MSSQL("mssql", "jdbc:sqlserver://%s:%s;database=%s;characterEncoding=UTF-8", "select 1", "sqlserver 链接"),
 
 	/**
 	 * oracle
 	 */
-	ORACLE("oracle", "jdbc:oracle:thin:@%s:%s:%s", "oracle 链接"),
+	ORACLE("oracle", "jdbc:oracle:thin:@%s:%s:%s", "select 1 from dual", "oracle 链接"),
 
 	/**
 	 * db2
 	 */
-	DB2("db2", "jdbc:db2://%s:%s/%s", "DB2 TYPE4 连接");
+	DB2("db2", "jdbc:db2://%s:%s/%s", "select 1 from sysibm.sysdummy1", "DB2 TYPE4 连接");
 
 	private final String dbName;
 
 	private final String url;
+
+	private final String validationQuery;
 
 	private final String description;
 
