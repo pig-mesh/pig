@@ -77,7 +77,7 @@ public class SysJobController {
 	 */
 	@GetMapping("/{id}")
 	@ApiOperation(value = "唯一标识查询定时任务")
-	public R getById(@PathVariable("id") Integer id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(sysJobService.getById(id));
 	}
 
@@ -127,7 +127,7 @@ public class SysJobController {
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('job_sys_job_del')")
 	@ApiOperation(value = "唯一标识查询定时任务，暂停任务才能删除")
-	public R removeById(@PathVariable Integer id) {
+	public R removeById(@PathVariable Long id) {
 		SysJob querySysJob = this.sysJobService.getById(id);
 		if (JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
 			this.taskUtil.removeJob(querySysJob, scheduler);
@@ -234,7 +234,7 @@ public class SysJobController {
 	@PostMapping("/run-job/{id}")
 	@PreAuthorize("@pms.hasPermission('job_sys_job_run_job')")
 	@ApiOperation(value = "立刻执行定时任务")
-	public R runJob(@PathVariable("id") Integer jobId) {
+	public R runJob(@PathVariable("id") Long jobId) {
 		SysJob querySysJob = this.sysJobService.getById(jobId);
 		return TaskUtil.runOnce(scheduler, querySysJob) ? R.ok() : R.failed();
 	}
@@ -247,7 +247,7 @@ public class SysJobController {
 	@PostMapping("/shutdown-job/{id}")
 	@PreAuthorize("@pms.hasPermission('job_sys_job_shutdown_job')")
 	@ApiOperation(value = "暂停定时任务")
-	public R shutdownJob(@PathVariable("id") Integer id) {
+	public R shutdownJob(@PathVariable("id") Long id) {
 		SysJob querySysJob = this.sysJobService.getById(id);
 		// 更新定时任务状态条件，运行状态2更新为暂停状态3
 		this.sysJobService.updateById(

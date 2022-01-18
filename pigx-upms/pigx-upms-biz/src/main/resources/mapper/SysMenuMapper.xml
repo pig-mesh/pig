@@ -52,7 +52,7 @@
 			   sys_menu.del_flag
 		FROM sys_menu
 					 LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
-		WHERE sys_menu.del_flag = 0
+		WHERE sys_menu.del_flag = '0'
 		  AND sys_role_menu.role_id = #{roleId}
 		ORDER BY sys_menu.sort_order DESC
 	</select>
@@ -63,7 +63,7 @@
 		FROM sys_menu m,
 			 sys_role_menu rm
 		WHERE m.menu_id = rm.menu_id
-		  AND m.del_flag = 0
+		  AND m.del_flag = '0'
 		  AND rm.role_id IN (#{roleIds})
 	</select>
 </mapper>

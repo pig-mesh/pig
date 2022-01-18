@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.common.data.mybatis;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.security.core.Authentication;
@@ -25,11 +26,14 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		log.debug("mybatis plus start insert fill ....");
 		LocalDateTime now = LocalDateTime.now();
 
+		// 审计字段自动填充
 		fillValIfNullByName("createTime", now, metaObject, false);
 		fillValIfNullByName("updateTime", now, metaObject, false);
 		fillValIfNullByName("createBy", getUserName(), metaObject, false);
 		fillValIfNullByName("updateBy", getUserName(), metaObject, false);
-		fillValIfNullByName("delFlag", 1, metaObject, false);
+
+		// 删除标记自动填充
+		fillValIfNullByName("delFlag", CommonConstants.STATUS_NORMAL, metaObject, false);
 	}
 
 	@Override

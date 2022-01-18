@@ -16,10 +16,7 @@
  */
 package com.pig4cloud.pigx.codegen.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -98,17 +95,20 @@ public class GenDatasourceConf extends Model<GenDatasourceConf> {
 	/**
 	 * 创建时间
 	 */
-	private LocalDateTime createDate;
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
 
 	/**
-	 * 更新
+	 * 修改时间
 	 */
-	private LocalDateTime updateDate;
+	@TableField(fill = FieldFill.UPDATE)
+	private LocalDateTime updateTime;
 
 	/**
-	 * 删除标记
+	 * 0-正常，1-删除
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
 
 }
