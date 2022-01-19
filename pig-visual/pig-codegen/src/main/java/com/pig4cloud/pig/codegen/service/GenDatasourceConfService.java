@@ -59,6 +59,6 @@ public interface GenDatasourceConfService extends IService<GenDatasourceConf> {
 	 * @param dsId 数据源ID
 	 * @return
 	 */
-	Boolean removeByDsId(Integer dsId);
+	Boolean removeByDsId(Long dsId);
 
 }

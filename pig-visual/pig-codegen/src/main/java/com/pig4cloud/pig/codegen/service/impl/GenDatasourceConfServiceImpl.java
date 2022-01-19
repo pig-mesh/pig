@@ -101,7 +101,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	 * @return
 	 */
 	@Override
-	public Boolean removeByDsId(Integer dsId) {
+	public Boolean removeByDsId(Long dsId) {
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class)
 				.removeDataSource(baseMapper.selectById(dsId).getName());
 		this.baseMapper.deleteById(dsId);
