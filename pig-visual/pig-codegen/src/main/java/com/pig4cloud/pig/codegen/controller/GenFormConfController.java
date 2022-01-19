@@ -100,7 +100,7 @@ public class GenFormConfController {
 	@SysLog("通过id删除生成记录")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('gen_form_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
+	public R<Boolean> removeById(@PathVariable Integer id) {
 		return R.ok(genRecordService.removeById(id));
 	}
 
