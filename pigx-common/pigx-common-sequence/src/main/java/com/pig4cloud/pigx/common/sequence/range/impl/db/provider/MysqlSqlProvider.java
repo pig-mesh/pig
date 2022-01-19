@@ -13,12 +13,14 @@ import org.springframework.stereotype.Component;
 public class MysqlSqlProvider implements SqlProvider {
 
 	/**
-	 * 获取插入范围语句
+	 * 获取建表语句
 	 * @return
 	 */
 	@Override
-	public String getInsertRangeSql() {
-		return "INSERT IGNORE INTO #tableName(id,name,value,gmt_create,gmt_modified)" + " VALUE(?,?,?,?,?)";
+	public String getCreateTableSql() {
+		return "CREATE TABLE IF NOT EXISTS #tableName(" + "id bigint(20) NOT NULL AUTO_INCREMENT,"
+				+ "value bigint(20) NOT NULL," + "name varchar(32) NOT NULL," + "gmt_create DATETIME NOT NULL,"
+				+ "gmt_modified DATETIME NOT NULL," + "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
 	}
 
 	@Override

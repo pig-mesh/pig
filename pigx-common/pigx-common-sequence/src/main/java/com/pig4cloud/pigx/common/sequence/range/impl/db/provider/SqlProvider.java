@@ -11,27 +11,33 @@ import com.baomidou.mybatisplus.annotation.DbType;
 public interface SqlProvider {
 
 	/**
+	 * 获取表是否存在
+	 * @return
+	 */
+	default String getExistTableSql() {
+		return null;
+	}
+
+	/**
 	 * 获取建表语句
 	 * @return
 	 */
-	default String getCreateTableSql() {
-		return "CREATE TABLE IF NOT EXISTS #tableName(" + "id bigint(20) NOT NULL AUTO_INCREMENT,"
-				+ "value bigint(20) NOT NULL," + "name varchar(32) NOT NULL," + "gmt_create DATETIME NOT NULL,"
-				+ "gmt_modified DATETIME NOT NULL," + "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
-	}
+	String getCreateTableSql();
 
 	/**
 	 * 获取插入范围语句
 	 * @return
 	 */
-	String getInsertRangeSql();
+	default String getInsertRangeSql() {
+		return "INSERT INTO #tableName (id,name,value,gmt_create,gmt_modified)" + " VALUES(?,?,?,?,?)";
+	}
 
 	/**
 	 * 获取更新范围语句
 	 * @return
 	 */
 	default String getUpdateRangeSql() {
-		return "UPDATE #tableName SET value=?,gmt_modified=? WHERE name=? AND " + "value=?";
+		return "UPDATE #tableName SET value=?,gmt_modified=? WHERE name=? AND value=?";
 	}
 
 	/**

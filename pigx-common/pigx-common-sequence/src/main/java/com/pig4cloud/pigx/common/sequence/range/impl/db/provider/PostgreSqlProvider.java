@@ -12,9 +12,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class PostgreSqlProvider implements SqlProvider {
 
+	/**
+	 * 获取建表语句
+	 * @return
+	 */
 	@Override
-	public String getInsertRangeSql() {
-		return "INSERT INTO #tableName(id,name,value,gmt_create,gmt_modified)" + " VALUE(?,?,?,?,?)";
+	public String getCreateTableSql() {
+		return "CREATE TABLE IF NOT EXISTS #tableName (ID int8 PRIMARY KEY NOT NULL"
+				+ ",VALUE int8 NOT NULL,NAME VARCHAR (266) NOT NULL,gmt_create TIMESTAMP (6) NOT NULL"
+				+ ",gmt_modified TIMESTAMP (6) NOT NULL)";
 	}
 
 	@Override

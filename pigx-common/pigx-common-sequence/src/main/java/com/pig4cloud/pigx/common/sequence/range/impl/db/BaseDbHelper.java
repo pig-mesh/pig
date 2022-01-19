@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 import com.pig4cloud.pigx.common.sequence.range.impl.db.provider.SqlProviderFactory;
@@ -58,7 +59,7 @@ abstract class BaseDbHelper {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(SQL_PROVIDER_FACTORY.getInsertRangeSql().replace("#tableName", tableName));
-			stmt.setLong(1, RandomUtil.randomLong());
+			stmt.setLong(1, RandomUtil.randomLong(12));
 			stmt.setString(2, name);
 			stmt.setLong(3, stepStart);
 			stmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
@@ -167,6 +168,42 @@ abstract class BaseDbHelper {
 				// Ignore
 			}
 		}
+	}
+
+	public static Boolean existTable(DataSource dataSource, String tableName) {
+
+		String existTableSql = SQL_PROVIDER_FACTORY.getExistTableSql();
+		if (StrUtil.isBlank(existTableSql)) {
+			return true;
+		}
+		Connection conn = null;
+		Statement stmt = null;
+
+		try {
+			conn = dataSource.getConnection();
+			stmt = conn.createStatement();
+			ResultSet resultSet = stmt
+					.executeQuery(SQL_PROVIDER_FACTORY.getExistTableSql().replace("#tableName", tableName));
+
+			if (!resultSet.next()) {
+				return false;
+			}
+
+			int count = resultSet.getInt(1);
+
+			if (0 == count) {
+				return true;
+			}
+		}
+		catch (SQLException e) {
+			throw new SeqException(e);
+		}
+		finally {
+			closeQuietly(stmt);
+			closeQuietly(conn);
+		}
+
+		return false;
 	}
 
 }

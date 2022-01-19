@@ -12,9 +12,40 @@ import org.springframework.stereotype.Component;
 @Component
 public class OracleSqlProvider implements SqlProvider {
 
+	/**
+	 * 获取表是否存在
+	 * @return
+	 */
 	@Override
-	public String getInsertRangeSql() {
-		return "INSERT INTO #tableName(id,name,value,gmt_create,gmt_modified)" + " VALUE(?,?,?,?,?)";
+	public String getExistTableSql() {
+		return "select count(*) from user_tables where table_name =upper('#tableName')";
+	}
+
+	/**
+	 * 获取建表语句
+	 * @return SQL
+	 */
+	@Override
+	public String getCreateTableSql() {
+		return "CREATE TABLE #tableName " + "(id NUMBER (20,0) VISIBLE NOT NULL,value NUMBER (20,0) VISIBLE NOT NULL"
+				+ ",name VARCHAR2 (96 BYTE) VISIBLE,gmt_create DATE VISIBLE NOT NULL"
+				+ ",gmt_modified DATE VISIBLE NOT NULL)";
+	}
+
+	/**
+	 * 获取更新范围语句
+	 * @return
+	 */
+	public String getUpdateRangeSql() {
+		return "UPDATE #tableName SET value=?,gmt_modified=? WHERE name=? AND value=?";
+	}
+
+	/**
+	 * 获取查询范围语句
+	 * @return
+	 */
+	public String getSelectRangeSql() {
+		return "SELECT value FROM #tableName WHERE name=?";
 	}
 
 	@Override

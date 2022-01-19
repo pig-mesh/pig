@@ -19,17 +19,20 @@
 
 package com.pig4cloud.pigx.auth.config;
 
+import com.pig4cloud.pigx.common.security.component.PigxDaoAuthenticationProvider;
+import com.pig4cloud.pigx.common.security.grant.CustomAppAuthenticationProvider;
 import com.pig4cloud.pigx.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pigx.common.security.handler.MobileLoginSuccessHandler;
 import com.pig4cloud.pigx.common.security.handler.SsoLogoutSuccessHandler;
 import com.pig4cloud.pigx.common.security.handler.TenantSavedRequestAwareAuthenticationSuccessHandler;
-import com.pig4cloud.pigx.common.security.mobile.MobileSecurityConfigurer;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -46,6 +49,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @Primary
 @Order(90)
 @Configuration
+@RequiredArgsConstructor
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -56,7 +60,22 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 				.failureHandler(authenticationFailureHandler()).and().logout()
 				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
 				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
-				.anyRequest().authenticated().and().csrf().disable().apply(mobileSecurityConfigurer());
+				.anyRequest().authenticated().and().csrf().disable();
+	}
+
+	/**
+	 * 自定义 provider 列表注入
+	 * @param auth AuthenticationManagerBuilder
+	 */
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		PigxDaoAuthenticationProvider daoAuthenticationProvider = new PigxDaoAuthenticationProvider();
+		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+
+		// 处理默认的密码模式认证
+		auth.authenticationProvider(daoAuthenticationProvider);
+		// 自定义的认证模式
+		auth.authenticationProvider(new CustomAppAuthenticationProvider());
 	}
 
 	/**
@@ -99,15 +118,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return new TenantSavedRequestAwareAuthenticationSuccessHandler();
 	}
 
-	@Bean
-	public MobileSecurityConfigurer mobileSecurityConfigurer() {
-		return new MobileSecurityConfigurer();
-	}
-
 	/**
-	 * https://spring.io/blog/2017/11/01/spring-security-5-0-0-rc1-released#password-storage-updated
-	 * Encoded password does not look like BCrypt
-	 * @return PasswordEncoder
+	 * 密码处理器
+	 * @return 动态密码处理器 {类型}密文
 	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {

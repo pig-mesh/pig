@@ -71,4 +71,13 @@ public class SqlProviderFactory {
 		return sqlProvider.getUpdateRangeSql();
 	}
 
+	/**
+	 * 获取是否创建表语句
+	 * @return SQL语句
+	 */
+	public String getExistTableSql() {
+		SqlProvider sqlProvider = getSqlProvider();
+		return sqlProvider.getExistTableSql();
+	}
+
 }

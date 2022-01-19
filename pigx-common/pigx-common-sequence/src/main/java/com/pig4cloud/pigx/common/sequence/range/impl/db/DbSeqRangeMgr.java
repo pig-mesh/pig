@@ -69,7 +69,11 @@ public class DbSeqRangeMgr implements SeqRangeMgr {
 	@Override
 	public void init() {
 		checkParam();
-		BaseDbHelper.createTable(getDataSource(), getRealTableName());
+
+		// 判断是否需要创建表
+		if (BaseDbHelper.existTable(getDataSource(), getRealTableName())) {
+			BaseDbHelper.createTable(getDataSource(), getRealTableName());
+		}
 	}
 
 	private boolean isEmpty(String str) {
