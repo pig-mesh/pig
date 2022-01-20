@@ -18,6 +18,7 @@ package com.pig4cloud.pig.common.core.util;
 
 import cn.hutool.core.codec.Base64;
 import cn.hutool.json.JSONUtil;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
@@ -36,7 +37,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -143,7 +143,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 * @param contentType contentType
 	 */
 	public void renderJson(HttpServletResponse response, Object result, String contentType) {
-		response.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding(CommonConstants.UTF8);
 		response.setContentType(contentType);
 		try (PrintWriter out = response.getWriter()) {
 			out.append(JSONUtil.toJsonStr(result));
@@ -164,7 +164,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	}
 
 	@SneakyThrows
-	public String getClientId(HttpServletRequest request) {
+	public String getClientId() {
 		if (WebUtils.getRequest().isPresent()) {
 			String header = WebUtils.getRequest().get().getHeader(HttpHeaders.AUTHORIZATION);
 			return splitClient(header)[0];
@@ -173,7 +173,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	}
 
 	@NotNull
-	private static String[] splitClient(String header) throws UnsupportedEncodingException {
+	private static String[] splitClient(String header) {
 		if (header == null || !header.startsWith(BASIC_)) {
 			throw new CheckedException("请求头中client信息为空");
 		}
