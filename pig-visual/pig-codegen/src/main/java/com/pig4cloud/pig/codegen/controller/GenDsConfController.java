@@ -101,7 +101,7 @@ public class GenDsConfController {
 	 */
 	@SysLog("删除数据源表")
 	@DeleteMapping("/{id}")
-	public R<Boolean> removeById(@PathVariable Integer id) {
+	public R<Boolean> removeById(@PathVariable Long id) {
 		return R.ok(datasourceConfService.removeByDsId(id));
 	}
 
