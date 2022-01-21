@@ -34,7 +34,7 @@ import java.util.List;
 @UtilityClass
 public class RouteCacheHolder {
 
-	private Cache<String, RouteDefinitionVo> cache = CacheUtil.newLFUCache(50);
+	private Cache<String, RouteDefinitionVo> cache = CacheUtil.newLFUCache(200);
 
 	/**
 	 * 获取缓存的全部对象
