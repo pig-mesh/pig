@@ -47,7 +47,7 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @RequiredArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService pigUserDetailsService;
+	private final UserDetailsService pigUserDetailsServiceImpl;
 
 	@Override
 	@SneakyThrows
@@ -67,7 +67,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-		daoAuthenticationProvider.setUserDetailsService(pigUserDetailsService);
+		daoAuthenticationProvider.setUserDetailsService(pigUserDetailsServiceImpl);
 
 		// 处理默认的密码模式认证
 		auth.authenticationProvider(daoAuthenticationProvider);
