@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.codegen.mapper;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.ColumnEntity;
@@ -41,6 +42,7 @@ public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 	 * @param tableName 表名称
 	 * @return
 	 */
+	@InterceptorIgnore(tenantLine = "true")
 	IPage<Map<String, Object>> queryTable(Page page, @Param("tableName") String tableName);
 
 	/**
@@ -50,6 +52,7 @@ public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 	 * @return
 	 */
 	@DS("#last")
+	@InterceptorIgnore(tenantLine = "true")
 	Map<String, String> queryTable(@Param("tableName") String tableName, String dsName);
 
 	/**
@@ -60,6 +63,7 @@ public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 	 * @return
 	 */
 	@DS("#last")
+	@InterceptorIgnore(tenantLine = "true")
 	IPage<ColumnEntity> selectTableColumn(Page page, @Param("tableName") String tableName,
 			@Param("dsName") String dsName);
 
@@ -70,6 +74,7 @@ public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 	 * @return
 	 */
 	@DS("#last")
+	@InterceptorIgnore(tenantLine = "true")
 	List<ColumnEntity> selectTableColumn(@Param("tableName") String tableName, @Param("dsName") String dsName);
 
 	/**
@@ -79,6 +84,7 @@ public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 	 * @return
 	 */
 	@DS("#last")
+	@InterceptorIgnore(tenantLine = "true")
 	List<Map<String, String>> selectMapTableColumn(@Param("tableName") String tableName, String dsName);
 
 }

@@ -26,6 +26,9 @@ public class GenTableColumnServiceImpl implements GenTableColumnService {
 	@Override
 	public IPage<ColumnEntity> listTable(Page page, GenConfig genConfig) {
 		GeneratorMapper mapper = GenUtils.getMapper(genConfig.getDsName());
+
+		// 关闭sql 优化
+		page.setOptimizeCountSql(false);
 		IPage<ColumnEntity> columnPage = mapper.selectTableColumn(page, genConfig.getTableName(),
 				genConfig.getDsName());
 

@@ -62,6 +62,9 @@ public class GeneratorServiceImpl implements GeneratorService {
 		GeneratorMapper mapper = GenUtils.getMapper(dsName);
 		// 手动切换数据源
 		DynamicDataSourceContextHolder.push(dsName);
+
+		// 关闭SQL 优化
+		page.setOptimizeCountSql(false);
 		return mapper.queryTable(page, tableName);
 	}
 
