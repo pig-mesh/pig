@@ -15,7 +15,7 @@
 
 	<properties>
 		<pig.common.version>${project.version}</pig.common.version>
-		<spring-boot.version>2.6.2</spring-boot.version>
+		<spring-boot.version>2.6.3</spring-boot.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<security.oauth.version>2.1.8.RELEASE</security.oauth.version>
 		<log4j2.version>2.17.1</log4j2.version>
@@ -25,7 +25,7 @@
 		<spring.checkstyle.plugin>0.0.29</spring.checkstyle.plugin>
 		<fastjson.version>1.2.78</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
-		<mybatis-plus.version>3.5.0</mybatis-plus.version>
+		<mybatis-plus.version>3.5.1</mybatis-plus.version>
 		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.1.0</excel.version>
 		<oss.version>1.0.3</oss.version>

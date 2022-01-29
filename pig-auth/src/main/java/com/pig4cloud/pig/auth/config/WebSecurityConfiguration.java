@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.common.security.grant.CustomAppAuthenticationProvider;
 import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
@@ -26,7 +27,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -65,9 +65,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
-		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+		PigDaoAuthenticationProvider daoAuthenticationProvider = new PigDaoAuthenticationProvider();
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-		daoAuthenticationProvider.setUserDetailsService(pigUserDetailsServiceImpl);
 
 		// 处理默认的密码模式认证
 		auth.authenticationProvider(daoAuthenticationProvider);

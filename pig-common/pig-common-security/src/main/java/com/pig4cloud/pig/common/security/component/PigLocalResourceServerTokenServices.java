@@ -50,7 +50,8 @@ public class PigLocalResourceServerTokenServices implements ResourceServerTokenS
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
 				.getBeansOfType(PigUserDetailsService.class);
 		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(clientId)).max(Comparator.comparingInt(Ordered::getOrder));
+				.filter(service -> service.support(clientId, oAuth2Request.getGrantType()))
+				.max(Comparator.comparingInt(Ordered::getOrder));
 
 		if (!optional.isPresent()) {
 			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");

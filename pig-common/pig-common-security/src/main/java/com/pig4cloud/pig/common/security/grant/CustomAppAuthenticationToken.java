@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.common.security.grant;
 
+import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +16,17 @@ public class CustomAppAuthenticationToken extends AbstractAuthenticationToken {
 	// 验证码/密码
 	private String code;
 
-	public CustomAppAuthenticationToken(String phone, String code) {
+	/**
+	 * 授权类型
+	 */
+	@Getter
+	private String grantType;
+
+	public CustomAppAuthenticationToken(String phone, String code, String grantType) {
 		super(AuthorityUtils.NO_AUTHORITIES);
 		this.principal = phone;
 		this.code = code;
+		this.grantType = grantType;
 	}
 
 	public CustomAppAuthenticationToken(UserDetails sysUser) {

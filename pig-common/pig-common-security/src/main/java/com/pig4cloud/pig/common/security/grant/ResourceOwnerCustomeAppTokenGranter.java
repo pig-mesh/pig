@@ -56,7 +56,7 @@ public class ResourceOwnerCustomeAppTokenGranter extends AbstractTokenGranter {
 		// Protect from downstream leaks of code
 		parameters.remove("code");
 
-		Authentication userAuth = new CustomAppAuthenticationToken(mobile, code);
+		Authentication userAuth = new CustomAppAuthenticationToken(mobile, code, tokenRequest.getGrantType());
 		((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 		try {
 			userAuth = authenticationManager.authenticate(userAuth);

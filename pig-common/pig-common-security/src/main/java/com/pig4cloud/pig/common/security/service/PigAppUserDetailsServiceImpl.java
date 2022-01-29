@@ -79,8 +79,8 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 	 * @return true/false
 	 */
 	@Override
-	public boolean support(String clientId) {
-		return "app".equals(clientId);
+	public boolean support(String clientId, String grantType) {
+		return SecurityConstants.APP.equals(grantType);
 	}
 
 }

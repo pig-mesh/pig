@@ -30,7 +30,7 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 	 * @param clientId 目标客户端
 	 * @return true/false
 	 */
-	default boolean support(String clientId) {
+	default boolean support(String clientId, String grantType) {
 		return true;
 	}
 
