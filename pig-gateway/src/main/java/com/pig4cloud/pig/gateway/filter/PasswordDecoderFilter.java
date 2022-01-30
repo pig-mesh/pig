@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.gateway.filter;
 
-import cn.hutool.core.net.URLEncodeUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;

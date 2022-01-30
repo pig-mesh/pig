@@ -16,7 +16,6 @@
 package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
