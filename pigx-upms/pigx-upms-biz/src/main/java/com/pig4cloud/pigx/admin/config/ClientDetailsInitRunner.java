@@ -7,11 +7,14 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +28,11 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 @SuppressWarnings("all")
-public class ClientDetailsInitRunner {
+public class ClientDetailsInitRunner implements InitializingBean {
 
 	private final SysOauthClientDetailsService clientDetailsService;
+
+	private final RedisMessageListenerContainer listenerContainer;
 
 	private final SysTenantService tenantService;
 
@@ -66,6 +71,17 @@ public class ClientDetailsInitRunner {
 			super(source);
 		}
 
+	}
+
+	/**
+	 * redis 监听配置,监听 upms_redis_client_reload_topic,重新加载Redis
+	 */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		listenerContainer.addMessageListener((message, bytes) -> {
+			log.warn("接收到重新Redis 重新加载客户端配置事件");
+			initClientDetails();
+		}, new ChannelTopic(CacheConstants.CLIENT_REDIS_RELOAD_TOPIC));
 	}
 
 }

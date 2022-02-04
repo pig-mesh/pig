@@ -23,16 +23,15 @@ import com.pig4cloud.pigx.admin.service.SysRouteConfService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.gateway.support.DynamicRouteInitEvent;
 import com.pig4cloud.pigx.common.gateway.vo.RouteDefinitionVo;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -50,12 +49,14 @@ import java.util.Map;
  */
 @Slf4j
 @Configuration
-@AllArgsConstructor
-public class DynamicRouteInitRunner {
+@RequiredArgsConstructor
+public class DynamicRouteInitRunner implements InitializingBean {
 
 	private final RedisTemplate redisTemplate;
 
 	private final SysRouteConfService routeConfService;
+
+	private final RedisMessageListenerContainer listenerContainer;
 
 	@Async
 	@Order
@@ -87,19 +88,14 @@ public class DynamicRouteInitRunner {
 	}
 
 	/**
-	 * redis 监听配置,监听 gateway_redis_route_reload_topic,重新加载Redis
-	 * @param redisConnectionFactory redis 配置
-	 * @return
+	 * redis 监听配置,监听 upms_redis_route_reload_topic,重新加载Redis
 	 */
-	@Bean
-	public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory) {
-		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-		container.setConnectionFactory(redisConnectionFactory);
-		container.addMessageListener((message, bytes) -> {
+	@Override
+	public void afterPropertiesSet() {
+		listenerContainer.addMessageListener((message, bytes) -> {
 			log.warn("接收到重新Redis 重新加载路由事件");
 			initRoute();
 		}, new ChannelTopic(CacheConstants.ROUTE_REDIS_RELOAD_TOPIC));
-		return container;
 	}
 
 }
