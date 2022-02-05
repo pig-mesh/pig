@@ -26,7 +26,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  * @date 2019-05-15 15:55:41
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/tenant")
 @Api(value = "tenant", tags = "租户管理")
 public class SysTenantController {
@@ -68,6 +68,16 @@ public class SysTenantController {
 	@GetMapping("/{id}")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(sysTenantService.getById(id));
+	}
+
+	/**
+	 * 通过租户编码查询租户信息
+	 * @param code 租户Code
+	 * @return 租户信息
+	 */
+	@GetMapping("/code/{code}")
+	public R getByTenantCode(@PathVariable String code) {
+		return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getCode, code)));
 	}
 
 	/**

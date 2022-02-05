@@ -61,6 +61,16 @@ public class SysRoleController {
 	}
 
 	/**
+	 * 通过角色编码查询角色信息
+	 * @param code 角色Code
+	 * @return 角色信息
+	 */
+	@GetMapping("/code/{code}")
+	public R getByRoleCode(@PathVariable String code) {
+		return R.ok(sysRoleService.list(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, code)));
+	}
+
+	/**
 	 * 添加角色
 	 * @param sysRole 角色信息
 	 * @return success、false
