@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.common.gateway.configuration;
 
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
-import com.pig4cloud.pigx.common.gateway.exception.RouteCheckException;
 import com.pig4cloud.pigx.common.gateway.support.DynamicRouteHealthIndicator;
 import com.pig4cloud.pigx.common.gateway.support.RouteCacheHolder;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +84,7 @@ public class DynamicRouteAutoConfiguration {
 
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		if (!redisTemplate.hasKey(CacheConstants.ROUTE_KEY)) {
-			throw new RouteCheckException("路由信息未初始化，网关启动失败");
+			log.info("路由信息未初始化，网关路由失败");
 		}
 
 		return new DynamicRouteHealthIndicator(redisTemplate);

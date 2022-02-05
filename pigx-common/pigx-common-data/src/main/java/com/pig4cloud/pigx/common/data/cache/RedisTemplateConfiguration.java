@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.common.data.cache;
 
-import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
