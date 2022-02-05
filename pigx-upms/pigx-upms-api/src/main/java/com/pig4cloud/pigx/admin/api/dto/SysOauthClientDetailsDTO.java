@@ -22,4 +22,9 @@ public class SysOauthClientDetailsDTO extends SysOauthClientDetails {
 	 */
 	private String encFlag;
 
+	/**
+	 * 令牌是否重新生成
+	 */
+	private String recreateFlag;
+
 }

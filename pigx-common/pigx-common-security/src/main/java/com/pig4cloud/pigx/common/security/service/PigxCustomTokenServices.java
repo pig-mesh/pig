@@ -1,5 +1,7 @@
 package com.pig4cloud.pigx.common.security.service;
 
+import cn.hutool.core.map.MapUtil;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -56,12 +59,35 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 		OAuth2AccessToken existingAccessToken = tokenStore.getAccessToken(authentication);
 		OAuth2RefreshToken refreshToken = null;
 
+		// 根据clientId 查询客户端信息，判断客户端是否是每次生成新的令牌 recreate
+		String clientId = authentication.getOAuth2Request().getClientId();
+		ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+		Map<String, Object> extMap = clientDetails.getAdditionalInformation();
+		Boolean recreate = MapUtil.getBool(extMap, SecurityConstants.CLIENT_RECREATE, Boolean.TRUE);
+
 		// 若已产生token ， 过期时删除相关token,执行下边的重新生成逻辑
-		if (existingAccessToken != null) {
+		if (existingAccessToken != null && recreate) {
 			tokenStore.removeAccessToken(existingAccessToken);
 			if (existingAccessToken.getRefreshToken() != null) {
 				refreshToken = existingAccessToken.getRefreshToken();
 				tokenStore.removeRefreshToken(refreshToken);
+			}
+		}
+		else if (existingAccessToken != null) {
+			if (existingAccessToken.isExpired()) {
+				if (existingAccessToken.getRefreshToken() != null) {
+					refreshToken = existingAccessToken.getRefreshToken();
+					// The token store could remove the refresh token when the
+					// access token is removed, but we want to
+					// be sure...
+					tokenStore.removeRefreshToken(refreshToken);
+				}
+				tokenStore.removeAccessToken(existingAccessToken);
+			}
+			else {
+				// Re-store the access token in case the authentication has changed
+				tokenStore.storeAccessToken(existingAccessToken, authentication);
+				return existingAccessToken;
 			}
 		}
 

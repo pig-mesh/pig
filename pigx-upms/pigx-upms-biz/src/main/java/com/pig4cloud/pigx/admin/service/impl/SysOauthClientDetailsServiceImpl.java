@@ -31,6 +31,7 @@ import com.pig4cloud.pigx.admin.mapper.SysOauthClientDetailsMapper;
 import com.pig4cloud.pigx.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
@@ -55,8 +56,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClientDetailsMapper, SysOauthClientDetails>
 		implements SysOauthClientDetailsService {
-
-	private final RedisTemplate redisTemplate;
 
 	/**
 	 * 通过ID删除客户端
@@ -90,7 +89,9 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		String information = clientDetailsDTO.getAdditionalInformation();
 		JSONObject informationObj = JSONUtil.parseObj(information)
 				.set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag());
+				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
+				.set(SecurityConstants.CLIENT_RECREATE, clientDetailsDTO.getRecreateFlag());
+
 		clientDetails.setAdditionalInformation(informationObj.toString());
 
 		// 更新数据库
@@ -115,7 +116,8 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		// 获取扩展信息,插入开关相关
 		String information = clientDetailsDTO.getAdditionalInformation();
 		JSONUtil.parseObj(information).set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag());
+				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
+				.set(SecurityConstants.CLIENT_RECREATE, clientDetailsDTO.getRecreateFlag());
 
 		// 插入数据
 		this.baseMapper.insert(clientDetails);
@@ -139,10 +141,13 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 			String information = details.getAdditionalInformation();
 			String captchaFlag = JSONUtil.parseObj(information).getStr(CommonConstants.CAPTCHA_FLAG);
 			String encFlag = JSONUtil.parseObj(information).getStr(CommonConstants.ENC_FLAG);
+			String recreateFlag = JSONUtil.parseObj(information).getStr(SecurityConstants.CLIENT_RECREATE);
+
 			SysOauthClientDetailsDTO dto = new SysOauthClientDetailsDTO();
 			BeanUtils.copyProperties(details, dto);
 			dto.setCaptchaFlag(captchaFlag);
 			dto.setEncFlag(encFlag);
+			dto.setRecreateFlag(recreateFlag);
 			return dto;
 		}).collect(Collectors.toList());
 

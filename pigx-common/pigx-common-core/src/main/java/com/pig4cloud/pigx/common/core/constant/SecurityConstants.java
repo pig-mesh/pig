@@ -176,6 +176,11 @@ public interface SecurityConstants {
 	String CLIENT_ID = "client_id";
 
 	/**
+	 * 客户端唯一令牌
+	 */
+	String CLIENT_RECREATE = "recreate_flag";
+
+	/**
 	 * 用户ID字段
 	 */
 	String DETAILS_USER_ID = "user_id";
