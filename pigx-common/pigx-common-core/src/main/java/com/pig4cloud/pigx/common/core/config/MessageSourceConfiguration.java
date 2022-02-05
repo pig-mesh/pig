@@ -17,20 +17,25 @@
 
 package com.pig4cloud.pigx.common.core.config;
 
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 
 /**
  * @author lengleng
- * @date 2018/8/16 RestTemplate
+ * @date 2018/11/14
+ * <p>
+ * 国际化配置
  */
 @Configuration
-public class RestTemplateConfig {
+public class MessageSourceConfiguration {
 
 	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
+	public MessageSource messageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:i18n/messages");
+		return messageSource;
 	}
 
 }

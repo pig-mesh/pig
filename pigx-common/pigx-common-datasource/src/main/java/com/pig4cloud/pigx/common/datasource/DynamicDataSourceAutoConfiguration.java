@@ -19,11 +19,11 @@ package com.pig4cloud.pigx.common.datasource;
 
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
+import com.pig4cloud.pigx.common.datasource.config.ClearTtlDsConfiguration;
 import com.pig4cloud.pigx.common.datasource.config.DruidDataSourceProperties;
 import com.pig4cloud.pigx.common.datasource.config.JdbcDynamicDataSourceProvider;
 import com.pig4cloud.pigx.common.datasource.config.LastParamDsProcessor;
-import com.pig4cloud.pigx.common.datasource.config.WebMvcConfig;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -39,7 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * 动态数据源切换配置
  */
 @Configuration
-@AllArgsConstructor
+@RequiredArgsConstructor
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DruidDataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
@@ -60,7 +60,7 @@ public class DynamicDataSourceAutoConfiguration {
 
 	@Bean
 	public WebMvcConfigurer webMvcConfigurer() {
-		return new WebMvcConfig();
+		return new ClearTtlDsConfiguration();
 	}
 
 }

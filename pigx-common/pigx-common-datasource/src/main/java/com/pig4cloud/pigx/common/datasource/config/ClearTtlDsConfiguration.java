@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @author lengleng
  * @date 2020/12/11
  */
-public class WebMvcConfig implements WebMvcConfigurer {
+public class ClearTtlDsConfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {

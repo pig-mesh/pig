@@ -35,10 +35,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @EnableCaching
 @Configuration
-@AllArgsConstructor
 @AutoConfigureBefore(name = { "org.redisson.spring.starter.RedissonAutoConfiguration",
 		"org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration" })
-public class RedisTemplateConfig {
+public class RedisTemplateConfiguration {
 
 	@Bean
 	@Primary

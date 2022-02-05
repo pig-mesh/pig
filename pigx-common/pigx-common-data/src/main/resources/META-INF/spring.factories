@@ -1,7 +1,7 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.pig4cloud.pigx.common.data.cache.RedisTemplateConfig,\
+    com.pig4cloud.pigx.common.data.cache.RedisTemplateConfiguration,\
     com.pig4cloud.pigx.common.data.cache.RedisMessageConfiguration,\
-    com.pig4cloud.pigx.common.data.cache.RedisCacheManagerConfig,\
+    com.pig4cloud.pigx.common.data.cache.RedisCacheManagerConfiguration,\
     com.pig4cloud.pigx.common.data.cache.RedisCacheAutoConfiguration,\
     com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties,\
     com.pig4cloud.pigx.common.data.tenant.TenantContextHolderFilter,\

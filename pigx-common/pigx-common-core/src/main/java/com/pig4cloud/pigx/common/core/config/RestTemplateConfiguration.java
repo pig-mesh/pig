@@ -15,30 +15,22 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.data.cache;
+package com.pig4cloud.pigx.common.core.config;
 
-import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
+import org.springframework.web.client.RestTemplate;
 
 /**
- * CacheManagerCustomizers配置
- *
- * @author L.cm
+ * @author lengleng
+ * @date 2018/8/16 RestTemplate
  */
 @Configuration
-@ConditionalOnMissingBean(CacheManagerCustomizers.class)
-public class RedisCacheManagerConfig {
+public class RestTemplateConfiguration {
 
 	@Bean
-	public CacheManagerCustomizers cacheManagerCustomizers(
-			ObjectProvider<List<CacheManagerCustomizer<?>>> customizers) {
-		return new CacheManagerCustomizers(customizers.getIfAvailable());
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 }

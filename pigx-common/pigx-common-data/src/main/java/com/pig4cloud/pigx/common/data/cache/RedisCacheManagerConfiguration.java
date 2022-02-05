@@ -15,27 +15,30 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.config;
+package com.pig4cloud.pigx.common.data.cache;
 
-import org.springframework.context.MessageSource;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizer;
+import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+
+import java.util.List;
 
 /**
- * @author lengleng
- * @date 2018/11/14
- * <p>
- * 国际化配置
+ * CacheManagerCustomizers配置
+ *
+ * @author L.cm
  */
 @Configuration
-public class MessageSourceConfig {
+@ConditionalOnMissingBean(CacheManagerCustomizers.class)
+public class RedisCacheManagerConfiguration {
 
 	@Bean
-	public MessageSource messageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.setBasename("classpath:i18n/messages");
-		return messageSource;
+	public CacheManagerCustomizers cacheManagerCustomizers(
+			ObjectProvider<List<CacheManagerCustomizer<?>>> customizers) {
+		return new CacheManagerCustomizers(customizers.getIfAvailable());
 	}
 
 }

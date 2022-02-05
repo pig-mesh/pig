@@ -36,7 +36,7 @@ import java.util.TimeZone;
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class JacksonConfig implements WebMvcConfigurer {
+public class JacksonConfiguration implements WebMvcConfigurer {
 
 	private static final String ASIA_SHANGHAI = "Asia/Shanghai";
 
