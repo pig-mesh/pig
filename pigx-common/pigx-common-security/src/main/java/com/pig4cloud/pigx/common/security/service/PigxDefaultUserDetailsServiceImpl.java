@@ -17,13 +17,9 @@
 
 package com.pig4cloud.pigx.common.security.service;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
-import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
@@ -32,25 +28,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Primary;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * 用户详细信息
+ * 用户详细信息 default
  *
  * @author lengleng
  */
 @Slf4j
 @Primary
 @RequiredArgsConstructor
-public class PigxUserDetailsServiceImpl implements PigxUserDetailsService {
+public class PigxDefaultUserDetailsServiceImpl implements PigxUserDetailsService {
 
 	private final RemoteUserService remoteUserService;
 
@@ -76,47 +65,9 @@ public class PigxUserDetailsServiceImpl implements PigxUserDetailsService {
 		return userDetails;
 	}
 
-	/**
-	 * 根据社交登录code 登录
-	 * @param inStr TYPE@CODE
-	 * @return UserDetails
-	 * @throws UsernameNotFoundException
-	 */
 	@Override
-	@SneakyThrows
-	public UserDetails loadUserBySocial(String inStr) {
-		return getUserDetails(remoteUserService.social(inStr, SecurityConstants.FROM_IN));
-	}
-
-	/**
-	 * 构建userdetails
-	 * @param result 用户信息
-	 * @return
-	 */
-	private UserDetails getUserDetails(R<UserInfo> result) {
-		if (result == null || result.getData() == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
-
-		UserInfo info = result.getData();
-		Set<String> dbAuthsSet = new HashSet<>();
-		if (ArrayUtil.isNotEmpty(info.getRoles())) {
-			// 获取角色
-			Arrays.stream(info.getRoles()).forEach(roleId -> dbAuthsSet.add(SecurityConstants.ROLE + roleId));
-			// 获取资源
-			dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
-
-		}
-		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
-		SysUser user = info.getSysUser();
-		boolean enabled = StrUtil.equals(user.getLockFlag(), CommonConstants.STATUS_NORMAL);
-		// 构造security用户
-
-		return new PigxUser(user.getUserId(), user.getUsername(), user.getDeptId(), user.getPhone(), user.getAvatar(),
-				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-				SecurityConstants.BCRYPT + user.getPassword(), enabled, true, true,
-				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
+	public int getOrder() {
+		return Integer.MIN_VALUE;
 	}
 
 }

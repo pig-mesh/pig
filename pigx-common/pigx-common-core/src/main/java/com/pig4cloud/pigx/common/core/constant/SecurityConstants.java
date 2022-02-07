@@ -91,19 +91,9 @@ public interface SecurityConstants {
 	String OAUTH_TOKEN_URL = "/oauth/token";
 
 	/**
-	 * 手机号登录URL
+	 * 移动端授权
 	 */
-	String SMS_TOKEN_URL = "/mobile/token/sms";
-
-	/**
-	 * 社交登录URL
-	 */
-	String SOCIAL_TOKEN_URL = "/mobile/token/social";
-
-	/**
-	 * 自定义登录URL
-	 */
-	String MOBILE_TOKEN_URL = "/mobile/token/*";
+	String GRANT_MOBILE = "mobile";
 
 	/**
 	 * 微信获取OPENID

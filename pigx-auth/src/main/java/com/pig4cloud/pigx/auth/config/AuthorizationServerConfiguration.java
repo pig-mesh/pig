@@ -22,6 +22,7 @@ package com.pig4cloud.pigx.auth.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.security.component.PigxCommenceAuthExceptionEntryPoint;
 import com.pig4cloud.pigx.common.security.component.PigxWebResponseExceptionTranslator;
+import com.pig4cloud.pigx.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
 import com.pig4cloud.pigx.common.security.service.PigxCustomTokenServices;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -38,11 +39,15 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -52,7 +57,7 @@ import java.util.Collections;
 @Configuration
 @AllArgsConstructor
 @EnableAuthorizationServer
-public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
 	private final ClientDetailsService pigxClientDetailsServiceImpl;
 
@@ -61,6 +66,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	private final UserDetailsService pigxUserDetailsService;
 
 	private final AuthorizationCodeServices authorizationCodeServices;
+
+	private final AuthenticationManager authenticationManager;
 
 	private final TokenStore redisTokenStore;
 
@@ -84,10 +91,29 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenServices(tokenServices())
-				.tokenStore(redisTokenStore).tokenEnhancer(tokenEnhancer).userDetailsService(pigxUserDetailsService)
+				.tokenStore(redisTokenStore).tokenEnhancer(tokenEnhancer)
 				.authorizationCodeServices(authorizationCodeServices).authenticationManager(authenticationManagerBean)
 				.reuseRefreshTokens(false).pathMapping("/oauth/confirm_access", "/token/confirm_access")
 				.exceptionTranslator(new PigxWebResponseExceptionTranslator());
+
+		// 注入自定义认证类型
+		setTokenGranter(endpoints);
+	}
+
+	/**
+	 * 自定义 APP 认证类型
+	 * @param endpoints AuthorizationServerEndpointsConfigurer
+	 */
+	private void setTokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
+		// 获取默认授权类型
+		TokenGranter tokenGranter = endpoints.getTokenGranter();
+		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
+		ResourceOwnerCustomeAppTokenGranter resourceOwnerCustomeAppTokenGranter = new ResourceOwnerCustomeAppTokenGranter(
+				authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+				endpoints.getOAuth2RequestFactory());
+		tokenGranters.add(resourceOwnerCustomeAppTokenGranter);
+		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
+		endpoints.tokenGranter(compositeTokenGranter);
 	}
 
 	@Bean
