@@ -55,7 +55,7 @@ public class WxMsgServiceImpl extends ServiceImpl<WxMsgMapper, WxMsg> implements
 				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, wxMsg.getAppId()));
 
 		// 维护消息-用户
-		wxMsg.setNickName(wxUser.getNickname());
+		wxMsg.setNickName(wxAccount.getName());
 		wxMsg.setHeadimgUrl(wxUser.getHeadimgUrl());
 		wxMsg.setType(MsgTypeEnum.MP2USER.getType());
 
