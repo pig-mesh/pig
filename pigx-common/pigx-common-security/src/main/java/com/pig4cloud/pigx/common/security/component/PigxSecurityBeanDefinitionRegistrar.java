@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.security.annotation.EnablePigxResourceServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
@@ -45,16 +44,7 @@ public class PigxSecurityBeanDefinitionRegistrar implements ImportBeanDefinition
 		}
 
 		GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
-
-		Boolean isLocal = (Boolean) metadata.getAnnotationAttributes(EnablePigxResourceServer.class.getName())
-				.get("isLocal");
-		if (isLocal) {
-			beanDefinition.setBeanClass(PigxLocalResourceServerConfigurerAdapter.class);
-		}
-		else {
-			beanDefinition.setBeanClass(PigxResourceServerConfigurerAdapter.class);
-		}
-
+		beanDefinition.setBeanClass(PigxLocalResourceServerConfigurerAdapter.class);
 		registry.registerBeanDefinition(SecurityConstants.RESOURCE_SERVER_CONFIGURER, beanDefinition);
 
 	}

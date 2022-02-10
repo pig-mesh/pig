@@ -40,10 +40,4 @@ import java.lang.annotation.*;
 @Import({ PigxResourceServerAutoConfiguration.class, PigxSecurityBeanDefinitionRegistrar.class })
 public @interface EnablePigxResourceServer {
 
-	/**
-	 * 是否开启本地模式
-	 * @return true
-	 */
-	boolean isLocal() default true;
-
 }

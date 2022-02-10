@@ -32,7 +32,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
  * @author lengleng
  * @date 2020/9/30
  * <p>
- * 支持本地模式 [不仅过认证中 CheckToken]的的资源服务器配置
+ * 支持本地模式 [不进过认证中心 CheckToken]的的资源服务器配置
  */
 @Slf4j
 public class PigxLocalResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
