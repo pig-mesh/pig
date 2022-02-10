@@ -72,6 +72,7 @@ public class SysLog implements Serializable {
 	 * 创建者
 	 */
 	@ExcelProperty("创建人")
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建人")
 	private String createBy;
 

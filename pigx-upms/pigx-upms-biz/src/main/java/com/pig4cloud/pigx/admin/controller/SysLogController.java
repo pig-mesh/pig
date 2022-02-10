@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
@@ -72,6 +73,17 @@ public class SysLogController {
 	@PreAuthorize("@pms.hasPermission('sys_log_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysLogService.removeById(id));
+	}
+
+	/**
+	 * 批量删除日志
+	 * @param ids ID
+	 * @return success/false
+	 */
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_log_del')")
+	public R removeByIds(@RequestBody Long[] ids) {
+		return R.ok(sysLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**

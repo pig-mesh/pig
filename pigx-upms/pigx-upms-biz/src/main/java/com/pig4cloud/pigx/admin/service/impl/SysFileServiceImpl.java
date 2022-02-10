@@ -125,6 +125,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
 		sysFile.setBucketName(ossProperties.getBucketName());
 		sysFile.setCreateUser(SecurityUtils.getUser().getUsername());
+		sysFile.setUpdateUser(SecurityUtils.getUser().getUsername());
 		this.save(sysFile);
 	}
 

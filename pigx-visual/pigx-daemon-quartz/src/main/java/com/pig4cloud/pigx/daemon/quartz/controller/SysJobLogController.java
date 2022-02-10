@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.daemon.quartz.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -25,9 +26,7 @@ import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author frwcloud
@@ -52,6 +51,12 @@ public class SysJobLogController {
 	@ApiOperation(value = "分页定时任务日志查询")
 	public R getSysJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
+	}
+
+	@DeleteMapping
+	@ApiOperation(value = "批量删除日志")
+	public R deleteLogs(@RequestBody Long[] logIds) {
+		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.newArrayList(logIds)));
 	}
 
 }

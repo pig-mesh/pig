@@ -85,6 +85,7 @@ public class SysFile extends Model<SysFile> {
 	/**
 	 * 上传时间
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建时间")
 	private LocalDateTime createTime;
 
@@ -108,6 +109,6 @@ public class SysFile extends Model<SysFile> {
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
-	private Integer delFlag;
+	private String delFlag;
 
 }
