@@ -20,77 +20,77 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class JdbcServiceImpl implements JdbcService {
 
-	@Autowired
-	private DruidProperties druidProperties;
+    @Autowired
+    private DruidProperties druidProperties;
 
-	/**
-	 * 所有数据源的连接池存在map里
-	 */
-	static Map<Long, DruidDataSource> map = new ConcurrentHashMap<>();
+    /**
+     * 所有数据源的连接池存在map里
+     */
+    static Map<Long, DruidDataSource> map = new ConcurrentHashMap<>();
 
-	public DruidDataSource getJdbcConnectionPool(DataSourceDto dataSource) {
-		if (map.containsKey(dataSource.getId())) {
-			return map.get(dataSource.getId());
-		}
-		else {
-			try {
-				if (!map.containsKey(dataSource.getId())) {
-					DruidDataSource pool = druidProperties.dataSource(dataSource.getJdbcUrl(), dataSource.getUsername(),
-							dataSource.getPassword(), dataSource.getDriverName());
-					map.put(dataSource.getId(), pool);
-					log.info("创建连接池成功：{}", dataSource.getJdbcUrl());
-				}
-				return map.get(dataSource.getId());
-			}
-			finally {
-			}
-		}
-	}
+    public DruidDataSource getJdbcConnectionPool(DataSourceDto dataSource) {
+        if (map.containsKey(dataSource.getId())) {
+            return map.get(dataSource.getId());
+        } else {
+            try {
+                if (!map.containsKey(dataSource.getId())) {
+                    DruidDataSource pool = druidProperties.dataSource(dataSource.getJdbcUrl(),
+                            dataSource.getUsername(), dataSource.getPassword(), dataSource.getDriverName());
+                    map.put(dataSource.getId(), pool);
+                    log.info("创建连接池成功：{}", dataSource.getJdbcUrl());
+                }
+                return map.get(dataSource.getId());
+            } finally {
+            }
+        }
+    }
 
-	/**
-	 * 删除数据库连接池
-	 * @param id
-	 */
-	@Override
-	public void removeJdbcConnectionPool(Long id) {
-		try {
-			DruidDataSource pool = map.get(id);
-			if (pool != null) {
-				log.info("remove pool success, datasourceId:{}", id);
-				map.remove(id);
-			}
-		}
-		catch (Exception e) {
-			log.error("error", e);
-		}
-		finally {
-		}
-	}
 
-	/**
-	 * 获取连接
-	 * @param dataSource
-	 * @return
-	 * @throws SQLException
-	 */
-	@Override
-	public Connection getPooledConnection(DataSourceDto dataSource) throws SQLException {
-		DruidDataSource pool = getJdbcConnectionPool(dataSource);
-		return pool.getConnection();
-	}
+    /**
+     * 删除数据库连接池
+     *
+     * @param id
+     */
+    @Override
+    public void removeJdbcConnectionPool(Long id) {
+        try {
+            DruidDataSource pool = map.get(id);
+            if (pool != null) {
+                log.info("remove pool success, datasourceId:{}", id);
+                map.remove(id);
+            }
+        } catch (Exception e) {
+            log.error("error", e);
+        } finally {
+        }
+    }
 
-	/**
-	 * 测试数据库连接 获取一个连接
-	 * @param dataSource
-	 * @return
-	 * @throws ClassNotFoundException driverName不正确
-	 * @throws SQLException
-	 */
-	@Override
-	public Connection getUnPooledConnection(DataSourceDto dataSource) throws SQLException {
-		DruidDataSource druidDataSource = druidProperties.dataSource(dataSource.getJdbcUrl(), dataSource.getUsername(),
-				dataSource.getPassword(), dataSource.getDriverName());
-		return druidDataSource.getConnection();
-	}
+    /**
+     * 获取连接
+     *
+     * @param dataSource
+     * @return
+     * @throws SQLException
+     */
+    @Override
+    public Connection getPooledConnection(DataSourceDto dataSource) throws SQLException{
+        DruidDataSource pool = getJdbcConnectionPool(dataSource);
+        return pool.getConnection();
+    }
+
+    /**
+     * 测试数据库连接  获取一个连接
+     *
+     * @param dataSource
+     * @return
+     * @throws ClassNotFoundException driverName不正确
+     * @throws SQLException
+     */
+    @Override
+    public Connection getUnPooledConnection(DataSourceDto dataSource) throws SQLException {
+        DruidDataSource druidDataSource = druidProperties.dataSource(dataSource.getJdbcUrl(),
+                dataSource.getUsername(), dataSource.getPassword(), dataSource.getDriverName());
+        return druidDataSource.getConnection();
+    }
 
 }

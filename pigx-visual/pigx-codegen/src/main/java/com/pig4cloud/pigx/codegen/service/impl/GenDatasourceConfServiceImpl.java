@@ -20,6 +20,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
+import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
@@ -123,6 +124,12 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUrl(conf.getUrl());
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
+
+		// 增加 ValidationQuery 参数
+		DruidConfig druidConfig = new DruidConfig();
+		DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());
+		druidConfig.setValidationQuery(urlEnum.getValidationQuery());
+		dataSourceProperty.setDruid(druidConfig);
 		DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
 
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
@@ -144,7 +151,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		else if (DsJdbcUrlEnum.MSSQL.getDbName().equals(conf.getDsType())) {
 			// 主机形式 sql server 特殊处理
 			DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());
-			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getInstance(), conf.getPort(), conf.getDsName());
+			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getPort(), conf.getDsName());
 		}
 		else {
 			DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());

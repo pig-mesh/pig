@@ -27,47 +27,47 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping("/file")
 @Api(value = "/file", tags = "")
 public class GaeaFileController extends BaseController<GaeaFileParam, GaeaFile, GaeaFileDTO> {
+    @Autowired
+    private GaeaFileService gaeaFileService;
 
-	@Autowired
-	private GaeaFileService gaeaFileService;
+    @PostMapping("/upload")
+    @Permission(code = "upload", name = "文件上传")
+    public ResponseBean upload(@RequestParam("file") MultipartFile file) {
+        return ResponseBean.builder().message("success").data((gaeaFileService.upload(file))).build();
+    }
 
-	@PostMapping("/upload")
-	@Permission(code = "upload", name = "文件上传")
-	public ResponseBean upload(@RequestParam("file") MultipartFile file) {
-		return ResponseBean.builder().message("success").data((gaeaFileService.upload(file))).build();
-	}
+    @GetMapping(value = "/download/{fileId}")
+    public ResponseEntity<byte[]> download(HttpServletRequest request, HttpServletResponse response, @PathVariable("fileId") String fileId) {
+        return gaeaFileService.download(request, response, fileId);
+    }
 
-	@GetMapping(value = "/download/{fileId}")
-	public ResponseEntity<byte[]> download(HttpServletRequest request, HttpServletResponse response,
-			@PathVariable("fileId") String fileId) {
-		return gaeaFileService.download(request, response, fileId);
-	}
+    /**
+     * 获取实际服务类
+     *
+     * @return
+     */
+    @Override
+    public GaeaBaseService<GaeaFileParam, GaeaFile> getService() {
+        return gaeaFileService;
+    }
 
-	/**
-	 * 获取实际服务类
-	 * @return
-	 */
-	@Override
-	public GaeaBaseService<GaeaFileParam, GaeaFile> getService() {
-		return gaeaFileService;
-	}
+    /**
+     * 获取当前Controller数据库实体Entity
+     *
+     * @return
+     */
+    @Override
+    public GaeaFile getEntity() {
+        return new GaeaFile();
+    }
 
-	/**
-	 * 获取当前Controller数据库实体Entity
-	 * @return
-	 */
-	@Override
-	public GaeaFile getEntity() {
-		return new GaeaFile();
-	}
-
-	/**
-	 * 获取当前Controller数据传输DTO
-	 * @return
-	 */
-	@Override
-	public GaeaFileDTO getDTO() {
-		return new GaeaFileDTO();
-	}
-
+    /**
+     * 获取当前Controller数据传输DTO
+     *
+     * @return
+     */
+    @Override
+    public GaeaFileDTO getDTO() {
+        return new GaeaFileDTO();
+    }
 }

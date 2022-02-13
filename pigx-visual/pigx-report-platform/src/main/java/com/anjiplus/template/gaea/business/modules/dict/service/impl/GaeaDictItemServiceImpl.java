@@ -30,71 +30,69 @@ import java.util.stream.Collectors;
  */
 @Service
 public class GaeaDictItemServiceImpl implements GaeaDictItemService {
+    @Autowired
+    private GaeaDictItemMapper gaeaDictItemMapper;
 
-	@Autowired
-	private GaeaDictItemMapper gaeaDictItemMapper;
+    @Autowired
+    private CacheHelper cacheHelper;
 
-	@Autowired
-	private CacheHelper cacheHelper;
+    @Override
+    public GaeaBaseMapper<GaeaDictItem> getMapper() {
+        return  gaeaDictItemMapper;
+    }
 
-	@Override
-	public GaeaBaseMapper<GaeaDictItem> getMapper() {
-		return gaeaDictItemMapper;
-	}
 
-	@Override
-	public void processAfterOperation(GaeaDictItem entity, BaseOperationEnum operationEnum) throws BusinessException {
-		String dictCode = entity.getDictCode();
-		String locale = entity.getLocale();
+    @Override
+    public void processAfterOperation(GaeaDictItem entity, BaseOperationEnum operationEnum) throws BusinessException {
+        String dictCode = entity.getDictCode();
+        String locale = entity.getLocale();
 
-		String key = GaeaKeyConstant.DICT_PREFIX + locale + GaeaConstant.REDIS_SPLIT + dictCode;
-		switch (operationEnum) {
-		case INSERT:
-		case UPDATE:
-			cacheHelper.hashSet(key, entity.getItemValue(), entity.getItemName());
-			break;
-		case DELETE:
-			cacheHelper.hashDel(key, entity.getItemValue());
-		default:
-		}
-	}
+        String key = GaeaKeyConstant.DICT_PREFIX + locale + GaeaConstant.REDIS_SPLIT + dictCode;
+        switch (operationEnum) {
+            case INSERT:
+            case UPDATE:
+                cacheHelper.hashSet(key, entity.getItemValue(), entity.getItemName());
+                break;
+            case DELETE:
+                cacheHelper.hashDel(key, entity.getItemValue());
+                default:
+        }
+    }
 
-	@Override
-	public void processBatchAfterOperation(List<GaeaDictItem> entities, BaseOperationEnum operationEnum)
-			throws BusinessException {
-		if (CollectionUtils.isEmpty(entities)) {
-			return;
-		}
+    @Override
+    public void processBatchAfterOperation(List<GaeaDictItem> entities, BaseOperationEnum operationEnum) throws BusinessException {
+        if (CollectionUtils.isEmpty(entities)) {
+            return;
+        }
 
-		Map<String, Map<String, String>> dictItemMap = entities.stream()
-				.collect(Collectors.groupingBy(item -> item.getLocale() + GaeaConstant.REDIS_SPLIT + item.getDictCode(),
-						Collectors.toMap(GaeaDictItem::getItemValue, GaeaDictItem::getItemName, (v1, v2) -> v2)));
+        Map<String, Map<String, String>> dictItemMap = entities.stream()
+                .collect(Collectors.groupingBy(item -> item.getLocale() + GaeaConstant.REDIS_SPLIT +item.getDictCode(),
+                                Collectors.toMap(GaeaDictItem::getItemValue, GaeaDictItem::getItemName,(v1,v2)-> v2)));
 
-		switch (operationEnum) {
-		case DELETE_BATCH:
-			// 遍历并保持到Redis中
-			dictItemMap.entrySet().stream().forEach(entry -> {
-				String key = GaeaKeyConstant.DICT_PREFIX + entry.getKey();
-				Set<String> hashKeys = entry.getValue().keySet();
-				cacheHelper.hashBatchDel(key, hashKeys);
-			});
-			break;
-		default:
-		}
-	}
+        switch (operationEnum) {
+            case DELETE_BATCH:
+                //遍历并保持到Redis中
+                dictItemMap.entrySet().stream().forEach(entry -> {
+                    String key = GaeaKeyConstant.DICT_PREFIX  + entry.getKey();
+                    Set<String> hashKeys = entry.getValue().keySet();
+                    cacheHelper.hashBatchDel(key, hashKeys);
+                });
+                break;
+                default:
+        }
+    }
 
-	@Override
-	public Map<String, String> getItemMap(String dictCode) {
-		Locale locale = LocaleContextHolder.getLocale();
+    @Override
+    public Map<String, String> getItemMap(String dictCode) {
+        Locale locale = LocaleContextHolder.getLocale();
 
-		LambdaQueryWrapper<GaeaDictItem> wrapper = Wrappers.lambdaQuery();
-		wrapper.eq(GaeaDictItem::getDictCode, dictCode);
-		wrapper.eq(GaeaDictItem::getLocale, locale.getLanguage());
+        LambdaQueryWrapper<GaeaDictItem> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(GaeaDictItem::getDictCode, dictCode);
+        wrapper.eq(GaeaDictItem::getLocale, locale.getLanguage());
 
-		List<GaeaDictItem> list = list(wrapper);
-		Map<String, String> data = list.stream()
-				.collect(Collectors.toMap(GaeaDictItem::getItemValue, GaeaDictItem::getItemName, (v1, v2) -> v2));
-		return data;
-	}
+        List<GaeaDictItem> list = list(wrapper);
+        Map<String, String> data = list.stream().collect(Collectors.toMap(GaeaDictItem::getItemValue, GaeaDictItem::getItemName, (v1, v2) -> v2));
+        return data;
+    }
 
 }

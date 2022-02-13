@@ -14,11 +14,10 @@ import java.util.Map;
  */
 public interface GaeaDictItemService extends GaeaBaseService<GaeaDictItemParam, GaeaDictItem> {
 
-	/**
-	 * 根据字典编码获取字典项
-	 * @param dictCode
-	 * @return
-	 */
-	Map<String, String> getItemMap(String dictCode);
-
+    /**
+     * 根据字典编码获取字典项
+     * @param dictCode
+     * @return
+     */
+    Map<String,String> getItemMap(String dictCode);
 }

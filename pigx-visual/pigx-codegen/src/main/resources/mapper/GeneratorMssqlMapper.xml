@@ -19,7 +19,6 @@
 				and T.tableName = #{tableName}
 			</if>
 		</where>
-		ORDER BY T.tableName
 	</select>
 
 	<sql id="queryColumn">
