@@ -89,7 +89,8 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		String information = clientDetailsDTO.getAdditionalInformation();
 		JSONObject informationObj = JSONUtil.parseObj(information)
 				.set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag());
+				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
+				.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
 		clientDetails.setAdditionalInformation(informationObj.toString());
 
 		// 更新数据库
@@ -114,7 +115,8 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		// 获取扩展信息,插入开关相关
 		String information = clientDetailsDTO.getAdditionalInformation();
 		JSONUtil.parseObj(information).set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag());
+				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
+				.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
 
 		// 插入数据
 		this.baseMapper.insert(clientDetails);
@@ -138,10 +140,12 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 			String information = details.getAdditionalInformation();
 			String captchaFlag = JSONUtil.parseObj(information).getStr(CommonConstants.CAPTCHA_FLAG);
 			String encFlag = JSONUtil.parseObj(information).getStr(CommonConstants.ENC_FLAG);
+			String onlineQuantity = JSONUtil.parseObj(information).getStr(CommonConstants.ONLINE_QUANTITY);
 			SysOauthClientDetailsDTO dto = new SysOauthClientDetailsDTO();
 			BeanUtils.copyProperties(details, dto);
 			dto.setCaptchaFlag(captchaFlag);
 			dto.setEncFlag(encFlag);
+			dto.setOnlineQuantity(onlineQuantity);
 			return dto;
 		}).collect(Collectors.toList());
 
