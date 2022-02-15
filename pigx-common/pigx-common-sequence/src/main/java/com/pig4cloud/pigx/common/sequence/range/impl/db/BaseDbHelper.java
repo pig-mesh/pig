@@ -2,7 +2,7 @@ package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 import com.pig4cloud.pigx.common.sequence.range.impl.db.provider.SqlProviderFactory;
 
@@ -16,7 +16,8 @@ import java.sql.*;
  */
 abstract class BaseDbHelper {
 
-	private static final SqlProviderFactory SQL_PROVIDER_FACTORY = SpringUtil.getBean(SqlProviderFactory.class);
+	private static final SqlProviderFactory SQL_PROVIDER_FACTORY = SpringContextHolder
+			.getBean(SqlProviderFactory.class);
 
 	private static final long DELTA = 100000000L;
 

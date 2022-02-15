@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.common.sentinel.handle;
 
-import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
@@ -40,8 +39,7 @@ public class PigxUrlBlockHandler implements BlockExceptionHandler {
 	@Override
 	public void handle(HttpServletRequest request, HttpServletResponse response, BlockException e) throws Exception {
 		log.error("sentinel 降级 资源名称{}", e.getRule().getResource(), e);
-
-		response.setContentType(ContentType.JSON.toString());
+		response.setContentType("application/json");
 		response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
 		response.getWriter().print(JSONUtil.toJsonStr(R.failed(e.getMessage())));
 	}

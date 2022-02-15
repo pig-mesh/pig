@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
-import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.exception.UnauthorizedException;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
@@ -51,7 +51,7 @@ public class PigxLocalResourceServerTokenServices implements ResourceServerToken
 
 		String clientId = oAuth2Request.getClientId();
 
-		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringUtil
+		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
 				.getBeansOfType(PigxUserDetailsService.class);
 
 		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values().stream()

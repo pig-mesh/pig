@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.security.grant;
 
-import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -64,7 +64,7 @@ public class CustomAppAuthenticationProvider extends AbstractUserDetailsAuthenti
 		Authentication clientAuthentication = SecurityContextHolder.getContext().getAuthentication();
 		String clientId = clientAuthentication.getName();
 
-		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringUtil
+		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
 				.getBeansOfType(PigxUserDetailsService.class);
 		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values().stream()
 				.filter(service -> service.support(clientId, requestToken.getGrantType()))

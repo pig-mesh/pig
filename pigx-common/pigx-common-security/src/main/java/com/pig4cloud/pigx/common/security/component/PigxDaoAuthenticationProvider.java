@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
-import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
 import org.springframework.core.Ordered;
@@ -87,7 +87,7 @@ public class PigxDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 			clientId = clientAuthentication.getName();
 		}
 
-		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringUtil
+		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
 				.getBeansOfType(PigxUserDetailsService.class);
 		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values().stream()
 				.filter(service -> service.support(clientId, null)).max(Comparator.comparingInt(Ordered::getOrder));

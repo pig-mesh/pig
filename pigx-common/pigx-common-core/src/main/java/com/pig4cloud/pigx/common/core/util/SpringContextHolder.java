@@ -27,6 +27,8 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 /**
  * @author lengleng
  * @date 2018/6/27 Spring 工具类
@@ -59,6 +61,13 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) {
 		return (T) applicationContext.getBean(name);
+	}
+
+	/**
+	 * 从静态变量applicationContext中取得Bean, Map<Bean名称，实现类></>
+	 */
+	public static <T> Map<String, T> getBeansOfType(Class<T> type) {
+		return applicationContext.getBeansOfType(type);
 	}
 
 	/**
