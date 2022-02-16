@@ -14,7 +14,7 @@
 
 	<description>支付系统</description>
 	<properties>
-		<hutool.version>5.4.0</hutool.version>
+		<yungouos.version>2.0.4</yungouos.version>
 	</properties>
 
 	<dependencies>
@@ -62,6 +62,11 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-sequence</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-extra</artifactId>
 		</dependency>
 		<!--灰度支持-->
 		<dependency>
@@ -112,7 +117,7 @@
 		<dependency>
 			<groupId>com.yungouos.pay</groupId>
 			<artifactId>yungouos-pay-sdk</artifactId>
-			<version>2.0.4</version>
+			<version>${yungouos.version}</version>
 		</dependency>
 		<!--web 模块-->
 		<dependency>
