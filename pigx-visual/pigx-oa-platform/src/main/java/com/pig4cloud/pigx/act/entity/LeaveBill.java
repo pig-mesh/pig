@@ -60,6 +60,11 @@ public class LeaveBill extends Model<LeaveBill> {
 	private String content;
 
 	/**
+	 * 提交时间
+	 */
+	private LocalDateTime leaveTime;
+
+	/**
 	 * 0-未提交,1-未审核,2-批准,9-驳回
 	 */
 	private String state;
