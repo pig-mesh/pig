@@ -1,5 +1,9 @@
 package com.pig4cloud.pigx.common.security.service;
 
+import cn.hutool.core.map.MapUtil;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -14,9 +18,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Date;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 自定义 token 放发处理逻辑
@@ -27,9 +29,13 @@ import java.util.UUID;
 public class PigxCustomTokenServices implements AuthorizationServerTokenServices, ResourceServerTokenServices,
 		ConsumerTokenServices, InitializingBean {
 
+	protected final Log logger = LogFactory.getLog(getClass());
+
 	private int refreshTokenValiditySeconds = 60 * 60 * 24 * 30; // default 30 days.
 
 	private int accessTokenValiditySeconds = 60 * 60 * 12; // default 12 hours.
+
+	private int defaultOnlineQuantity = 1; //客户端默认同时在线数量
 
 	private boolean supportRefreshToken = false;
 
@@ -54,28 +60,25 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 	@Override
 	public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
 		OAuth2AccessToken existingAccessToken = tokenStore.getAccessToken(authentication);
-		OAuth2RefreshToken refreshToken = null;
-
 		// 若已产生token ， 过期时删除相关token,执行下边的重新生成逻辑
 		if (existingAccessToken != null) {
-			tokenStore.removeAccessToken(existingAccessToken);
-			if (existingAccessToken.getRefreshToken() != null) {
-				refreshToken = existingAccessToken.getRefreshToken();
-				tokenStore.removeRefreshToken(refreshToken);
+			//增加允许同时在线数量逻辑
+			Collection<OAuth2AccessToken> currentTokenList = tokenStore.findTokensByClientIdAndUserName(authentication.getOAuth2Request().getClientId(), authentication.getName());
+			if (currentTokenList.size() >= getOnlineQuantity(authentication.getOAuth2Request())) {
+				Optional<OAuth2AccessToken> oldestTokenOpt = currentTokenList.stream().min(Comparator.comparing(OAuth2AccessToken::getExpiration));
+				if (oldestTokenOpt.isPresent()) {
+					OAuth2AccessToken oldestToken = oldestTokenOpt.get();
+					logger.info("online quantity reaches the upper limit");
+					tokenStore.removeAccessToken(oldestToken);
+					if (oldestToken.getRefreshToken() != null) {
+						OAuth2RefreshToken refreshToken = oldestToken.getRefreshToken();
+						tokenStore.removeRefreshToken(refreshToken);
+					}
+				}
 			}
 		}
 
-		if (refreshToken == null) {
-			refreshToken = createRefreshToken(authentication);
-		}
-
-		else if (refreshToken instanceof ExpiringOAuth2RefreshToken) {
-			ExpiringOAuth2RefreshToken expiring = (ExpiringOAuth2RefreshToken) refreshToken;
-			if (System.currentTimeMillis() > expiring.getExpiration().getTime()) {
-				refreshToken = createRefreshToken(authentication);
-			}
-		}
-
+		OAuth2RefreshToken refreshToken = createRefreshToken(authentication);
 		OAuth2AccessToken accessToken = createAccessToken(authentication, refreshToken);
 		tokenStore.storeAccessToken(accessToken, authentication);
 
@@ -270,7 +273,7 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 		if (clientDetailsService != null) {
 			ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
 			Integer validity = client.getAccessTokenValiditySeconds();
-			if (validity != null) {
+			if (validity != null && validity > 0) {
 				return validity;
 			}
 		}
@@ -286,11 +289,25 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 		if (clientDetailsService != null) {
 			ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
 			Integer validity = client.getRefreshTokenValiditySeconds();
-			if (validity != null) {
+			if (validity != null && validity > 0) {
 				return validity;
 			}
 		}
 		return refreshTokenValiditySeconds;
+	}
+
+	/**
+	 * the client online quantity
+	 *
+	 * @param clientAuth the current authorization request
+	 * @return the client online quantity
+	 */
+	protected int getOnlineQuantity(OAuth2Request clientAuth) {
+		if (clientDetailsService != null) {
+			ClientDetails client = clientDetailsService.loadClientByClientId(clientAuth.getClientId());
+			return MapUtil.getInt(client.getAdditionalInformation(), CommonConstants.ONLINE_QUANTITY, 1);
+		}
+		return defaultOnlineQuantity;
 	}
 
 	/**

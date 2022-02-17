@@ -22,4 +22,9 @@ public class SysOauthClientDetailsDTO extends SysOauthClientDetails {
 	 */
 	private String encFlag;
 
+	/**
+	 * 客户端允许同时在线数量
+	 */
+	private String onlineQuantity;
+
 }
