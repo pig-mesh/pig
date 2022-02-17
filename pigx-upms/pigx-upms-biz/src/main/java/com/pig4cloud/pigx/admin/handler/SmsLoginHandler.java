@@ -70,7 +70,7 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		user.setGiteeLogin(identify);
+		user.setPhone(identify);
 		sysUserService.updateById(user);
 		return null;
 	}

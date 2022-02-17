@@ -27,10 +27,12 @@ import com.pig4cloud.pigx.auth.service.PigxTokenDealServiceImpl;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.AuthorizationRequest;
 import org.springframework.security.oauth2.provider.ClientDetails;
@@ -138,6 +140,16 @@ public class PigxTokenEndpoint {
 		}
 
 		return dealService.queryToken(page);
+	}
+
+	/**
+	 * 根据访问令牌获取用户信息
+	 * @param accessToken 访问令牌
+	 * @return 登录用户信息
+	 */
+	@GetMapping("/user")
+	public ResponseEntity<PigxUser> userInfo(@RequestParam("access_token") String accessToken){
+		return dealService.getUserInfo(accessToken);
 	}
 
 }
