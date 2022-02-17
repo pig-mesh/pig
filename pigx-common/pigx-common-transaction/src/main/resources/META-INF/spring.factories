@@ -1,1 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.pig4cloud.pigx.common.transaction.TransactionConfiguration
+org.springframework.boot.env.EnvironmentPostProcessor=\
+    com.pig4cloud.pigx.common.transaction.tx.init.ApplicationTxInitializer
