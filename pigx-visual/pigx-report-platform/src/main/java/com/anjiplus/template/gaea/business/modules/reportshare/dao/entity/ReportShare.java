@@ -7,44 +7,45 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.util.Date;
+
 /**
-* @description 报表分享 entity
-* @author Raod
-* @date 2021-08-18 13:37:26.663
-**/
-@TableName(keepGlobalPrefix=true, value="gaea_report_share")
+ * @description 报表分享 entity
+ * @author Raod
+ * @date 2021-08-18 13:37:26.663
+ **/
+@TableName(keepGlobalPrefix = true, value = "gaea_report_share")
 @Data
 public class ReportShare extends GaeaBaseEntity {
-    /** 分享编码，系统生成，默认UUID */
-    private String shareCode;
 
-    /** 分享有效期类型，DIC_NAME=SHARE_VAILD */
-    private Integer shareValidType;
+	/** 分享编码，系统生成，默认UUID */
+	private String shareCode;
 
-    /** 分享有效期 */
-    private Date shareValidTime;
+	/** 分享有效期类型，DIC_NAME=SHARE_VAILD */
+	private Integer shareValidType;
 
-    /** 分享token */
-    private String shareToken;
+	/** 分享有效期 */
+	private Date shareValidTime;
 
-    /** 分享url */
-    private String shareUrl;
+	/** 分享token */
+	private String shareToken;
 
-    /** 报表编码 */
-    private String reportCode;
+	/** 分享url */
+	private String shareUrl;
 
-    /** 0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG */
-    private Integer enableFlag;
+	/** 报表编码 */
+	private String reportCode;
 
-    /** 0--未删除 1--已删除 DIC_NAME=DELETE_FLAG */
-    private Integer deleteFlag;
+	/** 0--已禁用 1--已启用 DIC_NAME=ENABLE_FLAG */
+	private Integer enableFlag;
 
-    /** 分享码 */
-    @TableField(exist = false)
-    private String sharePassword;
+	/** 0--未删除 1--已删除 DIC_NAME=DELETE_FLAG */
+	private Integer deleteFlag;
 
-    @TableField(exist = false)
-    private boolean sharePasswordFlag;
+	/** 分享码 */
+	@TableField(exist = false)
+	private String sharePassword;
 
+	@TableField(exist = false)
+	private boolean sharePasswordFlag;
 
 }

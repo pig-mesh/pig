@@ -28,29 +28,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/report")
 public class ReportController extends GaeaBaseController<ReportParam, Report, ReportDto> {
 
-    @Autowired
-    private ReportService reportService;
+	@Autowired
+	private ReportService reportService;
 
-    @Override
-    public GaeaBaseService<ReportParam, Report> getService() {
-        return reportService;
-    }
+	@Override
+	public GaeaBaseService<ReportParam, Report> getService() {
+		return reportService;
+	}
 
-    @Override
-    public Report getEntity() {
-        return new Report();
-    }
+	@Override
+	public Report getEntity() {
+		return new Report();
+	}
 
-    @Override
-    public ReportDto getDTO() {
-        return new ReportDto();
-    }
+	@Override
+	public ReportDto getDTO() {
+		return new ReportDto();
+	}
 
-    @DeleteMapping("/delReport")
-    @Permission(code = "delete", name = "删除")
-    @GaeaAuditLog(pageTitle = "删除")
-    public ResponseBean delReport(@RequestBody ReportDto reportDto) {
-        reportService.delReport(reportDto);
-        return ResponseBean.builder().build();
-    }
+	@DeleteMapping("/delReport")
+	@Permission(code = "delete", name = "删除")
+	@GaeaAuditLog(pageTitle = "删除")
+	public ResponseBean delReport(@RequestBody ReportDto reportDto) {
+		reportService.delReport(reportDto);
+		return ResponseBean.builder().build();
+	}
+
 }
