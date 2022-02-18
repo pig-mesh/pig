@@ -58,14 +58,15 @@ public class CasLoginHandler extends AbstractLoginHandler {
 		SysSocialDetails condition = new SysSocialDetails();
 		condition.setType(LoginTypeEnum.CAS.getType());
 		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+		// remark 字段填写 CAS 服务器的URL
 		Cas30ProxyTicketValidator cas30ProxyTicketValidator = new Cas30ProxyTicketValidator(socialDetails.getRemark());
 		Assertion validate = cas30ProxyTicketValidator.validate(ticket, socialDetails.getRedirectUrl());
 		return validate.getPrincipal().getName();
 	}
 
 	/**
-	 * openId 获取用户信息
-	 * @param openId
+	 * username 获取用户信息
+	 * @param username
 	 * @return
 	 */
 	@Override

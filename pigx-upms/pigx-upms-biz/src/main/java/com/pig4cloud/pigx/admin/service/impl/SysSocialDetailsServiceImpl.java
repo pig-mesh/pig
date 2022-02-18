@@ -79,7 +79,7 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 	public UserInfo getUserInfo(String inStr) {
 		String[] inStrs = inStr.split(StringPool.AT);
 		String type = inStrs[0];
-		String loginStr = inStrs[1];
+		String loginStr = inStr.substring(type.length() + 1);
 		return loginHandlerMap.get(type).handle(loginStr);
 	}
 

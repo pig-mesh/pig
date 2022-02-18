@@ -33,11 +33,6 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
-		<!--工具类核心包-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-transaction</artifactId>
-		</dependency>
 		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>

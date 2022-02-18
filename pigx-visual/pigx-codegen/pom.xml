@@ -141,11 +141,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
-		<!--工具类核心包-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-transaction</artifactId>
-		</dependency>
 	</dependencies>
 
 	<build>
