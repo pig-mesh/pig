@@ -96,6 +96,12 @@ public interface SecurityConstants {
 	String GRANT_MOBILE = "mobile";
 
 	/**
+	 * QQ获取token
+	 */
+	String QQ_AUTHORIZATION_CODE_URL = "https://graph.qq.com/oauth2.0/token?grant_type="
+			+ "authorization_code&code=%S&client_id=%s&redirect_uri=" + "%s&client_secret=%s";
+
+	/**
 	 * 微信获取OPENID
 	 */
 	String WX_AUTHORIZATION_CODE_URL = "https://api.weixin.qq.com/sns/oauth2/access_token"
@@ -117,6 +123,11 @@ public interface SecurityConstants {
 	 * 开源中国获取token
 	 */
 	String OSC_AUTHORIZATION_CODE_URL = "https://www.oschina.net/action/openapi/token";
+
+	/**
+	 * QQ获取用户信息
+	 */
+	String QQ_USER_INFO_URL = "https://graph.qq.com/oauth2.0/me?access_token=%s";
 
 	/**
 	 * 码云获取用户信息

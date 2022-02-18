@@ -110,4 +110,9 @@ public interface CommonConstants {
 	 */
 	String ENC_FLAG = "enc_flag";
 
+	/**
+	 * 客户端允许同时在线数量
+	 */
+	String ONLINE_QUANTITY = "online_quantity";
+
 }
