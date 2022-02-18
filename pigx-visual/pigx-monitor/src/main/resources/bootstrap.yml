@@ -15,6 +15,4 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: @profiles.active@
-  autoconfigure:
-    exclude: com.pig4cloud.pigx.common.core.config.JacksonConfig  #排查避免覆盖 Admin Server 内置序列化
 
