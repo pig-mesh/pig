@@ -34,11 +34,11 @@
 | 依赖                   | 版本       |
 | ---------------------- |----------|
 | Spring Boot            | 2.6.3    |
-| Spring Cloud           | 2021.0.0 |
+| Spring Cloud           | 2021.0.1 |
 | Spring Cloud Alibaba   | 2021.1   |
 | Spring Security OAuth2 | 2.3.6    |
 | Mybatis Plus           | 3.5.1    |
-| hutool                 | 5.7.19   |
+| hutool                 | 5.7.21   |
 | Avue                   | 2.6.18   |
 
 ### 模块说明
