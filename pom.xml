@@ -22,7 +22,7 @@
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
-	<version>3.4.4</version>
+	<version>3.4.5</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
 
@@ -40,7 +40,6 @@
 		<velocity.version>2.3</velocity.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
-		<nacos.version>2.0.3</nacos.version>
 		<jasypt.version>2.1.0</jasypt.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<xxl-job.version>2.3.0</xxl-job.version>
