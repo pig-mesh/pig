@@ -56,7 +56,7 @@ COMMIT;
 DROP TABLE IF EXISTS `aj_report_common1`;
 CREATE TABLE `aj_report_common1` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8  DEFAULT NULL,
   `nums` int DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -157,9 +157,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `aj_report_devices`;
 CREATE TABLE `aj_report_devices` (
-  `device_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '设备编号',
-  `device_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设备名称',
-  `device_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '设备类型',
+  `device_id` varchar(255) CHARACTER SET utf8  NOT NULL COMMENT '设备编号',
+  `device_name` varchar(255) CHARACTER SET utf8  DEFAULT NULL COMMENT '设备名称',
+  `device_type` varchar(255) CHARACTER SET utf8  DEFAULT NULL COMMENT '设备类型',
   `device_type_code` int DEFAULT NULL COMMENT '设备类型编号',
   `online_time` datetime DEFAULT NULL COMMENT '上线日期',
   `device_state` int DEFAULT NULL COMMENT '1上线，0下线',
@@ -229,7 +229,7 @@ COMMIT;
 DROP TABLE IF EXISTS `aj_report_fireacl`;
 CREATE TABLE `aj_report_fireacl` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `acl_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT 'acl类型',
+  `acl_type` varchar(255) CHARACTER SET utf8  DEFAULT NULL COMMENT 'acl类型',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -448,7 +448,7 @@ COMMIT;
 DROP TABLE IF EXISTS `aj_report_fireattack`;
 CREATE TABLE `aj_report_fireattack` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '事件编号',
-  `attack_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '攻击类型',
+  `attack_type` varchar(255) CHARACTER SET utf8  NOT NULL COMMENT '攻击类型',
   `create_time` datetime DEFAULT NULL COMMENT '事件创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
@@ -565,7 +565,7 @@ COMMIT;
 DROP TABLE IF EXISTS `aj_report_mail`;
 CREATE TABLE `aj_report_mail` (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '事件id',
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '登陆用户',
+  `username` varchar(255) CHARACTER SET utf8  DEFAULT NULL COMMENT '登陆用户',
   `status` int DEFAULT NULL COMMENT '1成功，0失败',
   `create_time` datetime DEFAULT NULL COMMENT '事件时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -828,7 +828,7 @@ DROP TABLE IF EXISTS `aj_report_manus`;
 CREATE TABLE `aj_report_manus` (
   `id` int NOT NULL AUTO_INCREMENT,
   `datetime` date DEFAULT NULL COMMENT '日期',
-  `brand` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '系列',
+  `brand` varchar(255) CHARACTER SET utf8  DEFAULT NULL COMMENT '系列',
   `manus` int DEFAULT NULL COMMENT '生产量',
   `sales` int DEFAULT NULL COMMENT '销售量',
   `unsales` int DEFAULT NULL COMMENT '滞销量',
