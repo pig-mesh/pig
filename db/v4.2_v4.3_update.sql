@@ -143,6 +143,12 @@ ALTER TABLE `sys_user_role`
     MODIFY COLUMN `user_id` bigint NOT NULL FIRST,
     MODIFY COLUMN `role_id` bigint NOT NULL AFTER `user_id`;
 
+INSERT INTO `sys_menu` VALUES (6800, '标签管理', NULL, '/mp/wx-account-tag/index', 6000, 'icon-huifu', 998, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2020-05-09 03:16:16', '0', 1);
+INSERT INTO `sys_menu` VALUES (6801, '新增标签', 'mp_wx_account_tag_add', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6802, '编辑标签', 'mp_wx_account_tag_edit', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6803, '删除标签', 'mp_wx_account_tag_del', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6804, '同步标签', 'mp_wx_account_tag_sync', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2022-02-17 15:44:24', '0', 1);
+
 -- pigxx_ac
 USE pigxx_ac;
 ALTER TABLE `oa_leave_bill`

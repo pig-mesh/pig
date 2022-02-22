@@ -436,7 +436,6 @@ INSERT INTO `sys_menu` VALUES (9004, '表单删除', 'gen_form_del', NULL, 9001,
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource', 9000, 'icon-mysql', 0, '0', '0', ' ', '2019-08-12 09:42:11', ' ', '2020-03-24 08:58:49', '0', 1);
 INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', 2, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
 INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, 'http://127.0.0.1:9095/', -1, 'icon-shuju', 10, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (1468223769716658177, '测试根部门', NULL, 'https://gitee.com', -1, 'icon-navicon-zdgl', 999, '0', '0', ' ', '2021-12-07 22:19:59', ' ', '2021-12-07 22:20:07', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -675,6 +674,11 @@ INSERT INTO `sys_role_menu` VALUES (1, 6700);
 INSERT INTO `sys_role_menu` VALUES (1, 6701);
 INSERT INTO `sys_role_menu` VALUES (1, 6702);
 INSERT INTO `sys_role_menu` VALUES (1, 6703);
+INSERT INTO `sys_role_menu` VALUES (1, 6800);
+INSERT INTO `sys_role_menu` VALUES (1, 6801);
+INSERT INTO `sys_role_menu` VALUES (1, 6802);
+INSERT INTO `sys_role_menu` VALUES (1, 6803);
+INSERT INTO `sys_role_menu` VALUES (1, 6804);
 INSERT INTO `sys_role_menu` VALUES (1, 7000);
 INSERT INTO `sys_role_menu` VALUES (1, 8000);
 INSERT INTO `sys_role_menu` VALUES (1, 8001);
