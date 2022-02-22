@@ -24,7 +24,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pigx</artifactId>
-	<version>4.3.0-SNAPSHOT</version>
+	<version>4.3.0</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<organization>
@@ -275,39 +275,11 @@
 			<properties>
 				<!-- 环境标识，需要与配置文件的名称相对应 -->
 				<profiles.active>dev</profiles.active>
-				<db.type>public</db.type>
 			</properties>
 			<activation>
 				<!-- 默认环境 -->
 				<activeByDefault>true</activeByDefault>
 			</activation>
-		</profile>
-		<profile>
-			<id>oracle</id>
-			<properties>
-				<profiles.active>dev</profiles.active>
-				<db.type>oracle</db.type>
-			</properties>
-		</profile>
-		<profile>
-			<id>mssql</id>
-			<properties>
-				<profiles.active>dev</profiles.active>
-				<db.type>mssql</db.type>
-			</properties>
-		</profile>
-		<profile>
-			<id>pg</id>
-			<properties>
-				<profiles.active>dev</profiles.active>
-				<db.type>pg</db.type>
-			</properties>
-		</profile>
-		<profile>
-			<id>prod</id>
-			<properties>
-				<profiles.active>prod</profiles.active>
-			</properties>
 		</profile>
 	</profiles>
 
