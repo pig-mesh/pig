@@ -148,6 +148,7 @@ INSERT INTO `sys_menu` VALUES (6801, '新增标签', 'mp_wx_account_tag_add', NU
 INSERT INTO `sys_menu` VALUES (6802, '编辑标签', 'mp_wx_account_tag_edit', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
 INSERT INTO `sys_menu` VALUES (6803, '删除标签', 'mp_wx_account_tag_del', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
 INSERT INTO `sys_menu` VALUES (6804, '同步标签', 'mp_wx_account_tag_sync', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2022-02-17 15:44:24', '0', 1);
+INSERT INTO `sys_oauth_client_details` VALUES (7, 'social', NULL, 'social', 'server', 'password,refresh_token,mobile', NULL, NULL, NULL, NULL, '{ \"enc_flag\":\"1\",\"captcha_flag\":\"0\"}', 'true', '0', ' ', ' ', NULL, NULL, 1);
 
 -- pigxx_ac
 USE pigxx_ac;
