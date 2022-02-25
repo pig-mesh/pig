@@ -27,7 +27,7 @@
 	<url>https://www.pig4cloud.com</url>
 
 	<properties>
-		<spring-boot.version>2.6.3</spring-boot.version>
+		<spring-boot.version>2.6.4</spring-boot.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

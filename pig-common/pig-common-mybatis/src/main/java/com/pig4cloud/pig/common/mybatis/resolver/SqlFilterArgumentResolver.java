@@ -102,7 +102,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	 * @return Predicate
 	 */
 	private Predicate<String> sqlInjectPredicate() {
-        return sql -> Arrays.stream(KEYWORDS).noneMatch(keyword -> StrUtil.containsIgnoreCase(sql, keyword));
+		return sql -> Arrays.stream(KEYWORDS).noneMatch(keyword -> StrUtil.containsIgnoreCase(sql, keyword));
 	}
 
 }
