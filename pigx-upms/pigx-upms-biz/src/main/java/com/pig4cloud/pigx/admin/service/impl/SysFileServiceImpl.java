@@ -28,7 +28,6 @@ import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.oss.OssProperties;
 import com.pig4cloud.pigx.common.oss.service.OssTemplate;
-import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -124,8 +123,6 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		sysFile.setFileSize(file.getSize());
 		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
 		sysFile.setBucketName(ossProperties.getBucketName());
-		sysFile.setCreateUser(SecurityUtils.getUser().getUsername());
-		sysFile.setUpdateUser(SecurityUtils.getUser().getUsername());
 		this.save(sysFile);
 	}
 
