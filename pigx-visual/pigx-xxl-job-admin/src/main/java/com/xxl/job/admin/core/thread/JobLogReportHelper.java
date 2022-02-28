@@ -99,7 +99,7 @@ public class JobLogReportHelper {
 					}
 					catch (Exception e) {
 						if (!toStop) {
-							logger.error(">>>>>>>>>>> xxl-job, job log report thread error:{}", e);
+							logger.error(">>>>>>>>>>> xxl-job, job log report thread error");
 						}
 					}
 
@@ -137,7 +137,7 @@ public class JobLogReportHelper {
 					}
 					catch (Exception e) {
 						if (!toStop) {
-							logger.error(e.getMessage(), e);
+							logger.error(e.getMessage());
 						}
 					}
 
