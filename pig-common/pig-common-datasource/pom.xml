@@ -21,7 +21,7 @@
 	<parent>
 		<artifactId>pig-common</artifactId>
 		<groupId>com.pig4cloud</groupId>
-		<version>3.4.5</version>
+		<version>3.4.6</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
