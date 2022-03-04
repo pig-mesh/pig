@@ -32,7 +32,7 @@
         <input type="password" name="password" class="form-control" placeholder="密码" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>
         <#if error??>
-            <span style="color: red; ">${error}</span>
+            <span style="color: red; ">${error?html}</span>
         </#if>
     </form>
 </div>
