@@ -32,7 +32,7 @@ spring:
         username: pig
         password: pig
         instance:
-          prefer-ip: true
+          service-host-type: ip
   application:
     name: @project.artifactId@
 

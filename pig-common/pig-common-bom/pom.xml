@@ -26,7 +26,6 @@
 		<fastjson.version>1.2.78</fastjson.version>
 		<swagger.core.version>1.5.24</swagger.core.version>
 		<mybatis-plus.version>3.5.1</mybatis-plus.version>
-		<nacos.version>2.0.3</nacos.version>
 		<excel.version>1.1.1</excel.version>
 		<oss.version>1.0.3</oss.version>
 		<sms.version>2.0.2</sms.version>
@@ -108,11 +107,6 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.alibaba.nacos</groupId>
-				<artifactId>nacos-client</artifactId>
-				<version>${nacos.version}</version>
 			</dependency>
 			<!-- excel 导入导出 -->
 			<dependency>

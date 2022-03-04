@@ -1,5 +1,5 @@
 server:
-  port: 9999
+  port: 5001
 
 spring:
   application:
@@ -10,10 +10,10 @@ spring:
         server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        file-extension: yml
-        shared-configs:
-          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  config:
+    import:
+      - nacos:application-${spring.profiles.active}.yml
+      - nacos:${spring.application.name}-${spring.profiles.active}.yml
   profiles:
     active: @profiles.active@
-
 

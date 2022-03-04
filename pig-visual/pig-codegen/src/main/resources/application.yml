@@ -1,0 +1,19 @@
+server:
+  port: 5002
+
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+  config:
+    import:
+      - nacos:application-${spring.profiles.active}.yml
+      - nacos:${spring.application.name}-${spring.profiles.active}.yml
+  profiles:
+    active: @profiles.active@
+
