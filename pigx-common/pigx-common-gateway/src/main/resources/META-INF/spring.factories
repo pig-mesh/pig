@@ -1,2 +1,0 @@
-org.springframework.boot.diagnostics.FailureAnalyzer=\
-com.pig4cloud.pigx.common.gateway.exception.RouteCheckFailureAnalyzer
