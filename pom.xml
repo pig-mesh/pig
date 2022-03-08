@@ -36,7 +36,7 @@
 		<spring-boot-admin.version>2.6.2</spring-boot-admin.version>
 		<hutool.version>5.7.22</hutool.version>
 		<dynamic-ds.version>3.5.1</dynamic-ds.version>
-		<captcha.version>2.2.1</captcha.version>
+		<captcha.version>2.2.2</captcha.version>
 		<velocity.version>2.3</velocity.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
