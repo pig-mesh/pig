@@ -132,12 +132,19 @@ ALTER TABLE `sys_tenant`
   ADD COLUMN `update_by` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT ' ' AFTER `create_by`,
   MODIFY COLUMN `id` bigint NOT NULL FIRST;
 
-ALTER TABLE `sys_user`
-    ADD COLUMN `create_by` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT ' ' AFTER `dept_id`,
-  ADD COLUMN `update_by` varchar(64) CHARACTER SET utf8 NOT NULL DEFAULT ' ' AFTER `create_by`,
-  MODIFY COLUMN `user_id` bigint NOT NULL FIRST,
-  MODIFY COLUMN `dept_id` bigint DEFAULT NULL AFTER `email`,
-  MODIFY COLUMN `tenant_id` bigint NOT NULL DEFAULT '0' AFTER `osc_id`;
+ALTER TABLE `sys_user` ADD COLUMN `nickname` VARCHAR (64) CHARACTER
+    SET utf8mb4 DEFAULT NULL COMMENT '拓展字段:昵称' AFTER `username`,
+ ADD COLUMN `name` VARCHAR (64) CHARACTER
+SET utf8mb4 DEFAULT NULL COMMENT '拓展字段:姓名' AFTER `nickname`,
+ ADD COLUMN `email` VARCHAR (128) CHARACTER
+SET utf8mb4 DEFAULT NULL COMMENT '拓展字段:邮箱' AFTER `name`,
+ ADD COLUMN `create_by` VARCHAR (64) CHARACTER
+SET utf8 NOT NULL DEFAULT ' ' AFTER `dept_id`,
+ ADD COLUMN `update_by` VARCHAR (64) CHARACTER
+SET utf8 NOT NULL DEFAULT ' ' AFTER `create_by`,
+ MODIFY COLUMN `user_id` BIGINT NOT NULL FIRST,
+ MODIFY COLUMN `dept_id` BIGINT DEFAULT NULL AFTER `email`,
+ MODIFY COLUMN `tenant_id` BIGINT NOT NULL DEFAULT '0' AFTER `osc_id`;
 
 ALTER TABLE `sys_user_role`
     MODIFY COLUMN `user_id` bigint NOT NULL FIRST,
