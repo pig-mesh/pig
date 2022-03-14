@@ -121,7 +121,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 */
 	@Override
 	public List<Tree<Long>> listDeptTrees() {
-		return getDeptTree(this.list(Wrappers.emptyWrapper()));
+		return getDeptTree(this.list(Wrappers.emptyWrapper()), 0L);
 	}
 
 	/**
@@ -136,15 +136,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 
 		List<SysDept> deptList = baseMapper.selectBatchIds(descendantIdList);
-		return getDeptTree(deptList);
+		Optional<SysDept> dept = deptList.stream().filter(item -> item.getDeptId().intValue() == deptId).findFirst();
+		return getDeptTree(deptList, dept.isPresent() ? dept.get().getParentId() : 0L);
 	}
 
 	/**
 	 * 构建部门树
 	 * @param depts 部门
+	 * @param parentId 父级id
 	 * @return
 	 */
-	private List<Tree<Long>> getDeptTree(List<SysDept> depts) {
+	private List<Tree<Long>> getDeptTree(List<SysDept> depts, Long parentId) {
 		List<TreeNode<Long>> collect = depts.stream().filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
 				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
 					TreeNode<Long> treeNode = new TreeNode();
@@ -159,7 +161,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 					return treeNode;
 				}).collect(Collectors.toList());
 
-		return TreeUtil.build(collect, 0L);
+		return TreeUtil.build(collect, parentId);
 	}
 
 }
