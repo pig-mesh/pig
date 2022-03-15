@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
 import com.pig4cloud.pigx.common.security.exception.*;
-import com.pig4cloud.pigx.common.security.util.PigxSecurityMessageSourceUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +31,6 @@ import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.web.util.ThrowableAnalyzer;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-
-import java.util.Locale;
 
 /**
  * @author lengleng
@@ -65,9 +62,7 @@ public class PigxWebResponseExceptionTranslator implements WebResponseExceptionT
 		ase = (InvalidGrantException) throwableAnalyzer.getFirstThrowableOfType(InvalidGrantException.class,
 				causeChain);
 		if (ase != null) {
-			String msg = PigxSecurityMessageSourceUtil.getAccessor().getMessage(
-					"AbstractUserDetailsAuthenticationProvider.badCredentials", ase.getMessage(), Locale.CHINA);
-			return handleOAuth2Exception(new InvalidException(msg, ase));
+			return handleOAuth2Exception(new InvalidException(ase.getLocalizedMessage(), ase));
 		}
 
 		ase = (HttpRequestMethodNotSupportedException) throwableAnalyzer
