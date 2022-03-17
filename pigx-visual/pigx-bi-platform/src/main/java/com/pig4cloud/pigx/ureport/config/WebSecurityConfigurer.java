@@ -45,8 +45,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) {
 		http.headers().frameOptions().disable().and().formLogin().loginPage("/login.html").loginProcessingUrl("/login")
 				.failureHandler(new LoginFailureHandler()).and().authorizeRequests()
-				.antMatchers("/login.html", "/login", "/actuator/**").permitAll().anyRequest().authenticated().and()
-				.csrf().disable();
+				.antMatchers("/login.html", "/login", "/actuator/**", "/ureport/preview").permitAll().anyRequest()
+				.authenticated().and().csrf().disable();
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/favicon.ico", "/css/**", "/error");
+		web.ignoring().antMatchers("/favicon.ico", "/css/**", "/ureport/res/**", "/error");
 	}
 
 	/**
