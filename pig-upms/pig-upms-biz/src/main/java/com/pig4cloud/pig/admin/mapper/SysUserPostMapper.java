@@ -14,37 +14,21 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.admin.api.dto;
+package com.pig4cloud.pig.admin.mapper;
 
-import com.pig4cloud.pig.admin.api.entity.SysUser;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.util.List;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pig4cloud.pig.admin.api.entity.SysUserPost;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author lengleng
- * @date 2019/2/1
+ * <p>
+ * 用户岗位 Mapper 接口
+ * </p>
+ *
+ * @author fxz
+ * @since 2022/3/19
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-public class UserDTO extends SysUser {
-
-	/**
-	 * 角色ID
-	 */
-	private List<Long> role;
-
-	private Long deptId;
-
-	/**
-	 * 岗位ID
-	 */
-	private List<Long> post;
-
-	/**
-	 * 新密码
-	 */
-	private String newpassword1;
+@Mapper
+public interface SysUserPostMapper extends BaseMapper<SysUserPost> {
 
 }

@@ -28,10 +28,7 @@ import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.*;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
-import com.pig4cloud.pig.admin.mapper.SysDeptMapper;
-import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
-import com.pig4cloud.pig.admin.mapper.SysUserMapper;
-import com.pig4cloud.pig.admin.mapper.SysUserRoleMapper;
+import com.pig4cloud.pig.admin.mapper.*;
 import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -71,7 +68,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	private final SysMenuService sysMenuService;
 
+	private final SysPostMapper sysPostMapper;
+
 	private final SysUserRoleMapper sysUserRoleMapper;
+
+	private final SysUserPostMapper sysUserPostMapper;
 
 	/**
 	 * 保存用户信息
@@ -92,6 +93,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userRole.setRoleId(roleId);
 			return userRole;
 		}).forEach(sysUserRoleMapper::insert);
+		// 保存用户岗位信息
+		userDto.getPost().stream().map(postId -> {
+			SysUserPost userPost = new SysUserPost();
+			userPost.setUserId(sysUser.getUserId());
+			userPost.setPostId(postId);
+			return userPost;
+		}).forEach(sysUserPostMapper::insert);
 		return Boolean.TRUE;
 	}
 
@@ -110,6 +118,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 设置角色列表 （ID）
 		List<Long> roleIds = roleList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
 		userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
+		// 设置岗位列表
+		List<SysPost> postList = sysPostMapper.listPostsByUserId(sysUser.getUserId());
+		userInfo.setPostList(postList);
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = roleIds.stream().map(sysMenuService::findMenuByRoleId).flatMap(Collection::stream)
 				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType())).map(SysMenu::getPermission)
@@ -191,6 +202,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userRole.setRoleId(roleId);
 			userRole.insert();
 		});
+		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
+		userDto.getPost().forEach(postId -> {
+			SysUserPost userPost = new SysUserPost();
+			userPost.setUserId(sysUser.getUserId());
+			userPost.setPostId(postId);
+			userPost.insert();
+		});
 		return Boolean.TRUE;
 	}
 
@@ -227,6 +245,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			String roleNameList = userVO.getRoleList().stream().map(SysRole::getRoleName)
 					.collect(Collectors.joining(StrUtil.COMMA));
 			excelVO.setRoleNameList(roleNameList);
+			String postNameList = userVO.getPostList().stream().map(SysPost::getPostName)
+					.collect(Collectors.joining(StrUtil.COMMA));
+			excelVO.setPostNameList(postNameList);
 			return excelVO;
 		}).collect(Collectors.toList());
 		return userExcelVOList;
@@ -247,6 +268,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysUser> userList = this.list();
 		List<SysDept> deptList = sysDeptMapper.selectList(Wrappers.emptyWrapper());
 		List<SysRole> roleList = sysRoleMapper.selectList(Wrappers.emptyWrapper());
+		List<SysPost> postList = sysPostMapper.selectList(Wrappers.emptyWrapper());
 
 		// 执行数据插入操作 组装 UserDto
 		for (int i = 0; i < excelVOList.size(); i++) {
@@ -277,9 +299,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				errorMsg.add(String.format("%s 角色名称不存在", excel.getRoleNameList()));
 			}
 
+			// 判断输入的岗位名称列表是否合法
+			List<String> postNameList = StrUtil.split(excel.getPostNameList(), StrUtil.COMMA);
+			List<SysPost> postCollList = postList.stream()
+					.filter(post -> postNameList.stream().anyMatch(name -> post.getPostName().equals(name)))
+					.collect(Collectors.toList());
+
+			if (postCollList.size() != postNameList.size()) {
+				errorMsg.add(String.format("%s 岗位名称不存在", excel.getPostNameList()));
+			}
+
 			// 数据合法情况
 			if (CollUtil.isEmpty(errorMsg)) {
-				insertExcelUser(excel, deptOptional, roleCollList);
+				insertExcelUser(excel, deptOptional, roleCollList, postCollList);
 			}
 			else {
 				// 数据不合法情况
@@ -304,7 +336,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	/**
 	 * 插入excel User
 	 */
-	private void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList) {
+	private void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList,
+			List<SysPost> postCollList) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(excel.getUsername());
 		userDTO.setPhone(excel.getPhone());
@@ -315,6 +348,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 根据角色名称查询角色ID
 		List<Long> roleIdList = roleCollList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
 		userDTO.setRole(roleIdList);
+		List<Long> postIdList = postCollList.stream().map(SysPost::getPostId).collect(Collectors.toList());
+		userDTO.setPost(postIdList);
 		// 插入用户
 		this.saveUser(userDTO);
 	}

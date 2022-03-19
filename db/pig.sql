@@ -10,7 +10,7 @@ USE `pig`;
 -- ----------------------------
 -- Table structure for sys_dept
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_dept`;
+DROP TABLE IF EXISTS `sys_dept` ;
 CREATE TABLE `sys_dept` (
                             `dept_id` bigint NOT NULL,
                             `name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '部门名称',
@@ -308,6 +308,43 @@ INSERT INTO `sys_oauth_client_details` VALUES ('gen', NULL, 'gen', 'server', 'pa
 INSERT INTO `sys_oauth_client_details` VALUES ('pig', NULL, 'pig', 'server', 'password,app,refresh_token,authorization_code,client_credentials', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login', NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES ('test', NULL, 'test', 'server', 'password,app,refresh_token', NULL, NULL, NULL, NULL, NULL, 'true', NULL, NULL, NULL, NULL);
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_post`;
+CREATE TABLE `sys_post`  (
+                             `post_id` bigint(0) NOT NULL AUTO_INCREMENT COMMENT '岗位ID',
+                             `post_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位编码',
+                             `post_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '岗位名称',
+                             `post_sort` int(0) NOT NULL COMMENT '岗位排序',
+                             `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
+                             `create_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
+                             `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建人',
+                             `update_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+                             `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '更新人',
+                             `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+                             PRIMARY KEY (`post_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT = '岗位信息表';
+
+-- ----------------------------
+-- Records of sys_post
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_post` VALUES (1, 'user', '普通员工', 2, '0', '2022-03-19 10:05:15', 'admin', '2022-03-19 10:42:28', 'admin', '打工人');
+INSERT INTO `sys_post` VALUES (2, 'cto', 'cto', 0, '0', '2022-03-19 10:06:20', 'admin', '2022-03-19 10:06:20', 'admin', 'cto666');
+INSERT INTO `sys_post` VALUES (3, 'boss', '董事长', -1, '0', '2022-03-19 10:06:35', 'admin', '2022-03-19 10:42:44', 'admin', '大boss');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_user_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_post`;
+CREATE TABLE `sys_user_post`  (
+                                  `user_id` bigint(0) NOT NULL COMMENT '用户ID',
+                                  `post_id` bigint(0) NOT NULL COMMENT '岗位ID',
+                                  PRIMARY KEY (`user_id`, `post_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT = '用户与岗位关联表';
 
 -- ----------------------------
 -- Table structure for sys_role

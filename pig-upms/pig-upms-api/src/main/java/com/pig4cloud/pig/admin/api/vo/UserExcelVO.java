@@ -55,6 +55,13 @@ public class UserExcelVO implements Serializable {
 	private String roleNameList;
 
 	/**
+	 * 岗位列表
+	 */
+	@NotBlank(message = "岗位不能为空")
+	@ExcelProperty("岗位")
+	private String postNameList;
+
+	/**
 	 * 锁定标记
 	 */
 	@ExcelProperty("锁定标记,0:正常,9:已锁定")

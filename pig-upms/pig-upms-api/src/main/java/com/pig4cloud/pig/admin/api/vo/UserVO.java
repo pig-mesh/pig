@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.admin.api.vo;
 
+import com.pig4cloud.pig.admin.api.entity.SysPost;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import lombok.Data;
 
@@ -96,5 +97,10 @@ public class UserVO implements Serializable {
 	 * 角色列表
 	 */
 	private List<SysRole> roleList;
+
+	/**
+	 * 岗位列表
+	 */
+	private List<SysPost> postList;
 
 }

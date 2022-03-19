@@ -34,6 +34,9 @@
 		<collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole"
 					select="com.pig4cloud.pig.admin.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
 		</collection>
+		<collection property="postList" ofType="com.pig4cloud.pig.admin.api.entity.SysPost"
+					select="com.pig4cloud.pig.admin.mapper.SysPostMapper.listPostsByUserId" column="user_id">
+		</collection>
 	</resultMap>
 
 	<!-- userVo结果集 -->

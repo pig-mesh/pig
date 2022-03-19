@@ -14,37 +14,36 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.admin.api.dto;
+package com.pig4cloud.pig.admin.api.entity;
 
-import com.pig4cloud.pig.admin.api.entity.SysUser;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.List;
-
 /**
- * @author lengleng
- * @date 2019/2/1
+ * <p>
+ * 用户岗位表
+ * </p>
+ *
+ * @author fxz
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UserDTO extends SysUser {
+public class SysUserPost extends Model<SysUserPost> {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 角色ID
+	 * 用户ID
 	 */
-	private List<Long> role;
-
-	private Long deptId;
+	@ApiModelProperty(value = "用户id")
+	private Long userId;
 
 	/**
 	 * 岗位ID
 	 */
-	private List<Long> post;
-
-	/**
-	 * 新密码
-	 */
-	private String newpassword1;
+	@ApiModelProperty(value = "岗位id")
+	private Long postId;
 
 }

@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.admin.api.dto;
 
+import com.pig4cloud.pig.admin.api.entity.SysPost;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import lombok.Data;
@@ -52,5 +53,15 @@ public class UserInfo implements Serializable {
 	 * 角色集合
 	 */
 	private List<SysRole> roleList;
+
+	/**
+	 * 岗位集合
+	 */
+	private Long[] posts;
+
+	/**
+	 * 岗位集合
+	 */
+	private List<SysPost> postList;
 
 }
