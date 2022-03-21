@@ -241,6 +241,7 @@ INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300,
 INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, 0, '0', '1', '0', ' ', '2017-11-08 10:14:41', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, 0, '0', '1', '0', ' ', '2017-11-08 10:14:59', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, 0, '0', '1', '0', ' ', '2018-04-20 07:22:55', ' ', '2021-05-25 06:48:34');
+INSERT INTO `sys_menu` VALUES (1305, '导入导出', 'sys_role_import_export', NULL, 1300, NULL, 0, '0', '1', '0', 'admin', '2022-03-21 11:14:52', 'admin', '2022-03-21 11:15:07');
 INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', 0, '0', '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-12 00:15:44');
 INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, 0, '0', '1', '0', ' ', '2018-01-20 14:56:16', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, 0, '0', '1', '0', ' ', '2018-01-20 14:56:59', ' ', '2021-05-25 06:48:34');
@@ -250,6 +251,7 @@ INSERT INTO `sys_menu` VALUES (1501, '岗位查看', 'sys_post_get', NULL, 1500,
 INSERT INTO `sys_menu` VALUES (1502, '岗位新增', 'sys_post_add', NULL, 1500, '1', 1, '0', '1', '0', NULL, '2018-05-15 21:35:18', 'admin', '2022-03-15 17:32:48');
 INSERT INTO `sys_menu` VALUES (1503, '岗位修改', 'sys_post_edit', NULL, 1500, '1', 2, '0', '1', '0', NULL, '2018-05-15 21:35:18', 'admin', '2022-03-15 17:33:10');
 INSERT INTO `sys_menu` VALUES (1504, '岗位删除', 'sys_post_del', NULL, 1500, '1', 3, '0', '1', '0', NULL, '2018-05-15 21:35:18', 'admin', '2022-03-15 17:33:27');
+INSERT INTO `sys_menu` VALUES (1505, '导入导出', 'sys_post_import_export', NULL, 1500, NULL, 4, '0', '1', '0', 'admin', '2022-03-21 12:53:05', 'admin', '2022-03-21 12:53:05');
 INSERT INTO `sys_menu` VALUES (2000, '系统管理', NULL, '/setting', -1, 'icon-xitongguanli', 2, '0', '0', '0', ' ', '2017-11-07 20:56:00', ' ', '2020-03-11 23:52:53');
 INSERT INTO `sys_menu` VALUES (2100, '日志管理', NULL, '/admin/log/index', 2000, 'icon-rizhiguanli', 0, '0', '0', '0', ' ', '2017-11-20 14:06:22', ' ', '2020-03-12 00:15:49');
 INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, 2100, NULL, 0, '0', '1', '0', ' ', '2017-11-20 20:37:37', ' ', '2021-05-25 06:48:34');
@@ -264,7 +266,6 @@ INSERT INTO `sys_menu` VALUES (2400, '终端管理', '', '/admin/client/index', 
 INSERT INTO `sys_menu` VALUES (2401, '客户端新增', 'sys_client_add', NULL, 2400, '1', 0, '0', '1', '0', ' ', '2018-05-15 21:35:18', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2402, '客户端修改', 'sys_client_edit', NULL, 2400, NULL, 0, '0', '1', '0', ' ', '2018-05-15 21:37:06', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2403, '客户端删除', 'sys_client_del', NULL, 2400, NULL, 0, '0', '1', '0', ' ', '2018-05-15 21:39:16', ' ', '2021-05-25 06:48:34');
-INSERT INTO `sys_menu` VALUES (2500, '服务监控', NULL, 'http://localhost:5001', 2000, 'icon-server', 0, '0', '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2019-02-01 20:41:30');
 INSERT INTO `sys_menu` VALUES (2600, '文件管理', NULL, '/admin/file/index', 2000, 'icon-wenjianguanli', 0, '0', '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2019-02-01 20:41:30');
 INSERT INTO `sys_menu` VALUES (2601, '文件删除', 'sys_file_del', NULL, 2600, NULL, 0, '0', '1', '0', ' ', '2017-11-29 11:30:11', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2602, '文件新增', 'sys_file_add', NULL, 2600, NULL, 0, '0', '1', '0', ' ', '2018-05-11 22:34:55', ' ', '2021-05-25 06:48:34');
@@ -277,6 +278,7 @@ INSERT INTO `sys_menu` VALUES (3301, '表单新增', 'gen_form_add', NULL, 3300,
 INSERT INTO `sys_menu` VALUES (3302, '表单修改', 'gen_form_edit', NULL, 3300, '', 0, '0', '1', '0', ' ', '2018-05-15 21:35:18', ' ', '2020-03-11 22:39:09');
 INSERT INTO `sys_menu` VALUES (3303, '表单删除', 'gen_form_del', NULL, 3300, '', 0, '0', '1', '0', ' ', '2018-05-15 21:35:18', ' ', '2020-03-11 22:39:11');
 INSERT INTO `sys_menu` VALUES (3400, '表单设计', NULL, '/gen/design', 3000, 'icon-biaodanbiaoqian', 0, '1', '0', '0', ' ', '2020-03-11 22:18:05', ' ', '2020-03-12 00:16:25');
+INSERT INTO `sys_menu` VALUES (4000, '服务监控', NULL, 'http://localhost:5001/login', -1, 'icon-zhexiantu', 4, '0', '0', '0', 'admin', '2022-03-21 09:44:50', 'admin', '2022-03-21 09:47:06');
 INSERT INTO `sys_menu` VALUES (9999, '系统官网', NULL, 'https://pig4cloud.com/#/', -1, 'icon-guanwangfangwen', 999, '0', '0', '0', ' ', '2019-01-17 17:05:19', 'admin', '2020-03-11 23:52:57');
 COMMIT;
 
@@ -412,6 +414,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 1301);
 INSERT INTO `sys_role_menu` VALUES (1, 1302);
 INSERT INTO `sys_role_menu` VALUES (1, 1303);
 INSERT INTO `sys_role_menu` VALUES (1, 1304);
+INSERT INTO `sys_role_menu` VALUES (1, 1305);
 INSERT INTO `sys_role_menu` VALUES (1, 1400);
 INSERT INTO `sys_role_menu` VALUES (1, 1401);
 INSERT INTO `sys_role_menu` VALUES (1, 1402);
@@ -421,6 +424,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 1501);
 INSERT INTO `sys_role_menu` VALUES (1, 1502);
 INSERT INTO `sys_role_menu` VALUES (1, 1503);
 INSERT INTO `sys_role_menu` VALUES (1, 1504);
+INSERT INTO `sys_role_menu` VALUES (1, 1505);
 INSERT INTO `sys_role_menu` VALUES (1, 2000);
 INSERT INTO `sys_role_menu` VALUES (1, 2100);
 INSERT INTO `sys_role_menu` VALUES (1, 2101);
@@ -447,6 +451,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 3301);
 INSERT INTO `sys_role_menu` VALUES (1, 3302);
 INSERT INTO `sys_role_menu` VALUES (1, 3303);
 INSERT INTO `sys_role_menu` VALUES (1, 3400);
+INSERT INTO `sys_role_menu` VALUES (1, 4000);
 INSERT INTO `sys_role_menu` VALUES (1, 9999);
 COMMIT;
 

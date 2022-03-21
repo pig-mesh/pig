@@ -20,14 +20,18 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pig.admin.api.vo.RoleVo;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -123,6 +127,29 @@ public class RoleController {
 	public R<Boolean> saveRoleMenus(@RequestBody RoleVo roleVo) {
 		SysRole sysRole = sysRoleService.getById(roleVo.getRoleId());
 		return R.ok(sysRoleMenuService.saveRoleMenus(sysRole.getRoleCode(), roleVo.getRoleId(), roleVo.getMenuIds()));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_role_import_export')")
+	public List<RoleExcelVO> export() {
+		return sysRoleService.listRole();
+	}
+
+	/**
+	 * 导入角色
+	 * @param excelVOList 角色列表
+	 * @param bindingResult 错误信息列表
+	 * @return ok fail
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('sys_role_import_export')")
+	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
+		return sysRoleService.importRole(excelVOList, bindingResult);
 	}
 
 }
