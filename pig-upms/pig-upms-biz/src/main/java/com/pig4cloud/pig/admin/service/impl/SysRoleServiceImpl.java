@@ -16,18 +16,29 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
+import com.pig4cloud.pig.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -54,6 +65,73 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	public Boolean removeRoleById(Long id) {
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>update().lambda().eq(SysRoleMenu::getRoleId, id));
 		return this.removeById(id);
+	}
+
+	/**
+	 * 导入角色
+	 * @param excelVOList 角色列表
+	 * @param bindingResult 错误信息列表
+	 * @return ok fail
+	 */
+	@Override
+	public R importRole(List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
+		// 通用校验获取失败的数据
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+
+		// 个性化校验逻辑
+		List<SysRole> roleList = this.list();
+
+		// 执行数据插入操作 组装 RoleDto
+		for (int i = 0; i < excelVOList.size(); i++) {
+			RoleExcelVO excel = excelVOList.get(i);
+			Set<String> errorMsg = new HashSet<>();
+			// 检验角色名称或者角色编码是否存在
+			boolean existRole = roleList.stream().anyMatch(sysRole -> excel.getRoleName().equals(sysRole.getRoleName())
+					|| excel.getRoleCode().equals(sysRole.getRoleCode()));
+
+			if (existRole) {
+				errorMsg.add(String.format("%s %s 角色名或角色编码已经存在", excel.getRoleName(), excel.getRoleDesc()));
+			}
+
+			// 数据合法情况
+			if (CollUtil.isEmpty(errorMsg)) {
+				insertExcelRole(excel);
+			}
+			else {
+				// 数据不合法情况
+				errorMessageList.add(new ErrorMessage((long) (i + 2), errorMsg));
+			}
+		}
+		if (CollUtil.isNotEmpty(errorMessageList)) {
+			return R.failed(errorMessageList);
+		}
+		return R.ok();
+	}
+
+	/**
+	 * 查询全部的角色
+	 * @return list
+	 */
+	@Override
+	public List<RoleExcelVO> listRole() {
+		List<SysRole> roleList = this.list(Wrappers.emptyWrapper());
+		// 转换成execl 对象输出
+		return roleList.stream().map(role -> {
+			RoleExcelVO roleExcelVO = new RoleExcelVO();
+			BeanUtil.copyProperties(role, roleExcelVO);
+			return roleExcelVO;
+		}).collect(Collectors.toList());
+	}
+
+	/**
+	 * 插入excel Role
+	 */
+	private void insertExcelRole(RoleExcelVO excel) {
+		SysRole sysRole = new SysRole();
+		sysRole.setRoleName(excel.getRoleName());
+		sysRole.setRoleDesc(excel.getRoleDesc());
+		sysRole.setRoleCode(excel.getRoleCode());
+		this.save(sysRole);
 	}
 
 }

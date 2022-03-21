@@ -20,13 +20,17 @@ package com.pig4cloud.pig.admin.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
+import com.pig4cloud.pig.admin.api.vo.PostExcelVO;
 import com.pig4cloud.pig.admin.service.SysPostService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -113,6 +117,29 @@ public class PostController {
 	@PreAuthorize("@pms.hasPermission('sys_post_del')")
 	public R removeById(@PathVariable Long postId) {
 		return R.ok(sysPostService.removeById(postId));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_post_import_export')")
+	public List<PostExcelVO> export() {
+		return sysPostService.listPost();
+	}
+
+	/**
+	 * 导入岗位
+	 * @param excelVOList 岗位列表
+	 * @param bindingResult 错误信息列表
+	 * @return ok fail
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('sys_post_import_export')")
+	public R importRole(@RequestExcel List<PostExcelVO> excelVOList, BindingResult bindingResult) {
+		return sysPostService.importPost(excelVOList, bindingResult);
 	}
 
 }
