@@ -277,6 +277,7 @@ INSERT INTO `sys_menu` VALUES (3301, '表单新增', 'gen_form_add', NULL, 3300,
 INSERT INTO `sys_menu` VALUES (3302, '表单修改', 'gen_form_edit', NULL, 3300, '', 0, '0', '1', '0', ' ', '2018-05-15 21:35:18', ' ', '2020-03-11 22:39:09');
 INSERT INTO `sys_menu` VALUES (3303, '表单删除', 'gen_form_del', NULL, 3300, '', 0, '0', '1', '0', ' ', '2018-05-15 21:35:18', ' ', '2020-03-11 22:39:11');
 INSERT INTO `sys_menu` VALUES (3400, '表单设计', NULL, '/gen/design', 3000, 'icon-biaodanbiaoqian', 0, '1', '0', '0', ' ', '2020-03-11 22:18:05', ' ', '2020-03-12 00:16:25');
+INSERT INTO `sys_menu` VALUES (4000, '服务监控', NULL, 'http://localhost:5001/login', -1, 'icon-zhexiantu', 4, '0', '0', '0', 'admin', '2022-03-21 09:44:50', 'admin', '2022-03-21 09:47:06');
 INSERT INTO `sys_menu` VALUES (9999, '系统官网', NULL, 'https://pig4cloud.com/#/', -1, 'icon-guanwangfangwen', 999, '0', '0', '0', ' ', '2019-01-17 17:05:19', 'admin', '2020-03-11 23:52:57');
 COMMIT;
 
@@ -440,6 +441,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 3301);
 INSERT INTO `sys_role_menu` VALUES (1, 3302);
 INSERT INTO `sys_role_menu` VALUES (1, 3303);
 INSERT INTO `sys_role_menu` VALUES (1, 3400);
+INSERT INTO `sys_role_menu` VALUES (1, 4000);
 INSERT INTO `sys_role_menu` VALUES (1, 9999);
 COMMIT;
 
