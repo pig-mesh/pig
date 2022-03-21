@@ -8,8 +8,9 @@ spring:
     nacos:
       config:
         server-addr: ${NACOS_HOST:pigx-register}:${NACOS_PORT:8848}
-        file-extension: yml
-        shared-configs:
-          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  config:
+    import:
+      - optional:nacos:application-${spring.profiles.active}.yml
+      - optional:nacos:${spring.application.name}-${spring.profiles.active}.yml
   profiles:
     active: @profiles.active@

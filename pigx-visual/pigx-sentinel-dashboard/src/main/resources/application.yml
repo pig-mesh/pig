@@ -3,6 +3,15 @@ server:
   servlet:
     encoding:
       force: true
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_HOST:pigx-register}:${NACOS_PORT:8848}
+  profiles:
+    active: @profiles.active@
 
 management:
   endpoints:
