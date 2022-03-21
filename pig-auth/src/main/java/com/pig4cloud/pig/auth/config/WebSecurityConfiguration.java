@@ -47,8 +47,6 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 @RequiredArgsConstructor
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-	private final UserDetailsService pigUserDetailsServiceImpl;
-
 	@Override
 	@SneakyThrows
 	protected void configure(HttpSecurity http) {
