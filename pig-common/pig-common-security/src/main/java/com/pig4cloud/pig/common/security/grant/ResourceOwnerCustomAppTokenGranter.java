@@ -20,19 +20,19 @@ import java.util.Map;
  * @author hzq
  * @since 2021-09-14
  */
-public class ResourceOwnerCustomeAppTokenGranter extends AbstractTokenGranter {
+public class ResourceOwnerCustomAppTokenGranter extends AbstractTokenGranter {
 
 	private static final String GRANT_TYPE = "app";
 
 	private final AuthenticationManager authenticationManager;
 
-	public ResourceOwnerCustomeAppTokenGranter(AuthenticationManager authenticationManager,
+	public ResourceOwnerCustomAppTokenGranter(AuthenticationManager authenticationManager,
 			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
 			OAuth2RequestFactory requestFactory) {
 		this(authenticationManager, tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
 	}
 
-	protected ResourceOwnerCustomeAppTokenGranter(AuthenticationManager authenticationManager,
+	protected ResourceOwnerCustomAppTokenGranter(AuthenticationManager authenticationManager,
 			AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
 			OAuth2RequestFactory requestFactory, String grantType) {
 		super(tokenServices, clientDetailsService, requestFactory, grantType);
