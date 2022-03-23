@@ -18,7 +18,7 @@ package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
-import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomeAppTokenGranter;
+import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomAppTokenGranter;
 import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import com.pig4cloud.pig.common.security.service.PigCustomTokenServices;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -89,10 +89,10 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		// 获取默认授权类型
 		TokenGranter tokenGranter = endpoints.getTokenGranter();
 		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
-		ResourceOwnerCustomeAppTokenGranter resourceOwnerCustomeAppTokenGranter = new ResourceOwnerCustomeAppTokenGranter(
+		ResourceOwnerCustomAppTokenGranter resourceOwnerCustomAppTokenGranter = new ResourceOwnerCustomAppTokenGranter(
 				authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
 				endpoints.getOAuth2RequestFactory());
-		tokenGranters.add(resourceOwnerCustomeAppTokenGranter);
+		tokenGranters.add(resourceOwnerCustomAppTokenGranter);
 		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
 		endpoints.tokenGranter(compositeTokenGranter);
 	}
