@@ -59,6 +59,12 @@ public class SysTenant extends Model<SysTenant> {
 	private String code;
 
 	/**
+	 * 租户域名
+	 */
+	@ApiModelProperty(value = "租户域名")
+	private String tenantDomain;
+
+	/**
 	 * 开始时间
 	 */
 	@ApiModelProperty(value = "开始时间")

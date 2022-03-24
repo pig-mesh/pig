@@ -769,6 +769,7 @@ CREATE TABLE `sys_tenant` (
                               `id` bigint NOT NULL COMMENT '租户id',
                               `name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
                               `code` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL,
+                              `tenant_domain` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
                               `start_time` datetime DEFAULT NULL COMMENT '开始时间',
                               `end_time` datetime DEFAULT NULL COMMENT '结束时间',
                               `status` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
@@ -784,7 +785,7 @@ CREATE TABLE `sys_tenant` (
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', ' ', ' ', '2019-05-15 15:44:57', '2022-02-10 05:38:48');
+INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '','2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', ' ', ' ', '2019-05-15 15:44:57', '2022-02-10 05:38:48');
 COMMIT;
 
 -- ----------------------------

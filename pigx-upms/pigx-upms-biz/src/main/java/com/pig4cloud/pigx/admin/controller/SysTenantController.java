@@ -61,23 +61,13 @@ public class SysTenantController {
 	}
 
 	/**
-	 * 通过id查询租户
-	 * @param id id
-	 * @return R
-	 */
-	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Long id) {
-		return R.ok(sysTenantService.getById(id));
-	}
-
-	/**
-	 * 通过租户编码查询租户信息
-	 * @param code 租户Code
+	 * 查询租户信息
+	 * @param tenant 查询条件
 	 * @return 租户信息
 	 */
-	@GetMapping("/code/{code}")
-	public R getByTenantCode(@PathVariable String code) {
-		return R.ok(sysTenantService.list(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getCode, code)));
+	@GetMapping
+	public R getByObj(SysTenant tenant) {
+		return R.ok(sysTenantService.list(Wrappers.query(tenant)));
 	}
 
 	/**
