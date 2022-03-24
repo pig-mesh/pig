@@ -265,7 +265,7 @@ public class GenUtils {
 			TableEntity tableEntity, Map<String, Object> map) throws IOException {
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
-		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		prop.put("resource.loader.file.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		Velocity.init(prop);
 		VelocityContext context = new VelocityContext(map);
 		// 函数库

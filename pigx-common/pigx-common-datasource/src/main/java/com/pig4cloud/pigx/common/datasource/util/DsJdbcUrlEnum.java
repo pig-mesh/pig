@@ -42,7 +42,12 @@ public enum DsJdbcUrlEnum {
 	/**
 	 * db2
 	 */
-	DB2("db2", "jdbc:db2://%s:%s/%s", "select 1 from sysibm.sysdummy1", "DB2 TYPE4 连接");
+	DB2("db2", "jdbc:db2://%s:%s/%s", "select 1 from sysibm.sysdummy1", "DB2 TYPE4 连接"),
+
+	/**
+	 * 达梦
+	 */
+	DM("dm", "jdbc:dm://%s:%s/%s", "select 1 from dual", "达梦连接");
 
 	private final String dbName;
 
