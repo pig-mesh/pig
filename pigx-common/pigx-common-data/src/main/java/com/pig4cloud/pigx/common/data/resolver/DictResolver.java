@@ -14,31 +14,27 @@ import java.util.List;
 
 /**
  * @author fxz
- * @date 2022/3/24
- * 字典解析器
+ * @date 2022/3/24 字典解析器
  */
 @UtilityClass
 public class DictResolver {
 
 	/**
 	 * 根据字典类型获取所有字典项
-	 *
 	 * @param type 字典类型
 	 * @return 字典数据项集合
 	 */
-	@SuppressWarnings("unchecked")
 	public List<SysDictItem> getDictItemsByType(String type) {
-		Assert.isNull(type, "参数不合法");
+		Assert.isTrue(StringUtils.isNotBlank(type), "参数不合法");
 
 		RemoteDictService remoteDictService = SpringContextHolder.getBean(RemoteDictService.class);
 
-		return (List<SysDictItem>) remoteDictService.getDictByType(type).getData();
+		return remoteDictService.getDictByType(type).getData();
 	}
 
 	/**
 	 * 根据字典类型以及字典项字典值获取字典标签
-	 *
-	 * @param type      字典类型
+	 * @param type 字典类型
 	 * @param itemValue 字典项字典值
 	 * @return 字典项标签值
 	 */
@@ -52,8 +48,7 @@ public class DictResolver {
 
 	/**
 	 * 根据字典类型以及字典标签获取字典值
-	 *
-	 * @param type      字典类型
+	 * @param type 字典类型
 	 * @param itemLabel 字典数据标签
 	 * @return 字典数据项值
 	 */
@@ -67,8 +62,7 @@ public class DictResolver {
 
 	/**
 	 * 根据字典类型以及字典值获取字典项
-	 *
-	 * @param type      字典类型
+	 * @param type 字典类型
 	 * @param itemValue 字典数据值
 	 * @return 字典数据项
 	 */
@@ -86,8 +80,7 @@ public class DictResolver {
 
 	/**
 	 * 根据字典类型以及字典标签获取字典项
-	 *
-	 * @param type      字典类型
+	 * @param type 字典类型
 	 * @param itemLabel 字典数据项标签
 	 * @return 字典数据项
 	 */
@@ -102,6 +95,5 @@ public class DictResolver {
 
 		return null;
 	}
-
 
 }
