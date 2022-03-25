@@ -83,12 +83,6 @@ public class JobLogController {
 		return "joblog/joblog.index";
 	}
 
-	@RequestMapping("/getJobsByGroup")
-	@ResponseBody
-	public ReturnT<List<XxlJobInfo>> getJobsByGroup(int jobGroup) {
-		List<XxlJobInfo> list = xxlJobInfoDao.getJobsByGroup(jobGroup);
-		return new ReturnT<List<XxlJobInfo>>(list);
-	}
 
 	@RequestMapping("/pageList")
 	@ResponseBody

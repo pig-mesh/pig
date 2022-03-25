@@ -72,7 +72,13 @@ public class JobInfoController {
 
 		return "jobinfo/jobinfo.index";
 	}
-
+	@RequestMapping("/getJobsByGroup")
+	@ResponseBody
+	public ReturnT<List<XxlJobInfo>> getJobsByGroup(int jobGroup) {
+		JobInfoController xxlJobInfoDao = null;
+		List<XxlJobInfo> list = (List<XxlJobInfo>) xxlJobInfoDao.getJobsByGroup(jobGroup);
+		return new ReturnT<List<XxlJobInfo>>(list);
+	}
 	public static List<XxlJobGroup> filterJobGroupByRole(HttpServletRequest request,
 			List<XxlJobGroup> jobGroupList_all) {
 		List<XxlJobGroup> jobGroupList = new ArrayList<>();
