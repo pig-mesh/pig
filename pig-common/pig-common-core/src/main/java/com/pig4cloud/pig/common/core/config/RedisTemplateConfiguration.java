@@ -32,7 +32,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 @EnableCaching
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-public class RedisTemplateConfiguration {
+public class RedisTemplateConfiguration extends setOpTemplate {
 
 	@Bean
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
@@ -58,16 +58,6 @@ public class RedisTemplateConfiguration {
 	@Bean
 	public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForList();
-	}
-
-	@Bean
-	public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
-		return redisTemplate.opsForSet();
-	}
-
-	@Bean
-	public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
-		return redisTemplate.opsForZSet();
 	}
 
 }

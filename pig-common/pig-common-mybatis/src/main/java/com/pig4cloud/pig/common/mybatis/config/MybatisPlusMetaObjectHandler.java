@@ -25,17 +25,17 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		log.debug("mybatis plus start insert fill ....");
 		LocalDateTime now = LocalDateTime.now();
 
-		fillValIfNullByName("createTime", now, metaObject, false);
-		fillValIfNullByName("updateTime", now, metaObject, false);
-		fillValIfNullByName("createBy", getUserName(), metaObject, false);
-		fillValIfNullByName("updateBy", getUserName(), metaObject, false);
+		ReplaceNullValuesbyName("createTime", now, metaObject, false);
+		ReplaceNullValuesbyName("updateTime", now, metaObject, false);
+		ReplaceNullValuesbyName("createBy", getUserName(), metaObject, false);
+		ReplaceNullValuesbyName("updateBy", getUserName(), metaObject, false);
 	}
 
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		log.debug("mybatis plus start update fill ....");
-		fillValIfNullByName("updateTime", LocalDateTime.now(), metaObject, true);
-		fillValIfNullByName("updateBy", getUserName(), metaObject, true);
+		ReplaceNullValuesbyName("updateTime", LocalDateTime.now(), metaObject, true);
+		ReplaceNullValuesbyName("updateBy", getUserName(), metaObject, true);
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	 * @param metaObject MetaObject
 	 * @param isCover 是否覆盖原有值,避免更新操作手动入参
 	 */
-	private static void fillValIfNullByName(String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
+	private static void ReplaceNullValuesbyName(String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
 		// 1. 没有 get 方法
 		if (!metaObject.hasSetter(fieldName)) {
 			return;
