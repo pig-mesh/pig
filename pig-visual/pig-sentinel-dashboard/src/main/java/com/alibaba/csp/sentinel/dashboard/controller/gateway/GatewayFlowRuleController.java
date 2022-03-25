@@ -62,15 +62,8 @@ public class GatewayFlowRuleController {
 	@AuthAction(AuthService.PrivilegeType.READ_RULE)
 	public Result<List<GatewayFlowRuleEntity>> queryFlowRules(String app, String ip, Integer port) {
 
-		if (StringUtil.isEmpty(app)) {
-			return Result.ofFail(-1, "app can't be null or empty");
-		}
-		if (StringUtil.isEmpty(ip)) {
-			return Result.ofFail(-1, "ip can't be null or empty");
-		}
-		if (port == null) {
-			return Result.ofFail(-1, "port can't be null");
-		}
+		Result<List<GatewayFlowRuleEntity>> ofFail = getRequiredResult(app, ip, port);
+		if (ofFail != null) return ofFail;
 
 		try {
 			List<GatewayFlowRuleEntity> rules = sentinelApiClient.fetchGatewayFlowRules(app, ip, port).get();
@@ -81,6 +74,19 @@ public class GatewayFlowRuleController {
 			logger.error("query gateway flow rules error:", throwable);
 			return Result.ofThrowable(-1, throwable);
 		}
+	}
+
+	private Result<List<GatewayFlowRuleEntity>> getRequiredResult(String app, String ip, Integer port) {
+		if (StringUtil.isEmpty(app)) {
+			return Result.ofFail(-1, "app can't be null or empty");
+		}
+		if (StringUtil.isEmpty(ip)) {
+			return Result.ofFail(-1, "ip can't be null or empty");
+		}
+		if (port == null) {
+			return Result.ofFail(-1, "port can't be null");
+		}
+		return null;
 	}
 
 	@PostMapping("/new.json")
