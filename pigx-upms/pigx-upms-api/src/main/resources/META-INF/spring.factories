@@ -6,4 +6,5 @@ com.pig4cloud.pigx.common.feign.PigxFeignAutoConfiguration=\
   com.pig4cloud.pigx.admin.api.feign.RemoteParamService,\
   com.pig4cloud.pigx.admin.api.feign.RemoteTenantService,\
   com.pig4cloud.pigx.admin.api.feign.RemoteTokenService,\
-  com.pig4cloud.pigx.admin.api.feign.RemoteUserService
+  com.pig4cloud.pigx.admin.api.feign.RemoteUserService,\
+  com.pig4cloud.pigx.admin.api.feign.RemoteDictService
