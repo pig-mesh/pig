@@ -21,6 +21,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
+import com.pig4cloud.pig.admin.api.entity.SysDept;
+import com.pig4cloud.pig.admin.api.entity.SysPost;
+import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
@@ -28,6 +31,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -115,4 +119,6 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	List<Long> listUserIdByDeptIds(Set<Long> deptIds);
 
+    void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList,
+                         List<SysPost> postCollList);
 }

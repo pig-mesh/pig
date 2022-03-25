@@ -336,8 +336,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	/**
 	 * 插入excel User
 	 */
-	private void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList,
-			List<SysPost> postCollList) {
+	@Override
+	public void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList,
+								List<SysPost> postCollList) {
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(excel.getUsername());
 		userDTO.setPhone(excel.getPhone());
