@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.codegen.mapper.GeneratorDmMapper">
+
+	<select id="queryTable" resultType="map">
+		SELECT
+		    DISTINCT utc.TABLE_NAME AS "tableName",
+			utc.comments AS "tableComment"
+		FROM user_tab_comments utc
+		<where>
+			<if test="tableName != null and tableName.trim() != ''">
+				and utc.TABLE_NAME = #{tableName}
+			</if>
+		</where>
+		ORDER BY utc.TABLE_NAME
+	</select>
+
+	<sql id="queryColumn">
+		SELECT
+		    'oracle' AS "dbType",
+			TEMP.COLUMN_NAME AS "columnName",
+			TEMP.data_type AS "columnType",
+			TEMP.data_type AS "dataType",
+			TEMP.comments AS "comments",
+		CASE
+				TEMP.constraint_type
+				WHEN 'P' THEN
+				'PRI'
+				WHEN 'C' THEN
+				'UNI' ELSE''
+			END "COLUMNKEY"
+		FROM
+			(
+			SELECT
+				col.column_id,
+				col.COLUMN_NAME,
+				col.data_type,
+				colc.comments,
+				uc.constraint_type,
+				ROW_NUMBER ( ) OVER (
+					PARTITION BY col.COLUMN_NAME
+				ORDER BY
+					uc.constraint_type DESC
+				) AS row_flg
+			FROM
+				user_tab_columns col
+				LEFT JOIN user_col_comments colc ON colc.TABLE_NAME = col.TABLE_NAME
+				AND colc.COLUMN_NAME = col.
+				COLUMN_NAME LEFT JOIN user_cons_columns ucc ON ucc.TABLE_NAME = col.TABLE_NAME
+				AND ucc.COLUMN_NAME = col.
+				COLUMN_NAME LEFT JOIN user_constraints uc ON uc.CONSTRAINT_NAME = ucc.CONSTRAINT_NAME
+			WHERE
+				col.TABLE_NAME = #{tableName}
+			) TEMP
+		WHERE
+			TEMP.row_flg = 1
+		ORDER BY
+			TEMP.column_id
+	</sql>
+
+	<select id="selectTableColumn" resultType="com.pig4cloud.pigx.codegen.entity.ColumnEntity">
+		<include refid="queryColumn"/>
+	</select>
+
+	<select id="selectMapTableColumn" resultType="map">
+		<include refid="queryColumn"/>
+	</select>
+
+</mapper>
