@@ -343,6 +343,7 @@ INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300,
 INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, 1, '0', '1', ' ', '2017-11-08 10:14:41', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, 1, '0', '1', ' ', '2017-11-08 10:14:59', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, 1, '0', '1', ' ', '2018-04-20 07:22:55', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1305, '角色导入导出', 'sys_role_export', NULL, 1300, NULL, 4, '0', '1', ' ', '2022-03-26 15:54:34', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', 4, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:06', '0', 1);
 INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:16', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:59', ' ', '2021-05-25 03:12:55', '0', 1);
@@ -604,6 +605,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 1301);
 INSERT INTO `sys_role_menu` VALUES (1, 1302);
 INSERT INTO `sys_role_menu` VALUES (1, 1303);
 INSERT INTO `sys_role_menu` VALUES (1, 1304);
+INSERT INTO `sys_role_menu` VALUES (1, 1305);
 INSERT INTO `sys_role_menu` VALUES (1, 1400);
 INSERT INTO `sys_role_menu` VALUES (1, 1401);
 INSERT INTO `sys_role_menu` VALUES (1, 1402);
