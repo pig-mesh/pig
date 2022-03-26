@@ -1,0 +1,32 @@
+{
+  "properties": [
+    {
+      "name": "ballcat.websocket.concurrent.buffer-size-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.pig4cloud.pigx.common.websocket.handler.ConcurrentWebSocketSessionOptions",
+      "description": "发送消息缓冲上限 (byte)",
+      "defaultValue": 102400
+    },
+    {
+      "name": "ballcat.websocket.concurrent.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "com.pig4cloud.pigx.common.websocket.handler.ConcurrentWebSocketSessionOptions",
+      "description": "是否在多线程环境下进行发送",
+      "defaultValue": false
+    },
+    {
+      "name": "ballcat.websocket.concurrent.overflow-strategy",
+      "type": "org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator$OverflowStrategy",
+      "sourceType": "com.pig4cloud.pigx.common.websocket.handler.ConcurrentWebSocketSessionOptions",
+      "description": "缓冲区溢出时的执行策略",
+      "defaultValue": "org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator.OverflowStrategy.TERMINATE"
+    },
+    {
+      "name": "ballcat.websocket.concurrent.send-time-limit",
+      "type": "java.lang.Integer",
+      "sourceType": "com.pig4cloud.pigx.common.websocket.handler.ConcurrentWebSocketSessionOptions",
+      "description": "发送时间的限制（ms）",
+      "defaultValue": 5000
+    }
+  ]
+}

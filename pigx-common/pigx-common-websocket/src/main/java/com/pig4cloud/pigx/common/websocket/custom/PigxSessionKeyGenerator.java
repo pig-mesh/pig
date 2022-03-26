@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.websocket.custom;
 
 import com.pig4cloud.pigx.common.security.service.PigxUser;
-import com.pig4cloud.pigx.common.websocket.holder.SessionKeyGenerator;
+import com.pig4cloud.pigx.common.websocket.session.SessionKeyGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Configuration;
@@ -30,7 +30,7 @@ public class PigxSessionKeyGenerator implements SessionKeyGenerator {
 		if (obj instanceof PigxUser) {
 			PigxUser user = (PigxUser) obj;
 			// IP:port:userId 作为唯一区分
-			return String.format("%s:%s:%s", instance.getHost(), instance.getPort(), user.getId());
+			return user.getId();
 		}
 
 		return null;

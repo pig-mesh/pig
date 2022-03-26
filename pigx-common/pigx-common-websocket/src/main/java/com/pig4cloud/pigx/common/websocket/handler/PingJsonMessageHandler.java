@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.websocket.handler;
 
-import com.pig4cloud.pigx.common.websocket.config.WebSocketMessageSender;
+import com.pig4cloud.pigx.common.websocket.WebSocketMessageSender;
 import com.pig4cloud.pigx.common.websocket.message.JsonWebSocketMessage;
 import com.pig4cloud.pigx.common.websocket.message.PingJsonWebSocketMessage;
 import com.pig4cloud.pigx.common.websocket.message.PongJsonWebSocketMessage;
