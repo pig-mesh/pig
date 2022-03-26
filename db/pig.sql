@@ -97,6 +97,8 @@ BEGIN;
 INSERT INTO `sys_dict` VALUES (1, 'dict_type', '字典类型', NULL, '0', '0', '2019-05-16 14:16:20', '', 'admin', '2021-12-29 12:29:18');
 INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', NULL, '0', '0', '2020-03-13 14:21:01', '', 'admin', '2021-12-29 12:30:14');
 INSERT INTO `sys_dict` VALUES (3, 'ds_type', '驱动类型', NULL, '0', '0', '2021-10-15 16:24:35', '', 'admin', '2021-12-29 12:30:18');
+INSERT INTO `sys_dict` VALUES (4, 'param_type', '参数配置', '检索、原文、报表、安全、文档、消息、其他', '1', '0', '2022-03-25 20:51:26', 'admin', 'admin', '2022-03-25 20:51:26');
+INSERT INTO `sys_dict` VALUES (5, 'status_type', '租户状态', '租户状态', '1', '0', '2022-03-25 20:56:51', 'admin', 'admin', '2022-03-25 20:56:51');
 COMMIT;
 
 -- ----------------------------
@@ -139,7 +141,53 @@ INSERT INTO `sys_dict_item` VALUES (9, 3, 'com.microsoft.sqlserver.jdbc.SQLServe
 INSERT INTO `sys_dict_item` VALUES (10, 3, 'com.microsoft.jdbc.sqlserver.SQLServerDriver', 'sqlserver2000', 'ds_type', 'sqlserver2000', 0, ' ', '0', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_dict_item` VALUES (11, 3, 'com.ibm.db2.jcc.DB2Driver', 'db2', 'ds_type', 'db2', 0, ' ', '0', NULL, NULL, NULL, NULL);
 INSERT INTO `sys_dict_item` VALUES (12, 3, 'org.postgresql.Driver', 'postgresql', 'ds_type', 'postgresql', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (13, 4, '1', '检索', 'param_type', '检索', 0, '检索', '0', '2022-03-25 20:51:51', 'admin', 'admin', '2022-03-25 20:51:51');
+INSERT INTO `sys_dict_item` VALUES (14, 4, '2', '原文', 'param_type', '原文', 1, '原文', '0', '2022-03-25 20:52:06', 'admin', 'admin', '2022-03-25 20:52:06');
+INSERT INTO `sys_dict_item` VALUES (15, 4, '3', '报表', 'param_type', '报表', 2, '报表', '0', '2022-03-25 20:52:16', 'admin', 'admin', '2022-03-25 20:52:16');
+INSERT INTO `sys_dict_item` VALUES (16, 4, '4', '安全', 'param_type', '安全', 3, '安全', '0', '2022-03-25 20:52:32', 'admin', 'admin', '2022-03-25 20:52:32');
+INSERT INTO `sys_dict_item` VALUES (17, 4, '5', '文档', 'param_type', '文档', 4, '文档', '0', '2022-03-25 20:52:52', 'admin', 'admin', '2022-03-25 20:52:52');
+INSERT INTO `sys_dict_item` VALUES (18, 4, '6', '消息', 'param_type', '消息', 5, '消息', '0', '2022-03-25 20:53:07', 'admin', 'admin', '2022-03-25 20:53:07');
+INSERT INTO `sys_dict_item` VALUES (19, 4, '9', '其他', 'param_type', '其他', 6, '其他', '0', '2022-03-25 20:54:50', 'admin', 'admin', '2022-03-25 20:54:50');
+INSERT INTO `sys_dict_item` VALUES (20, 4, '0', '默认', 'param_type', '默认', 7, '默认', '0', '2022-03-25 20:55:23', 'admin', 'admin', '2022-03-25 20:55:23');
+INSERT INTO `sys_dict_item` VALUES (21, 5, '0', '正常', 'status_type', '状态正常', 0, '状态正常', '0', '2022-03-25 20:57:12', 'admin', 'admin', '2022-03-25 20:57:12');
+INSERT INTO `sys_dict_item` VALUES (22, 5, '9', '冻结', 'status_type', '状态冻结', 1, '状态冻结', '0', '2022-03-25 20:57:34', 'admin', 'admin', '2022-03-25 20:57:34');
 COMMIT;
+
+
+-- ----------------------------
+-- Table structure for sys_public_param
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_public_param`;
+CREATE TABLE `sys_public_param`  (
+                                     `public_id` bigint(0) NOT NULL COMMENT '编号',
+                                     `public_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `public_key` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `public_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
+                                     `validate_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                     `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+                                     `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+                                     `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+                                     `update_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                                     `public_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
+                                     `system_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
+                                     PRIMARY KEY (`public_id`) USING BTREE
+) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '公共参数配置表';
+
+-- ----------------------------
+-- Records of sys_public_param
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_public_param` VALUES (1, '租户默认来源', 'TENANT_DEFAULT_ID', '1', '0', 'TENANT_DEFAULT_ID', ' ', 'admin', '2020-05-12 04:03:46', '2022-03-25 21:05:55', '2', '0');
+INSERT INTO `sys_public_param` VALUES (2, '租户默认部门名称', 'TENANT_DEFAULT_DEPTNAME', '租户默认部门', '0', '', ' ', ' ', '2020-05-12 03:36:32', NULL, '2', '1');
+INSERT INTO `sys_public_param` VALUES (3, '租户默认账户', 'TENANT_DEFAULT_USERNAME', 'admin', '0', '', ' ', ' ', '2020-05-12 04:05:04', NULL, '2', '1');
+INSERT INTO `sys_public_param` VALUES (4, '租户默认密码', 'TENANT_DEFAULT_PASSWORD', '123456', '0', '', ' ', ' ', '2020-05-12 04:05:24', NULL, '2', '1');
+INSERT INTO `sys_public_param` VALUES (5, '租户默认角色编码', 'TENANT_DEFAULT_ROLECODE', 'ROLE_ADMIN', '0', '', ' ', ' ', '2020-05-12 04:05:57', NULL, '2', '1');
+INSERT INTO `sys_public_param` VALUES (6, '租户默认角色名称', 'TENANT_DEFAULT_ROLENAME', '租户默认角色', '0', '', ' ', ' ', '2020-05-12 04:06:19', NULL, '2', '1');
+INSERT INTO `sys_public_param` VALUES (7, '表前缀', 'GEN_TABLE_PREFIX', 'tb_', '0', '', ' ', ' ', '2020-05-12 04:23:04', NULL, '9', '1');
+INSERT INTO `sys_public_param` VALUES (8, '接口文档不显示的字段', 'GEN_HIDDEN_COLUMNS', 'tenant_id', '0', '', ' ', ' ', '2020-05-12 04:25:19', NULL, '9', '1');
+COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_file
@@ -270,6 +318,10 @@ INSERT INTO `sys_menu` VALUES (2600, '文件管理', NULL, '/admin/file/index', 
 INSERT INTO `sys_menu` VALUES (2601, '文件删除', 'sys_file_del', NULL, 2600, NULL, 0, '0', '1', '0', ' ', '2017-11-29 11:30:11', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2602, '文件新增', 'sys_file_add', NULL, 2600, NULL, 0, '0', '1', '0', ' ', '2018-05-11 22:34:55', ' ', '2021-05-25 06:48:34');
 INSERT INTO `sys_menu` VALUES (2603, '文件修改', 'sys_file_edit', NULL, 2600, NULL, 0, '0', '1', '0', ' ', '2018-05-11 22:36:03', ' ', '2021-05-25 06:48:34');
+INSERT INTO `sys_menu` VALUES (2700, '参数管理', NULL, '/admin/param/index', 2000, 'icon-navicon-zdgl', 5, '0', '0', '0', 'admin', '2022-03-25 20:40:27', 'admin', '2022-03-25 20:40:35');
+INSERT INTO `sys_menu` VALUES (2701, '参数新增', 'sys_publicparam_add', NULL, 2700, NULL, 0, '0', '1', '0', 'admin', '2022-03-25 20:45:05', 'admin', '2022-03-25 20:45:05');
+INSERT INTO `sys_menu` VALUES (2702, '参数删除', 'sys_publicparam_del', NULL, 2700, NULL, 1, '0', '1', '0', 'admin', '2022-03-25 20:45:43', 'admin', '2022-03-25 20:45:43');
+INSERT INTO `sys_menu` VALUES (2703, '参数修改', 'sys_publicparam_edit', NULL, 2700, NULL, 3, '0', '1', '0', 'admin', '2022-03-25 20:46:04', 'admin', '2022-03-25 20:46:04');
 INSERT INTO `sys_menu` VALUES (3000, '开发平台', NULL, '/gen', -1, 'icon-shejiyukaifa-', 3, '1', '0', '0', ' ', '2020-03-11 22:15:40', ' ', '2020-03-11 23:52:54');
 INSERT INTO `sys_menu` VALUES (3100, '数据源管理', NULL, '/gen/datasource', 3000, 'icon-mysql', 3, '1', '0', '0', ' ', '2020-03-11 22:17:05', ' ', '2020-03-12 00:16:09');
 INSERT INTO `sys_menu` VALUES (3200, '代码生成', NULL, '/gen/index', 3000, 'icon-weibiaoti46', 0, '0', '0', '0', ' ', '2020-03-11 22:23:42', ' ', '2020-03-12 00:16:14');
@@ -443,6 +495,10 @@ INSERT INTO `sys_role_menu` VALUES (1, 2600);
 INSERT INTO `sys_role_menu` VALUES (1, 2601);
 INSERT INTO `sys_role_menu` VALUES (1, 2602);
 INSERT INTO `sys_role_menu` VALUES (1, 2603);
+INSERT INTO `sys_role_menu` VALUES (1, 2700);
+INSERT INTO `sys_role_menu` VALUES (1, 2701);
+INSERT INTO `sys_role_menu` VALUES (1, 2702);
+INSERT INTO `sys_role_menu` VALUES (1, 2703);
 INSERT INTO `sys_role_menu` VALUES (1, 3000);
 INSERT INTO `sys_role_menu` VALUES (1, 3100);
 INSERT INTO `sys_role_menu` VALUES (1, 3200);
