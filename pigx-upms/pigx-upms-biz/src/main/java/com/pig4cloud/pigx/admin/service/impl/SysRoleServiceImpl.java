@@ -91,7 +91,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Override
 	public Boolean updateRoleMenus(RoleVO roleVo) {
 		SysRole sysRole = baseMapper.selectById(roleVo.getRoleId());
-		return roleMenuService.saveRoleMenus(sysRole.getRoleCode(), roleVo.getRoleId(), roleVo.getMenuIds());
+		return roleMenuService.saveRoleMenus( roleVo.getRoleId(), roleVo.getMenuIds());
 	}
 
 }
