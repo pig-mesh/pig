@@ -125,8 +125,7 @@ public class RoleController {
 	@PutMapping("/menu")
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
 	public R<Boolean> saveRoleMenus(@RequestBody RoleVo roleVo) {
-		SysRole sysRole = sysRoleService.getById(roleVo.getRoleId());
-		return R.ok(sysRoleMenuService.saveRoleMenus(sysRole.getRoleCode(), roleVo.getRoleId(), roleVo.getMenuIds()));
+		return R.ok(sysRoleMenuService.saveRoleMenus( roleVo.getRoleId(), roleVo.getMenuIds()));
 	}
 
 	/**
