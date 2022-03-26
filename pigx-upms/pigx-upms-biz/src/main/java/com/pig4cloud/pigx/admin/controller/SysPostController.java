@@ -50,6 +50,15 @@ public class SysPostController {
 	private final SysPostService sysPostService;
 
 	/**
+	 * 获取岗位列表
+	 * @return 岗位列表
+	 */
+	@GetMapping("/list")
+	public R<List<SysPost>> listPosts() {
+		return R.ok(sysPostService.list(Wrappers.emptyWrapper()));
+	}
+
+	/**
 	 * 分页查询
 	 * @param page 分页对象
 	 * @param sysPost 岗位信息表

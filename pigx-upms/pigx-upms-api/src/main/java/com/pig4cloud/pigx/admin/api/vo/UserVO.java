@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.api.vo;
 
+import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
 import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
@@ -136,6 +137,11 @@ public class UserVO implements Serializable {
 	 */
 	@ApiModelProperty(value = "拥有的角色列表")
 	private List<SysRole> roleList;
+
+	/**
+	 * 岗位列表
+	 */
+	private List<SysPost> postList;
 
 	/**
 	 * 昵称

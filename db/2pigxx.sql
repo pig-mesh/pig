@@ -100,6 +100,22 @@ INSERT INTO `sys_post` VALUES (1, 'CTO', 'CTO', 0, 'CTO', '0', '2022-03-26 13:48
 INSERT INTO `sys_post` VALUES (2, 'CEO', 'CEO', 1, 'CEO', '0', '2022-03-26 13:48:27', '', '2022-03-26 13:48:38', '', 1);
 COMMIT;
 
+-- ----------------------------
+-- Table structure for sys_user_post
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_post`;
+CREATE TABLE `sys_user_post`  (
+                                  `user_id` bigint(0) NOT NULL COMMENT '用户ID',
+                                  `post_id` bigint(0) NOT NULL COMMENT '岗位ID',
+                                  PRIMARY KEY (`user_id`, `post_id`) USING BTREE
+) ENGINE = InnoDB DEFAULT CHARACTER = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表';
+
+-- ----------------------------
+-- Records of sys_user_post
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_user_post` VALUES (1, 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_dict

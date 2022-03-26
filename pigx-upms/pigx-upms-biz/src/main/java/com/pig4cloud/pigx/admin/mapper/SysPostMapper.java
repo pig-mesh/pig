@@ -21,6 +21,8 @@ import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 岗位信息表
  *
@@ -29,5 +31,12 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysPostMapper extends PigxBaseMapper<SysPost> {
+
+	/**
+	 * 通过用户ID，查询岗位信息
+	 * @param userId 用户id
+	 * @return 岗位信息
+	 */
+	List<SysPost> listPostsByUserId(Long userId);
 
 }
