@@ -14,7 +14,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
@@ -32,8 +31,8 @@ public class WebSocketHandlerConfig {
 
 	@Bean
 	@ConditionalOnMissingBean(SessionKeyGenerator.class)
-	public SessionKeyGenerator sessionKeyGenerator(ServiceInstance serviceInstance) {
-		return new PigxSessionKeyGenerator(serviceInstance);
+	public SessionKeyGenerator sessionKeyGenerator() {
+		return new PigxSessionKeyGenerator();
 	}
 
 	@Bean

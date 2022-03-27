@@ -1,13 +1,8 @@
 package com.pig4cloud.pigx.common.websocket.distribute;
 
 import cn.hutool.json.JSONUtil;
-import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.data.redis.core.StringRedisTemplate;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 消息分发器
@@ -26,13 +21,6 @@ public class RedisMessageDistributor implements MessageDistributor {
 	 */
 	@Override
 	public void distribute(MessageDO messageDO) {
-		// 包装 sessionKey 适配分布式多环境
-		ServiceInstance instance = SpringContextHolder.getBean(ServiceInstance.class);
-		List<Object> sessionKeyList = messageDO.getSessionKeys().stream()
-				.map(key -> String.format("%s:%s:%s", instance.getHost(), instance.getPort(), key))
-				.collect(Collectors.toList());
-		messageDO.setSessionKeys(sessionKeyList);
-
 		String str = JSONUtil.toJsonStr(messageDO);
 		stringRedisTemplate.convertAndSend(RedisWebsocketMessageListener.CHANNEL, str);
 	}
