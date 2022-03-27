@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,13 +38,13 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
 	/**
 	 * 角色ID
 	 */
-	@ApiModelProperty(value = "角色id")
+	@Schema(name = "角色id")
 	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
-	@ApiModelProperty(value = "菜单id")
+	@Schema(name = "菜单id")
 	private Long menuId;
 
 }

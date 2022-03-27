@@ -20,8 +20,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,33 +32,33 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @TableName("gen_form_conf")
+@Schema(name = "生成记录")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "生成记录")
 public class GenFormConf extends BaseEntity {
 
 	/**
 	 * ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "ID")
+	@Schema(name = "ID")
 	private Long id;
 
 	/**
 	 * 表名称
 	 */
-	@ApiModelProperty(value = "表名称")
+	@Schema(name = "表名称")
 	private String tableName;
 
 	/**
 	 * 表单信息
 	 */
-	@ApiModelProperty(value = "表单信息")
+	@Schema(name = "表单信息")
 	private String formInfo;
 
 	/**
 	 * 删除标记
 	 */
-	@ApiModelProperty(value = "删除标记")
+	@Schema(name = "删除标记")
 	private String delFlag;
 
 }

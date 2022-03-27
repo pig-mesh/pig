@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,13 +37,13 @@ public class SysUserPost extends Model<SysUserPost> {
 	/**
 	 * 用户ID
 	 */
-	@ApiModelProperty(value = "用户id")
+	@Schema(name = "用户id")
 	private Long userId;
 
 	/**
 	 * 岗位ID
 	 */
-	@ApiModelProperty(value = "岗位id")
+	@Schema(name = "岗位id")
 	private Long postId;
 
 }

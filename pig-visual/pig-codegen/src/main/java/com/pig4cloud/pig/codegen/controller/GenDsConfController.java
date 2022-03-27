@@ -22,8 +22,10 @@ import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +39,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dsconf")
-@Api(value = "dsconf", tags = "数据源管理模块")
+@Tag(name = "数据源管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenDsConfController {
 
 	private final GenDatasourceConfService datasourceConfService;

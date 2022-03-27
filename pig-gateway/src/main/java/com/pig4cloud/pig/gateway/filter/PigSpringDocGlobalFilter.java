@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.gateway.filter;
 
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -33,38 +32,29 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.a
 
 /**
  * @author lengleng
- * @date 2019/2/1
+ * @date 2022-03-26
  * <p>
- * 全局拦截器，作用所有的微服务
- * <p>
- * 1. 对请求头中参数进行处理 from 参数进行清洗 2. 重写StripPrefix = 1,支持全局
- * <p>
- * 支持swagger添加X-Forwarded-Prefix header （F SR2 已经支持，不需要自己维护）
+ * 支持springdoc 路径从写
  */
-public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
+public class PigSpringDocGlobalFilter implements GlobalFilter, Ordered {
 
-	/**
-	 * Process the Web request and (optionally) delegate to the next {@code WebFilter}
-	 * through the given {@link GatewayFilterChain}.
-	 * @param exchange the current server exchange
-	 * @param chain provides a way to delegate to the next filter
-	 * @return {@code Mono<Void>} to indicate when request processing is complete
-	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		// 1. 清洗请求头中from 参数
-		ServerHttpRequest request = exchange.getRequest().mutate()
-				.headers(httpHeaders -> httpHeaders.remove(SecurityConstants.FROM)).build();
+
+		ServerHttpRequest request = exchange.getRequest();
+
+		String rawPath = request.getURI().getRawPath();
+
+		// 非springdoc 请求直接跳过
+		if (!rawPath.contains("/api-docs/")) {
+			return chain.filter(exchange);
+		}
 
 		// 2. 重写StripPrefix
 		addOriginalRequestUrl(exchange, request.getURI());
-		String rawPath = request.getURI().getRawPath();
-		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/")).skip(1L)
-				.collect(Collectors.joining("/"));
 
-		// if (rawPath.contains("/v3/api-docs/")) {
-		// newPath = "/admin/v3/api-docs";
-		// }
+		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/")).skip(1L)
+				.collect(Collectors.joining("/")) + "/v3/api-docs";
 		ServerHttpRequest newRequest = request.mutate().path(newPath).build();
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, newRequest.getURI());
 
@@ -73,7 +63,7 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return -1000;
+		return -500;
 	}
 
 }

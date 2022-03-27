@@ -22,8 +22,10 @@ import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dept")
-@Api(value = "dept", tags = "部门管理模块")
+@Tag(name = "部门管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class DeptController {
 
 	private final SysDeptService sysDeptService;

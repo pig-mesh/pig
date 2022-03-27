@@ -19,8 +19,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -31,7 +30,7 @@ import lombok.EqualsAndHashCode;
  * @date 2019/03/19
  */
 @Data
-@ApiModel(value = "字典类型")
+@Schema(name = "字典类型")
 @EqualsAndHashCode(callSuper = true)
 public class SysDict extends BaseEntity {
 
@@ -41,38 +40,38 @@ public class SysDict extends BaseEntity {
 	 * 编号
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "字典编号")
+	@Schema(name = "字典编号")
 	private Long id;
 
 	/**
 	 * 类型
 	 */
-	@ApiModelProperty(value = "字典类型")
+	@Schema(name = "字典类型")
 	private String type;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty(value = "字典描述")
+	@Schema(name = "字典描述")
 	private String description;
 
 	/**
 	 * 是否是系统内置
 	 */
-	@ApiModelProperty(value = "是否系统内置")
+	@Schema(name = "是否系统内置")
 	private String systemFlag;
 
 	/**
 	 * 备注信息
 	 */
-	@ApiModelProperty(value = "备注信息")
+	@Schema(name = "备注信息")
 	private String remark;
 
 	/**
 	 * 删除标记
 	 */
 	@TableLogic
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(name = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 }

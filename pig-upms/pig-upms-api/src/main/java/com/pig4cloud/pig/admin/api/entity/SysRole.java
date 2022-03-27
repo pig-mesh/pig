@@ -20,7 +20,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -41,19 +41,19 @@ public class SysRole extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "role_id", type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "角色编号")
+	@Schema(name = "角色编号")
 	private Long roleId;
 
 	@NotBlank(message = "角色名称 不能为空")
-	@ApiModelProperty(value = "角色名称")
+	@Schema(name = "角色名称")
 	private String roleName;
 
 	@NotBlank(message = "角色标识 不能为空")
-	@ApiModelProperty(value = "角色标识")
+	@Schema(name = "角色标识")
 	private String roleCode;
 
 	@NotBlank(message = "角色描述 不能为空")
-	@ApiModelProperty(value = "角色描述")
+	@Schema(name = "角色描述")
 	private String roleDesc;
 
 	/**

@@ -23,8 +23,10 @@ import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/client")
-@Api(value = "client", tags = "客户端管理模块")
+@Tag(name = "客户端管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class OauthClientDetailsController {
 
 	private final SysOauthClientDetailsService sysOauthClientDetailsService;

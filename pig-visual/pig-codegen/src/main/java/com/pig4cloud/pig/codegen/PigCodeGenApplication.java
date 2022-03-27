@@ -19,6 +19,7 @@ package com.pig4cloud.pig.codegen;
 import com.pig4cloud.pig.common.datasource.annotation.EnableDynamicDataSource;
 import com.pig4cloud.pig.common.feign.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
+import com.pig4cloud.pig.common.swagger.annotation.EnablePigDoc;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -27,6 +28,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author lengleng
  * @date 2020/03/11 代码生成模块
  */
+@EnablePigDoc
 @EnableDynamicDataSource
 @EnablePigFeignClients
 @EnableDiscoveryClient

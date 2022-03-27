@@ -48,14 +48,13 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	private final CacheManager cacheManager;
 
 	/**
-	 * @param role
 	 * @param roleId 角色
 	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveRoleMenus( Long roleId, String menuIds) {
+	public Boolean saveRoleMenus(Long roleId, String menuIds) {
 		this.remove(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleId, roleId));
 
 		if (StrUtil.isBlank(menuIds)) {
