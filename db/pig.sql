@@ -186,6 +186,7 @@ INSERT INTO `sys_public_param` VALUES (5, '租户默认角色编码', 'TENANT_DE
 INSERT INTO `sys_public_param` VALUES (6, '租户默认角色名称', 'TENANT_DEFAULT_ROLENAME', '租户默认角色', '0', '', ' ', ' ', '2020-05-12 04:06:19', NULL, '2', '1');
 INSERT INTO `sys_public_param` VALUES (7, '表前缀', 'GEN_TABLE_PREFIX', 'tb_', '0', '', ' ', ' ', '2020-05-12 04:23:04', NULL, '9', '1');
 INSERT INTO `sys_public_param` VALUES (8, '接口文档不显示的字段', 'GEN_HIDDEN_COLUMNS', 'tenant_id', '0', '', ' ', ' ', '2020-05-12 04:25:19', NULL, '9', '1');
+INSERT INTO `sys_public_param` VALUES (9, '注册用户默认角色', 'REGISTER_DEFAULT_ROLE', 'GENERAL_USER', '0', '', 'admin', 'admin', '2022-03-29 13:46:09', '2022-03-29 11:50:59', '2', '1');
 COMMIT;
 
 
@@ -435,6 +436,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', '管理员', '0', '2017-10-29 15:45:51', '2018-12-26 14:09:11', NULL, NULL);
+INSERT INTO `sys_role` VALUES (2, '普通用户', 'GENERAL_USER', '普通用户', '0', '2022-03-29 19:45:56', '2022-03-29 19:45:56', 'admin', 'admin');
 COMMIT;
 
 -- ----------------------------
@@ -509,6 +511,8 @@ INSERT INTO `sys_role_menu` VALUES (1, 3303);
 INSERT INTO `sys_role_menu` VALUES (1, 3400);
 INSERT INTO `sys_role_menu` VALUES (1, 4000);
 INSERT INTO `sys_role_menu` VALUES (1, 9999);
+INSERT INTO `sys_role_menu` VALUES (2, 4000);
+INSERT INTO `sys_role_menu` VALUES (2, 9999);
 COMMIT;
 
 -- ----------------------------

@@ -18,6 +18,7 @@ package com.pig4cloud.pig.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -26,6 +27,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.*;
+import com.pig4cloud.pig.admin.api.util.ParamResolver;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.*;
@@ -94,12 +96,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return userRole;
 		}).forEach(sysUserRoleMapper::insert);
 		// 保存用户岗位信息
-		userDto.getPost().stream().map(postId -> {
-			SysUserPost userPost = new SysUserPost();
-			userPost.setUserId(sysUser.getUserId());
-			userPost.setPostId(postId);
-			return userPost;
-		}).forEach(sysUserPostMapper::insert);
+		Optional.ofNullable(userDto.getPost()).ifPresent(posts -> {
+			posts.stream().map(postId -> {
+				SysUserPost userPost = new SysUserPost();
+				userPost.setUserId(sysUser.getUserId());
+				userPost.setPostId(postId);
+				return userPost;
+			}).forEach(sysUserPostMapper::insert);
+		});
 		return Boolean.TRUE;
 	}
 
@@ -352,6 +356,28 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userDTO.setPost(postIdList);
 		// 插入用户
 		this.saveUser(userDTO);
+	}
+
+	/**
+	 * 注册用户 赋予用户默认角色
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	@Override
+	public Boolean registerUser(UserDTO userDto) {
+		// 判断用户名是否存在
+		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
+		Assert.isNull(sysUser, "用户名存在!");
+
+		// 获取默认角色编码
+		String defaultRole = ParamResolver.getStr("REGISTER_DEFAULT_ROLE");
+		// 默认角色
+		SysRole sysRole = sysRoleMapper
+				.selectOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
+		Assert.isTrue(ObjectUtil.isNotEmpty(sysRole), "系统参数配置错误!");
+
+		userDto.setRole(Collections.singletonList(sysRole.getRoleId()));
+		return saveUser(userDto);
 	}
 
 }
