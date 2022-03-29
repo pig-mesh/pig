@@ -1,9 +1,8 @@
 package com.pig4cloud.pigx.common.websocket.custom;
 
 import com.pig4cloud.pigx.common.security.service.PigxUser;
-import com.pig4cloud.pigx.common.websocket.holder.SessionKeyGenerator;
+import com.pig4cloud.pigx.common.websocket.session.SessionKeyGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.WebSocketSession;
 
