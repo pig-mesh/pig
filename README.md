@@ -5,7 +5,6 @@
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
 
-
 ## 系统说明
 
 - 基于 Spring Cloud 2021 、Spring Boot 2.6、 OAuth2 的 RBAC **权限管理系统**
@@ -17,7 +16,7 @@
 
 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
-[ 配套视频 bilibili.com/video/BV12t411B7e9](https://www.bilibili.com/video/BV12t411B7e9)
+[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
 
 [PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
 
@@ -25,7 +24,7 @@
 
 ## 微信群 [禁广告]
 
-![](https://minio.pigx.vip/oss/1628762721.png)
+![](https://minio.pigx.vip/oss/1648184189.png)
 
 ## 快速开始
 
@@ -33,12 +32,12 @@
 
 | 依赖                   | 版本         |
 | ---------------------- |------------|
-| Spring Boot            | 2.6.3      |
+| Spring Boot            | 2.6.5      |
 | Spring Cloud           | 2021.0.1   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
 | Spring Security OAuth2 | 2.3.6      |
 | Mybatis Plus           | 3.5.1      |
-| hutool                 | 5.7.21     |
+| hutool                 | 5.7.22     |
 | Avue                   | 2.6.18     |
 
 ### 模块说明
@@ -79,7 +78,7 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 
 ### 定制自己微服务
 
-[PIG DIY](https://diy.pig4cloud.com)  
+[PIG DIY](https://diy.pig4cloud.com)
 
 [PIG ARCHETYPE](https://archetype.pig4cloud.com)
 
@@ -124,12 +123,12 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
 
 ### 其他说明
 
-1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支 代码规范 [spring-javaformat](https://github.com/spring-io/spring-javaformat)
+1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
+   代码规范 [spring-javaformat](https://github.com/spring-io/spring-javaformat)
 
 2. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 
 3. 联系作者 <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>
-
 
 [![Stargazers over time](https://whnb.wang/img/log4j/pig?e=604800)](https://whnb.wang/log4j/pig?e=604800)
 
