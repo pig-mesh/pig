@@ -216,16 +216,4 @@ public class UserController {
 		return userService.importUser(excelVOList, bindingResult);
 	}
 
-	/**
-	 * 注册用户
-	 * @param userDto 用户信息
-	 * @return success/false
-	 */
-	@Inner(value = false)
-	@SysLog("注册用户")
-	@PostMapping("/registerUser")
-	public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
-		return userService.registerUser(userDto);
-	}
-
 }
