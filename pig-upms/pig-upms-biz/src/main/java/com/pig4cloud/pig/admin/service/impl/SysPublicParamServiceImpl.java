@@ -24,6 +24,8 @@ import com.pig4cloud.pig.admin.mapper.SysPublicParamMapper;
 import com.pig4cloud.pig.admin.service.SysPublicParamService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -64,7 +66,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 		SysPublicParam param = this.getById(sysPublicParam.getPublicId());
 		// 系统内置
 		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystemFlag())) {
-			return R.failed("系统内置参数不能删除");
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_DELETE_SYSTEM));
 		}
 		return R.ok(this.updateById(sysPublicParam));
 	}

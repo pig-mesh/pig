@@ -27,6 +27,8 @@ import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -90,7 +92,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 					|| excel.getRoleCode().equals(sysRole.getRoleCode()));
 
 			if (existRole) {
-				errorMsg.add(String.format("%s %s 角色名或角色编码已经存在", excel.getRoleName(), excel.getRoleDesc()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),
+						excel.getRoleCode()));
 			}
 
 			// 数据合法情况

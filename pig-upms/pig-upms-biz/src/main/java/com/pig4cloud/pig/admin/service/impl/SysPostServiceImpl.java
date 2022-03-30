@@ -21,10 +21,11 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.vo.PostExcelVO;
 import com.pig4cloud.pig.admin.mapper.SysPostMapper;
 import com.pig4cloud.pig.admin.service.SysPostService;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import org.springframework.stereotype.Service;
@@ -67,7 +68,8 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 					|| excel.getPostCode().equals(post.getPostCode()));
 
 			if (existPost) {
-				errorMsg.add(String.format("%s %s 岗位名或岗位编码已经存在", excel.getPostName(), excel.getPostCode()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_NAMEORCODE_EXISTING, excel.getPostName(),
+						excel.getPostCode()));
 			}
 
 			// 数据合法情况
