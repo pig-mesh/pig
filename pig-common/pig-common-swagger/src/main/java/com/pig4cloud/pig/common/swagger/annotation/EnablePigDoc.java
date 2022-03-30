@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.swagger.annotation;
 
-import com.pig4cloud.pig.common.swagger.config.GatewaySwaggerAutoConfiguration;
 import com.pig4cloud.pig.common.swagger.config.SwaggerAutoConfiguration;
 import com.pig4cloud.pig.common.swagger.support.SwaggerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,17 +24,17 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
- * 开启 pig swagger
+ * 开启 pig spring doc
  *
  * @author lengleng
- * @date 2020/10/2
+ * @date 2022-03-26
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @EnableConfigurationProperties(SwaggerProperties.class)
-@Import({ SwaggerAutoConfiguration.class, GatewaySwaggerAutoConfiguration.class })
-public @interface EnablePigSwagger2 {
+@Import({ SwaggerAutoConfiguration.class })
+public @interface EnablePigDoc {
 
 }

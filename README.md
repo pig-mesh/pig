@@ -54,6 +54,7 @@ pig
      ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
      ├── pig-common-mybatis -- mybatis 扩展封装
+     ├── pig-common-seata -- 分布式事务
      ├── pig-common-security -- 安全工具类
      ├── pig-common-swagger -- 接口文档
      ├── pig-common-feign -- feign 扩展封装

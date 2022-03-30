@@ -16,29 +16,30 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig</artifactId>
-		<version>3.4.7</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig</artifactId>
+        <version>3.4.8</version>
+    </parent>
 
-	<artifactId>pig-common</artifactId>
-	<packaging>pom</packaging>
+    <artifactId>pig-common</artifactId>
+    <packaging>pom</packaging>
 
-	<description>pig 公共聚合模块</description>
+    <description>pig 公共聚合模块</description>
 
-	<modules>
-		<module>pig-common-bom</module>
-		<module>pig-common-core</module>
-		<module>pig-common-datasource</module>
-		<module>pig-common-job</module>
-		<module>pig-common-log</module>
-		<module>pig-common-mybatis</module>
-		<module>pig-common-security</module>
-		<module>pig-common-feign</module>
-		<module>pig-common-swagger</module>
-		<module>pig-common-test</module>
+    <modules>
+        <module>pig-common-bom</module>
+        <module>pig-common-core</module>
+        <module>pig-common-datasource</module>
+        <module>pig-common-job</module>
+        <module>pig-common-log</module>
+        <module>pig-common-mybatis</module>
+        <module>pig-common-seata</module>
+        <module>pig-common-security</module>
+        <module>pig-common-feign</module>
+        <module>pig-common-swagger</module>
+        <module>pig-common-test</module>
     </modules>
 </project>

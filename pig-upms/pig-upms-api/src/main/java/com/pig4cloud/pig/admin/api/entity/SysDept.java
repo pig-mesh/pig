@@ -20,8 +20,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -36,7 +35,7 @@ import javax.validation.constraints.NotNull;
  * @author lengleng
  * @since 2019/2/1
  */
-@ApiModel(value = "部门")
+@Schema(name = "部门")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysDept extends BaseEntity {
@@ -44,27 +43,27 @@ public class SysDept extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "dept_id", type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "部门id")
+	@Schema(name = "部门id")
 	private Long deptId;
 
 	/**
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
-	@ApiModelProperty(value = "部门名称", required = true)
+	@Schema(name = "部门名称", required = true)
 	private String name;
 
 	/**
 	 * 排序
 	 */
 	@NotNull(message = "部门排序值不能为空")
-	@ApiModelProperty(value = "排序值", required = true)
+	@Schema(name = "排序值", required = true)
 	private Integer sortOrder;
 
 	/**
 	 * 父级部门id
 	 */
-	@ApiModelProperty(value = "父级部门id")
+	@Schema(name = "父级部门id")
 	private Long parentId;
 
 	/**

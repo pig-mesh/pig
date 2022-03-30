@@ -28,8 +28,10 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +46,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/role")
-@Api(value = "role", tags = "角色管理模块")
+@Tag(name = "角色管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class RoleController {
 
 	private final SysRoleService sysRoleService;
@@ -125,7 +128,7 @@ public class RoleController {
 	@PutMapping("/menu")
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
 	public R<Boolean> saveRoleMenus(@RequestBody RoleVo roleVo) {
-		return R.ok(sysRoleMenuService.saveRoleMenus( roleVo.getRoleId(), roleVo.getMenuIds()));
+		return R.ok(sysRoleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds()));
 	}
 
 	/**

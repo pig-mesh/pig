@@ -22,7 +22,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenConfig;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
 import com.pig4cloud.pig.common.core.util.R;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -41,7 +42,8 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/generator")
-@Api(value = "generator", tags = "代码生成模块")
+@Tag(name = "代码生成模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GeneratorController {
 
 	private final GeneratorService generatorService;

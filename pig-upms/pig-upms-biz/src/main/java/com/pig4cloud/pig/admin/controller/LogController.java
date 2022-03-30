@@ -23,8 +23,10 @@ import com.pig4cloud.pig.admin.service.SysLogService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,7 +44,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/log")
-@Api(value = "log", tags = "日志管理模块")
+@Tag(name = "日志管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class LogController {
 
 	private final SysLogService sysLogService;

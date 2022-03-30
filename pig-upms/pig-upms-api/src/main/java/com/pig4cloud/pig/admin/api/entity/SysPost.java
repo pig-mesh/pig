@@ -20,8 +20,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,7 +33,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("sys_post")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "岗位信息表")
+@Schema(name = "岗位信息表")
 public class SysPost extends BaseEntity {
 
 	private static final long serialVersionUID = -8744622014102311894L;
@@ -43,37 +42,37 @@ public class SysPost extends BaseEntity {
 	 * 岗位ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "岗位ID")
+	@Schema(name = "岗位ID")
 	private Long postId;
 
 	/**
 	 * 岗位编码
 	 */
-	@ApiModelProperty(value = "岗位编码")
+	@Schema(name = "岗位编码")
 	private String postCode;
 
 	/**
 	 * 岗位名称
 	 */
-	@ApiModelProperty(value = "岗位名称")
+	@Schema(name = "岗位名称")
 	private String postName;
 
 	/**
 	 * 岗位排序
 	 */
-	@ApiModelProperty(value = "岗位排序")
+	@Schema(name = "岗位排序")
 	private Integer postSort;
 
 	/**
 	 * 是否删除 -1：已删除 0：正常
 	 */
-	@ApiModelProperty(value = "是否删除  -1：已删除  0：正常")
+	@Schema(name = "是否删除  -1：已删除  0：正常")
 	private String delFlag;
 
 	/**
 	 * 备注信息
 	 */
-	@ApiModelProperty(value = "备注信息")
+	@Schema(name = "备注信息")
 	private String remark;
 
 }

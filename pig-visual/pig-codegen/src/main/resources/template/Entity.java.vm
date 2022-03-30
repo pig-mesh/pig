@@ -21,8 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
@@ -38,7 +37,7 @@ import java.math.BigDecimal;
 @Data
 @TableName("${tableName}")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "${comments}")
+@Schema(name = "${comments}")
 public class ${className} extends BaseEntity {
 
 #foreach ($column in $columns)
@@ -50,7 +49,7 @@ public class ${className} extends BaseEntity {
 #if($column.columnName == $pk.columnName)
     @TableId(type = IdType.ASSIGN_ID)
 #end
-    @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
+    @Schema(name="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 
 #end

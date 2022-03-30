@@ -16,45 +16,50 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig-upms</artifactId>
-		<version>3.4.7</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig-upms</artifactId>
+        <version>3.4.8</version>
+    </parent>
 
-	<artifactId>pig-upms-api</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>pig-upms-api</artifactId>
+    <packaging>jar</packaging>
 
-	<description>pig 通用用户权限管理系统公共api模块</description>
+    <description>pig 通用用户权限管理系统公共api模块</description>
 
 
-	<dependencies>
-		<!--core 工具类-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-core</artifactId>
-		</dependency>
-		<!--feign 依赖-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-		</dependency>
-		<!--断路器依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-feign</artifactId>
-		</dependency>
-		<!--mybatis 依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-mybatis</artifactId>
-		</dependency>
-		<!-- excel 导入导出 https://github.com/pig-mesh/excel-spring-boot-starter -->
-		<dependency>
-			<groupId>com.pig4cloud.excel</groupId>
-			<artifactId>excel-spring-boot-starter</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--core 工具类-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-core</artifactId>
+        </dependency>
+        <!--swagger-->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-annotations</artifactId>
+        </dependency>
+        <!--feign 依赖-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--断路器依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-feign</artifactId>
+        </dependency>
+        <!--mybatis 依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-mybatis</artifactId>
+        </dependency>
+        <!-- excel 导入导出 https://github.com/pig-mesh/excel-spring-boot-starter -->
+        <dependency>
+            <groupId>com.pig4cloud.excel</groupId>
+            <artifactId>excel-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
 </project>

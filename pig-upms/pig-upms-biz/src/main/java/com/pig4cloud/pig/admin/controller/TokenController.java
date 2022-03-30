@@ -19,8 +19,10 @@ package com.pig4cloud.pig.admin.controller;
 import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +35,8 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/token")
-@Api(value = "token", tags = "令牌管理模块")
+@Tag(name = "令牌管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class TokenController {
 
 	private final RemoteTokenService remoteTokenService;
