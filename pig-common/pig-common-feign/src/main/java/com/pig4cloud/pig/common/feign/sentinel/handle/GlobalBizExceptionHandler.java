@@ -20,6 +20,7 @@ import com.alibaba.csp.sentinel.Tracer;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.SpringSecurityMessageSource;
@@ -27,7 +28,9 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -42,6 +45,7 @@ import java.util.List;
  * @date 2020-06-29
  */
 @Slf4j
+@Order(10000)
 @RestControllerAdvice
 @ConditionalOnExpression("!'${security.oauth2.client.clientId}'.isEmpty()")
 public class GlobalBizExceptionHandler {
@@ -116,6 +120,18 @@ public class GlobalBizExceptionHandler {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		log.warn("参数绑定异常,ex = {}", fieldErrors.get(0).getDefaultMessage());
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
+	}
+
+	/**
+	 * fix Spring RCE 0day 入参不能包含如下字段
+	 *
+	 * TODO 有待考证
+	 * @param dataBinder
+	 */
+	@InitBinder
+	public void setAllowedFields(WebDataBinder dataBinder) {
+		String[] abd = new String[] { "class.*", "Class.*", "*.class.*", "*.Class.*" };
+		dataBinder.setDisallowedFields(abd);
 	}
 
 }
