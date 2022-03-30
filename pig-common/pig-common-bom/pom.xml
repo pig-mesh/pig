@@ -27,6 +27,7 @@
         <springdoc.version>1.6.6</springdoc.version>
         <swagger.core.version>2.1.13</swagger.core.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <seata.version>1.4.2</seata.version>
         <excel.version>1.1.1</excel.version>
         <oss.version>1.0.3</oss.version>
         <sms.version>2.0.2</sms.version>
@@ -74,6 +75,11 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-swagger</artifactId>
+                <version>${pig.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-seata</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>
@@ -136,6 +142,12 @@
                 <groupId>com.pig4cloud.plugin</groupId>
                 <artifactId>oss-spring-boot-starter</artifactId>
                 <version>${oss.version}</version>
+            </dependency>
+            <!--  seata kryo 序列化-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-serializer-kryo</artifactId>
+                <version>${seata.version}</version>
             </dependency>
             <!--orm 相关-->
             <dependency>
