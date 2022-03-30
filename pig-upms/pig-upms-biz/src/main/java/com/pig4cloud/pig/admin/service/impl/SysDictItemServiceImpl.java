@@ -23,6 +23,8 @@ import com.pig4cloud.pig.admin.service.SysDictItemService;
 import com.pig4cloud.pig.admin.service.SysDictService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
@@ -52,7 +54,8 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 		SysDictItem dictItem = this.getById(id);
 		SysDict dict = dictService.getById(dictItem.getDictId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()), "系统内置字典项目不能删除");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()),
+				MsgUtils.getMessage(ErrorCodes.SYS_DICT_DELETE_SYSTEM));
 		this.removeById(id);
 	}
 
@@ -67,7 +70,8 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 		// 查询字典
 		SysDict dict = dictService.getById(item.getDictId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()), "系统内置字典项目不能修改");
+		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()),
+				MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
 		this.updateById(item);
 	}
 

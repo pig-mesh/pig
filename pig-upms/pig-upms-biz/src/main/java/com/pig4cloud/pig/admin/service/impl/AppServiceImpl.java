@@ -25,6 +25,8 @@ import com.pig4cloud.pig.admin.mapper.SysUserMapper;
 import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import io.springboot.sms.core.SmsClient;
 import lombok.AllArgsConstructor;
@@ -63,14 +65,14 @@ public class AppServiceImpl implements AppService {
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", phone);
-			return R.ok(Boolean.FALSE, "手机号未注册");
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, phone));
 		}
 
 		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + phone);
 
 		if (codeObj != null) {
 			log.info("手机号验证码未过期:{}，{}", phone, codeObj);
-			return R.ok(Boolean.FALSE, "验证码发送过频繁");
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
 		}
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));

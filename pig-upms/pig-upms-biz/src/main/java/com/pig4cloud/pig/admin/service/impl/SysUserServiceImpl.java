@@ -174,7 +174,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public Boolean updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 
-		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()), "原密码错误，修改失败");
+		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),
+				MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
 
 		SysUser sysUser = new SysUser();
 		if (StrUtil.isNotBlank(userDto.getNewpassword1())) {
@@ -284,14 +285,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
 			if (exsitUserName) {
-				errorMsg.add(String.format("%s 用户名已存在", excel.getUsername()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
 			// 判断输入的部门名称列表是否合法
 			Optional<SysDept> deptOptional = deptList.stream()
 					.filter(dept -> excel.getDeptName().equals(dept.getName())).findFirst();
 			if (!deptOptional.isPresent()) {
-				errorMsg.add(String.format("%s 部门名称不存在", excel.getDeptName()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptName()));
 			}
 
 			// 判断输入的角色名称列表是否合法
@@ -301,7 +302,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.collect(Collectors.toList());
 
 			if (roleCollList.size() != roleNameList.size()) {
-				errorMsg.add(String.format("%s 角色名称不存在", excel.getRoleNameList()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
 			}
 
 			// 判断输入的岗位名称列表是否合法
@@ -311,7 +312,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.collect(Collectors.toList());
 
 			if (postCollList.size() != postNameList.size()) {
-				errorMsg.add(String.format("%s 岗位名称不存在", excel.getPostNameList()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_POSTNAME_INEXISTENCE, excel.getPostNameList()));
 			}
 
 			// 数据合法情况

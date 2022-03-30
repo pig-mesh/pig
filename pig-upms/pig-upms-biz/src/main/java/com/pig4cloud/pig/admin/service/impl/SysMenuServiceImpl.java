@@ -31,6 +31,8 @@ import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.MenuTypeEnum;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -39,10 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -78,7 +77,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		// 查询父节点为当前节点的节点
 		List<SysMenu> menuList = this.list(Wrappers.<SysMenu>query().lambda().eq(SysMenu::getParentId, id));
 
-		Assert.isTrue(CollUtil.isEmpty(menuList), "菜单含有下级不能删除");
+		Assert.isTrue(CollUtil.isEmpty(menuList), MsgUtils.getMessage(ErrorCodes.SYS_MENU_DELETE_EXISTING));
 
 		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getMenuId, id));
 		// 删除当前菜单及其子菜单
