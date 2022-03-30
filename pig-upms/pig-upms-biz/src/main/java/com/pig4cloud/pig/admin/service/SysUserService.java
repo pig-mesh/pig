@@ -120,6 +120,6 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param userDto 用户信息
 	 * @return success/false
 	 */
-	Boolean registerUser(UserDTO userDto);
+	R<Boolean> registerUser(UserDTO userDto);
 
 }

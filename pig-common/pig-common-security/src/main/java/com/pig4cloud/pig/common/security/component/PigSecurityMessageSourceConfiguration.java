@@ -26,7 +26,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 
 /**
  * @author lengleng
- * @date 2019-06-24
+ * @date 2022年01月06日
  * <p>
  * 注入自定义错误处理
  */
@@ -34,7 +34,7 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 public class PigSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
 	@Bean
-	public MessageSource messageSource() {
+	public MessageSource securityMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.addBasenames("classpath:org/springframework/security/messages");
 		return messageSource;

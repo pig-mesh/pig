@@ -221,10 +221,11 @@ public class UserController {
 	 * @param userDto 用户信息
 	 * @return success/false
 	 */
+	@Inner(value = false)
 	@SysLog("注册用户")
 	@PostMapping("/registerUser")
 	public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
-		return R.ok(userService.registerUser(userDto));
+		return userService.registerUser(userDto);
 	}
 
 }

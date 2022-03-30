@@ -18,7 +18,6 @@ package com.pig4cloud.pig.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -36,6 +35,8 @@ import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.MenuTypeEnum;
+import com.pig4cloud.pig.common.core.exception.ErrorCodes;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import lombok.RequiredArgsConstructor;
@@ -364,20 +365,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return success/false
 	 */
 	@Override
-	public Boolean registerUser(UserDTO userDto) {
+	public R<Boolean> registerUser(UserDTO userDto) {
 		// 判断用户名是否存在
 		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
-		Assert.isNull(sysUser, "用户名存在!");
+		if (sysUser != null) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername()));
+		}
 
 		// 获取默认角色编码
-		String defaultRole = ParamResolver.getStr("REGISTER_DEFAULT_ROLE");
+		String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
 		// 默认角色
 		SysRole sysRole = sysRoleMapper
 				.selectOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
-		Assert.isTrue(ObjectUtil.isNotEmpty(sysRole), "系统参数配置错误!");
+
+		if (sysRole == null) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_CONFIG_ERROR, "USER_DEFAULT_ROLE"));
+		}
 
 		userDto.setRole(Collections.singletonList(sysRole.getRoleId()));
-		return saveUser(userDto);
+		return R.ok(saveUser(userDto));
 	}
 
 }
