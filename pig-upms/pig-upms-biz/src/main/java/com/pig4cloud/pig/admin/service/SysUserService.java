@@ -115,4 +115,11 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	List<Long> listUserIdByDeptIds(Set<Long> deptIds);
 
+	/**
+	 * 注册用户
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	Boolean registerUser(UserDTO userDto);
+
 }

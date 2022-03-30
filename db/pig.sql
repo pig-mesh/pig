@@ -179,6 +179,7 @@ CREATE TABLE `sys_public_param`  (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_public_param` VALUES (1, '接口文档不显示的字段', 'GEN_HIDDEN_COLUMNS', 'tenant_id', '0', '', ' ', ' ', '2020-05-12 04:25:19', NULL, '9', '1');
+INSERT INTO `sys_public_param` VALUES (2, '注册用户默认角色', 'USER_DEFAULT_ROLE', 'GENERAL_USER', '0', '', 'admin', 'admin', '2022-03-30 10:00:57', '2022-03-30 02:05:59', '2', '1');
 COMMIT;
 
 
@@ -428,6 +429,7 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role` VALUES (1, '管理员', 'ROLE_ADMIN', '管理员', '0', '2017-10-29 15:45:51', '2018-12-26 14:09:11', NULL, NULL);
+INSERT INTO `sys_role` VALUES (2, '普通用户','GENERAL_USER', '普通用户', '0', '2022-03-30 09:59:24', '2022-03-30 09:59:24', 'admin', 'admin');
 COMMIT;
 
 -- ----------------------------
@@ -502,6 +504,8 @@ INSERT INTO `sys_role_menu` VALUES (1, 3303);
 INSERT INTO `sys_role_menu` VALUES (1, 3400);
 INSERT INTO `sys_role_menu` VALUES (1, 4000);
 INSERT INTO `sys_role_menu` VALUES (1, 9999);
+INSERT INTO `sys_role_menu` VALUES (2, 4000);
+INSERT INTO `sys_role_menu` VALUES (2, 9999);
 COMMIT;
 
 -- ----------------------------
