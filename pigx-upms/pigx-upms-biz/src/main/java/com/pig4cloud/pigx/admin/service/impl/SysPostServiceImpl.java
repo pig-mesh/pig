@@ -24,6 +24,8 @@ import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.admin.api.vo.PostExcelVO;
 import com.pig4cloud.pigx.admin.mapper.SysPostMapper;
 import com.pig4cloud.pigx.admin.service.SysPostService;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import org.springframework.stereotype.Service;
@@ -66,7 +68,8 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 					|| excel.getPostCode().equals(post.getPostCode()));
 
 			if (existPost) {
-				errorMsg.add(String.format("%s %s 岗位名或岗位编码已经存在", excel.getPostName(), excel.getPostCode()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_NAMEORCODE_EXISTING, excel.getPostName(),
+						excel.getPostCode()));
 			}
 
 			// 数据合法情况

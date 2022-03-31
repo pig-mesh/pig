@@ -27,6 +27,8 @@ import com.pig4cloud.pigx.admin.service.MobileService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +65,7 @@ public class MobileServiceImpl implements MobileService {
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", mobile);
-			return R.ok(Boolean.FALSE, "手机号未注册");
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
 		}
 
 		Object codeObj = redisTemplate.opsForValue()
@@ -71,7 +73,7 @@ public class MobileServiceImpl implements MobileService {
 
 		if (codeObj != null) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
-			return R.ok(Boolean.FALSE, "验证码发送过频繁");
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
 		}
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
