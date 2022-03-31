@@ -1,4 +1,4 @@
-package com.pig4cloud.pigx.common.websocket.holder;
+package com.pig4cloud.pigx.common.websocket.session;
 
 import org.springframework.web.socket.WebSocketSession;
 

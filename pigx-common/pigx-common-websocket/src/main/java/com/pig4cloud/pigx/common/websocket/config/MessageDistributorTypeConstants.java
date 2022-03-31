@@ -1,6 +1,8 @@
 package com.pig4cloud.pigx.common.websocket.config;
 
 /**
+ * websocket 消息分发器类型常量类
+ *
  * @author hccake
  */
 public final class MessageDistributorTypeConstants {
