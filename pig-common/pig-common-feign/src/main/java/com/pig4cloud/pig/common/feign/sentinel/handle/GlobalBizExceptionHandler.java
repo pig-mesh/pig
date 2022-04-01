@@ -28,9 +28,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -120,18 +118,6 @@ public class GlobalBizExceptionHandler {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		log.warn("参数绑定异常,ex = {}", fieldErrors.get(0).getDefaultMessage());
 		return R.failed(fieldErrors.get(0).getDefaultMessage());
-	}
-
-	/**
-	 * fix Spring RCE 0day 入参不能包含如下字段
-	 *
-	 * TODO 有待考证
-	 * @param dataBinder
-	 */
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		String[] abd = new String[] { "class.*", "Class.*", "*.class.*", "*.Class.*" };
-		dataBinder.setDisallowedFields(abd);
 	}
 
 }
