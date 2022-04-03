@@ -34,7 +34,7 @@ import javax.sql.DataSource;
  */
 @Configuration
 @AllArgsConstructor
-public class ActivitiConfig {
+public class ActivitiConfiguration {
 
 	private final DataSource dataSource;
 
