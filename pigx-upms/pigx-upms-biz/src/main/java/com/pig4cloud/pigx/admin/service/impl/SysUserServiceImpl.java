@@ -32,6 +32,7 @@ import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
+import com.pig4cloud.pigx.admin.mapper.SysUserPostMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -74,6 +75,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	private final SysUserRoleService sysUserRoleService;
 
+	private final SysUserPostMapper sysUserPostMapper;
+
 	/**
 	 * 保存用户信息
 	 * @param userDto DTO 对象
@@ -87,6 +90,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
 		baseMapper.insert(sysUser);
+		// 保存用户岗位信息
+		userDto.getPost().stream().map(postId -> {
+			SysUserPost userPost = new SysUserPost();
+			userPost.setUserId(sysUser.getUserId());
+			userPost.setPostId(postId);
+			return userPost;
+		}).forEach(sysUserPostMapper::insert);
 		List<SysUserRole> userRoleList = userDto.getRole().stream().map(roleId -> {
 			SysUserRole userRole = new SysUserRole();
 			userRole.setUserId(sysUser.getUserId());
@@ -198,6 +208,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userRole.setUserId(sysUser.getUserId());
 			userRole.setRoleId(roleId);
 			userRole.insert();
+		});
+		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
+		userDto.getPost().forEach(postId -> {
+			SysUserPost userPost = new SysUserPost();
+			userPost.setUserId(sysUser.getUserId());
+			userPost.setPostId(postId);
+			userPost.insert();
 		});
 		return Boolean.TRUE;
 	}
