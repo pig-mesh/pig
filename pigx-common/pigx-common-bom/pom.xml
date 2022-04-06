@@ -36,6 +36,8 @@
         <xxl.job.version>2.3.0</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.11.543</aws.version>
+		<seata.version>1.4.2</seata.version>
+		<asm.version>7.1</asm.version>
         <log4j2.version>2.17.1</log4j2.version>
         <javaformat.plugin.version>0.0.23</javaformat.plugin.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
@@ -144,6 +146,17 @@
                 <artifactId>pigx-upms-api</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+			<!--  seata kryo 序列化-->
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-serializer-kryo</artifactId>
+				<version>${seata.version}</version>
+			</dependency>
             <!--mybatis plus extension,包含了mybatis plus core-->
             <dependency>
                 <groupId>com.baomidou</groupId>
