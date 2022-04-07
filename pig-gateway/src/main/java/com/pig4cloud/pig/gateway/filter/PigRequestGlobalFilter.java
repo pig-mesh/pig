@@ -62,9 +62,6 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/")).skip(1L)
 				.collect(Collectors.joining("/"));
 
-		// if (rawPath.contains("/v3/api-docs/")) {
-		// newPath = "/admin/v3/api-docs";
-		// }
 		ServerHttpRequest newRequest = request.mutate().path(newPath).build();
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, newRequest.getURI());
 
