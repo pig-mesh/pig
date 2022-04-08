@@ -138,7 +138,7 @@
                 <artifactId>aliyun-sms-spring-boot-starter</artifactId>
                 <version>${sms.version}</version>
             </dependency>
-            <!--mybatis-plus-->
+            <!--oss-->
             <dependency>
                 <groupId>com.pig4cloud.plugin</groupId>
                 <artifactId>oss-spring-boot-starter</artifactId>
@@ -159,6 +159,11 @@
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <!--web 模块-->

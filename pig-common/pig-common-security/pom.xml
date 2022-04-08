@@ -16,35 +16,45 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig-common</artifactId>
-		<version>3.4.8</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig-common</artifactId>
+        <version>3.4.8</version>
+    </parent>
 
-	<artifactId>pig-common-security</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>pig-common-security</artifactId>
+    <packaging>jar</packaging>
 
-	<description>pig 安全工具类</description>
+    <description>pig 安全工具类</description>
 
 
-	<dependencies>
-		<!--工具类核心包-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-core</artifactId>
-		</dependency>
-		<!--安全模块-->
-		<dependency>
-			<groupId>org.springframework.security.oauth.boot</groupId>
-			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-		</dependency>
-		<!--UPMS API-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-upms-api</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--工具类核心包-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-core</artifactId>
+        </dependency>
+        <!--安全模块-->
+        <dependency>
+            <groupId>org.springframework.security.oauth.boot</groupId>
+            <artifactId>spring-security-oauth2-autoconfigure</artifactId>
+        </dependency>
+        <!--UPMS API-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-upms-api</artifactId>
+        </dependency>
+        <!--common utils-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+        </dependency>
+        <!--feign 工具类-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+    </dependencies>
 </project>

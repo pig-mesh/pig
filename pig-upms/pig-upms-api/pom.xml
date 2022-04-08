@@ -41,15 +41,11 @@
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
-        <!--feign 依赖-->
+        <!--feign 注解依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <!--断路器依赖-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-feign</artifactId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--mybatis 依赖-->
         <dependency>
