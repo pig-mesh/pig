@@ -53,7 +53,7 @@
 		<jasypt.version>3.0.3</jasypt.version>
 		<ttl.version>2.11.4</ttl.version>
 		<ureport.version>2.2.9</ureport.version>
-		<jimu.version>1.4.32</jimu.version>
+		<jimu.version>1.4.4-beta</jimu.version>
 		<aws.version>1.11.543</aws.version>
 		<xxl.job.version>2.3.0</xxl.job.version>
 		<activiti.version>5.22.0</activiti.version>

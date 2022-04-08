@@ -19,31 +19,32 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx</artifactId>
-		<version>4.3.0</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx</artifactId>
+        <version>4.3.0</version>
+    </parent>
 
-	<artifactId>pigx-visual</artifactId>
-	<description>pigx 图形化功能模块</description>
-	<packaging>pom</packaging>
+    <artifactId>pigx-visual</artifactId>
+    <description>pigx 图形化功能模块</description>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>pigx-bi-platform</module>
-		<module>pigx-codegen</module>
-		<module>pigx-daemon-elastic-job</module>
-		<module>pigx-daemon-quartz</module>
-		<module>pigx-oa-platform</module>
-		<module>pigx-pay-platform</module>
-		<module>pigx-report-platform</module>
-		<module>pigx-monitor</module>
-		<module>pigx-mp-platform</module>
-		<module>pigx-sso-client-demo</module>
-		<module>pigx-sentinel-dashboard</module>
-		<module>pigx-tx-manager</module>
-		<module>pigx-xxl-job-admin</module>
-	</modules>
+    <modules>
+        <module>pigx-bi-platform</module>
+        <module>pigx-codegen</module>
+        <module>pigx-daemon-elastic-job</module>
+        <module>pigx-daemon-quartz</module>
+        <module>pigx-jimu-platform</module>
+        <module>pigx-oa-platform</module>
+        <module>pigx-pay-platform</module>
+        <module>pigx-report-platform</module>
+        <module>pigx-monitor</module>
+        <module>pigx-mp-platform</module>
+        <module>pigx-sso-client-demo</module>
+        <module>pigx-sentinel-dashboard</module>
+        <module>pigx-tx-manager</module>
+        <module>pigx-xxl-job-admin</module>
+    </modules>
 </project>
