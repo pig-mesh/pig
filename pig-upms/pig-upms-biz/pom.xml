@@ -60,10 +60,14 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-swagger</artifactId>
         </dependency>
-        <!--mybatis 模块-->
+        <!-- orm 模块-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-mybatis</artifactId>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
         <!--注册中心客户端-->
         <dependency>
