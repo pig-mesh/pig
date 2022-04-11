@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.common.security.listener;
 
+import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.common.security.handler.AuthenticationFailureHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -60,8 +61,10 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
 		Authentication authentication = (Authentication) event.getSource();
 
 		// 调用自定义业务链实现
-		failureHandlerList.forEach(
-				failureHandler -> failureHandler.handle(authenticationException, authentication, request, response));
+		if (CollUtil.isNotEmpty(failureHandlerList)) {
+			failureHandlerList.forEach(failureHandler -> failureHandler.handle(authenticationException, authentication,
+					request, response));
+		}
 	}
 
 }
