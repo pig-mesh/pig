@@ -22,11 +22,13 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.pig4cloud.pigx.common.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +86,9 @@ public class OssEndpoint {
 	@PostMapping("/object/{bucketName}")
 	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
 		String name = object.getOriginalFilename();
-		template.putObject(bucketName, name, object.getInputStream(), object.getSize(), object.getContentType());
+		@Cleanup
+		InputStream inputStream = object.getInputStream();
+		template.putObject(bucketName, name, inputStream, object.getSize(), object.getContentType());
 		return template.getObjectInfo(bucketName, name);
 
 	}
@@ -93,7 +97,9 @@ public class OssEndpoint {
 	@PostMapping("/object/{bucketName}/{objectName}")
 	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
 			@PathVariable String objectName) {
-		template.putObject(bucketName, objectName, object.getInputStream(), object.getSize(), object.getContentType());
+		@Cleanup
+		InputStream inputStream = object.getInputStream();
+		template.putObject(bucketName, objectName, inputStream, object.getSize(), object.getContentType());
 		return template.getObjectInfo(bucketName, objectName);
 
 	}

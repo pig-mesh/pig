@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -67,13 +68,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		resultMap.put("fileName", fileName);
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
 
-		try {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, file.getInputStream(),
+		try (InputStream inputStream = file.getInputStream()) {
+			minioTemplate.putObject(ossProperties.getBucketName(), fileName, inputStream,
 					file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error("上传失败", e);
 			return R.failed(e.getLocalizedMessage());
 		}
