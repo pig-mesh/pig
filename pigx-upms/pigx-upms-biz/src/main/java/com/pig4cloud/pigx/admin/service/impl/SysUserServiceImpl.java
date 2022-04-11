@@ -370,4 +370,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return R.ok(saveUser(userDto));
 	}
 
+	/**
+	 * 锁定用户
+	 * @param username 用户名
+	 * @return
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#username")
+	public R<Boolean> lockUser(String username) {
+		SysUser sysUser = baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+		sysUser.setLockFlag(CommonConstants.STATUS_LOCK);
+		baseMapper.updateById(sysUser);
+		return R.ok();
+	}
+
 }

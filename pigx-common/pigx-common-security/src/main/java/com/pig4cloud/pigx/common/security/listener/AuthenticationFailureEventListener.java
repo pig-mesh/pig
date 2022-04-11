@@ -29,6 +29,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -37,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationFailureEventListener implements ApplicationListener<AbstractAuthenticationFailureEvent> {
 
 	@Autowired(required = false)
-	private AuthenticationFailureHandler failureHandler;
+	private List<AuthenticationFailureHandler> failureHandlerList;
 
 	/**
 	 * Handle an application event.
@@ -58,10 +59,9 @@ public class AuthenticationFailureEventListener implements ApplicationListener<A
 		AuthenticationException authenticationException = event.getException();
 		Authentication authentication = (Authentication) event.getSource();
 
-		// 调用自定义业务实现
-		if (failureHandler != null) {
-			failureHandler.handle(authenticationException, authentication, request, response);
-		}
+		// 调用自定义业务链实现
+		failureHandlerList.forEach(
+				failureHandler -> failureHandler.handle(authenticationException, authentication, request, response));
 	}
 
 }

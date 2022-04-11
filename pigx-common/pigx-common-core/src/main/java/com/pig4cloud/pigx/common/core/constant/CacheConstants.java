@@ -95,4 +95,9 @@ public interface CacheConstants {
 	 */
 	String CLIENT_FLAG = "client_config_flag";
 
+	/**
+	 * 登录错误次数
+	 */
+	String LOGIN_ERROR_TIMES = "login_error_times";
+
 }

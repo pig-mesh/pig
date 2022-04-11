@@ -36,12 +36,14 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author lengleng
- * @date 2018/10/8
+ * @date 2022-04-11
+ *
+ * 登录成功日志记录
  */
 @Slf4j
 @Component
 @AllArgsConstructor
-public class PigxAuthenticationSuccessEventHandler implements AuthenticationSuccessHandler {
+public class PigxAuthenticationSuccessLogEventHandler implements AuthenticationSuccessHandler {
 
 	private final RemoteLogService logService;
 

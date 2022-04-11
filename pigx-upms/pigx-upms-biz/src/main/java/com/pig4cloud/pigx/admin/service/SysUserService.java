@@ -117,4 +117,11 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R<Boolean> registerUser(UserDTO userDto);
 
+	/**
+	 * 锁定用户
+	 * @param username
+	 * @return
+	 */
+	R<Boolean> lockUser(String username);
+
 }

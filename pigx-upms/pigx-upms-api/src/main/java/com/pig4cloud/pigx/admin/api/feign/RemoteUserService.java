@@ -27,6 +27,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
@@ -63,5 +64,14 @@ public interface RemoteUserService {
 	 */
 	@GetMapping("/user/ancestor/{username}")
 	R<List<SysUser>> ancestorUsers(@PathVariable("username") String username);
+
+	/**
+	 * 锁定用户
+	 * @param username 用户名
+	 * @param from 调用标识
+	 * @return
+	 */
+	@PutMapping("/user/lock/{username}")
+	R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
 }
