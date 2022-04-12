@@ -69,11 +69,11 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
 
 		try (InputStream inputStream = file.getInputStream()) {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, inputStream,
-					file.getContentType());
+			minioTemplate.putObject(ossProperties.getBucketName(), fileName, inputStream, file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			log.error("上传失败", e);
 			return R.failed(e.getLocalizedMessage());
 		}

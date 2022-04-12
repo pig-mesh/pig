@@ -22,7 +22,7 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
  */
 @ConditionalOnClass(StringRedisTemplate.class)
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
-		havingValue = MessageDistributorTypeConstants.REDIS)
+		havingValue = MessageDistributorTypeConstants.REDIS, matchIfMissing = true)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class RedisMessageDistributorConfig {
