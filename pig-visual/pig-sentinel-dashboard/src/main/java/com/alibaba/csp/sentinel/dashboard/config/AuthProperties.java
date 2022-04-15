@@ -13,28 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.repository.rule;
+package com.alibaba.csp.sentinel.dashboard.config;
 
-import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.rule.AuthorityRuleEntity;
+@ConfigurationProperties(prefix = "auth")
+public class AuthProperties {
 
-import org.springframework.stereotype.Component;
+	private boolean enabled = true;
 
-/**
- * In-memory storage for authority rules.
- *
- * @author Eric Zhao
- * @since 0.2.1
- */
-@Component
-public class InMemAuthorityRuleStore extends InMemoryRuleRepositoryAdapter<AuthorityRuleEntity> {
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-	private static AtomicLong ids = new AtomicLong(0);
-
-	@Override
-	protected long nextId() {
-		return ids.incrementAndGet();
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

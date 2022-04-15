@@ -15,19 +15,24 @@
  */
 package com.alibaba.csp.sentinel.dashboard.controller.cluster;
 
-import com.alibaba.csp.sentinel.dashboard.domain.Result;
-import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppAssignResultVO;
+import java.util.Collections;
+import java.util.Set;
+
+import com.alibaba.csp.sentinel.util.StringUtil;
+
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppFullAssignRequest;
+import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppAssignResultVO;
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.ClusterAppSingleServerAssignRequest;
 import com.alibaba.csp.sentinel.dashboard.service.ClusterAssignService;
-import com.alibaba.csp.sentinel.util.StringUtil;
+import com.alibaba.csp.sentinel.dashboard.domain.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collections;
-import java.util.Set;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Eric Zhao

@@ -15,10 +15,14 @@
  */
 package com.alibaba.csp.sentinel.dashboard.auth;
 
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * @author lkxiaolou
+ * @author lkxiaolou 无改动
  * @since 1.7.1
  */
 @Retention(RetentionPolicy.RUNTIME)
