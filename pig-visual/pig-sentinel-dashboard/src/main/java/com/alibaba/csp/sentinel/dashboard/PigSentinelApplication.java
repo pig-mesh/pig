@@ -16,6 +16,7 @@
 package com.alibaba.csp.sentinel.dashboard;
 
 import com.alibaba.csp.sentinel.init.InitExecutor;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -33,7 +34,7 @@ public class PigSentinelApplication {
 	}
 
 	private static void triggerSentinelInit() {
-		new Thread(InitExecutor::doInit).start();
+		new Thread(() -> InitExecutor.doInit()).start();
 	}
 
 }
