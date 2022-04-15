@@ -26,7 +26,6 @@ import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -78,9 +77,24 @@ public class SysPost extends Model<SysPost> {
 	private String remark;
 
 	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
+
+	/**
 	 * 是否删除 -1：已删除 0：正常
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "是否删除  -1：已删除  0：正常")
 	private String delFlag;
 

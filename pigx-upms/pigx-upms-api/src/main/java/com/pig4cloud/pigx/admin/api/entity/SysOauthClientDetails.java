@@ -27,6 +27,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -123,5 +124,33 @@ public class SysOauthClientDetails extends Model<SysOauthClientDetails> {
 	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建时间")
+	private LocalDateTime createTime;
+
+	/**
+	 * 更新时间
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "更新时间")
+	private LocalDateTime updateTime;
 
 }

@@ -104,6 +104,20 @@ public class SysMenu extends Model<SysMenu> {
 	private String keepAlive;
 
 	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
+
+	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)

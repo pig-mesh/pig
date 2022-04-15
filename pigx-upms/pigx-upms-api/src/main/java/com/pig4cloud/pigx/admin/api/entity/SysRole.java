@@ -71,6 +71,20 @@ public class SysRole extends Model<SysRole> {
 	private String dsScope;
 
 	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
+
+	/**
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间")
