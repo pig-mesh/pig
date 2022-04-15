@@ -20,7 +20,7 @@
         <pigx.version>4.3.0</pigx.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
-        <druid.version>1.2.8</druid.version>
+        <druid.version>1.2.9</druid.version>
         <hutool.version>5.7.22</hutool.version>
         <mysql.connector.version>8.0.27</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
