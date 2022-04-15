@@ -108,7 +108,7 @@ CREATE TABLE `sys_user_post`  (
                                   `user_id` bigint(0) NOT NULL COMMENT '用户ID',
                                   `post_id` bigint(0) NOT NULL COMMENT '岗位ID',
                                   PRIMARY KEY (`user_id`, `post_id`) USING BTREE
-) ENGINE = InnoDB DEFAULT CHARACTER = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户与岗位关联表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT = '用户与岗位关联表';
 
 -- ----------------------------
 -- Records of sys_user_post
