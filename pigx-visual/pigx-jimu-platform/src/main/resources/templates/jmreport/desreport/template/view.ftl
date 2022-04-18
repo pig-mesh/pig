@@ -1,0 +1,1 @@
+<#include "components/select_scroll_radio.ftl">

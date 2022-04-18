@@ -150,4 +150,9 @@ public class PigxTokenDealServiceImpl {
 		return result;
 	}
 
+	public R queryTokenInfo(String token) {
+		OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+		return R.ok(oAuth2AccessToken);
+	}
+
 }

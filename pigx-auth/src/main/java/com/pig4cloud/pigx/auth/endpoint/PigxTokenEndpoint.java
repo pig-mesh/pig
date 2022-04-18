@@ -140,4 +140,15 @@ public class PigxTokenEndpoint {
 		return dealService.queryToken(page);
 	}
 
+	/**
+	 * 查询token
+	 * @param token
+	 * @return
+	 */
+	@Inner
+	@GetMapping("/query-token")
+	public R queryToken(String token) {
+		return dealService.queryTokenInfo(token);
+	}
+
 }

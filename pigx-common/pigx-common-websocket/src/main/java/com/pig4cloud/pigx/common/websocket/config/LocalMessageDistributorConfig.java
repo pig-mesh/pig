@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @author hccake
  */
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
-		havingValue = MessageDistributorTypeConstants.LOCAL, matchIfMissing = true)
+		havingValue = MessageDistributorTypeConstants.LOCAL)
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
 public class LocalMessageDistributorConfig {
