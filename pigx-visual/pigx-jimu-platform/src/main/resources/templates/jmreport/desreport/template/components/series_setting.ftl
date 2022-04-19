@@ -39,6 +39,11 @@
                     </i-option>
                 </i-select>
             </Row>
+		        <Row class="ivurow rightFontSize">
+			        <p style="margin-bottom: 10px;">是否显示数值&nbsp;&nbsp;</p>
+			        <i-switch size="small" style="margin-left: 6px;" v-model="izShowNumber" @on-change="onSeriesFormatterChange"/>
+			        </i-select>
+		        </Row>
         </div>
     </Submenu>
 </script>
@@ -59,9 +64,11 @@
                     textStyle_color:'',
                     textStyle_fontSize:'',
                     textStyle_fontWeight:'',
-                    position:''
+                    position:'',
+                    formatter:''
                 },
-                labelPositions:[]
+                labelPositions:[],
+                izShowNumber:false
             }
         },
         watch: {
@@ -77,9 +84,28 @@
             initData: function (){
                 if (this.settings){
                     this.seriesOption = Object.assign(this.seriesOption, this.settings)
+                    //update-begin---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
+		                if(this.seriesOption.formatter && "{b}"!=this.seriesOption.formatter){
+		                    this.izShowNumber = true;
+		                }else{
+                        this.izShowNumber = false;
+		                }
+                    //update-end---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
                 }
             },
             onSeriesLabelChange(){
+                let {labelPositionArray,...otherOptions}=this.seriesOption;
+                this.$emit('change', otherOptions,'label')
+            },
+            /**
+             * 图表设置格式化
+             */
+            onSeriesFormatterChange(){
+								if(this.izShowNumber){
+                    this.seriesOption.formatter="{b}\n{c}"
+								}else{
+                    this.seriesOption.formatter="{b}"
+								}
                 let {labelPositionArray,...otherOptions}=this.seriesOption;
                 this.$emit('change', otherOptions,'label')
             }

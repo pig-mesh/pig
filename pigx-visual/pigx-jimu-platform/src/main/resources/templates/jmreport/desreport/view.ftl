@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.5">
+<#assign CACHE_VERSION = "v=v=1.0.7">
 <#assign config_id = "${id!''}">
 <#assign shareView = "${shareView}">
 <!DOCTYPE html>
@@ -209,9 +209,7 @@ function getLocalRequestUrl() {
                                <template v-else>
                                    <template v-if="item.dictList && item.dictList.length>0 && (item.mode==4 ||item.mode==3)">
                                        <!-- 多选 -->
-                                       <i-select size="small" :ref="item.key" v-if="item.mode==3" :remote-method="(query)=>{dictCodeSearch(query,item)}" class="jm-select-box" filterable  :transfer="true" v-model="queryInfo['onlyshow_'+item.key]" multiple :max-tag-count="1"  @on-change="(arr)=>handleQueryMultiSelectChange(arr, item.key)" :placeholder="'请选择'+item.title">
-                                           <i-option v-for="(dict, dIndex) in item.dictList" :key="dIndex" :index="index" :value="dict.value">{{ dict.text }}</i-option>
-                                       </i-select>
+                                       <j-select-scroll-multiple v-if="item.mode==3"  v-model="queryInfo['onlyshow_'+item.key]" :item="JSON.stringify(item)"  @dictmultipleok="handleDictMultipleOk" :index="index"></j-select-scroll-multiple>
 
                                        <!-- 单选 -->
                                        <j-select-scroll-radio v-if="item.mode==4"  v-model="queryInfo[item.key]" :item="JSON.stringify(item)"  @dictok="handleDictOk"></j-select-scroll-radio>
@@ -301,5 +299,7 @@ function getLocalRequestUrl() {
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/cdn/vue/xss-0.3.3.min.js?${CACHE_VERSION}"></script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/view.js?${CACHE_VERSION}"></script>
 <#include "./common/tj.ftl">
+<script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/cdn/vue/md5.min.js?${CACHE_VERSION}"></script>
+<script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/SignMd5Util.js?${CACHE_VERSION}"></script>
 </body>
 </html>

@@ -5,7 +5,7 @@ value:view组件传递的值 v-model-->
     <div>
         <input ref="clickInput" class="ivu-input ivu-input-default" v-model="dictText"
                :placeholder="'请选择'+dataList.name" @blur="clickBlur"
-               @click="handleClick"/>
+               @click="handleClick" style="cursor: pointer"/>
         <div class="scoll-class" v-if="scollShow">
             <Scroll :class="noData == true?'no-loading':''" :height="dictHeight" :on-reach-bottom="handleReachBottom"
                     :distance-to-edge="1">
@@ -75,8 +75,11 @@ value:view组件传递的值 v-model-->
           this.setDictText();
         }
       },
-      dictText(val) {
-        this.handleOnChange()
+      dictText:{
+        immediate: true,
+        handler: function () {
+            this.handleOnChange()
+        }
       }
     },
     methods: {
@@ -111,6 +114,9 @@ value:view组件传递的值 v-model-->
             this.dictText = dict[0].text
             this.initText = dict[0].text
           }
+          //update-begin---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
+          this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 32 + 50
+          //update-end---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
         }
       },
       //无限加载中的事件
@@ -146,7 +152,13 @@ value:view组件传递的值 v-model-->
       handleOnChange() {
         let val = {}
         val.key = this.dataList.key
-        val.value = this.dictText
+        //update-begin---author:wangshuai ---date:20220315  for：[JMREP-2552]下拉单选重置就出不来了--------
+        if(!this.dictText){
+            val.value = ""
+        }else{
+            val.value = this.value
+        }
+        //update-end---author:wangshuai ---date:20220315  for：[JMREP-2552]下拉单选重置就出不来了--------
         this.$emit('dictok', val)
         this.searchLocalOrApi();
       },
@@ -162,7 +174,9 @@ value:view组件传递的值 v-model-->
             this.searchDictByText();
           } else {
             this.dictList = this.copyDictList
-            this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 30 + 20
+            //update-begin---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
+            this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 32 + 50
+            //update-end---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
           }
         }
       },
@@ -221,7 +235,9 @@ value:view组件传递的值 v-model-->
           }
         }
         this.dictList = newDictList;
-        this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 30 + 20
+        //update-begin---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
+        this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 32 + 50
+        //update-end---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
       }
     }
   })

@@ -170,7 +170,7 @@
         //update-begin---author:wangshuai ---date:20220315  for：[issues/I4WWKE]分享链接的预览密码能否忽略------------
         textarea.value = "预览地址:  "+previewUrl+" \n"
         //兼容老数据，如果是否分享密码为空的话，也得需要加上预览密码
-        //0没有密码 1有密码
+        //previewLockStatus 密码锁状态(0不存在密码锁，1存在密码锁)
         if("0" != this.jurisdictionData.previewLockStatus){
           textarea.value =  textarea.value + "预览密码:  "+previewLock+"\n"
         }

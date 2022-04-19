@@ -1,11 +1,11 @@
-<#assign CACHE_VERSION = "v=1.0.5">
+<#assign CACHE_VERSION = "v=1.0.7">
 <#assign config_id = "${id!''}">
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>报表设计器 - 积木报表, 免费可视化报表工具！</title>
+    <title>积木报表—免费可视化Web报表工具</title>
 
     <script>
         let base = "${base}";
@@ -1058,7 +1058,7 @@
         }
         const options = {
             "domain": 'http://localhost:8080/jeecg-boot',
-            "viewLocalImage":"/jmreport/img",//预览本地图片方法
+            "viewLocalImage":JM_VIEW_IMG_URL,//预览本地图片方法
             "uploadUrl":"/jmreport/upload", //统一上传地址
             "uploadExcelUrl":"/jmreport/importExcel?token="+token,//上传excel方法
             pageSize: viewPageSize, //分页条数
@@ -1299,6 +1299,8 @@
 </script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/util.js?${CACHE_VERSION}"></script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/design.js?${CACHE_VERSION}"></script>
+<script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/cdn/vue/md5.min.js?${CACHE_VERSION}"></script>
+<script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/SignMd5Util.js?${CACHE_VERSION}"></script>
 <script>
      window.onbeforeunload = function(event){
 	   return '您可能有数据没有保存';

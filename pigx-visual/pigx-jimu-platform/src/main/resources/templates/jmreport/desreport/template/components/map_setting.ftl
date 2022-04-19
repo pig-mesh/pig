@@ -33,7 +33,9 @@
                 </div>
               </Row>
               <Row class="ivurow" v-if="mapOption.mapType=='1' || mapOption.mapType=='2' || mapOption.mapType=='3'">
-                <p>地图级别&nbsp;&nbsp;</p>
+                <p v-if="mapOption.mapType=='1'">选择省份&nbsp;&nbsp;</p>
+	              <p v-if="mapOption.mapType=='2'">选择城市&nbsp;&nbsp;</p>
+	              <p v-if="mapOption.mapType=='3'">选择区域&nbsp;&nbsp;</p>
                 <div class="iSelect">
                   <Cascader v-if="mapOption.mapType=='1' " clearable transfer="true" :data="provinceData" size="small" @on-change="(value, selectedData) => provinceChange(value, selectedData)" v-model="mapOption.mapCode"></Cascader>
                   <Cascader v-if="mapOption.mapType=='2' " clearable transfer="true" :data="cityData" size="small" @on-change="(value, selectedData) => provinceChange(value, selectedData)" v-model="mapOption.mapCode"></Cascader>
@@ -285,7 +287,7 @@
                 "label": "市级",
                 "value": "2"
               }, {
-                "label": "县级",
+                "label": "区级",
                 "value": "3"
               }],//地图级别集合
               mapUrl:"/jmreport/desreport_/regionaljson/", //请求路径
@@ -495,7 +497,9 @@
           //type 1 省的json 2省市的json 3省市区的json
           loadMapData(url,type) {
             $http.get({
-              url:"${base}"+this.mapUrl+url,
+              //update-begin---author:wangshuai ---date:20220412  for：[issues/890]微服务下customPrePath不起作用------------
+              url:"${base}"+"${customPrePath}"+this.mapUrl+url,
+              //update-end---author:wangshuai ---date:20220412  for：[issues/890]微服务下customPrePath不起作用--------------
               fail:(res)=>{
                 if(type == 1){
                   this.provinceData = res.data
