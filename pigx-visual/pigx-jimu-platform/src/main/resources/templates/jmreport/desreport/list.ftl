@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.5">
+<#assign CACHE_VERSION = "v=v=1.0.7">
 <!DOCTYPE html>
 <html>
 <head>
@@ -116,10 +116,10 @@
 <#include "./template/list.ftl">
 <div id="app" style="padding-left: 30px">
     <div class="layout" style="margin-left: -30px;margin-top: -10px;">
-<#--      <div style="background-color: #1890FF;height: 47px">-->
-<#--        <span class="aui-logo"></span>-->
-<#--        <span class="jimu-header">欢迎进入积木报表工作台 </span>-->
-<#--      </div>-->
+      <div style="background-color: #1890FF;height: 47px">
+        <span class="aui-logo"></span>
+        <span class="jimu-header">欢迎进入积木报表工作台 </span>
+      </div>
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
                 <i-menu theme="primary" width="auto" :class="menuitemClasses" active-name="datainfo" :open-names="['sub']" @on-select="onMenuSelect">
@@ -467,7 +467,7 @@
               slot: 'action',
               className: 'table-background',
               fixed:'right'
-            }
+            }  
           ],//列表的列
         },
         computed: {
@@ -592,7 +592,7 @@
             /**
              * 为路径拼接token
              * @param url 需要拼接的路径
-             * @return 拼接后的token
+             * @return 拼接后的token 
              */
             splicingToken(url){
               if(this.token && "null" != this.token){
@@ -669,7 +669,7 @@
             //报表设计和模板案例点击事件
             tabsClick(name){
                this.name=""
-               this.loadData(name)
+               this.loadData(name) 
             },
             //回车搜索事件
             enterSearchClick(){
@@ -742,7 +742,7 @@
                           }else{
                               //update-begin---author:wangshuai ---date:20220315  for：[issues/I4WWKE]分享链接的预览密码能否忽略------------
                               //兼容老数据没有是否显示密码的情况下;
-                              // 0没有密码 1有密码;原来取消分享后的默认应该是1
+                              //previewLockStatus 密码锁状态(0不存在密码锁，1存在密码锁);原来取消分享后的默认应该是1
                               if(!result.previewLockStatus){
                                 result.previewLockStatus = "1"
                               }
@@ -765,7 +765,7 @@
                     if(item.thumb.indexOf('http')==0){
                         return item.thumb
                     }else{
-                        return "${base}"+"${customPrePath}"+"/jmreport/img/"+item.thumb
+                        return "${base}"+"${customPrePath}"+JM_VIEW_IMG_URL+"/"+item.thumb
                     }
                 }
             }

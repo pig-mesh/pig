@@ -1170,10 +1170,15 @@
                 //update-end---author:wangshuai ---date:20220221  for：[issues/I4OXTC]SQL数据集里数据预览报错
                 //update-end--Author:wangshuai--Date:20211014--for:参数为空不传递
                 this.tab3Loading=true;
+                //update-begin-author:taoyan date:20220324 for: JMREP-2518【安全】动态执行sql的接口，加上签名check，参考jeecgboot
+                let header = SignMd5Util.getHeader(api.loadTableData, data)
                 $http.post({
                     url:api.loadTableData,
                     data:data,
                     timeout:10000,
+                    contentType: 'json',
+                    header: header,
+                //update-end-author:taoyan date:20220324 for: JMREP-2518【安全】动态执行sql的接口，加上签名check，参考jeecgboot
                     success:(result)=>{
                         this.tab3Loading=false;
                         this.spinShow=false;
@@ -1453,11 +1458,15 @@
                     reqData['paramArray'] = JSON.stringify(this.tab2.data);
                 }
                 //update-end--Author:liusq  Date:20210812  for：mongodb数据源传递报表参数--------------------
+                //update-begin-author:taoyan date:20220324 for: JMREP-2518【安全】动态执行sql的接口，加上签名check，参考jeecgboot
+                let header = SignMd5Util.getHeader(api.queryFieldBySql, reqData)
                 let dataStr = JSON.stringify(reqData);
                 $http.post({
                     url: api.queryFieldBySql,
                     contentType: 'json',
                     data: dataStr,
+                    header: header,
+                //update-end-author:taoyan date:20220324 for: JMREP-2518【安全】动态执行sql的接口，加上签名check，参考jeecgboot
                     success:(result)=>{
                       let message = result['message'];
                         if(message){

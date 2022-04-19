@@ -13,29 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.csp.sentinel.dashboard.datasource.entity.rule;
+package com.alibaba.csp.sentinel.dashboard.config;
 
-import com.alibaba.csp.sentinel.slots.block.Rule;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.Date;
+@ConfigurationProperties(prefix = "auth")
+public class AuthProperties {
 
-/**
- * @author leyou
- */
-public interface RuleEntity {
+	private boolean enabled = true;
 
-	Long getId();
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-	void setId(Long id);
-
-	String getApp();
-
-	String getIp();
-
-	Integer getPort();
-
-	Date getGmtCreate();
-
-	Rule toRule();
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
 }
