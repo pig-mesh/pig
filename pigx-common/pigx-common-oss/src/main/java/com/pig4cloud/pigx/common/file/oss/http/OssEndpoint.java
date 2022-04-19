@@ -15,12 +15,12 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.oss.http;
+package com.pig4cloud.pigx.common.file.oss.http;
 
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.pig4cloud.pigx.common.oss.service.OssTemplate;
+import com.pig4cloud.pigx.common.file.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.SneakyThrows;

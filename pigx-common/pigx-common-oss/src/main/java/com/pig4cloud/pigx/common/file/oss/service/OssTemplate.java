@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.oss.service;
+package com.pig4cloud.pigx.common.file.oss.service;
 
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
@@ -27,7 +27,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
-import com.pig4cloud.pigx.common.oss.OssProperties;
+import com.pig4cloud.pigx.common.file.core.FileProperties;
+import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,9 +48,9 @@ import java.util.*;
  * @since 1.0
  */
 @RequiredArgsConstructor
-public class OssTemplate implements InitializingBean {
+public class OssTemplate implements InitializingBean, FileTemplate {
 
-	private final OssProperties ossProperties;
+	private final FileProperties properties;
 
 	private AmazonS3 amazonS3;
 
@@ -220,16 +221,16 @@ public class OssTemplate implements InitializingBean {
 	@Override
 	public void afterPropertiesSet() {
 		ClientConfiguration clientConfiguration = new ClientConfiguration();
-		clientConfiguration.setMaxConnections(ossProperties.getMaxConnections());
+		clientConfiguration.setMaxConnections(properties.getOss().getMaxConnections());
 
 		AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-				ossProperties.getEndpoint(), ossProperties.getRegion());
-		AWSCredentials awsCredentials = new BasicAWSCredentials(ossProperties.getAccessKey(),
-				ossProperties.getSecretKey());
+				properties.getOss().getEndpoint(), properties.getOss().getRegion());
+		AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getOss().getAccessKey(),
+				properties.getOss().getSecretKey());
 		AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
 		this.amazonS3 = AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
 				.withClientConfiguration(clientConfiguration).withCredentials(awsCredentialsProvider)
-				.disableChunkedEncoding().withPathStyleAccessEnabled(ossProperties.getPathStyleAccess()).build();
+				.disableChunkedEncoding().withPathStyleAccessEnabled(properties.getOss().getPathStyleAccess()).build();
 	}
 
 }

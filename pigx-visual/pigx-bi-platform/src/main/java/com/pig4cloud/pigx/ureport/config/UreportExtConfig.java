@@ -2,8 +2,9 @@ package com.pig4cloud.pigx.ureport.config;
 
 import com.bstek.ureport.UReportPropertyPlaceholderConfigurer;
 import com.bstek.ureport.provider.report.ReportProvider;
-import com.pig4cloud.pigx.common.oss.OssProperties;
-import com.pig4cloud.pigx.common.oss.service.OssTemplate;
+import com.pig4cloud.pigx.common.file.core.FileProperties;
+import com.pig4cloud.pigx.common.file.core.FileTemplate;
+import com.pig4cloud.pigx.common.file.oss.service.OssTemplate;
 import com.pig4cloud.pigx.ureport.processor.UReportPropertyPlaceholderConfigurerPlus;
 import com.pig4cloud.pigx.ureport.provider.DfsReportProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -26,8 +27,8 @@ import java.util.Locale;
 public class UreportExtConfig {
 
 	@Bean
-	public ReportProvider dfsReportProvider(OssTemplate ossTemplate, OssProperties properties) {
-		return new DfsReportProvider(ossTemplate, properties);
+	public ReportProvider dfsReportProvider(FileTemplate template, FileProperties properties) {
+		return new DfsReportProvider(template, properties);
 	}
 
 	@Bean

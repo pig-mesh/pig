@@ -26,8 +26,8 @@ import com.pig4cloud.pigx.admin.api.entity.SysFile;
 import com.pig4cloud.pigx.admin.mapper.SysFileMapper;
 import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.oss.OssProperties;
-import com.pig4cloud.pigx.common.oss.service.OssTemplate;
+import com.pig4cloud.pigx.common.file.core.FileProperties;
+import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -51,9 +51,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements SysFileService {
 
-	private final OssProperties ossProperties;
+	private final FileTemplate fileTemplate;
 
-	private final OssTemplate minioTemplate;
+	private final FileProperties properties;
 
 	/**
 	 * 上传文件
@@ -64,12 +64,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	public R uploadFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
-		resultMap.put("bucketName", ossProperties.getBucketName());
+		resultMap.put("bucketName", properties.getBucketName());
 		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
+		resultMap.put("url", String.format("/admin/sys-file/%s/%s", properties.getBucketName(), fileName));
 
 		try (InputStream inputStream = file.getInputStream()) {
-			minioTemplate.putObject(ossProperties.getBucketName(), fileName, inputStream, file.getContentType());
+			fileTemplate.putObject(properties.getBucketName(), fileName, inputStream, file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
 		}
@@ -88,7 +88,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = minioTemplate.getObject(bucket, fileName)) {
+		try (S3Object s3Object = fileTemplate.getObject(bucket, fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
 		}
@@ -107,7 +107,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteFile(Long id) {
 		SysFile file = this.getById(id);
-		minioTemplate.removeObject(ossProperties.getBucketName(), file.getFileName());
+		fileTemplate.removeObject(properties.getBucketName(), file.getFileName());
 		return this.removeById(id);
 	}
 
@@ -122,7 +122,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		sysFile.setOriginal(file.getOriginalFilename());
 		sysFile.setFileSize(file.getSize());
 		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
-		sysFile.setBucketName(ossProperties.getBucketName());
+		sysFile.setBucketName(properties.getBucketName());
 		this.save(sysFile);
 	}
 

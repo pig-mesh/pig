@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.oss;
+package com.pig4cloud.pigx.common.file.oss;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -71,11 +71,6 @@ public class OssProperties {
 	 * Secret key是你账户的密码
 	 */
 	private String secretKey;
-
-	/**
-	 * 默认的存储桶名称
-	 */
-	private String bucketName = "payerp";
 
 	/**
 	 * 最大线程数，默认： 100

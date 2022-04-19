@@ -4,8 +4,8 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.bstek.ureport.provider.report.ReportFile;
 import com.bstek.ureport.provider.report.ReportProvider;
-import com.pig4cloud.pigx.common.oss.OssProperties;
-import com.pig4cloud.pigx.common.oss.service.OssTemplate;
+import com.pig4cloud.pigx.common.file.core.FileProperties;
+import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,20 +30,20 @@ public class DfsReportProvider implements ReportProvider {
 	 */
 	private static final String PREFIX = "oss_";
 
-	private final OssTemplate ossTemplate;
+	private final FileTemplate fileTemplate;
 
-	private final OssProperties properties;
+	private final FileProperties properties;
 
 	@Override
 	public InputStream loadReport(String file) {
-		S3Object object = ossTemplate.getObject(properties.getBucketName(), file);
+		S3Object object = fileTemplate.getObject(properties.getBucketName(), file);
 		return object.getObjectContent();
 	}
 
 	@Override
 	public void deleteReport(String file) {
 		try {
-			ossTemplate.removeObject(properties.getBucketName(), file);
+			fileTemplate.removeObject(properties.getBucketName(), file);
 		}
 		catch (Exception e) {
 			log.error("文件删除失败 ", e);
@@ -52,7 +52,7 @@ public class DfsReportProvider implements ReportProvider {
 
 	@Override
 	public List<ReportFile> getReportFiles() {
-		List<S3ObjectSummary> objectSummaryList = ossTemplate.getAllObjectsByPrefix(properties.getBucketName(), PREFIX,
+		List<S3ObjectSummary> objectSummaryList = fileTemplate.getAllObjectsByPrefix(properties.getBucketName(), PREFIX,
 				true);
 
 		return objectSummaryList.stream()
@@ -66,7 +66,7 @@ public class DfsReportProvider implements ReportProvider {
 		try {
 			@Cleanup
 			InputStream inputStream = IOUtils.toInputStream(content);
-			ossTemplate.putObject(properties.getBucketName(), file, inputStream);
+			fileTemplate.putObject(properties.getBucketName(), file, inputStream);
 		}
 		catch (Exception e) {
 			log.error("文件上传失败", e);
