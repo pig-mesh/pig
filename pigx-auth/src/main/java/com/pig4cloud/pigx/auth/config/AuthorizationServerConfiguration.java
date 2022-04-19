@@ -30,8 +30,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
@@ -44,11 +42,9 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * @author lengleng
@@ -124,16 +120,7 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		tokenServices.setReuseRefreshToken(false);
 		tokenServices.setClientDetailsService(pigxClientDetailsServiceImpl);
 		tokenServices.setTokenEnhancer(tokenEnhancer);
-		addUserDetailsService(tokenServices, pigxUserDetailsService);
 		return tokenServices;
-	}
-
-	private void addUserDetailsService(PigxCustomTokenServices tokenServices, UserDetailsService userDetailsService) {
-		if (userDetailsService != null) {
-			PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-			provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
-			tokenServices.setAuthenticationManager(new ProviderManager(Collections.singletonList(provider)));
-		}
 	}
 
 }
