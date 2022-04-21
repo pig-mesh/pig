@@ -32,7 +32,7 @@
 
 | 依赖                   | 版本         |
 | ---------------------- |------------|
-| Spring Boot            | 2.6.6      |
+| Spring Boot            | 2.6.7      |
 | Spring Cloud           | 2021.0.1   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
 | Spring Security OAuth2 | 2.3.6      |
