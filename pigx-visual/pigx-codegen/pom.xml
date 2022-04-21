@@ -21,6 +21,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-seata</artifactId>
+			<version>4.3.0</version>
+		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>

@@ -33,6 +33,11 @@
 	<description>pigx 通用用户权限管理系统业务处理模块</description>
 
 	<dependencies>
+		<!--<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-seata</artifactId>
+			<version>4.3.0</version>
+		</dependency>-->
 		<!-- mysql -->
 		<dependency>
 			<groupId>mysql</groupId>
