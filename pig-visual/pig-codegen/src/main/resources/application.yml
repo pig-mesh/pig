@@ -12,8 +12,7 @@ spring:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
   config:
     import:
-      - nacos:application-${spring.profiles.active}.yml
-      - nacos:${spring.application.name}-${spring.profiles.active}.yml
-  profiles:
-    active: @profiles.active@
+      - nacos:application-@profiles.active@.yml
+      - nacos:${spring.application.name}-@profiles.active@.yml
+
 

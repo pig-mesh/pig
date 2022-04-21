@@ -11,8 +11,6 @@ spring:
     nacos:
       discovery:
         server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
-  profiles:
-    active: @profiles.active@
 
 management:
   endpoints:
