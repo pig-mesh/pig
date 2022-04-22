@@ -33,7 +33,7 @@
 	</organization>
 
 	<properties>
-		<spring-boot.version>2.6.6</spring-boot.version>
+		<spring-boot.version>2.6.7</spring-boot.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -50,7 +50,7 @@
 		<velocity.version>2.3</velocity.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<lcn.version>4.1.0</lcn.version>
-		<jasypt.version>3.0.3</jasypt.version>
+		<jasypt.version>3.0.4</jasypt.version>
 		<ttl.version>2.11.4</ttl.version>
 		<ureport.version>2.2.9</ureport.version>
 		<jimu.version>1.5.0-beta</jimu.version>
