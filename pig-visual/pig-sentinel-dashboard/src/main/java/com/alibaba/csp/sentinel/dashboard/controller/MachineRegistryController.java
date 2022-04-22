@@ -51,9 +51,9 @@ public class MachineRegistryController {
 		if (StringUtil.isBlank(ip) || ip.length() > 128) {
 			return Result.ofFail(-1, "invalid ip: " + ip);
 		}
-        if (!InetAddressUtils.isIPv4Address(ip) && !InetAddressUtils.isIPv6Address(ip)) {
-            return Result.ofFail(-1, "invalid ip: " + ip);
-        }
+		if (!InetAddressUtils.isIPv4Address(ip) && !InetAddressUtils.isIPv6Address(ip)) {
+			return Result.ofFail(-1, "invalid ip: " + ip);
+		}
 		if (port == null || port < -1) {
 			return Result.ofFail(-1, "invalid port");
 		}
