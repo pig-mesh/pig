@@ -128,6 +128,11 @@
 			<artifactId>cas-client-core</artifactId>
 			<version>${cas.sdk.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>dingtalk</artifactId>
+			<version>${dingtalk.version}</version>
+		</dependency>
 		<!--web 模块-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
