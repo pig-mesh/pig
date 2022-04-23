@@ -14,10 +14,4 @@ public interface MessageDistributor {
 	 */
 	void distribute(MessageDO messageDO);
 
-	/**
-	 * 发送消息
-	 * @param messageDO 发送的消息
-	 */
-	void doSend(MessageDO messageDO);
-
 }

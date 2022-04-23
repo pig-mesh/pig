@@ -20,4 +20,3 @@ public abstract class JsonWebSocketMessage {
 	}
 
 }
-
