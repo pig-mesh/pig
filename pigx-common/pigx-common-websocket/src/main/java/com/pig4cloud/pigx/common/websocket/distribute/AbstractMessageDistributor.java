@@ -20,8 +20,11 @@ public abstract class AbstractMessageDistributor implements MessageDistributor {
 		this.webSocketSessionStore = webSocketSessionStore;
 	}
 
-	@Override
-	public void doSend(MessageDO messageDO) {
+	/**
+	 * 对当前服务中的 websocket 连接做消息推送
+	 * @param messageDO 消息实体
+	 */
+	protected void doSend(MessageDO messageDO) {
 
 		// 是否广播发送
 		Boolean needBroadcast = messageDO.getNeedBroadcast();
