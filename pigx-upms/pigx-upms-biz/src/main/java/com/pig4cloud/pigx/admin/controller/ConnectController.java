@@ -1,8 +1,11 @@
 package com.pig4cloud.pigx.admin.controller;
 
+import com.pig4cloud.pigx.admin.service.ConnectService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,19 +16,22 @@ import org.springframework.web.bind.annotation.RestController;
  * @author lengleng
  * @date 2022/4/22
  */
+@Inner(value = false)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/connect")
 @Api(value = "connect", tags = "开放互联")
 public class ConnectController {
 
+	private final ConnectService connectService;
+
 	/**
 	 * 同步钉钉用户
 	 * @return
 	 */
-	@PostMapping("/sync/ding/user")
-	public R syncUser() {
-		return R.ok();
+	@PostMapping("/sync/ding/user/{deptId}")
+	public R syncUser(@PathVariable("deptId") Long deptId) {
+		return R.ok(connectService.syncDingUser(deptId));
 	}
 
 	/**
@@ -34,7 +40,7 @@ public class ConnectController {
 	 */
 	@PostMapping("/sync/ding/role")
 	public R syncRole() {
-		return R.ok();
+		return R.ok(connectService.syncDingRole());
 	}
 
 	/**
@@ -43,7 +49,7 @@ public class ConnectController {
 	 */
 	@PostMapping("/sync/ding/dept")
 	public R syncDept() {
-		return R.ok();
+		return R.ok(connectService.syncDingDept());
 	}
 
 	/**

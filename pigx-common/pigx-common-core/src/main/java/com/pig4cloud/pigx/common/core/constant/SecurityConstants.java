@@ -140,6 +140,26 @@ public interface SecurityConstants {
 	String OSC_USER_INFO_URL = "https://www.oschina.net/action/openapi/user?access_token=%s&dataType=json";
 
 	/**
+	 * 钉钉同步角色列表
+	 */
+	String DING_OLD_ROLE_URL = "https://oapi.dingtalk.com/topapi/role/list";
+
+	/**
+	 * 钉钉同步部门列表
+	 */
+	String DING_OLD_DEPT_URL = "https://oapi.dingtalk.com/topapi/v2/department/listsub";
+
+	/**
+	 * 钉钉部门用户id列表
+	 */
+	String DING_DEPT_USERIDS_URL = "https://oapi.dingtalk.com/topapi/user/listid";
+
+	/**
+	 * 钉钉用户详情
+	 */
+	String DING_USER_INFO_URL = "https://oapi.dingtalk.com/topapi/v2/user/get";
+
+	/**
 	 * {bcrypt} 加密的特征码
 	 */
 	String BCRYPT = "{bcrypt}";
