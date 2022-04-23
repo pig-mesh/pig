@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.websocket.exception.ErrorJsonMessageException;
 import com.pig4cloud.pigx.common.websocket.holder.JsonMessageHandlerHolder;
-import com.pig4cloud.pigx.common.websocket.message.AbstractJsonWebSocketMessage;
 import com.pig4cloud.pigx.common.websocket.message.JsonWebSocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
@@ -77,7 +76,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 			throw new ErrorJsonMessageException("json 格式异常！非 object 类型！");
 		}
 
-		JsonNode typeNode = jsonNode.get(AbstractJsonWebSocketMessage.TYPE_FIELD);
+		JsonNode typeNode = jsonNode.get(JsonWebSocketMessage.TYPE_FIELD);
 		String messageType = typeNode.asText();
 		if (messageType == null) {
 			throw new ErrorJsonMessageException("json 无 type 属性");
