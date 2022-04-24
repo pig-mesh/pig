@@ -128,10 +128,17 @@
 			<artifactId>cas-client-core</artifactId>
 			<version>${cas.sdk.version}</version>
 		</dependency>
+		<!--新版api-->
 		<dependency>
 			<groupId>com.aliyun</groupId>
 			<artifactId>dingtalk</artifactId>
 			<version>${dingtalk.version}</version>
+		</dependency>
+		<!--旧版api,新版api未包含全部的服务端API的产品能力-->
+		<dependency>
+			<groupId>com.aliyun</groupId>
+			<artifactId>alibaba-dingtalk-service-sdk</artifactId>
+			<version>${dingtalk.old.version}</version>
 		</dependency>
 		<!--web 模块-->
 		<dependency>

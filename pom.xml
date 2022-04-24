@@ -46,6 +46,7 @@
 		<captcha.version>1.2.7</captcha.version>
 		<cas.sdk.version>3.6.4</cas.sdk.version>
 		<dingtalk.version>1.3.40</dingtalk.version>
+		<dingtalk.old.version>2.0.0</dingtalk.old.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<knife4j.version>2.0.9</knife4j.version>
 		<velocity.version>2.3</velocity.version>
