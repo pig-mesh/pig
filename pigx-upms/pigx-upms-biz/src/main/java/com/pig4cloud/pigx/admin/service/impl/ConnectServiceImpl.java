@@ -1,6 +1,8 @@
 package com.pig4cloud.pigx.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -23,6 +25,7 @@ import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +33,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 互联平台实现
@@ -57,8 +62,8 @@ public class ConnectServiceImpl implements ConnectService {
 	private final SysUserRoleService sysUserRoleService;
 
 	private String getDingAccessToken() {
-		SysSocialDetails dingTalk = sysSocialDetailsMapper
-				.selectOne(Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, "ding"));
+		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
+				.eq(SysSocialDetails::getType, LoginTypeEnum.dingtalk.getType()));
 		GetAccessTokenRequest getAccessTokenRequest = new GetAccessTokenRequest().setAppKey(dingTalk.getAppId())
 				.setAppSecret(dingTalk.getAppSecret());
 		GetAccessTokenResponse tokenResponse = null;
@@ -86,8 +91,7 @@ public class ConnectServiceImpl implements ConnectService {
 	/**
 	 * 同步钉钉角色
 	 *
-	 * @see <a href=
-	 * "https://open.dingtalk.com/document/orgapp-server/obtains-a-list-of-enterprise-roles"/>
+	 * @link https://open.dingtalk.com/document/orgapp-server/obtains-a-list-of-enterprise-roles
 	 */
 	@SneakyThrows
 	@Override
@@ -115,24 +119,19 @@ public class ConnectServiceImpl implements ConnectService {
 
 			hasMore = resultStr.get("hasMore", Boolean.class);
 			List<JSONObject> list = resultStr.get("list", List.class);
-
-			if (CollectionUtils.isNotEmpty(list)) {
-				list.forEach(item -> {
-					List<JSONObject> roles = (List<JSONObject>) item.get("roles");
-					if (CollectionUtils.isNotEmpty(roles)) {
-						// 过滤出数据库不存在的角色
-						List<SysRole> sysRoles = roles.stream().filter(
-								role -> roleList.stream().noneMatch(db -> db.getRoleName().equals(role.get("name"))))
-								.map(role -> {
-									SysRole sysRole = new SysRole();
-									sysRole.setRoleId(Convert.toLong(role.get("id")));
-									sysRole.setRoleName(Convert.toStr(role.get("name")));
-									return sysRole;
-								}).collect(Collectors.toList());
-						insertRole.addAll(sysRoles);
-					}
-				});
-			}
+			// 处理返回的数据
+			List<SysRole> collect = list.stream().flatMap(
+					(Function<JSONObject, Stream<JSONObject>>) item -> ((List<JSONObject>) item.get("roles")).stream())
+					.filter(role -> roleList.stream().noneMatch(db -> db.getRoleName().equals(role.get("name"))))
+					.map(role -> {
+						SysRole sysRole = new SysRole();
+						sysRole.setRoleId(Convert.toLong(role.get("id")));
+						sysRole.setRoleCode(String.format("ROLE_DING_%s", Convert.toStr(role.get("id"))));
+						sysRole.setRoleCode(PinyinUtil.getPinyin(Convert.toStr(role.get("name"))));
+						sysRole.setRoleName(Convert.toStr(role.get("name")));
+						return sysRole;
+					}).collect(Collectors.toList());
+			insertRole.addAll(collect);
 		}
 		while (hasMore);
 
@@ -183,29 +182,31 @@ public class ConnectServiceImpl implements ConnectService {
 		JSONObject result = JSONUtil.parseObj(rsp.getBody());
 		List<JSONObject> resultList = result.get("result", List.class);
 
-		if (CollectionUtils.isNotEmpty(resultList)) {
-			// 过滤出数据库存在的部门
-			List<SysDept> depts = resultList.stream()
-					.filter(dept -> deptList.stream().noneMatch(sysDept -> sysDept.getName().equals(dept.get("name"))))
-					.map(dept -> {
-						SysDept sysDept = new SysDept();
-						sysDept.setName(Convert.toStr(dept.get("name")));
-						sysDept.setDeptId(Convert.toLong(dept.get("dept_id")));
-						sysDept.setParentId(Convert.toLong(dept.get("parent_id")));
-						return sysDept;
-					}).collect(Collectors.toList());
+		if (CollUtil.isEmpty(resultList)) {
+			return sysDepts;
+		}
 
-			// 递归查询下一级
-			if (CollectionUtils.isNotEmpty(depts)) {
-				sysDepts.addAll(depts);
-				depts.forEach(dept -> {
-					OapiV2DepartmentListsubRequest request = new OapiV2DepartmentListsubRequest();
-					request.setDeptId(dept.getDeptId());
-					request.setLanguage("zh_CN");
-					List<SysDept> childDept = queryChildDept(request, token, deptList);
-					sysDepts.addAll(childDept);
-				});
-			}
+		// 过滤出数据库存在的部门
+		List<SysDept> depts = resultList.stream()
+				.filter(dept -> deptList.stream().noneMatch(sysDept -> sysDept.getName().equals(dept.get("name"))))
+				.map(dept -> {
+					SysDept sysDept = new SysDept();
+					sysDept.setName(Convert.toStr(dept.get("name")));
+					sysDept.setDeptId(Convert.toLong(dept.get("dept_id")));
+					sysDept.setParentId(Convert.toLong(dept.get("parent_id")));
+					return sysDept;
+				}).collect(Collectors.toList());
+
+		// 递归查询下一级
+		if (CollectionUtils.isNotEmpty(depts)) {
+			sysDepts.addAll(depts);
+			depts.forEach(dept -> {
+				OapiV2DepartmentListsubRequest request = new OapiV2DepartmentListsubRequest();
+				request.setDeptId(dept.getDeptId());
+				request.setLanguage("zh_CN");
+				List<SysDept> childDept = queryChildDept(request, token, deptList);
+				sysDepts.addAll(childDept);
+			});
 		}
 
 		return sysDepts;
@@ -235,49 +236,55 @@ public class ConnectServiceImpl implements ConnectService {
 
 		JSONObject jsonObject = JSONUtil.parseObj(rsp.getBody());
 		JSONObject result = jsonObject.getJSONObject("result");
+
+		if (result == null) {
+			return false;
+		}
 		List<String> useridList = result.get("userid_list", List.class);
 
 		// 查询用户详情
-		if (CollectionUtils.isNotEmpty(useridList)) {
-			for (String userid : useridList) {
-				DingTalkClient userClient = new DefaultDingTalkClient(SecurityConstants.DING_USER_INFO_URL);
-				OapiV2UserGetRequest userGetRequest = new OapiV2UserGetRequest();
-				userGetRequest.setUserid(userid);
-				OapiV2UserGetResponse userGetResponse = userClient.execute(userGetRequest, token);
-				JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
-				JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
+		for (String userid : useridList) {
+			DingTalkClient userClient = new DefaultDingTalkClient(SecurityConstants.DING_USER_INFO_URL);
+			OapiV2UserGetRequest userGetRequest = new OapiV2UserGetRequest();
+			userGetRequest.setUserid(userid);
+			OapiV2UserGetResponse userGetResponse = userClient.execute(userGetRequest, token);
+			JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
+			JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
 
-				boolean exist = users.stream().anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
+			boolean exist = users.stream().anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
 
-				if (!exist) {
-					// 用户部门信息
-					JSONArray deptOrders = userObj.getJSONArray("dept_order_list");
-					JSONObject deptInfo = (JSONObject) deptOrders.get(0);
-
-					// 用户信息
-					SysUser sysUser = new SysUser();
-					sysUser.setDeptId(Convert.toLong(deptInfo.get("dept_id")));
-					sysUser.setAvatar(userObj.getStr("avatar"));
-					sysUser.setUsername(userObj.getStr("name"));
-					sysUser.setPhone(userObj.getStr("mobile"));
-					sysUser.setNickname(userObj.getStr("nickname"));
-					sysUser.setEmail(userObj.getStr("email"));
-					sysUserService.save(sysUser);
-
-					// 用户角色信息
-					JSONArray roleList = userObj.getJSONArray("role_list");
-					if (roleList != null && roleList.size() > 0) {
-						JSONObject roleInfo = (JSONObject) roleList.get(0);
-						Long userRoleId = Convert.toLong(roleInfo.get("id"));
-						SysUserRole sysUserRole = new SysUserRole();
-						sysUserRole.setUserId(sysUser.getUserId());
-						sysUserRole.setRoleId(userRoleId);
-						sysUserRoleService.save(sysUserRole);
-					}
-				}
-
+			if (exist) {
+				log.info("用户已存在 {}", userid);
+				continue;
 			}
 
+			// 用户部门信息
+			JSONArray deptOrders = userObj.getJSONArray("dept_order_list");
+			JSONObject deptInfo = (JSONObject) deptOrders.get(0);
+
+			// 用户信息
+			SysUser sysUser = new SysUser();
+			sysUser.setDeptId(Convert.toLong(deptInfo.get("dept_id")));
+			sysUser.setAvatar(userObj.getStr("avatar"));
+			sysUser.setUsername(userObj.getStr("mobile"));
+			sysUser.setPhone(userObj.getStr("mobile"));
+			sysUser.setNickname(userObj.getStr("nickname"));
+			sysUser.setName(userObj.getStr("name"));
+			sysUser.setEmail(userObj.getStr("email"));
+			sysUserService.save(sysUser);
+
+			// 用户角色信息
+			JSONArray roleList = userObj.getJSONArray("role_list");
+
+			if (roleList == null) {
+				continue;
+			}
+			JSONObject roleInfo = (JSONObject) roleList.get(0);
+			Long userRoleId = Convert.toLong(roleInfo.get("id"));
+			SysUserRole sysUserRole = new SysUserRole();
+			sysUserRole.setUserId(sysUser.getUserId());
+			sysUserRole.setRoleId(userRoleId);
+			sysUserRoleService.save(sysUserRole);
 		}
 
 		return Boolean.TRUE;
