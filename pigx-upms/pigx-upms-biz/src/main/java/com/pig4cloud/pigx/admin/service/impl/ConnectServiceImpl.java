@@ -6,21 +6,12 @@ import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.aliyun.dingtalkoauth2_1_0.models.GetAccessTokenRequest;
-import com.aliyun.dingtalkoauth2_1_0.models.GetAccessTokenResponse;
-import com.aliyun.teaopenapi.models.Config;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
-import com.dingtalk.api.request.OapiRoleListRequest;
-import com.dingtalk.api.request.OapiUserListidRequest;
-import com.dingtalk.api.request.OapiV2DepartmentListsubRequest;
-import com.dingtalk.api.request.OapiV2UserGetRequest;
-import com.dingtalk.api.response.OapiRoleListResponse;
-import com.dingtalk.api.response.OapiUserListidResponse;
-import com.dingtalk.api.response.OapiV2DepartmentListsubResponse;
-import com.dingtalk.api.response.OapiV2UserGetResponse;
+import com.dingtalk.api.request.*;
+import com.dingtalk.api.response.*;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.service.*;
@@ -29,6 +20,7 @@ import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -64,28 +56,20 @@ public class ConnectServiceImpl implements ConnectService {
 	private String getDingAccessToken() {
 		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
 				.eq(SysSocialDetails::getType, LoginTypeEnum.dingtalk.getType()));
-		GetAccessTokenRequest getAccessTokenRequest = new GetAccessTokenRequest().setAppKey(dingTalk.getAppId())
-				.setAppSecret(dingTalk.getAppSecret());
-		GetAccessTokenResponse tokenResponse = null;
+
+		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_GET_TOKEN);
+		OapiGettokenRequest request = new OapiGettokenRequest();
+		request.setAppkey(dingTalk.getAppId());
+		request.setAppsecret(dingTalk.getAppSecret());
+		request.setHttpMethod(HttpMethod.GET.name());
 		try {
-			tokenResponse = createDingClient().getAccessToken(getAccessTokenRequest);
+			OapiGettokenResponse response = client.execute(request);
+			return response.getAccessToken();
 		}
 		catch (Exception e) {
 			log.error("调用钉钉异常", e);
 		}
-		return tokenResponse.getBody().getAccessToken();
-	}
-
-	/**
-	 * 创建钉钉客户端
-	 * @return
-	 */
-	@SneakyThrows
-	private com.aliyun.dingtalkoauth2_1_0.Client createDingClient() {
-		Config config = new Config();
-		config.protocol = "https";
-		config.regionId = "central";
-		return new com.aliyun.dingtalkoauth2_1_0.Client(config);
+		return null;
 	}
 
 	/**

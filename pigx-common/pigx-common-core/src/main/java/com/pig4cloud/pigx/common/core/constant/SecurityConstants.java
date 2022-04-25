@@ -140,6 +140,11 @@ public interface SecurityConstants {
 	String OSC_USER_INFO_URL = "https://www.oschina.net/action/openapi/user?access_token=%s&dataType=json";
 
 	/**
+	 * 钉钉获取 token
+	 */
+	String DING_OLD_GET_TOKEN = "https://oapi.dingtalk.com/gettoken";
+
+	/**
 	 * 钉钉同步角色列表
 	 */
 	String DING_OLD_ROLE_URL = "https://oapi.dingtalk.com/topapi/role/list";
