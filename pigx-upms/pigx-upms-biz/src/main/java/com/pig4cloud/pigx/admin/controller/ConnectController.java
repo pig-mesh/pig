@@ -41,15 +41,6 @@ public class ConnectController {
 	}
 
 	/**
-	 * 同步钉钉角色
-	 * @return
-	 */
-	@PostMapping("/sync/ding/role")
-	public R syncRole() {
-		return R.ok(connectService.syncDingRole());
-	}
-
-	/**
 	 * 同步钉钉部门
 	 * @return
 	 */
@@ -64,16 +55,7 @@ public class ConnectController {
 	 */
 	@PostMapping("/sync/cp/user")
 	public R syncCpUser() {
-		return R.ok();
-	}
-
-	/**
-	 * 同步企微角色
-	 * @return
-	 */
-	@PostMapping("/sync/cp/role")
-	public R syncCpRole() {
-		return R.ok();
+		return connectService.syncCpUser();
 	}
 
 	/**
@@ -82,7 +64,7 @@ public class ConnectController {
 	 */
 	@PostMapping("/sync/cp/dept")
 	public R syncCpDept() {
-		return R.ok();
+		return connectService.syncCpDept();
 	}
 
 }

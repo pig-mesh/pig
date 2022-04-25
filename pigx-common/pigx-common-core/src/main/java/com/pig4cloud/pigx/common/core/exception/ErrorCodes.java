@@ -90,4 +90,14 @@ public interface ErrorCodes {
 	 */
 	String SYS_APP_PHONE_UNREGISTERED = "sys.app.phone.unregistered";
 
+	/**
+	 * 企微调用接口错误
+	 */
+	String SYS_CONNECT_CP_DEPT_SYNC_ERROR = "sys.connect.cp.dept.sync.error";
+
+	/**
+	 * 企微调用接口错误
+	 */
+	String SYS_CONNECT_CP_USER_SYNC_ERROR = "sys.connect.cp.user.sync.error";
+
 }

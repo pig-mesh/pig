@@ -2,7 +2,6 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
-import cn.hutool.extra.pinyin.PinyinUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -10,24 +9,43 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
-import com.dingtalk.api.request.*;
-import com.dingtalk.api.response.*;
-import com.pig4cloud.pigx.admin.api.entity.*;
+import com.dingtalk.api.request.OapiGettokenRequest;
+import com.dingtalk.api.request.OapiUserListidRequest;
+import com.dingtalk.api.request.OapiV2DepartmentListsubRequest;
+import com.dingtalk.api.request.OapiV2UserGetRequest;
+import com.dingtalk.api.response.OapiGettokenResponse;
+import com.dingtalk.api.response.OapiUserListidResponse;
+import com.dingtalk.api.response.OapiV2DepartmentListsubResponse;
+import com.dingtalk.api.response.OapiV2UserGetResponse;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
+import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
-import com.pig4cloud.pigx.admin.service.*;
+import com.pig4cloud.pigx.admin.service.ConnectService;
+import com.pig4cloud.pigx.admin.service.SysDeptService;
+import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
+import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.cp.api.WxCpService;
+import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
+import me.chanjar.weixin.cp.bean.WxCpDepart;
+import me.chanjar.weixin.cp.bean.WxCpUser;
+import me.chanjar.weixin.cp.config.impl.WxCpDefaultConfigImpl;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 互联平台实现
@@ -45,91 +63,16 @@ public class ConnectServiceImpl implements ConnectService {
 
 	private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
-	private final SysRoleService sysRoleService;
-
 	private final SysDeptService sysDeptService;
 
 	private final SysUserService sysUserService;
 
-	private final SysUserRoleService sysUserRoleService;
-
-	private String getDingAccessToken() {
-		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
-				.eq(SysSocialDetails::getType, LoginTypeEnum.dingtalk.getType()));
-
-		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_GET_TOKEN);
-		OapiGettokenRequest request = new OapiGettokenRequest();
-		request.setAppkey(dingTalk.getAppId());
-		request.setAppsecret(dingTalk.getAppSecret());
-		request.setHttpMethod(HttpMethod.GET.name());
-		try {
-			OapiGettokenResponse response = client.execute(request);
-			return response.getAccessToken();
-		}
-		catch (Exception e) {
-			log.error("调用钉钉异常", e);
-		}
-		return null;
-	}
-
-	/**
-	 * 同步钉钉角色
-	 *
-	 * @link https://open.dingtalk.com/document/orgapp-server/obtains-a-list-of-enterprise-roles
-	 */
-	@SneakyThrows
-	@Override
-	public Boolean syncDingRole() {
-		// 分页偏移量
-		long offset = 0L;
-		// 是否还有非同步的数据
-		boolean hasMore;
-		// 数据库中现有的角色
-		List<SysRole> roleList = sysRoleService.list(Wrappers.emptyWrapper());
-		// 钉钉同步过来的角色
-		List<SysRole> insertRole = new LinkedList<>();
-
-		do {
-			DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_ROLE_URL);
-			OapiRoleListRequest req = new OapiRoleListRequest();
-			// 分页查询,默认分页20条
-			req.setSize(2L);
-			req.setOffset(offset);
-			OapiRoleListResponse rsp = client.execute(req, getDingAccessToken());
-			offset += req.getSize();
-
-			JSONObject result = JSONUtil.parseObj(rsp.getBody());
-			JSONObject resultStr = result.getJSONObject("result");
-
-			hasMore = resultStr.get("hasMore", Boolean.class);
-			List<JSONObject> list = resultStr.get("list", List.class);
-			// 处理返回的数据
-			List<SysRole> collect = list.stream().flatMap(
-					(Function<JSONObject, Stream<JSONObject>>) item -> ((List<JSONObject>) item.get("roles")).stream())
-					.filter(role -> roleList.stream().noneMatch(db -> db.getRoleName().equals(role.get("name"))))
-					.map(role -> {
-						SysRole sysRole = new SysRole();
-						sysRole.setRoleId(Convert.toLong(role.get("id")));
-						sysRole.setRoleCode(String.format("ROLE_DING_%s", Convert.toStr(role.get("id"))));
-						sysRole.setRoleCode(PinyinUtil.getPinyin(Convert.toStr(role.get("name"))));
-						sysRole.setRoleName(Convert.toStr(role.get("name")));
-						return sysRole;
-					}).collect(Collectors.toList());
-			insertRole.addAll(collect);
-		}
-		while (hasMore);
-
-		// 保存到数据库中
-		return sysRoleService.saveBatch(insertRole);
-	}
-
 	/**
 	 * 同步钉钉部门
-	 *
-	 * @see <a href=
-	 * "https://open.dingtalk.com/document/orgapp-server/obtain-the-department-list-v2"/>
+	 * @return Boolean
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public Boolean syncDingDept() {
 		OapiV2DepartmentListsubRequest req = new OapiV2DepartmentListsubRequest();
 		req.setDeptId(1L);
@@ -150,6 +93,187 @@ public class ConnectServiceImpl implements ConnectService {
 		}
 
 		return Boolean.TRUE;
+	}
+
+	/**
+	 * 同步部门下的钉钉用户
+	 * @param deptId 部门ID
+	 * @return R
+	 */
+	@SneakyThrows
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public R syncDingUser(Long deptId) {
+		// 数据库中现有用户
+		List<SysUser> users = sysUserService.list(Wrappers.emptyWrapper());
+
+		String token = getDingAccessToken();
+
+		// 查询部门下的用户id列表
+		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_DEPT_USERIDS_URL);
+		OapiUserListidRequest req = new OapiUserListidRequest();
+		req.setDeptId(deptId);
+		OapiUserListidResponse rsp = client.execute(req, token);
+
+		JSONObject jsonObject = JSONUtil.parseObj(rsp.getBody());
+		JSONObject result = jsonObject.getJSONObject("result");
+
+		if (result == null) {
+			return R.ok();
+		}
+		List<String> useridList = result.get("userid_list", List.class);
+
+		// 查询用户详情
+		for (String userid : useridList) {
+			DingTalkClient userClient = new DefaultDingTalkClient(SecurityConstants.DING_USER_INFO_URL);
+			OapiV2UserGetRequest userGetRequest = new OapiV2UserGetRequest();
+			userGetRequest.setUserid(userid);
+			OapiV2UserGetResponse userGetResponse = userClient.execute(userGetRequest, token);
+			JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
+			JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
+
+			boolean exist = users.stream().anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
+
+			if (exist) {
+				log.info("用户已存在 {}", userid);
+				continue;
+			}
+
+			// 用户部门信息
+			JSONArray deptOrders = userObj.getJSONArray("dept_order_list");
+			JSONObject deptInfo = (JSONObject) deptOrders.get(0);
+
+			// 用户信息
+			UserDTO userDTO = new UserDTO();
+			userDTO.setDeptId(Convert.toLong(deptInfo.get("dept_id")));
+			userDTO.setAvatar(userObj.getStr("avatar"));
+			userDTO.setUsername(userObj.getStr("mobile"));
+			userDTO.setPhone(userObj.getStr("mobile"));
+			userDTO.setNickname(userObj.getStr("nickname"));
+			userDTO.setName(userObj.getStr("name"));
+			userDTO.setEmail(userObj.getStr("email"));
+			// 初始化密码为 手机号
+			userDTO.setPassword(userObj.getStr("mobile"));
+			sysUserService.saveUser(userDTO);
+		}
+
+		return R.ok();
+	}
+
+	/**
+	 * 同步企微部门
+	 * @return R
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public R<Boolean> syncCpDept() {
+		WxCpService wxCpService = new WxCpServiceImpl();
+		wxCpService.setWxCpConfigStorage(getCpConfig());
+
+		List<WxCpDepart> departList;
+		try {
+			departList = wxCpService.getDepartmentService().list(null);
+		}
+		catch (WxErrorException e) {
+			log.error("获取企业微信部门列表失败", e);
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_CONNECT_CP_DEPT_SYNC_ERROR));
+		}
+
+		if (CollUtil.isEmpty(departList)) {
+			return R.ok();
+		}
+
+		// 数据库中现有的部门
+		List<SysDept> deptList = sysDeptService.list(Wrappers.emptyWrapper());
+		departList.stream()
+				.filter(depart -> deptList.stream().noneMatch(sysDept -> depart.getName().equals(sysDept.getName())))
+				.map(dept -> {
+					SysDept sysDept = new SysDept();
+					sysDept.setName(dept.getName());
+					sysDept.setDeptId(dept.getId());
+					sysDept.setParentId(dept.getParentId());
+					sysDept.setSortOrder(dept.getOrder().intValue());
+					return sysDept;
+				}).forEach(sysDeptService::saveDept);
+		return R.ok();
+	}
+
+	/**
+	 * 同步企微用户
+	 * @return R
+	 */
+	@Override
+	public R<Boolean> syncCpUser() {
+		WxCpService wxCpService = new WxCpServiceImpl();
+		wxCpService.setWxCpConfigStorage(getCpConfig());
+
+		List<WxCpUser> cpUserList;
+		try {
+			cpUserList = wxCpService.getUserService().listByDepartment(0L, true, 0);
+		}
+		catch (WxErrorException e) {
+			log.error("获取企业微信用户列表失败", e);
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_CONNECT_CP_USER_SYNC_ERROR));
+		}
+
+		if (CollUtil.isEmpty(cpUserList)) {
+			return R.ok();
+		}
+
+		// 系统原有用户
+		List<SysUser> userList = sysUserService.list(Wrappers.emptyWrapper());
+
+		for (WxCpUser cpUser : cpUserList) {
+			boolean exist = userList.stream().anyMatch(user -> user.getPhone().equals(cpUser.getMobile()));
+			if (exist) {
+				log.info("用户已存在跳过 {}", cpUser);
+				continue;
+			}
+
+			UserDTO user = new UserDTO();
+			user.setUsername(cpUser.getMobile());
+			user.setName(cpUser.getName());
+			user.setDeptId(cpUser.getDepartIds()[0]);
+			user.setEmail(cpUser.getEmail());
+			user.setPhone(cpUser.getMobile());
+			user.setAvatar(cpUser.getAvatar());
+			// 初始化密码为 手机号
+			user.setPassword(cpUser.getMobile());
+			sysUserService.saveUser(user);
+		}
+
+		return R.ok();
+	}
+
+	private String getDingAccessToken() {
+		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
+				.eq(SysSocialDetails::getType, LoginTypeEnum.dingtalk.getType()));
+
+		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_GET_TOKEN);
+		OapiGettokenRequest request = new OapiGettokenRequest();
+		request.setAppkey(dingTalk.getAppId());
+		request.setAppsecret(dingTalk.getAppSecret());
+		request.setHttpMethod(HttpMethod.GET.name());
+		try {
+			OapiGettokenResponse response = client.execute(request);
+			return response.getAccessToken();
+		}
+		catch (Exception e) {
+			log.error("调用钉钉异常", e);
+		}
+		return null;
+	}
+
+	private WxCpDefaultConfigImpl getCpConfig() {
+		WxCpDefaultConfigImpl config = new WxCpDefaultConfigImpl();
+		config.setCorpId("wwdfd8cc3eb1127464"); // 设置微信企业号的appid
+		config.setCorpSecret("mrJAJwC0msVJ0-F30Iwop6B-w8eledxD66l3flrjX5w"); // 设置微信企业号的app
+		// corpSecret
+		config.setAgentId(1000003); // 设置微信企业号应用ID
+		config.setToken("lengleng"); // 设置微信企业号应用的token
+		config.setAesKey("pc49WfQMwDg2tDwHHP8gfLN6fRjkgDzS4WkYCumZCF1"); // 设置微信企业号应用的EncodingAESKey
+
+		return config;
 	}
 
 	/**
@@ -194,84 +318,6 @@ public class ConnectServiceImpl implements ConnectService {
 		}
 
 		return sysDepts;
-	}
-
-	/**
-	 * 同步部门下的钉钉用户
-	 *
-	 * @see <a href=
-	 * "https://open.dingtalk.com/document/isvapp-server/query-the-list-of-department-userids"/>
-	 * @see <a href=
-	 * "https://open.dingtalk.com/document/isvapp-server/query-user-details"/>
-	 */
-	@SneakyThrows
-	@Override
-	public Boolean syncDingUser(Long deptId) {
-		// 数据库中现有用户
-		List<SysUser> users = sysUserService.list(Wrappers.emptyWrapper());
-
-		String token = getDingAccessToken();
-
-		// 查询部门下的用户id列表
-		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_DEPT_USERIDS_URL);
-		OapiUserListidRequest req = new OapiUserListidRequest();
-		req.setDeptId(deptId);
-		OapiUserListidResponse rsp = client.execute(req, token);
-
-		JSONObject jsonObject = JSONUtil.parseObj(rsp.getBody());
-		JSONObject result = jsonObject.getJSONObject("result");
-
-		if (result == null) {
-			return false;
-		}
-		List<String> useridList = result.get("userid_list", List.class);
-
-		// 查询用户详情
-		for (String userid : useridList) {
-			DingTalkClient userClient = new DefaultDingTalkClient(SecurityConstants.DING_USER_INFO_URL);
-			OapiV2UserGetRequest userGetRequest = new OapiV2UserGetRequest();
-			userGetRequest.setUserid(userid);
-			OapiV2UserGetResponse userGetResponse = userClient.execute(userGetRequest, token);
-			JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
-			JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
-
-			boolean exist = users.stream().anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
-
-			if (exist) {
-				log.info("用户已存在 {}", userid);
-				continue;
-			}
-
-			// 用户部门信息
-			JSONArray deptOrders = userObj.getJSONArray("dept_order_list");
-			JSONObject deptInfo = (JSONObject) deptOrders.get(0);
-
-			// 用户信息
-			SysUser sysUser = new SysUser();
-			sysUser.setDeptId(Convert.toLong(deptInfo.get("dept_id")));
-			sysUser.setAvatar(userObj.getStr("avatar"));
-			sysUser.setUsername(userObj.getStr("mobile"));
-			sysUser.setPhone(userObj.getStr("mobile"));
-			sysUser.setNickname(userObj.getStr("nickname"));
-			sysUser.setName(userObj.getStr("name"));
-			sysUser.setEmail(userObj.getStr("email"));
-			sysUserService.save(sysUser);
-
-			// 用户角色信息
-			JSONArray roleList = userObj.getJSONArray("role_list");
-
-			if (roleList == null) {
-				continue;
-			}
-			JSONObject roleInfo = (JSONObject) roleList.get(0);
-			Long userRoleId = Convert.toLong(roleInfo.get("id"));
-			SysUserRole sysUserRole = new SysUserRole();
-			sysUserRole.setUserId(sysUser.getUserId());
-			sysUserRole.setRoleId(userRoleId);
-			sysUserRoleService.save(sysUserRole);
-		}
-
-		return Boolean.TRUE;
 	}
 
 }

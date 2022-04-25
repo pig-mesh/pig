@@ -99,6 +99,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				return userPost;
 			}).forEach(sysUserPostMapper::insert);
 		});
+
+		// 如果角色为空，赋默认角色
+		if (CollUtil.isEmpty(userDto.getRole())) {
+			// 获取默认角色编码
+			String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
+			// 默认角色
+			SysRole sysRole = sysRoleService
+					.getOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
+			userDto.setRole(Collections.singletonList(sysRole.getRoleId()));
+		}
+
 		List<SysUserRole> userRoleList = userDto.getRole().stream().map(roleId -> {
 			SysUserRole userRole = new SysUserRole();
 			userRole.setUserId(sysUser.getUserId());
@@ -356,17 +367,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
 			return R.failed(message);
 		}
-
-		// 获取默认角色编码
-		String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
-		// 默认角色
-		SysRole sysRole = sysRoleService.getOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
-
-		if (sysRole == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_CONFIG_ERROR, "USER_DEFAULT_ROLE"));
-		}
-
-		userDto.setRole(Collections.singletonList(sysRole.getRoleId()));
 		return R.ok(saveUser(userDto));
 	}
 
