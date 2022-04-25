@@ -145,7 +145,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 			// 用户信息
 			UserDTO userDTO = new UserDTO();
-			userDTO.setDeptId(Convert.toLong(deptInfo.get("dept_id")));
+			userDTO.setDeptId(deptInfo.getLong("dept_id"));
 			userDTO.setAvatar(userObj.getStr("avatar"));
 			userDTO.setUsername(userObj.getStr("mobile"));
 			userDTO.setPhone(userObj.getStr("mobile"));

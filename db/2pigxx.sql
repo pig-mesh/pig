@@ -803,6 +803,7 @@ CREATE TABLE `sys_social_details` (
                                       `app_id` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL,
                                       `app_secret` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL,
                                       `redirect_url` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL,
+                                      `ext` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '拓展字段',
                                       `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
                                       `update_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '修改人',
                                       `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
