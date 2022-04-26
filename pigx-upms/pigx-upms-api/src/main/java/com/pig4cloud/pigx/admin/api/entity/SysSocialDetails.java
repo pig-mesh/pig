@@ -20,6 +20,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -73,7 +74,7 @@ public class SysSocialDetails extends Model<SysSocialDetails> {
 	 * app_secret
 	 */
 	@Sensitive(prefixNoMaskLen = 9, suffixNoMaskLen = 9)
-	@NotBlank(message = "密钥不能为空")
+	@NotBlank(message = "密钥不能为空", groups = { ValidGroup.Insert.class })
 	@ApiModelProperty(value = "app secret")
 	private String appSecret;
 
