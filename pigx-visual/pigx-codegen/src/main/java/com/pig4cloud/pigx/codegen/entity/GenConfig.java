@@ -62,7 +62,7 @@ public class GenConfig {
 	private String comments;
 
 	/**
-	 * 代码风格 0 - avue 1 - element
+	 * 代码风格 0 - avue 1 - element 2 - uview
 	 */
 	private String style;
 

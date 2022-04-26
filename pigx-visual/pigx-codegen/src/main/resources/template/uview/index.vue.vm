@@ -1,0 +1,122 @@
+<template>
+  <view class="wrap">
+    <scroll-view class="scroll-list" scroll-y="true" @scrolltolower="loadMore">
+      <u-cell-group class="list" :border="false">
+        <u-swipe-action :options="options" v-for="(item, index) in list" :key="item.${pk.lowerAttrName}" :index="index"
+                        @click="optionsClick">
+          <u-cell-item :arrow="true" @click="navTo('${pathName}+'-form'?${pk.lowerAttrName}='+item.${pk.lowerAttrName})">
+            <text slot="title">{{item.${pk.lowerAttrName}}}</text>
+            <text slot="label">
+              创建时间: {{item.createTime}}
+            </text>
+          </u-cell-item>
+        </u-swipe-action>
+      </u-cell-group>
+      <view class="loadmore" @click="loadMore">
+        <u-loadmore :status="loadStatus"></u-loadmore>
+      </view>
+    </scroll-view>
+    <view class="btn-plus" @click="navTo('${pathName}+'-form'')">
+      <u-icon name="plus-circle-fill" size="90" color="#3d87ff"></u-icon>
+    </view>
+  </view>
+</template>
+<script>
+
+export default {
+  data() {
+    return {
+      query: {
+        current: 1,
+        size: 20
+      },
+      list: [],
+      count: 0,
+      loadStatus: 'loadmore',
+      options: [
+        {text: '删除', style: {background: '#dd524d'}}
+      ]
+    };
+  },
+  onLoad() {
+    this.loadList();
+  },
+  onShow() {
+    if (uni.getStorageSync('refreshList') === true) {
+        uni.removeStorageSync('refreshList');
+        this.search('');
+    }
+  },
+  methods: {
+    loadMore() {
+      this.loadStatus = "loading";
+      setTimeout(() => {
+        this.query.current += 1;
+        this.loadList();
+      }, 100);
+    },
+    loadList() {
+      #[[this.$u.api]]#.pigx${className}.fetchList(this.query).then(res => {
+        if (!res.data.records || res.data.records.length == 0) {
+          this.loadStatus = "nomore";
+          return;
+        }
+        this.list = this.list.concat(res.data.records);
+        this.total = res.data.total;
+        this.query.current = res.data.current;
+        this.query.size = res.data.size;
+        this.loadStatus = "loadmore";
+      });
+    },
+    optionsClick(rowIndex, btnIndex) {
+      if (btnIndex == 0) {
+        let self = this;
+        uni.showModal({
+          title: '提示',
+          content: '确认要删除该数据吗？',
+          showCancel: true,
+          success: function (res2) {
+            if (res2.confirm) {
+              let row = self.list[rowIndex];
+              #[[self.$u.api]]#.pigx${className}.delObj(row.${pk.lowerAttrName}).then(res => {
+                #[[self.$u.toast('删除成功');]]#
+                self.query.current = 1
+                self.list = []
+                self.loadList()
+              });
+            }
+          }
+        });
+      }
+    },
+    search(value) {
+      this.list = [];
+      this.query.current = 1;
+      this.query.username = value;
+      this.loadList();
+    },
+    navTo(url) {
+      uni.navigateTo({
+        url: '/pages/${moduleName}/${pathName}/'+url
+      });
+    }
+  }
+};
+</script>
+<style lang="scss">
+page {
+  background-color: #f8f8f8;
+}
+
+.btn-plus {
+  position: absolute;
+  bottom: 50rpx;
+  right: 50rpx;
+  z-index: 1;
+  opacity: 0.6;
+}
+
+.btn-plus:hover {
+  opacity: 1;
+}
+</style>

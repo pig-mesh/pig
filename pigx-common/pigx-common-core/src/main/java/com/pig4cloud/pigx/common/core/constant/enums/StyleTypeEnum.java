@@ -21,7 +21,12 @@ public enum StyleTypeEnum {
 	/**
 	 * 前端类型-element 风格
 	 */
-	ELEMENT("1", "element 风格");
+	ELEMENT("1", "element 风格"),
+
+	/**
+	 * 前端风格-uview 风格
+	 */
+	UVIEW("2", "uview 风格");
 
 	/**
 	 * 类型
