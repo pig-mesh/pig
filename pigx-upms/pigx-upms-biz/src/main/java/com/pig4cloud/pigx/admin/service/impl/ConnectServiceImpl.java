@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -132,10 +133,11 @@ public class ConnectServiceImpl implements ConnectService {
 			JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
 			JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
 
-			boolean exist = users.stream().anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
+			boolean exist = users.stream().filter(user -> StrUtil.isNotBlank(user.getPhone()))
+					.anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
 
-			if (exist) {
-				log.info("用户已存在 {}", userid);
+			if (exist || StrUtil.isBlank(userObj.getStr("mobile"))) {
+				log.info("用户已存在或手机号不合法 {}", userid);
 				continue;
 			}
 
@@ -209,7 +211,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 		List<WxCpUser> cpUserList;
 		try {
-			cpUserList = wxCpService.getUserService().listByDepartment(0L, true, 0);
+			cpUserList = wxCpService.getUserService().listByDepartment(1L, true, 0);
 		}
 		catch (WxErrorException e) {
 			log.error("获取企业微信用户列表失败", e);
@@ -224,9 +226,10 @@ public class ConnectServiceImpl implements ConnectService {
 		List<SysUser> userList = sysUserService.list(Wrappers.emptyWrapper());
 
 		for (WxCpUser cpUser : cpUserList) {
-			boolean exist = userList.stream().anyMatch(user -> user.getPhone().equals(cpUser.getMobile()));
-			if (exist) {
-				log.info("用户已存在跳过 {}", cpUser);
+			boolean exist = userList.stream().filter(user -> StrUtil.isNotBlank(user.getPhone()))
+					.anyMatch(user -> user.getPhone().equals(cpUser.getMobile()));
+			if (exist || StrUtil.isBlank(cpUser.getMobile())) {
+				log.info("用户已存在或手机号不合法跳过 {}", cpUser);
 				continue;
 			}
 
@@ -247,7 +250,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 	private String getDingAccessToken() {
 		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
-				.eq(SysSocialDetails::getType, LoginTypeEnum.dingtalk.getType()));
+				.eq(SysSocialDetails::getType, LoginTypeEnum.DINGTALK.getType()));
 
 		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_GET_TOKEN);
 		OapiGettokenRequest request = new OapiGettokenRequest();
@@ -265,13 +268,17 @@ public class ConnectServiceImpl implements ConnectService {
 	}
 
 	private WxCpDefaultConfigImpl getCpConfig() {
+		SysSocialDetails cp = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
+				.eq(SysSocialDetails::getType, LoginTypeEnum.WEIXIN_CP.getType()));
+
 		WxCpDefaultConfigImpl config = new WxCpDefaultConfigImpl();
-		config.setCorpId("wwdfd8cc3eb1127464"); // 设置微信企业号的appid
-		config.setCorpSecret("mrJAJwC0msVJ0-F30Iwop6B-w8eledxD66l3flrjX5w"); // 设置微信企业号的app
+		config.setCorpId(cp.getAppId()); // 设置微信企业号的appid
+		config.setCorpSecret(cp.getAppSecret()); // 设置微信企业号的app
 		// corpSecret
-		config.setAgentId(1000003); // 设置微信企业号应用ID
-		config.setToken("lengleng"); // 设置微信企业号应用的token
-		config.setAesKey("pc49WfQMwDg2tDwHHP8gfLN6fRjkgDzS4WkYCumZCF1"); // 设置微信企业号应用的EncodingAESKey
+		JSONObject ext = JSONUtil.parseObj(cp.getExt());
+		config.setAgentId(ext.getInt("agentId")); // 设置微信企业号应用ID
+		config.setToken(ext.getStr("token")); // 设置微信企业号应用的token
+		config.setAesKey(ext.getStr("aesKey")); // 设置微信企业号应用的EncodingAESKey
 
 		return config;
 	}

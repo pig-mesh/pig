@@ -66,8 +66,12 @@ public enum LoginTypeEnum {
 	/**
 	 * 钉钉
 	 */
-	dingtalk("DINGTALK", "钉钉"),
+	DINGTALK("DINGTALK", "钉钉"),
 
+	/**
+	 * 企业微信
+	 */
+	WEIXIN_CP("WEIXIN_CP", "企业微信"),
 	/**
 	 * CAS 登录
 	 */

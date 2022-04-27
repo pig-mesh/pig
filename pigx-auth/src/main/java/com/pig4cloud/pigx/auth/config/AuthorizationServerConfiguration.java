@@ -30,7 +30,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -58,8 +57,6 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 	private final ClientDetailsService pigxClientDetailsServiceImpl;
 
 	private final AuthenticationManager authenticationManagerBean;
-
-	private final UserDetailsService pigxUserDetailsService;
 
 	private final AuthorizationCodeServices authorizationCodeServices;
 

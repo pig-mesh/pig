@@ -4,9 +4,9 @@ import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.service.ConnectService;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
  * @author lengleng
  * @date 2022/4/22
  */
-@Inner(value = false)
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/connect")
@@ -33,6 +32,7 @@ public class ConnectController {
 	 * @return
 	 */
 	@PostMapping("/sync/ding/user")
+	@PreAuthorize("@pms.hasPermission('sys_connect_sync')")
 	public R syncUser() {
 		for (SysDept sysDept : deptService.list()) {
 			connectService.syncDingUser(sysDept.getDeptId());
@@ -45,6 +45,7 @@ public class ConnectController {
 	 * @return
 	 */
 	@PostMapping("/sync/ding/dept")
+	@PreAuthorize("@pms.hasPermission('sys_connect_sync')")
 	public R syncDept() {
 		return R.ok(connectService.syncDingDept());
 	}
@@ -54,6 +55,7 @@ public class ConnectController {
 	 * @return
 	 */
 	@PostMapping("/sync/cp/user")
+	@PreAuthorize("@pms.hasPermission('sys_connect_sync')")
 	public R syncCpUser() {
 		return connectService.syncCpUser();
 	}
@@ -63,6 +65,7 @@ public class ConnectController {
 	 * @return
 	 */
 	@PostMapping("/sync/cp/dept")
+	@PreAuthorize("@pms.hasPermission('sys_connect_sync')")
 	public R syncCpDept() {
 		return connectService.syncCpDept();
 	}
