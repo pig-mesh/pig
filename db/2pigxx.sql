@@ -366,7 +366,6 @@ INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 
 INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:16', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:59', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1403, '部门删除', 'sys_dept_del', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1404, '互联同步', 'sys_connect_sync', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
 INSERT INTO `sys_menu` VALUES (1500, '租户管理', '', '/admin/tenant/index', 1000, 'icon-erji-zuhushouye', 5, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:14', '0', 1);
 INSERT INTO `sys_menu` VALUES (1501, '租户新增', 'admin_systenant_add', NULL, 1500, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:52', '0', 1);
 INSERT INTO `sys_menu` VALUES (1502, '租户修改', 'admin_systenant_edit', NULL, 1500, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:53', '0', 1);
@@ -631,7 +630,6 @@ INSERT INTO `sys_role_menu` VALUES (1, 1400);
 INSERT INTO `sys_role_menu` VALUES (1, 1401);
 INSERT INTO `sys_role_menu` VALUES (1, 1402);
 INSERT INTO `sys_role_menu` VALUES (1, 1403);
-INSERT INTO `sys_role_menu` VALUES (1, 1404);
 INSERT INTO `sys_role_menu` VALUES (1, 1500);
 INSERT INTO `sys_role_menu` VALUES (1, 1501);
 INSERT INTO `sys_role_menu` VALUES (1, 1502);
