@@ -257,6 +257,7 @@ INSERT INTO `sys_dict_item` VALUES (62, 15, 'MERGE_PAY', '聚合支付', 'channe
 INSERT INTO `sys_dict_item` VALUES (63, 2, 'CAS', 'CAS登录', 'social_type', 'CAS 单点登录系统', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (64, 2, 'DINGTALK', '钉钉', 'social_type', '钉钉', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (65, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (66, 18, '2', 'APP', 'style_type', 'uview风格', 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
 COMMIT;
 
 -- ----------------------------

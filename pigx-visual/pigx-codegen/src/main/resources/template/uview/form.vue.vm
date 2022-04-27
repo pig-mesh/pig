@@ -43,9 +43,9 @@
 			}
 		},
 		onLoad(params) {
-			if(params&&params.roleId){
+			if(params&&params.id){
 				this.type = 'edit'
-				#[[this.$u.api]]#.pigx${className}.getObj(params.${pk.lowerAttrName}).then(res => {
+				#[[this.$u.api]]#.pigx${className}.getObj(params}).then(res => {
 					Object.assign(this.model, res.data);
 				});
 			}else{

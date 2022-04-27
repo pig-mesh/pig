@@ -10,9 +10,9 @@ pigx${className}: {
         #[[putObj: (obj={}) => vm.$u.put]]#('/${moduleName}/${pathName}',obj),
 
         // 删除
-        #[[delObj: (id) => vm.$u.delete]]#('/${moduleName}/${pathName}/'+id),
+        #[[delObj: (params) => vm.$u.delete]]#('/${moduleName}/${pathName}/'+params.id),
 
         // 查询
-        #[[getObj: (id) => vm.$u.get]]#('/${moduleName}/${pathName}/' + id)
+        #[[getObj: (params) => vm.$u.get]]#('/${moduleName}/${pathName}/' + params.id)
 }
 
