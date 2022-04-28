@@ -7,19 +7,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.DefaultAuthenticationKeyGenerator;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
 /**
  * @author lengleng
- * @date 2020/9/29
+ * @date 2022-04-28
  * <p>
- * redis token store 自动配置
+ * 资源服务器 认证服务器 公用配置
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-public class PigxTokenStoreAutoConfiguration {
+public class PigxSecurityCommonAutoConfiguration {
 
 	private final KeyStrResolver resolver;
 
@@ -37,6 +38,15 @@ public class PigxTokenStoreAutoConfiguration {
 			}
 		});
 		return tokenStore;
+	}
+
+	/**
+	 * 认证状态检查
+	 * @return UserDetailsChecker
+	 */
+	@Bean
+	public UserDetailsChecker preAuthenticationChecks() {
+		return new PigxPreAuthenticationChecks();
 	}
 
 }

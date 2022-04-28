@@ -4,14 +4,17 @@ import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.exception.UnauthorizedException;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
+import com.pig4cloud.pigx.common.security.util.PigxSecurityMessageSourceUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
@@ -35,6 +38,8 @@ import java.util.Optional;
 public class PigxLocalResourceServerTokenServices implements ResourceServerTokenServices {
 
 	private final TokenStore tokenStore;
+
+	private final UserDetailsChecker preAuthenticationChecks;
 
 	@Override
 	public OAuth2Authentication loadAuthentication(String accessToken)
@@ -68,10 +73,18 @@ public class PigxLocalResourceServerTokenServices implements ResourceServerToken
 		UserDetails userDetails;
 		try {
 			userDetails = optional.get().loadUserByUser(pigUser);
+
+			preAuthenticationChecks.check(userDetails);
 		}
 		catch (UsernameNotFoundException notFoundException) {
 			throw new UnauthorizedException(String.format("%s username not found", pigUser.getUsername()),
 					notFoundException);
+		}
+		catch (AccountStatusException accountStatusException) {
+			throw new UnauthorizedException(
+					PigxSecurityMessageSourceUtil.getAccessor().getMessage(
+							"AbstractUserDetailsAuthenticationProvider.locked", accountStatusException.getMessage()),
+					accountStatusException);
 		}
 		Authentication userAuthentication = new UsernamePasswordAuthenticationToken(userDetails, "N/A",
 				userDetails.getAuthorities());
