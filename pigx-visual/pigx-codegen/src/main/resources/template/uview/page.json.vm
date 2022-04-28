@@ -3,13 +3,13 @@
 
     /**${comments}**/
     {
-        "path": "pages/${moduleName}/${pathName}/${pathName}-index.vue",
+        "path": "pages/${moduleName}/${pathName}/${pathName}-index",
         "style": {
         "navigationBarTitleText": "${comments}"
         }
     },
     {
-        "path": "pages/${moduleName}/${pathName}/${pathName}-form.vue",
+        "path": "pages/${moduleName}/${pathName}/${pathName}-form",
         "style": {
         "navigationBarTitleText": "${comments}详情"
         }

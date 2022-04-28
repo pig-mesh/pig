@@ -104,13 +104,6 @@ public class GenUtils {
 	 */
 	private List<String> getTemplates(GenConfig config) {
 		List<String> templates = new ArrayList<>();
-		templates.add("template/Entity.java.vm");
-		templates.add("template/Mapper.java.vm");
-		templates.add("template/Mapper.xml.vm");
-		templates.add("template/Service.java.vm");
-		templates.add("template/ServiceImpl.java.vm");
-		templates.add("template/Controller.java.vm");
-		templates.add("template/menu.sql.vm");
 
 		if (StyleTypeEnum.AVUE.getStyle().equals(config.getStyle())) {
 			templates.add("template/avue/index.vue.vm");
@@ -123,11 +116,19 @@ public class GenUtils {
 			templates.add("template/avue/api.js.vm");
 		}
 		else {
-			templates.add("template/uview/api.js.vm");
-			templates.add("template/uview/form.vue.vm");
 			templates.add("template/uview/index.vue.vm");
+			templates.add("template/uview/form.vue.vm");
+			templates.add("template/uview/api.js.vm");
 			templates.add("template/uview/page.json.vm");
 		}
+
+		templates.add("template/Entity.java.vm");
+		templates.add("template/Mapper.java.vm");
+		templates.add("template/Mapper.xml.vm");
+		templates.add("template/Service.java.vm");
+		templates.add("template/ServiceImpl.java.vm");
+		templates.add("template/Controller.java.vm");
+		templates.add("template/menu.sql.vm");
 
 		return templates;
 	}
@@ -289,7 +290,7 @@ public class GenUtils {
 
 		// 获取模板列表
 		List<String> templates = getTemplates(genConfig);
-		Map<String, String> resultMap = new HashMap<>(8);
+		Map<String, String> resultMap = new LinkedHashMap<>(8);
 
 		for (String template : templates) {
 			// 如果是crud
@@ -433,11 +434,12 @@ public class GenUtils {
 		}
 
 		if (template.contains(UVIEW_API_JS_VM)) {
-			return CommonConstants.UNI_END_PROJECT + File.separator + "common" + File.separator + "http.api.js";
+			return CommonConstants.UNI_END_PROJECT + File.separator + "common" + File.separator
+					+ className.toLowerCase() + ".api.js";
 		}
 
 		if (template.contains(UVIEW_PAGE_JSON_VM)) {
-			return "page.json";
+			return className.toLowerCase() + ".page.json";
 		}
 
 		return null;
