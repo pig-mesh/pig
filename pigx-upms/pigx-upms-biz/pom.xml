@@ -53,6 +53,11 @@
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
         </dependency>
+        <!--DM8-->
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
+        </dependency>
         <!--upms api、model 模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>

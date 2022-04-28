@@ -18,7 +18,7 @@
 
 	<sql id="queryColumn">
 		SELECT
-		    'oracle' AS "dbType",
+		    'dm' AS "dbType",
 			TEMP.COLUMN_NAME AS "columnName",
 			TEMP.data_type AS "columnType",
 			TEMP.data_type AS "dataType",
