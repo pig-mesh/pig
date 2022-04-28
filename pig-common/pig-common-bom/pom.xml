@@ -27,7 +27,8 @@
         <springdoc.version>1.6.6</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
-        <seata.version>1.4.2</seata.version>
+		<mysql.version>8.0.29</mysql.version>
+		<seata.version>1.4.2</seata.version>
         <excel.version>1.1.1</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>1.0.4</oss.version>
@@ -94,6 +95,11 @@
                 <artifactId>pig-upms-api</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
             <!--稳定版本，替代spring security bom内置-->
             <dependency>
                 <groupId>org.springframework.security.oauth.boot</groupId>
