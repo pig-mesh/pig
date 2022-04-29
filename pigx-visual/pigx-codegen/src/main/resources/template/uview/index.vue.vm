@@ -21,7 +21,7 @@
         <u-loadmore :status="loadStatus"></u-loadmore>
       </view>
     </scroll-view>
-    <view class="btn-plus" @click="navTo('form')">
+    <view class="btn-plus" @click="cardClick()">
       <u-icon name="plus-circle-fill" size="90" color="#3d87ff"></u-icon>
     </view>
   </view>

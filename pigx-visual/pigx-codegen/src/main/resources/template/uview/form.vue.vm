@@ -43,18 +43,19 @@
 			}
 		},
 		onLoad(params) {
-			if(params&&params.id){
+			if(params&&params.id!= "undefined"){
 				this.type = 'edit'
-				#[[this.$u.api]]#.pigx${className}.getObj(params}).then(res => {
-					Object.assign(this.model, res.data);
+				#[[this.$u.api]]#.pigx${className}.getObj(params).then(res => {
+					this.model = res.data;
 				});
 			}else{
 				this.type = 'add'
+				this.model = {}
 			}
 		},
 		methods: {
 			submit() {
-				#[[this.$refs.uForm.validate(valid => {]]#
+				#[[this.$refs.uForm.validate(async valid => {]]#
 					if (valid) {
 						if(this.type==='edit'){
 							await #[[this.$u.api]]#.pigx${className}.putObj(this.model)
@@ -64,11 +65,13 @@
 						setTimeout(() => {
 							uni.showModal({
 								title: '提示',
-								content: '修改成功',
+								ccontent: this.type === 'edit' ? '修改成功' : '添加成功',
 								showCancel: false,
 								success: function() {
 									uni.setStorageSync('refreshList', true);
-									uni.navigateBack();
+									uni.navigateTo({
+										url: '/pages/${moduleName}/${pathName}/${pathName}-index'
+									})
 								}
 							})
 						}, 200)
