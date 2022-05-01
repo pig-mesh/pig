@@ -102,20 +102,3 @@
     }
   };
 </script>
-<style lang="scss">
-  page {
-    background-color: #f8f8f8;
-  }
-
-  .btn-plus {
-    position: absolute;
-    bottom: 50rpx;
-    right: 50rpx;
-    z-index: 1;
-    opacity: 0.6;
-  }
-
-  .btn-plus:hover {
-    opacity: 1;
-  }
-</style>
