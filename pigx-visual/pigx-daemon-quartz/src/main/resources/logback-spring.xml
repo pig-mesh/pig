@@ -66,5 +66,6 @@
 	<root level="INFO">
 		<appender-ref ref="console"/>
 		<appender-ref ref="debug"/>
+		<appender-ref ref="error"/>
 	</root>
 </configuration>
