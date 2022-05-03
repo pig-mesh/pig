@@ -36,12 +36,7 @@
         canSubmit: false,
         dataForm: {
 #foreach($column in $columns)
-#if($column.columnName == $pk.columnName)
-          ${column.lowerAttrName}: 0,
-#else
           ${column.lowerAttrName}: ''#if($velocityCount != $columns.size()),#end
-
-#end
 #end
         },
         dataRule: {
