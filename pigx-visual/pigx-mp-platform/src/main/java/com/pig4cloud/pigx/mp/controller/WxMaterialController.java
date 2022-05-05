@@ -11,8 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
+import me.chanjar.weixin.mp.api.WxMpDraftService;
 import me.chanjar.weixin.mp.api.WxMpMaterialService;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.draft.WxMpAddDraft;
+import me.chanjar.weixin.mp.bean.draft.WxMpDraftArticles;
+import me.chanjar.weixin.mp.bean.draft.WxMpUpdateDraft;
 import me.chanjar.weixin.mp.bean.material.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -95,15 +99,14 @@ public class WxMaterialController {
 	public R materialNewsUpload(@RequestBody JSONObject data) {
 		try {
 			JSONArray jSONArray = data.getJSONArray("articles");
-			List<WxMpNewsArticle> articles = jSONArray.toList(WxMpNewsArticle.class);
-			WxMpMaterialNews news = new WxMpMaterialNews();
-			news.setArticles(articles);
+			List<WxMpDraftArticles> articles = jSONArray.toList(WxMpDraftArticles.class);
 
+			WxMpAddDraft draft = new WxMpAddDraft();
+			draft.setArticles(articles);
 			String appId = data.getStr("appId");
 			WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
-			WxMpMaterialService wxMpMaterialService = wxMpService.getMaterialService();
-			WxMpMaterialUploadResult wxMpMaterialUploadResult = wxMpMaterialService.materialNewsUpload(news);
-			return R.ok(wxMpMaterialUploadResult);
+			WxMpDraftService draftService = wxMpService.getDraftService();
+			return R.ok(draftService.addDraft(draft));
 		}
 		catch (WxErrorException e) {
 			log.warn("新增图文失败: {}", e.getMessage());
@@ -126,17 +129,18 @@ public class WxMaterialController {
 		try {
 			String mediaId = data.getStr("mediaId");
 			JSONArray jSONArray = data.getJSONArray("articles");
-			List<WxMpNewsArticle> articles = jSONArray.toList(WxMpNewsArticle.class);
+			List<WxMpDraftArticles> articles = jSONArray.toList(WxMpDraftArticles.class);
 			String appId = data.getStr("appId");
 			WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
-			WxMpMaterialService wxMpMaterialService = wxMpService.getMaterialService();
-			WxMpMaterialArticleUpdate wxMpMaterialArticleUpdate = new WxMpMaterialArticleUpdate();
-			wxMpMaterialArticleUpdate.setMediaId(mediaId);
+			WxMpDraftService draftService = wxMpService.getDraftService();
+
+			WxMpUpdateDraft mpUpdateDraft = new WxMpUpdateDraft();
+			mpUpdateDraft.setMediaId(mediaId);
 			int index = 0;
-			for (WxMpNewsArticle article : articles) {
-				wxMpMaterialArticleUpdate.setIndex(index);
-				wxMpMaterialArticleUpdate.setArticles(article);
-				wxMpMaterialService.materialNewsUpdate(wxMpMaterialArticleUpdate);
+			for (WxMpDraftArticles article : articles) {
+				mpUpdateDraft.setIndex(index);
+				mpUpdateDraft.setArticles(article);
+				draftService.updateDraft(mpUpdateDraft);
 				index++;
 			}
 			return R.ok();
