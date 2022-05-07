@@ -22,7 +22,7 @@
         <#if tenantList??>
             <select class="form-control form-margin-top" placeholder="所属租户" name="TENANT-ID">
                 <#list tenantList as tenant>
-                    <option value="${tenant.code}">${tenant.name}</option>
+                    <option value="${tenant.id}">${tenant.name}</option>
                 </#list>
             </select>
         </#if>
