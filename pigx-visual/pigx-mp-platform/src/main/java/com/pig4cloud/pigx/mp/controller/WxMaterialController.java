@@ -205,10 +205,12 @@ public class WxMaterialController {
 		try {
 			WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
 			WxMpMaterialService wxMpMaterialService = wxMpService.getMaterialService();
+
 			int count = (int) page.getSize();
 			int offset = (int) page.getCurrent() * count - count;
 			if (WxConsts.MaterialType.NEWS.equals(type)) {
-				return R.ok(wxMpMaterialService.materialNewsBatchGet(offset, count));
+				WxMpDraftService draftService = wxMpService.getDraftService();
+				return R.ok(draftService.listDraft(offset, count));
 			}
 			else {
 				return R.ok(wxMpMaterialService.materialFileBatchGet(type, offset, count));
