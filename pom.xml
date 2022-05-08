@@ -34,7 +34,7 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring-boot-admin.version>2.6.7</spring-boot-admin.version>
-		<hutool.version>5.7.22</hutool.version>
+		<hutool.version>5.8.0</hutool.version>
 		<dynamic-ds.version>3.5.1</dynamic-ds.version>
 		<captcha.version>2.2.2</captcha.version>
 		<velocity.version>2.3</velocity.version>
@@ -50,7 +50,7 @@
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
 		<git.commit.plugin>4.9.9</git.commit.plugin>
-		<spring.checkstyle.plugin>0.0.29</spring.checkstyle.plugin>
+		<spring.checkstyle.plugin>0.0.33</spring.checkstyle.plugin>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->

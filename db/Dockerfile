@@ -1,4 +1,4 @@
-FROM mysql:8.0.27
+FROM mysql/mysql-server:8.0.29
 
 MAINTAINER lengleng(wangiegie@gmail.com)
 

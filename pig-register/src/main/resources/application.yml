@@ -1,5 +1,5 @@
 server:
-  port: 8848
+  port: 8848   #如何修改 pig-register 启动端口 >: https://t.cn/A6XGvTdb
   tomcat:
     basedir: logs
 
@@ -35,6 +35,8 @@ spring:
           service-host-type: ip
   application:
     name: @project.artifactId@
+  main:
+    allow-circular-references: true
 
 useAddressServer: true
 

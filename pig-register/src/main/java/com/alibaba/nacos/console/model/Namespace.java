@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.model;
+package com.alibaba.nacos.console.model;
 
 /**
  * Namespace.
@@ -26,6 +26,8 @@ public class Namespace {
 	private String namespace;
 
 	private String namespaceShowName;
+
+	private String namespaceDesc;
 
 	private int quota;
 
@@ -66,6 +68,24 @@ public class Namespace {
 		this.quota = quota;
 		this.configCount = configCount;
 		this.type = type;
+	}
+
+	public Namespace(String namespace, String namespaceShowName, String namespaceDesc, int quota, int configCount,
+			int type) {
+		this.namespace = namespace;
+		this.namespaceShowName = namespaceShowName;
+		this.quota = quota;
+		this.configCount = configCount;
+		this.type = type;
+		this.namespaceDesc = namespaceDesc;
+	}
+
+	public String getNamespaceDesc() {
+		return namespaceDesc;
+	}
+
+	public void setNamespaceDesc(String namespaceDesc) {
+		this.namespaceDesc = namespaceDesc;
 	}
 
 	public int getQuota() {

@@ -14,41 +14,18 @@
  * limitations under the License.
  */
 
-package com.alibaba.nacos.security.nacos.users;
-
-import com.alibaba.nacos.auth.model.User;
+package com.alibaba.nacos.console.model;
 
 /**
- * Nacos User.
+ * all namespace info.
  *
- * @author nkorange
- * @since 1.2.0
+ * @author Nacos
  */
-public class NacosUser extends User {
+public class NamespaceAllInfo extends Namespace {
 
-	private String token;
-
-	private boolean globalAdmin = false;
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
-	public boolean isGlobalAdmin() {
-		return globalAdmin;
-	}
-
-	public void setGlobalAdmin(boolean globalAdmin) {
-		this.globalAdmin = globalAdmin;
-	}
-
-	@Override
-	public String toString() {
-		return "NacosUser{" + "token='" + token + '\'' + ", globalAdmin=" + globalAdmin + '}';
+	public NamespaceAllInfo(String namespace, String namespaceShowName, int quota, int configCount, int type,
+			String namespaceDesc) {
+		super(namespace, namespaceShowName, namespaceDesc, quota, configCount, type);
 	}
 
 }

@@ -4,6 +4,7 @@ services:
     build:
       context: ./db
     environment:
+      MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
     restart: always
     container_name: pig-mysql
@@ -12,7 +13,7 @@ services:
       - 3306:3306
 
   pig-redis:
-    image: redis:6.2.6
+    image: redis:7.0.0
     ports:
       - 6379:6379
     restart: always
