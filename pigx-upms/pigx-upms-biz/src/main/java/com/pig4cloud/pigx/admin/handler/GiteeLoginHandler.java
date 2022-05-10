@@ -114,7 +114,7 @@ public class GiteeLoginHandler extends AbstractLoginHandler {
 		if (CollUtil.isNotEmpty(userList)) {
 			SysUser condition = new SysUser();
 			condition.setGiteeLogin(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getGiteeLogin, null));
+			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getGiteeLogin, null));
 			log.info("码云账号 {} 更换账号绑定", identify);
 		}
 

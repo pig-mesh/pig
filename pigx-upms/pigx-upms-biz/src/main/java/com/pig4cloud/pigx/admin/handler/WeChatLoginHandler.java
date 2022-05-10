@@ -101,7 +101,7 @@ public class WeChatLoginHandler extends AbstractLoginHandler {
 		if (CollUtil.isNotEmpty(userList)) {
 			SysUser condition = new SysUser();
 			condition.setWxOpenid(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getWxOpenid, null));
+			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getWxOpenid, null));
 			log.info("微信账号 {} 更换账号绑定", identify);
 		}
 

@@ -122,7 +122,7 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
 		if (CollUtil.isNotEmpty(userList)) {
 			SysUser condition = new SysUser();
 			condition.setOscId(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getOscId, null));
+			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getOscId, null));
 			log.info("开源中国账号 {} 更换账号绑定", identify);
 		}
 
