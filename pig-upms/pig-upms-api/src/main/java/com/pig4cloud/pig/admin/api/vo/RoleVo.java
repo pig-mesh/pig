@@ -24,7 +24,7 @@ import lombok.Data;
  * @date 2020/2/10
  */
 @Data
-@Schema(name = "前端角色展示对象")
+@Schema(description = "前端角色展示对象")
 public class RoleVo {
 
 	/**

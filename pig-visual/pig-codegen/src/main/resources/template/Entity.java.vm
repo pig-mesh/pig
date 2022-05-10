@@ -37,7 +37,7 @@ import java.math.BigDecimal;
 @Data
 @TableName("${tableName}")
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "${comments}")
+@Schema(description = "${comments}")
 public class ${className} extends BaseEntity {
 
 #foreach ($column in $columns)
@@ -49,7 +49,7 @@ public class ${className} extends BaseEntity {
 #if($column.columnName == $pk.columnName)
     @TableId(type = IdType.ASSIGN_ID)
 #end
-    @Schema(name="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
+    @Schema(description ="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 
 #end

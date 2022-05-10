@@ -38,13 +38,13 @@ public class SysUserRole extends Model<SysUserRole> {
 	/**
 	 * 用户ID
 	 */
-	@Schema(name = "用户id")
+	@Schema(description = "用户id")
 	private Long userId;
 
 	/**
 	 * 角色ID
 	 */
-	@Schema(name = "角色id")
+	@Schema(description = "角色id")
 	private Long roleId;
 
 }

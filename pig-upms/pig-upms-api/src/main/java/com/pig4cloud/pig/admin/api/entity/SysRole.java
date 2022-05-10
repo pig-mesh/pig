@@ -41,19 +41,19 @@ public class SysRole extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "role_id", type = IdType.ASSIGN_ID)
-	@Schema(name = "角色编号")
+	@Schema(description = "角色编号")
 	private Long roleId;
 
 	@NotBlank(message = "角色名称 不能为空")
-	@Schema(name = "角色名称")
+	@Schema(description = "角色名称")
 	private String roleName;
 
 	@NotBlank(message = "角色标识 不能为空")
-	@Schema(name = "角色标识")
+	@Schema(description = "角色标识")
 	private String roleCode;
 
 	@NotBlank(message = "角色描述 不能为空")
-	@Schema(name = "角色描述")
+	@Schema(description = "角色描述")
 	private String roleDesc;
 
 	/**

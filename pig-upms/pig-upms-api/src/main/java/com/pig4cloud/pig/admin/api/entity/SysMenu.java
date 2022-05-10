@@ -45,45 +45,45 @@ public class SysMenu extends BaseEntity {
 	 * 菜单ID
 	 */
 	@TableId(value = "menu_id", type = IdType.ASSIGN_ID)
-	@Schema(name = "菜单id")
+	@Schema(description = "菜单id")
 	private Long menuId;
 
 	/**
 	 * 菜单名称
 	 */
 	@NotBlank(message = "菜单名称不能为空")
-	@Schema(name = "菜单名称")
+	@Schema(description = "菜单名称")
 	private String name;
 
 	/**
 	 * 菜单权限标识
 	 */
-	@Schema(name = "菜单权限标识")
+	@Schema(description = "菜单权限标识")
 	private String permission;
 
 	/**
 	 * 父菜单ID
 	 */
 	@NotNull(message = "菜单父ID不能为空")
-	@Schema(name = "菜单父id")
+	@Schema(description = "菜单父id")
 	private Long parentId;
 
 	/**
 	 * 图标
 	 */
-	@Schema(name = "菜单图标")
+	@Schema(description = "菜单图标")
 	private String icon;
 
 	/**
 	 * 前端URL
 	 */
-	@Schema(name = "前端路由标识路径")
+	@Schema(description = "前端路由标识路径")
 	private String path;
 
 	/**
 	 * 排序值
 	 */
-	@Schema(name = "排序值")
+	@Schema(description = "排序值")
 	private Integer sortOrder;
 
 	/**
@@ -95,7 +95,7 @@ public class SysMenu extends BaseEntity {
 	/**
 	 * 路由缓冲
 	 */
-	@Schema(name = "路由缓冲")
+	@Schema(description = "路由缓冲")
 	private String keepAlive;
 
 	/**

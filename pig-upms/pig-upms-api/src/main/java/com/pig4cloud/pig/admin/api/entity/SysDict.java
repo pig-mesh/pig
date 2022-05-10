@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
  * @date 2019/03/19
  */
 @Data
-@Schema(name = "字典类型")
+@Schema(description = "字典类型")
 @EqualsAndHashCode(callSuper = true)
 public class SysDict extends BaseEntity {
 
@@ -40,38 +40,38 @@ public class SysDict extends BaseEntity {
 	 * 编号
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(name = "字典编号")
+	@Schema(description = "字典编号")
 	private Long id;
 
 	/**
 	 * 类型
 	 */
-	@Schema(name = "字典类型")
+	@Schema(description = "字典类型")
 	private String type;
 
 	/**
 	 * 描述
 	 */
-	@Schema(name = "字典描述")
+	@Schema(description = "字典描述")
 	private String description;
 
 	/**
 	 * 是否是系统内置
 	 */
-	@Schema(name = "是否系统内置")
+	@Schema(description = "是否系统内置")
 	private String systemFlag;
 
 	/**
 	 * 备注信息
 	 */
-	@Schema(name = "备注信息")
+	@Schema(description = "备注信息")
 	private String remark;
 
 	/**
 	 * 删除标记
 	 */
 	@TableLogic
-	@Schema(name = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 }

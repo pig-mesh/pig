@@ -33,7 +33,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("sys_post")
 @EqualsAndHashCode(callSuper = true)
-@Schema(name = "岗位信息表")
+@Schema(description = "岗位信息表")
 public class SysPost extends BaseEntity {
 
 	private static final long serialVersionUID = -8744622014102311894L;
@@ -42,37 +42,37 @@ public class SysPost extends BaseEntity {
 	 * 岗位ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(name = "岗位ID")
+	@Schema(description = "岗位ID")
 	private Long postId;
 
 	/**
 	 * 岗位编码
 	 */
-	@Schema(name = "岗位编码")
+	@Schema(description = "岗位编码")
 	private String postCode;
 
 	/**
 	 * 岗位名称
 	 */
-	@Schema(name = "岗位名称")
+	@Schema(description = "岗位名称")
 	private String postName;
 
 	/**
 	 * 岗位排序
 	 */
-	@Schema(name = "岗位排序")
+	@Schema(description = "岗位排序")
 	private Integer postSort;
 
 	/**
 	 * 是否删除 -1：已删除 0：正常
 	 */
-	@Schema(name = "是否删除  -1：已删除  0：正常")
+	@Schema(description = "是否删除  -1：已删除  0：正常")
 	private String delFlag;
 
 	/**
 	 * 备注信息
 	 */
-	@Schema(name = "备注信息")
+	@Schema(description = "备注信息")
 	private String remark;
 
 }

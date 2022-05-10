@@ -32,7 +32,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @TableName("gen_form_conf")
-@Schema(name = "生成记录")
+@Schema(description = "生成记录")
 @EqualsAndHashCode(callSuper = true)
 public class GenFormConf extends BaseEntity {
 
@@ -40,25 +40,25 @@ public class GenFormConf extends BaseEntity {
 	 * ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(name = "ID")
+	@Schema(description = "ID")
 	private Long id;
 
 	/**
 	 * 表名称
 	 */
-	@Schema(name = "表名称")
+	@Schema(description = "表名称")
 	private String tableName;
 
 	/**
 	 * 表单信息
 	 */
-	@Schema(name = "表单信息")
+	@Schema(description = "表单信息")
 	private String formInfo;
 
 	/**
 	 * 删除标记
 	 */
-	@Schema(name = "删除标记")
+	@Schema(description = "删除标记")
 	private String delFlag;
 
 }

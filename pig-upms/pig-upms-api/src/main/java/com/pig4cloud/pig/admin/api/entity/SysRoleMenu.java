@@ -38,13 +38,13 @@ public class SysRoleMenu extends Model<SysRoleMenu> {
 	/**
 	 * 角色ID
 	 */
-	@Schema(name = "角色id")
+	@Schema(description = "角色id")
 	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
-	@Schema(name = "菜单id")
+	@Schema(description = "菜单id")
 	private Long menuId;
 
 }

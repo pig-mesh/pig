@@ -35,7 +35,7 @@ import javax.validation.constraints.NotNull;
  * @author lengleng
  * @since 2019/2/1
  */
-@Schema(name = "部门")
+@Schema(description = "部门")
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysDept extends BaseEntity {
@@ -43,27 +43,27 @@ public class SysDept extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "dept_id", type = IdType.ASSIGN_ID)
-	@Schema(name = "部门id")
+	@Schema(description = "部门id")
 	private Long deptId;
 
 	/**
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
-	@Schema(name = "部门名称", required = true)
+	@Schema(description = "部门名称", required = true)
 	private String name;
 
 	/**
 	 * 排序
 	 */
 	@NotNull(message = "部门排序值不能为空")
-	@Schema(name = "排序值", required = true)
+	@Schema(description = "排序值", required = true)
 	private Integer sortOrder;
 
 	/**
 	 * 父级部门id
 	 */
-	@Schema(name = "父级部门id")
+	@Schema(description = "父级部门id")
 	private Long parentId;
 
 	/**
