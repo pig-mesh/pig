@@ -49,6 +49,7 @@ target/
 *.java~
 *.properties~
 *.xml~
+sessionStore
 
 ### system ignore ###
 .DS_Store
