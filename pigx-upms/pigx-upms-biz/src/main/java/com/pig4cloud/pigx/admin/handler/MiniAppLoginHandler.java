@@ -103,7 +103,7 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 		if (CollUtil.isNotEmpty(userList)) {
 			SysUser condition = new SysUser();
 			condition.setMiniOpenid(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getMiniOpenid, null));
+			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getMiniOpenid, null));
 			log.info("小程序账号 {} 更换账号绑定", identify);
 		}
 

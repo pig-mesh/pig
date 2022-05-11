@@ -109,7 +109,7 @@ public class TencentLoginHandler extends AbstractLoginHandler {
 		if (CollUtil.isNotEmpty(userList)) {
 			SysUser condition = new SysUser();
 			condition.setQqOpenid(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getQqOpenid, null));
+			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getQqOpenid, null));
 			log.info("QQ账号 {} 更换账号绑定", identify);
 		}
 
