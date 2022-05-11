@@ -39,12 +39,11 @@
         <module>pigx-jimu-platform</module>
         <module>pigx-oa-platform</module>
         <module>pigx-pay-platform</module>
-        <module>pigx-report-platform</module>
         <module>pigx-monitor</module>
         <module>pigx-mp-platform</module>
         <module>pigx-sso-client-demo</module>
+        <module>pigx-seata-server</module>
         <module>pigx-sentinel-dashboard</module>
-        <module>pigx-tx-manager</module>
         <module>pigx-xxl-job-admin</module>
     </modules>
 </project>

@@ -119,7 +119,7 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-transaction</artifactId>
+                <artifactId>pigx-common-seata</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
             <dependency>

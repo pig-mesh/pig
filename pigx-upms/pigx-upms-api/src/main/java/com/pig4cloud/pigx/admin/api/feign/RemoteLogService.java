@@ -21,9 +21,9 @@ package com.pig4cloud.pigx.admin.api.feign;
 
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
  * @author lengleng
  * @date 2018/6/28
  */
-@FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.UPMS_SERVICE)
+@FeignClient(contextId = "remoteLogService", value = "pigx-codegen")
 public interface RemoteLogService {
 
 	/**
@@ -43,5 +43,8 @@ public interface RemoteLogService {
 	 */
 	@PostMapping("/log/save")
 	R<Boolean> saveLog(@RequestBody SysLogDTO sysLog, @RequestHeader(SecurityConstants.FROM) String from);
+
+	@GetMapping("/form/tx")
+	R tx(@RequestHeader(SecurityConstants.FROM) String from);
 
 }

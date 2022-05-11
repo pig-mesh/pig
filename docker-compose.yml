@@ -134,14 +134,14 @@ services:
     ports:
       - 5006:5006
 
-  pigx-report-platform:
+  pigx-jimu-platform:
     build:
-      context: ./pigx-visual/pigx-report-platform
+      context: ./pigx-visual/pigx-jimu-platform
     restart: always
-    image: pigx-report-platform
-    container_name: pigx-report-platform
+    image: pigx-jimu-platform
+    container_name: pigx-jimu-platform
     ports:
-      - 9095:9095
+      - 5008:5008
 
   pigxx-job:
     build:
@@ -152,16 +152,6 @@ services:
     image: pigx-job
     ports:
       - 9080:9080
-
-  pigx-tx-manager:
-    build:
-      context: ./pigx-visual/pigx-tx-manager
-    restart: always
-    image: pigx-tx-manager
-    container_name: pigx-tx-manager
-    ports:
-      - 5004:5004
-      - 9998:9998
 
   pigx-sentinel:
     build:

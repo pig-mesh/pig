@@ -40,9 +40,9 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.version>3.8.1</maven.compiler.version>
-		<spring.checkstyle.version>0.0.28</spring.checkstyle.version>
+		<spring.checkstyle.version>0.0.31</spring.checkstyle.version>
 		<git.commit.version>2.2.5</git.commit.version>
-		<spring-boot-admin.version>2.6.6</spring-boot-admin.version>
+		<spring-boot-admin.version>2.6.7</spring-boot-admin.version>
 		<captcha.version>1.2.7</captcha.version>
 		<cas.sdk.version>3.6.4</cas.sdk.version>
 		<dingtalk.old.version>2.0.0</dingtalk.old.version>
@@ -50,7 +50,6 @@
 		<knife4j.version>2.0.9</knife4j.version>
 		<velocity.version>2.3</velocity.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
-		<lcn.version>4.1.0</lcn.version>
 		<jasypt.version>3.0.4</jasypt.version>
 		<ttl.version>2.11.4</ttl.version>
 		<ureport.version>2.2.9</ureport.version>
