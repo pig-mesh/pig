@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
@@ -36,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author lengleng
@@ -107,17 +105,6 @@ public class GiteeLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		List<SysUser> userList = sysUserService
-				.list(Wrappers.<SysUser>query().lambda().eq(SysUser::getGiteeLogin, identify));
-
-		// 先把原有绑定关系去除,设置绑定为NULL
-		if (CollUtil.isNotEmpty(userList)) {
-			SysUser condition = new SysUser();
-			condition.setGiteeLogin(identify);
-			sysUserService.update(null, Wrappers.<SysUser>lambdaUpdate(condition).set(SysUser::getGiteeLogin, null));
-			log.info("码云账号 {} 更换账号绑定", identify);
-		}
-
 		user.setGiteeLogin(identify);
 		sysUserService.updateById(user);
 		return true;

@@ -72,7 +72,7 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	public Boolean bind(SysUser user, String identify) {
 		user.setPhone(identify);
 		sysUserService.updateById(user);
-		return null;
+		return true;
 	}
 
 }
