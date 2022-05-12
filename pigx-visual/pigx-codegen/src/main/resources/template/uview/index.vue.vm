@@ -6,13 +6,13 @@
                 :index="item.${pk.lowerAttrName}" @click="cardClick(item.${pk.lowerAttrName})">
           <view class="" slot="body">
             #foreach($column in $columns)
-              <view>
+              <view class="row-list">
                 <span class="span-lable">${column.comments}: </span>{{item.${column.lowerAttrName}}}
               </view>
             #end
           </view>
           <view class="card-foot" slot="foot">
-            <u-button size="medium" @click="cardClick(item.${pk.lowerAttrName})">编辑</u-button>
+            <u-button type="primary" size="medium" @click="cardClick(item.${pk.lowerAttrName})">编辑</u-button>
             <u-button size="medium" @click="del(item.${pk.lowerAttrName})">删除</u-button>
           </view>
         </u-card>
