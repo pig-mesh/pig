@@ -3,7 +3,6 @@ package com.pig4cloud.pig.gateway.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.gateway.filter.PasswordDecoderFilter;
 import com.pig4cloud.pig.gateway.filter.PigRequestGlobalFilter;
-import com.pig4cloud.pig.gateway.filter.PigSpringDocGlobalFilter;
 import com.pig4cloud.pig.gateway.filter.ValidateCodeGatewayFilter;
 import com.pig4cloud.pig.gateway.handler.GlobalExceptionHandler;
 import com.pig4cloud.pig.gateway.handler.ImageCodeHandler;
@@ -29,11 +28,6 @@ public class GatewayConfiguration {
 	@Bean
 	public PigRequestGlobalFilter pigRequestGlobalFilter() {
 		return new PigRequestGlobalFilter();
-	}
-
-	@Bean
-	public PigSpringDocGlobalFilter pigSwaggerGlobalFilter() {
-		return new PigSpringDocGlobalFilter();
 	}
 
 	@Bean
