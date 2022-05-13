@@ -22,6 +22,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -29,10 +30,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -64,11 +62,8 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 	 * @return UserDetails
 	 */
 	default UserDetails getUserDetails(R<UserInfo> result) {
-		if (result == null || result.getData() == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
+		UserInfo info = RetOps.of(result).getData().orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 
-		UserInfo info = result.getData();
 		Set<String> dbAuthsSet = new HashSet<>();
 		if (ArrayUtil.isNotEmpty(info.getRoles())) {
 			// 获取角色

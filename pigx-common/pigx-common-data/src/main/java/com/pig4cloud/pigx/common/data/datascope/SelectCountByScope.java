@@ -27,7 +27,7 @@ public class SelectCountByScope extends AbstractMethod {
 				this.sqlComment());
 		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
 
-		return this.addSelectMappedStatementForOther(mapperClass, sqlSource, Integer.class);
+		return this.addSelectMappedStatementForOther(mapperClass, sqlSource, Long.class);
 	}
 
 }

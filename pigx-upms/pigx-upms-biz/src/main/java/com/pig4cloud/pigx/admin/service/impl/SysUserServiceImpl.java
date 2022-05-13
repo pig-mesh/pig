@@ -153,7 +153,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
-		return baseMapper.getUserVosPage(page, userDTO, new DataScope());
+		return baseMapper.getUserVosPage(page, userDTO, DataScope.of());
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public List<UserExcelVO> listUser(UserDTO userDTO) {
 		// 根据数据权限查询全部的用户信息
-		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, new DataScope());
+		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, DataScope.of());
 		// 转换成execl 对象输出
 		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();

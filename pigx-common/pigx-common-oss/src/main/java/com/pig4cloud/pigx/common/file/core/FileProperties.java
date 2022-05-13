@@ -36,7 +36,7 @@ public class FileProperties {
 	/**
 	 * 默认的存储桶名称
 	 */
-	private String bucketName = "payerp";
+	private String bucketName = "local";
 
 	/**
 	 * 本地文件配置信息
