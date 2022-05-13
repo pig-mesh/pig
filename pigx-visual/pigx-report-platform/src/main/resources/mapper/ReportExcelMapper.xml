@@ -1,0 +1,22 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anjiplus.template.gaea.business.modules.data.reportexcel.dao.ReportExcelMapper">
+
+    <resultMap type="com.anjiplus.template.gaea.business.modules.reportexcel.dao.entity.ReportExcel" id="ReportMap">
+        <!--jdbcType="{column.columnType}"-->
+        <result property="id" column="id"  />
+        <result property="reportCode" column="report_code"  />
+        <result property="setCodes" column="set_codes"  />
+        <result property="setParam" column="set_param"  />
+        <result property="jsonStr" column="json_str"  />
+        <result property="enableFlag" column="enable_flag"  />
+        <result property="deleteFlag" column="delete_flag"  />
+        <result property="createBy" column="create_by"  />
+        <result property="createTime" column="create_time"  />
+        <result property="updateBy" column="update_by"  />
+        <result property="updateTime" column="update_time"  />
+        <result property="version" column="version"  />
+
+    </resultMap>
+
+
+</mapper>

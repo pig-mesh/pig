@@ -238,9 +238,9 @@ public class RetOps<T> {
 	 * @see RetOps#HAS_ELEMENT
 	 * @see RetOps#DATA_AVAILABLE
 	 */
-	public <U> RetOps<U> mapIf(Predicate<? super R<T>> predicate,Function<? super T, ? extends U> mapper) {
+	public <U> RetOps<U> mapIf(Predicate<? super R<T>> predicate, Function<? super T, ? extends U> mapper) {
 		R<U> result = R.restResult(mapper.apply(original.getData()), original.getCode(), original.getMsg());
-		return of(result);？？
+		return of(result);
 	}
 
 	// ~ 数据消费

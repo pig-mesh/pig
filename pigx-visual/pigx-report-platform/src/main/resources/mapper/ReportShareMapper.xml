@@ -1,0 +1,26 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anjiplus.template.gaea.business.modules.reportshare.dao.ReportShareMapper">
+
+    <resultMap type="com.anjiplus.template.gaea.business.modules.reportshare.dao.entity.ReportShare" id="ReportShareMap">
+        <!--jdbcType="{column.columnType}"-->
+        <result property="id" column="id"  />
+        <result property="shareCode" column="share_code"  />
+        <result property="shareValidType" column="share_valid_type"  />
+        <result property="shareValidTime" column="share_valid_time"  />
+        <result property="shareUrl" column="share_url"  />
+        <result property="reportCode" column="report_code"  />
+        <result property="enableFlag" column="enable_flag"  />
+        <result property="deleteFlag" column="delete_flag"  />
+        <result property="createBy" column="create_by"  />
+        <result property="createTime" column="create_time"  />
+        <result property="updateBy" column="update_by"  />
+        <result property="updateTime" column="update_time"  />
+        <result property="version" column="version"  />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,share_code,share_valid_type,share_valid_time,share_url,report_code,enable_flag,delete_flag,create_by,create_time,update_by,update_time,version
+    </sql>
+
+</mapper>

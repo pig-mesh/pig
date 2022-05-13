@@ -1,0 +1,15 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anjiplus.template.gaea.business.modules.accessuser.dao.AccessUserRoleMapper">
+
+    <resultMap type="com.anjiplus.template.gaea.business.modules.accessuser.dao.entity.AccessUserRole" id="AccessUserMap">
+        <!--jdbcType="{column.columnType}"-->
+        <result property="id" column="id"  />
+        <result property="loginName" column="login_name"  />
+        <result property="roleCode" column="role_code"  />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,login_name,role_code
+    </sql>
+
+</mapper>
