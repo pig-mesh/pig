@@ -84,7 +84,7 @@ public class AlipayWapPayOrderHandler extends AbstractPayOrderHandler {
 				.setPrivateKey(params.getStr("privateKey")).setCharset(CharsetUtil.UTF_8)
 				.setAliPayPublicKey(params.getStr("publicKey")).setServiceUrl(params.getStr("serviceUrl"))
 				.setSignType("RSA2").build();
-		AliPayApiConfigKit.putApiConfig(aliPayApiConfig);
+		AliPayApiConfigKit.setThreadLocalAliPayApiConfig(aliPayApiConfig);
 		return channel;
 	}
 

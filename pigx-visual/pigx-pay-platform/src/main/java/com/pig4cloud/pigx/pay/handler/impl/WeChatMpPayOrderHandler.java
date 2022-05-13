@@ -81,7 +81,7 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		WxPayApiConfig wx = WxPayApiConfig.builder().appId(channel.getAppId()).mchId(channel.getChannelMchId())
 				.partnerKey(params.getStr("partnerKey")).build();
 
-		WxPayApiConfigKit.putApiConfig(wx);
+		WxPayApiConfigKit.setThreadLocalWxPayApiConfig(wx);
 		return channel;
 	}
 
