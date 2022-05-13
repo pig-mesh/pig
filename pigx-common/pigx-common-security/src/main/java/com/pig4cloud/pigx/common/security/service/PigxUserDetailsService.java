@@ -30,7 +30,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -60,10 +63,23 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 	 * 构建userdetails
 	 * @param result 用户信息
 	 * @return UserDetails
+	 * @throws UsernameNotFoundException
 	 */
 	default UserDetails getUserDetails(R<UserInfo> result) {
-		UserInfo info = RetOps.of(result).getData().orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+		// @formatter:off
+		return RetOps.of(result)
+				.getData()
+				.map(this::convertUserDetails)
+				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+		// @formatter:on
+	}
 
+	/**
+	 * UserInfo 转 UserDetails
+	 * @param info
+	 * @return 返回UserDetails对象
+	 */
+	default UserDetails convertUserDetails(UserInfo info) {
 		Set<String> dbAuthsSet = new HashSet<>();
 		if (ArrayUtil.isNotEmpty(info.getRoles())) {
 			// 获取角色

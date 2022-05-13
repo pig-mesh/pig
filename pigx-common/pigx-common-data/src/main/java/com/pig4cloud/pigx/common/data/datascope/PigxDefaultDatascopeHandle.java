@@ -23,12 +23,14 @@ import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,8 +61,13 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 		if (CollectionUtil.isEmpty(roleIdList)) {
 			return false;
 		}
-		SysRole role = dataScopeService.getRoleList(roleIdList).getData().stream()
+		// @formatter:off
+		SysRole role = RetOps.of(dataScopeService.getRoleList(roleIdList))
+				.getData()
+				.orElseGet(Collections::emptyList)
+				.stream()
 				.min(Comparator.comparingInt(SysRole::getDsType)).orElse(null);
+		// @formatter:on
 		// 角色有可能已经删除了
 		if (role == null) {
 			return false;
@@ -78,8 +85,13 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 		}
 		// 查询本级及其下级
 		if (DataScopeTypeEnum.OWN_CHILD_LEVEL.getType() == dsType) {
-			List<Long> deptIdList = dataScopeService.getDescendantList(user.getDeptId()).getData().stream()
+			// @formatter:off
+			List<Long> deptIdList = RetOps.of(dataScopeService.getDescendantList(user.getDeptId()))
+					.getData()
+					.orElseGet(Collections::emptyList)
+					.stream()
 					.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+			// @formatter:on
 			deptList.addAll(deptIdList);
 		}
 		// 只查询本级

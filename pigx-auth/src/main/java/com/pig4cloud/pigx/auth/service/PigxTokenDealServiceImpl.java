@@ -8,6 +8,7 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,10 +87,16 @@ public class PigxTokenDealServiceImpl {
 	 * @return R
 	 */
 	public R queryTokenByUsername(Page page, String username) {
-		List<OAuth2AccessToken> oAuth2AccessTokenList = clientDetailsService
-				.listClientDetails(SecurityConstants.FROM_IN).getData().stream().map(SysOauthClientDetails::getClientId)
+		// @formatter:off
+		List<OAuth2AccessToken> oAuth2AccessTokenList =
+				RetOps.of(clientDetailsService.listClientDetails(SecurityConstants.FROM_IN))
+				.getData()
+				.orElseGet(Collections::emptyList)
+				.stream().map(SysOauthClientDetails::getClientId)
 				.flatMap(clientId -> tokenStore.findTokensByClientIdAndUserName(clientId, username).stream()).distinct()
 				.collect(Collectors.toList());
+		// @formatter:on
+
 		page.setRecords(oAuth2AccessTokenList);
 		page.setTotal(oAuth2AccessTokenList.size());
 		return R.ok(page);

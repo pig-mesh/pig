@@ -107,6 +107,15 @@ public class RetOps<T> {
 	}
 
 	/**
+	 * 有条件地读取{@code data}的值
+	 * @param predicate 断言函数
+	 * @return 返回 Optional 包装的data,如果断言失败返回empty
+	 */
+	public Optional<T> getDataIf(Predicate<? super R<?>> predicate) {
+		return predicate.test(original) ? getData() : Optional.empty();
+	}
+
+	/**
 	 * 读取{@code msg}的值
 	 * @return 返回Optional包装的 msg
 	 */
@@ -216,6 +225,22 @@ public class RetOps<T> {
 	public <U> RetOps<U> map(Function<? super T, ? extends U> mapper) {
 		R<U> result = R.restResult(mapper.apply(original.getData()), original.getCode(), original.getMsg());
 		return of(result);
+	}
+
+	/**
+	 * 对业务数据(data)转换
+	 * @param predicate 断言函数
+	 * @param mapper 业务数据转换函数
+	 * @param <U> 数据类型
+	 * @return 返回新实例，以便于继续进行链式操作
+	 * @see RetOps#CODE_SUCCESS
+	 * @see RetOps#HAS_DATA
+	 * @see RetOps#HAS_ELEMENT
+	 * @see RetOps#DATA_AVAILABLE
+	 */
+	public <U> RetOps<U> mapIf(Predicate<? super R<T>> predicate,Function<? super T, ? extends U> mapper) {
+		R<U> result = R.restResult(mapper.apply(original.getData()), original.getCode(), original.getMsg());
+		return of(result);？？
 	}
 
 	// ~ 数据消费
