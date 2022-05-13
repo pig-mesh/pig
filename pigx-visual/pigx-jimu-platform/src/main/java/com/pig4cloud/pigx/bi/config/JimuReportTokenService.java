@@ -4,6 +4,7 @@ import com.pig4cloud.pigx.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import org.jeecg.modules.jmreport.api.JmReportTokenServiceI;
 import org.springframework.stereotype.Component;
@@ -24,11 +25,12 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 
 	@Override
 	public String getUsername(String token) {
-		R<Map<String, Object>> result = tokenService.queryToken(token, SecurityConstants.FROM_IN);
-		if (CommonConstants.SUCCESS.equals(result.getCode())) {
-			return (String) result.getData().get("username");
-		}
-		return null;
+		// @formatter:off
+		return RetOps.of(tokenService.queryToken(token, SecurityConstants.FROM_IN))
+				.getDataIf(RetOps.CODE_SUCCESS)
+				.map(o -> (String)o.get("username"))
+				.orElse(null);
+		// @formatter:off
 	}
 
 	@Override

@@ -62,6 +62,7 @@ public interface RemoteTokenService {
 	 * @return
 	 */
 	@GetMapping("/token/query-token")
-	R queryToken(@RequestParam("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
+	R<Map<String, Object>> queryToken(@RequestParam("token") String token,
+			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

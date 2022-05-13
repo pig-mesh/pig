@@ -22,6 +22,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -62,13 +63,23 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 	 * 构建userdetails
 	 * @param result 用户信息
 	 * @return UserDetails
+	 * @throws UsernameNotFoundException
 	 */
 	default UserDetails getUserDetails(R<UserInfo> result) {
-		if (result == null || result.getData() == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
+		// @formatter:off
+		return RetOps.of(result)
+				.getData()
+				.map(this::convertUserDetails)
+				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+		// @formatter:on
+	}
 
-		UserInfo info = result.getData();
+	/**
+	 * UserInfo 转 UserDetails
+	 * @param info
+	 * @return 返回UserDetails对象
+	 */
+	default UserDetails convertUserDetails(UserInfo info) {
 		Set<String> dbAuthsSet = new HashSet<>();
 		if (ArrayUtil.isNotEmpty(info.getRoles())) {
 			// 获取角色
