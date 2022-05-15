@@ -816,15 +816,6 @@ CREATE TABLE `sys_social_details` (
                                       PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统社交登录账号表';
 
--- ----------------------------
--- Records of sys_social_details
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_social_details` VALUES (1, 'WX', '微信互联参数', 'wxd1678d3f83b1d83a', '6ddb043f94da5d2172926abe8533504f', 'daoweicloud.com', ' ', ' ', '2018-08-16 14:24:25', '2019-03-02 09:43:13', '0', 1);
-INSERT INTO `sys_social_details` VALUES (2, 'GITEE', '码云登录', '8fc54e0e76e7842cf767c3ae3b9fdc48c03cefed27aa565ff7b2a39d142d9892', 'c544469ce78a67d9fcf9b28cd9f310b73f5cbc46a1b993e0802ad61517deb221', 'http://gitee.huaxiadaowei.com/#/authredirect', ' ', ' ', '2019-06-28 09:59:55', '2019-06-28 09:59:55', '0', 1);
-INSERT INTO `sys_social_details` VALUES (3, 'OSC', '开源中国', 'neIIqlwGsjsfsA6uxNqD', 'aOPhRuOOJNXV1x7JrTJ9qIyRCAPXoO0l', 'http://gitee.huaxiadaowei.com/#/authredirect', ' ', ' ', '2019-06-28 10:05:37', '2019-06-28 10:05:37', '0', 1);
-INSERT INTO `sys_social_details` VALUES (4, 'MINI', '小程序', 'wx6832be859d0e1cf5', '08036aef810dcb2f8ae31510910ba631', NULL, ' ', ' ', '2019-11-02 22:08:03', '2019-11-02 22:10:53', '0', 1);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_tenant

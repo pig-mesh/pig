@@ -27,21 +27,6 @@ services:
     ports:
       - 6379:6379
 
-  pigx-minio:
-    container_name: pigx-minio
-    image: minio/minio:RELEASE.2021-12-27T07-23-18Z.fips
-    command: server /data --console-address ":9001"
-    ports:
-      - 9000:9000
-      - 9001:9001
-    volumes:
-      - ./data:/data
-      - ./config:/root/.minio
-    environment:
-      - MINIO_DOMAIN=pigx-minio
-      - MINIO_ROOT_USER=lengleng
-      - MINIO_ROOT_PASSWORD=lengleng
-
   pigx-register:
     build:
       context: ./pigx-register
