@@ -32,7 +32,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>pigx-bi-platform</module>
+        <module>pigx-report-platform</module>
         <module>pigx-codegen</module>
         <module>pigx-daemon-elastic-job</module>
         <module>pigx-daemon-quartz</module>

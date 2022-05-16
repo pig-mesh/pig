@@ -1,0 +1,36 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.anjiplus.template.gaea.business.modules.accessuser.dao.AccessUserMapper">
+
+    <resultMap type="com.anjiplus.template.gaea.business.modules.accessuser.dao.entity.AccessUser" id="AccessUserMap">
+        <!--jdbcType="{column.columnType}"-->
+        <result property="id" column="id"  />
+        <result property="loginName" column="login_name"  />
+        <result property="password" column="password"  />
+        <result property="realName" column="real_name"  />
+        <result property="email" column="email"  />
+        <result property="phone" column="phone"  />
+        <result property="remark" column="remark"  />
+        <result property="lastLoginIp" column="last_login_ip"  />
+        <result property="lastLoginTime" column="last_login_time"  />
+        <result property="enableFlag" column="enable_flag"  />
+        <result property="deleteFlag" column="delete_flag"  />
+        <result property="createBy" column="create_by"  />
+        <result property="createTime" column="create_time"  />
+        <result property="updateBy" column="update_by"  />
+        <result property="updateTime" column="update_time"  />
+        <result property="version" column="version"  />
+
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,login_name,password,real_name,email,phone,remark,
+        last_login_ip,last_login_time,
+        delete_flag,enable_flag,create_by,create_time,update_by,update_time,version
+    </sql>
+
+    <select id="queryAuthoritiesByLoginName" resultType="java.lang.String" parameterType="java.lang.String">
+        select distinct concat(target,':',action) from access_role_authority where role_code in (
+            select role_code from access_user_role where login_name=#{loginName}
+        )
+    </select>
+</mapper>
