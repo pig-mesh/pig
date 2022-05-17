@@ -110,14 +110,14 @@ services:
     image: pigx-oa-platform
     container_name: pigx-oa-platform
 
-  pigx-bi-platform:
+  pigx-report-platform:
     build:
-      context: ./pigx-visual/pigx-bi-platform
+      context: ./pigx-visual/pigx-report-platform
     restart: always
-    image: pigx-bi-platform
-    container_name: pigx-bi-platform
+    image: pigx-report-platform
+    container_name: pigx-report-platform
     ports:
-      - 5006:5006
+      - 9095:9095
 
   pigx-jimu-platform:
     build:
