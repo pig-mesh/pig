@@ -29,10 +29,10 @@ public class ApiLoggingFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		String info = String.format("Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
-				exchange.getRequest().getMethod().name(), exchange.getRequest().getURI().getHost(),
-				exchange.getRequest().getURI().getPath(), exchange.getRequest().getQueryParams());
 		if (log.isDebugEnabled()) {
+			String info = String.format("Method:{%s} Host:{%s} Path:{%s} Query:{%s}",
+					exchange.getRequest().getMethod().name(), exchange.getRequest().getURI().getHost(),
+					exchange.getRequest().getURI().getPath(), exchange.getRequest().getQueryParams());
 			log.debug(info);
 		}
 		exchange.getAttributes().put(START_TIME, System.currentTimeMillis());
