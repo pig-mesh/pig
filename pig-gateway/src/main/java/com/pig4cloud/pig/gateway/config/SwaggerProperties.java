@@ -27,11 +27,7 @@ import java.util.Map;
 /**
  * SwaggerProperties
  *
- * swagger:
- *   basic:
- *     enable: true
- *     username: admin
- *     password: admin
+ * swagger: basic: enable: true username: admin password: admin
  *
  * @author edgar
  */
@@ -92,8 +88,6 @@ public class SwaggerProperties {
 	 */
 	private SwaggerBasic basic = new SwaggerBasic();
 
-
-
 	@Data
 	public static class SwaggerBasic {
 
@@ -113,6 +107,5 @@ public class SwaggerProperties {
 		private String password;
 
 	}
-
 
 }

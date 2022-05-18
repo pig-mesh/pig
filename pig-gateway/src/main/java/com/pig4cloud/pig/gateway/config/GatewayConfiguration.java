@@ -34,7 +34,7 @@ public class GatewayConfiguration {
 
 	@Bean
 	@ConditionalOnProperty(name = "swagger.basic.enable")
-	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SwaggerProperties swaggerProperties){
+	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SwaggerProperties swaggerProperties) {
 		return new SwaggerBasicGatewayFilter(swaggerProperties);
 	}
 
