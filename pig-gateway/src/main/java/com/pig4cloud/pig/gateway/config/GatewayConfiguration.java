@@ -3,9 +3,11 @@ package com.pig4cloud.pig.gateway.config;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.gateway.filter.PasswordDecoderFilter;
 import com.pig4cloud.pig.gateway.filter.PigRequestGlobalFilter;
+import com.pig4cloud.pig.gateway.filter.SwaggerBasicGatewayFilter;
 import com.pig4cloud.pig.gateway.filter.ValidateCodeGatewayFilter;
 import com.pig4cloud.pig.gateway.handler.GlobalExceptionHandler;
 import com.pig4cloud.pig.gateway.handler.ImageCodeHandler;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +30,12 @@ public class GatewayConfiguration {
 	@Bean
 	public PigRequestGlobalFilter pigRequestGlobalFilter() {
 		return new PigRequestGlobalFilter();
+	}
+
+	@Bean
+	@ConditionalOnProperty(name = "swagger.basic.enable")
+	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SwaggerProperties swaggerProperties){
+		return new SwaggerBasicGatewayFilter(swaggerProperties);
 	}
 
 	@Bean
