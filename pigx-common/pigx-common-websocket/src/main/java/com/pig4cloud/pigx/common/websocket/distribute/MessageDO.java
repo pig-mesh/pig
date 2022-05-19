@@ -19,12 +19,7 @@ public class MessageDO {
 	private Boolean needBroadcast;
 
 	/**
-	 * 对于拥有相同 sessionKey 的客户端，仅对其中的一个进行发送
-	 */
-	private Boolean onlyOneClientInSameKey;
-
-	/**
-	 * 需要发送的 sessionKeys 集合，当广播时，不需要
+	 * sessionKeys
 	 */
 	private List<Object> sessionKeys;
 
@@ -32,5 +27,13 @@ public class MessageDO {
 	 * 需要发送的消息文本
 	 */
 	private String messageText;
+
+	/**
+	 * 构建需要广播的message
+	 * @author lingting 2021-03-25 17:28
+	 */
+	public static MessageDO broadcastMessage(String text) {
+		return new MessageDO().setMessageText(text).setNeedBroadcast(true);
+	}
 
 }

@@ -2,8 +2,6 @@ package com.pig4cloud.pigx.common.websocket.config;
 
 import com.pig4cloud.pigx.common.websocket.distribute.LocalMessageDistributor;
 import com.pig4cloud.pigx.common.websocket.distribute.MessageDistributor;
-import com.pig4cloud.pigx.common.websocket.session.WebSocketSessionStore;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -17,10 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnProperty(prefix = WebSocketProperties.PREFIX, name = "message-distributor",
 		havingValue = MessageDistributorTypeConstants.LOCAL)
 @Configuration(proxyBeanMethods = false)
-@RequiredArgsConstructor
-public class LocalMessageDistributorConfig {
-
-	private final WebSocketSessionStore webSocketSessionStore;
+public class LocalMessageDistributorConfiguration {
 
 	/**
 	 * 本地基于内存的消息分发，不支持集群
@@ -29,7 +24,7 @@ public class LocalMessageDistributorConfig {
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	public LocalMessageDistributor messageDistributor() {
-		return new LocalMessageDistributor(webSocketSessionStore);
+		return new LocalMessageDistributor();
 	}
 
 }

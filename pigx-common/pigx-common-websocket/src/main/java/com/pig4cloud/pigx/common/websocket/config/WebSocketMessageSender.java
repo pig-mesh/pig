@@ -1,21 +1,38 @@
-package com.pig4cloud.pigx.common.websocket;
+package com.pig4cloud.pigx.common.websocket.config;
 
 import cn.hutool.json.JSONUtil;
+import com.pig4cloud.pigx.common.websocket.holder.WebSocketSessionHolder;
 import com.pig4cloud.pigx.common.websocket.message.JsonWebSocketMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * @author Hccake 2021/1/4
  * @version 1.0
  */
 @Slf4j
-public final class WebSocketMessageSender {
+public class WebSocketMessageSender {
 
-	private WebSocketMessageSender() {
+	public static void broadcast(String message) {
+		Collection<WebSocketSession> sessions = WebSocketSessionHolder.getSessions();
+		for (WebSocketSession session : sessions) {
+			send(session, message);
+		}
+	}
+
+	public static boolean send(Object sessionKey, String message) {
+		WebSocketSession session = WebSocketSessionHolder.getSession(sessionKey);
+		if (session == null) {
+			log.info("[send] 当前 sessionKey：{} 对应 session 不在本服务中", sessionKey);
+			return false;
+		}
+		else {
+			return send(session, message);
+		}
 	}
 
 	public static void send(WebSocketSession session, JsonWebSocketMessage message) {
