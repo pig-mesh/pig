@@ -31,6 +31,12 @@ public @interface SysLog {
 	 * 描述
 	 * @return {String}
 	 */
-	String value();
+	String value() default "";
+
+	/**
+	 * spel 表达式
+	 * @return 日志描述
+	 */
+	String expression() default "";
 
 }
