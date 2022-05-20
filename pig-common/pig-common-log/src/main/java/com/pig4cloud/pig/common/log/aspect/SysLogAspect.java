@@ -56,7 +56,7 @@ public class SysLogAspect {
 			try {
 				value = SysLogUtils.getValue(context, expression, String.class);
 			} catch (Exception e) {
-				// SPEL 表达式异常，则获取 value 的值
+				// SPEL 表达式异常，获取 value 的值
 				log.error("@SysLog 解析SPEL {} 异常", expression);
 			}
 		}
