@@ -15,10 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.discovery;
 
-import java.util.Objects;
-
 import com.alibaba.csp.sentinel.dashboard.config.DashboardConfig;
 import com.alibaba.csp.sentinel.util.StringUtil;
+
+import java.util.Objects;
 
 public class MachineInfo implements Comparable<MachineInfo> {
 

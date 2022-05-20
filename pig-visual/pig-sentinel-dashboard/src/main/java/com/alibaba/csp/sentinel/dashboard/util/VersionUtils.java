@@ -15,11 +15,10 @@
  */
 package com.alibaba.csp.sentinel.dashboard.util;
 
-import java.util.Optional;
-
+import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
 import com.alibaba.csp.sentinel.util.StringUtil;
 
-import com.alibaba.csp.sentinel.dashboard.datasource.entity.SentinelVersion;
+import java.util.Optional;
 
 /**
  * Util class for parsing version.

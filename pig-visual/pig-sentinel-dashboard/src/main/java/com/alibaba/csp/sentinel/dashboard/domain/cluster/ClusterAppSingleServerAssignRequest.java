@@ -15,9 +15,9 @@
  */
 package com.alibaba.csp.sentinel.dashboard.domain.cluster;
 
-import java.util.Set;
-
 import com.alibaba.csp.sentinel.dashboard.domain.cluster.request.ClusterAppAssignMap;
+
+import java.util.Set;
 
 /**
  * @author Eric Zhao
