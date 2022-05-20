@@ -58,7 +58,7 @@ public class SysLogAspect {
 		log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 
 		String value = sysLog.value();
-		if (StrUtil.isNotBlank(value)) {
+		if (StrUtil.contains(value, "#")) {
 			// 解析SPEL
 			MethodSignature signature = (MethodSignature) point.getSignature();
 			EvaluationContext context = SysLogUtils.getContext(point.getArgs(), signature.getMethod());
