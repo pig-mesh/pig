@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.pig4cloud.pig.common.mybatis.MybatisAutoConfiguration

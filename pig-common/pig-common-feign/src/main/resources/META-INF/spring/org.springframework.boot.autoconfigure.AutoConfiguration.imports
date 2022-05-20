@@ -1,0 +1,3 @@
+com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration
+com.pig4cloud.pig.common.feign.sentinel.SentinelAutoConfiguration
+com.pig4cloud.pig.common.feign.sentinel.handle.GlobalBizExceptionHandler

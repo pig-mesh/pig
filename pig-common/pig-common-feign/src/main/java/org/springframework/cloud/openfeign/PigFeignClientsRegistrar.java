@@ -25,6 +25,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionReaderUtils;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.boot.context.annotation.ImportCandidates;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotatedElementUtils;
@@ -35,6 +36,7 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -63,8 +65,12 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	}
 
 	private void registerFeignClients(BeanDefinitionRegistry registry) {
-		List<String> feignClients = SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(),
-				getBeanClassLoader());
+
+		List<String> feignClients = new ArrayList<>(
+				SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
+
+		// 支持 springboot 2.7 + 最新版本的配置方式
+		ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
 		// 如果 spring.factories 里为空
 		if (feignClients.isEmpty()) {
 			return;

@@ -1,8 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl,\
-  com.pig4cloud.pig.common.security.service.PigAppUserDetailsServiceImpl,\
-  com.pig4cloud.pig.common.security.component.PigSecurityInnerAspect,\
-  com.pig4cloud.pig.common.security.component.PigTokenStoreAutoConfiguration,\
-  com.pig4cloud.pig.common.security.component.PigTokenStoreAutoCleanSchedule,\
-  com.pig4cloud.pig.common.security.component.PigSecurityMessageSourceConfiguration
-
