@@ -55,7 +55,8 @@ public class SysLogAspect {
 			EvaluationContext context = SysLogUtils.getContext(point.getArgs(), signature.getMethod());
 			try {
 				value = SysLogUtils.getValue(context, expression, String.class);
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				// SPEL 表达式异常，获取 value 的值
 				log.error("@SysLog 解析SPEL {} 异常", expression);
 			}
