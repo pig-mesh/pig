@@ -115,4 +115,16 @@ public class FileController {
 		IoUtil.copy(resource.getInputStream(), response.getOutputStream());
 	}
 
+	/**
+	 * 获取文件外网的访问地址
+	 * @param bucket
+	 * @param fileName
+	 * @return
+	 */
+	@Inner(false)
+	@GetMapping("/online/{bucket}/{fileName}")
+	public R<String> onlineFile(@PathVariable String bucket, @PathVariable String fileName) {
+		return R.ok(sysFileService.onlineFile(bucket, fileName));
+	}
+
 }
