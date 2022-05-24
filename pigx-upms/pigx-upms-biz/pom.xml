@@ -19,159 +19,175 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx-upms</artifactId>
-		<version>4.3.0</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx-upms</artifactId>
+        <version>4.4.0</version>
+    </parent>
 
-	<artifactId>pigx-upms-biz</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>pigx-upms-biz</artifactId>
+    <packaging>jar</packaging>
 
-	<description>pigx 通用用户权限管理系统业务处理模块</description>
+    <description>pigx 通用用户权限管理系统业务处理模块</description>
 
-	<dependencies>
-		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		<!-- ojdbc8 -->
-		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-		</dependency>
-		<!--PG-->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
-		<!--mssql-->
-		<dependency>
-			<groupId>com.microsoft.sqlserver</groupId>
-			<artifactId>mssql-jdbc</artifactId>
-		</dependency>
-		<!--upms api、model 模块-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-upms-api</artifactId>
-		</dependency>
-		<!--日志处理-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-log</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-data</artifactId>
-		</dependency>
-		<!--swagger-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-swagger</artifactId>
-		</dependency>
-		<!--文件系统-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-oss</artifactId>
-		</dependency>
-		<!--注册中心客户端-->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-		</dependency>
-		<!--配置中心客户端-->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-		</dependency>
-		<!--spring security 、oauth、jwt依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-security</artifactId>
-		</dependency>
-		<!--XSS 安全过滤-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-xss</artifactId>
-		</dependency>
-		<!--支持动态路由配置 -->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-gateway</artifactId>
-		</dependency>
-		<!--sentinel 依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-sentinel</artifactId>
-		</dependency>
-		<!--路由控制-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-gray</artifactId>
-		</dependency>
-		<!--mybatis-->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
-		</dependency>
-		<!-- druid 连接池 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-		</dependency>
-		<!-- cas sdk -->
-		<dependency>
-			<groupId>org.jasig.cas.client</groupId>
-			<artifactId>cas-client-core</artifactId>
-			<version>${cas.sdk.version}</version>
-		</dependency>
-		<!--web 模块-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<!--undertow容器-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+        <!-- ojdbc8 -->
+        <dependency>
+            <groupId>com.oracle.database.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+        </dependency>
+        <!--PG-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <!--mssql-->
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+        </dependency>
+        <!--DM8-->
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
+        </dependency>
+        <!--upms api、model 模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-upms-api</artifactId>
+        </dependency>
+        <!--日志处理-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-data</artifactId>
+        </dependency>
+        <!--swagger-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-swagger</artifactId>
+        </dependency>
+        <!--文件系统-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-oss</artifactId>
+        </dependency>
+        <!--注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--spring security 、oauth、jwt依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-security</artifactId>
+        </dependency>
+        <!--XSS 安全过滤-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-xss</artifactId>
+        </dependency>
+        <!--支持动态路由配置 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-gateway</artifactId>
+        </dependency>
+        <!--sentinel 依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-sentinel</artifactId>
+        </dependency>
+        <!--路由控制-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-gray</artifactId>
+        </dependency>
+        <!--mybatis-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- cas sdk -->
+        <dependency>
+            <groupId>org.jasig.cas.client</groupId>
+            <artifactId>cas-client-core</artifactId>
+            <version>${cas.sdk.version}</version>
+        </dependency>
+        <!--旧版api,新版api未包含全部的服务端API的产品能力-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>${dingtalk.old.version}</version>
+        </dependency>
+        <!--企业微信-->
+        <dependency>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-cp</artifactId>
+        </dependency>
+        <!--web 模块-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--undertow容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+    </dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<configuration>
-					<skip>false</skip>
-				</configuration>
-			</plugin>
-		</plugins>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-				<excludes>
-					<exclude>**/*.xlsx</exclude>
-					<exclude>**/*.xls</exclude>
-				</excludes>
-			</resource>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>false</filtering>
-				<includes>
-					<include>**/*.xlsx</include>
-					<include>**/*.xls</include>
-				</includes>
-			</resource>
-		</resources>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.xlsx</exclude>
+                    <exclude>**/*.xls</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.xlsx</include>
+                    <include>**/*.xls</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
 
 </project>

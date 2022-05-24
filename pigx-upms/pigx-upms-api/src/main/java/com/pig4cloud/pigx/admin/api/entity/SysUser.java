@@ -69,6 +69,20 @@ public class SysUser implements Serializable {
 	private String salt;
 
 	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
+
+	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
@@ -86,6 +100,7 @@ public class SysUser implements Serializable {
 	 * 0-正常，1-删除
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 

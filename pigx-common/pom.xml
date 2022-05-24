@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx</artifactId>
-		<version>4.3.0</version>
+		<version>4.4.0</version>
 	</parent>
 
 	<artifactId>pigx-common</artifactId>
@@ -45,12 +45,12 @@
 		<module>pigx-common-job</module>
 		<module>pigx-common-log</module>
 		<module>pigx-common-oss</module>
+		<module>pigx-common-seata</module>
 		<module>pigx-common-security</module>
 		<module>pigx-common-sentinel</module>
 		<module>pigx-common-sequence</module>
 		<module>pigx-common-swagger</module>
 		<module>pigx-common-test</module>
-		<module>pigx-common-transaction</module>
 		<module>pigx-common-websocket</module>
 		<module>pigx-common-xss</module>
 	</modules>

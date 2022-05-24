@@ -64,6 +64,15 @@ public enum LoginTypeEnum {
 	OSC("OSC", "开源中国登录"),
 
 	/**
+	 * 钉钉
+	 */
+	DINGTALK("DINGTALK", "钉钉"),
+
+	/**
+	 * 企业微信
+	 */
+	WEIXIN_CP("WEIXIN_CP", "企业微信"),
+	/**
 	 * CAS 登录
 	 */
 	CAS("CAS", "CAS 登录");

@@ -1,0 +1,18 @@
+// 以下内容请复制到http.api.js中
+pigx${className}: {
+        // 分页
+        #[[fetchList: (params={}) => vm.$u.get]]#('/${moduleName}/${pathName}/page',params),
+
+        // 新增
+        #[[addObj: (obj={}) => vm.$u.post]]#('/${moduleName}/${pathName}', obj),
+
+        // 修改
+        #[[putObj: (obj={}) => vm.$u.put]]#('/${moduleName}/${pathName}',obj),
+
+        // 删除
+        #[[delObj: (params) => vm.$u.delete]]#('/${moduleName}/${pathName}/'+params.id),
+
+        // 查询
+        #[[getObj: (params) => vm.$u.get]]#('/${moduleName}/${pathName}/' + params.id)
+}
+

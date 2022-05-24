@@ -24,7 +24,7 @@
 
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pigx</artifactId>
-	<version>4.3.0</version>
+	<version>4.4.0</version>
 	<name>${project.artifactId}</name>
 	<packaging>pom</packaging>
 	<organization>
@@ -33,26 +33,27 @@
 	</organization>
 
 	<properties>
-		<spring-boot.version>2.6.3</spring-boot.version>
-		<spring-cloud.version>2021.0.1</spring-cloud.version>
-		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+		<spring-boot.version>2.6.7</spring-boot.version>
+		<spring-cloud.version>2021.0.2</spring-cloud.version>
+		<spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.version>3.8.1</maven.compiler.version>
-		<spring.checkstyle.version>0.0.28</spring.checkstyle.version>
+		<spring.checkstyle.version>0.0.29</spring.checkstyle.version>
 		<git.commit.version>2.2.5</git.commit.version>
-		<spring-boot-admin.version>2.6.0</spring-boot-admin.version>
+		<spring-boot-admin.version>2.6.7</spring-boot-admin.version>
 		<captcha.version>1.2.7</captcha.version>
 		<cas.sdk.version>3.6.4</cas.sdk.version>
+		<dingtalk.old.version>2.0.0</dingtalk.old.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<knife4j.version>2.0.9</knife4j.version>
 		<velocity.version>2.3</velocity.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
-		<lcn.version>4.1.0</lcn.version>
-		<jasypt.version>3.0.3</jasypt.version>
+		<jasypt.version>3.0.4</jasypt.version>
 		<ttl.version>2.11.4</ttl.version>
 		<ureport.version>2.2.9</ureport.version>
+		<jimu.version>1.5.0-beta</jimu.version>
 		<aws.version>1.11.543</aws.version>
 		<xxl.job.version>2.3.0</xxl.job.version>
 		<activiti.version>5.22.0</activiti.version>
@@ -67,11 +68,6 @@
 	</properties>
 
 	<dependencies>
-		<!--bootstrap 启动器-->
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-bootstrap</artifactId>
-		</dependency>
 		<!--配置文件处理器-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

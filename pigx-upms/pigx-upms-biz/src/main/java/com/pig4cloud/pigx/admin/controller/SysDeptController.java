@@ -63,6 +63,14 @@ public class SysDeptController {
 	}
 
 	/**
+	 * 查询全部部门
+	 */
+	@GetMapping("/list")
+	public R list() {
+		return R.ok(sysDeptService.list());
+	}
+
+	/**
 	 * 返回树形菜单集合
 	 * @param deptName 部门名称
 	 * @return 树形菜单

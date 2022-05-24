@@ -79,8 +79,9 @@ public class SysFile extends Model<SysFile> {
 	/**
 	 * 上传人
 	 */
+	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "创建者")
-	private String createUser;
+	private String createBy;
 
 	/**
 	 * 上传时间
@@ -94,7 +95,7 @@ public class SysFile extends Model<SysFile> {
 	 */
 	@TableField(fill = FieldFill.INSERT)
 	@ApiModelProperty(value = "更新者")
-	private String updateUser;
+	private String updateBy;
 
 	/**
 	 * 更新时间

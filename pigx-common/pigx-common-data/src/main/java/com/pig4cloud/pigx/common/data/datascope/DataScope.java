@@ -56,4 +56,31 @@ public class DataScope extends HashMap {
 	 */
 	private DataScopeFuncEnum func = DataScopeFuncEnum.ALL;
 
+	/**
+	 * of 获取实例
+	 */
+	public static DataScope of() {
+		return new DataScope();
+	}
+
+	public DataScope scopeName(String scopeName) {
+		this.scopeName = scopeName;
+		return this;
+	}
+
+	public DataScope deptIds(List<Long> deptIds) {
+		this.deptIds = deptIds;
+		return this;
+	}
+
+	public DataScope only(boolean isOnly) {
+		this.isOnly = isOnly;
+		return this;
+	}
+
+	public DataScope func(DataScopeFuncEnum func) {
+		this.func = func;
+		return this;
+	}
+
 }

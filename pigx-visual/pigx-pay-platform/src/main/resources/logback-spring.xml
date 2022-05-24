@@ -65,6 +65,6 @@
 	<!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
 	<root level="INFO">
 		<appender-ref ref="console"/>
-		<appender-ref ref="debug"/>
+		<appender-ref ref="error"/>
 	</root>
 </configuration>

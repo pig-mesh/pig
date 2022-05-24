@@ -6,7 +6,7 @@
     <parent>
         <groupId>group.springframework</groupId>
         <artifactId>spring-cloud-dependencies-parent</artifactId>
-        <version>2021.0.1</version>
+        <version>2021.0.2</version>
         <relativePath/>
     </parent>
 
@@ -17,16 +17,17 @@
     <description>pigx 公共版本控制</description>
 
     <properties>
-        <pigx.version>4.3.0</pigx.version>
+        <pigx.version>4.4.0</pigx.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
-        <druid.version>1.2.8</druid.version>
-        <hutool.version>5.7.21</hutool.version>
-        <mysql.connector.version>8.0.27</mysql.connector.version>
+        <druid.version>1.2.9</druid.version>
+        <hutool.version>5.8.0</hutool.version>
+        <mysql.connector.version>8.0.29</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
+        <dm.version>8.1.2.79</dm.version>
         <swagger.core.version>1.5.22</swagger.core.version>
-        <mp.weixin.version>4.2.0</mp.weixin.version>
+        <mp.weixin.version>4.3.0</mp.weixin.version>
         <ijpay.version>2.8.0</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <jsoup.version>1.13.1</jsoup.version>
@@ -35,10 +36,13 @@
         <xxl.job.version>2.3.0</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.11.543</aws.version>
+		<seata.version>1.4.2</seata.version>
+		<asm.version>7.1</asm.version>
         <log4j2.version>2.17.1</log4j2.version>
         <javaformat.plugin.version>0.0.23</javaformat.plugin.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
+		<sentinel.version>1.8.4</sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -115,7 +119,7 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-transaction</artifactId>
+                <artifactId>pigx-common-seata</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
             <dependency>
@@ -143,6 +147,17 @@
                 <artifactId>pigx-upms-api</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
+			<dependency>
+				<groupId>org.ow2.asm</groupId>
+				<artifactId>asm</artifactId>
+				<version>${asm.version}</version>
+			</dependency>
+			<!--  seata kryo 序列化-->
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-serializer-kryo</artifactId>
+				<version>${seata.version}</version>
+			</dependency>
             <!--mybatis plus extension,包含了mybatis plus core-->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -189,6 +204,12 @@
                 <artifactId>mssql-jdbc</artifactId>
                 <version>${sqlserver.version}</version>
             </dependency>
+            <!--DM8-->
+            <dependency>
+                <groupId>com.dameng</groupId>
+                <artifactId>DmJdbcDriver18</artifactId>
+                <version>${dm.version}</version>
+            </dependency>
             <!--fastjson-->
             <dependency>
                 <groupId>com.alibaba</groupId>
@@ -210,6 +231,11 @@
             <dependency>
                 <groupId>com.github.binarywang</groupId>
                 <artifactId>weixin-java-mp</artifactId>
+                <version>${mp.weixin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-cp</artifactId>
                 <version>${mp.weixin.version}</version>
             </dependency>
             <dependency>
@@ -267,6 +293,41 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-core</artifactId>
+				<version>${sentinel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-web-servlet</artifactId>
+				<version>${sentinel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-transport-simple-http</artifactId>
+				<version>${sentinel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-parameter-flow-control</artifactId>
+				<version>${sentinel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba.csp</groupId>
+				<artifactId>sentinel-api-gateway-adapter-common</artifactId>
+				<version>${sentinel.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
         </dependencies>
     </dependencyManagement>
 

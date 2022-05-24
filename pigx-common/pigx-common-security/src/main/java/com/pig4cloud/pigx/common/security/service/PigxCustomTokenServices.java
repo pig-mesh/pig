@@ -4,8 +4,6 @@ import cn.hutool.core.map.MapUtil;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.common.*;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -13,7 +11,6 @@ import org.springframework.security.oauth2.common.exceptions.InvalidScopeExcepti
 import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.oauth2.provider.*;
 import org.springframework.security.oauth2.provider.token.*;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -44,8 +41,6 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 	private ClientDetailsService clientDetailsService;
 
 	private TokenEnhancer accessTokenEnhancer;
-
-	private AuthenticationManager authenticationManager;
 
 	/**
 	 * Initialize these token services. If no random generator is set, one will be
@@ -121,17 +116,6 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 		}
 
 		OAuth2Authentication authentication = tokenStore.readAuthenticationForRefreshToken(refreshToken);
-		if (this.authenticationManager != null && !authentication.isClientOnly()) {
-			// The client has already been authenticated, but the user authentication
-			// might be old now, so give it a
-			// chance to re-authenticate.
-			Authentication user = new PreAuthenticatedAuthenticationToken(authentication.getUserAuthentication(), "",
-					authentication.getAuthorities());
-			user = authenticationManager.authenticate(user);
-			Object details = authentication.getDetails();
-			authentication = new OAuth2Authentication(authentication.getOAuth2Request(), user);
-			authentication.setDetails(details);
-		}
 		String clientId = authentication.getOAuth2Request().getClientId();
 		if (clientId == null || !clientId.equals(tokenRequest.getClientId())) {
 			throw new InvalidGrantException("Wrong client for this refresh token: " + refreshTokenValue);
@@ -392,15 +376,6 @@ public class PigxCustomTokenServices implements AuthorizationServerTokenServices
 	 */
 	public void setTokenStore(TokenStore tokenStore) {
 		this.tokenStore = tokenStore;
-	}
-
-	/**
-	 * An authentication manager that will be used (if provided) to check the user
-	 * authentication when a token is refreshed.
-	 * @param authenticationManager the authenticationManager to set
-	 */
-	public void setAuthenticationManager(AuthenticationManager authenticationManager) {
-		this.authenticationManager = authenticationManager;
 	}
 
 	/**

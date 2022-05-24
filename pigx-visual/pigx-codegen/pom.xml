@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>4.3.0</version>
+		<version>4.4.0</version>
 	</parent>
 
 	<artifactId>pigx-codegen</artifactId>
@@ -15,7 +15,7 @@
 	<description>代码生成模块</description>
 
 	<properties>
-		<screw.version>0.0.1</screw.version>
+		<screw.version>0.0.2</screw.version>
 		<db2.version>11.5.0.0</db2.version>
 		<configuration.version>1.10</configuration.version>
 	</properties>
@@ -70,6 +70,11 @@
 			<groupId>com.ibm.db2</groupId>
 			<artifactId>jcc</artifactId>
 			<version>${db2.version}</version>
+		</dependency>
+		<!--DM-->
+		<dependency>
+			<groupId>com.dameng</groupId>
+			<artifactId>DmJdbcDriver18</artifactId>
 		</dependency>
 		<!-- druid 连接池 -->
 		<dependency>

@@ -19,6 +19,8 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -63,6 +65,7 @@ public class SysSocialDetails extends Model<SysSocialDetails> {
 	/**
 	 * appid
 	 */
+	@Sensitive(prefixNoMaskLen = 4, suffixNoMaskLen = 4)
 	@NotBlank(message = "账号不能为空")
 	@ApiModelProperty(value = "appId")
 	private String appId;
@@ -70,7 +73,8 @@ public class SysSocialDetails extends Model<SysSocialDetails> {
 	/**
 	 * app_secret
 	 */
-	@NotBlank(message = "密钥不能为空")
+	@Sensitive(prefixNoMaskLen = 9, suffixNoMaskLen = 9)
+	@NotBlank(message = "密钥不能为空", groups = { ValidGroup.Insert.class })
 	@ApiModelProperty(value = "app secret")
 	private String appSecret;
 
@@ -79,6 +83,26 @@ public class SysSocialDetails extends Model<SysSocialDetails> {
 	 */
 	@ApiModelProperty(value = "回调地址")
 	private String redirectUrl;
+
+	/**
+	 * 拓展字段
+	 */
+	@ApiModelProperty(value = "拓展字段")
+	private String ext;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
 
 	/**
 	 * 创建时间

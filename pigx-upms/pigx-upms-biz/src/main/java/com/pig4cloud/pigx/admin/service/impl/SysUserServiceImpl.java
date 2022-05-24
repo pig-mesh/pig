@@ -32,11 +32,15 @@ import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
+import com.pig4cloud.pigx.admin.mapper.SysUserPostMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
+import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,10 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -74,6 +75,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	private final SysUserRoleService sysUserRoleService;
 
+	private final SysUserPostMapper sysUserPostMapper;
+
 	/**
 	 * 保存用户信息
 	 * @param userDto DTO 对象
@@ -87,6 +90,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
 		baseMapper.insert(sysUser);
+		// 保存用户岗位信息
+		Optional.ofNullable(userDto.getPost()).ifPresent(posts -> {
+			posts.stream().map(postId -> {
+				SysUserPost userPost = new SysUserPost();
+				userPost.setUserId(sysUser.getUserId());
+				userPost.setPostId(postId);
+				return userPost;
+			}).forEach(sysUserPostMapper::insert);
+		});
+
+		// 如果角色为空，赋默认角色
+		if (CollUtil.isEmpty(userDto.getRole())) {
+			// 获取默认角色编码
+			String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
+			// 默认角色
+			SysRole sysRole = sysRoleService
+					.getOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
+			userDto.setRole(Collections.singletonList(sysRole.getRoleId()));
+		}
+
 		List<SysUserRole> userRoleList = userDto.getRole().stream().map(roleId -> {
 			SysUserRole userRole = new SysUserRole();
 			userRole.setUserId(sysUser.getUserId());
@@ -130,7 +153,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
-		return baseMapper.getUserVosPage(page, userDTO, new DataScope());
+		return baseMapper.getUserVosPage(page, userDTO, DataScope.of());
 	}
 
 	/**
@@ -162,7 +185,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 		if (!ENCODER.matches(userDto.getPassword(), userVO.getPassword())) {
 			log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
-			return R.failed("原密码错误，修改个人信息失败");
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
 		}
 
 		SysUser sysUser = new SysUser();
@@ -199,6 +222,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userRole.setRoleId(roleId);
 			userRole.insert();
 		});
+		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
+		userDto.getPost().forEach(postId -> {
+			SysUserPost userPost = new SysUserPost();
+			userPost.setUserId(sysUser.getUserId());
+			userPost.setPostId(postId);
+			userPost.insert();
+		});
 		return Boolean.TRUE;
 	}
 
@@ -228,7 +258,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public List<UserExcelVO> listUser(UserDTO userDTO) {
 		// 根据数据权限查询全部的用户信息
-		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, new DataScope());
+		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, DataScope.of());
 		// 转换成execl 对象输出
 		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
@@ -266,14 +296,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
 			if (exsitUserName) {
-				errorMsg.add(String.format("%s 用户名已存在", excel.getUsername()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
 			// 判断输入的部门名称列表是否合法
 			Optional<SysDept> deptOptional = deptList.stream()
 					.filter(dept -> excel.getDeptName().equals(dept.getName())).findFirst();
 			if (!deptOptional.isPresent()) {
-				errorMsg.add(String.format("%s 部门名称不存在", excel.getDeptName()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptName()));
 			}
 
 			// 判断输入的角色名称列表是否合法
@@ -283,7 +313,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 					.collect(Collectors.toList());
 
 			if (roleCollList.size() != roleNameList.size()) {
-				errorMsg.add(String.format("%s 角色名称不存在", excel.getRoleNameList()));
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
 			}
 
 			// 数据合法情况
@@ -300,7 +330,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		if (CollUtil.isNotEmpty(errorMessageList)) {
 			return R.failed(errorMessageList);
 		}
-		return R.ok(null, "用户导入成功，默认密码为手机号");
+		return R.ok(null, MsgUtils.getMessage(ErrorCodes.SYS_USER_IMPORT_SUCCEED));
 	}
 
 	/**
@@ -322,6 +352,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userDTO.setRole(roleIdList);
 		// 插入用户
 		this.saveUser(userDTO);
+	}
+
+	/**
+	 * 注册用户 赋予用户默认角色
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	@Override
+	public R<Boolean> registerUser(UserDTO userDto) {
+		// 判断用户名是否存在
+		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
+		if (sysUser != null) {
+			String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
+			return R.failed(message);
+		}
+		return R.ok(saveUser(userDto));
+	}
+
+	/**
+	 * 锁定用户
+	 * @param username 用户名
+	 * @return
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#username")
+	public R<Boolean> lockUser(String username) {
+		SysUser sysUser = baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+		sysUser.setLockFlag(CommonConstants.STATUS_LOCK);
+		baseMapper.updateById(sysUser);
+		return R.ok();
 	}
 
 }

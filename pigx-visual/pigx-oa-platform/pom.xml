@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>4.3.0</version>
+		<version>4.4.0</version>
 	</parent>
 
 	<artifactId>pigx-oa-platform</artifactId>
@@ -96,6 +96,11 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--mssql-->
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
 		</dependency>
 		<!-- ojdbc8 -->
 		<dependency>

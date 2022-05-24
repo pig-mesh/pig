@@ -1,0 +1,17 @@
+// 以下内容请复制到pages.json
+"pages": [
+
+    /**${comments}**/
+    {
+        "path": "pages/${moduleName}/${pathName}/${pathName}-index",
+        "style": {
+        "navigationBarTitleText": "${comments}"
+        }
+    },
+    {
+        "path": "pages/${moduleName}/${pathName}/${pathName}-form",
+        "style": {
+        "navigationBarTitleText": "${comments}详情"
+        }
+    }
+}

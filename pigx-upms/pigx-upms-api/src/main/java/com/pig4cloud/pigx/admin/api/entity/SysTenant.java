@@ -59,6 +59,12 @@ public class SysTenant extends Model<SysTenant> {
 	private String code;
 
 	/**
+	 * 租户域名
+	 */
+	@ApiModelProperty(value = "租户域名")
+	private String tenantDomain;
+
+	/**
 	 * 开始时间
 	 */
 	@ApiModelProperty(value = "开始时间")
@@ -75,6 +81,20 @@ public class SysTenant extends Model<SysTenant> {
 	 */
 	@ApiModelProperty(value = "租户冻结标记,9:冻结,0:正常")
 	private String status;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
+	private String updateBy;
 
 	/**
 	 * 删除标记

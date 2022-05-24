@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.common.log.aspect;
 
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -31,7 +32,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.expression.EvaluationContext;
 
 /**
  * 操作日志使用spring event异步入库
@@ -54,8 +57,16 @@ public class SysLogAspect {
 		String strMethodName = point.getSignature().getName();
 		log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 
+		String value = sysLog.value();
+		if (StrUtil.contains(value, "#")) {
+			// 解析SPEL
+			MethodSignature signature = (MethodSignature) point.getSignature();
+			EvaluationContext context = SysLogUtils.getContext(point.getArgs(), signature.getMethod());
+			value = SysLogUtils.getValue(context, value, String.class);
+		}
+
 		SysLogDTO logDTO = SysLogUtils.getSysLog();
-		logDTO.setTitle(sysLog.value());
+		logDTO.setTitle(value);
 		// 发送异步日志事件
 		Long startTime = System.currentTimeMillis();
 		Object obj;

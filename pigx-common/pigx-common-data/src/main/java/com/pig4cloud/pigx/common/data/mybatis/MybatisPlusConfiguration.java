@@ -29,6 +29,8 @@ import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDatascopeHandle;
 import com.pig4cloud.pigx.common.data.resolver.SqlFilterArgumentResolver;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantHandler;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
+import org.apache.ibatis.mapping.DatabaseIdProvider;
+import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -42,6 +44,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * @author lengleng
@@ -131,6 +134,19 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	@Bean
 	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
 		return new MybatisPlusMetaObjectHandler();
+	}
+
+	/**
+	 * 数据库方言配置
+	 * @return
+	 */
+	@Bean
+	public DatabaseIdProvider databaseIdProvider() {
+		VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+		Properties properties = new Properties();
+		properties.setProperty("SQL Server", "mssql");
+		databaseIdProvider.setProperties(properties);
+		return databaseIdProvider;
 	}
 
 }

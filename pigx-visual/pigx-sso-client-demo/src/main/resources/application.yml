@@ -1,0 +1,20 @@
+server:
+  port: 4040
+  servlet:
+    context-path: /sso1
+
+security:
+  oauth2:
+    client:
+      client-id: pig
+      client-secret: pig
+      user-authorization-uri: http://localhost:3000/oauth/authorize
+      access-token-uri: http://localhost:3000/oauth/token
+      scope: server
+    resource:
+      loadBalanced: true
+      token-info-uri: http://localhost:3000/oauth/check_token
+
+spring:
+  application:
+    name: @artifactId@

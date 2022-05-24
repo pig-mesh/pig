@@ -25,6 +25,8 @@ import com.pig4cloud.pigx.admin.mapper.SysDictMapper;
 import com.pig4cloud.pigx.admin.service.SysDictService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.DictTypeEnum;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
@@ -55,7 +57,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 		SysDict dict = this.getById(id);
 		// 系统内置
 		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
-			return R.failed("系统内置字典不能删除");
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_DICT_DELETE_SYSTEM));
 		}
 
 		baseMapper.deleteById(id);
@@ -74,7 +76,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
 		if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag())) {
-			return R.failed("系统内置字典不能修改");
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
 		}
 		return R.ok(this.updateById(dict));
 	}

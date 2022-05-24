@@ -1,4 +1,4 @@
-FROM mysql/mysql-server:8.0.27
+FROM mysql/mysql-server:8.0.29
 
 MAINTAINER lengleng(wangiegie@gmail.com)
 
@@ -25,3 +25,5 @@ COPY ./8pigxx_codegen.sql /docker-entrypoint-initdb.d
 COPY ./9pigxx_report.sql /docker-entrypoint-initdb.d
 
 COPY ./99pigxx_report_init.sql /docker-entrypoint-initdb.d
+
+COPY ./999pigxx_bi.sql /docker-entrypoint-initdb.d

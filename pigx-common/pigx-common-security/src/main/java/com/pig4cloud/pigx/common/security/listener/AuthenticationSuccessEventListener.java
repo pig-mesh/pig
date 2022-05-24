@@ -29,6 +29,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -37,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
 	@Autowired(required = false)
-	private AuthenticationSuccessHandler successHandler;
+	private List<AuthenticationSuccessHandler> successHandlerList;
 
 	/**
 	 * Handle an application event.
@@ -46,13 +47,12 @@ public class AuthenticationSuccessEventListener implements ApplicationListener<A
 	@Override
 	public void onApplicationEvent(AuthenticationSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();
-		if (successHandler != null && isUserAuthentication(authentication)) {
+		if (CollUtil.isNotEmpty(successHandlerList) && isUserAuthentication(authentication)) {
 			ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
 					.getRequestAttributes();
 			HttpServletRequest request = requestAttributes.getRequest();
 			HttpServletResponse response = requestAttributes.getResponse();
-
-			successHandler.handle(authentication, request, response);
+			successHandlerList.forEach(successHandler -> successHandler.handle(authentication, request, response));
 		}
 	}
 

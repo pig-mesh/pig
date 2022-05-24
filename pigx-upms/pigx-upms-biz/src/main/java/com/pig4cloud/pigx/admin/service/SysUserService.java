@@ -110,4 +110,18 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R importUser(List<UserExcelVO> excelVOList, BindingResult bindingResult);
 
+	/**
+	 * 注册用户
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	R<Boolean> registerUser(UserDTO userDto);
+
+	/**
+	 * 锁定用户
+	 * @param username
+	 * @return
+	 */
+	R<Boolean> lockUser(String username);
+
 }

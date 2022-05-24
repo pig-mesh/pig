@@ -14,6 +14,10 @@ import org.apache.ibatis.mapping.SqlSource;
  */
 public class SelectCountByScope extends AbstractMethod {
 
+	public SelectCountByScope() {
+		super("selectCountByScope");
+	}
+
 	@Override
 	public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
 		SqlMethod sqlMethod = SqlMethod.SELECT_LIST;
@@ -23,7 +27,7 @@ public class SelectCountByScope extends AbstractMethod {
 				this.sqlComment());
 		SqlSource sqlSource = languageDriver.createSqlSource(configuration, sql, modelClass);
 
-		return this.addSelectMappedStatementForOther(mapperClass, "selectCountByScope", sqlSource, Integer.class);
+		return this.addSelectMappedStatementForOther(mapperClass, sqlSource, Long.class);
 	}
 
 }

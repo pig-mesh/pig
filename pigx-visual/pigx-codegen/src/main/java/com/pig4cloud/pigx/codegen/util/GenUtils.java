@@ -89,6 +89,14 @@ public class GenUtils {
 
 	private final String AVUE_CRUD_JS_VM = "avue/crud.js.vm";
 
+	private final String UVIEW_API_JS_VM = "uview/api.js.vm";
+
+	private final String UVIEW_FORM_VUE_VM = "uview/form.vue.vm";
+
+	private final String UVIEW_INDEX_VUE_VM = "uview/index.vue.vm";
+
+	private final String UVIEW_PAGE_JSON_VM = "uview/page.json.vm";
+
 	/**
 	 * 配置
 	 * @param config
@@ -96,6 +104,24 @@ public class GenUtils {
 	 */
 	private List<String> getTemplates(GenConfig config) {
 		List<String> templates = new ArrayList<>();
+
+		if (StyleTypeEnum.AVUE.getStyle().equals(config.getStyle())) {
+			templates.add("template/avue/index.vue.vm");
+			templates.add("template/avue/crud.js.vm");
+			templates.add("template/avue/api.js.vm");
+		}
+		else if (StyleTypeEnum.ELEMENT.getStyle().equals(config.getStyle())) {
+			templates.add("template/element/index.vue.vm");
+			templates.add("template/element/form.vue.vm");
+			templates.add("template/avue/api.js.vm");
+		}
+		else {
+			templates.add("template/uview/index.vue.vm");
+			templates.add("template/uview/form.vue.vm");
+			templates.add("template/uview/api.js.vm");
+			templates.add("template/uview/page.json.vm");
+		}
+
 		templates.add("template/Entity.java.vm");
 		templates.add("template/Mapper.java.vm");
 		templates.add("template/Mapper.xml.vm");
@@ -103,16 +129,6 @@ public class GenUtils {
 		templates.add("template/ServiceImpl.java.vm");
 		templates.add("template/Controller.java.vm");
 		templates.add("template/menu.sql.vm");
-		templates.add("template/avue/api.js.vm");
-
-		if (StyleTypeEnum.AVUE.getStyle().equals(config.getStyle())) {
-			templates.add("template/avue/index.vue.vm");
-			templates.add("template/avue/crud.js.vm");
-		}
-		else {
-			templates.add("template/element/index.vue.vm");
-			templates.add("template/element/form.vue.vm");
-		}
 
 		return templates;
 	}
@@ -265,7 +281,7 @@ public class GenUtils {
 			TableEntity tableEntity, Map<String, Object> map) throws IOException {
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
-		prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		prop.put("resource.loader.file.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		Velocity.init(prop);
 		VelocityContext context = new VelocityContext(map);
 		// 函数库
@@ -274,7 +290,7 @@ public class GenUtils {
 
 		// 获取模板列表
 		List<String> templates = getTemplates(genConfig);
-		Map<String, String> resultMap = new HashMap<>(8);
+		Map<String, String> resultMap = new LinkedHashMap<>(8);
 
 		for (String template : templates) {
 			// 如果是crud
@@ -404,6 +420,26 @@ public class GenUtils {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "views"
 					+ File.separator + moduleName + File.separator + className.toLowerCase() + File.separator
 					+ className.toLowerCase() + "-form.vue";
+		}
+
+		if (template.contains(UVIEW_INDEX_VUE_VM)) {
+			return CommonConstants.UNI_END_PROJECT + File.separator + "pages" + File.separator + moduleName
+					+ File.separator + className.toLowerCase() + File.separator + className.toLowerCase()
+					+ "-index.vue";
+		}
+
+		if (template.contains(UVIEW_FORM_VUE_VM)) {
+			return CommonConstants.UNI_END_PROJECT + File.separator + "pages" + File.separator + moduleName
+					+ File.separator + className.toLowerCase() + File.separator + className.toLowerCase() + "-form.vue";
+		}
+
+		if (template.contains(UVIEW_API_JS_VM)) {
+			return CommonConstants.UNI_END_PROJECT + File.separator + "common" + File.separator
+					+ className.toLowerCase() + ".api.js";
+		}
+
+		if (template.contains(UVIEW_PAGE_JSON_VM)) {
+			return className.toLowerCase() + ".page.json";
 		}
 
 		return null;

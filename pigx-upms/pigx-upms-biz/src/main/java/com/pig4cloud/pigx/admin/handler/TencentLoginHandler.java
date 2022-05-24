@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -33,8 +32,6 @@ import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * @author lengleng
@@ -102,20 +99,9 @@ public class TencentLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		List<SysUser> userList = sysUserService
-				.list(Wrappers.<SysUser>query().lambda().eq(SysUser::getQqOpenid, identify));
-
-		// 先把原有绑定关系去除,设置绑定为NULL
-		if (CollUtil.isNotEmpty(userList)) {
-			SysUser condition = new SysUser();
-			condition.setQqOpenid(identify);
-			sysUserService.update(condition, Wrappers.<SysUser>lambdaUpdate().set(SysUser::getQqOpenid, null));
-			log.info("QQ账号 {} 更换账号绑定", identify);
-		}
-
 		user.setQqOpenid(identify);
 		sysUserService.updateById(user);
-		return null;
+		return true;
 	}
 
 }

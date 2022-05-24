@@ -71,6 +71,11 @@ public interface CommonConstants {
 	String FRONT_END_PROJECT = "pigx-ui";
 
 	/**
+	 * 移动端工程名
+	 */
+	String UNI_END_PROJECT = "pigx-app";
+
+	/**
 	 * 后端工程名
 	 */
 	String BACK_END_PROJECT = "pigx";

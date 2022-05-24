@@ -37,6 +37,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -83,7 +84,7 @@ public class SysDictController {
 	 */
 	@GetMapping("/type/{type}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#type", unless = "#result.data.isEmpty()")
-	public R getDictByType(@PathVariable String type) {
+	public R<List<SysDictItem>> getDictByType(@PathVariable String type) {
 		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getDictType, type)));
 	}
 

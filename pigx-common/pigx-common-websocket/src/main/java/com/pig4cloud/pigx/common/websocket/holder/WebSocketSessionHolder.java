@@ -18,7 +18,7 @@ public final class WebSocketSessionHolder {
 	private WebSocketSessionHolder() {
 	}
 
-	private static final Map<Object, WebSocketSession> USER_SESSION_MAP = new ConcurrentHashMap<>();
+	private static final Map<String, WebSocketSession> USER_SESSION_MAP = new ConcurrentHashMap<>();
 
 	/**
 	 * 添加一个 session
@@ -26,7 +26,7 @@ public final class WebSocketSessionHolder {
 	 * @param session 待添加的 WebSocketSession
 	 */
 	public static void addSession(Object sessionKey, WebSocketSession session) {
-		USER_SESSION_MAP.put(sessionKey, session);
+		USER_SESSION_MAP.put(sessionKey.toString(), session);
 	}
 
 	/**
@@ -34,7 +34,7 @@ public final class WebSocketSessionHolder {
 	 * @param sessionKey session唯一标识
 	 */
 	public static void removeSession(Object sessionKey) {
-		USER_SESSION_MAP.remove(sessionKey);
+		USER_SESSION_MAP.remove(sessionKey.toString());
 	}
 
 	/**
@@ -43,7 +43,7 @@ public final class WebSocketSessionHolder {
 	 * @return WebSocketSession 该标识对应的 session
 	 */
 	public static WebSocketSession getSession(Object sessionKey) {
-		return USER_SESSION_MAP.get(sessionKey);
+		return USER_SESSION_MAP.get(sessionKey.toString());
 	}
 
 	/**
@@ -58,7 +58,7 @@ public final class WebSocketSessionHolder {
 	 * 获取所有在线的用户标识
 	 * @return Set<Object> session唯一标识集合
 	 */
-	public static Set<Object> getSessionKeys() {
+	public static Set<String> getSessionKeys() {
 		return USER_SESSION_MAP.keySet();
 	}
 

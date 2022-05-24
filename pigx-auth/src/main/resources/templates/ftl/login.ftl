@@ -22,7 +22,7 @@
         <#if tenantList??>
             <select class="form-control form-margin-top" placeholder="所属租户" name="TENANT-ID">
                 <#list tenantList as tenant>
-                    <option value="${tenant.code}">${tenant.name}</option>
+                    <option value="${tenant.id}">${tenant.name}</option>
                 </#list>
             </select>
         </#if>
@@ -32,7 +32,7 @@
         <input type="password" name="password" class="form-control" placeholder="密码" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>
         <#if error??>
-            <span style="color: red; ">${error}</span>
+            <span style="color: red; ">${error?html}</span>
         </#if>
     </form>
 </div>

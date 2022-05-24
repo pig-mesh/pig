@@ -49,6 +49,11 @@ public class UserDTO extends SysUser {
 	private Long deptId;
 
 	/**
+	 * 岗位ID
+	 */
+	private List<Long> post;
+
+	/**
 	 * 新密码
 	 */
 	@ApiModelProperty(value = "新密码")

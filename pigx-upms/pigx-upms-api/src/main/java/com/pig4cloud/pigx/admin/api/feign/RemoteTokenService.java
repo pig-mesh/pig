@@ -23,10 +23,7 @@ import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -57,5 +54,15 @@ public interface RemoteTokenService {
 	 */
 	@DeleteMapping("/token/{token}")
 	R<Boolean> removeTokenById(@PathVariable("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
+
+	/**
+	 * 校验令牌获取用户信息
+	 * @param token
+	 * @param from
+	 * @return
+	 */
+	@GetMapping("/token/query-token")
+	R<Map<String, Object>> queryToken(@RequestParam("token") String token,
+			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

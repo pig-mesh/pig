@@ -1,4 +1,4 @@
-# 使用说明 V4.2.0
+# 使用说明 V4.4.0
 # 1. 使用docker-compose  宿主机不需要配置host来发现
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
@@ -26,21 +26,6 @@ services:
     restart: always
     ports:
       - 6379:6379
-
-  pigx-minio:
-    container_name: pigx-minio
-    image: minio/minio:RELEASE.2021-12-27T07-23-18Z.fips
-    command: server /data --console-address ":9001"
-    ports:
-      - 9000:9000
-      - 9001:9001
-    volumes:
-      - ./data:/data
-      - ./config:/root/.minio
-    environment:
-      - MINIO_DOMAIN=pigx-minio
-      - MINIO_ROOT_USER=lengleng
-      - MINIO_ROOT_PASSWORD=lengleng
 
   pigx-register:
     build:
@@ -125,15 +110,6 @@ services:
     image: pigx-oa-platform
     container_name: pigx-oa-platform
 
-  pigx-bi-platform:
-    build:
-      context: ./pigx-visual/pigx-bi-platform
-    restart: always
-    image: pigx-bi-platform
-    container_name: pigx-bi-platform
-    ports:
-      - 5006:5006
-
   pigx-report-platform:
     build:
       context: ./pigx-visual/pigx-report-platform
@@ -142,6 +118,15 @@ services:
     container_name: pigx-report-platform
     ports:
       - 9095:9095
+
+  pigx-jimu-platform:
+    build:
+      context: ./pigx-visual/pigx-jimu-platform
+    restart: always
+    image: pigx-jimu-platform
+    container_name: pigx-jimu-platform
+    ports:
+      - 5008:5008
 
   pigxx-job:
     build:
@@ -152,16 +137,6 @@ services:
     image: pigx-job
     ports:
       - 9080:9080
-
-  pigx-tx-manager:
-    build:
-      context: ./pigx-visual/pigx-tx-manager
-    restart: always
-    image: pigx-tx-manager
-    container_name: pigx-tx-manager
-    ports:
-      - 5004:5004
-      - 9998:9998
 
   pigx-sentinel:
     build:

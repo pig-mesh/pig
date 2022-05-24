@@ -37,7 +37,7 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 		adminConfig = this;
 
 		xxlJobScheduler = new XxlJobScheduler();
-		xxlJobScheduler.init();
+		// xxlJobScheduler.init();
 	}
 
 	@Override
@@ -158,6 +158,10 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 
 	public JobAlarmer getJobAlarmer() {
 		return jobAlarmer;
+	}
+
+	public XxlJobScheduler getXxlJobScheduler() {
+		return xxlJobScheduler;
 	}
 
 }

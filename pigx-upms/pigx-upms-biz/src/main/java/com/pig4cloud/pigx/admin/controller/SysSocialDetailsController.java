@@ -22,11 +22,13 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.service.SysSocialDetailsService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -87,7 +89,7 @@ public class SysSocialDetailsController {
 	@SysLog("修改三方信息")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_social_details_edit')")
-	public R updateById(@Valid @RequestBody SysSocialDetails sysSocialDetails) {
+	public R updateById(@Validated({ ValidGroup.Update.class }) @RequestBody SysSocialDetails sysSocialDetails) {
 		sysSocialDetailsService.updateById(sysSocialDetails);
 		return R.ok(Boolean.TRUE);
 	}
