@@ -53,5 +53,12 @@ public interface SysFileService extends IService<SysFile> {
 	 * @return
 	 */
 	Boolean deleteFile(Long id);
-
+	
+	/**
+	 * 获取外网访问地址
+	 * @param bucket
+	 * @param fileName
+	 * @return
+	 */
+	String onlineFile(String bucket, String fileName);
 }

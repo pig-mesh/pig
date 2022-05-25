@@ -126,4 +126,15 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		this.save(sysFile);
 	}
 
+	/**
+	 * 默认获取文件的在线地址
+	 * @param bucket
+	 * @param fileName
+	 * @return
+	 */
+	@Override
+	public String onlineFile(String bucket, String fileName) {
+		return ossTemplate.getObjectURL(bucket, fileName, Duration.of(7, ChronoUnit.DAYS));
+	}
+
 }
