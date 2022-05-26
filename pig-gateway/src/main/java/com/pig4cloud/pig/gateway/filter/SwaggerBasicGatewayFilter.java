@@ -1,6 +1,6 @@
 package com.pig4cloud.pig.gateway.filter;
 
-import com.pig4cloud.pig.gateway.config.SwaggerProperties;
+import com.pig4cloud.pig.gateway.config.SpringDocConfiguration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -30,7 +30,7 @@ public class SwaggerBasicGatewayFilter implements GlobalFilter {
 
 	private static final String BASIC_PREFIX = "Basic ";
 
-	private final SwaggerProperties swaggerProperties;
+	private final SpringDocConfiguration.SwaggerDocProperties swaggerProperties;
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

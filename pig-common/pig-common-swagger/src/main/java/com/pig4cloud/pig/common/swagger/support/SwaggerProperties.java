@@ -78,6 +78,9 @@ public class SwaggerProperties {
 	 */
 	private String scope;
 
+	/**
+	 * 服务转发配置
+	 */
 	private Map<String, String> services;
 
 }

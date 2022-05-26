@@ -33,8 +33,9 @@ public class GatewayConfiguration {
 	}
 
 	@Bean
-	@ConditionalOnProperty(name = "swagger.basic.enable")
-	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(SwaggerProperties swaggerProperties) {
+	@ConditionalOnProperty(name = "swagger.basic.enabled")
+	public SwaggerBasicGatewayFilter swaggerBasicGatewayFilter(
+			SpringDocConfiguration.SwaggerDocProperties swaggerProperties) {
 		return new SwaggerBasicGatewayFilter(swaggerProperties);
 	}
 
