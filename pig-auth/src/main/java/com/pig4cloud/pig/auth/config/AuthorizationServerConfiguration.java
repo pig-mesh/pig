@@ -16,50 +16,60 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.component.PigWebResponseExceptionTranslator;
-import com.pig4cloud.pig.common.security.grant.ResourceOwnerCustomAppTokenGranter;
-import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
-import com.pig4cloud.pig.common.security.service.PigCustomTokenServices;
-import com.pig4cloud.pig.common.security.service.PigUser;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import com.nimbusds.jose.jwk.source.JWKSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
-import org.springframework.security.oauth2.provider.CompositeTokenGranter;
-import org.springframework.security.oauth2.provider.TokenGranter;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenStore;
-
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
+import org.springframework.security.oauth2.core.OAuth2TokenFormat;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
+import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
+import org.springframework.security.oauth2.server.authorization.token.*;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author lengleng
  * @date 2022/5/27 认证服务器配置
  */
-@Configuration
-@RequiredArgsConstructor
-@EnableAuthorizationServer
-public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
+@Configuration(proxyBeanMethods = false)
+public class AuthorizationServerConfiguration {
 
-	private final DataSource dataSource;
+	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE)
+	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-	private final AuthenticationManager authenticationManager;
+		return http.formLogin(Customizer.withDefaults()).build();
+	}
 
-	private final TokenStore redisTokenStore;
+	// @formatter:off
+	@Bean
+	public RegisteredClientRepository registeredClientRepository() {
+		RegisteredClient client = RegisteredClient.withId("pig")
+				.clientId("pig")
+				.clientSecret("{noop}pig")
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
+				.authorizationGrantTypes(authorizationGrantTypes -> {
+					authorizationGrantTypes.add(AuthorizationGrantType.AUTHORIZATION_CODE);
+					authorizationGrantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
+				})
+				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED).build())
+				.redirectUri("https://pig4cloud.com")
+				.build();
+		return new InMemoryRegisteredClientRepository(client);
+	}
 
 	// @formatter:on
 	@Bean
@@ -71,31 +81,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 		return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
 	}
 
-	/**
-	 * 客户端信息加载处理
-	 * @return ClientDetailsService
-	 */
 	@Bean
-	public ClientDetailsService pigClientDetailsService() {
-		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
-		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-		return clientDetailsService;
+	public ProviderSettings providerSettings() {
+		return ProviderSettings.builder().build();
 	}
 
-	/**
-	 * token 核心处理
-	 * @return tokenServices
-	 */
 	@Bean
-	public PigCustomTokenServices tokenServices() {
-		PigCustomTokenServices tokenServices = new PigCustomTokenServices();
-		tokenServices.setTokenStore(redisTokenStore);
-		tokenServices.setSupportRefreshToken(true);
-		tokenServices.setReuseRefreshToken(false);
-		tokenServices.setClientDetailsService(pigClientDetailsService());
-		tokenServices.setTokenEnhancer(tokenEnhancer());
-		return tokenServices;
+	public OAuth2AuthorizationService authorizationService() {
+		return new InMemoryOAuth2AuthorizationService();
 	}
 
 }

@@ -16,102 +16,44 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
-import com.pig4cloud.pig.common.security.grant.CustomAppAuthenticationProvider;
-import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
-import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author lengleng
  * @date 2022/1/12 认证相关配置
  */
-@Primary
-@Order(90)
-@Configuration
-@RequiredArgsConstructor
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+@EnableWebSecurity
+public class WebSecurityConfiguration {
 
-	@Override
-	@SneakyThrows
-	protected void configure(HttpSecurity http) {
-		http.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				.failureHandler(authenticationFailureHandler()).and().logout()
-				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true)
-				.and().authorizeRequests().antMatchers("/token/**", "/actuator/**", "/mobile/**").permitAll()
-				.anyRequest().authenticated().and().csrf().disable();
-	}
-
-	/**
-	 * 自定义 provider 列表注入
-	 * @param auth AuthenticationManagerBuilder
-	 */
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) {
-		PigDaoAuthenticationProvider daoAuthenticationProvider = new PigDaoAuthenticationProvider();
-		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-
-		// 处理默认的密码模式认证
-		auth.authenticationProvider(daoAuthenticationProvider);
-		// 自定义的认证模式
-		auth.authenticationProvider(new CustomAppAuthenticationProvider());
-	}
-
+	// @formatter:off
 	@Bean
-	@Override
-	@SneakyThrows
-	public AuthenticationManager authenticationManagerBean() {
-		return super.authenticationManagerBean();
+	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+		http
+				.authorizeRequests(authorizeRequests -> authorizeRequests
+						.antMatchers("/password/*").permitAll()
+						.anyRequest().authenticated()
+				)
+				.formLogin(Customizer.withDefaults());
+		return http.build();
 	}
 
-	/**
-	 * 认证中心静态资源处理
-	 * @param web WebSecurity
-	 */
-	@Override
-	public void configure(WebSecurity web) {
-		web.ignoring().antMatchers("/css/**", "/error");
-	}
 
-	/**
-	 * sso 表单登录失败处理
-	 * @return FormAuthenticationFailureHandler
-	 */
+	// @formatter:off
 	@Bean
-	public AuthenticationFailureHandler authenticationFailureHandler() {
-		return new FormAuthenticationFailureHandler();
+	UserDetailsService users() {
+		UserDetails user = User.builder()
+				.username("admin")
+				.password("{noop}123456")
+				.roles("USER")
+				.build();
+		return new InMemoryUserDetailsManager(user);
 	}
-
-	/**
-	 * SSO 退出逻辑处理
-	 * @return LogoutSuccessHandler
-	 */
-	@Bean
-	public LogoutSuccessHandler logoutSuccessHandler() {
-		return new SsoLogoutSuccessHandler();
-	}
-
-	/**
-	 * 密码处理器
-	 * @return 动态密码处理器 {类型}密文
-	 */
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-	}
-
 }
