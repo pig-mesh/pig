@@ -17,11 +17,15 @@
 package com.pig4cloud.pig.common.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * @author lengleng
@@ -47,8 +51,14 @@ public class PigResourceServerAutoConfiguration {
 
 	@Bean
 	@Primary
-	public ResourceServerTokenServices resourceServerTokenServices(TokenStore tokenStore) {
-		return new PigLocalResourceServerTokenServices(tokenStore);
+	public ResourceServerTokenServices resourceServerTokenServices(
+			DataSource dataSource) {
+		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri("http://localhost:8080/auth/oauth2/jwks").build();
+
+		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
+		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
+		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
+		return new PigLocalResourceServerTokenServices(jwtDecoder, clientDetailsService);
 	}
 
 }

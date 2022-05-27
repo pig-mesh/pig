@@ -48,7 +48,7 @@ import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2019/2/1 认证服务器配置
+ * @date 2022/5/27 认证服务器配置
  */
 @Configuration
 @RequiredArgsConstructor
@@ -61,65 +61,14 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
 
 	private final TokenStore redisTokenStore;
 
-	@Override
-	@SneakyThrows
-	public void configure(ClientDetailsServiceConfigurer clients) {
-		clients.withClientDetails(pigClientDetailsService());
-	}
-
-	@Override
-	public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-		oauthServer.allowFormAuthenticationForClients().checkTokenAccess("permitAll()");
-	}
-
-	@Override
-	public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
-		endpoints.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST).tokenServices(tokenServices())
-				.tokenStore(redisTokenStore).tokenEnhancer(tokenEnhancer()).authenticationManager(authenticationManager)
-				.reuseRefreshTokens(false).pathMapping("/oauth/confirm_access", "/token/confirm_access")
-				.exceptionTranslator(new PigWebResponseExceptionTranslator());
-		setTokenGranter(endpoints);
-	}
-
-	/**
-	 * 自定义 APP 认证类型
-	 * @param endpoints AuthorizationServerEndpointsConfigurer
-	 */
-	private void setTokenGranter(AuthorizationServerEndpointsConfigurer endpoints) {
-		// 获取默认授权类型
-		TokenGranter tokenGranter = endpoints.getTokenGranter();
-		ArrayList<TokenGranter> tokenGranters = new ArrayList<>(Arrays.asList(tokenGranter));
-		ResourceOwnerCustomAppTokenGranter resourceOwnerCustomAppTokenGranter = new ResourceOwnerCustomAppTokenGranter(
-				authenticationManager, endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-				endpoints.getOAuth2RequestFactory());
-		tokenGranters.add(resourceOwnerCustomAppTokenGranter);
-		CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(tokenGranters);
-		endpoints.tokenGranter(compositeTokenGranter);
-	}
-
-	/**
-	 * token 生成接口输出增强
-	 * @return TokenEnhancer
-	 */
+	// @formatter:on
 	@Bean
-	public TokenEnhancer tokenEnhancer() {
-		return (accessToken, authentication) -> {
-			final Map<String, Object> additionalInfo = new HashMap<>(4);
-			additionalInfo.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
-			String clientId = authentication.getOAuth2Request().getClientId();
-			additionalInfo.put(SecurityConstants.CLIENT_ID, clientId);
-
-			// 客户端模式不返回具体用户信息
-			if (SecurityConstants.CLIENT_CREDENTIALS.equals(authentication.getOAuth2Request().getGrantType())) {
-				((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-				return accessToken;
-			}
-
-			PigUser pigUser = (PigUser) authentication.getUserAuthentication().getPrincipal();
-			additionalInfo.put(SecurityConstants.DETAILS_USER, pigUser);
-			((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
-			return accessToken;
-		};
+	public OAuth2TokenGenerator tokenGenerator(JWKSource jwkSource) {
+		JwtEncoder jwtEncoder = new NimbusJwtEncoder(jwkSource);
+		JwtGenerator jwtGenerator = new JwtGenerator(jwtEncoder);
+		OAuth2AccessTokenGenerator accessTokenGenerator = new OAuth2AccessTokenGenerator();
+		OAuth2RefreshTokenGenerator refreshTokenGenerator = new OAuth2RefreshTokenGenerator();
+		return new DelegatingOAuth2TokenGenerator(jwtGenerator, accessTokenGenerator, refreshTokenGenerator);
 	}
 
 	/**
