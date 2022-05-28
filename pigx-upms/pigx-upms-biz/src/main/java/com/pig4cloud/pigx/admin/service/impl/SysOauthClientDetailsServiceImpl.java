@@ -79,6 +79,28 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	@Override
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetailsDTO.clientId")
 	public Boolean updateClientById(SysOauthClientDetailsDTO clientDetailsDTO) {
+		this.insertOrUpdate(clientDetailsDTO);
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 添加客户端
+	 * @param clientDetailsDTO
+	 * @return
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean saveClient(SysOauthClientDetailsDTO clientDetailsDTO) {
+		this.insertOrUpdate(clientDetailsDTO);
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 插入或更新客户端对象
+	 * @param clientDetailsDTO
+	 * @return
+	 */
+	private SysOauthClientDetails insertOrUpdate(SysOauthClientDetailsDTO clientDetailsDTO){
 		// copy dto 对象
 		SysOauthClientDetails clientDetails = new SysOauthClientDetails();
 		BeanUtils.copyProperties(clientDetailsDTO, clientDetails);
@@ -92,35 +114,10 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		clientDetails.setAdditionalInformation(informationObj.toString());
 
 		// 更新数据库
-		baseMapper.updateById(clientDetails);
+		saveOrUpdate(clientDetails);
 		// 更新Redis
 		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(clientDetails));
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 添加客户端
-	 * @param clientDetailsDTO
-	 * @return
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveClient(SysOauthClientDetailsDTO clientDetailsDTO) {
-		// copy dto 对象
-		SysOauthClientDetails clientDetails = new SysOauthClientDetails();
-		BeanUtils.copyProperties(clientDetailsDTO, clientDetails);
-
-		// 获取扩展信息,插入开关相关
-		String information = clientDetailsDTO.getAdditionalInformation();
-		JSONUtil.parseObj(information).set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
-				.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
-
-		// 插入数据
-		this.baseMapper.insert(clientDetails);
-		// 更新Redis
-		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(clientDetails));
-		return Boolean.TRUE;
+		return clientDetails;
 	}
 
 	/**
@@ -156,6 +153,8 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	@Override
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
 	public R syncClientCache() {
+		// 更新Redis
+		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(this));
 		return R.ok();
 	}
 
