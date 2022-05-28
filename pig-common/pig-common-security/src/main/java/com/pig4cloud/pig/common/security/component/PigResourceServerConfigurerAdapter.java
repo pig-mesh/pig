@@ -16,15 +16,16 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import lombok.SneakyThrows;
+import cn.hutool.core.util.ArrayUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.token.RemoteTokenServices;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author lengleng
@@ -34,13 +35,11 @@ import org.springframework.security.oauth2.provider.token.ResourceServerTokenSer
  * 1. 支持remoteTokenServices 负载均衡 2. 支持 获取用户全部信息 3. 接口对外暴露，不校验 Authentication Header 头
  */
 @Slf4j
-public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurerAdapter {
+@EnableWebSecurity
+public class PigResourceServerConfigurerAdapter {
 
 	@Autowired
 	protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
-
-	@Autowired
-	protected RemoteTokenServices remoteTokenServices;
 
 	@Autowired
 	private PermitAllUrlProperties permitAllUrl;
@@ -49,27 +48,22 @@ public class PigResourceServerConfigurerAdapter extends ResourceServerConfigurer
 	private PigBearerTokenExtractor pigBearerTokenExtractor;
 
 	@Autowired
-	private ResourceServerTokenServices resourceServerTokenServices;
+	private OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
-	/**
-	 * 默认的配置，对外暴露
-	 * @param httpSecurity
-	 */
-	@Override
-	@SneakyThrows
-	public void configure(HttpSecurity httpSecurity) {
-		// 允许使用iframe 嵌套，避免swagger-ui 不被加载的问题
-		httpSecurity.headers().frameOptions().disable();
-		ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity
-				.authorizeRequests();
-		permitAllUrl.getUrls().forEach(url -> registry.antMatchers(url).permitAll());
-		registry.anyRequest().authenticated().and().csrf().disable();
-	}
+	@Bean
+	@Order(Ordered.HIGHEST_PRECEDENCE)
+	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-	@Override
-	public void configure(ResourceServerSecurityConfigurer resources) {
-		resources.authenticationEntryPoint(resourceAuthExceptionEntryPoint).tokenExtractor(pigBearerTokenExtractor)
-				.tokenServices(resourceServerTokenServices);
+		http.authorizeRequests(authorizeRequests -> authorizeRequests
+				.antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class)).permitAll().anyRequest()
+				.authenticated())
+				.oauth2ResourceServer(
+						oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+								.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+								.bearerTokenResolver(pigBearerTokenExtractor))
+				.headers().frameOptions().disable().and().csrf().disable();
+
+		return http.build();
 	}
 
 }

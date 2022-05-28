@@ -16,12 +16,7 @@
 
 package com.pig4cloud.pig.common.security.feign;
 
-import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.commons.security.AccessTokenContextRelay;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.oauth2.client.OAuth2ClientContext;
-import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
 
 /**
  * @author lengleng
@@ -29,11 +24,5 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
  */
 @ConditionalOnProperty("security.oauth2.client.client-id")
 public class PigFeignClientConfiguration {
-
-	@Bean
-	public RequestInterceptor oauth2FeignRequestInterceptor(OAuth2ClientContext oAuth2ClientContext,
-			OAuth2ProtectedResourceDetails resource, AccessTokenContextRelay accessTokenContextRelay) {
-		return new PigFeignClientInterceptor(oAuth2ClientContext, resource, accessTokenContextRelay);
-	}
 
 }

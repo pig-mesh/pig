@@ -17,15 +17,12 @@
 package com.pig4cloud.pig.common.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.service.PigClientDetailsService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
-
-import javax.sql.DataSource;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 /**
  * @author lengleng
@@ -50,15 +47,14 @@ public class PigResourceServerAutoConfiguration {
 	}
 
 	@Bean
-	@Primary
-	public ResourceServerTokenServices resourceServerTokenServices(
-			DataSource dataSource) {
-		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri("http://localhost:8080/auth/oauth2/jwks").build();
+	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
+		return new CustomOpaqueTokenIntrospector(authorizationService);
+	}
 
-		PigClientDetailsService clientDetailsService = new PigClientDetailsService(dataSource);
-		clientDetailsService.setSelectClientDetailsSql(SecurityConstants.DEFAULT_SELECT_STATEMENT);
-		clientDetailsService.setFindClientDetailsSql(SecurityConstants.DEFAULT_FIND_STATEMENT);
-		return new PigLocalResourceServerTokenServices(jwtDecoder, clientDetailsService);
+	// @Bean
+	public JwtDecoder jwtDecoder() {
+		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri("http://localhost:8080/auth/oauth2/jwks").build();
+		return jwtDecoder;
 	}
 
 }

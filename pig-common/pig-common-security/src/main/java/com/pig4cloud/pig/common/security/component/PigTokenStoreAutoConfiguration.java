@@ -4,11 +4,11 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationService;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -23,10 +23,8 @@ import java.util.UUID;
 public class PigTokenStoreAutoConfiguration {
 
 	@Bean
-	public TokenStore tokenStore(RedisConnectionFactory redisConnectionFactory) {
-		PigRedisTokenStore tokenStore = new PigRedisTokenStore(redisConnectionFactory);
-		tokenStore.setPrefix(CacheConstants.PROJECT_OAUTH_ACCESS);
-		return tokenStore;
+	public OAuth2AuthorizationService authorizationService(RedisTemplate redisTemplate) {
+		return new PigRedisOAuth2AuthorizationService(redisTemplate);
 	}
 
 	@Bean
