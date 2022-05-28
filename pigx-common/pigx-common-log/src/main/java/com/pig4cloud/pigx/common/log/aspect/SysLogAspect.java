@@ -58,11 +58,19 @@ public class SysLogAspect {
 		log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
 
 		String value = sysLog.value();
-		if (StrUtil.contains(value, "#")) {
+		String expression = sysLog.expression();
+		// 当前表达式存在 SPEL，会覆盖 value 的值
+		if (StrUtil.isNotBlank(expression)) {
 			// 解析SPEL
 			MethodSignature signature = (MethodSignature) point.getSignature();
 			EvaluationContext context = SysLogUtils.getContext(point.getArgs(), signature.getMethod());
-			value = SysLogUtils.getValue(context, value, String.class);
+			try {
+				value = SysLogUtils.getValue(context, expression, String.class);
+			}
+			catch (Exception e) {
+				// SPEL 表达式异常，则获取 value 的值
+				log.error("@SysLog 解析SPEL {} 异常", expression);
+			}
 		}
 
 		SysLogDTO logDTO = SysLogUtils.getSysLog();
