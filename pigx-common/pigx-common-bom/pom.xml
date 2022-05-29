@@ -32,7 +32,7 @@
         <groovy.version>3.0.3</groovy.version>
         <jsoup.version>1.13.1</jsoup.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.3.0</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.11.543</aws.version>

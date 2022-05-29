@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 import com.pig4cloud.pigx.common.sequence.range.impl.db.provider.SqlProviderFactory;
@@ -20,6 +20,8 @@ abstract class BaseDbHelper {
 			.getBean(SqlProviderFactory.class);
 
 	private static final long DELTA = 100000000L;
+
+	private final static DefaultIdentifierGenerator identifierGenerator = new DefaultIdentifierGenerator();
 
 	/**
 	 * 创建表
@@ -60,7 +62,7 @@ abstract class BaseDbHelper {
 		try {
 			conn = dataSource.getConnection();
 			stmt = conn.prepareStatement(SQL_PROVIDER_FACTORY.getInsertRangeSql().replace("#tableName", tableName));
-			stmt.setLong(1, RandomUtil.randomLong(12));
+			stmt.setLong(1, identifierGenerator.nextId(null));
 			stmt.setString(2, name);
 			stmt.setLong(3, stepStart);
 			stmt.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
