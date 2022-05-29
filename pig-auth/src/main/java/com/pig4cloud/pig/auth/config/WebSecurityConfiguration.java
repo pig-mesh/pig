@@ -46,15 +46,4 @@ public class WebSecurityConfiguration {
 		return http.build();
 	}
 
-
-	// @formatter:off
-	@Bean
-	UserDetailsService users() {
-		UserDetails user = User.builder()
-				.username("admin")
-				.password("{noop}123456")
-				.roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
-	}
 }
