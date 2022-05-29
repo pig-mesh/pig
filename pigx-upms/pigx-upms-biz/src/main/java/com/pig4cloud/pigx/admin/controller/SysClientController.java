@@ -129,7 +129,6 @@ public class SysClientController {
 	 * 同步缓存字典
 	 * @return R
 	 */
-	@Inner(false)
 	@SysLog("同步终端")
 	@PutMapping("/sync")
 	public R sync() {
