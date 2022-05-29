@@ -46,7 +46,7 @@ public class XxlJobCompleter {
 
 		// 1、handle success, to trigger child job
 		String triggerChildMsg = null;
-		if (XxlJobContext.HANDLE_COCE_SUCCESS == xxlJobLog.getHandleCode()) {
+		if (XxlJobContext.HANDLE_CODE_SUCCESS == xxlJobLog.getHandleCode()) {
 			XxlJobInfo xxlJobInfo = XxlJobAdminConfig.getAdminConfig().getXxlJobInfoDao()
 					.loadById(xxlJobLog.getJobId());
 			if (xxlJobInfo != null && xxlJobInfo.getChildJobId() != null

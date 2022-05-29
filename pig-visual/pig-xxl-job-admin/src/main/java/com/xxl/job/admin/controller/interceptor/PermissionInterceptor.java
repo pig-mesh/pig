@@ -6,7 +6,7 @@ import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.service.LoginService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import java.util.Arrays;
  * @author xuxueli 2015-12-12 18:09:04
  */
 @Component
-public class PermissionInterceptor implements HandlerInterceptor {
+public class PermissionInterceptor implements AsyncHandlerInterceptor {
 
 	/**
 	 * 针对 spring boot admin 对外暴露的接口

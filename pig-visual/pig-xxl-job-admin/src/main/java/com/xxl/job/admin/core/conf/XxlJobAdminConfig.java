@@ -51,10 +51,10 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 	@Value("${xxl.job.i18n}")
 	private String i18n;
 
-	@Value("${xxl.job.accessToken:}")
+	@Value("${xxl.job.accessToken}")
 	private String accessToken;
 
-	@Value("${spring.mail.from:}")
+	@Value("${spring.mail.from}")
 	private String emailFrom;
 
 	@Value("${xxl.job.triggerpool.fast.max}")
