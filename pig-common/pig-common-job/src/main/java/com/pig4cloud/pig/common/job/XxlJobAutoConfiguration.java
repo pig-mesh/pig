@@ -47,7 +47,7 @@ public class XxlJobAutoConfiguration {
 			appName = environment.getProperty("spring.application.name");
 		}
 		String accessToken = environment.getProperty("xxl.job.accessToken");
-		if (!StringUtils.hasText(appName)) {
+		if (!StringUtils.hasText(accessToken)) {
 			accessToken = executor.getAccessToken();
 		}
 
