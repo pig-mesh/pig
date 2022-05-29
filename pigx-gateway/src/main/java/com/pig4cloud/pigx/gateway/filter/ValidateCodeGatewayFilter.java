@@ -119,9 +119,9 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		Object val = redisTemplate.opsForValue().get(key);
 
-		// 当配置不存在时，默认需要校验
+		// 当配置不存在时，不用校验
 		if (val == null) {
-			return true;
+			return false;
 		}
 
 		JSONObject information = JSONUtil.parseObj(val.toString());
