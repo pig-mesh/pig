@@ -8,6 +8,7 @@ server:
 # xxl
 xxl:
   job:
+    accessToken: default_token
     i18n: zh_CN
     logretentiondays: 30
     triggerpool:
