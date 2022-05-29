@@ -46,11 +46,16 @@ public class XxlJobAutoConfiguration {
 		if (!StringUtils.hasText(appName)) {
 			appName = environment.getProperty("spring.application.name");
 		}
+		String accessToken = environment.getProperty("xxl.job.accessToken");
+		if (!StringUtils.hasText(accessToken)) {
+			accessToken = executor.getAccessToken();
+		}
+
 		xxlJobSpringExecutor.setAppname(appName);
 		xxlJobSpringExecutor.setAddress(executor.getAddress());
 		xxlJobSpringExecutor.setIp(executor.getIp());
 		xxlJobSpringExecutor.setPort(executor.getPort());
-		xxlJobSpringExecutor.setAccessToken(executor.getAccessToken());
+		xxlJobSpringExecutor.setAccessToken(accessToken);
 		xxlJobSpringExecutor.setLogPath(executor.getLogPath());
 		xxlJobSpringExecutor.setLogRetentionDays(executor.getLogRetentionDays());
 

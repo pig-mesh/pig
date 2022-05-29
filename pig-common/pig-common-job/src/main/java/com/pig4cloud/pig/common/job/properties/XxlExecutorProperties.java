@@ -33,9 +33,9 @@ public class XxlExecutorProperties {
 	private Integer port = 9099;
 
 	/**
-	 * 执行器通讯TOKEN [选填]：非空时启用；
+	 * 执行器通讯TOKEN [必填]：从配置文件中取不到值时使用默认值；
 	 */
-	private String accessToken;
+	private String accessToken = "default_token";
 
 	/**
 	 * 执行器运行日志文件存储磁盘路径 [选填] ：需要对该路径拥有读写权限；为空则使用默认路径；
