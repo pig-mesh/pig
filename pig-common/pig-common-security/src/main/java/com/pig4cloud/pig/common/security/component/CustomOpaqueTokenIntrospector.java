@@ -9,9 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimNames;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
@@ -29,17 +27,15 @@ public class CustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private final OAuth2AuthorizationService authorizationService;
 
+	private final JwtDecoder jwtDecoder;
+
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String token) {
-		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri("http://localhost:8080/auth/oauth2/jwks").build();
-
-		Jwt jwt = jwtDecoder.decode(token);
-		String principalClaimValue = jwt.getClaimAsString(JwtClaimNames.SUB);
-
 		OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
 				.getBeansOfType(PigUserDetailsService.class);
+
 		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
 				.filter(service -> service.support(oldAuthorization.getRegisteredClientId(),
 						oldAuthorization.getAuthorizationGrantType().getValue()))
@@ -47,7 +43,7 @@ public class CustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 		UserDetails userDetails = null;
 		try {
-			userDetails = optional.get().loadUserByUsername(principalClaimValue);
+			userDetails = optional.get().loadUserByUsername(oldAuthorization.getPrincipalName());
 		}
 		catch (UsernameNotFoundException notFoundException) {
 		}

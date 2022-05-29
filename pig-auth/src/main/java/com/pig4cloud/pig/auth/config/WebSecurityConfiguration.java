@@ -20,41 +20,31 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ * 服务安全相关配置
+ *
  * @author lengleng
- * @date 2022/1/12 认证相关配置
+ * @date 2022/1/12
  */
 @EnableWebSecurity
 public class WebSecurityConfiguration {
 
-	// @formatter:off
+	/**
+	 * spring security 默认的安全策略
+	 * @param http security注入点
+	 * @return SecurityFilterChain
+	 * @throws Exception
+	 */
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.authorizeRequests(authorizeRequests -> authorizeRequests
-						.antMatchers("/oauth/*").permitAll()
-						.anyRequest().authenticated()
-				)
-				.csrf().disable()
-				.formLogin(Customizer.withDefaults());
+		http.authorizeRequests(
+				// 暴露自定义 的 password 等端点
+				authorizeRequests -> authorizeRequests.antMatchers("/oauth/*").permitAll().anyRequest().authenticated())
+				// 个性化 formLogin
+				.csrf().disable().formLogin(Customizer.withDefaults());
 		return http.build();
 	}
 
-
-	// @formatter:off
-	@Bean
-	UserDetailsService users() {
-		UserDetails user = User.builder()
-				.username("admin")
-				.password("{noop}123456")
-				.roles("USER")
-				.build();
-		return new InMemoryUserDetailsManager(user);
-	}
 }

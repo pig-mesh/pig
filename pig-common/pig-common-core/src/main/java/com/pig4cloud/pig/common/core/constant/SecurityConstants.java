@@ -68,6 +68,11 @@ public interface SecurityConstants {
 	String BCRYPT = "{bcrypt}";
 
 	/**
+	 * {noop} 加密的特征码
+	 */
+	String NOOP = "{noop}";
+
+	/**
 	 * sys_oauth_client_details 表的字段，不包括client_id、client_secret
 	 */
 	String CLIENT_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "

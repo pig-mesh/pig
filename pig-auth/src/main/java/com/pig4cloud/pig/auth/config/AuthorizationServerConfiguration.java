@@ -24,22 +24,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
-import org.springframework.security.oauth2.core.OAuth2TokenFormat;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
-import org.springframework.security.oauth2.server.authorization.client.InMemoryRegisteredClientRepository;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ *
+ * SAS认证服务器配置
+ *
  * @author lengleng
- * @date 2022/5/27 认证服务器配置
+ * @date 2022/5/27
  */
 @Configuration(proxyBeanMethods = false)
 public class AuthorizationServerConfiguration {
@@ -48,25 +44,7 @@ public class AuthorizationServerConfiguration {
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-
 		return http.formLogin(Customizer.withDefaults()).build();
-	}
-
-	// @formatter:off
-	@Bean
-	public RegisteredClientRepository registeredClientRepository() {
-		RegisteredClient client = RegisteredClient.withId("pig")
-				.clientId("pig")
-				.clientSecret("{noop}pig")
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-				.authorizationGrantTypes(authorizationGrantTypes -> {
-					authorizationGrantTypes.add(AuthorizationGrantType.AUTHORIZATION_CODE);
-					authorizationGrantTypes.add(AuthorizationGrantType.REFRESH_TOKEN);
-				})
-				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.SELF_CONTAINED).build())
-				.redirectUri("https://pig4cloud.com")
-				.build();
-		return new InMemoryRegisteredClientRepository(client);
 	}
 
 	// @formatter:on
