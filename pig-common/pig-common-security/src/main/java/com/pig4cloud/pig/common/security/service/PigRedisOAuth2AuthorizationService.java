@@ -2,7 +2,6 @@ package com.pig4cloud.pig.common.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpHeaders;
 import org.springframework.lang.Nullable;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthorizationCode;
@@ -19,7 +18,7 @@ import org.springframework.util.Assert;
 @RequiredArgsConstructor
 public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
-	private static final String AUTHORIZATION = HttpHeaders.AUTHORIZATION;
+	private static final String AUTHORIZATION = "token";
 
 	private final RedisTemplate<String, String> redisTemplate;
 

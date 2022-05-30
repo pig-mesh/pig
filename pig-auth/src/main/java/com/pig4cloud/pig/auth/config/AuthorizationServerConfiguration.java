@@ -27,16 +27,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
+import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationProvider;
+import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
-import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.*;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
@@ -51,7 +50,7 @@ import java.util.Arrays;
 @Configuration
 public class AuthorizationServerConfiguration {
 
-	private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/login";
+	private static final String CUSTOM_CONSENT_PAGE_URI = "/token/confirm_access";
 
 	/**
 	 * 定义 Spring Security 的拦截器链，比如我们的 授权url、获取token的url 需要由那个过滤器来处理，此处配置这个。
@@ -68,6 +67,7 @@ public class AuthorizationServerConfiguration {
 		http.apply(authorizationServerConfigurer.tokenEndpoint(
 				(tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(
 						Arrays.asList(new OAuth2AuthorizationCodeAuthenticationConverter(),
+								new OAuth2AuthorizationCodeRequestAuthenticationConverter(),
 								new OAuth2RefreshTokenAuthenticationConverter(),
 								new OAuth2ClientCredentialsAuthenticationConverter(),
 								new OAuth2ResourceOwnerPasswordAuthenticationConverter())))));
@@ -82,7 +82,9 @@ public class AuthorizationServerConfiguration {
 				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
 				.csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher)).apply(authorizationServerConfigurer);
 
-		SecurityFilterChain securityFilterChain = http.formLogin(Customizer.withDefaults()).build();
+		// SAS 统一认证调整至登录页面
+		SecurityFilterChain securityFilterChain = http.csrf().disable()
+				.formLogin(loginConfigurer -> loginConfigurer.loginPage("/token/login")).build();
 
 		addCustomOAuth2PasswordAuthenticationProvider(http);
 		return securityFilterChain;
@@ -143,6 +145,11 @@ public class AuthorizationServerConfiguration {
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
 		// 处理 OAuth2ResourceOwnerPasswordAuthenticationToken
 		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
+
+		//
+		RegisteredClientRepository clientRepository = http.getSharedObject(RegisteredClientRepository.class);
+		http.authenticationProvider(new OAuth2AuthorizationCodeRequestAuthenticationProvider(clientRepository,
+				authorizationService, new InMemoryOAuth2AuthorizationConsentService()));
 
 	}
 

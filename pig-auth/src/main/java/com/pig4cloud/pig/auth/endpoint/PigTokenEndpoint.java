@@ -19,11 +19,13 @@ package com.pig4cloud.pig.auth.endpoint;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pig.auth.support.OAuth2EndpointUtils;
 import com.pig4cloud.pig.auth.support.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
@@ -44,16 +46,17 @@ import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2TokenType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.core.http.converter.OAuth2ErrorHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -75,7 +78,7 @@ public class PigTokenEndpoint {
 
 	private final OAuth2AuthorizationService authorizationService;
 
-	private RemoteClientDetailsService clientDetailsService;
+	private final RemoteClientDetailsService clientDetailsService;
 
 	private final RedisTemplate redisTemplate;
 
@@ -94,28 +97,19 @@ public class PigTokenEndpoint {
 		return modelAndView;
 	}
 
-	/**
-	 * 确认授权页面
-	 * @param request
-	 * @param session
-	 * @param modelAndView
-	 * @return
-	 */
 	@GetMapping("/confirm_access")
-	public ModelAndView confirm(HttpServletRequest request, HttpSession session, ModelAndView modelAndView) {
-		Map<String, Object> scopeList = (Map<String, Object>) request.getAttribute("scopes");
-		modelAndView.addObject("scopeList", scopeList.keySet());
+	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
+			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+			@RequestParam(OAuth2ParameterNames.STATE) String state) {
 
-		Object auth = session.getAttribute("authorizationRequest");
-		if (auth != null) {
-			//// AuthorizationRequest authorizationRequest = (AuthorizationRequest) auth;
-			//
-			// ClientDetails clientDetails =
-			//// clientDetailsService.loadClientByClientId(authorizationRequest.getClientId());
-			// modelAndView.addObject("app", clientDetails.getAdditionalInformation());
-			// modelAndView.addObject("user", SecurityUtils.getUser());
-		}
-
+		R<SysOauthClientDetails> r = clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN);
+		SysOauthClientDetails clientDetails = r.getData();
+		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
+		modelAndView.addObject("clientId", clientId);
+		modelAndView.addObject("state", state);
+		modelAndView.addObject("scopeList", authorizedScopes);
+		modelAndView.addObject("principalName", principal.getName());
 		modelAndView.setViewName("ftl/confirm");
 		return modelAndView;
 	}
@@ -159,7 +153,6 @@ public class PigTokenEndpoint {
 
 		OAuth2AccessTokenResponse sendAccessTokenResponse = OAuth2EndpointUtils.sendAccessTokenResponse(authorization);
 		this.accessTokenHttpResponseConverter.write(sendAccessTokenResponse, MediaType.APPLICATION_JSON, httpResponse);
-		return;
 	}
 
 	/**
