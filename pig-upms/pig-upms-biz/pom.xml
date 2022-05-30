@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-upms</artifactId>
-        <version>3.4.10</version>
+        <version>3.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pig-upms-biz</artifactId>
@@ -88,11 +88,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <!--单元测试-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-test</artifactId>
         </dependency>
     </dependencies>
 

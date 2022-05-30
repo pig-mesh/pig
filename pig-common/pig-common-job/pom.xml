@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-common</artifactId>
-		<version>3.4.10</version>
+		<version>3.5.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pig-common-job</artifactId>
