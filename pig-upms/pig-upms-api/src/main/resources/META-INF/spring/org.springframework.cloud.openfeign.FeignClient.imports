@@ -1,3 +1,4 @@
+com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService
 com.pig4cloud.pig.admin.api.feign.RemoteDictService
 com.pig4cloud.pig.admin.api.feign.RemoteDeptService
 com.pig4cloud.pig.admin.api.feign.RemoteLogService

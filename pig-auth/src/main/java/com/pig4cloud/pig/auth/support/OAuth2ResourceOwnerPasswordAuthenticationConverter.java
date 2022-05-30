@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.auth.support;
 
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -69,6 +70,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements Authe
 				.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
 						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
 				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+
+		// 注入license
+		additionalParameters.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
 
 		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
 				requestedScopes, additionalParameters);

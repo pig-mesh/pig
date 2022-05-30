@@ -30,7 +30,7 @@ public interface SecurityConstants {
 	/**
 	 * 前缀
 	 */
-	String PROJECT_PREFIX = "pig_";
+	String PROJECT_PREFIX = "pig";
 
 	/**
 	 * 项目的license
@@ -50,7 +50,7 @@ public interface SecurityConstants {
 	/**
 	 * 默认登录URL
 	 */
-	String OAUTH_TOKEN_URL = "/oauth/token";
+	String OAUTH_TOKEN_URL = "/oauth2/token";
 
 	/**
 	 * grant_type
@@ -68,31 +68,19 @@ public interface SecurityConstants {
 	String BCRYPT = "{bcrypt}";
 
 	/**
-	 * sys_oauth_client_details 表的字段，不包括client_id、client_secret
+	 * {noop} 加密的特征码
 	 */
-	String CLIENT_FIELDS = "client_id, CONCAT('{noop}',client_secret) as client_secret, resource_ids, scope, "
-			+ "authorized_grant_types, web_server_redirect_uri, authorities, access_token_validity, "
-			+ "refresh_token_validity, additional_information, autoapprove";
-
-	/**
-	 * JdbcClientDetailsService 查询语句
-	 */
-	String BASE_FIND_STATEMENT = "select " + CLIENT_FIELDS + " from sys_oauth_client_details";
-
-	/**
-	 * 默认的查询语句
-	 */
-	String DEFAULT_FIND_STATEMENT = BASE_FIND_STATEMENT + " order by client_id";
-
-	/**
-	 * 按条件client_id 查询
-	 */
-	String DEFAULT_SELECT_STATEMENT = BASE_FIND_STATEMENT + " where client_id = ?";
+	String NOOP = "{noop}";
 
 	/***
 	 * 资源服务器默认bean名称
 	 */
 	String RESOURCE_SERVER_CONFIGURER = "resourceServerConfigurerAdapter";
+
+	/**
+	 * 用户名
+	 */
+	String USERNAME = "username";
 
 	/**
 	 * 用户信息

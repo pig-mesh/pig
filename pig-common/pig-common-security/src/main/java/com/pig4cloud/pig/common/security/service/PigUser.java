@@ -67,9 +67,7 @@ public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 	 */
 	@Override
 	public Map<String, Object> getAttributes() {
-		Map<String, Object> attributes = new HashMap<>();
-		attributes.put("a", "v");
-		return attributes;
+		return new HashMap<>();
 	}
 
 	@Override

@@ -23,6 +23,7 @@ import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -115,6 +116,13 @@ public class OauthClientDetailsController {
 	public R clearClientCache() {
 		sysOauthClientDetailsService.clearClientCache();
 		return R.ok();
+	}
+
+	@Inner(false)
+	@GetMapping("/getClientDetailsById/{clientId}")
+	public R getClientDetailsById(@PathVariable String clientId) {
+		return R.ok(sysOauthClientDetailsService.getOne(
+				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
 	}
 
 }

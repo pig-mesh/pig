@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.auth.support;
 
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -74,8 +75,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 	/**
 	 * Performs authentication with the same contract as
-	 * {@link AuthenticationManager#authenticate(Authentication)}
-	 * .
+	 * {@link AuthenticationManager#authenticate(Authentication)} .
 	 * @param authentication the authentication request object.
 	 * @return a fully authenticated object including credentials. May return
 	 * <code>null</code> if the <code>AuthenticationProvider</code> is unable to support
@@ -99,7 +99,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
 
-		Set<String> authorizedScopes = registeredClient.getScopes();
+		Set<String> authorizedScopes;
 		// Default to configured scopes
 		if (!CollectionUtils.isEmpty(resouceOwnerPasswordAuthentication.getScopes())) {
 			for (String requestedScope : resouceOwnerPasswordAuthentication.getScopes()) {
@@ -113,9 +113,11 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			throw new ScopeException(OAuth2ErrorCodesExpand.SCOPE_IS_EMPTY);
 		}
 
-		Map<String, Object> additionalParameters = resouceOwnerPasswordAuthentication.getAdditionalParameters();
-		String username = (String) additionalParameters.get(OAuth2ParameterNames.USERNAME);
-		String password = (String) additionalParameters.get(OAuth2ParameterNames.PASSWORD);
+		Map<String, Object> reqParameters = resouceOwnerPasswordAuthentication.getAdditionalParameters();
+		String username = (String) reqParameters.get(OAuth2ParameterNames.USERNAME);
+		String password = (String) reqParameters.get(OAuth2ParameterNames.PASSWORD);
+
+		Map<String, Object> additionalParameters = new HashMap<>(4);
 
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
@@ -124,6 +126,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 			Authentication usernamePasswordAuthentication = authenticationManager
 					.authenticate(usernamePasswordAuthenticationToken);
+
+			// ----- 输出扩展 暴露信息 -----
+			additionalParameters.put(SecurityConstants.DETAILS_USER, usernamePasswordAuthentication.getPrincipal());
 
 			// @formatter:off
 			DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -193,12 +198,9 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 			LOGGER.debug("returning OAuth2AccessTokenAuthenticationToken");
 
-			// ----- 扩展 暴露信息 -----
-			Map<String, Object> objectMap = new HashMap<>();
-			objectMap.put(OAuth2ParameterNames.USERNAME, username);
 
 			return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken,
-					refreshToken, objectMap);
+					refreshToken, additionalParameters);
 
 		}
 		catch (Exception ex) {

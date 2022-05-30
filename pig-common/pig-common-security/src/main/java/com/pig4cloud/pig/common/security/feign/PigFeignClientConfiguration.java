@@ -16,13 +16,20 @@
 
 package com.pig4cloud.pig.common.security.feign;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import feign.RequestInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
-/**
- * @author lengleng
- * @date 2019/2/1 feign 拦截器传递 header 中oauth token， 使用hystrix 的信号量模式
- */
-@ConditionalOnProperty("security.oauth2.client.client-id")
 public class PigFeignClientConfiguration {
+
+	/**
+	 * 注入 oauth2 feign token 增强
+	 * @param tokenResolver token获取处理器
+	 * @return 拦截器
+	 */
+	@Bean
+	public RequestInterceptor oauthRequestInterceptor(BearerTokenResolver tokenResolver) {
+		return new PigOAuthRequestInterceptor(tokenResolver);
+	}
 
 }
