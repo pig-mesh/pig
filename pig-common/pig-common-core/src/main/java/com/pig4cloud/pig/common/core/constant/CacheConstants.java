@@ -57,7 +57,7 @@ public interface CacheConstants {
 	/**
 	 * oauth 客户端信息
 	 */
-	String CLIENT_DETAILS_KEY = "pig_oauth:client:details";
+	String CLIENT_DETAILS_KEY = "client:details";
 
 	/**
 	 * 参数缓存

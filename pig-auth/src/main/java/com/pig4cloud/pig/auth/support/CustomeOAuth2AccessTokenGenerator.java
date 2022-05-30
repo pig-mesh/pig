@@ -1,9 +1,8 @@
 package com.pig4cloud.pig.auth.support;
 
-import lombok.Setter;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.springframework.lang.Nullable;
-import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
-import org.springframework.security.crypto.keygen.StringKeyGenerator;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.ClaimAccessor;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2TokenFormat;
@@ -16,17 +15,16 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 /**
  * @author lengleng
  * @date 2022/5/29
  */
 public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
-
-	@Setter
-	private StringKeyGenerator accessTokenGenerator = new Base64StringKeyGenerator(
-			Base64.getUrlEncoder().withoutPadding(), 96);
 
 	private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;
 
@@ -87,10 +85,14 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 		OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 
+		// 组装key PIG:client:username:uuid
+		String key = String.format("%s:%s:%s:%s", SecurityConstants.PROJECT_PREFIX,
+				SecurityContextHolder.getContext().getAuthentication().getPrincipal(), context.getPrincipal().getName(),
+				UUID.randomUUID());
+
 		OAuth2AccessToken accessToken = new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(
-				OAuth2AccessToken.TokenType.BEARER, this.accessTokenGenerator.generateKey(),
-				accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(),
-				accessTokenClaimsSet.getClaims());
+				OAuth2AccessToken.TokenType.BEARER, key, accessTokenClaimsSet.getIssuedAt(),
+				accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
 
 		return accessToken;
 	}

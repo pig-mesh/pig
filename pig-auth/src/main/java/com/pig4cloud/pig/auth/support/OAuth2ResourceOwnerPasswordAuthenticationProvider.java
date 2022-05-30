@@ -1,6 +1,5 @@
 package com.pig4cloud.pig.auth.support;
 
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -25,7 +24,10 @@ import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
 import java.time.Instant;
-import java.util.*;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -117,8 +119,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 		String username = (String) reqParameters.get(OAuth2ParameterNames.USERNAME);
 		String password = (String) reqParameters.get(OAuth2ParameterNames.PASSWORD);
 
-		Map<String, Object> additionalParameters = new HashMap<>(4);
-
 		try {
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
 					username, password);
@@ -126,9 +126,6 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 			Authentication usernamePasswordAuthentication = authenticationManager
 					.authenticate(usernamePasswordAuthenticationToken);
-
-			// ----- 输出扩展 暴露信息 -----
-			additionalParameters.put(SecurityConstants.DETAILS_USER, usernamePasswordAuthentication.getPrincipal());
 
 			// @formatter:off
 			DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
@@ -157,7 +154,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 					generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
 					generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 			if (generatedAccessToken instanceof ClaimAccessor) {
-				authorizationBuilder
+				authorizationBuilder.id(accessToken.getTokenValue())
 						.token(accessToken,
 								(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
 										((ClaimAccessor) generatedAccessToken).getClaims()))
@@ -165,7 +162,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 						.attribute(Principal.class.getName(), usernamePasswordAuthentication);
 			}
 			else {
-				authorizationBuilder.accessToken(accessToken);
+				authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
 			}
 
 			// ----- Refresh token -----
@@ -198,9 +195,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 
 			LOGGER.debug("returning OAuth2AccessTokenAuthenticationToken");
 
-
 			return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken,
-					refreshToken, additionalParameters);
+					refreshToken, authorization.getAccessToken().getClaims());
 
 		}
 		catch (Exception ex) {

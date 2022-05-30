@@ -41,7 +41,7 @@ public class WebSecurityConfiguration {
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests(
 				// 暴露自定义 的 password 等端点
-				authorizeRequests -> authorizeRequests.antMatchers("/oauth/*").permitAll().anyRequest().authenticated())
+				authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll().anyRequest().authenticated())
 				// 个性化 formLogin
 				.csrf().disable().formLogin(Customizer.withDefaults());
 

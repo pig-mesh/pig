@@ -16,13 +16,12 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import cn.hutool.core.lang.UUID;
 import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
 import com.pig4cloud.pig.auth.support.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.pig4cloud.pig.auth.support.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
+import com.pig4cloud.pig.common.security.service.PigUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -33,9 +32,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
-import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
-import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
+import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
@@ -51,7 +48,7 @@ import java.util.Arrays;
  *
  * 认证服务器配置
  */
-@Configuration(proxyBeanMethods = false)
+@Configuration
 public class AuthorizationServerConfiguration {
 
 	private static final String CUSTOM_CONSENT_PAGE_URI = "/oauth2/login";
@@ -97,15 +94,36 @@ public class AuthorizationServerConfiguration {
 	}
 
 	/**
-	 * 令牌生成实现 username:uuid
+	 * 令牌生成实现 client:username:uuid
 	 * @return OAuth2TokenGenerator
 	 */
 	@Bean
 	public OAuth2TokenGenerator oAuth2TokenGenerator() {
-		CustomeOAuth2AccessTokenGenerator tokenGenerator = new CustomeOAuth2AccessTokenGenerator();
-		tokenGenerator.setAccessTokenGenerator(() -> String.format("%s:%s:%s", SecurityConstants.PROJECT_PREFIX,
-				WebUtils.getRequest().get().getParameter(SecurityConstants.USERNAME), UUID.fastUUID()));
-		return new DelegatingOAuth2TokenGenerator(tokenGenerator, new OAuth2RefreshTokenGenerator());
+		CustomeOAuth2AccessTokenGenerator accessTokenGenerator = new CustomeOAuth2AccessTokenGenerator();
+		accessTokenGenerator.setAccessTokenCustomizer(accessTokenCustomizer());
+		return new DelegatingOAuth2TokenGenerator(accessTokenGenerator, new OAuth2RefreshTokenGenerator());
+	}
+
+	/**
+	 * 获取令牌的扩展信息
+	 * @return OAuth2TokenCustomizer
+	 */
+	@Bean
+	public OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer() {
+		return context -> {
+			OAuth2TokenClaimsSet.Builder claims = context.getClaims();
+			claims.claim(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
+			String clientId = context.getAuthorizationGrant().getName();
+			claims.claim(SecurityConstants.CLIENT_ID, clientId);
+			// 客户端模式不返回具体用户信息
+			if (SecurityConstants.CLIENT_CREDENTIALS.equals(context.getAuthorizationGrantType().getValue())) {
+				return;
+			}
+
+			PigUser pigUser = (PigUser) context.getPrincipal().getPrincipal();
+			claims.claim(SecurityConstants.DETAILS_USER, pigUser);
+
+		};
 	}
 
 	/**

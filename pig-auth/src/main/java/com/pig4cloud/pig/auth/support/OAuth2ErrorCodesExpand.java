@@ -27,6 +27,11 @@ public interface OAuth2ErrorCodesExpand {
 	/** scope 为空异常 */
 	String SCOPE_IS_EMPTY = "scope_is_empty";
 
+	/**
+	 * 令牌不存在
+	 */
+	String TOKEN_MISSING = "token_missing";
+
 	/** 未知的登录异常 */
 	String UN_KNOW_LOGIN_ERROR = "un_know_login_error";
 

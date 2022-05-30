@@ -16,39 +16,35 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig-common</artifactId>
-		<version>3.5.0-SNAPSHOT</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig-common</artifactId>
+        <version>3.5.0-SNAPSHOT</version>
+    </parent>
 
-	<artifactId>pig-common-log</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>pig-common-log</artifactId>
+    <packaging>jar</packaging>
 
-	<description>pig 日志服务</description>
+    <description>pig 日志服务</description>
 
 
-	<dependencies>
-		<!--工具类核心包-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-common-core</artifactId>
-		</dependency>
-		<!--UPMS接口模块-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pig-upms-api</artifactId>
-		</dependency>
-		<!--安全依赖获取上下文信息-->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security.oauth.boot</groupId>
-			<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--工具类核心包-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-core</artifactId>
+        </dependency>
+        <!--UPMS接口模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-upms-api</artifactId>
+        </dependency>
+        <!--安全依赖获取上下文信息-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+        </dependency>
+    </dependencies>
 </project>
