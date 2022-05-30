@@ -109,7 +109,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 										.orElse(refreshTokenValiditySeconds)))
 						.build())
 				.clientSettings(ClientSettings.builder()
-						.requireAuthorizationConsent(BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build())
+						.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build())
 				.build();
 
 	}
