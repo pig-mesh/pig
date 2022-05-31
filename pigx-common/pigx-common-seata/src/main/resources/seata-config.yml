@@ -28,7 +28,7 @@ seata:
     enable-degrade: false # 降级开关
     disable-global-transaction: false # 禁用全局事务（默认false）
     grouplist:
-      default: pig-seata:8091
+      default: pigx-seata:8091
   transport:
     shutdown:
       wait: 3
