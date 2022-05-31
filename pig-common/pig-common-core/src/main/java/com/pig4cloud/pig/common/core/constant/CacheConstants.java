@@ -27,7 +27,7 @@ public interface CacheConstants {
 	/**
 	 * oauth 缓存前缀
 	 */
-	String PROJECT_OAUTH_ACCESS = "pig_oauth:access:";
+	String PROJECT_OAUTH_ACCESS = "token::access_token";
 
 	/**
 	 * oauth 缓存令牌前缀
