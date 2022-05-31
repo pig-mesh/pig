@@ -27,10 +27,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
-import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationProvider;
-import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.oauth2.server.authorization.web.authentication.*;
@@ -149,13 +146,6 @@ public class AuthorizationServerConfiguration {
 		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
 		// 处理 OAuth2ResourceOwnerSmsAuthenticationToken
 		http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
-
-		RegisteredClientRepository clientRepository = http.getSharedObject(RegisteredClientRepository.class);
-
-		// 处理默认的授权模式
-		http.authenticationProvider(new OAuth2AuthorizationCodeRequestAuthenticationProvider(clientRepository,
-				authorizationService, new InMemoryOAuth2AuthorizationConsentService()));
-
 	}
 
 }

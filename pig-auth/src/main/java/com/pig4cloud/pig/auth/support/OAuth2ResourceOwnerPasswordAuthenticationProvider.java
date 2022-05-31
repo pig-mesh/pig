@@ -24,10 +24,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.security.Principal;
 import java.time.Instant;
-import java.util.LinkedHashSet;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 
 /**
@@ -196,7 +193,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider implements Authen
 			LOGGER.debug("returning OAuth2AccessTokenAuthenticationToken");
 
 			return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken,
-					refreshToken, authorization.getAccessToken().getClaims());
+					refreshToken, Objects.requireNonNull(authorization.getAccessToken().getClaims()));
 
 		}
 		catch (Exception ex) {
