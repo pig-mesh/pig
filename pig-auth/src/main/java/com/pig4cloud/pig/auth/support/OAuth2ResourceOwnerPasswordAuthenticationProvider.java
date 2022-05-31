@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.auth.support;
 
+import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;

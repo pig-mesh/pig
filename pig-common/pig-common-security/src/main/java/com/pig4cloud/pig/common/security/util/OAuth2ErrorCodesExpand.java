@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support;
+package com.pig4cloud.pig.common.security.util;
 
 /**
  * @author jumuning

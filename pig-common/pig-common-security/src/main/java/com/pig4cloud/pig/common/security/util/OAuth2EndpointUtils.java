@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support;
+package com.pig4cloud.pig.common.security.util;
 
 import lombok.experimental.UtilityClass;
 import org.springframework.security.oauth2.core.*;
@@ -21,7 +21,7 @@ import java.util.Map;
 @UtilityClass
 public class OAuth2EndpointUtils {
 
-	static final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
+	public final String ACCESS_TOKEN_REQUEST_ERROR_URI = "https://datatracker.ietf.org/doc/html/rfc6749#section-5.2";
 
 	public MultiValueMap<String, String> getParameters(HttpServletRequest request) {
 		Map<String, String[]> parameterMap = request.getParameterMap();

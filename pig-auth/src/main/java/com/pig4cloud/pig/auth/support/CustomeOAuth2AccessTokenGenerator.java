@@ -1,6 +1,5 @@
 package com.pig4cloud.pig.auth.support;
 
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.springframework.lang.Nullable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.ClaimAccessor;
@@ -86,9 +85,8 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 		OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 
 		// 组装key PIG:client:username:uuid
-		String key = String.format("%s:%s:%s:%s", SecurityConstants.PROJECT_PREFIX,
-				SecurityContextHolder.getContext().getAuthentication().getPrincipal(), context.getPrincipal().getName(),
-				UUID.randomUUID());
+		String key = String.format("%s::%s::%s", SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
+				context.getPrincipal().getName(), UUID.randomUUID());
 
 		OAuth2AccessToken accessToken = new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(
 				OAuth2AccessToken.TokenType.BEARER, key, accessTokenClaimsSet.getIssuedAt(),
