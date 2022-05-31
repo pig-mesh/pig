@@ -17,10 +17,13 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -57,6 +60,13 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	@SuppressWarnings("deprecation")
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+
+		// app 模式不用校验密码
+		Object attribute = WebUtils.getRequest().get().getAttribute(OAuth2ParameterNames.GRANT_TYPE);
+		if (Objects.nonNull(attribute)) {
+			return;
+		}
+
 		if (authentication.getCredentials() == null) {
 			this.logger.debug("Failed to authenticate since no credentials provided");
 			throw new BadCredentialsException(this.messages
@@ -76,7 +86,8 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		prepareTimingAttackProtection();
 
 		// 此处已获得 客户端认证 获取对应 userDetailsService
-		Authentication clientAuthentication = SecurityContextHolder.getContext().getAuthentication();
+		OAuth2ClientAuthenticationToken clientAuthentication = (OAuth2ClientAuthenticationToken) SecurityContextHolder
+				.getContext().getAuthentication();
 
 		// SSO NPE 处理
 		String clientId;
@@ -89,6 +100,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
 				.getBeansOfType(PigUserDetailsService.class);
+
 		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
 				.filter(service -> service.support(clientId, null)).max(Comparator.comparingInt(Ordered::getOrder));
 

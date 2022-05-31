@@ -16,9 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
-import com.pig4cloud.pig.auth.support.OAuth2ResourceOwnerPasswordAuthenticationConverter;
-import com.pig4cloud.pig.auth.support.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.*;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -66,11 +64,12 @@ public class AuthorizationServerConfiguration {
 
 		http.apply(authorizationServerConfigurer.tokenEndpoint(
 				(tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(
-						Arrays.asList(new OAuth2AuthorizationCodeAuthenticationConverter(),
-								new OAuth2AuthorizationCodeRequestAuthenticationConverter(),
+						Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
+								new OAuth2ResourceOwnerSmsAuthenticationConverter(),
 								new OAuth2RefreshTokenAuthenticationConverter(),
 								new OAuth2ClientCredentialsAuthenticationConverter(),
-								new OAuth2ResourceOwnerPasswordAuthenticationConverter())))));
+								new OAuth2AuthorizationCodeAuthenticationConverter(),
+								new OAuth2AuthorizationCodeRequestAuthenticationConverter())))));
 		authorizationServerConfigurer.authorizationEndpoint(
 				authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
 
@@ -141,13 +140,19 @@ public class AuthorizationServerConfiguration {
 		OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(
 				authenticationManager, authorizationService, oAuth2TokenGenerator);
 
+		OAuth2ResourceOwnerSmsAuthenticationProvider resourceOwnerSmsAuthenticationProvider = new OAuth2ResourceOwnerSmsAuthenticationProvider(
+				authenticationManager, authorizationService, oAuth2TokenGenerator);
+
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
 		// 处理 OAuth2ResourceOwnerPasswordAuthenticationToken
 		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
+		// 处理 OAuth2ResourceOwnerSmsAuthenticationToken
+		http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
 
-		//
 		RegisteredClientRepository clientRepository = http.getSharedObject(RegisteredClientRepository.class);
+
+		// 处理默认的授权模式
 		http.authenticationProvider(new OAuth2AuthorizationCodeRequestAuthenticationProvider(clientRepository,
 				authorizationService, new InMemoryOAuth2AuthorizationConsentService()));
 

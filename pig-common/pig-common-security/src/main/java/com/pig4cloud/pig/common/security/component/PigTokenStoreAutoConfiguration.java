@@ -22,7 +22,7 @@ import java.util.UUID;
  */
 public class PigTokenStoreAutoConfiguration {
 
-	// todo 暂时屏蔽redis 权限配置，存在不兼容的问题
+	// todo redis 模式需要优化
 	@Bean
 	public OAuth2AuthorizationService authorizationService(RedisTemplate redisTemplate) {
 		return new PigRedisOAuth2AuthorizationService(redisTemplate);

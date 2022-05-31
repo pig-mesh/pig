@@ -112,4 +112,9 @@ public interface SecurityConstants {
 	 */
 	String CLIENT_ID = "clientId";
 
+	/**
+	 * 短信登录 参数名称
+	 */
+	String SMS_PARAMETER_NAME = "phone";
+
 }
