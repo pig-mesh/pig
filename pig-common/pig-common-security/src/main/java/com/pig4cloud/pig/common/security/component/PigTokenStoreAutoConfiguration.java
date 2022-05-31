@@ -25,7 +25,6 @@ import java.util.UUID;
  */
 public class PigTokenStoreAutoConfiguration {
 
-	// todo redis 模式需要优化
 	@Bean
 	public OAuth2AuthorizationService authorizationService(RedisTemplate redisTemplate) {
 		return new PigRedisOAuth2AuthorizationService(redisTemplate);
