@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support;
+package com.pig4cloud.pig.auth.support.password;
 
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
@@ -19,19 +19,17 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author lengleng
- * @date 2022-05-31
- *
- * 短信登录转换器
+ * @author jumuning
+ * @date 2021/9/14 OAuth2 资源所有者密码认证转换器
  */
-public class OAuth2ResourceOwnerSmsAuthenticationConverter implements AuthenticationConverter {
+public class OAuth2ResourceOwnerPasswordAuthenticationConverter implements AuthenticationConverter {
 
 	@Override
 	public Authentication convert(HttpServletRequest request) {
 
 		// grant_type (REQUIRED)
 		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (!SecurityConstants.APP.equals(grantType)) {
+		if (!AuthorizationGrantType.PASSWORD.getValue().equals(grantType)) {
 			return null;
 		}
 
@@ -49,10 +47,17 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter implements Authentica
 			requestedScopes = new HashSet<>(Arrays.asList(StringUtils.delimitedListToStringArray(scope, " ")));
 		}
 
-		// phone (REQUIRED)
-		String phone = parameters.getFirst(SecurityConstants.SMS_PARAMETER_NAME);
-		if (!StringUtils.hasText(phone) || parameters.get(SecurityConstants.SMS_PARAMETER_NAME).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.SMS_PARAMETER_NAME,
+		// username (REQUIRED)
+		String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
+		if (!StringUtils.hasText(username) || parameters.get(OAuth2ParameterNames.USERNAME).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.USERNAME,
+					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
+		}
+
+		// password (REQUIRED)
+		String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
+		if (!StringUtils.hasText(password) || parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.PASSWORD,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
@@ -70,10 +75,8 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter implements Authentica
 		// 注入license
 		additionalParameters.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
 
-		// 这个扩展参数非常重要， PigDaoAuthenticationProvider 是否校验密码
-		request.setAttribute(OAuth2ParameterNames.GRANT_TYPE, SecurityConstants.APP);
-		return new OAuth2ResourceOwnerSmsAuthenticationToken(new AuthorizationGrantType(SecurityConstants.APP),
-				clientPrincipal, requestedScopes, additionalParameters);
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
+				requestedScopes, additionalParameters);
 
 	}
 

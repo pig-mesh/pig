@@ -17,6 +17,10 @@
 package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.auth.support.*;
+import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
+import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
+import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -127,7 +131,7 @@ public class AuthorizationServerConfiguration {
 	/**
 	 * 扩展密码模式
 	 */
-	@SuppressWarnings("all")
+	@SuppressWarnings("unchecked")
 	private void addCustomOAuth2PasswordAuthenticationProvider(HttpSecurity http) {
 
 		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);

@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support;
+package com.pig4cloud.pig.auth.support.password;
 
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -9,10 +9,10 @@ import org.springframework.util.Assert;
 import java.util.*;
 
 /**
- * @author lengleng
- * @description 短信登录token信息
+ * @author jumuning
+ * @description 密码授权token信息
  */
-public class OAuth2ResourceOwnerSmsAuthenticationToken extends AbstractAuthenticationToken {
+public class OAuth2ResourceOwnerPasswordAuthenticationToken extends AbstractAuthenticationToken {
 
 	private static final long serialVersionUID = -6067207202119450764L;
 
@@ -30,7 +30,7 @@ public class OAuth2ResourceOwnerSmsAuthenticationToken extends AbstractAuthentic
 	 * @param clientPrincipal the authenticated client principal
 	 */
 
-	public OAuth2ResourceOwnerSmsAuthenticationToken(AuthorizationGrantType authorizationGrantType,
+	public OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType authorizationGrantType,
 			Authentication clientPrincipal, @Nullable Set<String> scopes,
 			@Nullable Map<String, Object> additionalParameters) {
 		super(Collections.emptyList());
