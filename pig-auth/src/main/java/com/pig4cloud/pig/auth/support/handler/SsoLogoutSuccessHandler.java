@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.common.security.handler;
+package com.pig4cloud.pig.auth.support.handler;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +11,7 @@ import java.io.IOException;
 
 /**
  * @author lengleng
- * @date 2020/10/6
+ * @date 2022-06-02
  * <p>
  * sso 退出功能 ，根据客户端传入跳转
  */

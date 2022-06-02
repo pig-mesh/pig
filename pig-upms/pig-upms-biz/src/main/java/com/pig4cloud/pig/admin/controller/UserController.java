@@ -170,7 +170,7 @@ public class UserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
-	public R<IPage<List<UserVO>>> getUserPage(Page page, UserDTO userDTO) {
+	public R<IPage<UserVO>> getUserPage(Page page, UserDTO userDTO) {
 		return R.ok(userService.getUserWithRolePage(page, userDTO));
 	}
 

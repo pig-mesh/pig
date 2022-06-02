@@ -58,8 +58,7 @@ pig
      ├── pig-common-seata -- 分布式事务
      ├── pig-common-security -- 安全工具类
      ├── pig-common-swagger -- 接口文档
-     ├── pig-common-feign -- feign 扩展封装
-     └── pig-common-test -- oauth2.0 单元测试扩展封装
+     └── pig-common-feign -- feign 扩展封装
 ├── pig-register -- Nacos Server[8848]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]
 └── pig-upms -- 通用用户权限管理模块

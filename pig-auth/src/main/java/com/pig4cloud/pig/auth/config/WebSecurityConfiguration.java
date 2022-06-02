@@ -16,16 +16,14 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.auth.support.handler.FormAuthenticationFailureHandler;
+import com.pig4cloud.pig.auth.support.handler.SsoLogoutSuccessHandler;
 import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
-import com.pig4cloud.pig.common.security.handler.FormAuthenticationFailureHandler;
-import com.pig4cloud.pig.common.security.handler.SsoLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
 /**
  * 服务安全相关配置
@@ -51,8 +49,11 @@ public class WebSecurityConfiguration {
 				.csrf().disable()
 				// 个性化 formLogin
 				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				.failureHandler(authenticationFailureHandler()).and().logout()
-				.logoutSuccessHandler(logoutSuccessHandler()).deleteCookies("JSESSIONID").invalidateHttpSession(true);
+				// SSO登录失败处理
+				.failureHandler(new FormAuthenticationFailureHandler()).and().logout()
+				// SSO登出成功处理
+				.logoutSuccessHandler(new SsoLogoutSuccessHandler()).deleteCookies("JSESSIONID")
+				.invalidateHttpSession(true);
 
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
@@ -63,24 +64,6 @@ public class WebSecurityConfiguration {
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
 		return (web) -> web.ignoring().antMatchers("/css/**", "/error");
-	}
-
-	/**
-	 * sso 表单登录失败处理
-	 * @return FormAuthenticationFailureHandler
-	 */
-	@Bean
-	public AuthenticationFailureHandler authenticationFailureHandler() {
-		return new FormAuthenticationFailureHandler();
-	}
-
-	/**
-	 * SSO 退出逻辑处理
-	 * @return LogoutSuccessHandler
-	 */
-	@Bean
-	public LogoutSuccessHandler logoutSuccessHandler() {
-		return new SsoLogoutSuccessHandler();
 	}
 
 }

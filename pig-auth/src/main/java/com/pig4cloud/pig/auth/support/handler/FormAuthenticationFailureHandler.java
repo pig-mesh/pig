@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.security.handler;
+package com.pig4cloud.pig.auth.support.handler;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpUtil;
@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author lengleng
- * @date 2019-08-20
+ * @date 2022-06-02
  * <p>
  * 表单登录失败处理逻辑
  */

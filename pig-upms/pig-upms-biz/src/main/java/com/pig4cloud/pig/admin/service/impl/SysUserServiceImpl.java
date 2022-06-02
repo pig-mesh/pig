@@ -142,7 +142,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return
 	 */
 	@Override
-	public IPage<List<UserVO>> getUserWithRolePage(Page page, UserDTO userDTO) {
+	public IPage<UserVO> getUserWithRolePage(Page page, UserDTO userDTO) {
 		return baseMapper.getUserVosPage(page, userDTO);
 	}
 

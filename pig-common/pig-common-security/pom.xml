@@ -56,17 +56,17 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
+            <groupId>io.springboot.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>0.3.0</version>
+            <version>${spring.authorization.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
         </dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
-		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+    </dependencies>
 </project>

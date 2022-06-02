@@ -16,7 +16,9 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.support.*;
+import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
+import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
+import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
 import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
@@ -63,16 +65,23 @@ public class AuthorizationServerConfiguration {
 			OAuth2AuthorizationService authorizationService) throws Exception {
 		OAuth2AuthorizationServerConfigurer<HttpSecurity> authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer<>();
 
-		http.apply(authorizationServerConfigurer.tokenEndpoint(
-				(tokenEndpoint) -> tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(
-						Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
-								new OAuth2ResourceOwnerSmsAuthenticationConverter(),
-								new OAuth2RefreshTokenAuthenticationConverter(),
-								new OAuth2ClientCredentialsAuthenticationConverter(),
-								new OAuth2AuthorizationCodeAuthenticationConverter(),
-								new OAuth2AuthorizationCodeRequestAuthenticationConverter())))));
-		authorizationServerConfigurer.authorizationEndpoint(
-				authorizationEndpoint -> authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI));
+		http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {
+			// sas 支持的 Converter
+			tokenEndpoint.accessTokenRequestConverter(new DelegatingAuthenticationConverter(
+					Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
+							new OAuth2ResourceOwnerSmsAuthenticationConverter(),
+							new OAuth2RefreshTokenAuthenticationConverter(),
+							new OAuth2ClientCredentialsAuthenticationConverter(),
+							new OAuth2AuthorizationCodeAuthenticationConverter(),
+							new OAuth2AuthorizationCodeRequestAuthenticationConverter())));
+			// 登录成功处理器
+			tokenEndpoint.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler());
+			// 登录失败处理器
+			tokenEndpoint.errorResponseHandler(new PigAuthenticationFailureEventHandler());
+		}));
+		authorizationServerConfigurer.authorizationEndpoint(authorizationEndpoint -> {
+			authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI);
+		});
 
 		authorizationServerConfigurer.authorizationService(authorizationService);
 

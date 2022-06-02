@@ -21,6 +21,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
+import com.pig4cloud.pig.admin.api.vo.TokenVo;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
 import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -80,7 +81,7 @@ public class PigTokenEndpoint {
 
 	private final RemoteClientDetailsService clientDetailsService;
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, Object> redisTemplate;
 
 	private final CacheManager cacheManager;
 
@@ -192,7 +193,20 @@ public class PigTokenEndpoint {
 		Set<String> keys = redisTemplate.keys(key);
 		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
 		Page result = new Page(current, size);
-		result.setRecords(redisTemplate.opsForValue().multiGet(pages));
+
+		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
+			OAuth2Authorization authorization = (OAuth2Authorization) obj;
+			TokenVo tokenVo = new TokenVo();
+			tokenVo.setClientId(authorization.getRegisteredClientId());
+			tokenVo.setId(authorization.getId());
+			tokenVo.setUsername(authorization.getPrincipalName());
+			OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
+			tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
+			tokenVo.setExpiresAt(accessToken.getToken().getExpiresAt());
+			tokenVo.setIssuedAt(accessToken.getToken().getIssuedAt());
+			return tokenVo;
+		}).collect(Collectors.toList());
+		result.setRecords(tokenVoList);
 		result.setTotal(keys.size());
 		return R.ok(result);
 	}

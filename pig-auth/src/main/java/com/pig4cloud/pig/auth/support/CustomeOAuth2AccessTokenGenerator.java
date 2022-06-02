@@ -88,10 +88,9 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 		String key = String.format("%s::%s::%s", SecurityContextHolder.getContext().getAuthentication().getPrincipal(),
 				context.getPrincipal().getName(), UUID.randomUUID());
 
-
-		return new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(
-				OAuth2AccessToken.TokenType.BEARER, key, accessTokenClaimsSet.getIssuedAt(),
-				accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
+		return new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER, key,
+				accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(),
+				accessTokenClaimsSet.getClaims());
 	}
 
 	/**
