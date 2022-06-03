@@ -22,7 +22,7 @@ import java.util.Optional;
  * @date 2022/5/28
  */
 @RequiredArgsConstructor
-public class CustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private final OAuth2AuthorizationService authorizationService;
 

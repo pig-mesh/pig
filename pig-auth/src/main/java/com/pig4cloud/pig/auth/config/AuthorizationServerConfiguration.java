@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
+import com.pig4cloud.pig.auth.support.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
 import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
@@ -24,7 +25,6 @@ import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthen
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

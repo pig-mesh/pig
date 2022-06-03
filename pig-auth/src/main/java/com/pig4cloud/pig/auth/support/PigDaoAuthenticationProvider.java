@@ -1,6 +1,8 @@
-package com.pig4cloud.pig.common.security.component;
+package com.pig4cloud.pig.auth.support;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
 import org.springframework.core.Ordered;
@@ -23,7 +25,6 @@ import org.springframework.util.Assert;
 
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -62,8 +63,8 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
 		// app 模式不用校验密码
-		Object attribute = WebUtils.getRequest().get().getAttribute(OAuth2ParameterNames.GRANT_TYPE);
-		if (Objects.nonNull(attribute)) {
+		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (StrUtil.equals(SecurityConstants.APP, grantType)) {
 			return;
 		}
 

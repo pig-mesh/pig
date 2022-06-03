@@ -16,9 +16,9 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.auth.support.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.auth.support.handler.SsoLogoutSuccessHandler;
-import com.pig4cloud.pig.common.security.component.PigDaoAuthenticationProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;

@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 
 /**
  * @author lengleng
- * @date 2021/10/16
+ * @date 2022-06-02
  */
 public class PigTokenStoreAutoConfiguration {
 

@@ -29,7 +29,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
 
 /**
  * @author lengleng
- * @date 2020-06-23
+ * @date 2022-06-02
  */
 @EnableConfigurationProperties(PermitAllUrlProperties.class)
 @RequiredArgsConstructor
@@ -56,7 +56,7 @@ public class PigResourceServerAutoConfiguration {
 
 	@Bean
 	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
-		return new CustomOpaqueTokenIntrospector(authorizationService);
+		return new PigCustomOpaqueTokenIntrospector(authorizationService);
 	}
 
 	@Bean
