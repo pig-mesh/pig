@@ -98,6 +98,9 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 		}
 		OAuth2AccessTokenResponse accessTokenResponse = builder.build();
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+
+		// 无状态 注意删除 context 上下文的信息
+		SecurityContextHolder.clearContext();
 		this.accessTokenHttpResponseConverter.write(accessTokenResponse, null, httpResponse);
 	}
 

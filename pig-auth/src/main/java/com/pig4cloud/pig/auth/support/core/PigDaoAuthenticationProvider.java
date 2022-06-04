@@ -1,10 +1,12 @@
 package com.pig4cloud.pig.auth.support.core;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
+import lombok.SneakyThrows;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -12,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsPasswordService;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +21,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
+import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 /**
  * @author lengleng
@@ -38,6 +41,8 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * String)} on when the user is not found to avoid SEC-2056.
 	 */
 	private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
+
+	private final static BasicAuthenticationConverter basicConvert = new BasicAuthenticationConverter();
 
 	private PasswordEncoder passwordEncoder;
 
@@ -82,29 +87,29 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		}
 	}
 
+	@SneakyThrows
 	@Override
-	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
-			throws AuthenticationException {
+
+	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
 		prepareTimingAttackProtection();
+		HttpServletRequest request = WebUtils.getRequest().orElseThrow(
+				(Supplier<Throwable>) () -> new InternalAuthenticationServiceException("web request is empty"));
 
-		// 此处已获得 客户端认证 获取对应 userDetailsService
-		OAuth2ClientAuthenticationToken clientAuthentication = (OAuth2ClientAuthenticationToken) SecurityContextHolder
-				.getContext().getAuthentication();
+		Map<String, String> paramMap = ServletUtil.getParamMap(request);
+		String grantType = paramMap.get(OAuth2ParameterNames.GRANT_TYPE);
+		String clientId = paramMap.get(OAuth2ParameterNames.CLIENT_ID);
 
-		// SSO NPE 处理
-		String clientId;
-		if (clientAuthentication == null) {
-			clientId = WebUtils.getRequest().get().getParameter("clientId");
-		}
-		else {
-			clientId = clientAuthentication.getName();
+		if (StrUtil.isBlank(clientId)) {
+			clientId = basicConvert.convert(request).getName();
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
 				.getBeansOfType(PigUserDetailsService.class);
 
+		String finalClientId = clientId;
 		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(clientId, null)).max(Comparator.comparingInt(Ordered::getOrder));
+				.filter(service -> service.support(finalClientId, grantType))
+				.max(Comparator.comparingInt(Ordered::getOrder));
 
 		if (!optional.isPresent()) {
 			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");

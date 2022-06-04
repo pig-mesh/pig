@@ -16,9 +16,8 @@
 
 package com.pig4cloud.pig.auth.config;
 
+import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
-import com.pig4cloud.pig.auth.support.handler.FormAuthenticationFailureHandler;
-import com.pig4cloud.pig.auth.support.handler.SsoLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -42,19 +41,9 @@ public class WebSecurityConfiguration {
 	 */
 	@Bean
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-		http.authorizeRequests(
-				// 暴露自定义 的 password 等端点
-				authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll().anyRequest().authenticated())
-				// 个性化 formLogin
-				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
-				// SSO登录失败处理
-				.failureHandler(new FormAuthenticationFailureHandler()).and().logout()
-				// SSO登出成功处理
-				.logoutSuccessHandler(new SsoLogoutSuccessHandler()).deleteCookies("JSESSIONID")
-				.invalidateHttpSession(true)
-				// 禁止 login form csrf
-				.and().csrf().disable();
-
+		http.authorizeRequests(authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll()// 开放自定义的部分端点
+				.anyRequest().authenticated()).headers().frameOptions().sameOrigin()// 避免iframe同源无法登录
+				.and().apply(new FormIdentityLoginConfigurer()); // 注入form login
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
 		return http.build();

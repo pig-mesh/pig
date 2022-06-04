@@ -18,6 +18,7 @@ package com.pig4cloud.pig.auth.config;
 
 import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
 import com.pig4cloud.pig.auth.support.core.CustomeOAuth2TokenCustomizer;
+import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
@@ -43,6 +44,7 @@ import org.springframework.security.oauth2.server.authorization.web.authenticati
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Arrays;
 
@@ -70,13 +72,12 @@ public class AuthorizationServerConfiguration {
 		}).authorizationEndpoint( // 授权码端点个性化confirm页面
 				authorizationEndpoint -> authorizationEndpoint.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)));
 
-		DefaultSecurityFilterChain securityFilterChain = http
-				.requestMatcher(authorizationServerConfigurer.getEndpointsMatcher())
-				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())// 授权端点开启安全认证
+		RequestMatcher endpointsMatcher = authorizationServerConfigurer.getEndpointsMatcher();
+		DefaultSecurityFilterChain securityFilterChain = http.requestMatcher(endpointsMatcher)
+				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
 				.apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
 						.providerSettings(ProviderSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()))
-				.and()// SAS 统一认证调整至登录页面
-				.formLogin(loginConfigurer -> loginConfigurer.loginPage("/token/login")).csrf().disable().build();
+				.and().apply(new FormIdentityLoginConfigurer()).and().build();
 
 		// 注入自定义授权模式实现
 		addCustomOAuth2GrantAuthenticationProvider(http);
