@@ -2,6 +2,8 @@ package com.pig4cloud.pig.auth.support.sms;
 
 import com.pig4cloud.pig.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
@@ -23,6 +25,8 @@ import java.util.Map;
 public class OAuth2ResourceOwnerSmsAuthenticationProvider
 		extends OAuth2ResourceOwnerBaseAuthenticationProvider<OAuth2ResourceOwnerSmsAuthenticationToken> {
 
+	private static final Logger LOGGER = LogManager.getLogger(OAuth2ResourceOwnerSmsAuthenticationProvider.class);
+
 	/**
 	 * Constructs an {@code OAuth2AuthorizationCodeAuthenticationProvider} using the
 	 * provided parameters.
@@ -40,6 +44,7 @@ public class OAuth2ResourceOwnerSmsAuthenticationProvider
 	@Override
 	public boolean supports(Class<?> authentication) {
 		boolean supports = OAuth2ResourceOwnerSmsAuthenticationToken.class.isAssignableFrom(authentication);
+		LOGGER.debug("supports authentication=" + authentication + " returning " + supports);
 		return supports;
 	}
 

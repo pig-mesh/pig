@@ -17,8 +17,8 @@
 package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.util.ArrayUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -29,26 +29,22 @@ import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author lengleng
- * @date 2019/03/08
+ * @date 2022-06-04
  *
- * <p>
- * 1. 支持remoteTokenServices 负载均衡 2. 支持 获取用户全部信息 3. 接口对外暴露，不校验 Authentication Header 头
+ * 资源服务器认证授权配置
  */
 @Slf4j
 @EnableWebSecurity
-public class PigResourceServerConfigurerAdapter {
+@RequiredArgsConstructor
+public class PigResourceServerConfiguration {
 
-	@Autowired
-	protected ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-	@Autowired
-	private PermitAllUrlProperties permitAllUrl;
+	private final PermitAllUrlProperties permitAllUrl;
 
-	@Autowired
-	private PigBearerTokenExtractor pigBearerTokenExtractor;
+	private final PigBearerTokenExtractor pigBearerTokenExtractor;
 
-	@Autowired
-	private OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)

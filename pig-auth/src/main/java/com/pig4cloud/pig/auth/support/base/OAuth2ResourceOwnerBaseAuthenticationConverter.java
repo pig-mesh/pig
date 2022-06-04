@@ -1,6 +1,5 @@
 package com.pig4cloud.pig.auth.support.base;
 
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -88,9 +87,6 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationConverter<T extends O
 				.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
 						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
 				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
-
-		// 注入license
-		additionalParameters.put(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
 
 		// 创建token
 		return buildToken(clientPrincipal, requestedScopes, additionalParameters);

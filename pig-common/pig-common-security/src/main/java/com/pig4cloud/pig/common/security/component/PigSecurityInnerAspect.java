@@ -33,8 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author lengleng
- * @date 2019/02/14
- * <p>
+ * @date 2022-06-04
+ *
  * 服务间接口不鉴权处理逻辑
  */
 @Slf4j

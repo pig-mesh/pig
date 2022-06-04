@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.support.PigDaoAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.handler.FormAuthenticationFailureHandler;
 import com.pig4cloud.pig.auth.support.handler.SsoLogoutSuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -45,19 +45,18 @@ public class WebSecurityConfiguration {
 		http.authorizeRequests(
 				// 暴露自定义 的 password 等端点
 				authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll().anyRequest().authenticated())
-				// 禁止 csrf
-				.csrf().disable()
 				// 个性化 formLogin
 				.formLogin().loginPage("/token/login").loginProcessingUrl("/token/form")
 				// SSO登录失败处理
 				.failureHandler(new FormAuthenticationFailureHandler()).and().logout()
 				// SSO登出成功处理
 				.logoutSuccessHandler(new SsoLogoutSuccessHandler()).deleteCookies("JSESSIONID")
-				.invalidateHttpSession(true);
+				.invalidateHttpSession(true)
+				// 禁止 login form csrf
+				.and().csrf().disable();
 
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
-
 		return http.build();
 	}
 

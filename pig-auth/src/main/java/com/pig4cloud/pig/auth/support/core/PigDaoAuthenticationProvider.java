@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support;
+package com.pig4cloud.pig.auth.support.core;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
@@ -29,7 +29,7 @@ import java.util.Optional;
 
 /**
  * @author lengleng
- * @date 2022/1/15
+ * @date 2022-06-04
  */
 public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
@@ -54,6 +54,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	private UserDetailsPasswordService userDetailsPasswordService;
 
 	public PigDaoAuthenticationProvider() {
+		setMessageSource(SpringUtil.getBean("securityMessageSource"));
 		setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
 	}
 

@@ -152,7 +152,9 @@ public class PigTokenEndpoint {
 					httpResponse);
 		}
 
-		OAuth2AccessTokenResponse sendAccessTokenResponse = OAuth2EndpointUtils.sendAccessTokenResponse(authorization);
+		Map<String, Object> claims = authorization.getAccessToken().getClaims();
+		OAuth2AccessTokenResponse sendAccessTokenResponse = OAuth2EndpointUtils.sendAccessTokenResponse(authorization,
+				claims);
 		this.accessTokenHttpResponseConverter.write(sendAccessTokenResponse, MediaType.APPLICATION_JSON, httpResponse);
 	}
 

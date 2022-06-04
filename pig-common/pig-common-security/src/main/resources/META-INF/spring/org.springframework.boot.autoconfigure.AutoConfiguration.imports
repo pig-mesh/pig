@@ -1,6 +1,7 @@
 com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl
 com.pig4cloud.pig.common.security.service.PigAppUserDetailsServiceImpl
+com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationService
+com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationConsentService
 com.pig4cloud.pig.common.security.component.PigSecurityInnerAspect
-com.pig4cloud.pig.common.security.component.PigTokenStoreAutoConfiguration
 com.pig4cloud.pig.common.security.component.PigSecurityMessageSourceConfiguration
 com.pig4cloud.pig.common.security.service.PigRemoteRegisteredClientRepository

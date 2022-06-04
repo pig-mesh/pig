@@ -17,13 +17,9 @@
 package com.pig4cloud.pig.common.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
-import com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
@@ -31,37 +27,47 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
  * @author lengleng
  * @date 2022-06-02
  */
-@EnableConfigurationProperties(PermitAllUrlProperties.class)
 @RequiredArgsConstructor
+@EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class PigResourceServerAutoConfiguration {
 
-	private final RemoteUserService remoteUserService;
-
-	private final CacheManager cacheManager;
-
+	/**
+	 * 鉴权具体的实现逻辑
+	 * @return （#pms.xxx）
+	 */
 	@Bean("pms")
 	public PermissionService permissionService() {
 		return new PermissionService();
 	}
 
+	/**
+	 * 请求令牌的抽取逻辑
+	 * @param urlProperties 对外暴露的接口列表
+	 * @return BearerTokenExtractor
+	 */
 	@Bean
 	public PigBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
 		return new PigBearerTokenExtractor(urlProperties);
 	}
 
+	/**
+	 * 资源服务器异常处理
+	 * @param objectMapper jackson 输出对象
+	 * @return ResourceAuthExceptionEntryPoint
+	 */
 	@Bean
 	public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper) {
 		return new ResourceAuthExceptionEntryPoint(objectMapper);
 	}
 
+	/**
+	 * 资源服务器toke内省处理器
+	 * @param authorizationService token 存储实现
+	 * @return TokenIntrospector
+	 */
 	@Bean
 	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
 		return new PigCustomOpaqueTokenIntrospector(authorizationService);
-	}
-
-	@Bean
-	public UserDetailsService userDetailsService() {
-		return new PigUserDetailsServiceImpl(remoteUserService, cacheManager);
 	}
 
 }

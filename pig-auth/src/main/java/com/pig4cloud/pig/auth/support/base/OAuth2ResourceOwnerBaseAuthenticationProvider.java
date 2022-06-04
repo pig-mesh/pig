@@ -1,14 +1,14 @@
 package com.pig4cloud.pig.auth.support.base;
 
-import com.pig4cloud.pig.auth.support.ScopeException;
+import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
+import com.pig4cloud.pig.common.security.util.ScopeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.SpringSecurityMessageSource;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -47,8 +47,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 
 	private final AuthenticationManager authenticationManager;
 
-	private final MessageSourceAccessor messages = new MessageSourceAccessor(new SpringSecurityMessageSource(),
-			Locale.CHINA);
+	private final MessageSourceAccessor messages;
 
 	@Deprecated
 	private Supplier<String> refreshTokenGenerator;
@@ -68,6 +67,9 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		this.authenticationManager = authenticationManager;
 		this.authorizationService = authorizationService;
 		this.tokenGenerator = tokenGenerator;
+
+		// 国际化配置
+		this.messages = new MessageSourceAccessor(SpringUtil.getBean("securityMessageSource"), Locale.CHINA);
 	}
 
 	@Deprecated

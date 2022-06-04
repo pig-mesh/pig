@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.common.security.util;
 
+import cn.hutool.core.map.MapUtil;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
@@ -51,10 +52,12 @@ public class OAuth2EndpointUtils {
 	/**
 	 * 格式化输出token 信息
 	 * @param authentication 用户认证信息
+	 * @param claims 扩展信息
 	 * @return
 	 * @throws IOException
 	 */
-	public OAuth2AccessTokenResponse sendAccessTokenResponse(OAuth2Authorization authentication) {
+	public OAuth2AccessTokenResponse sendAccessTokenResponse(OAuth2Authorization authentication,
+			Map<String, Object> claims) {
 
 		OAuth2AccessToken accessToken = authentication.getAccessToken().getToken();
 		OAuth2RefreshToken refreshToken = authentication.getRefreshToken().getToken();
@@ -66,6 +69,10 @@ public class OAuth2EndpointUtils {
 		}
 		if (refreshToken != null) {
 			builder.refreshToken(refreshToken.getTokenValue());
+		}
+
+		if (MapUtil.isNotEmpty(claims)) {
+			builder.additionalParameters(claims);
 		}
 		return builder.build();
 	}

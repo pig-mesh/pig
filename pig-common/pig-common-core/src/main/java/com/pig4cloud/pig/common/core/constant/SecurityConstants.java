@@ -35,7 +35,7 @@ public interface SecurityConstants {
 	/**
 	 * 项目的license
 	 */
-	String PROJECT_LICENSE = "made by pig";
+	String PROJECT_LICENSE = "https://pig4cloud.com";
 
 	/**
 	 * 内部
@@ -116,5 +116,10 @@ public interface SecurityConstants {
 	 * 短信登录 参数名称
 	 */
 	String SMS_PARAMETER_NAME = "phone";
+
+	/**
+	 * 授权码模式confirm
+	 */
+	String CUSTOM_CONSENT_PAGE_URI = "/token/confirm_access";
 
 }
