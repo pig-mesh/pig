@@ -1,19 +1,20 @@
 package com.pig4cloud.pig.common.security.util;
 
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 
 /**
  * @author jumuning
  * @description ScopeException 异常信息
  */
-public class ScopeException extends AuthenticationException {
+public class ScopeException extends OAuth2AuthenticationException {
 
 	/**
 	 * Constructs a <code>ScopeException</code> with the specified message.
 	 * @param msg the detail message.
 	 */
 	public ScopeException(String msg) {
-		super(msg);
+		super(new OAuth2Error(msg), msg);
 	}
 
 	/**
@@ -22,7 +23,7 @@ public class ScopeException extends AuthenticationException {
 	 * @param cause root cause
 	 */
 	public ScopeException(String msg, Throwable cause) {
-		super(msg, cause);
+		super(new OAuth2Error(msg), cause);
 	}
 
 }

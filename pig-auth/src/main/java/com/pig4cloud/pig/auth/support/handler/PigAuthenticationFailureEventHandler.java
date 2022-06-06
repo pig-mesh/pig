@@ -31,6 +31,7 @@ import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,7 +58,8 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 	@SneakyThrows
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) {
-		String username = request.getParameter("username");
+		String username = request.getParameter(OAuth2ParameterNames.USERNAME);
+
 		log.info("用户：{} 登录失败，异常：{}", username, exception.getLocalizedMessage());
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("登录失败");

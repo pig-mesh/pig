@@ -75,7 +75,6 @@ public class SwaggerAutoConfiguration {
 		clientCredential.setScopes(new Scopes().addString(swaggerProperties.getScope(), swaggerProperties.getScope()));
 		OAuthFlows oauthFlows = new OAuthFlows();
 		oauthFlows.password(clientCredential);
-
 		SecurityScheme securityScheme = new SecurityScheme();
 		securityScheme.setType(SecurityScheme.Type.OAUTH2);
 		securityScheme.setFlows(oauthFlows);
