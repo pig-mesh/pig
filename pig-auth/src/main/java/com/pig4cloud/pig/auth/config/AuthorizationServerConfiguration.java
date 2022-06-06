@@ -77,6 +77,7 @@ public class AuthorizationServerConfiguration {
 				.authorizeRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated())
 				.apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
 						.providerSettings(ProviderSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()))
+				// 授权码登录的登录页个性化
 				.and().apply(new FormIdentityLoginConfigurer()).and().build();
 
 		// 注入自定义授权模式实现

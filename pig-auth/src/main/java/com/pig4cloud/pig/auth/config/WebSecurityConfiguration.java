@@ -43,7 +43,7 @@ public class WebSecurityConfiguration {
 	SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.authorizeRequests(authorizeRequests -> authorizeRequests.antMatchers("/token/*").permitAll()// 开放自定义的部分端点
 				.anyRequest().authenticated()).headers().frameOptions().sameOrigin()// 避免iframe同源无法登录
-				.and().apply(new FormIdentityLoginConfigurer()); // 注入form login
+				.and().apply(new FormIdentityLoginConfigurer()); // 表单登录个性化
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
 		return http.build();
