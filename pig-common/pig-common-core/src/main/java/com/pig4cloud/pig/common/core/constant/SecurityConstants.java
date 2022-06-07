@@ -115,7 +115,7 @@ public interface SecurityConstants {
 	/**
 	 * 短信登录 参数名称
 	 */
-	String SMS_PARAMETER_NAME = "phone";
+	String SMS_PARAMETER_NAME = "mobile";
 
 	/**
 	 * 授权码模式confirm
