@@ -30,7 +30,7 @@
         <xnio.version>3.8.7.Final</xnio.version>
         <mysql.version>8.0.29</mysql.version>
         <seata.version>1.5.1</seata.version>
-        <excel.version>1.2.3</excel.version>
+        <excel.version>1.2.4</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
@@ -84,11 +84,6 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-seata</artifactId>
-                <version>${pig.common.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-test</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>
