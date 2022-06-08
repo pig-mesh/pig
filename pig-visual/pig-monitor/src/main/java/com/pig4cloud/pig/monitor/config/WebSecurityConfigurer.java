@@ -30,7 +30,7 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
  * @date 2019/2/1
  */
 @EnableWebSecurity
-public class WebSecurityConfigurer{
+public class WebSecurityConfigurer {
 
 	private final String adminContextPath;
 
@@ -49,23 +49,12 @@ public class WebSecurityConfigurer{
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
 		successHandler.setTargetUrlParameter("redirectTo");
 		successHandler.setDefaultTargetUrl(adminContextPath + "/");
-		http
-				.headers().frameOptions().disable()
-				.and().authorizeRequests()
-				.antMatchers(adminContextPath + "/assets/**"
-						, adminContextPath + "/login"
-						, adminContextPath + "/instances/**"
-						, adminContextPath + "/actuator/**"
-				).permitAll()
-				.anyRequest().authenticated()
-				.and()
-				.formLogin().loginPage(adminContextPath + "/login")
-				.successHandler(successHandler).and()
-				.logout().logoutUrl(adminContextPath + "/logout")
-				.and()
-				.httpBasic().and()
-				.csrf()
-				.disable();
+		http.headers().frameOptions().disable().and().authorizeRequests()
+				.antMatchers(adminContextPath + "/assets/**", adminContextPath + "/login",
+						adminContextPath + "/instances/**", adminContextPath + "/actuator/**")
+				.permitAll().anyRequest().authenticated().and().formLogin().loginPage(adminContextPath + "/login")
+				.successHandler(successHandler).and().logout().logoutUrl(adminContextPath + "/logout").and().httpBasic()
+				.and().csrf().disable();
 		return http.build();
 	}
 
