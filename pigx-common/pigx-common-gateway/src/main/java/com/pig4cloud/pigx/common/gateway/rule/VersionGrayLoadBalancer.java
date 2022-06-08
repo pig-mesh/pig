@@ -19,7 +19,7 @@ package com.pig4cloud.pigx.common.gateway.rule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.nacos.client.naming.utils.Chooser;
 import com.alibaba.nacos.client.naming.utils.Pair;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -62,16 +62,16 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		}
 		// 获取请求version，无则随机返回可用实例
 		String reqVersion = request.getHeaders().getFirst(CommonConstants.VERSION);
-		if (CharSequenceUtil.isBlank(reqVersion)) {
-			//过滤出不含VERSION实例
+		if (StrUtil.isBlank(reqVersion)) {
+			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
 					.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
 					.collect(Collectors.toList());
-			if(CollUtil.isEmpty(versionInstanceList)){
-				//根据权重获取实例
+			if (CollUtil.isEmpty(versionInstanceList)) {
+				// 根据权重获取实例
 				return randomByWeight(instances);
 			}
-			//根据权重获取实例
+			// 根据权重获取实例
 			return randomByWeight(versionInstanceList);
 		}
 		// 遍历可以实例元数据，若匹配则返回此实例
@@ -80,10 +80,10 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 						.equalsIgnoreCase(MapUtil.getStr(instance.getMetadata(), CommonConstants.VERSION)))
 				.collect(Collectors.toList());
 		if (CollUtil.isEmpty(availableList)) {
-			//根据权重获取实例
+			// 根据权重获取实例
 			return randomByWeight(instances);
 		}
-		//根据权重获取实例
+		// 根据权重获取实例
 		return randomByWeight(availableList);
 	}
 
@@ -92,17 +92,19 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 	 * @param serviceInstances 服务实例集合
 	 * @return 服务实例：ServiceInstance
 	 */
-	protected ServiceInstance randomByWeight(final List<ServiceInstance> serviceInstances){
-		if(serviceInstances.size()==1){
+	protected ServiceInstance randomByWeight(final List<ServiceInstance> serviceInstances) {
+		if (serviceInstances.size() == 1) {
 			return serviceInstances.get(0);
-		}else {
+		}
+		else {
 			List<Pair<ServiceInstance>> hostsWithWeight = new ArrayList<>();
 			for (ServiceInstance serviceInstance : serviceInstances) {
-				if ("true".equals(serviceInstance.getMetadata().getOrDefault("nacos.healthy","true"))) {
-					hostsWithWeight.add(new Pair<>(serviceInstance, Double.parseDouble(serviceInstance.getMetadata().getOrDefault("nacos.weight","1"))));
+				if ("true".equals(serviceInstance.getMetadata().getOrDefault("nacos.healthy", "true"))) {
+					hostsWithWeight.add(new Pair<>(serviceInstance,
+							Double.parseDouble(serviceInstance.getMetadata().getOrDefault("nacos.weight", "1"))));
 				}
 			}
-			Chooser<String, ServiceInstance> vipChooser = new Chooser<>("www.taobao.com",hostsWithWeight);
+			Chooser<String, ServiceInstance> vipChooser = new Chooser<>("www.taobao.com", hostsWithWeight);
 			return vipChooser.randomWithWeight();
 		}
 	}

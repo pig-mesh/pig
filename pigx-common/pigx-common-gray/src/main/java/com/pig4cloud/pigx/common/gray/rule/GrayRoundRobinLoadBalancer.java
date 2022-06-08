@@ -2,9 +2,10 @@ package com.pig4cloud.pigx.common.gray.rule;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.cloud.nacos.NacosServiceInstance;
+import com.alibaba.nacos.client.naming.utils.Chooser;
+import com.alibaba.nacos.client.naming.utils.Pair;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.ObjectProvider;
@@ -16,6 +17,7 @@ import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -73,7 +75,16 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 
 		String reqVersion = headers.getFirst(CommonConstants.VERSION);
 		if (StrUtil.isBlank(reqVersion)) {
-			return super.choose(request).block();
+			// 过滤出不含VERSION实例
+			List<ServiceInstance> versionInstanceList = instances.stream()
+					.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
+					.collect(Collectors.toList());
+			if (CollUtil.isEmpty(versionInstanceList)) {
+				// 根据权重获取实例
+				return new DefaultResponse(randomByWeight(instances));
+			}
+			// 根据权重获取实例
+			return new DefaultResponse(randomByWeight(versionInstanceList));
 		}
 
 		// 遍历可以实例元数据，若匹配则返回此实例
@@ -86,7 +97,7 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 
 		// 存在 随机返回
 		if (CollUtil.isNotEmpty(serviceInstanceList)) {
-			ServiceInstance instance = RandomUtil.randomEle(serviceInstanceList);
+			ServiceInstance instance = randomByWeight(serviceInstanceList);
 
 			log.debug("gray instance available serviceId: {} , instanceId: {}", serviceId, instance.getInstanceId());
 			return new DefaultResponse(instance);
@@ -94,6 +105,28 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 		else {
 			// 不存在,降级策略，使用轮询策略
 			return super.choose(request).block();
+		}
+	}
+
+	/**
+	 * 根据nacos设置的权重返回实例
+	 * @param serviceInstances 服务实例集合
+	 * @return 服务实例：ServiceInstance
+	 */
+	protected ServiceInstance randomByWeight(final List<ServiceInstance> serviceInstances) {
+		if (serviceInstances.size() == 1) {
+			return serviceInstances.get(0);
+		}
+		else {
+			List<Pair<ServiceInstance>> hostsWithWeight = new ArrayList<>();
+			for (ServiceInstance serviceInstance : serviceInstances) {
+				if ("true".equals(serviceInstance.getMetadata().getOrDefault("nacos.healthy", "true"))) {
+					hostsWithWeight.add(new Pair<>(serviceInstance,
+							Double.parseDouble(serviceInstance.getMetadata().getOrDefault("nacos.weight", "1"))));
+				}
+			}
+			Chooser<String, ServiceInstance> vipChooser = new Chooser<>("www.taobao.com", hostsWithWeight);
+			return vipChooser.randomWithWeight();
 		}
 	}
 
