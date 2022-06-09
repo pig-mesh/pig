@@ -15,7 +15,7 @@
 
 ## 文档视频
 
-[ 🚀🚀🚀 低代码数据可视化](http://datav.pig4cloud.com)
+[ 🚀🚀🚀 低代码数据可视化](http://datav.avuejs.com)
 
 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
