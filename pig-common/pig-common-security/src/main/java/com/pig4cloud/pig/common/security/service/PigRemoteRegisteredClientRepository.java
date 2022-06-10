@@ -87,7 +87,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 		SysOauthClientDetails clientDetails = detailsR.getData();
 
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
-				.clientId(clientDetails.getClientSecret())
+				.clientId(clientDetails.getClientId())
 				.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
 				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
 
