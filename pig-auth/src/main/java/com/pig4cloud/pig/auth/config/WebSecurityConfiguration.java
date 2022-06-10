@@ -51,7 +51,7 @@ public class WebSecurityConfiguration {
 
 	@Bean
 	public WebSecurityCustomizer webSecurityCustomizer() {
-		return (web) -> web.ignoring().antMatchers("/css/**", "/error");
+		return (web) -> web.ignoring().antMatchers("/actuator/**", "/css/**", "/error");
 	}
 
 }
