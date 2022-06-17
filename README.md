@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-3.4-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-3.5-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2021-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
@@ -26,6 +26,8 @@
 [产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
 
 ## 微信群 [禁广告]
+
+![](https://minio.pigx.vip/oss/1648184189.png)
 
 ## 快速开始
 
@@ -104,12 +106,12 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 
 <table>
   <tr>
-    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133006.png"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133059.png"></a></td>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.vip/oss/1655474345.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.vip/oss/1655474359.jpg"></a></td>
   </tr>
     <tr>
-    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133114.png"></a></td>
-    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://gitee.com/pig4cloud/oss/raw/master/2020-9/20200901133124.png"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.vip/oss/1655474369.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="![1655474381](https://minio.pigx.vip/oss/1655474381.jpg"></a></td>
   </tr>
 </table>
 
@@ -120,7 +122,8 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
 允许商业使用，但务必保留类作者、Copyright 信息。
 
-![](https://gitee.com/pig4cloud/oss/raw/master/2020-10-9/1602229452602-image.png)
+![](https://minio.pigx.vip/oss/1655474288.jpg)
+
 
 ### 其他说明
 
