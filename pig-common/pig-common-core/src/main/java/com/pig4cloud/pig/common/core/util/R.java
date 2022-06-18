@@ -76,7 +76,7 @@ public class R<T> implements Serializable {
 		return restResult(data, CommonConstants.FAIL, msg);
 	}
 
-	private static <T> R<T> restResult(T data, int code, String msg) {
+	public static <T> R<T> restResult(T data, int code, String msg) {
 		R<T> apiResult = new R<>();
 		apiResult.setCode(code);
 		apiResult.setData(data);
