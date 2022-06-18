@@ -56,7 +56,7 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springboot.security</groupId>
+            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
             <version>${spring.authorization.version}</version>
         </dependency>
