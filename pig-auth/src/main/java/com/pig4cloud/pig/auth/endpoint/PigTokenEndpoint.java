@@ -166,6 +166,10 @@ public class PigTokenEndpoint {
 	@DeleteMapping("/{token}")
 	public R<Boolean> removeToken(@PathVariable("token") String token) {
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+		if (authorization == null) {
+			return R.ok();
+		}
+
 		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
 		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
 			return R.ok();
