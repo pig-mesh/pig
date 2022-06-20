@@ -111,7 +111,7 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
   </tr>
     <tr>
     <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.vip/oss/1655474369.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="![1655474381](https://minio.pigx.vip/oss/1655474381.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.vip/oss/1655474381.jpg"></a></td>
   </tr>
 </table>
 
