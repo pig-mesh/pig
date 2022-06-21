@@ -100,7 +100,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	 * @param clientDetailsDTO
 	 * @return
 	 */
-	private SysOauthClientDetails insertOrUpdate(SysOauthClientDetailsDTO clientDetailsDTO){
+	private SysOauthClientDetails insertOrUpdate(SysOauthClientDetailsDTO clientDetailsDTO) {
 		// copy dto 对象
 		SysOauthClientDetails clientDetails = new SysOauthClientDetails();
 		BeanUtils.copyProperties(clientDetailsDTO, clientDetails);

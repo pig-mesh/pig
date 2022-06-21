@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.jeecg.modules.jmreport.api.JmReportTokenServiceI;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,6 +32,16 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 				.map(o -> (String)o.get("username"))
 				.orElse(null);
 		// @formatter:off
+	}
+
+	@Override
+	public Map<String, Object> getUserInfo(String token) {
+		String username = this.getUsername(token);
+		Map<String, Object> map = new HashMap<>(4);
+		map.put("username", username);
+		map.put("access_token", token);
+		// 将所有信息存放至map 解析sql会根据map的键值解析,可自定义其他值
+		return map;
 	}
 
 	@Override
