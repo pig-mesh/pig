@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-common</artifactId>
-        <version>3.5.0</version>
+        <version>3.5.1</version>
     </parent>
 
     <artifactId>pig-common-security</artifactId>
@@ -56,7 +56,7 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springboot.security</groupId>
+            <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
             <version>${spring.authorization.version}</version>
         </dependency>

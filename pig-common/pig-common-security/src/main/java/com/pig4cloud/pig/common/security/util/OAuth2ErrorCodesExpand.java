@@ -35,4 +35,9 @@ public interface OAuth2ErrorCodesExpand {
 	/** 未知的登录异常 */
 	String UN_KNOW_LOGIN_ERROR = "un_know_login_error";
 
+	/**
+	 * 不合法的Token
+	 */
+	String INVALID_BEARER_TOKEN = "invalid_bearer_token";
+
 }

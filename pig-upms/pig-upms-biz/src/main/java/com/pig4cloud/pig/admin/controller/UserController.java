@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -115,15 +116,18 @@ public class UserController {
 	}
 
 	/**
-	 * 根据用户名查询用户信息
-	 * @param username 用户名
+	 * 判断用户是否存在
+	 * @param userDTO 查询条件
 	 * @return
 	 */
-	@GetMapping("/details/{username}")
-	public R<SysUser> user(@PathVariable String username) {
-		SysUser condition = new SysUser();
-		condition.setUsername(username);
-		return R.ok(userService.getOne(new QueryWrapper<>(condition)));
+	@Inner(false)
+	@GetMapping("/check/exsit")
+	public R<Boolean> isExsit(UserDTO userDTO) {
+		List<SysUser> sysUserList = userService.list(new QueryWrapper<>(userDTO));
+		if (CollUtil.isNotEmpty(sysUserList)) {
+			return R.ok(Boolean.TRUE, MsgUtils.getMessage(ErrorCodes.SYS_USER_EXISTING));
+		}
+		return R.ok(Boolean.FALSE);
 	}
 
 	/**

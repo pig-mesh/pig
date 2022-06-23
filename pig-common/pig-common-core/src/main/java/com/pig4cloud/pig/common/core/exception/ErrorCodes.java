@@ -21,6 +21,11 @@ public interface ErrorCodes {
 	/**
 	 * 用户已存在
 	 */
+	String SYS_USER_EXISTING = "sys.user.existing";
+
+	/**
+	 * 用户名已存在
+	 */
 	String SYS_USER_USERNAME_EXISTING = "sys.user.username.existing";
 
 	/**
