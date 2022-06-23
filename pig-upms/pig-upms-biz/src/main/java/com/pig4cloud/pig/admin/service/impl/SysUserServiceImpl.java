@@ -173,8 +173,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public Boolean updateUserInfo(UserDTO userDto) {
-		String username = SecurityUtils.getUser().getUsername();
-		UserVO userVO = baseMapper.getUserVoByUsername(username);
+		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 
 		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),
 				MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
