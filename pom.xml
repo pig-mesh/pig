@@ -27,13 +27,13 @@
     <url>https://www.pig4cloud.com</url>
 
     <properties>
-        <spring-boot.version>2.7.0</spring-boot.version>
+        <spring-boot.version>2.7.1</spring-boot.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring-boot-admin.version>2.6.7</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.0</spring-boot-admin.version>
         <spring.authorization.version>0.3.1</spring.authorization.version>
         <hutool.version>5.8.3</hutool.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>

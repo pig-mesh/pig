@@ -15,7 +15,7 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>2.7.0</spring-boot.version>
+        <spring-boot.version>2.7.1</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -26,7 +26,6 @@
         <springdoc.version>1.6.6</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
-        <xnio.version>3.8.7.Final</xnio.version>
         <mysql.version>8.0.29</mysql.version>
         <seata.version>1.5.1</seata.version>
         <excel.version>1.2.4</excel.version>
@@ -94,17 +93,6 @@
                 <groupId>mysql</groupId>
                 <artifactId>mysql-connector-java</artifactId>
                 <version>${mysql.version}</version>
-            </dependency>
-            <!-- xnio 临时解决方案: #spring-boot/issues/31112 -->
-            <dependency>
-                <groupId>org.jboss.xnio</groupId>
-                <artifactId>xnio-api</artifactId>
-                <version>${xnio.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.xnio</groupId>
-                <artifactId>xnio-nio</artifactId>
-                <version>${xnio.version}</version>
             </dependency>
             <!--springdoc -->
             <dependency>
