@@ -70,6 +70,11 @@ public class PigxTenantHandler implements TenantLineHandler {
 	 */
 	@Override
 	public boolean ignoreTable(String tableName) {
+		// 判断是否跳过当前查询的租户过滤
+		if (TenantContextHolder.getTenantSkip()) {
+			return Boolean.TRUE;
+		}
+
 		Long tenantId = TenantContextHolder.getTenantId();
 		// 租户中ID 为空，查询全部，不进行过滤
 		if (tenantId == null) {
