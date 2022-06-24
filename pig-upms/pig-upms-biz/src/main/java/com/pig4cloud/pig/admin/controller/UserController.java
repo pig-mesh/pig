@@ -21,7 +21,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.fasterxml.jackson.datatype.jsr310.ser.YearSerializer;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
@@ -187,8 +186,7 @@ public class UserController {
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
 	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
-		String username = SecurityUtils.getUser().getUsername();
-		userDto.setUsername(username);
+		userDto.setUsername(SecurityUtils.getUser().getUsername());
 		return R.ok(userService.updateUserInfo(userDto));
 	}
 
