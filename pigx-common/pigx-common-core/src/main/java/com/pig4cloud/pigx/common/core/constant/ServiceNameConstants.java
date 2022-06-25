@@ -26,6 +26,11 @@ package com.pig4cloud.pigx.common.core.constant;
 public interface ServiceNameConstants {
 
 	/**
+	 * BASE 路径
+	 */
+	String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
+
+	/**
 	 * 认证中心
 	 */
 	String AUTH_SERVICE = "pigx-auth";

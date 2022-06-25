@@ -39,6 +39,7 @@
 		<seata.version>1.4.2</seata.version>
 		<asm.version>7.1</asm.version>
         <log4j2.version>2.17.1</log4j2.version>
+        <jaxb.version>2.3.5</jaxb.version>
         <javaformat.plugin.version>0.0.23</javaformat.plugin.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -259,6 +260,12 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
                 <version>${groovy.version}</version>
+            </dependency>
+            <!--   java17 support-->
+            <dependency>
+                <groupId>com.sun.xml.bind</groupId>
+                <artifactId>jaxb-impl</artifactId>
+                <version>${jaxb.version}</version>
             </dependency>
             <!--稳定版本，替代spring security bom内置-->
             <dependency>

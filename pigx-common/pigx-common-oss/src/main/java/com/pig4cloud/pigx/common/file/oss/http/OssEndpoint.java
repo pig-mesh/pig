@@ -24,6 +24,7 @@ import com.pig4cloud.pigx.common.file.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
 import lombok.SneakyThrows;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -44,6 +45,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/oss")
+@ConditionalOnProperty(name = "file.oss.info", havingValue = "true")
 public class OssEndpoint {
 
 	private final OssTemplate template;

@@ -51,6 +51,7 @@ public class PigxXssAutoConfiguration implements WebMvcConfigurer {
 	}
 
 	@Bean
+	@ConditionalOnMissingBean
 	public FormXssClean formXssClean(PigxXssProperties properties, XssCleaner xssCleaner) {
 		return new FormXssClean(properties, xssCleaner);
 	}
