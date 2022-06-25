@@ -33,6 +33,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
@@ -46,6 +47,8 @@ import java.util.Map;
  */
 public class PigxFeignClientsRegistrar
 		implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware, EnvironmentAware {
+
+	private final static String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
 
 	@Getter
 	private ClassLoader beanClassLoader;
@@ -181,7 +184,14 @@ public class PigxFeignClientsRegistrar
 	}
 
 	private String getUrl(Map<String, Object> attributes) {
-		String url = resolve((String) attributes.get("url"));
+		// 如果是单体项目自动注入 & url 为空
+		String url = (String) attributes.get("url");
+		boolean present = ClassUtils.isPresent("com.alibaba.cloud.nacos.discovery.NacosDiscoveryClient",
+				this.getClass().getClassLoader());
+		if (!StringUtils.hasText(url) && !present) {
+			url = resolve(BASE_URL);
+		}
+
 		return FeignClientsRegistrar.getUrl(url);
 	}
 
