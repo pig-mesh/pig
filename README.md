@@ -38,9 +38,9 @@
 | Spring Boot            | 2.7.1      |
 | Spring Cloud           | 2021.0.3   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
-| Spring Authorization Server | 0.3.0      |
+| Spring Authorization Server | 0.3.1      |
 | Mybatis Plus           | 3.5.2      |
-| hutool                 | 5.8.3      |
+| hutool                 | 5.8.4      |
 | Avue                   | 2.6.18     |
 
 ### 模块说明

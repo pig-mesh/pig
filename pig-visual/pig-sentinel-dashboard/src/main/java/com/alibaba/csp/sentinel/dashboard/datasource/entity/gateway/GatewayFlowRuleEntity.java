@@ -78,16 +78,16 @@ public class GatewayFlowRuleEntity implements RuleEntity {
 
 	public static Long calIntervalSec(Long interval, Integer intervalUnit) {
 		switch (intervalUnit) {
-		case INTERVAL_UNIT_SECOND:
-			return interval;
-		case INTERVAL_UNIT_MINUTE:
-			return interval * 60;
-		case INTERVAL_UNIT_HOUR:
-			return interval * 60 * 60;
-		case INTERVAL_UNIT_DAY:
-			return interval * 60 * 60 * 24;
-		default:
-			break;
+			case INTERVAL_UNIT_SECOND:
+				return interval;
+			case INTERVAL_UNIT_MINUTE:
+				return interval * 60;
+			case INTERVAL_UNIT_HOUR:
+				return interval * 60 * 60;
+			case INTERVAL_UNIT_DAY:
+				return interval * 60 * 60 * 24;
+			default:
+				break;
 		}
 
 		throw new IllegalArgumentException("Invalid intervalUnit: " + intervalUnit);
