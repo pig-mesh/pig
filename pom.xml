@@ -51,7 +51,7 @@
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
         <git.commit.plugin>4.9.9</git.commit.plugin>
-        <spring.checkstyle.plugin>0.0.32</spring.checkstyle.plugin>
+        <spring.checkstyle.plugin>0.0.34</spring.checkstyle.plugin>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
@@ -222,11 +222,23 @@
                     </includeOnlyProperties>
                 </configuration>
             </plugin>
-            <!--代码格式插件，默认使用spring 规则-->
+            <!--
+            	代码格式插件，默认使用spring 规则，可运行命令进行项目格式化：./mvnw spring-javaformat:apply 或 mvn spring-javaformat:apply，可在IDEA中安装插件以下插件进行自动格式化：
+            	https://repo1.maven.org/maven2/io/spring/javaformat/spring-javaformat-intellij-idea-plugin
+            -->
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
                 <version>${spring.checkstyle.plugin}</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<inherited>true</inherited>
+						<goals>
+							<goal>validate</goal>
+						</goals>
+					</execution>
+				</executions>
             </plugin>
         </plugins>
     </build>
