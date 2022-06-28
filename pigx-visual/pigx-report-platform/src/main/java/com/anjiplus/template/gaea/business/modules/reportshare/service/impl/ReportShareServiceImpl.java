@@ -104,7 +104,7 @@ public class ReportShareServiceImpl implements ReportShareService {
 	 */
 	private void init(ReportShare entity) {
 		// 前端地址 window.location.href
-		// https://report.anji-plus.com/index.html#/report/bigscreen
+		// https://ajreport.beliefteam.cn/index.html#/report/bigscreen
 		// 截取#之前的内容
 		// http://localhost:9528/#/bigscreen/viewer?reportCode=bigScreen2
 		// http://127.0.0.1:9095/reportDashboard/getData
