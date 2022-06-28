@@ -27,10 +27,12 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.RetOps;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
 import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
+import com.pig4cloud.pig.common.security.util.OAuthClientException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -105,9 +107,10 @@ public class PigTokenEndpoint {
 			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
+		SysOauthClientDetails clientDetails = RetOps
+				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN)).getData()
+				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
-		R<SysOauthClientDetails> r = clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN);
-		SysOauthClientDetails clientDetails = r.getData();
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);
 		modelAndView.addObject("state", state);
