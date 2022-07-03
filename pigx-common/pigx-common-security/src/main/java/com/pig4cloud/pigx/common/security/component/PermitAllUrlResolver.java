@@ -65,6 +65,8 @@ public class PermitAllUrlResolver implements InitializingBean {
 
 	private static final Pattern PATTERN = Pattern.compile("\\{(.*?)\\}");
 
+	private static final String[] DEFAULT_IGNORE_URLS = new String[] { "/error", "/v2/api-docs" };
+
 	private final WebApplicationContext applicationContext;
 
 	@Getter
@@ -125,6 +127,11 @@ public class PermitAllUrlResolver implements InitializingBean {
 		}
 		else {
 			ignoreUrls.add(String.format("%s|%s", resultUrl, CollUtil.join(methodList, StrUtil.COMMA)));
+		}
+
+		// 增加默认暴露规则
+		for (String ignoreUrl : DEFAULT_IGNORE_URLS) {
+			ignoreUrls.add(ignoreUrl);
 		}
 	}
 
