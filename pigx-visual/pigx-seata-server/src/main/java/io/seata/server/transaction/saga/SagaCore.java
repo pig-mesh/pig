@@ -106,46 +106,47 @@ public class SagaCore extends AbstractCore {
 					globalSession.getXid(), -1, getSagaResourceId(globalSession), globalSession.getStatus().name()));
 
 			switch (branchStatus) {
-			case PhaseTwo_Committed:
-				removeAllBranches(globalSession);
-				LOGGER.info("Successfully committed SAGA global[" + globalSession.getXid() + "]");
-				break;
-			case PhaseTwo_Rollbacked:
-				LOGGER.info("Successfully rollbacked SAGA global[" + globalSession.getXid() + "]");
-				removeAllBranches(globalSession);
-				SessionHelper.endRollbacked(globalSession);
-				return false;
-			case PhaseTwo_RollbackFailed_Retryable:
-				LOGGER.error("By [{}], failed to rollback SAGA global [{}], will retry later.", branchStatus,
-						globalSession.getXid());
-				SessionHolder.getRetryCommittingSessionManager().removeGlobalSession(globalSession);
-				globalSession.queueToRetryRollback();
-				return false;
-			case PhaseOne_Failed:
-				LOGGER.error("By [{}], finish SAGA global [{}]", branchStatus, globalSession.getXid());
-				removeAllBranches(globalSession);
-				globalSession.changeStatus(GlobalStatus.Finished);
-				globalSession.end();
-				return false;
-			case PhaseTwo_CommitFailed_Unretryable:
-				if (globalSession.canBeCommittedAsync()) {
-					LOGGER.error("By [{}], failed to commit SAGA global [{}]", branchStatus, globalSession.getXid());
+				case PhaseTwo_Committed:
+					removeAllBranches(globalSession);
+					LOGGER.info("Successfully committed SAGA global[" + globalSession.getXid() + "]");
 					break;
-				}
-				else {
-					SessionHelper.endCommitFailed(globalSession);
-					LOGGER.error("Finally, failed to commit SAGA global[{}]", globalSession.getXid());
+				case PhaseTwo_Rollbacked:
+					LOGGER.info("Successfully rollbacked SAGA global[" + globalSession.getXid() + "]");
+					removeAllBranches(globalSession);
+					SessionHelper.endRollbacked(globalSession);
 					return false;
-				}
-			default:
-				if (!retrying) {
-					globalSession.queueToRetryCommit();
+				case PhaseTwo_RollbackFailed_Retryable:
+					LOGGER.error("By [{}], failed to rollback SAGA global [{}], will retry later.", branchStatus,
+							globalSession.getXid());
+					SessionHolder.getRetryCommittingSessionManager().removeGlobalSession(globalSession);
+					globalSession.queueToRetryRollback();
 					return false;
-				}
-				else {
-					LOGGER.error("Failed to commit SAGA global[{}], will retry later.", globalSession.getXid());
+				case PhaseOne_Failed:
+					LOGGER.error("By [{}], finish SAGA global [{}]", branchStatus, globalSession.getXid());
+					removeAllBranches(globalSession);
+					globalSession.changeStatus(GlobalStatus.Finished);
+					globalSession.end();
 					return false;
-				}
+				case PhaseTwo_CommitFailed_Unretryable:
+					if (globalSession.canBeCommittedAsync()) {
+						LOGGER.error("By [{}], failed to commit SAGA global [{}]", branchStatus,
+								globalSession.getXid());
+						break;
+					}
+					else {
+						SessionHelper.endCommitFailed(globalSession);
+						LOGGER.error("Finally, failed to commit SAGA global[{}]", globalSession.getXid());
+						return false;
+					}
+				default:
+					if (!retrying) {
+						globalSession.queueToRetryCommit();
+						return false;
+					}
+					else {
+						LOGGER.error("Failed to commit SAGA global[{}], will retry later.", globalSession.getXid());
+						return false;
+					}
 			}
 		}
 		catch (Exception ex) {
@@ -166,26 +167,26 @@ public class SagaCore extends AbstractCore {
 					globalSession.getXid(), -1, getSagaResourceId(globalSession), globalSession.getStatus().name()));
 
 			switch (branchStatus) {
-			case PhaseTwo_Rollbacked:
-				removeAllBranches(globalSession);
-				LOGGER.info("Successfully rollbacked SAGA global[{}]", globalSession.getXid());
-				break;
-			case PhaseTwo_RollbackFailed_Unretryable:
-				SessionHelper.endRollbackFailed(globalSession);
-				LOGGER.error("Failed to rollback SAGA global[{}]", globalSession.getXid());
-				return false;
-			case PhaseTwo_CommitFailed_Retryable:
-				SessionHolder.getRetryRollbackingSessionManager().removeGlobalSession(globalSession);
-				globalSession.queueToRetryCommit();
-				LOGGER.warn("Retry by custom recover strategy [Forward] on timeout, SAGA global[{}]",
-						globalSession.getXid());
-				return false;
-			default:
-				LOGGER.error("Failed to rollback SAGA global[{}]", globalSession.getXid());
-				if (!retrying) {
-					globalSession.queueToRetryRollback();
-				}
-				return false;
+				case PhaseTwo_Rollbacked:
+					removeAllBranches(globalSession);
+					LOGGER.info("Successfully rollbacked SAGA global[{}]", globalSession.getXid());
+					break;
+				case PhaseTwo_RollbackFailed_Unretryable:
+					SessionHelper.endRollbackFailed(globalSession);
+					LOGGER.error("Failed to rollback SAGA global[{}]", globalSession.getXid());
+					return false;
+				case PhaseTwo_CommitFailed_Retryable:
+					SessionHolder.getRetryRollbackingSessionManager().removeGlobalSession(globalSession);
+					globalSession.queueToRetryCommit();
+					LOGGER.warn("Retry by custom recover strategy [Forward] on timeout, SAGA global[{}]",
+							globalSession.getXid());
+					return false;
+				default:
+					LOGGER.error("Failed to rollback SAGA global[{}]", globalSession.getXid());
+					if (!retrying) {
+						globalSession.queueToRetryRollback();
+					}
+					return false;
 			}
 		}
 		catch (Exception ex) {

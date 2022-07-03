@@ -246,17 +246,17 @@ public class AccessUserServiceImpl implements AccessUserService {
 	public void processBeforeOperation(AccessUser entity, BaseOperationEnum operationEnum) throws BusinessException {
 		// 过滤密码
 		switch (operationEnum) {
-		case INSERT:
-			// gaea是为了和前端加密保持一致
-			entity.setPassword(MD5Util.encrypt(MD5Util.encrypt(defaultPassword.concat("gaea"))));
-			break;
-		case UPDATE:
-			// 更新用户不允许修改密码
-			entity.setPassword(null);
-			break;
-		default:
+			case INSERT:
+				// gaea是为了和前端加密保持一致
+				entity.setPassword(MD5Util.encrypt(MD5Util.encrypt(defaultPassword.concat("gaea"))));
+				break;
+			case UPDATE:
+				// 更新用户不允许修改密码
+				entity.setPassword(null);
+				break;
+			default:
 
-			break;
+				break;
 		}
 
 	}

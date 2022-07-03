@@ -164,29 +164,29 @@ public class XlsUtil {
 				dataModel.put("r", row.getRowNum());
 				// 获取单元格内容
 				switch (cell.getCellType()) {
-				case STRING:
-					dataModel.getJSONObject("v").put("m", cell.getStringCellValue());
-					dataModel.getJSONObject("v").put("v", cell.getStringCellValue());
-					break;
-				case NUMERIC:
-					dataModel.getJSONObject("v").put("m", cell.getNumericCellValue());
-					dataModel.getJSONObject("v").put("v", cell.getNumericCellValue());
-					break;
-				case BLANK:
-					dataModel.getJSONObject("v").put("m", "");
-					dataModel.getJSONObject("v").put("v", "");
-					break;
-				case BOOLEAN:
-					dataModel.getJSONObject("v").put("m", cell.getBooleanCellValue());
-					dataModel.getJSONObject("v").put("v", cell.getBooleanCellValue());
-					break;
-				case ERROR:
-					dataModel.getJSONObject("v").put("m", cell.getErrorCellValue());
-					dataModel.getJSONObject("v").put("v", cell.getErrorCellValue());
-					break;
-				default:
-					dataModel.getJSONObject("v").put("m", "");
-					dataModel.getJSONObject("v").put("v", "");
+					case STRING:
+						dataModel.getJSONObject("v").put("m", cell.getStringCellValue());
+						dataModel.getJSONObject("v").put("v", cell.getStringCellValue());
+						break;
+					case NUMERIC:
+						dataModel.getJSONObject("v").put("m", cell.getNumericCellValue());
+						dataModel.getJSONObject("v").put("v", cell.getNumericCellValue());
+						break;
+					case BLANK:
+						dataModel.getJSONObject("v").put("m", "");
+						dataModel.getJSONObject("v").put("v", "");
+						break;
+					case BOOLEAN:
+						dataModel.getJSONObject("v").put("m", cell.getBooleanCellValue());
+						dataModel.getJSONObject("v").put("v", cell.getBooleanCellValue());
+						break;
+					case ERROR:
+						dataModel.getJSONObject("v").put("m", cell.getErrorCellValue());
+						dataModel.getJSONObject("v").put("v", cell.getErrorCellValue());
+						break;
+					default:
+						dataModel.getJSONObject("v").put("m", "");
+						dataModel.getJSONObject("v").put("v", "");
 				}
 				// 设置单元格合并标记
 				dealWithCellMarge(rangeMap, row, cell, dataModel);

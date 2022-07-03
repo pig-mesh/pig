@@ -287,21 +287,21 @@ public class ReportExcelServiceImpl implements ReportExcelService {
 		// 获取单元格类型
 		CellType cellType = getCellType(cellObject);
 		switch (cellType) {
-		case BLACK:
-			// 空数据单元格不处理
-			break;
-		case DYNAMIC_MERGE:
-		case DYNAMIC:
-			// 处理动态单元格
-			String v = cellObject.getJSONObject("v").getString("v");
-			DataSetDto dataSet = getDataSet(v, setParam);
-			handleDynamicCellObject(dataSet, v, cellStr, cnt, cellR, cellC, merge, dbObject, colAddCntMap);
-			break;
-		default:
-			// 处理静态单元格
-			handleStaticCellObject(cellStr, dbObject, cnt, cellR, cellC, cellDataMap, setParam, merge, colAddCntMap,
-					cellType);
-			break;
+			case BLACK:
+				// 空数据单元格不处理
+				break;
+			case DYNAMIC_MERGE:
+			case DYNAMIC:
+				// 处理动态单元格
+				String v = cellObject.getJSONObject("v").getString("v");
+				DataSetDto dataSet = getDataSet(v, setParam);
+				handleDynamicCellObject(dataSet, v, cellStr, cnt, cellR, cellC, merge, dbObject, colAddCntMap);
+				break;
+			default:
+				// 处理静态单元格
+				handleStaticCellObject(cellStr, dbObject, cnt, cellR, cellC, cellDataMap, setParam, merge, colAddCntMap,
+						cellType);
+				break;
 		}
 	}
 
@@ -382,44 +382,44 @@ public class ReportExcelServiceImpl implements ReportExcelService {
 		JSONObject addCellData = JSONObject.parseObject(cellStr);
 		int rows = 0;
 		switch (cellType) {
-		case STATIC:
-		case STATIC_MERGE:
-			// 静态不扩展单元格只需要初始化位置就可以
-			initCellPosition(addCellData, cnt, merge);
-			break;
-		case STATIC_AUTO:
-			// 获取静态单元格右侧动态单元格的总行数
-			rows = getRightDynamicCellRows(addCellData, cellDataMap, setParam, rows, cellType);
-			initCellPosition(addCellData, cnt, merge);
-			if (rows > 1) {
-				// 需要把这个静态扩展单元格 改变为 静态合并扩展单元格，就是增加合并属性 mc 以及merge配置
-				JSONObject mc = new JSONObject();
-				mc.put("rs", rows);
-				mc.put("cs", 1);
-				mc.put("r", addCellData.getIntValue("r"));
-				mc.put("c", addCellData.getIntValue("c"));
-				addCellData.getJSONObject("v").put("mc", mc);
-				// 合并单元格需要处理config.merge
-				merge.put((mc.getInteger("r")) + "_" + mc.getString("c"), mc);
-				// 处理单元格扩展之后此列扩展的总行数
-				colAddCntMap.put(c, cnt + rows - 1);
-			}
-			break;
-		case STATIC_MERGE_AUTO:
-			// 获取静态单元格右侧动态单元格的总行数
-			rows = getRightDynamicCellRows(addCellData, cellDataMap, setParam, rows, cellType);
-			initCellPosition(addCellData, cnt, merge);
-			if (rows > 0) {
-				// 需要修改单元格mc中的rs
-				JSONObject cellMc = addCellData.getJSONObject("v").getJSONObject("mc");
-				int addCnt = cellMc.getInteger("rs");
-				cellMc.put("rs", rows);
-				// 合并单元格需要处理config.merge
-				merge.put((cellMc.getInteger("r")) + "_" + cellMc.getString("c"), cellMc);
-				// 处理单元格扩展之后此列扩展的总行数
-				colAddCntMap.put(c, cnt + rows - addCnt);
-			}
-			break;
+			case STATIC:
+			case STATIC_MERGE:
+				// 静态不扩展单元格只需要初始化位置就可以
+				initCellPosition(addCellData, cnt, merge);
+				break;
+			case STATIC_AUTO:
+				// 获取静态单元格右侧动态单元格的总行数
+				rows = getRightDynamicCellRows(addCellData, cellDataMap, setParam, rows, cellType);
+				initCellPosition(addCellData, cnt, merge);
+				if (rows > 1) {
+					// 需要把这个静态扩展单元格 改变为 静态合并扩展单元格，就是增加合并属性 mc 以及merge配置
+					JSONObject mc = new JSONObject();
+					mc.put("rs", rows);
+					mc.put("cs", 1);
+					mc.put("r", addCellData.getIntValue("r"));
+					mc.put("c", addCellData.getIntValue("c"));
+					addCellData.getJSONObject("v").put("mc", mc);
+					// 合并单元格需要处理config.merge
+					merge.put((mc.getInteger("r")) + "_" + mc.getString("c"), mc);
+					// 处理单元格扩展之后此列扩展的总行数
+					colAddCntMap.put(c, cnt + rows - 1);
+				}
+				break;
+			case STATIC_MERGE_AUTO:
+				// 获取静态单元格右侧动态单元格的总行数
+				rows = getRightDynamicCellRows(addCellData, cellDataMap, setParam, rows, cellType);
+				initCellPosition(addCellData, cnt, merge);
+				if (rows > 0) {
+					// 需要修改单元格mc中的rs
+					JSONObject cellMc = addCellData.getJSONObject("v").getJSONObject("mc");
+					int addCnt = cellMc.getInteger("rs");
+					cellMc.put("rs", rows);
+					// 合并单元格需要处理config.merge
+					merge.put((cellMc.getInteger("r")) + "_" + cellMc.getString("c"), cellMc);
+					// 处理单元格扩展之后此列扩展的总行数
+					colAddCntMap.put(c, cnt + rows - addCnt);
+				}
+				break;
 		}
 		dbObject.getJSONArray("celldata").add(addCellData);
 	}
@@ -467,29 +467,29 @@ public class ReportExcelServiceImpl implements ReportExcelService {
 			// 首先判断这个单元格是否也是【静态扩展单元格】
 			CellType rightCellType = getCellType(rightCell);
 			switch (rightCellType) {
-			case STATIC_AUTO:
-			case STATIC_MERGE_AUTO:
-				// 递归查找
-				sumRows = getRightDynamicCellRows(rightCell, cellDataMap, setParam, sumRows, rightCellType);
-				break;
-			case BLACK:
-			case STATIC:
-				sumRows++;
-				break;
-			case STATIC_MERGE:
-				sumRows += rightCell.getJSONObject("v").getJSONObject("mc").getInteger("rs");
-				break;
-			default:
-				List<JSONObject> cellDynamicData = getDynamicDataList(rightCell.getJSONObject("v").getString("v"),
-						setParam);
-				if (cellDynamicData != null && cellDynamicData.size() > 1) {
-					int size = cellDynamicData.size();
-					sumRows += size;
-				}
-				else {
+				case STATIC_AUTO:
+				case STATIC_MERGE_AUTO:
+					// 递归查找
+					sumRows = getRightDynamicCellRows(rightCell, cellDataMap, setParam, sumRows, rightCellType);
+					break;
+				case BLACK:
+				case STATIC:
 					sumRows++;
-				}
-				break;
+					break;
+				case STATIC_MERGE:
+					sumRows += rightCell.getJSONObject("v").getJSONObject("mc").getInteger("rs");
+					break;
+				default:
+					List<JSONObject> cellDynamicData = getDynamicDataList(rightCell.getJSONObject("v").getString("v"),
+							setParam);
+					if (cellDynamicData != null && cellDynamicData.size() > 1) {
+						int size = cellDynamicData.size();
+						sumRows += size;
+					}
+					else {
+						sumRows++;
+					}
+					break;
 			}
 		}
 		return sumRows;
@@ -513,14 +513,14 @@ public class ReportExcelServiceImpl implements ReportExcelService {
 		Integer cellRs = 0;
 		Integer cellCs = 0;
 		switch (cellType) {
-		case STATIC_AUTO:
-			cellRs = 1;
-			cellCs = 1;
-			break;
-		case STATIC_MERGE_AUTO:
-			cellRs = addCellData.getJSONObject("v").getJSONObject("mc").getInteger("rs");
-			cellCs = addCellData.getJSONObject("v").getJSONObject("mc").getInteger("cs");
-			break;
+			case STATIC_AUTO:
+				cellRs = 1;
+				cellCs = 1;
+				break;
+			case STATIC_MERGE_AUTO:
+				cellRs = addCellData.getJSONObject("v").getJSONObject("mc").getInteger("rs");
+				cellCs = addCellData.getJSONObject("v").getJSONObject("mc").getInteger("cs");
+				break;
 		}
 		List<JSONObject> rightCells = new ArrayList<>();
 		for (int nums = 0; nums < cellRs; nums++) {

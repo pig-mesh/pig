@@ -70,25 +70,25 @@ public class ClusterConfigController {
 			if (body.containsKey(KEY_MODE)) {
 				int mode = body.getInteger(KEY_MODE);
 				switch (mode) {
-				case ClusterStateManager.CLUSTER_CLIENT:
-					ClusterClientModifyRequest data = JSON.parseObject(payload, ClusterClientModifyRequest.class);
-					Result<Boolean> res = checkValidRequest(data);
-					if (res != null) {
-						return res;
-					}
-					clusterConfigService.modifyClusterClientConfig(data).get();
-					return Result.ofSuccess(true);
-				case ClusterStateManager.CLUSTER_SERVER:
-					ClusterServerModifyRequest d = JSON.parseObject(payload, ClusterServerModifyRequest.class);
-					Result<Boolean> r = checkValidRequest(d);
-					if (r != null) {
-						return r;
-					}
-					// TODO: bad design here, should refactor!
-					clusterConfigService.modifyClusterServerConfig(d).get();
-					return Result.ofSuccess(true);
-				default:
-					return Result.ofFail(-1, "invalid mode");
+					case ClusterStateManager.CLUSTER_CLIENT:
+						ClusterClientModifyRequest data = JSON.parseObject(payload, ClusterClientModifyRequest.class);
+						Result<Boolean> res = checkValidRequest(data);
+						if (res != null) {
+							return res;
+						}
+						clusterConfigService.modifyClusterClientConfig(data).get();
+						return Result.ofSuccess(true);
+					case ClusterStateManager.CLUSTER_SERVER:
+						ClusterServerModifyRequest d = JSON.parseObject(payload, ClusterServerModifyRequest.class);
+						Result<Boolean> r = checkValidRequest(d);
+						if (r != null) {
+							return r;
+						}
+						// TODO: bad design here, should refactor!
+						clusterConfigService.modifyClusterServerConfig(d).get();
+						return Result.ofSuccess(true);
+					default:
+						return Result.ofFail(-1, "invalid mode");
 				}
 			}
 			return Result.ofFail(-1, "invalid parameter");

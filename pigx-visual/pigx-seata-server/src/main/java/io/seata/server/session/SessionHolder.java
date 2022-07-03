@@ -159,45 +159,45 @@ public class SessionHolder {
 				GlobalSession globalSession = iterator.next();
 				GlobalStatus globalStatus = globalSession.getStatus();
 				switch (globalStatus) {
-				case UnKnown:
-				case Committed:
-				case CommitFailed:
-				case Rollbacked:
-				case RollbackFailed:
-				case TimeoutRollbacked:
-				case TimeoutRollbackFailed:
-				case Finished:
-					removeGlobalSessions.add(globalSession);
-					break;
-				case AsyncCommitting:
-					if (storeMode == StoreMode.FILE) {
-						queueToAsyncCommitting(globalSession);
-					}
-					break;
-				default: {
-					if (storeMode == StoreMode.FILE) {
-						lockBranchSessions(globalSession.getSortedBranches());
-
-						switch (globalStatus) {
-						case Committing:
-						case CommitRetrying:
-							queueToRetryCommit(globalSession);
-							break;
-						case Rollbacking:
-						case RollbackRetrying:
-						case TimeoutRollbacking:
-						case TimeoutRollbackRetrying:
-							queueToRetryRollback(globalSession);
-							break;
-						case Begin:
-							globalSession.setActive(true);
-							break;
-						default:
-							throw new ShouldNeverHappenException("NOT properly handled " + globalStatus);
+					case UnKnown:
+					case Committed:
+					case CommitFailed:
+					case Rollbacked:
+					case RollbackFailed:
+					case TimeoutRollbacked:
+					case TimeoutRollbackFailed:
+					case Finished:
+						removeGlobalSessions.add(globalSession);
+						break;
+					case AsyncCommitting:
+						if (storeMode == StoreMode.FILE) {
+							queueToAsyncCommitting(globalSession);
 						}
+						break;
+					default: {
+						if (storeMode == StoreMode.FILE) {
+							lockBranchSessions(globalSession.getSortedBranches());
+
+							switch (globalStatus) {
+								case Committing:
+								case CommitRetrying:
+									queueToRetryCommit(globalSession);
+									break;
+								case Rollbacking:
+								case RollbackRetrying:
+								case TimeoutRollbacking:
+								case TimeoutRollbackRetrying:
+									queueToRetryRollback(globalSession);
+									break;
+								case Begin:
+									globalSession.setActive(true);
+									break;
+								default:
+									throw new ShouldNeverHappenException("NOT properly handled " + globalStatus);
+							}
+						}
+						break;
 					}
-					break;
-				}
 				}
 			}
 			for (GlobalSession globalSession : removeGlobalSessions) {

@@ -89,12 +89,12 @@ public class ReportShareServiceImpl implements ReportShareService {
 	@Override
 	public void processBeforeOperation(ReportShare entity, BaseOperationEnum operationEnum) throws BusinessException {
 		switch (operationEnum) {
-		case INSERT:
-			init(entity);
-			break;
-		default:
+			case INSERT:
+				init(entity);
+				break;
+			default:
 
-			break;
+				break;
 		}
 	}
 

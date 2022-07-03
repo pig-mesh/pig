@@ -639,106 +639,106 @@ public class XlsSheetUtil {
 
 				Integer _i = ConstantUtil.getNumberFormatMap(fa);
 				switch (t) {
-				case "s": {
-					// 字符串
-					if (_i >= 0) {
-						style.setDataFormat(_i.shortValue());
-					}
-					else {
-						style.setDataFormat((short) 0);
-					}
-					cell.setCellType(org.apache.poi.ss.usermodel.CellType.STRING);
-					break;
-				}
-				case "d": {
-					// 日期
-					Date _d = null;
-					String v = getByDBObject(dbObject, "m");
-					if (v.length() == 0) {
-						v = getByDBObject(dbObject, "v");
-					}
-					if (v.length() > 0) {
-						if (v.indexOf("-") > -1) {
-							if (v.indexOf(":") > -1) {
-								_d = ConstantUtil.stringToDateTime(v);
-							}
-							else {
-								_d = ConstantUtil.stringToDate(v);
-							}
-						}
-						else {
-							_d = ConstantUtil.toDate(v);
-						}
-					}
-					if (_d != null) {
-						// 能转换为日期
-						cell.setCellValue(_d);
-						DataFormat format = wb.createDataFormat();
-						style.setDataFormat(format.getFormat(fa));
-
-					}
-					else {
-						// 不能转换为日期
+					case "s": {
+						// 字符串
 						if (_i >= 0) {
 							style.setDataFormat(_i.shortValue());
 						}
 						else {
 							style.setDataFormat((short) 0);
 						}
+						cell.setCellType(org.apache.poi.ss.usermodel.CellType.STRING);
+						break;
 					}
-					break;
-				}
-				case "b": {
-					// 逻辑
-					cell.setCellType(org.apache.poi.ss.usermodel.CellType.BOOLEAN);
-					if (_i >= 0) {
-						style.setDataFormat(_i.shortValue());
+					case "d": {
+						// 日期
+						Date _d = null;
+						String v = getByDBObject(dbObject, "m");
+						if (v.length() == 0) {
+							v = getByDBObject(dbObject, "v");
+						}
+						if (v.length() > 0) {
+							if (v.indexOf("-") > -1) {
+								if (v.indexOf(":") > -1) {
+									_d = ConstantUtil.stringToDateTime(v);
+								}
+								else {
+									_d = ConstantUtil.stringToDate(v);
+								}
+							}
+							else {
+								_d = ConstantUtil.toDate(v);
+							}
+						}
+						if (_d != null) {
+							// 能转换为日期
+							cell.setCellValue(_d);
+							DataFormat format = wb.createDataFormat();
+							style.setDataFormat(format.getFormat(fa));
+
+						}
+						else {
+							// 不能转换为日期
+							if (_i >= 0) {
+								style.setDataFormat(_i.shortValue());
+							}
+							else {
+								style.setDataFormat((short) 0);
+							}
+						}
+						break;
 					}
-					else {
-						DataFormat format = wb.createDataFormat();
-						style.setDataFormat(format.getFormat(fa));
+					case "b": {
+						// 逻辑
+						cell.setCellType(org.apache.poi.ss.usermodel.CellType.BOOLEAN);
+						if (_i >= 0) {
+							style.setDataFormat(_i.shortValue());
+						}
+						else {
+							DataFormat format = wb.createDataFormat();
+							style.setDataFormat(format.getFormat(fa));
+						}
+						break;
 					}
-					break;
-				}
-				case "n": {
-					// 数值
-					// cell.setCellType(CellType.NUMERIC);
-					// 数字转字符串
-					cell.setCellType(org.apache.poi.ss.usermodel.CellType.STRING);
-					if (_i >= 0) {
-						style.setDataFormat(_i.shortValue());
+					case "n": {
+						// 数值
+						// cell.setCellType(CellType.NUMERIC);
+						// 数字转字符串
+						cell.setCellType(org.apache.poi.ss.usermodel.CellType.STRING);
+						if (_i >= 0) {
+							style.setDataFormat(_i.shortValue());
+						}
+						else {
+							DataFormat format = wb.createDataFormat();
+							style.setDataFormat(format.getFormat(fa));
+						}
+						break;
 					}
-					else {
-						DataFormat format = wb.createDataFormat();
-						style.setDataFormat(format.getFormat(fa));
+					case "u":
+					case "g": {
+						// general 自动类型
+						// cell.setCellType(CellType._NONE);
+						if (_i >= 0) {
+							style.setDataFormat(_i.shortValue());
+						}
+						else {
+							DataFormat format = wb.createDataFormat();
+							style.setDataFormat(format.getFormat(fa));
+						}
+						break;
 					}
-					break;
-				}
-				case "u":
-				case "g": {
-					// general 自动类型
-					// cell.setCellType(CellType._NONE);
-					if (_i >= 0) {
-						style.setDataFormat(_i.shortValue());
+					case "e": {
+						// 错误
+						cell.setCellType(org.apache.poi.ss.usermodel.CellType.ERROR);
+						if (_i >= 0) {
+							style.setDataFormat(_i.shortValue());
+						}
+						else {
+							DataFormat format = wb.createDataFormat();
+							style.setDataFormat(format.getFormat(fa));
+						}
+						break;
 					}
-					else {
-						DataFormat format = wb.createDataFormat();
-						style.setDataFormat(format.getFormat(fa));
-					}
-					break;
-				}
-				case "e": {
-					// 错误
-					cell.setCellType(org.apache.poi.ss.usermodel.CellType.ERROR);
-					if (_i >= 0) {
-						style.setDataFormat(_i.shortValue());
-					}
-					else {
-						DataFormat format = wb.createDataFormat();
-						style.setDataFormat(format.getFormat(fa));
-					}
-					break;
-				}
 
 				}
 

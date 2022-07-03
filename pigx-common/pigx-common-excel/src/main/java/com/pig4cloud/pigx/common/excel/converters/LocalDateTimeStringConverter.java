@@ -72,21 +72,21 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	private static String switchDateFormat(String dateString) {
 		int length = dateString.length();
 		switch (length) {
-		case 19:
-			if (dateString.contains(MINUS)) {
-				return DateUtils.DATE_FORMAT_19;
-			}
-			else {
-				return DateUtils.DATE_FORMAT_19_FORWARD_SLASH;
-			}
-		case 17:
-			return DateUtils.DATE_FORMAT_17;
-		case 14:
-			return DateUtils.DATE_FORMAT_14;
-		case 10:
-			return DateUtils.DATE_FORMAT_10;
-		default:
-			throw new IllegalArgumentException("can not find date format for：" + dateString);
+			case 19:
+				if (dateString.contains(MINUS)) {
+					return DateUtils.DATE_FORMAT_19;
+				}
+				else {
+					return DateUtils.DATE_FORMAT_19_FORWARD_SLASH;
+				}
+			case 17:
+				return DateUtils.DATE_FORMAT_17;
+			case 14:
+				return DateUtils.DATE_FORMAT_14;
+			case 10:
+				return DateUtils.DATE_FORMAT_10;
+			default:
+				throw new IllegalArgumentException("can not find date format for：" + dateString);
 		}
 	}
 

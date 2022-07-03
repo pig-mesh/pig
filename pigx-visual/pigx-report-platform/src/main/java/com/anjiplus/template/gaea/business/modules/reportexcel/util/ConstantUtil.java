@@ -209,24 +209,24 @@ public class ConstantUtil {
 	public static short getRotation(int i) {
 		short t = 0;
 		switch (i) {
-		case 1:
-			t = 45;
-			break;
-		case 2:
-			t = -45;
-			break;
-		case 3:
-			t = 255;
-			break;
-		case 4:
-			t = 90;
-			break;
-		case 5:
-			t = -90;
-			break;
+			case 1:
+				t = 45;
+				break;
+			case 2:
+				t = -45;
+				break;
+			case 3:
+				t = 255;
+				break;
+			case 4:
+				t = 90;
+				break;
+			case 5:
+				t = -90;
+				break;
 
-		default:
-			t = 0;
+			default:
+				t = 0;
 		}
 		return t;
 	}

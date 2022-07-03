@@ -109,18 +109,18 @@ public class TransactionWriteStore implements SessionStorable {
 	private SessionStorable getSessionInstanceByOperation(LogOperation logOperation) {
 		SessionStorable sessionStorable = null;
 		switch (logOperation) {
-		case GLOBAL_ADD:
-		case GLOBAL_UPDATE:
-		case GLOBAL_REMOVE:
-			sessionStorable = new GlobalSession();
-			break;
-		case BRANCH_ADD:
-		case BRANCH_UPDATE:
-		case BRANCH_REMOVE:
-			sessionStorable = new BranchSession();
-			break;
-		default:
-			throw new ShouldNeverHappenException("incorrect logOperation");
+			case GLOBAL_ADD:
+			case GLOBAL_UPDATE:
+			case GLOBAL_REMOVE:
+				sessionStorable = new GlobalSession();
+				break;
+			case BRANCH_ADD:
+			case BRANCH_UPDATE:
+			case BRANCH_REMOVE:
+				sessionStorable = new BranchSession();
+				break;
+			default:
+				throw new ShouldNeverHappenException("incorrect logOperation");
 		}
 		return sessionStorable;
 	}

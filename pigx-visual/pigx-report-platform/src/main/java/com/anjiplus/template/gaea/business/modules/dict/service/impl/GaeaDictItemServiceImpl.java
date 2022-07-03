@@ -49,13 +49,13 @@ public class GaeaDictItemServiceImpl implements GaeaDictItemService {
 
 		String key = GaeaKeyConstant.DICT_PREFIX + locale + GaeaConstant.REDIS_SPLIT + dictCode;
 		switch (operationEnum) {
-		case INSERT:
-		case UPDATE:
-			cacheHelper.hashSet(key, entity.getItemValue(), entity.getItemName());
-			break;
-		case DELETE:
-			cacheHelper.hashDel(key, entity.getItemValue());
-		default:
+			case INSERT:
+			case UPDATE:
+				cacheHelper.hashSet(key, entity.getItemValue(), entity.getItemName());
+				break;
+			case DELETE:
+				cacheHelper.hashDel(key, entity.getItemValue());
+			default:
 		}
 	}
 
@@ -71,15 +71,15 @@ public class GaeaDictItemServiceImpl implements GaeaDictItemService {
 						Collectors.toMap(GaeaDictItem::getItemValue, GaeaDictItem::getItemName, (v1, v2) -> v2)));
 
 		switch (operationEnum) {
-		case DELETE_BATCH:
-			// 遍历并保持到Redis中
-			dictItemMap.entrySet().stream().forEach(entry -> {
-				String key = GaeaKeyConstant.DICT_PREFIX + entry.getKey();
-				Set<String> hashKeys = entry.getValue().keySet();
-				cacheHelper.hashBatchDel(key, hashKeys);
-			});
-			break;
-		default:
+			case DELETE_BATCH:
+				// 遍历并保持到Redis中
+				dictItemMap.entrySet().stream().forEach(entry -> {
+					String key = GaeaKeyConstant.DICT_PREFIX + entry.getKey();
+					Set<String> hashKeys = entry.getValue().keySet();
+					cacheHelper.hashBatchDel(key, hashKeys);
+				});
+				break;
+			default:
 		}
 	}
 
