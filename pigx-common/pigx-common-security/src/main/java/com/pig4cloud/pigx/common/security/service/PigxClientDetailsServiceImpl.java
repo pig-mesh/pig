@@ -8,6 +8,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
@@ -16,6 +17,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
 import org.springframework.security.oauth2.provider.ClientDetails;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.util.StringUtils;
 
@@ -43,14 +45,10 @@ public class PigxClientDetailsServiceImpl implements ClientDetailsService {
 	@Override
 	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
 	public ClientDetails loadClientByClientId(String clientId) {
-		SysOauthClientDetails clientDetails = clientDetailsService
-				.getClientDetailsById(clientId, SecurityConstants.FROM_IN).getData();
-
-		if (clientDetails == null) {
-			return null;
-		}
 		// 适配成oauth2内置类型
-		return clientDetailsWrapper(clientDetails);
+		return RetOps.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN)).getData()
+				.map(this::clientDetailsWrapper)
+				.orElseThrow(() -> new NoSuchClientException("No client with requested id: " + clientId));
 	}
 
 	/**
