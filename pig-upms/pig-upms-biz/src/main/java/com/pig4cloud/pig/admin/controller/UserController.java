@@ -186,6 +186,7 @@ public class UserController {
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
 	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
+		userDto.setUsername(SecurityUtils.getUser().getUsername());
 		return R.ok(userService.updateUserInfo(userDto));
 	}
 

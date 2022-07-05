@@ -7,6 +7,7 @@ import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.RetOps;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -48,11 +49,8 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 	 * @return UserDetails
 	 */
 	default UserDetails getUserDetails(R<UserInfo> result) {
-		if (result == null || result.getData() == null) {
-			throw new UsernameNotFoundException("用户不存在");
-		}
+		UserInfo info = RetOps.of(result).getData().orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 
-		UserInfo info = result.getData();
 		Set<String> dbAuthsSet = new HashSet<>();
 
 		if (ArrayUtil.isNotEmpty(info.getRoles())) {

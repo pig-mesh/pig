@@ -35,12 +35,12 @@
 
 | 依赖                   | 版本         |
 | ---------------------- |------------|
-| Spring Boot            | 2.7.0      |
+| Spring Boot            | 2.7.1      |
 | Spring Cloud           | 2021.0.3   |
 | Spring Cloud Alibaba   | 2021.0.1.0 |
-| Spring Authorization Server | 0.3.0      |
+| Spring Authorization Server | 0.3.1      |
 | Mybatis Plus           | 3.5.2      |
-| hutool                 | 5.8.3      |
+| hutool                 | 5.8.4      |
 | Avue                   | 2.6.18     |
 
 ### 模块说明
@@ -107,7 +107,7 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 <table>
   <tr>
     <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.vip/oss/1655474345.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.vip/oss/1655474359.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.vip/oss/1656837143.jpg"></a></td>
   </tr>
     <tr>
     <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.vip/oss/1655474369.jpg"></a></td>
@@ -129,6 +129,21 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
 
 1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
    代码规范 [spring-javaformat](https://github.com/spring-io/spring-javaformat)
+
+   <details>
+    <summary>代码规范说明</summary>
+
+    1. 由于 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">spring-javaformat</a>
+       强制所有代码按照指定格式排版，未按此要求提交的代码将不能通过合并（打包）
+    2. 如果使用 IntelliJ IDEA
+       开发，请安装自动格式化软件 <a href="https://repo1.maven.org/maven2/io/spring/javaformat/spring-javaformat-intellij-idea-plugin/" target="_blank">
+       spring-javaformat-intellij-idea-plugin</a>
+    3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">spring-javaformat</a>
+       说明，或`提交代码前`在项目根目录运行下列命令（需要开发者电脑支持`mvn`命令）进行代码格式化
+       ```
+       mvn spring-javaformat:apply
+       ```
+   </details>
 
 2. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
 

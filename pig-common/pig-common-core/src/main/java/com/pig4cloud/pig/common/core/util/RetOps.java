@@ -103,7 +103,7 @@ public class RetOps<T> {
 	 * @return 返回 Optional 包装的data
 	 */
 	public Optional<T> getData() {
-		return Optional.of(original.getData());
+		return Optional.ofNullable(original.getData());
 	}
 
 	/**
