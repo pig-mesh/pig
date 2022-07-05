@@ -66,7 +66,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		return (exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
 
-			// 不是账号密码登录、短信登录，直接向下执行
+			// 不是登录请求直接向下执行
 			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
@@ -77,8 +77,11 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 				return chain.filter(exchange);
 			}
 
+			// 短信登录强制校验验证码
+			boolean smsFlag = StrUtil.contains(request.getQueryParams().getFirst(SecurityConstants.GRANT_MOBILE),
+					"SMS");
 			// 判断客户端是否跳过检验
-			if (!isCheckCaptchaClient(request)) {
+			if (!isCheckCaptchaClient(request) && !smsFlag) {
 				return chain.filter(exchange);
 			}
 
