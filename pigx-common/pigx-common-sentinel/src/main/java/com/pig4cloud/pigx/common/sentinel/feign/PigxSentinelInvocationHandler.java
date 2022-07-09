@@ -8,7 +8,6 @@ import com.alibaba.csp.sentinel.SphU;
 import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.pig4cloud.pigx.common.core.util.R;
 import feign.Feign;
 import feign.InvocationHandlerFactory;
 import feign.MethodMetadata;
@@ -120,14 +119,7 @@ public class PigxSentinelInvocationHandler implements InvocationHandler {
 						}
 					}
 					else {
-						// 若是R类型 执行自动降级返回R
-						if (R.class == method.getReturnType()) {
-							log.error("feign 服务间调用异常", ex);
-							return R.failed(ex.getLocalizedMessage());
-						}
-						else {
-							throw ex;
-						}
+						throw ex;
 					}
 				}
 				finally {

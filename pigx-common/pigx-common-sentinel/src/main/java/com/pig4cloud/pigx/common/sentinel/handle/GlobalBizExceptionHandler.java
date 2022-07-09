@@ -18,7 +18,10 @@
 package com.pig4cloud.pigx.common.sentinel.handle;
 
 import com.alibaba.csp.sentinel.Tracer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
+import feign.FeignException;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.http.HttpStatus;
@@ -43,6 +46,8 @@ import java.util.List;
 @ConditionalOnExpression("!'${security.oauth2.client.clientId}'.isEmpty()")
 public class GlobalBizExceptionHandler {
 
+	private final ObjectMapper objectMapper = new ObjectMapper();
+
 	/**
 	 * 全局异常.
 	 * @param e the e
@@ -55,6 +60,22 @@ public class GlobalBizExceptionHandler {
 
 		// 业务异常交由 sentinel 记录
 		Tracer.trace(e);
+		return R.failed(e.getLocalizedMessage());
+	}
+
+	@SneakyThrows
+	@ExceptionHandler(FeignException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R handleGlobalException(FeignException e) {
+		log.error("全局异常信息 ex={}", e.getMessage(), e);
+
+		// 业务异常交由 sentinel 记录
+		Tracer.trace(e);
+
+		if (e.responseBody().isPresent()) {
+			return objectMapper.readValue(e.responseBody().get().array(), R.class);
+		}
+
 		return R.failed(e.getLocalizedMessage());
 	}
 
