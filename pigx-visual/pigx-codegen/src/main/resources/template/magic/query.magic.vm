@@ -1,0 +1,17 @@
+import request;
+import cn.hutool.json.JSONUtil;
+import response;
+
+var queryDsl = db.${dsName}.table("${tableName}")
+.where()
+.eq("del_flag", 0)
+
+if (query != null) {
+    var jsonObj = JSONUtil.parseObj(query)
+    for (key in jsonObj.keySet()) {
+        queryDsl.like(key, "%" + jsonObj.get(key) + "%")
+    }
+}
+
+// 执行DSL 输出结果
+return response.json(queryDsl.page())

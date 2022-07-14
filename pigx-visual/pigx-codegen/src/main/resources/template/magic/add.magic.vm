@@ -1,0 +1,6 @@
+import com.baomidou.mybatisplus.core.incrementer.DefaultIdentifierGenerator;
+import response;
+import log;
+
+var dbId = new DefaultIdentifierGenerator().nextId(null)
+return db.${dsName}.table("${tableName}").primary("$pk.columnName", dbId).save(body)

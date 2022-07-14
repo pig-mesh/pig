@@ -1,0 +1,7 @@
+magic-api:
+  prod: true  #生产模式鉴权
+  show-url: false
+  banner: false
+  web: /api/designer
+  editor-config: classpath:./magic/magic-editor-config.js
+  sql-column-case: camel

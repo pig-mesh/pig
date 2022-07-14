@@ -24,8 +24,8 @@ import com.pig4cloud.pigx.codegen.entity.ColumnEntity;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pigx.codegen.mapper.GeneratorMapper;
+import com.pig4cloud.pigx.codegen.service.GenCodeService;
 import com.pig4cloud.pigx.codegen.service.GenFormConfService;
-import com.pig4cloud.pigx.codegen.util.GenUtils;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +50,8 @@ import java.util.Properties;
 @AllArgsConstructor
 public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFormConf> implements GenFormConfService {
 
+	private final GenCodeService avue;
+
 	/**
 	 * 1. 根据数据源、表名称，查询已配置表单信息 2. 不存在调用模板生成
 	 * @param dsName 数据源ID
@@ -66,7 +68,7 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 			return form.getFormInfo();
 		}
 
-		GeneratorMapper mapper = GenUtils.getMapper(dsName);
+		GeneratorMapper mapper = avue.getMapper(dsName);
 		List<ColumnEntity> columns = mapper.selectTableColumn(tableName, dsName);
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
@@ -78,7 +80,7 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 		List<ColumnEntity> columnList = new ArrayList<>();
 		for (ColumnEntity column : columns) {
 			ColumnEntity columnEntity = new ColumnEntity();
-			columnEntity.setLowerAttrName(StringUtils.uncapitalize(GenUtils.columnToJava(column.getColumnName())));
+			columnEntity.setLowerAttrName(StringUtils.uncapitalize(avue.columnToJava(column.getColumnName())));
 
 			// 判断注释是否为空
 			if (StrUtil.isNotBlank(column.getComments())) {
@@ -92,7 +94,7 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 		context.put("columns", columnList);
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), GenUtils.CRUD_PREFIX));
+		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), "export const tableOption ="));
 	}
 
 }

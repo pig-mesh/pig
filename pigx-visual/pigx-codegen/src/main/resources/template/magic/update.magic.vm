@@ -1,0 +1,5 @@
+import response;
+
+var data = db.${dsName}.table("${tableName}").primary("$pk.columnName").update(body)
+
+return response.json(data)

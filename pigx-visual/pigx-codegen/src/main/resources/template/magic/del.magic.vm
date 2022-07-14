@@ -1,0 +1,8 @@
+import response;
+
+var data = db.${dsName}.table("${tableName}").primary("$pk.columnName").update({
+id: id,
+del_flag: 1
+})
+
+return response.json(data)

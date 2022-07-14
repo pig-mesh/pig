@@ -17,12 +17,14 @@
 
 package com.pig4cloud.pigx.codegen.controller;
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.service.GenFormConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -73,6 +75,7 @@ public class GenFormConfController {
 	 * @return R
 	 */
 	@ApiOperation(value = "通过tableName查询表单信息")
+	@Inner(value = false)
 	@GetMapping("/info")
 	public R form(String dsName, String tableName) {
 		return R.ok(genRecordService.getForm(dsName, tableName));
@@ -88,6 +91,7 @@ public class GenFormConfController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('gen_form_add')")
 	public R save(@RequestBody GenFormConf formConf) {
+		formConf.setFormInfo(JSONUtil.toJsonPrettyStr(formConf.getFormInfo()));
 		return R.ok(genRecordService.save(formConf));
 	}
 
