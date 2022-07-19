@@ -53,7 +53,6 @@ public enum LoginTypeEnum {
 	 */
 	MINI_APP("MINI", "微信小程序"),
 
-	WXCP("WXCP", "企业微信登录"),
 	/**
 	 * 码云登录
 	 */

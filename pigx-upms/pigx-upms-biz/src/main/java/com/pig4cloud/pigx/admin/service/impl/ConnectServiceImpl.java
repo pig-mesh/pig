@@ -267,7 +267,7 @@ public class ConnectServiceImpl implements ConnectService {
 		return null;
 	}
 
-	private WxCpDefaultConfigImpl getCpConfig() {
+	public WxCpDefaultConfigImpl getCpConfig() {
 		SysSocialDetails cp = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
 				.eq(SysSocialDetails::getType, LoginTypeEnum.WEIXIN_CP.getType()));
 

@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.admin.service;
 
 import com.pig4cloud.pigx.common.core.util.R;
+import me.chanjar.weixin.cp.config.impl.WxCpDefaultConfigImpl;
 
 /**
  * @author lengleng
@@ -31,5 +32,7 @@ public interface ConnectService {
 	 * @return
 	 */
 	R<Boolean> syncCpUser();
+
+	WxCpDefaultConfigImpl getCpConfig();
 
 }
