@@ -23,8 +23,8 @@ import com.pig4cloud.pig.codegen.entity.ColumnEntity;
 import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
+import com.pig4cloud.pig.codegen.service.GenCodeService;
 import com.pig4cloud.pig.codegen.service.GenFormConfService;
-import com.pig4cloud.pig.codegen.support.CodeGenKits;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringUtils;
@@ -51,6 +51,8 @@ import java.util.Properties;
 public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFormConf> implements GenFormConfService {
 
 	private final GeneratorMapper generatorMapper;
+
+	private final GenCodeService avue;
 
 	/**
 	 * 1. 根据数据源、表名称，查询已配置表单信息 2. 不存在调用模板生成
@@ -80,13 +82,13 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 		for (Map<String, String> column : columns) {
 			ColumnEntity columnEntity = new ColumnEntity();
 			columnEntity.setComments(column.get("columnComment"));
-			columnEntity.setLowerAttrName(StringUtils.uncapitalize(CodeGenKits.columnToJava(column.get("columnName"))));
+			columnEntity.setLowerAttrName(StringUtils.uncapitalize(avue.columnToJava(column.get("columnName"))));
 			columnList.add(columnEntity);
 		}
 		context.put("columns", columnList);
 		StringWriter writer = new StringWriter();
 		template.merge(context, writer);
-		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), CodeGenKits.CRUD_PREFIX));
+		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), "export const tableOption ="));
 	}
 
 }

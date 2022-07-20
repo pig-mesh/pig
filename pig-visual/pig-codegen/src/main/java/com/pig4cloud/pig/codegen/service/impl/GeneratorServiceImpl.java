@@ -28,8 +28,9 @@ import com.pig4cloud.pig.codegen.entity.GenConfig;
 import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.mapper.GenFormConfMapper;
 import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
+import com.pig4cloud.pig.codegen.service.GenCodeService;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
-import com.pig4cloud.pig.codegen.support.CodeGenKits;
+import com.pig4cloud.pig.codegen.support.StyleTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 	private final GeneratorMapper generatorMapper;
 
 	private final GenFormConfMapper genFormConfMapper;
+
+	private final Map<String, GenCodeService> genCodeServiceMap;
 
 	/**
 	 * 分页查询表
@@ -77,17 +80,22 @@ public class GeneratorServiceImpl implements GeneratorService {
 				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
 
 		String tableNames = genConfig.getTableName();
+		String dsName = genConfig.getDsName();
+
+		// 获取实现
+		GenCodeService genCodeService = genCodeServiceMap.get(StyleTypeEnum.getDecs(genConfig.getStyle()));
+
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
-			Map<String, String> table = generatorMapper.queryTable(tableName, genConfig.getDsName());
+			Map<String, String> table = generatorMapper.queryTable(tableName, dsName);
 			// 查询列信息
-			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, genConfig.getDsName());
+			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, dsName);
 			// 生成代码
 			if (CollUtil.isNotEmpty(formConfList)) {
-				return CodeGenKits.generatorCode(genConfig, table, columns, null, formConfList.get(0));
+				return genCodeService.gen(genConfig, table, columns, null, formConfList.get(0));
 			}
 			else {
-				return CodeGenKits.generatorCode(genConfig, table, columns, null, null);
+				return genCodeService.gen(genConfig, table, columns, null, null);
 			}
 		}
 
@@ -109,17 +117,21 @@ public class GeneratorServiceImpl implements GeneratorService {
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
 		String tableNames = genConfig.getTableName();
+		String dsName = genConfig.getDsName();
+
+		GenCodeService genCodeService = genCodeServiceMap.get(StyleTypeEnum.getDecs(genConfig.getStyle()));
+
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
-			Map<String, String> table = generatorMapper.queryTable(tableName, genConfig.getDsName());
+			Map<String, String> table = generatorMapper.queryTable(tableName, dsName);
 			// 查询列信息
-			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, genConfig.getDsName());
+			List<Map<String, String>> columns = generatorMapper.queryColumns(tableName, dsName);
 			// 生成代码
 			if (CollUtil.isNotEmpty(formConfList)) {
-				CodeGenKits.generatorCode(genConfig, table, columns, zip, formConfList.get(0));
+				genCodeService.gen(genConfig, table, columns, zip, formConfList.get(0));
 			}
 			else {
-				CodeGenKits.generatorCode(genConfig, table, columns, zip, null);
+				genCodeService.gen(genConfig, table, columns, zip, null);
 			}
 		}
 		IoUtil.close(zip);
