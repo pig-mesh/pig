@@ -90,7 +90,7 @@
                 }).then(data => {
                     this.$message.success('删除成功')
                     this.getList(this.page)
-                })
+                }).catch(cancelorerror=>{})
             },
             handleUpdate: function (row, index, done,loading) {
                 putObj(row).then(data => {
