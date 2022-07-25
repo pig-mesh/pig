@@ -17,13 +17,13 @@
 
 [ 🚀🚀🚀 低代码数据可视化](http://datav.avuejs.com)
 
-[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+[ 配套文档 wiki.pigx.vip](https://wiki.pigx.vip)
 
-[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
+[ 配套视频 tv.pigx.vip](https://www.bilibili.com/video/BV12t411B7e9)
 
-[PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
+[PIGX 在线体验 pigx.pigx.vip](http://pigx.pigx.vip)
 
-[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
+[产品白皮书 paper.pigx.vip](https://paper.pigx.vip)
 
 ## 微信群 [禁广告]
 
@@ -75,15 +75,15 @@ pig
 
 ### 本地开发 运行
 
-pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
+pig 提供了详细的[部署文档 wiki.pigx.vip](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
 
 ### 定制自己微服务
 
-[PIG DIY](https://diy.pig4cloud.com)
+[PIG DIY](https://pig4cloud.com/#/common/diy)
 
-[PIG ARCHETYPE](https://archetype.pig4cloud.com)
+[PIG ARCHETYPE](https://pig4cloud.com/#/common/archetype)
 
 ### Docker 运行
 
