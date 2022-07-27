@@ -100,12 +100,12 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 				.ifPresent(grants -> StringUtils.commaDelimitedListToSet(grants)
 						.forEach(s -> builder.authorizationGrantType(new AuthorizationGrantType(s))));
 		// 回调地址
-		Optional.ofNullable(clientDetails.getWebServerRedirectUri()).ifPresent(redirectUri -> Arrays.stream(redirectUri.split(","))
-				.filter(StrUtil::isNotBlank).forEach(builder::redirectUri));
+		Optional.ofNullable(clientDetails.getWebServerRedirectUri()).ifPresent(redirectUri -> Arrays
+				.stream(redirectUri.split(",")).filter(StrUtil::isNotBlank).forEach(builder::redirectUri));
 
 		// scope
-		Optional.ofNullable(clientDetails.getScope()).ifPresent(scope -> Arrays.stream(scope.split(","))
-				.filter(StrUtil::isNotBlank).forEach(builder::scope));
+		Optional.ofNullable(clientDetails.getScope()).ifPresent(
+				scope -> Arrays.stream(scope.split(",")).filter(StrUtil::isNotBlank).forEach(builder::scope));
 
 		return builder
 				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE)
