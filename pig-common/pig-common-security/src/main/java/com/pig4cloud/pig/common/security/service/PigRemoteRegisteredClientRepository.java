@@ -1,6 +1,7 @@
 package com.pig4cloud.pig.common.security.service;
 
 import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -20,6 +21,7 @@ import org.springframework.security.oauth2.server.authorization.config.TokenSett
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -98,10 +100,13 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 				.ifPresent(grants -> StringUtils.commaDelimitedListToSet(grants)
 						.forEach(s -> builder.authorizationGrantType(new AuthorizationGrantType(s))));
 		// 回调地址
-		Optional.ofNullable(clientDetails.getWebServerRedirectUri()).ifPresent(builder::redirectUri);
+		Optional.ofNullable(clientDetails.getWebServerRedirectUri()).ifPresent(redirectUri -> Arrays.stream(redirectUri.split(","))
+				.filter(StrUtil::isNotBlank).forEach(builder::redirectUri));
 
 		// scope
-		Optional.ofNullable(clientDetails.getScope()).ifPresent(builder::scope);
+		Optional.ofNullable(clientDetails.getScope()).ifPresent(scope -> Arrays.stream(scope.split(","))
+				.filter(StrUtil::isNotBlank).forEach(builder::scope));
+
 		return builder
 				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE)
 						.accessTokenTimeToLive(Duration.ofSeconds(Optional
