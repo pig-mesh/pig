@@ -120,7 +120,7 @@ public class RetOps<T> {
 	 * @return 返回Optional包装的 msg
 	 */
 	public Optional<String> getMsg() {
-		return Optional.of(original.getMsg());
+		return Optional.ofNullable(original.getMsg());
 	}
 
 	/**
