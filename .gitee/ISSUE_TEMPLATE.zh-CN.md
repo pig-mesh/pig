@@ -1,6 +1,6 @@
 ### 版本信息
 
-- ⭐️ [4.x 版本点击这里提问，此处不回复](https://support.pig4cloud.com)
+- ⭐️ [4.x 版本点击这里提问，此处不回复](https://support.pigx.vip)
 
 - pig版本:  
 
