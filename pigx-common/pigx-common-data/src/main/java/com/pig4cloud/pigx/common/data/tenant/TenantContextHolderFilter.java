@@ -52,10 +52,10 @@ public class TenantContextHolderFilter extends GenericFilterBean {
 
 		log.debug("获取header中的租户ID为:{}", headerTenantId);
 
-		if (StrUtil.isNotBlank(headerTenantId)) {
+		if (StrUtil.isNotBlank(headerTenantId) && !headerTenantId.equals("undefined")) {
 			TenantContextHolder.setTenantId(Long.parseLong(headerTenantId));
 		}
-		else if (StrUtil.isNotBlank(paramTenantId)) {
+		else if (StrUtil.isNotBlank(paramTenantId) && !paramTenantId.equals("undefined") {
 			TenantContextHolder.setTenantId(Long.parseLong(paramTenantId));
 		}
 		else {
