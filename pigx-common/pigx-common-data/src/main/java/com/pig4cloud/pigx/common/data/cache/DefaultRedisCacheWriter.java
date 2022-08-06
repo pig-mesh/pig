@@ -32,6 +32,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -123,7 +124,7 @@ class DefaultRedisCacheWriter implements RedisCacheWriter {
 			}
 
 			try {
-				if (connection.setNX(key, value)) {
+				if (Boolean.TRUE.equals(connection.setNX(key, value))) {
 
 					if (shouldExpireWithin(ttl)) {
 						connection.pExpire(key, ttl.toMillis());
@@ -247,26 +248,15 @@ class DefaultRedisCacheWriter implements RedisCacheWriter {
 
 	private <T> T execute(String name, Function<RedisConnection, T> callback) {
 
-		RedisConnection connection = connectionFactory.getConnection();
-		try {
-
+		try (RedisConnection connection = connectionFactory.getConnection()) {
 			checkAndPotentiallyWaitUntilUnlocked(name, connection);
 			return callback.apply(connection);
-		}
-		finally {
-			connection.close();
 		}
 	}
 
 	private void executeLockFree(Consumer<RedisConnection> callback) {
-
-		RedisConnection connection = connectionFactory.getConnection();
-
-		try {
+		try (RedisConnection connection = connectionFactory.getConnection()) {
 			callback.accept(connection);
-		}
-		finally {
-			connection.close();
 		}
 	}
 
@@ -277,7 +267,6 @@ class DefaultRedisCacheWriter implements RedisCacheWriter {
 		}
 
 		try {
-
 			while (doCheckLock(name, connection)) {
 				Thread.sleep(sleepTime.toMillis());
 			}
