@@ -142,13 +142,27 @@ class DefaultRedisCacheWriter implements RedisCacheWriter {
 		});
 	}
 
+	/**
+	 * 删除，原来是删除指定的键，目前修改为既可以删除指定键的数据，也是可以删除某个前缀开始的所有数据
+	 * @param name
+	 * @param key
+	 */
 	@Override
 	public void remove(String name, byte[] key) {
 
 		Assert.notNull(name, "Name must not be null!");
 		Assert.notNull(key, "Key must not be null!");
 
-		execute(name, connection -> connection.del(key));
+		execute(name, connection -> {
+			// 获取某个前缀所拥有的所有的键，某个前缀开头，后面肯定是*
+			Set<byte[]> keys = connection.keys(key);
+			int delNum = 0;
+			Assert.notNull(keys, "keys must not be null!");
+			for (byte[] keyByte : keys) {
+				delNum += connection.del(keyByte);
+			}
+			return delNum;
+		});
 	}
 
 	@Override

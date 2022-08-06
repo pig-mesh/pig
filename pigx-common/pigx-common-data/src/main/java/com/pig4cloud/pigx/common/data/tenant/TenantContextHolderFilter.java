@@ -41,6 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class TenantContextHolderFilter extends GenericFilterBean {
 
+	private final static String UNDEFINED_STR = "undefined";
+
 	@Override
 	@SneakyThrows
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
@@ -52,10 +54,10 @@ public class TenantContextHolderFilter extends GenericFilterBean {
 
 		log.debug("获取header中的租户ID为:{}", headerTenantId);
 
-		if (StrUtil.isNotBlank(headerTenantId)) {
+		if (StrUtil.isNotBlank(headerTenantId) && !StrUtil.equals(UNDEFINED_STR, headerTenantId)) {
 			TenantContextHolder.setTenantId(Long.parseLong(headerTenantId));
 		}
-		else if (StrUtil.isNotBlank(paramTenantId)) {
+		else if (StrUtil.isNotBlank(paramTenantId) && !StrUtil.equals(UNDEFINED_STR, paramTenantId)) {
 			TenantContextHolder.setTenantId(Long.parseLong(paramTenantId));
 		}
 		else {
