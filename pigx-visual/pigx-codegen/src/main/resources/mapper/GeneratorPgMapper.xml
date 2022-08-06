@@ -44,7 +44,7 @@
 			WHERE
 				pc.relname = #{ tableName }
 			AND pa.attrelid = pc.oid
-			AND pa.attnum > 0;
+			AND pa.attnum > 0
 	</sql>
 
 	<select id="selectTableColumn" resultType="com.pig4cloud.pigx.codegen.entity.ColumnEntity">
