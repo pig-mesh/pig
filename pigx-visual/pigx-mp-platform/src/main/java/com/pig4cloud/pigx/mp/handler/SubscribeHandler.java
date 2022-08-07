@@ -57,13 +57,12 @@ public class SubscribeHandler extends AbstractHandler {
 			WxAccountFans wxAccountFans = wxAccountFansMapper.selectOne(
 					Wrappers.<WxAccountFans>lambdaUpdate().eq(WxAccountFans::getOpenid, wxMessage.getFromUser()));
 
+			// 删除历史关注保存的信息
 			if (wxAccountFans != null) {
 				wxAccountFansMapper.deleteById(wxAccountFans);
 			}
-			else {
-				wxAccountFans = new WxAccountFans();
-			}
 
+			wxAccountFans = new WxAccountFans();
 			wxAccountFans.setOpenid(wxMpUser.getOpenId());
 			wxAccountFans.setSubscribeStatus(String.valueOf(BooleanUtil.toInt(wxMpUser.getSubscribe())));
 			wxAccountFans.setSubscribeTime(LocalDateTime

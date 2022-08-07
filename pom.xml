@@ -52,6 +52,7 @@
         <velocity.tool.version>3.1</velocity.tool.version>
         <jasypt.version>3.0.4</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
+        <jaxb.version>2.3.5</jaxb.version>
         <ureport.version>2.2.9</ureport.version>
         <jimu.version>1.5.0-beta</jimu.version>
         <aws.version>1.11.543</aws.version>
@@ -96,6 +97,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- JAVA 17 -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
