@@ -1,0 +1,24 @@
+name:同步代码
+
+on:
+  push:
+    branches: [ master,dev ]
+  pull_request:
+    branches: [ master,dev ]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: wearerequired/git-mirror-action@master #同步至 gitlink
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        with:
+          source-repo: "git@github.com:pig-mesh/pig.git"
+          destination-repo: "git@code.gitlink.org.cn:lengleng/pig.git"
+      - uses: wearerequired/git-mirror-action@master #同步至 gitcode
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        with:
+          source-repo: "git@github.com:pig-mesh/pig.git"
+          destination-repo: "git@gitcode.net:qq_16063307/pig.git"
