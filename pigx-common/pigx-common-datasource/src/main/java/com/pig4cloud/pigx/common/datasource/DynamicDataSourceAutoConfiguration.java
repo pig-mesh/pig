@@ -19,10 +19,7 @@ package com.pig4cloud.pigx.common.datasource;
 
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
-import com.pig4cloud.pigx.common.datasource.config.ClearTtlDsConfiguration;
-import com.pig4cloud.pigx.common.datasource.config.DruidDataSourceProperties;
-import com.pig4cloud.pigx.common.datasource.config.JdbcDynamicDataSourceProvider;
-import com.pig4cloud.pigx.common.datasource.config.LastParamDsProcessor;
+import com.pig4cloud.pigx.common.datasource.config.*;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -30,6 +27,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
@@ -40,6 +38,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 @RequiredArgsConstructor
+@Import(DynamicLogConfiguration.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DruidDataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {

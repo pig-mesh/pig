@@ -1,0 +1,7 @@
+# 动态数据源增加 sqlLogFilter 格式化输出
+spring:
+  datasource:
+    dynamic:
+      druid:
+        proxyFilters:
+          - sqlLogFilter
