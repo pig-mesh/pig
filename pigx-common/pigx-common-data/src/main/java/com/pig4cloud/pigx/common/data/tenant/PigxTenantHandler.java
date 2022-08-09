@@ -18,11 +18,11 @@
 package com.pig4cloud.pigx.common.data.tenant;
 
 import com.baomidou.mybatisplus.extension.plugins.handler.TenantLineHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.expression.Expression;
 import net.sf.jsqlparser.expression.LongValue;
 import net.sf.jsqlparser.expression.NullValue;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author lengleng
@@ -31,10 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 租户维护处理器
  */
 @Slf4j
+@RequiredArgsConstructor
 public class PigxTenantHandler implements TenantLineHandler {
 
-	@Autowired
-	private PigxTenantConfigProperties properties;
+	private final PigxTenantConfigProperties properties;
 
 	/**
 	 * 获取租户 ID 值表达式，只支持单个 ID 值

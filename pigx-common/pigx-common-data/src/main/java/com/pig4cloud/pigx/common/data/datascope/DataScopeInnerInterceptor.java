@@ -3,7 +3,6 @@ package com.pig4cloud.pigx.common.data.datascope;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
-import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
 import lombok.Setter;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
@@ -18,7 +17,7 @@ import java.util.Map;
  * @author lengleng
  * @date 2020/11/29
  */
-public class DataScopeInnerInterceptor implements InnerInterceptor {
+public class DataScopeInnerInterceptor implements DataScopeInterceptor {
 
 	@Setter
 	private DataScopeHandle dataScopeHandle;

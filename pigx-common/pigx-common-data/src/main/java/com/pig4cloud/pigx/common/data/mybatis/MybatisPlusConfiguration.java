@@ -21,12 +21,11 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
+import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.data.config.PigxMybatisProperties;
-import com.pig4cloud.pigx.common.data.datascope.DataScopeHandle;
-import com.pig4cloud.pigx.common.data.datascope.DataScopeInnerInterceptor;
-import com.pig4cloud.pigx.common.data.datascope.DataScopeSqlInjector;
-import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDatascopeHandle;
+import com.pig4cloud.pigx.common.data.datascope.*;
 import com.pig4cloud.pigx.common.data.resolver.SqlFilterArgumentResolver;
+import com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantHandler;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -66,31 +65,17 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * pigx 默认数据权限处理器
-	 * @return PigxDefaultDatascopeHandle
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	@ConditionalOnClass(PigxUser.class)
-	public DataScopeHandle dataScopeHandle() {
-		return new PigxDefaultDatascopeHandle();
-	}
-
-	/**
 	 * mybatis plus 拦截器配置
 	 * @return PigxDefaultDatascopeHandle
 	 */
 	@Bean
-	public MybatisPlusInterceptor mybatisPlusInterceptor() {
+	public MybatisPlusInterceptor mybatisPlusInterceptor(TenantLineInnerInterceptor tenantLineInnerInterceptor,
+			DataScopeInterceptor dataScopeInterceptor) {
 		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		// 多租户支持
-		TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
-		tenantLineInnerInterceptor.setTenantLineHandler(pigxTenantHandler());
+		// 注入多租户支持
 		interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
 		// 数据权限
-		DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
-		dataScopeInnerInterceptor.setDataScopeHandle(dataScopeHandle());
-		interceptor.addInnerInterceptor(dataScopeInnerInterceptor);
+		interceptor.addInnerInterceptor(dataScopeInterceptor);
 		// 分页支持
 		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
 		paginationInnerInterceptor.setMaxLimit(1000L);
@@ -104,8 +89,23 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public PigxTenantHandler pigxTenantHandler() {
-		return new PigxTenantHandler();
+	public TenantLineInnerInterceptor tenantLineInnerInterceptor(PigxTenantConfigProperties tenantConfigProperties) {
+		TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
+		tenantLineInnerInterceptor.setTenantLineHandler(new PigxTenantHandler(tenantConfigProperties));
+		return tenantLineInnerInterceptor;
+	}
+
+	/**
+	 * 数据权限拦截器
+	 * @return DataScopeInterceptor
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	@ConditionalOnClass(PigxUser.class)
+	public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
+		DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
+		dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDatascopeHandle(dataScopeService));
+		return dataScopeInnerInterceptor;
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	 * @return
 	 */
 	@Bean
-	@ConditionalOnBean(DataScopeHandle.class)
+	@ConditionalOnBean(DataScopeInterceptor.class)
 	public DataScopeSqlInjector dataScopeSqlInjector() {
 		return new DataScopeSqlInjector();
 	}

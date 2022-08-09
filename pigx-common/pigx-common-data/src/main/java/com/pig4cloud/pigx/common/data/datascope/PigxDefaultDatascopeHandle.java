@@ -26,7 +26,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
@@ -41,10 +41,10 @@ import java.util.stream.Collectors;
  * <p>
  * 默认data scope 判断处理器
  */
+@RequiredArgsConstructor
 public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 
-	@Autowired
-	private RemoteDataScopeService dataScopeService;
+	private final RemoteDataScopeService dataScopeService;
 
 	/**
 	 * 计算用户数据权限
