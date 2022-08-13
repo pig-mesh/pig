@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.auth.support.handler;
 
 import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
@@ -63,7 +64,7 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			Authentication authentication) {
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 		Map<String, Object> map = accessTokenAuthentication.getAdditionalParameters();
-		PigUser userInfo = (PigUser) map.get("user_info");
+		PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
 
 		log.info("用户：{} 登录成功", userInfo.getName());
 		SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);

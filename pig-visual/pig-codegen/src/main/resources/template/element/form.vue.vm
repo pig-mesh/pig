@@ -2,6 +2,7 @@
 <template>
   <el-dialog
     :title="!dataForm.id ? '新增' : '修改'"
+    append-to-body
     :close-on-click-modal="false"
     @close="closeDialog()"
     :visible.sync="visible">
