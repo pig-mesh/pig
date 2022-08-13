@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.auth.support.handler;
 
-import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.core.util.WebUtils;
@@ -27,8 +26,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
 /**
@@ -44,7 +42,7 @@ public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutS
 	@Override
 	public void onApplicationEvent(LogoutSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();
-		if (CollUtil.isNotEmpty(authentication.getAuthorities())) {
+		if (authentication instanceof PreAuthenticatedAuthenticationToken) {
 			handle(authentication);
 		}
 	}
@@ -57,8 +55,6 @@ public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutS
 	 */
 	public void handle(Authentication authentication) {
 		log.info("用户：{} 退出成功", authentication.getPrincipal());
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-
 		SysLog logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("退出成功");
 		// 发送异步日志事件
@@ -70,9 +66,8 @@ public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutS
 		WebUtils.getRequest().ifPresent(request -> logVo.setParams(request.getHeader(HttpHeaders.AUTHORIZATION)));
 
 		// 这边设置ServiceId
-		if (authentication instanceof OAuth2Authorization) {
-			OAuth2Authorization auth2Authentication = (OAuth2Authorization) authentication;
-			logVo.setServiceId(auth2Authentication.getRegisteredClientId());
+		if (authentication instanceof PreAuthenticatedAuthenticationToken) {
+			logVo.setServiceId(authentication.getCredentials().toString());
 		}
 		logVo.setCreateBy(authentication.getName());
 		logVo.setUpdateBy(authentication.getName());

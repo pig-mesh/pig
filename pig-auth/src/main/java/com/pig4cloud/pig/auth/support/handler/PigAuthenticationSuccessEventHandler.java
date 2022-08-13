@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.auth.support.handler;
 
+import cn.hutool.core.map.MapUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
@@ -64,20 +65,20 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			Authentication authentication) {
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 		Map<String, Object> map = accessTokenAuthentication.getAdditionalParameters();
-		PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
-
-		log.info("用户：{} 登录成功", userInfo.getName());
-		SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);
-
-		// 发送异步日志事件
-		SysLog logVo = SysLogUtils.getSysLog();
-		logVo.setTitle("登录成功");
-		Long startTime = System.currentTimeMillis();
-		Long endTime = System.currentTimeMillis();
-		logVo.setTime(endTime - startTime);
-		logVo.setCreateBy(userInfo.getName());
-		logVo.setUpdateBy(userInfo.getName());
-		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+		if (MapUtil.isNotEmpty(map)) {
+			// 发送异步日志事件
+			PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
+			log.info("用户：{} 登录成功", userInfo.getName());
+			SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);
+			SysLog logVo = SysLogUtils.getSysLog();
+			logVo.setTitle("登录成功");
+			Long startTime = System.currentTimeMillis();
+			Long endTime = System.currentTimeMillis();
+			logVo.setTime(endTime - startTime);
+			logVo.setCreateBy(userInfo.getName());
+			logVo.setUpdateBy(userInfo.getName());
+			SpringContextHolder.publishEvent(new SysLogEvent(logVo));
+		}
 
 		// 输出token
 		sendAccessTokenResponse(request, response, authentication);
