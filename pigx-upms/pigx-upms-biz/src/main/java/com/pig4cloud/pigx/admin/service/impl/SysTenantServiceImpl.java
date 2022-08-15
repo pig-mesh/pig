@@ -19,11 +19,13 @@ package com.pig4cloud.pigx.admin.service.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.*;
+import com.pig4cloud.pigx.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pigx.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pigx.admin.mapper.SysTenantMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.AllArgsConstructor;
@@ -131,7 +133,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		});
 
 		// 保证插入租户为新的租户
-		return TenantBroker.applyAs(sysTenant.getId(), (id -> {
+		 TenantBroker.applyAs(sysTenant.getId(), (id -> {
 
 			// 插入部门
 			SysDept dept = new SysDept();
@@ -185,6 +187,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			return dictItemService.saveBatch(itemList);
 		}));
 
+		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(sysTenant));
+
+		return Boolean.TRUE;
 	}
 
 	/**
