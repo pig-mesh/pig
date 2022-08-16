@@ -133,7 +133,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		});
 
 		// 保证插入租户为新的租户
-		 TenantBroker.applyAs(sysTenant.getId(), (id -> {
+		TenantBroker.applyAs(sysTenant.getId(), (id -> {
 
 			// 插入部门
 			SysDept dept = new SysDept();

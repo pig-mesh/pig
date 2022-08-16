@@ -20,9 +20,9 @@ package com.pig4cloud.pigx.auth.handler;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.log.util.SysLogUtils;
 import com.pig4cloud.pigx.common.security.handler.AuthenticationLogoutHandler;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -47,8 +47,6 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 
 	private final RemoteLogService logService;
 
-	private final KeyStrResolver tenantKeyStrResolver;
-
 	/**
 	 * 处理登录成功方法
 	 * <p>
@@ -60,21 +58,22 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 	@Async
 	@Override
 	public void handle(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
-		String username = authentication.getName();
-		SysLogDTO sysLog = SysLogUtils.getSysLog(request, username);
-		sysLog.setTitle(username + "用户登录");
-		sysLog.setParams(username);
+
+		PigxUser pigxUser = (PigxUser) authentication.getPrincipal();
+		SysLogDTO sysLog = SysLogUtils.getSysLog(request, pigxUser.getUsername());
+		sysLog.setTitle(pigxUser.getUsername() + "用户登录");
+		sysLog.setParams(pigxUser.getUsername());
 
 		// 获取clientId 信息
 		OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;
 		sysLog.setServiceId(auth2Authentication.getOAuth2Request().getClientId());
-		sysLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
+		sysLog.setTenantId(pigxUser.getTenantId());
 		// 保存退出的token
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
 		sysLog.setParams(token);
 
 		logService.saveLog(sysLog, SecurityConstants.FROM_IN);
-		log.info("用户：{} 退出成功, token:{}  已注销", username, token);
+		log.info("用户：{} 退出成功, token:{}  已注销", pigxUser.getTenantId(), token);
 	}
 
 }
