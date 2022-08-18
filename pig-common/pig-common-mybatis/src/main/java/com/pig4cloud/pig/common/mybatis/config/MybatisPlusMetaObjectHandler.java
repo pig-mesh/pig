@@ -46,7 +46,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	 * @param isCover 是否覆盖原有值,避免更新操作手动入参
 	 */
 	private static void fillValIfNullByName(String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
-		// 1. 没有 get 方法
+		// 1. 没有 set 方法
 		if (!metaObject.hasSetter(fieldName)) {
 			return;
 		}
