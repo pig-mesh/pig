@@ -10,5 +10,4 @@ import com.anjiplus.template.gaea.business.modules.report.dao.entity.Report;
  * @date 2021/3/26 10:19
  */
 public interface ReportMapper extends GaeaBaseMapper<Report> {
-
 }

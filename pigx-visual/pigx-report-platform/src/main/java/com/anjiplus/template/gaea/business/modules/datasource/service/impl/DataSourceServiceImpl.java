@@ -93,22 +93,22 @@ public class DataSourceServiceImpl implements DataSourceService {
 		DataSourceDto dto = new DataSourceDto();
 		dto.setSourceConfig(sourceConfig);
 		switch (sourceType) {
-			case JdbcConstants.ELASTIC_SEARCH_SQL:
-				testElasticsearchSqlConnection(dto);
-				break;
-			case JdbcConstants.MYSQL:
-			case JdbcConstants.KUDU_IMAPLA:
-			case JdbcConstants.ORACLE:
-			case JdbcConstants.SQL_SERVER:
-			case JdbcConstants.JDBC:
-			case JdbcConstants.POSTGRESQL:
-				testRelationalDb(dto);
-				break;
-			case JdbcConstants.HTTP:
-				testHttp(dto);
-				break;
-			default:
-				throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
+		case JdbcConstants.ELASTIC_SEARCH_SQL:
+			testElasticsearchSqlConnection(dto);
+			break;
+		case JdbcConstants.MYSQL:
+		case JdbcConstants.KUDU_IMAPLA:
+		case JdbcConstants.ORACLE:
+		case JdbcConstants.SQL_SERVER:
+		case JdbcConstants.JDBC:
+		case JdbcConstants.POSTGRESQL:
+			testRelationalDb(dto);
+			break;
+		case JdbcConstants.HTTP:
+			testHttp(dto);
+			break;
+		default:
+			throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
 		}
 		log.info("测试连接成功：{}", JSONObject.toJSONString(connectionParam));
 		return true;
@@ -119,19 +119,19 @@ public class DataSourceServiceImpl implements DataSourceService {
 	public List<JSONObject> execute(DataSourceDto dto) {
 		String sourceType = dto.getSourceType();
 		switch (sourceType) {
-			case JdbcConstants.ELASTIC_SEARCH_SQL:
-				return executeElasticsearchSql(dto);
-			case JdbcConstants.MYSQL:
-			case JdbcConstants.KUDU_IMAPLA:
-			case JdbcConstants.ORACLE:
-			case JdbcConstants.SQL_SERVER:
-			case JdbcConstants.JDBC:
-			case JdbcConstants.POSTGRESQL:
-				return executeRelationalDb(dto);
-			case JdbcConstants.HTTP:
-				return executeHttp(dto);
-			default:
-				throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
+		case JdbcConstants.ELASTIC_SEARCH_SQL:
+			return executeElasticsearchSql(dto);
+		case JdbcConstants.MYSQL:
+		case JdbcConstants.KUDU_IMAPLA:
+		case JdbcConstants.ORACLE:
+		case JdbcConstants.SQL_SERVER:
+		case JdbcConstants.JDBC:
+		case JdbcConstants.POSTGRESQL:
+			return executeRelationalDb(dto);
+		case JdbcConstants.HTTP:
+			return executeHttp(dto);
+		default:
+			throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
 		}
 	}
 
@@ -145,12 +145,12 @@ public class DataSourceServiceImpl implements DataSourceService {
 		// 区分数据类型
 		String sourceType = sourceDto.getSourceType();
 		switch (sourceType) {
-			case JdbcConstants.ELASTIC_SEARCH_SQL:
-				return 0;
-			case JdbcConstants.MYSQL:
-				return mysqlTotal(sourceDto, dto);
-			default:
-				throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
+		case JdbcConstants.ELASTIC_SEARCH_SQL:
+			return 0;
+		case JdbcConstants.MYSQL:
+			return mysqlTotal(sourceDto, dto);
+		default:
+			throw BusinessExceptionBuilder.build(ResponseCode.DATA_SOURCE_TYPE_DOES_NOT_MATCH_TEMPORARILY);
 		}
 
 	}
@@ -226,6 +226,10 @@ public class DataSourceServiceImpl implements DataSourceService {
 		Connection pooledConnection = null;
 		try {
 			pooledConnection = jdbcService.getPooledConnection(dto);
+
+			if (pooledConnection == null) {
+				return new ArrayList<>();
+			}
 
 			PreparedStatement statement = pooledConnection.prepareStatement(dto.getDynSentence());
 			ResultSet rs = statement.executeQuery();

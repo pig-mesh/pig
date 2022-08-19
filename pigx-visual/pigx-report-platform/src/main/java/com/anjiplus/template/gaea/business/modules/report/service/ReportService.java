@@ -6,17 +6,22 @@ import com.anjiplus.template.gaea.business.modules.report.controller.param.Repor
 import com.anjiplus.template.gaea.business.modules.report.dao.entity.Report;
 
 /**
+ *
  * @author chenkening
  * @date 2021/3/26 10:35
  */
 public interface ReportService extends GaeaBaseService<ReportParam, Report> {
 
-	void delReport(ReportDto reportDto);
 
-	/**
-	 * 下载次数+1
-	 * @param reportCode
-	 */
-	void downloadStatistics(String reportCode);
+    /**
+     * 下载次数+1
+     * @param reportCode
+     */
+    void downloadStatistics(String reportCode);
 
+    /**
+     * 复制大屏
+     * @param dto
+     */
+    void copy(ReportDto dto);
 }

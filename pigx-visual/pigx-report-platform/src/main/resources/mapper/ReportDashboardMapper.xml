@@ -10,6 +10,7 @@
         <result property="height" column="height"  />
         <result property="backgroundColor" column="background_color"  />
         <result property="backgroundImage" column="background_image"  />
+        <result property="previewImage" column="preview_image"  />
         <result property="presetLine" column="preset_line"  />
         <result property="refreshSeconds" column="refresh_seconds"  />
         <result property="enableFlag" column="enable_flag"  />

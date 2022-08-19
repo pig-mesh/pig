@@ -15,115 +15,109 @@ import java.io.Serializable;
  * @author lirui
  * @since 2021-03-09 15:52:41
  */
-@TableName(keepGlobalPrefix = true, value = "gaea_dict_item")
+@TableName(keepGlobalPrefix=true,value = "gaea_dict_item")
 @UnionUniqueCode(group = BusinessConstant.DICT_ITEM_EXIST_GROUP, code = ResponseCode.DICT_ITEM_REPEAT)
 public class GaeaDictItem extends GaeaBaseEntity implements Serializable {
 
-	/**
-	 * 数据字典编码
-	 */
-	@UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
-	private String dictCode;
+    /**
+     * 数据字典编码
+     */
+    @UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
+    private String dictCode;
+    /**
+     * 字典项名称
+     */
+    private String itemName;
+    /**
+     * 字典项值
+     */
+    @UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
+    private String itemValue;
 
-	/**
-	 * 字典项名称
-	 */
-	private String itemName;
+    /**
+     * 字典项扩展
+     */
+    private String itemExtend;
+    /**
+     * 语言标识
+     */
+    @UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
+    private String locale;
 
-	/**
-	 * 字典项值
-	 */
-	@UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
-	private String itemValue;
+    /**
+     * 1：启用，0:禁用
+     */
+    private Integer enabled;
+    /**
+     * 描述
+     */
+    private String remark;
+    /**
+     * 排序
+     */
+    private Integer sort;
 
-	/**
-	 * 字典项扩展
-	 */
-	private String itemExtend;
+    public String getDictCode() {
+        return dictCode;
+    }
 
-	/**
-	 * 语言标识
-	 */
-	@UnionUnique(group = BusinessConstant.DICT_ITEM_EXIST_GROUP)
-	private String locale;
+    public void setDictCode(String dictCode) {
+        this.dictCode = dictCode;
+    }
 
-	/**
-	 * 1：启用，0:禁用
-	 */
-	private Integer enabled;
+    public String getItemName() {
+        return itemName;
+    }
 
-	/**
-	 * 描述
-	 */
-	private String remark;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
-	/**
-	 * 排序
-	 */
-	private Integer sort;
+    public String getItemValue() {
+        return itemValue;
+    }
 
-	public String getDictCode() {
-		return dictCode;
-	}
+    public void setItemValue(String itemValue) {
+        this.itemValue = itemValue;
+    }
 
-	public void setDictCode(String dictCode) {
-		this.dictCode = dictCode;
-	}
+    public String getLocale() {
+        return locale;
+    }
 
-	public String getItemName() {
-		return itemName;
-	}
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public String getItemValue() {
-		return itemValue;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public void setItemValue(String itemValue) {
-		this.itemValue = itemValue;
-	}
+    public Integer getSort() {
+        return sort;
+    }
 
-	public String getLocale() {
-		return locale;
-	}
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
 
-	public void setLocale(String locale) {
-		this.locale = locale;
-	}
+    public Integer getEnabled() {
+        return enabled;
+    }
 
-	public String getRemark() {
-		return remark;
-	}
+    public void setEnabled(Integer enabled) {
+        this.enabled = enabled;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public String getItemExtend() {
+        return itemExtend;
+    }
 
-	public Integer getSort() {
-		return sort;
-	}
-
-	public void setSort(Integer sort) {
-		this.sort = sort;
-	}
-
-	public Integer getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Integer enabled) {
-		this.enabled = enabled;
-	}
-
-	public String getItemExtend() {
-		return itemExtend;
-	}
-
-	public void setItemExtend(String itemExtend) {
-		this.itemExtend = itemExtend;
-	}
-
+    public void setItemExtend(String itemExtend) {
+        this.itemExtend = itemExtend;
+    }
 }

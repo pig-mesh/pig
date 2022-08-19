@@ -26,7 +26,9 @@ public class JdbcServiceImpl implements JdbcService {
 	/**
 	 * 所有数据源的连接池存在map里
 	 */
-	static Map<Long, DruidDataSource> map = new ConcurrentHashMap<>();
+	private Map<Long, DruidDataSource> map = new ConcurrentHashMap<>();
+
+	private Object lock = new Object();
 
 	public DruidDataSource getJdbcConnectionPool(DataSourceDto dataSource) {
 		if (map.containsKey(dataSource.getId())) {
@@ -34,11 +36,13 @@ public class JdbcServiceImpl implements JdbcService {
 		}
 		else {
 			try {
-				if (!map.containsKey(dataSource.getId())) {
-					DruidDataSource pool = druidProperties.dataSource(dataSource.getJdbcUrl(), dataSource.getUsername(),
-							dataSource.getPassword(), dataSource.getDriverName());
-					map.put(dataSource.getId(), pool);
-					log.info("创建连接池成功：{}", dataSource.getJdbcUrl());
+				synchronized (lock) {
+					if (!map.containsKey(dataSource.getId())) {
+						DruidDataSource pool = druidProperties.dataSource(dataSource.getJdbcUrl(),
+								dataSource.getUsername(), dataSource.getPassword(), dataSource.getDriverName());
+						map.put(dataSource.getId(), pool);
+						log.info("创建连接池成功：{}", dataSource.getJdbcUrl());
+					}
 				}
 				return map.get(dataSource.getId());
 			}
@@ -76,7 +80,14 @@ public class JdbcServiceImpl implements JdbcService {
 	@Override
 	public Connection getPooledConnection(DataSourceDto dataSource) throws SQLException {
 		DruidDataSource pool = getJdbcConnectionPool(dataSource);
-		return pool.getConnection();
+
+		try {
+			return pool.getConnection();
+		}
+		catch (Exception ex) {
+			log.warn("数据库链接失败 {}", dataSource.getId());
+			return null;
+		}
 	}
 
 	/**

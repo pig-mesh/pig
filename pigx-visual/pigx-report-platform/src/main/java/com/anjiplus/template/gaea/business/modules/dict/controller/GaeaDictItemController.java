@@ -21,23 +21,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/gaeaDictItem")
 @Api(value = "/gaeaDictItem", tags = "数据字典项")
 public class GaeaDictItemController extends GaeaBaseController<GaeaDictItemParam, GaeaDictItem, GaeaDictItemDTO> {
+    @Autowired
+    private GaeaDictItemService gaeaDictItemService;
 
-	@Autowired
-	private GaeaDictItemService gaeaDictItemService;
+    @Override
+    public GaeaBaseService<GaeaDictItemParam, GaeaDictItem> getService() {
+        return gaeaDictItemService;
+    }
 
-	@Override
-	public GaeaBaseService<GaeaDictItemParam, GaeaDictItem> getService() {
-		return gaeaDictItemService;
-	}
+    @Override
+    public GaeaDictItem getEntity() {
+        return new GaeaDictItem();
+    }
 
-	@Override
-	public GaeaDictItem getEntity() {
-		return new GaeaDictItem();
-	}
-
-	@Override
-	public GaeaDictItemDTO getDTO() {
-		return new GaeaDictItemDTO();
-	}
-
+    @Override
+    public GaeaDictItemDTO getDTO() {
+        return new GaeaDictItemDTO();
+    }
 }

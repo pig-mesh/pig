@@ -8,5 +8,4 @@ import com.anjiplus.template.gaea.business.modules.reportexcel.dao.entity.Report
  * @date 2021/4/13 15:11
  */
 public interface ReportExcelMapper extends GaeaBaseMapper<ReportExcel> {
-
 }

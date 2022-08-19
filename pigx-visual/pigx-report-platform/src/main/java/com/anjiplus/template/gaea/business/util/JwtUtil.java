@@ -17,55 +17,59 @@ import java.util.Map;
  */
 public class JwtUtil {
 
-	private static final String JWT_SECRET = "aj-report";
+    private static final String JWT_SECRET = "aj-report";
 
-	public static String createToken(String reportCode, String shareCode, Date expires) {
-		return createToken(reportCode, shareCode, null, expires);
-	}
+    public static String createToken(String reportCode, String shareCode, Date expires) {
+        return createToken(reportCode, shareCode, null, expires);
+    }
 
-	public static String createToken(String reportCode, String shareCode, String password, Date expires) {
-		String token = JWT.create().withIssuedAt(new Date()).withExpiresAt(expires).withClaim("reportCode", reportCode)
-				.withClaim("shareCode", shareCode).withClaim("sharePassword", password)
-				.sign(Algorithm.HMAC256(JWT_SECRET));
-		return token;
-	}
+    public static String createToken(String reportCode, String shareCode, String password, Date expires) {
+        String token = JWT.create()
+                .withIssuedAt(new Date())
+                .withExpiresAt(expires)
+                .withClaim("reportCode", reportCode)
+                .withClaim("shareCode", shareCode)
+                .withClaim("sharePassword", password)
+                .sign(Algorithm.HMAC256(JWT_SECRET));
+        return token;
+    }
 
-	public static Map<String, Claim> getClaim(String token) {
-		try {
-			JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JWT_SECRET)).build();
-			DecodedJWT decodedJwt = jwtVerifier.verify(token);
-			return decodedJwt.getClaims();
-		}
-		catch (Exception e) {
-			throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID, e.getMessage());
-		}
-	}
 
-	public static String getReportCode(String token) {
-		Claim claim = getClaim(token).get("reportCode");
-		if (null == claim) {
-			throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID);
-		}
-		return claim.asString();
-	}
+    public static Map<String, Claim> getClaim(String token) {
+        try {
+            JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(JWT_SECRET)).build();
+            DecodedJWT decodedJwt = jwtVerifier.verify(token);
+            return decodedJwt.getClaims();
+        } catch (Exception e) {
+            throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID, e.getMessage());
+        }
+    }
 
-	public static String getShareCode(String token) {
-		Claim claim = getClaim(token).get("shareCode");
-		if (null == claim) {
-			throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID);
-		}
-		return claim.asString();
-	}
+    public static String getReportCode(String token) {
+        Claim claim = getClaim(token).get("reportCode");
+        if (null == claim) {
+            throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID);
+        }
+        return claim.asString();
+    }
 
-	public static String getPassword(String token) {
-		Claim claim = getClaim(token).get("sharePassword");
-		if (null == claim) {
-			return null;
-		}
-		if (StringUtils.isNotBlank(claim.asString())) {
-			return claim.asString();
-		}
-		return null;
-	}
+    public static String getShareCode(String token) {
+        Claim claim = getClaim(token).get("shareCode");
+        if (null == claim) {
+            throw BusinessExceptionBuilder.build(ResponseCode.REPORT_SHARE_LINK_INVALID);
+        }
+        return claim.asString();
+    }
+
+    public static String getPassword(String token) {
+        Claim claim = getClaim(token).get("sharePassword");
+        if (null == claim) {
+            return null;
+        }
+        if (StringUtils.isNotBlank(claim.asString())) {
+            return claim.asString();
+        }
+        return null;
+    }
 
 }

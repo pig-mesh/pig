@@ -10,16 +10,15 @@ import javax.validation.constraints.NotBlank;
 @Data
 public class UpdatePasswordDto {
 
-	@ApiModelProperty(value = "旧密码密码")
-	@NotBlank
-	private String oldPassword;
+    @ApiModelProperty(value = "旧密码密码")
+    @NotBlank
+    private String oldPassword;
 
-	@ApiModelProperty(value = "密码")
-	@NotBlank
-	private String password;
+    @ApiModelProperty(value = "密码")
+    @NotBlank
+    private String password;
 
-	@ApiModelProperty(value = "密码")
-	@NotBlank
-	private String confirmPassword;
-
+    @ApiModelProperty(value = "密码")
+    @NotBlank
+    private String confirmPassword;
 }
