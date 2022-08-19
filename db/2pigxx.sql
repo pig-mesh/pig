@@ -413,7 +413,7 @@ INSERT INTO `sys_menu` VALUES (2870, '执行任务', 'job_sys_job_run_job', NULL
 INSERT INTO `sys_menu` VALUES (3000, '系统监控', NULL, '/daemon', -1, 'icon-msnui-supervise', 2, '0', '2', ' ', '2018-07-27 01:13:21', ' ', '2020-03-24 08:57:31', '0', 1);
 INSERT INTO `sys_menu` VALUES (3100, '服务监控', NULL, 'http://127.0.0.1:5001', 3000, 'icon-server', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
 INSERT INTO `sys_menu` VALUES (3101, '流量监控', NULL, 'http://127.0.0.1:5020', 3000, 'icon-liuliang', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
-INSERT INTO `sys_menu` VALUES (3110, '缓存监控', NULL, '/monitor/redis/index', 3000, 'icon-qingchuhuancun', 1, '1', '0', ' ', '2019-05-08 23:51:27', ' ', '2020-03-24 08:57:33', '0', 1);
+INSERT INTO `sys_menu` VALUES (3110, '缓存监控', NULL, '/monitor/redis/index', 3000, 'icon-qingchuhuancun', 1, '0', '0', ' ', '2019-05-08 23:51:27', ' ', '2020-03-24 08:57:33', '0', 1);
 INSERT INTO `sys_menu` VALUES (3200, '接口文档', NULL, 'http://127.0.0.1:9999/swagger-ui/index.html', 3000, 'icon-wendang', 1, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:34', '0', 1);
 INSERT INTO `sys_menu` VALUES (3300, '事务监控', NULL, '/tx/index', 3000, 'icon-gtsquanjushiwufuwuGTS', 5, '0', '0', ' ', '2018-08-19 11:02:39', ' ', '2020-03-24 08:57:34', '0', 1);
 INSERT INTO `sys_menu` VALUES (3400, '在线事务', NULL, '/tx/model', 3000, 'icon-online', 6, '0', '0', ' ', '2018-08-19 11:32:04', ' ', '2020-03-24 08:57:35', '0', 1);
