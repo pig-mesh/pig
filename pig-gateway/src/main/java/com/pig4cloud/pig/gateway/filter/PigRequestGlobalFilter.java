@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.gateway.filter;
 
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -26,6 +27,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.GATEWAY_REQUEST_URL_ATTR;
@@ -53,8 +55,12 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		// 1. 清洗请求头中from 参数
-		ServerHttpRequest request = exchange.getRequest().mutate()
-				.headers(httpHeaders -> httpHeaders.remove(SecurityConstants.FROM)).build();
+		ServerHttpRequest request = exchange.getRequest().mutate().headers(httpHeaders -> {
+			httpHeaders.remove(SecurityConstants.FROM);
+			// 设置请求时间
+			httpHeaders.put(CommonConstants.REQUEST_START_TIME,
+					Collections.singletonList(String.valueOf(System.currentTimeMillis())));
+		}).build();
 
 		// 2. 重写StripPrefix
 		addOriginalRequestUrl(exchange, request.getURI());

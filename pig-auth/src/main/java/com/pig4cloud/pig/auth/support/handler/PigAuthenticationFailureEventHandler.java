@@ -16,7 +16,9 @@
 
 package com.pig4cloud.pig.auth.support.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
@@ -64,9 +66,12 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 		logVo.setType(LogTypeEnum.ERROR.getType());
 		logVo.setException(exception.getLocalizedMessage());
 		// 发送异步日志事件
-		Long startTime = System.currentTimeMillis();
-		Long endTime = System.currentTimeMillis();
-		logVo.setTime(endTime - startTime);
+		String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
+		if (StrUtil.isNotBlank(startTimeStr)) {
+			Long startTime = Long.parseLong(startTimeStr);
+			Long endTime = System.currentTimeMillis();
+			logVo.setTime(endTime - startTime);
+		}
 		logVo.setCreateBy(username);
 		logVo.setUpdateBy(username);
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));

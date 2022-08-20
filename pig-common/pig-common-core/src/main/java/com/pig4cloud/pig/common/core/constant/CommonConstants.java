@@ -78,11 +78,6 @@ public interface CommonConstants {
 	Integer FAIL = 1;
 
 	/**
-	 * 验证码前缀
-	 */
-	String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY_";
-
-	/**
 	 * 当前页
 	 */
 	String CURRENT = "current";
@@ -91,5 +86,10 @@ public interface CommonConstants {
 	 * size
 	 */
 	String SIZE = "size";
+
+	/**
+	 * 请求开始时间
+	 */
+	String REQUEST_START_TIME = "REQUEST-START-TIME";
 
 }
