@@ -21,7 +21,8 @@ public class SwaggerBeanDefinitionRegistrar implements ImportBeanDefinitionRegis
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 
-		if (registry.isBeanNameInUse("org.springframework.cloud.gateway.config.GatewayAutoConfiguration")) {
+		// swagger 功能依赖系统的动态路由，需要读取路由表中的参数
+		if (registry.isBeanNameInUse("com.pig4cloud.pigx.common.gateway.configuration.DynamicRouteAutoConfiguration")) {
 			GenericBeanDefinition gatewaySwagger = new GenericBeanDefinition();
 			gatewaySwagger.setBeanClass(GatewaySwaggerAutoConfiguration.class);
 			registry.registerBeanDefinition(GatewaySwaggerAutoConfiguration.class.getSimpleName(), gatewaySwagger);
