@@ -55,12 +55,12 @@ public class PayRefundOrderController {
 
 	/**
 	 * 通过id查询退款
-	 * @param refundOrderId id
+	 * @param orderId id
 	 * @return R
 	 */
-	@GetMapping("/{refund]orderId}")
-	public R getById(@PathVariable("refund]orderId") String refundOrderId) {
-		return R.ok(payRefundOrderService.getById(refundOrderId));
+	@GetMapping("/{orderId}")
+	public R getById(@PathVariable String orderId) {
+		return R.ok(payRefundOrderService.getById(orderId));
 	}
 
 	/**
