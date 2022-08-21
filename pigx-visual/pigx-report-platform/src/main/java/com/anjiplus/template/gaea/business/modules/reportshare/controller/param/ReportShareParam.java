@@ -15,15 +15,17 @@ import java.io.Serializable;
  **/
 @Data
 public class ReportShareParam extends PageParam implements Serializable {
-    /** 分享编码，系统生成，默认UUID */
-    @Query(value = QueryEnum.EQ)
-    private String shareCode;
 
-    /** 报表编码 */
-    @Query(value = QueryEnum.LIKE)
-    private String reportCode;
+	/** 分享编码，系统生成，默认UUID */
+	@Query(value = QueryEnum.EQ)
+	private String shareCode;
 
-    /** 分享有效期类型 */
-    @Query(value = QueryEnum.EQ)
-    private String shareValidType;
+	/** 报表编码 */
+	@Query(value = QueryEnum.LIKE)
+	private String reportCode;
+
+	/** 分享有效期类型 */
+	@Query(value = QueryEnum.EQ)
+	private String shareValidType;
+
 }

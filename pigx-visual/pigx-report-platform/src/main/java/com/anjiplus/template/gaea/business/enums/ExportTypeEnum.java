@@ -5,26 +5,26 @@ package com.anjiplus.template.gaea.business.enums;
  */
 public enum ExportTypeEnum {
 
-    /**gaea_excel*/
-    GAEA_TEMPLATE_EXCEL("gaea_template_excel", "gaea_template_excel"),
-    /**gaea_pdf*/
-    GAEA_TEMPLATE_PDF("gaea_template_pdf", "gaea_template_pdf"),
-    ;
+	/** gaea_excel */
+	GAEA_TEMPLATE_EXCEL("gaea_template_excel", "gaea_template_excel"),
+	/** gaea_pdf */
+	GAEA_TEMPLATE_PDF("gaea_template_pdf", "gaea_template_pdf"),;
 
-    private String codeValue;
-    private String codeDesc;
+	private String codeValue;
 
-    private ExportTypeEnum(String codeValue, String codeDesc) {
-        this.codeValue = codeValue;
-        this.codeDesc = codeDesc;
-    }
+	private String codeDesc;
 
-    public String getCodeValue() {
-        return this.codeValue;
-    }
+	private ExportTypeEnum(String codeValue, String codeDesc) {
+		this.codeValue = codeValue;
+		this.codeDesc = codeDesc;
+	}
 
-    public String getCodeDesc() {
-        return this.codeDesc;
-    }
+	public String getCodeValue() {
+		return this.codeValue;
+	}
+
+	public String getCodeDesc() {
+		return this.codeDesc;
+	}
 
 }

@@ -16,21 +16,23 @@ import java.io.Serializable;
 @ApiModel(value = "")
 @Data
 public class GaeaDictDTO extends GaeaBaseDTO implements Serializable {
-    /**
-     * 字典名称
-     */
-    @ApiModelProperty(value = "字典名称")
-    private String dictName;
-    /**
-     * 字典编号
-     */
-    @ApiModelProperty(value = "字典编号")
-    private String dictCode;
-    /**
-     * 字典描述
-     */
-    @ApiModelProperty(value = "字典描述")
-    private String remark;
 
+	/**
+	 * 字典名称
+	 */
+	@ApiModelProperty(value = "字典名称")
+	private String dictName;
+
+	/**
+	 * 字典编号
+	 */
+	@ApiModelProperty(value = "字典编号")
+	private String dictCode;
+
+	/**
+	 * 字典描述
+	 */
+	@ApiModelProperty(value = "字典描述")
+	private String remark;
 
 }

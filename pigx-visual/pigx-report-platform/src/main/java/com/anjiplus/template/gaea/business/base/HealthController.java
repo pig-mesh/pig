@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HealthController {
 
-    @GetMapping("health")
-    public ResponseBean health() {
-        return ResponseBean.builder().build();
-    }
+	@GetMapping("health")
+	public ResponseBean health() {
+		return ResponseBean.builder().build();
+	}
 
 }

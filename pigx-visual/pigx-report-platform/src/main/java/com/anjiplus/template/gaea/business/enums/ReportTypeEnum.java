@@ -5,29 +5,29 @@ package com.anjiplus.template.gaea.business.enums;
  */
 public enum ReportTypeEnum {
 
-    /**report_screen*/
-    report_screen("report_screen", "大屏报表"),
-    /**report_excel*/
-    report_excel("report_excel", "excel报表"),
-    ;
+	/** report_screen */
+	report_screen("report_screen", "大屏报表"),
+	/** report_excel */
+	report_excel("report_excel", "excel报表"),;
 
-    private String codeValue;
-    private String codeDesc;
+	private String codeValue;
 
-    ReportTypeEnum() {
-    }
+	private String codeDesc;
 
-    private ReportTypeEnum(String codeValue, String codeDesc) {
-        this.codeValue = codeValue;
-        this.codeDesc = codeDesc;
-    }
+	ReportTypeEnum() {
+	}
 
-    public String getCodeValue() {
-        return this.codeValue;
-    }
+	private ReportTypeEnum(String codeValue, String codeDesc) {
+		this.codeValue = codeValue;
+		this.codeDesc = codeDesc;
+	}
 
-    public String getCodeDesc() {
-        return this.codeDesc;
-    }
+	public String getCodeValue() {
+		return this.codeValue;
+	}
+
+	public String getCodeDesc() {
+		return this.codeDesc;
+	}
 
 }

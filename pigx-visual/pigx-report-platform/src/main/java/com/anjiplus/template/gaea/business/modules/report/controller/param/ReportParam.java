@@ -14,23 +14,22 @@ import java.io.Serializable;
  * @date 2021/3/26 10:40
  */
 @Data
-public class ReportParam extends PageParam implements Serializable{
+public class ReportParam extends PageParam implements Serializable {
 
-    /** 报表名称 */
-    @Query(QueryEnum.LIKE)
-    private String reportName;
+	/** 报表名称 */
+	@Query(QueryEnum.LIKE)
+	private String reportName;
 
-    /** 报表作者 */
-    @Query(QueryEnum.LIKE)
-    private String reportAuthor;
+	/** 报表作者 */
+	@Query(QueryEnum.LIKE)
+	private String reportAuthor;
 
-    /** 报表编码 */
-    @Query(QueryEnum.LIKE)
-    private String reportCode;
+	/** 报表编码 */
+	@Query(QueryEnum.LIKE)
+	private String reportCode;
 
-    /** 报表类型 */
-    @Query(QueryEnum.EQ)
-    private String reportType;
-
+	/** 报表类型 */
+	@Query(QueryEnum.EQ)
+	private String reportType;
 
 }

@@ -9,34 +9,35 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
-* @desc AccessAuthority 权限管理查询输入类
-* @author 木子李·De <lide1202@hotmail.com>
-* @date 2019-02-17 08:50:10.009
-**/
+ * @desc AccessAuthority 权限管理查询输入类
+ * @author 木子李·De <lide1202@hotmail.com>
+ * @date 2019-02-17 08:50:10.009
+ **/
 @Data
-public class AccessAuthorityParam extends PageParam implements Serializable{
+public class AccessAuthorityParam extends PageParam implements Serializable {
 
-    /** 父菜单代码 */
-    @Query(value = QueryEnum.LIKE)
-    private String parentTarget;
+	/** 父菜单代码 */
+	@Query(value = QueryEnum.LIKE)
+	private String parentTarget;
 
-    /** 菜单代码 */
-    @Query(value = QueryEnum.LIKE)
-    private String target;
+	/** 菜单代码 */
+	@Query(value = QueryEnum.LIKE)
+	private String target;
 
-    /** 菜单名称 */
-    @Query(value = QueryEnum.LIKE)
-    private String targetName;
+	/** 菜单名称 */
+	@Query(value = QueryEnum.LIKE)
+	private String targetName;
 
-    /** 按钮代码 */
-    @Query(value = QueryEnum.LIKE)
-    private String action;
+	/** 按钮代码 */
+	@Query(value = QueryEnum.LIKE)
+	private String action;
 
-    /** 按钮名称 */
-    @Query(value = QueryEnum.LIKE)
-    private String actionName;
+	/** 按钮名称 */
+	@Query(value = QueryEnum.LIKE)
+	private String actionName;
 
-    // 0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG
-    @Query
-    private Integer enableFlag;
+	// 0--已禁用 1--已启用 DIC_NAME=ENABLE_FLAG
+	@Query
+	private Integer enableFlag;
+
 }

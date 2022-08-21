@@ -12,21 +12,22 @@ import java.util.List;
 @Data
 public class OriginalDataDto implements Serializable {
 
-    /**总数*/
-    private long total;
+	/** 总数 */
+	private long total;
 
-    /**获取的数据详情*/
-    private List<JSONObject> data;
+	/** 获取的数据详情 */
+	private List<JSONObject> data;
 
-    public OriginalDataDto(List<JSONObject> data) {
-        this.data = data;
-    }
+	public OriginalDataDto(List<JSONObject> data) {
+		this.data = data;
+	}
 
-    public OriginalDataDto(long total, List<JSONObject> data) {
-        this.total = total;
-        this.data = data;
-    }
+	public OriginalDataDto(long total, List<JSONObject> data) {
+		this.total = total;
+		this.data = data;
+	}
 
-    public OriginalDataDto() {
-    }
+	public OriginalDataDto() {
+	}
+
 }

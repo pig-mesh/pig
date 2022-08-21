@@ -6,6 +6,7 @@ import com.anji.plus.gaea.curd.service.GaeaBaseService;
 
 /**
  * 项目级的Service公共处理基类
+ *
  * @author WongBin
  * @date 2021/3/26
  */

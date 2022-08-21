@@ -33,6 +33,7 @@ import java.util.Locale;
 
 /**
  * 盖亚自动装配
+ *
  * @author lr
  * @since 2021-01-11
  */
@@ -40,166 +41,166 @@ import java.util.Locale;
 @EnableConfigurationProperties(GaeaProperties.class)
 public class GaeaAutoConfiguration {
 
-    @Bean
-    @ConditionalOnMissingBean
-    public Jackson2ObjectMapperBuilderCustomizer customizer() {
-        return builder -> {
-            builder.locale(Locale.CHINA);
-            builder.serializerByType(Long.class, ToStringSerializer.instance);
-        };
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public Jackson2ObjectMapperBuilderCustomizer customizer() {
+		return builder -> {
+			builder.locale(Locale.CHINA);
+			builder.serializerByType(Long.class, ToStringSerializer.instance);
+		};
+	}
 
-    /**
-     * spring上下文工具类
-     * @return
-     */
-    @Bean
-    public ApplicationContextUtils applicationContextUtils() {
-        return new ApplicationContextUtils();
-    }
+	/**
+	 * spring上下文工具类
+	 * @return
+	 */
+	@Bean
+	public ApplicationContextUtils applicationContextUtils() {
+		return new ApplicationContextUtils();
+	}
 
-    /**
-     * jwt实例
-     * @param gaeaProperties
-     * @return
-     */
-    @Bean
-    public JwtBean jwtBean(GaeaProperties gaeaProperties) {
-        return new JwtBean(gaeaProperties);
-    }
+	/**
+	 * jwt实例
+	 * @param gaeaProperties
+	 * @return
+	 */
+	@Bean
+	public JwtBean jwtBean(GaeaProperties gaeaProperties) {
+		return new JwtBean(gaeaProperties);
+	}
 
-    @Bean
-    @ConditionalOnClass(RedisAutoConfiguration.class)
-    @ConditionalOnMissingBean
-    public CacheHelper cacheHelper() {
-        return new RedisCacheHelper();
-    }
+	@Bean
+	@ConditionalOnClass(RedisAutoConfiguration.class)
+	@ConditionalOnMissingBean
+	public CacheHelper cacheHelper() {
+		return new RedisCacheHelper();
+	}
 
+	/**
+	 * web服务器环境,网关不加载
+	 */
+	@Configuration
+	@ConditionalOnClass(WebMvcConfigurer.class)
+	@ComponentScan(value = { "com.anji.plus.gaea.controller", "com.anji.plus.gaea.exception.advice" })
+	public static class WebGaeaAutoConfiguration {
 
-    /**
-     * web服务器环境,网关不加载
-     */
-    @Configuration
-    @ConditionalOnClass(WebMvcConfigurer.class)
-    @ComponentScan(value = {"com.anji.plus.gaea.controller", "com.anji.plus.gaea.exception.advice"})
-    public static class WebGaeaAutoConfiguration {
-        /**
-         * 获取当前应用所有的RequestMapping信息，用于权限配置
-         * @return
-         */
-        @Bean
-        public InitRequestUrlMappings initRequestUrlMappings() {
-            return new InitRequestUrlMappings();
-        }
+		/**
+		 * 获取当前应用所有的RequestMapping信息，用于权限配置
+		 * @return
+		 */
+		@Bean
+		public InitRequestUrlMappings initRequestUrlMappings() {
+			return new InitRequestUrlMappings();
+		}
 
-        /**
-         * 国际化
-         *
-         * @author lr
-         * @since 2021-01-01
-         */
-        @Configuration
-        @ConditionalOnClass(LocaleResolver.class)
-        @ConditionalOnMissingBean(MessageLocaleResolver.class)
-        public class MessageI18AutoConfiguration {
+		/**
+		 * 国际化
+		 *
+		 * @author lr
+		 * @since 2021-01-01
+		 */
+		@Configuration
+		@ConditionalOnClass(LocaleResolver.class)
+		@ConditionalOnMissingBean(MessageLocaleResolver.class)
+		public class MessageI18AutoConfiguration {
 
-            /**
-             * 根据请求头识别国际化locale
-             *
-             * @return
-             */
-            @Bean
-            public MessageLocaleResolver localeResolver() {
-                return new MessageLocaleResolver();
-            }
+			/**
+			 * 根据请求头识别国际化locale
+			 * @return
+			 */
+			@Bean
+			public MessageLocaleResolver localeResolver() {
+				return new MessageLocaleResolver();
+			}
 
-            /**
-             * 国际化
-             *
-             * @return
-             */
-            @Bean
-            public MessageSourceHolder messageSourceHolder() {
-                return new MessageSourceHolder();
-            }
-        }
-    }
+			/**
+			 * 国际化
+			 * @return
+			 */
+			@Bean
+			public MessageSourceHolder messageSourceHolder() {
+				return new MessageSourceHolder();
+			}
 
-    /**
-     * 异常监听
-     * @return
-     */
-    @Bean
-    public ExceptionApplicationListener exceptionApplicationListener() {
-        return new ExceptionApplicationListener();
-    }
+		}
 
-    /**
-     * Web配置
-     */
-    @Configuration
-    @ConditionalOnClass(WebMvcConfigurer.class)
-    public static class GaeaWebMvcConfigurer implements WebMvcConfigurer{
+	}
 
-        /**
-         * 拦截器
-         * @param registry
-         */
-        @Override
-        public void addInterceptors(InterceptorRegistry registry) {
-            InterceptorRegistration interceptorRegistration = registry.addInterceptor(new AccessKeyInterceptor());
-            interceptorRegistration.addPathPatterns("/**");
-        }
-    }
+	/**
+	 * 异常监听
+	 * @return
+	 */
+	@Bean
+	public ExceptionApplicationListener exceptionApplicationListener() {
+		return new ExceptionApplicationListener();
+	}
 
-    /**
-     * 持久层mybatis-plus自动装配
-     *
-     * @author lr
-     * @since 2021-01-01
-     */
-    @Configuration
-    @ConditionalOnClass(MybatisPlusAutoConfiguration.class)
-    public class GaeaMybatisPlusAutoConfiguration {
-        /**
-         * 乐观锁，需要在version字段上加@Version
-         *
-         * @return
-         */
-        @Bean
-        public OptimisticLockerInterceptor optimisticLockerInterceptor() {
-            return new OptimisticLockerInterceptor();
-        }
+	/**
+	 * Web配置
+	 */
+	@Configuration
+	@ConditionalOnClass(WebMvcConfigurer.class)
+	public static class GaeaWebMvcConfigurer implements WebMvcConfigurer {
 
-        /**
-         * 填充sql
-         *
-         * @return
-         */
-        @Bean
-        public CustomSqlInjector customSqlInjector() {
-            return new CustomSqlInjector();
-        }
+		/**
+		 * 拦截器
+		 * @param registry
+		 */
+		@Override
+		public void addInterceptors(InterceptorRegistry registry) {
+			InterceptorRegistration interceptorRegistration = registry.addInterceptor(new AccessKeyInterceptor());
+			interceptorRegistration.addPathPatterns("/**");
+		}
 
-        /**
-         * 分页
-         *
-         * @return
-         */
-        @Bean
-        public PaginationInterceptor paginationInterceptor() {
-            return new PaginationInterceptor();
-        }
+	}
 
-        /**
-         * 默认填充
-         *
-         * @return
-         */
-        @Bean
-        @ConditionalOnMissingBean(value = {MetaObjectHandler.class})
-        public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
-            return new MybatisPlusMetaObjectHandler();
-        }
-    }
+	/**
+	 * 持久层mybatis-plus自动装配
+	 *
+	 * @author lr
+	 * @since 2021-01-01
+	 */
+	@Configuration
+	@ConditionalOnClass(MybatisPlusAutoConfiguration.class)
+	public class GaeaMybatisPlusAutoConfiguration {
+
+		/**
+		 * 乐观锁，需要在version字段上加@Version
+		 * @return
+		 */
+		@Bean
+		public OptimisticLockerInterceptor optimisticLockerInterceptor() {
+			return new OptimisticLockerInterceptor();
+		}
+
+		/**
+		 * 填充sql
+		 * @return
+		 */
+		@Bean
+		public CustomSqlInjector customSqlInjector() {
+			return new CustomSqlInjector();
+		}
+
+		/**
+		 * 分页
+		 * @return
+		 */
+		@Bean
+		public PaginationInterceptor paginationInterceptor() {
+			return new PaginationInterceptor();
+		}
+
+		/**
+		 * 默认填充
+		 * @return
+		 */
+		@Bean
+		@ConditionalOnMissingBean(value = { MetaObjectHandler.class })
+		public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
+			return new MybatisPlusMetaObjectHandler();
+		}
+
+	}
+
 }

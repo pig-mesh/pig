@@ -1,47 +1,55 @@
 package com.anjiplus.template.gaea.business.enums;
+
 public enum DeleteFlagEnum {
-    DELETED(1,"已删除"),
-    UNDELETED(0,"未删除"),
-    ;
 
-    private int codeValue;
-    private String codeDesc;
+	DELETED(1, "已删除"), UNDELETED(0, "未删除"),;
 
-    private DeleteFlagEnum(int  codeValue, String codeDesc) {
-        this.codeValue = codeValue;
-        this.codeDesc = codeDesc;
-    }
+	private int codeValue;
 
-    public int   getCodeValue(){ return this.codeValue;}
+	private String codeDesc;
 
-    public String getCodeDesc(){ return this.codeDesc;}
+	private DeleteFlagEnum(int codeValue, String codeDesc) {
+		this.codeValue = codeValue;
+		this.codeDesc = codeDesc;
+	}
 
-    //根据codeValue获取枚举
-    public static DeleteFlagEnum parseFromCodeValue(int codeValue){
-        for (DeleteFlagEnum e : DeleteFlagEnum.values()){
-            if(e.codeValue == codeValue){ return e;}
-        }
-        return null;
-    }
+	public int getCodeValue() {
+		return this.codeValue;
+	}
 
-    //根据codeValue获取描述
-    public static String getCodeDescByCodeValue(int codeValue){
-        DeleteFlagEnum enumItem = parseFromCodeValue(codeValue);
-        return enumItem == null ? "" : enumItem.getCodeDesc();
-    }
+	public String getCodeDesc() {
+		return this.codeDesc;
+	}
 
-    //验证codeValue是否有效
-    public static boolean validateCodeValue(int codeValue){ return parseFromCodeValue(codeValue)!=null;}
+	// 根据codeValue获取枚举
+	public static DeleteFlagEnum parseFromCodeValue(int codeValue) {
+		for (DeleteFlagEnum e : DeleteFlagEnum.values()) {
+			if (e.codeValue == codeValue) {
+				return e;
+			}
+		}
+		return null;
+	}
 
-    //列出所有值字符串
-    public static String getString(){
-        StringBuffer buffer = new StringBuffer();
-        for (DeleteFlagEnum e : DeleteFlagEnum.values()){
-            buffer.append(e.codeValue).append("--").append(e.getCodeDesc()).append(", ");
-        }
-        buffer.deleteCharAt(buffer.lastIndexOf(","));
-        return buffer.toString().trim();
-    }
+	// 根据codeValue获取描述
+	public static String getCodeDescByCodeValue(int codeValue) {
+		DeleteFlagEnum enumItem = parseFromCodeValue(codeValue);
+		return enumItem == null ? "" : enumItem.getCodeDesc();
+	}
 
+	// 验证codeValue是否有效
+	public static boolean validateCodeValue(int codeValue) {
+		return parseFromCodeValue(codeValue) != null;
+	}
+
+	// 列出所有值字符串
+	public static String getString() {
+		StringBuffer buffer = new StringBuffer();
+		for (DeleteFlagEnum e : DeleteFlagEnum.values()) {
+			buffer.append(e.codeValue).append("--").append(e.getCodeDesc()).append(", ");
+		}
+		buffer.deleteCharAt(buffer.lastIndexOf(","));
+		return buffer.toString().trim();
+	}
 
 }

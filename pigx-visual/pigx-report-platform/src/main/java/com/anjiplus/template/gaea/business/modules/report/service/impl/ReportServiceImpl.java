@@ -27,148 +27,155 @@ import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 /**
- *
  * @author chenkening
  * @date 2021/3/26 10:35
  */
 @Service
 public class ReportServiceImpl implements ReportService {
 
-    @Autowired
-    private ReportMapper reportMapper;
-    @Autowired
-    private ReportDashboardService reportDashboardService;
-    @Autowired
-    private ReportDashboardWidgetService reportDashboardWidgetService;
-    @Autowired
-    private ReportExcelService reportExcelService;
+	@Autowired
+	private ReportMapper reportMapper;
 
-    @Override
-    public GaeaBaseMapper<Report> getMapper() {
-        return reportMapper;
-    }
+	@Autowired
+	private ReportDashboardService reportDashboardService;
 
+	@Autowired
+	private ReportDashboardWidgetService reportDashboardWidgetService;
 
-    @Override
-    public void processBatchBeforeOperation(List<Report> entities, BaseOperationEnum operationEnum) throws BusinessException {
-        ReportService.super.processBatchAfterOperation(entities, operationEnum);
-        switch (operationEnum) {
-            case DELETE_BATCH:
-                entities.forEach(report -> {
-                    Long id = report.getId();
-                    Report delReport = selectOne(id);
-                    if (null == delReport) {
-                        return;
-                    }
-                    String reportCode = delReport.getReportCode();
-                    String reportType = delReport.getReportType();
-                    switch (ReportTypeEnum.valueOf(reportType)) {
-                        case report_screen:
-                            LambdaQueryWrapper<ReportDashboard> reportDashboardLambdaQueryWrapper = Wrappers.lambdaQuery();
-                            reportDashboardLambdaQueryWrapper.eq(ReportDashboard::getReportCode, reportCode);
-                            reportDashboardService.delete(reportDashboardLambdaQueryWrapper);
+	@Autowired
+	private ReportExcelService reportExcelService;
 
-                            LambdaQueryWrapper<ReportDashboardWidget> reportDashboardWidgetLambdaQueryWrapper = Wrappers.lambdaQuery();
-                            reportDashboardWidgetLambdaQueryWrapper.eq(ReportDashboardWidget::getReportCode, reportCode);
-                            reportDashboardWidgetService.delete(reportDashboardWidgetLambdaQueryWrapper);
+	@Override
+	public GaeaBaseMapper<Report> getMapper() {
+		return reportMapper;
+	}
 
-                            break;
-                        case report_excel:
-                            LambdaQueryWrapper<ReportExcel> reportExcelLambdaQueryWrapper = Wrappers.lambdaQuery();
-                            reportExcelLambdaQueryWrapper.eq(ReportExcel::getReportCode, reportCode);
-                            reportExcelService.delete(reportExcelLambdaQueryWrapper);
-                            break;
-                        default:
-                    }
-                });
-                break;
-            default:
+	@Override
+	public void processBatchBeforeOperation(List<Report> entities, BaseOperationEnum operationEnum)
+			throws BusinessException {
+		ReportService.super.processBatchAfterOperation(entities, operationEnum);
+		switch (operationEnum) {
+			case DELETE_BATCH:
+				entities.forEach(report -> {
+					Long id = report.getId();
+					Report delReport = selectOne(id);
+					if (null == delReport) {
+						return;
+					}
+					String reportCode = delReport.getReportCode();
+					String reportType = delReport.getReportType();
+					switch (ReportTypeEnum.valueOf(reportType)) {
+						case report_screen:
+							LambdaQueryWrapper<ReportDashboard> reportDashboardLambdaQueryWrapper = Wrappers
+									.lambdaQuery();
+							reportDashboardLambdaQueryWrapper.eq(ReportDashboard::getReportCode, reportCode);
+							reportDashboardService.delete(reportDashboardLambdaQueryWrapper);
 
-        }
-    }
+							LambdaQueryWrapper<ReportDashboardWidget> reportDashboardWidgetLambdaQueryWrapper = Wrappers
+									.lambdaQuery();
+							reportDashboardWidgetLambdaQueryWrapper.eq(ReportDashboardWidget::getReportCode,
+									reportCode);
+							reportDashboardWidgetService.delete(reportDashboardWidgetLambdaQueryWrapper);
 
-    /**
-     * 下载次数+1
-     *
-     * @param reportCode
-     */
-    @Override
-    public void downloadStatistics(String reportCode) {
-        Report report = selectOne("report_code", reportCode);
-        if (null != report) {
-            Long downloadCount = report.getDownloadCount();
-            if (null == downloadCount) {
-                downloadCount = 0L;
-            }else {
-                downloadCount++;
-            }
-            report.setDownloadCount(downloadCount);
-            update(report);
-        }
+							break;
+						case report_excel:
+							LambdaQueryWrapper<ReportExcel> reportExcelLambdaQueryWrapper = Wrappers.lambdaQuery();
+							reportExcelLambdaQueryWrapper.eq(ReportExcel::getReportCode, reportCode);
+							reportExcelService.delete(reportExcelLambdaQueryWrapper);
+							break;
+						default:
+					}
+				});
+				break;
+			default:
 
-    }
+		}
+	}
 
-    @Override
-    public void copy(ReportDto dto) {
-        if (null == dto.getId()) {
-            throw BusinessExceptionBuilder.build(ResponseCode.NOT_NULL, "id");
-        }
-        if (StringUtils.isBlank(dto.getReportCode())) {
-            throw BusinessExceptionBuilder.build(ResponseCode.NOT_NULL, "报表编码");
-        }
-        Report report = selectOne(dto.getId());
-        String reportCode = report.getReportCode();
-        Report copyReport = copyReport(report, dto);
-        //复制主表数据
-        insert(copyReport);
-        String copyReportCode = copyReport.getReportCode();
-        String reportType = report.getReportType();
-        switch (ReportTypeEnum.valueOf(reportType)) {
-            case report_screen:
-                //查询看板
-                ReportDashboard reportDashboard = reportDashboardService.selectOne("report_code", reportCode);
-                if (null != reportDashboard) {
-                    reportDashboard.setId(null);
-                    reportDashboard.setReportCode(copyReportCode);
-                    reportDashboardService.insert(reportDashboard);
-                }
+	/**
+	 * 下载次数+1
+	 * @param reportCode
+	 */
+	@Override
+	public void downloadStatistics(String reportCode) {
+		Report report = selectOne("report_code", reportCode);
+		if (null != report) {
+			Long downloadCount = report.getDownloadCount();
+			if (null == downloadCount) {
+				downloadCount = 0L;
+			}
+			else {
+				downloadCount++;
+			}
+			report.setDownloadCount(downloadCount);
+			update(report);
+		}
 
-                //查询组件
-                List<ReportDashboardWidget> reportDashboardWidgetList = reportDashboardWidgetService.list("report_code", reportCode);
-                if (!CollectionUtils.isEmpty(reportDashboardWidgetList)) {
-                    String finalCopyReportCode = copyReportCode;
-                    reportDashboardWidgetList.forEach(reportDashboardWidget -> {
-                        reportDashboardWidget.setId(null);
-                        reportDashboardWidget.setReportCode(finalCopyReportCode);
-                    });
-                    reportDashboardWidgetService.insertBatch(reportDashboardWidgetList);
-                }
+	}
 
-                break;
-            case report_excel:
-                ReportExcel reportExcel = reportExcelService.selectOne("report_code", reportCode);
-                if (null != reportExcel) {
-                    reportExcel.setId(null);
-                    reportExcel.setReportCode(copyReportCode);
-                    reportExcelService.insert(reportExcel);
-                }
+	@Override
+	public void copy(ReportDto dto) {
+		if (null == dto.getId()) {
+			throw BusinessExceptionBuilder.build(ResponseCode.NOT_NULL, "id");
+		}
+		if (StringUtils.isBlank(dto.getReportCode())) {
+			throw BusinessExceptionBuilder.build(ResponseCode.NOT_NULL, "报表编码");
+		}
+		Report report = selectOne(dto.getId());
+		String reportCode = report.getReportCode();
+		Report copyReport = copyReport(report, dto);
+		// 复制主表数据
+		insert(copyReport);
+		String copyReportCode = copyReport.getReportCode();
+		String reportType = report.getReportType();
+		switch (ReportTypeEnum.valueOf(reportType)) {
+			case report_screen:
+				// 查询看板
+				ReportDashboard reportDashboard = reportDashboardService.selectOne("report_code", reportCode);
+				if (null != reportDashboard) {
+					reportDashboard.setId(null);
+					reportDashboard.setReportCode(copyReportCode);
+					reportDashboardService.insert(reportDashboard);
+				}
 
-                break;
-            default:
-        }
-    }
+				// 查询组件
+				List<ReportDashboardWidget> reportDashboardWidgetList = reportDashboardWidgetService.list("report_code",
+						reportCode);
+				if (!CollectionUtils.isEmpty(reportDashboardWidgetList)) {
+					String finalCopyReportCode = copyReportCode;
+					reportDashboardWidgetList.forEach(reportDashboardWidget -> {
+						reportDashboardWidget.setId(null);
+						reportDashboardWidget.setReportCode(finalCopyReportCode);
+					});
+					reportDashboardWidgetService.insertBatch(reportDashboardWidgetList);
+				}
 
-    private Report copyReport(Report report, ReportDto dto){
-        //复制主表数据
-        Report copyReport = new Report();
-        GaeaBeanUtils.copyAndFormatter(report, copyReport);
-        copyReport.setReportCode(dto.getReportCode());
-        copyReport.setReportName(dto.getReportName());
-        return copyReport;
-    }
+				break;
+			case report_excel:
+				ReportExcel reportExcel = reportExcelService.selectOne("report_code", reportCode);
+				if (null != reportExcel) {
+					reportExcel.setId(null);
+					reportExcel.setReportCode(copyReportCode);
+					reportExcelService.insert(reportExcel);
+				}
 
-    @Override
-    public void processBeforeOperation(Report entity, BaseOperationEnum operationEnum) throws BusinessException {
+				break;
+			default:
+		}
+	}
 
-    }
+	private Report copyReport(Report report, ReportDto dto) {
+		// 复制主表数据
+		Report copyReport = new Report();
+		GaeaBeanUtils.copyAndFormatter(report, copyReport);
+		copyReport.setReportCode(dto.getReportCode());
+		copyReport.setReportName(dto.getReportName());
+		return copyReport;
+	}
+
+	@Override
+	public void processBeforeOperation(Report entity, BaseOperationEnum operationEnum) throws BusinessException {
+
+	}
+
 }

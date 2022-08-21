@@ -12,31 +12,32 @@ import java.util.Date;
  * @author 木子李·De <lide1202@hotmail.com>
  * @date 2019-02-17 08:50:14.136
  **/
-@TableName(keepGlobalPrefix=true, value="access_role_authority")
+@TableName(keepGlobalPrefix = true, value = "access_role_authority")
 @Data
 public class AccessRoleAuthority extends GaeaBaseEntity {
 
-    /** 角色编码 */
-    private String roleCode;
+	/** 角色编码 */
+	private String roleCode;
 
-    /** 菜单代码 */
-    private String target;
+	/** 菜单代码 */
+	private String target;
 
-    /** 按钮代码 */
-    private String action;
+	/** 按钮代码 */
+	private String action;
 
-    @TableField(exist = false)
-    private String createBy;
+	@TableField(exist = false)
+	private String createBy;
 
-    @TableField(exist = false)
-    private Date createTime;
+	@TableField(exist = false)
+	private Date createTime;
 
-    @TableField(exist = false)
-    private String updateBy;
+	@TableField(exist = false)
+	private String updateBy;
 
-    @TableField(exist = false)
-    private Date updateTime;
+	@TableField(exist = false)
+	private Date updateTime;
 
-    @TableField(exist = false)
-    private Integer version;
+	@TableField(exist = false)
+	private Integer version;
+
 }

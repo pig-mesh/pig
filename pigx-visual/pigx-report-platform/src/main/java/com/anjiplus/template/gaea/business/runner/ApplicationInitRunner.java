@@ -13,14 +13,15 @@ import org.springframework.boot.ApplicationRunner;
  **/
 public class ApplicationInitRunner implements ApplicationRunner {
 
-    @Autowired
-    private GaeaDictService gaeaDictService;
+	@Autowired
+	private GaeaDictService gaeaDictService;
 
-    @Autowired
-    private AccessAuthorityService accessAuthorityService;
+	@Autowired
+	private AccessAuthorityService accessAuthorityService;
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
 
-    }
+	}
+
 }

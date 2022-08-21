@@ -10,5 +10,6 @@ import java.util.List;
  */
 public interface IGroovyHandler {
 
-    List<JSONObject> transform(List<JSONObject> data);
+	List<JSONObject> transform(List<JSONObject> data);
+
 }

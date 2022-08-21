@@ -13,12 +13,14 @@ import org.springframework.context.i18n.LocaleContextHolder;
  * @date 2021/3/26
  */
 public abstract class BaseController<P extends PageParam, T extends BaseEntity, D extends BaseDTO>
-        extends GaeaBaseController<P,T,D> {
-    /**
-     * 获取当前语言类型
-     * @return
-     */
-    public String getI18nLang(){
-        return LocaleContextHolder.getLocale().getLanguage();
-    }
+		extends GaeaBaseController<P, T, D> {
+
+	/**
+	 * 获取当前语言类型
+	 * @return
+	 */
+	public String getI18nLang() {
+		return LocaleContextHolder.getLocale().getLanguage();
+	}
+
 }

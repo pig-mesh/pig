@@ -20,43 +20,45 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
-* @desc 权限管理 controller
-* @author 木子李·De <lide1202@hotmail.com>
-* @date 2019-02-17 08:50:10.009
-**/
+ * @desc 权限管理 controller
+ * @author 木子李·De <lide1202@hotmail.com>
+ * @date 2019-02-17 08:50:10.009
+ **/
 @RestController
 @Api(tags = "权限管理管理")
 @RequestMapping("/accessAuthority")
 @Permission(code = "authorityManage", name = "权限管理")
-public class AccessAuthorityController extends GaeaBaseController<AccessAuthorityParam, AccessAuthority, AccessAuthorityDto> {
+public class AccessAuthorityController
+		extends GaeaBaseController<AccessAuthorityParam, AccessAuthority, AccessAuthorityDto> {
 
-    @Autowired
-    private AccessAuthorityService accessAuthorityService;
+	@Autowired
+	private AccessAuthorityService accessAuthorityService;
 
-    @Override
-    public GaeaBaseService<AccessAuthorityParam, AccessAuthority> getService() {
-        return accessAuthorityService;
-    }
+	@Override
+	public GaeaBaseService<AccessAuthorityParam, AccessAuthority> getService() {
+		return accessAuthorityService;
+	}
 
-    @Override
-    public AccessAuthority getEntity() {
-        return new AccessAuthority();
-    }
+	@Override
+	public AccessAuthority getEntity() {
+		return new AccessAuthority();
+	}
 
-    @Override
-    public AccessAuthorityDto getDTO() {
-        return new AccessAuthorityDto();
-    }
+	@Override
+	public AccessAuthorityDto getDTO() {
+		return new AccessAuthorityDto();
+	}
 
-    /**
-     * 获取一二级菜单
-     * @return
-     */
-    @Permission( code = "query", name = "查询")
-    @GetMapping("/menuTree")
-    public ResponseBean menuTree(){
-        String username = UserContentHolder.getContext().getUsername();
-        List<TreeNode> parentTreeList = accessAuthorityService.getAuthorityTree(username, false);
-        return responseSuccessWithData(parentTreeList);
-    }
+	/**
+	 * 获取一二级菜单
+	 * @return
+	 */
+	@Permission(code = "query", name = "查询")
+	@GetMapping("/menuTree")
+	public ResponseBean menuTree() {
+		String username = UserContentHolder.getContext().getUsername();
+		List<TreeNode> parentTreeList = accessAuthorityService.getAuthorityTree(username, false);
+		return responseSuccessWithData(parentTreeList);
+	}
+
 }

@@ -28,29 +28,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/report")
 public class ReportController extends GaeaBaseController<ReportParam, Report, ReportDto> {
 
-    @Autowired
-    private ReportService reportService;
+	@Autowired
+	private ReportService reportService;
 
-    @Override
-    public GaeaBaseService<ReportParam, Report> getService() {
-        return reportService;
-    }
+	@Override
+	public GaeaBaseService<ReportParam, Report> getService() {
+		return reportService;
+	}
 
-    @Override
-    public Report getEntity() {
-        return new Report();
-    }
+	@Override
+	public Report getEntity() {
+		return new Report();
+	}
 
-    @Override
-    public ReportDto getDTO() {
-        return new ReportDto();
-    }
+	@Override
+	public ReportDto getDTO() {
+		return new ReportDto();
+	}
 
-    @PostMapping("/copy")
-    @Permission(code = "copy", name = "复制")
-    @GaeaAuditLog(pageTitle = "复制")
-    public ResponseBean copy(@RequestBody ReportDto dto) {
-        reportService.copy(dto);
-        return ResponseBean.builder().build();
-    }
+	@PostMapping("/copy")
+	@Permission(code = "copy", name = "复制")
+	@GaeaAuditLog(pageTitle = "复制")
+	public ResponseBean copy(@RequestBody ReportDto dto) {
+		reportService.copy(dto);
+		return ResponseBean.builder().build();
+	}
+
 }

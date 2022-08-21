@@ -11,53 +11,53 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
-*
-* @description 报表分享 dto
-* @author Raod
-* @date 2021-08-18 13:37:26.663
-**/
+ * @description 报表分享 dto
+ * @author Raod
+ * @date 2021-08-18 13:37:26.663
+ **/
 @Data
 public class ReportShareDto extends GaeaBaseDTO implements Serializable {
-    /** 分享编码，系统生成，默认UUID */
-    @ApiModelProperty(value = "分享编码，系统生成，默认UUID")
-    private String shareCode;
 
-    /** 分享有效期类型，DIC_NAME=SHARE_VAILD */
-    @ApiModelProperty(value = "分享有效期类型，DIC_NAME=SHARE_VAILD")
-    @NotNull(message = "6002")
-    private Integer shareValidType;
+	/** 分享编码，系统生成，默认UUID */
+	@ApiModelProperty(value = "分享编码，系统生成，默认UUID")
+	private String shareCode;
 
-    /** 分享有效期 */
-    @ApiModelProperty(value = "分享有效期")
-    private Date shareValidTime;
+	/** 分享有效期类型，DIC_NAME=SHARE_VAILD */
+	@ApiModelProperty(value = "分享有效期类型，DIC_NAME=SHARE_VAILD")
+	@NotNull(message = "6002")
+	private Integer shareValidType;
 
-    /** 分享token */
-    @ApiModelProperty(value = "分享token")
-    private String shareToken;
+	/** 分享有效期 */
+	@ApiModelProperty(value = "分享有效期")
+	private Date shareValidTime;
 
-    /** 分享url */
-    @ApiModelProperty(value = "分享url")
-    @NotEmpty(message = "6002")
-    private String shareUrl;
+	/** 分享token */
+	@ApiModelProperty(value = "分享token")
+	private String shareToken;
 
-    /** 报表编码 */
-    @ApiModelProperty(value = "报表编码")
-    @NotEmpty(message = "6002")
-    private String reportCode;
+	/** 分享url */
+	@ApiModelProperty(value = "分享url")
+	@NotEmpty(message = "6002")
+	private String shareUrl;
 
-    /** 0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG */
-    @ApiModelProperty(value = "0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG")
-    private Integer enableFlag;
+	/** 报表编码 */
+	@ApiModelProperty(value = "报表编码")
+	@NotEmpty(message = "6002")
+	private String reportCode;
 
-    /** 0--未删除 1--已删除 DIC_NAME=DELETE_FLAG */
-    @ApiModelProperty(value = "0--未删除 1--已删除 DIC_NAME=DELETE_FLAG")
-    private Integer deleteFlag;
+	/** 0--已禁用 1--已启用 DIC_NAME=ENABLE_FLAG */
+	@ApiModelProperty(value = "0--已禁用 1--已启用  DIC_NAME=ENABLE_FLAG")
+	private Integer enableFlag;
 
-    /** 分享码 */
-    private String sharePassword;
+	/** 0--未删除 1--已删除 DIC_NAME=DELETE_FLAG */
+	@ApiModelProperty(value = "0--未删除 1--已删除 DIC_NAME=DELETE_FLAG")
+	private Integer deleteFlag;
 
-    private boolean sharePasswordFlag = false;
+	/** 分享码 */
+	private String sharePassword;
 
-    private String reportType;
+	private boolean sharePasswordFlag = false;
+
+	private String reportType;
 
 }
