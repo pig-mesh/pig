@@ -17,8 +17,10 @@
 
 package com.pig4cloud.pigx.auth.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.log.util.SysLogUtils;
 import com.pig4cloud.pigx.common.security.handler.AuthenticationLogoutHandler;
@@ -63,6 +65,13 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 		SysLogDTO sysLog = SysLogUtils.getSysLog(request, pigxUser.getUsername());
 		sysLog.setTitle(pigxUser.getUsername() + "用户登录");
 		sysLog.setParams(pigxUser.getUsername());
+
+		String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
+		if (StrUtil.isNotBlank(startTimeStr)) {
+			Long startTime = Long.parseLong(startTimeStr);
+			Long endTime = System.currentTimeMillis();
+			sysLog.setTime(endTime - startTime);
+		}
 
 		// 获取clientId 信息
 		OAuth2Authentication auth2Authentication = (OAuth2Authentication) authentication;

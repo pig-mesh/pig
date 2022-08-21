@@ -22,6 +22,7 @@ import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.codegen.config.MagicApiConfiguration;
 import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pigx.codegen.service.GenDatasourceConfService;
@@ -54,6 +55,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	private final DataSourceCreator druidDataSourceCreator;
 
+	private MagicApiConfiguration apiConfiguration;
+
 	/**
 	 * 保存数据源并且加密
 	 * @param conf
@@ -72,6 +75,9 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		// 更新数据库配置
 		conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		this.baseMapper.insert(conf);
+
+		// 更新magic-api 数据源
+		apiConfiguration.afterPropertiesSet();
 		return Boolean.TRUE;
 	}
 
@@ -97,6 +103,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 			conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		}
 		this.baseMapper.updateById(conf);
+		// 更新magic-api 数据源
+		apiConfiguration.afterPropertiesSet();
 		return Boolean.TRUE;
 	}
 
@@ -110,6 +118,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
 		dynamicRoutingDataSource.removeDataSource(baseMapper.selectById(dsId).getName());
 		this.baseMapper.deleteById(dsId);
+		// 更新magic-api 数据源
+		apiConfiguration.afterPropertiesSet();
 		return Boolean.TRUE;
 	}
 

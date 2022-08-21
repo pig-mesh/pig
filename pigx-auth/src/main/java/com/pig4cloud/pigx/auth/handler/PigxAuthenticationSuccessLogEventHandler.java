@@ -17,8 +17,10 @@
 
 package com.pig4cloud.pigx.auth.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
@@ -64,6 +66,14 @@ public class PigxAuthenticationSuccessLogEventHandler implements AuthenticationS
 		SysLogDTO sysLog = SysLogUtils.getSysLog(request, username);
 		sysLog.setTitle(username + "用户登录");
 		sysLog.setParams(username);
+
+		String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
+		if (StrUtil.isNotBlank(startTimeStr)) {
+			Long startTime = Long.parseLong(startTimeStr);
+			Long endTime = System.currentTimeMillis();
+			sysLog.setTime(endTime - startTime);
+		}
+
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		sysLog.setServiceId(WebUtils.extractClientId(header).orElse("N/A"));
 		sysLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));

@@ -120,4 +120,9 @@ public interface CommonConstants {
 	 */
 	String ONLINE_QUANTITY = "online_quantity";
 
+	/**
+	 * 请求开始时间
+	 */
+	String REQUEST_START_TIME = "REQUEST-START-TIME";
+
 }
