@@ -88,8 +88,9 @@ public class PermitAllUrlResolver implements InitializingBean {
 			// 2. 当类上不包含 @Inner 注解则获取该方法的注解
 			if (controller == null) {
 				Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
-				Optional.ofNullable(method).ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
-						.getPatternValues().forEach(url -> this.filterPath(url, info, map)));
+				Optional.ofNullable(method)
+						.ifPresent(inner -> Objects.requireNonNull(info.getPatternsCondition().getPatterns())
+								.forEach(url -> this.filterPath(url, info, map)));
 				continue;
 			}
 
@@ -98,7 +99,7 @@ public class PermitAllUrlResolver implements InitializingBean {
 			Method[] methods = beanType.getDeclaredMethods();
 			Method method = handlerMethod.getMethod();
 			if (ArrayUtil.contains(methods, method)) {
-				Objects.requireNonNull(info.getPathPatternsCondition()).getPatternValues()
+				Objects.requireNonNull(info.getPatternsCondition().getPatterns())
 						.forEach(url -> filterPath(url, info, map));
 			}
 		}
@@ -157,7 +158,8 @@ public class PermitAllUrlResolver implements InitializingBean {
 			}
 
 			// 如果请求方法路径匹配
-			Set<String> patterns = Objects.requireNonNull(info.getPathPatternsCondition()).getPatternValues();
+
+			Set<String> patterns = Objects.requireNonNull(info.getPatternsCondition().getPatterns());
 			for (String pattern : patterns) {
 				// 跳过自身
 				if (StrUtil.equals(url, pattern)) {
