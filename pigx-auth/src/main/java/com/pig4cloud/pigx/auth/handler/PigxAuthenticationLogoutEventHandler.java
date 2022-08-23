@@ -63,7 +63,7 @@ public class PigxAuthenticationLogoutEventHandler implements AuthenticationLogou
 
 		PigxUser pigxUser = (PigxUser) authentication.getPrincipal();
 		SysLogDTO sysLog = SysLogUtils.getSysLog(request, pigxUser.getUsername());
-		sysLog.setTitle(pigxUser.getUsername() + "用户登录");
+		sysLog.setTitle(pigxUser.getUsername() + "用户退出登录");
 		sysLog.setParams(pigxUser.getUsername());
 
 		String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
