@@ -490,7 +490,8 @@ INSERT INTO `sys_menu` VALUES (9003, '表单修改', 'gen_form_edit', NULL, 9001
 INSERT INTO `sys_menu` VALUES (9004, '表单删除', 'gen_form_del', NULL, 9001, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:47', '0', 1);
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource', 9000, 'icon-mysql', 0, '0', '0', ' ', '2019-08-12 09:42:11', ' ', '2020-03-24 08:58:49', '0', 1);
 INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', 2, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, 'http://127.0.0.1:9095/', -1, 'icon-shuju', 10, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (9007, '低代码', 'gen_api_designer', NULL , 9001, '1', 3, '0', '1', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, '/report/screen/index', -1, 'icon-shuju', 10, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -755,6 +756,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 9003);
 INSERT INTO `sys_role_menu` VALUES (1, 9004);
 INSERT INTO `sys_role_menu` VALUES (1, 9005);
 INSERT INTO `sys_role_menu` VALUES (1, 9006);
+INSERT INTO `sys_role_menu` VALUES (1, 9007);
 INSERT INTO `sys_role_menu` VALUES (1, 10000);
 COMMIT;
 
@@ -795,6 +797,7 @@ INSERT INTO `sys_route_conf` VALUES (9, '微信公众号管理', 'pigx-mp-platfo
 INSERT INTO `sys_route_conf` VALUES (10, '支付管理', 'pigx-pay-platform', '[{\"args\": {\"_genkey_0\": \"/pay/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-pay-platform', 0, NULL, ' ', ' ', '2019-10-16 16:44:41', '2019-11-05 22:37:13', '0');
 INSERT INTO `sys_route_conf` VALUES (11, '监控管理', 'pigx-monitor', '[{\"args\": {\"_genkey_0\": \"/monitor/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-monitor', 0, NULL, ' ', ' ', '2019-10-16 16:44:41', '2019-11-05 22:37:17', '0');
 INSERT INTO `sys_route_conf` VALUES (12, '积木报表', 'pigx-jimu-platform\n', '[{\"args\": {\"_genkey_0\": \"/jimu/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-jimu-platform', 0, NULL, ' ', ' ', '2019-10-16 16:44:41', '2019-11-05 22:37:17', '0');
+INSERT INTO `sys_route_conf` VALUES (13, '大屏设计', 'pigx-report-platform', '[{\"args\": {\"_genkey_0\": \"/aj/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-report-platform', 0, '{}', ' ', ' ', '2022-08-27 02:38:43', NULL, '0');
 COMMIT;
 
 -- ----------------------------
