@@ -34,7 +34,7 @@ import java.util.Optional;
 public class PigRemoteRegisteredClientRepository implements RegisteredClientRepository {
 
 	/**
-	 * 刷新令牌有效期默认 30 填
+	 * 刷新令牌有效期默认 30 天
 	 */
 	private final static int refreshTokenValiditySeconds = 60 * 60 * 24 * 30;
 
