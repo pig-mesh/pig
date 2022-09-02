@@ -2,7 +2,7 @@ var MAGIC_EDITOR_CONFIG = {
     title: '接口低代码设计平台',
     theme: 'dark',
     defaultExpand: true,
-    checkUpdate: true,
+    checkUpdate: false,
     jdbcDrivers: ['com.mysql.cj.jdbc.Driver', 'com.mysql.jdbc.Driver', 'oracle.jdbc.driver.OracleDriver', 'org.postgresql.Driver', 'com.microsoft.sqlserver.jdbc.SQLServerDriver'],
     blockClose: true,   // 是否阻止离开页面
     autoSave: true,
