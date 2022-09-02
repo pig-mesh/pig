@@ -22,7 +22,7 @@
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
         <druid.version>1.2.9</druid.version>
         <hutool.version>5.8.5</hutool.version>
-        <mysql.connector.version>8.0.29</mysql.connector.version>
+        <mysql.connector.version>8.0.30</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.79</dm.version>
