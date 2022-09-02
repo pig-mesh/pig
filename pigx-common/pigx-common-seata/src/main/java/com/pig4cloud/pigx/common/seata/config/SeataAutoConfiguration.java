@@ -12,7 +12,7 @@ import org.springframework.context.annotation.PropertySource;
  * @date 2022/3/29
  */
 @PropertySource(value = "classpath:seata-config.yml", factory = YamlPropertySourceFactory.class)
-@EnableAutoDataSourceProxy
+@EnableAutoDataSourceProxy(useJdkProxy = true)
 @Configuration(proxyBeanMethods = false)
 public class SeataAutoConfiguration {
 
