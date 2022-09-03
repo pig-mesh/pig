@@ -33,8 +33,8 @@
 	<description>pigx excel 操作</description>
 
 	<properties>
-		<poi.version>4.1.2</poi.version>
-		<easypoi.version>2.2.10</easypoi.version>
+		<commons-compress>1.21</commons-compress>
+		<easyexcel.version>3.1.1</easyexcel.version>
 	</properties>
 
 	<dependencies>
@@ -55,27 +55,18 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>easyexcel</artifactId>
-			<version>${easypoi.version}</version>
+			<version>${easyexcel.version}</version>
 			<exclusions>
 				<exclusion>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi-ooxml</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.poi</groupId>
-					<artifactId>poi-ooxml-schemas</artifactId>
+					<groupId>org.apache.commons</groupId>
+					<artifactId>commons-compress</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- 使用 POI 4.x 解决 issue #1 支持java11-->
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>${poi.version}</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>${commons-compress}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.servlet</groupId>

@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -48,8 +49,7 @@ public class CustomMagicDesignerAuthorizationInterceptor implements Authorizatio
 	public boolean allowVisit(MagicUser magicUser, HttpServletRequest request, Authorization authorization) {
 		String accessToken = extractHeaderToken(request);
 		if (StrUtil.isBlank(accessToken)) {
-			return true;
-			// throw new AccessDeniedException("权限不足");
+			 throw new AccessDeniedException("权限不足");
 		}
 
 		OAuth2Authentication oAuth2Authentication = tokenServices.loadAuthentication(accessToken);

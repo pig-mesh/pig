@@ -288,8 +288,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysRole> roleList = sysRoleService.list();
 
 		// 执行数据插入操作 组装 UserDto
-		for (int i = 0; i < excelVOList.size(); i++) {
-			UserExcelVO excel = excelVOList.get(i);
+		for (UserExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
 			boolean exsitUserName = userList.stream()
@@ -322,7 +321,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			}
 			else {
 				// 数据不合法情况
-				errorMessageList.add(new ErrorMessage((long) (i + 2), errorMsg));
+				errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
 			}
 
 		}

@@ -40,7 +40,7 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 	}
 
 	@Override
-	@SneakyThrows
+	@SneakyThrows(Exception.class)
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer modelAndViewContainer,
 			NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) {
 		Class<?> parameterType = parameter.getParameterType();

@@ -1,16 +1,16 @@
 package com.pig4cloud.pigx.common.excel;
 
-import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
-import com.pig4cloud.pigx.common.excel.aop.RequestExcelArgumentResolver;
-import com.pig4cloud.pigx.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
 import com.pig4cloud.pigx.common.excel.processor.NameProcessor;
 import com.pig4cloud.pigx.common.excel.processor.NameSpelExpressionProcessor;
+import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
+import com.pig4cloud.pigx.common.excel.aop.RequestExcelArgumentResolver;
+import com.pig4cloud.pigx.common.excel.aop.ResponseExcelReturnValueHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
@@ -26,9 +26,9 @@ import java.util.List;
  * <p>
  * 配置初始化
  */
-@Import(ExcelHandlerConfiguration.class)
+@AutoConfiguration
 @RequiredArgsConstructor
-@Configuration(proxyBeanMethods = false)
+@Import(ExcelHandlerConfiguration.class)
 @EnableConfigurationProperties(ExcelConfigProperties.class)
 public class ResponseExcelAutoConfiguration {
 

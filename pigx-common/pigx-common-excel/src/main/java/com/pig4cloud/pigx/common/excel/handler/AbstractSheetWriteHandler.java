@@ -11,13 +11,13 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
-import com.pig4cloud.pigx.common.excel.converters.LocalDateStringConverter;
-import com.pig4cloud.pigx.common.excel.converters.LocalDateTimeStringConverter;
 import com.pig4cloud.pigx.common.excel.enhance.WriterBuilderEnhancer;
 import com.pig4cloud.pigx.common.excel.head.HeadGenerator;
 import com.pig4cloud.pigx.common.excel.head.HeadMeta;
 import com.pig4cloud.pigx.common.excel.head.I18nHeaderCellWriteHandler;
 import com.pig4cloud.pigx.common.excel.kit.ExcelException;
+import com.pig4cloud.pigx.common.excel.converters.LocalDateStringConverter;
+import com.pig4cloud.pigx.common.excel.converters.LocalDateTimeStringConverter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -39,12 +39,15 @@ import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * @author lengleng
@@ -75,12 +78,15 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	@Override
-	@SneakyThrows
+	@SneakyThrows(UnsupportedEncodingException.class)
 	public void export(Object o, HttpServletResponse response, ResponseExcel responseExcel) {
 		check(responseExcel);
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
 		String name = (String) Objects.requireNonNull(requestAttributes).getAttribute(DynamicNameAspect.EXCEL_NAME_KEY,
 				RequestAttributes.SCOPE_REQUEST);
+		if (name == null) {
+			name = UUID.randomUUID().toString();
+		}
 		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
 		// 根据实际的文件类型找到对应的 contentType
 		String contentType = MediaTypeFactory.getMediaType(fileName).map(MediaType::toString)
@@ -97,7 +103,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @param responseExcel ResponseExcel注解
 	 * @return ExcelWriter
 	 */
-	@SneakyThrows
+	@SneakyThrows(IOException.class)
 	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
 		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
 				.registerConverter(LocalDateStringConverter.INSTANCE)
@@ -166,7 +172,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @return WriteSheet
 	 */
 	public WriteSheet sheet(Sheet sheet, Class<?> dataClass, String template,
-			Class<? extends HeadGenerator> bookHeadEnhancerClass) {
+	                        Class<? extends HeadGenerator> bookHeadEnhancerClass) {
 
 		// Sheet 编号和名称
 		Integer sheetNo = sheet.sheetNo() >= 0 ? sheet.sheetNo() : null;
@@ -216,7 +222,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	/**
 	 * 是否为Null Head Generator
-	 * @param headGeneratorClass
+	 * @param headGeneratorClass 头生成器类型
 	 * @return true 已指定 false 未指定(默认值)
 	 */
 	private boolean isNotInterface(Class<? extends HeadGenerator> headGeneratorClass) {

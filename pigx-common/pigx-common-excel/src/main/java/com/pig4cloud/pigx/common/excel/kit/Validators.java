@@ -8,13 +8,16 @@ import java.util.Set;
  *
  * @author L.cm
  */
-public class Validators {
+public final class Validators {
 
-	private static final Validator validator;
+	private Validators() {
+	}
+
+	private static final Validator VALIDATOR;
 
 	static {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-		validator = factory.getValidator();
+		VALIDATOR = factory.getValidator();
 	}
 
 	/**
@@ -28,7 +31,7 @@ public class Validators {
 	 * validation process
 	 */
 	public static <T> Set<ConstraintViolation<T>> validate(T object) {
-		return validator.validate(object);
+		return VALIDATOR.validate(object);
 	}
 
 }

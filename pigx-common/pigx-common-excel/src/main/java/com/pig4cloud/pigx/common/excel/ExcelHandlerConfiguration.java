@@ -15,7 +15,6 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -24,7 +23,6 @@ import java.util.List;
  * @version 1.0
  */
 @RequiredArgsConstructor
-@Configuration
 public class ExcelHandlerConfiguration {
 
 	private final ExcelConfigProperties configProperties;

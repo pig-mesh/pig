@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.excel.aop;
 
-import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.handler.SheetWriteHandler;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -40,11 +40,10 @@ public class ResponseExcelReturnValueHandler implements HandlerMethodReturnValue
 	 * @param parameter 方法签名
 	 * @param mavContainer 上下文容器
 	 * @param nativeWebRequest 上下文
-	 * @throws Exception 处理异常
 	 */
 	@Override
 	public void handleReturnValue(Object o, MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest nativeWebRequest) throws Exception {
+			NativeWebRequest nativeWebRequest) {
 		/* check */
 		HttpServletResponse response = nativeWebRequest.getNativeResponse(HttpServletResponse.class);
 		Assert.state(response != null, "No HttpServletResponse");

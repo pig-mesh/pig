@@ -2,8 +2,9 @@ package com.pig4cloud.pigx.common.excel.converters;
 
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.enums.CellDataTypeEnum;
-import com.alibaba.excel.metadata.CellData;
 import com.alibaba.excel.metadata.GlobalConfiguration;
+import com.alibaba.excel.metadata.data.ReadCellData;
+import com.alibaba.excel.metadata.data.WriteCellData;
 import com.alibaba.excel.metadata.property.ExcelContentProperty;
 import com.alibaba.excel.util.DateUtils;
 
@@ -36,7 +37,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	}
 
 	@Override
-	public LocalDateTime convertToJavaData(CellData cellData, ExcelContentProperty contentProperty,
+	public LocalDateTime convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty,
 			GlobalConfiguration globalConfiguration) throws ParseException {
 		String stringValue = cellData.getStringValue();
 		String pattern;
@@ -51,7 +52,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	}
 
 	@Override
-	public CellData<String> convertToExcelData(LocalDateTime value, ExcelContentProperty contentProperty,
+	public WriteCellData<String> convertToExcelData(LocalDateTime value, ExcelContentProperty contentProperty,
 			GlobalConfiguration globalConfiguration) {
 		String pattern;
 		if (contentProperty == null || contentProperty.getDateTimeFormatProperty() == null) {
@@ -61,7 +62,7 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 			pattern = contentProperty.getDateTimeFormatProperty().getFormat();
 		}
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-		return new CellData<>(value.format(formatter));
+		return new WriteCellData<>(value.format(formatter));
 	}
 
 	/**
@@ -72,21 +73,21 @@ public enum LocalDateTimeStringConverter implements Converter<LocalDateTime> {
 	private static String switchDateFormat(String dateString) {
 		int length = dateString.length();
 		switch (length) {
-			case 19:
-				if (dateString.contains(MINUS)) {
-					return DateUtils.DATE_FORMAT_19;
-				}
-				else {
-					return DateUtils.DATE_FORMAT_19_FORWARD_SLASH;
-				}
-			case 17:
-				return DateUtils.DATE_FORMAT_17;
-			case 14:
-				return DateUtils.DATE_FORMAT_14;
-			case 10:
-				return DateUtils.DATE_FORMAT_10;
-			default:
-				throw new IllegalArgumentException("can not find date format for：" + dateString);
+		case 19:
+			if (dateString.contains(MINUS)) {
+				return DateUtils.DATE_FORMAT_19;
+			}
+			else {
+				return DateUtils.DATE_FORMAT_19_FORWARD_SLASH;
+			}
+		case 17:
+			return DateUtils.DATE_FORMAT_17;
+		case 14:
+			return DateUtils.DATE_FORMAT_14;
+		case 10:
+			return DateUtils.DATE_FORMAT_10;
+		default:
+			throw new IllegalArgumentException("can not find date format for：" + dateString);
 		}
 	}
 
