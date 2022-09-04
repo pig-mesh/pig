@@ -49,7 +49,7 @@ public class CustomMagicDesignerAuthorizationInterceptor implements Authorizatio
 	public boolean allowVisit(MagicUser magicUser, HttpServletRequest request, Authorization authorization) {
 		String accessToken = extractHeaderToken(request);
 		if (StrUtil.isBlank(accessToken)) {
-			 throw new AccessDeniedException("权限不足");
+			throw new AccessDeniedException("权限不足");
 		}
 
 		OAuth2Authentication oAuth2Authentication = tokenServices.loadAuthentication(accessToken);

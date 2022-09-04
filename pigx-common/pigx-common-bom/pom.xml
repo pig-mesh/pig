@@ -17,7 +17,7 @@
     <description>pigx 公共版本控制</description>
 
     <properties>
-        <pigx.version>4.5.0-SNAPSHOT</pigx.version>
+        <pigx.version>4.5.0</pigx.version>
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <dynamic-ds.version>3.4.1</dynamic-ds.version>
         <druid.version>1.2.9</druid.version>

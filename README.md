@@ -4,8 +4,8 @@ pigX 并非一个开源软件，作者保留全部的权利。
 擅自窃用，即属严重侵权行为，与盗窃无异。产生的一切任何后果责任由侵权者自负。
 
 ## 商业使用
--  [商用请购买商业授权](https://www.yuque.com/vxixfq/qa/kpmgr8)
--  [使用对应的专属版本](https://www.yuque.com/vxixfq/qa/vpooc9)
+-  [商用请购买商业授权](https://pig4cloud.com)
+-  [使用对应的专属版本](https://pigx.vip/#/buy/form3)
 
 ### 🚫禁止  
 

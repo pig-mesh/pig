@@ -415,8 +415,6 @@ INSERT INTO `sys_menu` VALUES (3100, '服务监控', NULL, 'http://127.0.0.1:500
 INSERT INTO `sys_menu` VALUES (3101, '流量监控', NULL, 'http://127.0.0.1:5020', 3000, 'icon-liuliang', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
 INSERT INTO `sys_menu` VALUES (3110, '缓存监控', NULL, '/monitor/redis/index', 3000, 'icon-qingchuhuancun', 1, '0', '0', ' ', '2019-05-08 23:51:27', ' ', '2020-03-24 08:57:33', '0', 1);
 INSERT INTO `sys_menu` VALUES (3200, '接口文档', NULL, 'http://127.0.0.1:9999/swagger-ui/index.html', 3000, 'icon-wendang', 1, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:34', '0', 1);
-INSERT INTO `sys_menu` VALUES (3300, '事务监控', NULL, '/tx/index', 3000, 'icon-gtsquanjushiwufuwuGTS', 5, '0', '0', ' ', '2018-08-19 11:02:39', ' ', '2020-03-24 08:57:34', '0', 1);
-INSERT INTO `sys_menu` VALUES (3400, '在线事务', NULL, '/tx/model', 3000, 'icon-online', 6, '0', '0', ' ', '2018-08-19 11:32:04', ' ', '2020-03-24 08:57:35', '0', 1);
 INSERT INTO `sys_menu` VALUES (3500, '文档扩展', NULL, 'http://127.0.0.1:9999/doc.html', 3000, 'icon-wendang', 2, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:36', '0', 1);
 INSERT INTO `sys_menu` VALUES (3600, 'Quartz日志', '', '/daemon/job-log/index', 3000, 'icon-gtsquanjushiwufuwuGTS', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:37', '0', 1);
 INSERT INTO `sys_menu` VALUES (3700, '注册配置', NULL, '', 3000, 'icon-line', 10, '0', '0', ' ', '2018-01-25 11:08:52', ' ', '2020-03-24 08:57:37', '1', 1);
@@ -681,8 +679,6 @@ INSERT INTO `sys_role_menu` VALUES (1, 3100);
 INSERT INTO `sys_role_menu` VALUES (1, 3101);
 INSERT INTO `sys_role_menu` VALUES (1, 3110);
 INSERT INTO `sys_role_menu` VALUES (1, 3200);
-INSERT INTO `sys_role_menu` VALUES (1, 3300);
-INSERT INTO `sys_role_menu` VALUES (1, 3400);
 INSERT INTO `sys_role_menu` VALUES (1, 3500);
 INSERT INTO `sys_role_menu` VALUES (1, 3600);
 INSERT INTO `sys_role_menu` VALUES (1, 4000);

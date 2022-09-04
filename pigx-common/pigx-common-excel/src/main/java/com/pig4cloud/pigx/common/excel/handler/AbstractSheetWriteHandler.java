@@ -172,7 +172,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 * @return WriteSheet
 	 */
 	public WriteSheet sheet(Sheet sheet, Class<?> dataClass, String template,
-	                        Class<? extends HeadGenerator> bookHeadEnhancerClass) {
+			Class<? extends HeadGenerator> bookHeadEnhancerClass) {
 
 		// Sheet 编号和名称
 		Integer sheetNo = sheet.sheetNo() >= 0 ? sheet.sheetNo() : null;

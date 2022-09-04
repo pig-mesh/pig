@@ -22,7 +22,7 @@ import java.util.List;
 public class SingleSheetWriteHandler extends AbstractSheetWriteHandler {
 
 	public SingleSheetWriteHandler(ExcelConfigProperties configProperties,
-	                               ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance) {
+			ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance) {
 		super(configProperties, converterProvider, excelWriterBuilderEnhance);
 	}
 
