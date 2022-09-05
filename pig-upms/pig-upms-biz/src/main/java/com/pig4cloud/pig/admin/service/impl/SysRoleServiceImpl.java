@@ -84,8 +84,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		List<SysRole> roleList = this.list();
 
 		// 执行数据插入操作 组装 RoleDto
-		for (int i = 0; i < excelVOList.size(); i++) {
-			RoleExcelVO excel = excelVOList.get(i);
+		for (RoleExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验角色名称或者角色编码是否存在
 			boolean existRole = roleList.stream().anyMatch(sysRole -> excel.getRoleName().equals(sysRole.getRoleName())
@@ -102,7 +101,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 			}
 			else {
 				// 数据不合法情况
-				errorMessageList.add(new ErrorMessage((long) (i + 2), errorMsg));
+				errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
 			}
 		}
 		if (CollUtil.isNotEmpty(errorMessageList)) {

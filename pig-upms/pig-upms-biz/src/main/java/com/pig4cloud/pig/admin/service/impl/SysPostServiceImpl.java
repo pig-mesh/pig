@@ -60,8 +60,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 		List<SysPost> postList = this.list();
 
 		// 执行数据插入操作 组装 PostDto
-		for (int i = 0; i < excelVOList.size(); i++) {
-			PostExcelVO excel = excelVOList.get(i);
+		for (PostExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验岗位名称或者岗位编码是否存在
 			boolean existPost = postList.stream().anyMatch(post -> excel.getPostName().equals(post.getPostName())
@@ -78,7 +77,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 			}
 			else {
 				// 数据不合法
-				errorMessageList.add(new ErrorMessage((long) (i + 2), errorMsg));
+				errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
 			}
 		}
 		if (CollUtil.isNotEmpty(errorMessageList)) {
