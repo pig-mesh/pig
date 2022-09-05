@@ -28,7 +28,7 @@
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
         <mysql.version>8.0.30</mysql.version>
         <seata.version>1.5.1</seata.version>
-        <excel.version>1.2.4</excel.version>
+        <excel.version>1.2.5</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
