@@ -132,6 +132,16 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 			updateApiInfo.setMethod("put");
 			updateApiInfo.setGroupId(id);
 			magicResourceService.saveFile(updateApiInfo);
+
+			ApiInfo metadataApiInfo = new ApiInfo();
+			metadataApiInfo.setId(id + "metadata");
+			String metadataScript = templates.get("template/magic/metadata.magic.vm");
+			metadataApiInfo.setScript(metadataScript);
+			metadataApiInfo.setName("元数据");
+			metadataApiInfo.setPath("/metadata");
+			metadataApiInfo.setMethod("get");
+			metadataApiInfo.setGroupId(id);
+			magicResourceService.saveFile(metadataApiInfo);
 		}
 
 		return templates;

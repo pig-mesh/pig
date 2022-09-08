@@ -30,6 +30,7 @@ public class MagicGenCodeServiceImpl implements GenCodeService {
 		templates.add("template/magic/del.magic.vm");
 		templates.add("template/magic/add.magic.vm");
 		templates.add("template/magic/update.magic.vm");
+		templates.add("template/magic/metadata.magic.vm");
 		return templates;
 	}
 

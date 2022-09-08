@@ -1,8 +1,21 @@
 import response;
 
-var data = db.${dsName}.table("${tableName}").primary("$pk.columnName").update({
-id: id,
-del_flag: 1
-})
+// 判断是否逻辑删除
+var logicFlag = false
+#foreach($column in $columns)
+    #if($column.columnName == "del_flag")
+    logicFlag = true
+    #end
+#end
 
-return response.json(data)
+var result;
+if(logicFlag){
+    result = db.${dsName}.table("${tableName}").primary("$pk.columnName").update({
+    "$pk.columnName": id,
+    del_flag: 1
+    })
+}else{
+    result = db.${dsName}.table("${tableName}").where().eq("$pk.columnName", id).delete()
+}
+
+return response.json(result)
