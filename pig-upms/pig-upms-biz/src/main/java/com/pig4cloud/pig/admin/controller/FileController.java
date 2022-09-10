@@ -18,6 +18,7 @@
 package com.pig4cloud.pig.admin.controller;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,7 +64,8 @@ public class FileController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R<IPage<SysFile>> getSysFilePage(Page page, SysFile sysFile) {
-		return R.ok(sysFileService.page(page, Wrappers.query(sysFile)));
+		return R.ok(sysFileService.page(page, Wrappers.<SysFile>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysFile.getFileName()), SysFile::getFileName, sysFile.getFileName())));
 	}
 
 	/**

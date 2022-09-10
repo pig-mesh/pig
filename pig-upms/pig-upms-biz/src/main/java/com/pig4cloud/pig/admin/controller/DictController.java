@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -74,7 +75,8 @@ public class DictController {
 	 */
 	@GetMapping("/page")
 	public R<IPage<SysDict>> getDictPage(Page page, SysDict sysDict) {
-		return R.ok(sysDictService.page(page, Wrappers.query(sysDict)));
+		return R.ok(sysDictService.page(page, Wrappers.<SysDict>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysDict.getType()), SysDict::getType, sysDict.getType())));
 	}
 
 	/**

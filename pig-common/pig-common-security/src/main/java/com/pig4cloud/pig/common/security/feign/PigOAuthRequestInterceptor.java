@@ -14,7 +14,6 @@ import org.springframework.security.oauth2.server.resource.web.BearerTokenResolv
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
-import java.util.Enumeration;
 
 /**
  * oauth2 feign token传递
@@ -51,22 +50,13 @@ public class PigOAuthRequestInterceptor implements RequestInterceptor {
 			return;
 		}
 		HttpServletRequest request = WebUtils.getRequest().get();
-		Enumeration<String> headerNames = request.getHeaderNames();
-		if (headerNames != null) {
-			while (headerNames.hasMoreElements()) {
-				String name = headerNames.nextElement();
-				String values = request.getHeader(name);
-				template.header(name, values);
-
-			}
-		}
-
 		// 避免请求参数的 query token 无法传递
 		String token = tokenResolver.resolve(request);
 		if (StrUtil.isBlank(token)) {
 			return;
 		}
-		template.header(HttpHeaders.AUTHORIZATION, String.format("%s %s", OAuth2AccessToken.TokenType.BEARER, token));
+		template.header(HttpHeaders.AUTHORIZATION,
+				String.format("%s %s", OAuth2AccessToken.TokenType.BEARER.getValue(), token));
 
 	}
 

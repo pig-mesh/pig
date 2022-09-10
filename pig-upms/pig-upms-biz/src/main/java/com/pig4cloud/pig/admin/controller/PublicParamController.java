@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
@@ -68,7 +69,12 @@ public class PublicParamController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getSysPublicParamPage(Page page, SysPublicParam sysPublicParam) {
-		return R.ok(sysPublicParamService.page(page, Wrappers.query(sysPublicParam)));
+		return R.ok(sysPublicParamService.page(page,
+				Wrappers.<SysPublicParam>lambdaQuery()
+						.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
+								sysPublicParam.getPublicName())
+						.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), SysPublicParam::getPublicKey,
+								sysPublicParam.getPublicKey())));
 	}
 
 	/**

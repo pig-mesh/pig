@@ -62,10 +62,9 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	 * @return LambdaQueryWrapper
 	 */
 	private LambdaQueryWrapper buildQueryWrapper(SysLogDTO sysLog) {
-		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
-		if (StrUtil.isNotBlank(sysLog.getType())) {
-			wrapper.eq(SysLog::getType, sysLog.getType());
-		}
+		LambdaQueryWrapper<SysLog> wrapper = Wrappers.<SysLog>lambdaQuery()
+				.eq(StrUtil.isNotBlank(sysLog.getType()), SysLog::getType, sysLog.getType())
+				.like(StrUtil.isNotBlank(sysLog.getRemoteAddr()), SysLog::getRemoteAddr, sysLog.getRemoteAddr());
 
 		if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
 			wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0]).le(SysLog::getCreateTime,

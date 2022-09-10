@@ -16,6 +16,8 @@
 
 package com.pig4cloud.pig.common.security.service;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
@@ -38,12 +40,14 @@ public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 	 * 用户ID
 	 */
 	@Getter
+	@JsonSerialize(using = ToStringSerializer.class)
 	private final Long id;
 
 	/**
 	 * 部门ID
 	 */
 	@Getter
+	@JsonSerialize(using = ToStringSerializer.class)
 	private final Long deptId;
 
 	/**

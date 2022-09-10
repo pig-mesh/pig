@@ -27,4 +27,9 @@ public class SysLogDTO {
 	@Schema(description = "创建时间区间")
 	private LocalDateTime[] createTime;
 
+	/**
+	 * 请求IP
+	 */
+	private String remoteAddr;
+
 }
