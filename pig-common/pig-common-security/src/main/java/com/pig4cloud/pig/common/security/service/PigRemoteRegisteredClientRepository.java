@@ -88,7 +88,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 
 		SysOauthClientDetails clientDetails = RetOps
 				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN)).getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+				.orElseThrow(() -> new OAuthClientException("客户端查询异常，请检查数据库链接"));
 
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
 				.clientId(clientDetails.getClientId())
