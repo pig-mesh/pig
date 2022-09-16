@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.auth.config;
 
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.component.PigxDaoAuthenticationProvider;
 import com.pig4cloud.pigx.common.security.grant.CustomAppAuthenticationProvider;
 import com.pig4cloud.pigx.common.security.handler.FormAuthenticationFailureHandler;
@@ -27,6 +28,7 @@ import com.pig4cloud.pigx.common.security.handler.SsoLogoutSuccessHandler;
 import com.pig4cloud.pigx.common.security.handler.TenantSavedRequestAwareAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -71,11 +73,16 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) {
 		PigxDaoAuthenticationProvider daoAuthenticationProvider = new PigxDaoAuthenticationProvider();
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+		// 注入自定义异常国际化文件处理器
+		MessageSource messageSource = SpringContextHolder.getBean("securityMessageSource");
+		daoAuthenticationProvider.setMessageSource(messageSource);
 
 		// 处理默认的密码模式认证
 		auth.authenticationProvider(daoAuthenticationProvider);
 		// 自定义的认证模式
-		auth.authenticationProvider(new CustomAppAuthenticationProvider());
+		CustomAppAuthenticationProvider customAppAuthenticationProvider = new CustomAppAuthenticationProvider();
+		customAppAuthenticationProvider.setMessageSource(messageSource);
+		auth.authenticationProvider(customAppAuthenticationProvider);
 	}
 
 	/**
