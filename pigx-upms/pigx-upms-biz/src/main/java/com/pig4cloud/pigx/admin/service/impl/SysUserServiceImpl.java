@@ -379,7 +379,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public R<Boolean> lockUser(String username) {
 		SysUser sysUser = baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
 
-		if (Objects.nonNull(sysUser)){
+		if (Objects.nonNull(sysUser)) {
 			sysUser.setLockFlag(CommonConstants.STATUS_LOCK);
 			baseMapper.updateById(sysUser);
 		}
