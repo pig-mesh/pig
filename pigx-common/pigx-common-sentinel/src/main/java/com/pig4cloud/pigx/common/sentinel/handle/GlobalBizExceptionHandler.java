@@ -101,7 +101,7 @@ public class GlobalBizExceptionHandler {
 	public R handleBodyValidException(BindException exception) {
 		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
 		// 插入log 的逻辑
-		return R.failed(fieldErrors.get(0).getDefaultMessage());
+		return R.failed(String.format("%s %s", fieldErrors.get(0).getField(), fieldErrors.get(0).getDefaultMessage()));
 	}
 
 	/**
