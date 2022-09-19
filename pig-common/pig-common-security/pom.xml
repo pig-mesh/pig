@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-common</artifactId>
-        <version>3.5.2</version>
+        <version>3.5.3</version>
     </parent>
 
     <artifactId>pig-common-security</artifactId>
