@@ -13,7 +13,11 @@ export const tableOption = {
 #if($column.columnName == $pk.columnName || $excludeColumns.contains($column.columnName))
     {
       "type": "input",
+      #if($column.comments)
       "label": "$column.comments",
+      #else
+      "label": "$column.lowerAttrName",
+      #end
       "prop": "$column.lowerAttrName",
       "addDisplay": false,
       "editDisabled": true

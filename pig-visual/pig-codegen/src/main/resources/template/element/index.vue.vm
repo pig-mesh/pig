@@ -17,7 +17,11 @@
                     prop="${column.lowerAttrName}"
                     header-align="center"
                     align="center"
-                    label="${column.comments}">
+                      #if($column.comments)
+                      label="$column.comments">
+                      #else
+                      label="$column.lowerAttrName">
+                      #end
             </el-table-column>
           #end
           <el-table-column

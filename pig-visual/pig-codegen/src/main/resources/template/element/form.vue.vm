@@ -5,7 +5,7 @@
     append-to-body
     :close-on-click-modal="false"
     @close="closeDialog()"
-    :visible.sync="visible">
+    v-model="visible">
     <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmit()" label-width="80px">
 #foreach($column in $columns)
 ## 当列是主键  新增不显示，编辑(dataForm.id 有值)的时候显示单不能编辑
@@ -20,10 +20,12 @@
 #end
 #end
     </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="visible = false">取消</el-button>
-      <el-button type="primary" @click="dataFormSubmit()" v-if="canSubmit">确定</el-button>
-    </span>
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button @click="visible = false">取消</el-button>
+        <el-button type="primary" @click="dataFormSubmit()" v-if="canSubmit">确定</el-button>
+      </div>
+    </template>
   </el-dialog>
 </template>
 
