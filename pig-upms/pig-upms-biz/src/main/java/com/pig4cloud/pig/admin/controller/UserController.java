@@ -156,7 +156,7 @@ public class UserController {
 	}
 
 	/**
-	 * 更新用户信息
+	 * 管理员更新用户信息
 	 * @param userDto 用户信息
 	 * @return R
 	 */
@@ -164,7 +164,7 @@ public class UserController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
-		return R.ok(userService.updateUser(userDto));
+		return userService.updateUser(userDto);
 	}
 
 	/**
@@ -179,7 +179,7 @@ public class UserController {
 	}
 
 	/**
-	 * 修改个人信息
+	 * 个人修改个人信息
 	 * @param userDto userDto
 	 * @return success/false
 	 */
@@ -187,7 +187,7 @@ public class UserController {
 	@PutMapping("/edit")
 	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		userDto.setUsername(SecurityUtils.getUser().getUsername());
-		return R.ok(userService.updateUserInfo(userDto));
+		return userService.updateUserInfo(userDto);
 	}
 
 	/**

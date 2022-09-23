@@ -89,6 +89,11 @@ public interface ErrorCodes {
 	String SYS_APP_SMS_OFTEN = "sys.app.sms.often";
 
 	/**
+	 * 验证码错误
+	 */
+	String SYS_APP_SMS_ERROR = "sys.app.sms.error";
+
+	/**
 	 * 手机号未注册
 	 */
 	String SYS_APP_PHONE_UNREGISTERED = "sys.app.phone.unregistered";

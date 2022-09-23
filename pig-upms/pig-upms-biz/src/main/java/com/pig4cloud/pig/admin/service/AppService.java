@@ -27,9 +27,17 @@ public interface AppService {
 
 	/**
 	 * 发送手机验证码
-	 * @param mobile mobile
+	 * @param phone phone
 	 * @return code
 	 */
-	R<Boolean> sendSmsCode(String mobile);
+	R<Boolean> sendSmsCode(String phone);
+
+	/**
+	 * 校验验证码
+	 * @param phone 手机号
+	 * @param code 验证码
+	 * @return
+	 */
+	boolean check(String phone, String code);
 
 }

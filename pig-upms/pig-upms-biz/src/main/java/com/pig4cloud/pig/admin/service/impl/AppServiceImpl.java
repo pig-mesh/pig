@@ -17,10 +17,7 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.mapper.SysUserMapper;
 import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -34,7 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -61,13 +58,6 @@ public class AppServiceImpl implements AppService {
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String phone) {
-		List<SysUser> userList = userMapper.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, phone));
-
-		if (CollUtil.isEmpty(userList)) {
-			log.info("手机号未注册:{}", phone);
-			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, phone));
-		}
-
 		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + phone);
 
 		if (codeObj != null) {
@@ -83,6 +73,22 @@ public class AppServiceImpl implements AppService {
 		// 调用短信通道发送
 		this.smsClient.sendCode(code, phone);
 		return R.ok(Boolean.TRUE, code);
+	}
+
+	/**
+	 * 校验验证码
+	 * @param phone 手机号
+	 * @param code 验证码
+	 * @return
+	 */
+	@Override
+	public boolean check(String phone, String code) {
+		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + phone);
+
+		if (Objects.isNull(codeObj)) {
+			return false;
+		}
+		return codeObj.equals(code);
 	}
 
 }

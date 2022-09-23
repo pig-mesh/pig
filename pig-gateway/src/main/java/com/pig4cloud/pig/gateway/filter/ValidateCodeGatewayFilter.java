@@ -115,18 +115,18 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 		String randomStr = request.getQueryParams().getFirst("randomStr");
 		if (CharSequenceUtil.isBlank(randomStr)) {
-			randomStr = request.getQueryParams().getFirst("mobile");
+			randomStr = request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME);
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
 
 		Object codeObj = redisTemplate.opsForValue().get(key);
 
-		redisTemplate.delete(key);
-
 		if (ObjectUtil.isEmpty(codeObj) || !code.equals(codeObj)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
+
+		redisTemplate.delete(key);
 	}
 
 }

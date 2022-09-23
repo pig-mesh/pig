@@ -30,6 +30,7 @@ import com.pig4cloud.pig.admin.api.util.ParamResolver;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.mapper.*;
+import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -64,6 +65,8 @@ import java.util.stream.Collectors;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
 	private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
+
+	private final AppService appService;
 
 	private final SysRoleMapper sysRoleMapper;
 
@@ -171,26 +174,33 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-	public Boolean updateUserInfo(UserDTO userDto) {
+	public R<Boolean> updateUserInfo(UserDTO userDto) {
 		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
 
-		Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),
-				MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
+		// 判断手机号是否修改,更新手机号校验验证码
+		if (!StrUtil.equals(userVO.getPhone(), userDto.getPhone())) {
+			if (!appService.check(userDto.getPhone(), userDto.getCode())) {
+				return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_ERROR));
+			}
+		}
 
+		// 修改密码逻辑
 		SysUser sysUser = new SysUser();
 		if (StrUtil.isNotBlank(userDto.getNewpassword1())) {
+			Assert.isTrue(ENCODER.matches(userDto.getPassword(), userVO.getPassword()),
+					MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
 			sysUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
 		}
 		sysUser.setPhone(userDto.getPhone());
 		sysUser.setUserId(userVO.getUserId());
 		sysUser.setAvatar(userDto.getAvatar());
-		return this.updateById(sysUser);
+		return R.ok(this.updateById(sysUser));
 	}
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-	public Boolean updateUser(UserDTO userDto) {
+	public R<Boolean> updateUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
 		sysUser.setUpdateTime(LocalDateTime.now());
@@ -215,7 +225,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userPost.setPostId(postId);
 			userPost.insert();
 		});
-		return Boolean.TRUE;
+		return R.ok();
 	}
 
 	/**
@@ -366,6 +376,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	public R<Boolean> registerUser(UserDTO userDto) {
+		// 校验验证码
+		if (!appService.check(userDto.getPhone(), userDto.getCode())) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_ERROR));
+		}
+
 		// 判断用户名是否存在
 		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
 		if (sysUser != null) {

@@ -47,4 +47,9 @@ public class UserDTO extends SysUser {
 	 */
 	private String newpassword1;
 
+	/**
+	 * 验证码
+	 */
+	private String code;
+
 }
