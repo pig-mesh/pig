@@ -22,6 +22,8 @@ import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -41,6 +43,8 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 
 	private final ObjectMapper objectMapper;
 
+	private final MessageSource messageSource;
+
 	@Override
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,
@@ -58,7 +62,8 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 		// 针对令牌过期返回特殊的 424
 		if (authException instanceof InvalidBearerTokenException) {
 			response.setStatus(org.springframework.http.HttpStatus.FAILED_DEPENDENCY.value());
-			result.setMsg("token expire");
+			result.setMsg(this.messageSource.getMessage("OAuth2ResourceOwnerBaseAuthenticationProvider.tokenExpired",
+					null, LocaleContextHolder.getLocale()));
 		}
 		PrintWriter printWriter = response.getWriter();
 		printWriter.append(objectMapper.writeValueAsString(result));
