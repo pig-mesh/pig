@@ -50,6 +50,12 @@ public class SysDictItem extends BaseEntity {
 	private Long dictId;
 
 	/**
+	 * 所属字典类id
+	 */
+	@Schema(description = "所属字典类key")
+	private String dictKey;
+
+	/**
 	 * 数据值
 	 */
 	@Schema(description = "数据值")

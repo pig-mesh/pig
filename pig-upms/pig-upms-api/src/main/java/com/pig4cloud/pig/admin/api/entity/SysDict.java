@@ -46,8 +46,8 @@ public class SysDict extends BaseEntity {
 	/**
 	 * 类型
 	 */
-	@Schema(description = "字典类型")
-	private String type;
+	@Schema(description = "字典key")
+	private String dictKey;
 
 	/**
 	 * 描述

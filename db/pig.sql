@@ -77,18 +77,18 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_dict`;
 CREATE TABLE `sys_dict` (
                             `id` bigint NOT NULL,
-                            `type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '类型',
-                            `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
-                            `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
-                            `system_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '是否是系统内置',
-                            `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '删除标记',
+                            `dict_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标识',
+                            `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述',
+                            `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+                            `system_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否是系统内置',
+                            `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
                             `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                            `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-                            `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '更新人',
+                            `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+                            `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
                             `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                             PRIMARY KEY (`id`) USING BTREE,
                             KEY `sys_dict_del_flag` (`del_flag`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='字典表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典表';
 
 -- ----------------------------
 -- Records of sys_dict
@@ -99,6 +99,10 @@ INSERT INTO `sys_dict` VALUES (2, 'log_type', '日志类型', NULL, '0', '0', '2
 INSERT INTO `sys_dict` VALUES (3, 'ds_type', '驱动类型', NULL, '0', '0', '2021-10-15 16:24:35', '', 'admin', '2021-12-29 12:30:18');
 INSERT INTO `sys_dict` VALUES (4, 'param_type', '参数配置', '检索、原文、报表、安全、文档、消息、其他', '1', '0', '2022-03-25 20:51:26', 'admin', 'admin', '2022-03-25 20:51:26');
 INSERT INTO `sys_dict` VALUES (5, 'status_type', '租户状态', '租户状态', '1', '0', '2022-03-25 20:56:51', 'admin', 'admin', '2022-03-25 20:56:51');
+INSERT INTO `sys_dict` VALUES (6, 'menu_type_status', '菜单类型', NULL, '1', '0', '2022-09-18 17:12:05', 'admin', 'admin', '2022-09-18 17:12:05');
+INSERT INTO `sys_dict` VALUES (7, 'dict_css_type', '字典项展示样式', NULL, '1', '0', '2022-09-28 21:37:23', 'admin', 'admin', '2022-09-28 21:37:23');
+INSERT INTO `sys_dict` VALUES (8, 'keepalive_status', '菜单是否开启缓冲', NULL, '1', '0', '2022-09-28 21:46:12', 'admin', 'admin', '2022-09-28 21:46:12');
+INSERT INTO `sys_dict` VALUES (9, 'user_lock_flag', '用户锁定标记', NULL, '1', '0', '2022-09-28 21:51:39', 'admin', 'admin', '2022-09-28 21:51:39');
 COMMIT;
 
 -- ----------------------------
@@ -108,49 +112,60 @@ DROP TABLE IF EXISTS `sys_dict_item`;
 CREATE TABLE `sys_dict_item` (
                                  `id` bigint NOT NULL,
                                  `dict_id` bigint NOT NULL COMMENT '字典ID',
-                                 `value` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '值',
-                                 `label` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '标签',
-                                 `type` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '字典类型',
-                                 `description` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '描述',
+                                 `dict_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典标识',
+                                 `value` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '值',
+                                 `label` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签',
+                                 `type` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
+                                 `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述',
                                  `sort_order` int NOT NULL DEFAULT '0' COMMENT '排序（升序）',
-                                 `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '备注',
-                                 `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0' COMMENT '删除标记',
+                                 `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '备注',
+                                 `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
                                  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                                 `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '创建人',
-                                 `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '修改人',
+                                 `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+                                 `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
                                  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
                                  PRIMARY KEY (`id`) USING BTREE,
                                  KEY `sys_dict_value` (`value`) USING BTREE,
                                  KEY `sys_dict_label` (`label`) USING BTREE,
                                  KEY `sys_dict_del_flag` (`del_flag`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci COMMENT='字典项';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='字典项';
 
 -- ----------------------------
 -- Records of sys_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict_item` VALUES (1, 1, '1', '系统类', 'dict_type', '系统类字典', 0, ' ', '0', '2019-05-16 14:20:40', NULL, NULL, '2019-05-16 14:20:40');
-INSERT INTO `sys_dict_item` VALUES (2, 1, '0', '业务类', 'dict_type', '业务类字典', 0, ' ', '0', '2019-05-16 14:20:59', NULL, NULL, '2019-05-16 14:20:59');
-INSERT INTO `sys_dict_item` VALUES (3, 2, '0', '正常', 'log_type', '正常', 0, ' ', '0', '2020-03-13 14:23:22', NULL, NULL, '2020-03-13 14:23:22');
-INSERT INTO `sys_dict_item` VALUES (4, 2, '9', '异常', 'log_type', '异常', 0, ' ', '0', '2020-03-13 14:23:35', NULL, NULL, '2020-03-13 14:23:35');
-INSERT INTO `sys_dict_item` VALUES (5, 3, 'com.mysql.cj.jdbc.Driver', 'MYSQL8', 'ds_type', 'MYSQL8', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (6, 3, 'com.mysql.jdbc.Driver', 'MYSQL5', 'ds_type', 'MYSQL5', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (7, 3, 'oracle.jdbc.OracleDriver', 'Oracle', 'ds_type', 'Oracle', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (8, 3, 'org.mariadb.jdbc.Driver', 'mariadb', 'ds_type', 'mariadb', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (9, 3, 'com.microsoft.sqlserver.jdbc.SQLServerDriver', 'sqlserver2005+', 'ds_type', 'sqlserver2005+', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (10, 3, 'com.microsoft.jdbc.sqlserver.SQLServerDriver', 'sqlserver2000', 'ds_type', 'sqlserver2000', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (11, 3, 'com.ibm.db2.jcc.DB2Driver', 'db2', 'ds_type', 'db2', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (12, 3, 'org.postgresql.Driver', 'postgresql', 'ds_type', 'postgresql', 0, ' ', '0', NULL, NULL, NULL, NULL);
-INSERT INTO `sys_dict_item` VALUES (13, 4, '1', '检索', 'param_type', '检索', 0, '检索', '0', '2022-03-25 20:51:51', 'admin', 'admin', '2022-03-25 20:51:51');
-INSERT INTO `sys_dict_item` VALUES (14, 4, '2', '原文', 'param_type', '原文', 1, '原文', '0', '2022-03-25 20:52:06', 'admin', 'admin', '2022-03-25 20:52:06');
-INSERT INTO `sys_dict_item` VALUES (15, 4, '3', '报表', 'param_type', '报表', 2, '报表', '0', '2022-03-25 20:52:16', 'admin', 'admin', '2022-03-25 20:52:16');
-INSERT INTO `sys_dict_item` VALUES (16, 4, '4', '安全', 'param_type', '安全', 3, '安全', '0', '2022-03-25 20:52:32', 'admin', 'admin', '2022-03-25 20:52:32');
-INSERT INTO `sys_dict_item` VALUES (17, 4, '5', '文档', 'param_type', '文档', 4, '文档', '0', '2022-03-25 20:52:52', 'admin', 'admin', '2022-03-25 20:52:52');
-INSERT INTO `sys_dict_item` VALUES (18, 4, '6', '消息', 'param_type', '消息', 5, '消息', '0', '2022-03-25 20:53:07', 'admin', 'admin', '2022-03-25 20:53:07');
-INSERT INTO `sys_dict_item` VALUES (19, 4, '9', '其他', 'param_type', '其他', 6, '其他', '0', '2022-03-25 20:54:50', 'admin', 'admin', '2022-03-25 20:54:50');
-INSERT INTO `sys_dict_item` VALUES (20, 4, '0', '默认', 'param_type', '默认', 7, '默认', '0', '2022-03-25 20:55:23', 'admin', 'admin', '2022-03-25 20:55:23');
-INSERT INTO `sys_dict_item` VALUES (21, 5, '0', '正常', 'status_type', '状态正常', 0, '状态正常', '0', '2022-03-25 20:57:12', 'admin', 'admin', '2022-03-25 20:57:12');
-INSERT INTO `sys_dict_item` VALUES (22, 5, '9', '冻结', 'status_type', '状态冻结', 1, '状态冻结', '0', '2022-03-25 20:57:34', 'admin', 'admin', '2022-03-25 20:57:34');
+INSERT INTO `sys_dict_item` VALUES (1, 1, 'dict_type', '1', '系统类', NULL, '系统类字典', 0, ' ', '0', '2019-05-16 14:20:40', NULL, NULL, '2019-05-16 14:20:40');
+INSERT INTO `sys_dict_item` VALUES (2, 1, 'dict_type', '0', '业务类', NULL, '业务类字典', 0, ' ', '0', '2019-05-16 14:20:59', NULL, NULL, '2019-05-16 14:20:59');
+INSERT INTO `sys_dict_item` VALUES (3, 2, 'log_type', '0', '正常', NULL, '正常', 0, ' ', '0', '2020-03-13 14:23:22', NULL, NULL, '2020-03-13 14:23:22');
+INSERT INTO `sys_dict_item` VALUES (4, 2, 'log_type', '9', '异常', NULL, '异常', 0, ' ', '0', '2020-03-13 14:23:35', NULL, NULL, '2020-03-13 14:23:35');
+INSERT INTO `sys_dict_item` VALUES (5, 3, 'ds_type', 'com.mysql.cj.jdbc.Driver', 'MYSQL8', NULL, 'MYSQL8', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (6, 3, 'ds_type', 'com.mysql.jdbc.Driver', 'MYSQL5', NULL, 'MYSQL5', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (7, 3, 'ds_type', 'oracle.jdbc.OracleDriver', 'Oracle', NULL, 'Oracle', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (8, 3, 'ds_type', 'org.mariadb.jdbc.Driver', 'mariadb', NULL, 'mariadb', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (9, 3, 'ds_type', 'com.microsoft.sqlserver.jdbc.SQLServerDriver', 'sqlserver2005+', NULL, 'sqlserver2005+', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (10, 3, 'ds_type', 'com.microsoft.jdbc.sqlserver.SQLServerDriver', 'sqlserver2000', NULL, 'sqlserver2000', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (11, 3, 'ds_type', 'com.ibm.db2.jcc.DB2Driver', 'db2', NULL, 'db2', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (12, 3, 'ds_type', 'org.postgresql.Driver', 'postgresql', NULL, 'postgresql', 0, ' ', '0', NULL, NULL, NULL, NULL);
+INSERT INTO `sys_dict_item` VALUES (13, 4, 'param_type', '1', '检索', NULL, '检索', 0, '检索', '0', '2022-03-25 20:51:51', 'admin', 'admin', '2022-03-25 20:51:51');
+INSERT INTO `sys_dict_item` VALUES (14, 4, 'param_type', '2', '原文', NULL, '原文', 1, '原文', '0', '2022-03-25 20:52:06', 'admin', 'admin', '2022-03-25 20:52:06');
+INSERT INTO `sys_dict_item` VALUES (15, 4, 'param_type', '3', '报表', NULL, '报表', 2, '报表', '0', '2022-03-25 20:52:16', 'admin', 'admin', '2022-03-25 20:52:16');
+INSERT INTO `sys_dict_item` VALUES (16, 4, 'param_type', '4', '安全', NULL, '安全', 3, '安全', '0', '2022-03-25 20:52:32', 'admin', 'admin', '2022-03-25 20:52:32');
+INSERT INTO `sys_dict_item` VALUES (17, 4, 'param_type', '5', '文档', NULL, '文档', 4, '文档', '0', '2022-03-25 20:52:52', 'admin', 'admin', '2022-03-25 20:52:52');
+INSERT INTO `sys_dict_item` VALUES (18, 4, 'param_type', '6', '消息', NULL, '消息', 5, '消息', '0', '2022-03-25 20:53:07', 'admin', 'admin', '2022-03-25 20:53:07');
+INSERT INTO `sys_dict_item` VALUES (19, 4, 'param_type', '9', '其他', NULL, '其他', 6, '其他', '0', '2022-03-25 20:54:50', 'admin', 'admin', '2022-03-25 20:54:50');
+INSERT INTO `sys_dict_item` VALUES (20, 4, 'param_type', '0', '默认', NULL, '默认', 7, '默认', '0', '2022-03-25 20:55:23', 'admin', 'admin', '2022-03-25 20:55:23');
+INSERT INTO `sys_dict_item` VALUES (21, 5, 'status_type', '0', '正常', NULL, '状态正常', 0, '状态正常', '0', '2022-03-25 20:57:12', 'admin', 'admin', '2022-03-25 20:57:12');
+INSERT INTO `sys_dict_item` VALUES (22, 5, 'status_type', '9', '冻结', NULL, '状态冻结', 1, '状态冻结', '0', '2022-03-25 20:57:34', 'admin', 'admin', '2022-03-25 20:57:34');
+INSERT INTO `sys_dict_item` VALUES (23, 6, 'menu_type_status', '0', '菜单', NULL, '菜单', 0, ' ', '0', '2022-09-18 17:15:52', 'admin', 'admin', '2022-09-18 17:15:52');
+INSERT INTO `sys_dict_item` VALUES (24, 6, 'menu_type_status', '1', '按钮', 'success', '按钮', 1, ' ', '0', '2022-09-18 17:16:06', 'admin', 'admin', '2022-09-18 17:16:06');
+INSERT INTO `sys_dict_item` VALUES (25, 7, 'dict_css_type', 'success', 'success', 'success', 'success', 2, ' ', '0', '2022-09-28 21:41:49', 'admin', 'admin', '2022-09-28 21:41:49');
+INSERT INTO `sys_dict_item` VALUES (26, 7, 'dict_css_type', 'info', 'info', 'info', 'info', 3, ' ', '0', '2022-09-28 21:41:59', 'admin', 'admin', '2022-09-28 21:41:59');
+INSERT INTO `sys_dict_item` VALUES (27, 7, 'dict_css_type', 'warning', 'warning', 'warning', 'warning', 4, ' ', '0', '2022-09-28 21:42:09', 'admin', 'admin', '2022-09-28 21:42:09');
+INSERT INTO `sys_dict_item` VALUES (28, 7, 'dict_css_type', 'danger', 'danger', 'danger', 'danger', 5, ' ', '0', '2022-09-28 21:42:19', 'admin', 'admin', '2022-09-28 21:42:19');
+INSERT INTO `sys_dict_item` VALUES (29, 8, 'keepalive_status', '0', '否', 'info', '不开启缓冲', 0, ' ', '0', '2022-09-28 21:46:32', 'admin', 'admin', '2022-09-28 21:46:32');
+INSERT INTO `sys_dict_item` VALUES (30, 8, 'keepalive_status', '1', '是', NULL, '开启缓冲', 1, ' ', '0', '2022-09-28 21:46:54', 'admin', 'admin', '2022-09-28 21:46:54');
+INSERT INTO `sys_dict_item` VALUES (31, 9, 'user_lock_flag', '0', '正常', NULL, '正常状态', 0, ' ', '0', '2022-09-28 21:51:55', 'admin', 'admin', '2022-09-28 21:51:55');
+INSERT INTO `sys_dict_item` VALUES (32, 9, 'user_lock_flag', '9', '锁定', 'info', '已锁定', 9, ' ', '0', '2022-09-28 21:52:13', 'admin', 'admin', '2022-09-28 21:52:13');
 COMMIT;
 
 
