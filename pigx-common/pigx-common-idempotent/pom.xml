@@ -14,7 +14,7 @@
 	<description>pigx 幂等插件</description>
 
 	<properties>
-		<redisson.version>3.16.7</redisson.version>
+		<redisson.version>3.17.6</redisson.version>
 	</properties>
 
 	<dependencies>
