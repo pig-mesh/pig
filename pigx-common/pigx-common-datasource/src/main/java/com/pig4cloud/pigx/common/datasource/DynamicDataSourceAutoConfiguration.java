@@ -28,7 +28,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author lengleng
@@ -58,8 +57,8 @@ public class DynamicDataSourceAutoConfiguration {
 	}
 
 	@Bean
-	public WebMvcConfigurer webMvcConfigurer() {
-		return new ClearTtlDsConfiguration();
+	public ClearTtlDataSourceFilter clearTtlDsFilter() {
+		return new ClearTtlDataSourceFilter();
 	}
 
 }
