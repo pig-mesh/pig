@@ -27,6 +27,7 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
 /**
@@ -87,9 +88,13 @@ public interface GenCodeService {
 					map.get("moduleName").toString());
 
 			if (zip != null) {
-				zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
-				IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
-				IoUtil.close(sw);
+				try {
+					zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
+					IoUtil.write(zip, StandardCharsets.UTF_8, false, sw.toString());
+					IoUtil.close(sw);
+				}
+				catch (ZipException zipException) {
+				}
 				zip.closeEntry();
 			}
 			resultMap.put(template, sw.toString());

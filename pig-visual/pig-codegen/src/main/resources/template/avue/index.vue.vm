@@ -18,7 +18,7 @@
     <div class="execution">
         <basic-container>
             <avue-crud ref="crud"
-                       v-model="page"
+                       v-model:page="page"
                        :data="tableData"
                        :permission="permissionList"
                        :table-loading="tableLoading"
@@ -60,9 +60,9 @@
             ...mapGetters(['permissions']),
             permissionList() {
                 return {
-                    addBtn: this.vaildData(this.permissions.${moduleName}_${pathName}_add, false),
-                    delBtn: this.vaildData(this.permissions.${moduleName}_${pathName}_del, false),
-                    editBtn: this.vaildData(this.permissions.${moduleName}_${pathName}_edit, false)
+                    addBtn: this.validData(this.permissions.${moduleName}_${pathName}_add, false),
+                    delBtn: this.validData(this.permissions.${moduleName}_${pathName}_del, false),
+                    editBtn: this.validData(this.permissions.${moduleName}_${pathName}_edit, false)
                 };
             }
         },
