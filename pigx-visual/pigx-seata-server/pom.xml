@@ -136,7 +136,7 @@
     </dependencies>
 
     <build>
-        <finalName>seata-server</finalName>
+        <finalName>pigx-seata-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
