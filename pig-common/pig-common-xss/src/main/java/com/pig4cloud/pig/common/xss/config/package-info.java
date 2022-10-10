@@ -14,9 +14,4 @@
  * limitations under the License.
  */
 
-@NonNullApi
-@NonNullFields
 package com.pig4cloud.pig.common.xss.config;
-
-import org.springframework.lang.NonNullApi;
-import org.springframework.lang.NonNullFields;
