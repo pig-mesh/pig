@@ -44,9 +44,8 @@ public abstract class XssCleanDeserializerBase extends JsonDeserializer<String> 
 			return null;
 		}
 
-
 		// xss 配置
-		return this.clean(p.getCurrentName(),text);
+		return this.clean(p.getCurrentName(), text);
 	}
 
 	/**
@@ -55,6 +54,6 @@ public abstract class XssCleanDeserializerBase extends JsonDeserializer<String> 
 	 * @param text text
 	 * @return String
 	 */
-	public abstract String clean(String name,String text) throws IOException;
+	public abstract String clean(String name, String text) throws IOException;
 
 }
