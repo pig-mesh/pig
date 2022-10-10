@@ -84,6 +84,11 @@
             <groupId>io.springboot.sms</groupId>
             <artifactId>aliyun-sms-spring-boot-starter</artifactId>
         </dependency>
+        <!--xss 过滤-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-xss</artifactId>
+        </dependency>
         <!--undertow容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

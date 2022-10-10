@@ -33,6 +33,8 @@
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
+        <hutool.version>5.8.8</hutool.version>
+        <mica.version>2.7.4</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
@@ -82,6 +84,11 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-seata</artifactId>
+                <version>${pig.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-xss</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>
@@ -160,6 +167,22 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--hutool bom 工具类-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-bom</artifactId>
+                <version>${hutool.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!--mica bom 工具类-->
+            <dependency>
+                <groupId>net.dreamlu</groupId>
+                <artifactId>mica-bom</artifactId>
+                <version>${mica.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <!--web 模块-->
             <dependency>

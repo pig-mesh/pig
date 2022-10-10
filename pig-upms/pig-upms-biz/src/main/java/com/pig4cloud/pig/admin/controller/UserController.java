@@ -34,6 +34,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
+import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -150,6 +151,7 @@ public class UserController {
 	 */
 	@SysLog("添加用户")
 	@PostMapping
+	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
 	public R<Boolean> user(@RequestBody UserDTO userDto) {
 		return R.ok(userService.saveUser(userDto));
@@ -162,6 +164,7 @@ public class UserController {
 	 */
 	@SysLog("更新用户信息")
 	@PutMapping
+	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUser(userDto);
@@ -185,6 +188,7 @@ public class UserController {
 	 */
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
+	@XssCleanIgnore({ "password", "newpassword1" })
 	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		userDto.setUsername(SecurityUtils.getUser().getUsername());
 		return userService.updateUserInfo(userDto);

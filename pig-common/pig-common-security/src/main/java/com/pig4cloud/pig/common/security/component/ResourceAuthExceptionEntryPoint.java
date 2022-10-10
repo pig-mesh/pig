@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import cn.hutool.http.HttpStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
@@ -24,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -53,7 +53,7 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 		response.setContentType(CommonConstants.CONTENT_TYPE);
 		R<String> result = new R<>();
 		result.setCode(CommonConstants.FAIL);
-		response.setStatus(HttpStatus.HTTP_UNAUTHORIZED);
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
 		if (authException != null) {
 			result.setMsg("error");
 			result.setData(authException.getMessage());

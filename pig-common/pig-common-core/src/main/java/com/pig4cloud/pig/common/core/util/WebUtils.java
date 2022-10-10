@@ -17,14 +17,11 @@
 package com.pig4cloud.pig.common.core.util;
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.json.JSONUtil;
-import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -35,8 +32,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -125,32 +120,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 */
 	public HttpServletResponse getResponse() {
 		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-	}
-
-	/**
-	 * 返回json
-	 * @param response HttpServletResponse
-	 * @param result 结果对象
-	 */
-	public void renderJson(HttpServletResponse response, Object result) {
-		renderJson(response, result, MediaType.APPLICATION_JSON_VALUE);
-	}
-
-	/**
-	 * 返回json
-	 * @param response HttpServletResponse
-	 * @param result 结果对象
-	 * @param contentType contentType
-	 */
-	public void renderJson(HttpServletResponse response, Object result, String contentType) {
-		response.setCharacterEncoding(CommonConstants.UTF8);
-		response.setContentType(contentType);
-		try (PrintWriter out = response.getWriter()) {
-			out.append(JSONUtil.toJsonStr(result));
-		}
-		catch (IOException e) {
-			log.error(e.getMessage(), e);
-		}
 	}
 
 	/**

@@ -30,8 +30,6 @@
 
 ![](https://minio.pigx.vip/oss/1648184189.png)
 
-
-<a href="https://apifox.cn/a1pigcloud" target="_blank"><img src="https://minio.pigx.vip/oss/1662368326.png" height="83%" width="83%"></a></td>
 ## 快速开始
 
 ### 核心依赖
@@ -63,7 +61,8 @@ pig
      ├── pig-common-seata -- 分布式事务
      ├── pig-common-security -- 安全工具类
      ├── pig-common-swagger -- 接口文档
-     └── pig-common-feign -- feign 扩展封装
+     ├── pig-common-feign -- feign 扩展封装
+     └── pig-common-xss -- xss 安全封装
 ├── pig-register -- Nacos Server[8848]
 ├── pig-gateway -- Spring Cloud Gateway网关[9999]
 └── pig-upms -- 通用用户权限管理模块

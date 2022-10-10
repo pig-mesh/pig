@@ -67,7 +67,6 @@
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-system</artifactId>
-			<version>${hutool.version}</version>
 		</dependency>
 	</dependencies>
 	<build>
