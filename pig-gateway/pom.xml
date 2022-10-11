@@ -92,6 +92,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-webflux-ui</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.springboot</groupId>
+            <artifactId>knife4j-openapi3-ui</artifactId>
+            <version>${knife4j.ui.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
