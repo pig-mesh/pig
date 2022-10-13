@@ -1,6 +1,7 @@
 package com.pig4cloud.pig.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pig.admin.api.dto.AppSmsDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.service.AppService;
@@ -13,10 +14,9 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 /**
  * @author lengleng
@@ -33,10 +33,15 @@ public class AppController {
 
 	private final SysUserService userService;
 
+	/**
+	 * 发送手机验证码
+	 * @param sms 请求手机对象
+	 * @return code
+	 */
 	@Inner(value = false)
-	@GetMapping("/{mobile}")
-	public R<Boolean> sendSmsCode(@PathVariable String mobile) {
-		return appService.sendSmsCode(mobile);
+	@PostMapping("/sms")
+	public R<Boolean> sendSmsCode(@Valid @RequestBody AppSmsDTO sms) {
+		return appService.sendSmsCode(sms);
 	}
 
 	/**

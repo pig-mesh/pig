@@ -18,6 +18,9 @@
 package com.pig4cloud.pig.admin.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pig.admin.api.dto.AppSmsDTO;
+import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.mapper.SysUserMapper;
 import com.pig4cloud.pig.admin.service.AppService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -53,25 +56,31 @@ public class AppServiceImpl implements AppService {
 
 	/**
 	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
-	 * @param phone 手机号
+	 * @param sms 手机号
 	 * @return code
 	 */
 	@Override
-	public R<Boolean> sendSmsCode(String phone) {
-		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + phone);
+	public R<Boolean> sendSmsCode(AppSmsDTO sms) {
+		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + sms.getPhone());
 
 		if (codeObj != null) {
-			log.info("手机号验证码未过期:{}，{}", phone, codeObj);
+			log.info("手机号验证码未过期:{}，{}", sms.getPhone(), codeObj);
 			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
 		}
 
+		// 校验手机号是否存在 sys_user 表
+		if (sms.getExist()
+				&& !userMapper.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, sms.getPhone()))) {
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, sms.getPhone()));
+		}
+
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
-		log.info("手机号生成验证码成功:{},{}", phone, code);
-		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + phone, code, SecurityConstants.CODE_TIME,
-				TimeUnit.SECONDS);
+		log.info("手机号生成验证码成功:{},{}", sms.getPhone(), code);
+		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + sms.getPhone(), code,
+				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
 		// 调用短信通道发送
-		this.smsClient.sendCode(code, phone);
+		this.smsClient.sendCode(code, sms.getPhone());
 		return R.ok(Boolean.TRUE, code);
 	}
 

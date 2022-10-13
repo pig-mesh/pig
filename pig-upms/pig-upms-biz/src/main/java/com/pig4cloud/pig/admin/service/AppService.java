@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.admin.service;
 
+import com.pig4cloud.pig.admin.api.dto.AppSmsDTO;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
@@ -27,10 +28,10 @@ public interface AppService {
 
 	/**
 	 * 发送手机验证码
-	 * @param phone phone
+	 * @param sms phone
 	 * @return code
 	 */
-	R<Boolean> sendSmsCode(String phone);
+	R<Boolean> sendSmsCode(AppSmsDTO sms);
 
 	/**
 	 * 校验验证码
