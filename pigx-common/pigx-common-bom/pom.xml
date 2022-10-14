@@ -6,7 +6,7 @@
     <parent>
         <groupId>group.springframework</groupId>
         <artifactId>spring-cloud-dependencies-parent</artifactId>
-        <version>2021.0.3</version>
+        <version>2021.0.4</version>
         <relativePath/>
     </parent>
 
@@ -21,7 +21,7 @@
         <mybatis-plus.version>3.5.1</mybatis-plus.version>
         <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <druid.version>1.2.9</druid.version>
-        <hutool.version>5.8.5</hutool.version>
+        <hutool.version>5.8.8</hutool.version>
         <mysql.connector.version>8.0.30</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
