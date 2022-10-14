@@ -26,6 +26,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecurityExpressionHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -58,4 +59,14 @@ public class PigxResourceServerAutoConfiguration implements ApplicationContextAw
 		this.applicationContext = applicationContext;
 	}
 
+	/**
+	 * 支持 #oauth2.xxx 校验注解
+	 * @return OAuth2MethodSecurityExpressionHandler
+	 */
+	@Bean
+	public OAuth2MethodSecurityExpressionHandler expressionHandler(){
+		OAuth2MethodSecurityExpressionHandler oAuth2MethodSecurityExpressionHandler = new OAuth2MethodSecurityExpressionHandler();
+		oAuth2MethodSecurityExpressionHandler.setApplicationContext(applicationContext);
+		return oAuth2MethodSecurityExpressionHandler;
+	}
 }
