@@ -80,7 +80,7 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.APP.equals(clientId);
+		return SecurityConstants.APP.equals(grantType);
 	}
 
 }
