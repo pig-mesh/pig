@@ -38,6 +38,7 @@
 		<module>pigx-common-data</module>
 		<module>pigx-common-datasource</module>
 		<module>pigx-common-excel</module>
+		<module>pigx-common-encrypt-api</module>
 		<module>pigx-common-feign</module>
 		<module>pigx-common-gateway</module>
 		<module>pigx-common-gray</module>

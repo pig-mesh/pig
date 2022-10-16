@@ -1,6 +1,12 @@
 server:
   port: 3000
 
+
+security:
+  api:
+    encrypt:
+      aesKey: 'pigxpigxpigxpigx'
+
 spring:
   application:
     name: @artifactId@
