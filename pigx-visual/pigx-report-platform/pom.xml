@@ -40,11 +40,6 @@
             <version>3.3.2</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.oracle.database.jdbc</groupId>
-            <artifactId>ojdbc8</artifactId>
-        </dependency>
-
         <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>
