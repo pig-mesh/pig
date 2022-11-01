@@ -31,6 +31,7 @@
 		<result column="sort_order" property="sortOrder"/>
 		<result column="menu_type" property="menuType"/>
 		<result column="keep_alive" property="keepAlive"/>
+		<result column="visible" property="visible"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>
@@ -47,6 +48,7 @@
 			   sys_menu.sort_order,
 			   sys_menu.keep_alive,
 			   sys_menu.menu_type,
+			   sys_menu.visible,
 			   sys_menu.create_time,
 			   sys_menu.update_time,
 			   sys_menu.del_flag
