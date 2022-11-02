@@ -48,7 +48,12 @@ public enum DataScopeTypeEnum {
 	/**
 	 * 本级
 	 */
-	OWN_LEVEL(3, "本级");
+	OWN_LEVEL(3, "本级"),
+
+	/**
+	 * 本人
+	 */
+	SELF_LEVEL(4, "本人");
 
 	/**
 	 * 类型

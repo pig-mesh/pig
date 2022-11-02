@@ -38,6 +38,11 @@ public class DataScope extends HashMap {
 	private String scopeName = "dept_id";
 
 	/**
+	 * 本人权限范围字段
+	 */
+	private String userId = "user_id";
+
+	/**
 	 * 具体的数据范围
 	 */
 	private List<Long> deptIds = new ArrayList<>();

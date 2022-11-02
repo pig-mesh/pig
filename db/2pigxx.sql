@@ -9,6 +9,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
                             `dept_id` bigint NOT NULL,
+                            `dept_id` bigint NOT NULL,
                             `name` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
                             `sort_order` int NOT NULL DEFAULT '0' COMMENT '排序',
                             `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',

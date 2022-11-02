@@ -35,21 +35,31 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
 		if (dataScope == null) {
 			return;
 		}
+		// 查询个人权限字段名称
+		String scopeUserId = dataScope.getUserId();
+		StringBuilder userid = new StringBuilder();
 
 		String scopeName = dataScope.getScopeName();
 		List<Long> deptIds = dataScope.getDeptIds();
 		// 优先获取赋值数据
-		if (CollUtil.isEmpty(deptIds) && dataScopeHandle.calcScope(deptIds)) {
+		if (CollUtil.isEmpty(deptIds) && dataScopeHandle.calcScope(deptIds,userid)) {
 			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope", dataScope.getFunc().getType(),
 					originalSql);
 			mpBs.sql(originalSql);
 			return;
 		}
-
-		if (deptIds.isEmpty()) {
+		//检查是否有数据权限校验
+		//1.无数据权限限制，则直接返回全部
+		if (deptIds.isEmpty()&&(userid.length()==0)) {
 			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE 1 = 2",
 					dataScope.getFunc().getType(), originalSql);
 		}
+		//2.如果为本人权限则走下面
+		else if (userid.length() == 1) {
+			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s = %s",
+					dataScope.getFunc().getType(), originalSql, scopeUserId, userid);
+		}
+		//3.都没有，则是其他权限，走下面
 		else {
 			String join = CollectionUtil.join(deptIds, ",");
 			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)",
