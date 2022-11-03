@@ -104,6 +104,12 @@ public class SysMenu extends Model<SysMenu> {
 	private String keepAlive;
 
 	/**
+	 * 菜单显示隐藏控制
+	 */
+	@ApiModelProperty(value = "菜单是否显示")
+	private String visible;
+
+	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)

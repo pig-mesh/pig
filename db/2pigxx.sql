@@ -9,6 +9,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
                             `dept_id` bigint NOT NULL,
+                            `dept_id` bigint NOT NULL,
                             `name` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
                             `sort_order` int NOT NULL DEFAULT '0' COMMENT '排序',
                             `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
@@ -333,6 +334,7 @@ CREATE TABLE `sys_menu` (
                             `icon` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
                             `sort_order` int DEFAULT '1' COMMENT '排序值',
                             `keep_alive` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
+                            `visible` char(1) CHARACTER SET utf8mb4 DEFAULT '1',
                             `menu_type` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
                             `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
                             `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',

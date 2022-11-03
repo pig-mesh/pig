@@ -50,6 +50,11 @@ public class SysDept extends Model<SysDept> {
 	private Long deptId;
 
 	/**
+	 * 添加用户的用户id（防止报错）
+	 */
+	private Long userId;
+
+	/**
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
