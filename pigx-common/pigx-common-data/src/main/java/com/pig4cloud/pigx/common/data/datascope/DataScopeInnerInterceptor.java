@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.common.data.datascope;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
 import lombok.Setter;
 import org.apache.ibatis.executor.Executor;
@@ -36,24 +37,28 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
 			return;
 		}
 
-		String scopeName = dataScope.getScopeName();
-		List<Long> deptIds = dataScope.getDeptIds();
-		// 优先获取赋值数据
-		if (CollUtil.isEmpty(deptIds) && dataScopeHandle.calcScope(deptIds)) {
-			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope", dataScope.getFunc().getType(),
-					originalSql);
-			mpBs.sql(originalSql);
+		// 返回true 不拦截直接返回原始 SQL
+		if (dataScopeHandle.calcScope(dataScope)) {
 			return;
 		}
 
-		if (deptIds.isEmpty()) {
+		List<Long> deptIds = dataScope.getDeptList();
+
+		// 1.无数据权限限制，则直接返回 0 条数据
+		if (CollUtil.isEmpty(deptIds) && StrUtil.isBlank(dataScope.getUsername())) {
 			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE 1 = 2",
 					dataScope.getFunc().getType(), originalSql);
 		}
+		// 2.如果为本人权限则走下面
+		else if (StrUtil.isNotBlank(dataScope.getUsername())) {
+			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s = '%s'",
+					dataScope.getFunc().getType(), originalSql, dataScope.getScopeUserName(), dataScope.getUsername());
+		}
+		// 3.都没有，则是其他权限，走下面
 		else {
 			String join = CollectionUtil.join(deptIds, ",");
 			originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)",
-					dataScope.getFunc().getType(), originalSql, scopeName, join);
+					dataScope.getFunc().getType(), originalSql, dataScope.getScopeDeptName(), join);
 		}
 
 		mpBs.sql(originalSql);

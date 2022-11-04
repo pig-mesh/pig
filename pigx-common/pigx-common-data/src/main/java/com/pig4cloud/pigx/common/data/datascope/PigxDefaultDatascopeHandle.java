@@ -48,16 +48,19 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 
 	/**
 	 * 计算用户数据权限
-	 * @param deptList
+	 * @param dataScope 数据权限范围
 	 * @return
 	 */
 	@Override
-	public Boolean calcScope(List<Long> deptList) {
+	public Boolean calcScope(DataScope dataScope) {
 		PigxUser user = SecurityUtils.getUser();
 		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
 				.map(authority -> authority.split(StrUtil.UNDERLINE)[1]).collect(Collectors.toList());
-		// 当前用户的角色为空
+
+		List<Long> deptList = dataScope.getDeptList();
+
+		// 当前用户的角色为空 , 返回false
 		if (CollectionUtil.isEmpty(roleIdList)) {
 			return false;
 		}
@@ -97,6 +100,11 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 		// 只查询本级
 		if (DataScopeTypeEnum.OWN_LEVEL.getType() == dsType) {
 			deptList.add(user.getDeptId());
+		}
+
+		// 只查询本人
+		if (DataScopeTypeEnum.SELF_LEVEL.getType() == dsType) {
+			dataScope.setUsername(user.getUsername());
 		}
 		return false;
 	}

@@ -35,12 +35,22 @@ public class DataScope extends HashMap {
 	/**
 	 * 限制范围的字段名称
 	 */
-	private String scopeName = "dept_id";
+	private String scopeDeptName = "dept_id";
+
+	/**
+	 * 本人权限范围字段
+	 */
+	private String scopeUserName = "create_by";
 
 	/**
 	 * 具体的数据范围
 	 */
-	private List<Long> deptIds = new ArrayList<>();
+	private List<Long> deptList = new ArrayList<>();
+
+	/**
+	 * 具体查询的用户数据权限范围
+	 */
+	private String username;
 
 	/**
 	 * 是否只查询本部门
@@ -63,13 +73,8 @@ public class DataScope extends HashMap {
 		return new DataScope();
 	}
 
-	public DataScope scopeName(String scopeName) {
-		this.scopeName = scopeName;
-		return this;
-	}
-
 	public DataScope deptIds(List<Long> deptIds) {
-		this.deptIds = deptIds;
+		this.deptList = deptIds;
 		return this;
 	}
 

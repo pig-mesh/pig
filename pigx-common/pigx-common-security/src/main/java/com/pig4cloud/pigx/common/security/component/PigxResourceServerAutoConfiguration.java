@@ -64,9 +64,10 @@ public class PigxResourceServerAutoConfiguration implements ApplicationContextAw
 	 * @return OAuth2MethodSecurityExpressionHandler
 	 */
 	@Bean
-	public OAuth2MethodSecurityExpressionHandler expressionHandler(){
+	public OAuth2MethodSecurityExpressionHandler expressionHandler() {
 		OAuth2MethodSecurityExpressionHandler oAuth2MethodSecurityExpressionHandler = new OAuth2MethodSecurityExpressionHandler();
 		oAuth2MethodSecurityExpressionHandler.setApplicationContext(applicationContext);
 		return oAuth2MethodSecurityExpressionHandler;
 	}
+
 }
