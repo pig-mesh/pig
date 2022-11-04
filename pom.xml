@@ -33,7 +33,7 @@
     </organization>
 
     <properties>
-        <spring-boot.version>2.7.4</spring-boot.version>
+        <spring-boot.version>2.7.5</spring-boot.version>
         <spring-cloud.version>2021.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,7 +42,7 @@
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.34</spring.checkstyle.version>
         <git.commit.version>2.2.5</git.commit.version>
-        <spring-boot-admin.version>2.7.5</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.7</spring-boot-admin.version>
         <captcha.version>1.2.7</captcha.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
         <dingtalk.old.version>2.0.0</dingtalk.old.version>
