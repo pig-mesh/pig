@@ -39,7 +39,7 @@
 | 依赖                   | 版本         |
 | ---------------------- |------------|
 | Spring Boot            | 2.7.5      |
-| Spring Cloud           | 2021.0.4   |
+| Spring Cloud           | 2021.0.5   |
 | Spring Cloud Alibaba   | 2021.0.4.0 |
 | Spring Authorization Server | 0.3.1      |
 | Mybatis Plus           | 3.5.2      |
