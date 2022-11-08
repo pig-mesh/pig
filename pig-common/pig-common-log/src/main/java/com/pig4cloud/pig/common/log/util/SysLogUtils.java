@@ -54,6 +54,8 @@ public class SysLogUtils {
 		sysLog.setMethod(request.getMethod());
 		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
+		sysLog.setCreateBy(getUsername());
+		sysLog.setUpdateBy(getUsername());
 		return sysLog;
 	}
 
