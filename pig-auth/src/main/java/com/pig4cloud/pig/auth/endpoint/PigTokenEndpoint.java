@@ -16,6 +16,8 @@
 
 package com.pig4cloud.pig.auth.endpoint;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -213,8 +215,14 @@ public class PigTokenEndpoint {
 			tokenVo.setUsername(authorization.getPrincipalName());
 			OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
 			tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
-			tokenVo.setExpiresAt(accessToken.getToken().getExpiresAt());
-			tokenVo.setIssuedAt(accessToken.getToken().getIssuedAt());
+
+			String expiresAt = TemporalAccessorUtil.format(accessToken.getToken().getExpiresAt(),
+					DatePattern.NORM_DATETIME_PATTERN);
+			tokenVo.setExpiresAt(expiresAt);
+
+			String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
+					DatePattern.NORM_DATETIME_PATTERN);
+			tokenVo.setIssuedAt(issuedAt);
 			return tokenVo;
 		}).collect(Collectors.toList());
 		result.setRecords(tokenVoList);
