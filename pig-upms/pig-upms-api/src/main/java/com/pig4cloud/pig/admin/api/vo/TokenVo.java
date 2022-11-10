@@ -2,8 +2,6 @@ package com.pig4cloud.pig.admin.api.vo;
 
 import lombok.Data;
 
-import java.time.Instant;
-
 /**
  * 前端展示令牌管理
  *
@@ -23,8 +21,8 @@ public class TokenVo {
 
 	private String accessToken;
 
-	private Instant issuedAt;
+	private String issuedAt;
 
-	private Instant expiresAt;
+	private String expiresAt;
 
 }
