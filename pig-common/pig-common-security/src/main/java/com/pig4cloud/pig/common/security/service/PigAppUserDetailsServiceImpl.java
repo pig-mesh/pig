@@ -54,7 +54,7 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 			return (PigUser) cache.get(phone).get();
 		}
 
-		R<UserInfo> result = remoteUserService.infoByMobile(phone, SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.infoByMobile(phone);
 
 		UserDetails userDetails = getUserDetails(result);
 		if (cache != null) {
