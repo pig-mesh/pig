@@ -22,7 +22,6 @@ import com.pig4cloud.pig.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -36,8 +35,7 @@ public interface RemoteDeptService {
 	 * 查收子级id列表
 	 * @return 返回子级id列表
 	 */
-	@GetMapping("/dept/child-id/{deptId}")
-	R<List<Long>> listChildDeptId(@PathVariable("deptId") Long deptId,
-			@RequestHeader(SecurityConstants.FROM) String from);
+	@GetMapping(value = "/dept/child-id/{deptId}", headers = SecurityConstants.HEADER_FROM_IN)
+	R<List<Long>> listChildDeptId(@PathVariable("deptId") Long deptId);
 
 }
