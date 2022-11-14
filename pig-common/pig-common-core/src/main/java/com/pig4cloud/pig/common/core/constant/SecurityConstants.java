@@ -50,7 +50,7 @@ public interface SecurityConstants {
 	/**
 	 * 请求header
 	 */
-	String HEADER_FROM_IN = FROM + ":" + FROM_IN;
+	String HEADER_FROM_IN = FROM + "=" + FROM_IN;
 
 	/**
 	 * 默认登录URL
