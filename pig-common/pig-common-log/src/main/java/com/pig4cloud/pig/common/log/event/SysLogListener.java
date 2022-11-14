@@ -18,7 +18,6 @@ package com.pig4cloud.pig.common.log.event;
 
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -39,7 +38,7 @@ public class SysLogListener {
 	@EventListener(SysLogEvent.class)
 	public void saveSysLog(SysLogEvent event) {
 		SysLog sysLog = (SysLog) event.getSource();
-		remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
+		remoteLogService.saveLog(sysLog);
 	}
 
 }
