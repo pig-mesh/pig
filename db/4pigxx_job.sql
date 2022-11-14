@@ -494,6 +494,7 @@ CREATE TABLE `xxl_job_user` (
 -- Records of xxl_job_user
 -- ----------------------------
 BEGIN;
+INSERT INTO `xxl_job_user`(`id`, `username`, `password`, `role`, `permission`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
