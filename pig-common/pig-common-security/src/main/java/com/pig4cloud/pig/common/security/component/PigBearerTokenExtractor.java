@@ -41,7 +41,7 @@ public class PigBearerTokenExtractor implements BearerTokenResolver {
 
 	private boolean allowFormEncodedBodyParameter = false;
 
-	private boolean allowUriQueryParameter = false;
+	private boolean allowUriQueryParameter = true;
 
 	private String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
 
