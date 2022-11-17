@@ -26,7 +26,7 @@
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.2</mybatis-plus.version>
-        <mysql.version>8.0.30</mysql.version>
+        <mysql.version>8.0.31</mysql.version>
         <seata.version>1.5.2</seata.version>
         <excel.version>1.2.6</excel.version>
         <asm.version>7.1</asm.version>
@@ -97,8 +97,8 @@
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
+                <groupId>com.mysql</groupId>
+                <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
             <!--springdoc -->
