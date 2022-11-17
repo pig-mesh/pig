@@ -101,6 +101,12 @@
 			<groupId>com.github.binarywang</groupId>
 			<artifactId>java-testdata-generator</artifactId>
 			<version>${mock.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!--web 模块-->
 		<dependency>
