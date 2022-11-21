@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.admin.api.feign;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -63,6 +64,7 @@ public interface RemoteTokenService {
 	 */
 	@GetMapping("/token/query-token")
 	R<Map<String, Object>> queryToken(@RequestParam("token") String token,
+			@RequestParam(CommonConstants.TENANT_ID) String tenantId,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 }

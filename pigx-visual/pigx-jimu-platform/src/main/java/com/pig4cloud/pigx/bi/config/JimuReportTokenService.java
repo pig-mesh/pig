@@ -1,5 +1,7 @@
 package com.pig4cloud.pigx.bi.config;
 
+import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -10,6 +12,7 @@ import org.jeecg.modules.jmreport.api.JmReportTokenServiceI;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,8 +29,10 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 
 	@Override
 	public String getUsername(String token) {
+		// 分割出 PIGX 的租户信息
+		List<String> splitList = StrUtil.split(token, CharUtil.UNDERLINE);
 		// @formatter:off
-		return RetOps.of(tokenService.queryToken(token, SecurityConstants.FROM_IN))
+		return RetOps.of(tokenService.queryToken(splitList.get(1), splitList.get(0) ,SecurityConstants.FROM_IN))
 				.getDataIf(RetOps.CODE_SUCCESS)
 				.map(o -> (String)o.get("username"))
 				.orElse(null);
@@ -46,7 +51,9 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 
 	@Override
 	public Boolean verifyToken(String token) {
-		R<Map<String, Object>> result = tokenService.queryToken(token, SecurityConstants.FROM_IN);
+		// 分割出 PIGX 的租户信息
+		List<String> splitList = StrUtil.split(token, CharUtil.UNDERLINE);
+		R<Map<String, Object>> result = tokenService.queryToken(splitList.get(1), splitList.get(0) , SecurityConstants.FROM_IN);
 		if (CommonConstants.SUCCESS.equals(result.getCode())) {
 			return true;
 		}
