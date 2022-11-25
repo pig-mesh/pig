@@ -22,7 +22,7 @@
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig</artifactId>
     <name>${project.artifactId}</name>
-    <version>3.6.2</version>
+    <version>3.6.3</version>
     <packaging>pom</packaging>
     <url>https://www.pig4cloud.com</url>
 
