@@ -315,31 +315,25 @@ CREATE TABLE `sys_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='日志表';
 
 -- ----------------------------
--- Records of sys_log
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
                             `menu_id` bigint NOT NULL COMMENT '菜单ID',
-                            `name` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
-                            `permission` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
-                            `path` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL,
+                            `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
                             `parent_id` bigint DEFAULT NULL COMMENT '父菜单ID',
-                            `icon` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
+                            `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `visible` char(1) COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '是否显示',
                             `sort_order` int DEFAULT '1' COMMENT '排序值',
-                            `keep_alive` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                            `visible` char(1) CHARACTER SET utf8mb4 DEFAULT '1',
-                            `menu_type` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                            `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
+                            `keep_alive` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+                            `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+                            `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
                             `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                            `update_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '修改人',
+                            `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
                             `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                            `del_flag` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
+                            `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
                             `tenant_id` bigint unsigned DEFAULT NULL COMMENT '租户ID',
                             PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='菜单权限表';
@@ -348,150 +342,151 @@ CREATE TABLE `sys_menu` (
 -- Records of sys_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_menu` VALUES (1000, '权限管理', NULL, '/admin', -1, 'icon-quanxianguanli', 0, '0', '0', ' ', '2018-09-28 08:29:53', ' ', '2022-01-25 17:24:21', '0', 1);
-INSERT INTO `sys_menu` VALUES (1100, '用户管理', NULL, '/admin/user/index', 1000, 'icon-yonghuguanli', 1, '0', '0', ' ', '2017-11-02 22:24:37', ' ', '2022-01-27 11:58:48', '0', 1);
-INSERT INTO `sys_menu` VALUES (1101, '用户新增', 'sys_user_add', NULL, 1100, NULL, 1, '0', '1', ' ', '2017-11-08 09:52:09', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1102, '用户修改', 'sys_user_edit', NULL, 1100, NULL, 1, '0', '1', ' ', '2017-11-08 09:52:48', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1103, '用户删除', 'sys_user_del', NULL, 1100, NULL, 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1104, '导入导出', 'sys_user_export', NULL, 1100, NULL, 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1200, '菜单管理', NULL, '/admin/menu/index', 1000, 'icon-caidanguanli', 2, '0', '0', ' ', '2017-11-08 09:57:27', ' ', '2022-01-27 11:58:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1201, '菜单新增', 'sys_menu_add', NULL, 1200, NULL, 1, '0', '1', ' ', '2017-11-08 10:15:53', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1202, '菜单修改', 'sys_menu_edit', NULL, 1200, NULL, 1, '0', '1', ' ', '2017-11-08 10:16:23', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1203, '菜单删除', 'sys_menu_del', NULL, 1200, NULL, 1, '0', '1', ' ', '2017-11-08 10:16:43', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1300, '角色管理', NULL, '/admin/role/index', 1000, 'icon-jiaoseguanli', 3, '0', '0', ' ', '2017-11-08 10:13:37', ' ', '2022-01-27 11:59:01', '0', 1);
-INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300, NULL, 1, '0', '1', ' ', '2017-11-08 10:14:18', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, 1, '0', '1', ' ', '2017-11-08 10:14:41', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, 1, '0', '1', ' ', '2017-11-08 10:14:59', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, 1, '0', '1', ' ', '2018-04-20 07:22:55', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1305, '角色导入导出', 'sys_role_export', NULL, 1300, NULL, 4, '0', '1', ' ', '2022-03-26 15:54:34', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', 4, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:06', '0', 1);
-INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:16', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:56:59', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1403, '部门删除', 'sys_dept_del', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1404, '开放互联', 'sys_connect_sync', NULL, 1400, NULL, 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (1500, '租户管理', '', '/admin/tenant/index', 1000, 'icon-erji-zuhushouye', 5, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:14', '0', 1);
-INSERT INTO `sys_menu` VALUES (1501, '租户新增', 'admin_systenant_add', NULL, 1500, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:52', '0', 1);
-INSERT INTO `sys_menu` VALUES (1502, '租户修改', 'admin_systenant_edit', NULL, 1500, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (1503, '租户删除', 'admin_systenant_del', NULL, 1500, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:54', '0', 1);
-INSERT INTO `sys_menu` VALUES (1600, '岗位管理', NULL, '/admin/post/index', 1000, 'icon-record', 6, '0', '0', ' ', '2022-03-26 13:04:14', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601, '岗位信息查看', 'sys_post_view', NULL, 1600, NULL, 0, '0', '1', ' ', '2022-03-26 13:05:34', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1602, '岗位信息新增', 'sys_post_add', NULL, 1600, NULL, 1, '0', '1', ' ', '2022-03-26 13:06:00', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1603, '岗位信息修改', 'sys_post_edit', NULL, 1600, NULL, 2, '0', '1', ' ', '2022-03-26 13:06:31', ' ', '2022-03-26 13:06:38', '0', 1);
-INSERT INTO `sys_menu` VALUES (1604, '岗位信息删除', 'sys_post_del', NULL, 1600, NULL, 3, '0', '1', ' ', '2022-03-26 13:06:31', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1605, '岗位导入导出', 'sys_post_export', NULL, 1600, NULL, 4, '0', '1', ' ', '2022-03-26 13:06:31', ' ', '2022-03-26 06:32:02', '0', 1);
-INSERT INTO `sys_menu` VALUES (2000, '系统管理', NULL, '/system', -1, 'icon-xitongpeizhi', 1, '0', '0', ' ', '2017-11-07 20:56:00', ' ', '2022-02-05 16:15:14', '0', 1);
-INSERT INTO `sys_menu` VALUES (2100, '日志管理', NULL, '/admin/log/index', 2000, 'icon-rizhi', 5, '0', '0', ' ', '2017-11-20 14:06:22', ' ', '2020-03-24 08:56:56', '0', 1);
-INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, 2100, NULL, 1, '0', '1', ' ', '2017-11-20 20:37:37', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2102, '导入导出', 'sys_log_export', NULL, 2100, NULL, 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2200, '字典管理', NULL, '/admin/dict/index', 2000, 'icon-navicon-zdgl', 6, '0', '0', ' ', '2017-11-29 11:30:52', ' ', '2020-03-24 08:56:58', '0', 1);
-INSERT INTO `sys_menu` VALUES (2201, '字典删除', 'sys_dict_del', NULL, 2200, NULL, 1, '0', '1', ' ', '2017-11-29 11:30:11', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2202, '字典新增', 'sys_dict_add', NULL, 2200, NULL, 1, '0', '1', ' ', '2018-05-11 22:34:55', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2203, '字典修改', 'sys_dict_edit', NULL, 2200, NULL, 1, '0', '1', ' ', '2018-05-11 22:36:03', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2210, '参数管理', NULL, '/admin/param/index', 2000, 'icon-canshu', 7, '1', '0', ' ', '2019-04-29 22:16:50', ' ', '2020-03-24 08:57:10', '0', 1);
-INSERT INTO `sys_menu` VALUES (2211, '参数新增', 'admin_syspublicparam_add', NULL, 2210, NULL, 1, '0', '1', ' ', '2019-04-29 22:17:36', ' ', '2020-03-24 08:57:11', '0', 1);
-INSERT INTO `sys_menu` VALUES (2212, '参数删除', 'admin_syspublicparam_del', NULL, 2210, NULL, 1, '0', '1', ' ', '2019-04-29 22:17:55', ' ', '2020-03-24 08:57:12', '0', 1);
-INSERT INTO `sys_menu` VALUES (2213, '参数编辑', 'admin_syspublicparam_edit', NULL, 2210, NULL, 1, '0', '1', ' ', '2019-04-29 22:18:14', ' ', '2020-03-24 08:57:13', '0', 1);
-INSERT INTO `sys_menu` VALUES (2300, '代码生成', '', '/gen/index', 9000, 'icon-weibiaoti46', 1, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:14', '0', 1);
-INSERT INTO `sys_menu` VALUES (2400, '终端管理', '', '/admin/client/index', 2000, 'icon-bangzhushouji', 9, '1', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:15', '0', 1);
-INSERT INTO `sys_menu` VALUES (2401, '客户端新增', 'sys_client_add', NULL, 2400, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2402, '客户端修改', 'sys_client_edit', NULL, 2400, NULL, 1, '0', '1', ' ', '2018-05-15 21:37:06', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2403, '客户端删除', 'sys_client_del', NULL, 2400, NULL, 1, '0', '1', ' ', '2018-05-15 21:39:16', ' ', '2021-05-25 03:12:55', '0', 1);
-INSERT INTO `sys_menu` VALUES (2500, '密钥管理', '', '/admin/social/index', 2000, 'icon-miyue', 10, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:18', '0', 1);
-INSERT INTO `sys_menu` VALUES (2501, '密钥新增', 'sys_social_details_add', NULL, 2500, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0', 1);
-INSERT INTO `sys_menu` VALUES (2502, '密钥修改', 'sys_social_details_edit', NULL, 2500, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0', 1);
-INSERT INTO `sys_menu` VALUES (2503, '密钥删除', 'sys_social_details_del', NULL, 2500, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:23', '0', 1);
-INSERT INTO `sys_menu` VALUES (2600, '令牌管理', NULL, '/admin/token/index', 2000, 'icon-denglvlingpai', 11, '0', '0', ' ', '2018-09-04 05:58:41', ' ', '2020-03-24 08:57:24', '0', 1);
-INSERT INTO `sys_menu` VALUES (2601, '令牌删除', 'sys_token_del', NULL, 2600, NULL, 1, '0', '1', ' ', '2018-09-04 05:59:50', ' ', '2020-03-24 08:57:24', '0', 1);
-INSERT INTO `sys_menu` VALUES (2700, '动态路由', NULL, '/admin/route/index', 2000, 'icon-luyou', 12, '0', '0', ' ', '2018-09-04 05:58:41', ' ', '2020-03-24 08:57:25', '0', 1);
-INSERT INTO `sys_menu` VALUES (2800, 'Quartz管理', '', '/daemon/job-manage/index', 2000, 'icon-guanwangfangwen', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:26', '0', 1);
-INSERT INTO `sys_menu` VALUES (2810, '任务新增', 'job_sys_job_add', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:26', '0', 1);
-INSERT INTO `sys_menu` VALUES (2820, '任务修改', 'job_sys_job_edit', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:27', '0', 1);
-INSERT INTO `sys_menu` VALUES (2830, '任务删除', 'job_sys_job_del', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:28', '0', 1);
-INSERT INTO `sys_menu` VALUES (2840, '任务暂停', 'job_sys_job_shutdown_job', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:28', '0', 1);
-INSERT INTO `sys_menu` VALUES (2850, '任务开始', 'job_sys_job_start_job', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:29', '0', 1);
-INSERT INTO `sys_menu` VALUES (2860, '任务刷新', 'job_sys_job_refresh_job', NULL, 2800, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:30', '0', 1);
-INSERT INTO `sys_menu` VALUES (2870, '执行任务', 'job_sys_job_run_job', NULL, 2800, '1', 0, '0', '1', ' ', '2019-08-08 15:35:18', ' ', '2020-03-24 08:57:31', '0', 1);
-INSERT INTO `sys_menu` VALUES (3000, '系统监控', NULL, '/daemon', -1, 'icon-msnui-supervise', 2, '0', '2', ' ', '2018-07-27 01:13:21', ' ', '2020-03-24 08:57:31', '0', 1);
-INSERT INTO `sys_menu` VALUES (3100, '服务监控', NULL, 'http://127.0.0.1:5001', 3000, 'icon-server', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
-INSERT INTO `sys_menu` VALUES (3101, '流量监控', NULL, 'http://127.0.0.1:5020', 3000, 'icon-liuliang', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
-INSERT INTO `sys_menu` VALUES (3110, '缓存监控', NULL, '/monitor/redis/index', 3000, 'icon-qingchuhuancun', 1, '0', '0', ' ', '2019-05-08 23:51:27', ' ', '2020-03-24 08:57:33', '0', 1);
-INSERT INTO `sys_menu` VALUES (3200, '接口文档', NULL, 'http://127.0.0.1:9999/swagger-ui/index.html', 3000, 'icon-wendang', 1, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:34', '0', 1);
-INSERT INTO `sys_menu` VALUES (3500, '文档扩展', NULL, 'http://127.0.0.1:9999/doc.html', 3000, 'icon-wendang', 2, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:36', '0', 1);
-INSERT INTO `sys_menu` VALUES (3600, 'Quartz日志', '', '/daemon/job-log/index', 3000, 'icon-gtsquanjushiwufuwuGTS', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:37', '0', 1);
-INSERT INTO `sys_menu` VALUES (3700, '注册配置', NULL, '', 3000, 'icon-line', 10, '0', '0', ' ', '2018-01-25 11:08:52', ' ', '2020-03-24 08:57:37', '1', 1);
-INSERT INTO `sys_menu` VALUES (4000, '协同管理', NULL, '/activti', -1, 'icon-kuaisugongzuoliu_o', 3, '0', '0', ' ', '2018-09-26 01:38:13', ' ', '2020-03-24 08:57:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (4100, '模型管理', NULL, '/activiti/index', 4000, 'icon-weibiaoti13', 1, '0', '0', ' ', '2018-09-26 01:39:07', ' ', '2020-03-24 08:57:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (4101, '模型管理', 'act_model_manage', NULL, 4100, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:41', '0', 1);
-INSERT INTO `sys_menu` VALUES (4200, '流程管理', '/activiti/process', '/activiti/process', 4000, 'icon-liucheng', 2, '0', '0', ' ', '2018-09-26 06:41:05', ' ', '2020-03-24 08:57:42', '0', 1);
-INSERT INTO `sys_menu` VALUES (4201, '流程管理', 'act_process_manage', NULL, 4200, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:42', '0', 1);
-INSERT INTO `sys_menu` VALUES (4300, '请假管理', '/activiti/leave', '/activiti/leave', 4000, 'icon-qingjia', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:43', '0', 1);
-INSERT INTO `sys_menu` VALUES (4301, '请假新增', 'act_leavebill_add', NULL, 4300, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:44', '0', 1);
-INSERT INTO `sys_menu` VALUES (4302, '请假修改', 'act_leavebill_edit', NULL, 4300, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:45', '0', 1);
-INSERT INTO `sys_menu` VALUES (4303, '请假删除', 'act_leavebill_del', NULL, 4300, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:46', '0', 1);
-INSERT INTO `sys_menu` VALUES (4400, '待办任务', '/activiti/task', '/activiti/task', 4000, 'icon-renwu', 4, '0', '0', ' ', '2018-09-27 09:52:31', ' ', '2020-03-24 08:57:48', '0', 1);
-INSERT INTO `sys_menu` VALUES (4401, '流程管理', 'act_task_manage', NULL, 4400, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:50', '0', 1);
-INSERT INTO `sys_menu` VALUES (5000, '支付管理', NULL, '/pay', -1, 'icon-pay6zhifu', 4, '0', '0', ' ', '2019-05-30 15:28:03', ' ', '2020-03-24 08:57:51', '0', 1);
-INSERT INTO `sys_menu` VALUES (5100, '渠道管理', NULL, '/pay/paychannel/index', 5000, 'icon-zhifuqudaoguanli', 1, '0', '0', ' ', '2019-05-30 15:32:17', ' ', '2020-03-24 08:57:52', '0', 1);
-INSERT INTO `sys_menu` VALUES (5110, '增加渠道', 'pay_paychannel_add', NULL, 5100, NULL, 1, '0', '1', ' ', '2019-05-30 15:46:14', ' ', '2020-03-24 08:58:07', '0', 1);
-INSERT INTO `sys_menu` VALUES (5120, '编辑渠道', 'pay_paychannel_edit', NULL, 5100, NULL, 1, '0', '1', ' ', '2019-05-30 15:46:35', ' ', '2020-03-24 08:58:08', '0', 1);
-INSERT INTO `sys_menu` VALUES (5130, '删除渠道', 'pay_paychannel_del', NULL, 5100, NULL, 1, '0', '1', ' ', '2019-05-30 15:47:08', ' ', '2020-03-24 08:58:09', '0', 1);
-INSERT INTO `sys_menu` VALUES (5200, '收银台', NULL, '/pay/cd/index', 5000, 'icon-shouyintai', 0, '0', '0', ' ', '2019-05-30 19:44:00', ' ', '2020-03-24 08:58:09', '0', 1);
-INSERT INTO `sys_menu` VALUES (5300, '商品订单', '', '/pay/goods/index', 5000, 'icon-dingdan', 2, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:10', '0', 1);
-INSERT INTO `sys_menu` VALUES (5310, '商品订单新增', 'generator_paygoodsorder_add', NULL, 5300, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:11', '0', 1);
-INSERT INTO `sys_menu` VALUES (5320, '商品订单修改', 'generator_paygoodsorder_edit', NULL, 5300, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:13', '0', 1);
-INSERT INTO `sys_menu` VALUES (5330, '商品订单删除', 'generator_paygoodsorder_del', NULL, 5300, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:14', '0', 1);
-INSERT INTO `sys_menu` VALUES (5400, '支付订单', '', '/pay/orders/index', 5000, 'icon-zhifu', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:14', '0', 1);
-INSERT INTO `sys_menu` VALUES (5410, '支付订单新增', 'generator_paytradeorder_add', NULL, 5400, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:15', '0', 1);
-INSERT INTO `sys_menu` VALUES (5420, '支付订单修改', 'generator_paytradeorder_edit', NULL, 5400, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:16', '0', 1);
-INSERT INTO `sys_menu` VALUES (5430, '支付订单删除', 'generator_paytradeorder_del', NULL, 5400, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:18', '0', 1);
-INSERT INTO `sys_menu` VALUES (5500, '回调记录', '', '/pay/notify/index', 5000, 'icon-huitiao', 4, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:19', '0', 1);
-INSERT INTO `sys_menu` VALUES (5510, '记录新增', 'generator_paynotifyrecord_add', NULL, 5500, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:19', '0', 1);
-INSERT INTO `sys_menu` VALUES (5520, '记录修改', 'generator_paynotifyrecord_edit', NULL, 5500, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:20', '0', 1);
-INSERT INTO `sys_menu` VALUES (5530, '记录删除', 'generator_paynotifyrecord_del', NULL, 5500, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:21', '0', 1);
-INSERT INTO `sys_menu` VALUES (6000, '微信管理', NULL, '/mp', -1, 'icon-gongzhonghao', 4, '0', '0', ' ', '2018-09-26 01:38:13', ' ', '2020-03-24 08:58:21', '0', 1);
-INSERT INTO `sys_menu` VALUES (6100, '账号管理', '', '/mp/wx-account/index', 6000, 'icon-weixincaidan', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6101, '公众号新增', 'mp_wxaccount_add', '', 6100, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:23', '0', 1);
-INSERT INTO `sys_menu` VALUES (6102, '公众号修改', 'mp_wxaccount_edit', NULL, 6100, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:23', '0', 1);
-INSERT INTO `sys_menu` VALUES (6103, '公众号删除', 'mp_wxaccount_del', NULL, 6100, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:25', '0', 1);
-INSERT INTO `sys_menu` VALUES (6200, '粉丝管理', '', '/mp/wx-account-fans/index', 6000, 'icon-fensiguanli', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6201, '粉丝新增', 'mp_wxaccountfans_add', NULL, 6200, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:27', '0', 1);
-INSERT INTO `sys_menu` VALUES (6202, '粉丝修改', 'mp_wxaccountfans_edit', NULL, 6200, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:30', '0', 1);
-INSERT INTO `sys_menu` VALUES (6203, '粉丝删除', 'mp_wxaccountfans_del', NULL, 6200, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:31', '0', 1);
-INSERT INTO `sys_menu` VALUES (6204, '粉丝同步', 'mp_wxaccountfans_sync', NULL, 6200, '1', 3, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:31', '0', 1);
-INSERT INTO `sys_menu` VALUES (6300, '消息管理', '', '/mp/wx-fans-msg/index', 6000, 'icon-xiaoxiguanli', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6301, '消息新增', 'mp_wxmsg_add', NULL, 6300, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:32', '0', 1);
-INSERT INTO `sys_menu` VALUES (6302, '消息修改', 'mp_wxmsg_edit', NULL, 6300, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:33', '0', 1);
-INSERT INTO `sys_menu` VALUES (6303, '消息删除', 'mp_wxmsg_del', NULL, 6300, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:33', '0', 1);
-INSERT INTO `sys_menu` VALUES (6400, '菜单设置', NULL, '/mp/wx-menu/index', 6000, 'icon-anniu_weixincaidanlianjie', 6, '0', '0', ' ', '2019-03-29 15:20:12', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6401, '保存', 'mp_wxmenu_add', NULL, 6400, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:22', ' ', '2020-03-24 08:58:38', '0', 1);
-INSERT INTO `sys_menu` VALUES (6402, '发布', 'mp_wxmenu_push', NULL, 6400, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6403, '删除', 'mp_wxmenu_del', NULL, 6400, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6500, '运营数据', NULL, '/mp/wx-statistics/index', 6000, 'icon-zhexiantu', 7, '0', '0', ' ', '2019-04-14 00:15:35', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6600, '素材管理', NULL, '/mp/wx-material/index', 6000, 'icon-sucaisads', 999, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6601, '素材维护', 'mp_wxmaterial_add', NULL, 6600, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6602, '素材删除', 'mp_wxmaterial_del', NULL, 6600, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6700, '自动回复', NULL, '/mp/wx-auto-reply/index', 6000, 'icon-huifu', 998, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2021-12-31 04:46:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (6701, '新增回复', 'mp_wxautoreply_add', NULL, 6700, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6702, '编辑回复', 'mp_wxautoreply_edit', NULL, 6700, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6703, '删除回复', 'mp_wxautoreply_del', NULL, 6700, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6800, '标签管理', NULL, '/mp/wx-account-tag/index', 6000, 'icon-huifu', 998, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2020-05-09 03:16:16', '0', 1);
-INSERT INTO `sys_menu` VALUES (6801, '新增标签', 'mp_wx_account_tag_add', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6802, '编辑标签', 'mp_wx_account_tag_edit', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6803, '删除标签', 'mp_wx_account_tag_del', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
-INSERT INTO `sys_menu` VALUES (6804, '同步标签', 'mp_wx_account_tag_sync', NULL, 6800, NULL, 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2022-02-17 15:44:24', '0', 1);
-INSERT INTO `sys_menu` VALUES (7000, '报表设计', NULL, '/report/bi/index', -1, 'icon-icon-p_mrpbaobiao', 9, '0', '0', ' ', '2019-08-12 09:35:16', ' ', '2020-03-24 08:58:48', '0', 1);
-INSERT INTO `sys_menu` VALUES (8000, '文件管理', NULL, '/admin/file/index', 2000, 'icon-wenjianguanli', 6, '0', '0', ' ', '2019-06-25 12:44:46', ' ', '2020-03-24 08:58:41', '0', 1);
-INSERT INTO `sys_menu` VALUES (8001, '删除文件', 'sys_file_del', NULL, 8000, NULL, 1, '0', '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0', 1);
-INSERT INTO `sys_menu` VALUES (9000, '开发平台', NULL, '/gen', -1, 'icon-shejiyukaifa-', 9, '0', '0', ' ', '2019-08-12 09:35:16', ' ', '2020-03-24 08:58:48', '0', 1);
-INSERT INTO `sys_menu` VALUES (9001, '表单管理', '', '/gen/form', 9000, 'icon-record', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:44', '0', 1);
-INSERT INTO `sys_menu` VALUES (9002, '表单新增', 'gen_form_add', NULL, 9001, '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:45', '0', 1);
-INSERT INTO `sys_menu` VALUES (9003, '表单修改', 'gen_form_edit', NULL, 9001, '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:46', '0', 1);
-INSERT INTO `sys_menu` VALUES (9004, '表单删除', 'gen_form_del', NULL, 9001, '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:47', '0', 1);
-INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource', 9000, 'icon-mysql', 0, '0', '0', ' ', '2019-08-12 09:42:11', ' ', '2020-03-24 08:58:49', '0', 1);
-INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', 2, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (9007, '低代码', 'gen_api_designer', NULL , 9001, '1', 3, '0', '1', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
-INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, '/report/screen/index', -1, 'icon-shuju', 10, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (1000, '权限管理', NULL, '/admin', -1, 'icon-quanxianguanli', '1', 0, '0', '0', ' ', '2018-09-28 08:29:53', ' ', '2022-01-25 17:24:21', '0', 1);
+INSERT INTO `sys_menu` VALUES (1100, '用户管理', NULL, '/admin/user/index', 1000, 'icon-yonghuguanli', '1', 1, '0', '0', ' ', '2017-11-02 22:24:37', ' ', '2022-01-27 11:58:48', '0', 1);
+INSERT INTO `sys_menu` VALUES (1101, '用户新增', 'sys_user_add', NULL, 1100, NULL, '1', 1, '0', '1', ' ', '2017-11-08 09:52:09', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1102, '用户修改', 'sys_user_edit', NULL, 1100, NULL, '1', 1, '0', '1', ' ', '2017-11-08 09:52:48', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1103, '用户删除', 'sys_user_del', NULL, 1100, NULL, '1', 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1104, '导入导出', 'sys_user_export', NULL, 1100, NULL, '1', 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1200, '菜单管理', NULL, '/admin/menu/index', 1000, 'icon-caidanguanli', '1', 2, '0', '0', ' ', '2017-11-08 09:57:27', ' ', '2022-01-27 11:58:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1201, '菜单新增', 'sys_menu_add', NULL, 1200, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:15:53', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1202, '菜单修改', 'sys_menu_edit', NULL, 1200, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:16:23', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1203, '菜单删除', 'sys_menu_del', NULL, 1200, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:16:43', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1300, '角色管理', NULL, '/admin/role/index', 1000, 'icon-jiaoseguanli', '1', 3, '0', '0', ' ', '2017-11-08 10:13:37', ' ', '2022-01-27 11:59:01', '0', 1);
+INSERT INTO `sys_menu` VALUES (1301, '角色新增', 'sys_role_add', NULL, 1300, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:14:18', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1302, '角色修改', 'sys_role_edit', NULL, 1300, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:14:41', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1303, '角色删除', 'sys_role_del', NULL, 1300, NULL, '1', 1, '0', '1', ' ', '2017-11-08 10:14:59', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1304, '分配权限', 'sys_role_perm', NULL, 1300, NULL, '1', 1, '0', '1', ' ', '2018-04-20 07:22:55', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1305, '角色导入导出', 'sys_role_export', NULL, 1300, NULL, '1', 4, '0', '1', ' ', '2022-03-26 15:54:34', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1400, '部门管理', NULL, '/admin/dept/index', 1000, 'icon-web-icon-', '1', 4, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:06', '0', 1);
+INSERT INTO `sys_menu` VALUES (1401, '部门新增', 'sys_dept_add', NULL, 1400, NULL, '1', 1, '0', '1', ' ', '2018-01-20 14:56:16', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1402, '部门修改', 'sys_dept_edit', NULL, 1400, NULL, '1', 1, '0', '1', ' ', '2018-01-20 14:56:59', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1403, '部门删除', 'sys_dept_del', NULL, 1400, NULL, '1', 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1404, '开放互联', 'sys_connect_sync', NULL, 1400, NULL, '1', 1, '0', '1', ' ', '2018-01-20 14:57:28', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (1500, '租户管理', '', '/admin/tenant/index', 1000, 'icon-erji-zuhushouye', '1', 5, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2022-01-27 11:59:14', '0', 1);
+INSERT INTO `sys_menu` VALUES (1501, '租户新增', 'admin_systenant_add', NULL, 1500, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:52', '0', 1);
+INSERT INTO `sys_menu` VALUES (1502, '租户修改', 'admin_systenant_edit', NULL, 1500, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (1503, '租户删除', 'admin_systenant_del', NULL, 1500, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:56:54', '0', 1);
+INSERT INTO `sys_menu` VALUES (1600, '岗位管理', NULL, '/admin/post/index', 1000, 'icon-record', '1', 6, '0', '0', ' ', '2022-03-26 13:04:14', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1601, '岗位信息查看', 'sys_post_view', NULL, 1600, NULL, '1', 0, '0', '1', ' ', '2022-03-26 13:05:34', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1602, '岗位信息新增', 'sys_post_add', NULL, 1600, NULL, '1', 1, '0', '1', ' ', '2022-03-26 13:06:00', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1603, '岗位信息修改', 'sys_post_edit', NULL, 1600, NULL, '1', 2, '0', '1', ' ', '2022-03-26 13:06:31', ' ', '2022-03-26 13:06:38', '0', 1);
+INSERT INTO `sys_menu` VALUES (1604, '岗位信息删除', 'sys_post_del', NULL, 1600, NULL, '1', 3, '0', '1', ' ', '2022-03-26 13:06:31', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1605, '岗位导入导出', 'sys_post_export', NULL, 1600, NULL, '1', 4, '0', '1', ' ', '2022-03-26 13:06:31', ' ', '2022-03-26 06:32:02', '0', 1);
+INSERT INTO `sys_menu` VALUES (2000, '系统管理', NULL, '/system', -1, 'icon-xitongpeizhi', '1', 1, '0', '0', ' ', '2017-11-07 20:56:00', ' ', '2022-02-05 16:15:14', '0', 1);
+INSERT INTO `sys_menu` VALUES (2100, '日志管理', NULL, '/admin/log/index', 2000, 'icon-rizhi', '1', 5, '0', '0', ' ', '2017-11-20 14:06:22', ' ', '2020-03-24 08:56:56', '0', 1);
+INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, 2100, NULL, '1', 1, '0', '1', ' ', '2017-11-20 20:37:37', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2102, '导入导出', 'sys_log_export', NULL, 2100, NULL, '1', 1, '0', '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2200, '字典管理', NULL, '/admin/dict/index', 2000, 'icon-navicon-zdgl', '1', 6, '0', '0', ' ', '2017-11-29 11:30:52', ' ', '2020-03-24 08:56:58', '0', 1);
+INSERT INTO `sys_menu` VALUES (2201, '字典删除', 'sys_dict_del', NULL, 2200, NULL, '1', 1, '0', '1', ' ', '2017-11-29 11:30:11', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2202, '字典新增', 'sys_dict_add', NULL, 2200, NULL, '1', 1, '0', '1', ' ', '2018-05-11 22:34:55', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2203, '字典修改', 'sys_dict_edit', NULL, 2200, NULL, '1', 1, '0', '1', ' ', '2018-05-11 22:36:03', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2210, '参数管理', NULL, '/admin/param/index', 2000, 'icon-canshu', '1', 7, '1', '0', ' ', '2019-04-29 22:16:50', ' ', '2020-03-24 08:57:10', '0', 1);
+INSERT INTO `sys_menu` VALUES (2211, '参数新增', 'admin_syspublicparam_add', NULL, 2210, NULL, '1', 1, '0', '1', ' ', '2019-04-29 22:17:36', ' ', '2020-03-24 08:57:11', '0', 1);
+INSERT INTO `sys_menu` VALUES (2212, '参数删除', 'admin_syspublicparam_del', NULL, 2210, NULL, '1', 1, '0', '1', ' ', '2019-04-29 22:17:55', ' ', '2020-03-24 08:57:12', '0', 1);
+INSERT INTO `sys_menu` VALUES (2213, '参数编辑', 'admin_syspublicparam_edit', NULL, 2210, NULL, '1', 1, '0', '1', ' ', '2019-04-29 22:18:14', ' ', '2020-03-24 08:57:13', '0', 1);
+INSERT INTO `sys_menu` VALUES (2300, '代码生成', '', '/gen/index', 9000, 'icon-weibiaoti46', '1', 1, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:14', '0', 1);
+INSERT INTO `sys_menu` VALUES (2400, '终端管理', '', '/admin/client/index', 2000, 'icon-bangzhushouji', '1', 9, '1', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:15', '0', 1);
+INSERT INTO `sys_menu` VALUES (2401, '客户端新增', 'sys_client_add', NULL, 2400, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2402, '客户端修改', 'sys_client_edit', NULL, 2400, NULL, '1', 1, '0', '1', ' ', '2018-05-15 21:37:06', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2403, '客户端删除', 'sys_client_del', NULL, 2400, NULL, '1', 1, '0', '1', ' ', '2018-05-15 21:39:16', ' ', '2021-05-25 03:12:55', '0', 1);
+INSERT INTO `sys_menu` VALUES (2500, '密钥管理', '', '/admin/social/index', 2000, 'icon-miyue', '1', 10, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:18', '0', 1);
+INSERT INTO `sys_menu` VALUES (2501, '密钥新增', 'sys_social_details_add', NULL, 2500, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0', 1);
+INSERT INTO `sys_menu` VALUES (2502, '密钥修改', 'sys_social_details_edit', NULL, 2500, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0', 1);
+INSERT INTO `sys_menu` VALUES (2503, '密钥删除', 'sys_social_details_del', NULL, 2500, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:23', '0', 1);
+INSERT INTO `sys_menu` VALUES (2600, '令牌管理', NULL, '/admin/token/index', 2000, 'icon-denglvlingpai', '1', 11, '0', '0', ' ', '2018-09-04 05:58:41', ' ', '2020-03-24 08:57:24', '0', 1);
+INSERT INTO `sys_menu` VALUES (2601, '令牌删除', 'sys_token_del', NULL, 2600, NULL, '1', 1, '0', '1', ' ', '2018-09-04 05:59:50', ' ', '2020-03-24 08:57:24', '0', 1);
+INSERT INTO `sys_menu` VALUES (2700, '动态路由', NULL, '/admin/route/index', 2000, 'icon-luyou', '1', 12, '0', '0', ' ', '2018-09-04 05:58:41', ' ', '2020-03-24 08:57:25', '0', 1);
+INSERT INTO `sys_menu` VALUES (2800, 'Quartz管理', '', '/daemon/job-manage/index', 2000, 'icon-guanwangfangwen', '1', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:26', '0', 1);
+INSERT INTO `sys_menu` VALUES (2810, '任务新增', 'job_sys_job_add', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:26', '0', 1);
+INSERT INTO `sys_menu` VALUES (2820, '任务修改', 'job_sys_job_edit', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:27', '0', 1);
+INSERT INTO `sys_menu` VALUES (2830, '任务删除', 'job_sys_job_del', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:28', '0', 1);
+INSERT INTO `sys_menu` VALUES (2840, '任务暂停', 'job_sys_job_shutdown_job', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:28', '0', 1);
+INSERT INTO `sys_menu` VALUES (2850, '任务开始', 'job_sys_job_start_job', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:29', '0', 1);
+INSERT INTO `sys_menu` VALUES (2860, '任务刷新', 'job_sys_job_refresh_job', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:30', '0', 1);
+INSERT INTO `sys_menu` VALUES (2870, '执行任务', 'job_sys_job_run_job', NULL, 2800, '1', '1', 0, '0', '1', ' ', '2019-08-08 15:35:18', ' ', '2020-03-24 08:57:31', '0', 1);
+INSERT INTO `sys_menu` VALUES (3000, '系统监控', NULL, '/daemon', -1, 'icon-msnui-supervise', '1', 2, '0', '2', ' ', '2018-07-27 01:13:21', ' ', '2020-03-24 08:57:31', '0', 1);
+INSERT INTO `sys_menu` VALUES (3100, '服务监控', NULL, 'http://127.0.0.1:5001', 3000, 'icon-server', '1', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
+INSERT INTO `sys_menu` VALUES (3101, '流量监控', NULL, 'http://127.0.0.1:5020', 3000, 'icon-liuliang', '1', 0, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:32', '0', 1);
+INSERT INTO `sys_menu` VALUES (3110, '缓存监控', NULL, '/monitor/redis/index', 3000, 'icon-qingchuhuancun', '1', 1, '0', '0', ' ', '2019-05-08 23:51:27', ' ', '2020-03-24 08:57:33', '0', 1);
+INSERT INTO `sys_menu` VALUES (3200, '接口文档', NULL, 'http://127.0.0.1:9999/swagger-ui/index.html', 3000, 'icon-wendang', '1', 1, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:34', '0', 1);
+INSERT INTO `sys_menu` VALUES (3500, '文档扩展', NULL, 'http://127.0.0.1:9999/doc.html', 3000, 'icon-wendang', '1', 2, '0', '0', ' ', '2018-06-26 10:50:32', ' ', '2020-03-24 08:57:36', '0', 1);
+INSERT INTO `sys_menu` VALUES (3600, 'Quartz日志', '', '/daemon/job-log/index', 3000, 'icon-gtsquanjushiwufuwuGTS', '1', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:37', '0', 1);
+INSERT INTO `sys_menu` VALUES (3700, '注册配置', NULL, '', 3000, 'icon-line', '1', 10, '0', '0', ' ', '2018-01-25 11:08:52', ' ', '2020-03-24 08:57:37', '1', 1);
+INSERT INTO `sys_menu` VALUES (4000, '协同管理', NULL, '/activti', -1, 'icon-kuaisugongzuoliu_o', '1', 3, '0', '0', ' ', '2018-09-26 01:38:13', ' ', '2020-03-24 08:57:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (4100, '模型管理', NULL, '/activiti/index', 4000, 'icon-weibiaoti13', '1', 1, '0', '0', ' ', '2018-09-26 01:39:07', ' ', '2020-03-24 08:57:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (4101, '模型管理', 'act_model_manage', NULL, 4100, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:41', '0', 1);
+INSERT INTO `sys_menu` VALUES (4200, '流程管理', '/activiti/process', '/activiti/process', 4000, 'icon-liucheng', '1', 2, '0', '0', ' ', '2018-09-26 06:41:05', ' ', '2020-03-24 08:57:42', '0', 1);
+INSERT INTO `sys_menu` VALUES (4201, '流程管理', 'act_process_manage', NULL, 4200, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:42', '0', 1);
+INSERT INTO `sys_menu` VALUES (4300, '请假管理', '/activiti/leave', '/activiti/leave', 4000, 'icon-qingjia', '1', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:57:43', '0', 1);
+INSERT INTO `sys_menu` VALUES (4301, '请假新增', 'act_leavebill_add', NULL, 4300, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:44', '0', 1);
+INSERT INTO `sys_menu` VALUES (4302, '请假修改', 'act_leavebill_edit', NULL, 4300, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:45', '0', 1);
+INSERT INTO `sys_menu` VALUES (4303, '请假删除', 'act_leavebill_del', NULL, 4300, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:46', '0', 1);
+INSERT INTO `sys_menu` VALUES (4400, '待办任务', '/activiti/task', '/activiti/task', 4000, 'icon-renwu', '1', 4, '0', '0', ' ', '2018-09-27 09:52:31', ' ', '2020-03-24 08:57:48', '0', 1);
+INSERT INTO `sys_menu` VALUES (4401, '流程管理', 'act_task_manage', NULL, 4400, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:50', '0', 1);
+INSERT INTO `sys_menu` VALUES (5000, '支付管理', NULL, '/pay', -1, 'icon-pay6zhifu', '1', 4, '0', '0', ' ', '2019-05-30 15:28:03', ' ', '2020-03-24 08:57:51', '0', 1);
+INSERT INTO `sys_menu` VALUES (5100, '渠道管理', NULL, '/pay/paychannel/index', 5000, 'icon-zhifuqudaoguanli', '1', 1, '0', '0', ' ', '2019-05-30 15:32:17', ' ', '2020-03-24 08:57:52', '0', 1);
+INSERT INTO `sys_menu` VALUES (5110, '增加渠道', 'pay_paychannel_add', NULL, 5100, NULL, '1', 1, '0', '1', ' ', '2019-05-30 15:46:14', ' ', '2020-03-24 08:58:07', '0', 1);
+INSERT INTO `sys_menu` VALUES (5120, '编辑渠道', 'pay_paychannel_edit', NULL, 5100, NULL, '1', 1, '0', '1', ' ', '2019-05-30 15:46:35', ' ', '2020-03-24 08:58:08', '0', 1);
+INSERT INTO `sys_menu` VALUES (5130, '删除渠道', 'pay_paychannel_del', NULL, 5100, NULL, '1', 1, '0', '1', ' ', '2019-05-30 15:47:08', ' ', '2020-03-24 08:58:09', '0', 1);
+INSERT INTO `sys_menu` VALUES (5200, '收银台', NULL, '/pay/cd/index', 5000, 'icon-shouyintai', '1', 0, '0', '0', ' ', '2019-05-30 19:44:00', ' ', '2020-03-24 08:58:09', '0', 1);
+INSERT INTO `sys_menu` VALUES (5300, '商品订单', '', '/pay/goods/index', 5000, 'icon-dingdan', '1', 2, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:10', '0', 1);
+INSERT INTO `sys_menu` VALUES (5310, '商品订单新增', 'generator_paygoodsorder_add', NULL, 5300, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:11', '0', 1);
+INSERT INTO `sys_menu` VALUES (5320, '商品订单修改', 'generator_paygoodsorder_edit', NULL, 5300, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:13', '0', 1);
+INSERT INTO `sys_menu` VALUES (5330, '商品订单删除', 'generator_paygoodsorder_del', NULL, 5300, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:14', '0', 1);
+INSERT INTO `sys_menu` VALUES (5400, '支付订单', '', '/pay/orders/index', 5000, 'icon-zhifu', '1', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:14', '0', 1);
+INSERT INTO `sys_menu` VALUES (5410, '支付订单新增', 'generator_paytradeorder_add', NULL, 5400, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:15', '0', 1);
+INSERT INTO `sys_menu` VALUES (5420, '支付订单修改', 'generator_paytradeorder_edit', NULL, 5400, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:16', '0', 1);
+INSERT INTO `sys_menu` VALUES (5430, '支付订单删除', 'generator_paytradeorder_del', NULL, 5400, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:18', '0', 1);
+INSERT INTO `sys_menu` VALUES (5500, '回调记录', '', '/pay/notify/index', 5000, 'icon-huitiao', '1', 4, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:19', '0', 1);
+INSERT INTO `sys_menu` VALUES (5510, '记录新增', 'generator_paynotifyrecord_add', NULL, 5500, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:19', '0', 1);
+INSERT INTO `sys_menu` VALUES (5520, '记录修改', 'generator_paynotifyrecord_edit', NULL, 5500, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:20', '0', 1);
+INSERT INTO `sys_menu` VALUES (5530, '记录删除', 'generator_paynotifyrecord_del', NULL, 5500, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:21', '0', 1);
+INSERT INTO `sys_menu` VALUES (6000, '微信管理', NULL, '/mp', -1, 'icon-gongzhonghao', '1', 4, '0', '0', ' ', '2018-09-26 01:38:13', ' ', '2020-03-24 08:58:21', '0', 1);
+INSERT INTO `sys_menu` VALUES (6100, '账号管理', '', '/mp/wx-account/index', 6000, 'icon-weixincaidan', '1', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6101, '公众号新增', 'mp_wxaccount_add', '', 6100, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:23', '0', 1);
+INSERT INTO `sys_menu` VALUES (6102, '公众号修改', 'mp_wxaccount_edit', NULL, 6100, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:23', '0', 1);
+INSERT INTO `sys_menu` VALUES (6103, '公众号删除', 'mp_wxaccount_del', NULL, 6100, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:25', '0', 1);
+INSERT INTO `sys_menu` VALUES (6200, '粉丝管理', '', '/mp/wx-account-fans/index', 6000, 'icon-fensiguanli', '1', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6201, '粉丝新增', 'mp_wxaccountfans_add', NULL, 6200, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:27', '0', 1);
+INSERT INTO `sys_menu` VALUES (6202, '粉丝修改', 'mp_wxaccountfans_edit', NULL, 6200, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:30', '0', 1);
+INSERT INTO `sys_menu` VALUES (6203, '粉丝删除', 'mp_wxaccountfans_del', NULL, 6200, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:31', '0', 1);
+INSERT INTO `sys_menu` VALUES (6204, '粉丝同步', 'mp_wxaccountfans_sync', NULL, 6200, '1', '1', 3, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:31', '0', 1);
+INSERT INTO `sys_menu` VALUES (6300, '消息管理', '', '/mp/wx-fans-msg/index', 6000, 'icon-xiaoxiguanli', '1', 8, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6301, '消息新增', 'mp_wxmsg_add', NULL, 6300, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:32', '0', 1);
+INSERT INTO `sys_menu` VALUES (6302, '消息修改', 'mp_wxmsg_edit', NULL, 6300, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:33', '0', 1);
+INSERT INTO `sys_menu` VALUES (6303, '消息删除', 'mp_wxmsg_del', NULL, 6300, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:33', '0', 1);
+INSERT INTO `sys_menu` VALUES (6400, '菜单设置', NULL, '/mp/wx-menu/index', 6000, 'icon-anniu_weixincaidanlianjie', '1', 6, '0', '0', ' ', '2019-03-29 15:20:12', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6401, '保存', 'mp_wxmenu_add', NULL, 6400, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:22', ' ', '2020-03-24 08:58:38', '0', 1);
+INSERT INTO `sys_menu` VALUES (6402, '发布', 'mp_wxmenu_push', NULL, 6400, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6403, '删除', 'mp_wxmenu_del', NULL, 6400, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6500, '运营数据', NULL, '/mp/wx-statistics/index', 6000, 'icon-zhexiantu', '1', 7, '0', '0', ' ', '2019-04-14 00:15:35', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6600, '素材管理', NULL, '/mp/wx-material/index', 6000, 'icon-sucaisads', '1', 999, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6601, '素材维护', 'mp_wxmaterial_add', NULL, 6600, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6602, '素材删除', 'mp_wxmaterial_del', NULL, 6600, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6700, '自动回复', NULL, '/mp/wx-auto-reply/index', 6000, 'icon-huifu', '1', 998, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2021-12-31 04:46:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (6701, '新增回复', 'mp_wxautoreply_add', NULL, 6700, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6702, '编辑回复', 'mp_wxautoreply_edit', NULL, 6700, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6703, '删除回复', 'mp_wxautoreply_del', NULL, 6700, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6800, '标签管理', NULL, '/mp/wx-account-tag/index', 6000, 'icon-huifu', '1', 998, '0', '0', ' ', '2020-04-27 15:25:17', ' ', '2020-05-09 03:16:16', '0', 1);
+INSERT INTO `sys_menu` VALUES (6801, '新增标签', 'mp_wx_account_tag_add', NULL, 6800, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6802, '编辑标签', 'mp_wx_account_tag_edit', NULL, 6800, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6803, '删除标签', 'mp_wx_account_tag_del', NULL, 6800, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2020-03-24 08:58:39', '0', 1);
+INSERT INTO `sys_menu` VALUES (6804, '同步标签', 'mp_wx_account_tag_sync', NULL, 6800, NULL, '1', 1, '0', '1', ' ', '2019-03-29 15:43:54', ' ', '2022-02-17 15:44:24', '0', 1);
+INSERT INTO `sys_menu` VALUES (7000, '报表设计', NULL, '/report/bi/index', -1, 'icon-icon-p_mrpbaobiao', '1', 9, '0', '0', '', '2019-08-12 09:35:16', 'admin', '2022-11-18 18:48:17', '0', 1);
+INSERT INTO `sys_menu` VALUES (8000, '文件管理', NULL, '/admin/file/index', 2000, 'icon-wenjianguanli', '1', 6, '0', '0', ' ', '2019-06-25 12:44:46', ' ', '2020-03-24 08:58:41', '0', 1);
+INSERT INTO `sys_menu` VALUES (8001, '删除文件', 'sys_file_del', NULL, 8000, NULL, '1', 1, '0', '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0', 1);
+INSERT INTO `sys_menu` VALUES (9000, '开发平台', NULL, '/gen', -1, 'icon-shejiyukaifa-', '1', 9, '0', '0', ' ', '2019-08-12 09:35:16', ' ', '2020-03-24 08:58:48', '0', 1);
+INSERT INTO `sys_menu` VALUES (9001, '表单管理', '', '/gen/form', 9000, 'icon-record', '1', 3, '0', '0', ' ', '2018-01-20 13:17:19', ' ', '2020-03-24 08:58:44', '0', 1);
+INSERT INTO `sys_menu` VALUES (9002, '表单新增', 'gen_form_add', NULL, 9001, '1', '1', 0, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:45', '0', 1);
+INSERT INTO `sys_menu` VALUES (9003, '表单修改', 'gen_form_edit', NULL, 9001, '1', '1', 1, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:46', '0', 1);
+INSERT INTO `sys_menu` VALUES (9004, '表单删除', 'gen_form_del', NULL, 9001, '1', '1', 2, '0', '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:58:47', '0', 1);
+INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource', 9000, 'icon-mysql', '1', 0, '0', '0', ' ', '2019-08-12 09:42:11', ' ', '2020-03-24 08:58:49', '0', 1);
+INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', '1', 2, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (9007, '低代码', 'gen_api_designer', NULL, 9001, '1', '1', 3, '0', '1', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
+INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, '/report/screen/index', -1, 'icon-shuju', '1', 10, '0', '0', '', '2019-08-16 10:08:56', 'admin', '2022-11-04 15:21:29', '0', 1);
 COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_oauth_client_details
