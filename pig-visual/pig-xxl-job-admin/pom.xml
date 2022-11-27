@@ -19,6 +19,12 @@
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
 
+		<!--配置中心客户端-->
+		<dependency>
+			<groupId>com.alibaba.cloud</groupId>
+			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+		</dependency>
+
 		<!--hibernate-validator 兼容JAVA11-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
