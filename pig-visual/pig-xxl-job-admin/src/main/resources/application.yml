@@ -5,19 +5,6 @@ server:
   servlet:
     context-path: /xxl-job-admin
 
-# xxl
-xxl:
-  job:
-    accessToken: default_token
-    i18n: zh_CN
-    logretentiondays: 30
-    triggerpool:
-      fast.max: 200
-      slow.max: 200
-
-# mybatis
-mybatis:
-  mapper-locations: classpath:/mybatis-mapper/*Mapper.xml
 
 # spring
 spring:
@@ -29,41 +16,10 @@ spring:
         server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
         metadata:
           management.context-path: ${server.servlet.context-path}/actuator
-  datasource:
-    url: jdbc:mysql://${MYSQL_HOST:pig-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pig_job}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${MYSQL_USER:root}
-    password: ${MYSQL_PWD:root}
-  mvc:
-    static-path-pattern: /static/**
-  freemarker:
-    suffix: .ftl
-    request-context-attribute: request
-    settings:
-      number_format: 0.##########
-  mail:
-    host: smtp.mxhichina.com
-    port: 465
-    from: xxxx@gitee.wang
-    username: xxxx@gitee.wang
-    password: xxxx
-    properties:
-      mail:
-        smtp:
-          auth: true
-          ssl.enable: true
-          starttls.enable: false
-          required: false
-# spring boot admin 配置
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+  config:
+    import:
+      - optional:nacos:application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml
 
-management:
-  health:
-    mail:
-      enabled: false
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: ALWAYS
