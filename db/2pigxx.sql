@@ -315,31 +315,25 @@ CREATE TABLE `sys_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='日志表';
 
 -- ----------------------------
--- Records of sys_log
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for sys_menu
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
                             `menu_id` bigint NOT NULL COMMENT '菜单ID',
-                            `name` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
-                            `permission` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
-                            `path` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL,
+                            `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
                             `parent_id` bigint DEFAULT NULL COMMENT '父菜单ID',
-                            `icon` varchar(32) CHARACTER SET utf8mb4 DEFAULT NULL,
+                            `icon` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+                            `visible` char(1) COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '是否显示',
                             `sort_order` int DEFAULT '1' COMMENT '排序值',
-                            `keep_alive` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                            `visible` char(1) CHARACTER SET utf8mb4 DEFAULT '1',
-                            `menu_type` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                            `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
+                            `keep_alive` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+                            `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+                            `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
                             `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-                            `update_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '修改人',
+                            `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
                             `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                            `del_flag` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
+                            `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
                             `tenant_id` bigint unsigned DEFAULT NULL COMMENT '租户ID',
                             PRIMARY KEY (`menu_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='菜单权限表';
@@ -492,6 +486,7 @@ INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 
 INSERT INTO `sys_menu` VALUES (9007, '低代码', 'gen_api_designer', NULL, 9001, '1', '1', 3, '0', '1', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
 INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, '/report/screen/index', -1, 'icon-shuju', '1', 10, '0', '0', '', '2019-08-16 10:08:56', 'admin', '2022-11-04 15:21:29', '0', 1);
 COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_oauth_client_details
