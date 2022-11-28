@@ -93,7 +93,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 				.orElse("application/vnd.ms-excel");
 		response.setContentType(contentType);
 		response.setCharacterEncoding("utf-8");
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + fileName);
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
 		write(o, response, responseExcel);
 	}
 
@@ -115,11 +115,11 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		if (responseExcel.include().length != 0) {
-			writerBuilder.includeColumnFiledNames(Arrays.asList(responseExcel.include()));
+			writerBuilder.includeColumnFieldNames(Arrays.asList(responseExcel.include()));
 		}
 
 		if (responseExcel.exclude().length != 0) {
-			writerBuilder.excludeColumnFiledNames(Arrays.asList(responseExcel.exclude()));
+			writerBuilder.includeColumnFieldNames(Arrays.asList(responseExcel.exclude()));
 		}
 
 		if (responseExcel.writeHandler().length != 0) {
@@ -197,10 +197,10 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		else if (dataClass != null) {
 			writerSheetBuilder.head(dataClass);
 			if (sheet.excludes().length > 0) {
-				writerSheetBuilder.excludeColumnFiledNames(Arrays.asList(sheet.excludes()));
+				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheet.excludes()));
 			}
 			if (sheet.includes().length > 0) {
-				writerSheetBuilder.includeColumnFiledNames(Arrays.asList(sheet.includes()));
+				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheet.includes()));
 			}
 		}
 
@@ -217,7 +217,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		Assert.notNull(headGenerator, "The header generated bean does not exist.");
 		HeadMeta head = headGenerator.head(dataClass);
 		writerSheetBuilder.head(head.getHead());
-		writerSheetBuilder.excludeColumnFiledNames(head.getIgnoreHeadFields());
+		writerSheetBuilder.excludeColumnFieldNames(head.getIgnoreHeadFields());
 	}
 
 	/**

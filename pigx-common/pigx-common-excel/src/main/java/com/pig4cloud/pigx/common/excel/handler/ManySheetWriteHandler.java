@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.common.excel.handler;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.converters.Converter;
 import com.alibaba.excel.write.metadata.WriteSheet;
@@ -9,6 +10,7 @@ import com.pig4cloud.pigx.common.excel.kit.ExcelException;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.util.CollectionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -50,9 +52,17 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 		WriteSheet sheet;
 		for (int i = 0; i < sheets.length; i++) {
 			List<?> eleList = (List<?>) objList.get(i);
-			Class<?> dataClass = eleList.get(0).getClass();
-			// 创建sheet
-			sheet = this.sheet(sheets[i], dataClass, responseExcel.template(), responseExcel.headGenerator());
+
+			if (CollectionUtils.isEmpty(eleList)) {
+				sheet = EasyExcel.writerSheet(responseExcel.sheets()[i].sheetName()).build();
+			}
+			else {
+				// 有模板则不指定sheet名
+				Class<?> dataClass = eleList.get(0).getClass();
+				sheet = this.sheet(responseExcel.sheets()[i], dataClass, responseExcel.template(),
+						responseExcel.headGenerator());
+			}
+
 			// 填充 sheet
 			if (responseExcel.fill()) {
 				excelWriter.fill(eleList, sheet);
