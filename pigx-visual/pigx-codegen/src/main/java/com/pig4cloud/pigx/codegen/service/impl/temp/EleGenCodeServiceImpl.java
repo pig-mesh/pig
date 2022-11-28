@@ -27,7 +27,7 @@ public class EleGenCodeServiceImpl implements GenCodeService {
 		List<String> templates = GenCodeService.super.getTemplates(config);
 		templates.add("template/element/index.vue.vm");
 		templates.add("template/element/form.vue.vm");
-		templates.add("template/avue/api.js.vm");
+		templates.add("template/element/api.js.vm");
 		return templates;
 	}
 
@@ -50,6 +50,10 @@ public class EleGenCodeServiceImpl implements GenCodeService {
 			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "views"
 					+ File.separator + moduleName + File.separator + className.toLowerCase() + File.separator
 					+ className.toLowerCase() + "-form.vue";
+		}
+		if (template.contains("element/api.js.vm")) {
+			return CommonConstants.FRONT_END_PROJECT + File.separator + "src" + File.separator + "api" + File.separator
+					+ className.toLowerCase() + ".js";
 		}
 
 		return GenCodeService.super.getFileName(template, className, packageName, moduleName);
