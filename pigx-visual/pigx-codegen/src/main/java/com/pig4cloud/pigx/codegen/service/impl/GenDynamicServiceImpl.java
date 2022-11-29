@@ -58,7 +58,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 	}
 
 	@Override
-	public Map<String, String> run(GenConfig genConfig) {
+	public Map<String, Map> run(GenConfig genConfig) {
 		// 根据tableName 查询最新的表单配置
 		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
 				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
@@ -68,7 +68,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 		GeneratorMapper mapper = magic.getMapper(genConfig.getDsName());
 
-		Map<String, String> templates = new HashMap<>();
+		Map<String, Map> templates = new HashMap<>();
 		for (String tableName : StrUtil.split(tableNames, StrUtil.DASHED)) {
 			// 查询表信息
 			Map<String, String> table = mapper.queryTable(tableName, dsName);
@@ -95,8 +95,8 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo apiInfo = new ApiInfo();
 			apiInfo.setId(id + "_query");
-			String script = templates.get("template/magic/query.magic.vm");
-			apiInfo.setScript(script);
+			Map<String,String> script = templates.get("template/magic/query.magic.vm");
+			apiInfo.setScript(script.get("code"));
 			apiInfo.setName("分页");
 			apiInfo.setPath("/list");
 			apiInfo.setMethod("post");
@@ -105,8 +105,8 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo delApiInfo = new ApiInfo();
 			delApiInfo.setId(id + "_del");
-			String delScript = templates.get("template/magic/del.magic.vm");
-			delApiInfo.setScript(delScript);
+			Map<String,String> delScript = templates.get("template/magic/del.magic.vm");
+			delApiInfo.setScript(delScript.get("code"));
 			delApiInfo.setName("删除");
 			delApiInfo.setPath("/delete");
 			delApiInfo.setMethod("delete");
@@ -115,8 +115,8 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo addApiInfo = new ApiInfo();
 			addApiInfo.setId(id + "_add");
-			String addScript = templates.get("template/magic/add.magic.vm");
-			addApiInfo.setScript(addScript);
+			Map<String,String> addScript = templates.get("template/magic/add.magic.vm");
+			addApiInfo.setScript(addScript.get("code"));
 			addApiInfo.setName("添加");
 			addApiInfo.setPath("/save");
 			addApiInfo.setMethod("post");
@@ -125,8 +125,8 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo updateApiInfo = new ApiInfo();
 			updateApiInfo.setId(id + "_update");
-			String updateScript = templates.get("template/magic/update.magic.vm");
-			updateApiInfo.setScript(updateScript);
+			Map<String,String> updateScript = templates.get("template/magic/update.magic.vm");
+			updateApiInfo.setScript(updateScript.get("code"));
 			updateApiInfo.setName("修改");
 			updateApiInfo.setPath("/update");
 			updateApiInfo.setMethod("put");
@@ -135,8 +135,8 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo metadataApiInfo = new ApiInfo();
 			metadataApiInfo.setId(id + "metadata");
-			String metadataScript = templates.get("template/magic/metadata.magic.vm");
-			metadataApiInfo.setScript(metadataScript);
+			Map<String,String> metadataScript = templates.get("template/magic/metadata.magic.vm");
+			metadataApiInfo.setScript(metadataScript.get("code"));
 			metadataApiInfo.setName("元数据");
 			metadataApiInfo.setPath("/metadata");
 			metadataApiInfo.setMethod("get");

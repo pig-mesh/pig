@@ -74,7 +74,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 	}
 
 	@Override
-	public Map<String, String> previewCode(GenConfig genConfig) {
+	public Map<String, Map> previewCode(GenConfig genConfig) {
 		// 根据tableName 查询最新的表单配置
 		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
 				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));

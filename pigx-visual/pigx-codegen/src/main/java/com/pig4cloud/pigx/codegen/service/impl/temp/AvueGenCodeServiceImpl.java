@@ -81,24 +81,29 @@ public class AvueGenCodeServiceImpl implements GenCodeService {
 	 * @return
 	 */
 	@SneakyThrows
-	public Map<String, String> renderData(GenConfig genConfig, ZipOutputStream zip, TableEntity tableEntity,
+	public Map<String, Map> renderData(GenConfig genConfig, ZipOutputStream zip, TableEntity tableEntity,
 			Map<String, Object> map, GenFormConf formConf) {
 
-		Map<String, String> resultMap = new HashMap<>();
+		Map<String, Map> resultMap = new HashMap<>();
 
 		if (Objects.nonNull(formConf)) {
+			Map<String,String> templatesData = new HashMap<>();
 			// 存在 curd 存在设计好的JSON 则使用Json 覆盖
 			String crudTempName = "template/avue/crud.js.vm";
 			String fileName = getFileName(crudTempName, tableEntity.getCaseClassName(), map.get("package").toString(),
 					map.get("moduleName").toString());
 			String contents = CRUD_PREFIX + formConf.getFormInfo();
 
+			templatesData.put("codePath",fileName);
+			templatesData.put("code",contents);
+
 			if (zip != null) {
 				zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
 				IoUtil.write(zip, StandardCharsets.UTF_8, false, contents);
 			}
 			resultMap.putAll(GenCodeService.super.renderData(genConfig, zip, tableEntity, map, formConf));
-			resultMap.put(crudTempName, contents);
+
+			resultMap.put(crudTempName, templatesData);
 			return resultMap;
 		}
 		return GenCodeService.super.renderData(genConfig, zip, tableEntity, map, formConf);

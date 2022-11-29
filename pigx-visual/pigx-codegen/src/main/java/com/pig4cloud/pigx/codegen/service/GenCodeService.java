@@ -40,7 +40,7 @@ import java.util.zip.ZipOutputStream;
  */
 public interface GenCodeService {
 
-	default Map<String, String> gen(GenConfig genConfig, Map<String, String> table, List<Map<String, String>> columns,
+	default Map<String, Map> gen(GenConfig genConfig, Map<String, String> table, List<Map<String, String>> columns,
 			ZipOutputStream zip, GenFormConf formConf) {
 
 		// 构建表实体
@@ -261,7 +261,7 @@ public interface GenCodeService {
 	 * @return
 	 */
 	@SneakyThrows
-	default Map<String, String> renderData(GenConfig genConfig, ZipOutputStream zip, TableEntity tableEntity,
+	default Map<String, Map> renderData(GenConfig genConfig, ZipOutputStream zip, TableEntity tableEntity,
 			Map<String, Object> map, GenFormConf formConf) {
 		// 设置velocity资源加载器
 		Properties prop = new Properties();
@@ -274,9 +274,10 @@ public interface GenCodeService {
 
 		// 获取模板列表
 		List<String> templates = getTemplates(genConfig);
-		Map<String, String> resultMap = new LinkedHashMap<>(8);
+		Map<String, Map> resultMap = new LinkedHashMap<>(8);
 
 		for (String template : templates) {
+			Map<String,String> templatesData = new HashMap<>();
 			// 渲染模板
 			StringWriter sw = new StringWriter();
 			Template tpl = Velocity.getTemplate(template, CharsetUtil.UTF_8);
@@ -285,6 +286,9 @@ public interface GenCodeService {
 			// 添加到zip
 			String fileName = getFileName(template, tableEntity.getCaseClassName(), map.get("package").toString(),
 					map.get("moduleName").toString());
+
+			templatesData.put("codePath",fileName);
+			templatesData.put("code",sw.toString());
 
 			if (zip != null) {
 				try {
@@ -296,7 +300,7 @@ public interface GenCodeService {
 				}
 
 			}
-			resultMap.put(template, sw.toString());
+			resultMap.put(template, templatesData);
 		}
 
 		return resultMap;

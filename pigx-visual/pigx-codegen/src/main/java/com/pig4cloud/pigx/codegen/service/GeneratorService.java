@@ -50,6 +50,6 @@ public interface GeneratorService {
 	 * @param genConfig 生成信息
 	 * @return
 	 */
-	Map<String, String> previewCode(GenConfig genConfig);
+	Map<String, Map> previewCode(GenConfig genConfig);
 
 }
