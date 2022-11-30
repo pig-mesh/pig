@@ -33,6 +33,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -87,13 +88,20 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 		httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
 		String errorMessage;
 
+		if (exception instanceof OAuth2AuthenticationException) {
+			OAuth2AuthenticationException authorizationException = (OAuth2AuthenticationException) exception;
+			errorMessage = StrUtil.isBlank(authorizationException.getError().getDescription())
+					? authorizationException.getError().getErrorCode()
+					: authorizationException.getError().getDescription();
+		}
+		else {
+			errorMessage = exception.getLocalizedMessage();
+		}
+
 		// 手机号登录
 		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
 		if (SecurityConstants.APP.equals(grantType)) {
 			errorMessage = MsgUtils.getSecurityMessage("AbstractUserDetailsAuthenticationProvider.smsBadCredentials");
-		}
-		else {
-			errorMessage = exception.getLocalizedMessage();
 		}
 
 		this.errorHttpResponseConverter.write(R.failed(errorMessage), MediaType.APPLICATION_JSON, httpResponse);
