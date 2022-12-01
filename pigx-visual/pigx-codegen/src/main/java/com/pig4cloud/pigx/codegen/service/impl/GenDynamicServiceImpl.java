@@ -95,7 +95,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo apiInfo = new ApiInfo();
 			apiInfo.setId(id + "_query");
-			Map<String,String> script = templates.get("template/magic/query.magic.vm");
+			Map<String, String> script = templates.get("template/magic/query.magic.vm");
 			apiInfo.setScript(script.get("code"));
 			apiInfo.setName("分页");
 			apiInfo.setPath("/list");
@@ -105,7 +105,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo delApiInfo = new ApiInfo();
 			delApiInfo.setId(id + "_del");
-			Map<String,String> delScript = templates.get("template/magic/del.magic.vm");
+			Map<String, String> delScript = templates.get("template/magic/del.magic.vm");
 			delApiInfo.setScript(delScript.get("code"));
 			delApiInfo.setName("删除");
 			delApiInfo.setPath("/delete");
@@ -115,7 +115,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo addApiInfo = new ApiInfo();
 			addApiInfo.setId(id + "_add");
-			Map<String,String> addScript = templates.get("template/magic/add.magic.vm");
+			Map<String, String> addScript = templates.get("template/magic/add.magic.vm");
 			addApiInfo.setScript(addScript.get("code"));
 			addApiInfo.setName("添加");
 			addApiInfo.setPath("/save");
@@ -125,7 +125,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo updateApiInfo = new ApiInfo();
 			updateApiInfo.setId(id + "_update");
-			Map<String,String> updateScript = templates.get("template/magic/update.magic.vm");
+			Map<String, String> updateScript = templates.get("template/magic/update.magic.vm");
 			updateApiInfo.setScript(updateScript.get("code"));
 			updateApiInfo.setName("修改");
 			updateApiInfo.setPath("/update");
@@ -135,7 +135,7 @@ public class GenDynamicServiceImpl implements GenDynamicService {
 
 			ApiInfo metadataApiInfo = new ApiInfo();
 			metadataApiInfo.setId(id + "metadata");
-			Map<String,String> metadataScript = templates.get("template/magic/metadata.magic.vm");
+			Map<String, String> metadataScript = templates.get("template/magic/metadata.magic.vm");
 			metadataApiInfo.setScript(metadataScript.get("code"));
 			metadataApiInfo.setName("元数据");
 			metadataApiInfo.setPath("/metadata");

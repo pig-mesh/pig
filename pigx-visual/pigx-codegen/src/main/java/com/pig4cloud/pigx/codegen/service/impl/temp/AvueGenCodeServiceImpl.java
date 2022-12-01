@@ -87,15 +87,15 @@ public class AvueGenCodeServiceImpl implements GenCodeService {
 		Map<String, Map> resultMap = new HashMap<>();
 
 		if (Objects.nonNull(formConf)) {
-			Map<String,String> templatesData = new HashMap<>();
+			Map<String, String> templatesData = new HashMap<>();
 			// 存在 curd 存在设计好的JSON 则使用Json 覆盖
 			String crudTempName = "template/avue/crud.js.vm";
 			String fileName = getFileName(crudTempName, tableEntity.getCaseClassName(), map.get("package").toString(),
 					map.get("moduleName").toString());
 			String contents = CRUD_PREFIX + formConf.getFormInfo();
 
-			templatesData.put("codePath",fileName);
-			templatesData.put("code",contents);
+			templatesData.put("codePath", fileName);
+			templatesData.put("code", contents);
 
 			if (zip != null) {
 				zip.putNextEntry(new ZipEntry(Objects.requireNonNull(fileName)));
