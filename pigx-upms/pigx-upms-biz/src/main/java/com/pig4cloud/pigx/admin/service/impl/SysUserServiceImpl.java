@@ -175,6 +175,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#sysUser.username")
 	public Boolean deleteUserById(SysUser sysUser) {
 		sysUserRoleService.deleteByUserId(sysUser.getUserId());
+		// 删除用户部门信息
+		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, sysUser.getUserId()));
 		this.removeById(sysUser.getUserId());
 		return Boolean.TRUE;
 	}
