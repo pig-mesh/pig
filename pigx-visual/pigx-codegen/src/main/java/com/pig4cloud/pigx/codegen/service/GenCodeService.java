@@ -277,7 +277,7 @@ public interface GenCodeService {
 		Map<String, Map> resultMap = new LinkedHashMap<>(8);
 
 		for (String template : templates) {
-			Map<String,String> templatesData = new HashMap<>();
+			Map<String, String> templatesData = new HashMap<>();
 			// 渲染模板
 			StringWriter sw = new StringWriter();
 			Template tpl = Velocity.getTemplate(template, CharsetUtil.UTF_8);
@@ -287,8 +287,8 @@ public interface GenCodeService {
 			String fileName = getFileName(template, tableEntity.getCaseClassName(), map.get("package").toString(),
 					map.get("moduleName").toString());
 
-			templatesData.put("codePath",fileName);
-			templatesData.put("code",sw.toString());
+			templatesData.put("codePath", fileName);
+			templatesData.put("code", sw.toString());
 
 			if (zip != null) {
 				try {
