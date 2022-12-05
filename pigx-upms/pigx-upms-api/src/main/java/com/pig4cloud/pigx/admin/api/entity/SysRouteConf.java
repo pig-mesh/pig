@@ -83,6 +83,7 @@ public class SysRouteConf extends Model<SysRouteConf> {
 
 	@ApiModelProperty(value = "元数据")
 	private String metadata;
+
 	/**
 	 * 创建人
 	 */
