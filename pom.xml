@@ -33,7 +33,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <spring-boot-admin.version>2.7.7</spring-boot-admin.version>
+        <spring-boot-admin.version>2.7.8</spring-boot-admin.version>
         <spring.authorization.version>0.4.0</spring.authorization.version>
         <dynamic-ds.version>3.5.1</dynamic-ds.version>
         <captcha.version>2.2.2</captcha.version>
