@@ -168,8 +168,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#sysUser.username")
 	public Boolean removeUserById(SysUser sysUser) {
 		sysUserRoleMapper.deleteByUserId(sysUser.getUserId());
-        // 删除用户职位关系
-        sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, sysUser.getUserId()));
+		// 删除用户职位关系
+		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, sysUser.getUserId()));
 		this.removeById(sysUser.getUserId());
 		return Boolean.TRUE;
 	}
