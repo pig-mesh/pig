@@ -38,13 +38,13 @@
 		</dependency>
 		<!--注册中心客户端-->
 		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+			<groupId>com.tencent.cloud</groupId>
+			<artifactId>spring-cloud-starter-tencent-polaris-discovery</artifactId>
 		</dependency>
 		<!--配置中心客户端-->
 		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+			<groupId>com.tencent.cloud</groupId>
+			 <artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
 		</dependency>
 		<!--undertow容器-->
 		<dependency>

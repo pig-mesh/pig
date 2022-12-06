@@ -2,7 +2,7 @@ package com.pig4cloud.pig.admin.api.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * 客户端请求验证码

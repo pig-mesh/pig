@@ -32,7 +32,5 @@
 	<modules>
 		<module>pig-codegen</module>
 		<module>pig-monitor</module>
-		<module>pig-sentinel-dashboard</module>
-		<module>pig-xxl-job-admin</module>
 	</modules>
 </project>

@@ -6,8 +6,8 @@ import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.plugin.excel.annotation.ExcelLine;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
