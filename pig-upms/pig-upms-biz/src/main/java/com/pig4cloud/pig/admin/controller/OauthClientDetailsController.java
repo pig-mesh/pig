@@ -118,7 +118,7 @@ public class OauthClientDetailsController {
 		return R.ok();
 	}
 
-	@Inner(false)
+	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public R getClientDetailsById(@PathVariable String clientId) {
 		return R.ok(sysOauthClientDetailsService.getOne(
