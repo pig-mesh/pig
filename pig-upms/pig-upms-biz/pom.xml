@@ -77,7 +77,7 @@
         <!--配置中心客户端-->
         <dependency>
             <groupId>com.tencent.cloud</groupId>
-             <artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
+            <artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
         </dependency>
         <!-- 阿里云短信下发 -->
         <dependency>

@@ -1,5 +1,0 @@
-com.ulisesbocchio.jasyptspringboot.JasyptSpringBootAutoConfiguration
-com.pig4cloud.pig.common.mybatis.MybatisAutoConfiguration
-com.baomidou.mybatisplus.autoconfigure.IdentifierGeneratorAutoConfiguration
-com.baomidou.mybatisplus.autoconfigure.MybatisPlusLanguageDriverAutoConfiguration
-com.baomidou.mybatisplus.autoconfigure.MybatisPlusAutoConfiguration

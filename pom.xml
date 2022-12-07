@@ -40,7 +40,7 @@
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
-        <jasypt.version>2.1.0</jasypt.version>
+        <jasypt.version>3.1.0</jasypt.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.ui.version>3.0.3</knife4j.ui.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -64,7 +64,7 @@
         </dependency>
         <!--配置文件加解密-->
         <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
+            <groupId>io.springboot.plugin</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>${jasypt.version}</version>
         </dependency>
@@ -249,6 +249,14 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <name>Oss Snapshots</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
         </repository>
     </repositories>
 
