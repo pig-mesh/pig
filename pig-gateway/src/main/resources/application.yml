@@ -9,5 +9,5 @@ spring:
       address: grpc://172.16.1.198:8091
   config:
     import:
-      - optional:polaris:pig:application.yml
+      - optional:polaris:pig:application-@profiles.active@.yml
       - optional:polaris:pig:${spring.application.name}-@profiles.active@.yml
