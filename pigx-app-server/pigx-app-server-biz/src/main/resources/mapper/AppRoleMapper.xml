@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.app.mapper.AppRoleMapper">
+
+  <resultMap id="appRoleMap" type="com.pig4cloud.pigx.app.api.entity.AppRole">
+        <id property="roleId" column="role_id"/>
+        <result property="roleName" column="role_name"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="tenantId" column="tenant_id"/>
+  </resultMap>
+    <select id="listRolesByUserId" resultType="com.pig4cloud.pigx.app.api.entity.AppRole">
+		SELECT app_role.role_id,
+			   app_role.role_name,
+			   app_role.role_code,
+			   app_role.role_desc,
+			   app_role.create_time,
+			   app_role.update_time,
+			   app_role.del_flag
+		FROM app_role,
+			 app_user_role
+		WHERE app_role.role_id = app_user_role.role_id
+		  AND app_role.del_flag = '0'
+		  and app_user_role.user_id = #{userId}
+	</select>
+</mapper>

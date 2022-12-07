@@ -1,0 +1,154 @@
+/*
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
+ */
+
+package com.pig4cloud.pigx.app.api.entity;
+
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
+
+/**
+ * app用户表
+ *
+ * @author aeizzz
+ * @date 2022-12-07 09:52:03
+ */
+@Data
+@TableName("app_user")
+@EqualsAndHashCode(callSuper = true)
+@ApiModel(value = "app用户表")
+public class AppUser extends Model<AppUser> {
+
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * userId
+	 */
+	@TableId(type = IdType.ASSIGN_ID)
+	@ApiModelProperty(value = "userId")
+	private Long userId;
+
+	/**
+	 * 用户名
+	 */
+	@ApiModelProperty(value = "用户名")
+	private String username;
+
+	/**
+	 * 密码
+	 */
+	@ApiModelProperty(value = "密码")
+	private String password;
+
+	/**
+	 * 随机盐
+	 */
+	@JsonIgnore
+	@ApiModelProperty(value = "随机盐")
+	private String salt;
+
+	/**
+	 * 手机号
+	 */
+	@ApiModelProperty(value = "手机号")
+	private String phone;
+
+	/**
+	 * 头像
+	 */
+	@ApiModelProperty(value = "头像")
+	private String avatar;
+
+	/**
+	 * 昵称
+	 */
+	@ApiModelProperty(value = "拓展字段:昵称")
+	private String nickname;
+
+	/**
+	 * 姓名
+	 */
+	@ApiModelProperty(value = "拓展字段:姓名")
+	private String name;
+
+	/**
+	 * 邮箱
+	 */
+	@ApiModelProperty(value = "拓展字段:邮箱")
+	private String email;
+
+	/**
+	 * 创建人
+	 */
+	@ApiModelProperty(value = "创建人")
+	@TableField(fill = FieldFill.INSERT)
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@ApiModelProperty(value = "修改人")
+	@TableField(fill = FieldFill.UPDATE)
+	private String updateBy;
+
+	/**
+	 * 创建时间
+	 */
+	@ApiModelProperty(value = "创建时间")
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
+
+	/**
+	 * 修改时间
+	 */
+	@ApiModelProperty(value = "修改时间")
+	@TableField(fill = FieldFill.UPDATE)
+	private LocalDateTime updateTime;
+
+	/**
+	 * 删除标记
+	 */
+	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@TableField(fill = FieldFill.INSERT)
+	@TableLogic
+	private String delFlag;
+
+	/**
+	 * 所属租户
+	 */
+	@ApiModelProperty(value = "所属租户", hidden = true)
+	private Long tenantId;
+
+	/**
+	 * 最后一次密码修改时间
+	 */
+	@ApiModelProperty(value = "最后一次密码修改时间")
+	private LocalDateTime lastModifiedTime;
+
+	/**
+	 * 锁定标记
+	 */
+	@ApiModelProperty(value = "锁定标记")
+	private String lockFlag;
+
+}

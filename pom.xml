@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
   ~
   ~      Copyright (c) 2018-2025, lengleng All rights reserved.
@@ -17,9 +16,7 @@
   ~  this software without specific prior written permission.
   ~  Author: lengleng (wangiegie@gmail.com)
   ~
-  -->
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pig4cloud</groupId>
@@ -64,29 +61,29 @@
         <docker.username>admin</docker.username>
         <docker.password>Harbor12345</docker.password>
         <docker.plugin.version>0.33.0</docker.plugin.version>
-        <!--  默认忽略docker构建 -->
+        <!--  Ĭ�Ϻ���docker���� -->
         <docker.skip>false</docker.skip>
     </properties>
 
     <dependencies>
-        <!--配置文件处理器-->
+        <!--�����ļ�������-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--jasypt配置文件加解密-->
+        <!--jasypt�����ļ��ӽ���-->
         <dependency>
             <groupId>com.github.ulisesbocchio</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>${jasypt.version}</version>
         </dependency>
-        <!--监控-->
+        <!--���-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--监控客户端-->
+        <!--��ؿͻ���-->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-client</artifactId>
@@ -104,7 +101,7 @@
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.version}</version>
         </dependency>
-        <!--测试依赖-->
+        <!--��������-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -119,11 +116,12 @@
         <module>pigx-upms</module>
         <module>pigx-common</module>
         <module>pigx-visual</module>
-    </modules>
+        <module>pigx-app-server</module>
+  </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!--pigx 公共版本定义-->
+            <!--pigx �����汾����-->
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pigx-common-bom</artifactId>
@@ -131,7 +129,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--spring boot 公共版本定义-->
+            <!--spring boot �����汾����-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -139,7 +137,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--spring cloud 公共版本定义-->
+            <!--spring cloud �����汾����-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -155,13 +153,13 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--web 模块-->
+            <!--web ģ��-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
                 <version>${spring-boot.version}</version>
                 <exclusions>
-                    <!--排除tomcat依赖-->
+                    <!--�ų�tomcat����-->
                     <exclusion>
                         <artifactId>spring-boot-starter-tomcat</artifactId>
                         <groupId>org.springframework.boot</groupId>
@@ -181,7 +179,7 @@
         </resources>
         <pluginManagement>
             <plugins>
-                <!--spring boot 默认插件-->
+                <!--spring boot Ĭ�ϲ��-->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-maven-plugin</artifactId>
@@ -194,7 +192,7 @@
                         </execution>
                     </executions>
                 </plugin>
-                <!--maven  docker 打包插件 -->
+                <!--maven  docker ������ -->
                 <plugin>
                     <groupId>io.fabric8</groupId>
                     <artifactId>docker-maven-plugin</artifactId>
@@ -221,13 +219,13 @@
             </plugins>
         </pluginManagement>
         <plugins>
-            <!--代码格式插件，默认使用spring 规则-->
+            <!--�����ʽ�����Ĭ��ʹ��spring ����-->
             <plugin>
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
                 <version>${spring.checkstyle.version}</version>
             </plugin>
-            <!--代码编译指定版本插件-->
+            <!--�������ָ���汾���-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -239,7 +237,7 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
-            <!--打包关联最新 git commit 信息插件-->
+            <!--����������� git commit ��Ϣ���-->
             <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
@@ -248,7 +246,7 @@
         </plugins>
     </build>
 
-    <!--  增加云效nexus示例仓库 （演示使用，可自行删除）  -->
+    <!--  ������Чnexusʾ���ֿ� ����ʾʹ�ã�������ɾ����  -->
     <distributionManagement>
         <repository>
             <id>rdc-releases</id>
@@ -288,11 +286,11 @@
         <profile>
             <id>dev</id>
             <properties>
-                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <!-- ������ʶ����Ҫ�������ļ����������Ӧ -->
                 <profiles.active>dev</profiles.active>
             </properties>
             <activation>
-                <!-- 默认环境 -->
+                <!-- Ĭ�ϻ��� -->
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
