@@ -37,15 +37,7 @@
         <!--接口文档-->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webmvc-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
         </dependency>
         <!--webflux 相关包-->
         <dependency>

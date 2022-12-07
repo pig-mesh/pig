@@ -1,18 +1,13 @@
 package com.pig4cloud.pig.gateway.config;
 
-import lombok.Data;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SwaggerUiConfigParameters;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import lombok.RequiredArgsConstructor;
+import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.properties.SwaggerUiConfigProperties;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -20,53 +15,21 @@ import java.util.Map;
  * <p>
  * swagger 3.0 展示
  */
+@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-public class SpringDocConfiguration {
+public class SpringDocConfiguration implements InitializingBean {
 
-	@Bean
-	@Lazy(false)
-	@ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = true)
-	public List<GroupedOpenApi> apis(SwaggerUiConfigParameters swaggerUiConfigParameters,
-			SwaggerDocProperties swaggerProperties) {
-		List<GroupedOpenApi> groups = new ArrayList<>();
-		for (String value : swaggerProperties.getServices().values()) {
-			swaggerUiConfigParameters.addGroup(value);
-		}
-		return groups;
-	}
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
-	@Data
-	@Component
-	@ConfigurationProperties("swagger")
-	public class SwaggerDocProperties {
-
-		private Map<String, String> services;
-
-		/**
-		 * 认证参数
-		 */
-		private SwaggerBasic basic = new SwaggerBasic();
-
-		@Data
-		public class SwaggerBasic {
-
-			/**
-			 * 是否开启 basic 认证
-			 */
-			private Boolean enabled;
-
-			/**
-			 * 用户名
-			 */
-			private String username;
-
-			/**
-			 * 密码
-			 */
-			private String password;
-
-		}
-
+	// TODO 从配置文件读取或者从gateway路由中读取
+	@Override
+	public void afterPropertiesSet() {
+		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> swaggerUrlSet = new HashSet<>();
+		AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+		swaggerUrl.setName("admin");
+		swaggerUrl.setUrl("/admin/v3/api-docs");
+		swaggerUrlSet.add(swaggerUrl);
+		swaggerUiConfigProperties.setUrls(swaggerUrlSet);
 	}
 
 }
