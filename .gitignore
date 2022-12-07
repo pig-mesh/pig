@@ -57,3 +57,6 @@ target/
 Thumbs.db
 Servers
 .metadata
+
+### sct 临时文件
+polaris/

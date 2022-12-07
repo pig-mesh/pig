@@ -34,10 +34,6 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.tencent.cloud</groupId>
-			<artifactId>spring-cloud-starter-tencent-polaris-circuitbreaker</artifactId>
-		</dependency>
 		<!--feign 依赖-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

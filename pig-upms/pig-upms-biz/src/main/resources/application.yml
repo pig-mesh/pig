@@ -5,14 +5,11 @@ spring:
   application:
     name: @artifactId@
   cloud:
-    nacos:
-      discovery:
-        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
-      config:
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+    polaris:
+      address: grpc://172.16.1.198:8091
   config:
     import:
-      - nacos:application-@profiles.active@.yml
-      - nacos:${spring.application.name}-@profiles.active@.yml
+      - optional:polaris:pig:application-@profiles.active@.yml
+      - optional:polaris:pig:${spring.application.name}-@profiles.active@.yml
 
 

@@ -30,6 +30,7 @@ public class SpringDocConfiguration implements InitializingBean {
 		swaggerUrl.setUrl("/admin/v3/api-docs");
 		swaggerUrlSet.add(swaggerUrl);
 		swaggerUiConfigProperties.setUrls(swaggerUrlSet);
+
 	}
 
 }

@@ -49,20 +49,10 @@
             <groupId>com.tencent.cloud</groupId>
              <artifactId>spring-cloud-starter-tencent-polaris-config</artifactId>
         </dependency>
-        <!--断路器依赖-->
-        <dependency>
-            <groupId>com.tencent.cloud</groupId>
-            <artifactId>spring-cloud-starter-tencent-polaris-circuitbreaker</artifactId>
-        </dependency>
         <!-- LB 扩展 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-        </dependency>
-        <!--caffeine 替换LB 默认缓存实现-->
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
         </dependency>
         <!--验证码 源码： https://github.com/pig-mesh/easy-captcha -->
         <dependency>
@@ -86,7 +76,7 @@
         <!--接口文档-->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
     </dependencies>
 
