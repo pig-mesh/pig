@@ -206,8 +206,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-	public Boolean updateUser(UserDTO userDto) {
+	public R<Boolean> updateUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
+
+
+		boolean exists = baseMapper.exists(Wrappers.<SysUser>lambdaQuery()
+				.eq(SysUser::getPhone, userDto.getPhone())
+				.ne(SysUser::getUserId, userDto.getUserId())
+		);
+		if(exists){
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING,userDto.getPhone()));
+		}
+
 		BeanUtils.copyProperties(userDto, sysUser);
 		sysUser.setUpdateTime(LocalDateTime.now());
 
@@ -231,7 +241,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			userPost.setPostId(postId);
 			userPost.insert();
 		});
-		return Boolean.TRUE;
+		return R.ok();
 	}
 
 	/**

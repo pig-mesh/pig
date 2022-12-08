@@ -72,7 +72,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param userDto 用户信息
 	 * @return
 	 */
-	Boolean updateUser(UserDTO userDto);
+	R<Boolean> updateUser(UserDTO userDto);
 
 	/**
 	 * 通过ID查询用户信息

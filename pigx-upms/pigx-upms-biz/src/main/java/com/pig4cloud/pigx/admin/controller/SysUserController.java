@@ -108,6 +108,18 @@ public class SysUserController {
 	}
 
 	/**
+	 * 根据手机号查询用户信息
+	 * @param phone 用户名
+	 * @return
+	 */
+	@GetMapping("/detailsByPhone/{phone}")
+	public R detailsByPhone(@PathVariable String phone) {
+		SysUser condition = new SysUser();
+		condition.setPhone(phone);
+		return R.ok(userService.getOne(new QueryWrapper<>(condition)));
+	}
+
+	/**
 	 * 删除用户信息
 	 * @param id ID
 	 * @return R
@@ -143,7 +155,7 @@ public class SysUserController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R updateUser(@Valid @RequestBody UserDTO userDto) {
-		return R.ok(userService.updateUser(userDto));
+		return userService.updateUser(userDto);
 	}
 
 	/**

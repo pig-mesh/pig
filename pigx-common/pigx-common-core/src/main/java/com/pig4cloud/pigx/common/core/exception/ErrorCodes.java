@@ -23,6 +23,12 @@ public interface ErrorCodes {
 	 */
 	String SYS_USER_USERNAME_EXISTING = "sys.user.username.existing";
 
+
+	/**
+	 * 用户已存在
+	 */
+	String SYS_USER_PHONE_EXISTING = "sys.user.phone.existing";
+
 	/**
 	 * 用户原密码错误，修改失败
 	 */
