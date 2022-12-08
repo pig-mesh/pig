@@ -20,9 +20,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @RequiredArgsConstructor
 public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 
-
 	private final UserDetailsService pigxDefaultUserDetailsServiceImpl;
+
 	private final RemoteUserService remoteUserService;
+
 	private final CacheManager cacheManager;
 
 	@Override
@@ -47,11 +48,9 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 		return pigxDefaultUserDetailsServiceImpl.loadUserByUsername(pigxUser.getUsername());
 	}
 
-
 	/**
 	 * 支持所有的 mobile 类型
-	 *
-	 * @param clientId  目标客户端
+	 * @param clientId 目标客户端
 	 * @param grantType 授权类型
 	 * @return true/false
 	 */
@@ -59,4 +58,5 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 	public boolean support(String clientId, String grantType) {
 		return SecurityConstants.GRANT_MOBILE.equals(grantType) && !SecurityConstants.CLIENT_MINI.equals(clientId);
 	}
+
 }

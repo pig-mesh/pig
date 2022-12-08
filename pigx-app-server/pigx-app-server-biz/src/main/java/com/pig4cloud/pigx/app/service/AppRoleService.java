@@ -32,7 +32,8 @@ import java.util.List;
  */
 public interface AppRoleService extends IService<AppRole> {
 
-    Boolean updateRoleMenus(AppRoleVO roleVo);
+	Boolean updateRoleMenus(AppRoleVO roleVo);
 
 	List<AppRole> findRolesByUserId(Long userId);
+
 }

@@ -121,7 +121,6 @@ public class AppRoleController {
 		return R.ok(appRoleService.removeById(roleId));
 	}
 
-
 	/**
 	 * 更新角色菜单
 	 * @param roleVo 角色对象
@@ -133,6 +132,7 @@ public class AppRoleController {
 	public R saveRoleMenus(@RequestBody AppRoleVO roleVo) {
 		return R.ok(appRoleService.updateRoleMenus(roleVo));
 	}
+
 	/**
 	 * 导出excel 表格
 	 * @param appRole 查询条件

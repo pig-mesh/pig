@@ -55,4 +55,5 @@ public class AppRoleMenuServiceImpl extends ServiceImpl<AppRoleMenuMapper, AppRo
 		this.saveBatch(roleMenuList);
 		return Boolean.TRUE;
 	}
+
 }

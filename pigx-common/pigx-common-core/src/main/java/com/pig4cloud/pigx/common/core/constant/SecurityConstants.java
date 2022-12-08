@@ -95,7 +95,6 @@ public interface SecurityConstants {
 	 */
 	String GRANT_MOBILE = "mobile";
 
-
 	/**
 	 * 小程序授权
 	 */

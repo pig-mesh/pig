@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pigx.app.api.feign;
 
-
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
@@ -39,9 +38,8 @@ public interface RemoteAppUserService {
 
 	/**
 	 * 通过用户名查询用户、角色信息
-	 *
 	 * @param username 用户名
-	 * @param from     调用标志
+	 * @param from 调用标志
 	 * @return R
 	 */
 	@GetMapping("/appuser/info/{username}")
@@ -56,12 +54,10 @@ public interface RemoteAppUserService {
 	@GetMapping("/appuser/social/info/{inStr}")
 	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
 
-
 	/**
 	 * 锁定用户
-	 *
 	 * @param username 用户名
-	 * @param from     调用标识
+	 * @param from 调用标识
 	 * @return
 	 */
 	@PutMapping("/user/lock/{username}")

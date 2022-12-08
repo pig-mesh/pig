@@ -36,6 +36,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> implements AppRoleService {
+
 	private final AppRoleMenuService appRoleMenuService;
 
 	@Override
@@ -47,4 +48,5 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 	public List<AppRole> findRolesByUserId(Long userId) {
 		return baseMapper.listRolesByUserId(userId);
 	}
+
 }

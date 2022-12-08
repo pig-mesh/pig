@@ -23,7 +23,6 @@ public interface ErrorCodes {
 	 */
 	String SYS_USER_USERNAME_EXISTING = "sys.user.username.existing";
 
-
 	/**
 	 * 用户已存在
 	 */
@@ -105,7 +104,6 @@ public interface ErrorCodes {
 	 * 企微调用接口错误
 	 */
 	String SYS_CONNECT_CP_USER_SYNC_ERROR = "sys.connect.cp.user.sync.error";
-
 
 	/**
 	 * 用户信息为空

@@ -28,5 +28,6 @@ import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
  */
 public interface AppRoleMenuService extends IService<AppRoleMenu> {
 
-    Boolean saveRoleMenus(Long roleId, String menuIds);
+	Boolean saveRoleMenus(Long roleId, String menuIds);
+
 }

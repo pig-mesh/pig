@@ -32,5 +32,6 @@ import java.util.List;
 @Mapper
 public interface AppMenuMapper extends PigxBaseMapper<AppMenu> {
 
-    List<AppMenu> listMenusByRoleId(Long roleId);
+	List<AppMenu> listMenusByRoleId(Long roleId);
+
 }

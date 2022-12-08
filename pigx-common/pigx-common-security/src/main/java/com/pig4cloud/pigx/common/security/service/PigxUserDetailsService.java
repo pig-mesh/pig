@@ -96,7 +96,7 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 
 		return new PigxUser(user.getUserId(), user.getUsername(), user.getDeptId(), user.getPhone(), user.getAvatar(),
 				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOB.getStatus(),true,
+				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOB.getStatus(), true,
 				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
 	}
 

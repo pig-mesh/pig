@@ -46,4 +46,5 @@ public interface AppUserService extends IService<AppUser> {
 	Boolean deleteUserById(Long userId);
 
 	AppUserInfo findUserInfo(AppUser user);
+
 }

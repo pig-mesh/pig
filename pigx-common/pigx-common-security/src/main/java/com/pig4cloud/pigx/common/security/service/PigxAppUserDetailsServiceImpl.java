@@ -54,6 +54,7 @@ import java.util.Set;
 public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
 	private final CacheManager cacheManager;
+
 	private final RemoteAppUserService remoteAppUserService;
 
 	/**
@@ -70,12 +71,11 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 		}
 		R<AppUserInfo> info = remoteAppUserService.info(username, SecurityConstants.FROM_IN);
 		UserDetails userDetailsAppUser = this.getUserDetailsAppUser(info);
-		if(cache != null){
+		if (cache != null) {
 			cache.put(username, userDetailsAppUser);
 		}
 		return userDetailsAppUser;
 	}
-
 
 	@Override
 	public UserDetails loadUserByUser(PigxUser pigxUser) {
@@ -112,7 +112,7 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
 		return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
 				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(),true,
+				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(), true,
 				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
 	}
 

@@ -53,7 +53,6 @@ public class AppUserController {
 
 	private final AppUserService appUserService;
 
-
 	@Inner
 	@GetMapping("/info/{username}")
 	public R info(@PathVariable String username) {

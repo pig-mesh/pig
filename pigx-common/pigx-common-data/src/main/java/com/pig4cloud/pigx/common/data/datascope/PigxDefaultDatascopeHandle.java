@@ -55,7 +55,7 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 	@Override
 	public Boolean calcScope(DataScope dataScope) {
 		PigxUser user = SecurityUtils.getUser();
-		if(UserTypeEnum.TOC.getStatus().equals(user.getUserType())){
+		if (UserTypeEnum.TOC.getStatus().equals(user.getUserType())) {
 			return true;
 		}
 		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)

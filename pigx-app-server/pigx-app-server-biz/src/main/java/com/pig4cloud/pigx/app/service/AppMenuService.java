@@ -34,7 +34,6 @@ import java.util.Set;
  */
 public interface AppMenuService extends IService<AppMenu> {
 
-
 	/**
 	 * 通过角色编号查询URL 权限
 	 * @param roleId 角色ID
@@ -71,6 +70,5 @@ public interface AppMenuService extends IService<AppMenu> {
 	 * @return
 	 */
 	List<Tree<Long>> filterMenu(Set<AppMenu> voSet, String type, Long parentId);
-
 
 }

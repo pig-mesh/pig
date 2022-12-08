@@ -7,8 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum UserTypeEnum {
 
-	TOB("0","面向后台应用"),
-	TOC("1","面向小程序");
+	TOB("0", "面向后台应用"), TOC("1", "面向小程序");
 
 	/**
 	 * 类型
@@ -19,4 +18,5 @@ public enum UserTypeEnum {
 	 * 描述
 	 */
 	private final String description;
+
 }
