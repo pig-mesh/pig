@@ -17,13 +17,19 @@
 
 package com.pig4cloud.pigx.app.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.service.AppUserService;
+import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
@@ -46,6 +52,31 @@ import java.util.List;
 public class AppUserController {
 
 	private final AppUserService appUserService;
+
+
+	@Inner
+	@GetMapping("/info/{username}")
+	public R info(@PathVariable String username) {
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getUsername, username));
+		if (user == null) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.APP_USER_USERINFO_EMPTY, username));
+		}
+		return R.ok(appUserService.findUserInfo(user));
+	}
+
+	/**
+	 * 获取当前用户全部信息
+	 * @return 用户信息
+	 */
+	@GetMapping(value = { "/info" })
+	public R info() {
+		String username = SecurityUtils.getUser().getUsername();
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getUsername, username));
+		if (user == null) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
+		}
+		return R.ok(appUserService.findUserInfo(user));
+	}
 
 	/**
 	 * 分页查询

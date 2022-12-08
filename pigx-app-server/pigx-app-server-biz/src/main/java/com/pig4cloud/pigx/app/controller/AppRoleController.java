@@ -19,6 +19,8 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.vo.RoleVO;
+import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
@@ -54,7 +56,6 @@ public class AppRoleController {
 	 */
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('app_approle_view')")
 	public R getAppRolePage(Page page, AppRole appRole) {
 		return R.ok(appRoleService.page(page, Wrappers.query(appRole)));
 	}
@@ -120,6 +121,18 @@ public class AppRoleController {
 		return R.ok(appRoleService.removeById(roleId));
 	}
 
+
+	/**
+	 * 更新角色菜单
+	 * @param roleVo 角色对象
+	 * @return success、false
+	 */
+	@SysLog("更新角色菜单")
+	@PutMapping("/menu")
+	@PreAuthorize("@pms.hasPermission('app_approle_perm')")
+	public R saveRoleMenus(@RequestBody AppRoleVO roleVo) {
+		return R.ok(appRoleService.updateRoleMenus(roleVo));
+	}
 	/**
 	 * 导出excel 表格
 	 * @param appRole 查询条件

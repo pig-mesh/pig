@@ -39,4 +39,23 @@
         <result property="delFlag" column="del_flag"/>
         <result property="tenantId" column="tenant_id"/>
   </resultMap>
+	<!--通过角色查询菜单-->
+    <select id="listMenusByRoleId" resultMap="appMenuMap">
+		SELECT app_menu.menu_id,
+			   app_menu.name,
+			   app_menu.permission,
+			   app_menu.path,
+			   app_menu.parent_id,
+			   app_menu.sort_order,
+			   app_menu.menu_type,
+			   app_menu.visible,
+			   app_menu.create_time,
+			   app_menu.update_time,
+			   app_menu.del_flag
+		FROM app_menu
+				 LEFT JOIN app_role_menu ON app_menu.menu_id = app_role_menu.menu_id
+		WHERE app_menu.del_flag = '0'
+		  AND app_role_menu.role_id = #{roleId}
+		ORDER BY app_menu.sort_order DESC
+	</select>
 </mapper>

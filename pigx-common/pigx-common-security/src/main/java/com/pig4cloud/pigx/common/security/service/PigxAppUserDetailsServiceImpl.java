@@ -16,15 +16,32 @@
 
 package com.pig4cloud.pigx.common.security.service;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.api.feign.RemoteAppUserService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户详细信息
@@ -35,30 +52,64 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 @RequiredArgsConstructor
 public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
-	private final UserDetailsService pigxDefaultUserDetailsServiceImpl;
-
-	private final RemoteUserService remoteUserService;
+	private final CacheManager cacheManager;
+	private final RemoteAppUserService remoteAppUserService;
 
 	/**
-	 * 手机号登录
-	 * @param phone 手机号
+	 * 用户密码登录
+	 * @param username 用户密码登录
 	 * @return
 	 */
 	@Override
 	@SneakyThrows
-	public UserDetails loadUserByUsername(String phone) {
-		R<UserInfo> result = remoteUserService.social(phone, SecurityConstants.FROM_IN);
-		return getUserDetails(result);
+	public UserDetails loadUserByUsername(String username) {
+		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+		if (cache != null && cache.get(username) != null) {
+			return cache.get(username, PigxUser.class);
+		}
+		R<AppUserInfo> info = remoteAppUserService.info(username, SecurityConstants.FROM_IN);
+		return this.getUserDetailsAppUser(info);
+	}
+
+
+
+	UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
+		// @formatter:off
+		return RetOps.of(result)
+				.getData()
+				.map(this::convertUserDetailsAppUser)
+				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+		// @formatter:on
 	}
 
 	/**
-	 * check-token 使用
-	 * @param pigxUser user
-	 * @return UserDetails
+	 * UserInfo 转 UserDetails
+	 * @param info
+	 * @return 返回UserDetails对象
 	 */
+	UserDetails convertUserDetailsAppUser(AppUserInfo info) {
+		Set<String> dbAuthsSet = new HashSet<>();
+		if (ArrayUtil.isNotEmpty(info.getRoles())) {
+			// 获取角色
+			Arrays.stream(info.getRoles()).forEach(roleId -> dbAuthsSet.add(SecurityConstants.ROLE + roleId));
+			// 获取资源
+			dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
+
+		}
+		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		AppUser user = info.getAppUser();
+		// 构造security用户
+
+		return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
+				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
+				SecurityConstants.BCRYPT + user.getPassword(), true, true, true,
+				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
+	}
+
 	@Override
-	public UserDetails loadUserByUser(PigxUser pigxUser) {
-		return pigxDefaultUserDetailsServiceImpl.loadUserByUsername(pigxUser.getUsername());
+	public int getOrder() {
+		return 10;
 	}
 
 	/**
@@ -69,7 +120,7 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.GRANT_MOBILE.equals(grantType);
+		return clientId.equals("app");
 	}
 
 }

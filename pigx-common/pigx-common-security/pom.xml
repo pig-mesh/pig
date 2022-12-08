@@ -68,5 +68,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-upms-api</artifactId>
         </dependency>
+
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-app-server-api</artifactId>
+		</dependency>
     </dependencies>
 </project>

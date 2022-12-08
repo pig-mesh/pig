@@ -100,4 +100,10 @@ public interface ErrorCodes {
 	 */
 	String SYS_CONNECT_CP_USER_SYNC_ERROR = "sys.connect.cp.user.sync.error";
 
+
+	/**
+	 * 用户信息为空
+	 */
+	String APP_USER_USERINFO_EMPTY = "app.user.userInfo.empty";
+
 }

@@ -15,22 +15,27 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.app.mapper;
+package com.pig4cloud.pigx.app.api.vo;
 
-import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
-import com.pig4cloud.pigx.app.api.entity.AppMenu;
-import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 /**
- * 菜单权限表
- *
- * @author aeizzz
- * @date 2022-12-07 09:52:03
+ * @author lengleng
+ * @date 2020/2/10
  */
-@Mapper
-public interface AppMenuMapper extends PigxBaseMapper<AppMenu> {
+@Data
+@ApiModel(value = "前端角色展示对象")
+public class AppRoleVO {
 
-    List<AppMenu> listMenusByRoleId(Long roleId);
+	/**
+	 * 角色id
+	 */
+	private Long roleId;
+
+	/**
+	 * 菜单列表
+	 */
+	private String menuIds;
+
 }

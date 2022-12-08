@@ -152,6 +152,13 @@
                 <artifactId>pigx-upms-api</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
+
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pigx-app-server-api</artifactId>
+				<version>${pigx.version}</version>
+			</dependency>
+
 			<dependency>
 				<groupId>org.ow2.asm</groupId>
 				<artifactId>asm</artifactId>

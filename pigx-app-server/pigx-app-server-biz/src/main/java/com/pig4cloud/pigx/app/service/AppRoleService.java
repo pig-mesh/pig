@@ -19,6 +19,10 @@ package com.pig4cloud.pigx.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
+import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * app角色表
@@ -28,4 +32,7 @@ import com.pig4cloud.pigx.app.api.entity.AppRole;
  */
 public interface AppRoleService extends IService<AppRole> {
 
+    Boolean updateRoleMenus(AppRoleVO roleVo);
+
+	List<AppRole> findRolesByUserId(Long userId);
 }

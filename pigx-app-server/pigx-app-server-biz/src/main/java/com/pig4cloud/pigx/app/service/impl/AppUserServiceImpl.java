@@ -17,17 +17,24 @@
 package com.pig4cloud.pigx.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.entity.SysUserRole;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppMenu;
+import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.entity.AppUserRole;
 import com.pig4cloud.pigx.app.mapper.AppUserMapper;
+import com.pig4cloud.pigx.app.service.AppMenuService;
+import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.app.service.AppUserRoleService;
 import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
@@ -40,7 +47,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +65,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
 	private final AppUserRoleService appUserRoleService;
+
+	private final AppRoleService appRoleService;
+
+	private final AppMenuService appMenuService;
 
 	/**
 	 * 更新用户
@@ -134,6 +147,27 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		appUserRoleService.removeById(Wrappers.<AppUserRole>lambdaQuery().eq(AppUserRole::getUserId, userId));
 
 		return Boolean.TRUE;
+	}
+
+	@Override
+	public AppUserInfo findUserInfo(AppUser user) {
+		AppUserInfo info = new AppUserInfo();
+		info.setAppUser(user);
+		// 设置角色列表 （ID）
+		List<Long> roleIds = appRoleService.findRolesByUserId(user.getUserId()).stream().map(AppRole::getRoleId)
+				.collect(Collectors.toList());
+		info.setRoles(ArrayUtil.toArray(roleIds, Long.class));
+
+		// 设置权限列表（menu.permission）
+		Set<String> permissions = new HashSet<>();
+		roleIds.forEach(roleId -> {
+			List<String> permissionList = appMenuService.findMenuByRoleId(roleId).stream()
+					.filter(menu -> StrUtil.isNotEmpty(menu.getPermission())).map(AppMenu::getPermission)
+					.collect(Collectors.toList());
+			permissions.addAll(permissionList);
+		});
+		info.setPermissions(ArrayUtil.toArray(permissions, String.class));
+		return info;
 	}
 
 }

@@ -17,32 +17,39 @@
  *
  */
 
-package com.pig4cloud.pigx.common.core.constant;
+package com.pig4cloud.pigx.app.api.dto;
+
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @author lengleng
- * @date 2018年06月22日16:41:01 服务名称
+ * @date 2017/11/11
  */
-public interface ServiceNameConstants {
+@Data
+@ApiModel(value = "用户信息")
+public class AppUserInfo implements Serializable {
 
 	/**
-	 * 认证中心
+	 * 用户基本信息
 	 */
-	String AUTH_SERVICE = "pigx-auth";
+	@ApiModelProperty(value = "用户基本信息")
+	private AppUser appUser;
 
 	/**
-	 * UMPS模块
+	 * 权限标识集合
 	 */
-	String UPMS_SERVICE = "pigx-upms-biz";
+	@ApiModelProperty(value = "权限标识集合")
+	private String[] permissions;
 
 	/**
-	 * 分布式事务协调服务
+	 * 角色集合
 	 */
-	String TX_MANAGER = "pigx-tx-manager";
-
-	/**
-	 * app服务
-	 */
-	String APP_SERVER = "pigx-app-server-biz";
+	@ApiModelProperty(value = "角色标识集合")
+	private Long[] roles;
 
 }

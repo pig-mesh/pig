@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
 
@@ -44,4 +45,5 @@ public interface AppUserService extends IService<AppUser> {
 
 	Boolean deleteUserById(Long userId);
 
+	AppUserInfo findUserInfo(AppUser user);
 }

@@ -19,10 +19,12 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
 import com.pig4cloud.pigx.app.service.AppMenuService;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import org.springframework.security.access.prepost.PreAuthorize;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import io.swagger.annotations.Api;
@@ -30,7 +32,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 菜单权限表
@@ -47,79 +53,87 @@ public class AppMenuController {
 	private final AppMenuService appMenuService;
 
 	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param appMenu 菜单权限表
-	 * @return
+	 * 返回当前用户的树形菜单集合
+	 * @param type 类型
+	 * @param parentId 父节点ID
+	 * @return 当前用户的树形菜单
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
-	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('app_appmenu_view')")
-	public R getAppMenuPage(Page page, AppMenu appMenu) {
-		return R.ok(appMenuService.page(page, Wrappers.query(appMenu)));
+	@GetMapping
+	public R getUserMenu(String type, Long parentId) {
+
+		// 获取符合条件的菜单
+		Set<AppMenu> all = new HashSet<>();
+		SecurityUtils.getRoles().forEach(roleId -> all.addAll(appMenuService.findMenuByRoleId(roleId)));
+		return R.ok(appMenuService.filterMenu(all, type, parentId));
 	}
 
 	/**
-	 * 通过id查询菜单权限表
-	 * @param menuId id
-	 * @return R
+	 * 返回全部树形菜单集合
+	 * @param parentId 父节点ID
+	 * @param menuName 菜单名称
+	 * @return 树形菜单
 	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
-	@GetMapping("/{menuId}")
-	@PreAuthorize("@pms.hasPermission('app_appmenu_view')")
-	public R getById(@PathVariable("menuId") Long menuId) {
-		return R.ok(appMenuService.getById(menuId));
+	@GetMapping(value = "/tree")
+	public R getTree(Long parentId, String menuName) {
+		return R.ok(appMenuService.treeMenu(parentId, menuName));
 	}
 
 	/**
-	 * 新增菜单权限表
-	 * @param appMenu 菜单权限表
-	 * @return R
+	 * 返回角色的菜单集合授权
+	 * @param roleId 角色ID
+	 * @return 属性集合
 	 */
-	@ApiOperation(value = "新增菜单权限表", notes = "新增菜单权限表")
-	@SysLog("新增菜单权限表")
+	@GetMapping("/tree/{roleId}")
+	public R getRoleTree(@PathVariable Long roleId) {
+		return R.ok(
+				appMenuService.findMenuByRoleId(roleId).stream().map(AppMenu::getMenuId).collect(Collectors.toList()));
+	}
+
+	/**
+	 * 通过ID查询菜单的详细信息
+	 * @param id 菜单ID
+	 * @return 菜单详细信息
+	 */
+	@GetMapping("/{id}")
+	public R getById(@PathVariable Long id) {
+		return R.ok(appMenuService.getById(id));
+	}
+
+	/**
+	 * 新增菜单
+	 * @param appMenu 菜单信息
+	 * @return success/false
+	 */
+	@SysLog("新增菜单")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('app_appmenu_add')")
-	public R save(@RequestBody AppMenu appMenu) {
-		return R.ok(appMenuService.save(appMenu));
+	public R save(@Valid @RequestBody AppMenu appMenu) {
+		appMenuService.save(appMenu);
+		return R.ok(appMenu);
 	}
 
 	/**
-	 * 修改菜单权限表
-	 * @param appMenu 菜单权限表
-	 * @return R
+	 * 删除菜单
+	 * @param id 菜单ID
+	 * @return success/false
 	 */
-	@ApiOperation(value = "修改菜单权限表", notes = "修改菜单权限表")
-	@SysLog("修改菜单权限表")
+	@SysLog("删除菜单")
+	@DeleteMapping("/{id}")
+	@PreAuthorize("@pms.hasPermission('app_appmenu_del')")
+	public R removeById(@PathVariable Long id) {
+		return appMenuService.removeMenuById(id);
+	}
+
+	/**
+	 * 更新菜单
+	 * @param appMenu
+	 * @return
+	 */
+	@SysLog("更新菜单")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('app_appmenu_edit')")
-	public R updateById(@RequestBody AppMenu appMenu) {
-		return R.ok(appMenuService.updateById(appMenu));
-	}
-
-	/**
-	 * 通过id删除菜单权限表
-	 * @param menuId id
-	 * @return R
-	 */
-	@ApiOperation(value = "通过id删除菜单权限表", notes = "通过id删除菜单权限表")
-	@SysLog("通过id删除菜单权限表")
-	@DeleteMapping("/{menuId}")
-	@PreAuthorize("@pms.hasPermission('app_appmenu_del')")
-	public R removeById(@PathVariable Long menuId) {
-		return R.ok(appMenuService.removeById(menuId));
-	}
-
-	/**
-	 * 导出excel 表格
-	 * @param appMenu 查询条件
-	 * @return excel 文件流
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('app_appmenu_export')")
-	public List<AppMenu> export(AppMenu appMenu) {
-		return appMenuService.list(Wrappers.query(appMenu));
+	public R update(@Valid @RequestBody AppMenu appMenu) {
+		return R.ok(appMenuService.updateMenuById(appMenu));
 	}
 
 }

@@ -16,11 +16,19 @@
  */
 package com.pig4cloud.pigx.app.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.mapper.AppRoleMenuMapper;
 import com.pig4cloud.pigx.app.service.AppRoleMenuService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 角色菜单表
@@ -31,4 +39,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppRoleMenuServiceImpl extends ServiceImpl<AppRoleMenuMapper, AppRoleMenu> implements AppRoleMenuService {
 
+	@Override
+	public Boolean saveRoleMenus(Long roleId, String menuIds) {
+		this.remove(Wrappers.<AppRoleMenu>query().lambda().eq(AppRoleMenu::getRoleId, roleId));
+
+		if (StrUtil.isBlank(menuIds)) {
+			return Boolean.TRUE;
+		}
+		List<AppRoleMenu> roleMenuList = Arrays.stream(menuIds.split(StrUtil.COMMA)).map(menuId -> {
+			AppRoleMenu roleMenu = new AppRoleMenu();
+			roleMenu.setRoleId(roleId);
+			roleMenu.setMenuId(Long.valueOf(menuId));
+			return roleMenu;
+		}).collect(Collectors.toList());
+		this.saveBatch(roleMenuList);
+		return Boolean.TRUE;
+	}
 }
