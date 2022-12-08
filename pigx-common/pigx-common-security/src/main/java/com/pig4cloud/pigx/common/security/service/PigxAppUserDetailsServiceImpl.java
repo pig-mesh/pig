@@ -26,6 +26,7 @@ import com.pig4cloud.pigx.app.api.feign.RemoteAppUserService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
@@ -72,6 +73,10 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 	}
 
 
+	@Override
+	public UserDetails loadUserByUser(PigxUser pigxUser) {
+		return pigxUser;
+	}
 
 	UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
 		// @formatter:off
@@ -103,7 +108,7 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
 		return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
 				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-				SecurityConstants.BCRYPT + user.getPassword(), true, true, true,
+				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(),true,
 				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
 	}
 

@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -54,6 +55,9 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 	@Override
 	public Boolean calcScope(DataScope dataScope) {
 		PigxUser user = SecurityUtils.getUser();
+		if(UserTypeEnum.TOC.getStatus().equals(user.getUserType())){
+			return true;
+		}
 		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
 				.map(authority -> authority.split(StrUtil.UNDERLINE)[1]).collect(Collectors.toList());

@@ -83,6 +83,9 @@ public class PigxUser extends User {
 	@Getter
 	private String email;
 
+	@Getter
+	private String userType;
+
 	/**
 	 * Construct the <code>User</code> with the details required by
 	 * {@link DaoAuthenticationProvider}.
@@ -112,6 +115,7 @@ public class PigxUser extends User {
 			@JsonProperty("name") String name, @JsonProperty("email") String email,
 			@JsonProperty("tenantId") Long tenantId, @JsonProperty("password") String password,
 			@JsonProperty("enabled") boolean enabled, @JsonProperty("accountNonExpired") boolean accountNonExpired,
+			@JsonProperty("userType") String userType,
 			@JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
 			@JsonProperty("accountNonLocked") boolean accountNonLocked,
 			@JsonProperty("authorities") Collection<? extends GrantedAuthority> authorities) {
@@ -124,6 +128,7 @@ public class PigxUser extends User {
 		this.nickname = nickname;
 		this.name = name;
 		this.email = email;
+		this.userType = userType;
 	}
 
 }
