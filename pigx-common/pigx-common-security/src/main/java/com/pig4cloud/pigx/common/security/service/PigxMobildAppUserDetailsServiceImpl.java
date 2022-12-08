@@ -16,10 +16,7 @@
 
 package com.pig4cloud.pigx.common.security.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.ArrayUtil;
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.feign.RemoteAppUserService;
@@ -37,6 +34,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Arrays;
@@ -51,8 +49,9 @@ import java.util.Set;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
+public class PigxMobildAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
+	private final UserDetailsService pigxAppUserDetailsServiceImpl;
 	private final CacheManager cacheManager;
 	private final RemoteAppUserService remoteAppUserService;
 
@@ -63,15 +62,15 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 	 */
 	@Override
 	@SneakyThrows
-	public UserDetails loadUserByUsername(String username) {
+	public UserDetails loadUserByUsername(String phone) {
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS_MINI);
-		if (cache != null && cache.get(username) != null) {
-			return cache.get(username, PigxUser.class);
+		if (cache != null && cache.get(phone) != null) {
+			return cache.get(phone, PigxUser.class);
 		}
-		R<AppUserInfo> info = remoteAppUserService.info(username, SecurityConstants.FROM_IN);
+		R<AppUserInfo> info = remoteAppUserService.social(phone, SecurityConstants.FROM_IN);
 		UserDetails userDetailsAppUser = this.getUserDetailsAppUser(info);
 		if(cache != null){
-			cache.put(username, userDetailsAppUser);
+			cache.put(phone, userDetailsAppUser);
 		}
 		return userDetailsAppUser;
 	}
@@ -79,7 +78,7 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUser(PigxUser pigxUser) {
-		return pigxUser;
+		return pigxAppUserDetailsServiceImpl.loadUserByUsername(pigxUser.getUsername());
 	}
 
 	UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
@@ -129,7 +128,7 @@ public class PigxAppUserDetailsServiceImpl implements PigxUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.CLIENT_MINI.equals(clientId);
+		return SecurityConstants.CLIENT_MINI.equals(clientId) && SecurityConstants.GRANT_MOBILE.equals(grantType);
 	}
 
 }

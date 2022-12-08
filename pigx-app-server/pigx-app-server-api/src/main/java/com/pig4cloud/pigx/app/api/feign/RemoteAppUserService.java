@@ -47,15 +47,15 @@ public interface RemoteAppUserService {
 	@GetMapping("/appuser/info/{username}")
 	R<AppUserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
-//	/**
-//	 * 通过社交账号或手机号查询用户、角色信息
-//	 * @param inStr appid@code
-//	 * @param from 调用标志
-//	 * @return
-//	 */
-//	@GetMapping("/social/info/{inStr}")
-//	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
-//
+	/**
+	 * 通过社交账号或手机号查询用户、角色信息
+	 * @param inStr appid@code
+	 * @param from 调用标志
+	 * @return
+	 */
+	@GetMapping("/appuser/social/info/{inStr}")
+	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
+
 
 	/**
 	 * 锁定用户

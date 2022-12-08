@@ -95,6 +95,12 @@ public interface SecurityConstants {
 	 */
 	String GRANT_MOBILE = "mobile";
 
+
+	/**
+	 * 小程序授权
+	 */
+	String CLIENT_MINI = "mini";
+
 	/**
 	 * QQ获取token
 	 */

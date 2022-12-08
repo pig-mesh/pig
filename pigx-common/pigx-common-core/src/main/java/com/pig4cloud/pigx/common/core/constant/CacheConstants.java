@@ -30,6 +30,12 @@ public interface CacheConstants {
 	 */
 	String USER_DETAILS = "user_details";
 
+
+	/**
+	 * 移动端用户信息缓存
+	 */
+	String USER_DETAILS_MINI = "user_details_mini";
+
 	/**
 	 * 角色信息缓存
 	 */

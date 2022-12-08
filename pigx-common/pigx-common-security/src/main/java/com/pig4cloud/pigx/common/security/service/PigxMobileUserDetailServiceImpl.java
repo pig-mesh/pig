@@ -13,9 +13,13 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+/**
+ * @author aeizzz
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
+
 
 	private final UserDetailsService pigxDefaultUserDetailsServiceImpl;
 	private final RemoteUserService remoteUserService;
@@ -53,6 +57,6 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.GRANT_MOBILE.equals(grantType) && !clientId.equals("app");
+		return SecurityConstants.GRANT_MOBILE.equals(grantType) && !SecurityConstants.CLIENT_MINI.equals(clientId);
 	}
 }
