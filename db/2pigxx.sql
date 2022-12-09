@@ -841,28 +841,51 @@ CREATE TABLE `sys_social_details` (
 -- Table structure for sys_tenant
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_tenant`;
-CREATE TABLE `sys_tenant` (
-                              `id` bigint NOT NULL COMMENT '租户id',
-                              `name` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
-                              `code` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL,
-                              `tenant_domain` varchar(255) CHARACTER SET utf8mb4 DEFAULT NULL,
-                              `start_time` datetime DEFAULT NULL COMMENT '开始时间',
-                              `end_time` datetime DEFAULT NULL COMMENT '结束时间',
-                              `status` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                              `del_flag` char(1) CHARACTER SET utf8mb4 DEFAULT '0',
-                              `create_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '创建人',
-                              `update_by` varchar(64) CHARACTER SET utf8  NOT NULL DEFAULT ' ' COMMENT '修改人',
-                              `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建',
-                              `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-                              PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='租户表';
+CREATE TABLE `sys_tenant`  (
+                               `id` bigint(0) NOT NULL COMMENT '租户id',
+                               `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+                               `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+                               `tenant_domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+                               `start_time` datetime(0) NULL DEFAULT NULL COMMENT '开始时间',
+                               `end_time` datetime(0) NULL DEFAULT NULL COMMENT '结束时间',
+                               `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+                               `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+                               `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+                               `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+                               `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建',
+                               `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+                               `menu_id` bigint(0) NULL DEFAULT NULL,
+                               PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '租户表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '','2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', ' ', ' ', '2019-05-15 15:44:57', '2022-02-10 05:38:48');
+INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '', '2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2022-12-09 15:27:50', 1601104338798153729);
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_tenant_menu
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_tenant_menu`;
+CREATE TABLE `sys_tenant_menu`  (
+                                    `id` bigint(0) NOT NULL,
+                                    `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '租户菜单名称',
+                                    `menu_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单id集合',
+                                    `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0' COMMENT '租户菜单,9:冻结,0:正常',
+                                    `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '0',
+                                    `create_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+                                    `update_by` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+                                    `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建',
+                                    `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
+                                    PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_tenant_menu
+-- ----------------------------
+INSERT INTO `sys_tenant_menu` VALUES (1601104338798153729, '1231', '1000,1100,1101,1102,1103,1104,1200,1201,1202,1203,1300,1301,1302,1303,1304,1305,1400,1401,1402,1403,1404,1500,1501,1502,1503,1600,1601,1602,1603,1604,1605,1601095373834067969,1601095530717814785,1601095569972305921,1601095611131011073', '0', '0', 'admin', ' ', '2022-12-09 14:39:56', '2022-12-09 06:39:56');
 
 -- ----------------------------
 -- Table structure for sys_user
