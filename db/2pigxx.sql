@@ -258,6 +258,7 @@ INSERT INTO `sys_dict_item` VALUES (63, 2, 'CAS', 'CAS登录', 'social_type', 'C
 INSERT INTO `sys_dict_item` VALUES (64, 2, 'DINGTALK', '钉钉', 'social_type', '钉钉', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (65, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (66, 18, '2', 'APP', 'style_type', 'uview风格', 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (1601032587451977729, 17, 'mobile', 'app', 'grant_types', 'App登录', 5, 'admin', ' ', '2022-12-09 09:54:49', NULL, NULL, '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -485,6 +486,27 @@ INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource',
 INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design', 9000, 'icon-biaodanbiaoqian', '1', 2, '0', '0', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
 INSERT INTO `sys_menu` VALUES (9007, '低代码', 'gen_api_designer', NULL, 9001, '1', '1', 3, '0', '1', ' ', '2019-08-16 10:08:56', ' ', '2020-03-24 08:58:53', '0', 1);
 INSERT INTO `sys_menu` VALUES (10000, '大屏设计', NULL, '/report/screen/index', -1, 'icon-shuju', '1', 10, '0', '0', '', '2019-08-16 10:08:56', 'admin', '2022-11-04 15:21:29', '0', 1);
+INSERT INTO `sys_menu` VALUES (1600312638941048834, 'APP管理', NULL, '/app', -1, 'icon-bangzhushouji', '1', 999, '0', '0', 'admin', '2022-12-07 10:14:00', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600313409464053762, '用户管理', NULL, '/app/appuser/index', 1600312638941048834, 'icon-yonghuguanli', '1', 999, '0', '0', 'admin', '2022-12-07 10:17:04', 'admin', '2022-12-07 10:25:49', '0', 1);
+INSERT INTO `sys_menu` VALUES (1600323070510682114, '新增用户', 'app_appuser_add', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:27', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600323121857351681, '编辑用户', 'app_appuser_edit', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:39', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600323168514789378, '删除用户', 'app_appuser_del', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:51', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600323219744018434, '导出用户', 'app_appuser_export', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:56:03', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600376918277279745, '角色管理', NULL, '/app/approle/index', 1600312638941048834, 'icon-jiaoseguanli', '1', 999, '0', '0', 'admin', '2022-12-07 14:29:26', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600377095700533249, '删除角色', 'app_approle_del', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:08', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600377182417768449, '编辑角色', 'app_approle_edit', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:29', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600377222876024833, '新增角色', 'app_approle_add', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:38', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600377308532101121, '到处角色', 'app_approle_export', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:59', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600652908694007810, '权限管理', NULL, '/app/appmenu/index', 1600312638941048834, 'icon-caidanguanli', '1', 999, '0', '0', 'admin', '2022-12-08 08:46:07', 'admin', '2022-12-08 09:13:25', '0', 1);
+INSERT INTO `sys_menu` VALUES (1600653042983038977, '新增权限', 'app_appmenu_add', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:39', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600653088008892418, '修改权限', 'app_appmenu_edit', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:50', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600653127523430402, '删除权限', 'app_appmenu_del', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:59', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1600720444353658882, '角色授权', 'app_approle_perm', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 13:14:29', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1601051690644447233, '秘钥管理', NULL, '/app/appsocial/index', 1600312638941048834, 'icon-denglvlingpai', '1', 999, '0', '0', 'admin', '2022-12-09 11:10:44', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1601051800774287362, '删除秘钥', 'app_social_details_del', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:10', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1601051844994834433, '修改秘钥', 'app_social_details_edit', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:21', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (1601051895175487489, '保存秘钥', 'app_social_details_add', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:33', ' ', NULL, '0', 1);
+
 COMMIT;
 
 
@@ -525,6 +547,7 @@ INSERT INTO `sys_oauth_client_details` VALUES (4, 'mp', NULL, 'mp', 'server', 'p
 INSERT INTO `sys_oauth_client_details` VALUES (5, 'pig', NULL, 'pig', 'server', 'password,refresh_token,authorization_code,client_credentials,mobile', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login,http://localhost:8080/renren-admin/sys/oauth2-sso,http://localhost:8090/sys/oauth2-sso', NULL, 0, 0, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'false', '0', ' ', ' ', NULL, NULL, 1);
 INSERT INTO `sys_oauth_client_details` VALUES (6, 'test', NULL, 'test', 'server', 'password,refresh_token', NULL, NULL, NULL, NULL, '{ \"enc_flag\":\"1\",\"captcha_flag\":\"0\"}', 'true', '0', ' ', ' ', NULL, NULL, 1);
 INSERT INTO `sys_oauth_client_details` VALUES (7, 'social', NULL, 'social', 'server', 'password,refresh_token,mobile', NULL, NULL, NULL, NULL, '{ \"enc_flag\":\"1\",\"captcha_flag\":\"0\"}', 'true', '0', ' ', ' ', NULL, NULL, 1);
+INSERT INTO `sys_oauth_client_details` VALUES (1601022312699023362, 'mini', NULL, 'mini', 'server', 'password,authorization_code,client_credentials,refresh_token,mobile', NULL, NULL, 43200, 2592000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"1\",\"online_quantity\":\"0\"}', 'true', '0', 'admin', 'admin', '2022-12-09 09:14:00', '2022-12-09 11:23:35', 1);
 COMMIT;
 
 -- ----------------------------
