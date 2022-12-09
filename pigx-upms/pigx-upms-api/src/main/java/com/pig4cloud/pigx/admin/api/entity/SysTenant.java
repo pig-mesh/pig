@@ -82,6 +82,9 @@ public class SysTenant extends Model<SysTenant> {
 	@ApiModelProperty(value = "租户冻结标记,9:冻结,0:正常")
 	private String status;
 
+	@ApiModelProperty("租户菜单ID")
+	private String menuId;
+
 	/**
 	 * 创建人
 	 */
