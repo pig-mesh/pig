@@ -15,65 +15,48 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.admin.controller.handler;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.service.ConnectService;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.cp.api.WxCpService;
-import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
-import me.chanjar.weixin.cp.bean.WxCpOauth2UserInfo;
 import org.springframework.stereotype.Component;
 
 /**
  * @author lengleng
- * @date 2022/7/19
- *
- * 企业微信免密登录
+ * @date 2018/11/18
  */
 @Slf4j
-@Component("WEIXIN_CP")
+@Component("SMS")
 @AllArgsConstructor
-public class WxCpLoginHandler extends AbstractLoginHandler {
-
-	private ConnectService connectService;
+public class SmsLoginHandler extends AbstractLoginHandler {
 
 	private final SysUserService sysUserService;
 
 	/**
-	 * 微信登录传入code
-	 * <p>
-	 * 通过code 调用qq 获取唯一标识
-	 * @param code
+	 * 验证码登录传入为手机号 不用不处理
+	 * @param mobile
 	 * @return
 	 */
 	@Override
-	@SneakyThrows
-	public String identify(String code) {
-		WxCpService wxCpService = new WxCpServiceImpl();
-		wxCpService.setWxCpConfigStorage(connectService.getCpConfig());
-
-		WxCpOauth2UserInfo userInfo = wxCpService.getOauth2Service().getUserInfo(code);
-		log.info("企业微信返回报文:{}", userInfo);
-		return userInfo.getUserId();
+	public String identify(String mobile) {
+		return mobile;
 	}
 
 	/**
-	 * openId 获取用户信息
-	 * @param openId
+	 * 通过mobile 获取用户信息
+	 * @param identify
 	 * @return
 	 */
 	@Override
-	public UserInfo info(String openId) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getWxOpenid, openId));
+	public UserInfo info(String identify) {
+		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, identify));
 
 		if (user == null) {
-			log.info("企业微信未绑定:{}", openId);
+			log.info("手机号未注册:{}", identify);
 			return null;
 		}
 		return sysUserService.findUserInfo(user);
@@ -87,7 +70,7 @@ public class WxCpLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		user.setWxOpenid(identify);
+		user.setPhone(identify);
 		sysUserService.updateById(user);
 		return true;
 	}

@@ -19,96 +19,86 @@ package com.pig4cloud.pigx.app.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 /**
- * app用户表
- *
- * @author aeizzz
- * @date 2022-12-07 09:52:03
+ * app 社交账号登录
  */
 @Data
-@TableName("app_user")
+@ApiModel(value = "第三方账号信息")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "app用户表")
-public class AppUser extends Model<AppUser> {
+public class AppSocialDetails extends Model<AppSocialDetails> {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * userId
+	 * 主鍵
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "userId")
-	private Long userId;
+	@ApiModelProperty(value = "主键")
+	private Long id;
 
 	/**
-	 * 用户名
+	 * 类型
 	 */
-	@ApiModelProperty(value = "用户名")
-	private String username;
+	@NotBlank(message = "类型不能为空")
+	@ApiModelProperty(value = "账号类型")
+	private String type;
 
 	/**
-	 * 密码
+	 * 描述
 	 */
-	@ApiModelProperty(value = "密码")
-	private String password;
+	@ApiModelProperty(value = "描述")
+	private String remark;
 
 	/**
-	 * 随机盐
+	 * appid
 	 */
-	@JsonIgnore
-	@ApiModelProperty(value = "随机盐")
-	private String salt;
+	@Sensitive(prefixNoMaskLen = 4, suffixNoMaskLen = 4)
+	@NotBlank(message = "账号不能为空")
+	@ApiModelProperty(value = "appId")
+	private String appId;
 
 	/**
-	 * 手机号
+	 * app_secret
 	 */
-	@ApiModelProperty(value = "手机号")
-	private String phone;
+	@Sensitive(prefixNoMaskLen = 9, suffixNoMaskLen = 9)
+	@NotBlank(message = "密钥不能为空", groups = { ValidGroup.Insert.class })
+	@ApiModelProperty(value = "app secret")
+	private String appSecret;
 
 	/**
-	 * 头像
+	 * 回调地址
 	 */
-	@ApiModelProperty(value = "头像")
-	private String avatar;
+	@ApiModelProperty(value = "回调地址")
+	private String redirectUrl;
 
 	/**
-	 * 昵称
+	 * 拓展字段
 	 */
-	@ApiModelProperty(value = "拓展字段:昵称")
-	private String nickname;
-
-	/**
-	 * 姓名
-	 */
-	@ApiModelProperty(value = "拓展字段:姓名")
-	private String name;
-
-	/**
-	 * 邮箱
-	 */
-	@ApiModelProperty(value = "拓展字段:邮箱")
-	private String email;
+	@ApiModelProperty(value = "拓展字段")
+	private String ext;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty(value = "创建人")
 	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
-	@ApiModelProperty(value = "修改人")
 	@TableField(fill = FieldFill.UPDATE)
+	@ApiModelProperty(value = "修改人")
 	private String updateBy;
 
 	/**
@@ -119,42 +109,18 @@ public class AppUser extends Model<AppUser> {
 	private LocalDateTime createTime;
 
 	/**
-	 * 修改时间
+	 * 更新时间
 	 */
-	@ApiModelProperty(value = "修改时间")
+	@ApiModelProperty(value = "更新时间")
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
 
 	/**
 	 * 删除标记
 	 */
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
-	@TableField(fill = FieldFill.INSERT)
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
 	private String delFlag;
-
-	/**
-	 * 所属租户
-	 */
-	@ApiModelProperty(value = "所属租户", hidden = true)
-	private Long tenantId;
-
-	/**
-	 * 最后一次密码修改时间
-	 */
-	@ApiModelProperty(value = "最后一次密码修改时间")
-	private LocalDateTime lastModifiedTime;
-
-	/**
-	 * 锁定标记
-	 */
-	@ApiModelProperty(value = "锁定标记")
-	private String lockFlag;
-
-	/**
-	 * 微信小程序登录openId
-	 */
-	@ApiModelProperty(value = "微信小程序登录openId")
-	private String wxOpenid;
 
 }

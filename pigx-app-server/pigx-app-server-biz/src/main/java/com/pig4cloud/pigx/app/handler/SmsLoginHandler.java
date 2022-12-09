@@ -15,12 +15,12 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.app.handler;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.service.AppUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SmsLoginHandler extends AbstractLoginHandler {
 
-	private final SysUserService sysUserService;
+	private final AppUserService appUserService;
 
 	/**
 	 * 验证码登录传入为手机号 不用不处理
@@ -52,14 +52,14 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	 * @return
 	 */
 	@Override
-	public UserInfo info(String identify) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, identify));
+	public AppUserInfo info(String identify) {
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getPhone, identify));
 
 		if (user == null) {
 			log.info("手机号未注册:{}", identify);
 			return null;
 		}
-		return sysUserService.findUserInfo(user);
+		return appUserService.findUserInfo(user);
 	}
 
 	/**
@@ -69,9 +69,9 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	 * @return
 	 */
 	@Override
-	public Boolean bind(SysUser user, String identify) {
+	public Boolean bind(AppUser user, String identify) {
 		user.setPhone(identify);
-		sysUserService.updateById(user);
+		appUserService.updateById(user);
 		return true;
 	}
 

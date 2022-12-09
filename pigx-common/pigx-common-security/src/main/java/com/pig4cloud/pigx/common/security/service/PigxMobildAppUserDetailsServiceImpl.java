@@ -59,7 +59,7 @@ public class PigxMobildAppUserDetailsServiceImpl implements PigxUserDetailsServi
 
 	/**
 	 * 用户密码登录
-	 * @param username 用户密码登录
+	 * @param phone 用户密码登录
 	 * @return
 	 */
 	@Override
@@ -79,15 +79,12 @@ public class PigxMobildAppUserDetailsServiceImpl implements PigxUserDetailsServi
 
 	@Override
 	public UserDetails loadUserByUser(PigxUser pigxUser) {
-		return pigxAppUserDetailsServiceImpl.loadUserByUsername(pigxUser.getUsername());
+		return pigxUser;
 	}
 
 	UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
 		// @formatter:off
-		return RetOps.of(result)
-				.getData()
-				.map(this::convertUserDetailsAppUser)
-				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+		return RetOps.of(result).getData().map(this::convertUserDetailsAppUser).orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 		// @formatter:on
 	}
 
@@ -118,7 +115,7 @@ public class PigxMobildAppUserDetailsServiceImpl implements PigxUserDetailsServi
 
 	@Override
 	public int getOrder() {
-		return 10;
+		return 15;
 	}
 
 	/**

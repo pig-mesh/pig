@@ -15,10 +15,9 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.admin.controller.handler;
 
 import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -38,16 +37,16 @@ import org.springframework.stereotype.Component;
  * @date 2018/11/18
  */
 @Slf4j
-@Component("QQ")
+@Component("WX")
 @AllArgsConstructor
-public class TencentLoginHandler extends AbstractLoginHandler {
+public class WeChatLoginHandler extends AbstractLoginHandler {
 
 	private final SysUserService sysUserService;
 
 	private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
 	/**
-	 * QQ登录传入code
+	 * 微信登录传入code
 	 * <p>
 	 * 通过code 调用qq 获取唯一标识
 	 * @param code
@@ -56,23 +55,16 @@ public class TencentLoginHandler extends AbstractLoginHandler {
 	@Override
 	public String identify(String code) {
 		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.QQ.getType());
+		condition.setType(LoginTypeEnum.WECHAT.getType());
 		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-		String url = String.format(SecurityConstants.QQ_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+		String url = String.format(SecurityConstants.WX_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
 				socialDetails.getAppSecret(), code);
 		String result = HttpUtil.get(url);
-		log.debug("QQ响应报文:{}", result);
+		log.debug("微信响应报文:{}", result);
 
-		String accessToken = JSONUtil.parseObj(result).getStr("access_token");
-		String userUrl = String.format(SecurityConstants.QQ_USER_INFO_URL, accessToken);
-		String resp = HttpUtil.get(userUrl);
-		log.debug("QQ获取个人信息返回报文{}", resp);
-
-		JSONObject userInfo = JSONUtil.parseObj(resp);
-		// QQ唯一标识
-		String openid = userInfo.getStr("openid");
-		return openid;
+		Object obj = JSONUtil.parseObj(result).get("openid");
+		return obj.toString();
 	}
 
 	/**
@@ -82,10 +74,10 @@ public class TencentLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public UserInfo info(String openId) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getQqOpenid, openId));
+		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getWxOpenid, openId));
 
 		if (user == null) {
-			log.info("QQ未绑定:{}", openId);
+			log.info("微信未绑定:{}", openId);
 			return null;
 		}
 		return sysUserService.findUserInfo(user);
@@ -99,7 +91,7 @@ public class TencentLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		user.setQqOpenid(identify);
+		user.setWxOpenid(identify);
 		sysUserService.updateById(user);
 		return true;
 	}

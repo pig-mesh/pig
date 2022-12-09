@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.admin.controller.handler;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
@@ -33,26 +33,21 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * @author lengleng
- * @date 2019/4/8
- * <p>
- * 开源中国登录
+ * @date 2018/11/18
  */
 @Slf4j
-@Component("OSC")
+@Component("QQ")
 @AllArgsConstructor
-public class OscChinaLoginHandler extends AbstractLoginHandler {
-
-	private final SysSocialDetailsMapper sysSocialDetailsMapper;
+public class TencentLoginHandler extends AbstractLoginHandler {
 
 	private final SysUserService sysUserService;
 
+	private final SysSocialDetailsMapper sysSocialDetailsMapper;
+
 	/**
-	 * 开源中国传入code
+	 * QQ登录传入code
 	 * <p>
 	 * 通过code 调用qq 获取唯一标识
 	 * @param code
@@ -61,45 +56,36 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
 	@Override
 	public String identify(String code) {
 		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.OSC.getType());
+		condition.setType(LoginTypeEnum.QQ.getType());
 		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-		Map<String, Object> params = new HashMap<>(8);
-
-		params.put("client_id", socialDetails.getAppId());
-		params.put("client_secret", socialDetails.getAppSecret());
-		params.put("grant_type", "authorization_code");
-		params.put("redirect_uri", socialDetails.getRedirectUrl());
-		params.put("code", code);
-		params.put("dataType", "json");
-
-		String result = HttpUtil.post(SecurityConstants.OSC_AUTHORIZATION_CODE_URL, params);
-		log.debug("开源中国响应报文:{}", result);
+		String url = String.format(SecurityConstants.QQ_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+				socialDetails.getAppSecret(), code);
+		String result = HttpUtil.get(url);
+		log.debug("QQ响应报文:{}", result);
 
 		String accessToken = JSONUtil.parseObj(result).getStr("access_token");
-
-		String url = String.format(SecurityConstants.OSC_USER_INFO_URL, accessToken);
-		String resp = HttpUtil.get(url);
-		log.debug("开源中国获取个人信息返回报文{}", resp);
+		String userUrl = String.format(SecurityConstants.QQ_USER_INFO_URL, accessToken);
+		String resp = HttpUtil.get(userUrl);
+		log.debug("QQ获取个人信息返回报文{}", resp);
 
 		JSONObject userInfo = JSONUtil.parseObj(resp);
-		// 开源中国唯一标识
-		String id = userInfo.getStr("id");
-		return id;
+		// QQ唯一标识
+		String openid = userInfo.getStr("openid");
+		return openid;
 	}
 
 	/**
-	 * identify 获取用户信息
-	 * @param identify 开源中国表示
+	 * openId 获取用户信息
+	 * @param openId
 	 * @return
 	 */
 	@Override
-	public UserInfo info(String identify) {
-
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getOscId, identify));
+	public UserInfo info(String openId) {
+		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getQqOpenid, openId));
 
 		if (user == null) {
-			log.info("开源中国未绑定:{}", identify);
+			log.info("QQ未绑定:{}", openId);
 			return null;
 		}
 		return sysUserService.findUserInfo(user);
@@ -113,7 +99,7 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public Boolean bind(SysUser user, String identify) {
-		user.setOscId(identify);
+		user.setQqOpenid(identify);
 		sysUserService.updateById(user);
 		return true;
 	}

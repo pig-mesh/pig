@@ -15,17 +15,17 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.service.impl;
+package com.pig4cloud.pigx.app.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.controller.handler.LoginHandler;
-import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
-import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
-import com.pig4cloud.pigx.admin.service.SysSocialDetailsService;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.handler.LoginHandler;
+import com.pig4cloud.pigx.app.mapper.AppSocialDetailsMapper;
+import com.pig4cloud.pigx.app.mapper.AppUserMapper;
+import com.pig4cloud.pigx.app.service.AppSocialDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
@@ -42,14 +42,14 @@ import java.util.Map;
 @Slf4j
 @AllArgsConstructor
 @Service("sysSocialDetailsService")
-public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMapper, SysSocialDetails>
-		implements SysSocialDetailsService {
+public class AppSocialDetailsServiceImpl extends ServiceImpl<AppSocialDetailsMapper, AppSocialDetails>
+		implements AppSocialDetailsService {
 
 	private final Map<String, LoginHandler> loginHandlerMap;
 
 	private final CacheManager cacheManager;
 
-	private final SysUserMapper sysUserMapper;
+	private final AppUserMapper appUserMapper;
 
 	/**
 	 * 绑定社交账号
@@ -62,11 +62,11 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 		LoginHandler loginHandler = loginHandlerMap.get(type);
 		// 绑定逻辑
 		String identify = loginHandler.identify(code);
-		SysUser sysUser = sysUserMapper.selectById(SecurityUtils.getUser().getId());
-		loginHandler.bind(sysUser, identify);
+		AppUser user = appUserMapper.selectById(SecurityUtils.getUser().getId());
+		loginHandler.bind(user, identify);
 
 		// 更新緩存
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(sysUser.getUsername());
+		cacheManager.getCache(CacheConstants.USER_DETAILS_MINI).evict(user.getUsername());
 		return Boolean.TRUE;
 	}
 
@@ -76,7 +76,7 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 	 * @return
 	 */
 	@Override
-	public UserInfo getUserInfo(String inStr) {
+	public AppUserInfo getUserInfo(String inStr) {
 		String[] inStrs = inStr.split(StringPool.AT);
 		String type = inStrs[0];
 		String loginStr = inStr.substring(type.length() + 1);

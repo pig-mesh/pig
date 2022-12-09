@@ -12,6 +12,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author aeizzz
@@ -56,7 +57,7 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.GRANT_MOBILE.equals(grantType) && !SecurityConstants.CLIENT_MINI.equals(clientId);
+		return SecurityConstants.GRANT_MOBILE.equals(grantType);
 	}
 
 }

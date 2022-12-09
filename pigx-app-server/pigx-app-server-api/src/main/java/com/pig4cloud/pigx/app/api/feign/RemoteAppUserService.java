@@ -51,7 +51,7 @@ public interface RemoteAppUserService {
 	 * @param from 调用标志
 	 * @return
 	 */
-	@GetMapping("/appuser/social/info/{inStr}")
+	@GetMapping("/social/info/{inStr}")
 	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**

@@ -15,55 +15,35 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.app.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
 
 /**
+ * 系统社交登录账号表
+ *
  * @author lengleng
- * @date 2018/11/18
- * <p>
- * 登录处理器
+ * @date 2018-08-16 21:30:41
  */
-public interface LoginHandler {
-
-	/***
-	 * 数据合法性校验
-	 * @param loginStr 通过用户传入获取唯一标识
-	 * @return
-	 */
-	Boolean check(String loginStr);
+public interface AppSocialDetailsService extends IService<AppSocialDetails> {
 
 	/**
-	 * 通过用户传入获取唯一标识
-	 * @param loginStr
+	 * 绑定社交账号
+	 * @param state 类型
+	 * @param code code
 	 * @return
 	 */
-	String identify(String loginStr);
+	Boolean bindSocial(String state, String code);
 
 	/**
-	 * 通过openId 获取用户信息
-	 * @param identify
+	 * 根据入参查询用户信息
+	 * @param inStr
 	 * @return
 	 */
-	UserInfo info(String identify);
-
-	/**
-	 * 处理方法
-	 * @param loginStr 登录参数
-	 * @return
-	 */
-	UserInfo handle(String loginStr);
-
-	/**
-	 * 绑定逻辑
-	 * @param user 用户实体
-	 * @param identify 渠道返回唯一标识
-	 * @return
-	 */
-	default Boolean bind(SysUser user, String identify) {
-		return false;
-	}
+	AppUserInfo getUserInfo(String inStr);
 
 }

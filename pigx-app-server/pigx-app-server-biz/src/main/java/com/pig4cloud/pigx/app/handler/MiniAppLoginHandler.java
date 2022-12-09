@@ -15,17 +15,17 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.app.handler;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
-import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.mapper.AppSocialDetailsMapper;
+import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.AllArgsConstructor;
@@ -34,19 +34,21 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author lengleng
- * @date 2018/11/18
+ * @date 2019年11月02日
+ * <p>
+ * 微信小程序
  */
 @Slf4j
-@Component("WX")
+@Component("MINI")
 @AllArgsConstructor
-public class WeChatLoginHandler extends AbstractLoginHandler {
+public class MiniAppLoginHandler extends AbstractLoginHandler {
 
-	private final SysUserService sysUserService;
+	private final AppUserService appUserService;
 
-	private final SysSocialDetailsMapper sysSocialDetailsMapper;
+	private final AppSocialDetailsMapper appSocialDetailsMapper;
 
 	/**
-	 * 微信登录传入code
+	 * 小程序登录传入code
 	 * <p>
 	 * 通过code 调用qq 获取唯一标识
 	 * @param code
@@ -54,14 +56,14 @@ public class WeChatLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public String identify(String code) {
-		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.WECHAT.getType());
-		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+		AppSocialDetails condition = new AppSocialDetails();
+		condition.setType(LoginTypeEnum.MINI_APP.getType());
+		AppSocialDetails socialDetails = appSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-		String url = String.format(SecurityConstants.WX_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+		String url = String.format(SecurityConstants.MINI_APP_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
 				socialDetails.getAppSecret(), code);
 		String result = HttpUtil.get(url);
-		log.debug("微信响应报文:{}", result);
+		log.debug("微信小程序响应报文:{}", result);
 
 		Object obj = JSONUtil.parseObj(result).get("openid");
 		return obj.toString();
@@ -73,14 +75,14 @@ public class WeChatLoginHandler extends AbstractLoginHandler {
 	 * @return
 	 */
 	@Override
-	public UserInfo info(String openId) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getWxOpenid, openId));
+	public AppUserInfo info(String openId) {
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getWxOpenid, openId));
 
 		if (user == null) {
-			log.info("微信未绑定:{}", openId);
+			log.info("微信小程序未绑定:{}", openId);
 			return null;
 		}
-		return sysUserService.findUserInfo(user);
+		return appUserService.findUserInfo(user);
 	}
 
 	/**
@@ -90,9 +92,9 @@ public class WeChatLoginHandler extends AbstractLoginHandler {
 	 * @return
 	 */
 	@Override
-	public Boolean bind(SysUser user, String identify) {
+	public Boolean bind(AppUser user, String identify) {
 		user.setWxOpenid(identify);
-		sysUserService.updateById(user);
+		appUserService.updateById(user);
 		return true;
 	}
 

@@ -15,39 +15,19 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.handler;
+package com.pig4cloud.pigx.app.mapper;
 
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
+import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
+import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
+ * 系统社交登录账号表
+ *
  * @author lengleng
- * @date 2018/11/18
+ * @date 2018-08-16 21:30:41
  */
-public abstract class AbstractLoginHandler implements LoginHandler {
-
-	/***
-	 * 数据合法性校验
-	 * @param loginStr 通过用户传入获取唯一标识
-	 * @return 默认不校验
-	 */
-	@Override
-	public Boolean check(String loginStr) {
-		return true;
-	}
-
-	/**
-	 * 处理方法
-	 * @param loginStr 登录参数
-	 * @return
-	 */
-	@Override
-	public UserInfo handle(String loginStr) {
-		if (!check(loginStr)) {
-			return null;
-		}
-
-		String identify = identify(loginStr);
-		return info(identify);
-	}
+@Mapper
+public interface AppSocialDetailsMapper extends PigxBaseMapper<AppSocialDetails> {
 
 }
