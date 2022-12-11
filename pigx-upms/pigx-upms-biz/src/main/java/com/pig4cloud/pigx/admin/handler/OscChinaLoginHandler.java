@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.controller.handler;
+package com.pig4cloud.pigx.admin.handler;
 
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;

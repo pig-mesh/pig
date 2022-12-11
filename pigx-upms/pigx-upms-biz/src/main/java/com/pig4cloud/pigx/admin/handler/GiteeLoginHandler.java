@@ -15,8 +15,12 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.controller.handler;
+package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.URLUtil;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
@@ -24,60 +28,86 @@ import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.jasig.cas.client.validation.Assertion;
-import org.jasig.cas.client.validation.Cas30ProxyTicketValidator;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
 
 /**
  * @author lengleng
- * @date 2018/11/18
+ * @date 2019/4/8
+ * <p>
+ * 码云登录
  */
 @Slf4j
-@Component("CAS")
+@Component("GITEE")
 @AllArgsConstructor
-public class CasLoginHandler extends AbstractLoginHandler {
+public class GiteeLoginHandler extends AbstractLoginHandler {
 
 	private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
 	private final SysUserService sysUserService;
 
 	/**
-	 * cas 回到的ticket
+	 * 码云登录传入code
 	 * <p>
-	 * 通过ticket 调用CAS获取唯一标识
-	 * @param ticket
+	 * 通过code 调用qq 获取唯一标识
+	 * @param code
 	 * @return
 	 */
 	@Override
-	@SneakyThrows
-	public String identify(String ticket) {
+	public String identify(String code) {
 		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.CAS.getType());
+		condition.setType(LoginTypeEnum.GITEE.getType());
 		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
-		// remark 字段填写 CAS 服务器的URL
-		Cas30ProxyTicketValidator cas30ProxyTicketValidator = new Cas30ProxyTicketValidator(socialDetails.getRemark());
-		Assertion validate = cas30ProxyTicketValidator.validate(ticket, socialDetails.getRedirectUrl());
-		return validate.getPrincipal().getName();
+
+		String url = String.format(SecurityConstants.GITEE_AUTHORIZATION_CODE_URL, code, socialDetails.getAppId(),
+				URLUtil.encode(socialDetails.getRedirectUrl()), socialDetails.getAppSecret());
+		String result = HttpUtil.post(url, new HashMap<>(0));
+		log.debug("码云响应报文:{}", result);
+
+		String accessToken = JSONUtil.parseObj(result).getStr("access_token");
+		String userUrl = String.format(SecurityConstants.GITEE_USER_INFO_URL, accessToken);
+		String resp = HttpUtil.get(userUrl);
+		log.debug("码云获取个人信息返回报文{}", resp);
+
+		JSONObject userInfo = JSONUtil.parseObj(resp);
+		// 码云唯一标识
+		String login = userInfo.getStr("login");
+		return login;
 	}
 
 	/**
-	 * username 获取用户信息
-	 * @param username
+	 * identify 获取用户信息
+	 * @param identify identify
 	 * @return
 	 */
 	@Override
-	public UserInfo info(String username) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+	public UserInfo info(String identify) {
+
+		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getGiteeLogin, identify));
 
 		if (user == null) {
-			log.info("CAS 不存在用户:{}", username);
+			log.info("码云未绑定:{}", identify);
 			return null;
 		}
 		return sysUserService.findUserInfo(user);
+	}
+
+	/**
+	 * 绑定逻辑
+	 * @param user 用户实体
+	 * @param identify 渠道返回唯一标识
+	 * @return
+	 */
+	@Override
+	public Boolean bind(SysUser user, String identify) {
+		user.setGiteeLogin(identify);
+		sysUserService.updateById(user);
+		return true;
 	}
 
 }

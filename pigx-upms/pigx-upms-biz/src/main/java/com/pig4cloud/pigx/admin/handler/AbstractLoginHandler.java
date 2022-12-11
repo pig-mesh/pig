@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.controller.handler;
+package com.pig4cloud.pigx.admin.handler;
 
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 

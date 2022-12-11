@@ -15,52 +15,46 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.admin.controller.handler;
+package com.pig4cloud.pigx.admin.handler;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.service.SysUserService;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 /**
  * @author lengleng
  * @date 2018/11/18
+ * <p>
+ * 登录处理器
  */
-@Slf4j
-@Component("SMS")
-@AllArgsConstructor
-public class SmsLoginHandler extends AbstractLoginHandler {
+public interface LoginHandler {
 
-	private final SysUserService sysUserService;
-
-	/**
-	 * 验证码登录传入为手机号 不用不处理
-	 * @param mobile
+	/***
+	 * 数据合法性校验
+	 * @param loginStr 通过用户传入获取唯一标识
 	 * @return
 	 */
-	@Override
-	public String identify(String mobile) {
-		return mobile;
-	}
+	Boolean check(String loginStr);
 
 	/**
-	 * 通过mobile 获取用户信息
+	 * 通过用户传入获取唯一标识
+	 * @param loginStr
+	 * @return
+	 */
+	String identify(String loginStr);
+
+	/**
+	 * 通过openId 获取用户信息
 	 * @param identify
 	 * @return
 	 */
-	@Override
-	public UserInfo info(String identify) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, identify));
+	UserInfo info(String identify);
 
-		if (user == null) {
-			log.info("手机号未注册:{}", identify);
-			return null;
-		}
-		return sysUserService.findUserInfo(user);
-	}
+	/**
+	 * 处理方法
+	 * @param loginStr 登录参数
+	 * @return
+	 */
+	UserInfo handle(String loginStr);
 
 	/**
 	 * 绑定逻辑
@@ -68,11 +62,8 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	 * @param identify 渠道返回唯一标识
 	 * @return
 	 */
-	@Override
-	public Boolean bind(SysUser user, String identify) {
-		user.setPhone(identify);
-		sysUserService.updateById(user);
-		return true;
+	default Boolean bind(SysUser user, String identify) {
+		return false;
 	}
 
 }
