@@ -72,6 +72,7 @@ public enum LoginTypeEnum {
 	 * 企业微信
 	 */
 	WEIXIN_CP("WEIXIN_CP", "企业微信"),
+
 	/**
 	 * CAS 登录
 	 */

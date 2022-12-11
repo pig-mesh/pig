@@ -5,7 +5,7 @@
     <meta charset="UTF-8"/>
     <meta name="viewport"
           content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <title>PigX第三方授权</title>
+    <title>PigX 第三方授权</title>
     <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/signin.css"/>
 </head>
@@ -21,21 +21,26 @@
                 <a target="_blank" href="https://pig4cloud.com">技术支持</a>
             </p>
             <p class="navbar-text navbar-right">
-                <a target="_blank" href="https://pig4cloud.com">${user.username}</a>
+                <#if principalName=="anonymousUser">
+                    未登录
+                <#else>
+                    <a target="_blank" href="https://pig4cloud.com">${principalName}</a>
+                </#if>
             </p>
         </div>
     </div>
 </nav>
 <div style="padding-top: 80px;width: 300px; color: #555; margin:0px auto;">
-    <form id='confirmationForm' name='confirmationForm' action="/oauth/authorize" method='post'>
-        <input name='user_oauth_approval' value='true' type='hidden'/>
+    <form id='confirmationForm' name='confirmationForm' action="/oauth2/authorize" method='post'>
+        <input type="hidden" name="client_id" value="${clientId}">
+        <input type="hidden" name="state" value="${state}">
+
         <p>
-            <a href="${app.website!''}" target="_blank">${app.appName!'未定义应用名称'}</a> 将获得以下权限：</p>
+            将获得以下权限：</p>
         <ul class="list-group">
             <li class="list-group-item"> <span>
               <#list scopeList as scope>
-                  <input type="hidden" name="${scope}" value="true"/>
-                  <input type="checkbox" disabled checked="checked"/><label>${scope}</label>
+                  <input type="checkbox" checked="checked" name="scope" value="${scope}"/><label>${scope}</label>
               </#list>
         </ul>
         <p class="help-block">授权后表明你已同意 <a>服务协议</a></p>

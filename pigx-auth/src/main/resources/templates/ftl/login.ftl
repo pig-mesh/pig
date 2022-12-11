@@ -27,7 +27,7 @@
             </select>
         </#if>
 
-        <input type="hidden" name="clientId" class="form-control" value="pig" placeholder="所属客户端" >
+        <input type="hidden" name="client_id" class="form-control" value="pig" placeholder="所属客户端" >
         <input type="text" name="username" class="form-control" placeholder="账号" required autofocus>
         <input type="password" name="password" class="form-control" placeholder="密码" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>

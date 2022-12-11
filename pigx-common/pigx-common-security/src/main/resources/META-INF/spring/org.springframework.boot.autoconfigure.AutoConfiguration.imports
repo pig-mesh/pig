@@ -1,0 +1,9 @@
+com.pig4cloud.pigx.common.security.service.PigxDefaultUserDetailsServiceImpl
+com.pig4cloud.pigx.common.security.service.PigxTocDefaultUserDetailsServiceImpl
+com.pig4cloud.pigx.common.security.service.PigxMobileUserDetailServiceImpl
+com.pig4cloud.pigx.common.security.service.PigxTocMobileUserDetailsServiceImpl
+com.pig4cloud.pigx.common.security.service.PigRedisOAuth2AuthorizationService
+com.pig4cloud.pigx.common.security.service.PigRedisOAuth2AuthorizationConsentService
+com.pig4cloud.pigx.common.security.component.PigSecurityInnerAspect
+com.pig4cloud.pigx.common.security.component.PigSecurityMessageSourceConfiguration
+com.pig4cloud.pigx.common.security.service.PigRemoteRegisteredClientRepository

@@ -55,9 +55,11 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 	@Override
 	public Boolean calcScope(DataScope dataScope) {
 		PigxUser user = SecurityUtils.getUser();
+		// toc 客户端不进行数据权限
 		if (UserTypeEnum.TOC.getStatus().equals(user.getUserType())) {
 			return true;
 		}
+
 		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
 				.map(authority -> authority.split(StrUtil.UNDERLINE)[1]).collect(Collectors.toList());

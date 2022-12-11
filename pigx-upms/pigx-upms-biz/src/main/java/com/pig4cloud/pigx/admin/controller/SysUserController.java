@@ -218,7 +218,7 @@ public class SysUserController {
 	 * @param username 用户名
 	 * @return R
 	 */
-	@Inner
+	@Inner(value = false)
 	@PutMapping("/lock/{username}")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);

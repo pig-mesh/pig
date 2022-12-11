@@ -125,4 +125,14 @@ public interface CommonConstants {
 	 */
 	String REQUEST_START_TIME = "REQUEST-START-TIME";
 
+	/**
+	 * 当前页
+	 */
+	String CURRENT = "current";
+
+	/**
+	 * size
+	 */
+	String SIZE = "size";
+
 }

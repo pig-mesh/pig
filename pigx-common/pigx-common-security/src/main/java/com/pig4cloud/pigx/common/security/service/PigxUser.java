@@ -24,14 +24,17 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lengleng
  * @date 2020/4/16 扩展用户信息
  */
-public class PigxUser extends User {
+public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
@@ -129,6 +132,11 @@ public class PigxUser extends User {
 		this.name = name;
 		this.email = email;
 		this.userType = userType;
+	}
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		return new HashMap<>();
 	}
 
 }

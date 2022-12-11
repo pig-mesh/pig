@@ -73,7 +73,7 @@ public interface SecurityConstants {
 	/**
 	 * 项目的license
 	 */
-	String PIGX_LICENSE = "made by pigx";
+	String PIGX_LICENSE = "https://pig4cloud.com";
 
 	/**
 	 * 内部
@@ -88,7 +88,7 @@ public interface SecurityConstants {
 	/**
 	 * OAUTH URL
 	 */
-	String OAUTH_TOKEN_URL = "/oauth/token";
+	String OAUTH_TOKEN_URL = "/oauth2/token";
 
 	/**
 	 * 移动端授权
@@ -96,9 +96,14 @@ public interface SecurityConstants {
 	String GRANT_MOBILE = "mobile";
 
 	/**
-	 * 小程序授权
+	 * TOC 客户端
 	 */
-	String CLIENT_MINI = "mini";
+	String HEADER_TOC = "CLIENT_TOC";
+
+	/**
+	 * TOC 客户端
+	 */
+	String HEADER_TOC_YES = "Y";
 
 	/**
 	 * QQ获取token
@@ -255,5 +260,30 @@ public interface SecurityConstants {
 	 * AES 加密
 	 */
 	String AES = "aes";
+
+	/**
+	 * 授权码模式confirm
+	 */
+	String CUSTOM_CONSENT_PAGE_URI = "/token/confirm_access";
+
+	/**
+	 * {noop} 加密的特征码
+	 */
+	String NOOP = "{noop}";
+
+	/**
+	 * 短信登录 参数名称
+	 */
+	String SMS_PARAMETER_NAME = "mobile";
+
+	/**
+	 * 手机号登录
+	 */
+	String APP = "mobile";
+
+	/**
+	 * 用户信息
+	 */
+	String DETAILS_USER = "user_info";
 
 }

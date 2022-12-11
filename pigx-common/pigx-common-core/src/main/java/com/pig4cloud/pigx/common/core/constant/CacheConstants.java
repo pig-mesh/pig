@@ -105,4 +105,9 @@ public interface CacheConstants {
 	 */
 	String LOGIN_ERROR_TIMES = "login_error_times";
 
+	/**
+	 * oauth 缓存前缀
+	 */
+	String PROJECT_OAUTH_ACCESS = "token::access_token";
+
 }

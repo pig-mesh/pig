@@ -34,4 +34,14 @@ public class MsgUtils {
 		return messageSource.getMessage(code, objects, Locale.CHINA);
 	}
 
+	/**
+	 * security 通过code 和参数获取中文错误信息
+	 * @param code
+	 * @return
+	 */
+	public String getSecurityMessage(String code, Object... objects) {
+		MessageSource messageSource = SpringContextHolder.getBean("securityMessageSource");
+		return messageSource.getMessage(code, objects, Locale.CHINA);
+	}
+
 }
