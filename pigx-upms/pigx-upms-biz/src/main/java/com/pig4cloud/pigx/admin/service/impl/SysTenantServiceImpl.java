@@ -76,6 +76,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	private final SysDictService dictService;
 
+	private final SysTenantMenuService sysTenantMenuService;
+
 	/**
 	 * 获取正常状态租户
 	 * <p>
@@ -109,6 +111,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		String defaultPassword = ParamResolver.getStr("TENANT_DEFAULT_PASSWORD", "123456");
 		String defaultRoleCode = ParamResolver.getStr("TENANT_DEFAULT_ROLECODE", "ROLE_ADMIN");
 		String defaultRoleName = ParamResolver.getStr("TENANT_DEFAULT_ROLENAME", "租户默认角色");
+		String userDefaultRoleCode = ParamResolver.getStr("USER_DEFAULT_ROLECODE", "GENERAL_USER");
+		String userDefaultRoleName = ParamResolver.getStr("USER_DEFAULT_ROLENAME", "普通用户");
 
 		List<SysDict> dictList = new ArrayList<>(32);
 		List<Long> dictIdList = new ArrayList<>(32);
@@ -148,7 +152,14 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			user.setPassword(ENCODER.encode(defaultPassword));
 			user.setDeptId(dept.getDeptId());
 			userService.save(user);
-			// 构造新角色
+
+			// 构造普通用户角色
+			SysRole roleDefault = new SysRole();
+			roleDefault.setRoleCode(userDefaultRoleCode);
+			roleDefault.setRoleName(userDefaultRoleName);
+			roleService.save(roleDefault);
+
+			// 构造新角色 管理员角色
 			SysRole role = new SysRole();
 			role.setRoleCode(defaultRoleCode);
 			role.setRoleName(defaultRoleName);
@@ -160,7 +171,11 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			userRoleService.save(userRole);
 			// 插入新的菜单
 			saveTenantMenu(menuList, CommonConstants.MENU_TREE_ROOT_ID, CommonConstants.MENU_TREE_ROOT_ID);
-			List<SysMenu> newMenuList = menuService.list();
+
+			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
+
+			List<SysMenu> newMenuList = menuService
+					.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, tenantMenu.getMenuIds()));
 
 			// 查询全部菜单,构造角色菜单关系
 			List<SysRoleMenu> roleMenuList = newMenuList.stream().map(menu -> {
