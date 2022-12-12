@@ -134,17 +134,15 @@ public class SysDeptController {
 				relationService.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId)));
 	}
 
-
 	/**
 	 * 导出部门
 	 * @return
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<DeptExcelVo> export(){
+	public List<DeptExcelVo> export() {
 		return sysDeptService.listExcelVo();
 	}
-
 
 	/**
 	 * 导入部门
@@ -153,8 +151,9 @@ public class SysDeptController {
 	 * @return
 	 */
 	@PostMapping("import")
-	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult){
+	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
 
-		return sysDeptService.importDept(excelVOList,bindingResult);
+		return sysDeptService.importDept(excelVOList, bindingResult);
 	}
+
 }

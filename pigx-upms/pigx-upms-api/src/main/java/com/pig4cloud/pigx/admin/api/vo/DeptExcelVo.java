@@ -14,6 +14,7 @@ import java.io.Serializable;
  */
 @Data
 public class DeptExcelVo implements Serializable {
+
 	/**
 	 * 导入时候回显行号
 	 */
@@ -27,7 +28,6 @@ public class DeptExcelVo implements Serializable {
 	@NotBlank(message = "上级部门不能为空")
 	@ExcelProperty("上级部门")
 	private String parentName;
-
 
 	/**
 	 * 部门名称

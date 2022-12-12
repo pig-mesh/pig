@@ -129,4 +129,5 @@ public interface SysUserService extends IService<SysUser> {
 	R importDingUser(List<DingUserExcelVo> excelVOList, BindingResult bindingResult);
 
 	R importCpUser(List<CpUserExcelVo> excelVOList, BindingResult bindingResult);
+
 }

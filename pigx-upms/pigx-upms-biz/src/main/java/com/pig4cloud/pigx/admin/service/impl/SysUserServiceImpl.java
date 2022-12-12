@@ -398,7 +398,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return R.ok();
 	}
 
-
 	@Override
 	public R importDingUser(List<DingUserExcelVo> excelVOList, BindingResult bindingResult) {
 		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
@@ -406,24 +405,22 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysUser> userList = this.list();
 		List<SysDept> deptList = sysDeptService.list();
 
-		for (DingUserExcelVo item: excelVOList){
+		for (DingUserExcelVo item : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
-			boolean exsitUser = userList.stream()
-					.anyMatch(sysUser -> item.getName().equals(sysUser.getName()));
+			boolean exsitUser = userList.stream().anyMatch(sysUser -> item.getName().equals(sysUser.getName()));
 			if (exsitUser) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, item.getName()));
 			}
 			// 删除手机号中的 +86 前缀
 			String phone = item.getPhone().split("-")[1];
-			boolean exsitPhone = userList.stream()
-					.anyMatch(sysUser -> phone.equals(sysUser.getPhone()));
+			boolean exsitPhone = userList.stream().anyMatch(sysUser -> phone.equals(sysUser.getPhone()));
 			if (exsitPhone) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, item.getPhone()));
 			}
 			String deptName = item.getDeptName().split(",")[0];
 			// 判断输入的部门名称列表是否合法
-			Optional<SysDept> deptOptional = deptList.stream()
-					.filter(dept -> deptName.equals(dept.getName())).findFirst();
+			Optional<SysDept> deptOptional = deptList.stream().filter(dept -> deptName.equals(dept.getName()))
+					.findFirst();
 			if (!deptOptional.isPresent()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, item.getDeptName()));
 			}
@@ -466,24 +463,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysUser> userList = this.list();
 		List<SysDept> deptList = sysDeptService.list();
 
-		for (CpUserExcelVo item: excelVOList){
+		for (CpUserExcelVo item : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			boolean exsitUsername = userList.stream()
 					.anyMatch(sysUser -> item.getUsername().equals(sysUser.getUsername()));
 			if (exsitUsername) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, item.getUsername()));
 			}
-			boolean exsitPhone = userList.stream()
-					.anyMatch(sysUser -> item.getPhone().equals(sysUser.getPhone()));
+			boolean exsitPhone = userList.stream().anyMatch(sysUser -> item.getPhone().equals(sysUser.getPhone()));
 			if (exsitPhone) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, item.getPhone()));
 			}
 			// 多部门获取第一个 到部门获取自己点
 			String[] deptNameList = item.getDeptName().split(";")[0].split("/");
-			String deptName = deptNameList[deptNameList.length-1];
+			String deptName = deptNameList[deptNameList.length - 1];
 			// 判断输入的部门名称列表是否合法
-			Optional<SysDept> deptOptional = deptList.stream()
-					.filter(dept -> deptName.equals(dept.getName())).findFirst();
+			Optional<SysDept> deptOptional = deptList.stream().filter(dept -> deptName.equals(dept.getName()))
+					.findFirst();
 			if (!deptOptional.isPresent()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, deptName));
 			}

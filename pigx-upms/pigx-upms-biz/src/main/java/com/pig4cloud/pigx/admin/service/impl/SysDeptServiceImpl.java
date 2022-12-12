@@ -143,15 +143,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
 
 		List<SysDept> deptList = this.list();
-		for (DeptExcelVo item: excelVOList){
+		for (DeptExcelVo item : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
-			boolean exsitUsername = deptList.stream()
-					.anyMatch(sysDept -> item.getName().equals(sysDept.getName()));
+			boolean exsitUsername = deptList.stream().anyMatch(sysDept -> item.getName().equals(sysDept.getName()));
 			if (exsitUsername) {
 				errorMsg.add("部门名称已经存在");
 			}
 			SysDept one = this.getOne(Wrappers.<SysDept>lambdaQuery().eq(SysDept::getName, item.getParentName()));
-			if(item.getParentName().equals("跟部门")){
+			if (item.getParentName().equals("跟部门")) {
 				one = new SysDept();
 				one.setDeptId(0L);
 			}
@@ -164,7 +163,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				sysDept.setParentId(one.getDeptId());
 				sysDept.setSortOrder(item.getSortOrder());
 				this.saveDept(sysDept);
-			}else{
+			}
+			else {
 				// 数据不合法情况
 				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
 			}

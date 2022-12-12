@@ -69,4 +69,5 @@ public interface SysDeptService extends IService<SysDept> {
 	List<DeptExcelVo> listExcelVo();
 
 	R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult);
+
 }

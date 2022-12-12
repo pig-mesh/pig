@@ -18,14 +18,12 @@ public class DingUserExcelVo implements Serializable {
 	@ExcelIgnore
 	private Long lineNum;
 
-
 	/**
 	 * 手机号
 	 */
 	@NotBlank(message = "手机号不能为空")
 	@ExcelProperty("手机号")
 	private String phone;
-
 
 	/**
 	 * 姓名
@@ -34,7 +32,6 @@ public class DingUserExcelVo implements Serializable {
 	@ExcelProperty("姓名")
 	private String name;
 
-
 	/**
 	 * 部门名称
 	 */
@@ -42,13 +39,8 @@ public class DingUserExcelVo implements Serializable {
 	@ExcelProperty("部门")
 	private String deptName;
 
-
 	@ExcelProperty("邮箱")
 	private String email;
-
-
-
-
 
 	/**
 	 * 锁定标记

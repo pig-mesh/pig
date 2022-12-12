@@ -215,7 +215,6 @@ public class SysUserController {
 		return userService.importUser(excelVOList, bindingResult);
 	}
 
-
 	/**
 	 * 导入钉钉用户
 	 * @param excelVOList
@@ -223,14 +222,13 @@ public class SysUserController {
 	 * @return
 	 */
 	@PostMapping("/importDingUser")
-	public R importDingUser(@RequestExcel List<DingUserExcelVo> excelVOList, BindingResult bindingResult){
-		return userService.importDingUser(excelVOList,bindingResult);
+	public R importDingUser(@RequestExcel List<DingUserExcelVo> excelVOList, BindingResult bindingResult) {
+		return userService.importDingUser(excelVOList, bindingResult);
 	}
 
-
 	@PostMapping("/importCpUser")
-	public R importCpUser(@RequestExcel List<CpUserExcelVo> excelVOList, BindingResult bindingResult){
-		return userService.importCpUser(excelVOList,bindingResult);
+	public R importCpUser(@RequestExcel List<CpUserExcelVo> excelVOList, BindingResult bindingResult) {
+		return userService.importCpUser(excelVOList, bindingResult);
 	}
 
 	/**

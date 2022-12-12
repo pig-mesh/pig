@@ -21,7 +21,6 @@ public class CpUserExcelVo implements Serializable {
 	@ExcelIgnore
 	private Long lineNum;
 
-
 	@NotBlank(message = "帐号不能为空")
 	@ExcelProperty("帐号")
 	private String username;
@@ -33,14 +32,12 @@ public class CpUserExcelVo implements Serializable {
 	@ExcelProperty("手机")
 	private String phone;
 
-
 	/**
 	 * 姓名
 	 */
 	@NotBlank(message = "姓名不能为空")
 	@ExcelProperty("姓名")
 	private String name;
-
 
 	/**
 	 * 别名
@@ -55,13 +52,8 @@ public class CpUserExcelVo implements Serializable {
 	@ExcelProperty("部门")
 	private String deptName;
 
-
 	@ExcelProperty("企业邮箱")
 	private String email;
-
-
-
-
 
 	/**
 	 * 锁定标记
