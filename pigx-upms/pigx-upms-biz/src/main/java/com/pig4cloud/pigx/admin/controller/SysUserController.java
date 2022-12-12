@@ -24,6 +24,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DingUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
@@ -211,6 +213,24 @@ public class SysUserController {
 	@PreAuthorize("@pms.hasPermission('sys_user_export')")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
+	}
+
+
+	/**
+	 * 导入钉钉用户
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
+	 */
+	@PostMapping("/importDingUser")
+	public R importDingUser(@RequestExcel List<DingUserExcelVo> excelVOList, BindingResult bindingResult){
+		return userService.importDingUser(excelVOList,bindingResult);
+	}
+
+
+	@PostMapping("/importCpUser")
+	public R importCpUser(@RequestExcel List<CpUserExcelVo> excelVOList, BindingResult bindingResult){
+		return userService.importCpUser(excelVOList,bindingResult);
 	}
 
 	/**

@@ -22,6 +22,9 @@ package com.pig4cloud.pigx.admin.service;
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
+import com.pig4cloud.pigx.common.core.util.R;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -63,4 +66,7 @@ public interface SysDeptService extends IService<SysDept> {
 	 */
 	Boolean updateDeptById(SysDept sysDept);
 
+	List<DeptExcelVo> listExcelVo();
+
+	R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult);
 }

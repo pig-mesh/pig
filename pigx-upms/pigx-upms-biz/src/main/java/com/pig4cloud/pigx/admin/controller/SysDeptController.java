@@ -22,17 +22,24 @@ package com.pig4cloud.pigx.admin.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
+import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pigx.admin.service.SysDeptRelationService;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
+import oracle.jdbc.proxy.annotation.Post;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -127,4 +134,27 @@ public class SysDeptController {
 				relationService.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId)));
 	}
 
+
+	/**
+	 * 导出部门
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	public List<DeptExcelVo> export(){
+		return sysDeptService.listExcelVo();
+	}
+
+
+	/**
+	 * 导入部门
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
+	 */
+	@PostMapping("import")
+	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult){
+
+		return sysDeptService.importDept(excelVOList,bindingResult);
+	}
 }

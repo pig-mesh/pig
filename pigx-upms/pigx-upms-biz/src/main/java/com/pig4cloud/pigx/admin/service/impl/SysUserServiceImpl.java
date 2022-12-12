@@ -29,6 +29,8 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.*;
+import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DingUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
@@ -394,6 +396,121 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		}
 
 		return R.ok();
+	}
+
+
+	@Override
+	public R importDingUser(List<DingUserExcelVo> excelVOList, BindingResult bindingResult) {
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+		// 个性化校验逻辑
+		List<SysUser> userList = this.list();
+		List<SysDept> deptList = sysDeptService.list();
+
+		for (DingUserExcelVo item: excelVOList){
+			Set<String> errorMsg = new HashSet<>();
+			boolean exsitUser = userList.stream()
+					.anyMatch(sysUser -> item.getName().equals(sysUser.getName()));
+			if (exsitUser) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, item.getName()));
+			}
+			// 删除手机号中的 +86 前缀
+			String phone = item.getPhone().split("-")[1];
+			boolean exsitPhone = userList.stream()
+					.anyMatch(sysUser -> phone.equals(sysUser.getPhone()));
+			if (exsitPhone) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, item.getPhone()));
+			}
+			String deptName = item.getDeptName().split(",")[0];
+			// 判断输入的部门名称列表是否合法
+			Optional<SysDept> deptOptional = deptList.stream()
+					.filter(dept -> deptName.equals(dept.getName())).findFirst();
+			if (!deptOptional.isPresent()) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, item.getDeptName()));
+			}
+
+			// 数据合法情况
+			if (CollUtil.isEmpty(errorMsg)) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setName(item.getName());
+				// 批量导入初始密码为手机号
+				userDTO.setPassword(phone);
+				userDTO.setUsername(phone);
+				userDTO.setPhone(phone);
+				userDTO.setDeptId(deptOptional.get().getDeptId());
+				userDTO.setDelFlag(item.getLockFlag());
+				userDTO.setEmail(item.getEmail());
+				this.saveUser(userDTO);
+			}
+			else {
+				// 数据不合法情况
+				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
+			}
+		}
+		if (CollUtil.isNotEmpty(errorMessageList)) {
+			return R.failed(errorMessageList);
+		}
+		return R.ok(null, MsgUtils.getMessage(ErrorCodes.SYS_USER_IMPORT_SUCCEED));
+	}
+
+	/**
+	 * 企业微信用户导入
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
+	 */
+	@Override
+	public R importCpUser(List<CpUserExcelVo> excelVOList, BindingResult bindingResult) {
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+
+		// 个性化校验逻辑
+		List<SysUser> userList = this.list();
+		List<SysDept> deptList = sysDeptService.list();
+
+		for (CpUserExcelVo item: excelVOList){
+			Set<String> errorMsg = new HashSet<>();
+			boolean exsitUsername = userList.stream()
+					.anyMatch(sysUser -> item.getUsername().equals(sysUser.getUsername()));
+			if (exsitUsername) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, item.getUsername()));
+			}
+			boolean exsitPhone = userList.stream()
+					.anyMatch(sysUser -> item.getPhone().equals(sysUser.getPhone()));
+			if (exsitPhone) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, item.getPhone()));
+			}
+			// 多部门获取第一个 到部门获取自己点
+			String[] deptNameList = item.getDeptName().split(";")[0].split("/");
+			String deptName = deptNameList[deptNameList.length-1];
+			// 判断输入的部门名称列表是否合法
+			Optional<SysDept> deptOptional = deptList.stream()
+					.filter(dept -> deptName.equals(dept.getName())).findFirst();
+			if (!deptOptional.isPresent()) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, deptName));
+			}
+
+			// 数据合法情况
+			if (CollUtil.isEmpty(errorMsg)) {
+				UserDTO userDTO = new UserDTO();
+				userDTO.setName(item.getName());
+				// 批量导入初始密码为手机号
+				userDTO.setPassword(item.getPhone());
+				userDTO.setUsername(item.getUsername());
+				userDTO.setPhone(item.getPhone());
+				userDTO.setDeptId(deptOptional.get().getDeptId());
+				userDTO.setDelFlag(item.getLockFlag());
+				userDTO.setEmail(item.getEmail());
+				userDTO.setNickname(item.getNickname());
+				this.saveUser(userDTO);
+			}
+			else {
+				// 数据不合法情况
+				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
+			}
+		}
+		if (CollUtil.isNotEmpty(errorMessageList)) {
+			return R.failed(errorMessageList);
+		}
+		return R.ok(null, MsgUtils.getMessage(ErrorCodes.SYS_USER_IMPORT_SUCCEED));
 	}
 
 }

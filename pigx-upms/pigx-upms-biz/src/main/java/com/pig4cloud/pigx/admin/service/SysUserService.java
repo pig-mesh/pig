@@ -25,6 +25,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DingUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -124,4 +126,7 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R<Boolean> lockUser(String username);
 
+	R importDingUser(List<DingUserExcelVo> excelVOList, BindingResult bindingResult);
+
+	R importCpUser(List<CpUserExcelVo> excelVOList, BindingResult bindingResult);
 }
