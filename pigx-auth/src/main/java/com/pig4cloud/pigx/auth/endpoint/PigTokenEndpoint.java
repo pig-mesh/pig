@@ -192,14 +192,14 @@ public class PigTokenEndpoint {
 	 */
 	@Inner
 	@PostMapping("/page")
-	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
+	public R<Page<TokenVo>> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
 		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
 		Set<String> keys = redisTemplate.keys(key);
 		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
-		Page result = new Page(current, size);
+		Page<TokenVo> result = new Page(current, size);
 
 		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
 			OAuth2Authorization authorization = (OAuth2Authorization) obj;

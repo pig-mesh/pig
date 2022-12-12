@@ -43,7 +43,7 @@ public interface RemoteTokenService {
 	 * @return page
 	 */
 	@GetMapping("/token/page")
-	R<Page> getTokenPage(@SpringQueryMap Map<String, Object> params,
+	R<Page> getTokenPage(@RequestBody Map<String, Object> params,
 			@RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
