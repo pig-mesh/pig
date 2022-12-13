@@ -1,0 +1,2 @@
+com.pig4cloud.pigx.common.feign.PigxFeignAutoConfiguration=\
+  com.pig4cloud.pigx.app.api.feign.RemoteAppUserService

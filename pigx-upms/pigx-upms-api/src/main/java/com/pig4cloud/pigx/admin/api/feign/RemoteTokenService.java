@@ -43,8 +43,7 @@ public interface RemoteTokenService {
 	 * @return page
 	 */
 	@GetMapping("/token/page")
-	R<Page> getTokenPage(@RequestBody Map<String, Object> params,
-			@RequestHeader(SecurityConstants.FROM) String from);
+	R<Page> getTokenPage(@RequestBody Map<String, Object> params, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
 	 * 删除token
