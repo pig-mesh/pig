@@ -8,9 +8,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
-import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.ssssssss.magicapi.core.context.MagicUser;
 import org.ssssssss.magicapi.core.interceptor.Authorization;
@@ -55,6 +53,7 @@ public class CustomMagicDesignerAuthorizationInterceptor implements Authorizatio
 		}
 
 		OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(accessToken);
+
 		Collection<? extends GrantedAuthority> authorities = introspect.getAuthorities();
 		// 查询权限
 		return authorities.stream().anyMatch(authority -> MAGIC_AUTHORITY.equals(authority.getAuthority()));
