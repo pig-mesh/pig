@@ -7,9 +7,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.authentication.OAuth2AuthenticationDetails;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.ssssssss.magicapi.core.context.MagicUser;
 import org.ssssssss.magicapi.core.interceptor.Authorization;
 import org.ssssssss.magicapi.core.interceptor.AuthorizationInterceptor;
@@ -32,7 +34,7 @@ public class CustomMagicDesignerAuthorizationInterceptor implements Authorizatio
 
 	private final static String MAGIC_AUTHORITY = "gen_api_designer";
 
-	private final ResourceServerTokenServices tokenServices;
+	private final OpaqueTokenIntrospector opaqueTokenIntrospector;
 
 	/**
 	 * 配置是否需要登录
@@ -52,8 +54,8 @@ public class CustomMagicDesignerAuthorizationInterceptor implements Authorizatio
 			throw new AccessDeniedException("权限不足");
 		}
 
-		OAuth2Authentication oAuth2Authentication = tokenServices.loadAuthentication(accessToken);
-		Collection<GrantedAuthority> authorities = oAuth2Authentication.getAuthorities();
+		OAuth2AuthenticatedPrincipal introspect = opaqueTokenIntrospector.introspect(accessToken);
+		Collection<? extends GrantedAuthority> authorities = introspect.getAuthorities();
 		// 查询权限
 		return authorities.stream().anyMatch(authority -> MAGIC_AUTHORITY.equals(authority.getAuthority()));
 	}
