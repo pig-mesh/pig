@@ -74,7 +74,7 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 		// 这里需要指定读用哪个 class 去读，然后读取第一个 sheet 文件流会自动关闭
 		EasyExcel.read(inputStream, excelModelClass, readListener).registerConverter(LocalDateStringConverter.INSTANCE)
 				.registerConverter(LocalDateTimeStringConverter.INSTANCE).ignoreEmptyRow(requestExcel.ignoreEmptyRow())
-				.sheet().doRead();
+				.sheet().headRowNumber(requestExcel.headRowNumber()).doRead();
 
 		// 校验失败的数据处理 交给 BindResult
 		WebDataBinder dataBinder = webDataBinderFactory.createBinder(webRequest, readListener.getErrors(), "excel");

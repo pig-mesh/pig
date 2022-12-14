@@ -34,4 +34,10 @@ public @interface RequestExcel {
 	 */
 	boolean ignoreEmptyRow() default false;
 
+	/**
+	 * 指定读取的标题行
+	 * @return
+	 */
+	int headRowNumber() default 1;
+
 }
