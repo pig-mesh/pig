@@ -34,7 +34,7 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 		// @formatter:off
 		return RetOps.of(tokenService.queryToken(splitList.get(1), splitList.get(0) ,SecurityConstants.FROM_IN))
 				.getDataIf(RetOps.CODE_SUCCESS)
-				.map(o -> (String)o.get("username"))
+				.map(o -> (String)o.get("principalName"))
 				.orElse(null);
 		// @formatter:off
 	}
@@ -43,7 +43,7 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 	public Map<String, Object> getUserInfo(String token) {
 		String username = this.getUsername(token);
 		Map<String, Object> map = new HashMap<>(4);
-		map.put("username", username);
+		map.put("principalName", username);
 		map.put("access_token", token);
 		// 将所有信息存放至map 解析sql会根据map的键值解析,可自定义其他值
 		return map;
