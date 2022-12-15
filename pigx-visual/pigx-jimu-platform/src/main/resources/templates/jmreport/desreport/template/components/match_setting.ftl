@@ -119,7 +119,7 @@
         methods: {
             //渲染button
             renderColorButton(h, params, key, type){
-                console.log('params', params)
+                // console.log('params', params)
                 if (key == 'action'){
                     return h('div', {style: {display: 'flex'}}, [
                         h('i-button', {
@@ -190,7 +190,7 @@
             },
             initData: function (){
                 if (this.chartOptions){
-                    console.info("########", JSON.stringify(this.dataSettings))
+                    // console.info("########", JSON.stringify(this.dataSettings))
                     this.selectedChartType = this.dataSettings.chartType;
                     let colorArr = [];
                     let seriesList = []
@@ -244,7 +244,7 @@
                             }
                         }
                     })
-                    console.info("自定义颜色", colorArr)
+                    // console.info("自定义颜色", colorArr)
                     //已设置的颜色配置
                     this.colorMatchData = colorArr
                     //系列下拉框数据
@@ -264,8 +264,8 @@
                 this.colorMatch={name:'',color:'',edgeColor:"",opacity:1,lineColor:''};
             },
             onColorChange(){
-                console.log('this.colorMatchData==>',JSON.stringify(this.colorMatchData));
-                console.log('this.seriesTypeData==>',JSON.stringify(this.seriesTypeData));
+                // console.log('this.colorMatchData==>',JSON.stringify(this.colorMatchData));
+                // console.log('this.seriesTypeData==>',JSON.stringify(this.seriesTypeData));
                 if(!this.colorMatchData){
                     return;
                 }
@@ -278,7 +278,7 @@
                 }else{
                     arr = this.chartOptions['series']
                 }
-                console.log('this.arr==>',JSON.stringify(arr));
+                // console.log('this.arr==>',JSON.stringify(arr));
                 let seriesArray = []
                 let i = 0;
                 for(let item of arr){
@@ -364,7 +364,7 @@
                     let arr= [[0.2, c1], [0.8, c2], [1, c3]];
                     this.chartOptions['series'][0]['axisLine']['lineStyle'].color =arr
                 }
-                console.info("this.chartOptions",JSON.stringify(this.chartOptions))
+                // console.info("this.chartOptions",JSON.stringify(this.chartOptions))
                 let id = this.dataSettings.id;
                 xs.updateChart(id , this.chartOptions);
             },

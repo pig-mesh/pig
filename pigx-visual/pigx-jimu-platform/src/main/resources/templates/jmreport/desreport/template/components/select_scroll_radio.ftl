@@ -3,9 +3,12 @@ item:传递的参数，包含字典code，查询key
 value:view组件传递的值 v-model-->
 <script type="text/x-template" id="select-scroll-radio-template">
     <div>
-        <input ref="clickInput" class="ivu-input ivu-input-default" v-model="dictText"
-               :placeholder="'请选择'+dataList.name" @blur="clickBlur"
-               @click="handleClick" style="cursor: pointer"/>
+	    <div style="display: flex">
+		    <input ref="clickInput" class="ivu-input ivu-input-default" v-model="dictText"
+		           :placeholder="'请选择'+dataList.title" @blur="clickBlur"
+		           @click="handleClick" style="cursor: pointer"/>
+		    <i class="ivu-icon ivu-icon-md-close ivu-select-arrow" @click="handleIconClick" v-if="dictText"></i>
+	    </div>
         <div class="scoll-class" v-if="scollShow">
             <Scroll :class="noData == true?'no-loading':''" :height="dictHeight" :on-reach-bottom="handleReachBottom"
                     :distance-to-edge="1">
@@ -230,7 +233,10 @@ value:view组件传递的值 v-model-->
         let newDictList = [];
         for (let i = 0; i < dictList.length; i++) {
           let value = dictList[i].value;
-          if (value.indexOf(dictText) >= 0 || value == dictText) {
+          let text = dictList[i].text;
+          if (value.indexOf(dictText) >= 0 || value === dictText) {
+            newDictList.push(dictList[i])
+          }else if(text.indexOf(dictText) >= 0 || text === dictText){
             newDictList.push(dictList[i])
           }
         }
@@ -238,7 +244,14 @@ value:view组件传递的值 v-model-->
         //update-begin---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
         this.dictHeight = this.dictList.length > 6 ? 200 : this.dictList.length * 32 + 50
         //update-end---author:wangshuai ---date:20220315  for：下拉单选样式出现混乱--------
-      }
+      },
+      /**
+       * 点击叉数据清空
+       */
+      handleIconClick(){
+        this.dictText=""
+	      this.handleOnChange()
+      }  
     }
   })
 </script>

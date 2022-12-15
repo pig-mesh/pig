@@ -334,7 +334,7 @@
                         token:this.token
                     },
                     success:(result)=>{
-                        console.log('result',result)
+                        // console.log('result',result)
                         let records=result.records;
                         that.page.total = result.total
                         that.$nextTick(()=>{

@@ -1,6 +1,6 @@
 <script type="text/x-template" id="print-setting-template">
     <div>
-        <Modal :loading="true" v-model="show" :width="500" @on-ok="onPrintSettingSave" @on-cancel="onPrintSettingCancel" class="expression">
+        <Modal :loading="true" v-model="show" :width="500" @on-ok="onPrintSettingSave" @on-cancel="onPrintSettingCancel" class="print-setting expression">
             <p slot="header">
             <span>打印设置
                <Tooltip :transfer="true" content="打印文档" placement="top">
@@ -69,6 +69,16 @@
                         <slider :min="1" :max="10" v-model="definition"></slider>
                     </i-col>
                 </Row>
+
+                <Row style="margin-top: 8px">
+                    <i-col span="6">
+                        <span>回调接口：</span>
+                    </i-col>
+                    <i-col span="18">
+                        <i-input v-model="printCallBackUrl" style="width: 100%"></i-input>
+                    </i-col>
+                </Row>
+                
             </i-form>
         </Modal>
     </div>
@@ -117,7 +127,8 @@
                 pxHeight: '',
                 marginX: 10,
                 marginY: 10,
-                layout: 'portrait'
+                layout: 'portrait',
+                printCallBackUrl: ''
             }
         },
         created(){
@@ -157,7 +168,8 @@
                   isBackend: this.isBackend,
                   marginX: this.marginX || 0,
                   marginY: this.marginY || 0,
-                  layout: this.layout
+                  layout: this.layout,
+                  printCallBackUrl: this.printCallBackUrl
               }
             },
             // 纸张大小改变事件
@@ -234,6 +246,7 @@
                     if(param.isBackend===true || param.isBackend===false){
                         this.isBackend = param.isBackend
                     }
+                    this.printCallBackUrl = param.printCallBackUrl || ''
                 }
             },
             // 重置宽高px的值
@@ -292,3 +305,10 @@
         }
     })
 </script>
+<style>
+    .print-setting .ivu-col-span-6>span{
+        display: inline-block;
+        height: 32px;
+        line-height: 32px;
+    }
+</style>

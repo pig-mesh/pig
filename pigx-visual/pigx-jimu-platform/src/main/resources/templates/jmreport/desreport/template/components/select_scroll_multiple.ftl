@@ -7,9 +7,9 @@ index:下标-->
         <div class="ivu-select ivu-select-multiple ivu-select-small" style="width: 100%">
             <div class="ivu-select-selection" @click="handleClick">
                 <span class="select-dict-text" v-if="dictText!=''">{{dictText}}</span>
-                <span v-else  class="ivu-select-input" style="color: rgb(197,201,203)">{{'请选择'+dataList.name}}</span>
+                <span v-else  class="ivu-select-input" style="color: rgb(197,201,203)">{{'请选择'+dataList.title}}</span>
             </div>
-          <i class="ivu-icon ivu-icon-md-close icon-position" @click="handleIconClick"></i>
+          <i class="ivu-icon ivu-icon-md-close ivu-select-arrow" @click="handleIconClick"></i>
         </div>
         <div class="scroll-class" v-if="scrollShow">
             <Scroll :class="noData == true?'no-loading':''" :height="dictHeight" :on-reach-bottom="handleReachBottom"
@@ -269,7 +269,9 @@ index:下标-->
           this.getDictData(1);
         }else{
           //前台进行搜索
-          if(this.dictText){
+          //update-begin---author:wangshuai ---date:20221117  for：[issues/1316]查询栏 下拉多选搜索无效------------
+          if(this.searchText){
+          //update-end---author:wangshuai ---date:20221117  for：[issues/1316]查询栏 下拉多选搜索无效--------------
             this.searchDictByText();
           }else{
             this.dictList = this.copyDictList
@@ -339,7 +341,10 @@ index:下标-->
         }else{
           for (let i = 0; i <dictList.length; i++) {
             let value = dictList[i].value;
-            if(value.indexOf(searchText) >= 0 || value == searchText){
+            let text = dictList[i].text;
+            if(value.indexOf(searchText) >= 0 || value === searchText){
+              newDictList.push(dictList[i])
+            }else if(text.indexOf(searchText) >= 0 || text ===searchText){
               newDictList.push(dictList[i])
             }
           }

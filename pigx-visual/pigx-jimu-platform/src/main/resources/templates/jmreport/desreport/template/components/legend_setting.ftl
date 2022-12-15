@@ -52,7 +52,7 @@
 
                 <Row class="ivurow">
                     <p>上边距&nbsp;&nbsp;</p>
-                    <slider v-model="legendOptions.padding[0]" @on-change="onLegendChange" :tip-format="formatTop" style="margin-top: -9px;width: 148px;margin-left: 5px;"></slider>
+                    <slider :disabled="legendOptions.top!=='top'" v-model="paddingTop" @on-change="onLegendTopChange" :tip-format="formatTop" style="margin-top: -9px;width: 148px;margin-left: 5px;"></slider>
                 </Row>
             </div>
         </Submenu>
@@ -77,7 +77,8 @@
                     left:"left",
                     orient:"horizontal",
                     textStyle_fontSize:""
-                }
+                },
+                paddingTop:'' //边距单独提出来
             }
         },
         watch: {
@@ -93,12 +94,17 @@
             initData: function (){
                 if (this.settings){
                     this.legendOptions = Object.assign(this.legendOptions, this.settings)
+                    //update-begin---author:wangshuai ---date:20220628  for：[issues/I58YJG]图表中图例设置-纵向位置如果设置为底部，在挪动上边距的话那个图例就会跑到顶部去------------
+                    this.paddingTop = this.legendOptions.padding[0]
+                    //update-end---author:wangshuai ---date:20220628  for：[issues/I58YJG]图表中图例设置-纵向位置如果设置为底部，在挪动上边距的话那个图例就会跑到顶部去--------------
                 }
             },
             onLegendChange (){
-                console.log("我进来了")
-                console.log(this.legendOptions)
                 this.$emit('change','legend',this.legendOptions)
+            },
+            onLegendTopChange(){
+                this.legendOptions.padding[0] = this.paddingTop;
+                this.onLegendChange()
             },
             formatTop(val){
                 return val

@@ -337,7 +337,7 @@
                         url: api.getLinkageChartInfo,
                         data: param,
                         success: (result) => {
-                            console.log(112,result)
+                            // console.log(112,result)
                             // 设置被联动图表的参数接收
                             handleLinkageParams.call(this, result.paramList)
                             // 设置当前图表的字段字典信息
@@ -391,7 +391,7 @@
             },
             // 参数选中改变事件
             handleClParamSelected(selections){
-                console.log('selections', selections)
+                // console.log('selections', selections)
                 let arr = []
                 selections.map(k=>{
                     arr.push(k.index)

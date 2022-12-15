@@ -37,7 +37,7 @@
                         +{{ multipleShowVal.length - 2 }}
                     </span>
 
-                    <span v-if="multipleHideVal.length === 0" class="ivu-select-placeholder">请选择</span>
+                    <span v-if="multipleShowVal.length === 0" class="ivu-select-placeholder">请选择</span>
                     <span class="" style="display: none;"></span>
                 </div>
                 <i :class="'ivu-icon ivu-icon-' +iconVal+ ' ivu-select-arrow'" @click="clickIcon"></i>
@@ -76,7 +76,10 @@
             },
             url: {
                 type: String
-            }
+            },
+            loadtreeurl: { 
+                type: String
+		        }
         },
         data(){
             return {
@@ -94,6 +97,7 @@
                 queryData: [],
                 inputOver: false,
                 treeOver: false,
+                initValues:[] //初始化value值
 
             }
         },
@@ -122,6 +126,14 @@
                         })
                     }
                 }
+                
+                //update-begin---author:wangshuai ---date:20220627  for：[issues/965]报表下钻时返回上一页下拉树参数回显有问题------------
+                //如果没有配置通过value值获取树集合，那么就不走孩子选中时间
+		            if(this.loadtreeurl){
+                    this.checkChildTreeData(arr,this.initValues)
+                }
+                //update-end---author:wangshuai ---date:20220627  for：[issues/965]报表下钻时返回上一页下拉树参数回显有问题--------------
+		            
                 if(callback){
                     callback(arr)
                 }else{
@@ -135,9 +147,9 @@
             },
             // 加载子节点
             loadData(item, callback){
-                console.log("====")
-                console.log("loadData")
-                console.log("====")
+                // console.log("====")
+                // console.log("loadData")
+                // console.log("====")
                 let params = {
                     params: {pid: item.id}
                 }
@@ -149,9 +161,9 @@
             },
             // 加载数据
             loadRoot(){
-                console.log("====")
-                console.log("loadRoot")
-                console.log("====")
+                // console.log("====")
+                // console.log("loadRoot")
+                // console.log("====")
                 $http.metaGet(this.url).then((res) => {
                     this.combineTreeData(res.data)
                 }).catch(function (error){
@@ -160,7 +172,7 @@
             },
             initTreeSelected(){
                 // 如果有默认值  需要设置该方法
-                console.log('initTreeSelected', this.value)
+                // console.log('initTreeSelected', this.value)
                 if(!this.value){
                     let arr = this.queryData;
                     this.clearTreeSelect(arr)
@@ -168,6 +180,13 @@
                     this.multipleHideVal = []
                     // 勾选状态去不掉
                     this.queryData = JSON.parse(JSON.stringify(arr))
+                }else{
+                    //update-begin---author:wangshuai ---date:20220627  for：[issues/965]报表下钻时返回上一页下拉树参数回显有问题------------
+                    //如果没有配置通过值获取数集合，那么就不走请求接口，兼容老数据
+		                if(this.loadtreeurl){
+                        this.getTreeName(this.value);
+                    }
+                    //update-end---author:wangshuai ---date:20220627  for：[issues/965]报表下钻时返回上一页下拉树参数回显有问题------------
                 }
             },
             clearTreeSelect(arr){
@@ -256,7 +275,7 @@
                 }
             },
             clearVal () {
-                console.log('clearVal')
+                // console.log('clearVal')
             /*    if (this.clearable && !this.multiple && this.iconVal === 'ios-close-circle') {
                     this.pickTree(this.hideValue)
                     this.queryVal = ''
@@ -339,6 +358,65 @@
                 let emitString = this.multipleHideVal.join(',')
                 this.$emit('input', emitString)
                 this.$emit('on-change', emitString)
+            },
+		        
+            /**
+             * 获取树名称
+             * @param value
+             */
+            getTreeName(value){
+                let params = {
+                    params: {value: value}
+                }
+                $http.metaGet(this.loadtreeurl, params).then((res) => {
+                    if(res.data && res.data.length> 0){
+                        let initValues = [];
+                        for (let i = 0; i <  res.data.length; i++) {
+                            if(res.data[i].value){
+                                if(this.multipleShowVal.indexOf(res.data[i].title) === -1){
+                                    this.multipleShowVal.push(res.data[i].title) 
+                                }
+                                initValues.push(res.data[i].value)
+                            }
+                        }
+                        //如果有值默认选中
+		                    this.setChecked(initValues);
+                        this.initValues = initValues
+                    }
+                }).catch(function (error){
+                    console.log('获取树名称失败', error)
+                });
+            },
+		        
+            /**
+             * 设置选中值
+             * @param children
+             * @param removeValue
+             */
+            setChecked(values){
+                let arr = this.queryData;
+                for (let i = 0; i < arr.length; i++) {
+                    if (values.indexOf(arr[i].value)!==-1 && !values.checked) {
+                        Vue.set(arr[i],"checked",true)
+                    } else {
+                        Vue.set(arr[i],"checked",false)
+                    }
+                }
+            },
+		        
+            /**
+             * 子级设置选中值
+             * @param children
+             * @param checkedValue
+             */
+            checkChildTreeData(children, checkedValue) {
+                for (let i = 0; i < children.length; i++) {
+                    if (checkedValue.indexOf(children[i].value)!==-1  && !checkedValue.checked) {
+                        Vue.set(children[i],"checked",true)
+                    }else{
+                        Vue.set(children[i],"checked",false)
+                    }
+                }
             }
 
         }

@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=v=1.0.7">
+<#assign CACHE_VERSION = "v=1.0.13">
 <#assign config_id = "${id!''}">
 <#assign shareView = "${shareView}">
 <!DOCTYPE html>
@@ -158,7 +158,7 @@ function getLocalRequestUrl() {
 <div id="app" style="overflow: hidden" v-cloak>
     <!-- 查询条件 -begin -->
     <div v-if="configQueryList && configQueryList.length>0">
-        <Collapse class="jm-query-collapse" @on-change="onQueryAreaSwitch">
+        <Collapse class="jm-query-collapse" @on-change="onQueryAreaSwitch" v-model="queryPanel">
             <Panel name="1">
                 <span style="color: #000000;" title="点击展开显示查询信息">查 询 栏</span>
                 <div slot="content">
@@ -196,7 +196,7 @@ function getLocalRequestUrl() {
 
                                 <!-- 下拉树 -->
                                 <template v-else-if="item.mode==6">
-                                    <j-tree-select :ref="item.key" :url="item.loadTree" v-model="queryInfo[item.key]"></j-tree-select>
+                                    <j-tree-select :ref="item.key" :url="item.loadTree" :loadtreeurl="item.loadTreeByValue" v-model="queryInfo[item.key]"></j-tree-select>
                                 </template>
 
                                 <!-- 自定义下拉框 -->
@@ -219,20 +219,20 @@ function getLocalRequestUrl() {
                                    <template v-else-if="item.type=='number'">
                                        <Row v-if="item.mode==2">
                                            <i-col span="11">
-                                               <i-input :ref="item.key+'_begin'" class="jm-select-box" v-model="queryInfo[item.key+'_begin']" type="number" :placeholder="'请输入起始值'"></i-input>
+                                               <i-input :ref="item.key+'_begin'" class="jm-select-box" v-model="queryInfo[item.key+'_begin']" type="number" :placeholder="'请输入起始值'" clearable></i-input>
                                            </i-col>
                                            <i-col span="2" style="text-align: center">&nbsp;~</i-col>
                                            <i-col span="11">
-                                               <i-input :ref="item.key+'_end'" class="jm-select-box" v-model="queryInfo[item.key+'_end']" type="number" :placeholder="'请输入结束值'"></i-input>
+                                               <i-input :ref="item.key+'_end'" class="jm-select-box" v-model="queryInfo[item.key+'_end']" type="number" :placeholder="'请输入结束值'" clearable></i-input>
                                            </i-col>
                                        </Row>
-                                       <i-input v-else :ref="item.key" class="jm-select-box" type="number" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title"></i-input>
+                                       <i-input v-else :ref="item.key" class="jm-select-box" type="number" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
                                    </template>
 
                                    <!-- 默认输入框 模糊查询参数加* -->
                                    <template v-else>
-                                       <i-input v-if="item.mode==5" :ref="item.key" @on-change="(e)=>handleLikeQueryChange(e, item.key)" class="jm-select-box" v-model="queryInfo['onlyshow_'+item.key]" :placeholder="'请输入'+item.title"></i-input>
-                                       <i-input v-else :ref="item.key" class="jm-select-box" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title"></i-input>
+                                       <i-input v-if="item.mode==5" :ref="item.key" @on-change="(e)=>handleLikeQueryChange(e, item.key)" class="jm-select-box" v-model="queryInfo['onlyshow_'+item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
+                                       <i-input v-else :ref="item.key" class="jm-select-box" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
                                    </template>
                                </template>
                             </form-item>
@@ -298,8 +298,8 @@ function getLocalRequestUrl() {
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/row.cycle.js?${CACHE_VERSION}"></script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/cdn/vue/xss-0.3.3.min.js?${CACHE_VERSION}"></script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/view.js?${CACHE_VERSION}"></script>
-<#include "./common/tj.ftl">
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/cdn/vue/md5.min.js?${CACHE_VERSION}"></script>
 <script type="text/javascript" src="${base}${customPrePath}/jmreport/desreport_/js/biz/SignMd5Util.js?${CACHE_VERSION}"></script>
+<#include "./common/tj.ftl">
 </body>
 </html>

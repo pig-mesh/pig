@@ -152,8 +152,8 @@
                                       <div style="font-size: 10px;">
                                         <p style="margin-left: 14px">
                                           <ul>
-                                            <li>如果id字段为字符串类型则需要加单引号:http://127.0.0.1:8080/jeecg-boot/jimureport/test?id=${"'$"}${"{id}'"}。</li>
-                                            <li>您可以编写${"'#"}${"{sysDateTime}'"}做为一个系统变量,这里sysDateTime是当前系统时间。例如:http://127.0.0.1:8080/jeecg-boot/jimureport/test?riqi=${"'#"}${"{sysDateTime}'"}。</li>    
+                                            <li>如果id字段为字符串类型则需要加单引号:http://127.0.0.1:8080/jeecg-boot/jimureport/test?id=${"$"}${"{id}"}。</li>
+                                            <li>您可以编写${"#"}${"{sysDateTime}"}做为一个系统变量,这里sysDateTime是当前系统时间。例如:http://127.0.0.1:8080/jeecg-boot/jimureport/test?riqi=${"#"}${"{sysDateTime}"}。</li>
                                             <li>您可以简写访问路径，如：{ { domainURL } }/jimureport/test。
                                               <Tooltip content="数据源用法文档" placement="top">
                                                 <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2384069" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
@@ -392,7 +392,6 @@
                     {value: 'dm',label: '达梦'},
                     {value: 'kingbase8',label: '人大金仓'},
                     {value: 'oscar',label: '神通'},
-                    {value: 'SQLite',label: 'SQLite'},
                     {value: 'DB2',label: 'DB2'},
                     {value: 'Hsqldb',label: 'Hsqldb'},
                     {value: 'Derby',label: 'Derby'},
@@ -533,7 +532,7 @@
                                             },
                                             on: {
                                                 'on-change': (value) => {
-                                                    console.log(this.tab1.data)
+                                                    // console.log(this.tab1.data)
                                                     this.tab1.data[params.index].searchMode = value;
                                                     // this.tab1.data
                                                 }
@@ -1039,7 +1038,7 @@
             editById(dbId){
                 this.tabValue="1";
                 $http.get({url:api.loadDbData(dbId),success:(result)=>{
-                        console.log('result=====',result);
+                        // console.log('result=====',result);
                         let reportResult = result;
                         if(!reportResult){
                             return;
@@ -1122,7 +1121,7 @@
             },
             getReport(){
                 $http.get({url:api.getReport(excel_config_id),success:(result)=>{
-                    console.log("result====>",result)
+                    // console.log("result====>",result)
                     if (result){
                         this.$emit('cancelback',result)
                         this.designerObj = result;
@@ -1182,7 +1181,7 @@
                     success:(result)=>{
                         this.tab3Loading=false;
                         this.spinShow=false;
-                        console.log("loadTableData====>result",result)
+                        // console.log("loadTableData====>result",result)
                         this.tab3.data=result.records;
                         this.tab3.page.total=result.total;
                     },

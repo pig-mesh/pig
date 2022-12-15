@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=v=1.0.7">
+<#assign CACHE_VERSION = "v=1.0.13">
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,6 +26,14 @@
         token = window.localStorage.getItem('JmReport-Access-Token');
     }
     window.localStorage.setItem('JmReport-Access-Token',token);
+
+    //update-begin---author:wangshuai ---date:20220708  for：[JMREP-2661]多租户权限集成------------
+    let tenantId = getRequestUrl().tenantId;
+    if("" == tenantId || null == tenantId){
+        tenantId = window.localStorage.getItem('JmReport-Tenant-Id');
+    }
+    window.localStorage.setItem('JmReport-Tenant-Id',tenantId);
+    //update-end---author:wangshuai ---date:20220708  for：[JMREP-2661]多租户权限集成------------
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width">
@@ -467,7 +475,7 @@
               slot: 'action',
               className: 'table-background',
               fixed:'right'
-            }
+            }  
           ],//列表的列
         },
         computed: {
@@ -592,7 +600,7 @@
             /**
              * 为路径拼接token
              * @param url 需要拼接的路径
-             * @return 拼接后的token
+             * @return 拼接后的token 
              */
             splicingToken(url){
               if(this.token && "null" != this.token){
@@ -669,7 +677,7 @@
             //报表设计和模板案例点击事件
             tabsClick(name){
                this.name=""
-               this.loadData(name)
+               this.loadData(name) 
             },
             //回车搜索事件
             enterSearchClick(){
@@ -735,7 +743,9 @@
                           if(result.status=='0'){
                               let protocol = window.location.protocol;
                               let host = window.location.host;
-                              let url = protocol+"//"+host+base;
+                              //update-begin---author:wangshuai ---date:20221118  for：[issues/1383]yml中设置了项目前缀，分享链接地址有误------------
+                              let url = protocol+"//"+host+BASE_URL;
+                              //update-end---author:wangshuai ---date:20221118  for：[issues/1383]yml中设置了项目前缀，分享链接地址有误------------
                               result.previewUrl = url+result.previewUrl;
                               this.$refs.jurisdiction.jurisdictionData = result;
                               this.$refs.jurisdiction.shareUrlModal = true

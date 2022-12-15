@@ -40,14 +40,14 @@
                 deep: true,
                 immediate: true,
                 handler: function (){
-                    console.log("我进来了")
+                    // console.log("我进来了")
                     this.initData()
                 }
             }
         },
         methods: {
             initData: function (){
-                console.log(this.centralPoint,"我进来了")
+                // console.log(this.centralPoint,"我进来了")
                 if (this.settings){
                     this.centralPoint = Object.assign(this.centralPoint, this.settings)
                 }

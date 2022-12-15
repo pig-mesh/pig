@@ -40,6 +40,11 @@
                 </i-select>
             </Row>
 		        <Row class="ivurow rightFontSize">
+				        <p style="margin-bottom: 10px;">数值旋转&nbsp;&nbsp;</p>
+				        <input-number :max="90" :min="-90" size="small" v-model="seriesOption.rotate"  @on-change="onSeriesLabelChange"/>
+				        </i-select>
+		        </Row>
+		        <Row class="ivurow rightFontSize">
 			        <p style="margin-bottom: 10px;">是否显示数值&nbsp;&nbsp;</p>
 			        <i-switch size="small" style="margin-left: 6px;" v-model="izShowNumber" @on-change="onSeriesFormatterChange"/>
 			        </i-select>
@@ -65,7 +70,9 @@
                     textStyle_fontSize:'',
                     textStyle_fontWeight:'',
                     position:'',
-                    formatter:''
+                    formatter:'',
+                    rotate:0,
+		                type:''
                 },
                 labelPositions:[],
                 izShowNumber:false
@@ -84,13 +91,28 @@
             initData: function (){
                 if (this.settings){
                     this.seriesOption = Object.assign(this.seriesOption, this.settings)
-                    //update-begin---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
-		                if(this.seriesOption.formatter && "{b}"!=this.seriesOption.formatter){
-		                    this.izShowNumber = true;
+                    
+		                //update-begin---author:wangshuai ---date:20220626  for：[JMREP-2655]图表数值倾斜度设置后，数值不显示了/[issues/I5CO1P、issues/1100 、issues/1086]图表的数值显示，会连轴名称一起显示 ------------
+                    //显示名称，没有显示数值
+		                let type = this.seriesOption.type;
+		                if(type === 'pie' || type === 'funnel' || type === 'scatter' || type === 'graph'){
+		                    //update-begin---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
+                        if(this.seriesOption.formatter && "{b}"!==this.seriesOption.formatter){
+                            this.izShowNumber = true;
+                        }else{
+                            this.izShowNumber = false;
+                        }
+                        //update-end---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
 		                }else{
-                        this.izShowNumber = false;
+		                    //只显示数值，如formatter值不为' ',则显示数值，否则不显示
+		                    if(this.seriesOption.formatter === " "){
+                            this.izShowNumber = false
+		                    }else{
+                            this.seriesOption.formatter="{c}"
+                            this.izShowNumber = true
+		                    }
 		                }
-                    //update-end---author:wangshuai ---date:20220407  for：[issues/I50IKB]饼图 如何直接在图上显示各分类对应的数值------------
+                    //update-end---author:wangshuai ---date:20220626  for：[JMREP-2655]图表数值倾斜度设置后，数值不显示了/[issues/I5CO1P、issues/1100 、issues/1086]图表的数值显示，会连轴名称一起显示 --------------
                 }
             },
             onSeriesLabelChange(){
@@ -101,11 +123,24 @@
              * 图表设置格式化
              */
             onSeriesFormatterChange(){
-								if(this.izShowNumber){
-                    this.seriesOption.formatter="{b}\n{c}"
-								}else{
-                    this.seriesOption.formatter="{b}"
-								}
+                //update-begin---author:wangshuai ---date:20220626  for：[JMREP-2655]图表数值倾斜度设置后，数值不显示了/[issues/I5CO1P、issues/1100 、issues/1086]图表的数值显示，会连轴名称一起显示 ------------
+                let type = this.seriesOption.type;
+                if(type === 'pie' || type === 'funnel' || type === 'scatter' || type === 'graph'){
+                    //如果是选中数值状态
+                    if(this.izShowNumber){
+                        this.seriesOption.formatter="{b}\n{c}"
+                    }else{
+                        this.seriesOption.formatter="{b}"
+                    } 
+                }else{
+                    //如果是选中数值状态，并且初始值为数值
+                    if(this.izShowNumber){
+                        this.seriesOption.formatter="{c}"
+                    }else{
+                        this.seriesOption.formatter=" "
+                    }
+                }
+                //update-end---author:wangshuai ---date:20220626  for：[JMREP-2655]图表数值倾斜度设置后，数值不显示了/[issues/I5CO1P、issues/1100 、issues/1086]图表的数值显示，会连轴名称一起显示 ------------
                 let {labelPositionArray,...otherOptions}=this.seriesOption;
                 this.$emit('change', otherOptions,'label')
             }

@@ -816,10 +816,10 @@
                 }
             }
         ).change((cdata) => {
-            console.log(cdata);
-        console.log(xs.validate());
+            // console.log(cdata);
+        // console.log(xs.validate());
         var str = JSON.stringify(cdata)
-        console.log(str);
+        // console.log(str);
     });
     }
 </script>

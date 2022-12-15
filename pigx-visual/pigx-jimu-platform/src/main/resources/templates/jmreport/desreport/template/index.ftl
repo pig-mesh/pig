@@ -32,3 +32,4 @@
 <#include "components/cell_linkage.ftl">
 <#include "components/primary_sub_report.ftl">
 <#include "components/sql_function_replace.ftl">
+<#include "components/bar_series_setting.ftl">

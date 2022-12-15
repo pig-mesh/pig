@@ -169,7 +169,7 @@
                 this.$emit('change', false)
             },
             handleClickToolbarBtn(item){
-                console.log('handleClickToolbarBtn', item)
+                // console.log('handleClickToolbarBtn', item)
                 let index = item.index;
                 let position = this.selectedIndexList.indexOf(index)
                 if(position>=0){

@@ -295,7 +295,7 @@
                                             },
                                             on: {
                                                 'on-change': (value) => {
-                                                    console.log(this.tab1.data)
+                                                    // console.log(this.tab1.data)
                                                     this.tab1.data[params.index].searchMode = value;
                                                     // this.tab1.data
                                                 }
@@ -593,7 +593,7 @@
                                 }
                                 data.fieldList = this.tab1.data; //解析出表字段
                                 data.paramList = this.tab2.data; //动态表单参数
-                                console.log(123, data)
+                                // console.log(123, data)
                                 $http.post({
                                     url: api.saveDb,
                                     contentType:'json',
@@ -640,7 +640,7 @@
                 this.clearData();
                 $http.get({url:api.loadDbData(dbId),
                     success:(result)=>{
-                        console.log('result=====',result);
+                        // console.log('result=====',result);
                         if(!result){
                             return;
                         }
@@ -759,7 +759,7 @@
 
             getReport(){
                 $http.get({url:api.getReport(excel_config_id),success:(result)=>{
-                    console.log("result====>",result)
+                    // console.log("result====>",result)
                     if (result){
                         this.$emit('cancelback',result)
                         this.designerObj = result;
@@ -805,7 +805,7 @@
                     success:(result)=>{
                         this.tab3Loading=false;
                         this.spinShow=false;
-                        console.log("loadTableData====>result",result)
+                        // console.log("loadTableData====>result",result)
                         this.tab3.data=result.records;
                         this.tab3.page.total=result.total;
                     },
@@ -1116,7 +1116,7 @@
           },
           //放大确定事件
           extJsonOk(){
-            console.log(this.paramConfigData)
+            // console.log(this.paramConfigData)
             if(this.tableType == 0){
               this.tab1.data[this.tableIndex].extJson = this.paramConfigData
             }else if(this.tableType == 1){

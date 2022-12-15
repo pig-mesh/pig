@@ -100,8 +100,8 @@
             },
             //图片上传文件大小
             handleMaxSize(file, size){
-                console.log("file===>", file)
-                console.log("size===>", size)
+                // console.log("file===>", file)
+                // console.log("size===>", size)
                 this.$Notice.warning({
                     title: '超出文件大小限制',
                     desc: '文件  ' + file.name + ' 太大，请上传' + size + 'M以内图片',

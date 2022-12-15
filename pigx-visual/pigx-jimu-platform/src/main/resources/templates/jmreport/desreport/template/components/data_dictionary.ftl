@@ -26,7 +26,7 @@
               </form-item>
             </i-col>
             <i-col span="4" style="margin-left: 20px">
-              <i-button type="primary" @click="loadData">查询</i-button>
+              <i-button type="primary" @click="loadData(1)">查询</i-button>
               <i-button @click="resetParam">清空</i-button>
             </i-col>
           </row>
@@ -122,7 +122,7 @@
         <#--回收站 end-->
         <#--end字典-->
         <#--字典配置页面 begin-->
-      <Drawer :transfer="true" class="dictDrawer" width="500" title="字典类表"  v-model="itemDrawer">
+      <Drawer :transfer="true" class="dictDrawer" width="500" title="字典列表"  v-model="itemDrawer">
         <div style="margin-top: 10px">
           <i-button type="primary" @click="dictItemClick">添加</i-button>
         </div>
@@ -362,11 +362,17 @@
       },
     },
     methods: {
-      loadData() {
+      loadData(arg) {
         //加载数据列表
         let that = this;
         let data = {}
-        data.pageNo = that.dictData.page.page
+        //update-begin---author:wangshuai ---date:20220720  for：[VUEN-1657]积木报表的字典查询，不好使输入 sex 或者性别都查不到数据------------
+        if(arg){
+            data.pageNo = arg
+        }else{
+            data.pageNo = that.dictData.page.page
+        }
+        //update-end---author:wangshuai ---date:20220720  for：[VUEN-1657]积木报表的字典查询，不好使输入 sex 或者性别都查不到数据--------------
         data.pageSize = that.dictData.page.size
         if(this.queryParam.dictCode){
           data.dictCode=this.queryParam.dictCode
@@ -386,7 +392,9 @@
       },
       resetParam(){
         this.queryParam={}
-        this.loadData()
+        //update-begin---author:wangshuai ---date:20220720  for：[VUEN-1657]积木报表的字典查询，不好使输入 sex 或者性别都查不到数据------------
+        this.loadData(1)
+        //update-end---author:wangshuai ---date:20220720  for：[VUEN-1657]积木报表的字典查询，不好使输入 sex 或者性别都查不到数据------------
       },
       loadItemData() {
         //加载数据列表

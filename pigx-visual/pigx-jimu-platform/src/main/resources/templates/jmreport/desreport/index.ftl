@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.7">
+<#assign CACHE_VERSION = "v=1.0.13">
 <#assign config_id = "${id!''}">
 <!DOCTYPE html>
 <html>
@@ -32,6 +32,14 @@
             token = window.localStorage.getItem('JmReport-Access-Token');
         }
         window.localStorage.setItem('JmReport-Access-Token',token);
+
+        //update-begin---author:wangshuai ---date:20220708  for：[JMREP-2661]多租户权限集成------------
+        let tenantId = getRequestUrl().tenantId;
+        if("" == tenantId || null == tenantId){
+            tenantId = window.localStorage.getItem('JmReport-Tenant-Id');
+        }
+        window.localStorage.setItem('JmReport-Tenant-Id',tenantId);
+        //update-end---author:wangshuai ---date:20220708  for：[JMREP-2661]多租户权限集成------------
     </script>
     <!--引入公共资源-->
     <#include "./common/resource.ftl">
@@ -801,6 +809,8 @@
                                 <j-match-setting style="border-bottom: inset 1px;" v-if="graphSettings ||gaugeSettings ||funnelSettings || pieSettings || isMultiChart || selectedChartType.indexOf('multi')!=-1 || selectedChartType == 'radar.basic'" :chart-options="chartOptions"  :data-settings="dataSettings" ></j-match-setting>
                                 <!-- 背景设置-->
                                 <j-background-setting  @change="chartBackgroundChange" @upload-success="chartBackgroundUploadSuccess" @remove="removeChartBackground" :settings="chartBackground"></j-background-setting>
+                                <!-- 柱形图系列类型设计-->
+                                <#--<j-bar-series-setting  style="border-bottom: inset 1px;" :chart-options="chartOptions" :data-settings="dataSettings" v-if="selectedChartType == 'bar.multi' || selectedChartType == 'line.multi' "></j-bar-series-setting>-->
                             </i-menu>
                         </tab-pane>
 

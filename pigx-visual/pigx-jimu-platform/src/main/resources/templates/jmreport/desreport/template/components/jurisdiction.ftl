@@ -144,7 +144,7 @@
         jurisdictionData.id= this.jurisdictionData.id
         jurisdictionData.status= '1'
         jurisdictionData.reportId= this.jurisdictionData.reportId
-        console.log("我进来了")
+        // console.log("我进来了")
         $http.post({
           contentType:'json',
           url: api.addAndEdit,
