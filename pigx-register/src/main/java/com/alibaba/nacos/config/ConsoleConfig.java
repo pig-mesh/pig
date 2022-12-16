@@ -60,8 +60,7 @@ public class ConsoleConfig {
 	public CorsFilter corsFilter() {
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOriginPattern("*"); // SpringBoot2.4.0
-												// [allowedOriginPatterns]代替[allowedOrigins]
+		config.addAllowedOrigin("*");
 		config.addAllowedHeader("*");
 		config.setMaxAge(18000L);
 		config.addAllowedMethod("*");

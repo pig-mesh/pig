@@ -224,11 +224,10 @@ public class PigTokenEndpoint {
 		return R.ok(result);
 	}
 
-
 	@Inner
 	@GetMapping("/query-token")
 	public R queryToken(String token) {
-		OAuth2Authorization authorization = authorizationService.findByToken(token,OAuth2TokenType.ACCESS_TOKEN);
+		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 		return R.ok(authorization);
 
 	}

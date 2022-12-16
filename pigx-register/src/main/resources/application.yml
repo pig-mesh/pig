@@ -8,14 +8,25 @@ db:
   user: ${MYSQL_USER:root}
   password: ${MYSQL_PWD:root}
   url:
-    0: jdbc:mysql://${MYSQL_HOST:pigx-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pigxx_config}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    0: jdbc:mysql://${MYSQL_HOST:pigx-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:nacos_config}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
 
+#db:
+#  num: 1
+#  url:
+#    0: jdbc:postgresql://172.27.0.5:5432/pigxx_config
+#  user:
+#    0: postgres
+#  password:
+#    0: 123456
+#  pool:
+#    config:
+#      driver-class-name: org.postgresql.Driver
 
 nacos:
   core:
     auth:
       system.type: nacos
-      default.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
+      plugin.nacos.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
   security:
     ignore:
       urls: /,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/**,/v1/console/health/**,/actuator/**,/v1/console/server/**
@@ -23,6 +34,7 @@ nacos:
 spring:
   datasource:
     platform: mysql  #这个过期属性不能修改，nacos 代码对此有硬编码
+#    platform: postgresql  #这个过期属性不能修改，nacos 代码对此有硬编码
   security:
     enabled: true
   boot:  # 接入 spring boot admin

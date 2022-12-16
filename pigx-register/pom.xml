@@ -27,7 +27,7 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>2.0.3</nacos.version>
+		<nacos.version>2.2.0.PIGOEM</nacos.version>
     </properties>
 
     <dependencies>
@@ -57,10 +57,33 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+		<dependency>
+			<groupId>io.springboot.nacos</groupId>
+			<artifactId>nacos-plugin-default-impl</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springboot.nacos</groupId>
+			<artifactId>nacos-prometheus</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-system</artifactId>
         </dependency>
+
+<!--		<dependency>-->
+<!--			<groupId>com.pig4cloud.plugin</groupId>-->
+<!--			<artifactId>nacos-datasource-plugin-pg</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
+
+<!--		<dependency>-->
+<!--			<groupId>org.postgresql</groupId>-->
+<!--			<artifactId>postgresql</artifactId>-->
+<!--		</dependency>-->
     </dependencies>
     <build>
         <plugins>
