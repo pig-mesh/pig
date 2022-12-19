@@ -28,16 +28,16 @@ CREATE TABLE `app_menu`  (
 -- ----------------------------
 -- Records of app_menu
 -- ----------------------------
-INSERT INTO `app_menu` VALUES (1600718710482857986, '主页', NULL, 'pages/sys/home/index', -1, '1', 999, '0', ' ', '2022-12-08 05:07:35', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1600718795732086785, '待办任务', 'pages_oa_todos', 'pages/oa/todos', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:07:55', '', '2022-12-09 07:34:40', '0', 1);
-INSERT INTO `app_menu` VALUES (1600718867454685185, '发起任务', 'pages_oa_form', 'pages/oa/form', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:08:12', '', '2022-12-09 07:34:57', '0', 1);
-INSERT INTO `app_menu` VALUES (1600718957435088898, '请假列表', 'pages_oa_history', 'pages/oa/history', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:08:34', '', '2022-12-09 07:35:10', '0', 1);
-INSERT INTO `app_menu` VALUES (1600719297945464834, '用户管理', 'pages_sys_pigxUser', 'pages/sys/pigxUser/index', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:35:38', '0', 1);
-INSERT INTO `app_menu` VALUES (1601118484814061570, '令牌管理', 'pages_sys_token', 'pages/sys/token/index', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:36:19', '0', 1);
-INSERT INTO `app_menu` VALUES (1601118643937566721, '角色管理', 'pages_sys_pigxRole', 'pages/sys/pigxRole/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601118838641352706, '岗位管理', 'pages_sys_pigxPost', 'pages/sys/pigxPost/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601118961773535234, '租户管理', 'pages_sys_pigxTenant', 'pages/sys/pigxTenant/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601119066337533954, '参数管理', 'pages_sys_pigxParam', 'pages/sys/pigxParam/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1000, '主页', NULL, 'pages/sys/home/index', -1, '1', 999, '0', ' ', '2022-12-08 05:07:35', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1001, '待办任务', 'pages_oa_todos', 'pages/oa/todos', 1000, '1', 999, '0', '', '2022-12-08 05:07:55', '', '2022-12-09 07:34:40', '0', 1);
+INSERT INTO `app_menu` VALUES (1002, '发起任务', 'pages_oa_form', 'pages/oa/form', 1000, '1', 999, '0', '', '2022-12-08 05:08:12', '', '2022-12-09 07:34:57', '0', 1);
+INSERT INTO `app_menu` VALUES (1003, '请假列表', 'pages_oa_history', 'pages/oa/history', 1000, '1', 999, '0', '', '2022-12-08 05:08:34', '', '2022-12-09 07:35:10', '0', 1);
+INSERT INTO `app_menu` VALUES (1004, '用户管理', 'pages_sys_pigxUser', 'pages/sys/pigxUser/index', 1000, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:35:38', '0', 1);
+INSERT INTO `app_menu` VALUES (1005, '令牌管理', 'pages_sys_token', 'pages/sys/token/index', 1000, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:36:19', '0', 1);
+INSERT INTO `app_menu` VALUES (1006, '角色管理', 'pages_sys_pigxRole', 'pages/sys/pigxRole/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1007, '岗位管理', 'pages_sys_pigxPost', 'pages/sys/pigxPost/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1008, '租户管理', 'pages_sys_pigxTenant', 'pages/sys/pigxTenant/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1009, '参数管理', 'pages_sys_pigxParam', 'pages/sys/pigxParam/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
 
 -- ----------------------------
 -- Table structure for app_role
@@ -61,7 +61,7 @@ CREATE TABLE `app_role`  (
 -- ----------------------------
 -- Records of app_role
 -- ----------------------------
-INSERT INTO `app_role` VALUES (1600378144758894594, 'app用户', 'APP_USER', 'app用户角色', ' ', ' ', '2022-12-07 06:34:18', NULL, '0', 1);
+INSERT INTO `app_role` VALUES (1, 'app用户', 'APP_USER', 'app用户角色', ' ', ' ', '2022-12-07 06:34:18', NULL, '0', 1);
 
 -- ----------------------------
 -- Table structure for app_role_menu
@@ -76,19 +76,16 @@ CREATE TABLE `app_role_menu`  (
 -- ----------------------------
 -- Records of app_role_menu
 -- ----------------------------
-INSERT INTO `app_role_menu` VALUES (1, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (1, 1600718795732086785);
-INSERT INTO `app_role_menu` VALUES (1, 1600718867454685185);
-INSERT INTO `app_role_menu` VALUES (1, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1, 1600719297945464834);
-INSERT INTO `app_role_menu` VALUES (2, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (2, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600719297945464834);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118484814061570);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118643937566721);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118838641352706);
+INSERT INTO `app_role_menu` VALUES (1, 1000);
+INSERT INTO `app_role_menu` VALUES (1, 1001);
+INSERT INTO `app_role_menu` VALUES (1, 1002);
+INSERT INTO `app_role_menu` VALUES (1, 1003);
+INSERT INTO `app_role_menu` VALUES (1, 1004);
+INSERT INTO `app_role_menu` VALUES (1, 1005);
+INSERT INTO `app_role_menu` VALUES (1, 1006);
+INSERT INTO `app_role_menu` VALUES (1, 1007);
+INSERT INTO `app_role_menu` VALUES (1, 1008);
+INSERT INTO `app_role_menu` VALUES (1, 1009);
 
 -- ----------------------------
 -- Table structure for app_social_details
@@ -145,7 +142,7 @@ CREATE TABLE `app_user`  (
 -- ----------------------------
 -- Records of app_user
 -- ----------------------------
-INSERT INTO `app_user` VALUES (1600324121922027521, 'aeizzz', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
+INSERT INTO `app_user` VALUES (1, 'aeizzz', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
 
 -- ----------------------------
 -- Table structure for app_user_role
@@ -160,6 +157,6 @@ CREATE TABLE `app_user_role`  (
 -- ----------------------------
 -- Records of app_user_role
 -- ----------------------------
-INSERT INTO `app_user_role` VALUES (1600324121922027521, 1600378144758894594);
+INSERT INTO `app_user_role` VALUES (1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

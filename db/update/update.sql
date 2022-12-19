@@ -20,7 +20,7 @@ CREATE TABLE `sys_tenant_menu`  (
 -- ----------------------------
 -- Records of sys_tenant_menu
 -- ----------------------------
-INSERT INTO `sys_tenant_menu` VALUES (1601104338798153729, '1231', '1000,1100,1101,1102,1103,1104,1200,1201,1202,1203,1300,1301,1302,1303,1304,1305,1400,1401,1402,1403,1404,1500,1501,1502,1503,1600,1601,1602,1603,1604,1605,1601095373834067969,1601095530717814785,1601095569972305921,1601095611131011073', '0', '0', 'admin', ' ', '2022-12-09 14:39:56', '2022-12-09 06:39:56');
+INSERT INTO `sys_tenant_menu` VALUES (1, '套餐1', '1000,1100,1101,1102,1103,1104,1200,1201,1202,1203,1300,1301,1302,1303,1304,1305,1400,1401,1402,1403,1404,1500,1501,1502,1503,1600,1601,1602,1603,1604,1605', '0', '0', 'admin', ' ', '2022-12-09 14:39:56', '2022-12-09 06:39:56');
 
 
 
@@ -32,63 +32,63 @@ INSERT INTO `sys_route_conf` VALUES (14, 'APP服务', 'pigx-app-server', '[{\"ar
 INSERT INTO `sys_dict_item` VALUES (67, 17, 'mobile', 'app', 'grant_types', 'App登录', 5, 'admin', ' ', '2022-12-09 09:54:49', '2022-12-19 10:43:14', NULL, '0', 1);
 
 
-INSERT INTO `sys_menu` VALUES (1600312638941048834, 'APP管理', NULL, '/app', -1, 'icon-bangzhushouji', '1', 999, '0', '0', 'admin', '2022-12-07 10:14:00', 'admin', '2022-12-11 10:32:23', '0', 1);
-INSERT INTO `sys_menu` VALUES (1600313409464053762, '客户管理', NULL, '/app/appuser/index', 1600312638941048834, 'icon-yonghuguanli', '1', 1, '0', '0', 'admin', '2022-12-07 10:17:04', 'admin', '2022-12-11 10:32:34', '0', 1);
-INSERT INTO `sys_menu` VALUES (1600323070510682114, '新增用户', 'app_appuser_add', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:27', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600323121857351681, '编辑用户', 'app_appuser_edit', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:39', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600323168514789378, '删除用户', 'app_appuser_del', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:51', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600323219744018434, '导出用户', 'app_appuser_export', NULL, 1600313409464053762, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:56:03', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600376918277279745, '角色管理', NULL, '/app/approle/index', 1600312638941048834, 'icon-jiaoseguanli', '1', 2, '0', '0', 'admin', '2022-12-07 14:29:26', 'admin', '2022-12-11 10:32:40', '0', 1);
-INSERT INTO `sys_menu` VALUES (1600377095700533249, '删除角色', 'app_approle_del', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:08', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600377182417768449, '编辑角色', 'app_approle_edit', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:29', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600377222876024833, '新增角色', 'app_approle_add', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:38', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600377308532101121, '到处角色', 'app_approle_export', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:59', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600652908694007810, '权限管理', NULL, '/app/appmenu/index', 1600312638941048834, 'icon-caidanguanli', '1', 3, '0', '0', 'admin', '2022-12-08 08:46:07', 'admin', '2022-12-11 10:32:46', '0', 1);
-INSERT INTO `sys_menu` VALUES (1600653042983038977, '新增权限', 'app_appmenu_add', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:39', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600653088008892418, '修改权限', 'app_appmenu_edit', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:50', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600653127523430402, '删除权限', 'app_appmenu_del', NULL, 1600652908694007810, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:59', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1600720444353658882, '角色授权', 'app_approle_perm', NULL, 1600376918277279745, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 13:14:29', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601051690644447233, '秘钥管理', NULL, '/app/appsocial/index', 1600312638941048834, 'icon-denglvlingpai', '1', 999, '0', '0', 'admin', '2022-12-09 11:10:44', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601051800774287362, '删除秘钥', 'app_social_details_del', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:10', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601051844994834433, '修改秘钥', 'app_social_details_edit', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:21', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601051895175487489, '保存秘钥', 'app_social_details_add', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:33', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601095530717814785, '租户菜单新增', 'admin_systenantmenu_add', NULL, 1602106377770541057, NULL, '1', 1, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:00', '0', 1);
-INSERT INTO `sys_menu` VALUES (1601095569972305921, '租户菜单编辑', 'admin_systenantmenu_edit', NULL, 1602106377770541057, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:11', '0', 1);
-INSERT INTO `sys_menu` VALUES (1601095611131011073, '租户菜单删除', 'admin_systenantmenu_del', NULL, 1602106377770541057, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:06', '0', 1);
-INSERT INTO `sys_menu` VALUES (1602106377770541057, '租户菜单', 'admin_systenant_tenantmenu', NULL, 1500, NULL, '1', 999, '0', '1', 'admin', '2022-12-12 09:01:41', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11000, 'APP管理', NULL, '/app', -1, 'icon-bangzhushouji', '1', 999, '0', '0', 'admin', '2022-12-07 10:14:00', 'admin', '2022-12-11 10:32:23', '0', 1);
+INSERT INTO `sys_menu` VALUES (11100, '客户管理', NULL, '/app/appuser/index', 11000, 'icon-yonghuguanli', '1', 1, '0', '0', 'admin', '2022-12-07 10:17:04', 'admin', '2022-12-11 10:32:34', '0', 1);
+INSERT INTO `sys_menu` VALUES (11101, '新增用户', 'app_appuser_add', NULL, 11100, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:27', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11102, '编辑用户', 'app_appuser_edit', NULL, 11100, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:39', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11103, '删除用户', 'app_appuser_del', NULL, 11100, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:55:51', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11104, '导出用户', 'app_appuser_export', NULL, 11100, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 10:56:03', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11200, '角色管理', NULL, '/app/approle/index', 11000, 'icon-jiaoseguanli', '1', 2, '0', '0', 'admin', '2022-12-07 14:29:26', 'admin', '2022-12-11 10:32:40', '0', 1);
+INSERT INTO `sys_menu` VALUES (11201, '删除角色', 'app_approle_del', NULL, 11200, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:08', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11202, '编辑角色', 'app_approle_edit', NULL, 11200, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:29', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11203, '新增角色', 'app_approle_add', NULL, 11200, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:38', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11204, '导出角色', 'app_approle_export', NULL, 11200, NULL, '1', 999, '0', '1', 'admin', '2022-12-07 14:30:59', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11300, '权限管理', NULL, '/app/appmenu/index', 11000, 'icon-caidanguanli', '1', 3, '0', '0', 'admin', '2022-12-08 08:46:07', 'admin', '2022-12-11 10:32:46', '0', 1);
+INSERT INTO `sys_menu` VALUES (11301, '新增权限', 'app_appmenu_add', NULL, 11300, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:39', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11302, '修改权限', 'app_appmenu_edit', NULL, 11300, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:50', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11303, '删除权限', 'app_appmenu_del', NULL, 11300, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 08:46:59', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11304, '角色授权', 'app_approle_perm', NULL, 11300, NULL, '1', 999, '0', '1', 'admin', '2022-12-08 13:14:29', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11400, '秘钥管理', NULL, '/app/appsocial/index', 11000, 'icon-denglvlingpai', '1', 999, '0', '0', 'admin', '2022-12-09 11:10:44', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11401, '删除秘钥', 'app_social_details_del', NULL, 11400, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:10', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11402, '修改秘钥', 'app_social_details_edit', NULL, 11400, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:21', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (11403, '保存秘钥', 'app_social_details_add', NULL, 11400, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:33', ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` VALUES (15103, '租户菜单新增', 'admin_systenantmenu_add', NULL, 15100, NULL, '1', 1, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (15102, '租户菜单编辑', 'admin_systenantmenu_edit', NULL, 15100, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:11', '0', 1);
+INSERT INTO `sys_menu` VALUES (15101, '租户菜单删除', 'admin_systenantmenu_del', NULL, 15100, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:06', '0', 1);
+INSERT INTO `sys_menu` VALUES (15100, '租户菜单', 'admin_systenant_tenantmenu', NULL, 1500, NULL, '1', 999, '0', '1', 'admin', '2022-12-12 09:01:41', ' ', NULL, '0', 1);
 
 
-INSERT INTO `sys_role_menu` VALUES (1, 1600312638941048834);
-INSERT INTO `sys_role_menu` VALUES (1, 1600313409464053762);
-INSERT INTO `sys_role_menu` VALUES (1, 1600323070510682114);
-INSERT INTO `sys_role_menu` VALUES (1, 1600323121857351681);
-INSERT INTO `sys_role_menu` VALUES (1, 1600323168514789378);
-INSERT INTO `sys_role_menu` VALUES (1, 1600323219744018434);
-INSERT INTO `sys_role_menu` VALUES (1, 1600376918277279745);
-INSERT INTO `sys_role_menu` VALUES (1, 1600377095700533249);
-INSERT INTO `sys_role_menu` VALUES (1, 1600377182417768449);
-INSERT INTO `sys_role_menu` VALUES (1, 1600377222876024833);
-INSERT INTO `sys_role_menu` VALUES (1, 1600377308532101121);
-INSERT INTO `sys_role_menu` VALUES (1, 1600652908694007810);
-INSERT INTO `sys_role_menu` VALUES (1, 1600653042983038977);
-INSERT INTO `sys_role_menu` VALUES (1, 1600653088008892418);
-INSERT INTO `sys_role_menu` VALUES (1, 1600653127523430402);
-INSERT INTO `sys_role_menu` VALUES (1, 1600720444353658882);
-INSERT INTO `sys_role_menu` VALUES (1, 1601051690644447233);
-INSERT INTO `sys_role_menu` VALUES (1, 1601051800774287362);
-INSERT INTO `sys_role_menu` VALUES (1, 1601051844994834433);
-INSERT INTO `sys_role_menu` VALUES (1, 1601051895175487489);
-INSERT INTO `sys_role_menu` VALUES (1, 1601095530717814785);
-INSERT INTO `sys_role_menu` VALUES (1, 1601095569972305921);
-INSERT INTO `sys_role_menu` VALUES (1, 1601095611131011073);
-INSERT INTO `sys_role_menu` VALUES (1, 1602106377770541057);
+INSERT INTO `sys_role_menu` VALUES (1, 11000);
+INSERT INTO `sys_role_menu` VALUES (1, 11100);
+INSERT INTO `sys_role_menu` VALUES (1, 11000);
+INSERT INTO `sys_role_menu` VALUES (1, 11100);
+INSERT INTO `sys_role_menu` VALUES (1, 11101);
+INSERT INTO `sys_role_menu` VALUES (1, 11102);
+INSERT INTO `sys_role_menu` VALUES (1, 11103);
+INSERT INTO `sys_role_menu` VALUES (1, 11104);
+INSERT INTO `sys_role_menu` VALUES (1, 11200);
+INSERT INTO `sys_role_menu` VALUES (1, 11201);
+INSERT INTO `sys_role_menu` VALUES (1, 11202);
+INSERT INTO `sys_role_menu` VALUES (1, 11203);
+INSERT INTO `sys_role_menu` VALUES (1, 11204);
+INSERT INTO `sys_role_menu` VALUES (1, 11300);
+INSERT INTO `sys_role_menu` VALUES (1, 11301);
+INSERT INTO `sys_role_menu` VALUES (1, 11302);
+INSERT INTO `sys_role_menu` VALUES (1, 11303);
+INSERT INTO `sys_role_menu` VALUES (1, 11304);
+INSERT INTO `sys_role_menu` VALUES (1, 11400);
+INSERT INTO `sys_role_menu` VALUES (1, 11401);
+INSERT INTO `sys_role_menu` VALUES (1, 11402);
+INSERT INTO `sys_role_menu` VALUES (1, 11403);
+INSERT INTO `sys_role_menu` VALUES (1, 15103);
+INSERT INTO `sys_role_menu` VALUES (1, 15102);
 
 
 ALTER TABLE `sys_tenant`
     ADD COLUMN `menu_id` bigint NULL COMMENT '租户菜单id' AFTER `update_time`;
 
 
-INSERT INTO `pigxx`.`sys_oauth_client_details`(`id`, `client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `del_flag`, `create_by`, `update_by`, `create_time`, `update_time`, `tenant_id`) VALUES (1601022312699023362, 'mini', NULL, 'mini', 'server', 'password,authorization_code,client_credentials,refresh_token,mobile', NULL, NULL, 43200, 2592000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"1\",\"online_quantity\":\"0\"}', 'true', '0', 'admin', 'admin', '2022-12-09 09:14:00', '2022-12-09 11:23:35', 1);
+INSERT INTO `sys_oauth_client_details`VALUES (1, 'mini', NULL, 'mini', 'server', 'password,authorization_code,client_credentials,refresh_token,mobile', NULL, NULL, 43200, 2592000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"1\",\"online_quantity\":\"0\"}', 'true', '0', 'admin', 'admin', '2022-12-09 09:14:00', '2022-12-09 11:23:35', 1);
 
 
 UPDATE `sys_oauth_client_details` SET `access_token_validity` = 43200, `refresh_token_validity` = 2592001
@@ -148,16 +148,16 @@ CREATE TABLE `app_menu`  (
 -- ----------------------------
 -- Records of app_menu
 -- ----------------------------
-INSERT INTO `app_menu` VALUES (1600718710482857986, '主页', NULL, 'pages/sys/home/index', -1, '1', 999, '0', ' ', '2022-12-08 05:07:35', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1600718795732086785, '待办任务', 'pages_oa_todos', 'pages/oa/todos', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:07:55', '', '2022-12-09 07:34:40', '0', 1);
-INSERT INTO `app_menu` VALUES (1600718867454685185, '发起任务', 'pages_oa_form', 'pages/oa/form', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:08:12', '', '2022-12-09 07:34:57', '0', 1);
-INSERT INTO `app_menu` VALUES (1600718957435088898, '请假列表', 'pages_oa_history', 'pages/oa/history', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:08:34', '', '2022-12-09 07:35:10', '0', 1);
-INSERT INTO `app_menu` VALUES (1600719297945464834, '用户管理', 'pages_sys_pigxUser', 'pages/sys/pigxUser/index', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:35:38', '0', 1);
-INSERT INTO `app_menu` VALUES (1601118484814061570, '令牌管理', 'pages_sys_token', 'pages/sys/token/index', 1600718710482857986, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:36:19', '0', 1);
-INSERT INTO `app_menu` VALUES (1601118643937566721, '角色管理', 'pages_sys_pigxRole', 'pages/sys/pigxRole/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601118838641352706, '岗位管理', 'pages_sys_pigxPost', 'pages/sys/pigxPost/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601118961773535234, '租户管理', 'pages_sys_pigxTenant', 'pages/sys/pigxTenant/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
-INSERT INTO `app_menu` VALUES (1601119066337533954, '参数管理', 'pages_sys_pigxParam', 'pages/sys/pigxParam/index', 1600718710482857986, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1000, '主页', NULL, 'pages/sys/home/index', -1, '1', 999, '0', ' ', '2022-12-08 05:07:35', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1001, '待办任务', 'pages_oa_todos', 'pages/oa/todos', 1000, '1', 999, '0', '', '2022-12-08 05:07:55', '', '2022-12-09 07:34:40', '0', 1);
+INSERT INTO `app_menu` VALUES (1002, '发起任务', 'pages_oa_form', 'pages/oa/form', 1000, '1', 999, '0', '', '2022-12-08 05:08:12', '', '2022-12-09 07:34:57', '0', 1);
+INSERT INTO `app_menu` VALUES (1003, '请假列表', 'pages_oa_history', 'pages/oa/history', 1000, '1', 999, '0', '', '2022-12-08 05:08:34', '', '2022-12-09 07:35:10', '0', 1);
+INSERT INTO `app_menu` VALUES (1004, '用户管理', 'pages_sys_pigxUser', 'pages/sys/pigxUser/index', 1000, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:35:38', '0', 1);
+INSERT INTO `app_menu` VALUES (1005, '令牌管理', 'pages_sys_token', 'pages/sys/token/index', 1000, '1', 999, '0', '', '2022-12-08 05:09:55', '', '2022-12-09 07:36:19', '0', 1);
+INSERT INTO `app_menu` VALUES (1006, '角色管理', 'pages_sys_pigxRole', 'pages/sys/pigxRole/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1007, '岗位管理', 'pages_sys_pigxPost', 'pages/sys/pigxPost/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1008, '租户管理', 'pages_sys_pigxTenant', 'pages/sys/pigxTenant/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
+INSERT INTO `app_menu` VALUES (1009, '参数管理', 'pages_sys_pigxParam', 'pages/sys/pigxParam/index', 1000, '1', 999, '0', ' ', '2022-12-08 05:09:55', ' ', NULL, '0', 1);
 
 -- ----------------------------
 -- Table structure for app_role
@@ -181,7 +181,7 @@ CREATE TABLE `app_role`  (
 -- ----------------------------
 -- Records of app_role
 -- ----------------------------
-INSERT INTO `app_role` VALUES (1600378144758894594, 'app用户', 'APP_USER', 'app用户角色', ' ', ' ', '2022-12-07 06:34:18', NULL, '0', 1);
+INSERT INTO `app_role` VALUES (1, 'app用户', 'APP_USER', 'app用户角色', ' ', ' ', '2022-12-07 06:34:18', NULL, '0', 1);
 
 -- ----------------------------
 -- Table structure for app_role_menu
@@ -196,19 +196,16 @@ CREATE TABLE `app_role_menu`  (
 -- ----------------------------
 -- Records of app_role_menu
 -- ----------------------------
-INSERT INTO `app_role_menu` VALUES (1, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (1, 1600718795732086785);
-INSERT INTO `app_role_menu` VALUES (1, 1600718867454685185);
-INSERT INTO `app_role_menu` VALUES (1, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1, 1600719297945464834);
-INSERT INTO `app_role_menu` VALUES (2, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (2, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600718710482857986);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600718957435088898);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1600719297945464834);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118484814061570);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118643937566721);
-INSERT INTO `app_role_menu` VALUES (1600378144758894594, 1601118838641352706);
+INSERT INTO `app_role_menu` VALUES (1, 1000);
+INSERT INTO `app_role_menu` VALUES (1, 1001);
+INSERT INTO `app_role_menu` VALUES (1, 1002);
+INSERT INTO `app_role_menu` VALUES (1, 1003);
+INSERT INTO `app_role_menu` VALUES (1, 1004);
+INSERT INTO `app_role_menu` VALUES (1, 1005);
+INSERT INTO `app_role_menu` VALUES (1, 1006);
+INSERT INTO `app_role_menu` VALUES (1, 1007);
+INSERT INTO `app_role_menu` VALUES (1, 1008);
+INSERT INTO `app_role_menu` VALUES (1, 1009);
 
 -- ----------------------------
 -- Table structure for app_social_details
@@ -265,7 +262,7 @@ CREATE TABLE `app_user`  (
 -- ----------------------------
 -- Records of app_user
 -- ----------------------------
-INSERT INTO `app_user` VALUES (1600324121922027521, 'aeizzz', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
+INSERT INTO `app_user` VALUES (1, 'aeizzz', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
 
 -- ----------------------------
 -- Table structure for app_user_role
@@ -280,7 +277,7 @@ CREATE TABLE `app_user_role`  (
 -- ----------------------------
 -- Records of app_user_role
 -- ----------------------------
-INSERT INTO `app_user_role` VALUES (1600324121922027521, 1600378144758894594);
+INSERT INTO `app_user_role` VALUES (1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
 
