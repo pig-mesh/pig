@@ -42,7 +42,7 @@ public interface RemoteTokenService {
 	 * @param from 内部调用标志
 	 * @return page
 	 */
-	@GetMapping("/token/page")
+	@PostMapping("/token/page")
 	R<Page> getTokenPage(@RequestBody Map<String, Object> params, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
