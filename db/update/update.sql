@@ -92,6 +92,10 @@ ALTER TABLE `sys_tenant`
 INSERT INTO `pigxx`.`sys_oauth_client_details`(`id`, `client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `del_flag`, `create_by`, `update_by`, `create_time`, `update_time`, `tenant_id`) VALUES (1601022312699023362, 'mini', NULL, 'mini', 'server', 'password,authorization_code,client_credentials,refresh_token,mobile', NULL, NULL, 43200, 2592000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"1\",\"online_quantity\":\"0\"}', 'true', '0', 'admin', 'admin', '2022-12-09 09:14:00', '2022-12-09 11:23:35', 1);
 
 
+UPDATE `sys_oauth_client_details` SET `access_token_validity` = 43200, `refresh_token_validity` = 2592001
+
+
+
 
 
 use pigxx_bi;
