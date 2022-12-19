@@ -59,6 +59,14 @@ services:
     container_name: pigx-upms
     image: pigx-upms
 
+
+  pigx-app-server:
+    build:
+      context: ./pigx-app-server/pigx-app-server-biz
+    restart: always
+    container_name: pigx-app-server
+    image: pigx-app-server
+
   pigx-monitor:
     build:
       context: ./pigx-visual/pigx-monitor
