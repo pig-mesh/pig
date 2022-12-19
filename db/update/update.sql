@@ -59,8 +59,38 @@ INSERT INTO `sys_menu` VALUES (1601095611131011073, '租户菜单删除', 'admin
 INSERT INTO `sys_menu` VALUES (1602106377770541057, '租户菜单', 'admin_systenant_tenantmenu', NULL, 1500, NULL, '1', 999, '0', '1', 'admin', '2022-12-12 09:01:41', ' ', NULL, '0', 1);
 
 
+INSERT INTO `sys_role_menu` VALUES (1, 1600312638941048834);
+INSERT INTO `sys_role_menu` VALUES (1, 1600313409464053762);
+INSERT INTO `sys_role_menu` VALUES (1, 1600323070510682114);
+INSERT INTO `sys_role_menu` VALUES (1, 1600323121857351681);
+INSERT INTO `sys_role_menu` VALUES (1, 1600323168514789378);
+INSERT INTO `sys_role_menu` VALUES (1, 1600323219744018434);
+INSERT INTO `sys_role_menu` VALUES (1, 1600376918277279745);
+INSERT INTO `sys_role_menu` VALUES (1, 1600377095700533249);
+INSERT INTO `sys_role_menu` VALUES (1, 1600377182417768449);
+INSERT INTO `sys_role_menu` VALUES (1, 1600377222876024833);
+INSERT INTO `sys_role_menu` VALUES (1, 1600377308532101121);
+INSERT INTO `sys_role_menu` VALUES (1, 1600652908694007810);
+INSERT INTO `sys_role_menu` VALUES (1, 1600653042983038977);
+INSERT INTO `sys_role_menu` VALUES (1, 1600653088008892418);
+INSERT INTO `sys_role_menu` VALUES (1, 1600653127523430402);
+INSERT INTO `sys_role_menu` VALUES (1, 1600720444353658882);
+INSERT INTO `sys_role_menu` VALUES (1, 1601051690644447233);
+INSERT INTO `sys_role_menu` VALUES (1, 1601051800774287362);
+INSERT INTO `sys_role_menu` VALUES (1, 1601051844994834433);
+INSERT INTO `sys_role_menu` VALUES (1, 1601051895175487489);
+INSERT INTO `sys_role_menu` VALUES (1, 1601095530717814785);
+INSERT INTO `sys_role_menu` VALUES (1, 1601095569972305921);
+INSERT INTO `sys_role_menu` VALUES (1, 1601095611131011073);
+INSERT INTO `sys_role_menu` VALUES (1, 1602106377770541057);
+
+
 ALTER TABLE `sys_tenant`
     ADD COLUMN `menu_id` bigint NULL COMMENT '租户菜单id' AFTER `update_time`;
+
+
+INSERT INTO `pigxx`.`sys_oauth_client_details`(`id`, `client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `del_flag`, `create_by`, `update_by`, `create_time`, `update_time`, `tenant_id`) VALUES (1601022312699023362, 'mini', NULL, 'mini', 'server', 'password,authorization_code,client_credentials,refresh_token,mobile', NULL, NULL, 43200, 2592000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"1\",\"online_quantity\":\"0\"}', 'true', '0', 'admin', 'admin', '2022-12-09 09:14:00', '2022-12-09 11:23:35', 1);
+
 
 
 
