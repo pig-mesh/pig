@@ -52,7 +52,6 @@ INSERT INTO `sys_menu` VALUES (1601051690644447233, '秘钥管理', NULL, '/app/
 INSERT INTO `sys_menu` VALUES (1601051800774287362, '删除秘钥', 'app_social_details_del', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:10', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (1601051844994834433, '修改秘钥', 'app_social_details_edit', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:21', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (1601051895175487489, '保存秘钥', 'app_social_details_add', NULL, 1601051690644447233, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 11:11:33', ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` VALUES (1601095373834067969, '租户菜单', NULL, '/admin/tenantmenu/index', 1000, 'icon-caidanguanli', '0', 7, '0', '0', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:00:04', '1', 1);
 INSERT INTO `sys_menu` VALUES (1601095530717814785, '租户菜单新增', 'admin_systenantmenu_add', NULL, 1602106377770541057, NULL, '1', 1, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:00', '0', 1);
 INSERT INTO `sys_menu` VALUES (1601095569972305921, '租户菜单编辑', 'admin_systenantmenu_edit', NULL, 1602106377770541057, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:11', '0', 1);
 INSERT INTO `sys_menu` VALUES (1601095611131011073, '租户菜单删除', 'admin_systenantmenu_del', NULL, 1602106377770541057, NULL, '1', 999, '0', '1', 'admin', '2022-12-09 14:04:19', 'admin', '2022-12-12 09:02:06', '0', 1);

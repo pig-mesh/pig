@@ -48,7 +48,7 @@
 </template>
 
 <script>
-    import {fetchList, getObj, addObj, putObj, delObj} from '@/api/${pathName}'
+    import {fetchList, addObj, putObj, delObj} from '@/api/${pathName}'
     import {tableOption} from '@/const/crud/${pathName}'
     import {mapGetters} from 'vuex'
 
