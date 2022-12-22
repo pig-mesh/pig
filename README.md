@@ -40,8 +40,8 @@
 |-----------------------------|--------|
 | Spring Boot                 | 3.0.0  |
 | Spring Cloud                | 2022   |
-| Spring Cloud Tencent        | 1.8.1  |
-| Spring Authorization Server | 0.4.0  |
+| Spring Cloud Tencent        | 1.8.2  |
+| Spring Authorization Server | 1.0.0  |
 | Mybatis Plus                | 3.5.2  |
 | hutool                      | 5.8.10 |
 

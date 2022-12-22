@@ -28,12 +28,12 @@
 
     <properties>
         <spring-boot.version>3.0.0</spring-boot.version>
-        <spring-cloud.version>2022.0.0-RC3</spring-cloud.version>
-        <spring-cloud-tencent.version>1.8.1-2022.0.0-RC2</spring-cloud-tencent.version>
+        <spring-cloud.version>2022.0.0</spring-cloud.version>
+        <spring-cloud-tencent.version>1.8.2-2022.0.0</spring-cloud-tencent.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.0.0-M5</spring-boot-admin.version>
+        <spring-boot-admin.version>3.0.0-M7</spring-boot-admin.version>
         <spring.authorization.version>1.0.0</spring.authorization.version>
         <dynamic-ds.version>3.6.0</dynamic-ds.version>
         <captcha.version>2.2.2</captcha.version>
@@ -240,25 +240,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>spring-milestones</id>
-            <name>Spring Milestones</name>
-            <url>https://repo.spring.io/milestone</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>snapshots</id>
-            <name>Oss Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-        </repository>
-    </repositories>
 
     <profiles>
         <profile>
