@@ -138,7 +138,7 @@ public final class PigSentinelFeign {
 		@Override
 		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 			this.applicationContext = applicationContext;
-			this.feignClientFactory = (FeignClientFactory)this.applicationContext.getBean(FeignClientFactory.class);
+			this.feignClientFactory = (FeignClientFactory) this.applicationContext.getBean(FeignClientFactory.class);
 		}
 
 	}

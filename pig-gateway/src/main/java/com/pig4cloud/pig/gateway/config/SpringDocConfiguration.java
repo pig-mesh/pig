@@ -18,8 +18,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class SpringDocConfiguration implements InitializingBean {
-	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -30,4 +30,5 @@ public class SpringDocConfiguration implements InitializingBean {
 		swaggerUrlSet.add(swaggerUrl);
 		swaggerUiConfigProperties.setUrls(swaggerUrlSet);
 	}
+
 }
