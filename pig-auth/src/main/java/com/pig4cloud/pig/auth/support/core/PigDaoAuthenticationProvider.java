@@ -24,7 +24,7 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;

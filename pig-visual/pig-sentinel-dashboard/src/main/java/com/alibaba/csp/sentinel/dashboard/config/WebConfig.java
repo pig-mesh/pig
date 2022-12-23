@@ -31,8 +31,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.PostConstruct;
-import javax.servlet.Filter;
+import jakarta.annotation.PostConstruct;
+import jakarta.servlet.Filter;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

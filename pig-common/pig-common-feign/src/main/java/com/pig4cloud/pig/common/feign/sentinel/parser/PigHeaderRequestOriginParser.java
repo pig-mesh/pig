@@ -18,7 +18,7 @@ package com.pig4cloud.pig.common.feign.sentinel.parser;
 
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * sentinel 请求头解析判断

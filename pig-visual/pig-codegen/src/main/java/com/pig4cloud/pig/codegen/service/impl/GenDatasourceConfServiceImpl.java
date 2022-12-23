@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
+import jakarta.sql.DataSource;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
