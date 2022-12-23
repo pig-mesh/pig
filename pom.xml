@@ -33,14 +33,14 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>2.7.9</spring-boot-admin.version>
+        <spring-boot-admin.version>3.0.0-M7</spring-boot-admin.version>
         <spring.authorization.version>1.0.0</spring.authorization.version>
         <dynamic-ds.version>3.6.0</dynamic-ds.version>
         <captcha.version>2.2.2</captcha.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
-        <jasypt.version>2.1.0</jasypt.version>
+        <jasypt.version>3.1.0</jasypt.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.ui.version>3.0.3</knife4j.ui.version>
         <xxl-job.version>2.3.1</xxl-job.version>
@@ -64,7 +64,7 @@
         </dependency>
         <!--配置文件加解密-->
         <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
+            <groupId>io.springboot.plugin</groupId>
             <artifactId>jasypt-spring-boot-starter</artifactId>
             <version>${jasypt.version}</version>
         </dependency>
@@ -229,29 +229,19 @@
                 <groupId>io.spring.javaformat</groupId>
                 <artifactId>spring-javaformat-maven-plugin</artifactId>
                 <version>${spring.checkstyle.plugin}</version>
-				<executions>
-					<execution>
-						<phase>validate</phase>
-						<inherited>true</inherited>
-						<goals>
-							<goal>validate</goal>
-						</goals>
-					</execution>
-				</executions>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <inherited>true</inherited>
+                        <goals>
+                            <goal>validate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
 
-	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
     <profiles>
         <profile>
             <id>dev</id>
@@ -265,4 +255,20 @@
             </activation>
         </profile>
     </profiles>
+
+	<repositories>
+		<repository>
+			<id>snapshots</id>
+			<url>
+				https://oss.sonatype.org/content/repositories/snapshots/
+			</url>
+		</repository>
+		<repository>
+			<id>release</id>
+			<url>
+				https://oss.sonatype.org/service/local/staging/deploy/maven2/
+			</url>
+		</repository>
+	</repositories>
+
 </project>

@@ -15,7 +15,7 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>2.7.6</spring-boot.version>
+        <spring-boot.version>3.0.0</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -23,15 +23,15 @@
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.34</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
-        <springdoc.version>1.6.9</springdoc.version>
-        <swagger.core.version>2.2.0</swagger.core.version>
-        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <springdoc.version>2.0.0</springdoc.version>
+        <swagger.core.version>2.2.7</swagger.core.version>
+        <mybatis-plus.version>3.5.2.7-SNAPSHOT</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
-        <seata.version>1.5.2</seata.version>
+        <seata.version>1.6.1</seata.version>
         <excel.version>3.0.0</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>3.0.0</oss.version>
-        <sms.version>2.0.2</sms.version>
+        <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <hutool.version>5.8.10</hutool.version>
         <mica.version>2.7.4</mica.version>
@@ -104,23 +104,18 @@
             <!--springdoc -->
             <dependency>
                 <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webmvc-core</artifactId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
                 <version>${swagger.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-ui</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-security</artifactId>
-                <version>${springdoc.version}</version>
             </dependency>
             <!--fastjson 版本-->
             <dependency>

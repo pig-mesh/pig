@@ -50,16 +50,16 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService {
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
-		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-		if (cache != null && cache.get(username) != null) {
-			return (PigUser) cache.get(username).get();
-		}
+//		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+//		if (cache != null && cache.get(username) != null) {
+//			return (PigUser) cache.get(username).get();
+//		}
 
 		R<UserInfo> result = remoteUserService.info(username);
 		UserDetails userDetails = getUserDetails(result);
-		if (cache != null) {
-			cache.put(username, userDetails);
-		}
+//		if (cache != null) {
+//			cache.put(username, userDetails);
+//		}
 		return userDetails;
 	}
 

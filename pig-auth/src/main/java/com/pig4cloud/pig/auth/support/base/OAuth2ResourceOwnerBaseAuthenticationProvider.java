@@ -216,6 +216,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 
 		}
 		catch (Exception ex) {
+			LOGGER.error("problem in authenticate", ex);
 			throw oAuth2AuthenticationException(authentication, (AuthenticationException) ex);
 		}
 

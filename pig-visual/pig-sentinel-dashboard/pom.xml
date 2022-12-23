@@ -12,6 +12,11 @@
 	<artifactId>pig-sentinel-dashboard</artifactId>
 	<packaging>jar</packaging>
 
+
+	<properties>
+		<spring-boot-dependencies.version>2.7.7</spring-boot-dependencies.version>
+	</properties>
+
 	<dependencies>
 		<!--注册中心客户端-->
 		<dependency>
@@ -75,6 +80,22 @@
 			<version>4.4.6</version>
 		</dependency>
 	</dependencies>
+
+	<!--依赖版本声明-->
+	<dependencyManagement>
+		<dependencies>
+
+			<!-- SpringBoot 依赖配置 -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
 
 	<build>
 		<finalName>pig-sentinel-dashboard</finalName>

@@ -18,9 +18,11 @@ package com.pig4cloud.pig.gateway.filter;
 
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.core.env.Environment;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -54,6 +56,9 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+		Environment environment = SpringContextHolder.getApplicationContext().getEnvironment();
+
 		// 1. 清洗请求头中from 参数
 		ServerHttpRequest request = exchange.getRequest().mutate().headers(httpHeaders -> {
 			httpHeaders.remove(SecurityConstants.FROM);
