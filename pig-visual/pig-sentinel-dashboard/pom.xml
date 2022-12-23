@@ -15,6 +15,11 @@
 
 	<properties>
 		<spring-boot-dependencies.version>2.7.7</spring-boot-dependencies.version>
+		<spring-boot-dependencies.version>2.7.7</spring-boot-dependencies.version>
+		<spring-cloud.version>2021.0.5</spring-cloud.version>
+		<spring-boot-admin.version>2.7.8</spring-boot-admin.version>
+		<spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
+
 	</properties>
 
 	<dependencies>
@@ -90,6 +95,31 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-dependencies</artifactId>
 				<version>${spring-boot-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- SpringCloud 微服务 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<!-- SpringBoot Admin -->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+
+			<!-- spring cloud alibaba 依赖 -->
+			<dependency>
+				<groupId>com.alibaba.cloud</groupId>
+				<artifactId>spring-cloud-alibaba-dependencies</artifactId>
+				<version>${spring-cloud-alibaba.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
