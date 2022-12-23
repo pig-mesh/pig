@@ -94,6 +94,7 @@
     </dependencies>
 
     <modules>
+        <module>pig-register</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>
         <module>pig-upms</module>

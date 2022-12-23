@@ -12,7 +12,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<spring-boot-dependencies.version>2.7.7</spring-boot-dependencies.version>
+		<spring-boot-dependencies.version>2.7.6</spring-boot-dependencies.version>
 	</properties>
 
 	<dependencies>
