@@ -34,11 +34,16 @@
 
 ## 快速开始
 
+### 分支说明
+
+- master: java8 + springboot 2.7 + springcloud 2021
+- jdk17: java17 springboot 3.0 + springcloud 2022
+
 ### 核心依赖
 
 | 依赖                   | 版本         |
 | ---------------------- |------------|
-| Spring Boot            | 2.7.6      |
+| Spring Boot            | 2.7.7      |
 | Spring Cloud           | 2021.0.5   |
 | Spring Cloud Alibaba   | 2021.0.4.0 |
 | Spring Authorization Server | 0.4.0      |
