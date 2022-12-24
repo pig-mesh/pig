@@ -71,7 +71,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R<GenDatasourceConf> getById(@PathVariable("id") Integer id) {
+	public R<GenDatasourceConf> getById(@PathVariable("id") Long id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
 

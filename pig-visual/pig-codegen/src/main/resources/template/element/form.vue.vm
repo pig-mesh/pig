@@ -58,6 +58,7 @@
       init (id) {
         this.visible = true;
         this.canSubmit = true;
+        this.dataForm.${pk.lowerAttrName} = undefined
         this.$nextTick(() => {
             this.$refs['dataForm'].resetFields()
             if (id) {
