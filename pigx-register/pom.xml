@@ -73,17 +73,6 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-system</artifactId>
         </dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>com.pig4cloud.plugin</groupId>-->
-<!--			<artifactId>nacos-datasource-plugin-pg</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
-
-<!--		<dependency>-->
-<!--			<groupId>org.postgresql</groupId>-->
-<!--			<artifactId>postgresql</artifactId>-->
-<!--		</dependency>-->
     </dependencies>
     <build>
         <plugins>
