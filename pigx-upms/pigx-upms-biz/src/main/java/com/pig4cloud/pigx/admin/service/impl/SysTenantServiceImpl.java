@@ -26,6 +26,7 @@ import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.AllArgsConstructor;
@@ -117,9 +118,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		List<SysDict> dictList = new ArrayList<>(32);
 		List<Long> dictIdList = new ArrayList<>(32);
 		List<SysDictItem> dictItemList = new ArrayList<>(64);
-		List<SysMenu> menuList = new ArrayList<>(128);
 		List<SysOauthClientDetails> clientDetailsList = new ArrayList<>(16);
 		List<SysPublicParam> publicParamList = new ArrayList<>(64);
+		List<SysMenu> menuList = new ArrayList<>();
 
 		TenantBroker.runAs(defaultId, (id) -> {
 			// 查询系统内置字典
@@ -128,12 +129,16 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			dictIdList.addAll(dictList.stream().map(SysDict::getId).collect(Collectors.toList()));
 			dictItemList.addAll(
 					dictItemService.list(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList)));
-			// 查询当前租户菜单
-			menuList.addAll(menuService.list());
 			// 查询客户端配置
 			clientDetailsList.addAll(clientServices.list());
 			// 查询系统参数配置
 			publicParamList.addAll(paramService.list());
+
+			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
+			String[] split = tenantMenu.getMenuIds().split(",");
+			List<SysMenu> newMenuList = menuService
+					.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId,split));
+			menuList.addAll(newMenuList);
 		});
 
 		// 保证插入租户为新的租户
@@ -157,12 +162,14 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			SysRole roleDefault = new SysRole();
 			roleDefault.setRoleCode(userDefaultRoleCode);
 			roleDefault.setRoleName(userDefaultRoleName);
+			roleDefault.setDsType(DataScopeTypeEnum.SELF_LEVEL.getType());
 			roleService.save(roleDefault);
 
 			// 构造新角色 管理员角色
 			SysRole role = new SysRole();
 			role.setRoleCode(defaultRoleCode);
 			role.setRoleName(defaultRoleName);
+			role.setDsType(DataScopeTypeEnum.ALL.getType());
 			roleService.save(role);
 			// 用户角色关系
 			SysUserRole userRole = new SysUserRole();
@@ -170,15 +177,14 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			userRole.setRoleId(role.getRoleId());
 			userRoleService.save(userRole);
 			// 插入新的菜单
+
 			saveTenantMenu(menuList, CommonConstants.MENU_TREE_ROOT_ID, CommonConstants.MENU_TREE_ROOT_ID);
 
-			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
-
-			List<SysMenu> newMenuList = menuService
-					.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, tenantMenu.getMenuIds()));
+			// 重新查询出所有的菜单关联角色
+			List<SysMenu> list = menuService.list();
 
 			// 查询全部菜单,构造角色菜单关系
-			List<SysRoleMenu> roleMenuList = newMenuList.stream().map(menu -> {
+			List<SysRoleMenu> roleMenuList = list.stream().map(menu -> {
 				SysRoleMenu roleMenu = new SysRoleMenu();
 				roleMenu.setRoleId(role.getRoleId());
 				roleMenu.setMenuId(menu.getMenuId());

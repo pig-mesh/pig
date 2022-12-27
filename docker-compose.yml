@@ -14,8 +14,6 @@ services:
     restart: always
     container_name: pigx-mysql
     image: pigx-mysql
-    ports:
-      - 3306:3306
     volumes:
       - ./pigx-mysql:/var/lib/mysql
     command: --lower_case_table_names=1
@@ -24,8 +22,6 @@ services:
     container_name: pigx-redis
     image: redis:6.2.6
     restart: always
-    ports:
-      - 6379:6379
 
   pigx-register:
     build:
