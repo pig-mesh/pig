@@ -72,7 +72,7 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			// 发送异步日志事件
 			PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
 			log.info("用户：{} 登录成功", userInfo.getName());
-			//避免 race condition
+			// 避免 race condition
 			SecurityContext context = SecurityContextHolder.createEmptyContext();
 			context.setAuthentication(accessTokenAuthentication);
 			SecurityContextHolder.setContext(context);
