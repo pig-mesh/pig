@@ -25,7 +25,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <springdoc.version>2.0.0</springdoc.version>
         <swagger.core.version>2.2.7</swagger.core.version>
-        <mybatis-plus.version>3.5.2.7-SNAPSHOT</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
         <seata.version>1.6.1</seata.version>
         <excel.version>3.0.0</excel.version>
@@ -79,11 +79,6 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-swagger</artifactId>
-                <version>${pig.common.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-seata</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>
