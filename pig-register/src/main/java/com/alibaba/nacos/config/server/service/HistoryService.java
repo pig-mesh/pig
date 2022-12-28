@@ -1,4 +1,4 @@
-package com.alibaba.nacos.config.service;
+package com.alibaba.nacos.config.server.service;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.nacos.common.utils.Pair;
@@ -14,6 +14,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * @author aeizzz
+ */
 @Service
 public class HistoryService {
 
