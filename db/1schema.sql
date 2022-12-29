@@ -25,4 +25,5 @@ create database `pigxx_report` default character set utf8mb4 collate utf8mb4_gen
 -- pigx bi 报表相关的数据库
 create database `pigxx_bi` default character set utf8mb4 collate utf8mb4_general_ci;
 
+-- pigx app 模块相关的数据库
 create database `pigxx_app` default character set utf8mb4 collate utf8mb4_general_ci;

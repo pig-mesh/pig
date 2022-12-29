@@ -259,6 +259,7 @@ INSERT INTO `sys_dict_item` VALUES (64, 2, 'DINGTALK', '钉钉', 'social_type', 
 INSERT INTO `sys_dict_item` VALUES (65, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (66, 18, '2', 'APP', 'style_type', 'uview风格', 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
 INSERT INTO `sys_dict_item` VALUES (67, 17, 'mobile', 'app', 'grant_types', 'App登录', 5, 'admin', ' ', '2022-12-09 09:54:49', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (68, 2, 'MINI', '小程序登录', 'social_type', '小程序登录', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
 COMMIT;
 
 -- ----------------------------

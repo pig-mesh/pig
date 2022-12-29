@@ -55,7 +55,7 @@ public class PigBearerTokenExtractor implements BearerTokenResolver {
 
 	@Override
 	public String resolve(HttpServletRequest request) {
-		boolean match = urlProperties.getUrls().stream()
+		boolean match = urlProperties.getIgnoreUrls().stream()
 				.anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 
 		if (match) {

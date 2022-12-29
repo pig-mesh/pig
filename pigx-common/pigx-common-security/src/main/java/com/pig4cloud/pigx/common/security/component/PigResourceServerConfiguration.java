@@ -51,7 +51,7 @@ public class PigResourceServerConfiguration {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-				.antMatchers(ArrayUtil.toArray(permitAllUrl.getUrls(), String.class)).permitAll().anyRequest()
+				.antMatchers(ArrayUtil.toArray(permitAllUrl.getIgnoreUrls(), String.class)).permitAll().anyRequest()
 				.authenticated())
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
