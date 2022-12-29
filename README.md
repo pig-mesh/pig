@@ -30,14 +30,12 @@
 
 ![](https://minio.pigx.vip/oss/1648184189.png)
 
-<a href="https://apifox.cn/a1pigcloud" target="_blank"><img src="https://minio.pigx.vip/oss/1662368326.png" height="83%" width="83%"></a></td>
-
 ## 快速开始
 
 ### 分支说明
 
 - master: java8 + springboot 2.7 + springcloud 2021
-- jdk17: java17 springboot 3.0 + springcloud 2022
+- jdk17: java17 + springboot 3.0 + springcloud 2022
 
 ### 核心依赖
 
