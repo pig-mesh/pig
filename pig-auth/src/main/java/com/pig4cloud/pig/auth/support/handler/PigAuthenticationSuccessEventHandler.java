@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -71,7 +72,10 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			// 发送异步日志事件
 			PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
 			log.info("用户：{} 登录成功", userInfo.getName());
-			SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);
+			// 避免 race condition
+			SecurityContext context = SecurityContextHolder.createEmptyContext();
+			context.setAuthentication(accessTokenAuthentication);
+			SecurityContextHolder.setContext(context);
 			SysLog logVo = SysLogUtils.getSysLog();
 			logVo.setTitle("登录成功");
 			String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);

@@ -9,13 +9,9 @@ services:
     restart: always
     container_name: pig-mysql
     image: pig-mysql
-    ports:
-      - 3306:3306
 
   pig-redis:
     image: redis:7.0.0
-    ports:
-      - 6379:6379
     restart: always
     container_name: pig-redis
     hostname: pig-redis

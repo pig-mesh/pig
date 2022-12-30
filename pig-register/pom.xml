@@ -18,7 +18,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig</artifactId>
-		<version>3.6.4</version>
+		<version>3.6.5</version>
 	</parent>
 
 	<artifactId>pig-register</artifactId>
@@ -27,7 +27,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<nacos.version>2.1.1</nacos.version>
+		<nacos.version>2.2.0.PIGOEM</nacos.version>
 	</properties>
 
 	<dependencies>
@@ -56,6 +56,12 @@
 		<dependency>
 			<groupId>io.springboot.nacos</groupId>
 			<artifactId>nacos-plugin-default-impl</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springboot.nacos</groupId>
+			<artifactId>nacos-prometheus</artifactId>
 			<version>${nacos.version}</version>
 		</dependency>
 
