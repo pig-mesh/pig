@@ -210,7 +210,7 @@ public class RetOps<T> {
 	 * @throws Ex 断言失败时抛出
 	 */
 	public <Ex extends Exception> RetOps<T> assertDataNotEmpty(Function<? super R<T>, ? extends Ex> func) throws Ex {
-		if (ObjectUtil.isNotEmpty(original.getData())) {
+		if (ObjectUtil.isEmpty(original.getData())) {
 			throw func.apply(original);
 		}
 		return this;
