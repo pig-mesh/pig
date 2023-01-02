@@ -19,8 +19,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +32,7 @@ import java.time.LocalDateTime;
  * @date 2019-05-15 15:55:41
  */
 @Data
-@ApiModel(value = "租户信息")
+@Schema(description = "租户信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysTenant extends Model<SysTenant> {
 
@@ -43,60 +42,60 @@ public class SysTenant extends Model<SysTenant> {
 	 * 租户id
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "租户id")
+	@Schema(description = "租户id")
 	private Long id;
 
 	/**
 	 * 租户名称
 	 */
-	@ApiModelProperty(value = "租户名称")
+	@Schema(description = "租户名称")
 	private String name;
 
 	/**
 	 * 租户编号
 	 */
-	@ApiModelProperty(value = "租户编号")
+	@Schema(description = "租户编号")
 	private String code;
 
 	/**
 	 * 租户域名
 	 */
-	@ApiModelProperty(value = "租户域名")
+	@Schema(description = "租户域名")
 	private String tenantDomain;
 
 	/**
 	 * 开始时间
 	 */
-	@ApiModelProperty(value = "开始时间")
+	@Schema(description = "开始时间")
 	private LocalDateTime startTime;
 
 	/**
 	 * 结束时间
 	 */
-	@ApiModelProperty(value = "结束时间")
+	@Schema(description = "结束时间")
 	private LocalDateTime endTime;
 
 	/**
 	 * 0正常 9-冻结
 	 */
-	@ApiModelProperty(value = "租户冻结标记,9:冻结,0:正常")
+	@Schema(description = "租户冻结标记,9:冻结,0:正常")
 	private String status;
 
-	@ApiModelProperty("租户菜单ID")
+	@Schema(description = "租户菜单ID")
 	private String menuId;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
@@ -104,21 +103,21 @@ public class SysTenant extends Model<SysTenant> {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 }

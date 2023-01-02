@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.daemon.elastic;
 import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import com.pig4cloud.pigx.common.job.annotation.EnablePigxXxlJob;
 import com.pig4cloud.pigx.common.security.annotation.EnablePigxResourceServer;
-import com.pig4cloud.pigx.common.swagger.annotation.EnablePigxSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -30,7 +29,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date 2018/7/24 分布式任务调度模块
  */
 @EnablePigxXxlJob
-@EnablePigxSwagger2
 @EnablePigxFeignClients
 @EnablePigxResourceServer
 @EnableDiscoveryClient

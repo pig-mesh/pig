@@ -23,7 +23,6 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

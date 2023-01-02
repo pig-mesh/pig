@@ -10,7 +10,7 @@ import com.anjiplus.template.gaea.business.modules.dict.controller.param.GaeaDic
 import com.anjiplus.template.gaea.business.modules.dict.dao.entity.GaeaDict;
 import com.anjiplus.template.gaea.business.modules.dict.service.GaeaDictItemService;
 import com.anjiplus.template.gaea.business.modules.dict.service.GaeaDictService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/gaeaDict")
-@Api(value = "/gaeaDict", tags = "")
+@Tag(description  = "/gaeaDict", name =  "")
 public class GaeaDictController extends GaeaBaseController<GaeaDictParam, GaeaDict, GaeaDictDTO> {
 
 	@Autowired

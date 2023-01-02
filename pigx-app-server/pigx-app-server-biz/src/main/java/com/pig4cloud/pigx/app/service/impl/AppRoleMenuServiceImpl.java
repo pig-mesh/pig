@@ -19,11 +19,9 @@ package com.pig4cloud.pigx.app.service.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.mapper.AppRoleMenuMapper;
 import com.pig4cloud.pigx.app.service.AppRoleMenuService;
-import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

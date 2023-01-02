@@ -29,10 +29,12 @@ import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
 import com.pig4cloud.pigx.pay.entity.PayNotifyRecord;
 import com.pig4cloud.pigx.pay.handler.PayNotifyCallbakHandler;
 import com.pig4cloud.pigx.pay.service.PayNotifyRecordService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +52,8 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/notify")
-@Api(value = "notify", tags = "notify管理")
+@Tag(description  = "notify", name =  "notify管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayNotifyRecordController {
 
 	private final PayNotifyRecordService payNotifyRecordService;

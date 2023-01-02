@@ -92,10 +92,10 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        <!--swagger 依赖-->
+        <!--接口文档-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-swagger</artifactId>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
         </dependency>
     </dependencies>
 

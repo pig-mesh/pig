@@ -2,7 +2,7 @@ package com.pig4cloud.pigx.mp.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("wx_msg")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(description = "微信消息")
+@Schema(description =  "微信消息")
 public class WxMsg extends Model<WxMsg> {
 
 	private static final long serialVersionUID = 1L;

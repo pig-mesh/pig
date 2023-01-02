@@ -22,7 +22,6 @@ package com.pig4cloud.pigx.admin.controller;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
-import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pigx.admin.service.SysDeptRelationService;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
@@ -30,9 +29,10 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import oracle.jdbc.proxy.annotation.Post;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -52,7 +52,8 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dept")
-@Api(value = "dept", tags = "部门管理模块")
+@Tag(description  = "dept", name =  "部门管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDeptController {
 
 	private final SysDeptRelationService relationService;

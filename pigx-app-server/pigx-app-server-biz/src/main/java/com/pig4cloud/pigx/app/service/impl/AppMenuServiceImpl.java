@@ -23,8 +23,6 @@ import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.admin.api.entity.SysMenu;
-import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
 import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.mapper.AppMenuMapper;
@@ -39,7 +37,6 @@ import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

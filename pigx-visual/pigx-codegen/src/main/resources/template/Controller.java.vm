@@ -41,7 +41,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/${pathName}" )
-@Api(value = "${pathName}", tags = "${comments}管理")
+@Tag(description  = "${pathName}", name =  "${comments}管理")
 public class ${className}Controller {
 
     private final  ${className}Service ${classname}Service;
@@ -52,7 +52,7 @@ public class ${className}Controller {
      * @param ${classname} ${comments}
      * @return
      */
-    @ApiOperation(value = "分页查询", notes = "分页查询")
+    @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page" )
     @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_view')" )
     public R get${className}Page(Page page, ${className} ${classname}) {
@@ -65,7 +65,7 @@ public class ${className}Controller {
      * @param ${pk.lowerAttrName} id
      * @return R
      */
-    @ApiOperation(value = "通过id查询", notes = "通过id查询")
+    @Operation(summary = "通过id查询", description = "通过id查询")
     @GetMapping("/{${pk.lowerAttrName}}" )
     @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_view')" )
     public R getById(@PathVariable("${pk.lowerAttrName}" ) ${pk.attrType} ${pk.lowerAttrName}) {
@@ -77,7 +77,7 @@ public class ${className}Controller {
      * @param ${classname} ${comments}
      * @return R
      */
-    @ApiOperation(value = "新增${comments}", notes = "新增${comments}")
+    @Operation(summary = "新增${comments}", description = "新增${comments}")
     @SysLog("新增${comments}" )
     @PostMapping
     @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_add')" )
@@ -90,7 +90,7 @@ public class ${className}Controller {
      * @param ${classname} ${comments}
      * @return R
      */
-    @ApiOperation(value = "修改${comments}", notes = "修改${comments}")
+    @Operation(summary = "修改${comments}", description = "修改${comments}")
     @SysLog("修改${comments}" )
     @PutMapping
     @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_edit')" )
@@ -103,7 +103,7 @@ public class ${className}Controller {
      * @param ${pk.lowerAttrName} id
      * @return R
      */
-    @ApiOperation(value = "通过id删除${comments}", notes = "通过id删除${comments}")
+    @Operation(summary = "通过id删除${comments}", description = "通过id删除${comments}")
     @SysLog("通过id删除${comments}" )
     @DeleteMapping("/{${pk.lowerAttrName}}" )
     @PreAuthorize("@pms.hasPermission('${moduleName}_${pathName}_del')" )

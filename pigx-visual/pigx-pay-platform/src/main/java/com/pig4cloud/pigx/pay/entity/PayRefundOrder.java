@@ -19,7 +19,7 @@ package com.pig4cloud.pigx.pay.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("pay_refund_order")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(description = "退款")
+@Schema(description =  "退款")
 public class PayRefundOrder extends Model<PayRefundOrder> {
 
 	private static final long serialVersionUID = 1L;

@@ -19,15 +19,17 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.service.AppRoleMenuService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,7 +43,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/approlemenu")
-@Api(value = "approlemenu", tags = "角色菜单表管理")
+@Tag(description  = "approlemenu", name =  "角色菜单表管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppRoleMenuController {
 
 	private final AppRoleMenuService appRoleMenuService;
@@ -52,7 +55,7 @@ public class AppRoleMenuController {
 	 * @param appRoleMenu 角色菜单表
 	 * @return
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@pms.hasPermission('app_approlemenu_view')")
 	public R getAppRoleMenuPage(Page page, AppRoleMenu appRoleMenu) {
@@ -64,7 +67,7 @@ public class AppRoleMenuController {
 	 * @param roleId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{roleId}")
 	@PreAuthorize("@pms.hasPermission('app_approlemenu_view')")
 	public R getById(@PathVariable("roleId") Long roleId) {
@@ -76,7 +79,7 @@ public class AppRoleMenuController {
 	 * @param appRoleMenu 角色菜单表
 	 * @return R
 	 */
-	@ApiOperation(value = "新增角色菜单表", notes = "新增角色菜单表")
+	@Operation(summary = "新增角色菜单表", description = "新增角色菜单表")
 	@SysLog("新增角色菜单表")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('app_approlemenu_add')")
@@ -89,7 +92,7 @@ public class AppRoleMenuController {
 	 * @param appRoleMenu 角色菜单表
 	 * @return R
 	 */
-	@ApiOperation(value = "修改角色菜单表", notes = "修改角色菜单表")
+	@Operation(summary = "修改角色菜单表", description = "修改角色菜单表")
 	@SysLog("修改角色菜单表")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('app_approlemenu_edit')")
@@ -102,7 +105,7 @@ public class AppRoleMenuController {
 	 * @param roleId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除角色菜单表", notes = "通过id删除角色菜单表")
+	@Operation(summary = "通过id删除角色菜单表", description = "通过id删除角色菜单表")
 	@SysLog("通过id删除角色菜单表")
 	@DeleteMapping("/{roleId}")
 	@PreAuthorize("@pms.hasPermission('app_approlemenu_del')")

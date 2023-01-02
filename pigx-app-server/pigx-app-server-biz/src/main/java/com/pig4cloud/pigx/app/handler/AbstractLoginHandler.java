@@ -17,7 +17,6 @@
 
 package com.pig4cloud.pigx.app.handler;
 
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 
 /**

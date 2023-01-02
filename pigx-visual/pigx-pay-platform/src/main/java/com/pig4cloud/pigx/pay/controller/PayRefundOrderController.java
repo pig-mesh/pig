@@ -23,8 +23,10 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.pay.entity.PayRefundOrder;
 import com.pig4cloud.pigx.pay.service.PayRefundOrderService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/payrefundorder")
-@Api(value = "payrefundorder", tags = "payrefundorder管理")
+@Tag(description  = "payrefundorder", name =  "payrefundorder管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayRefundOrderController {
 
 	private final PayRefundOrderService payRefundOrderService;

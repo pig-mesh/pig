@@ -19,15 +19,17 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppUserRole;
 import com.pig4cloud.pigx.app.service.AppUserRoleService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,7 +43,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appuserrole")
-@Api(value = "appuserrole", tags = "用户角色表管理")
+@Tag(description  = "appuserrole", name =  "用户角色表管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppUserRoleController {
 
 	private final AppUserRoleService appUserRoleService;
@@ -52,7 +55,7 @@ public class AppUserRoleController {
 	 * @param appUserRole 用户角色表
 	 * @return
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@pms.hasPermission('app_appuserrole_view')")
 	public R getAppUserRolePage(Page page, AppUserRole appUserRole) {
@@ -64,7 +67,7 @@ public class AppUserRoleController {
 	 * @param userId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{userId}")
 	@PreAuthorize("@pms.hasPermission('app_appuserrole_view')")
 	public R getById(@PathVariable("userId") Long userId) {
@@ -76,7 +79,7 @@ public class AppUserRoleController {
 	 * @param appUserRole 用户角色表
 	 * @return R
 	 */
-	@ApiOperation(value = "新增用户角色表", notes = "新增用户角色表")
+	@Operation(summary = "新增用户角色表", description = "新增用户角色表")
 	@SysLog("新增用户角色表")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('app_appuserrole_add')")
@@ -89,7 +92,7 @@ public class AppUserRoleController {
 	 * @param appUserRole 用户角色表
 	 * @return R
 	 */
-	@ApiOperation(value = "修改用户角色表", notes = "修改用户角色表")
+	@Operation(summary = "修改用户角色表", description = "修改用户角色表")
 	@SysLog("修改用户角色表")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('app_appuserrole_edit')")
@@ -102,7 +105,7 @@ public class AppUserRoleController {
 	 * @param userId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除用户角色表", notes = "通过id删除用户角色表")
+	@Operation(summary = "通过id删除用户角色表", description = "通过id删除用户角色表")
 	@SysLog("通过id删除用户角色表")
 	@DeleteMapping("/{userId}")
 	@PreAuthorize("@pms.hasPermission('app_appuserrole_del')")

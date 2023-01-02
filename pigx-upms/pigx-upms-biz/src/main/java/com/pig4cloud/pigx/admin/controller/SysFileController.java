@@ -25,11 +25,13 @@ import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +47,8 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-file")
-@Api(value = "sys-file", tags = "文件管理")
+@Tag(description  = "sys-file", name =  "文件管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysFileController {
 
 	private final SysFileService sysFileService;
@@ -56,7 +59,7 @@ public class SysFileController {
 	 * @param sysFile 文件管理
 	 * @return
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getSysFilePage(Page page, SysFile sysFile) {
 		return R.ok(sysFileService.page(page, Wrappers.query(sysFile)));
@@ -67,7 +70,7 @@ public class SysFileController {
 	 * @param id id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除文件管理", notes = "通过id删除文件管理")
+	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")

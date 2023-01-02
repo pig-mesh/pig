@@ -19,8 +19,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +32,7 @@ import java.time.LocalDateTime;
  * @date 2019-04-29
  */
 @Data
-@ApiModel(value = "公共参数")
+@Schema(description = "公共参数")
 @EqualsAndHashCode(callSuper = true)
 public class SysPublicParam extends Model<SysPublicParam> {
 
@@ -43,63 +42,63 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	 * 编号
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "公共参数编号")
+	@Schema(description = "公共参数编号")
 	private Long publicId;
 
 	/**
 	 * 公共参数名称
 	 */
-	@ApiModelProperty(value = "公共参数名称", required = true, example = "公共参数名称")
+	@Schema(description = "公共参数名称", required = true, example = "公共参数名称")
 	private String publicName;
 
 	/**
 	 * 公共参数地址值,英文大写+下划线
 	 */
-	@ApiModelProperty(value = "键[英文大写+下划线]", required = true, example = "PIGX_PUBLIC_KEY")
+	@Schema(description = "键[英文大写+下划线]", required = true, example = "PIGX_PUBLIC_KEY")
 	private String publicKey;
 
 	/**
 	 * 值
 	 */
-	@ApiModelProperty(value = "值", required = true, example = "999")
+	@Schema(description = "值", required = true, example = "999")
 	private String publicValue;
 
 	/**
 	 * 状态（1有效；2无效；）
 	 */
-	@ApiModelProperty(value = "标识[1有效；2无效]", example = "1")
+	@Schema(description = "标识[1有效；2无效]", example = "1")
 	private String status;
 
 	/**
 	 * 公共参数编码
 	 */
-	@ApiModelProperty(value = "编码", example = "^(PIG|PIGX)$")
+	@Schema(description = "编码", example = "^(PIG|PIGX)$")
 	private String validateCode;
 
 	/**
 	 * 是否是系统内置
 	 */
-	@ApiModelProperty(value = "是否是系统内置")
+	@Schema(description = "是否是系统内置")
 	private String systemFlag;
 
 	/**
 	 * 配置类型：0-默认；1-检索；2-原文；3-报表；4-安全；5-文档；6-消息；9-其他
 	 */
-	@ApiModelProperty(value = "类型[1-检索；2-原文...]", example = "1")
+	@Schema(description = "类型[1-检索；2-原文...]", example = "1")
 	private String publicType;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
@@ -107,21 +106,21 @@ public class SysPublicParam extends Model<SysPublicParam> {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 }

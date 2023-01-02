@@ -23,8 +23,6 @@ import com.pig4cloud.pigx.common.gateway.support.DynamicRouteHealthIndicator;
 import com.pig4cloud.pigx.common.gateway.support.RouteCacheHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.cloud.gateway.config.GatewayProperties;
-import org.springframework.cloud.gateway.config.PropertiesRouteDefinitionLocator;
 import org.springframework.cloud.gateway.event.RefreshRoutesEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -47,14 +45,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class DynamicRouteAutoConfiguration {
 
-	/**
-	 * 配置文件设置为空 redis 加载为准
-	 * @return
-	 */
-	@Bean
-	public PropertiesRouteDefinitionLocator propertiesRouteDefinitionLocator() {
-		return new PropertiesRouteDefinitionLocator(new GatewayProperties());
-	}
 
 	/**
 	 * redis 监听配置

@@ -21,8 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,7 +36,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("app_role")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "app角色表")
+@Schema(description = "app角色表")
 public class AppRole extends Model<AppRole> {
 
 	private static final long serialVersionUID = 1L;
@@ -46,61 +45,61 @@ public class AppRole extends Model<AppRole> {
 	 * roleId
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "roleId")
+	@Schema(description = "roleId")
 	private Long roleId;
 
 	/**
 	 * roleName
 	 */
-	@ApiModelProperty(value = "roleName")
+	@Schema(description = "roleName")
 	private String roleName;
 
 	/**
 	 * roleCode
 	 */
-	@ApiModelProperty(value = "roleCode")
+	@Schema(description = "roleCode")
 	private String roleCode;
 
 	/**
 	 * roleDesc
 	 */
-	@ApiModelProperty(value = "roleDesc")
+	@Schema(description = "roleDesc")
 	private String roleDesc;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * createTime
 	 */
-	@ApiModelProperty(value = "createTime")
+	@Schema(description = "createTime")
 	private LocalDateTime createTime;
 
 	/**
 	 * updateTime
 	 */
-	@ApiModelProperty(value = "updateTime")
+	@Schema(description = "updateTime")
 	private LocalDateTime updateTime;
 
 	/**
 	 * delFlag
 	 */
-	@ApiModelProperty(value = "delFlag")
+	@Schema(description = "delFlag")
 	private String delFlag;
 
 	/**
 	 * tenantId
 	 */
-	@ApiModelProperty(value = "tenantId", hidden = true)
+	@Schema(description = "tenantId", hidden = true)
 	private Long tenantId;
 
 }

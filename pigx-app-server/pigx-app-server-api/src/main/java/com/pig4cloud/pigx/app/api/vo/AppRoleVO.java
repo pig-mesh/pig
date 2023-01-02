@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.app.api.vo;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 /**
@@ -25,7 +25,7 @@ import lombok.Data;
  * @date 2020/2/10
  */
 @Data
-@ApiModel(value = "前端角色展示对象")
+@Schema(description = "前端角色展示对象")
 public class AppRoleVO {
 
 	/**

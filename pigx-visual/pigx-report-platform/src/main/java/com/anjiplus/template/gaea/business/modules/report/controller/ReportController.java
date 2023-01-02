@@ -9,7 +9,7 @@ import com.anjiplus.template.gaea.business.modules.report.controller.dto.ReportD
 import com.anjiplus.template.gaea.business.modules.report.controller.param.ReportParam;
 import com.anjiplus.template.gaea.business.modules.report.dao.entity.Report;
 import com.anjiplus.template.gaea.business.modules.report.service.ReportService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/26 10:19
  */
 @RestController
-@Api(tags = "报表数据管理")
+@Tag(name =  "报表数据管理")
 @Permission(code = "reportManage", name = "报表管理")
 @RequestMapping("/report")
 public class ReportController extends GaeaBaseController<ReportParam, Report, ReportDto> {

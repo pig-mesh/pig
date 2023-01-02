@@ -23,9 +23,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -36,7 +38,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job-log")
-@Api(value = "sys-job-log", tags = "定时任务日志")
+@Tag(description  = "sys-job-log", name =  "定时任务日志")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobLogController {
 
 	private final SysJobLogService sysJobLogService;
@@ -48,13 +51,13 @@ public class SysJobLogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	@ApiOperation(value = "分页定时任务日志查询")
+	@Operation(summary = "分页定时任务日志查询")
 	public R getSysJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
 
 	@DeleteMapping
-	@ApiOperation(value = "批量删除日志")
+	@Operation(summary = "批量删除日志")
 	public R deleteLogs(@RequestBody Long[] logIds) {
 		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.newArrayList(logIds)));
 	}

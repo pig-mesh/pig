@@ -10,7 +10,7 @@ import com.anjiplus.template.gaea.business.modules.accessrole.controller.dto.Acc
 import com.anjiplus.template.gaea.business.modules.accessrole.controller.param.AccessRoleParam;
 import com.anjiplus.template.gaea.business.modules.accessrole.dao.entity.AccessRole;
 import com.anjiplus.template.gaea.business.modules.accessrole.service.AccessRoleService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2019-02-17 08:50:14.136
  **/
 @RestController
-@Api(tags = "角色管理管理")
+@Tag(name =  "角色管理管理")
 @RequestMapping("/accessRole")
 @Permission(code = "roleManage", name = "角色管理")
 public class AccessRoleController extends GaeaBaseController<AccessRoleParam, AccessRole, AccessRoleDto> {

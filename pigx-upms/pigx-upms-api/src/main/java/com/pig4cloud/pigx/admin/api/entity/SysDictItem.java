@@ -19,8 +19,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -33,7 +32,7 @@ import java.time.LocalDateTime;
  * @date 2019/03/19
  */
 @Data
-@ApiModel(value = "字典项")
+@Schema(description = "字典项")
 @EqualsAndHashCode(callSuper = true)
 public class SysDictItem extends Model<SysDictItem> {
 
@@ -43,78 +42,78 @@ public class SysDictItem extends Model<SysDictItem> {
 	 * 编号
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "字典项id")
+	@Schema(description = "字典项id")
 	private Long id;
 
 	/**
 	 * 所属字典类id
 	 */
-	@ApiModelProperty(value = "所属字典类id")
+	@Schema(description = "所属字典类id")
 	private Long dictId;
 
 	/**
 	 * 数据值
 	 */
-	@ApiModelProperty(value = "数据值")
+	@Schema(description = "数据值")
 	@JsonProperty(value = "value")
 	private String itemValue;
 
 	/**
 	 * 标签名
 	 */
-	@ApiModelProperty(value = "标签名")
+	@Schema(description = "标签名")
 	private String label;
 
 	/**
 	 * 类型
 	 */
-	@ApiModelProperty(value = "类型")
+	@Schema(description = "类型")
 	private String dictType;
 
 	/**
 	 * 描述
 	 */
-	@ApiModelProperty(value = "描述")
+	@Schema(description = "描述")
 	private String description;
 
 	/**
 	 * 排序（升序）
 	 */
-	@ApiModelProperty(value = "排序值，默认升序")
+	@Schema(description = "排序值，默认升序")
 	private Integer sortOrder;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 	/**
 	 * 备注信息
 	 */
-	@ApiModelProperty(value = "备注信息")
+	@Schema(description = "备注信息")
 	private String remarks;
 
 	/**
@@ -122,7 +121,7 @@ public class SysDictItem extends Model<SysDictItem> {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 }

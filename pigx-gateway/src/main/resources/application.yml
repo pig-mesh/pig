@@ -10,6 +10,15 @@ spring:
         server-addr: ${NACOS_HOST:pigx-register}:${NACOS_PORT:8848}
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
+    gateway:
+      routes:
+        # 固定路由转发配置 无修改
+        - id: openapi
+          uri: lb://pigx-gateway
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/$\{path}/v3/api-docs
   config:
     import:
       - optional:nacos:application-@profiles.active@.yml

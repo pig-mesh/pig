@@ -34,7 +34,8 @@ import com.pig4cloud.pigx.pay.service.PayChannelService;
 import com.pig4cloud.pigx.pay.service.PayGoodsOrderService;
 import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
 import com.pig4cloud.pigx.pay.utils.PayConstants;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -63,7 +64,8 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/goods")
-@Api(value = "goods", tags = "商品订单管理")
+@Tag(description  = "goods", name =  "商品订单管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayGoodsOrderController {
 
 	private final PayGoodsOrderService payGoodsOrderService;

@@ -21,8 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -37,7 +36,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("app_menu")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "菜单权限表")
+@Schema(description = "菜单权限表")
 public class AppMenu extends Model<AppMenu> {
 
 	private static final long serialVersionUID = 1L;
@@ -46,85 +45,85 @@ public class AppMenu extends Model<AppMenu> {
 	 * 菜单ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "菜单ID")
+	@Schema(description = "菜单ID")
 	private Long menuId;
 
 	/**
 	 * name
 	 */
-	@ApiModelProperty(value = "name")
+	@Schema(description = "name")
 	private String name;
 
 	/**
 	 * permission
 	 */
-	@ApiModelProperty(value = "permission")
+	@Schema(description = "permission")
 	private String permission;
 
 	/**
 	 * path
 	 */
-	@ApiModelProperty(value = "path")
+	@Schema(description = "path")
 	private String path;
 
 	/**
 	 * 父菜单ID
 	 */
-	@ApiModelProperty(value = "父菜单ID")
+	@Schema(description = "父菜单ID")
 	private Long parentId;
 
 	/**
 	 * 是否显示
 	 */
-	@ApiModelProperty(value = "是否显示")
+	@Schema(description = "是否显示")
 	private String visible;
 
 	/**
 	 * 排序值
 	 */
-	@ApiModelProperty(value = "排序值")
+	@Schema(description = "排序值")
 	private Integer sortOrder;
 
 	/**
 	 * menuType
 	 */
-	@ApiModelProperty(value = "menuType")
+	@Schema(description = "menuType")
 	private String menuType;
 
 	/**
 	 * 创建人
 	 */
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 修改人
 	 */
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * 更新时间
 	 */
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 	/**
 	 * delFlag
 	 */
-	@ApiModelProperty(value = "delFlag")
+	@Schema(description = "delFlag")
 	private String delFlag;
 
 	/**
 	 * 租户ID
 	 */
-	@ApiModelProperty(value = "租户ID", hidden = true)
+	@Schema(description = "租户ID", hidden = true)
 	private Long tenantId;
 
 }
