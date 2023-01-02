@@ -26,7 +26,7 @@
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.79</dm.version>
-        <knife4j.version>4.0.0</knife4j.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <springdoc.version>1.6.9</springdoc.version>
         <mp.weixin.version>4.4.0</mp.weixin.version>
@@ -232,9 +232,9 @@
                 <version>${springdoc.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
+                <groupId>io.springboot</groupId>
                 <artifactId>knife4j-openapi3-ui</artifactId>
-                <version>${knife4j.version}</version>
+                <version>3.0.3</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>

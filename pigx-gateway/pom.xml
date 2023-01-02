@@ -99,7 +99,7 @@
         </dependency>
         <!--引入Knife4j的官方ui包-->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
+            <groupId>io.springboot</groupId>
             <artifactId>knife4j-openapi3-ui</artifactId>
         </dependency>
     </dependencies>
