@@ -22,8 +22,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
@@ -53,7 +52,7 @@ public class ${className} extends Model<${className}> {
 #if($column.columnName == $pk.columnName)
     @TableId(type = IdType.ASSIGN_ID)
 #end
-    @Schema(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
+    @Schema(description="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 
 #end
