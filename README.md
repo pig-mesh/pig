@@ -45,7 +45,7 @@
 | Spring Cloud           | 2021.0.5   |
 | Spring Cloud Alibaba   | 2021.0.4.0 |
 | Spring Authorization Server | 0.4.0      |
-| Mybatis Plus           | 3.5.2      |
+| Mybatis Plus           | 3.5.3.1    |
 | hutool                 | 5.8.10     |
 
 ### 模块说明

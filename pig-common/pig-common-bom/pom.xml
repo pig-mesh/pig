@@ -25,7 +25,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
-        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
         <seata.version>1.5.2</seata.version>
         <excel.version>1.2.6</excel.version>
