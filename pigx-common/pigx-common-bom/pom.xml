@@ -18,7 +18,7 @@
 
     <properties>
         <pigx.version>4.6.0</pigx.version>
-        <mybatis-plus.version>3.5.3</mybatis-plus.version>
+        <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <dynamic-ds.version>3.5.2</dynamic-ds.version>
         <druid.version>1.2.9</druid.version>
         <hutool.version>5.8.10</hutool.version>
