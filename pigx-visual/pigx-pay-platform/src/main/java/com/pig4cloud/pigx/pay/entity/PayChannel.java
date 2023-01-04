@@ -35,7 +35,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("pay_channel")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description =  "渠道")
+@Schema(description = "渠道")
 public class PayChannel extends Model<PayChannel> {
 
 	private static final long serialVersionUID = 1L;

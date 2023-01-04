@@ -47,7 +47,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-file")
-@Tag(description  = "sys-file", name =  "文件管理")
+@Tag(description = "sys-file", name = "文件管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysFileController {
 

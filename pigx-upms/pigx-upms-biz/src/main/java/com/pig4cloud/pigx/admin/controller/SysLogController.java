@@ -50,7 +50,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/log")
-@Tag(description  = "log", name =  "日志管理模块")
+@Tag(description = "log", name = "日志管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysLogController {
 

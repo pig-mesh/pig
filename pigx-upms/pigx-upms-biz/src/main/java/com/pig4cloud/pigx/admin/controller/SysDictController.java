@@ -52,7 +52,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dict")
-@Tag(description  = "dict", name =  "字典管理模块")
+@Tag(description = "dict", name = "字典管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDictController {
 

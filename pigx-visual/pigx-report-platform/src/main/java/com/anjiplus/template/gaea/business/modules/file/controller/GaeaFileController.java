@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/file")
-@Tag(description  = "/file", name =  "")
+@Tag(description = "/file", name = "")
 public class GaeaFileController extends BaseController<GaeaFileParam, GaeaFile, GaeaFileDTO> {
 
 	@Autowired

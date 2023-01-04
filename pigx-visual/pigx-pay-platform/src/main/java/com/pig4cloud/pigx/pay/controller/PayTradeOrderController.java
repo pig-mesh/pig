@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/order")
-@Tag(description  = "order", name =  "订单")
+@Tag(description = "order", name = "订单")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayTradeOrderController {
 

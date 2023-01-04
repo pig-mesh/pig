@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tenant")
-@Tag(description  = "tenant", name =  "租户管理")
+@Tag(description = "tenant", name = "租户管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysTenantController {
 

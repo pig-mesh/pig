@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2019-02-17 08:50:10.009
  **/
 @RestController
-@Tag(name =  "权限管理管理")
+@Tag(name = "权限管理管理")
 @RequestMapping("/accessAuthority")
 @Permission(code = "authorityManage", name = "权限管理")
 public class AccessAuthorityController

@@ -39,8 +39,8 @@ public class SpringDocConfiguration {
 		for (String serviceId : discoveryClient.getServices()) {
 			for (ServiceInstance instance : discoveryClient.getInstances(serviceId)) {
 				String doc = instance.getMetadata().get("spring-doc");
-				if (StrUtil.isNotBlank(doc)){
-					swaggerUiConfigParameters.addGroup(doc,serviceId);
+				if (StrUtil.isNotBlank(doc)) {
+					swaggerUiConfigParameters.addGroup(doc, serviceId);
 				}
 			}
 		}

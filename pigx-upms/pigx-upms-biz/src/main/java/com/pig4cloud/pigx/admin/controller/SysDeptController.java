@@ -52,7 +52,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dept")
-@Tag(description  = "dept", name =  "部门管理模块")
+@Tag(description = "dept", name = "部门管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDeptController {
 

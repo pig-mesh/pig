@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/mobile")
-@Tag(description  = "mobile", name =  "手机管理模块")
+@Tag(description = "mobile", name = "手机管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class MobileController {
 

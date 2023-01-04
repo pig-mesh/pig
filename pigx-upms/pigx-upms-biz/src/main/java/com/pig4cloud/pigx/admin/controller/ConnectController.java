@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/connect")
-@Tag(description  = "connect", name =  "开放互联")
+@Tag(description = "connect", name = "开放互联")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class ConnectController {
 

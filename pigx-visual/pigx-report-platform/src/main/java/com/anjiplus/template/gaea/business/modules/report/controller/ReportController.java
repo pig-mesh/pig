@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021/3/26 10:19
  */
 @RestController
-@Tag(name =  "报表数据管理")
+@Tag(name = "报表数据管理")
 @Permission(code = "reportManage", name = "报表管理")
 @RequestMapping("/report")
 public class ReportController extends GaeaBaseController<ReportParam, Report, ReportDto> {

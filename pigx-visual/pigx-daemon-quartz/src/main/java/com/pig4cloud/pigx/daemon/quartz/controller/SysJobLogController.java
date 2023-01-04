@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job-log")
-@Tag(description  = "sys-job-log", name =  "定时任务日志")
+@Tag(description = "sys-job-log", name = "定时任务日志")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobLogController {
 

@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/tenant-menu")
-@Tag(description  = "tenant", name =  "租户菜单管理")
+@Tag(description = "tenant", name = "租户菜单管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysTenantMenuController {
 

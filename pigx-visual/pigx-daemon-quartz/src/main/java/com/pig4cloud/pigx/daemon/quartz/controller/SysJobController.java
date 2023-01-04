@@ -49,7 +49,7 @@ import static com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job")
-@Tag(description  = "sys-job", name =  "定时任务")
+@Tag(description = "sys-job", name = "定时任务")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobController {
 

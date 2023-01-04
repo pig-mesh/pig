@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/route")
-@Tag(description  = "route", name =  "动态路由管理模块")
+@Tag(description = "route", name = "动态路由管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysRouteConfController {
 

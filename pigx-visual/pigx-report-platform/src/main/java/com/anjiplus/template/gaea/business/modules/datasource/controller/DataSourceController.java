@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-03-18 12:09:57.728203200
  **/
 @RestController
-@Tag(name =  "数据源管理")
+@Tag(name = "数据源管理")
 @Permission(code = "datasourceManage", name = "数据源管理")
 @RequestMapping("/dataSource")
 public class DataSourceController extends GaeaBaseController<DataSourceParam, DataSource, DataSourceDto> {

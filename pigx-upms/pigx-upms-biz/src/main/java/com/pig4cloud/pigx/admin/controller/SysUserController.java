@@ -55,7 +55,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
-@Tag(description  = "user", name =  "用户管理模块")
+@Tag(description = "user", name = "用户管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysUserController {
 

@@ -49,7 +49,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appuser")
-@Tag(description  = "appuser", name =  "app用户表管理")
+@Tag(description = "appuser", name = "app用户表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppUserController {
 

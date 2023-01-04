@@ -64,7 +64,7 @@ import java.util.Map;
 @Controller
 @AllArgsConstructor
 @RequestMapping("/goods")
-@Tag(description  = "goods", name =  "商品订单管理")
+@Tag(description = "goods", name = "商品订单管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayGoodsOrderController {
 

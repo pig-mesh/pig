@@ -47,7 +47,7 @@ import javax.validation.Valid;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/client")
-@Tag(description  = "client", name =  "客户端管理模块")
+@Tag(description = "client", name = "客户端管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysClientController {
 

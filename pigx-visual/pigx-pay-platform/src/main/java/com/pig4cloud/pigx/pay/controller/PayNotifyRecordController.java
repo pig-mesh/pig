@@ -52,7 +52,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/notify")
-@Tag(description  = "notify", name =  "notify管理")
+@Tag(description = "notify", name = "notify管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayNotifyRecordController {
 

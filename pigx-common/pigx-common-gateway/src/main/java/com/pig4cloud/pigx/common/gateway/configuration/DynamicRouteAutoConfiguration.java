@@ -45,7 +45,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class DynamicRouteAutoConfiguration {
 
-
 	/**
 	 * redis 监听配置
 	 * @param redisConnectionFactory redis 配置

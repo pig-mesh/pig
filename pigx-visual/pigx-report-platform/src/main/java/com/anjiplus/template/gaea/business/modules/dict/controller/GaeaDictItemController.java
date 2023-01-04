@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/gaeaDictItem")
-@Tag(description  = "/gaeaDictItem", name =  "数据字典项")
+@Tag(description = "/gaeaDictItem", name = "数据字典项")
 public class GaeaDictItemController extends GaeaBaseController<GaeaDictItemParam, GaeaDictItem, GaeaDictItemDTO> {
 
 	@Autowired

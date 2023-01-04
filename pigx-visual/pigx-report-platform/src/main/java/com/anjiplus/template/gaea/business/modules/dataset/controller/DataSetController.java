@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-03-18 12:11:31.150755900
  **/
 @RestController
-@Tag(name =  "数据集管理")
+@Tag(name = "数据集管理")
 @Permission(code = "resultsetManage", name = "数据集管理")
 @RequestMapping("/dataSet")
 public class DataSetController extends GaeaBaseController<DataSetParam, DataSet, DataSetDto> {

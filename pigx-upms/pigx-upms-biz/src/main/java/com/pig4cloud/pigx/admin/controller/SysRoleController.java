@@ -51,7 +51,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")
-@Tag(description  = "role", name =  "角色管理模块")
+@Tag(description = "role", name = "角色管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysRoleController {
 

@@ -38,7 +38,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/social")
 @AllArgsConstructor
-@Tag(description  = "social", name =  "三方账号管理模块")
+@Tag(description = "social", name = "三方账号管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppSocialDetailsController {
 

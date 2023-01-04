@@ -46,7 +46,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/post")
-@Tag(description  = "post", name =  "岗位信息表管理")
+@Tag(description = "post", name = "岗位信息表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysPostController {
 

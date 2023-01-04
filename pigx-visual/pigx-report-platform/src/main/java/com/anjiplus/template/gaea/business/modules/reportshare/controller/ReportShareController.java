@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-08-18 13:37:26.663
  **/
 @RestController
-@Tag(name =  "报表分享管理")
+@Tag(name = "报表分享管理")
 @RequestMapping("/reportShare")
 @Permission(code = "reportShareManage", name = "报表分享管理")
 public class ReportShareController extends GaeaBaseController<ReportShareParam, ReportShare, ReportShareDto> {

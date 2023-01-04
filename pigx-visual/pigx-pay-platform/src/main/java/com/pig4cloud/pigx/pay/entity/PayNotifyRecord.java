@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("pay_notify_record")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description =  "异步通知记录")
+@Schema(description = "异步通知记录")
 public class PayNotifyRecord extends Model<PayNotifyRecord> {
 
 	private static final long serialVersionUID = 1L;

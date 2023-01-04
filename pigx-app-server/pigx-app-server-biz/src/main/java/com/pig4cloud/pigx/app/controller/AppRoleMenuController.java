@@ -43,7 +43,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/approlemenu")
-@Tag(description  = "approlemenu", name =  "角色菜单表管理")
+@Tag(description = "approlemenu", name = "角色菜单表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppRoleMenuController {
 

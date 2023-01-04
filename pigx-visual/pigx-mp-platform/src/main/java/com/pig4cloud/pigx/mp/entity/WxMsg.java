@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("wx_msg")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description =  "微信消息")
+@Schema(description = "微信消息")
 public class WxMsg extends Model<WxMsg> {
 
 	private static final long serialVersionUID = 1L;

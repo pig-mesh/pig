@@ -22,7 +22,7 @@ import java.util.Map;
  * @date 2019-02-17 08:50:14.136
  **/
 @RestController
-@Tag(name =  "角色管理管理")
+@Tag(name = "角色管理管理")
 @RequestMapping("/accessRole")
 @Permission(code = "roleManage", name = "角色管理")
 public class AccessRoleController extends GaeaBaseController<AccessRoleParam, AccessRole, AccessRoleDto> {

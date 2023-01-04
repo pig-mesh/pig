@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("pay_trade_order")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description =  "支付")
+@Schema(description = "支付")
 public class PayTradeOrder extends Model<PayTradeOrder> {
 
 	private static final long serialVersionUID = 1L;

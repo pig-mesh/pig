@@ -41,7 +41,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/param")
-@Tag(description  = "param", name =  "公共参数配置")
+@Tag(description = "param", name = "公共参数配置")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysPublicParamController {
 

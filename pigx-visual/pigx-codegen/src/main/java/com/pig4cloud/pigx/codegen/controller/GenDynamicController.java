@@ -24,7 +24,7 @@ import java.util.List;
 @Inner(value = false)
 @RequiredArgsConstructor
 @RequestMapping("/dynamic")
-@Tag(description  = "dynamic", name =  "无代码管理")
+@Tag(description = "dynamic", name = "无代码管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenDynamicController {
 

@@ -39,7 +39,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/paychannel")
-@Tag(description  = "paychannel", name =  "paychannel管理")
+@Tag(description = "paychannel", name = "paychannel管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayChannelController {
 

@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021/4/13 15:12
  */
 @RestController
-@Tag(name =  "报表表格管理")
+@Tag(name = "报表表格管理")
 @Permission(code = "excelManage", name = "报表管理")
 @RequestMapping("/reportExcel")
 public class ReportExcelController extends GaeaBaseController<ReportExcelParam, ReportExcel, ReportExcelDto> {

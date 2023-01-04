@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-03-18 12:13:15.591309400
  **/
 @RestController
-@Tag(name =  "数据集数据转换管理")
+@Tag(name = "数据集数据转换管理")
 @RequestMapping("/dataSetTransform")
 public class DataSetTransformController
 		extends GaeaBaseController<DataSetTransformParam, DataSetTransform, DataSetTransformDto> {

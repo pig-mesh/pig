@@ -43,7 +43,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appuserrole")
-@Tag(description  = "appuserrole", name =  "用户角色表管理")
+@Tag(description = "appuserrole", name = "用户角色表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppUserRoleController {
 

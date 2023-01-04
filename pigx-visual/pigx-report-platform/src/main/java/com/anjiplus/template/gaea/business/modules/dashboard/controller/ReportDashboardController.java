@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2021-04-12 14:52:21.761
  **/
 @RestController
-@Tag(name =  "大屏设计管理")
+@Tag(name = "大屏设计管理")
 @Permission(code = "bigScreenManage", name = "大屏报表")
 @RequestMapping("/reportDashboard")
 public class ReportDashboardController {

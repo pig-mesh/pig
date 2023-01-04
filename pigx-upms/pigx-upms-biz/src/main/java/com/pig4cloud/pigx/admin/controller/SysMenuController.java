@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/menu")
-@Tag(description  = "menu", name =  "菜单管理模块")
+@Tag(description = "menu", name = "菜单管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysMenuController {
 

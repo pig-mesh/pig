@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/gaeaDict")
-@Tag(description  = "/gaeaDict", name =  "")
+@Tag(description = "/gaeaDict", name = "")
 public class GaeaDictController extends GaeaBaseController<GaeaDictParam, GaeaDict, GaeaDictDTO> {
 
 	@Autowired

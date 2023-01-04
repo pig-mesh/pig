@@ -25,7 +25,7 @@ import java.util.Map;
  * @date 2019-02-17 08:50:11.902
  **/
 @RestController
-@Tag(name =  "用户管理管理")
+@Tag(name = "用户管理管理")
 @RequestMapping("/accessUser")
 @Permission(code = "userManage", name = "用户管理")
 public class AccessUserController extends GaeaBaseController<AccessUserParam, AccessUser, AccessUserDto> {
