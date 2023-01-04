@@ -53,6 +53,9 @@ public class ${className} extends Model<${className}> {
 #if($column.columnName == $pk.columnName)
     @TableId(type = IdType.ASSIGN_ID)
 #end
+#if($column.columnName == 'del_flag')
+    @TableLogic
+#end
     @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 
