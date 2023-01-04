@@ -34,6 +34,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -102,7 +103,11 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 	private void sendSuccessEventLog(HttpServletRequest request,
 			OAuth2AccessTokenAuthenticationToken accessTokenAuthentication, Map<String, Object> map) {
 		// 发送异步日志事件
-		SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);
+
+		SecurityContext context = SecurityContextHolder.createEmptyContext();
+		context.setAuthentication(accessTokenAuthentication);
+		SecurityContextHolder.setContext(context);
+
 		SysLogDTO logVo = SysLogUtils.getSysLog();
 		logVo.setTitle("登录成功");
 		logVo.setLogType(LogTypeEnum.NORMAL.getType());

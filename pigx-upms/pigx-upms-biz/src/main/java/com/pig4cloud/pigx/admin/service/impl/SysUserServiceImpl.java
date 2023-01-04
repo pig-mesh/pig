@@ -413,11 +413,14 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			}
 			// 删除手机号中的 +86 前缀
 			String phone = item.getPhone().split("-")[1];
+
 			boolean exsitPhone = userList.stream().anyMatch(sysUser -> phone.equals(sysUser.getPhone()));
 			if (exsitPhone) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, item.getPhone()));
 			}
-			String deptName = item.getDeptName().split(",")[0];
+			// 根据规则获取部门信息
+			String[] deptNameList = item.getDeptName().split(",")[0].split("-");
+			String deptName = deptNameList[deptNameList.length - 1];
 			// 判断输入的部门名称列表是否合法
 			Optional<SysDept> deptOptional = deptList.stream().filter(dept -> deptName.equals(dept.getName()))
 					.findFirst();

@@ -136,8 +136,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
 			String[] split = tenantMenu.getMenuIds().split(",");
-			List<SysMenu> newMenuList = menuService
-					.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId,split));
+			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, split));
 			menuList.addAll(newMenuList);
 		});
 
