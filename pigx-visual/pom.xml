@@ -41,7 +41,6 @@
         <module>pigx-pay-platform</module>
         <module>pigx-monitor</module>
         <module>pigx-mp-platform</module>
-        <module>pigx-sso-client-demo</module>
         <module>pigx-seata-server</module>
         <module>pigx-sentinel-dashboard</module>
         <module>pigx-xxl-job-admin</module>
