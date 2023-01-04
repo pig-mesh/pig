@@ -32,7 +32,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 public class MessageSourceConfiguration {
 
 	@Bean
-	public MessageSource messageSource() {
+	public MessageSource pigxMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:i18n/messages");
 		return messageSource;

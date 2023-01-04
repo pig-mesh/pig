@@ -25,8 +25,10 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +38,8 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/social")
 @AllArgsConstructor
-@Api(value = "social", tags = "三方账号管理模块")
+@Tag(description = "social", name = "三方账号管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppSocialDetailsController {
 
 	private final AppSocialDetailsService appSocialDetailsService;

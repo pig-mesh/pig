@@ -21,8 +21,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -39,62 +38,62 @@ import java.time.LocalDateTime;
  * @since 2017-10-29
  */
 @Data
-@ApiModel(value = "角色")
+@Schema(description = "角色")
 @EqualsAndHashCode(callSuper = true)
 public class SysRole extends Model<SysRole> {
 
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "role_id", type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "角色编号")
+	@Schema(description = "角色编号")
 	private Long roleId;
 
 	@NotBlank(message = "角色名称不能为空")
-	@ApiModelProperty(value = "角色名称")
+	@Schema(description = "角色名称")
 	private String roleName;
 
 	@NotBlank(message = "角色标识不能为空")
-	@ApiModelProperty(value = "角色标识")
+	@Schema(description = "角色标识")
 	private String roleCode;
 
-	@ApiModelProperty(value = "角色描述")
+	@Schema(description = "角色描述")
 	private String roleDesc;
 
 	@NotNull(message = "数据权限类型不能为空")
-	@ApiModelProperty(value = "数据权限类型")
+	@Schema(description = "数据权限类型")
 	private Integer dsType;
 
 	/**
 	 * 数据权限作用范围
 	 */
-	@ApiModelProperty(value = "数据权限作用范围")
+	@Schema(description = "数据权限作用范围")
 	private String dsScope;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 修改时间
 	 */
-	@ApiModelProperty(value = "修改时间")
+	@Schema(description = "修改时间")
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
 
@@ -103,7 +102,7 @@ public class SysRole extends Model<SysRole> {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 }

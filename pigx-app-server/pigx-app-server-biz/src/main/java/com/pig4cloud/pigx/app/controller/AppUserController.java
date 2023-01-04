@@ -19,22 +19,23 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
+import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import com.pig4cloud.pigx.app.api.entity.AppUser;
-import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
-import org.springframework.security.access.prepost.PreAuthorize;
-import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,7 +49,8 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appuser")
-@Api(value = "appuser", tags = "app用户表管理")
+@Tag(description = "appuser", name = "app用户表管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppUserController {
 
 	private final AppUserService appUserService;
@@ -83,7 +85,7 @@ public class AppUserController {
 	 * @param appUserDTO app用户表
 	 * @return
 	 */
-	@ApiOperation(value = "分页查询", notes = "分页查询")
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getAppUserPage(Page page, AppUserDTO appUserDTO) {
 		return R.ok(appUserService.getUsersWithRolePage(page, appUserDTO));
@@ -94,7 +96,7 @@ public class AppUserController {
 	 * @param userId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id查询", notes = "通过id查询")
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{userId}")
 	public R getById(@PathVariable("userId") Long userId) {
 		return R.ok(appUserService.getById(userId));
@@ -105,7 +107,7 @@ public class AppUserController {
 	 * @param appUser app用户表
 	 * @return R
 	 */
-	@ApiOperation(value = "新增app用户表", notes = "新增app用户表")
+	@Operation(summary = "新增app用户表", description = "新增app用户表")
 	@SysLog("新增app用户表")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('app_appuser_add')")
@@ -118,7 +120,7 @@ public class AppUserController {
 	 * @param appUser app用户表
 	 * @return R
 	 */
-	@ApiOperation(value = "修改app用户表", notes = "修改app用户表")
+	@Operation(summary = "修改app用户表", description = "修改app用户表")
 	@SysLog("修改app用户表")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('app_appuser_edit')")
@@ -131,7 +133,7 @@ public class AppUserController {
 	 * @param userId id
 	 * @return R
 	 */
-	@ApiOperation(value = "通过id删除app用户表", notes = "通过id删除app用户表")
+	@Operation(summary = "通过id删除app用户表", description = "通过id删除app用户表")
 	@SysLog("通过id删除app用户表")
 	@DeleteMapping("/{userId}")
 	@PreAuthorize("@pms.hasPermission('app_appuser_del')")

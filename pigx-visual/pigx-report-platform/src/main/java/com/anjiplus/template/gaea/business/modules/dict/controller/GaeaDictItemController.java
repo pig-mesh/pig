@@ -6,7 +6,7 @@ import com.anjiplus.template.gaea.business.modules.dict.controller.dto.GaeaDictI
 import com.anjiplus.template.gaea.business.modules.dict.controller.param.GaeaDictItemParam;
 import com.anjiplus.template.gaea.business.modules.dict.dao.entity.GaeaDictItem;
 import com.anjiplus.template.gaea.business.modules.dict.service.GaeaDictItemService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/gaeaDictItem")
-@Api(value = "/gaeaDictItem", tags = "数据字典项")
+@Tag(description = "/gaeaDictItem", name = "数据字典项")
 public class GaeaDictItemController extends GaeaBaseController<GaeaDictItemParam, GaeaDictItem, GaeaDictItemDTO> {
 
 	@Autowired

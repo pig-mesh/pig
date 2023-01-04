@@ -9,7 +9,7 @@ import com.anjiplus.template.gaea.business.modules.dashboard.controller.dto.Repo
 import com.anjiplus.template.gaea.business.modules.dashboard.service.ReportDashboardService;
 import com.anjiplus.template.gaea.business.modules.reportshare.controller.dto.ReportShareDto;
 import com.anjiplus.template.gaea.business.modules.reportshare.service.ReportShareService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2021-04-12 14:52:21.761
  **/
 @RestController
-@Api(tags = "大屏设计管理")
+@Tag(name = "大屏设计管理")
 @Permission(code = "bigScreenManage", name = "大屏报表")
 @RequestMapping("/reportDashboard")
 public class ReportDashboardController {

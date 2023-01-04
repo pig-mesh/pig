@@ -148,10 +148,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-swagger</artifactId>
-		</dependency>
 		<!--安全模块-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>

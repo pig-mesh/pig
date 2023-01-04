@@ -20,8 +20,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -34,7 +33,7 @@ import java.time.LocalDateTime;
  * @date 2018-11-06 10:17:18
  */
 @Data
-@ApiModel(value = "网关路由信息")
+@Schema(description = "网关路由信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysRouteConf extends Model<SysRouteConf> {
 
@@ -42,73 +41,73 @@ public class SysRouteConf extends Model<SysRouteConf> {
 
 	@JsonIgnore
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "主键")
+	@Schema(description = "主键")
 	private Long id;
 
 	/**
 	 * 路由ID
 	 */
-	@ApiModelProperty(value = "路由id")
+	@Schema(description = "路由id")
 	private String routeId;
 
 	/**
 	 * 路由名称
 	 */
-	@ApiModelProperty(value = "路由名称")
+	@Schema(description = "路由名称")
 	private String routeName;
 
 	/**
 	 * 断言
 	 */
-	@ApiModelProperty(value = "断言")
+	@Schema(description = "断言")
 	private String predicates;
 
 	/**
 	 * 过滤器
 	 */
-	@ApiModelProperty(value = "过滤器")
+	@Schema(description = "过滤器")
 	private String filters;
 
 	/**
 	 * uri
 	 */
-	@ApiModelProperty(value = "请求uri")
+	@Schema(description = "请求uri")
 	private String uri;
 
 	/**
 	 * 排序
 	 */
-	@ApiModelProperty(value = "排序值")
+	@Schema(description = "排序值")
 	private Integer sortOrder;
 
-	@ApiModelProperty(value = "元数据")
+	@Schema(description = "元数据")
 	private String metadata;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * 创建时间
 	 */
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 修改时间
 	 */
-	@ApiModelProperty(value = "修改时间")
+	@Schema(description = "修改时间")
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
 
@@ -116,7 +115,7 @@ public class SysRouteConf extends Model<SysRouteConf> {
 	 * 删除标识（0-正常,1-删除）
 	 */
 	@TableLogic
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
 

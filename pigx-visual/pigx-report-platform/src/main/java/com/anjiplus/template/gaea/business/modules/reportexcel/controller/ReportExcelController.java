@@ -12,7 +12,7 @@ import com.anjiplus.template.gaea.business.modules.reportexcel.dao.entity.Report
 import com.anjiplus.template.gaea.business.modules.reportexcel.service.ReportExcelService;
 import com.anjiplus.template.gaea.business.modules.reportshare.controller.dto.ReportShareDto;
 import com.anjiplus.template.gaea.business.modules.reportshare.service.ReportShareService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021/4/13 15:12
  */
 @RestController
-@Api(tags = "报表表格管理")
+@Tag(name = "报表表格管理")
 @Permission(code = "excelManage", name = "报表管理")
 @RequestMapping("/reportExcel")
 public class ReportExcelController extends GaeaBaseController<ReportExcelParam, ReportExcel, ReportExcelDto> {

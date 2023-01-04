@@ -78,7 +78,7 @@ public class PigxRequestGlobalFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return -1000;
+		return 10;
 	}
 
 }

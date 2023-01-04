@@ -21,8 +21,10 @@ import cn.hutool.json.JSONArray;
 import com.pig4cloud.pigx.admin.service.SysRouteConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,7 +36,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/route")
-@Api(value = "route", tags = "动态路由管理模块")
+@Tag(description = "route", name = "动态路由管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysRouteConfController {
 
 	private final SysRouteConfService sysRouteConfService;

@@ -8,7 +8,7 @@ import com.anjiplus.template.gaea.business.modules.file.controller.dto.GaeaFileD
 import com.anjiplus.template.gaea.business.modules.file.controller.param.GaeaFileParam;
 import com.anjiplus.template.gaea.business.modules.file.entity.GaeaFile;
 import com.anjiplus.template.gaea.business.modules.file.service.GaeaFileService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @RestController
 @RequestMapping("/file")
-@Api(value = "/file", tags = "")
+@Tag(description = "/file", name = "")
 public class GaeaFileController extends BaseController<GaeaFileParam, GaeaFile, GaeaFileDTO> {
 
 	@Autowired

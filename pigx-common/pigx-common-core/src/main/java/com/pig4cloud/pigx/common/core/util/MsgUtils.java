@@ -20,7 +20,7 @@ public class MsgUtils {
 	 * @return
 	 */
 	public String getMessage(String code) {
-		MessageSource messageSource = SpringContextHolder.getBean("messageSource");
+		MessageSource messageSource = SpringContextHolder.getBean("pigxMessageSource");
 		return messageSource.getMessage(code, null, Locale.CHINA);
 	}
 
@@ -30,7 +30,7 @@ public class MsgUtils {
 	 * @return
 	 */
 	public String getMessage(String code, Object... objects) {
-		MessageSource messageSource = SpringContextHolder.getBean("messageSource");
+		MessageSource messageSource = SpringContextHolder.getBean("pigxMessageSource");
 		return messageSource.getMessage(code, objects, Locale.CHINA);
 	}
 

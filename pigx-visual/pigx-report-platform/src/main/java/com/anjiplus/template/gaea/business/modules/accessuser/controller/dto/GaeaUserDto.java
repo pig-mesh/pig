@@ -1,21 +1,20 @@
 package com.anjiplus.template.gaea.business.modules.accessuser.controller.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
-@ApiModel(value = "用户登录")
+@Schema(description = "用户登录")
 @Data
 public class GaeaUserDto {
 
-	@ApiModelProperty(value = "登录名")
+	@Schema(description = "登录名")
 	@NotBlank
 	private String loginName;
 
-	@ApiModelProperty(value = "密码")
+	@Schema(description = "密码")
 	@NotBlank
 	private String password;
 

@@ -12,7 +12,7 @@ import com.anjiplus.template.gaea.business.modules.accessuser.controller.dto.Upd
 import com.anjiplus.template.gaea.business.modules.accessuser.controller.param.AccessUserParam;
 import com.anjiplus.template.gaea.business.modules.accessuser.dao.entity.AccessUser;
 import com.anjiplus.template.gaea.business.modules.accessuser.service.AccessUserService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @date 2019-02-17 08:50:11.902
  **/
 @RestController
-@Api(tags = "用户管理管理")
+@Tag(name = "用户管理管理")
 @RequestMapping("/accessUser")
 @Permission(code = "userManage", name = "用户管理")
 public class AccessUserController extends GaeaBaseController<AccessUserParam, AccessUser, AccessUserDto> {

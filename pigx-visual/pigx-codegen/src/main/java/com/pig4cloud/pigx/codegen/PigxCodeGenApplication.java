@@ -20,7 +20,7 @@ package com.pig4cloud.pigx.codegen;
 import com.pig4cloud.pigx.common.datasource.annotation.EnableDynamicDataSource;
 import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import com.pig4cloud.pigx.common.security.annotation.EnablePigxResourceServer;
-import com.pig4cloud.pigx.common.swagger.annotation.EnablePigxSwagger2;
+import com.pig4cloud.pigx.common.swagger.annotation.EnableOpenApi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -30,7 +30,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date 2018/07/29 代码生成模块
  */
 @EnableDynamicDataSource
-@EnablePigxSwagger2
+@EnableOpenApi("gen")
 @EnablePigxFeignClients
 @EnableDiscoveryClient
 @EnablePigxResourceServer

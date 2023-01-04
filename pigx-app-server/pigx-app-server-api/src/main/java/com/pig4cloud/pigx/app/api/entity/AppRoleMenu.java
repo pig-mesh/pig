@@ -21,8 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -35,7 +34,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @TableName("app_role_menu")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "角色菜单表")
+@Schema(description = "角色菜单表")
 public class AppRoleMenu extends Model<AppRoleMenu> {
 
 	private static final long serialVersionUID = 1L;
@@ -44,13 +43,13 @@ public class AppRoleMenu extends Model<AppRoleMenu> {
 	 * 角色ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "角色ID")
+	@Schema(description = "角色ID")
 	private Long roleId;
 
 	/**
 	 * 菜单ID
 	 */
-	@ApiModelProperty(value = "菜单ID")
+	@Schema(description = "菜单ID")
 	private Long menuId;
 
 }
