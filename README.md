@@ -30,20 +30,27 @@
 
 ![](https://minio.pigx.vip/oss/1648184189.png)
 
-<a href="https://apifox.cn/a1pigcloud" target="_blank"><img src="https://minio.pigx.vip/oss/1662368326.png" height="83%" width="83%"></a></td>
-
 ## 快速开始
+
+### 分支说明
+
+
+| 分支              | 说明                                                                |
+|-----------------|-------------------------------------------------------------------|
+| master          | java8 + springboot 2.7 + springcloud 2021                         |
+| sca-springboot3 | java17 + springboot 3.0 + springcloud 2022 + spring cloud alibaba |
+| sct-springboot3 | java17 + springboot 3.0 + springcloud 2022 + spring cloud tencent |
 
 ### 核心依赖
 
-| 依赖                   | 版本         |
-| ---------------------- |------------|
-| Spring Boot            | 2.7.6      |
-| Spring Cloud           | 2021.0.5   |
-| Spring Cloud Alibaba   | 2021.0.4.0 |
-| Spring Authorization Server | 0.4.0      |
-| Mybatis Plus           | 3.5.2      |
-| hutool                 | 5.8.10     |
+| 依赖                   | 版本             |
+| ---------------------- |----------------|
+| Spring Boot            | 3.0.1          |
+| Spring Cloud           | 2022.0.0       |
+| Spring Cloud Alibaba   | 2022.0.0.0-RC1 |
+| Spring Authorization Server | 1.0.0          |
+| Mybatis Plus           | 3.5.3.1        |
+| hutool                 | 5.8.10         |
 
 ### 模块说明
 
