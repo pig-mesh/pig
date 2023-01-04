@@ -29,7 +29,6 @@ import lombok.Setter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.http.HttpHeaders;
@@ -81,11 +80,6 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		List<Server> serverList = new ArrayList<>();
 		serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));
 		this.servers(serverList);
-
-		// 修改 ServiceInstance Metadata
-		ServiceInstance serviceInstance = applicationContext.getBean(ServiceInstance.class);
-		serviceInstance.getMetadata().put("spring-doc", path);
-
 	}
 
 	@Override
