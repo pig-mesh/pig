@@ -76,8 +76,7 @@ public class GiteeLoginHandler extends AbstractLoginHandler {
 
 		JSONObject userInfo = JSONUtil.parseObj(resp);
 		// 码云唯一标识
-		String login = userInfo.getStr("login");
-		return login;
+		return userInfo.getStr("login");
 	}
 
 	/**
