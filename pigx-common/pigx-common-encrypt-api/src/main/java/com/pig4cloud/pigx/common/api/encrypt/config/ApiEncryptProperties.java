@@ -29,7 +29,7 @@ public class ApiEncryptProperties {
 	/**
 	 * url的参数签名，传递的参数名。例如：/user?data=签名后的数据
 	 */
-	private String paramName = "data";
+	private String paramName = "encryption";
 
 	/**
 	 * body 内容 json key, 默认：encryption

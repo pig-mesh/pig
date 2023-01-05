@@ -23,8 +23,10 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.service.PayChannelService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/paychannel")
-@Api(value = "paychannel", tags = "paychannel管理")
+@Tag(description = "paychannel", name = "paychannel管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayChannelController {
 
 	private final PayChannelService payChannelService;

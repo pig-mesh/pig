@@ -9,7 +9,7 @@ import com.anjiplus.template.gaea.business.modules.datasetparam.controller.param
 import com.anjiplus.template.gaea.business.modules.datasetparam.controller.param.DataSetParamValidationParam;
 import com.anjiplus.template.gaea.business.modules.datasetparam.dao.entity.DataSetParam;
 import com.anjiplus.template.gaea.business.modules.datasetparam.service.DataSetParamService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @date 2021-03-18 12:12:33.108033200
  **/
 @RestController
-@Api(tags = "数据集动态参数管理")
+@Tag(name = "数据集动态参数管理")
 @RequestMapping("/dataSetParam")
 public class DataSetParamController extends GaeaBaseController<DataSetParamParam, DataSetParam, DataSetParamDto> {
 

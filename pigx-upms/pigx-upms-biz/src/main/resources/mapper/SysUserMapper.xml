@@ -132,8 +132,8 @@
         <include refid="userRoleSql"/>
         FROM
         sys_user u
-        LEFT JOIN sys_user_role ur ON ur.user_id = u.user_id
-        LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        LEFT JOIN sys_user_role urole ON urole.user_id = u.user_id
+        LEFT JOIN sys_role r ON r.role_id = urole.role_id
         WHERE u.username = #{username}
     </select>
 
@@ -142,8 +142,8 @@
         <include refid="userRoleDeptSql"/>
         FROM
         sys_user u
-        LEFT JOIN sys_user_role ur ON ur.user_id = u.user_id
-        LEFT JOIN sys_role r ON r.role_id = ur.role_id
+        LEFT JOIN sys_user_role urole ON urole.user_id = u.user_id
+        LEFT JOIN sys_role r ON r.role_id = urole.role_id
         LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
         WHERE
         u.user_id = #{id}

@@ -18,12 +18,9 @@
 package ${package}.${moduleName}.entity;
 
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
@@ -41,7 +38,7 @@ import java.time.LocalDateTime;
 @Data
 @TableName("${tableName}")
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(value = "${comments}")
+@Schema(description = "${comments}")
 public class ${className} extends Model<${className}> {
 
     private static final long serialVersionUID = 1L;
@@ -56,7 +53,7 @@ public class ${className} extends Model<${className}> {
 #if($column.columnName == 'del_flag')
     @TableLogic
 #end
-    @ApiModelProperty(value="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
+    @Schema(description="$column.comments"#if($column.hidden),hidden=$column.hidden#end)
     private $column.attrType $column.lowerAttrName;
 
 #end

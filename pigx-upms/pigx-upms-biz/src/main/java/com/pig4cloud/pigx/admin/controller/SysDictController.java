@@ -29,10 +29,12 @@ import com.pig4cloud.pigx.admin.service.SysDictService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +52,8 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/dict")
-@Api(value = "dict", tags = "字典管理模块")
+@Tag(description = "dict", name = "字典管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDictController {
 
 	private final SysDictService sysDictService;

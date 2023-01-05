@@ -5,8 +5,10 @@ import com.pig4cloud.pigx.codegen.service.GenDynamicService;
 import com.pig4cloud.pigx.codegen.util.SqlDto;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.LinkedHashMap;
@@ -22,7 +24,8 @@ import java.util.List;
 @Inner(value = false)
 @RequiredArgsConstructor
 @RequestMapping("/dynamic")
-@Api(value = "dynamic", tags = "无代码管理")
+@Tag(description = "dynamic", name = "无代码管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenDynamicController {
 
 	private final GenDynamicService dynamicService;

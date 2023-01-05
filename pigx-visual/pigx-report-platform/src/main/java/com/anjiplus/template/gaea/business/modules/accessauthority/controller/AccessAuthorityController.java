@@ -11,7 +11,7 @@ import com.anjiplus.template.gaea.business.modules.accessauthority.controller.dt
 import com.anjiplus.template.gaea.business.modules.accessauthority.controller.param.AccessAuthorityParam;
 import com.anjiplus.template.gaea.business.modules.accessauthority.dao.entity.AccessAuthority;
 import com.anjiplus.template.gaea.business.modules.accessauthority.service.AccessAuthorityService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 2019-02-17 08:50:10.009
  **/
 @RestController
-@Api(tags = "权限管理管理")
+@Tag(name = "权限管理管理")
 @RequestMapping("/accessAuthority")
 @Permission(code = "authorityManage", name = "权限管理")
 public class AccessAuthorityController

@@ -32,9 +32,11 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +51,8 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")
-@Api(value = "role", tags = "角色管理模块")
+@Tag(description = "role", name = "角色管理模块")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysRoleController {
 
 	private final SysRoleService sysRoleService;

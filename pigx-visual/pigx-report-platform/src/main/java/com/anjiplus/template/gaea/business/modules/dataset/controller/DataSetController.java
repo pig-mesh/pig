@@ -14,7 +14,7 @@ import com.anjiplus.template.gaea.business.modules.dataset.controller.param.Data
 import com.anjiplus.template.gaea.business.modules.dataset.controller.param.DataSetTestTransformParam;
 import com.anjiplus.template.gaea.business.modules.dataset.dao.entity.DataSet;
 import com.anjiplus.template.gaea.business.modules.dataset.service.DataSetService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-03-18 12:11:31.150755900
  **/
 @RestController
-@Api(tags = "数据集管理")
+@Tag(name = "数据集管理")
 @Permission(code = "resultsetManage", name = "数据集管理")
 @RequestMapping("/dataSet")
 public class DataSetController extends GaeaBaseController<DataSetParam, DataSet, DataSetDto> {

@@ -47,10 +47,6 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-job</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-swagger</artifactId>
-		</dependency>
 		<!--数据库-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>

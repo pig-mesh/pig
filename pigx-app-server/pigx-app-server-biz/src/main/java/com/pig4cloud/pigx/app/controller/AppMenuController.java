@@ -17,24 +17,20 @@
 
 package com.pig4cloud.pigx.app.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.admin.api.entity.SysMenu;
-import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
 import com.pig4cloud.pigx.app.service.AppMenuService;
+import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
-import org.springframework.security.access.prepost.PreAuthorize;
-import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,7 +43,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/appmenu")
-@Api(value = "appmenu", tags = "菜单权限表管理")
+@Tag(description = "appmenu", name = "菜单权限表管理")
+@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppMenuController {
 
 	private final AppMenuService appMenuService;

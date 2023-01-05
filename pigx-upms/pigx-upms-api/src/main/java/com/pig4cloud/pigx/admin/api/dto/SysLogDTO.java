@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.admin.api.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * 日志查询传输对象
  */
 @Data
-@ApiModel(value = "日志查询对象")
+@Schema(description = "日志查询对象")
 public class SysLogDTO {
 
 	/**

@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.act;
 
 import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import com.pig4cloud.pigx.common.security.annotation.EnablePigxResourceServer;
-import com.pig4cloud.pigx.common.swagger.annotation.EnablePigxSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -28,7 +27,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author lengleng
  * @date 2018/9/25 工作流管理模块
  */
-@EnablePigxSwagger2
 @EnablePigxFeignClients
 @EnablePigxResourceServer
 @EnableDiscoveryClient

@@ -21,8 +21,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,83 +37,83 @@ import java.time.LocalDateTime;
  * @since 2018-05-15
  */
 @Data
-@ApiModel(value = "客户端信息")
+@Schema(description = "客户端信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysOauthClientDetails extends Model<SysOauthClientDetails> {
 
 	private static final long serialVersionUID = 1L;
 
 	@TableId(value = "id", type = IdType.ASSIGN_ID)
-	@ApiModelProperty(value = "id")
+	@Schema(description = "id")
 	private Long id;
 
 	/**
 	 * 客户端ID
 	 */
 	@NotBlank(message = "client_id 不能为空")
-	@ApiModelProperty(value = "客户端id")
+	@Schema(description = "客户端id")
 	private String clientId;
 
 	/**
 	 * 客户端密钥
 	 */
 	@NotBlank(message = "client_secret 不能为空")
-	@ApiModelProperty(value = "客户端密钥")
+	@Schema(description = "客户端密钥")
 	private String clientSecret;
 
 	/**
 	 * 资源ID
 	 */
-	@ApiModelProperty(value = "资源id列表")
+	@Schema(description = "资源id列表")
 	private String resourceIds;
 
 	/**
 	 * 作用域
 	 */
 	@NotBlank(message = "scope 不能为空")
-	@ApiModelProperty(value = "作用域")
+	@Schema(description = "作用域")
 	private String scope;
 
 	/**
 	 * 授权方式[A,B,C]
 	 */
-	@ApiModelProperty(value = "授权方式")
+	@Schema(description = "授权方式")
 	private String[] authorizedGrantTypes;
 
 	/**
 	 * 回调地址
 	 */
-	@ApiModelProperty(value = "回调地址")
+	@Schema(description = "回调地址")
 	private String webServerRedirectUri;
 
 	/**
 	 * 权限
 	 */
-	@ApiModelProperty(value = "权限列表")
+	@Schema(description = "权限列表")
 	private String authorities;
 
 	/**
 	 * 请求令牌有效时间
 	 */
-	@ApiModelProperty(value = "请求令牌有效时间")
+	@Schema(description = "请求令牌有效时间")
 	private Integer accessTokenValidity;
 
 	/**
 	 * 刷新令牌有效时间
 	 */
-	@ApiModelProperty(value = "刷新令牌有效时间")
+	@Schema(description = "刷新令牌有效时间")
 	private Integer refreshTokenValidity;
 
 	/**
 	 * 扩展信息
 	 */
-	@ApiModelProperty(value = "扩展信息")
+	@Schema(description = "扩展信息")
 	private String additionalInformation;
 
 	/**
 	 * 是否自动放行
 	 */
-	@ApiModelProperty(value = "是否自动放行")
+	@Schema(description = "是否自动放行")
 	private String autoapprove;
 
 	/**
@@ -122,35 +121,35 @@ public class SysOauthClientDetails extends Model<SysOauthClientDetails> {
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "修改人")
+	@Schema(description = "修改人")
 	private String updateBy;
 
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 }

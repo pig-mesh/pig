@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.app.service;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
 import com.pig4cloud.pigx.common.core.util.R;
 

@@ -12,7 +12,7 @@ import com.anjiplus.template.gaea.business.modules.reportshare.controller.dto.Re
 import com.anjiplus.template.gaea.business.modules.reportshare.controller.param.ReportShareParam;
 import com.anjiplus.template.gaea.business.modules.reportshare.dao.entity.ReportShare;
 import com.anjiplus.template.gaea.business.modules.reportshare.service.ReportShareService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2021-08-18 13:37:26.663
  **/
 @RestController
-@Api(tags = "报表分享管理")
+@Tag(name = "报表分享管理")
 @RequestMapping("/reportShare")
 @Permission(code = "reportShareManage", name = "报表分享管理")
 public class ReportShareController extends GaeaBaseController<ReportShareParam, ReportShare, ReportShareDto> {

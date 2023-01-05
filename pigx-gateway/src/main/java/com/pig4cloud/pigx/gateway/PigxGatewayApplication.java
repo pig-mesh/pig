@@ -20,7 +20,6 @@
 package com.pig4cloud.pigx.gateway;
 
 import com.pig4cloud.pigx.common.gateway.annotation.EnablePigxDynamicRoute;
-import com.pig4cloud.pigx.common.swagger.annotation.EnablePigxSwagger2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -29,7 +28,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author lengleng
  * @date 2018年06月21日 网关应用
  */
-@EnablePigxSwagger2
 @EnablePigxDynamicRoute
 @EnableDiscoveryClient
 @SpringBootApplication

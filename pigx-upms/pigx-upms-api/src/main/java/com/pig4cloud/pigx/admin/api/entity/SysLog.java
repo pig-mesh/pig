@@ -22,8 +22,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -39,7 +38,7 @@ import java.time.LocalDateTime;
  * @since 2017-11-20
  */
 @Data
-@ApiModel(value = "日志")
+@Schema(description = "日志")
 public class SysLog implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -49,7 +48,7 @@ public class SysLog implements Serializable {
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
 	@ExcelProperty("日志编号")
-	@ApiModelProperty(value = "日志编号")
+	@Schema(description = "日志编号")
 	private Long id;
 
 	/**
@@ -57,7 +56,7 @@ public class SysLog implements Serializable {
 	 */
 	@NotBlank(message = "日志类型不能为空")
 	@ExcelProperty("日志类型（0-正常 9-错误）")
-	@ApiModelProperty(value = "日志类型")
+	@Schema(description = "日志类型")
 	private String logType;
 
 	/**
@@ -65,7 +64,7 @@ public class SysLog implements Serializable {
 	 */
 	@NotBlank(message = "日志标题不能为空")
 	@ExcelProperty("日志标题")
-	@ApiModelProperty(value = "日志标题")
+	@Schema(description = "日志标题")
 	private String title;
 
 	/**
@@ -73,7 +72,7 @@ public class SysLog implements Serializable {
 	 */
 	@ExcelProperty("创建人")
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建人")
+	@Schema(description = "创建人")
 	private String createBy;
 
 	/**
@@ -81,7 +80,7 @@ public class SysLog implements Serializable {
 	 */
 	@ExcelProperty("创建时间")
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "创建时间")
+	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
 	/**
@@ -89,62 +88,62 @@ public class SysLog implements Serializable {
 	 */
 	@ExcelIgnore
 	@TableField(fill = FieldFill.UPDATE)
-	@ApiModelProperty(value = "更新时间")
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
 
 	/**
 	 * 操作IP地址
 	 */
 	@ExcelProperty("操作ip地址")
-	@ApiModelProperty(value = "操作ip地址")
+	@Schema(description = "操作ip地址")
 	private String remoteAddr;
 
 	/**
 	 * 用户代理
 	 */
-	@ApiModelProperty(value = "用户代理")
+	@Schema(description = "用户代理")
 	private String userAgent;
 
 	/**
 	 * 请求URI
 	 */
 	@ExcelProperty("浏览器")
-	@ApiModelProperty(value = "请求uri")
+	@Schema(description = "请求uri")
 	private String requestUri;
 
 	/**
 	 * 操作方式
 	 */
 	@ExcelProperty("操作方式")
-	@ApiModelProperty(value = "操作方式")
+	@Schema(description = "操作方式")
 	private String method;
 
 	/**
 	 * 操作提交的数据
 	 */
 	@ExcelProperty("提交数据")
-	@ApiModelProperty(value = "提交数据")
+	@Schema(description = "提交数据")
 	private String params;
 
 	/**
 	 * 执行时间
 	 */
 	@ExcelProperty("执行时间")
-	@ApiModelProperty(value = "方法执行时间")
+	@Schema(description = "方法执行时间")
 	private Long time;
 
 	/**
 	 * 异常信息
 	 */
 	@ExcelProperty("异常信息")
-	@ApiModelProperty(value = "异常信息")
+	@Schema(description = "异常信息")
 	private String exception;
 
 	/**
 	 * 服务ID
 	 */
 	@ExcelProperty("应用标识")
-	@ApiModelProperty(value = "应用标识")
+	@Schema(description = "应用标识")
 	private String serviceId;
 
 	/**
@@ -153,7 +152,7 @@ public class SysLog implements Serializable {
 	@TableLogic
 	@ExcelIgnore
 	@TableField(fill = FieldFill.INSERT)
-	@ApiModelProperty(value = "删除标记,1:已删除,0:正常")
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 
 }

@@ -18,8 +18,6 @@
 package com.pig4cloud.pigx.app.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
 
