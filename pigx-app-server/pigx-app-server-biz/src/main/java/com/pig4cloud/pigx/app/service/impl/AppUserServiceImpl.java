@@ -78,6 +78,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	 * @return
 	 */
 	@Override
+	@CacheEvict(value = CacheConstants.USER_DETAILS_MINI, key = "#userDTO.username")
 	public Boolean updateUser(AppUserDTO userDTO) {
 
 		AppUser appUser = new AppUser();
