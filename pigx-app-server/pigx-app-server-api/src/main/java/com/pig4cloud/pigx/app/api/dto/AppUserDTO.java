@@ -21,7 +21,7 @@ public class AppUserDTO extends AppUser {
 	/**
 	 * 新密码
 	 */
-	@ApiModelProperty(value = "新密码")
+	@Schema(description = "新密码")
 	private String newpassword1;
 
 }
