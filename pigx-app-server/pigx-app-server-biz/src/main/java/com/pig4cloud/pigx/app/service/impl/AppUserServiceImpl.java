@@ -25,7 +25,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.entity.SysUserRole;
+import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
@@ -38,10 +40,16 @@ import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.app.service.AppUserRoleService;
 import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,6 +68,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> implements AppUserService {
 
 	private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
@@ -168,6 +177,24 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		});
 		info.setPermissions(ArrayUtil.toArray(permissions, String.class));
 		return info;
+	}
+
+	@Override
+	@CacheEvict(value = CacheConstants.USER_DETAILS_MINI, key = "#userDto.username")
+	public R updateUserInfo(AppUserDTO userDto) {
+		AppUser appUser = baseMapper.selectById(userDto.getUserId());
+		if (!ENCODER.matches(userDto.getPassword(), appUser.getPassword())) {
+			log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
+		}
+
+		BeanUtils.copyProperties(userDto, appUser);
+		// 防止把前端传过来的密码设置上
+		appUser.setPassword(null);
+		if (StrUtil.isNotBlank(userDto.getNewpassword1())) {
+			appUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
+		}
+		return R.ok(this.updateById(appUser));
 	}
 
 }

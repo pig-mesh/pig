@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
@@ -37,6 +38,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -149,6 +151,12 @@ public class AppUserController {
 	@PreAuthorize("@pms.hasPermission('app_appuser_export')")
 	public List<AppUserExcelVO> export(AppUserDTO appUser) {
 		return appUserService.listUser(appUser);
+	}
+
+	@SysLog("修改个人信息")
+	@PutMapping("/edit")
+	public R updateUserInfo(@Valid @RequestBody AppUserDTO userDto) {
+		return appUserService.updateUserInfo(userDto);
 	}
 
 }

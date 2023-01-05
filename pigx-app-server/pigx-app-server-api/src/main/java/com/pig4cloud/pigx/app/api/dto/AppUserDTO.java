@@ -19,4 +19,10 @@ public class AppUserDTO extends AppUser {
 	@ApiModelProperty(value = "角色id集合")
 	private List<Long> role;
 
+	/**
+	 * 新密码
+	 */
+	@ApiModelProperty(value = "新密码")
+	private String newpassword1;
+
 }
