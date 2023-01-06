@@ -142,7 +142,7 @@ CREATE TABLE `app_user`  (
 -- ----------------------------
 -- Records of app_user
 -- ----------------------------
-INSERT INTO `app_user` VALUES (1, 'aeizzz', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
+INSERT INTO `app_user` VALUES (1, 'appuser', '$2a$10$d5mw9aUzBhxDqknpxIWxdOJ2xdhkaPNConNu4cU8JNhTrruyjPYL2', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'aeizzz', '2022-12-07 02:59:38', '2022-12-09 10:55:23', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
 
 -- ----------------------------
 -- Table structure for app_user_role
