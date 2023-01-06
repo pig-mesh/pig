@@ -62,7 +62,7 @@ CREATE TABLE `gen_form_conf`
 (
     `id`          bigint(20) NOT NULL COMMENT 'ID',
     `table_name`  varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-    `form_info`   json       NOT NULL COMMENT '表单信息',
+    `form_info` text COLLATE utf8mb4_general_ci NOT NULL COMMENT '表单信息',
     `create_time` datetime                                                     DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `update_time` datetime                                                     DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
     `del_flag`    char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci     DEFAULT '0',
