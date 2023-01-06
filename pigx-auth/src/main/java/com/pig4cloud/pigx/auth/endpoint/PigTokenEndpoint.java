@@ -34,6 +34,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.OAuthClientException;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +46,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -217,6 +219,11 @@ public class PigTokenEndpoint {
 			String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
 					DatePattern.NORM_DATETIME_PATTERN);
 			tokenVo.setIssuedAt(issuedAt);
+
+			Map<String, Object> attributes = authorization.getAttributes();
+			Authentication authentication = (Authentication)attributes.get(Principal.class.getName());
+			PigxUser pigxUser = (PigxUser) authentication.getPrincipal();
+			tokenVo.setUserId(pigxUser.getId());
 			return tokenVo;
 		}).collect(Collectors.toList());
 		result.setRecords(tokenVoList);
