@@ -40,6 +40,16 @@ import java.lang.annotation.*;
 @PropertySource(value = "classpath:openapi-config.yaml", factory = YamlPropertySourceFactory.class)
 public @interface EnableOpenApi {
 
+	/**
+	 * 网关路由前缀
+	 * @return String
+	 */
 	String value() default "";
+
+	/**
+	 * 是否是微服务架构
+	 * @return true
+	 */
+	boolean isMicro() default true;
 
 }
