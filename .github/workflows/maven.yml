@@ -22,6 +22,7 @@ jobs:
         with:
           java-version: ${{ matrix.java-version }}
           distribution: 'zulu'
+          cache: maven
 
       - name: mvn spring-javaformat:validate
         run: mvn spring-javaformat:validate
