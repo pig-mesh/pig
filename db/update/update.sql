@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS `sys_tenant_menu`;
 CREATE TABLE `sys_tenant_menu`  (
                                     `id` bigint(0) NOT NULL,
                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '租户菜单名称',
-                                    `menu_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单id集合',
+                                    `menu_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
                                     `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '租户菜单,9:冻结,0:正常',
                                     `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
                                     `create_by` varchar(64) CHARACTER SET utf8bm4 COLLATE utf8bm4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',

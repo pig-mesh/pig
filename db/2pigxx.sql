@@ -798,8 +798,10 @@ INSERT INTO `sys_role_menu` VALUES (1, 11400);
 INSERT INTO `sys_role_menu` VALUES (1, 11401);
 INSERT INTO `sys_role_menu` VALUES (1, 11402);
 INSERT INTO `sys_role_menu` VALUES (1, 11403);
-INSERT INTO `sys_role_menu` VALUES (1, 15103);
+INSERT INTO `sys_role_menu` VALUES (1, 15100);
+INSERT INTO `sys_role_menu` VALUES (1, 15101);
 INSERT INTO `sys_role_menu` VALUES (1, 15102);
+INSERT INTO `sys_role_menu` VALUES (1, 15103);
 
 COMMIT;
 
@@ -902,7 +904,7 @@ DROP TABLE IF EXISTS `sys_tenant_menu`;
 CREATE TABLE `sys_tenant_menu`  (
                                     `id` bigint(0) NOT NULL,
                                     `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '租户菜单名称',
-                                    `menu_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单id集合',
+                                    `menu_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
                                     `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '租户菜单,9:冻结,0:正常',
                                     `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
                                     `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
