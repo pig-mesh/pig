@@ -2,12 +2,15 @@ package com.pig4cloud.pigx.common.security.service;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.OAuth2Error;
@@ -20,6 +23,7 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -81,8 +85,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	 */
 	@Override
 	@SneakyThrows
-	// @Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless =
-	// "#result == null")
+	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
 	public RegisteredClient findByClientId(String clientId) {
 
 		SysOauthClientDetails clientDetails = RetOps
@@ -107,6 +110,13 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 		Optional.ofNullable(clientDetails.getScope()).ifPresent(
 				scope -> Arrays.stream(scope.split(StrUtil.COMMA)).filter(StrUtil::isNotBlank).forEach(builder::scope));
 
+		// 注入扩展配置
+		Optional.ofNullable(clientDetails.getAdditionalInformation()).ifPresent(ext -> {
+			Map map = JSONUtil.parseObj(ext).toBean(Map.class);
+			builder.clientSettings(ClientSettings.withSettings(map)
+					.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build());
+		});
+
 		return builder
 				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE)
 						.accessTokenTimeToLive(Duration.ofSeconds(Optional
@@ -115,8 +125,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 								Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
 										.orElse(refreshTokenValiditySeconds)))
 						.build())
-				.clientSettings(ClientSettings.builder()
-						.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build())
+
 				.build();
 
 	}

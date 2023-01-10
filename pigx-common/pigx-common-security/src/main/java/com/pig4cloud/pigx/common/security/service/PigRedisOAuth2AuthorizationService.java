@@ -1,9 +1,13 @@
 package com.pig4cloud.pigx.common.security.service;
 
+import cn.hutool.core.collection.CollUtil;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -17,6 +21,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,6 +36,8 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 	private static final String AUTHORIZATION = "token";
 
 	private final RedisTemplate<String, Object> redisTemplate;
+
+	private final KeyStrResolver tenantKeyStrResolver;
 
 	@Override
 	public void save(OAuth2Authorization authorization) {
@@ -68,6 +75,11 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 			redisTemplate.setValueSerializer(RedisSerializer.java());
 			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
 					authorization, between, TimeUnit.SECONDS);
+
+			// 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
+			String tokenUsername = String.format("%s::%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION,
+					SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), accessToken.getTokenValue());
+			redisTemplate.opsForValue().set(tokenUsername, accessToken.getTokenValue(), between, TimeUnit.SECONDS);
 		}
 	}
 
@@ -96,7 +108,13 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 		if (isAccessToken(authorization)) {
 			OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
 			keys.add(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
+
+			// 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
+			String key = String.format("%s::%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION,
+					SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), accessToken.getTokenValue());
+			keys.add(key);
 		}
+
 		redisTemplate.delete(keys);
 	}
 
@@ -116,7 +134,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 	}
 
 	private String buildKey(String type, String id) {
-		return String.format("%s::%s::%s", AUTHORIZATION, type, id);
+		return String.format("%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION, type, id);
 	}
 
 	private static boolean isState(OAuth2Authorization authorization) {
@@ -135,6 +153,34 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	private static boolean isAccessToken(OAuth2Authorization authorization) {
 		return Objects.nonNull(authorization.getAccessToken());
+	}
+
+	/**
+	 * 扩展方法根据 username 查询是否存在存储的
+	 * @param authentication
+	 * @return
+	 */
+	public void removeByUsername(Authentication authentication) {
+		// 根据 username查询对应access-token
+		String authenticationName = authentication.getName();
+
+		// 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
+		String tokenUsernameKey = String.format("%s::%s::%s::%s::*", tenantKeyStrResolver.key(), AUTHORIZATION,
+				SecurityConstants.DETAILS_USERNAME, authenticationName);
+		Set<String> keys = redisTemplate.keys(tokenUsernameKey);
+		if (CollUtil.isEmpty(keys)) {
+			return;
+		}
+
+		List<Object> tokenList = redisTemplate.opsForValue().multiGet(keys);
+
+		for (Object token : tokenList) {
+			// 根据token 查询存储的 OAuth2Authorization
+			OAuth2Authorization authorization = this.findByToken((String) token, OAuth2TokenType.ACCESS_TOKEN);
+			// 根据 OAuth2Authorization 删除相关令牌
+			this.remove(authorization);
+		}
+
 	}
 
 }

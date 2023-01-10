@@ -30,6 +30,7 @@ import com.pig4cloud.pigx.auth.support.handler.PigAuthenticationFailureEventHand
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
@@ -85,6 +86,8 @@ public class PigTokenEndpoint {
 	private final RedisTemplate<String, Object> redisTemplate;
 
 	private final RemoteTenantService tenantService;
+
+	private final KeyStrResolver tenantKeyStrResolver;
 
 	private final CacheManager cacheManager;
 
@@ -196,7 +199,7 @@ public class PigTokenEndpoint {
 	@PostMapping("/page")
 	public R<Page<TokenVo>> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
-		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
+		String key = String.format("%s::%s::*", tenantKeyStrResolver.key(), CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
 		Set<String> keys = redisTemplate.keys(key);
@@ -221,10 +224,17 @@ public class PigTokenEndpoint {
 			tokenVo.setIssuedAt(issuedAt);
 
 			Map<String, Object> attributes = authorization.getAttributes();
-			Authentication authentication = (Authentication)attributes.get(Principal.class.getName());
+			Authentication authentication = (Authentication) attributes.get(Principal.class.getName());
 			PigxUser pigxUser = (PigxUser) authentication.getPrincipal();
 			tokenVo.setUserId(pigxUser.getId());
 			return tokenVo;
+		}).filter(tokenVo -> {
+			// 根据用户名过滤
+			String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
+			if (StrUtil.isBlank(username)) {
+				return true;
+			}
+			return tokenVo.getUsername().contains(username);
 		}).collect(Collectors.toList());
 		result.setRecords(tokenVoList);
 		result.setTotal(keys.size());

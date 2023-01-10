@@ -1,10 +1,14 @@
 package com.pig4cloud.pigx.auth.support.base;
 
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.security.service.PigRedisOAuth2AuthorizationService;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.ScopeException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
@@ -141,84 +145,113 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			Authentication usernamePasswordAuthentication = authenticationManager
 					.authenticate(usernamePasswordAuthenticationToken);
 
-			// @formatter:off
-			DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
-					.registeredClient(registeredClient)
-					.principal(usernamePasswordAuthentication)
-					.authorizationServerContext(AuthorizationServerContextHolder.getContext())
-					.authorizedScopes(authorizedScopes)
-					.authorizationGrantType(AuthorizationGrantType.PASSWORD)
-					.authorizationGrant(resouceOwnerBaseAuthentication);
-			// @formatter:on
-
-			OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
-					.withRegisteredClient(registeredClient).principalName(usernamePasswordAuthentication.getName())
-					.authorizationGrantType(AuthorizationGrantType.PASSWORD)
-					// 0.4.0 新增的方法
-					.authorizedScopes(authorizedScopes);
-
-			// ----- Access token -----
-			OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
-			OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
-			if (generatedAccessToken == null) {
-				OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-						"The token generator failed to generate the access token.", ERROR_URI);
-				throw new OAuth2AuthenticationException(error);
-			}
-			OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
-					generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
-					generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
-			if (generatedAccessToken instanceof ClaimAccessor) {
-				authorizationBuilder.id(accessToken.getTokenValue())
-						.token(accessToken,
-								(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
-										((ClaimAccessor) generatedAccessToken).getClaims()))
-						// 0.4.0 新增的方法
-						.authorizedScopes(authorizedScopes)
-						.attribute(Principal.class.getName(), usernamePasswordAuthentication);
-			}
-			else {
-				authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
+			Object onlineQuantity = registeredClient.getClientSettings().getSettings()
+					.get(CommonConstants.ONLINE_QUANTITY);
+			// 没有设置并发控制走原有逻辑生成 || 设置同时在线为 true
+			if (Objects.isNull(onlineQuantity) || BooleanUtil.toBooleanObject((String) onlineQuantity)) {
+				return generatAuthenticationToken(resouceOwnerBaseAuthentication, clientPrincipal, registeredClient,
+						authorizedScopes, usernamePasswordAuthentication);
 			}
 
-			// ----- Refresh token -----
-			OAuth2RefreshToken refreshToken = null;
-			if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
-			// Do not issue refresh token to public client
-					!clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
+			// 不允许同时在线,删除原有username 关联的所有token
+			PigRedisOAuth2AuthorizationService redisOAuth2AuthorizationService = (PigRedisOAuth2AuthorizationService) this.authorizationService;
+			redisOAuth2AuthorizationService.removeByUsername(usernamePasswordAuthentication);
 
-				if (this.refreshTokenGenerator != null) {
-					Instant issuedAt = Instant.now();
-					Instant expiresAt = issuedAt.plus(registeredClient.getTokenSettings().getRefreshTokenTimeToLive());
-					refreshToken = new OAuth2RefreshToken(this.refreshTokenGenerator.get(), issuedAt, expiresAt);
-				}
-				else {
-					tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
-					OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
-					if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
-						OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
-								"The token generator failed to generate the refresh token.", ERROR_URI);
-						throw new OAuth2AuthenticationException(error);
-					}
-					refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
-				}
-				authorizationBuilder.refreshToken(refreshToken);
-			}
-
-			OAuth2Authorization authorization = authorizationBuilder.build();
-
-			this.authorizationService.save(authorization);
-
-			LOGGER.debug("returning OAuth2AccessTokenAuthenticationToken");
-
-			return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken,
-					refreshToken, Objects.requireNonNull(authorization.getAccessToken().getClaims()));
+			return generatAuthenticationToken(resouceOwnerBaseAuthentication, clientPrincipal, registeredClient,
+					authorizedScopes, usernamePasswordAuthentication);
 
 		}
 		catch (Exception ex) {
 			throw oAuth2AuthenticationException(authentication, (AuthenticationException) ex);
 		}
 
+	}
+
+	/**
+	 * 生成新的令牌
+	 * @param resouceOwnerBaseAuthentication
+	 * @param clientPrincipal
+	 * @param registeredClient
+	 * @param authorizedScopes
+	 * @param usernamePasswordAuthentication
+	 * @return OAuth2AccessTokenAuthenticationToken
+	 */
+	@NotNull
+	private OAuth2AccessTokenAuthenticationToken generatAuthenticationToken(T resouceOwnerBaseAuthentication,
+			OAuth2ClientAuthenticationToken clientPrincipal, RegisteredClient registeredClient,
+			Set<String> authorizedScopes, Authentication usernamePasswordAuthentication) {
+		// @formatter:off
+		DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+				.registeredClient(registeredClient)
+				.principal(usernamePasswordAuthentication)
+				.authorizationServerContext(AuthorizationServerContextHolder.getContext())
+				.authorizedScopes(authorizedScopes)
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+				.authorizationGrant(resouceOwnerBaseAuthentication);
+		// @formatter:on
+
+		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
+				.principalName(usernamePasswordAuthentication.getName())
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+				// 0.4.0 新增的方法
+				.authorizedScopes(authorizedScopes);
+
+		// ----- Access token -----
+		OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+		OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
+		if (generatedAccessToken == null) {
+			OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+					"The token generator failed to generate the access token.", ERROR_URI);
+			throw new OAuth2AuthenticationException(error);
+		}
+		OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+				generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
+				generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
+		if (generatedAccessToken instanceof ClaimAccessor) {
+			authorizationBuilder.id(accessToken.getTokenValue())
+					.token(accessToken,
+							(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
+									((ClaimAccessor) generatedAccessToken).getClaims()))
+					// 0.4.0 新增的方法
+					.authorizedScopes(authorizedScopes)
+					.attribute(Principal.class.getName(), usernamePasswordAuthentication);
+		}
+		else {
+			authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
+		}
+
+		// ----- Refresh token -----
+		OAuth2RefreshToken refreshToken = null;
+		if (registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.REFRESH_TOKEN) &&
+		// Do not issue refresh token to public client
+				!clientPrincipal.getClientAuthenticationMethod().equals(ClientAuthenticationMethod.NONE)) {
+
+			if (this.refreshTokenGenerator != null) {
+				Instant issuedAt = Instant.now();
+				Instant expiresAt = issuedAt.plus(registeredClient.getTokenSettings().getRefreshTokenTimeToLive());
+				refreshToken = new OAuth2RefreshToken(this.refreshTokenGenerator.get(), issuedAt, expiresAt);
+			}
+			else {
+				tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+				OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
+				if (!(generatedRefreshToken instanceof OAuth2RefreshToken)) {
+					OAuth2Error error = new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,
+							"The token generator failed to generate the refresh token.", ERROR_URI);
+					throw new OAuth2AuthenticationException(error);
+				}
+				refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
+			}
+			authorizationBuilder.refreshToken(refreshToken);
+		}
+
+		OAuth2Authorization authorization = authorizationBuilder.build();
+
+		this.authorizationService.save(authorization);
+
+		LOGGER.debug("returning OAuth2AccessTokenAuthenticationToken");
+
+		return new OAuth2AccessTokenAuthenticationToken(registeredClient, clientPrincipal, accessToken, refreshToken,
+				Objects.requireNonNull(authorization.getAccessToken().getClaims()));
 	}
 
 	/**
