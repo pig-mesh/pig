@@ -98,7 +98,7 @@ public interface SecurityConstants {
 	/**
 	 * TOC 客户端
 	 */
-	String HEADER_TOC = "CLIENT_TOC";
+	String HEADER_TOC = "CLIENT-TOC";
 
 	/**
 	 * TOC 客户端
