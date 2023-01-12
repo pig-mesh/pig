@@ -1,12 +1,16 @@
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysTenantMenu;
+import com.pig4cloud.pigx.admin.service.SysMenuService;
 import com.pig4cloud.pigx.admin.service.SysTenantMenuService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -27,6 +32,8 @@ import java.util.List;
 public class SysTenantMenuController {
 
 	private final SysTenantMenuService sysTenantMenuService;
+
+	private final SysMenuService sysMenuService;
 
 	/**
 	 * 分页查询
@@ -98,6 +105,17 @@ public class SysTenantMenuController {
 		List<SysTenantMenu> tenants = sysTenantMenuService.list(
 				Wrappers.<SysTenantMenu>lambdaQuery().eq(SysTenantMenu::getStatus, CommonConstants.STATUS_NORMAL));
 		return R.ok(tenants);
+	}
+
+	@GetMapping(value = "/tree/menu")
+	public R getTree() {
+		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
+		List<Tree<Long>> trees = new ArrayList<>();
+		TenantBroker.runAs(defaultId, (id) -> {
+			trees.addAll(sysMenuService.treeMenu(null, null));
+		});
+
+		return R.ok(trees);
 	}
 
 }

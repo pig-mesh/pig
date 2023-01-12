@@ -10,8 +10,8 @@ CREATE TABLE `sys_tenant_menu`  (
                                     `menu_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
                                     `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '租户菜单,9:冻结,0:正常',
                                     `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '0',
-                                    `create_by` varchar(64) CHARACTER SET utf8bm4 COLLATE utf8bm4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-                                    `update_by` varchar(64) CHARACTER SET utf8bm4 COLLATE utf8bm4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+                                    `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+                                    `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
                                     `create_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建',
                                     `update_time` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0) ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '更新时间',
                                     PRIMARY KEY (`id`) USING BTREE
@@ -25,7 +25,7 @@ INSERT INTO `sys_tenant_menu` VALUES (1, '套餐1', '1000,1100,1101,1102,1103,11
 
 
 
-INSERT INTO `sys_route_conf` VALUES (14, 'APP服务', 'pigx-app-server', '[{\"args\": {\"_genkey_0\": \"/app/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-app-server-biz', 0, '{}', 'admin', ' ', '2022-12-07 10:53:44', NULL, '0');
+INSERT INTO `sys_route_conf` VALUES (17, 'APP服务', 'pigx-app-server', '[{\"args\": {\"_genkey_0\": \"/app/**\"}, \"name\": \"Path\"}]', '[]', 'lb://pigx-app-server-biz', 0, '{}', 'admin', ' ', '2022-12-07 10:53:44', NULL, '0');
 
 
 

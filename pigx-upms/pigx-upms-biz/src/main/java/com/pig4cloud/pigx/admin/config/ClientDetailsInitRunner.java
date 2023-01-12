@@ -17,6 +17,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 /**
  * @author lengleng
@@ -40,7 +41,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 
 	@Async
 	@Order
-	@EventListener({ WebServerInitializedEvent.class, ClientDetailsInitEvent.class })
+	@TransactionalEventListener({ WebServerInitializedEvent.class, ClientDetailsInitEvent.class })
 	public void initClientDetails() {
 		log.debug("初始化客户端信息开始 ");
 

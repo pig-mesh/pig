@@ -37,6 +37,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.net.URI;
 import java.util.Map;
@@ -60,7 +61,7 @@ public class DynamicRouteInitRunner implements InitializingBean {
 
 	@Async
 	@Order
-	@EventListener({ WebServerInitializedEvent.class, DynamicRouteInitEvent.class })
+	@TransactionalEventListener({ WebServerInitializedEvent.class, DynamicRouteInitEvent.class })
 	public void initRoute() {
 		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 		log.info("开始初始化网关路由");
