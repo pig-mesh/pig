@@ -59,9 +59,22 @@ public class DynamicRouteInitRunner implements InitializingBean {
 
 	private final RedisMessageListenerContainer listenerContainer;
 
+	/**
+	 * WebServerInitializedEvent
+	 * 使用 TransactionalEventListener 时启动时无法获取到事件
+	 */
 	@Async
 	@Order
-	@TransactionalEventListener({ WebServerInitializedEvent.class, DynamicRouteInitEvent.class })
+	@EventListener({ WebServerInitializedEvent.class })
+	public void WebServerInit(){
+		this.initRoute();
+	}
+
+
+
+	@Async
+	@Order
+	@TransactionalEventListener({ DynamicRouteInitEvent.class })
 	public void initRoute() {
 		redisTemplate.delete(CacheConstants.ROUTE_KEY);
 		log.info("开始初始化网关路由");
