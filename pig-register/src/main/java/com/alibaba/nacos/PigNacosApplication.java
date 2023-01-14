@@ -43,7 +43,7 @@ public class PigNacosApplication {
 	 */
 	private static boolean initEnv() {
 		System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
-		System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
+		System.setProperty(ConfigConstants.AUTH_ENABLED, "true");
 		System.setProperty(ConfigConstants.LOG_BASEDIR, "logs");
 		System.setProperty(ConfigConstants.LOG_ENABLED, "false");
 		return true;
