@@ -71,7 +71,6 @@ public class ConsoleConfig {
 		return new CorsFilter(source);
 	}
 
-
 	@Bean
 	public XssFilter xssFilter() {
 		return new XssFilter();
