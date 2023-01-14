@@ -39,20 +39,19 @@ public class ClientDetailsInitRunner implements InitializingBean {
 
 	private final RedisTemplate redisTemplate;
 
-
 	/**
-	 * WebServerInitializedEvent
-	 * 使用 TransactionalEventListener 时启动时无法获取到事件
+	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
 	 */
 	@Async
 	@Order
 	@EventListener({ WebServerInitializedEvent.class })
-	public void WebServerInit(){
+	public void WebServerInit() {
 		this.initClientDetails();
 	}
+
 	@Async
 	@Order
-	@TransactionalEventListener({ ClientDetailsInitEvent.class})
+	@TransactionalEventListener({ ClientDetailsInitEvent.class })
 	public void initClientDetails() {
 		log.debug("初始化客户端信息开始 ");
 
