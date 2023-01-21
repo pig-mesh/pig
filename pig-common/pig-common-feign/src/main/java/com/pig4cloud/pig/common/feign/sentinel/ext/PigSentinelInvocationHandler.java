@@ -25,12 +25,14 @@ import com.alibaba.csp.sentinel.Tracer;
 import com.alibaba.csp.sentinel.context.ContextUtil;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.feign.annotation.FeignRetry;
 import feign.Feign;
 import feign.InvocationHandlerFactory;
 import feign.MethodMetadata;
 import feign.Target;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;
+import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -38,6 +40,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static feign.Util.checkNotNull;
 
@@ -134,8 +137,9 @@ public class PigSentinelInvocationHandler implements InvocationHandler {
 						}
 					}
 					else {
-						// 若是R类型 执行自动降级返回R
-						if (R.class == method.getReturnType()) {
+						// 若是R类型 并且不包含@FeignRetry 执行自动降级返回R
+						FeignRetry feignRetry = AnnotationUtils.findAnnotation(method, FeignRetry.class);
+						if (R.class == method.getReturnType() && Objects.isNull(feignRetry)) {
 							log.error("feign 服务间调用异常", ex);
 							return R.failed(ex.getLocalizedMessage());
 						}
