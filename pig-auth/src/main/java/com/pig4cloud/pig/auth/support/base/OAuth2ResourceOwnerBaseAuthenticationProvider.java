@@ -3,6 +3,7 @@ package com.pig4cloud.pig.auth.support.base;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pig.common.security.util.ScopeException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -35,6 +36,7 @@ import java.util.function.Supplier;
  *
  * 处理自定义授权
  */
+@Slf4j
 public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OAuth2ResourceOwnerBaseAuthenticationToken>
 		implements AuthenticationProvider {
 
@@ -263,7 +265,10 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_SCOPE,
 					this.messages.getMessage("AbstractAccessDecisionManager.accessDenied", "invalid_scope"), ""));
 		}
-		return new OAuth2AuthenticationException(OAuth2ErrorCodesExpand.UN_KNOW_LOGIN_ERROR);
+
+		log.error(authenticationException.getLocalizedMessage());
+		return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR),
+				authenticationException.getLocalizedMessage(), authenticationException);
 	}
 
 	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
