@@ -26,12 +26,13 @@ import io.seata.server.coordinator.AbstractCore;
  */
 public class TccCore extends AbstractCore {
 
-    public TccCore(RemotingServer remotingServer) {
-        super(remotingServer);
-    }
+	public TccCore(RemotingServer remotingServer) {
+		super(remotingServer);
+	}
 
-    @Override
-    public BranchType getHandleBranchType() {
-        return BranchType.TCC;
-    }
+	@Override
+	public BranchType getHandleBranchType() {
+		return BranchType.TCC;
+	}
+
 }

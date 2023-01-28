@@ -28,21 +28,22 @@ import io.seata.server.coordinator.AbstractCore;
  */
 public class XACore extends AbstractCore {
 
-    public XACore(RemotingServer remotingServer) {
-        super(remotingServer);
-    }
+	public XACore(RemotingServer remotingServer) {
+		super(remotingServer);
+	}
 
-    @Override
-    public BranchType getHandleBranchType() {
-        return BranchType.XA;
-    }
+	@Override
+	public BranchType getHandleBranchType() {
+		return BranchType.XA;
+	}
 
-    @Override
-    public void branchReport(BranchType branchType, String xid, long branchId, BranchStatus status,
-                             String applicationData) throws TransactionException {
-        super.branchReport(branchType, xid, branchId, status, applicationData);
-        if (BranchStatus.PhaseOne_Failed == status) {
+	@Override
+	public void branchReport(BranchType branchType, String xid, long branchId, BranchStatus status,
+			String applicationData) throws TransactionException {
+		super.branchReport(branchType, xid, branchId, status, applicationData);
+		if (BranchStatus.PhaseOne_Failed == status) {
 
-        }
-    }
+		}
+	}
+
 }

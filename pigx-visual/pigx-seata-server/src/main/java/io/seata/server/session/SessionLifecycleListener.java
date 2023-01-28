@@ -26,73 +26,66 @@ import io.seata.core.model.GlobalStatus;
  */
 public interface SessionLifecycleListener {
 
-    /**
-     * On begin.
-     *
-     * @param globalSession the global session
-     * @throws TransactionException the transaction exception
-     */
-    void onBegin(GlobalSession globalSession) throws TransactionException;
+	/**
+	 * On begin.
+	 * @param globalSession the global session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onBegin(GlobalSession globalSession) throws TransactionException;
 
-    /**
-     * On status change.
-     *
-     * @param globalSession the global session
-     * @param status        the status
-     * @throws TransactionException the transaction exception
-     */
-    void onStatusChange(GlobalSession globalSession, GlobalStatus status) throws TransactionException;
+	/**
+	 * On status change.
+	 * @param globalSession the global session
+	 * @param status the status
+	 * @throws TransactionException the transaction exception
+	 */
+	void onStatusChange(GlobalSession globalSession, GlobalStatus status) throws TransactionException;
 
-    /**
-     * On branch status change.
-     *
-     * @param globalSession the global session
-     * @param branchSession the branch session
-     * @param status        the status
-     * @throws TransactionException the transaction exception
-     */
-    void onBranchStatusChange(GlobalSession globalSession, BranchSession branchSession, BranchStatus status)
-        throws TransactionException;
+	/**
+	 * On branch status change.
+	 * @param globalSession the global session
+	 * @param branchSession the branch session
+	 * @param status the status
+	 * @throws TransactionException the transaction exception
+	 */
+	void onBranchStatusChange(GlobalSession globalSession, BranchSession branchSession, BranchStatus status)
+			throws TransactionException;
 
-    /**
-     * On add branch.
-     *
-     * @param globalSession the global session
-     * @param branchSession the branch session
-     * @throws TransactionException the transaction exception
-     */
-    void onAddBranch(GlobalSession globalSession, BranchSession branchSession) throws TransactionException;
+	/**
+	 * On add branch.
+	 * @param globalSession the global session
+	 * @param branchSession the branch session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onAddBranch(GlobalSession globalSession, BranchSession branchSession) throws TransactionException;
 
-    /**
-     * On remove branch.
-     *
-     * @param globalSession the global session
-     * @param branchSession the branch session
-     * @throws TransactionException the transaction exception
-     */
-    void onRemoveBranch(GlobalSession globalSession, BranchSession branchSession) throws TransactionException;
+	/**
+	 * On remove branch.
+	 * @param globalSession the global session
+	 * @param branchSession the branch session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onRemoveBranch(GlobalSession globalSession, BranchSession branchSession) throws TransactionException;
 
-    /**
-     * On close.
-     *
-     * @param globalSession the global session
-     * @throws TransactionException the transaction exception
-     */
-    void onClose(GlobalSession globalSession) throws TransactionException;
+	/**
+	 * On close.
+	 * @param globalSession the global session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onClose(GlobalSession globalSession) throws TransactionException;
 
-    /**
-     * On end.
-     *
-     * @param globalSession the global session
-     * @throws TransactionException the transaction exception
-     */
-    void onSuccessEnd(GlobalSession globalSession) throws TransactionException;
+	/**
+	 * On end.
+	 * @param globalSession the global session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onSuccessEnd(GlobalSession globalSession) throws TransactionException;
 
-    /**
-     * On fail end.
-     *
-     * @param globalSession the global session
-     * @throws TransactionException the transaction exception
-     */
-    void onFailEnd(GlobalSession globalSession) throws TransactionException;
+	/**
+	 * On fail end.
+	 * @param globalSession the global session
+	 * @throws TransactionException the transaction exception
+	 */
+	void onFailEnd(GlobalSession globalSession) throws TransactionException;
+
 }

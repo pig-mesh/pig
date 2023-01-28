@@ -26,26 +26,26 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
-
 /**
  * Global Lock Controller
+ *
  * @author zhongxiang.wang
  */
 @RestController
 @RequestMapping("/api/v1/console/globalLock")
 public class GlobalLockController {
 
-    @Resource(type = GlobalLockService.class)
-    private GlobalLockService globalLockService;
+	@Resource(type = GlobalLockService.class)
+	private GlobalLockService globalLockService;
 
-    /**
-     * Query locks by param
-     * @param param the param
-     * @return the list of GlobalLockVO
-     */
-    @GetMapping("query")
-    public PageResult<GlobalLockVO> query(@ModelAttribute GlobalLockParam param) {
-        return globalLockService.query(param);
-    }
+	/**
+	 * Query locks by param
+	 * @param param the param
+	 * @return the list of GlobalLockVO
+	 */
+	@GetMapping("query")
+	public PageResult<GlobalLockVO> query(@ModelAttribute GlobalLockParam param) {
+		return globalLockService.query(param);
+	}
 
 }

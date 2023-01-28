@@ -23,123 +23,121 @@ import io.seata.core.model.GlobalStatus;
  * @author slievrly
  */
 public class SessionCondition {
-    private Long transactionId;
-    private String xid;
-    private GlobalStatus status;
-    private GlobalStatus[] statuses;
-    private Long overTimeAliveMills;
-    private boolean lazyLoadBranch;
 
-    /**
-     * Instantiates a new Session condition.
-     */
-    public SessionCondition() {
-    }
+	private Long transactionId;
 
-    /**
-     * Instantiates a new Session condition.
-     *
-     * @param xid the xid
-     */
-    public SessionCondition(String xid) {
-        this.xid = xid;
-    }
+	private String xid;
 
-    /**
-     * Instantiates a new Session condition.
-     *
-     * @param status the status
-     */
-    public SessionCondition(GlobalStatus status) {
-        this.status = status;
-        this.statuses = new GlobalStatus[] {status};
-    }
+	private GlobalStatus status;
 
-    /**
-     * Instantiates a new Session condition.
-     *
-     * @param statuses the statuses
-     */
-    public SessionCondition(GlobalStatus... statuses) {
-        this.statuses = statuses;
-    }
+	private GlobalStatus[] statuses;
 
-    /**
-     * Instantiates a new Session condition.
-     *
-     * @param overTimeAliveMills the over time alive mills
-     */
-    public SessionCondition(long overTimeAliveMills) {
-        this.overTimeAliveMills = overTimeAliveMills;
-    }
+	private Long overTimeAliveMills;
 
-    /**
-     * Gets status.
-     *
-     * @return the status
-     */
-    public GlobalStatus getStatus() {
-        return status;
-    }
+	private boolean lazyLoadBranch;
 
-    /**
-     * Sets status.
-     *
-     * @param status the status
-     */
-    public void setStatus(GlobalStatus status) {
-        this.status = status;
-        this.statuses = new GlobalStatus[] {status};
-    }
+	/**
+	 * Instantiates a new Session condition.
+	 */
+	public SessionCondition() {
+	}
 
-    /**
-     * Gets over time alive mills.
-     *
-     * @return the over time alive mills
-     */
-    public Long getOverTimeAliveMills() {
-        return overTimeAliveMills;
-    }
+	/**
+	 * Instantiates a new Session condition.
+	 * @param xid the xid
+	 */
+	public SessionCondition(String xid) {
+		this.xid = xid;
+	}
 
-    /**
-     * Sets over time alive mills.
-     *
-     * @param overTimeAliveMills the over time alive mills
-     */
-    public void setOverTimeAliveMills(Long overTimeAliveMills) {
-        this.overTimeAliveMills = overTimeAliveMills;
-    }
+	/**
+	 * Instantiates a new Session condition.
+	 * @param status the status
+	 */
+	public SessionCondition(GlobalStatus status) {
+		this.status = status;
+		this.statuses = new GlobalStatus[] { status };
+	}
 
-    public Long getTransactionId() {
-        return transactionId;
-    }
+	/**
+	 * Instantiates a new Session condition.
+	 * @param statuses the statuses
+	 */
+	public SessionCondition(GlobalStatus... statuses) {
+		this.statuses = statuses;
+	}
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = transactionId;
-    }
+	/**
+	 * Instantiates a new Session condition.
+	 * @param overTimeAliveMills the over time alive mills
+	 */
+	public SessionCondition(long overTimeAliveMills) {
+		this.overTimeAliveMills = overTimeAliveMills;
+	}
 
-    public String getXid() {
-        return xid;
-    }
+	/**
+	 * Gets status.
+	 * @return the status
+	 */
+	public GlobalStatus getStatus() {
+		return status;
+	}
 
-    public void setXid(String xid) {
-        this.xid = xid;
-    }
+	/**
+	 * Sets status.
+	 * @param status the status
+	 */
+	public void setStatus(GlobalStatus status) {
+		this.status = status;
+		this.statuses = new GlobalStatus[] { status };
+	}
 
-    public GlobalStatus[] getStatuses() {
-        return statuses;
-    }
+	/**
+	 * Gets over time alive mills.
+	 * @return the over time alive mills
+	 */
+	public Long getOverTimeAliveMills() {
+		return overTimeAliveMills;
+	}
 
-    public void setStatuses(GlobalStatus... statuses) {
-        this.statuses = statuses;
-    }
+	/**
+	 * Sets over time alive mills.
+	 * @param overTimeAliveMills the over time alive mills
+	 */
+	public void setOverTimeAliveMills(Long overTimeAliveMills) {
+		this.overTimeAliveMills = overTimeAliveMills;
+	}
 
-    public boolean isLazyLoadBranch() {
-        return lazyLoadBranch;
-    }
+	public Long getTransactionId() {
+		return transactionId;
+	}
 
-    public void setLazyLoadBranch(boolean lazyLoadBranch) {
-        this.lazyLoadBranch = lazyLoadBranch;
-    }
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
+	}
+
+	public String getXid() {
+		return xid;
+	}
+
+	public void setXid(String xid) {
+		this.xid = xid;
+	}
+
+	public GlobalStatus[] getStatuses() {
+		return statuses;
+	}
+
+	public void setStatuses(GlobalStatus... statuses) {
+		this.statuses = statuses;
+	}
+
+	public boolean isLazyLoadBranch() {
+		return lazyLoadBranch;
+	}
+
+	public void setLazyLoadBranch(boolean lazyLoadBranch) {
+		this.lazyLoadBranch = lazyLoadBranch;
+	}
 
 }

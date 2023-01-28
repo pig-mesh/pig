@@ -15,7 +15,6 @@
  */
 package io.seata.server.storage.db.lock;
 
-
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.common.loader.EnhancedServiceLoader;
 import io.seata.common.loader.LoadLevel;
@@ -46,206 +45,219 @@ import static io.seata.core.constants.ConfigurationKeys.DISTRIBUTED_LOCK_DB_TABL
  */
 @LoadLevel(name = "db", scope = Scope.SINGLETON)
 public class DataBaseDistributedLocker implements DistributedLocker {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataBaseDistributedLocker.class);
 
-    private final String dbType;
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataBaseDistributedLocker.class);
 
-    private final String datasourceType;
+	private final String dbType;
 
-    private volatile String distributedLockTable;
+	private final String datasourceType;
 
-    private DataSource distributedLockDataSource;
+	private volatile String distributedLockTable;
 
-    /**
-     * whether the distribute lock demotion
-     * using for 1.5.0 only and will remove in 1.6.0
-     */
-    @Deprecated
-    private volatile boolean demotion;
+	private DataSource distributedLockDataSource;
 
-    /**
-     * Instantiates a new Log store data base dao.
-     */
-    public DataBaseDistributedLocker() {
-        Configuration configuration = ConfigurationFactory.getInstance();
+	/**
+	 * whether the distribute lock demotion using for 1.5.0 only and will remove in 1.6.0
+	 */
+	@Deprecated
+	private volatile boolean demotion;
 
-        distributedLockTable = configuration.getConfig(DISTRIBUTED_LOCK_DB_TABLE);
-        dbType = configuration.getConfig(ConfigurationKeys.STORE_DB_TYPE);
-        datasourceType = configuration.getConfig(ConfigurationKeys.STORE_DB_DATASOURCE_TYPE);
+	/**
+	 * Instantiates a new Log store data base dao.
+	 */
+	public DataBaseDistributedLocker() {
+		Configuration configuration = ConfigurationFactory.getInstance();
 
-        if (StringUtils.isBlank(distributedLockTable)) {
-            demotion = true;
-            ConfigurationCache.addConfigListener(DISTRIBUTED_LOCK_DB_TABLE, new ConfigurationChangeListener() {
-                @Override
-                public void onChangeEvent(ConfigurationChangeEvent event) {
-                    String newValue = event.getNewValue();
-                    if (StringUtils.isNotBlank(newValue)) {
-                        distributedLockTable = newValue;
-                        init();
-                        demotion = false;
-                        ConfigurationCache.removeConfigListener(DISTRIBUTED_LOCK_DB_TABLE, this);
-                    }
-                }
-            });
+		distributedLockTable = configuration.getConfig(DISTRIBUTED_LOCK_DB_TABLE);
+		dbType = configuration.getConfig(ConfigurationKeys.STORE_DB_TYPE);
+		datasourceType = configuration.getConfig(ConfigurationKeys.STORE_DB_DATASOURCE_TYPE);
 
-            LOGGER.error("The distribute lock table is not config, please create the target table and config it");
-            return;
-        }
+		if (StringUtils.isBlank(distributedLockTable)) {
+			demotion = true;
+			ConfigurationCache.addConfigListener(DISTRIBUTED_LOCK_DB_TABLE, new ConfigurationChangeListener() {
+				@Override
+				public void onChangeEvent(ConfigurationChangeEvent event) {
+					String newValue = event.getNewValue();
+					if (StringUtils.isNotBlank(newValue)) {
+						distributedLockTable = newValue;
+						init();
+						demotion = false;
+						ConfigurationCache.removeConfigListener(DISTRIBUTED_LOCK_DB_TABLE, this);
+					}
+				}
+			});
 
-        init();
-    }
+			LOGGER.error("The distribute lock table is not config, please create the target table and config it");
+			return;
+		}
 
+		init();
+	}
 
-    @Override
-    public boolean acquireLock(DistributedLockDO distributedLockDO) {
-        if (demotion) {
-            return true;
-        }
+	@Override
+	public boolean acquireLock(DistributedLockDO distributedLockDO) {
+		if (demotion) {
+			return true;
+		}
 
-        Connection connection = null;
-        boolean originalAutoCommit = false;
-        try {
-            connection = distributedLockDataSource.getConnection();
-            originalAutoCommit = connection.getAutoCommit();
-            connection.setAutoCommit(false);
+		Connection connection = null;
+		boolean originalAutoCommit = false;
+		try {
+			connection = distributedLockDataSource.getConnection();
+			originalAutoCommit = connection.getAutoCommit();
+			connection.setAutoCommit(false);
 
-            DistributedLockDO distributedLockDOFromDB = getDistributedLockDO(connection, distributedLockDO.getLockKey());
-            if (null == distributedLockDOFromDB) {
-                boolean ret = insertDistribute(connection, distributedLockDO);
-                connection.commit();
-                return ret;
-            }
+			DistributedLockDO distributedLockDOFromDB = getDistributedLockDO(connection,
+					distributedLockDO.getLockKey());
+			if (null == distributedLockDOFromDB) {
+				boolean ret = insertDistribute(connection, distributedLockDO);
+				connection.commit();
+				return ret;
+			}
 
-            if (distributedLockDOFromDB.getExpireTime() >= System.currentTimeMillis()) {
-                LOGGER.debug("the distribute lock for key :{} is holding by :{}, acquire lock failure.",
-                        distributedLockDO.getLockKey(), distributedLockDOFromDB.getLockValue());
-                connection.commit();
-                return false;
-            }
+			if (distributedLockDOFromDB.getExpireTime() >= System.currentTimeMillis()) {
+				LOGGER.debug("the distribute lock for key :{} is holding by :{}, acquire lock failure.",
+						distributedLockDO.getLockKey(), distributedLockDOFromDB.getLockValue());
+				connection.commit();
+				return false;
+			}
 
-            boolean ret = updateDistributedLock(connection, distributedLockDO);
-            connection.commit();
+			boolean ret = updateDistributedLock(connection, distributedLockDO);
+			connection.commit();
 
-            return ret;
-        } catch (SQLException ex) {
-            LOGGER.error("execute acquire lock failure, key is: {}", distributedLockDO.getLockKey(), ex);
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e) {
-                LOGGER.warn("rollback fail because of {}", e.getMessage(), e);
-            }
-            return false;
-        } finally {
-            try {
-                if (originalAutoCommit) {
-                    connection.setAutoCommit(true);
-                }
-                IOUtil.close(connection);
-            } catch (SQLException ignore) { }
-        }
-    }
+			return ret;
+		}
+		catch (SQLException ex) {
+			LOGGER.error("execute acquire lock failure, key is: {}", distributedLockDO.getLockKey(), ex);
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+			}
+			catch (SQLException e) {
+				LOGGER.warn("rollback fail because of {}", e.getMessage(), e);
+			}
+			return false;
+		}
+		finally {
+			try {
+				if (originalAutoCommit) {
+					connection.setAutoCommit(true);
+				}
+				IOUtil.close(connection);
+			}
+			catch (SQLException ignore) {
+			}
+		}
+	}
 
-    @Override
-    public boolean releaseLock(DistributedLockDO distributedLockDO) {
-        if (demotion) {
-            return true;
-        }
+	@Override
+	public boolean releaseLock(DistributedLockDO distributedLockDO) {
+		if (demotion) {
+			return true;
+		}
 
-        Connection connection = null;
-        boolean originalAutoCommit = false;
-        try {
-            connection = distributedLockDataSource.getConnection();
-            originalAutoCommit = connection.getAutoCommit();
-            connection.setAutoCommit(false);
+		Connection connection = null;
+		boolean originalAutoCommit = false;
+		try {
+			connection = distributedLockDataSource.getConnection();
+			originalAutoCommit = connection.getAutoCommit();
+			connection.setAutoCommit(false);
 
-            DistributedLockDO distributedLockDOFromDB = getDistributedLockDO(connection, distributedLockDO.getLockKey());
-            if (null == distributedLockDOFromDB) {
-                throw new ShouldNeverHappenException("distributedLockDO would not be null when release distribute lock");
-            }
+			DistributedLockDO distributedLockDOFromDB = getDistributedLockDO(connection,
+					distributedLockDO.getLockKey());
+			if (null == distributedLockDOFromDB) {
+				throw new ShouldNeverHappenException(
+						"distributedLockDO would not be null when release distribute lock");
+			}
 
-            if (distributedLockDOFromDB.getExpireTime() >= System.currentTimeMillis()
-                    && !Objects.equals(distributedLockDOFromDB.getLockValue(), distributedLockDO.getLockValue())) {
-                LOGGER.debug("the distribute lock for key :{} is holding by :{}, skip the release lock.",
-                        distributedLockDO.getLockKey(), distributedLockDOFromDB.getLockValue());
-                connection.commit();
-                return true;
-            }
+			if (distributedLockDOFromDB.getExpireTime() >= System.currentTimeMillis()
+					&& !Objects.equals(distributedLockDOFromDB.getLockValue(), distributedLockDO.getLockValue())) {
+				LOGGER.debug("the distribute lock for key :{} is holding by :{}, skip the release lock.",
+						distributedLockDO.getLockKey(), distributedLockDOFromDB.getLockValue());
+				connection.commit();
+				return true;
+			}
 
-            distributedLockDO.setLockValue(StringUtils.SPACE);
-            distributedLockDO.setExpireTime(0L);
-            boolean ret = updateDistributedLock(connection, distributedLockDO);
+			distributedLockDO.setLockValue(StringUtils.SPACE);
+			distributedLockDO.setExpireTime(0L);
+			boolean ret = updateDistributedLock(connection, distributedLockDO);
 
-            connection.commit();
-            return ret;
-        } catch (SQLException ex) {
-            LOGGER.error("execute release lock failure, key is: {}", distributedLockDO.getLockKey(), ex);
+			connection.commit();
+			return ret;
+		}
+		catch (SQLException ex) {
+			LOGGER.error("execute release lock failure, key is: {}", distributedLockDO.getLockKey(), ex);
 
-            try {
-                if (connection != null) {
-                    connection.rollback();
-                }
-            } catch (SQLException e) {
-                LOGGER.warn("rollback fail because of {}", e.getMessage(), e);
-            }
-            return false;
-        } finally {
-            try {
-                if (originalAutoCommit) {
-                    connection.setAutoCommit(true);
-                }
-                IOUtil.close(connection);
-            } catch (SQLException ignore) { }
-        }
-    }
+			try {
+				if (connection != null) {
+					connection.rollback();
+				}
+			}
+			catch (SQLException e) {
+				LOGGER.warn("rollback fail because of {}", e.getMessage(), e);
+			}
+			return false;
+		}
+		finally {
+			try {
+				if (originalAutoCommit) {
+					connection.setAutoCommit(true);
+				}
+				IOUtil.close(connection);
+			}
+			catch (SQLException ignore) {
+			}
+		}
+	}
 
-    protected DistributedLockDO getDistributedLockDO(Connection connection, String key) throws SQLException {
-        try (PreparedStatement pst = connection.prepareStatement(DistributedLockSqlFactory.getDistributedLogStoreSql(dbType)
-                .getSelectDistributeForUpdateSql(distributedLockTable))) {
+	protected DistributedLockDO getDistributedLockDO(Connection connection, String key) throws SQLException {
+		try (PreparedStatement pst = connection.prepareStatement(DistributedLockSqlFactory
+				.getDistributedLogStoreSql(dbType).getSelectDistributeForUpdateSql(distributedLockTable))) {
 
-            pst.setString(1, key);
-            ResultSet resultSet = pst.executeQuery();
+			pst.setString(1, key);
+			ResultSet resultSet = pst.executeQuery();
 
-            if (resultSet.next()) {
-                DistributedLockDO distributedLock = new DistributedLockDO();
-                distributedLock.setExpireTime(resultSet.getLong(ServerTableColumnsName.DISTRIBUTED_LOCK_EXPIRE));
-                distributedLock.setLockValue(resultSet.getString(ServerTableColumnsName.DISTRIBUTED_LOCK_VALUE));
-                distributedLock.setLockKey(key);
-                return distributedLock;
-            }
-            return null;
-        }
-    }
+			if (resultSet.next()) {
+				DistributedLockDO distributedLock = new DistributedLockDO();
+				distributedLock.setExpireTime(resultSet.getLong(ServerTableColumnsName.DISTRIBUTED_LOCK_EXPIRE));
+				distributedLock.setLockValue(resultSet.getString(ServerTableColumnsName.DISTRIBUTED_LOCK_VALUE));
+				distributedLock.setLockKey(key);
+				return distributedLock;
+			}
+			return null;
+		}
+	}
 
-    protected boolean insertDistribute(Connection connection, DistributedLockDO distributedLockDO) throws SQLException {
-        try (PreparedStatement insertPst = connection.prepareStatement(DistributedLockSqlFactory.getDistributedLogStoreSql(dbType)
-                .getInsertSql(distributedLockTable))) {
-            insertPst.setString(1, distributedLockDO.getLockKey());
-            insertPst.setString(2, distributedLockDO.getLockValue());
-            if (distributedLockDO.getExpireTime() > 0) {
-                distributedLockDO.setExpireTime(distributedLockDO.getExpireTime() + System.currentTimeMillis());
-            }
-            insertPst.setLong(3, distributedLockDO.getExpireTime());
-            return insertPst.executeUpdate() > 0;
-        }
-    }
+	protected boolean insertDistribute(Connection connection, DistributedLockDO distributedLockDO) throws SQLException {
+		try (PreparedStatement insertPst = connection.prepareStatement(
+				DistributedLockSqlFactory.getDistributedLogStoreSql(dbType).getInsertSql(distributedLockTable))) {
+			insertPst.setString(1, distributedLockDO.getLockKey());
+			insertPst.setString(2, distributedLockDO.getLockValue());
+			if (distributedLockDO.getExpireTime() > 0) {
+				distributedLockDO.setExpireTime(distributedLockDO.getExpireTime() + System.currentTimeMillis());
+			}
+			insertPst.setLong(3, distributedLockDO.getExpireTime());
+			return insertPst.executeUpdate() > 0;
+		}
+	}
 
-    protected boolean updateDistributedLock(Connection connection, DistributedLockDO distributedLockDO) throws SQLException {
-        try (PreparedStatement updatePst = connection.prepareStatement(DistributedLockSqlFactory.getDistributedLogStoreSql(dbType)
-                .getUpdateSql(distributedLockTable))) {
-            updatePst.setString(1, distributedLockDO.getLockValue());
-            if (distributedLockDO.getExpireTime() > 0) {
-                distributedLockDO.setExpireTime(distributedLockDO.getExpireTime() + System.currentTimeMillis());
-            }
-            updatePst.setLong(2, distributedLockDO.getExpireTime());
-            updatePst.setString(3, distributedLockDO.getLockKey());
-            return updatePst.executeUpdate() > 0;
-        }
-    }
+	protected boolean updateDistributedLock(Connection connection, DistributedLockDO distributedLockDO)
+			throws SQLException {
+		try (PreparedStatement updatePst = connection.prepareStatement(
+				DistributedLockSqlFactory.getDistributedLogStoreSql(dbType).getUpdateSql(distributedLockTable))) {
+			updatePst.setString(1, distributedLockDO.getLockValue());
+			if (distributedLockDO.getExpireTime() > 0) {
+				distributedLockDO.setExpireTime(distributedLockDO.getExpireTime() + System.currentTimeMillis());
+			}
+			updatePst.setLong(2, distributedLockDO.getExpireTime());
+			updatePst.setString(3, distributedLockDO.getLockKey());
+			return updatePst.executeUpdate() > 0;
+		}
+	}
 
-    private void init() {
-        this.distributedLockDataSource = EnhancedServiceLoader.load(DataSourceProvider.class, datasourceType).provide();
-    }
+	private void init() {
+		this.distributedLockDataSource = EnhancedServiceLoader.load(DataSourceProvider.class, datasourceType).provide();
+	}
 
 }

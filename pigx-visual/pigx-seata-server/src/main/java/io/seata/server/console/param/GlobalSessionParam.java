@@ -21,82 +21,82 @@ import java.io.Serializable;
 
 /**
  * Global session param
+ *
  * @author zhongxiang.wang
  */
 public class GlobalSessionParam extends BaseParam implements Serializable {
 
-    private static final long serialVersionUID = 115488252809011284L;
-    /**
-     * the xid
-     */
-    private String xid;
-    /**
-     * the application id
-     */
-    private String applicationId;
-    /**
-     * the global session status
-     */
-    private Integer status;
-    /**
-     * the transaction name
-     */
-    private String transactionName;
-    /**
-     * if with branch
-     * true: with branch session
-     * false: no branch session
-     */
-    private boolean withBranch;
+	private static final long serialVersionUID = 115488252809011284L;
 
-    public String getXid() {
-        return xid;
-    }
+	/**
+	 * the xid
+	 */
+	private String xid;
 
-    public void setXid(String xid) {
-        this.xid = xid;
-    }
+	/**
+	 * the application id
+	 */
+	private String applicationId;
 
-    public String getTransactionName() {
-        return transactionName;
-    }
+	/**
+	 * the global session status
+	 */
+	private Integer status;
 
-    public void setTransactionName(String transactionName) {
-        this.transactionName = transactionName;
-    }
+	/**
+	 * the transaction name
+	 */
+	private String transactionName;
 
-    public String getApplicationId() {
-        return applicationId;
-    }
+	/**
+	 * if with branch true: with branch session false: no branch session
+	 */
+	private boolean withBranch;
 
-    public void setApplicationId(String applicationId) {
-        this.applicationId = applicationId;
-    }
+	public String getXid() {
+		return xid;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setXid(String xid) {
+		this.xid = xid;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public String getTransactionName() {
+		return transactionName;
+	}
 
-    public boolean isWithBranch() {
-        return withBranch;
-    }
+	public void setTransactionName(String transactionName) {
+		this.transactionName = transactionName;
+	}
 
-    public void setWithBranch(boolean withBranch) {
-        this.withBranch = withBranch;
-    }
+	public String getApplicationId() {
+		return applicationId;
+	}
 
-    @Override
-    public String toString() {
-        return "GlobalSessionParam{" +
-                "xid='" + xid + '\'' +
-                ", applicationId='" + applicationId + '\'' +
-                ", status=" + status +
-                ", transactionName='" + transactionName + '\'' +
-                ", withBranch=" + withBranch +
-                '}';
-    }
+	public void setApplicationId(String applicationId) {
+		this.applicationId = applicationId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public boolean isWithBranch() {
+		return withBranch;
+	}
+
+	public void setWithBranch(boolean withBranch) {
+		this.withBranch = withBranch;
+	}
+
+	@Override
+	public String toString() {
+		return "GlobalSessionParam{" + "xid='" + xid + '\'' + ", applicationId='" + applicationId + '\'' + ", status="
+				+ status + ", transactionName='" + transactionName + '\'' + ", withBranch=" + withBranch + '}';
+	}
+
 }

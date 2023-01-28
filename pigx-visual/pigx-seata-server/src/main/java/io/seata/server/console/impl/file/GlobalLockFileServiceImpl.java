@@ -51,120 +51,109 @@ import static java.util.Objects.isNull;
 @ConditionalOnExpression("#{'file'.equals('${lockMode}')}")
 public class GlobalLockFileServiceImpl implements GlobalLockService {
 
-    @Override
-    public PageResult<GlobalLockVO> query(GlobalLockParam param) {
-        checkParam(param);
+	@Override
+	public PageResult<GlobalLockVO> query(GlobalLockParam param) {
+		checkParam(param);
 
-        final Collection<GlobalSession> allSessions = SessionHolder.getRootSessionManager().allSessions();
+		final Collection<GlobalSession> allSessions = SessionHolder.getRootSessionManager().allSessions();
 
-        final AtomicInteger total = new AtomicInteger();
-        List<RowLock> result = allSessions
-                .parallelStream()
-                .filter(obtainGlobalSessionPredicate(param))
-                .flatMap(globalSession -> globalSession.getBranchSessions().stream())
-                .filter(obtainBranchSessionPredicate(param))
-                .flatMap(branchSession -> filterAndMap(param, branchSession))
-                .peek(globalSession -> total.incrementAndGet())
-                .collect(Collectors.toList());
+		final AtomicInteger total = new AtomicInteger();
+		List<RowLock> result = allSessions.parallelStream().filter(obtainGlobalSessionPredicate(param))
+				.flatMap(globalSession -> globalSession.getBranchSessions().stream())
+				.filter(obtainBranchSessionPredicate(param))
+				.flatMap(branchSession -> filterAndMap(param, branchSession))
+				.peek(globalSession -> total.incrementAndGet()).collect(Collectors.toList());
 
-        return PageResult.build(convert(result), param.getPageNum(), param.getPageSize());
+		return PageResult.build(convert(result), param.getPageNum(), param.getPageSize());
 
-    }
+	}
 
-    /**
-     * filter with tableName and generate RowLock
-     *
-     * @param param the query param
-     * @param branchSession the branch session
-     * @return the RowLock list
-     */
-    private Stream<RowLock> filterAndMap(GlobalLockParam param, BranchSession branchSession) {
+	/**
+	 * filter with tableName and generate RowLock
+	 * @param param the query param
+	 * @param branchSession the branch session
+	 * @return the RowLock list
+	 */
+	private Stream<RowLock> filterAndMap(GlobalLockParam param, BranchSession branchSession) {
 
-        final String tableName = param.getTableName();
+		final String tableName = param.getTableName();
 
-        // get rowLock from branchSession
-        final List<RowLock> rowLocks = LockerManagerFactory.getLockManager().collectRowLocks(branchSession);
+		// get rowLock from branchSession
+		final List<RowLock> rowLocks = LockerManagerFactory.getLockManager().collectRowLocks(branchSession);
 
-        if (StringUtils.isNotBlank(tableName)) {
-            return rowLocks.parallelStream().filter(rowLock -> rowLock.getTableName().contains(param.getTableName()));
-        }
+		if (StringUtils.isNotBlank(tableName)) {
+			return rowLocks.parallelStream().filter(rowLock -> rowLock.getTableName().contains(param.getTableName()));
+		}
 
-        return rowLocks.stream();
-    }
+		return rowLocks.stream();
+	}
 
+	/**
+	 * check the param
+	 * @param param the param
+	 */
+	private void checkParam(GlobalLockParam param) {
+		if (param.getPageSize() <= 0 || param.getPageNum() <= 0) {
+			throw new IllegalArgumentException("wrong pageSize or pageNum");
+		}
 
-    /**
-     * check the param
-     *
-     * @param param the param
-     */
-    private void checkParam(GlobalLockParam param) {
-        if (param.getPageSize() <= 0 || param.getPageNum() <= 0) {
-            throw new IllegalArgumentException("wrong pageSize or pageNum");
-        }
+		// verification data type
+		try {
+			Long.parseLong(param.getTransactionId());
+		}
+		catch (NumberFormatException e) {
+			param.setTransactionId(null);
+		}
+		try {
+			Long.parseLong(param.getBranchId());
+		}
+		catch (NumberFormatException e) {
+			param.setBranchId(null);
+		}
 
-        // verification data type
-        try {
-            Long.parseLong(param.getTransactionId());
-        } catch (NumberFormatException e) {
-            param.setTransactionId(null);
-        }
-        try {
-            Long.parseLong(param.getBranchId());
-        } catch (NumberFormatException e) {
-            param.setBranchId(null);
-        }
+	}
 
+	/**
+	 * obtain the branch session condition
+	 * @param param condition for query branch session
+	 * @return the filter condition
+	 */
+	private Predicate<? super BranchSession> obtainBranchSessionPredicate(GlobalLockParam param) {
+		return branchSession -> {
+			// transactionId
+			return (isBlank(param.getTransactionId())
+					|| String.valueOf(branchSession.getTransactionId()).contains(param.getTransactionId()))
 
-    }
+					&&
+			// branch id
+			(isBlank(param.getBranchId()) || String.valueOf(branchSession.getBranchId()).contains(param.getBranchId()));
+		};
+	}
 
-    /**
-     * obtain the branch session condition
-     *
-     * @param param condition for query branch session
-     * @return the filter condition
-     */
-    private Predicate<? super BranchSession> obtainBranchSessionPredicate(GlobalLockParam param) {
-        return branchSession -> {
-            // transactionId
-            return (isBlank(param.getTransactionId()) ||
-                    String.valueOf(branchSession.getTransactionId()).contains(param.getTransactionId()))
+	/**
+	 * obtain the global session condition
+	 * @param param condition for query global session
+	 * @return the filter condition
+	 */
+	private Predicate<? super GlobalSession> obtainGlobalSessionPredicate(GlobalLockParam param) {
 
-                    &&
-                    // branch id
-                    (isBlank(param.getBranchId()) ||
-                            String.valueOf(branchSession.getBranchId()).contains(param.getBranchId()))
-                    ;
-        };
-    }
+		return globalSession -> {
+			// first, there must be withBranchSession
+			return CollectionUtils.isNotEmpty(globalSession.getBranchSessions())
 
+					&&
+			// The second is other conditions
+			// xid
+			(isBlank(param.getXid()) || globalSession.getXid().contains(param.getXid()))
 
-    /**
-     * obtain the global session condition
-     *
-     * @param param condition for query global session
-     * @return the filter condition
-     */
-    private Predicate<? super GlobalSession> obtainGlobalSessionPredicate(GlobalLockParam param) {
+					&&
+			// timeStart
+			(isNull(param.getTimeStart()) || param.getTimeStart() <= globalSession.getBeginTime())
 
-        return globalSession -> {
-            // first, there must be withBranchSession
-            return CollectionUtils.isNotEmpty(globalSession.getBranchSessions())
-
-                    &&
-                    // The second is other conditions
-                    // xid
-                    (isBlank(param.getXid()) || globalSession.getXid().contains(param.getXid()))
-
-                    &&
-                    // timeStart
-                    (isNull(param.getTimeStart()) || param.getTimeStart() <= globalSession.getBeginTime())
-
-                    &&
-                    // timeEnd
-                    (isNull(param.getTimeEnd()) || param.getTimeEnd() >= globalSession.getBeginTime());
-        };
-    }
-
+					&&
+			// timeEnd
+			(isNull(param.getTimeEnd()) || param.getTimeEnd() >= globalSession.getBeginTime());
+		};
+	}
 
 }

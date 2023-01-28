@@ -33,168 +33,168 @@ import static io.seata.config.ConfigurationFactory.ENV_PROPERTY_KEY;
  */
 public class ParameterParser {
 
-    private static final String PROGRAM_NAME
-        = "sh seata-server.sh(for linux and mac) or cmd seata-server.bat(for windows)";
+	private static final String PROGRAM_NAME = "sh seata-server.sh(for linux and mac) or cmd seata-server.bat(for windows)";
 
-    private static final Configuration CONFIG = ConfigurationFactory.getInstance();
+	private static final Configuration CONFIG = ConfigurationFactory.getInstance();
 
-    @Parameter(names = "--help", help = true)
-    private boolean help;
-    @Parameter(names = {"--host", "-h"}, description = "The ip to register to registry center.", order = 1)
-    private String host;
-    @Parameter(names = {"--port", "-p"}, description = "The port to listen.", order = 2)
-    private int port;
-    @Parameter(names = {"--storeMode", "-m"}, description = "log store mode : file, db, redis", order = 3)
-    private String storeMode;
-    @Parameter(names = {"--serverNode", "-n"}, description = "server node id, such as 1, 2, 3.it will be generated according to the snowflake by default", order = 4)
-    private Long serverNode;
-    @Parameter(names = {"--seataEnv", "-e"}, description = "The name used for multi-configuration isolation.",
-        order = 5)
-    private String seataEnv;
-    @Parameter(names = {"--sessionStoreMode", "-ssm"}, description = "session log store mode : file, db, redis",
-        order = 6)
-    private String sessionStoreMode;
-    @Parameter(names = {"--lockStoreMode", "-lsm"}, description = "lock log store mode : file, db, redis", order = 7)
-    private String lockStoreMode;
+	@Parameter(names = "--help", help = true)
+	private boolean help;
 
-    /**
-     * Instantiates a new Parameter parser.
-     *
-     * @param args the args
-     */
-    public ParameterParser(String... args) {
-        this.init(args);
-    }
+	@Parameter(names = { "--host", "-h" }, description = "The ip to register to registry center.", order = 1)
+	private String host;
 
-    /**
-     * startup args > docker env
-     * @param args
-     */
-    private void init(String[] args) {
-        try {
-            getCommandParameters(args);
-            getEnvParameters();
-            if (StringUtils.isNotBlank(seataEnv)) {
-                System.setProperty(ENV_PROPERTY_KEY, seataEnv);
-            }
-            StoreConfig.setStartupParameter(storeMode, sessionStoreMode, lockStoreMode);
-        } catch (ParameterException e) {
-            printError(e);
-        }
+	@Parameter(names = { "--port", "-p" }, description = "The port to listen.", order = 2)
+	private int port;
 
-    }
+	@Parameter(names = { "--storeMode", "-m" }, description = "log store mode : file, db, redis", order = 3)
+	private String storeMode;
 
-    private void getCommandParameters(String[] args) {
-        JCommander jCommander = JCommander.newBuilder().addObject(this).build();
-        jCommander.parse(args);
-        if (help) {
-            jCommander.setProgramName(PROGRAM_NAME);
-            jCommander.usage();
-            System.exit(0);
-        }
-    }
+	@Parameter(names = { "--serverNode", "-n" },
+			description = "server node id, such as 1, 2, 3.it will be generated according to the snowflake by default",
+			order = 4)
+	private Long serverNode;
 
-    private void getEnvParameters() {
-        if (StringUtils.isBlank(seataEnv)) {
-            seataEnv = ContainerHelper.getEnv();
-        }
-        if (StringUtils.isBlank(host)) {
-            host = ContainerHelper.getHost();
-        }
-        if (port == 0) {
-            port = ContainerHelper.getPort();
-        }
-        if (serverNode == null) {
-            serverNode = ContainerHelper.getServerNode();
-        }
-    }
+	@Parameter(names = { "--seataEnv", "-e" }, description = "The name used for multi-configuration isolation.",
+			order = 5)
+	private String seataEnv;
 
-    private void printError(ParameterException e) {
-        System.err.println("Option error " + e.getMessage());
-        e.getJCommander().setProgramName(PROGRAM_NAME);
-        e.usage();
-        System.exit(0);
-    }
+	@Parameter(names = { "--sessionStoreMode", "-ssm" }, description = "session log store mode : file, db, redis",
+			order = 6)
+	private String sessionStoreMode;
 
-    /**
-     * Gets host.
-     *
-     * @return the host
-     */
-    public String getHost() {
-        return host;
-    }
+	@Parameter(names = { "--lockStoreMode", "-lsm" }, description = "lock log store mode : file, db, redis", order = 7)
+	private String lockStoreMode;
 
-    /**
-     * Gets port.
-     *
-     * @return the port
-     */
-    public int getPort() {
-        return port;
-    }
+	/**
+	 * Instantiates a new Parameter parser.
+	 * @param args the args
+	 */
+	public ParameterParser(String... args) {
+		this.init(args);
+	}
 
-    /**
-     * Gets store mode.
-     *
-     * @return the store mode
-     */
-    public String getStoreMode() {
-        return storeMode;
-    }
+	/**
+	 * startup args > docker env
+	 * @param args
+	 */
+	private void init(String[] args) {
+		try {
+			getCommandParameters(args);
+			getEnvParameters();
+			if (StringUtils.isNotBlank(seataEnv)) {
+				System.setProperty(ENV_PROPERTY_KEY, seataEnv);
+			}
+			StoreConfig.setStartupParameter(storeMode, sessionStoreMode, lockStoreMode);
+		}
+		catch (ParameterException e) {
+			printError(e);
+		}
 
-    /**
-     * Gets lock store mode.
-     *
-     * @return the store mode
-     */
-    public String getLockStoreMode() {
-        return lockStoreMode;
-    }
+	}
 
-    /**
-     * Gets session store mode.
-     *
-     * @return the store mode
-     */
-    public String getSessionStoreMode() {
-        return sessionStoreMode;
-    }
+	private void getCommandParameters(String[] args) {
+		JCommander jCommander = JCommander.newBuilder().addObject(this).build();
+		jCommander.parse(args);
+		if (help) {
+			jCommander.setProgramName(PROGRAM_NAME);
+			jCommander.usage();
+			System.exit(0);
+		}
+	}
 
-    /**
-     * Is help boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isHelp() {
-        return help;
-    }
+	private void getEnvParameters() {
+		if (StringUtils.isBlank(seataEnv)) {
+			seataEnv = ContainerHelper.getEnv();
+		}
+		if (StringUtils.isBlank(host)) {
+			host = ContainerHelper.getHost();
+		}
+		if (port == 0) {
+			port = ContainerHelper.getPort();
+		}
+		if (serverNode == null) {
+			serverNode = ContainerHelper.getServerNode();
+		}
+	}
 
-    /**
-     * Gets server node.
-     *
-     * @return the server node
-     */
-    public Long getServerNode() {
-        return serverNode;
-    }
+	private void printError(ParameterException e) {
+		System.err.println("Option error " + e.getMessage());
+		e.getJCommander().setProgramName(PROGRAM_NAME);
+		e.usage();
+		System.exit(0);
+	}
 
-    /**
-     * Gets seata env
-     *
-     * @return the name used for multi-configuration isolation.
-     */
-    public String getSeataEnv() {
-        return seataEnv;
-    }
+	/**
+	 * Gets host.
+	 * @return the host
+	 */
+	public String getHost() {
+		return host;
+	}
 
-    /**
-     * Clean up.
-     */
-    public void cleanUp() {
-        if (null != System.getProperty(ENV_PROPERTY_KEY)) {
-            System.clearProperty(ENV_PROPERTY_KEY);
-        }
-    }
+	/**
+	 * Gets port.
+	 * @return the port
+	 */
+	public int getPort() {
+		return port;
+	}
+
+	/**
+	 * Gets store mode.
+	 * @return the store mode
+	 */
+	public String getStoreMode() {
+		return storeMode;
+	}
+
+	/**
+	 * Gets lock store mode.
+	 * @return the store mode
+	 */
+	public String getLockStoreMode() {
+		return lockStoreMode;
+	}
+
+	/**
+	 * Gets session store mode.
+	 * @return the store mode
+	 */
+	public String getSessionStoreMode() {
+		return sessionStoreMode;
+	}
+
+	/**
+	 * Is help boolean.
+	 * @return the boolean
+	 */
+	public boolean isHelp() {
+		return help;
+	}
+
+	/**
+	 * Gets server node.
+	 * @return the server node
+	 */
+	public Long getServerNode() {
+		return serverNode;
+	}
+
+	/**
+	 * Gets seata env
+	 * @return the name used for multi-configuration isolation.
+	 */
+	public String getSeataEnv() {
+		return seataEnv;
+	}
+
+	/**
+	 * Clean up.
+	 */
+	public void cleanUp() {
+		if (null != System.getProperty(ENV_PROPERTY_KEY)) {
+			System.clearProperty(ENV_PROPERTY_KEY);
+		}
+	}
 
 }

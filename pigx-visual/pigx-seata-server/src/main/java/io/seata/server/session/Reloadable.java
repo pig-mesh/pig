@@ -22,8 +22,9 @@ package io.seata.server.session;
  */
 public interface Reloadable {
 
-    /**
-     * Reload states.
-     */
-    void reload();
+	/**
+	 * Reload states.
+	 */
+	void reload();
+
 }

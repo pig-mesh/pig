@@ -23,10 +23,12 @@ import java.io.IOException;
 /**
  * @author spilledyear@outlook.com
  */
-@SpringBootApplication(scanBasePackages = {"io.seata"})
+@SpringBootApplication(scanBasePackages = { "io.seata" })
 public class ServerApplication {
-    public static void main(String[] args) throws IOException {
-        // run the spring-boot application
-        SpringApplication.run(ServerApplication.class, args);
-    }
+
+	public static void main(String[] args) throws IOException {
+		// run the spring-boot application
+		SpringApplication.run(ServerApplication.class, args);
+	}
+
 }

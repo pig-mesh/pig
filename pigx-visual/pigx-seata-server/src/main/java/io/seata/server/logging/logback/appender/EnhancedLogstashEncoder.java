@@ -29,17 +29,17 @@ import java.util.ArrayList;
  */
 public class EnhancedLogstashEncoder extends LogstashEncoder {
 
-    /**
-     * set exclude provider
-     *
-     * @param excludedProviderClassName the excluded provider class name
-     */
-    public void setExcludeProvider(String excludedProviderClassName) {
-        JsonProviders<?> providers = getFormatter().getProviders();
-        for (JsonProvider<?> provider : new ArrayList<>(providers.getProviders())) {
-            if (provider.getClass().getName().equals(excludedProviderClassName)) {
-                providers.removeProvider((JsonProvider) provider);
-            }
-        }
-    }
+	/**
+	 * set exclude provider
+	 * @param excludedProviderClassName the excluded provider class name
+	 */
+	public void setExcludeProvider(String excludedProviderClassName) {
+		JsonProviders<?> providers = getFormatter().getProviders();
+		for (JsonProvider<?> provider : new ArrayList<>(providers.getProviders())) {
+			if (provider.getClass().getName().equals(excludedProviderClassName)) {
+				providers.removeProvider((JsonProvider) provider);
+			}
+		}
+	}
+
 }

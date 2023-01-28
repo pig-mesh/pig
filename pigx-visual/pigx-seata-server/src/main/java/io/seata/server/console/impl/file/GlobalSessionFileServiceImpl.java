@@ -45,58 +45,54 @@ import static java.util.Objects.isNull;
 @ConditionalOnExpression("#{'file'.equals('${sessionMode}')}")
 public class GlobalSessionFileServiceImpl implements GlobalSessionService {
 
-    @Override
-    public PageResult<GlobalSessionVO> query(GlobalSessionParam param) {
-        if (param.getPageSize() <= 0 || param.getPageNum() <= 0) {
-            throw new IllegalArgumentException("wrong pageSize or pageNum");
-        }
+	@Override
+	public PageResult<GlobalSessionVO> query(GlobalSessionParam param) {
+		if (param.getPageSize() <= 0 || param.getPageNum() <= 0) {
+			throw new IllegalArgumentException("wrong pageSize or pageNum");
+		}
 
-        final Collection<GlobalSession> allSessions = SessionHolder.getRootSessionManager().allSessions();
+		final Collection<GlobalSession> allSessions = SessionHolder.getRootSessionManager().allSessions();
 
-        final List<GlobalSession> filteredSessions = allSessions
-                .parallelStream()
-                .filter(obtainPredicate(param))
-                .collect(Collectors.toList());
+		final List<GlobalSession> filteredSessions = allSessions.parallelStream().filter(obtainPredicate(param))
+				.collect(Collectors.toList());
 
-        return PageResult.build(SessionConverter.convertGlobalSession(filteredSessions), param.getPageNum(), param.getPageSize());
-    }
+		return PageResult.build(SessionConverter.convertGlobalSession(filteredSessions), param.getPageNum(),
+				param.getPageSize());
+	}
 
+	/**
+	 * obtain the condition
+	 * @param param condition for query global session
+	 * @return the filter condition
+	 */
+	private Predicate<? super GlobalSession> obtainPredicate(GlobalSessionParam param) {
 
+		return session -> {
+			return
+			// xid
+			(isBlank(param.getXid()) || session.getXid().contains(param.getXid()))
 
-    /**
-     * obtain the condition
-     *
-     * @param param condition for query global session
-     * @return the filter condition
-     */
-    private Predicate<? super GlobalSession> obtainPredicate(GlobalSessionParam param) {
+					&&
+			// applicationId
+			(isBlank(param.getApplicationId()) || session.getApplicationId().contains(param.getApplicationId()))
 
-        return session -> {
-            return
-                // xid
-                (isBlank(param.getXid()) || session.getXid().contains(param.getXid()))
+					&&
+			// status
+			(isNull(param.getStatus()) || Objects.equals(session.getStatus().getCode(), param.getStatus()))
 
-                &&
-                // applicationId
-                (isBlank(param.getApplicationId()) || session.getApplicationId().contains(param.getApplicationId()))
+					&&
+			// transactionName
+			(isBlank(param.getTransactionName()) || session.getTransactionName().contains(param.getTransactionName()))
 
-                &&
-                // status
-                (isNull(param.getStatus()) || Objects.equals(session.getStatus().getCode(), param.getStatus()))
+					&&
+			// timeStart
+			(isNull(param.getTimeStart()) || param.getTimeStart() <= session.getBeginTime())
 
-                &&
-                // transactionName
-                (isBlank(param.getTransactionName()) || session.getTransactionName().contains(param.getTransactionName()))
+					&&
+			// timeEnd
+			(isNull(param.getTimeEnd()) || param.getTimeEnd() >= session.getBeginTime());
 
-                &&
-                // timeStart
-                (isNull(param.getTimeStart()) || param.getTimeStart() <= session.getBeginTime())
-
-                &&
-                // timeEnd
-                (isNull(param.getTimeEnd()) || param.getTimeEnd() >= session.getBeginTime());
-
-        };
-    }
+		};
+	}
 
 }

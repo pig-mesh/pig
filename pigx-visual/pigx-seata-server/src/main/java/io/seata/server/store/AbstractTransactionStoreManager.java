@@ -29,32 +29,33 @@ import java.util.List;
  */
 public abstract class AbstractTransactionStoreManager implements TransactionStoreManager {
 
-    @Override
-    public GlobalSession readSession(String xid) {
-        return null;
-    }
+	@Override
+	public GlobalSession readSession(String xid) {
+		return null;
+	}
 
-    @Override
-    public GlobalSession readSession(String xid, boolean withBranchSessions) {
-        return null;
-    }
+	@Override
+	public GlobalSession readSession(String xid, boolean withBranchSessions) {
+		return null;
+	}
 
-    @Override
-    public List<GlobalSession> readSortByTimeoutBeginSessions(boolean withBranchSessions) {
-        return Collections.emptyList();
-    }
+	@Override
+	public List<GlobalSession> readSortByTimeoutBeginSessions(boolean withBranchSessions) {
+		return Collections.emptyList();
+	}
 
-    @Override
-    public List<GlobalSession> readSession(GlobalStatus[] statuses, boolean withBranchSessions) {
-        return Collections.emptyList();
-    }
+	@Override
+	public List<GlobalSession> readSession(GlobalStatus[] statuses, boolean withBranchSessions) {
+		return Collections.emptyList();
+	}
 
-    @Override
-    public List<GlobalSession> readSession(SessionCondition sessionCondition) {
-        return Collections.emptyList();
-    }
+	@Override
+	public List<GlobalSession> readSession(SessionCondition sessionCondition) {
+		return Collections.emptyList();
+	}
 
-    @Override
-    public void shutdown() {
-    }
+	@Override
+	public void shutdown() {
+	}
+
 }

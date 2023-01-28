@@ -29,47 +29,48 @@ import io.seata.core.constants.ConfigurationKeys;
  */
 public class SystemPropertyLoggerContextListener extends ContextAwareBase implements LoggerContextListener, LifeCycle {
 
-    private boolean started = false;
+	private boolean started = false;
 
-    @Override
-    public void start() {
-        if (started) {
-            return;
-        }
+	@Override
+	public void start() {
+		if (started) {
+			return;
+		}
 
-        Context context = getContext();
-        context.putProperty("RPC_PORT", System.getProperty(ConfigurationKeys.SERVER_SERVICE_PORT_CAMEL));
+		Context context = getContext();
+		context.putProperty("RPC_PORT", System.getProperty(ConfigurationKeys.SERVER_SERVICE_PORT_CAMEL));
 
-        started = true;
-    }
+		started = true;
+	}
 
-    @Override
-    public void stop() {
-    }
+	@Override
+	public void stop() {
+	}
 
-    @Override
-    public boolean isStarted() {
-        return started;
-    }
+	@Override
+	public boolean isStarted() {
+		return started;
+	}
 
-    @Override
-    public boolean isResetResistant() {
-        return true;
-    }
+	@Override
+	public boolean isResetResistant() {
+		return true;
+	}
 
-    @Override
-    public void onStart(LoggerContext context) {
-    }
+	@Override
+	public void onStart(LoggerContext context) {
+	}
 
-    @Override
-    public void onReset(LoggerContext context) {
-    }
+	@Override
+	public void onReset(LoggerContext context) {
+	}
 
-    @Override
-    public void onStop(LoggerContext context) {
-    }
+	@Override
+	public void onStop(LoggerContext context) {
+	}
 
-    @Override
-    public void onLevelChange(Logger logger, Level level) {
-    }
+	@Override
+	public void onLevelChange(Logger logger, Level level) {
+	}
+
 }

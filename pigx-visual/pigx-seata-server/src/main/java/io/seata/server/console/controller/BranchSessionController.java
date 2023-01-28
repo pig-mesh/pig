@@ -23,14 +23,14 @@ import javax.annotation.Resource;
 
 /**
  * Branch Session Controller
+ *
  * @author zhongxiang.wang
  */
 @RestController
 @RequestMapping("console/branchSession")
 public class BranchSessionController {
 
-    @Resource(type = BranchSessionService.class)
-    private BranchSessionService branchSessionService;
-
+	@Resource(type = BranchSessionService.class)
+	private BranchSessionService branchSessionService;
 
 }

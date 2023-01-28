@@ -24,46 +24,48 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Distributed locker factory
+ *
  * @author zhongxiang.wang
  */
 public class DistributedLockerFactory {
 
-    /**
-     * The constant LOGGER.
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DistributedLockerFactory.class);
+	/**
+	 * The constant LOGGER.
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(DistributedLockerFactory.class);
 
-    private static volatile DistributedLocker DISTRIBUTED_LOCKER = null;
+	private static volatile DistributedLocker DISTRIBUTED_LOCKER = null;
 
-    /**
-     * Get the distributed locker by lockerType
-     *
-     * @param lockerType the locker type
-     * @return the distributed locker
-     */
-    public static DistributedLocker getDistributedLocker(String lockerType) {
-        if (DISTRIBUTED_LOCKER == null) {
-            synchronized (DistributedLocker.class) {
-                if (DISTRIBUTED_LOCKER == null) {
-                    DistributedLocker distributedLocker = null;
-                    try {
-                        if (!"file".equals(lockerType)) {
-                            distributedLocker = EnhancedServiceLoader.load(DistributedLocker.class, lockerType);
-                        }
-                    } catch (EnhancedServiceNotFoundException ex) {
-                        LOGGER.error("Get distributed locker failed: {}", ex.getMessage(), ex);
-                    }
-                    if (distributedLocker == null) {
-                        distributedLocker = new DefaultDistributedLocker();
-                    }
-                    DISTRIBUTED_LOCKER = distributedLocker;
-                }
-            }
-        }
-        return DISTRIBUTED_LOCKER;
-    }
+	/**
+	 * Get the distributed locker by lockerType
+	 * @param lockerType the locker type
+	 * @return the distributed locker
+	 */
+	public static DistributedLocker getDistributedLocker(String lockerType) {
+		if (DISTRIBUTED_LOCKER == null) {
+			synchronized (DistributedLocker.class) {
+				if (DISTRIBUTED_LOCKER == null) {
+					DistributedLocker distributedLocker = null;
+					try {
+						if (!"file".equals(lockerType)) {
+							distributedLocker = EnhancedServiceLoader.load(DistributedLocker.class, lockerType);
+						}
+					}
+					catch (EnhancedServiceNotFoundException ex) {
+						LOGGER.error("Get distributed locker failed: {}", ex.getMessage(), ex);
+					}
+					if (distributedLocker == null) {
+						distributedLocker = new DefaultDistributedLocker();
+					}
+					DISTRIBUTED_LOCKER = distributedLocker;
+				}
+			}
+		}
+		return DISTRIBUTED_LOCKER;
+	}
 
-    public static void cleanLocker() {
-        DISTRIBUTED_LOCKER = null;
-    }
+	public static void cleanLocker() {
+		DISTRIBUTED_LOCKER = null;
+	}
+
 }

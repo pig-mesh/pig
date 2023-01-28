@@ -25,57 +25,57 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-
 /**
  * @author spilledyear@outlook.com
  */
 @Component
 public class ServerRunner implements CommandLineRunner, DisposableBean {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ServerRunner.class);
 
-    private boolean started = Boolean.FALSE;
+	private boolean started = Boolean.FALSE;
 
-    private static final List<Disposable> DISPOSABLE_LIST = new CopyOnWriteArrayList<>();
+	private static final List<Disposable> DISPOSABLE_LIST = new CopyOnWriteArrayList<>();
 
-    public static void addDisposable(Disposable disposable) {
-        DISPOSABLE_LIST.add(disposable);
-    }
+	public static void addDisposable(Disposable disposable) {
+		DISPOSABLE_LIST.add(disposable);
+	}
 
-    @Override
-    public void run(String... args) {
-        try {
-            long start = System.currentTimeMillis();
-            Server.start(args);
-            started = true;
+	@Override
+	public void run(String... args) {
+		try {
+			long start = System.currentTimeMillis();
+			Server.start(args);
+			started = true;
 
-            long cost = System.currentTimeMillis() - start;
-            LOGGER.info("seata server started in {} millSeconds", cost);
-        } catch (Throwable e) {
-            started = Boolean.FALSE;
-            LOGGER.error("seata server start error: {} ", e.getMessage(), e);
-            System.exit(-1);
-        }
-    }
+			long cost = System.currentTimeMillis() - start;
+			LOGGER.info("seata server started in {} millSeconds", cost);
+		}
+		catch (Throwable e) {
+			started = Boolean.FALSE;
+			LOGGER.error("seata server start error: {} ", e.getMessage(), e);
+			System.exit(-1);
+		}
+	}
 
+	public boolean started() {
+		return started;
+	}
 
-    public boolean started() {
-        return started;
-    }
+	@Override
+	public void destroy() throws Exception {
 
-    @Override
-    public void destroy() throws Exception {
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("destoryAll starting");
+		}
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("destoryAll starting");
-        }
+		for (Disposable disposable : DISPOSABLE_LIST) {
+			disposable.destroy();
+		}
 
-        for (Disposable disposable : DISPOSABLE_LIST) {
-            disposable.destroy();
-        }
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("destoryAll finish");
+		}
+	}
 
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("destoryAll finish");
-        }
-    }
 }

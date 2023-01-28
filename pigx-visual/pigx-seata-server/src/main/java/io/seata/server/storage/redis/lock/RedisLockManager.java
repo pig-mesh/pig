@@ -29,38 +29,41 @@ import io.seata.server.session.GlobalSession;
 @LoadLevel(name = "redis")
 public class RedisLockManager extends AbstractLockManager implements Initialize {
 
-    /**
-     * The locker.
-     */
-    private Locker locker;
+	/**
+	 * The locker.
+	 */
+	private Locker locker;
 
-    @Override
-    public void init() {
-        locker = new RedisLocker();
-    }
+	@Override
+	public void init() {
+		locker = new RedisLocker();
+	}
 
-    @Override
-    public Locker getLocker(BranchSession branchSession) {
-        return locker;
-    }
+	@Override
+	public Locker getLocker(BranchSession branchSession) {
+		return locker;
+	}
 
-    @Override
-    public boolean releaseLock(BranchSession branchSession) throws TransactionException {
-        try {
-            return getLocker().releaseLock(branchSession.getXid(), branchSession.getBranchId());
-        } catch (Exception t) {
-            LOGGER.error("unLock error, xid {}, branchId:{}", branchSession.getXid(), branchSession.getBranchId(), t);
-            return false;
-        }
-    }
+	@Override
+	public boolean releaseLock(BranchSession branchSession) throws TransactionException {
+		try {
+			return getLocker().releaseLock(branchSession.getXid(), branchSession.getBranchId());
+		}
+		catch (Exception t) {
+			LOGGER.error("unLock error, xid {}, branchId:{}", branchSession.getXid(), branchSession.getBranchId(), t);
+			return false;
+		}
+	}
 
-    @Override
-    public boolean releaseGlobalSessionLock(GlobalSession globalSession) throws TransactionException {
-        try {
-            return getLocker().releaseLock(globalSession.getXid());
-        } catch (Exception t) {
-            LOGGER.error("unLock globalSession error, xid:{}", globalSession.getXid(), t);
-            return false;
-        }
-    }
+	@Override
+	public boolean releaseGlobalSessionLock(GlobalSession globalSession) throws TransactionException {
+		try {
+			return getLocker().releaseLock(globalSession.getXid());
+		}
+		catch (Exception t) {
+			LOGGER.error("unLock globalSession error, xid:{}", globalSession.getXid(), t);
+			return false;
+		}
+	}
+
 }

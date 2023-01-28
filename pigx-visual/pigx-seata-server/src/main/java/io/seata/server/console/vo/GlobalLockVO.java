@@ -28,169 +28,161 @@ import java.util.List;
 
 /**
  * GlobalLockVO
+ *
  * @author zhongxiang.wang
  * @author miaoxueyu
  */
 public class GlobalLockVO {
 
-    private String xid;
+	private String xid;
 
-    private String transactionId;
+	private String transactionId;
 
-    private String branchId;
+	private String branchId;
 
-    private String resourceId;
+	private String resourceId;
 
-    private String tableName;
+	private String tableName;
 
-    private String pk;
+	private String pk;
 
-    private String rowKey;
+	private String rowKey;
 
-    private Long gmtCreate;
+	private Long gmtCreate;
 
-    private Long gmtModified;
+	private Long gmtModified;
 
-    /**
-     * convert RowLock list to GlobalLockVO list
-     * @param rowLocks the RowLock list
-     * @return the GlobalLockVO list
-     */
-    public static List<GlobalLockVO> convert(List<RowLock> rowLocks) {
-        if (CollectionUtils.isEmpty(rowLocks)) {
-            return Collections.emptyList();
-        }
-        final List<GlobalLockVO> result = new ArrayList<>(rowLocks.size());
-        for (RowLock rowLock : rowLocks) {
-            result.add(convert(rowLock));
-        }
+	/**
+	 * convert RowLock list to GlobalLockVO list
+	 * @param rowLocks the RowLock list
+	 * @return the GlobalLockVO list
+	 */
+	public static List<GlobalLockVO> convert(List<RowLock> rowLocks) {
+		if (CollectionUtils.isEmpty(rowLocks)) {
+			return Collections.emptyList();
+		}
+		final List<GlobalLockVO> result = new ArrayList<>(rowLocks.size());
+		for (RowLock rowLock : rowLocks) {
+			result.add(convert(rowLock));
+		}
 
-        return result;
-    }
+		return result;
+	}
 
+	/**
+	 * convert RowLock to GlobalLockVO
+	 * @param rowLock the RowLock
+	 * @return the GlobalLockVO
+	 */
+	public static GlobalLockVO convert(RowLock rowLock) {
+		final GlobalLockVO globalLockVO = new GlobalLockVO();
+		globalLockVO.setXid(rowLock.getXid());
+		globalLockVO.setTransactionId(rowLock.getTransactionId());
+		globalLockVO.setBranchId(rowLock.getBranchId());
+		globalLockVO.setResourceId(rowLock.getResourceId());
+		globalLockVO.setTableName(rowLock.getTableName());
+		globalLockVO.setPk(rowLock.getPk());
+		globalLockVO.setRowKey(rowLock.getRowKey());
+		return globalLockVO;
+	}
 
-    /**
-     * convert RowLock to GlobalLockVO
-     * @param rowLock the RowLock
-     * @return the GlobalLockVO
-     */
-    public static GlobalLockVO convert(RowLock rowLock) {
-        final GlobalLockVO globalLockVO = new GlobalLockVO();
-        globalLockVO.setXid(rowLock.getXid());
-        globalLockVO.setTransactionId(rowLock.getTransactionId());
-        globalLockVO.setBranchId(rowLock.getBranchId());
-        globalLockVO.setResourceId(rowLock.getResourceId());
-        globalLockVO.setTableName(rowLock.getTableName());
-        globalLockVO.setPk(rowLock.getPk());
-        globalLockVO.setRowKey(rowLock.getRowKey());
-        return globalLockVO;
-    }
+	public String getXid() {
+		return xid;
+	}
 
+	public void setXid(String xid) {
+		this.xid = xid;
+	}
 
-    public String getXid() {
-        return xid;
-    }
+	public String getTransactionId() {
+		return transactionId;
+	}
 
-    public void setXid(String xid) {
-        this.xid = xid;
-    }
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = String.valueOf(transactionId);
+	}
 
-    public String getTransactionId() {
-        return transactionId;
-    }
+	public String getBranchId() {
+		return branchId;
+	}
 
-    public void setTransactionId(Long transactionId) {
-        this.transactionId = String.valueOf(transactionId);
-    }
+	public void setBranchId(Long branchId) {
+		this.branchId = String.valueOf(branchId);
+	}
 
-    public String getBranchId() {
-        return branchId;
-    }
+	public String getResourceId() {
+		return resourceId;
+	}
 
-    public void setBranchId(Long branchId) {
-        this.branchId = String.valueOf(branchId);
-    }
+	public void setResourceId(String resourceId) {
+		this.resourceId = resourceId;
+	}
 
-    public String getResourceId() {
-        return resourceId;
-    }
+	public String getTableName() {
+		return tableName;
+	}
 
-    public void setResourceId(String resourceId) {
-        this.resourceId = resourceId;
-    }
+	public void setTableName(String tableName) {
+		this.tableName = tableName;
+	}
 
-    public String getTableName() {
-        return tableName;
-    }
+	public String getPk() {
+		return pk;
+	}
 
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
+	public void setPk(String pk) {
+		this.pk = pk;
+	}
 
-    public String getPk() {
-        return pk;
-    }
+	public String getRowKey() {
+		return rowKey;
+	}
 
-    public void setPk(String pk) {
-        this.pk = pk;
-    }
+	public void setRowKey(String rowKey) {
+		this.rowKey = rowKey;
+	}
 
-    public String getRowKey() {
-        return rowKey;
-    }
+	public Long getGmtCreate() {
+		return gmtCreate;
+	}
 
-    public void setRowKey(String rowKey) {
-        this.rowKey = rowKey;
-    }
+	public void setGmtCreate(Long gmtCreate) {
+		this.gmtCreate = gmtCreate;
+	}
 
-    public Long getGmtCreate() {
-        return gmtCreate;
-    }
+	public Long getGmtModified() {
+		return gmtModified;
+	}
 
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
-    }
+	public void setGmtModified(Long gmtModified) {
+		this.gmtModified = gmtModified;
+	}
 
-    public Long getGmtModified() {
-        return gmtModified;
-    }
+	public static GlobalLockVO convert(ResultSet rs) throws SQLException {
+		GlobalLockVO globalLockVO = new GlobalLockVO();
+		globalLockVO.setRowKey(rs.getString(ServerTableColumnsName.LOCK_TABLE_ROW_KEY));
+		globalLockVO.setXid(rs.getString(ServerTableColumnsName.LOCK_TABLE_XID));
+		globalLockVO.setTransactionId(rs.getLong(ServerTableColumnsName.LOCK_TABLE_TRANSACTION_ID));
+		globalLockVO.setBranchId(rs.getLong(ServerTableColumnsName.LOCK_TABLE_BRANCH_ID));
+		globalLockVO.setResourceId(rs.getString(ServerTableColumnsName.LOCK_TABLE_RESOURCE_ID));
+		globalLockVO.setTableName(rs.getString(ServerTableColumnsName.LOCK_TABLE_TABLE_NAME));
+		globalLockVO.setPk(rs.getString(ServerTableColumnsName.LOCK_TABLE_PK));
+		Timestamp gmtCreateTimestamp = rs.getTimestamp(ServerTableColumnsName.LOCK_TABLE_GMT_CREATE);
+		if (gmtCreateTimestamp != null) {
+			globalLockVO.setGmtCreate(gmtCreateTimestamp.getTime());
+		}
+		Timestamp gmtModifiedTimestamp = rs.getTimestamp(ServerTableColumnsName.LOCK_TABLE_GMT_MODIFIED);
+		if (gmtModifiedTimestamp != null) {
+			globalLockVO.setGmtModified(gmtModifiedTimestamp.getTime());
+		}
+		return globalLockVO;
+	}
 
-    public void setGmtModified(Long gmtModified) {
-        this.gmtModified = gmtModified;
-    }
+	@Override
+	public String toString() {
+		return "GlobalLockVO{" + "xid='" + xid + '\'' + ", transactionId=" + transactionId + ", branchId=" + branchId
+				+ ", resourceId='" + resourceId + '\'' + ", tableName='" + tableName + '\'' + ", pk='" + pk + '\''
+				+ ", rowKey='" + rowKey + '\'' + ", gmtCreate=" + gmtCreate + ", gmtModified=" + gmtModified + '}';
+	}
 
-    public static GlobalLockVO convert(ResultSet rs) throws SQLException {
-        GlobalLockVO globalLockVO = new GlobalLockVO();
-        globalLockVO.setRowKey(rs.getString(ServerTableColumnsName.LOCK_TABLE_ROW_KEY));
-        globalLockVO.setXid(rs.getString(ServerTableColumnsName.LOCK_TABLE_XID));
-        globalLockVO.setTransactionId(rs.getLong(ServerTableColumnsName.LOCK_TABLE_TRANSACTION_ID));
-        globalLockVO.setBranchId(rs.getLong(ServerTableColumnsName.LOCK_TABLE_BRANCH_ID));
-        globalLockVO.setResourceId(rs.getString(ServerTableColumnsName.LOCK_TABLE_RESOURCE_ID));
-        globalLockVO.setTableName(rs.getString(ServerTableColumnsName.LOCK_TABLE_TABLE_NAME));
-        globalLockVO.setPk(rs.getString(ServerTableColumnsName.LOCK_TABLE_PK));
-        Timestamp gmtCreateTimestamp = rs.getTimestamp(ServerTableColumnsName.LOCK_TABLE_GMT_CREATE);
-        if (gmtCreateTimestamp != null) {
-            globalLockVO.setGmtCreate(gmtCreateTimestamp.getTime());
-        }
-        Timestamp gmtModifiedTimestamp = rs.getTimestamp(ServerTableColumnsName.LOCK_TABLE_GMT_MODIFIED);
-        if (gmtModifiedTimestamp != null) {
-            globalLockVO.setGmtModified(gmtModifiedTimestamp.getTime());
-        }
-        return globalLockVO;
-    }
-
-    @Override
-    public String toString() {
-        return "GlobalLockVO{" +
-                "xid='" + xid + '\'' +
-                ", transactionId=" + transactionId +
-                ", branchId=" + branchId +
-                ", resourceId='" + resourceId + '\'' +
-                ", tableName='" + tableName + '\'' +
-                ", pk='" + pk + '\'' +
-                ", rowKey='" + rowKey + '\'' +
-                ", gmtCreate=" + gmtCreate +
-                ", gmtModified=" + gmtModified +
-                '}';
-    }
 }

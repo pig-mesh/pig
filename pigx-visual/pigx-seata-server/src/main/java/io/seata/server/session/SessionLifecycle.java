@@ -26,64 +26,57 @@ import io.seata.core.model.GlobalStatus;
  */
 public interface SessionLifecycle {
 
-    /**
-     * Begin.
-     *
-     * @throws TransactionException the transaction exception
-     */
-    void begin() throws TransactionException;
+	/**
+	 * Begin.
+	 * @throws TransactionException the transaction exception
+	 */
+	void begin() throws TransactionException;
 
-    /**
-     * Change status.
-     *
-     * @param status the status
-     * @throws TransactionException the transaction exception
-     */
-    void changeGlobalStatus(GlobalStatus status) throws TransactionException;
+	/**
+	 * Change status.
+	 * @param status the status
+	 * @throws TransactionException the transaction exception
+	 */
+	void changeGlobalStatus(GlobalStatus status) throws TransactionException;
 
-    /**
-     * Change branch status.
-     *
-     * @param branchSession the branch session
-     * @param status        the status
-     * @throws TransactionException the transaction exception
-     */
-    void changeBranchStatus(BranchSession branchSession, BranchStatus status) throws TransactionException;
+	/**
+	 * Change branch status.
+	 * @param branchSession the branch session
+	 * @param status the status
+	 * @throws TransactionException the transaction exception
+	 */
+	void changeBranchStatus(BranchSession branchSession, BranchStatus status) throws TransactionException;
 
-    /**
-     * Add branch.
-     *
-     * @param branchSession the branch session
-     * @throws TransactionException the transaction exception
-     */
-    void addBranch(BranchSession branchSession) throws TransactionException;
+	/**
+	 * Add branch.
+	 * @param branchSession the branch session
+	 * @throws TransactionException the transaction exception
+	 */
+	void addBranch(BranchSession branchSession) throws TransactionException;
 
-    /**
-     * Remove branch.
-     *
-     * @param branchSession the branch session
-     * @throws TransactionException the transaction exception
-     */
-    void removeBranch(BranchSession branchSession) throws TransactionException;
+	/**
+	 * Remove branch.
+	 * @param branchSession the branch session
+	 * @throws TransactionException the transaction exception
+	 */
+	void removeBranch(BranchSession branchSession) throws TransactionException;
 
-    /**
-     * Is active boolean.
-     *
-     * @return the boolean
-     */
-    boolean isActive();
+	/**
+	 * Is active boolean.
+	 * @return the boolean
+	 */
+	boolean isActive();
 
-    /**
-     * Close.
-     *
-     * @throws TransactionException the transaction exception
-     */
-    void close() throws TransactionException;
+	/**
+	 * Close.
+	 * @throws TransactionException the transaction exception
+	 */
+	void close() throws TransactionException;
 
-    /**
-     * end.
-     *
-     * @throws TransactionException the transaction exception
-     */
-    void end() throws TransactionException;
+	/**
+	 * end.
+	 * @throws TransactionException the transaction exception
+	 */
+	void end() throws TransactionException;
+
 }

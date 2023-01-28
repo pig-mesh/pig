@@ -21,15 +21,16 @@ import io.seata.server.console.vo.GlobalSessionVO;
 
 /**
  * Global session service
+ *
  * @author wangzhongxiang
  */
 public interface GlobalSessionService {
 
-    /**
-     * Query global session
-     * @param param the param
-     * @return the GlobalSessionVO list
-     */
-    PageResult<GlobalSessionVO> query(GlobalSessionParam param);
+	/**
+	 * Query global session
+	 * @param param the param
+	 * @return the GlobalSessionVO list
+	 */
+	PageResult<GlobalSessionVO> query(GlobalSessionParam param);
 
 }

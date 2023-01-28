@@ -60,17 +60,14 @@ public class DynamicRouteInitRunner implements InitializingBean {
 	private final RedisMessageListenerContainer listenerContainer;
 
 	/**
-	 * WebServerInitializedEvent
-	 * 使用 TransactionalEventListener 时启动时无法获取到事件
+	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
 	 */
 	@Async
 	@Order
 	@EventListener({ WebServerInitializedEvent.class })
-	public void WebServerInit(){
+	public void WebServerInit() {
 		this.initRoute();
 	}
-
-
 
 	@Async
 	@Order

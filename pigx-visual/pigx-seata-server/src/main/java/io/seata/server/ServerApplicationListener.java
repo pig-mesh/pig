@@ -40,89 +40,90 @@ import static io.seata.core.constants.ConfigurationKeys.*;
  */
 public class ServerApplicationListener implements GenericApplicationListener {
 
-    @Override
-    public boolean supportsEventType(ResolvableType eventType) {
-        return eventType.getRawClass() != null
-                && ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(eventType.getRawClass());
-    }
+	@Override
+	public boolean supportsEventType(ResolvableType eventType) {
+		return eventType.getRawClass() != null
+				&& ApplicationEnvironmentPreparedEvent.class.isAssignableFrom(eventType.getRawClass());
+	}
 
-    @Override
-    public void onApplicationEvent(ApplicationEvent event) {
-        if (!(event instanceof ApplicationEnvironmentPreparedEvent)) {
-            return;
-        }
-        ApplicationEnvironmentPreparedEvent environmentPreparedEvent = (ApplicationEnvironmentPreparedEvent)event;
-        ConfigurableEnvironment environment = environmentPreparedEvent.getEnvironment();
-        ObjectHolder.INSTANCE.setObject(OBJECT_KEY_SPRING_CONFIGURABLE_ENVIRONMENT, environment);
-        SeataCoreEnvironmentPostProcessor.init();
-        SeataServerEnvironmentPostProcessor.init();
-        // Load by priority
-        System.setProperty("sessionMode", StoreConfig.getSessionMode().getName());
-        System.setProperty("lockMode", StoreConfig.getLockMode().getName());
+	@Override
+	public void onApplicationEvent(ApplicationEvent event) {
+		if (!(event instanceof ApplicationEnvironmentPreparedEvent)) {
+			return;
+		}
+		ApplicationEnvironmentPreparedEvent environmentPreparedEvent = (ApplicationEnvironmentPreparedEvent) event;
+		ConfigurableEnvironment environment = environmentPreparedEvent.getEnvironment();
+		ObjectHolder.INSTANCE.setObject(OBJECT_KEY_SPRING_CONFIGURABLE_ENVIRONMENT, environment);
+		SeataCoreEnvironmentPostProcessor.init();
+		SeataServerEnvironmentPostProcessor.init();
+		// Load by priority
+		System.setProperty("sessionMode", StoreConfig.getSessionMode().getName());
+		System.setProperty("lockMode", StoreConfig.getLockMode().getName());
 
-        String[] args = environmentPreparedEvent.getArgs();
+		String[] args = environmentPreparedEvent.getArgs();
 
-        // port: -p > -D > env > yml > default
+		// port: -p > -D > env > yml > default
 
-        //-p 8091
-        if (args != null && args.length >= 2) {
-            for (int i = 0; i < args.length; ++i) {
-                if ("-p".equalsIgnoreCase(args[i]) && i < args.length - 1) {
-                    setTargetPort(environment, args[i + 1], true);
-                    return;
-                }
-            }
-        }
+		// -p 8091
+		if (args != null && args.length >= 2) {
+			for (int i = 0; i < args.length; ++i) {
+				if ("-p".equalsIgnoreCase(args[i]) && i < args.length - 1) {
+					setTargetPort(environment, args[i + 1], true);
+					return;
+				}
+			}
+		}
 
-        // -Dserver.servicePort=8091
-        String dPort = environment.getProperty(SERVER_SERVICE_PORT_CAMEL, String.class);
-        if (StringUtils.isNotBlank(dPort)) {
-            setTargetPort(environment, dPort, true);
-            return;
-        }
+		// -Dserver.servicePort=8091
+		String dPort = environment.getProperty(SERVER_SERVICE_PORT_CAMEL, String.class);
+		if (StringUtils.isNotBlank(dPort)) {
+			setTargetPort(environment, dPort, true);
+			return;
+		}
 
-        //docker -e SEATA_PORT=8091
-        String envPort = environment.getProperty(ENV_SEATA_PORT_KEY, String.class);
-        if (StringUtils.isNotBlank(envPort)) {
-            setTargetPort(environment, envPort, true);
-            return;
-        }
+		// docker -e SEATA_PORT=8091
+		String envPort = environment.getProperty(ENV_SEATA_PORT_KEY, String.class);
+		if (StringUtils.isNotBlank(envPort)) {
+			setTargetPort(environment, envPort, true);
+			return;
+		}
 
-        //yml properties server.service-port=8091
-        String configPort = environment.getProperty(SERVER_SERVICE_PORT_CONFIG, String.class);
-        if (StringUtils.isNotBlank(configPort)) {
-            setTargetPort(environment, configPort, false);
-            return;
-        }
+		// yml properties server.service-port=8091
+		String configPort = environment.getProperty(SERVER_SERVICE_PORT_CONFIG, String.class);
+		if (StringUtils.isNotBlank(configPort)) {
+			setTargetPort(environment, configPort, false);
+			return;
+		}
 
-        // server.port=7091
-        String serverPort = environment.getProperty("server.port", String.class);
-        if (StringUtils.isBlank(serverPort)) {
-            serverPort = "8080";
-        }
-        String servicePort = String.valueOf(Integer.parseInt(serverPort) + SERVICE_OFFSET_SPRING_BOOT);
-        setTargetPort(environment, servicePort, true);
-    }
+		// server.port=7091
+		String serverPort = environment.getProperty("server.port", String.class);
+		if (StringUtils.isBlank(serverPort)) {
+			serverPort = "8080";
+		}
+		String servicePort = String.valueOf(Integer.parseInt(serverPort) + SERVICE_OFFSET_SPRING_BOOT);
+		setTargetPort(environment, servicePort, true);
+	}
 
-    private void setTargetPort(ConfigurableEnvironment environment, String port, boolean needAddPropertySource) {
-        // get rpc port first, use to logback-spring.xml, @see the class named `SystemPropertyLoggerContextListener`
-        System.setProperty(SERVER_SERVICE_PORT_CAMEL, port);
+	private void setTargetPort(ConfigurableEnvironment environment, String port, boolean needAddPropertySource) {
+		// get rpc port first, use to logback-spring.xml, @see the class named
+		// `SystemPropertyLoggerContextListener`
+		System.setProperty(SERVER_SERVICE_PORT_CAMEL, port);
 
-        if (needAddPropertySource) {
-            // add property source to the first position
-            Properties pro = new Properties();
-            pro.setProperty(SERVER_SERVICE_PORT_CONFIG, port);
-            environment.getPropertySources().addFirst(new PropertiesPropertySource("serverProperties", pro));
-        }
-    }
+		if (needAddPropertySource) {
+			// add property source to the first position
+			Properties pro = new Properties();
+			pro.setProperty(SERVER_SERVICE_PORT_CONFIG, port);
+			environment.getPropertySources().addFirst(new PropertiesPropertySource("serverProperties", pro));
+		}
+	}
 
-    /**
-     * higher than LoggingApplicationListener
-     *
-     * @return the order
-     */
-    @Override
-    public int getOrder() {
-        return LoggingApplicationListener.DEFAULT_ORDER - 1;
-    }
+	/**
+	 * higher than LoggingApplicationListener
+	 * @return the order
+	 */
+	@Override
+	public int getOrder() {
+		return LoggingApplicationListener.DEFAULT_ORDER - 1;
+	}
+
 }

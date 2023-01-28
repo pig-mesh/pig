@@ -24,22 +24,19 @@ import java.util.List;
  */
 public interface ReloadableStore {
 
-    /**
-     * Read write store.
-     *
-     * @param readSize  the read size
-     * @param isHistory the is history
-     * @return the list
-     */
-    List<TransactionWriteStore> readWriteStore(int readSize, boolean isHistory);
+	/**
+	 * Read write store.
+	 * @param readSize the read size
+	 * @param isHistory the is history
+	 * @return the list
+	 */
+	List<TransactionWriteStore> readWriteStore(int readSize, boolean isHistory);
 
-    /**
-     * Has remaining boolean.
-     *
-     * @param isHistory the is history
-     * @return the boolean
-     */
-    boolean hasRemaining(boolean isHistory);
-
+	/**
+	 * Has remaining boolean.
+	 * @param isHistory the is history
+	 * @return the boolean
+	 */
+	boolean hasRemaining(boolean isHistory);
 
 }

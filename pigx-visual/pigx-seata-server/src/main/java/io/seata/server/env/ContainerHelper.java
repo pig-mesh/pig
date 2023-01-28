@@ -26,78 +26,78 @@ import static io.seata.core.constants.ConfigurationKeys.ENV_SEATA_PORT_KEY;
  */
 public class ContainerHelper {
 
-    private static final String C_GROUP_PATH = "/proc/1/cgroup";
-    private static final String DOCKER_PATH = "/docker";
-    private static final String KUBEPODS_PATH = "/kubepods";
+	private static final String C_GROUP_PATH = "/proc/1/cgroup";
 
-    private static final String ENV_SYSTEM_KEY = "SEATA_ENV";
-    private static final String ENV_SEATA_IP_KEY = "SEATA_IP";
-    private static final String ENV_SERVER_NODE_KEY = "SERVER_NODE";
-    private static final String ENV_STORE_MODE_KEY = "STORE_MODE";
-    private static final String ENV_LOCK_STORE_MODE_KEY = "LOCK_STORE_MODE";
-    private static final String ENV_SESSION_STORE_MODE_KEY = "SESSION_STORE_MODE";
+	private static final String DOCKER_PATH = "/docker";
 
-    /**
-     * Gets env from container.
-     *
-     * @return the env
-     */
-    public static String getEnv() {
-        return StringUtils.trimToNull(System.getenv(ENV_SYSTEM_KEY));
-    }
+	private static final String KUBEPODS_PATH = "/kubepods";
 
-    /**
-     * Gets host from container.
-     *
-     * @return the env
-     */
-    public static String getHost() {
-        return StringUtils.trimToNull(System.getenv(ENV_SEATA_IP_KEY));
-    }
+	private static final String ENV_SYSTEM_KEY = "SEATA_ENV";
 
-    /**
-     * Gets port from container.
-     *
-     * @return the env
-     */
-    public static int getPort() {
-        return NumberUtils.toInt(System.getenv(ENV_SEATA_PORT_KEY), 0);
-    }
+	private static final String ENV_SEATA_IP_KEY = "SEATA_IP";
 
-    /**
-     * Gets server node from container.
-     *
-     * @return the env
-     */
-    public static Long getServerNode() {
-        return NumberUtils.toLong(System.getenv(ENV_SERVER_NODE_KEY));
-    }
+	private static final String ENV_SERVER_NODE_KEY = "SERVER_NODE";
 
-    /**
-     * Gets store mode from container.
-     *
-     * @return the env
-     */
-    public static String getStoreMode() {
-        return StringUtils.trimToNull(System.getenv(ENV_STORE_MODE_KEY));
-    }
+	private static final String ENV_STORE_MODE_KEY = "STORE_MODE";
 
-    /**
-     * Gets session store mode from container.
-     *
-     * @return the env
-     */
-    public static String getSessionStoreMode() {
-        return StringUtils.trimToNull(System.getenv(ENV_SESSION_STORE_MODE_KEY));
-    }
+	private static final String ENV_LOCK_STORE_MODE_KEY = "LOCK_STORE_MODE";
 
-    /**
-     * Gets lock store mode from container.
-     *
-     * @return the env
-     */
-    public static String getLockStoreMode() {
-        return StringUtils.trimToNull(System.getenv(ENV_LOCK_STORE_MODE_KEY));
-    }
+	private static final String ENV_SESSION_STORE_MODE_KEY = "SESSION_STORE_MODE";
+
+	/**
+	 * Gets env from container.
+	 * @return the env
+	 */
+	public static String getEnv() {
+		return StringUtils.trimToNull(System.getenv(ENV_SYSTEM_KEY));
+	}
+
+	/**
+	 * Gets host from container.
+	 * @return the env
+	 */
+	public static String getHost() {
+		return StringUtils.trimToNull(System.getenv(ENV_SEATA_IP_KEY));
+	}
+
+	/**
+	 * Gets port from container.
+	 * @return the env
+	 */
+	public static int getPort() {
+		return NumberUtils.toInt(System.getenv(ENV_SEATA_PORT_KEY), 0);
+	}
+
+	/**
+	 * Gets server node from container.
+	 * @return the env
+	 */
+	public static Long getServerNode() {
+		return NumberUtils.toLong(System.getenv(ENV_SERVER_NODE_KEY));
+	}
+
+	/**
+	 * Gets store mode from container.
+	 * @return the env
+	 */
+	public static String getStoreMode() {
+		return StringUtils.trimToNull(System.getenv(ENV_STORE_MODE_KEY));
+	}
+
+	/**
+	 * Gets session store mode from container.
+	 * @return the env
+	 */
+	public static String getSessionStoreMode() {
+		return StringUtils.trimToNull(System.getenv(ENV_SESSION_STORE_MODE_KEY));
+	}
+
+	/**
+	 * Gets lock store mode from container.
+	 * @return the env
+	 */
+	public static String getLockStoreMode() {
+		return StringUtils.trimToNull(System.getenv(ENV_LOCK_STORE_MODE_KEY));
+	}
 
 }
