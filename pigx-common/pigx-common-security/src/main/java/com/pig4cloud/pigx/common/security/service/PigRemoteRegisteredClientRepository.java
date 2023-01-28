@@ -113,7 +113,7 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 		// 注入扩展配置
 		Optional.ofNullable(clientDetails.getAdditionalInformation()).ifPresent(ext -> {
 			Map map = JSONUtil.parseObj(ext).toBean(Map.class);
-			builder.clientSettings(ClientSettings.withSettings(map)
+			builder.clientSettings(ClientSettings.withSettings(map).requireProofKey(false)
 					.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build());
 		});
 
