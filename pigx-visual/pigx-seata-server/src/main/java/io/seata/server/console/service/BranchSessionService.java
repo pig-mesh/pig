@@ -13,20 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.server.logging.logback.ansi;
+package io.seata.server.console.service;
+
+import io.seata.console.result.PageResult;
+import io.seata.server.console.vo.BranchSessionVO;
 
 /**
- * An ANSI encodable element.
+ * Branch session service
  *
- * @author Phillip Webb
- * @origin Copied from spring-boot.jar by wang.liang
+ * @author wangzhongxiang
  */
-public interface AnsiElement {
+public interface BranchSessionService {
 
 	/**
-	 * @return the ANSI escape code
+	 * Query branch session by xid
+	 * @param xid the xid
+	 * @return the BranchSessionVO list
 	 */
-	@Override
-	String toString();
+	PageResult<BranchSessionVO> queryByXid(String xid);
 
 }

@@ -15,11 +15,11 @@
  */
 package io.seata.server.logging.logback.appender;
 
-import java.util.ArrayList;
-
 import net.logstash.logback.composite.JsonProvider;
 import net.logstash.logback.composite.JsonProviders;
 import net.logstash.logback.encoder.LogstashEncoder;
+
+import java.util.ArrayList;
 
 /**
  * The type Enhanced logstash encoder

@@ -15,15 +15,6 @@
  */
 package io.seata.server.storage.db.store;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.sql.DataSource;
-
 import io.seata.common.exception.DataAccessException;
 import io.seata.common.exception.StoreException;
 import io.seata.common.util.IOUtil;
@@ -38,6 +29,11 @@ import io.seata.core.store.LogStore;
 import io.seata.core.store.db.sql.log.LogStoreSqlsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static io.seata.common.DefaultValues.DEFAULT_STORE_DB_BRANCH_TABLE;
 import static io.seata.common.DefaultValues.DEFAULT_STORE_DB_GLOBAL_TABLE;
@@ -199,21 +195,22 @@ public class LogStoreDataBaseDAO implements LogStore {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
+			int index = 1;
 			conn = logStoreDataSource.getConnection();
 			conn.setAutoCommit(true);
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, globalTransactionDO.getXid());
-			ps.setLong(2, globalTransactionDO.getTransactionId());
-			ps.setInt(3, globalTransactionDO.getStatus());
-			ps.setString(4, globalTransactionDO.getApplicationId());
-			ps.setString(5, globalTransactionDO.getTransactionServiceGroup());
+			ps.setString(index++, globalTransactionDO.getXid());
+			ps.setLong(index++, globalTransactionDO.getTransactionId());
+			ps.setInt(index++, globalTransactionDO.getStatus());
+			ps.setString(index++, globalTransactionDO.getApplicationId());
+			ps.setString(index++, globalTransactionDO.getTransactionServiceGroup());
 			String transactionName = globalTransactionDO.getTransactionName();
 			transactionName = transactionName.length() > transactionNameColumnSize
 					? transactionName.substring(0, transactionNameColumnSize) : transactionName;
-			ps.setString(6, transactionName);
-			ps.setInt(7, globalTransactionDO.getTimeout());
-			ps.setLong(8, globalTransactionDO.getBeginTime());
-			ps.setString(9, globalTransactionDO.getApplicationData());
+			ps.setString(index++, transactionName);
+			ps.setInt(index++, globalTransactionDO.getTimeout());
+			ps.setLong(index++, globalTransactionDO.getBeginTime());
+			ps.setString(index++, globalTransactionDO.getApplicationData());
 			return ps.executeUpdate() > 0;
 		}
 		catch (SQLException e) {
@@ -230,11 +227,12 @@ public class LogStoreDataBaseDAO implements LogStore {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
+			int index = 1;
 			conn = logStoreDataSource.getConnection();
 			conn.setAutoCommit(true);
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, globalTransactionDO.getStatus());
-			ps.setString(2, globalTransactionDO.getXid());
+			ps.setInt(index++, globalTransactionDO.getStatus());
+			ps.setString(index++, globalTransactionDO.getXid());
 			return ps.executeUpdate() > 0;
 		}
 		catch (SQLException e) {
@@ -331,18 +329,19 @@ public class LogStoreDataBaseDAO implements LogStore {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
+			int index = 1;
 			conn = logStoreDataSource.getConnection();
 			conn.setAutoCommit(true);
 			ps = conn.prepareStatement(sql);
-			ps.setString(1, branchTransactionDO.getXid());
-			ps.setLong(2, branchTransactionDO.getTransactionId());
-			ps.setLong(3, branchTransactionDO.getBranchId());
-			ps.setString(4, branchTransactionDO.getResourceGroupId());
-			ps.setString(5, branchTransactionDO.getResourceId());
-			ps.setString(6, branchTransactionDO.getBranchType());
-			ps.setInt(7, branchTransactionDO.getStatus());
-			ps.setString(8, branchTransactionDO.getClientId());
-			ps.setString(9, branchTransactionDO.getApplicationData());
+			ps.setString(index++, branchTransactionDO.getXid());
+			ps.setLong(index++, branchTransactionDO.getTransactionId());
+			ps.setLong(index++, branchTransactionDO.getBranchId());
+			ps.setString(index++, branchTransactionDO.getResourceGroupId());
+			ps.setString(index++, branchTransactionDO.getResourceId());
+			ps.setString(index++, branchTransactionDO.getBranchType());
+			ps.setInt(index++, branchTransactionDO.getStatus());
+			ps.setString(index++, branchTransactionDO.getClientId());
+			ps.setString(index++, branchTransactionDO.getApplicationData());
 			return ps.executeUpdate() > 0;
 		}
 		catch (SQLException e) {
@@ -355,16 +354,23 @@ public class LogStoreDataBaseDAO implements LogStore {
 
 	@Override
 	public boolean updateBranchTransactionDO(BranchTransactionDO branchTransactionDO) {
-		String sql = LogStoreSqlsFactory.getLogStoreSqls(dbType).getUpdateBranchTransactionStatusSQL(branchTable);
+		boolean shouldUpdateAppData = StringUtils.isNotBlank(branchTransactionDO.getApplicationData());
+		String sql = shouldUpdateAppData
+				? LogStoreSqlsFactory.getLogStoreSqls(dbType).getUpdateBranchTransactionStatusAppDataSQL(branchTable)
+				: LogStoreSqlsFactory.getLogStoreSqls(dbType).getUpdateBranchTransactionStatusSQL(branchTable);
 		Connection conn = null;
 		PreparedStatement ps = null;
 		try {
+			int index = 1;
 			conn = logStoreDataSource.getConnection();
 			conn.setAutoCommit(true);
 			ps = conn.prepareStatement(sql);
-			ps.setInt(1, branchTransactionDO.getStatus());
-			ps.setString(2, branchTransactionDO.getXid());
-			ps.setLong(3, branchTransactionDO.getBranchId());
+			ps.setInt(index++, branchTransactionDO.getStatus());
+			if (shouldUpdateAppData) {
+				ps.setString(index++, branchTransactionDO.getApplicationData());
+			}
+			ps.setString(index++, branchTransactionDO.getXid());
+			ps.setLong(index++, branchTransactionDO.getBranchId());
 			return ps.executeUpdate() > 0;
 		}
 		catch (SQLException e) {
@@ -403,7 +409,7 @@ public class LogStoreDataBaseDAO implements LogStore {
 		String branchMaxSql = LogStoreSqlsFactory.getLogStoreSqls(dbType).getQueryBranchMax(branchTable);
 		long maxTransId = getCurrentMaxSessionId(transMaxSql, high, low);
 		long maxBranchId = getCurrentMaxSessionId(branchMaxSql, high, low);
-		return maxBranchId > maxTransId ? maxBranchId : maxTransId;
+		return Math.max(maxBranchId, maxTransId);
 	}
 
 	private long getCurrentMaxSessionId(String sql, long high, long low) {
@@ -412,11 +418,12 @@ public class LogStoreDataBaseDAO implements LogStore {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
+			int index = 1;
 			conn = logStoreDataSource.getConnection();
 			conn.setAutoCommit(true);
 			ps = conn.prepareStatement(sql);
-			ps.setLong(1, high);
-			ps.setLong(2, low);
+			ps.setLong(index++, high);
+			ps.setLong(index++, low);
 
 			rs = ps.executeQuery();
 			while (rs.next()) {

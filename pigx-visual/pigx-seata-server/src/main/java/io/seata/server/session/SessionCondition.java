@@ -32,7 +32,9 @@ public class SessionCondition {
 
 	private GlobalStatus[] statuses;
 
-	private long overTimeAliveMills;
+	private Long overTimeAliveMills;
+
+	private boolean lazyLoadBranch;
 
 	/**
 	 * Instantiates a new Session condition.
@@ -54,14 +56,14 @@ public class SessionCondition {
 	 */
 	public SessionCondition(GlobalStatus status) {
 		this.status = status;
-		statuses = new GlobalStatus[] { status };
+		this.statuses = new GlobalStatus[] { status };
 	}
 
 	/**
 	 * Instantiates a new Session condition.
 	 * @param statuses the statuses
 	 */
-	public SessionCondition(GlobalStatus[] statuses) {
+	public SessionCondition(GlobalStatus... statuses) {
 		this.statuses = statuses;
 	}
 
@@ -87,13 +89,14 @@ public class SessionCondition {
 	 */
 	public void setStatus(GlobalStatus status) {
 		this.status = status;
+		this.statuses = new GlobalStatus[] { status };
 	}
 
 	/**
 	 * Gets over time alive mills.
 	 * @return the over time alive mills
 	 */
-	public long getOverTimeAliveMills() {
+	public Long getOverTimeAliveMills() {
 		return overTimeAliveMills;
 	}
 
@@ -101,7 +104,7 @@ public class SessionCondition {
 	 * Sets over time alive mills.
 	 * @param overTimeAliveMills the over time alive mills
 	 */
-	public void setOverTimeAliveMills(long overTimeAliveMills) {
+	public void setOverTimeAliveMills(Long overTimeAliveMills) {
 		this.overTimeAliveMills = overTimeAliveMills;
 	}
 
@@ -125,8 +128,16 @@ public class SessionCondition {
 		return statuses;
 	}
 
-	public void setStatuses(GlobalStatus[] statuses) {
+	public void setStatuses(GlobalStatus... statuses) {
 		this.statuses = statuses;
+	}
+
+	public boolean isLazyLoadBranch() {
+		return lazyLoadBranch;
+	}
+
+	public void setLazyLoadBranch(boolean lazyLoadBranch) {
+		this.lazyLoadBranch = lazyLoadBranch;
 	}
 
 }

@@ -15,6 +15,9 @@
  */
 package io.seata.server.transaction.at;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.seata.common.exception.StoreException;
+import io.seata.common.util.StringUtils;
 import io.seata.core.exception.BranchTransactionException;
 import io.seata.core.exception.TransactionException;
 import io.seata.core.model.BranchType;
@@ -23,6 +26,12 @@ import io.seata.server.coordinator.AbstractCore;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static io.seata.common.Constants.AUTO_COMMIT;
+import static io.seata.common.Constants.SKIP_CHECK_LOCK;
 import static io.seata.core.exception.TransactionExceptionCode.LockKeyConflict;
 
 /**
@@ -31,6 +40,8 @@ import static io.seata.core.exception.TransactionExceptionCode.LockKeyConflict;
  * @author ph3636
  */
 public class ATCore extends AbstractCore {
+
+	private final ObjectMapper objectMapper = new ObjectMapper();
 
 	public ATCore(RemotingServer remotingServer) {
 		super(remotingServer);
@@ -44,10 +55,39 @@ public class ATCore extends AbstractCore {
 	@Override
 	protected void branchSessionLock(GlobalSession globalSession, BranchSession branchSession)
 			throws TransactionException {
-		if (!branchSession.lock()) {
-			throw new BranchTransactionException(LockKeyConflict,
-					String.format("Global lock acquire failed xid = %s branchId = %s", globalSession.getXid(),
-							branchSession.getBranchId()));
+		String applicationData = branchSession.getApplicationData();
+		boolean autoCommit = true;
+		boolean skipCheckLock = false;
+		if (StringUtils.isNotBlank(applicationData)) {
+			try {
+				Map<String, Object> data = objectMapper.readValue(applicationData, HashMap.class);
+				Object clientAutoCommit = data.get(AUTO_COMMIT);
+				if (clientAutoCommit != null && !(boolean) clientAutoCommit) {
+					autoCommit = (boolean) clientAutoCommit;
+				}
+				Object clientSkipCheckLock = data.get(SKIP_CHECK_LOCK);
+				if (clientSkipCheckLock instanceof Boolean) {
+					skipCheckLock = (boolean) clientSkipCheckLock;
+				}
+			}
+			catch (IOException e) {
+				LOGGER.error("failed to get application data: {}", e.getMessage(), e);
+			}
+		}
+		try {
+			if (!branchSession.lock(autoCommit, skipCheckLock)) {
+				throw new BranchTransactionException(LockKeyConflict,
+						String.format("Global lock acquire failed xid = %s branchId = %s", globalSession.getXid(),
+								branchSession.getBranchId()));
+			}
+		}
+		catch (StoreException e) {
+			if (e.getCause() instanceof BranchTransactionException) {
+				throw new BranchTransactionException(((BranchTransactionException) e.getCause()).getCode(),
+						String.format("Global lock acquire failed xid = %s branchId = %s", globalSession.getXid(),
+								branchSession.getBranchId()));
+			}
+			throw e;
 		}
 	}
 

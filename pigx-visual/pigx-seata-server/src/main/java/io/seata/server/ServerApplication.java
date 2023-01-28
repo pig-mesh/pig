@@ -13,53 +13,22 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.server.logging.logback.ansi;
+package io.seata.server;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.io.IOException;
 
 /**
- * {@link AnsiElement Ansi} styles.
- *
- * @author Phillip Webb
- * @origin Copied from spring-boot.jar by wang.liang
+ * @author spilledyear@outlook.com
  */
-public enum AnsiStyle implements AnsiElement {
+@SpringBootApplication(scanBasePackages = { "io.seata" })
+public class ServerApplication {
 
-	/**
-	 * normal
-	 */
-	NORMAL("0"),
-
-	/**
-	 * bold
-	 */
-	BOLD("1"),
-
-	/**
-	 * faint
-	 */
-	FAINT("2"),
-
-	/**
-	 * italic
-	 */
-	ITALIC("3"),
-
-	/**
-	 * underline
-	 */
-	UNDERLINE("4");
-
-	/**
-	 * code of style
-	 */
-	private final String code;
-
-	AnsiStyle(String code) {
-		this.code = code;
-	}
-
-	@Override
-	public String toString() {
-		return this.code;
+	public static void main(String[] args) throws IOException {
+		// run the spring-boot application
+		SpringApplication.run(ServerApplication.class, args);
 	}
 
 }

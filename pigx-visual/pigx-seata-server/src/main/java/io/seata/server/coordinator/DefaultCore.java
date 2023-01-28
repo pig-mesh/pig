@@ -15,23 +15,19 @@
  */
 package io.seata.server.coordinator;
 
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
+import io.seata.common.DefaultValues;
 import io.seata.common.exception.NotSupportYetException;
 import io.seata.common.loader.EnhancedServiceLoader;
 import io.seata.common.util.CollectionUtils;
+import io.seata.config.ConfigurationFactory;
 import io.seata.core.context.RootContext;
-import io.seata.core.event.EventBus;
-import io.seata.core.event.GlobalTransactionEvent;
 import io.seata.core.exception.TransactionException;
 import io.seata.core.logger.StackTraceLogger;
 import io.seata.core.model.BranchStatus;
 import io.seata.core.model.BranchType;
 import io.seata.core.model.GlobalStatus;
 import io.seata.core.rpc.RemotingServer;
-import io.seata.server.event.EventBusManager;
+import io.seata.server.metrics.MetricsPublisher;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
 import io.seata.server.session.SessionHelper;
@@ -40,6 +36,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import static io.seata.core.constants.ConfigurationKeys.XAER_NOTA_RETRY_TIMEOUT;
 import static io.seata.server.session.BranchSessionHandler.CONTINUE;
 
 /**
@@ -51,7 +52,8 @@ public class DefaultCore implements Core {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCore.class);
 
-	private EventBus eventBus = EventBusManager.get();
+	private static final int RETRY_XAER_NOTA_TIMEOUT = ConfigurationFactory.getInstance()
+			.getInt(XAER_NOTA_RETRY_TIMEOUT, DefaultValues.DEFAULT_XAER_NOTA_RETRY_TIMEOUT);
 
 	private static Map<BranchType, AbstractCore> coreMap = new ConcurrentHashMap<>();
 
@@ -132,9 +134,7 @@ public class DefaultCore implements Core {
 		session.begin();
 
 		// transaction start event
-		eventBus.post(new GlobalTransactionEvent(session.getTransactionId(), GlobalTransactionEvent.ROLE_TC,
-				session.getTransactionName(), applicationId, transactionServiceGroup, session.getBeginTime(), null,
-				session.getStatus()));
+		MetricsPublisher.postSessionDoingEvent(session, false);
 
 		return session.getXid();
 	}
@@ -145,20 +145,27 @@ public class DefaultCore implements Core {
 		if (globalSession == null) {
 			return GlobalStatus.Finished;
 		}
+
+		if (globalSession.isTimeout()) {
+			LOGGER.info("TC detected timeout, xid = {}", globalSession.getXid());
+			return GlobalStatus.TimeoutRollbacking;
+		}
+
 		globalSession.addSessionLifecycleListener(SessionHolder.getRootSessionManager());
 		// just lock changeStatus
 
 		boolean shouldCommit = SessionHolder.lockAndExecute(globalSession, () -> {
-			// Highlight: Firstly, close the session, then no more branch can be
-			// registered.
-			globalSession.closeAndClean();
 			if (globalSession.getStatus() == GlobalStatus.Begin) {
+				// Highlight: Firstly, close the session, then no more branch can be
+				// registered.
+				globalSession.closeAndClean();
 				if (globalSession.canBeCommittedAsync()) {
 					globalSession.asyncCommit();
+					MetricsPublisher.postSessionDoneEvent(globalSession, GlobalStatus.Committed, false, false);
 					return false;
 				}
 				else {
-					globalSession.changeStatus(GlobalStatus.Committing);
+					globalSession.changeGlobalStatus(GlobalStatus.Committing);
 					return true;
 				}
 			}
@@ -187,10 +194,7 @@ public class DefaultCore implements Core {
 	public boolean doGlobalCommit(GlobalSession globalSession, boolean retrying) throws TransactionException {
 		boolean success = true;
 		// start committing event
-		eventBus.post(new GlobalTransactionEvent(globalSession.getTransactionId(), GlobalTransactionEvent.ROLE_TC,
-				globalSession.getTransactionName(), globalSession.getApplicationId(),
-				globalSession.getTransactionServiceGroup(), globalSession.getBeginTime(), null,
-				globalSession.getStatus()));
+		MetricsPublisher.postSessionDoingEvent(globalSession, retrying);
 
 		if (globalSession.isSaga()) {
 			success = getCore(BranchType.SAGA).doGlobalCommit(globalSession, retrying);
@@ -204,31 +208,29 @@ public class DefaultCore implements Core {
 
 				BranchStatus currentStatus = branchSession.getStatus();
 				if (currentStatus == BranchStatus.PhaseOne_Failed) {
-					globalSession.removeBranch(branchSession);
+					SessionHelper.removeBranch(globalSession, branchSession, !retrying);
 					return CONTINUE;
 				}
 				try {
 					BranchStatus branchStatus = getCore(branchSession.getBranchType()).branchCommit(globalSession,
 							branchSession);
-
+					if (isXaerNotaTimeout(globalSession, branchStatus)) {
+						LOGGER.info("Commit branch XAER_NOTA retry timeout, xid = {} branchId = {}",
+								globalSession.getXid(), branchSession.getBranchId());
+						branchStatus = BranchStatus.PhaseTwo_Committed;
+					}
 					switch (branchStatus) {
 						case PhaseTwo_Committed:
-							globalSession.removeBranch(branchSession);
+							SessionHelper.removeBranch(globalSession, branchSession, !retrying);
 							return CONTINUE;
 						case PhaseTwo_CommitFailed_Unretryable:
-							if (globalSession.canBeCommittedAsync()) {
-								LOGGER.error(
-										"Committing branch transaction[{}], status: PhaseTwo_CommitFailed_Unretryable, please check the business log.",
-										branchSession.getBranchId());
-								return CONTINUE;
-							}
-							else {
-								SessionHelper.endCommitFailed(globalSession);
-								LOGGER.error(
-										"Committing global transaction[{}] finally failed, caused by branch transaction[{}] commit failed.",
-										globalSession.getXid(), branchSession.getBranchId());
-								return false;
-							}
+							// not at branch
+							SessionHelper.endCommitFailed(globalSession, retrying);
+							LOGGER.error(
+									"Committing global transaction[{}] finally failed, caused by branch transaction[{}] commit failed.",
+									globalSession.getXid(), branchSession.getBranchId());
+							return false;
+
 						default:
 							if (!retrying) {
 								globalSession.queueToRetryCommit();
@@ -269,16 +271,15 @@ public class DefaultCore implements Core {
 				return false;
 			}
 		}
-		// If success and there is no branch, end the global transaction.
+		// if it succeeds and there is no branch, retrying=true is the asynchronous state
+		// when retrying. EndCommitted is
+		// executed to improve concurrency performance, and the global transaction ends..
 		if (success && globalSession.getBranchSessions().isEmpty()) {
-			SessionHelper.endCommitted(globalSession);
-
-			// committed event
-			eventBus.post(new GlobalTransactionEvent(globalSession.getTransactionId(), GlobalTransactionEvent.ROLE_TC,
-					globalSession.getTransactionName(), globalSession.getApplicationId(),
-					globalSession.getTransactionServiceGroup(), globalSession.getBeginTime(),
-					System.currentTimeMillis(), globalSession.getStatus()));
-
+			if (!retrying) {
+				// contains not AT branch
+				globalSession.setStatus(GlobalStatus.Committed);
+			}
+			SessionHelper.endCommitted(globalSession, retrying);
 			LOGGER.info("Committing global transaction is successfully done, xid = {}.", globalSession.getXid());
 		}
 		return success;
@@ -296,7 +297,7 @@ public class DefaultCore implements Core {
 			globalSession.close(); // Highlight: Firstly, close the session, then no more
 									// branch can be registered.
 			if (globalSession.getStatus() == GlobalStatus.Begin) {
-				globalSession.changeStatus(GlobalStatus.Rollbacking);
+				globalSession.changeGlobalStatus(GlobalStatus.Rollbacking);
 				return true;
 			}
 			return false;
@@ -305,18 +306,15 @@ public class DefaultCore implements Core {
 			return globalSession.getStatus();
 		}
 
-		doGlobalRollback(globalSession, false);
-		return globalSession.getStatus();
+		boolean rollbackSuccess = doGlobalRollback(globalSession, false);
+		return rollbackSuccess ? GlobalStatus.Rollbacked : globalSession.getStatus();
 	}
 
 	@Override
 	public boolean doGlobalRollback(GlobalSession globalSession, boolean retrying) throws TransactionException {
 		boolean success = true;
 		// start rollback event
-		eventBus.post(new GlobalTransactionEvent(globalSession.getTransactionId(), GlobalTransactionEvent.ROLE_TC,
-				globalSession.getTransactionName(), globalSession.getApplicationId(),
-				globalSession.getTransactionServiceGroup(), globalSession.getBeginTime(), null,
-				globalSession.getStatus()));
+		MetricsPublisher.postSessionDoingEvent(globalSession, retrying);
 
 		if (globalSession.isSaga()) {
 			success = getCore(BranchType.SAGA).doGlobalRollback(globalSession, retrying);
@@ -325,19 +323,24 @@ public class DefaultCore implements Core {
 			Boolean result = SessionHelper.forEach(globalSession.getReverseSortedBranches(), branchSession -> {
 				BranchStatus currentBranchStatus = branchSession.getStatus();
 				if (currentBranchStatus == BranchStatus.PhaseOne_Failed) {
-					globalSession.removeBranch(branchSession);
+					SessionHelper.removeBranch(globalSession, branchSession, !retrying);
 					return CONTINUE;
 				}
 				try {
 					BranchStatus branchStatus = branchRollback(globalSession, branchSession);
+					if (isXaerNotaTimeout(globalSession, branchStatus)) {
+						LOGGER.info("Rollback branch XAER_NOTA retry timeout, xid = {} branchId = {}",
+								globalSession.getXid(), branchSession.getBranchId());
+						branchStatus = BranchStatus.PhaseTwo_Rollbacked;
+					}
 					switch (branchStatus) {
 						case PhaseTwo_Rollbacked:
-							globalSession.removeBranch(branchSession);
+							SessionHelper.removeBranch(globalSession, branchSession, !retrying);
 							LOGGER.info("Rollback branch transaction successfully, xid = {} branchId = {}",
 									globalSession.getXid(), branchSession.getBranchId());
 							return CONTINUE;
 						case PhaseTwo_RollbackFailed_Unretryable:
-							SessionHelper.endRollbackFailed(globalSession);
+							SessionHelper.endRollbackFailed(globalSession, retrying);
 							LOGGER.info("Rollback branch transaction fail and stop retry, xid = {} branchId = {}",
 									globalSession.getXid(), branchSession.getBranchId());
 							return false;
@@ -365,32 +368,13 @@ public class DefaultCore implements Core {
 			if (result != null) {
 				return result;
 			}
-
-			// In db mode, there is a problem of inconsistent data in multiple copies,
-			// resulting in new branch
-			// transaction registration when rolling back.
-			// 1. New branch transaction and rollback branch transaction have no data
-			// association
-			// 2. New branch transaction has data association with rollback branch
-			// transaction
-			// The second query can solve the first problem, and if it is the second
-			// problem, it may cause a rollback
-			// failure due to data changes.
-			GlobalSession globalSessionTwice = SessionHolder.findGlobalSession(globalSession.getXid());
-			if (globalSessionTwice != null && globalSessionTwice.hasBranch()) {
-				LOGGER.info("Rollbacking global transaction is NOT done, xid = {}.", globalSession.getXid());
-				return false;
-			}
 		}
+
+		// In db mode, lock and branch data residual problems may occur.
+		// Therefore, execution needs to be delayed here and cannot be executed
+		// synchronously.
 		if (success) {
-			SessionHelper.endRollbacked(globalSession);
-
-			// rollbacked event
-			eventBus.post(new GlobalTransactionEvent(globalSession.getTransactionId(), GlobalTransactionEvent.ROLE_TC,
-					globalSession.getTransactionName(), globalSession.getApplicationId(),
-					globalSession.getTransactionServiceGroup(), globalSession.getBeginTime(),
-					System.currentTimeMillis(), globalSession.getStatus()));
-
+			SessionHelper.endRollbacked(globalSession, retrying);
 			LOGGER.info("Rollback global transaction successfully, xid = {}.", globalSession.getXid());
 		}
 		return success;
@@ -423,6 +407,17 @@ public class DefaultCore implements Core {
 			throws TransactionException {
 		if (globalSession.isSaga()) {
 			getCore(BranchType.SAGA).doGlobalReport(globalSession, xid, globalStatus);
+		}
+	}
+
+	private boolean isXaerNotaTimeout(GlobalSession globalSession, BranchStatus branchStatus) {
+		if (BranchStatus.PhaseTwo_CommitFailed_XAER_NOTA_Retryable.equals(branchStatus)
+				|| BranchStatus.PhaseTwo_RollbackFailed_XAER_NOTA_Retryable.equals(branchStatus)) {
+			return System.currentTimeMillis() > globalSession.getBeginTime() + globalSession.getTimeout()
+					+ Math.max(RETRY_XAER_NOTA_TIMEOUT, globalSession.getTimeout());
+		}
+		else {
+			return false;
 		}
 	}
 

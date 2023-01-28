@@ -37,7 +37,7 @@ public interface SessionLifecycle {
 	 * @param status the status
 	 * @throws TransactionException the transaction exception
 	 */
-	void changeStatus(GlobalStatus status) throws TransactionException;
+	void changeGlobalStatus(GlobalStatus status) throws TransactionException;
 
 	/**
 	 * Change branch status.
@@ -74,7 +74,7 @@ public interface SessionLifecycle {
 	void close() throws TransactionException;
 
 	/**
-	 * End.
+	 * end.
 	 * @throws TransactionException the transaction exception
 	 */
 	void end() throws TransactionException;

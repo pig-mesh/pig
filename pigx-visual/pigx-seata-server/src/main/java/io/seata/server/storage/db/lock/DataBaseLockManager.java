@@ -15,14 +15,9 @@
  */
 package io.seata.server.storage.db.lock;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.sql.DataSource;
-
 import io.seata.common.executor.Initialize;
 import io.seata.common.loader.EnhancedServiceLoader;
 import io.seata.common.loader.LoadLevel;
-import io.seata.common.util.CollectionUtils;
 import io.seata.config.ConfigurationFactory;
 import io.seata.core.constants.ConfigurationKeys;
 import io.seata.core.exception.TransactionException;
@@ -31,6 +26,8 @@ import io.seata.core.store.db.DataSourceProvider;
 import io.seata.server.lock.AbstractLockManager;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
+
+import javax.sql.DataSource;
 
 /**
  * The type db lock manager.
@@ -72,17 +69,11 @@ public class DataBaseLockManager extends AbstractLockManager implements Initiali
 
 	@Override
 	public boolean releaseGlobalSessionLock(GlobalSession globalSession) throws TransactionException {
-		List<BranchSession> branchSessions = globalSession.getBranchSessions();
-		if (CollectionUtils.isEmpty(branchSessions)) {
-			return true;
-		}
-		List<Long> branchIds = branchSessions.stream().map(BranchSession::getBranchId).collect(Collectors.toList());
 		try {
-			return getLocker().releaseLock(globalSession.getXid(), branchIds);
+			return getLocker().releaseLock(globalSession.getXid());
 		}
 		catch (Exception t) {
-			LOGGER.error("unLock globalSession error, xid:{} branchIds:{}", globalSession.getXid(),
-					CollectionUtils.toString(branchIds), t);
+			LOGGER.error("unLock globalSession error, xid:{}", globalSession.getXid(), t);
 			return false;
 		}
 	}
