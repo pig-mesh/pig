@@ -15,6 +15,7 @@
  */
 package io.seata.server.store;
 
+import io.seata.core.model.GlobalStatus;
 import io.seata.server.session.GlobalSession;
 import io.seata.server.session.SessionCondition;
 
@@ -27,99 +28,121 @@ import java.util.List;
  */
 public interface TransactionStoreManager {
 
-	/**
-	 * Write session boolean.
-	 * @param logOperation the log operation
-	 * @param session the session
-	 * @return the boolean
-	 */
-	boolean writeSession(LogOperation logOperation, SessionStorable session);
+    /**
+     * Write session boolean.
+     *
+     * @param logOperation the log operation
+     * @param session      the session
+     * @return the boolean
+     */
+    boolean writeSession(LogOperation logOperation, SessionStorable session);
 
-	/**
-	 * Read global session global session.
-	 * @param xid the xid
-	 * @return the global session
-	 */
-	GlobalSession readSession(String xid);
 
-	/**
-	 * Read session global session.
-	 * @param xid the xid
-	 * @param withBranchSessions the withBranchSessions
-	 * @return the global session
-	 */
-	GlobalSession readSession(String xid, boolean withBranchSessions);
+    /**
+     * Read global session global session.
+     *
+     * @param xid the xid
+     * @return the global session
+     */
+    GlobalSession readSession(String xid);
 
-	/**
-	 * Read session by status list.
-	 * @param sessionCondition the session condition
-	 * @return the list
-	 */
-	List<GlobalSession> readSession(SessionCondition sessionCondition);
+    /**
+     * Read session global session.
+     *
+     * @param xid the xid
+     * @param withBranchSessions the withBranchSessions
+     * @return the global session
+     */
+    GlobalSession readSession(String xid, boolean withBranchSessions);
 
-	/**
-	 * Shutdown.
-	 */
-	void shutdown();
+    /**
+     * Read session global session by sort by timeout begin status.
+     *
+     * @param withBranchSessions the withBranchSessions
+     * @return the global session
+     */
+    List<GlobalSession> readSortByTimeoutBeginSessions(boolean withBranchSessions);
+    /**
+     * Read session global session.
+     *
+     * @param statuses the statuses
+     * @param withBranchSessions the withBranchSessions
+     * @return the global session list
+     */
+    List<GlobalSession> readSession(GlobalStatus[] statuses, boolean withBranchSessions);
 
-	/**
-	 * The enum Log operation.
-	 */
-	enum LogOperation {
+    /**
+     * Read session by status list.
+     *
+     * @param sessionCondition the session condition
+     * @return the list
+     */
+    List<GlobalSession> readSession(SessionCondition sessionCondition);
 
-		/**
-		 * Global add log operation.
-		 */
-		GLOBAL_ADD((byte) 1),
-		/**
-		 * Global update log operation.
-		 */
-		GLOBAL_UPDATE((byte) 2),
-		/**
-		 * Global remove log operation.
-		 */
-		GLOBAL_REMOVE((byte) 3),
-		/**
-		 * Branch add log operation.
-		 */
-		BRANCH_ADD((byte) 4),
-		/**
-		 * Branch update log operation.
-		 */
-		BRANCH_UPDATE((byte) 5),
-		/**
-		 * Branch remove log operation.
-		 */
-		BRANCH_REMOVE((byte) 6);
+    /**
+     * Shutdown.
+     */
+    void shutdown();
 
-		private byte code;
 
-		LogOperation(byte code) {
-			this.code = code;
-		}
+    /**
+     * The enum Log operation.
+     */
+    enum LogOperation {
 
-		/**
-		 * Gets code.
-		 * @return the code
-		 */
-		public byte getCode() {
-			return this.code;
-		}
+        /**
+         * Global add log operation.
+         */
+        GLOBAL_ADD((byte)1),
+        /**
+         * Global update log operation.
+         */
+        GLOBAL_UPDATE((byte)2),
+        /**
+         * Global remove log operation.
+         */
+        GLOBAL_REMOVE((byte)3),
+        /**
+         * Branch add log operation.
+         */
+        BRANCH_ADD((byte)4),
+        /**
+         * Branch update log operation.
+         */
+        BRANCH_UPDATE((byte)5),
+        /**
+         * Branch remove log operation.
+         */
+        BRANCH_REMOVE((byte)6);
 
-		/**
-		 * Gets log operation by code.
-		 * @param code the code
-		 * @return the log operation by code
-		 */
-		public static LogOperation getLogOperationByCode(byte code) {
-			for (LogOperation temp : values()) {
-				if (temp.getCode() == code) {
-					return temp;
-				}
-			}
-			throw new IllegalArgumentException("Unknown LogOperation[" + code + "]");
-		}
+        private byte code;
 
-	}
+        LogOperation(byte code) {
+            this.code = code;
+        }
 
+        /**
+         * Gets code.
+         *
+         * @return the code
+         */
+        public byte getCode() {
+            return this.code;
+        }
+
+        /**
+         * Gets log operation by code.
+         *
+         * @param code the code
+         * @return the log operation by code
+         */
+        public static LogOperation getLogOperationByCode(byte code) {
+            for (LogOperation temp : values()) {
+                if (temp.getCode() == code) {
+                    return temp;
+                }
+            }
+            throw new IllegalArgumentException("Unknown LogOperation[" + code + "]");
+        }
+    }
 }

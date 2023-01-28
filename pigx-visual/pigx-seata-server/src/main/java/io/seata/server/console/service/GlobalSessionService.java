@@ -13,53 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.server.logging.logback.ansi;
+package io.seata.server.console.service;
+
+import io.seata.console.result.PageResult;
+import io.seata.server.console.param.GlobalSessionParam;
+import io.seata.server.console.vo.GlobalSessionVO;
 
 /**
- * {@link AnsiElement Ansi} styles.
- *
- * @author Phillip Webb
- * @origin Copied from spring-boot.jar by wang.liang
+ * Global session service
+ * @author wangzhongxiang
  */
-public enum AnsiStyle implements AnsiElement {
+public interface GlobalSessionService {
 
-	/**
-	 * normal
-	 */
-	NORMAL("0"),
-
-	/**
-	 * bold
-	 */
-	BOLD("1"),
-
-	/**
-	 * faint
-	 */
-	FAINT("2"),
-
-	/**
-	 * italic
-	 */
-	ITALIC("3"),
-
-	/**
-	 * underline
-	 */
-	UNDERLINE("4");
-
-	/**
-	 * code of style
-	 */
-	private final String code;
-
-	AnsiStyle(String code) {
-		this.code = code;
-	}
-
-	@Override
-	public String toString() {
-		return this.code;
-	}
+    /**
+     * Query global session
+     * @param param the param
+     * @return the GlobalSessionVO list
+     */
+    PageResult<GlobalSessionVO> query(GlobalSessionParam param);
 
 }

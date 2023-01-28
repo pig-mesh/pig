@@ -26,31 +26,34 @@ import io.seata.server.session.GlobalSession;
  */
 public interface Core extends TransactionCoordinatorInbound, TransactionCoordinatorOutbound {
 
-	/**
-	 * Do global commit.
-	 * @param globalSession the global session
-	 * @param retrying the retrying
-	 * @return is global commit.
-	 * @throws TransactionException the transaction exception
-	 */
-	boolean doGlobalCommit(GlobalSession globalSession, boolean retrying) throws TransactionException;
+    /**
+     * Do global commit.
+     *
+     * @param globalSession the global session
+     * @param retrying      the retrying
+     * @return is global commit.
+     * @throws TransactionException the transaction exception
+     */
+    boolean doGlobalCommit(GlobalSession globalSession, boolean retrying) throws TransactionException;
 
-	/**
-	 * Do global rollback.
-	 * @param globalSession the global session
-	 * @param retrying the retrying
-	 * @return is global rollback.
-	 * @throws TransactionException the transaction exception
-	 */
-	boolean doGlobalRollback(GlobalSession globalSession, boolean retrying) throws TransactionException;
+    /**
+     * Do global rollback.
+     *
+     * @param globalSession the global session
+     * @param retrying      the retrying
+     * @return is global rollback.
+     * @throws TransactionException the transaction exception
+     */
+    boolean doGlobalRollback(GlobalSession globalSession, boolean retrying) throws TransactionException;
 
-	/**
-	 * Do global report.
-	 * @param globalSession the global session
-	 * @param xid Transaction id.
-	 * @param param the global status
-	 * @throws TransactionException the transaction exception
-	 */
-	void doGlobalReport(GlobalSession globalSession, String xid, GlobalStatus param) throws TransactionException;
+    /**
+     * Do global report.
+     *
+     * @param globalSession the global session
+     * @param xid           Transaction id.
+     * @param param         the global status
+     * @throws TransactionException the transaction exception
+     */
+    void doGlobalReport(GlobalSession globalSession, String xid, GlobalStatus param) throws TransactionException;
 
 }

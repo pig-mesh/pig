@@ -19,27 +19,25 @@ package io.seata.server.storage.file;
  * @author lizhao
  */
 public enum FlushDiskMode {
+    /**
+     * sync flush disk
+     */
+    SYNC_MODEL("sync"),
+    /**
+     * async flush disk
+     */
+    ASYNC_MODEL("async");
 
-	/**
-	 * sync flush disk
-	 */
-	SYNC_MODEL("sync"),
-	/**
-	 * async flush disk
-	 */
-	ASYNC_MODEL("async");
+    private String modeStr;
 
-	private String modeStr;
+    FlushDiskMode(String modeStr) {
+        this.modeStr = modeStr;
+    }
 
-	FlushDiskMode(String modeStr) {
-		this.modeStr = modeStr;
-	}
-
-	public static FlushDiskMode findDiskMode(String modeStr) {
-		if (SYNC_MODEL.modeStr.equals(modeStr)) {
-			return SYNC_MODEL;
-		}
-		return ASYNC_MODEL;
-	}
-
+    public static FlushDiskMode findDiskMode(String modeStr) {
+        if (SYNC_MODEL.modeStr.equals(modeStr)) {
+            return SYNC_MODEL;
+        }
+        return ASYNC_MODEL;
+    }
 }

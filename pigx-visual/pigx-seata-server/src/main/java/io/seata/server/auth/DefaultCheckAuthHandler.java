@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package io.seata.server.auth;
 
 import io.seata.common.loader.LoadLevel;
@@ -26,14 +25,13 @@ import io.seata.core.protocol.RegisterTMRequest;
 @LoadLevel(name = "defaultCheckAuthHandler", order = 100)
 public class DefaultCheckAuthHandler extends AbstractCheckAuthHandler {
 
-	@Override
-	public boolean doRegTransactionManagerCheck(RegisterTMRequest request) {
-		return true;
-	}
+    @Override
+    public boolean doRegTransactionManagerCheck(RegisterTMRequest request) {
+        return true;
+    }
 
-	@Override
-	public boolean doRegResourceManagerCheck(RegisterRMRequest request) {
-		return true;
-	}
-
+    @Override
+    public boolean doRegResourceManagerCheck(RegisterRMRequest request) {
+        return true;
+    }
 }

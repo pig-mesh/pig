@@ -15,12 +15,13 @@
  */
 package io.seata.server.session;
 
-import java.util.Collection;
-import java.util.List;
 import io.seata.core.exception.TransactionException;
 import io.seata.core.model.BranchStatus;
 import io.seata.core.model.GlobalStatus;
 import io.seata.core.rpc.Disposable;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * The interface Session manager.
@@ -29,105 +30,98 @@ import io.seata.core.rpc.Disposable;
  */
 public interface SessionManager extends SessionLifecycleListener, Disposable {
 
-	/**
-	 * Add global session.
-	 * @param session the session
-	 * @throws TransactionException the transaction exception
-	 */
-	void addGlobalSession(GlobalSession session) throws TransactionException;
+    /**
+     * Add global session.
+     *
+     * @param session the session
+     * @throws TransactionException the transaction exception
+     */
+    void addGlobalSession(GlobalSession session) throws TransactionException;
 
-	/**
-	 * Find global session global session.
-	 * @param xid the xid
-	 * @return the global session
-	 */
-	GlobalSession findGlobalSession(String xid);
+    /**
+     * Find global session global session.
+     *
+     * @param xid the xid
+     * @return the global session
+     */
+    GlobalSession findGlobalSession(String xid) ;
 
-	/**
-	 * Find global session global session.
-	 * @param xid the xid
-	 * @param withBranchSessions the withBranchSessions
-	 * @return the global session
-	 */
-	GlobalSession findGlobalSession(String xid, boolean withBranchSessions);
+    /**
+     * Find global session global session.
+     *
+     * @param xid the xid
+     * @param withBranchSessions the withBranchSessions
+     * @return the global session
+     */
+    GlobalSession findGlobalSession(String xid, boolean withBranchSessions);
 
-	/**
-	 * Update global session status.
-	 * @param session the session
-	 * @param status the status
-	 * @throws TransactionException the transaction exception
-	 */
-	void updateGlobalSessionStatus(GlobalSession session, GlobalStatus status) throws TransactionException;
+    /**
+     * Update global session status.
+     *
+     * @param session the session
+     * @param status  the status
+     * @throws TransactionException the transaction exception
+     */
+    void updateGlobalSessionStatus(GlobalSession session, GlobalStatus status) throws TransactionException;
 
-	/**
-	 * Remove global session.
-	 * @param session the session
-	 * @throws TransactionException the transaction exception
-	 */
-	void removeGlobalSession(GlobalSession session) throws TransactionException;
+    /**
+     * Remove global session.
+     *
+     * @param session the session
+     * @throws TransactionException the transaction exception
+     */
+    void removeGlobalSession(GlobalSession session) throws TransactionException;
 
-	/**
-	 * Add branch session.
-	 * @param globalSession the global session
-	 * @param session the session
-	 * @throws TransactionException the transaction exception
-	 */
-	void addBranchSession(GlobalSession globalSession, BranchSession session) throws TransactionException;
+    /**
+     * Add branch session.
+     *
+     * @param globalSession the global session
+     * @param session       the session
+     * @throws TransactionException the transaction exception
+     */
+    void addBranchSession(GlobalSession globalSession, BranchSession session) throws TransactionException;
 
-	/**
-	 * Update branch session status.
-	 * @param session the session
-	 * @param status the status
-	 * @throws TransactionException the transaction exception
-	 */
-	void updateBranchSessionStatus(BranchSession session, BranchStatus status) throws TransactionException;
+    /**
+     * Update branch session status.
+     *
+     * @param session the session
+     * @param status  the status
+     * @throws TransactionException the transaction exception
+     */
+    void updateBranchSessionStatus(BranchSession session, BranchStatus status) throws TransactionException;
 
-	/**
-	 * Remove branch session.
-	 * @param globalSession the global session
-	 * @param session the session
-	 * @throws TransactionException the transaction exception
-	 */
-	void removeBranchSession(GlobalSession globalSession, BranchSession session) throws TransactionException;
+    /**
+     * Remove branch session.
+     *
+     * @param globalSession the global session
+     * @param session       the session
+     * @throws TransactionException the transaction exception
+     */
+    void removeBranchSession(GlobalSession globalSession, BranchSession session) throws TransactionException;
 
-	/**
-	 * All sessions collection.
-	 * @return the collection
-	 */
-	Collection<GlobalSession> allSessions();
+    /**
+     * All sessions collection.
+     *
+     * @return the collection
+     */
+    Collection<GlobalSession> allSessions();
 
-	/**
-	 * Find global sessions list.
-	 * @param condition the condition
-	 * @return the list
-	 */
-	List<GlobalSession> findGlobalSessions(SessionCondition condition);
+    /**
+     * Find global sessions list.
+     *
+     * @param condition the condition
+     * @return the list
+     */
+    List<GlobalSession> findGlobalSessions(SessionCondition condition);
 
-	/**
-	 * lock and execute
-	 * @param globalSession the global session
-	 * @param lockCallable the lock Callable
-	 * @return the value
-	 */
-	<T> T lockAndExecute(GlobalSession globalSession, GlobalSession.LockCallable<T> lockCallable)
-			throws TransactionException;
-
-	/**
-	 * scheduled lock
-	 * @param key the lock key
-	 * @return the boolean
-	 */
-	default boolean scheduledLock(String key) {
-		return true;
-	}
-
-	/**
-	 * un scheduled lock
-	 * @param key the lock key
-	 * @return the boolean
-	 */
-	default boolean unScheduledLock(String key) {
-		return true;
-	}
-
+    /**
+     * lock and execute
+     *
+     * @param globalSession the global session
+     * @param lockCallable the lock Callable
+     * @return the value
+     * @throws TransactionException the transaction exception
+     */
+    <T> T lockAndExecute(GlobalSession globalSession, GlobalSession.LockCallable<T> lockCallable)
+            throws TransactionException;
 }

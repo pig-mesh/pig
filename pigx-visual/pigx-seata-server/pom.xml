@@ -28,111 +28,171 @@
     <name>pigx-seata-server</name>
 
     <properties>
-        <seata.version>1.4.2</seata.version>
+        <seata.version>1.6.1</seata.version>
         <logstash-logback-encoder.version>6.5</logstash-logback-encoder.version>
         <kafka-appender.version>0.2.0-RC2</kafka-appender.version>
         <jcommander.version>1.72</jcommander.version>
         <guava.version>27.0.1-jre</guava.version>
     </properties>
 
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.seata</groupId>
+				<artifactId>seata-dependencies</artifactId>
+				<version>${seata.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
     <dependencies>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-core</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-config-all</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-discovery-all</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-serializer-all</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-compressor-all</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-spring-autoconfigure-server</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
 
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-metrics-all</artifactId>
-            <version>${seata.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-core</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-config-all</artifactId>
+			<version>${seata.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>log4j</artifactId>
+					<groupId>log4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-discovery-all</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-serializer-all</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-compressor-all</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
 
-        <!-- for database -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-dbcp2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.zaxxer</groupId>
-            <artifactId>HikariCP</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>${jcommander.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-metrics-all</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
 
-        <!-- only for event bus -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
+		<dependency>
+			<groupId>io.seata</groupId>
+			<artifactId>seata-console</artifactId>
+			<version>${seata.version}</version>
+		</dependency>
 
-        <!-- logback -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-        </dependency>
+		<!-- for database -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
+		<!--  if you run seata-server in IDE and use mysql8 as session store, please rewrite version to ${mysql8.jdbc.version}-->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+		<!-- Copyright restrictions, do not reference this dependency.
+			 You can add this dependency to the '/seata/lib' directory of the seata-server when necessary.
+		<dependency>
+			<groupId>com.oracle.ojdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>${ojdbc.version}</version>
+		</dependency>-->
 
-        <!-- jedis -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.beust</groupId>
+			<artifactId>jcommander</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
+		<!-- only for event bus -->
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>net.logstash.logback</groupId>
-            <artifactId>logstash-logback-encoder</artifactId>
-            <version>${logstash-logback-encoder.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.danielwegener</groupId>
-            <artifactId>logback-kafka-appender</artifactId>
-            <version>${kafka-appender.version}</version>
-        </dependency>
+		<!-- jedis -->
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.microwww</groupId>
+			<artifactId>redis-server</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<!-- logback -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+		</dependency>
+		<!-- logback appenders -->
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.danielwegener</groupId>
+			<artifactId>logback-kafka-appender</artifactId>
+		</dependency>
+
+		<!--web 模块-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<!--undertow容器-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-undertow</artifactId>
+		</dependency>
+
+
     </dependencies>
 
     <build>

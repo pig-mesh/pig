@@ -15,13 +15,13 @@
  */
 package io.seata.server.storage.file;
 
-import java.nio.ByteBuffer;
-
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.server.session.BranchSession;
 import io.seata.server.session.GlobalSession;
 import io.seata.server.store.SessionStorable;
 import io.seata.server.store.TransactionStoreManager.LogOperation;
+
+import java.nio.ByteBuffer;
 
 /**
  * The type Transaction write store.
@@ -29,100 +29,101 @@ import io.seata.server.store.TransactionStoreManager.LogOperation;
  * @author slievrly
  */
 public class TransactionWriteStore implements SessionStorable {
+    private SessionStorable sessionRequest;
+    private LogOperation operate;
 
-	private SessionStorable sessionRequest;
+    /**
+     * Instantiates a new Transaction write store.
+     *
+     * @param sessionRequest the session request
+     * @param operate        the operate
+     */
+    public TransactionWriteStore(SessionStorable sessionRequest, LogOperation operate) {
+        this.sessionRequest = sessionRequest;
+        this.operate = operate;
+    }
 
-	private LogOperation operate;
+    /**
+     * Instantiates a new Transaction write store.
+     */
+    public TransactionWriteStore() {}
 
-	/**
-	 * Instantiates a new Transaction write store.
-	 * @param sessionRequest the session request
-	 * @param operate the operate
-	 */
-	public TransactionWriteStore(SessionStorable sessionRequest, LogOperation operate) {
-		this.sessionRequest = sessionRequest;
-		this.operate = operate;
-	}
+    /**
+     * Gets session request.
+     *
+     * @return the session request
+     */
+    public SessionStorable getSessionRequest() {
+        return sessionRequest;
+    }
 
-	/**
-	 * Instantiates a new Transaction write store.
-	 */
-	public TransactionWriteStore() {
-	}
+    /**
+     * Sets session request.
+     *
+     * @param sessionRequest the session request
+     */
+    public void setSessionRequest(SessionStorable sessionRequest) {
+        this.sessionRequest = sessionRequest;
+    }
 
-	/**
-	 * Gets session request.
-	 * @return the session request
-	 */
-	public SessionStorable getSessionRequest() {
-		return sessionRequest;
-	}
+    /**
+     * Gets operate.
+     *
+     * @return the operate
+     */
+    public LogOperation getOperate() {
+        return operate;
+    }
 
-	/**
-	 * Sets session request.
-	 * @param sessionRequest the session request
-	 */
-	public void setSessionRequest(SessionStorable sessionRequest) {
-		this.sessionRequest = sessionRequest;
-	}
+    /**
+     * Sets operate.
+     *
+     * @param operate the operate
+     */
+    public void setOperate(LogOperation operate) {
+        this.operate = operate;
+    }
 
-	/**
-	 * Gets operate.
-	 * @return the operate
-	 */
-	public LogOperation getOperate() {
-		return operate;
-	}
+    @Override
+    public byte[] encode() {
+        byte[] bySessionRequest = this.sessionRequest.encode();
+        byte byOpCode = this.getOperate().getCode();
+        int len = bySessionRequest.length + 1;
+        byte[] byResult = new byte[len];
+        ByteBuffer byteBuffer = ByteBuffer.wrap(byResult);
+        byteBuffer.put(bySessionRequest);
+        byteBuffer.put(byOpCode);
+        return byResult;
+    }
 
-	/**
-	 * Sets operate.
-	 * @param operate the operate
-	 */
-	public void setOperate(LogOperation operate) {
-		this.operate = operate;
-	}
+    @Override
+    public void decode(byte[] src) {
+        ByteBuffer byteBuffer = ByteBuffer.wrap(src);
+        byte[] bySessionRequest = new byte[src.length - 1];
+        byteBuffer.get(bySessionRequest);
+        byte byOpCode = byteBuffer.get();
+        this.operate = LogOperation.getLogOperationByCode(byOpCode);
+        SessionStorable tmpSessionStorable = getSessionInstanceByOperation(this.operate);
+        tmpSessionStorable.decode(bySessionRequest);
+        this.sessionRequest = tmpSessionStorable;
+    }
 
-	@Override
-	public byte[] encode() {
-		byte[] bySessionRequest = this.sessionRequest.encode();
-		byte byOpCode = this.getOperate().getCode();
-		int len = bySessionRequest.length + 1;
-		byte[] byResult = new byte[len];
-		ByteBuffer byteBuffer = ByteBuffer.wrap(byResult);
-		byteBuffer.put(bySessionRequest);
-		byteBuffer.put(byOpCode);
-		return byResult;
-	}
-
-	@Override
-	public void decode(byte[] src) {
-		ByteBuffer byteBuffer = ByteBuffer.wrap(src);
-		byte[] bySessionRequest = new byte[src.length - 1];
-		byteBuffer.get(bySessionRequest);
-		byte byOpCode = byteBuffer.get();
-		this.operate = LogOperation.getLogOperationByCode(byOpCode);
-		SessionStorable tmpSessionStorable = getSessionInstanceByOperation(this.operate);
-		tmpSessionStorable.decode(bySessionRequest);
-		this.sessionRequest = tmpSessionStorable;
-	}
-
-	private SessionStorable getSessionInstanceByOperation(LogOperation logOperation) {
-		SessionStorable sessionStorable = null;
-		switch (logOperation) {
-			case GLOBAL_ADD:
-			case GLOBAL_UPDATE:
-			case GLOBAL_REMOVE:
-				sessionStorable = new GlobalSession();
-				break;
-			case BRANCH_ADD:
-			case BRANCH_UPDATE:
-			case BRANCH_REMOVE:
-				sessionStorable = new BranchSession();
-				break;
-			default:
-				throw new ShouldNeverHappenException("incorrect logOperation");
-		}
-		return sessionStorable;
-	}
-
+    private SessionStorable getSessionInstanceByOperation(LogOperation logOperation) {
+        SessionStorable sessionStorable = null;
+        switch (logOperation) {
+            case GLOBAL_ADD:
+            case GLOBAL_UPDATE:
+            case GLOBAL_REMOVE:
+                sessionStorable = new GlobalSession();
+                break;
+            case BRANCH_ADD:
+            case BRANCH_UPDATE:
+            case BRANCH_REMOVE:
+                sessionStorable = new BranchSession();
+                break;
+            default:
+                throw new ShouldNeverHappenException("incorrect logOperation");
+        }
+        return sessionStorable;
+    }
 }

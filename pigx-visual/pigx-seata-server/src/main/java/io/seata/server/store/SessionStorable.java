@@ -22,16 +22,17 @@ package io.seata.server.store;
  */
 public interface SessionStorable {
 
-	/**
-	 * Encode byte [ ].
-	 * @return the byte [ ]
-	 */
-	byte[] encode();
+    /**
+     * Encode byte [ ].
+     *
+     * @return the byte [ ]
+     */
+    byte[] encode();
 
-	/**
-	 * Decode.
-	 * @param src the src
-	 */
-	void decode(byte[] src);
-
+    /**
+     * Decode.
+     *
+     * @param src the src
+     */
+    void decode(byte[] src);
 }

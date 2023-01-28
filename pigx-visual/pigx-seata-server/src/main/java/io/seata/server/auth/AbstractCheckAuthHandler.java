@@ -13,7 +13,6 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
 package io.seata.server.auth;
 
 import io.seata.config.ConfigurationFactory;
@@ -29,27 +28,26 @@ import static io.seata.common.DefaultValues.DEFAULT_SERVER_ENABLE_CHECK_AUTH;
  */
 public abstract class AbstractCheckAuthHandler implements RegisterCheckAuthHandler {
 
-	private static final Boolean ENABLE_CHECK_AUTH = ConfigurationFactory.getInstance()
-			.getBoolean(ConfigurationKeys.SERVER_ENABLE_CHECK_AUTH, DEFAULT_SERVER_ENABLE_CHECK_AUTH);
+    private static final Boolean ENABLE_CHECK_AUTH = ConfigurationFactory.getInstance().getBoolean(
+        ConfigurationKeys.SERVER_ENABLE_CHECK_AUTH, DEFAULT_SERVER_ENABLE_CHECK_AUTH);
 
-	@Override
-	public boolean regTransactionManagerCheckAuth(RegisterTMRequest request) {
-		if (!ENABLE_CHECK_AUTH) {
-			return true;
-		}
-		return doRegTransactionManagerCheck(request);
-	}
+    @Override
+    public boolean regTransactionManagerCheckAuth(RegisterTMRequest request) {
+        if (!ENABLE_CHECK_AUTH) {
+            return true;
+        }
+        return doRegTransactionManagerCheck(request);
+    }
 
-	public abstract boolean doRegTransactionManagerCheck(RegisterTMRequest request);
+    public abstract boolean doRegTransactionManagerCheck(RegisterTMRequest request);
 
-	@Override
-	public boolean regResourceManagerCheckAuth(RegisterRMRequest request) {
-		if (!ENABLE_CHECK_AUTH) {
-			return true;
-		}
-		return doRegResourceManagerCheck(request);
-	}
+    @Override
+    public boolean regResourceManagerCheckAuth(RegisterRMRequest request) {
+        if (!ENABLE_CHECK_AUTH) {
+            return true;
+        }
+        return doRegResourceManagerCheck(request);
+    }
 
-	public abstract boolean doRegResourceManagerCheck(RegisterRMRequest request);
-
+    public abstract boolean doRegResourceManagerCheck(RegisterRMRequest request);
 }
