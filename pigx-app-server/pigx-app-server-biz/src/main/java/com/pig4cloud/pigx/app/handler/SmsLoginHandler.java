@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * @date 2018/11/18
  */
 @Slf4j
-@Component("SMS")
+@Component("APP-SMS")
 @AllArgsConstructor
 public class SmsLoginHandler extends AbstractLoginHandler {
 

@@ -36,7 +36,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/social")
+@RequestMapping("/appsocial")
 @AllArgsConstructor
 @Tag(description = "social", name = "三方账号管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)

@@ -23,7 +23,7 @@ import com.pig4cloud.pigx.common.core.util.R;
  * @author lengleng
  * @date 2018/11/14
  */
-public interface MobileService {
+public interface AppMobileService {
 
 	/**
 	 * 发送手机验证码
