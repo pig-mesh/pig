@@ -71,12 +71,8 @@ public class MonitorStatService implements DruidStatServiceMBean {
 			List<ServiceInstance> instances = discoveryClient.getInstances(service);
 			for (ServiceInstance instance : instances) {
 				String host = instance.getHost();
-				String instanceId = instance.getInstanceId();
-				if (instanceId == null) {
-					instanceId = instance.getMetadata().get("nacos.instanceId").replaceAll("#", "-").replaceAll("@@",
-							"-");
-				}
 				int port = instance.getPort();
+				String instanceId = String.format("%s_%s", host, port);
 				String serviceId = instance.getServiceId();
 				// 根据前端参数采集指定的服务
 				if (monitorProperties.getApplications().contains(serviceId)) {
@@ -109,13 +105,9 @@ public class MonitorStatService implements DruidStatServiceMBean {
 			List<ServiceInstance> instances = discoveryClient.getInstances(service);
 			for (ServiceInstance instance : instances) {
 				String host = instance.getHost();
-				String instanceId = instance.getInstanceId();
-				if (instanceId == null) {
-					instanceId = instance.getMetadata().get("nacos.instanceId").replaceAll("#", "-").replaceAll("@@",
-							"-");
-				}
 				int port = instance.getPort();
 				String serviceId = instance.getServiceId();
+				String instanceId = String.format("%s_%s", host, port);
 				// 根据前端参数采集指定的服务
 				if (serviceId.equals(requestServiceName)) {
 					ServiceNode serviceNode = new ServiceNode();
