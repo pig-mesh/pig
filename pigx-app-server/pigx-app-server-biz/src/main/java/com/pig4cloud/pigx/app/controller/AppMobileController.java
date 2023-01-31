@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.app.controller;
 
-import com.pig4cloud.pigx.app.service.MobileService;
+import com.pig4cloud.pigx.app.service.AppMobileService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -37,17 +37,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/mobile")
+@RequestMapping("/appmobile")
 @Tag(description = "mobile", name = "手机管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class MobileController {
+public class AppMobileController {
 
-	private final MobileService mobileService;
+	private final AppMobileService appMobileService;
 
 	@Inner(value = false)
 	@GetMapping("/{mobile}")
 	public R sendSmsCode(@PathVariable String mobile) {
-		return mobileService.sendSmsCode(mobile);
+		return appMobileService.sendSmsCode(mobile);
 	}
 
 }

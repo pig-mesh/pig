@@ -38,6 +38,8 @@ public enum LoginTypeEnum {
 	 */
 	SMS("SMS", "验证码登录"),
 
+	APPSMS("APP-SMS", "APP验证码登录"),
+
 	/**
 	 * QQ登录
 	 */

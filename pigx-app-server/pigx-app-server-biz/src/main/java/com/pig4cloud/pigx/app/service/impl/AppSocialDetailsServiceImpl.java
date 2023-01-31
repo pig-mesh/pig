@@ -41,7 +41,7 @@ import java.util.Map;
  */
 @Slf4j
 @AllArgsConstructor
-@Service("sysSocialDetailsService")
+@Service("appSocialDetailsService")
 public class AppSocialDetailsServiceImpl extends ServiceImpl<AppSocialDetailsMapper, AppSocialDetails>
 		implements AppSocialDetailsService {
 

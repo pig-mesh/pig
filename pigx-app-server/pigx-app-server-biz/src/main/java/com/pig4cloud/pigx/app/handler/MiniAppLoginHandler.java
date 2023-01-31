@@ -39,7 +39,7 @@ import org.springframework.stereotype.Component;
  * 微信小程序
  */
 @Slf4j
-@Component("MINI")
+@Component("APP-MINI")
 @AllArgsConstructor
 public class MiniAppLoginHandler extends AbstractLoginHandler {
 

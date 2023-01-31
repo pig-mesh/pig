@@ -51,7 +51,7 @@ public interface RemoteAppUserService {
 	 * @param from 调用标志
 	 * @return
 	 */
-	@GetMapping("/social/info/{inStr}")
+	@GetMapping("/appsocial/info/{inStr}")
 	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
@@ -60,7 +60,7 @@ public interface RemoteAppUserService {
 	 * @param from 调用标识
 	 * @return
 	 */
-	@PutMapping("/user/lock/{username}")
+	@PutMapping("/appuser/lock/{username}")
 	R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
 }
