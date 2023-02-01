@@ -91,7 +91,7 @@ public class LeaveBill extends Model<LeaveBill> {
 	/**
 	 * 租户ID
 	 */
-	private Integer tenantId;
+	private Long tenantId;
 
 	/**
 	 * 主键值
