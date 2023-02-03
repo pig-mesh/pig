@@ -189,7 +189,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 				roleMenu.setMenuId(menu.getMenuId());
 				return roleMenu;
 			}).collect(Collectors.toList());
-			roleMenuList.forEach(ele -> roleMenuMapper.insert(ele));
+			roleMenuList.forEach(roleMenuMapper::insert);
 			// 插入系统字典
 			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 处理字典项最新关联的字典ID

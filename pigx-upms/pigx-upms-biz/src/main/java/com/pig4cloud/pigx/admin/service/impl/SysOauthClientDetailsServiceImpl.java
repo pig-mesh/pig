@@ -77,6 +77,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	 * @return
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetailsDTO.clientId")
 	public Boolean updateClientById(SysOauthClientDetailsDTO clientDetailsDTO) {
 		this.insertOrUpdate(clientDetailsDTO);
@@ -151,6 +152,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	}
 
 	@Override
+	@Transactional
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
 	public R syncClientCache() {
 		// 更新Redis
