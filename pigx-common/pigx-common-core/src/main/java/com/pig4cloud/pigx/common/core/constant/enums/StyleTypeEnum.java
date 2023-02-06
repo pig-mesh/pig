@@ -33,7 +33,11 @@ public enum StyleTypeEnum {
 	/**
 	 * magic
 	 */
-	MAGIC("3", "magic");
+	MAGIC("3", "magic"),
+	/**
+	 * element-plus
+	 */
+	PLUS("4", "plus");
 
 	/**
 	 * 类型
