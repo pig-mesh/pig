@@ -37,7 +37,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 		Assert.notNull(authorization, "authorization cannot be null");
 
 		if (isState(authorization)) {
-			String token = authorization.getAttribute("state");
+			String token = authorization.getAttribute(OAuth2ParameterNames.STATE);
 			redisTemplate.setValueSerializer(RedisSerializer.java());
 			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.STATE, token), authorization, TIMEOUT,
 					TimeUnit.MINUTES);
@@ -77,7 +77,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 		List<String> keys = new ArrayList<>();
 		if (isState(authorization)) {
-			String token = authorization.getAttribute("state");
+			String token = authorization.getAttribute(OAuth2ParameterNames.STATE);
 			keys.add(buildKey(OAuth2ParameterNames.STATE, token));
 		}
 
@@ -120,7 +120,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 	}
 
 	private static boolean isState(OAuth2Authorization authorization) {
-		return Objects.nonNull(authorization.getAttribute("state"));
+		return Objects.nonNull(authorization.getAttribute(OAuth2ParameterNames.STATE));
 	}
 
 	private static boolean isCode(OAuth2Authorization authorization) {
