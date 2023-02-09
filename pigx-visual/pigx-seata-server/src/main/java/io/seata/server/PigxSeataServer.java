@@ -24,11 +24,11 @@ import java.io.IOException;
  * @author spilledyear@outlook.com
  */
 @SpringBootApplication(scanBasePackages = { "io.seata" })
-public class ServerApplication {
+public class PigxSeataServer {
 
 	public static void main(String[] args) throws IOException {
 		// run the spring-boot application
-		SpringApplication.run(ServerApplication.class, args);
+		SpringApplication.run(PigxSeataServer.class, args);
 	}
 
 }
