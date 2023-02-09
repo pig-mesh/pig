@@ -76,6 +76,11 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		String[] ascs = request.getParameterValues("ascs");
 		String[] descs = request.getParameterValues("descs");
+
+		// 兼容其他格式数组传参
+		String[] ascsArry = request.getParameterValues("ascs[]");
+		String[] descsArry = request.getParameterValues("descs[]");
+
 		String current = request.getParameter("current");
 		String size = request.getParameter("size");
 
@@ -96,6 +101,10 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(
 				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
 		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(
+				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
+		Optional.ofNullable(ascsArry).ifPresent(s -> orderItemList.addAll(
+				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
+		Optional.ofNullable(descsArry).ifPresent(s -> orderItemList.addAll(
 				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
