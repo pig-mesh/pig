@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pigx.admin.service.impl;
 
-import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -112,8 +111,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		JSONObject informationObj = JSONUtil.parseObj(information)
 				.set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
 				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
-				.set(CommonConstants.ONLINE_QUANTITY,
-						StrUtil.isEmpty(clientDetailsDTO.getOnlineQuantity())? "0": clientDetailsDTO.getOnlineQuantity());
+				.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
 		clientDetails.setAdditionalInformation(informationObj.toString());
 
 		// 更新数据库
