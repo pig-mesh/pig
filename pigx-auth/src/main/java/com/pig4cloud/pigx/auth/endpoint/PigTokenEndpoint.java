@@ -64,6 +64,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -142,17 +143,18 @@ public class PigTokenEndpoint {
 	/**
 	 * 校验token
 	 * @param token 令牌
+	 * @return
 	 */
 	@SneakyThrows
 	@GetMapping("/check_token")
-	public void checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
+	public R<OAuth2AccessToken> checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
 		if (StrUtil.isBlank(token)) {
 			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
 			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
 					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.TOKEN_MISSING));
-			return;
+			return R.failed();
 		}
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
@@ -162,6 +164,8 @@ public class PigTokenEndpoint {
 					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
 		}
 
+		// 获取令牌
+		return R.ok(Objects.requireNonNull(authorization).getAccessToken().getToken());
 	}
 
 	/**
