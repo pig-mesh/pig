@@ -95,9 +95,11 @@
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
 				<excludes>
-					<exclude>sta**/*.woff</exclude>
+					<exclude>**/*.woff</exclude>
 					<exclude>**/*.woff2</exclude>
+					<exclude>**/*.otf</exclude>
 					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.eot</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -107,6 +109,8 @@
 					<include>**/*.woff</include>
 					<include>**/*.woff2</include>
 					<include>**/*.ttf</include>
+					<include>**/*.otf</include>
+					<include>**/*.eot</include>
 				</includes>
 			</resource>
 		</resources>
