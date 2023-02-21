@@ -195,6 +195,9 @@
 				<filtering>true</filtering>
 				<excludes>
 					<exclude>**/*.woff</exclude>
+					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.eot</exclude>
+					<exclude>**/Polyline.js</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -202,6 +205,9 @@
 				<filtering>false</filtering>
 				<includes>
 					<include>**/*.woff</include>
+					<include>**/*.ttf</include>
+					<include>**/*.eot</include>
+					<include>**/Polyline.js</include>
 				</includes>
 			</resource>
 		</resources>

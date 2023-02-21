@@ -100,5 +100,31 @@
                 <artifactId>docker-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <excludes>
+                    <exclude>**/*.woff</exclude>
+                    <exclude>**/*.woff2</exclude>
+                    <exclude>**/*.ttf</exclude>
+                    <exclude>**/*.otf</exclude>
+                    <exclude>**/*.eot</exclude>
+                    <exclude>**/*.js</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <includes>
+                    <include>**/*.woff</include>
+                    <include>**/*.woff2</include>
+                    <include>**/*.ttf</include>
+                    <include>**/*.otf</include>
+                    <include>**/*.eot</include>
+                    <include>**/*.js</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>
