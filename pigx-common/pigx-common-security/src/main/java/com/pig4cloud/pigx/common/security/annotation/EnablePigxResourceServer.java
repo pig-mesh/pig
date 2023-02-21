@@ -16,9 +16,9 @@
 
 package com.pig4cloud.pigx.common.security.annotation;
 
-import com.pig4cloud.pigx.common.security.component.PigResourceServerAutoConfiguration;
-import com.pig4cloud.pigx.common.security.component.PigResourceServerConfiguration;
-import com.pig4cloud.pigx.common.security.feign.PigFeignClientConfiguration;
+import com.pig4cloud.pigx.common.security.component.PigxResourceServerAutoConfiguration;
+import com.pig4cloud.pigx.common.security.component.PigxResourceServerConfiguration;
+import com.pig4cloud.pigx.common.security.feign.PigxFeignClientConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -35,8 +35,8 @@ import java.lang.annotation.*;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@Import({ PigResourceServerAutoConfiguration.class, PigResourceServerConfiguration.class,
-		PigFeignClientConfiguration.class })
+@Import({ PigxResourceServerAutoConfiguration.class, PigxResourceServerConfiguration.class,
+		PigxFeignClientConfiguration.class })
 public @interface EnablePigxResourceServer {
 
 }

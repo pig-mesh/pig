@@ -30,7 +30,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
+public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
 	private final OAuth2AuthorizationService authorizationService;
 
@@ -43,7 +43,7 @@ public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector
 
 		// 客户端模式默认返回
 		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
-			return new PigClientCredentialsOAuth2AuthenticatedPrincipal(oldAuthorization.getAttributes(),
+			return new PigxClientCredentialsOAuth2AuthenticatedPrincipal(oldAuthorization.getAttributes(),
 					AuthorityUtils.NO_AUTHORITIES, oldAuthorization.getPrincipalName());
 		}
 

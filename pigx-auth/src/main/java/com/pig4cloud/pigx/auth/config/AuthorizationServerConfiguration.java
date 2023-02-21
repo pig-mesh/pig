@@ -19,9 +19,9 @@ package com.pig4cloud.pigx.auth.config;
 import com.pig4cloud.pigx.auth.support.CustomeOAuth2AccessTokenGenerator;
 import com.pig4cloud.pigx.auth.support.core.CustomeOAuth2TokenCustomizer;
 import com.pig4cloud.pigx.auth.support.core.FormIdentityLoginConfigurer;
-import com.pig4cloud.pigx.auth.support.core.PigDaoAuthenticationProvider;
-import com.pig4cloud.pigx.auth.support.handler.PigAuthenticationFailureEventHandler;
-import com.pig4cloud.pigx.auth.support.handler.PigAuthenticationSuccessEventHandler;
+import com.pig4cloud.pigx.auth.support.core.PigxDaoAuthenticationProvider;
+import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
+import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationSuccessEventHandler;
 import com.pig4cloud.pigx.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
 import com.pig4cloud.pigx.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.pig4cloud.pigx.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
@@ -66,8 +66,8 @@ public class AuthorizationServerConfiguration {
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http,
-			PigAuthenticationSuccessEventHandler successEventHandler,
-			PigAuthenticationFailureEventHandler failureEventHandler) throws Exception {
+			PigxAuthenticationSuccessEventHandler successEventHandler,
+			PigxAuthenticationFailureEventHandler failureEventHandler) throws Exception {
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 
 		http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
@@ -149,7 +149,7 @@ public class AuthorizationServerConfiguration {
 				authenticationManager, authorizationService, oAuth2TokenGenerator());
 
 		// 处理 UsernamePasswordAuthenticationToken
-		http.authenticationProvider(new PigDaoAuthenticationProvider());
+		http.authenticationProvider(new PigxDaoAuthenticationProvider());
 		// 处理 OAuth2ResourceOwnerPasswordAuthenticationToken
 		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
 		// 处理 OAuth2ResourceOwnerSmsAuthenticationToken

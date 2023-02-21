@@ -36,13 +36,13 @@ import org.springframework.security.web.SecurityFilterChain;
 @Slf4j
 @EnableWebSecurity
 @RequiredArgsConstructor
-public class PigResourceServerConfiguration {
+public class PigxResourceServerConfiguration {
 
 	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
 	private final PermitAllUrlProperties permitAllUrl;
 
-	private final PigBearerTokenExtractor pigBearerTokenExtractor;
+	private final PigxBearerTokenExtractor pigxBearerTokenExtractor;
 
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
@@ -56,7 +56,7 @@ public class PigResourceServerConfiguration {
 				.oauth2ResourceServer(
 						oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
 								.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-								.bearerTokenResolver(pigBearerTokenExtractor))
+								.bearerTokenResolver(pigxBearerTokenExtractor))
 				.headers().frameOptions().disable().and().csrf().disable();
 
 		return http.build();

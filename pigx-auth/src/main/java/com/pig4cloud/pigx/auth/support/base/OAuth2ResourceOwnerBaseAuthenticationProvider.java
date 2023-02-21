@@ -3,7 +3,7 @@ package com.pig4cloud.pigx.auth.support.base;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.security.service.PigRedisOAuth2AuthorizationService;
+import com.pig4cloud.pigx.common.security.service.PigxRedisOAuth2AuthorizationService;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.ScopeException;
 import lombok.extern.slf4j.Slf4j;
@@ -156,7 +156,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			}
 
 			// 不允许同时在线,删除原有username 关联的所有token
-			PigRedisOAuth2AuthorizationService redisOAuth2AuthorizationService = (PigRedisOAuth2AuthorizationService) this.authorizationService;
+			PigxRedisOAuth2AuthorizationService redisOAuth2AuthorizationService = (PigxRedisOAuth2AuthorizationService) this.authorizationService;
 			redisOAuth2AuthorizationService.removeByUsername(usernamePasswordAuthentication);
 
 			return generatAuthenticationToken(resouceOwnerBaseAuthentication, clientPrincipal, registeredClient,

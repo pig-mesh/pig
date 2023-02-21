@@ -20,7 +20,7 @@ import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
-public class PigFeignClientConfiguration {
+public class PigxFeignClientConfiguration {
 
 	/**
 	 * 注入 oauth2 feign token 增强
@@ -29,7 +29,7 @@ public class PigFeignClientConfiguration {
 	 */
 	@Bean
 	public RequestInterceptor oauthRequestInterceptor(BearerTokenResolver tokenResolver) {
-		return new PigOAuthRequestInterceptor(tokenResolver);
+		return new PigxOAuthRequestInterceptor(tokenResolver);
 	}
 
 }
