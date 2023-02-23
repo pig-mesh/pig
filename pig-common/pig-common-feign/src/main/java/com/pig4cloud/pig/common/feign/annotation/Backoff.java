@@ -12,10 +12,10 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Backoff {
 
-	long delay() default 1000L;;
+	long delay() default 1000L;
 
 	long maxDelay() default 0L;
 
-	double multiplier() default 0.0D;;
+	double multiplier() default 0.0D
 
 }
