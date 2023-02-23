@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.security.oauth2.core.DefaultOAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -43,8 +44,8 @@ public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector
 
 		// 客户端模式默认返回
 		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
-			return new PigClientCredentialsOAuth2AuthenticatedPrincipal(oldAuthorization.getAttributes(),
-					AuthorityUtils.NO_AUTHORITIES, oldAuthorization.getPrincipalName());
+			return new DefaultOAuth2AuthenticatedPrincipal(oldAuthorization.getPrincipalName(),
+					oldAuthorization.getAttributes(), AuthorityUtils.NO_AUTHORITIES);
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
