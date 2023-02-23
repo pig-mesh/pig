@@ -56,8 +56,11 @@ public class MenuController {
 	@GetMapping
 	public R<List<Tree<Long>>> getUserMenu(Long parentId) {
 		// 获取符合条件的菜单
-		Set<SysMenu> menuSet = SecurityUtils.getRoles().stream().map(sysMenuService::findMenuByRoleId)
-				.flatMap(Collection::stream).collect(Collectors.toSet());
+		Set<SysMenu> menuSet = SecurityUtils.getRoles()
+			.stream()
+			.map(sysMenuService::findMenuByRoleId)
+			.flatMap(Collection::stream)
+			.collect(Collectors.toSet());
 		return R.ok(sysMenuService.filterMenu(menuSet, parentId));
 	}
 
@@ -79,8 +82,8 @@ public class MenuController {
 	 */
 	@GetMapping("/tree/{roleId}")
 	public R<List<Long>> getRoleTree(@PathVariable Long roleId) {
-		return R.ok(
-				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+		return R
+			.ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
 	}
 
 	/**

@@ -49,12 +49,13 @@ public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
-				.getBeansOfType(PigUserDetailsService.class);
+			.getBeansOfType(PigUserDetailsService.class);
 
-		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
-						oldAuthorization.getAuthorizationGrantType().getValue()))
-				.max(Comparator.comparingInt(Ordered::getOrder));
+		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
+					oldAuthorization.getAuthorizationGrantType().getValue()))
+			.max(Comparator.comparingInt(Ordered::getOrder));
 
 		UserDetails userDetails = null;
 		try {

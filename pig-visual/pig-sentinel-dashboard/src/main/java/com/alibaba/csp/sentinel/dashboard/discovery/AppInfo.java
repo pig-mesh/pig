@@ -98,8 +98,10 @@ public class AppInfo {
 			long healthyCount = machines.stream().filter(MachineInfo::isHealthy).count();
 			if (healthyCount == 0) {
 				// No healthy machines.
-				return machines.stream().max(Comparator.comparingLong(MachineInfo::getLastHeartbeat))
-						.map(e -> System.currentTimeMillis() - e.getLastHeartbeat() < threshold).orElse(false);
+				return machines.stream()
+					.max(Comparator.comparingLong(MachineInfo::getLastHeartbeat))
+					.map(e -> System.currentTimeMillis() - e.getLastHeartbeat() < threshold)
+					.orElse(false);
 			}
 		}
 		return true;

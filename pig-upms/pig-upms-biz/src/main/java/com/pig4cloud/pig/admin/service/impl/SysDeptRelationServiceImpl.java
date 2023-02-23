@@ -55,10 +55,12 @@ public class SysDeptRelationServiceImpl extends ServiceImpl<SysDeptRelationMappe
 		// 增加部门关系表
 		List<SysDeptRelation> relationList = sysDeptRelationMapper.selectList(
 				Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getDescendant, sysDept.getParentId()))
-				.stream().map(relation -> {
-					relation.setDescendant(sysDept.getDeptId());
-					return relation;
-				}).collect(Collectors.toList());
+			.stream()
+			.map(relation -> {
+				relation.setDescendant(sysDept.getDeptId());
+				return relation;
+			})
+			.collect(Collectors.toList());
 		if (CollUtil.isNotEmpty(relationList)) {
 			this.saveBatch(relationList);
 		}

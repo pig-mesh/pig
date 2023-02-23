@@ -87,8 +87,9 @@ public class JobScheduleHelper {
 
 						// 1、pre read
 						long nowTime = System.currentTimeMillis();
-						List<XxlJobInfo> scheduleList = XxlJobAdminConfig.getAdminConfig().getXxlJobInfoDao()
-								.scheduleJobQuery(nowTime + PRE_READ_MS, preReadCount);
+						List<XxlJobInfo> scheduleList = XxlJobAdminConfig.getAdminConfig()
+							.getXxlJobInfoDao()
+							.scheduleJobQuery(nowTime + PRE_READ_MS, preReadCount);
 						if (scheduleList != null && scheduleList.size() > 0) {
 							// 2、push time-ring
 							for (XxlJobInfo jobInfo : scheduleList) {
@@ -101,7 +102,7 @@ public class JobScheduleHelper {
 
 									// 1、misfire match
 									MisfireStrategyEnum misfireStrategyEnum = MisfireStrategyEnum
-											.match(jobInfo.getMisfireStrategy(), MisfireStrategyEnum.DO_NOTHING);
+										.match(jobInfo.getMisfireStrategy(), MisfireStrategyEnum.DO_NOTHING);
 									if (MisfireStrategyEnum.FIRE_ONCE_NOW == misfireStrategyEnum) {
 										// FIRE_ONCE_NOW 》 trigger
 										JobTriggerPoolHelper.trigger(jobInfo.getId(), TriggerTypeEnum.MISFIRE, -1, null,
@@ -228,7 +229,7 @@ public class JobScheduleHelper {
 							// pre-read period: success > scan each second; fail > skip
 							// this period;
 							TimeUnit.MILLISECONDS
-									.sleep((preReadSuc ? 1000 : PRE_READ_MS) - System.currentTimeMillis() % 1000);
+								.sleep((preReadSuc ? 1000 : PRE_READ_MS) - System.currentTimeMillis() % 1000);
 						}
 						catch (InterruptedException e) {
 							if (!scheduleThreadToStop) {

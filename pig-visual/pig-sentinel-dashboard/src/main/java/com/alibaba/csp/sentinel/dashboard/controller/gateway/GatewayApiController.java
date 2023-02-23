@@ -125,7 +125,7 @@ public class GatewayApiController {
 			// 匹配模式
 			Integer matchStrategy = predicateItem.getMatchStrategy();
 			if (!Arrays.asList(URL_MATCH_STRATEGY_EXACT, URL_MATCH_STRATEGY_PREFIX, URL_MATCH_STRATEGY_REGEX)
-					.contains(matchStrategy)) {
+				.contains(matchStrategy)) {
 				return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
 			}
 			predicateItemEntity.setMatchStrategy(matchStrategy);
@@ -197,7 +197,7 @@ public class GatewayApiController {
 			// 匹配模式
 			int matchStrategy = predicateItem.getMatchStrategy();
 			if (!Arrays.asList(URL_MATCH_STRATEGY_EXACT, URL_MATCH_STRATEGY_PREFIX, URL_MATCH_STRATEGY_REGEX)
-					.contains(matchStrategy)) {
+				.contains(matchStrategy)) {
 				return Result.ofFail(-1, "Invalid matchStrategy: " + matchStrategy);
 			}
 			predicateItemEntity.setMatchStrategy(matchStrategy);

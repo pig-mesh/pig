@@ -132,15 +132,17 @@ public class GatewayFlowRuleController {
 
 			// 参数属性 0-ClientIP 1-Remote Host 2-Header 3-URL参数 4-Cookie
 			Integer parseStrategy = paramItem.getParseStrategy();
-			if (!Arrays.asList(PARAM_PARSE_STRATEGY_CLIENT_IP, PARAM_PARSE_STRATEGY_HOST, PARAM_PARSE_STRATEGY_HEADER,
-					PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE).contains(parseStrategy)) {
+			if (!Arrays
+				.asList(PARAM_PARSE_STRATEGY_CLIENT_IP, PARAM_PARSE_STRATEGY_HOST, PARAM_PARSE_STRATEGY_HEADER,
+						PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE)
+				.contains(parseStrategy)) {
 				return Result.ofFail(-1, "invalid parseStrategy: " + parseStrategy);
 			}
 			itemEntity.setParseStrategy(paramItem.getParseStrategy());
 
 			// 当参数属性为2-Header 3-URL参数 4-Cookie时，参数名称必填
 			if (Arrays.asList(PARAM_PARSE_STRATEGY_HEADER, PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE)
-					.contains(parseStrategy)) {
+				.contains(parseStrategy)) {
 				// 参数名称
 				String fieldName = paramItem.getFieldName();
 				if (StringUtil.isBlank(fieldName)) {
@@ -155,8 +157,8 @@ public class GatewayFlowRuleController {
 				itemEntity.setPattern(pattern);
 				Integer matchStrategy = paramItem.getMatchStrategy();
 				if (!Arrays
-						.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX)
-						.contains(matchStrategy)) {
+					.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX)
+					.contains(matchStrategy)) {
 					return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
 				}
 				itemEntity.setMatchStrategy(matchStrategy);
@@ -199,7 +201,7 @@ public class GatewayFlowRuleController {
 			return Result.ofFail(-1, "intervalUnit can't be null");
 		}
 		if (!Arrays.asList(INTERVAL_UNIT_SECOND, INTERVAL_UNIT_MINUTE, INTERVAL_UNIT_HOUR, INTERVAL_UNIT_DAY)
-				.contains(intervalUnit)) {
+			.contains(intervalUnit)) {
 			return Result.ofFail(-1, "Invalid intervalUnit: " + intervalUnit);
 		}
 		entity.setIntervalUnit(intervalUnit);
@@ -283,15 +285,17 @@ public class GatewayFlowRuleController {
 
 			// 参数属性 0-ClientIP 1-Remote Host 2-Header 3-URL参数 4-Cookie
 			Integer parseStrategy = paramItem.getParseStrategy();
-			if (!Arrays.asList(PARAM_PARSE_STRATEGY_CLIENT_IP, PARAM_PARSE_STRATEGY_HOST, PARAM_PARSE_STRATEGY_HEADER,
-					PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE).contains(parseStrategy)) {
+			if (!Arrays
+				.asList(PARAM_PARSE_STRATEGY_CLIENT_IP, PARAM_PARSE_STRATEGY_HOST, PARAM_PARSE_STRATEGY_HEADER,
+						PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE)
+				.contains(parseStrategy)) {
 				return Result.ofFail(-1, "invalid parseStrategy: " + parseStrategy);
 			}
 			itemEntity.setParseStrategy(paramItem.getParseStrategy());
 
 			// 当参数属性为2-Header 3-URL参数 4-Cookie时，参数名称必填
 			if (Arrays.asList(PARAM_PARSE_STRATEGY_HEADER, PARAM_PARSE_STRATEGY_URL_PARAM, PARAM_PARSE_STRATEGY_COOKIE)
-					.contains(parseStrategy)) {
+				.contains(parseStrategy)) {
 				// 参数名称
 				String fieldName = paramItem.getFieldName();
 				if (StringUtil.isBlank(fieldName)) {
@@ -306,8 +310,8 @@ public class GatewayFlowRuleController {
 				itemEntity.setPattern(pattern);
 				Integer matchStrategy = paramItem.getMatchStrategy();
 				if (!Arrays
-						.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX)
-						.contains(matchStrategy)) {
+					.asList(PARAM_MATCH_STRATEGY_EXACT, PARAM_MATCH_STRATEGY_CONTAINS, PARAM_MATCH_STRATEGY_REGEX)
+					.contains(matchStrategy)) {
 					return Result.ofFail(-1, "invalid matchStrategy: " + matchStrategy);
 				}
 				itemEntity.setMatchStrategy(matchStrategy);
@@ -353,7 +357,7 @@ public class GatewayFlowRuleController {
 			return Result.ofFail(-1, "intervalUnit can't be null");
 		}
 		if (!Arrays.asList(INTERVAL_UNIT_SECOND, INTERVAL_UNIT_MINUTE, INTERVAL_UNIT_HOUR, INTERVAL_UNIT_DAY)
-				.contains(intervalUnit)) {
+			.contains(intervalUnit)) {
 			return Result.ofFail(-1, "Invalid intervalUnit: " + intervalUnit);
 		}
 		entity.setIntervalUnit(intervalUnit);

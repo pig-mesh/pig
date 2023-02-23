@@ -101,8 +101,11 @@ public class MetricFetcher {
 		fetchWorker = new ThreadPoolExecutor(cores, cores, keepAliveTime, TimeUnit.MILLISECONDS,
 				new ArrayBlockingQueue<>(queueSize),
 				new NamedThreadFactory("sentinel-dashboard-metrics-fetchWorker", true), handler);
-		IOReactorConfig ioConfig = IOReactorConfig.custom().setConnectTimeout(3000).setSoTimeout(3000)
-				.setIoThreadCount(Runtime.getRuntime().availableProcessors() * 2).build();
+		IOReactorConfig ioConfig = IOReactorConfig.custom()
+			.setConnectTimeout(3000)
+			.setSoTimeout(3000)
+			.setIoThreadCount(Runtime.getRuntime().availableProcessors() * 2)
+			.build();
 
 		httpclient = HttpAsyncClients.custom().setRedirectStrategy(new DefaultRedirectStrategy() {
 			@Override

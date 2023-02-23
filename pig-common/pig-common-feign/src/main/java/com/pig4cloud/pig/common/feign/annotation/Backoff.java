@@ -16,6 +16,6 @@ public @interface Backoff {
 
 	long maxDelay() default 0L;
 
-	double multiplier() default 0.0D
+	double multiplier() default 0.0D;
 
 }

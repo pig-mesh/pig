@@ -147,7 +147,9 @@ public class ClusterConfigController {
 		}
 		try {
 			return clusterConfigService.getClusterUniversalState(app)
-					.thenApply(ClusterEntityUtils::wrapToAppClusterServerState).thenApply(Result::ofSuccess).get();
+				.thenApply(ClusterEntityUtils::wrapToAppClusterServerState)
+				.thenApply(Result::ofSuccess)
+				.get();
 		}
 		catch (ExecutionException ex) {
 			logger.error("Error when fetching cluster server state of app: " + app, ex.getCause());
@@ -166,7 +168,9 @@ public class ClusterConfigController {
 		}
 		try {
 			return clusterConfigService.getClusterUniversalState(app)
-					.thenApply(ClusterEntityUtils::wrapToAppClusterClientState).thenApply(Result::ofSuccess).get();
+				.thenApply(ClusterEntityUtils::wrapToAppClusterClientState)
+				.thenApply(Result::ofSuccess)
+				.get();
 		}
 		catch (ExecutionException ex) {
 			logger.error("Error when fetching cluster token client state of app: " + app, ex.getCause());
@@ -202,9 +206,10 @@ public class ClusterConfigController {
 
 	private boolean checkIfSupported(String app, String ip, int port) {
 		try {
-			return Optional.ofNullable(appManagement.getDetailApp(app)).flatMap(e -> e.getMachine(ip, port))
-					.flatMap(m -> VersionUtils.parseVersion(m.getVersion()).map(v -> v.greaterOrEqual(version140)))
-					.orElse(true);
+			return Optional.ofNullable(appManagement.getDetailApp(app))
+				.flatMap(e -> e.getMachine(ip, port))
+				.flatMap(m -> VersionUtils.parseVersion(m.getVersion()).map(v -> v.greaterOrEqual(version140)))
+				.orElse(true);
 			// If error occurred or cannot retrieve machine info, return true.
 		}
 		catch (Exception ex) {

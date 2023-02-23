@@ -88,8 +88,8 @@ public class GlobalBizExceptionHandler {
 	@ExceptionHandler(AccessDeniedException.class)
 	@ResponseStatus(HttpStatus.FORBIDDEN)
 	public R handleAccessDeniedException(AccessDeniedException e) {
-		String msg = SpringSecurityMessageSource.getAccessor().getMessage("AbstractAccessDecisionManager.accessDenied",
-				e.getMessage());
+		String msg = SpringSecurityMessageSource.getAccessor()
+			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.warn("拒绝授权异常信息 ex={}", msg);
 		return R.failed(e.getLocalizedMessage());
 	}

@@ -38,8 +38,9 @@ public class RateLimiterConfiguration {
 	@Bean
 	public KeyResolver remoteAddrKeyResolver() {
 		return exchange -> Mono
-				.just(Objects.requireNonNull(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()))
-						.getAddress().getHostAddress());
+			.just(Objects.requireNonNull(Objects.requireNonNull(exchange.getRequest().getRemoteAddress()))
+				.getAddress()
+				.getHostAddress());
 	}
 
 }

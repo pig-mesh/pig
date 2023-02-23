@@ -88,7 +88,7 @@ public class DefaultLoginAuthenticationFilter implements LoginAuthenticationFilt
 
 		// Exclude the urls which needn't auth
 		boolean authFilterExcludeMatch = authFilterExcludeUrls.stream()
-				.anyMatch(authFilterExcludeUrl -> PATH_MATCHER.match(authFilterExcludeUrl, servletPath));
+			.anyMatch(authFilterExcludeUrl -> PATH_MATCHER.match(authFilterExcludeUrl, servletPath));
 		if (authFilterExcludeMatch) {
 			chain.doFilter(request, response);
 			return;

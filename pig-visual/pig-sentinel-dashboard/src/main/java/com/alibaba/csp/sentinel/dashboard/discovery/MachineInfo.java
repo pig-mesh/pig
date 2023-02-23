@@ -151,11 +151,31 @@ public class MachineInfo implements Comparable<MachineInfo> {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("MachineInfo {").append("app='").append(app).append('\'').append(",appType='")
-				.append(appType).append('\'').append(", hostname='").append(hostname).append('\'').append(", ip='")
-				.append(ip).append('\'').append(", port=").append(port).append(", heartbeatVersion=")
-				.append(heartbeatVersion).append(", lastHeartbeat=").append(lastHeartbeat).append(", version='")
-				.append(version).append('\'').append(", healthy=").append(isHealthy()).append('}').toString();
+		return new StringBuilder("MachineInfo {").append("app='")
+			.append(app)
+			.append('\'')
+			.append(",appType='")
+			.append(appType)
+			.append('\'')
+			.append(", hostname='")
+			.append(hostname)
+			.append('\'')
+			.append(", ip='")
+			.append(ip)
+			.append('\'')
+			.append(", port=")
+			.append(port)
+			.append(", heartbeatVersion=")
+			.append(heartbeatVersion)
+			.append(", lastHeartbeat=")
+			.append(lastHeartbeat)
+			.append(", version='")
+			.append(version)
+			.append('\'')
+			.append(", healthy=")
+			.append(isHealthy())
+			.append('}')
+			.toString();
 	}
 
 	@Override

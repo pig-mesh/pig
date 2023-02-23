@@ -52,14 +52,15 @@ public class InMemoryMetricsRepository implements MetricsRepository<MetricEntity
 		readWriteLock.writeLock().lock();
 		try {
 			allMetrics.computeIfAbsent(entity.getApp(), e -> new HashMap<>(16))
-					.computeIfAbsent(entity.getResource(), e -> new LinkedHashMap<Long, MetricEntity>() {
-						@Override
-						protected boolean removeEldestEntry(Entry<Long, MetricEntity> eldest) {
-							// Metric older than {@link #MAX_METRIC_LIVE_TIME_MS} will be
-							// removed.
-							return eldest.getKey() < TimeUtil.currentTimeMillis() - MAX_METRIC_LIVE_TIME_MS;
-						}
-					}).put(entity.getTimestamp().getTime(), entity);
+				.computeIfAbsent(entity.getResource(), e -> new LinkedHashMap<Long, MetricEntity>() {
+					@Override
+					protected boolean removeEldestEntry(Entry<Long, MetricEntity> eldest) {
+						// Metric older than {@link #MAX_METRIC_LIVE_TIME_MS} will be
+						// removed.
+						return eldest.getKey() < TimeUtil.currentTimeMillis() - MAX_METRIC_LIVE_TIME_MS;
+					}
+				})
+				.put(entity.getTimestamp().getTime(), entity);
 		}
 		finally {
 			readWriteLock.writeLock().unlock();

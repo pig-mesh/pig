@@ -65,7 +65,7 @@ public class FileController {
 	@GetMapping("/page")
 	public R<IPage<SysFile>> getSysFilePage(Page page, SysFile sysFile) {
 		return R.ok(sysFileService.page(page, Wrappers.<SysFile>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysFile.getFileName()), SysFile::getFileName, sysFile.getFileName())));
+			.like(StrUtil.isNotBlank(sysFile.getFileName()), SysFile::getFileName, sysFile.getFileName())));
 	}
 
 	/**

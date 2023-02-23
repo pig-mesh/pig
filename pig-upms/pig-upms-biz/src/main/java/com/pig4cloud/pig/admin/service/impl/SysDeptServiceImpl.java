@@ -75,8 +75,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
 		List<Long> idList = sysDeptRelationService
-				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, id)).stream()
-				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+			.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, id))
+			.stream()
+			.map(SysDeptRelation::getDescendant)
+			.collect(Collectors.toList());
 
 		if (CollUtil.isNotEmpty(idList)) {
 			this.removeByIds(idList);
@@ -108,7 +110,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Override
 	public List<Long> listChildDeptId(Long deptId) {
 		List<SysDeptRelation> deptRelations = sysDeptRelationService.list(Wrappers.<SysDeptRelation>lambdaQuery()
-				.eq(SysDeptRelation::getAncestor, deptId).ne(SysDeptRelation::getDescendant, deptId));
+			.eq(SysDeptRelation::getAncestor, deptId)
+			.ne(SysDeptRelation::getDescendant, deptId));
 		if (CollUtil.isNotEmpty(deptRelations)) {
 			return deptRelations.stream().map(SysDeptRelation::getDescendant).collect(Collectors.toList());
 		}
@@ -132,8 +135,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	public List<Tree<Long>> listCurrentUserDeptTrees() {
 		Long deptId = SecurityUtils.getUser().getDeptId();
 		List<Long> descendantIdList = sysDeptRelationService
-				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, deptId)).stream()
-				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+			.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, deptId))
+			.stream()
+			.map(SysDeptRelation::getDescendant)
+			.collect(Collectors.toList());
 
 		List<SysDept> deptList = baseMapper.selectBatchIds(descendantIdList);
 		Optional<SysDept> dept = deptList.stream().filter(item -> item.getDeptId().intValue() == deptId).findFirst();
@@ -147,19 +152,22 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return
 	 */
 	private List<Tree<Long>> getDeptTree(List<SysDept> depts, Long parentId) {
-		List<TreeNode<Long>> collect = depts.stream().filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
-					TreeNode<Long> treeNode = new TreeNode();
-					treeNode.setId(dept.getDeptId());
-					treeNode.setParentId(dept.getParentId());
-					treeNode.setName(dept.getName());
-					treeNode.setWeight(dept.getSortOrder());
-					// 扩展属性
-					Map<String, Object> extra = new HashMap<>(4);
-					extra.put("createTime", dept.getCreateTime());
-					treeNode.setExtra(extra);
-					return treeNode;
-				}).collect(Collectors.toList());
+		List<TreeNode<Long>> collect = depts.stream()
+			.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
+			.sorted(Comparator.comparingInt(SysDept::getSortOrder))
+			.map(dept -> {
+				TreeNode<Long> treeNode = new TreeNode();
+				treeNode.setId(dept.getDeptId());
+				treeNode.setParentId(dept.getParentId());
+				treeNode.setName(dept.getName());
+				treeNode.setWeight(dept.getSortOrder());
+				// 扩展属性
+				Map<String, Object> extra = new HashMap<>(4);
+				extra.put("createTime", dept.getCreateTime());
+				treeNode.setExtra(extra);
+				return treeNode;
+			})
+			.collect(Collectors.toList());
 
 		return TreeUtil.build(collect, parentId);
 	}

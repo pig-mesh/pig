@@ -77,7 +77,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 	public Map<String, String> previewCode(GenConfig genConfig) {
 		// 根据tableName 查询最新的表单配置
 		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
-				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
+			.eq(GenFormConf::getTableName, genConfig.getTableName())
+			.orderByDesc(GenFormConf::getCreateTime));
 
 		String tableNames = genConfig.getTableName();
 		String dsName = genConfig.getDsName();
@@ -111,7 +112,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 	public byte[] generatorCode(GenConfig genConfig) {
 		// 根据tableName 查询最新的表单配置
 		List<GenFormConf> formConfList = genFormConfMapper.selectList(Wrappers.<GenFormConf>lambdaQuery()
-				.eq(GenFormConf::getTableName, genConfig.getTableName()).orderByDesc(GenFormConf::getCreateTime));
+			.eq(GenFormConf::getTableName, genConfig.getTableName())
+			.orderByDesc(GenFormConf::getCreateTime));
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);

@@ -68,7 +68,7 @@ public class SwaggerBasicGatewayFilter implements GlobalFilter {
 		String password = swaggerProperties.getBasic().getPassword();
 
 		String encodeToString = Base64Utils
-				.encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
+			.encodeToString((username + ":" + password).getBytes(StandardCharsets.UTF_8));
 
 		return auth.equals(BASIC_PREFIX + encodeToString);
 	}

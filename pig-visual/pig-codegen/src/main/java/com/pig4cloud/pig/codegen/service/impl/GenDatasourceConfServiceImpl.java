@@ -82,7 +82,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		}
 		// 先移除
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class)
-				.removeDataSource(baseMapper.selectById(conf.getId()).getName());
+			.removeDataSource(baseMapper.selectById(conf.getId()).getName());
 
 		// 再添加
 		addDynamicDataSource(conf);
@@ -103,7 +103,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	@Override
 	public Boolean removeByDsId(Long dsId) {
 		SpringContextHolder.getBean(DynamicRoutingDataSource.class)
-				.removeDataSource(baseMapper.selectById(dsId).getName());
+			.removeDataSource(baseMapper.selectById(dsId).getName());
 		this.baseMapper.deleteById(dsId);
 		return Boolean.TRUE;
 	}
@@ -121,8 +121,8 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setPassword(conf.getPassword());
 		dataSourceProperty.setLazy(true);
 		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
-		SpringContextHolder.getBean(DynamicRoutingDataSource.class).addDataSource(dataSourceProperty.getPoolName(),
-				dataSource);
+		SpringContextHolder.getBean(DynamicRoutingDataSource.class)
+			.addDataSource(dataSourceProperty.getPoolName(), dataSource);
 	}
 
 	/**
