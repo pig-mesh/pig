@@ -81,8 +81,8 @@ public class ResourceController {
 			}
 			if (StringUtil.isNotEmpty(searchKey)) {
 				nodeVos = nodeVos.stream()
-						.filter(node -> node.getResource().toLowerCase().contains(searchKey.toLowerCase()))
-						.collect(Collectors.toList());
+					.filter(node -> node.getResource().toLowerCase().contains(searchKey.toLowerCase()))
+					.collect(Collectors.toList());
 			}
 			return Result.ofSuccess(ResourceVo.fromNodeVoList(nodeVos));
 		}

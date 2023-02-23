@@ -61,13 +61,17 @@ public class PermitAllUrlProperties implements InitializingBean {
 
 			// 获取方法上边的注解 替代path variable 为 *
 			Inner method = AnnotationUtils.findAnnotation(handlerMethod.getMethod(), Inner.class);
-			Optional.ofNullable(method).ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
-					.getPatternValues().forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+			Optional.ofNullable(method)
+				.ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+					.getPatternValues()
+					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 
 			// 获取类上边的注解, 替代path variable 为 *
 			Inner controller = AnnotationUtils.findAnnotation(handlerMethod.getBeanType(), Inner.class);
-			Optional.ofNullable(controller).ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
-					.getPatternValues().forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
+			Optional.ofNullable(controller)
+				.ifPresent(inner -> Objects.requireNonNull(info.getPathPatternsCondition())
+					.getPatternValues()
+					.forEach(url -> urls.add(ReUtil.replaceAll(url, PATTERN, "*"))));
 		});
 	}
 

@@ -62,7 +62,7 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 		}
 
 		Collection<GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		SysUser user = info.getSysUser();
 
 		// 构造security用户

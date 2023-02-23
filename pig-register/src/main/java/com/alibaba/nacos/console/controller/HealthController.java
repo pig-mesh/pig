@@ -77,7 +77,7 @@ public class HealthController {
 
 		if (!isConfigReadiness && !isNamingReadiness) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body("Config and Naming are not in readiness");
+				.body("Config and Naming are not in readiness");
 		}
 
 		if (!isConfigReadiness) {

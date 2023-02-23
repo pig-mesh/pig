@@ -83,10 +83,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationConverter<T extends O
 		}
 
 		// 扩展信息
-		Map<String, Object> additionalParameters = parameters.entrySet().stream()
-				.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
-						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
-				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+		Map<String, Object> additionalParameters = parameters.entrySet()
+			.stream()
+			.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
+					&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
+			.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
 		// 创建token
 		return buildToken(clientPrincipal, requestedScopes, additionalParameters);

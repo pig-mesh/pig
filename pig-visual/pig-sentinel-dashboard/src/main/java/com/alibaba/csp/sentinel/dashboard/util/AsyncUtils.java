@@ -39,13 +39,18 @@ public final class AsyncUtils {
 	}
 
 	public static <R> CompletableFuture<List<R>> sequenceFuture(List<CompletableFuture<R>> futures) {
-		return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).thenApply(
-				v -> futures.stream().map(AsyncUtils::getValue).filter(Objects::nonNull).collect(Collectors.toList()));
+		return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+			.thenApply(v -> futures.stream()
+				.map(AsyncUtils::getValue)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList()));
 	}
 
 	public static <R> CompletableFuture<List<R>> sequenceSuccessFuture(List<CompletableFuture<R>> futures) {
-		return CompletableFuture.supplyAsync(() -> futures.parallelStream().map(AsyncUtils::getValue)
-				.filter(Objects::nonNull).collect(Collectors.toList()));
+		return CompletableFuture.supplyAsync(() -> futures.parallelStream()
+			.map(AsyncUtils::getValue)
+			.filter(Objects::nonNull)
+			.collect(Collectors.toList()));
 	}
 
 	public static <T> T getValue(CompletableFuture<T> future) {

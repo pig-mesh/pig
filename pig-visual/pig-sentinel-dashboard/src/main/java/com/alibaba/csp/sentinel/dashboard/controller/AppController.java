@@ -58,8 +58,10 @@ public class AppController {
 			return Result.ofSuccess(null);
 		}
 		List<MachineInfo> list = new ArrayList<>(appInfo.getMachines());
-		Collections.sort(list, Comparator.comparing(MachineInfo::getApp).thenComparing(MachineInfo::getIp)
-				.thenComparingInt(MachineInfo::getPort));
+		Collections.sort(list,
+				Comparator.comparing(MachineInfo::getApp)
+					.thenComparing(MachineInfo::getIp)
+					.thenComparingInt(MachineInfo::getPort));
 		return Result.ofSuccess(MachineInfoVo.fromMachineInfoList(list));
 	}
 

@@ -40,10 +40,10 @@ public class DefaultXssCleaner implements XssCleaner {
 
 	private static Document.OutputSettings getOutputSettings(PigXssProperties properties) {
 		return new Document.OutputSettings()
-				// 2. 转义，没找到关闭的方法，目前这个规则最少
-				.escapeMode(Entities.EscapeMode.xhtml)
-				// 3. 保留换行
-				.prettyPrint(properties.isPrettyPrint());
+			// 2. 转义，没找到关闭的方法，目前这个规则最少
+			.escapeMode(Entities.EscapeMode.xhtml)
+			// 3. 保留换行
+			.prettyPrint(properties.isPrettyPrint());
 	}
 
 	@Override

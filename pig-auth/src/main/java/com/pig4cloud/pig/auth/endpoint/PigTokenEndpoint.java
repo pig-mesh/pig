@@ -107,8 +107,9 @@ public class PigTokenEndpoint {
 			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
-		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId)).getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
+			.getData()
+			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);

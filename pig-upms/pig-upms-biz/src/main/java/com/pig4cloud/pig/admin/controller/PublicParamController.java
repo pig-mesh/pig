@@ -71,10 +71,10 @@ public class PublicParamController {
 	public R getSysPublicParamPage(Page page, SysPublicParam sysPublicParam) {
 		return R.ok(sysPublicParamService.page(page,
 				Wrappers.<SysPublicParam>lambdaQuery()
-						.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
-								sysPublicParam.getPublicName())
-						.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), SysPublicParam::getPublicKey,
-								sysPublicParam.getPublicKey())));
+					.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
+							sysPublicParam.getPublicName())
+					.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), SysPublicParam::getPublicKey,
+							sysPublicParam.getPublicKey())));
 	}
 
 	/**

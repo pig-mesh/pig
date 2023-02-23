@@ -77,13 +77,13 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		if (authentication.getCredentials() == null) {
 			this.logger.debug("Failed to authenticate since no credentials provided");
 			throw new BadCredentialsException(this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
 		}
 		String presentedPassword = authentication.getCredentials().toString();
 		if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
 			this.logger.debug("Failed to authenticate since password does not match stored value");
 			throw new BadCredentialsException(this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
 		}
 	}
 
@@ -92,8 +92,9 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 
 	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
 		prepareTimingAttackProtection();
-		HttpServletRequest request = WebUtils.getRequest().orElseThrow(
-				(Supplier<Throwable>) () -> new InternalAuthenticationServiceException("web request is empty"));
+		HttpServletRequest request = WebUtils.getRequest()
+			.orElseThrow(
+					(Supplier<Throwable>) () -> new InternalAuthenticationServiceException("web request is empty"));
 
 		Map<String, String> paramMap = ServletUtil.getParamMap(request);
 		String grantType = paramMap.get(OAuth2ParameterNames.GRANT_TYPE);
@@ -104,12 +105,13 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
-				.getBeansOfType(PigUserDetailsService.class);
+			.getBeansOfType(PigUserDetailsService.class);
 
 		String finalClientId = clientId;
-		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(finalClientId, grantType))
-				.max(Comparator.comparingInt(Ordered::getOrder));
+		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(service -> service.support(finalClientId, grantType))
+			.max(Comparator.comparingInt(Ordered::getOrder));
 
 		if (!optional.isPresent()) {
 			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");

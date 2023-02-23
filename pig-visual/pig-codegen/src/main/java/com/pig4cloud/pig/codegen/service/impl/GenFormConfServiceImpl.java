@@ -63,8 +63,9 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 	@Override
 	@SneakyThrows
 	public String getForm(String dsName, String tableName) {
-		GenFormConf form = getOne(Wrappers.<GenFormConf>lambdaQuery().eq(GenFormConf::getTableName, tableName)
-				.orderByDesc(GenFormConf::getCreateTime), false);
+		GenFormConf form = getOne(Wrappers.<GenFormConf>lambdaQuery()
+			.eq(GenFormConf::getTableName, tableName)
+			.orderByDesc(GenFormConf::getCreateTime), false);
 
 		if (form != null) {
 			return form.getFormInfo();

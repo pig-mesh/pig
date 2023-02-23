@@ -76,8 +76,8 @@ public class AppServiceImpl implements AppService {
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.info("手机号生成验证码成功:{},{}", sms.getPhone(), code);
-		redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + sms.getPhone(), code,
-				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		redisTemplate.opsForValue()
+			.set(CacheConstants.DEFAULT_CODE_KEY + sms.getPhone(), code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
 		// 调用短信通道发送
 		this.smsClient.sendCode(code, sms.getPhone());

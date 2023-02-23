@@ -44,10 +44,12 @@ public class FlowRuleApiProvider implements DynamicRuleProvider<List<FlowRuleEnt
 		if (StringUtil.isBlank(appName)) {
 			return new ArrayList<>();
 		}
-		List<MachineInfo> list = appManagement.getDetailApp(appName).getMachines().stream()
-				.filter(MachineInfo::isHealthy)
-				.sorted((e1, e2) -> Long.compare(e2.getLastHeartbeat(), e1.getLastHeartbeat()))
-				.collect(Collectors.toList());
+		List<MachineInfo> list = appManagement.getDetailApp(appName)
+			.getMachines()
+			.stream()
+			.filter(MachineInfo::isHealthy)
+			.sorted((e1, e2) -> Long.compare(e2.getLastHeartbeat(), e1.getLastHeartbeat()))
+			.collect(Collectors.toList());
 		if (list.isEmpty()) {
 			return new ArrayList<>();
 		}
