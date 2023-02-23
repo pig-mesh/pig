@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.common.security.feign;
+package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
