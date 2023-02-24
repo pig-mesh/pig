@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>4.6.0</version>
+        <version>5.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-report-platform</artifactId>
@@ -175,6 +175,8 @@
                     <exclude>**/*.woff</exclude>
                     <exclude>**/*.woff2</exclude>
                     <exclude>**/*.ttf</exclude>
+                    <exclude>**/*.otf</exclude>
+                    <exclude>**/*.eot</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -184,6 +186,8 @@
                     <include>**/*.woff</include>
                     <include>**/*.woff2</include>
                     <include>**/*.ttf</include>
+                    <include>**/*.otf</include>
+                    <include>**/*.eot</include>
                 </includes>
             </resource>
         </resources>

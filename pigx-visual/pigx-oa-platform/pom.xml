@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>4.6.0</version>
+		<version>5.0.0-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>pigx-oa-platform</artifactId>
@@ -195,6 +195,9 @@
 				<filtering>true</filtering>
 				<excludes>
 					<exclude>**/*.woff</exclude>
+					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.eot</exclude>
+					<exclude>**/Polyline.js</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -202,6 +205,9 @@
 				<filtering>false</filtering>
 				<includes>
 					<include>**/*.woff</include>
+					<include>**/*.ttf</include>
+					<include>**/*.eot</include>
+					<include>**/Polyline.js</include>
 				</includes>
 			</resource>
 		</resources>
