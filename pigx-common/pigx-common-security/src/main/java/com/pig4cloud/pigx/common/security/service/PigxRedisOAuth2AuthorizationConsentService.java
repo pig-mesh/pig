@@ -9,7 +9,7 @@ import org.springframework.util.Assert;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
-public class PigRedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
+public class PigxRedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
 
 	private final RedisTemplate<String, Object> redisTemplate;
 

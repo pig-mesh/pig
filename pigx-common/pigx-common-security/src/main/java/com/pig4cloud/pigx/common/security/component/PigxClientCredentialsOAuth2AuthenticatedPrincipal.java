@@ -14,7 +14,7 @@ import java.util.Map;
  * credential 支持客户端模式的用户存储
  */
 @RequiredArgsConstructor
-public class PigClientCredentialsOAuth2AuthenticatedPrincipal implements OAuth2AuthenticatedPrincipal {
+public class PigxClientCredentialsOAuth2AuthenticatedPrincipal implements OAuth2AuthenticatedPrincipal {
 
 	private final Map<String, Object> attributes;
 

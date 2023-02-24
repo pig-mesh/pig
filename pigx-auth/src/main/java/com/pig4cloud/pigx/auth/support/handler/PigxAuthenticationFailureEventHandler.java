@@ -56,7 +56,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PigAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
+public class PigxAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
 
 	private static final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
 

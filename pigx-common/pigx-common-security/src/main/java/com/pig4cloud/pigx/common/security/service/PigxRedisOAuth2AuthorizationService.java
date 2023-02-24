@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2022/5/27
  */
 @RequiredArgsConstructor
-public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
+public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
 	private final static Long TIMEOUT = 10L;
 

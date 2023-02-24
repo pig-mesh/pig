@@ -30,7 +30,7 @@ import org.springframework.security.oauth2.server.resource.introspection.OpaqueT
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PermitAllUrlProperties.class)
-public class PigResourceServerAutoConfiguration {
+public class PigxResourceServerAutoConfiguration {
 
 	/**
 	 * 鉴权具体的实现逻辑
@@ -47,8 +47,8 @@ public class PigResourceServerAutoConfiguration {
 	 * @return BearerTokenExtractor
 	 */
 	@Bean
-	public PigBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
-		return new PigBearerTokenExtractor(urlProperties);
+	public PigxBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+		return new PigxBearerTokenExtractor(urlProperties);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class PigResourceServerAutoConfiguration {
 	 */
 	@Bean
 	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
-		return new PigCustomOpaqueTokenIntrospector(authorizationService);
+		return new PigxCustomOpaqueTokenIntrospector(authorizationService);
 	}
 
 }

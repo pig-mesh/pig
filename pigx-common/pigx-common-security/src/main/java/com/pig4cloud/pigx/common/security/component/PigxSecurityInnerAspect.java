@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @Aspect
 @RequiredArgsConstructor
-public class PigSecurityInnerAspect implements Ordered {
+public class PigxSecurityInnerAspect implements Ordered {
 
 	private final HttpServletRequest request;
 

@@ -33,7 +33,7 @@ import java.util.Optional;
  * @date 2022/5/29
  */
 @RequiredArgsConstructor
-public class PigRemoteRegisteredClientRepository implements RegisteredClientRepository {
+public class PigxRemoteRegisteredClientRepository implements RegisteredClientRepository {
 
 	/**
 	 * 刷新令牌有效期默认 30 天

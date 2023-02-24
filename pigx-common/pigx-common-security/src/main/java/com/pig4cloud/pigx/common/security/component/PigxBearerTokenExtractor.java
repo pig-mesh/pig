@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
  * @author caiqy
  * @date 2020.05.15
  */
-public class PigBearerTokenExtractor implements BearerTokenResolver {
+public class PigxBearerTokenExtractor implements BearerTokenResolver {
 
 	private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$",
 			Pattern.CASE_INSENSITIVE);
@@ -49,9 +49,10 @@ public class PigBearerTokenExtractor implements BearerTokenResolver {
 
 	private final PermitAllUrlProperties urlProperties;
 
-	public PigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+	public PigxBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
 		this.urlProperties = urlProperties;
 	}
+
 
 	@Override
 	public String resolve(HttpServletRequest request) {

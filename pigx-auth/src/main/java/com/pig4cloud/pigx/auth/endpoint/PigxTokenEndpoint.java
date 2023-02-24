@@ -26,7 +26,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.admin.api.vo.TokenVo;
-import com.pig4cloud.pigx.auth.support.handler.PigAuthenticationFailureEventHandler;
+import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -76,9 +76,9 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/token")
-public class PigTokenEndpoint {
+public class PigxTokenEndpoint {
 
-	private final PigAuthenticationFailureEventHandler authenticationFailureHandler;
+	private final PigxAuthenticationFailureEventHandler authenticationFailureHandler;
 
 	private final OAuth2AuthorizationService authorizationService;
 
