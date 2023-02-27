@@ -53,7 +53,6 @@ public class PigxBearerTokenExtractor implements BearerTokenResolver {
 		this.urlProperties = urlProperties;
 	}
 
-
 	@Override
 	public String resolve(HttpServletRequest request) {
 		boolean match = urlProperties.getIgnoreUrls().stream()
