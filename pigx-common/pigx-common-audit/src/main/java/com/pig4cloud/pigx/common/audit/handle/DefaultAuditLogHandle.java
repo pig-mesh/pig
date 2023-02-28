@@ -55,8 +55,14 @@ public class DefaultAuditLogHandle implements IAuditLogHandle {
 			SysAuditLog auditLog = new SysAuditLog();
 			auditLog.setAuditName(audit.name());
 			auditLog.setAuditField(valueChange.getPropertyName()); // 修改的字段名称
-			auditLog.setBeforeVal(valueChange.getLeft().toString()); // 更改前的值
-			auditLog.setAfterVal(valueChange.getRight().toString()); // 更改后的值
+
+			if (Objects.nonNull(valueChange.getLeft())) {
+				auditLog.setBeforeVal(valueChange.getLeft().toString()); // 更改前的值
+			}
+			if (Objects.nonNull(valueChange.getRight())) {
+				auditLog.setAfterVal(valueChange.getRight().toString()); // getRight
+			}
+
 			auditLog.setCreateBy(authentication.getName()); // 操作人
 			auditLog.setCreateTime(LocalDateTime.now()); // 操作时间
 			auditLog.setTenantId(Long.parseLong(tenantKeyStrResolver.key())); // 设置操作所属租户
