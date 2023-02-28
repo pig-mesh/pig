@@ -51,7 +51,7 @@
         <knife4j.version>2.0.9</knife4j.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
-        <jasypt.version>3.0.4</jasypt.version>
+        <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
         <jaxb.version>2.3.5</jaxb.version>
         <ureport.version>2.2.9</ureport.version>
