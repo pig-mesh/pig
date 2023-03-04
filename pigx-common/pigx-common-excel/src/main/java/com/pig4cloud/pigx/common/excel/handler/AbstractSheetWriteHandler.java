@@ -11,6 +11,7 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
+import com.pig4cloud.pigx.common.excel.converters.StringArrayConverter;
 import com.pig4cloud.pigx.common.excel.enhance.WriterBuilderEnhancer;
 import com.pig4cloud.pigx.common.excel.head.HeadGenerator;
 import com.pig4cloud.pigx.common.excel.head.HeadMeta;
@@ -107,7 +108,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
 		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
 				.registerConverter(LocalDateStringConverter.INSTANCE)
-				.registerConverter(LocalDateTimeStringConverter.INSTANCE).autoCloseStream(true)
+				.registerConverter(LocalDateTimeStringConverter.INSTANCE)
+				.registerConverter(StringArrayConverter.INSTANCE).autoCloseStream(true)
 				.excelType(responseExcel.suffix()).inMemory(responseExcel.inMemory());
 
 		if (StringUtils.hasText(responseExcel.password())) {
