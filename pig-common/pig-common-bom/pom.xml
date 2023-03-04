@@ -6,7 +6,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig-common-bom</artifactId>
-    <version>3.6.5</version>
+    <version>3.6.6</version>
     <packaging>pom</packaging>
 
     <name>pig-common-bom</name>
