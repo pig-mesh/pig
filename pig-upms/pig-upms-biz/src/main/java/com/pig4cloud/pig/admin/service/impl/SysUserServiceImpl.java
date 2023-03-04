@@ -300,10 +300,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		for (UserExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
-			boolean exsitUserName = userList.stream()
+			boolean existUserName = userList.stream()
 				.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
-			if (exsitUserName) {
+			if (existUserName) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
