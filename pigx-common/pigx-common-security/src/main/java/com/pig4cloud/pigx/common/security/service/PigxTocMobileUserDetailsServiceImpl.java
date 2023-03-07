@@ -20,7 +20,6 @@ import cn.hutool.core.util.ArrayUtil;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.feign.RemoteAppUserService;
-import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
@@ -30,8 +29,6 @@ import com.pig4cloud.pigx.common.core.util.WebUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,8 +48,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsService {
 
-	private final CacheManager cacheManager;
-
 	private final RemoteAppUserService remoteAppUserService;
 
 	/**
@@ -63,16 +58,8 @@ public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsServi
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String phone) {
-		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS_MINI);
-		if (cache != null && cache.get(phone) != null) {
-			return cache.get(phone, PigxUser.class);
-		}
 		R<AppUserInfo> info = remoteAppUserService.social(phone, SecurityConstants.FROM_IN);
-		UserDetails userDetailsAppUser = this.getUserDetailsAppUser(info);
-		if (cache != null) {
-			cache.put(phone, userDetailsAppUser);
-		}
-		return userDetailsAppUser;
+		return this.getUserDetailsAppUser(info);
 	}
 
 	@Override
