@@ -371,7 +371,7 @@ public class SentinelApiClient {
 		AssertUtil.isTrue(port > 0, "Bad machine port");
 		Map<String, String> params = null;
 		if (StringUtil.isNotEmpty(type)) {
-			params = new HashMap<>(1);
+			params = new HashMap<>(2);
 			params.put("type", type);
 		}
 		return executeCommand(ip, port, api, params, false).thenApply(json -> JSON.parseArray(json, ruleType));
@@ -382,11 +382,6 @@ public class SentinelApiClient {
 		try {
 			AssertUtil.notEmpty(ip, "Bad machine IP");
 			AssertUtil.isTrue(port > 0, "Bad machine port");
-			Map<String, String> params = null;
-			if (StringUtil.isNotEmpty(type)) {
-				params = new HashMap<>(1);
-				params.put("type", type);
-			}
 			return fetchItemsAsync(ip, port, api, type, ruleType).get();
 		}
 		catch (InterruptedException | ExecutionException e) {
@@ -412,7 +407,7 @@ public class SentinelApiClient {
 			AssertUtil.notEmpty(ip, "Bad machine IP");
 			AssertUtil.isTrue(port > 0, "Bad machine port");
 			String data = JSON.toJSONString(entities.stream().map(r -> r.toRule()).collect(Collectors.toList()));
-			Map<String, String> params = new HashMap<>(2);
+			Map<String, String> params = new HashMap<>(4);
 			params.put("type", type);
 			params.put("data", data);
 			String result = executeCommand(app, ip, port, SET_RULES_PATH, params, true).get();
@@ -441,7 +436,7 @@ public class SentinelApiClient {
 			AssertUtil.notEmpty(ip, "Bad machine IP");
 			AssertUtil.isTrue(port > 0, "Bad machine port");
 			String data = JSON.toJSONString(entities.stream().map(r -> r.toRule()).collect(Collectors.toList()));
-			Map<String, String> params = new HashMap<>(2);
+			Map<String, String> params = new HashMap<>(4);
 			params.put("type", type);
 			params.put("data", data);
 			return executeCommand(app, ip, port, SET_RULES_PATH, params, true).thenCompose(r -> {
@@ -548,7 +543,7 @@ public class SentinelApiClient {
 		AssertUtil.notEmpty(app, "Bad app name");
 		AssertUtil.notEmpty(ip, "Bad machine IP");
 		AssertUtil.isTrue(port > 0, "Bad machine port");
-		Map<String, String> params = new HashMap<>(1);
+		Map<String, String> params = new HashMap<>(2);
 		params.put("type", AUTHORITY_TYPE);
 		List<AuthorityRule> rules = fetchRules(ip, port, AUTHORITY_TYPE, AuthorityRule.class);
 		return Optional.ofNullable(rules)
@@ -617,7 +612,7 @@ public class SentinelApiClient {
 		try {
 			String data = JSON
 				.toJSONString(rules.stream().map(ParamFlowRuleEntity::getRule).collect(Collectors.toList()));
-			Map<String, String> params = new HashMap<>(1);
+			Map<String, String> params = new HashMap<>(2);
 			params.put("data", data);
 			return executeCommand(app, ip, port, SET_PARAM_RULE_PATH, params, true).thenCompose(e -> {
 				if (CommandConstants.MSG_SUCCESS.equals(e)) {
@@ -656,7 +651,7 @@ public class SentinelApiClient {
 			return AsyncUtils.newFailedFuture(new IllegalArgumentException("Invalid parameter"));
 		}
 		try {
-			Map<String, String> params = new HashMap<>(1);
+			Map<String, String> params = new HashMap<>(2);
 			params.put("mode", String.valueOf(mode));
 			return executeCommand(ip, port, MODIFY_CLUSTER_MODE_PATH, params, false).thenCompose(e -> {
 				if (CommandConstants.MSG_SUCCESS.equals(e)) {
@@ -694,7 +689,7 @@ public class SentinelApiClient {
 			return AsyncUtils.newFailedFuture(new IllegalArgumentException("Invalid parameter"));
 		}
 		try {
-			Map<String, String> params = new HashMap<>(1);
+			Map<String, String> params = new HashMap<>(2);
 			params.put("data", JSON.toJSONString(config));
 			return executeCommand(app, ip, port, MODIFY_CLUSTER_CLIENT_CONFIG_PATH, params, true).thenCompose(e -> {
 				if (CommandConstants.MSG_SUCCESS.equals(e)) {
@@ -718,7 +713,7 @@ public class SentinelApiClient {
 			return AsyncUtils.newFailedFuture(new IllegalArgumentException("Invalid parameter"));
 		}
 		try {
-			Map<String, String> params = new HashMap<>(1);
+			Map<String, String> params = new HashMap<>(2);
 			params.put("data", JSON.toJSONString(config));
 			return executeCommand(app, ip, port, MODIFY_CLUSTER_SERVER_FLOW_CONFIG_PATH, params, true)
 				.thenCompose(e -> {
@@ -743,7 +738,7 @@ public class SentinelApiClient {
 			return AsyncUtils.newFailedFuture(new IllegalArgumentException("Invalid parameter"));
 		}
 		try {
-			Map<String, String> params = new HashMap<>(2);
+			Map<String, String> params = new HashMap<>(4);
 			params.put("port", config.getPort().toString());
 			params.put("idleSeconds", config.getIdleSeconds().toString());
 			return executeCommand(app, ip, port, MODIFY_CLUSTER_SERVER_TRANSPORT_CONFIG_PATH, params, false)
@@ -768,7 +763,7 @@ public class SentinelApiClient {
 			return AsyncUtils.newFailedFuture(new IllegalArgumentException("Invalid parameter"));
 		}
 		try {
-			Map<String, String> params = new HashMap<>(1);
+			Map<String, String> params = new HashMap<>(2);
 			params.put("data", JSON.toJSONString(set));
 			return executeCommand(app, ip, port, MODIFY_CLUSTER_SERVER_NAMESPACE_SET_PATH, params, true)
 				.thenCompose(e -> {

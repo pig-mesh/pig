@@ -162,7 +162,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				treeNode.setName(dept.getName());
 				treeNode.setWeight(dept.getSortOrder());
 				// 扩展属性
-				Map<String, Object> extra = new HashMap<>(4);
+				Map<String, Object> extra = new HashMap<>(2);
 				extra.put("createTime", dept.getCreateTime());
 				treeNode.setExtra(extra);
 				return treeNode;
