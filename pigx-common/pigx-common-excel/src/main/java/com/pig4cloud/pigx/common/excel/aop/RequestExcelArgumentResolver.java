@@ -4,6 +4,7 @@ import com.alibaba.excel.EasyExcel;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.converters.LocalDateStringConverter;
 import com.pig4cloud.pigx.common.excel.converters.LocalDateTimeStringConverter;
+import com.pig4cloud.pigx.common.excel.converters.LongStringConverter;
 import com.pig4cloud.pigx.common.excel.converters.StringArrayConverter;
 import com.pig4cloud.pigx.common.excel.handler.ListAnalysisEventListener;
 import lombok.SneakyThrows;
@@ -75,6 +76,7 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 		// 这里需要指定读用哪个 class 去读，然后读取第一个 sheet 文件流会自动关闭
 		EasyExcel.read(inputStream, excelModelClass, readListener).registerConverter(LocalDateStringConverter.INSTANCE)
 				.registerConverter(LocalDateTimeStringConverter.INSTANCE)
+				.registerConverter(LongStringConverter.INSTANCE)
 				.registerConverter(StringArrayConverter.INSTANCE).ignoreEmptyRow(requestExcel.ignoreEmptyRow()).sheet()
 				.headRowNumber(requestExcel.headRowNumber()).doRead();
 
