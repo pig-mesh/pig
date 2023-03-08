@@ -81,7 +81,7 @@ public class DictController {
 
 	/**
 	 * 通过字典类型查找字典
-	 * @param type 类型
+	 * @param key 类型
 	 * @return 同类型字典
 	 */
 	@GetMapping("/key/{key}")
