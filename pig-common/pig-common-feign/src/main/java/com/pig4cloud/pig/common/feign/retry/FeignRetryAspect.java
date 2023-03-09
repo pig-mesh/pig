@@ -13,7 +13,6 @@ import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.backoff.FixedBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
 import org.springframework.retry.support.RetryTemplate;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -28,7 +27,6 @@ import java.util.Map;
  */
 @Slf4j
 @Aspect
-@Component
 public class FeignRetryAspect {
 
 	@Around("@annotation(feignRetry)")
