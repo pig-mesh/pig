@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/register")
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
-public class RegisterController {
+public class SysRegisterController {
 
 	private final SysUserService userService;
 

@@ -46,7 +46,7 @@ import java.util.List;
 @RequestMapping("/log")
 @Tag(name = "日志管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class LogController {
+public class SysLogController {
 
 	private final SysLogService sysLogService;
 

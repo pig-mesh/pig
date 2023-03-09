@@ -58,7 +58,7 @@ import java.util.Set;
 @RequestMapping("/user")
 @Tag(name = "用户管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class UserController {
+public class SysUserController {
 
 	private final SysUserService userService;
 
