@@ -44,7 +44,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/menu")
 @Tag(name = "菜单管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class MenuController {
+public class SysMenuController {
 
 	private final SysMenuService sysMenuService;
 

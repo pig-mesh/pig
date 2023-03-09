@@ -44,7 +44,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/param")
 @Tag(name = "公共参数配置")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class PublicParamController {
+public class SysPublicParamController {
 
 	private final SysPublicParamService sysPublicParamService;
 

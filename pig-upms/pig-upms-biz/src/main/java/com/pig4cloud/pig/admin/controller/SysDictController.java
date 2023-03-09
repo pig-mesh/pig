@@ -52,7 +52,7 @@ import java.util.List;
 @RequestMapping("/dict")
 @Tag(name = "字典管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class DictController {
+public class SysDictController {
 
 	private final SysDictItemService sysDictItemService;
 

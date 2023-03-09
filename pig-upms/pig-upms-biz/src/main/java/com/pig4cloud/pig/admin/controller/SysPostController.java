@@ -46,7 +46,7 @@ import java.util.List;
 @RequestMapping("/post")
 @Tag(name = "岗位管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class PostController {
+public class SysPostController {
 
 	private final SysPostService sysPostService;
 

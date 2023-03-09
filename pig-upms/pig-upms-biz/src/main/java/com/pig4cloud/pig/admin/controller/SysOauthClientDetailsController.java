@@ -47,7 +47,7 @@ import java.util.List;
 @RequestMapping("/client")
 @Tag(name = "客户端管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class OauthClientDetailsController {
+public class SysOauthClientDetailsController {
 
 	private final SysOauthClientDetailsService sysOauthClientDetailsService;
 
