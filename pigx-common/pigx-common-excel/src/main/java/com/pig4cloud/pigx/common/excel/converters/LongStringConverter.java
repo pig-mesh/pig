@@ -16,29 +16,31 @@ import java.text.ParseException;
  */
 public enum LongStringConverter implements Converter<Long> {
 
-    /**
-     * 实例
-     */
-    INSTANCE;
+	/**
+	 * 实例
+	 */
+	INSTANCE;
 
-    @Override
-    public Class supportJavaTypeKey() {
-        return Long.class;
-    }
+	@Override
+	public Class supportJavaTypeKey() {
+		return Long.class;
+	}
 
-    @Override
-    public CellDataTypeEnum supportExcelTypeKey() {
-        return CellDataTypeEnum.STRING;
-    }
+	@Override
+	public CellDataTypeEnum supportExcelTypeKey() {
+		return CellDataTypeEnum.STRING;
+	}
 
-    @Override
-    public Long convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) throws ParseException {
-        return Long.parseLong(cellData.getStringValue());
-    }
+	@Override
+	public Long convertToJavaData(ReadCellData cellData, ExcelContentProperty contentProperty,
+			GlobalConfiguration globalConfiguration) throws ParseException {
+		return Long.parseLong(cellData.getStringValue());
+	}
 
-    @Override
-    public WriteCellData<String> convertToExcelData(Long value, ExcelContentProperty contentProperty, GlobalConfiguration globalConfiguration) {
-        return new WriteCellData<>(String.valueOf(value));
-    }
+	@Override
+	public WriteCellData<String> convertToExcelData(Long value, ExcelContentProperty contentProperty,
+			GlobalConfiguration globalConfiguration) {
+		return new WriteCellData<>(String.valueOf(value));
+	}
 
 }
