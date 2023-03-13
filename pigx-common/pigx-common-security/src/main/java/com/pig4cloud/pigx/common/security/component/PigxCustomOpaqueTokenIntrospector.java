@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.common.security.component;
 
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
@@ -69,7 +70,12 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
 		catch (Exception ex) {
 			log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
 		}
-		return (PigxUser) userDetails;
+
+		// 注入客户端信息，方便上下文中获取
+		PigxUser pigxUser = (PigxUser) userDetails;
+		Objects.requireNonNull(pigxUser).getAttributes().put(SecurityConstants.CLIENT_ID,
+				oldAuthorization.getRegisteredClientId());
+		return pigxUser;
 	}
 
 }
