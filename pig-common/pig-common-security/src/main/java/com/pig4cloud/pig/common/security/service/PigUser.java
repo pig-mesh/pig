@@ -36,6 +36,8 @@ public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
+	private final Map<String, Object> attributes = new HashMap<>();
+
 	/**
 	 * 用户ID
 	 */
@@ -71,7 +73,7 @@ public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 	 */
 	@Override
 	public Map<String, Object> getAttributes() {
-		return new HashMap<>();
+		return this.attributes;
 	}
 
 	@Override

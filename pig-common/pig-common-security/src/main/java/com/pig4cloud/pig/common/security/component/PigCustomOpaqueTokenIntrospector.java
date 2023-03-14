@@ -1,6 +1,7 @@
 package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +72,13 @@ public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector
 		catch (Exception ex) {
 			log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
 		}
-		return (PigUser) userDetails;
+
+		// 注入扩展属性,方便上下文获取客户端ID
+		PigUser user = (PigUser) userDetails;
+		Objects.requireNonNull(user)
+			.getAttributes()
+			.put(SecurityConstants.CLIENT_ID, oldAuthorization.getRegisteredClientId());
+		return user;
 	}
 
 }

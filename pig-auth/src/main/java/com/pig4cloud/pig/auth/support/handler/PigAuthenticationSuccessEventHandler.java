@@ -84,6 +84,8 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 				Long endTime = System.currentTimeMillis();
 				logVo.setTime(endTime - startTime);
 			}
+
+			logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
 			logVo.setCreateBy(userInfo.getName());
 			logVo.setUpdateBy(userInfo.getName());
 			SpringContextHolder.publishEvent(new SysLogEvent(logVo));

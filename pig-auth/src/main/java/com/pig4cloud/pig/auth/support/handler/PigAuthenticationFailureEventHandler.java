@@ -23,6 +23,7 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
@@ -75,6 +76,8 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 			Long endTime = System.currentTimeMillis();
 			logVo.setTime(endTime - startTime);
 		}
+
+		logVo.setServiceId(WebUtils.getClientId());
 		logVo.setCreateBy(username);
 		logVo.setUpdateBy(username);
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
