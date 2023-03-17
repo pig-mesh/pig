@@ -117,6 +117,8 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 			Long endTime = System.currentTimeMillis();
 			logVo.setTime(endTime - startTime);
 		}
+
+		logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
 		logVo.setCreateBy(MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
 		logVo.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 

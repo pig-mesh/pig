@@ -70,6 +70,9 @@ public class SysLogUtils {
 	 */
 	private String getClientId() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
 
 		Object principal = authentication.getPrincipal();
 		if (principal instanceof OAuth2AuthenticatedPrincipal) {

@@ -25,6 +25,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.log.event.SysLogEvent;
 import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
@@ -34,6 +35,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -117,6 +119,9 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 			Long endTime = System.currentTimeMillis();
 			logVo.setTime(endTime - startTime);
 		}
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		String clientId = WebUtils.extractClientId(header).orElse(null);
+		logVo.setServiceId(clientId);
 		logVo.setCreateBy(username);
 		logVo.setTenantId(Long.parseLong(tenantKeyStrResolver.key()));
 		publisher.publishEvent(new SysLogEvent(logVo));
