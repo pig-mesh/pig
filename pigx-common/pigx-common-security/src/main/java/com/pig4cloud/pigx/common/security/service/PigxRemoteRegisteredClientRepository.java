@@ -96,8 +96,10 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
 				.clientId(clientDetails.getClientId())
 				.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-
+				.clientAuthenticationMethods(clientAuthenticationMethods -> {
+					clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
+					clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_POST);
+				});
 		// 授权模式
 		Arrays.stream(clientDetails.getAuthorizedGrantTypes())
 				.forEach(grant -> builder.authorizationGrantType(new AuthorizationGrantType(grant)));
