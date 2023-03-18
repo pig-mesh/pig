@@ -77,11 +77,19 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 				return chain.filter(exchange);
 			}
 
-			// 短信登录强制校验验证码
-			boolean smsFlag = StrUtil.contains(request.getQueryParams().getFirst(SecurityConstants.GRANT_MOBILE),
-					"SMS");
+			// mobile模式, 如果请求不包含mobile 参数直接
+			String mobile = request.getQueryParams().getFirst(SecurityConstants.GRANT_MOBILE);
+			if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && StrUtil.isBlank(mobile)) {
+				throw new ValidateCodeException();
+			}
+
+			// mobile模式, 社交登录模式不校验验证码直接跳过
+			if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && !StrUtil.contains(mobile, "SMS")) {
+				return chain.filter(exchange);
+			}
+
 			// 判断客户端是否跳过检验
-			if (!isCheckCaptchaClient(request) && !smsFlag) {
+			if (!isCheckCaptchaClient(request)) {
 				return chain.filter(exchange);
 			}
 
