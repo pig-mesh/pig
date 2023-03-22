@@ -132,7 +132,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 	 * @param username username
 	 */
 	private void recordLoginFailureTimes(String username) {
-		String key = String.format("%s:%s:%s", CacheConstants.LOGIN_ERROR_TIMES, tenantKeyStrResolver.key(), username);
+		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES, username);
 		Long deltaTimes = ParamResolver.getLong("LOGIN_ERROR_TIMES", 5L);
 		Long times = redisTemplate.opsForValue().increment(key);
 

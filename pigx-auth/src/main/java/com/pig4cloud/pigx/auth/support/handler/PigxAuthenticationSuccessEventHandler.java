@@ -80,15 +80,15 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) {
 
-		// 清除账号历史锁定次数
-		clearLoginFailureTimes(authentication);
-
 		// 写入登录成功的日志
 		OAuth2AccessTokenAuthenticationToken accessTokenAuthentication = (OAuth2AccessTokenAuthenticationToken) authentication;
 		Map<String, Object> map = accessTokenAuthentication.getAdditionalParameters();
 		if (MapUtil.isNotEmpty(map)) {
 			sendSuccessEventLog(request, accessTokenAuthentication, map);
 		}
+
+		// 清除账号历史锁定次数
+		clearLoginFailureTimes(map);
 
 		// 输出token
 		sendAccessTokenResponse(response, authentication);
@@ -127,11 +127,11 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 
 	/**
 	 * 清空登录失败的记录
-	 * @param authentication
+	 * @param map
 	 */
-	private void clearLoginFailureTimes(Authentication authentication) {
-		String username = authentication.getName();
-		String key = String.format("%s:%s:%s", CacheConstants.LOGIN_ERROR_TIMES, tenantKeyStrResolver.key(), username);
+	private void clearLoginFailureTimes(Map<String, Object> map) {
+		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES,
+				MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
 		redisTemplate.delete(key);
 	}
 
