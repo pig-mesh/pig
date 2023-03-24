@@ -36,9 +36,9 @@ public class PigxXssProperties {
 	public static final String PREFIX = "security.xss";
 
 	/**
-	 * 开启xss
+	 * 开启xss,默认关闭： 建议生产环境开启
 	 */
-	private boolean enabled = true;
+	private boolean enabled = false;
 
 	/**
 	 * 全局：对文件进行首尾 trim

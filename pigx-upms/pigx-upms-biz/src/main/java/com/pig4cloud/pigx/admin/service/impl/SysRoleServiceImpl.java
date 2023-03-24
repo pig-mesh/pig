@@ -118,9 +118,6 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		// 个性化校验逻辑
 		List<SysRole> roleList = this.list();
 
-		for (RoleExcelVO excel : excelVOList) {
-
-		}
 		// 执行数据插入操作 组装 RoleDto
 		for (RoleExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
