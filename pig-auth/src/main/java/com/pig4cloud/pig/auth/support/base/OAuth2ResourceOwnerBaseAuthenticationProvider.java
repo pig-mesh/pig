@@ -111,29 +111,29 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		T resouceOwnerBaseAuthentication = (T) authentication;
+		T resourceOwnerBaseAuthentication = (T) authentication;
 
 		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
-				resouceOwnerBaseAuthentication);
+				resourceOwnerBaseAuthentication);
 
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 		checkClient(registeredClient);
 
 		Set<String> authorizedScopes;
 		// Default to configured scopes
-		if (!CollectionUtils.isEmpty(resouceOwnerBaseAuthentication.getScopes())) {
-			for (String requestedScope : resouceOwnerBaseAuthentication.getScopes()) {
+		if (!CollectionUtils.isEmpty(resourceOwnerBaseAuthentication.getScopes())) {
+			for (String requestedScope : resourceOwnerBaseAuthentication.getScopes()) {
 				if (!registeredClient.getScopes().contains(requestedScope)) {
 					throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
 				}
 			}
-			authorizedScopes = new LinkedHashSet<>(resouceOwnerBaseAuthentication.getScopes());
+			authorizedScopes = new LinkedHashSet<>(resourceOwnerBaseAuthentication.getScopes());
 		}
 		else {
 			throw new ScopeException(OAuth2ErrorCodesExpand.SCOPE_IS_EMPTY);
 		}
 
-		Map<String, Object> reqParameters = resouceOwnerBaseAuthentication.getAdditionalParameters();
+		Map<String, Object> reqParameters = resourceOwnerBaseAuthentication.getAdditionalParameters();
 		try {
 
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = buildToken(reqParameters);
@@ -149,14 +149,14 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 					.principal(usernamePasswordAuthentication)
 					.authorizationServerContext(AuthorizationServerContextHolder.getContext())
 					.authorizedScopes(authorizedScopes)
-					.authorizationGrantType(AuthorizationGrantType.PASSWORD)
-					.authorizationGrant(resouceOwnerBaseAuthentication);
+					.authorizationGrantType(resourceOwnerBaseAuthentication.getAuthorizationGrantType())
+					.authorizationGrant(resourceOwnerBaseAuthentication);
 			// @formatter:on
 
 			OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
 				.withRegisteredClient(registeredClient)
 				.principalName(usernamePasswordAuthentication.getName())
-				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+				.authorizationGrantType(resourceOwnerBaseAuthentication.getAuthorizationGrantType())
 				// 0.4.0 新增的方法
 				.authorizedScopes(authorizedScopes);
 
