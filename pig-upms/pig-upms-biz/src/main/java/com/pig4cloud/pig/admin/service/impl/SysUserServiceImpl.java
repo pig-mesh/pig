@@ -260,7 +260,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	public List<UserExcelVO> listUser(UserDTO userDTO) {
 		List<UserVO> voList = baseMapper.selectVoList(userDTO);
-		// 转换成execl 对象输出
+		// 转换成 excel 对象输出
 		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);
