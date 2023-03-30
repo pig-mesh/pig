@@ -11,15 +11,12 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
-import com.pig4cloud.pigx.common.excel.converters.LongStringConverter;
-import com.pig4cloud.pigx.common.excel.converters.StringArrayConverter;
+import com.pig4cloud.pigx.common.excel.converters.*;
 import com.pig4cloud.pigx.common.excel.enhance.WriterBuilderEnhancer;
 import com.pig4cloud.pigx.common.excel.head.HeadGenerator;
 import com.pig4cloud.pigx.common.excel.head.HeadMeta;
 import com.pig4cloud.pigx.common.excel.head.I18nHeaderCellWriteHandler;
 import com.pig4cloud.pigx.common.excel.kit.ExcelException;
-import com.pig4cloud.pigx.common.excel.converters.LocalDateStringConverter;
-import com.pig4cloud.pigx.common.excel.converters.LocalDateTimeStringConverter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -108,6 +105,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	@SneakyThrows(IOException.class)
 	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
 		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
+				.registerConverter(LocalTimeStringConverter.INSTANCE)
 				.registerConverter(LocalDateStringConverter.INSTANCE)
 				.registerConverter(LocalDateTimeStringConverter.INSTANCE)
 				.registerConverter(LongStringConverter.INSTANCE).registerConverter(StringArrayConverter.INSTANCE)
