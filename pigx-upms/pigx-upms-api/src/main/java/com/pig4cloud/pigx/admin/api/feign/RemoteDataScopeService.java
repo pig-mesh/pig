@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.admin.api.feign;
 
-import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
+import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -52,6 +52,6 @@ public interface RemoteDataScopeService {
 	 * @return
 	 */
 	@GetMapping("/dept/getDescendantList/{deptId}")
-	R<List<SysDeptRelation>> getDescendantList(@PathVariable("deptId") Long deptId);
+	R<List<SysDept>> getDescendantList(@PathVariable("deptId") Long deptId);
 
 }
