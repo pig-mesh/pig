@@ -105,13 +105,20 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		response.addCookie(cookie);
 	}
 
+	public ServletRequestAttributes getServletRequestAttributes(){
+		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+	}
+
 	/**
 	 * 获取 HttpServletRequest
 	 * @return {HttpServletRequest}
 	 */
 	public Optional<HttpServletRequest> getRequest() {
-		return Optional
-			.ofNullable(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
+		ServletRequestAttributes servletRequestAttributes = getServletRequestAttributes();
+		if (servletRequestAttributes == null) {
+			return Optional.empty();
+		}
+		return Optional.of(servletRequestAttributes.getRequest());
 	}
 
 	/**
@@ -119,7 +126,11 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 * @return {HttpServletResponse}
 	 */
 	public HttpServletResponse getResponse() {
-		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+		ServletRequestAttributes servletRequestAttributes = getServletRequestAttributes();
+		if (servletRequestAttributes == null) {
+			throw new CheckedException("无法获取HttpServletRequest");
+		}
+		return servletRequestAttributes.getResponse();
 	}
 
 	/**
