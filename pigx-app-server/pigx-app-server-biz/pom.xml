@@ -81,8 +81,8 @@
 		</dependency>
 		<!--选配: mysql 数据库驱动 -->
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
 		</dependency>
 		<!--选配: swagger文档-->
 		<dependency>
