@@ -81,7 +81,6 @@ public class ClassUtils extends org.springframework.util.ClassUtils {
 		specificMethod = BridgeMethodResolver.findBridgedMethod(specificMethod);
 		// 先找方法，再找方法上的类
 		A annotation = AnnotatedElementUtils.findMergedAnnotation(specificMethod, annotationType);
-		;
 		if (null != annotation) {
 			return annotation;
 		}

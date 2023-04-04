@@ -1,7 +1,7 @@
 package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import feign.RequestInterceptor;
@@ -52,7 +52,7 @@ public class PigOAuthRequestInterceptor implements RequestInterceptor {
 		HttpServletRequest request = WebUtils.getRequest().get();
 		// 避免请求参数的 query token 无法传递
 		String token = tokenResolver.resolve(request);
-		if (StrUtil.isBlank(token)) {
+		if (StringUtils.isBlank(token)) {
 			return;
 		}
 		template.header(HttpHeaders.AUTHORIZATION,
