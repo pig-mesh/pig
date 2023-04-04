@@ -27,7 +27,7 @@
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
-        <seata.version>1.5.2</seata.version>
+        <seata.version>1.6.1</seata.version>
         <excel.version>1.2.6</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>1.0.5</oss.version>
