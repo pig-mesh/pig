@@ -57,7 +57,7 @@
         <ureport.version>2.2.9</ureport.version>
         <jimu.version>1.5.6</jimu.version>
         <aws.version>1.11.543</aws.version>
-        <xxl.job.version>2.3.0</xxl.job.version>
+        <xxl.job.version>2.4.0</xxl.job.version>
         <activiti.version>5.22.0</activiti.version>
         <docker.registry>172.17.0.111</docker.registry>
         <docker.host>http://172.17.0.111:2375</docker.host>

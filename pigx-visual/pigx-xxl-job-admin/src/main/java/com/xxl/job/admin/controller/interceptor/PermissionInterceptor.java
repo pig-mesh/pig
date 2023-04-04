@@ -6,12 +6,11 @@ import com.xxl.job.admin.core.util.I18nUtil;
 import com.xxl.job.admin.service.LoginService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.AsyncHandlerInterceptor;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
 
 /**
  * 权限拦截
@@ -19,12 +18,7 @@ import java.util.Arrays;
  * @author xuxueli 2015-12-12 18:09:04
  */
 @Component
-public class PermissionInterceptor implements HandlerInterceptor {
-
-	/**
-	 * 针对 spring boot admin 对外暴露的接口
-	 */
-	private static final String[] ACTUATOR_IGNORE = { "/actuator", "/details", "/health" };
+public class PermissionInterceptor implements AsyncHandlerInterceptor {
 
 	@Resource
 	private LoginService loginService;
@@ -34,11 +28,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			throws Exception {
 
 		if (!(handler instanceof HandlerMethod)) {
-			return true;
-		}
-
-		if (Arrays.stream(ACTUATOR_IGNORE).anyMatch(s -> request.getRequestURI().contains(s))) {
-			return true;
+			return true; // proceed with the next interceptor
 		}
 
 		// if need login
@@ -64,7 +54,7 @@ public class PermissionInterceptor implements HandlerInterceptor {
 			request.setAttribute(LoginService.LOGIN_IDENTITY_KEY, loginUser);
 		}
 
-		return true;
+		return true; // proceed with the next interceptor
 	}
 
 }

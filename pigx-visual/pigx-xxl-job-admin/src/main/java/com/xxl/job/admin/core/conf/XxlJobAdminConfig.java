@@ -37,7 +37,7 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 		adminConfig = this;
 
 		xxlJobScheduler = new XxlJobScheduler();
-		// xxlJobScheduler.init();
+		xxlJobScheduler.init();
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 	@Value("${xxl.job.accessToken:}")
 	private String accessToken;
 
-	@Value("${spring.mail.from:}")
+	@Value("${spring.mail.from}")
 	private String emailFrom;
 
 	@Value("${xxl.job.triggerpool.fast.max}")
@@ -158,10 +158,6 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 
 	public JobAlarmer getJobAlarmer() {
 		return jobAlarmer;
-	}
-
-	public XxlJobScheduler getXxlJobScheduler() {
-		return xxlJobScheduler;
 	}
 
 }
