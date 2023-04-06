@@ -11,7 +11,7 @@ RUN mkdir -p /pigx-app-server
 
 WORKDIR /pigx-app-server
 
-EXPOSE 6060
+EXPOSE 7060
 
 ADD ./target/pigx-app-server-biz.jar ./
 

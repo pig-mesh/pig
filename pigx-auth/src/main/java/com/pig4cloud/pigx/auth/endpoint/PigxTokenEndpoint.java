@@ -250,7 +250,6 @@ public class PigxTokenEndpoint {
 	public R queryToken(String token) {
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 		return R.ok(authorization);
-
 	}
 
 }
