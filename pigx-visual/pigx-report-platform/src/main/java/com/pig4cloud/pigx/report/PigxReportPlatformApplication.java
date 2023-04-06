@@ -12,8 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PigxReportPlatformApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PigxReportPlatformApplication.class);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(PigxReportPlatformApplication.class);
+	}
 
 }

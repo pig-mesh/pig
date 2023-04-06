@@ -21,6 +21,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,15 +52,15 @@ public class SysJobLogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	@Operation(summary = "分页定时任务日志查询")
+	@Operation(description = "分页定时任务日志查询")
 	public R getSysJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
 
 	@DeleteMapping
-	@Operation(summary = "批量删除日志")
-	public R deleteLogs(@RequestBody Long[] logIds) {
-		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.newArrayList(logIds)));
+	@Operation(description = "批量删除日志")
+	public R deleteLogs(@RequestBody Long[] ids) {
+		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 }

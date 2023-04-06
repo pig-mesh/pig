@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.daemon.quartz.event;
 
+import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import lombok.RequiredArgsConstructor;

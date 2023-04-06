@@ -18,6 +18,8 @@
 package com.pig4cloud.pigx.daemon.quartz.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.daemon.quartz.mapper.SysJobLogMapper;
+import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pigx.daemon.quartz.mapper.SysJobLogMapper;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;

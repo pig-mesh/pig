@@ -33,42 +33,46 @@ import java.util.Optional;
 @Configuration(proxyBeanMethods = false)
 public class SecurityRequestFilter extends OncePerRequestFilter {
 
-    private final RemoteTokenService remoteTokenService;
+	private final RemoteTokenService remoteTokenService;
 
-    private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-        String requestURI = request.getRequestURI();
+		String requestURI = request.getRequestURI();
 
-        if (StrUtil.equalsAny(requestURI, "/", "/project/getData") || StrUtil.contains(requestURI,"/static")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		if (StrUtil.equalsAny(requestURI, "/", "/project/getData") || StrUtil.contains(requestURI, "/static")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        String accessToken = request.getHeader("token");
-        String tenantId = request.getHeader(CommonConstants.TENANT_ID);
+		String accessToken = request.getHeader("token");
+		String tenantId = request.getHeader(CommonConstants.TENANT_ID);
 
-        if (StrUtil.isBlank(accessToken) || StrUtil.isBlank(tenantId)) {
-            sendErrorMsg(request, response);
-            return;
-        }
+		if (StrUtil.isBlank(accessToken) || StrUtil.isBlank(tenantId)) {
+			sendErrorMsg(request, response);
+			return;
+		}
 
-        Optional<String> principalName = RetOps.of(remoteTokenService.queryToken(accessToken, tenantId, SecurityConstants.FROM_IN)).getDataIf(RetOps.CODE_SUCCESS).map(o -> (String) o.get("principalName"));
+		Optional<String> principalName = RetOps
+				.of(remoteTokenService.queryToken(accessToken, tenantId, SecurityConstants.FROM_IN))
+				.getDataIf(RetOps.CODE_SUCCESS).map(o -> (String) o.get("principalName"));
 
-        // 用户信息查不到
-        if (!principalName.isPresent()) {
-            sendErrorMsg(request, response);
-            return;
-        }
+		// 用户信息查不到
+		if (!principalName.isPresent()) {
+			sendErrorMsg(request, response);
+			return;
+		}
 
-        filterChain.doFilter(request, response);
-    }
+		filterChain.doFilter(request, response);
+	}
 
-    private void sendErrorMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        AjaxResult error = AjaxResult.error(HttpStatus.UNAUTHORIZED.value(), "require login");
-        response.setContentType(ContentType.JSON.getValue());
-        response.getWriter().write(objectMapper.writeValueAsString(error));
-    }
+	private void sendErrorMsg(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		AjaxResult error = AjaxResult.error(HttpStatus.UNAUTHORIZED.value(), "require login");
+		response.setContentType(ContentType.JSON.getValue());
+		response.getWriter().write(objectMapper.writeValueAsString(error));
+	}
+
 }
