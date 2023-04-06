@@ -17,11 +17,15 @@
 
 package com.pig4cloud.pigx.app.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
+import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.service.AppMenuService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -97,6 +101,28 @@ public class AppMenuController {
 	}
 
 	/**
+	 * 通过permission查询app菜单表
+	 * @param permission permission
+	 * @return R
+	 */
+	@Operation(summary = "通过permission查询", description = "通过permission查询")
+	@GetMapping("/details/{permission}")
+	public R getByMenuName(@PathVariable("permission") String permission) {
+		return R.ok(appMenuService.getOne(Wrappers.<AppMenu>lambdaQuery().eq(AppMenu::getPermission, permission)));
+	}
+
+	/**
+	 * 通过name查询app菜单表
+	 * @param name name
+	 * @return R
+	 */
+	@Operation(summary = "通过name查询", description = "通过name查询")
+	@GetMapping("/detailsByName/{name}")
+	public R getByMenuByName(@PathVariable("name") String name) {
+		return R.ok(appMenuService.getOne(Wrappers.<AppMenu>lambdaQuery().eq(AppMenu::getName, name)));
+	}
+
+	/**
 	 * 新增菜单
 	 * @param appMenu 菜单信息
 	 * @return success/false
@@ -111,14 +137,15 @@ public class AppMenuController {
 
 	/**
 	 * 删除菜单
-	 * @param id 菜单ID
+	 * @param ids 菜单ID
 	 * @return success/false
 	 */
 	@SysLog("删除菜单")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('app_appmenu_del')")
-	public R removeById(@PathVariable Long id) {
-		return appMenuService.removeMenuById(id);
+	public R removeById(@RequestBody Long[] ids) {
+		appMenuService.removeBatchByIds(CollUtil.toList(ids));
+		return R.ok();
 	}
 
 	/**

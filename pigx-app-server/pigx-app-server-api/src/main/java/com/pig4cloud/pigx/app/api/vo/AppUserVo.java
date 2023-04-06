@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-public class AppUserVo implements Serializable {
+public class AppUserVO implements Serializable {
 
 	/**
 	 * 主键

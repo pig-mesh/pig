@@ -19,13 +19,16 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
 import com.pig4cloud.pigx.app.service.AppUserService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
@@ -36,6 +39,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -98,9 +102,19 @@ public class AppUserController {
 	 * @return R
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{userId}")
+	@GetMapping("/details/{userId}")
 	public R getById(@PathVariable("userId") Long userId) {
-		return R.ok(appUserService.getById(userId));
+		return R.ok(appUserService.selectUserVoById(userId));
+	}
+
+	/**
+	 * @return R
+	 */
+	@Operation(summary = "通过userName查询", description = "通过userName查询")
+	@GetMapping("/details")
+	public R getByUserName(AppUser user) {
+		AppUser one = appUserService.getOne(Wrappers.query(user), false);
+		return R.ok(one == null ? null : CommonConstants.SUCCESS);
 	}
 
 	/**
@@ -113,7 +127,8 @@ public class AppUserController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('app_appuser_add')")
 	public R save(@RequestBody AppUserDTO appUser) {
-		return R.ok(appUserService.saveUser(appUser));
+		appUserService.saveUser(appUser);
+		return R.ok();
 	}
 
 	/**
@@ -131,15 +146,15 @@ public class AppUserController {
 
 	/**
 	 * 通过id删除app用户表
-	 * @param userId id
+	 * @param ids userIds
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除app用户表", description = "通过id删除app用户表")
+	@Operation(summary = "通过ids删除app用户表", description = "通过ids删除app用户表")
 	@SysLog("通过id删除app用户表")
-	@DeleteMapping("/{userId}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('app_appuser_del')")
-	public R removeById(@PathVariable Long userId) {
-		return R.ok(appUserService.deleteUserById(userId));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(appUserService.deleteAppUserByIds(ids));
 	}
 
 	/**
@@ -158,6 +173,18 @@ public class AppUserController {
 	@PutMapping("/edit")
 	public R updateUserInfo(@Valid @RequestBody AppUserDTO userDto) {
 		return appUserService.updateUserInfo(userDto);
+	}
+
+	/**
+	 * 导入用户
+	 * @param excelVOList 用户列表
+	 * @param bindingResult 错误信息列表
+	 * @return R
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('app_appuser_export')")
+	public R importUser(@RequestExcel List<AppUserExcelVO> excelVOList, BindingResult bindingResult) {
+		return appUserService.importUser(excelVOList, bindingResult);
 	}
 
 }

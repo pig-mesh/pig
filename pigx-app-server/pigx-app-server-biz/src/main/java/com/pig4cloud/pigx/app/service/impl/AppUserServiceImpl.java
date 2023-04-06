@@ -23,6 +23,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
+import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.entity.SysPost;
+import com.pig4cloud.pigx.admin.api.entity.SysRole;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
@@ -30,6 +36,7 @@ import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.entity.AppUserRole;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
+import com.pig4cloud.pigx.app.api.vo.AppUserVO;
 import com.pig4cloud.pigx.app.mapper.AppUserMapper;
 import com.pig4cloud.pigx.app.service.AppMenuService;
 import com.pig4cloud.pigx.app.service.AppRoleService;
@@ -40,17 +47,19 @@ import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -71,6 +80,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	private final AppRoleService appRoleService;
 
 	private final AppMenuService appMenuService;
+
+	private final CacheManager cacheManager;
 
 	/**
 	 * 更新用户
@@ -114,7 +125,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		if (CollUtil.isNotEmpty(userDTO.getRole())) {
 			List<AppUserRole> userRoleList = userDTO.getRole().stream().map(roleId -> {
 				AppUserRole userRole = new AppUserRole();
-				userRole.setUserId(userDTO.getUserId());
+				userRole.setUserId(appUser.getUserId());
 				userRole.setRoleId(roleId);
 				return userRole;
 			}).collect(Collectors.toList());
@@ -142,14 +153,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@Override
 	public IPage getUsersWithRolePage(Page page, AppUserDTO appUserDTO) {
 		return baseMapper.getUserVosPage(page, appUserDTO);
-	}
-
-	@Override
-	public Boolean deleteUserById(Long userId) {
-		baseMapper.deleteById(userId);
-		appUserRoleService.removeById(Wrappers.<AppUserRole>lambdaQuery().eq(AppUserRole::getUserId, userId));
-
-		return Boolean.TRUE;
 	}
 
 	@Override
@@ -189,6 +192,99 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 			appUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
 		}
 		return R.ok(this.updateById(appUser));
+	}
+
+	@Override
+	public AppUserVO selectUserVoById(Long userId) {
+		return baseMapper.getUserVoById(userId);
+	}
+
+	/**
+	 * 删除user用户同时删除user-role关系表
+	 * @param ids userIds
+	 */
+	@Override
+	public Boolean deleteAppUserByIds(Long[] ids) {
+		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS_MINI);
+		for (AppUser appUser : baseMapper.selectBatchIds(CollUtil.toList(ids))) {
+			cache.evict(appUser.getUsername());
+		}
+		// 删除用户关联表
+		this.appUserRoleService
+				.remove(Wrappers.<AppUserRole>lambdaQuery().in(AppUserRole::getUserId, CollUtil.toList(ids)));
+
+		this.removeBatchByIds(CollUtil.toList(ids));
+
+		return Boolean.TRUE;
+
+	}
+
+	/**
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
+	 */
+	@Override
+	public R importUser(List<AppUserExcelVO> excelVOList, BindingResult bindingResult) {
+		// 通用校验获取失败的数据
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+
+		// 执行数据插入操作 组装 UserDto
+		for (AppUserExcelVO excel : excelVOList) {
+			// 个性化校验逻辑
+			List<AppUser> userList = this.list();
+			List<AppRole> roleList = appRoleService.list();
+
+			Set<String> errorMsg = new HashSet<>();
+			// 校验用户名是否存在
+			boolean exsitUserName = userList.stream()
+					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
+
+			if (exsitUserName) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
+			}
+
+			// 判断输入的角色名称列表是否合法
+			List<String> roleNameList = StrUtil.split(excel.getRoleNameList(), StrUtil.COMMA);
+			List<AppRole> roleCollList = roleList.stream()
+					.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
+					.collect(Collectors.toList());
+
+			if (roleCollList.size() != roleNameList.size()) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
+			}
+			// 数据合法情况
+			if (CollUtil.isEmpty(errorMsg)) {
+				insertExcelUser(excel, roleCollList);
+			}
+			else {
+				// 数据不合法情况
+				errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
+			}
+
+		}
+
+		if (CollUtil.isNotEmpty(errorMessageList)) {
+			return R.failed(errorMessageList);
+		}
+		return R.ok(null, MsgUtils.getMessage(ErrorCodes.SYS_USER_IMPORT_SUCCEED));
+
+	}
+
+	private void insertExcelUser(AppUserExcelVO excel, List<AppRole> roleCollList) {
+		AppUserDTO userDTO = new AppUserDTO();
+		userDTO.setUsername(excel.getUsername());
+		userDTO.setPhone(excel.getPhone());
+		userDTO.setNickname(excel.getNickname());
+		userDTO.setName(excel.getName());
+		userDTO.setEmail(excel.getEmail());
+		// 批量导入初始密码为手机号
+		userDTO.setPassword(userDTO.getPhone());
+		// 根据角色名称查询角色ID
+		List<Long> roleIdList = roleCollList.stream().map(AppRole::getRoleId).collect(Collectors.toList());
+		userDTO.setRole(roleIdList);
+		// 插入用户
+		this.saveUser(userDTO);
 	}
 
 }

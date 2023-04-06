@@ -23,7 +23,7 @@
 
 <mapper namespace="com.pig4cloud.pigx.app.mapper.AppUserMapper">
 
-  <resultMap id="appUserMap" type="com.pig4cloud.pigx.app.api.vo.AppUserVo">
+  <resultMap id="appUserMap" type="com.pig4cloud.pigx.app.api.vo.AppUserVO">
         <id property="userId" column="user_id"/>
         <result property="username" column="username"/>
         <result property="password" column="password"/>
@@ -36,9 +36,9 @@
         <result property="delFlag" column="del_flag"/>
         <result property="tenantId" column="tenant_id"/>
         <result property="lastModifiedTime" column="last_modified_time"/>
-	  <collection property="roleList" ofType="com.pig4cloud.pigx.app.api.entity.AppRole"
-				  select="com.pig4cloud.pigx.app.mapper.AppRoleMapper.listRolesByUserId" column="user_id">
-	  </collection>
+	    <collection property="roleList" ofType="com.pig4cloud.pigx.app.api.entity.AppRole"
+					  select="com.pig4cloud.pigx.app.mapper.AppRoleMapper.listRolesByUserId" column="user_id">
+		</collection>
   </resultMap>
     <select id="getUserVosPage" resultMap="appUserMap">
 		select
@@ -62,5 +62,36 @@
 				AND u.username LIKE #{usernameLike}
 			</if>
 		</where>
+	</select>
+
+	<sql id="userRoleDeptSql">
+		u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.wx_openid,
+        u.del_flag,
+        u.lock_flag,
+        u.tenant_id,
+        u.nickname,
+        u.name,
+        u.email,
+        u.create_by,
+        u.create_time  ucreate_time,
+        u.update_time  uupdate_time,
+        r.role_id
+	</sql>
+
+	<select id="getUserVoById" resultMap="appUserMap">
+		SELECT
+		<include refid="userRoleDeptSql"/>
+		FROM
+		app_user u
+		LEFT JOIN app_user_role urole ON urole.user_id = u.user_id
+		LEFT JOIN app_role r ON r.role_id = urole.role_id
+		WHERE
+		u.user_id = #{id}
 	</select>
 </mapper>

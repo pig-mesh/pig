@@ -17,12 +17,17 @@
 
 package com.pig4cloud.pigx.app.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
+import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
 import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
 import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +36,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,7 +65,8 @@ public class AppRoleController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getAppRolePage(Page page, AppRole appRole) {
-		return R.ok(appRoleService.page(page, Wrappers.query(appRole)));
+		return R.ok(appRoleService.page(page, Wrappers.<AppRole>lambdaQuery()
+				.like(StrUtil.isNotBlank(appRole.getRoleName()), AppRole::getRoleName, appRole.getRoleName())));
 	}
 
 	/**
@@ -79,9 +86,30 @@ public class AppRoleController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{roleId}")
-	@PreAuthorize("@pms.hasPermission('app_approle_view')")
 	public R getById(@PathVariable("roleId") Long roleId) {
 		return R.ok(appRoleService.getById(roleId));
+	}
+
+	/**
+	 * 通过roleName查询app角色表
+	 * @param roleName roleName
+	 * @return R
+	 */
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/details/{roleName}")
+	public R getByUserName(@PathVariable("roleName") String roleName) {
+		return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleName, roleName)));
+	}
+
+	/**
+	 * 通过roleCode查询app角色表
+	 * @param roleCode roleCode
+	 * @return R
+	 */
+	@Operation(summary = "通过roleCode查询", description = "通过roleCode查询")
+	@GetMapping("/detailsByCode/{roleCode}")
+	public R getByPhone(@PathVariable("roleCode") String roleCode) {
+		return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleCode, roleCode)));
 	}
 
 	/**
@@ -111,16 +139,16 @@ public class AppRoleController {
 	}
 
 	/**
-	 * 通过id删除app角色表
-	 * @param roleId id
+	 * 通过ids批量删除app角色表
+	 * @param ids roleIds
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除app角色表", description = "通过id删除app角色表")
-	@SysLog("通过id删除app角色表")
-	@DeleteMapping("/{roleId}")
+	@Operation(summary = "通过ids批量删除app角色表", description = "通过ids批量删除app角色表")
+	@SysLog("通过ids批量删除app角色表")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('app_approle_del')")
-	public R removeById(@PathVariable Long roleId) {
-		return R.ok(appRoleService.removeById(roleId));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(appRoleService.deleteRoleByIds(ids));
 	}
 
 	/**
@@ -145,6 +173,18 @@ public class AppRoleController {
 	@PreAuthorize("@pms.hasPermission('app_approle_export')")
 	public List<AppRole> export(AppRole appRole) {
 		return appRoleService.list(Wrappers.query(appRole));
+	}
+
+	/**
+	 * 导入角色
+	 * @param excelVOList 角色列表
+	 * @param bindingResult 错误信息列表
+	 * @return ok fail
+	 */
+	@PostMapping("/import")
+	@PreAuthorize("@pms.hasPermission('app_approle_export')")
+	public R importRole(@RequestExcel List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
+		return appRoleService.importRole(excelVOList, bindingResult);
 	}
 
 }

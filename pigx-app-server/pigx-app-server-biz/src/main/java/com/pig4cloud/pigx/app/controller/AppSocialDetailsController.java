@@ -17,12 +17,14 @@
 
 package com.pig4cloud.pigx.app.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
 import com.pig4cloud.pigx.app.service.AppSocialDetailsService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -34,6 +36,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/appsocial")
@@ -57,13 +60,12 @@ public class AppSocialDetailsController {
 
 	/**
 	 * 信息
-	 * @param type 类型
+	 * @param id id
 	 * @return R
 	 */
-	@GetMapping("/{type}")
-	public R getByType(@PathVariable("type") String type) {
-		return R.ok(appSocialDetailsService
-				.list(Wrappers.<AppSocialDetails>lambdaQuery().eq(AppSocialDetails::getType, type)));
+	@GetMapping("/{id}")
+	public R getinfo(@PathVariable("id") Long id) {
+		return R.ok(appSocialDetailsService.getById(id));
 	}
 
 	/**
@@ -93,14 +95,14 @@ public class AppSocialDetailsController {
 
 	/**
 	 * 删除
-	 * @param id
+	 * @param ids
 	 * @return R
 	 */
 	@SysLog("删除三方信息")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('app_social_details_del')")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(appSocialDetailsService.removeById(id));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(appSocialDetailsService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**
@@ -123,6 +125,15 @@ public class AppSocialDetailsController {
 	@PostMapping("/bind")
 	public R bindSocial(String state, String code) {
 		return R.ok(appSocialDetailsService.bindSocial(state, code));
+	}
+
+	/**
+	 * 导出
+	 */
+	@GetMapping("/export")
+	@ResponseExcel
+	public List<AppSocialDetails> export(AppSocialDetails appSocialDetails) {
+		return appSocialDetailsService.list(Wrappers.query(appSocialDetails));
 	}
 
 }

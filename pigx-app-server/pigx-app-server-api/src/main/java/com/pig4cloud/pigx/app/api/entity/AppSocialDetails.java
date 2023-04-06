@@ -69,7 +69,7 @@ public class AppSocialDetails extends Model<AppSocialDetails> {
 	/**
 	 * app_secret
 	 */
-	@Sensitive(prefixNoMaskLen = 9, suffixNoMaskLen = 9)
+	@Sensitive(prefixNoMaskLen = 4, suffixNoMaskLen = 4)
 	@NotBlank(message = "密钥不能为空", groups = { ValidGroup.Insert.class })
 	@Schema(description = "app secret")
 	private String appSecret;

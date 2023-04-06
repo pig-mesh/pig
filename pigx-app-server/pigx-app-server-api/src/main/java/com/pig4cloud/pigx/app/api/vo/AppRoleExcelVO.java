@@ -15,28 +15,47 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.app.mapper;
+package com.pig4cloud.pigx.app.api.vo;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
-import com.pig4cloud.pigx.app.api.entity.AppUser;
-import com.pig4cloud.pigx.app.api.vo.AppUserVO;
-import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import com.alibaba.excel.annotation.ExcelIgnore;
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 /**
- * app用户表
- *
- * @author aeizzz
- * @date 2022-12-07 09:52:03
+ * @author lengleng
+ * @date 2020/2/10
  */
-@Mapper
-public interface AppUserMapper extends PigxBaseMapper<AppUser> {
+@Data
+@Schema(description = "前端角色展示对象")
+@ColumnWidth(30)
+public class AppRoleExcelVO {
 
-	IPage<AppUserVO> getUserVosPage(Page page, @Param("query") AppUserDTO appUserDTO);
+	/**
+	 * 导入时候回显行号
+	 */
+	@ExcelLine
+	@ExcelIgnore
+	private Long lineNum;
 
-	AppUserVO getUserVoById(Long userId);
+	/**
+	 * roleName
+	 */
+	@ExcelProperty("角色名称")
+	private String roleName;
+
+	/**
+	 * roleCode
+	 */
+	@ExcelProperty("角色标识")
+	private String roleCode;
+
+	/**
+	 * roleDesc
+	 */
+	@ExcelProperty("角色描述")
+	private String roleDesc;
 
 }

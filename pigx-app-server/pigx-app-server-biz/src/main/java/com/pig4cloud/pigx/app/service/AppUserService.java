@@ -24,7 +24,9 @@ import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
+import com.pig4cloud.pigx.app.api.vo.AppUserVO;
 import com.pig4cloud.pigx.common.core.util.R;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -44,10 +46,14 @@ public interface AppUserService extends IService<AppUser> {
 
 	IPage getUsersWithRolePage(Page page, AppUserDTO appUserDTO);
 
-	Boolean deleteUserById(Long userId);
-
 	AppUserInfo findUserInfo(AppUser user);
 
 	R updateUserInfo(AppUserDTO userDto);
+
+	AppUserVO selectUserVoById(Long userId);
+
+	Boolean deleteAppUserByIds(Long[] ids);
+
+	R importUser(List<AppUserExcelVO> excelVOList, BindingResult bindingResult);
 
 }
