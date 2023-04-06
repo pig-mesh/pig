@@ -77,6 +77,18 @@ public class UserVO implements Serializable {
 	private String qqOpenid;
 
 	/**
+	 * gitee openid
+	 */
+	@Schema(description = "gitee open id")
+	private String giteeOpenId;
+
+	/**
+	 * 开源中国 openid
+	 */
+	@Schema(description = "开源中国 open id")
+	private String oscOpenId;
+
+	/**
 	 * 创建时间
 	 */
 	@Schema(description = "创建时间")

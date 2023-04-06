@@ -17,116 +17,107 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
-import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
- * 租户
+ * 日程
  *
- * @author lengleng
- * @date 2019-05-15 15:55:41
+ * @author aeizzz
+ * @date 2023-03-06 14:26:23
  */
 @Data
-@Schema(description = "租户信息")
+@TableName("sys_schedule")
 @EqualsAndHashCode(callSuper = true)
-public class SysTenant extends Model<SysTenant> {
+@Schema(description = "日程")
+public class SysScheduleEntity extends Model<SysScheduleEntity> {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 租户id
+	 * id
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(description = "租户id")
-	@ExcelProperty("租户id")
+	@Schema(description = "id")
 	private Long id;
 
 	/**
-	 * 租户名称
+	 * 标题
 	 */
-	@Schema(description = "租户名称")
-	@ExcelProperty("租户名称")
-	private String name;
+	@Schema(description = "标题")
+	private String title;
 
 	/**
-	 * 租户编号
+	 * 日程类型
 	 */
-	@Schema(description = "租户编号")
-	@ExcelProperty("租户编号")
-	private String code;
+	@Schema(description = "日程类型")
+	private String type;
 
 	/**
-	 * 租户域名
+	 * 状态
 	 */
-	@Schema(description = "租户域名")
-	@ExcelProperty("租户域名")
-	private String tenantDomain;
+	@Schema(description = "状态")
+	private String state;
 
 	/**
-	 * 开始时间
+	 * 内容
 	 */
-	@Schema(description = "开始时间")
-	@ExcelProperty("开始时间")
-	private LocalDateTime startTime;
+	@Schema(description = "内容")
+	private String content;
 
 	/**
-	 * 结束时间
+	 * 时间
 	 */
-	@Schema(description = "结束时间")
-	@ExcelProperty("结束时间")
-	private LocalDateTime endTime;
+	@Schema(description = "时间")
+	private LocalTime time;
 
 	/**
-	 * 0正常 9-冻结
+	 * 日期
 	 */
-	@Schema(description = "租户冻结标记,9:冻结,0:正常")
-	@ExcelProperty("租户冻结")
-	private String status;
-
-	@Schema(description = "租户菜单ID")
-	@ExcelProperty("租户菜单ID")
-	private String menuId;
+	@Schema(description = "日期")
+	private LocalDate date;
 
 	/**
 	 * 创建人
 	 */
-	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建人")
+	@TableField(fill = FieldFill.INSERT)
 	private String createBy;
+
+	/**
+	 * 创建时间
+	 */
+	@Schema(description = "创建时间")
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
 
 	/**
 	 * 修改人
 	 */
-	@TableField(fill = FieldFill.UPDATE)
 	@Schema(description = "修改人")
+	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private String updateBy;
+
+	/**
+	 * 更新时间
+	 */
+	@Schema(description = "更新时间")
+	@TableField(fill = FieldFill.INSERT_UPDATE)
+	private LocalDateTime updateTime;
 
 	/**
 	 * 删除标记
 	 */
 	@TableLogic
+	@Schema(description = "删除标记")
 	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
-
-	/**
-	 * 创建时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "创建时间")
-	private LocalDateTime createTime;
-
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.UPDATE)
-	@Schema(description = "更新时间")
-	private LocalDateTime updateTime;
 
 }

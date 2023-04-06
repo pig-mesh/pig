@@ -28,8 +28,8 @@ import java.time.LocalDateTime;
 /**
  * 审计记录表
  *
- * @author pigx code generator
- * @date 2023-02-27 22:33:30
+ * @author PIG
+ * @date 2023-02-28 20:12:23
  */
 @Data
 @TableName("sys_audit_log")
@@ -80,21 +80,20 @@ public class SysAuditLog extends Model<SysAuditLog> {
 	 * 操作时间
 	 */
 	@Schema(description = "操作时间")
-	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 删除标记
 	 */
-	@TableLogic
 	@Schema(description = "删除标记")
+	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
 
 	/**
 	 * 租户ID
 	 */
-	@Schema(description = "租户ID", hidden = true)
+	@Schema(description = "租户ID")
 	private Long tenantId;
 
 }

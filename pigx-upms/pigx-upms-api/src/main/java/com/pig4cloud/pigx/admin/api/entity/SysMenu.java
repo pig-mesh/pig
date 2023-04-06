@@ -84,6 +84,12 @@ public class SysMenu extends Model<SysMenu> {
 	private String path;
 
 	/**
+	 * 菜单显示隐藏控制
+	 */
+	@Schema(description = "菜单是否显示")
+	private String visible;
+
+	/**
 	 * 排序值
 	 */
 	@Schema(description = "排序值")
@@ -102,11 +108,8 @@ public class SysMenu extends Model<SysMenu> {
 	@Schema(description = "路由缓冲")
 	private String keepAlive;
 
-	/**
-	 * 菜单显示隐藏控制
-	 */
-	@Schema(description = "菜单是否显示")
-	private String visible;
+	@Schema(description = "菜单是否内嵌")
+	private String embedded;
 
 	/**
 	 * 创建人

@@ -23,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import org.javers.core.metamodel.annotation.DiffInclude;
+import org.javers.core.metamodel.annotation.PropertyName;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -112,6 +114,8 @@ public class SysUser implements Serializable {
 	/**
 	 * 手机号
 	 */
+	@DiffInclude
+	@PropertyName("手机号")
 	@Schema(description = "手机号")
 	private String phone;
 
@@ -178,6 +182,8 @@ public class SysUser implements Serializable {
 	/**
 	 * 邮箱
 	 */
+	@DiffInclude
+	@PropertyName("邮箱")
 	@Schema(description = "邮箱")
 	private String email;
 
