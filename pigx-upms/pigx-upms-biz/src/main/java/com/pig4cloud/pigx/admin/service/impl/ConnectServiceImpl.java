@@ -90,7 +90,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 		// 保存部门以及部门关系
 		if (CollectionUtils.isNotEmpty(syncDept)) {
-			syncDept.forEach(sysDeptService::saveDept);
+			syncDept.forEach(sysDeptService::save);
 		}
 
 		return Boolean.TRUE;
@@ -196,7 +196,7 @@ public class ConnectServiceImpl implements ConnectService {
 					sysDept.setParentId(dept.getParentId());
 					sysDept.setSortOrder(dept.getOrder().intValue());
 					return sysDept;
-				}).forEach(sysDeptService::saveDept);
+				}).forEach(sysDeptService::save);
 		return R.ok();
 	}
 

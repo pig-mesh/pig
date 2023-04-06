@@ -43,7 +43,7 @@ import java.util.stream.Collectors;
 
 /**
  * 租户
- *
+ * <p>
  * mybatis-plus 3.4.3.3 特殊处理 https://github.com/baomidou/mybatis-plus/pull/3592
  *
  * @author lengleng
@@ -56,8 +56,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
 
 	private final SysOauthClientDetailsService clientServices;
-
-	private final SysDeptRelationService deptRelationService;
 
 	private final SysUserRoleService userRoleService;
 
@@ -118,9 +116,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		List<SysDict> dictList = new ArrayList<>(32);
 		List<Long> dictIdList = new ArrayList<>(32);
 		List<SysDictItem> dictItemList = new ArrayList<>(64);
+		List<SysMenu> menuList = new ArrayList<>(128);
 		List<SysOauthClientDetails> clientDetailsList = new ArrayList<>(16);
 		List<SysPublicParam> publicParamList = new ArrayList<>(64);
-		List<SysMenu> menuList = new ArrayList<>();
 
 		TenantBroker.runAs(defaultId, (id) -> {
 			// 查询系统内置字典
@@ -129,27 +127,24 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			dictIdList.addAll(dictList.stream().map(SysDict::getId).collect(Collectors.toList()));
 			dictItemList.addAll(
 					dictItemService.list(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList)));
+			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
+			String[] split = tenantMenu.getMenuIds().split(",");
+			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, split));
+			// 查询当前租户菜单
+			menuList.addAll(newMenuList);
 			// 查询客户端配置
 			clientDetailsList.addAll(clientServices.list());
 			// 查询系统参数配置
 			publicParamList.addAll(paramService.list());
-
-			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
-			String[] split = tenantMenu.getMenuIds().split(",");
-			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, split));
-			menuList.addAll(newMenuList);
 		});
 
 		// 保证插入租户为新的租户
 		TenantBroker.applyAs(sysTenant.getId(), (id -> {
-
 			// 插入部门
 			SysDept dept = new SysDept();
 			dept.setName(defaultDeptName);
 			dept.setParentId(0L);
 			deptService.save(dept);
-			// 维护部门关系
-			deptRelationService.insertDeptRelation(dept);
 			// 构造初始化用户
 			SysUser user = new SysUser();
 			user.setUsername(defaultUsername);
@@ -176,7 +171,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			userRole.setRoleId(role.getRoleId());
 			userRoleService.save(userRole);
 			// 插入新的菜单
-
 			saveTenantMenu(menuList, CommonConstants.MENU_TREE_ROOT_ID, CommonConstants.MENU_TREE_ROOT_ID);
 
 			// 重新查询出所有的菜单关联角色

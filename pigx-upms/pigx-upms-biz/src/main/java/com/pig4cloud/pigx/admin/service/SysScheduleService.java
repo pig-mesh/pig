@@ -14,38 +14,26 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
+
 package com.pig4cloud.pigx.admin.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.admin.api.entity.SysDict;
-import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.admin.api.entity.SysScheduleEntity;
+
+import java.util.List;
 
 /**
- * 字典表
+ * 日程
  *
- * @author lengleng
- * @date 2019/03/19
+ * @author aeizzz
+ * @date 2023-03-06 14:26:23
  */
-public interface SysDictService extends IService<SysDict> {
+public interface SysScheduleService extends IService<SysScheduleEntity> {
 
-	/**
-	 * 根据ID 删除字典
-	 * @param ids ID列表
-	 * @return
-	 */
-	R removeDictByIds(Long[] ids);
+	IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule);
 
-	/**
-	 * 更新字典
-	 * @param sysDict 字典
-	 * @return
-	 */
-	R updateDict(SysDict sysDict);
-
-	/**
-	 * 同步缓存 （清空缓存）
-	 * @return R
-	 */
-	R syncDictCache();
+	List<SysScheduleEntity> selectListByScope(String month);
 
 }

@@ -22,7 +22,6 @@ package com.pig4cloud.pigx.admin.mapper;
 import com.pig4cloud.pigx.admin.api.entity.SysUserRole;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>
@@ -34,14 +33,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface SysUserRoleMapper extends PigxBaseMapper<SysUserRole> {
-
-	/**
-	 * 根据用户Id删除该用户的角色关系
-	 * @param userId 用户ID
-	 * @return boolean
-	 * @author 寻欢·李
-	 * @date 2017年12月7日 16:31:38
-	 */
-	Boolean deleteByUserId(@Param("userId") Long userId);
 
 }

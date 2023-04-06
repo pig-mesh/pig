@@ -56,29 +56,13 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		implements SysOauthClientDetailsService {
 
 	/**
-	 * 通过ID删除客户端
-	 * @param clientId
-	 * @return
-	 */
-	@Override
-	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId")
-	public Boolean removeByClientId(String clientId) {
-		// 更新库
-		baseMapper
-				.delete(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
-		// 更新Redis
-		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(clientId));
-		return Boolean.TRUE;
-	}
-
-	/**
 	 * 根据客户端信息
 	 * @param clientDetailsDTO
 	 * @return
 	 */
 	@Override
-	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetailsDTO.clientId")
+	@Transactional(rollbackFor = Exception.class)
 	public Boolean updateClientById(SysOauthClientDetailsDTO clientDetailsDTO) {
 		this.insertOrUpdate(clientDetailsDTO);
 		return Boolean.TRUE;
@@ -152,7 +136,6 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	}
 
 	@Override
-	@Transactional
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
 	public R syncClientCache() {
 		// 更新Redis

@@ -68,17 +68,6 @@ public class SysLogController {
 	}
 
 	/**
-	 * 删除日志
-	 * @param id ID
-	 * @return success/false
-	 */
-	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('sys_log_del')")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(sysLogService.removeById(id));
-	}
-
-	/**
 	 * 批量删除日志
 	 * @param ids ID
 	 * @return success/false

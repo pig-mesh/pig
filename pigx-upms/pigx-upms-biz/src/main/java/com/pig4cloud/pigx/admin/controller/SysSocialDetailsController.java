@@ -17,10 +17,12 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.service.SysSocialDetailsService;
+import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -34,6 +36,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * 系统社交登录账号表
@@ -72,6 +75,11 @@ public class SysSocialDetailsController {
 				.list(Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, type)));
 	}
 
+	@GetMapping("/getById/{id}")
+	public R info(@PathVariable("id") Long id) {
+		return R.ok(sysSocialDetailsService.getById(id));
+	}
+
 	/**
 	 * 保存
 	 * @param sysSocialDetails
@@ -99,14 +107,14 @@ public class SysSocialDetailsController {
 
 	/**
 	 * 删除
-	 * @param id
+	 * @param ids id 列表
 	 * @return R
 	 */
 	@SysLog("删除三方信息")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_social_details_del')")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(sysSocialDetailsService.removeById(id));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysSocialDetailsService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**
@@ -129,6 +137,14 @@ public class SysSocialDetailsController {
 	@PostMapping("/bind")
 	public R bindSocial(String state, String code) {
 		return R.ok(sysSocialDetailsService.bindSocial(state, code));
+	}
+
+	/**
+	 * 导出
+	 */
+	@GetMapping("/export")
+	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails) {
+		return sysSocialDetailsService.list(Wrappers.query(sysSocialDetails));
 	}
 
 }

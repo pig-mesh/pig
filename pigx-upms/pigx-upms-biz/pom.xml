@@ -102,6 +102,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-xss</artifactId>
         </dependency>
+        <!-- 字段审计 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-audit</artifactId>
+        </dependency>
         <!--支持动态路由配置 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>

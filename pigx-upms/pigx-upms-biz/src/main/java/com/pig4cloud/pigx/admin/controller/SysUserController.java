@@ -19,15 +19,13 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
-import com.pig4cloud.pigx.admin.api.vo.DingUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -94,47 +92,34 @@ public class SysUserController {
 	 * @param id ID
 	 * @return 用户信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/details/{id}")
 	public R user(@PathVariable Long id) {
 		return R.ok(userService.selectUserVoById(id));
 	}
 
 	/**
-	 * 根据用户名查询用户信息
-	 * @param username 用户名
-	 * @return
+	 * 查询用户信息
+	 * @param query 查询条件
+	 * @return 不为空返回用户名
 	 */
-	@GetMapping("/details/{username}")
-	public R user(@PathVariable String username) {
-		SysUser condition = new SysUser();
-		condition.setUsername(username);
-		return R.ok(userService.getOne(new QueryWrapper<>(condition)));
-	}
-
-	/**
-	 * 根据手机号查询用户信息
-	 * @param phone 用户名
-	 * @return
-	 */
-	@GetMapping("/detailsByPhone/{phone}")
-	public R detailsByPhone(@PathVariable String phone) {
-		SysUser condition = new SysUser();
-		condition.setPhone(phone);
-		return R.ok(userService.getOne(new QueryWrapper<>(condition)));
+	@Inner(value = false)
+	@GetMapping("/details")
+	public R getDetails(SysUser query) {
+		SysUser sysUser = userService.getOne(Wrappers.query(query), false);
+		return R.ok(sysUser == null ? null : CommonConstants.SUCCESS);
 	}
 
 	/**
 	 * 删除用户信息
-	 * @param id ID
+	 * @param ids ID
 	 * @return R
 	 */
 	@SysLog("删除用户信息")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
 	@Operation(summary = "删除用户", description = "根据ID删除用户")
-	public R userDel(@PathVariable Long id) {
-		SysUser sysUser = userService.getById(id);
-		return R.ok(userService.deleteUserById(sysUser));
+	public R userDel(@RequestBody Long[] ids) {
+		return R.ok(userService.deleteUserByIds(ids));
 	}
 
 	/**
@@ -158,7 +143,7 @@ public class SysUserController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
 	public R updateUser(@Valid @RequestBody UserDTO userDto) {
-		return userService.updateUser(userDto);
+		return R.ok(userService.updateUser(userDto));
 	}
 
 	/**
@@ -217,30 +202,31 @@ public class SysUserController {
 	}
 
 	/**
-	 * 导入钉钉用户
-	 * @param excelVOList
-	 * @param bindingResult
-	 * @return
-	 */
-	@PostMapping("/importDingUser")
-	public R importDingUser(@RequestExcel List<DingUserExcelVo> excelVOList, BindingResult bindingResult) {
-		return userService.importDingUser(excelVOList, bindingResult);
-	}
-
-	@PostMapping("/importCpUser")
-	public R importCpUser(@RequestExcel List<CpUserExcelVo> excelVOList, BindingResult bindingResult) {
-		return userService.importCpUser(excelVOList, bindingResult);
-	}
-
-	/**
 	 * 锁定指定用户
 	 * @param username 用户名
 	 * @return R
 	 */
-	@Inner(value = false)
+	@Inner
 	@PutMapping("/lock/{username}")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);
+	}
+
+	@PutMapping("/password")
+	public R password(@RequestBody UserDTO userDto) {
+		String username = SecurityUtils.getUser().getUsername();
+		userDto.setUsername(username);
+		return userService.changePassword(userDto);
+	}
+
+	@PostMapping("/unbinding")
+	public R unbinding(String type) {
+		return userService.unbinding(type);
+	}
+
+	@PostMapping("/check")
+	public R check(String password) {
+		return userService.checkPassword(password);
 	}
 
 }

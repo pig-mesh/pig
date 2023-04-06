@@ -44,7 +44,7 @@ public class RouterFunctionConfiguration {
 	@Bean
 	public RouterFunction routerFunction() {
 		return RouterFunctions
-				.route(RequestPredicates.path("/code").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+				.route(RequestPredicates.path("/code/create").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
 						imageCodeCreateHandler)
 				.andRoute(RequestPredicates.POST("/code/check").and(RequestPredicates.accept(MediaType.ALL)),
 						imageCodeCheckHandler);

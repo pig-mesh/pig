@@ -17,6 +17,8 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
@@ -67,11 +69,12 @@ public class SysPostController {
 	 * @param sysPost 岗位信息表
 	 * @return
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
+	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@pms.hasPermission('sys_post_view')")
 	public R getSysPostPage(Page page, SysPost sysPost) {
-		return R.ok(sysPostService.page(page, Wrappers.query(sysPost)));
+		return R.ok(sysPostService.page(page, Wrappers.<SysPost>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
 	}
 
 	/**
@@ -79,11 +82,23 @@ public class SysPostController {
 	 * @param postId id
 	 * @return R
 	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{postId}")
+	@Operation(description = "通过id查询", summary = "通过id查询")
+	@GetMapping("/details/{postId}")
 	@PreAuthorize("@pms.hasPermission('sys_post_view')")
 	public R getById(@PathVariable("postId") Long postId) {
 		return R.ok(sysPostService.getById(postId));
+	}
+
+	/**
+	 * 查询岗位信息信息
+	 * @param query 查询条件
+	 * @return R
+	 */
+	@Operation(description = "查询角色信息", summary = "查询角色信息")
+	@GetMapping("/details")
+	@PreAuthorize("@pms.hasPermission('sys_post_view')")
+	public R getDetails(SysPost query) {
+		return R.ok(sysPostService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
@@ -91,7 +106,7 @@ public class SysPostController {
 	 * @param sysPost 岗位信息表
 	 * @return R
 	 */
-	@Operation(summary = "新增岗位信息表", description = "新增岗位信息表")
+	@Operation(description = "新增岗位信息表", summary = "新增岗位信息表")
 	@SysLog("新增岗位信息表")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_post_add')")
@@ -104,7 +119,7 @@ public class SysPostController {
 	 * @param sysPost 岗位信息表
 	 * @return R
 	 */
-	@Operation(summary = "修改岗位信息表", description = "修改岗位信息表")
+	@Operation(description = "修改岗位信息表", summary = "修改岗位信息表")
 	@SysLog("修改岗位信息表")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_post_edit')")
@@ -114,15 +129,15 @@ public class SysPostController {
 
 	/**
 	 * 通过id删除岗位信息表
-	 * @param postId id
+	 * @param ids id 列表
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除岗位信息表", description = "通过id删除岗位信息表")
+	@Operation(description = "通过id删除岗位信息表", summary = "通过id删除岗位信息表")
 	@SysLog("通过id删除岗位信息表")
-	@DeleteMapping("/{postId}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_post_del')")
-	public R removeById(@PathVariable Long postId) {
-		return R.ok(sysPostService.removeById(postId));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysPostService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**

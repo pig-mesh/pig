@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,6 +29,7 @@ import com.pig4cloud.pigx.admin.service.SysDictItemService;
 import com.pig4cloud.pigx.admin.service.SysDictService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -65,9 +67,19 @@ public class SysDictController {
 	 * @param id ID
 	 * @return 字典信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/details/{id}")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysDictService.getById(id));
+	}
+
+	/**
+	 * 查询字典信息
+	 * @param query 查询信息
+	 * @return 字典信息
+	 */
+	@GetMapping("/details")
+	public R getDetails(SysDict query) {
+		return R.ok(sysDictService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
@@ -77,7 +89,11 @@ public class SysDictController {
 	 */
 	@GetMapping("/page")
 	public R<IPage> getDictPage(Page page, SysDict sysDict) {
-		return R.ok(sysDictService.page(page, Wrappers.query(sysDict)));
+		return R.ok(sysDictService.page(page,
+				Wrappers.<SysDict>lambdaQuery()
+						.eq(StrUtil.isNotBlank(sysDict.getSystemFlag()), SysDict::getSystemFlag,
+								sysDict.getSystemFlag())
+						.like(StrUtil.isNotBlank(sysDict.getDictType()), SysDict::getDictType, sysDict.getDictType())));
 	}
 
 	/**
@@ -100,19 +116,21 @@ public class SysDictController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
 	public R save(@Valid @RequestBody SysDict sysDict) {
-		return R.ok(sysDictService.save(sysDict));
+		sysDictService.save(sysDict);
+		return R.ok(sysDict);
 	}
 
 	/**
 	 * 删除字典，并且清除字典缓存
-	 * @param id ID
+	 * @param ids ID
 	 * @return R
 	 */
 	@SysLog("删除字典")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
-	public R removeById(@PathVariable Long id) {
-		return sysDictService.removeDict(id);
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysDictService.removeDictByIds(ids));
 	}
 
 	/**
@@ -125,6 +143,18 @@ public class SysDictController {
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
 	public R updateById(@Valid @RequestBody SysDict sysDict) {
 		return sysDictService.updateDict(sysDict);
+	}
+
+	/**
+	 * 分页查询
+	 * @param name 名称或者字典项
+	 * @return
+	 */
+	@GetMapping("/list")
+	public R getDictList(String name) {
+		return R.ok(sysDictService
+				.list(Wrappers.<SysDict>lambdaQuery().like(StrUtil.isNotBlank(name), SysDict::getDictType, name).or()
+						.like(StrUtil.isNotBlank(name), SysDict::getDescription, name)));
 	}
 
 	/**
@@ -143,9 +173,19 @@ public class SysDictController {
 	 * @param id id
 	 * @return R
 	 */
-	@GetMapping("/item/{id}")
+	@GetMapping("/item/details/{id}")
 	public R getDictItemById(@PathVariable("id") Long id) {
 		return R.ok(sysDictItemService.getById(id));
+	}
+
+	/**
+	 * 查询字典项详情
+	 * @param query 查询条件
+	 * @return R
+	 */
+	@GetMapping("/item/details")
+	public R getDictItemDetails(SysDictItem query) {
+		return R.ok(sysDictItemService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
@@ -190,6 +230,12 @@ public class SysDictController {
 	@PutMapping("/sync")
 	public R sync() {
 		return sysDictService.syncDictCache();
+	}
+
+	@ResponseExcel
+	@GetMapping("/export")
+	public List<SysDictItem> export(SysDictItem sysDictItem) {
+		return sysDictItemService.list(Wrappers.query(sysDictItem));
 	}
 
 }

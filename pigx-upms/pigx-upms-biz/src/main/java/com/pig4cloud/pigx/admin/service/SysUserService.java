@@ -25,8 +25,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
-import com.pig4cloud.pigx.admin.api.vo.CpUserExcelVo;
-import com.pig4cloud.pigx.admin.api.vo.DingUserExcelVo;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -57,10 +55,10 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 删除用户
-	 * @param sysUser 用户
+	 * @param ids 用户
 	 * @return boolean
 	 */
-	Boolean deleteUserById(SysUser sysUser);
+	Boolean deleteUserByIds(Long[] ids);
 
 	/**
 	 * 更新当前用户基本信息
@@ -74,7 +72,7 @@ public interface SysUserService extends IService<SysUser> {
 	 * @param userDto 用户信息
 	 * @return
 	 */
-	R<Boolean> updateUser(UserDTO userDto);
+	Boolean updateUser(UserDTO userDto);
 
 	/**
 	 * 通过ID查询用户信息
@@ -126,8 +124,10 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R<Boolean> lockUser(String username);
 
-	R importDingUser(List<DingUserExcelVo> excelVOList, BindingResult bindingResult);
+	R changePassword(UserDTO userDto);
 
-	R importCpUser(List<CpUserExcelVo> excelVOList, BindingResult bindingResult);
+	R unbinding(String type);
+
+	R checkPassword(String password);
 
 }

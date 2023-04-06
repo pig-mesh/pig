@@ -27,10 +27,8 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
-import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pigx.admin.mapper.SysDeptMapper;
-import com.pig4cloud.pigx.admin.service.SysDeptRelationService;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
@@ -56,24 +54,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
-	private final SysDeptRelationService sysDeptRelationService;
-
 	private final SysDeptMapper deptMapper;
-
-	/**
-	 * 添加信息部门
-	 * @param dept 部门
-	 * @return
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveDept(SysDept dept) {
-		SysDept sysDept = new SysDept();
-		BeanUtils.copyProperties(dept, sysDept);
-		this.save(sysDept);
-		sysDeptRelationService.insertDeptRelation(sysDept);
-		return Boolean.TRUE;
-	}
 
 	/**
 	 * 删除部门
@@ -84,97 +65,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
-		List<Long> idList = sysDeptRelationService
-				.list(Wrappers.<SysDeptRelation>query().lambda().eq(SysDeptRelation::getAncestor, id)).stream()
-				.map(SysDeptRelation::getDescendant).collect(Collectors.toList());
+		List<Long> idList = baseMapper.listDescendant(id).stream().map(SysDept::getDeptId).collect(Collectors.toList());
 
-		if (CollUtil.isNotEmpty(idList)) {
-			this.removeByIds(idList);
-		}
+		Optional.ofNullable(idList).filter(CollUtil::isNotEmpty).ifPresent(this::removeByIds);
 
-		// 删除部门级联关系
-		sysDeptRelationService.deleteAllDeptRealtion(id);
 		return Boolean.TRUE;
-	}
-
-	/**
-	 * 更新部门
-	 * @param sysDept 部门信息
-	 * @return 成功、失败
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Boolean updateDeptById(SysDept sysDept) {
-		// 更新部门状态
-		this.updateById(sysDept);
-		// 更新部门关系
-		SysDeptRelation relation = new SysDeptRelation();
-		relation.setAncestor(sysDept.getParentId());
-		relation.setDescendant(sysDept.getDeptId());
-		sysDeptRelationService.updateDeptRealtion(relation);
-		return Boolean.TRUE;
-	}
-
-	/**
-	 * 导出部门
-	 * @return
-	 */
-	@Override
-	public List<DeptExcelVo> listExcelVo() {
-		List<SysDept> list = this.list();
-		List<DeptExcelVo> deptExcelVos = list.stream().map(item -> {
-			DeptExcelVo deptExcelVo = new DeptExcelVo();
-			deptExcelVo.setName(item.getName());
-			Optional<String> first = this.list().stream().filter(it -> item.getParentId().equals(it.getDeptId()))
-					.map(SysDept::getName).findFirst();
-			deptExcelVo.setParentName(first.orElse("跟部门"));
-			deptExcelVo.setSortOrder(item.getSortOrder());
-			return deptExcelVo;
-		}).collect(Collectors.toList());
-		return deptExcelVos;
-	}
-
-	@Override
-	public R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
-		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
-
-		List<SysDept> deptList = this.list();
-		for (DeptExcelVo item : excelVOList) {
-			Set<String> errorMsg = new HashSet<>();
-			boolean exsitUsername = deptList.stream().anyMatch(sysDept -> item.getName().equals(sysDept.getName()));
-			if (exsitUsername) {
-				errorMsg.add("部门名称已经存在");
-			}
-			SysDept one = this.getOne(Wrappers.<SysDept>lambdaQuery().eq(SysDept::getName, item.getParentName()));
-			if (item.getParentName().equals("跟部门")) {
-				one = new SysDept();
-				one.setDeptId(0L);
-			}
-			if (one == null) {
-				errorMsg.add("上级部门不存在");
-			}
-			if (CollUtil.isEmpty(errorMsg)) {
-				SysDept sysDept = new SysDept();
-				sysDept.setName(item.getName());
-				sysDept.setParentId(one.getDeptId());
-				sysDept.setSortOrder(item.getSortOrder());
-				this.saveDept(sysDept);
-			}
-			else {
-				// 数据不合法情况
-				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
-			}
-		}
-		if (CollUtil.isNotEmpty(errorMessageList)) {
-			return R.failed(errorMessageList);
-		}
-		return R.ok(null, "部门导入成功");
 	}
 
 	/**
 	 * 查询全部部门树
-	 * @return 树 部门名称
 	 * @param deptName
+	 * @return 树 部门名称
 	 */
 	@Override
 	public List<Tree<Long>> selectTree(String deptName) {
@@ -214,6 +115,72 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		}
 
 		return TreeUtil.build(collect, 0L);
+	}
+
+	/**
+	 * 导出部门
+	 * @return
+	 */
+	@Override
+	public List<DeptExcelVo> listExcelVo() {
+		List<SysDept> list = this.list();
+		List<DeptExcelVo> deptExcelVos = list.stream().map(item -> {
+			DeptExcelVo deptExcelVo = new DeptExcelVo();
+			deptExcelVo.setName(item.getName());
+			Optional<String> first = this.list().stream().filter(it -> item.getParentId().equals(it.getDeptId()))
+					.map(SysDept::getName).findFirst();
+			deptExcelVo.setParentName(first.orElse("根部门"));
+			deptExcelVo.setSortOrder(item.getSortOrder());
+			return deptExcelVo;
+		}).collect(Collectors.toList());
+		return deptExcelVos;
+	}
+
+	@Override
+	public R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
+		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+
+		List<SysDept> deptList = this.list();
+		for (DeptExcelVo item : excelVOList) {
+			Set<String> errorMsg = new HashSet<>();
+			boolean exsitUsername = deptList.stream().anyMatch(sysDept -> item.getName().equals(sysDept.getName()));
+			if (exsitUsername) {
+				errorMsg.add("部门名称已经存在");
+			}
+			SysDept one = this.getOne(Wrappers.<SysDept>lambdaQuery().eq(SysDept::getName, item.getParentName()));
+			if (item.getParentName().equals("根部门")) {
+				one = new SysDept();
+				one.setDeptId(0L);
+			}
+			if (one == null) {
+				errorMsg.add("上级部门不存在");
+			}
+			if (CollUtil.isEmpty(errorMsg)) {
+				SysDept sysDept = new SysDept();
+				sysDept.setName(item.getName());
+				sysDept.setParentId(one.getDeptId());
+				sysDept.setSortOrder(item.getSortOrder());
+				baseMapper.insert(sysDept);
+			}
+			else {
+				// 数据不合法情况
+				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
+			}
+		}
+		if (CollUtil.isNotEmpty(errorMessageList)) {
+			return R.failed(errorMessageList);
+		}
+		return R.ok(null, "部门导入成功");
+	}
+
+	/**
+	 * 获取部门的所有后代部门列表
+	 * @param deptId 部门ID
+	 * @return 后代部门列表
+	 */
+	@Override
+	public List<SysDept> listDescendant(Long deptId) {
+		return baseMapper.listDescendant(deptId);
 	}
 
 }

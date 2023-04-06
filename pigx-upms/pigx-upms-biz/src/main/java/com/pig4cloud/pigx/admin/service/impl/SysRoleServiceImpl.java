@@ -77,21 +77,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key")
+	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
 	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
 		return baseMapper.selectBatchIds(roleIdList);
 	}
 
 	/**
 	 * 通过角色ID，删除角色,并清空角色菜单缓存
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean removeRoleById(Long id) {
-		roleMenuService.remove(Wrappers.<SysRoleMenu>update().lambda().eq(SysRoleMenu::getRoleId, id));
-		return this.removeById(id);
+	public Boolean removeRoleByIds(Long[] ids) {
+		roleMenuService
+				.remove(Wrappers.<SysRoleMenu>update().lambda().in(SysRoleMenu::getRoleId, CollUtil.toList(ids)));
+		return this.removeBatchByIds(CollUtil.toList(ids));
 	}
 
 	/**

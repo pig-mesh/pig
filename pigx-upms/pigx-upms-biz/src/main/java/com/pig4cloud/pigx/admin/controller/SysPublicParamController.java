@@ -17,11 +17,14 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysPublicParam;
 import com.pig4cloud.pigx.admin.service.SysPublicParamService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,6 +34,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 公共参数
@@ -53,7 +58,7 @@ public class SysPublicParamController {
 	 * @return
 	 */
 	@Inner(value = false)
-	@Operation(summary = "查询公共参数值", description = "根据key查询公共参数值")
+	@Operation(description = "查询公共参数值", summary = "根据key查询公共参数值")
 	@GetMapping("/publicValue/{publicKey}")
 	public R publicKey(@PathVariable("publicKey") String publicKey) {
 		return R.ok(sysPublicParamService.getSysPublicParamKeyToValue(publicKey));
@@ -65,10 +70,18 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数
 	 * @return
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
+	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
 	public R getSysPublicParamPage(Page page, SysPublicParam sysPublicParam) {
-		return R.ok(sysPublicParamService.page(page, Wrappers.query(sysPublicParam)));
+		LambdaUpdateWrapper<SysPublicParam> wrapper = Wrappers.<SysPublicParam>lambdaUpdate()
+				.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
+						sysPublicParam.getPublicName())
+				.like(StrUtil.isNotBlank(sysPublicParam.getPublicKey()), SysPublicParam::getPublicKey,
+						sysPublicParam.getPublicKey())
+				.eq(StrUtil.isNotBlank(sysPublicParam.getSystemFlag()), SysPublicParam::getSystemFlag,
+						sysPublicParam.getSystemFlag());
+
+		return R.ok(sysPublicParamService.page(page, wrapper));
 	}
 
 	/**
@@ -76,10 +89,15 @@ public class SysPublicParamController {
 	 * @param publicId id
 	 * @return R
 	 */
-	@Operation(summary = "通过id查询公共参数", description = "通过id查询公共参数")
-	@GetMapping("/{publicId}")
+	@Operation(description = "通过id查询公共参数", summary = "通过id查询公共参数")
+	@GetMapping("/details/{publicId}")
 	public R getById(@PathVariable("publicId") Long publicId) {
 		return R.ok(sysPublicParamService.getById(publicId));
+	}
+
+	@GetMapping("/details")
+	public R getDetail(SysPublicParam param) {
+		return R.ok(sysPublicParamService.getOne(Wrappers.query(param), false));
 	}
 
 	/**
@@ -87,10 +105,10 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数
 	 * @return R
 	 */
-	@Operation(summary = "新增公共参数", description = "新增公共参数")
+	@Operation(description = "新增公共参数", summary = "新增公共参数")
 	@SysLog("新增公共参数")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('admin_syspublicparam_add')")
+	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_add')")
 	public R save(@RequestBody SysPublicParam sysPublicParam) {
 		return R.ok(sysPublicParamService.save(sysPublicParam));
 	}
@@ -100,10 +118,10 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数
 	 * @return R
 	 */
-	@Operation(summary = "修改公共参数", description = "修改公共参数")
+	@Operation(description = "修改公共参数", summary = "修改公共参数")
 	@SysLog("修改公共参数")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('admin_syspublicparam_edit')")
+	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
 	public R updateById(@RequestBody SysPublicParam sysPublicParam) {
 		return sysPublicParamService.updateParam(sysPublicParam);
 	}
@@ -113,12 +131,23 @@ public class SysPublicParamController {
 	 * @param publicId id
 	 * @return R
 	 */
-	@Operation(summary = "删除公共参数", description = "删除公共参数")
+	@Operation(description = "删除公共参数", summary = "删除公共参数")
 	@SysLog("删除公共参数")
-	@DeleteMapping("/{publicId}")
-	@PreAuthorize("@pms.hasPermission('admin_syspublicparam_del')")
-	public R removeById(@PathVariable Long publicId) {
-		return sysPublicParamService.removeParam(publicId);
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_del')")
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysPublicParamService.removeParamByIds(ids));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
+	public List<SysPublicParam> export() {
+		return sysPublicParamService.list();
 	}
 
 	/**
@@ -127,6 +156,7 @@ public class SysPublicParamController {
 	 */
 	@SysLog("同步参数")
 	@PutMapping("/sync")
+	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
 	public R sync() {
 		return sysPublicParamService.syncParamCache();
 	}

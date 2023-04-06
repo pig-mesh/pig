@@ -64,7 +64,7 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @param menuName 菜单名称
 	 * @return
 	 */
-	List<Tree<Long>> treeMenu(Long parentId, String menuName);
+	List<Tree<Long>> treeMenu(Long parentId, String menuName, String type);
 
 	/**
 	 * 查询菜单

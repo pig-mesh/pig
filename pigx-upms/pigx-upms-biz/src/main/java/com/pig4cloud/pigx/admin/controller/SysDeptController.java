@@ -19,11 +19,8 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
-import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
-import com.pig4cloud.pigx.admin.service.SysDeptRelationService;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
@@ -55,8 +52,6 @@ import java.util.List;
 @Tag(description = "dept", name = "部门管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDeptController {
-
-	private final SysDeptRelationService relationService;
 
 	private final SysDeptService sysDeptService;
 
@@ -97,7 +92,7 @@ public class SysDeptController {
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_add')")
 	public R save(@Valid @RequestBody SysDept sysDept) {
-		return R.ok(sysDeptService.saveDept(sysDept));
+		return R.ok(sysDeptService.save(sysDept));
 	}
 
 	/**
@@ -122,7 +117,7 @@ public class SysDeptController {
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
 	public R update(@Valid @RequestBody SysDept sysDept) {
 		sysDept.setUpdateTime(LocalDateTime.now());
-		return R.ok(sysDeptService.updateDeptById(sysDept));
+		return R.ok(sysDeptService.updateById(sysDept));
 	}
 
 	/**
@@ -131,8 +126,7 @@ public class SysDeptController {
 	 */
 	@GetMapping(value = "/getDescendantList/{deptId}")
 	public R getDescendantList(@PathVariable Long deptId) {
-		return R.ok(
-				relationService.list(Wrappers.<SysDeptRelation>lambdaQuery().eq(SysDeptRelation::getAncestor, deptId)));
+		return R.ok(sysDeptService.listDescendant(deptId));
 	}
 
 	/**

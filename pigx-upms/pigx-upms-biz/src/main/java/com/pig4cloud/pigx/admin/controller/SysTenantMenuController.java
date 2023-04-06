@@ -63,7 +63,7 @@ public class SysTenantMenuController {
 	 */
 	@SysLog("新增租户")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('admin_systenantmenu_add')")
+	@PreAuthorize("@pms.hasPermission('sys_systenantmenu_add')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R save(@RequestBody SysTenantMenu sysTenantMenu) {
 		return R.ok(sysTenantMenuService.saveTenant(sysTenantMenu));
@@ -76,7 +76,7 @@ public class SysTenantMenuController {
 	 */
 	@SysLog("修改租户")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('admin_systenantmenu_edit')")
+	@PreAuthorize("@pms.hasPermission('sys_systenantmenu_edit')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R updateById(@RequestBody SysTenantMenu sysTenantMenu) {
 		return R.ok(sysTenantMenuService.updateById(sysTenantMenu));
@@ -89,7 +89,7 @@ public class SysTenantMenuController {
 	 */
 	@SysLog("删除租户")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('admin_systenantmenu_del')")
+	@PreAuthorize("@pms.hasPermission('sys_systenantmenu_del')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysTenantMenuService.removeById(id));
@@ -112,7 +112,7 @@ public class SysTenantMenuController {
 		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
 		List<Tree<Long>> trees = new ArrayList<>();
 		TenantBroker.runAs(defaultId, (id) -> {
-			trees.addAll(sysMenuService.treeMenu(null, null));
+			trees.addAll(sysMenuService.treeMenu(null, null, null));
 		});
 
 		return R.ok(trees);

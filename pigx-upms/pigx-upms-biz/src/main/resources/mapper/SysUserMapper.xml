@@ -30,6 +30,8 @@
         <result column="avatar" property="avatar"/>
         <result column="wx_openid" property="wxOpenid"/>
         <result column="qq_openid" property="qqOpenid"/>
+        <result column="gitee_login" property="giteeOpenId"/>
+        <result column="osc_id" property="oscOpenId"/>
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
         <result column="lock_flag" property="lockFlag"/>
@@ -81,6 +83,8 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
+    	u.gitee_login,
+        u.osc_id,
         u.del_flag,
         u.lock_flag,
         u.tenant_id,
@@ -90,12 +94,6 @@
         u.create_by,
         u.create_time  ucreate_time,
         u.update_time  uupdate_time,
-        r.role_id,
-        r.role_name,
-        r.role_code,
-        r.role_desc,
-        r.create_time  rcreate_time,
-        r.update_time  rupdate_time,
         d.name  dept_name,
         d.dept_id
     </sql>
@@ -115,8 +113,6 @@
         <include refid="userRoleDeptSql"/>
         FROM
         sys_user u
-        LEFT JOIN sys_user_role urole ON urole.user_id = u.user_id
-        LEFT JOIN sys_role r ON r.role_id = urole.role_id
         LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
         WHERE
         u.user_id = #{id}

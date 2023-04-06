@@ -23,13 +23,16 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.entity.SysI18nEntity;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pigx.admin.mapper.SysMenuMapper;
 import com.pig4cloud.pigx.admin.mapper.SysRoleMenuMapper;
+import com.pig4cloud.pigx.admin.service.SysI18nService;
 import com.pig4cloud.pigx.admin.service.SysMenuService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -38,6 +41,7 @@ import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -45,10 +49,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -63,9 +64,12 @@ import java.util.stream.Collectors;
  */
 @Service
 @AllArgsConstructor
+@Slf4j
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements SysMenuService {
 
 	private final SysRoleMenuMapper sysRoleMenuMapper;
+
+	private final SysI18nService sysI18nService;
 
 	@Override
 	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId", unless = "#result.isEmpty()")
@@ -101,13 +105,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 * @return
 	 */
 	@Override
-	public List<Tree<Long>> treeMenu(Long parentId, String menuName) {
+	public List<Tree<Long>> treeMenu(Long parentId, String menuName, String type) {
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
 		List<TreeNode<Long>> collect = baseMapper
-				.selectList(
-						Wrappers.<SysMenu>lambdaQuery().like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName)
-								.orderByAsc(SysMenu::getSortOrder))
+				.selectList(Wrappers.<SysMenu>lambdaQuery()
+						.like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName)
+						.eq(StrUtil.isNotBlank(type), SysMenu::getMenuType, type).orderByAsc(SysMenu::getSortOrder))
 				.stream().map(getNodeFunction()).collect(Collectors.toList());
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
@@ -132,8 +136,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 */
 	@Override
 	public List<Tree<Long>> filterMenu(Set<SysMenu> all, String type, Long parentId) {
-		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).map(getNodeFunction())
-				.collect(Collectors.toList());
+		List<SysI18nEntity> list = sysI18nService.list();
+		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).peek(item -> {
+			Optional<SysI18nEntity> first = list.stream().filter(it -> it.getZhCn().equals(item.getName())).findFirst();
+			if (first.isPresent()) {
+				item.setName(first.get().getName());
+			}
+		}).map(getNodeFunction()).collect(Collectors.toList());
+
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);
 	}
@@ -148,14 +158,22 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			node.setWeight(menu.getSortOrder());
 			// 扩展属性
 			Map<String, Object> extra = new HashMap<>();
-			extra.put("icon", menu.getIcon());
 			extra.put("path", menu.getPath());
 			extra.put("menuType", menu.getMenuType());
 			extra.put("permission", menu.getPermission());
-			extra.put("label", menu.getName());
 			extra.put("sortOrder", menu.getSortOrder());
-			extra.put("keepAlive", menu.getKeepAlive());
-			extra.put("visible", menu.getVisible());
+
+			// 适配 vue3
+			Map<String, Object> meta = new HashMap<>();
+			meta.put("title", menu.getName());
+			meta.put("isLink", menu.getPath() != null && menu.getPath().startsWith("http") ? menu.getPath() : "");
+			meta.put("isHide", !BooleanUtil.toBooleanObject(menu.getVisible()));
+			meta.put("isKeepAlive", BooleanUtil.toBooleanObject(menu.getKeepAlive()));
+			meta.put("isAffix", false);
+			meta.put("isIframe", BooleanUtil.toBooleanObject(menu.getEmbedded()));
+			meta.put("icon", menu.getIcon());
+
+			extra.put("meta", meta);
 			node.setExtra(extra);
 			return node;
 		};

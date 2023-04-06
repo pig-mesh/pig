@@ -62,19 +62,19 @@ public class SysRoleController {
 	 * @param id ID
 	 * @return 角色信息
 	 */
-	@GetMapping("/{id}")
+	@GetMapping("/details/{id}")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysRoleService.getById(id));
 	}
 
 	/**
-	 * 通过角色编码查询角色信息
-	 * @param code 角色Code
+	 * 查询角色信息
+	 * @param query 查询条件
 	 * @return 角色信息
 	 */
-	@GetMapping("/code/{code}")
-	public R getByRoleCode(@PathVariable String code) {
-		return R.ok(sysRoleService.list(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, code)));
+	@GetMapping("/details")
+	public R getDetails(SysRole query) {
+		return R.ok(sysRoleService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
@@ -105,15 +105,15 @@ public class SysRoleController {
 
 	/**
 	 * 删除角色
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@SysLog("删除角色")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_role_del')")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
-	public R removeById(@PathVariable Long id) {
-		return R.ok(sysRoleService.removeRoleById(id));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysRoleService.removeRoleByIds(ids));
 	}
 
 	/**
@@ -133,7 +133,8 @@ public class SysRoleController {
 	 */
 	@GetMapping("/page")
 	public R getRolePage(Page page, SysRole role) {
-		return R.ok(sysRoleService.page(page, Wrappers.query(role)));
+		return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery()
+				.like(StrUtil.isNotBlank(role.getRoleName()), SysRole::getRoleName, role.getRoleName())));
 	}
 
 	/**

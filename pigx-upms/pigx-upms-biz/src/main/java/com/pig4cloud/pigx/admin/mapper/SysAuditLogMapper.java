@@ -24,8 +24,8 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * 审计记录表
  *
- * @author pigx code generator
- * @date 2023-02-27 22:33:30
+ * @author PIG
+ * @date 2023-02-28 20:12:23
  */
 @Mapper
 public interface SysAuditLogMapper extends PigxBaseMapper<SysAuditLog> {

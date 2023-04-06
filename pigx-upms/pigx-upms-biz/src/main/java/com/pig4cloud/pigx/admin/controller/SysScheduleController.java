@@ -20,95 +20,110 @@ package com.pig4cloud.pigx.admin.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.admin.api.entity.SysAuditLog;
-import com.pig4cloud.pigx.admin.service.SysAuditLogService;
+import com.pig4cloud.pigx.admin.api.entity.SysScheduleEntity;
+import com.pig4cloud.pigx.admin.service.SysScheduleService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 /**
- * 审计记录表
+ * 日程
  *
- * @author PIG
- * @date 2023-02-28 20:12:23
+ * @author aeizzz
+ * @date 2023-03-06 14:26:23
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/audit")
-@Tag(description = "audit", name = "审计记录表管理")
+@RequestMapping("/schedule")
+@Tag(description = "schedule", name = "日程管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-public class SysAuditLogController {
+public class SysScheduleController {
 
-	private final SysAuditLogService sysAuditLogService;
+	private final SysScheduleService sysScheduleService;
 
 	/**
 	 * 分页查询
 	 * @param page 分页对象
-	 * @param sysAuditLog 审计记录表
+	 * @param sysSchedule 日程
 	 * @return
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getsysAuditLogPage(Page page, SysAuditLog sysAuditLog) {
-		return R.ok(sysAuditLogService.getAuditsByScope(page, sysAuditLog));
+	public R getSchedulePage(Page page, SysScheduleEntity sysSchedule) {
+		return R.ok(sysScheduleService.getScheduleByScope(page, sysSchedule));
 	}
 
 	/**
-	 * 通过id查询审计记录表
+	 * 通过id查询日程
 	 * @param id id
 	 * @return R
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
 	public R getById(@PathVariable("id") Long id) {
-		return R.ok(sysAuditLogService.getById(id));
+		return R.ok(sysScheduleService.getById(id));
 	}
 
 	/**
-	 * 新增审计记录表 (异步插入)
-	 * @param auditLogList 审计记录
+	 * 新增日程
+	 * @param sysSchedule 日程
 	 * @return R
 	 */
-	@Inner
+	@Operation(summary = "新增日程", description = "新增日程")
+	@SysLog("新增日程")
 	@PostMapping
-	@Operation(summary = "新增审计记录表", description = "新增审计记录表")
-	public R save(@RequestBody List<SysAuditLog> auditLogList) {
-		return R.ok(sysAuditLogService.saveBatch(auditLogList));
+	public R save(@RequestBody SysScheduleEntity sysSchedule) {
+		return R.ok(sysScheduleService.save(sysSchedule));
 	}
 
 	/**
-	 * 通过id删除审计记录表
+	 * 修改日程
+	 * @param sysSchedule 日程
+	 * @return R
+	 */
+	@Operation(summary = "修改日程", description = "修改日程")
+	@SysLog("修改日程")
+	@PutMapping
+	public R updateById(@RequestBody SysScheduleEntity sysSchedule) {
+		return R.ok(sysScheduleService.updateById(sysSchedule));
+	}
+
+	/**
+	 * 通过id删除日程
 	 * @param ids id列表
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除审计记录表", description = "通过id删除审计记录表")
-	@SysLog("通过id删除审计记录表")
+	@Operation(summary = "通过id删除日程", description = "通过id删除日程")
+	@SysLog("通过id删除日程")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_audit_del')")
 	public R removeById(@RequestBody Long[] ids) {
-		return R.ok(sysAuditLogService.removeBatchByIds(CollUtil.toList(ids)));
+		return R.ok(sysScheduleService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**
 	 * 导出excel 表格
-	 * @param sysAuditLog 查询条件
+	 * @param sysSchedule 查询条件
 	 * @return excel 文件流
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_audit_export')")
-	public List<SysAuditLog> export(SysAuditLog sysAuditLog) {
-		return sysAuditLogService.list(Wrappers.query(sysAuditLog));
+	public List<SysScheduleEntity> export(SysScheduleEntity sysSchedule) {
+		return sysScheduleService.list(Wrappers.query(sysSchedule));
+	}
+
+	@Operation(summary = "列表查询", description = "列表查询")
+	@GetMapping("/list")
+	public R list(String month) {
+		List<SysScheduleEntity> list = sysScheduleService.selectListByScope(month);
+		return R.ok(list);
 	}
 
 }

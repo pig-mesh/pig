@@ -40,17 +40,10 @@ public interface SysDeptService extends IService<SysDept> {
 
 	/**
 	 * 查询部门树菜单
-	 * @return 树
 	 * @param deptName 部门名称
+	 * @return 树
 	 */
 	List<Tree<Long>> selectTree(String deptName);
-
-	/**
-	 * 添加信息部门
-	 * @param sysDept
-	 * @return
-	 */
-	Boolean saveDept(SysDept sysDept);
 
 	/**
 	 * 删除部门
@@ -59,15 +52,15 @@ public interface SysDeptService extends IService<SysDept> {
 	 */
 	Boolean removeDeptById(Long id);
 
-	/**
-	 * 更新部门
-	 * @param sysDept 部门信息
-	 * @return 成功、失败
-	 */
-	Boolean updateDeptById(SysDept sysDept);
-
 	List<DeptExcelVo> listExcelVo();
 
 	R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult);
+
+	/**
+	 * 获取部门的所有后代部门列表
+	 * @param deptId 部门ID
+	 * @return 后代部门列表
+	 */
+	List<SysDept> listDescendant(Long deptId);
 
 }

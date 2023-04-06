@@ -54,5 +54,10 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-excel</artifactId>
 		</dependency>
+		<!--字段审计注解-->
+		<dependency>
+			<groupId>org.javers</groupId>
+			<artifactId>javers-core</artifactId>
+		</dependency>
 	</dependencies>
 </project>

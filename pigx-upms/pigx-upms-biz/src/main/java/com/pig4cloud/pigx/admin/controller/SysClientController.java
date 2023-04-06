@@ -19,22 +19,32 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.SysOauthClientDetailsDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pigx.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pigx.admin.service.SysOauthClientDetailsService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * <p>
@@ -60,8 +70,18 @@ public class SysClientController {
 	 */
 	@GetMapping("/{clientId}")
 	public R getByClientId(@PathVariable String clientId) {
-		return R.ok(clientDetailsService
-				.list(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId)));
+		SysOauthClientDetails details = clientDetailsService
+				.getOne(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
+		String information = details.getAdditionalInformation();
+		String captchaFlag = JSONUtil.parseObj(information).getStr(CommonConstants.CAPTCHA_FLAG);
+		String encFlag = JSONUtil.parseObj(information).getStr(CommonConstants.ENC_FLAG);
+		String onlineQuantity = JSONUtil.parseObj(information).getStr(CommonConstants.ONLINE_QUANTITY);
+		SysOauthClientDetailsDTO dto = new SysOauthClientDetailsDTO();
+		BeanUtils.copyProperties(details, dto);
+		dto.setCaptchaFlag(captchaFlag);
+		dto.setEncFlag(encFlag);
+		dto.setOnlineQuantity(onlineQuantity);
+		return R.ok(dto);
 	}
 
 	/**
@@ -72,7 +92,12 @@ public class SysClientController {
 	 */
 	@GetMapping("/page")
 	public R getOauthClientDetailsPage(Page page, SysOauthClientDetails sysOauthClientDetails) {
-		return R.ok(clientDetailsService.queryPage(page, sysOauthClientDetails));
+		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
+						sysOauthClientDetails.getClientId())
+				.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientSecret()),
+						SysOauthClientDetails::getClientSecret, sysOauthClientDetails.getClientSecret());
+		return R.ok(clientDetailsService.page(page, wrapper));
 	}
 
 	/**
@@ -89,14 +114,16 @@ public class SysClientController {
 
 	/**
 	 * 删除
-	 * @param clientId ID
+	 * @param ids ID 列表
 	 * @return success/false
 	 */
 	@SysLog("删除终端")
-	@DeleteMapping("/{clientId}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_client_del')")
-	public R removeById(@PathVariable String clientId) {
-		return R.ok(clientDetailsService.removeByClientId(clientId));
+	public R removeById(@RequestBody Long[] ids) {
+		clientDetailsService.removeBatchByIds(CollUtil.toList(ids));
+		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(ids));
+		return R.ok();
 	}
 
 	/**
@@ -136,6 +163,17 @@ public class SysClientController {
 	@PutMapping("/sync")
 	public R sync() {
 		return clientDetailsService.syncClientCache();
+	}
+
+	/**
+	 * 导出所有客户端
+	 * @return excel
+	 */
+	@ResponseExcel
+	@SysLog("导出excel")
+	@GetMapping("/export")
+	public List<SysOauthClientDetails> export(SysOauthClientDetails sysOauthClientDetails) {
+		return clientDetailsService.list(Wrappers.query(sysOauthClientDetails));
 	}
 
 }

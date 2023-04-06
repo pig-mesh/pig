@@ -57,7 +57,6 @@ public class SysMenuController {
 	 */
 	@GetMapping
 	public R getUserMenu(String type, Long parentId) {
-
 		// 获取符合条件的菜单
 		Set<SysMenu> all = new HashSet<>();
 		SecurityUtils.getRoles().forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
@@ -71,8 +70,8 @@ public class SysMenuController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(Long parentId, String menuName) {
-		return R.ok(sysMenuService.treeMenu(parentId, menuName));
+	public R getTree(Long parentId, String menuName, String type) {
+		return R.ok(sysMenuService.treeMenu(parentId, menuName, type));
 	}
 
 	/**

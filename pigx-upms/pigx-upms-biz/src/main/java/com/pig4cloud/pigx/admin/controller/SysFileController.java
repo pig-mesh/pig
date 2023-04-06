@@ -18,6 +18,8 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysFile;
@@ -62,20 +64,25 @@ public class SysFileController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getSysFilePage(Page page, SysFile sysFile) {
-		return R.ok(sysFileService.page(page, Wrappers.query(sysFile)));
+		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
+		return R.ok(sysFileService.page(page, wrapper));
 	}
 
 	/**
 	 * 通过id删除文件管理
-	 * @param id id
+	 * @param ids id 列表
 	 * @return R
 	 */
 	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(sysFileService.deleteFile(id));
+	public R removeById(@RequestBody Long[] ids) {
+		for (Long id : ids) {
+			sysFileService.deleteFile(id);
+		}
+		return R.ok();
 	}
 
 	/**

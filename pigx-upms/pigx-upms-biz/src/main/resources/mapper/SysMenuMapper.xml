@@ -35,6 +35,8 @@
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>
+		<result column="embedded" property="embedded"/>
+		<result column="visible" property="visible"/>
 	</resultMap>
 
 	<!--通过角色查询菜单信息-->
@@ -48,10 +50,11 @@
 			   sys_menu.sort_order,
 			   sys_menu.keep_alive,
 			   sys_menu.menu_type,
-			   sys_menu.visible,
 			   sys_menu.create_time,
 			   sys_menu.update_time,
-			   sys_menu.del_flag
+			   sys_menu.del_flag,
+			   sys_menu.embedded,
+			   sys_menu.visible
 		FROM sys_menu
 					 LEFT JOIN sys_role_menu ON sys_menu.menu_id = sys_role_menu.menu_id
 		WHERE sys_menu.del_flag = '0'

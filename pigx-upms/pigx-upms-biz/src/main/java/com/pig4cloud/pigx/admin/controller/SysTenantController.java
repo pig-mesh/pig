@@ -17,12 +17,15 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.service.SysTenantService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -60,17 +63,28 @@ public class SysTenantController {
 	 */
 	@GetMapping("/page")
 	public R getSysTenantPage(Page page, SysTenant sysTenant) {
-		return R.ok(sysTenantService.page(page, Wrappers.query(sysTenant)));
+		return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
+				.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
+	}
+
+	/**
+	 * 通过ID 查询租户信息
+	 * @param id ID
+	 * @return R
+	 */
+	@GetMapping("/details/{id}")
+	public R getById(@PathVariable Long id) {
+		return R.ok(sysTenantService.getById(id));
 	}
 
 	/**
 	 * 查询租户信息
-	 * @param tenant 查询条件
+	 * @param query 查询条件
 	 * @return 租户信息
 	 */
-	@GetMapping
-	public R getByObj(SysTenant tenant) {
-		return R.ok(sysTenantService.list(Wrappers.query(tenant)));
+	@GetMapping("/details")
+	public R getDetails(SysTenant query) {
+		return R.ok(sysTenantService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
@@ -80,7 +94,7 @@ public class SysTenantController {
 	 */
 	@SysLog("新增租户")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('admin_systenant_add')")
+	@PreAuthorize("@pms.hasPermission('sys_systenant_add')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R save(@RequestBody SysTenant sysTenant) {
 		return R.ok(sysTenantService.saveTenant(sysTenant));
@@ -93,7 +107,7 @@ public class SysTenantController {
 	 */
 	@SysLog("修改租户")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('admin_systenant_edit')")
+	@PreAuthorize("@pms.hasPermission('sys_systenant_edit')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R updateById(@RequestBody SysTenant sysTenant) {
 		return R.ok(sysTenantService.updateById(sysTenant));
@@ -101,15 +115,17 @@ public class SysTenantController {
 
 	/**
 	 * 通过id删除租户
-	 * @param id id
+	 * <p>
+	 * 为了保证安全,这里只删除租户表的数据，不删除基础表中的租户初始化数据。
+	 * @param ids id 列表
 	 * @return R
 	 */
 	@SysLog("删除租户")
-	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('admin_systenant_del')")
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_systenant_del')")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
-	public R removeById(@PathVariable Long id) {
-		return R.ok(sysTenantService.removeById(id));
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysTenantService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**
@@ -123,6 +139,17 @@ public class SysTenantController {
 				.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
 				.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now())).collect(Collectors.toList());
 		return R.ok(tenants);
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_systenant_export')")
+	public List<SysTenant> export(SysTenant sysTenant) {
+		return sysTenantService.list(Wrappers.query(sysTenant));
 	}
 
 }

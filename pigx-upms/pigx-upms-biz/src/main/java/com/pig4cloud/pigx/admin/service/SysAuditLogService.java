@@ -17,15 +17,24 @@
 
 package com.pig4cloud.pigx.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysAuditLog;
 
 /**
  * 审计记录表
  *
- * @author pigx code generator
- * @date 2023-02-27 22:33:30
+ * @author PIG
+ * @date 2023-02-28 20:12:23
  */
 public interface SysAuditLogService extends IService<SysAuditLog> {
+
+	/**
+	 * 分页查询审计日志（数据权限处理）
+	 * @param page 分页条件
+	 * @param sysAuditLog 查询条件
+	 * @return page
+	 */
+	Page<SysAuditLog> getAuditsByScope(Page page, SysAuditLog sysAuditLog);
 
 }

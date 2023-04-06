@@ -19,17 +19,17 @@
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.pig4cloud.pigx.admin.mapper.SysUserRoleMapper">
-
-	<!-- 通用查询映射结果 -->
-	<resultMap id="BaseResultMap" type="com.pig4cloud.pigx.admin.api.entity.SysUserRole">
-		<id column="user_id" property="userId"/>
-		<result column="role_id" property="roleId"/>
-	</resultMap>
-
-	<!--根据用户Id删除该用户的角色关系-->
-	<delete id="deleteByUserId">
-		DELETE FROM sys_user_role WHERE user_id = #{userId}
-	</delete>
-
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SysDeptMapper">
+    <!--  获取部门的所有后代部门列表  -->
+    <select id="listDescendant" resultType="com.pig4cloud.pigx.admin.api.entity.SysDept">
+        WITH RECURSIVE cte_dept_tree (dept_id, parent_id, name) AS (
+        SELECT dept_id, parent_id, name FROM sys_dept WHERE dept_id = #{deptId}
+        UNION ALL
+        SELECT d.dept_id, d.parent_id, d.name
+        FROM cte_dept_tree c
+        JOIN sys_dept d ON c.dept_id = d.parent_id
+        )
+        SELECT dept_id, parent_id, name
+        FROM cte_dept_tree;
+    </select>
 </mapper>

@@ -23,6 +23,8 @@ import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * <p>
  * 部门管理 Mapper 接口
@@ -33,5 +35,12 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysDeptMapper extends PigxBaseMapper<SysDept> {
+
+	/**
+	 * 获取部门的所有后代部门列表
+	 * @param deptId 部门ID
+	 * @return 后代部门列表
+	 */
+	List<SysDept> listDescendant(Long deptId);
 
 }

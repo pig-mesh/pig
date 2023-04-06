@@ -36,13 +36,6 @@ import com.pig4cloud.pigx.common.core.util.R;
 public interface SysOauthClientDetailsService extends IService<SysOauthClientDetails> {
 
 	/**
-	 * 通过ID删除客户端
-	 * @param clientId
-	 * @return
-	 */
-	Boolean removeByClientId(String clientId);
-
-	/**
 	 * 根据客户端信息
 	 * @param clientDetailsDTO
 	 * @return

@@ -45,10 +45,10 @@ public interface SysPublicParamService extends IService<SysPublicParam> {
 
 	/**
 	 * 删除参数
-	 * @param publicId
+	 * @param publicIds 参数列表
 	 * @return
 	 */
-	R removeParam(Long publicId);
+	R removeParamByIds(Long[] publicIds);
 
 	/**
 	 * 同步缓存

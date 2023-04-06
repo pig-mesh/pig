@@ -55,10 +55,10 @@ public interface SysRoleService extends IService<SysRole> {
 
 	/**
 	 * 通过角色ID，删除角色
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
-	Boolean removeRoleById(Long id);
+	Boolean removeRoleByIds(Long[] ids);
 
 	/**
 	 * 根据角色菜单列表

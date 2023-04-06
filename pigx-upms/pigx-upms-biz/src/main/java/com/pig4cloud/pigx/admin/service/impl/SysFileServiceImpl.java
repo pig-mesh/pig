@@ -37,8 +37,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 文件管理
@@ -107,6 +109,9 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteFile(Long id) {
 		SysFile file = this.getById(id);
+		if (Objects.isNull(file)) {
+			return Boolean.FALSE;
+		}
 		fileTemplate.removeObject(properties.getBucketName(), file.getFileName());
 		return this.removeById(id);
 	}
