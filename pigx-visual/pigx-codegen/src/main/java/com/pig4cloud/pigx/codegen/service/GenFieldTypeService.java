@@ -17,25 +17,25 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
+import com.pig4cloud.pigx.codegen.entity.GenFieldType;
 
-import java.util.List;
+import java.util.Set;
 
 /**
- * 表单管理
+ * 列属性
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author pigx code generator
+ * @date 2023-02-06 20:16:01
  */
-public interface GenFormConfService extends IService<GenFormConf> {
+public interface GenFieldTypeService extends IService<GenFieldType> {
 
 	/**
-	 * 解析 form json
-	 * @param formInfo json
-	 * @return 字段
+	 * 根据tableId，获取包列表
+	 * @param dsName 数据源名称
+	 * @param tableName 表名称
+	 * @return 返回包列表
 	 */
-	List<JSONObject> parse(String formInfo);
+	Set<String> getPackageByTableId(String dsName, String tableName);
 
 }

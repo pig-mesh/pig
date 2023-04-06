@@ -16,29 +16,17 @@
  */
 package com.pig4cloud.pigx.codegen.service.impl;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.codegen.entity.ColumnEntity;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.mapper.GenFormConfMapper;
-import com.pig4cloud.pigx.codegen.mapper.GeneratorMapper;
-import com.pig4cloud.pigx.codegen.service.GenCodeService;
 import com.pig4cloud.pigx.codegen.service.GenFormConfService;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import org.apache.commons.lang.StringUtils;
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.stereotype.Service;
 
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
+import java.util.Optional;
 
 /**
  * 表单管理
@@ -47,54 +35,33 @@ import java.util.Properties;
  * @date 2019-08-12 15:55:35
  */
 @Service
-@AllArgsConstructor
 public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFormConf> implements GenFormConfService {
 
-	private final GenCodeService avue;
-
 	/**
-	 * 1. 根据数据源、表名称，查询已配置表单信息 2. 不存在调用模板生成
-	 * @param dsName 数据源ID
-	 * @param tableName 表名称
-	 * @return
+	 * 表单解析方法
+	 * @param formInfo json
+	 * @return 字段列表
 	 */
 	@Override
-	@SneakyThrows
-	public String getForm(String dsName, String tableName) {
-		GenFormConf form = getOne(Wrappers.<GenFormConf>lambdaQuery().eq(GenFormConf::getTableName, tableName)
-				.orderByDesc(GenFormConf::getCreateTime), false);
+	public List<JSONObject> parse(String formInfo) {
+		JSONObject jsonObject = JSONUtil.parseObj(formInfo);
+		List<JSONObject> objectList = new ArrayList<>();
+		// 使用 Lambda 表达式简化代码
+		Optional.ofNullable(jsonObject.getJSONArray("widgetList"))//
+				.ifPresent(widgetList -> widgetList.forEach(obj -> parseWidgetList((JSONObject) obj, objectList)));
+		return objectList;
+	}
 
-		if (form != null) {
-			return form.getFormInfo();
-		}
-
-		GeneratorMapper mapper = avue.getMapper(dsName);
-		List<ColumnEntity> columns = mapper.selectTableColumn(tableName, dsName);
-		// 设置velocity资源加载器
-		Properties prop = new Properties();
-		prop.put("resource.loader.file.class", ClasspathResourceLoader.class.getName());
-		Velocity.init(prop);
-		Template template = Velocity.getTemplate("template/avue/crud.js.vm", CharsetUtil.UTF_8);
-		VelocityContext context = new VelocityContext();
-
-		List<ColumnEntity> columnList = new ArrayList<>();
-		for (ColumnEntity column : columns) {
-			ColumnEntity columnEntity = new ColumnEntity();
-			columnEntity.setLowerAttrName(StringUtils.uncapitalize(avue.columnToJava(column.getColumnName())));
-
-			// 判断注释是否为空
-			if (StrUtil.isNotBlank(column.getComments())) {
-				columnEntity.setComments(column.getComments());
-			}
-			else {
-				columnEntity.setComments(columnEntity.getLowerAttrName());
-			}
-			columnList.add(columnEntity);
-		}
-		context.put("columns", columnList);
-		StringWriter writer = new StringWriter();
-		template.merge(context, writer);
-		return StrUtil.trim(StrUtil.removePrefix(writer.toString(), "export const tableOption ="));
+	/**
+	 * 解析部件列表
+	 * @param jsonObject 部件 json 对象
+	 * @param objectList 对象列表
+	 */
+	private void parseWidgetList(JSONObject jsonObject, List<JSONObject> objectList) {
+		Optional.ofNullable(jsonObject.getJSONArray("cols"))//
+				.filter(cols -> !cols.isEmpty())//
+				.ifPresent(cols -> cols.forEach(colObj -> parseWidgetList((JSONObject) colObj, objectList)));
+		objectList.add(jsonObject);
 	}
 
 }

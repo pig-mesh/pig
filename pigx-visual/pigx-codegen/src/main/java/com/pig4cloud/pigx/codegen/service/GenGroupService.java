@@ -17,25 +17,37 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
-
-import java.util.List;
+import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
+import com.pig4cloud.pigx.codegen.util.vo.TemplateGroupDTO;
+import com.pig4cloud.pigx.codegen.util.vo.GroupVo;
 
 /**
- * 表单管理
+ * 模板分组
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author PIG
+ * @date 2023-02-21 20:01:53
  */
-public interface GenFormConfService extends IService<GenFormConf> {
+public interface GenGroupService extends IService<GenGroupEntity> {
+
+	void saveGenGroup(TemplateGroupDTO genTemplateGroup);
 
 	/**
-	 * 解析 form json
-	 * @param formInfo json
-	 * @return 字段
+	 * 删除分组极其关系
+	 * @param ids
 	 */
-	List<JSONObject> parse(String formInfo);
+	void delGroupAndTemplate(Long[] ids);
+
+	/**
+	 * 查询group数据
+	 * @param id
+	 */
+	GroupVo getGroupVoById(Long id);
+
+	/**
+	 * 更新group数据
+	 * @param groupVo
+	 */
+	void updateGroupAndTemplateById(GroupVo groupVo);
 
 }

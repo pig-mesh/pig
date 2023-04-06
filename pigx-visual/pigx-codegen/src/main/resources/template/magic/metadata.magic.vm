@@ -1,4 +1,0 @@
-import response;
-
-// 执行DSL 分页输出结果
-return response.text("$pk.lowerAttrName")

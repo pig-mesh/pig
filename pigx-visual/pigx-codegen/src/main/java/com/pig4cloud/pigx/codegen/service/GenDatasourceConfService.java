@@ -57,9 +57,9 @@ public interface GenDatasourceConfService extends IService<GenDatasourceConf> {
 
 	/**
 	 * 通过数据源名称删除
-	 * @param dsId 数据源ID
+	 * @param dsIds 数据源ID
 	 * @return
 	 */
-	Boolean removeByDsId(Long dsId);
+	Boolean removeByDsId(Long[] dsIds);
 
 }

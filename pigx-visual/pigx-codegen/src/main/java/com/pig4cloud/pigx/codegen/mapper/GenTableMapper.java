@@ -15,27 +15,19 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.codegen.service;
+package com.pig4cloud.pigx.codegen.mapper;
 
-import cn.hutool.json.JSONObject;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
-
-import java.util.List;
+import com.pig4cloud.pigx.codegen.entity.GenTable;
+import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 表单管理
+ * 列属性
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author pigx code generator
+ * @date 2023-02-06 20:34:55
  */
-public interface GenFormConfService extends IService<GenFormConf> {
-
-	/**
-	 * 解析 form json
-	 * @param formInfo json
-	 * @return 字段
-	 */
-	List<JSONObject> parse(String formInfo);
+@Mapper
+public interface GenTableMapper extends PigxBaseMapper<GenTable> {
 
 }

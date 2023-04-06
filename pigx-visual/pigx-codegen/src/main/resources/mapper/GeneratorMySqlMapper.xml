@@ -22,7 +22,6 @@
 			order by create_time desc
 	</select>
 
-
 	<sql id="queryColumn">
 		SELECT
 			column_name columnName,

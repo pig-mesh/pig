@@ -17,25 +17,30 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import cn.hutool.json.JSONObject;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
+import com.pig4cloud.pigx.codegen.entity.GenTable;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * 表单管理
+ * 列属性
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author pigx code generator
+ * @date 2023-02-06 20:34:55
  */
-public interface GenFormConfService extends IService<GenFormConf> {
+public interface GenTableService extends IService<GenTable> {
 
 	/**
-	 * 解析 form json
-	 * @param formInfo json
-	 * @return 字段
+	 * 获取默认配置信息
+	 * @param path 配置文件路径
+	 * @return
 	 */
-	List<JSONObject> parse(String formInfo);
+	Map<String, Object> getGeneratorConfig(String path);
+
+	IPage list(Page<GenTable> page, GenTable table);
+
+	GenTable queryOrBuildTable(String dsName, String tableName);
 
 }

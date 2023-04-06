@@ -17,25 +17,21 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.codegen.entity.ColumnEntity;
-import com.pig4cloud.pigx.codegen.entity.GenConfig;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.codegen.entity.GenTableColumnEntity;
+
+import java.util.List;
 
 /**
- * 表字段管理
+ * 列属性
  *
- * @author lengleng
- * @date 2020-05-18
+ * @author pigx code generator
+ * @date 2023-02-06 20:16:01
  */
-public interface GenTableColumnService {
+public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
-	/**
-	 * 查询表的字段信息
-	 * @param page
-	 * @param genConfig 查询条件
-	 * @return
-	 */
-	IPage<ColumnEntity> listTable(Page page, GenConfig genConfig);
+	void initFieldList(List<GenTableColumnEntity> tableFieldList);
+
+	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 }

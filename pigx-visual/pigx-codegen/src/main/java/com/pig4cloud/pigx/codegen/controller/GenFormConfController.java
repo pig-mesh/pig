@@ -17,20 +17,15 @@
 
 package com.pig4cloud.pigx.codegen.controller;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.service.GenFormConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -40,10 +35,9 @@ import org.springframework.web.bind.annotation.*;
  * @date 2019-08-12 15:55:35
  */
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/form")
 @Tag(description = "form", name = "表单管理")
-@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenFormConfController {
 
 	private final GenFormConfService genRecordService;
@@ -54,7 +48,7 @@ public class GenFormConfController {
 	 * @param formConf 生成记录
 	 * @return
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
+	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
 	public R getGenFormConfPage(Page page, GenFormConf formConf) {
 		return R.ok(genRecordService.page(page, Wrappers.query(formConf)));
@@ -65,23 +59,10 @@ public class GenFormConfController {
 	 * @param id id
 	 * @return R
 	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
+	@Operation(description = "通过id查询", summary = "通过id查询")
 	@GetMapping("/{id}")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(genRecordService.getById(id));
-	}
-
-	/**
-	 * 通过id查询生成记录
-	 * @param dsName 数据源ID
-	 * @param tableName tableName
-	 * @return R
-	 */
-	@Operation(summary = "通过tableName查询表单信息")
-	@Inner(value = false)
-	@GetMapping("/info")
-	public R form(String dsName, String tableName) {
-		return R.ok(genRecordService.getForm(dsName, tableName));
 	}
 
 	/**
@@ -89,13 +70,11 @@ public class GenFormConfController {
 	 * @param formConf 生成记录
 	 * @return R
 	 */
-	@Operation(summary = "新增生成记录", description = "新增生成记录")
-	@SysLog("新增生成记录")
+	@Operation(description = "新增生成记录", summary = "新增生成记录")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('gen_form_add')")
 	public R save(@RequestBody GenFormConf formConf) {
-		formConf.setFormInfo(JSONUtil.toJsonPrettyStr(formConf.getFormInfo()));
-		return R.ok(genRecordService.save(formConf));
+		genRecordService.save(formConf);
+		return R.ok(formConf);
 	}
 
 	/**
@@ -103,10 +82,9 @@ public class GenFormConfController {
 	 * @param formConf 生成记录
 	 * @return R
 	 */
-	@Operation(summary = "修改生成记录", description = "修改生成记录")
+	@Operation(description = "修改生成记录", summary = "修改生成记录")
 	@SysLog("修改生成记录")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('gen_form_edit')")
 	public R updateById(@RequestBody GenFormConf formConf) {
 		return R.ok(genRecordService.updateById(formConf));
 	}
@@ -116,10 +94,9 @@ public class GenFormConfController {
 	 * @param id id
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除生成记录", description = "通过id删除生成记录")
+	@Operation(description = "通过id删除生成记录", summary = "通过id删除生成记录")
 	@SysLog("通过id删除生成记录")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('gen_form_del')")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(genRecordService.removeById(id));
 	}

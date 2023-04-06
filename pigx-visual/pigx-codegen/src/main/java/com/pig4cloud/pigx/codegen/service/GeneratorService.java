@@ -17,11 +17,9 @@
 
 package com.pig4cloud.pigx.codegen.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.codegen.entity.GenConfig;
-
+import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipOutputStream;
 
 /**
  * @author lengleng
@@ -30,26 +28,38 @@ import java.util.Map;
 public interface GeneratorService {
 
 	/**
-	 * 生成代码
-	 * @param genConfig 生成信息
-	 * @return
+	 * 生成代码zip写出
+	 * @param tableId 表
+	 * @param zip 输出流
 	 */
-	byte[] generatorCode(GenConfig genConfig);
-
-	/**
-	 * 分页查询表
-	 * @param page 分页信息
-	 * @param tableName 表名
-	 * @param name 数据源ID
-	 * @return
-	 */
-	IPage<Map<String, Object>> getPage(Page page, String tableName, String name);
+	void downloadCode(Long tableId, ZipOutputStream zip);
 
 	/**
 	 * 预览代码
-	 * @param genConfig 生成信息
-	 * @return
+	 * @param tableId 表
+	 * @return [{模板名称:渲染结果}]
 	 */
-	Map<String, Map> previewCode(GenConfig genConfig);
+	List<Map<String, String>> preview(Long tableId);
+
+	/**
+	 * 目标目录写入渲染结果
+	 * @param tableId 表
+	 */
+	void generatorCode(Long tableId);
+
+	/**
+	 * 获取表单设计器需要的 JSON
+	 * @param dsName 数据源名称
+	 * @param tableName 表名称
+	 * @return json string
+	 */
+	String vform(String dsName, String tableName);
+
+	/**
+	 * 获取表单设计器需要的 JSON
+	 * @param formId 数据源名称
+	 * @return json string
+	 */
+	String vformSfc(Long formId);
 
 }

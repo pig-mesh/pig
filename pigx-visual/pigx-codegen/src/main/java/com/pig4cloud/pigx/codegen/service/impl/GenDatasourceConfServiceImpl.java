@@ -16,20 +16,20 @@
  */
 package com.pig4cloud.pigx.codegen.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
 import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.codegen.config.MagicApiConfiguration;
 import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pigx.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.stereotype.Service;
@@ -47,15 +47,13 @@ import java.sql.SQLException;
  */
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfMapper, GenDatasourceConf>
 		implements GenDatasourceConfService {
 
 	private final StringEncryptor stringEncryptor;
 
 	private final DataSourceCreator druidDataSourceCreator;
-
-	private MagicApiConfiguration apiConfiguration;
 
 	/**
 	 * 保存数据源并且加密
@@ -75,9 +73,6 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		// 更新数据库配置
 		conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		this.baseMapper.insert(conf);
-
-		// 更新magic-api 数据源
-		apiConfiguration.afterPropertiesSet();
 		return Boolean.TRUE;
 	}
 
@@ -103,23 +98,20 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 			conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		}
 		this.baseMapper.updateById(conf);
-		// 更新magic-api 数据源
-		apiConfiguration.afterPropertiesSet();
 		return Boolean.TRUE;
 	}
 
 	/**
 	 * 通过数据源名称删除
-	 * @param dsId 数据源ID
+	 * @param dsIds 数据源ID
 	 * @return
 	 */
 	@Override
-	public Boolean removeByDsId(Long dsId) {
+	public Boolean removeByDsId(Long[] dsIds) {
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
-		dynamicRoutingDataSource.removeDataSource(baseMapper.selectById(dsId).getName());
-		this.baseMapper.deleteById(dsId);
-		// 更新magic-api 数据源
-		apiConfiguration.afterPropertiesSet();
+		this.baseMapper.selectBatchIds(CollUtil.toList(dsIds))
+				.forEach(ds -> dynamicRoutingDataSource.removeDataSource(ds.getName()));
+		this.baseMapper.deleteBatchIds(CollUtil.toList(dsIds));
 		return Boolean.TRUE;
 	}
 
@@ -174,7 +166,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		}
 		catch (SQLException e) {
 			log.error("数据源配置 {} , 获取链接失败", conf.getName(), e);
-			return Boolean.FALSE;
+			throw new RuntimeException("数据库配置错误，链接失败");
 		}
 		return Boolean.TRUE;
 	}

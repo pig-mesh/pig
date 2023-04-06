@@ -26,67 +26,78 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 /**
- * 生成记录
+ * 列属性
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author pigx code generator
+ * @date 2023-02-06 20:16:01
  */
 @Data
-@TableName("gen_form_conf")
+@TableName("gen_field_type")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "生成记录")
-public class GenFormConf extends Model<GenFormConf> {
+@Schema(description = "列属性")
+public class GenFieldType extends Model<GenFieldType> {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * ID
+	 * id
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(description = "ID")
+	@Schema(description = "id")
 	private Long id;
 
 	/**
-	 * 数据源名称
+	 * 字段类型
 	 */
-	@Schema(description = "数据源名称")
-	private String dsName;
+	@Schema(description = "字段类型")
+	private String columnType;
 
 	/**
-	 * 表名称
+	 * 属性类型
 	 */
-	@Schema(description = "表名称")
-	private String tableName;
+	@Schema(description = "属性类型")
+	private String attrType;
 
 	/**
-	 * 表单信息
+	 * 属性包名
 	 */
-	@Schema(description = "表单信息")
-	private String formInfo;
+	@Schema(description = "属性包名")
+	private String packageName;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@Schema(description = "修改人")
+	private String updateBy;
 
 	/**
 	 * 创建时间
 	 */
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 修改时间
 	 */
+	@Schema(description = "修改时间")
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
 
 	/**
-	 * 0-正常，1-删除
+	 * 删除标识（0-正常,1-删除）
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
-
-	/**
-	 * 所属租户
-	 */
-	@Schema(description = "所属租户", hidden = true)
-	private Long tenantId;
 
 }

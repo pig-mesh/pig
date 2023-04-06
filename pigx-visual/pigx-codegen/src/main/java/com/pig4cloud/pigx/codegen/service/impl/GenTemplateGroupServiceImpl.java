@@ -14,28 +14,22 @@
  * this software without specific prior written permission.
  * Author: lengleng (wangiegie@gmail.com)
  */
+package com.pig4cloud.pigx.codegen.service.impl;
 
-package com.pig4cloud.pigx.codegen.service;
-
-import cn.hutool.json.JSONObject;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.pig4cloud.pigx.codegen.entity.GenFormConf;
-
-import java.util.List;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.codegen.entity.GenTemplateGroupEntity;
+import com.pig4cloud.pigx.codegen.mapper.GenTemplateGroupMapper;
+import com.pig4cloud.pigx.codegen.service.GenTemplateGroupService;
+import org.springframework.stereotype.Service;
 
 /**
- * 表单管理
+ * 模板分组关联表
  *
- * @author lengleng
- * @date 2019-08-12 15:55:35
+ * @author PIG
+ * @date 2023-02-22 09:25:15
  */
-public interface GenFormConfService extends IService<GenFormConf> {
-
-	/**
-	 * 解析 form json
-	 * @param formInfo json
-	 * @return 字段
-	 */
-	List<JSONObject> parse(String formInfo);
+@Service
+public class GenTemplateGroupServiceImpl extends ServiceImpl<GenTemplateGroupMapper, GenTemplateGroupEntity>
+		implements GenTemplateGroupService {
 
 }
