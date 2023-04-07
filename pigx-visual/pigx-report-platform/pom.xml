@@ -14,7 +14,9 @@
     <packaging>jar</packaging>
 
     <description>基于 aj-report 的大屏设计系统</description>
-
+    <properties>
+        <goview.version>0.0.3</goview.version>
+    </properties>
 
     <dependencies>
         <!--注册中心客户端-->
@@ -33,9 +35,8 @@
         <dependency>
             <groupId>io.springboot.plugin</groupId>
             <artifactId>goview-spring-boot-starter</artifactId>
-            <version>0.0.2</version>
+            <version>${goview.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>com.mysql</groupId>
