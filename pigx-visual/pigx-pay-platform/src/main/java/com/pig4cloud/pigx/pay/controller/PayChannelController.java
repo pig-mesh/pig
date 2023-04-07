@@ -17,29 +17,36 @@
 
 package com.pig4cloud.pigx.pay.controller;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.service.PayChannelService;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import org.springframework.http.HttpHeaders;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
- * 渠道
+ * 支付渠道表
  *
- * @author lengleng
- * @date 2019-05-28 23:57:58
+ * @author PIG
+ * @date 2023-02-27 17:49:03
  */
 @RestController
-@AllArgsConstructor
-@RequestMapping("/paychannel")
-@Tag(description = "paychannel", name = "paychannel管理")
+@RequiredArgsConstructor
+@RequestMapping("/channel")
+@Tag(description = "channel", name = "支付渠道表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayChannelController {
 
@@ -48,61 +55,81 @@ public class PayChannelController {
 	/**
 	 * 分页查询
 	 * @param page 分页对象
-	 * @param payChannel 渠道
+	 * @param payChannel 支付渠道表
 	 * @return
 	 */
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getPayChannelPage(Page page, PayChannel payChannel) {
-		return R.ok(payChannelService.page(page, Wrappers.query(payChannel)));
+	@PreAuthorize("@pms.hasPermission('pay_channel_view')")
+	public R getpayChannelPage(Page page, PayChannel payChannel) {
+		LambdaQueryWrapper<PayChannel> wrapper = Wrappers.lambdaQuery();
+		wrapper.like(StrUtil.isNotBlank(payChannel.getChannelName()), PayChannel::getChannelName,
+				payChannel.getChannelName());
+		wrapper.eq(StrUtil.isNotBlank(payChannel.getState()), PayChannel::getState, payChannel.getState());
+		return R.ok(payChannelService.page(page, wrapper));
 	}
 
 	/**
-	 * 通过id查询渠道
+	 * 通过id查询支付渠道表
 	 * @param id id
 	 * @return R
 	 */
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Integer id) {
+	@PreAuthorize("@pms.hasPermission('pay_channel_view')")
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(payChannelService.getById(id));
 	}
 
 	/**
-	 * 新增渠道
-	 * @param payChannel 渠道
+	 * 新增支付渠道表
+	 * @param payChannel 支付渠道表
 	 * @return R
 	 */
-	@SysLog("新增渠道")
+	@Operation(summary = "新增支付渠道表", description = "新增支付渠道表")
+	@SysLog("新增支付渠道表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_paychannel_add')")
+	@PreAuthorize("@pms.hasPermission('pay_channel_add')")
 	public R save(@RequestBody PayChannel payChannel) {
-		payChannelService.saveChannel(payChannel);
-		return R.ok();
+		return R.ok(payChannelService.save(payChannel));
 	}
 
 	/**
-	 * 修改渠道
-	 * @param payChannel 渠道
+	 * 修改支付渠道表
+	 * @param payChannel 支付渠道表
 	 * @return R
 	 */
-	@SysLog("修改渠道")
+	@Operation(summary = "修改支付渠道表", description = "修改支付渠道表")
+	@SysLog("修改支付渠道表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_paychannel_edit')")
+	@PreAuthorize("@pms.hasPermission('pay_channel_edit')")
 	public R updateById(@RequestBody PayChannel payChannel) {
-		payChannelService.updateById(payChannel);
-		return R.ok();
+		return R.ok(payChannelService.updateById(payChannel));
 	}
 
 	/**
-	 * 通过id删除渠道
-	 * @param id id
+	 * 通过id删除支付渠道表
+	 * @param ids id列表
 	 * @return R
 	 */
-	@SysLog("删除渠道")
-	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('pay_paychannel_del')")
-	public R removeById(@PathVariable Integer id) {
-		payChannelService.removeById(id);
-		return R.ok();
+	@Operation(summary = "通过id删除支付渠道表", description = "通过id删除支付渠道表")
+	@SysLog("通过id删除支付渠道表")
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('pay_channel_del')")
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(payChannelService.removeBatchByIds(CollUtil.toList(ids)));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param payChannel 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('pay_channel_export')")
+	public List<PayChannel> export(PayChannel payChannel) {
+		return payChannelService.list(Wrappers.query(payChannel));
 	}
 
 }

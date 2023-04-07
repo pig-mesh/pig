@@ -43,4 +43,9 @@ public interface PayConstants {
 	 */
 	String MERGE_OUT_TRADE_NO = "outTradeNo";
 
+	/**
+	 * 支付渠道
+	 */
+	String PAY_CHANNEL = "payChannel";
+
 }

@@ -17,18 +17,25 @@
 
 package com.pig4cloud.pigx.pay.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.pay.entity.PayRefundOrder;
 import com.pig4cloud.pigx.pay.service.PayRefundOrderService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * 退款
@@ -38,8 +45,8 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/payrefundorder")
-@Tag(description = "payrefundorder", name = "payrefundorder管理")
+@RequestMapping("/refund")
+@Tag(description = "refund", name = "退款订单表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayRefundOrderController {
 
@@ -48,58 +55,83 @@ public class PayRefundOrderController {
 	/**
 	 * 分页查询
 	 * @param page 分页对象
-	 * @param payRefundOrder 退款
+	 * @param payRefundOrder 退款订单表
 	 * @return
 	 */
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getPayRefundOrderPage(Page page, PayRefundOrder payRefundOrder) {
-		return R.ok(payRefundOrderService.page(page, Wrappers.query(payRefundOrder)));
+	@PreAuthorize("@pms.hasPermission('pay_refund_view')")
+	public R getpayRefundOrderPage(Page page, PayRefundOrder payRefundOrder) {
+		LambdaQueryWrapper<PayRefundOrder> wrapper = Wrappers.lambdaQuery();
+		wrapper.eq(payRefundOrder.getRefundOrderId() != null, PayRefundOrder::getRefundOrderId,
+				payRefundOrder.getRefundOrderId());
+		wrapper.eq(payRefundOrder.getPayOrderId() != null, PayRefundOrder::getPayOrderId,
+				payRefundOrder.getPayOrderId());
+		wrapper.eq(StrUtil.isNotBlank(payRefundOrder.getMchId()), PayRefundOrder::getMchId, payRefundOrder.getMchId());
+		return R.ok(payRefundOrderService.page(page, wrapper));
 	}
 
 	/**
-	 * 通过id查询退款
-	 * @param orderId id
+	 * 通过id查询退款订单表
+	 * @param refundOrderId id
 	 * @return R
 	 */
-	@GetMapping("/{orderId}")
-	public R getById(@PathVariable String orderId) {
-		return R.ok(payRefundOrderService.getById(orderId));
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/{refundOrderId}")
+	@PreAuthorize("@pms.hasPermission('pay_refund_view')")
+	public R getById(@PathVariable("refundOrderId") Long refundOrderId) {
+		return R.ok(payRefundOrderService.getById(refundOrderId));
 	}
 
 	/**
-	 * 新增退款
-	 * @param payRefundOrder 退款
+	 * 新增退款订单表
+	 * @param payRefundOrder 退款订单表
 	 * @return R
 	 */
-	@SysLog("新增退款")
+	@Operation(summary = "新增退款订单表", description = "新增退款订单表")
+	@SysLog("新增退款订单表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_payrefundorder_add')")
+	@PreAuthorize("@pms.hasPermission('pay_refund_add')")
 	public R save(@RequestBody PayRefundOrder payRefundOrder) {
-		return R.ok(payRefundOrderService.save(payRefundOrder));
+		return R.ok(payRefundOrderService.refund(payRefundOrder));
 	}
 
 	/**
-	 * 修改退款
-	 * @param payRefundOrder 退款
+	 * 修改退款订单表
+	 * @param payRefundOrder 退款订单表
 	 * @return R
 	 */
-	@SysLog("修改退款")
+	@Operation(summary = "修改退款订单表", description = "修改退款订单表")
+	@SysLog("修改退款订单表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_payrefundorder_edit')")
+	@PreAuthorize("@pms.hasPermission('pay_refund_edit')")
 	public R updateById(@RequestBody PayRefundOrder payRefundOrder) {
 		return R.ok(payRefundOrderService.updateById(payRefundOrder));
 	}
 
 	/**
-	 * 通过id删除退款
-	 * @param refundOrderId refundOrderId
+	 * 通过id删除退款订单表
+	 * @param ids refundOrderId列表
 	 * @return R
 	 */
-	@SysLog("删除退款")
-	@DeleteMapping("/{refundOrderId}")
-	@PreAuthorize("@pms.hasPermission('pay_payrefundorder_del')")
-	public R removeById(@PathVariable String refundOrderId) {
-		return R.ok(payRefundOrderService.removeById(refundOrderId));
+	@Operation(summary = "通过id删除退款订单表", description = "通过id删除退款订单表")
+	@SysLog("通过id删除退款订单表")
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('pay_refund_del')")
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(payRefundOrderService.removeBatchByIds(CollUtil.toList(ids)));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param payRefundOrder 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('pay_refund_export')")
+	public List<PayRefundOrder> export(PayRefundOrder payRefundOrder) {
+		return payRefundOrderService.list(Wrappers.query(payRefundOrder));
 	}
 
 }

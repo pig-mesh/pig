@@ -46,7 +46,7 @@ public abstract class AbstractPayOrderHandler implements PayOrderHandler {
 	 */
 	@Override
 	public void createGoodsOrder(PayGoodsOrder goodsOrder) {
-		goodsOrder.setPayOrderId(paySequence.nextNo());
+		goodsOrder.setPayOrderId(Long.parseLong(paySequence.nextNo()));
 		goodsOrder.setStatus(OrderStatusEnum.INIT.getStatus());
 		goodsOrderMapper.insert(goodsOrder);
 	}

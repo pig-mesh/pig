@@ -17,21 +17,26 @@
 
 package com.pig4cloud.pigx.pay.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ijpay.alipay.AliPayApi;
 import com.ijpay.core.kit.HttpKit;
 import com.ijpay.core.kit.WxPayKit;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
 import com.pig4cloud.pigx.pay.entity.PayNotifyRecord;
 import com.pig4cloud.pigx.pay.handler.PayNotifyCallbakHandler;
 import com.pig4cloud.pigx.pay.service.PayNotifyRecordService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -40,6 +45,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,9 +56,9 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/notify")
-@Tag(description = "notify", name = "notify管理")
+@Tag(description = "notify", name = "通知记录日志表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayNotifyRecordController {
 
@@ -67,58 +73,69 @@ public class PayNotifyRecordController {
 	/**
 	 * 分页查询
 	 * @param page 分页对象
-	 * @param payNotifyRecord 异步通知记录
+	 * @param payNotifyRecord 通知记录日志表
 	 * @return
 	 */
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getPayNotifyRecordPage(Page page, PayNotifyRecord payNotifyRecord) {
-		return R.ok(payNotifyRecordService.page(page, Wrappers.query(payNotifyRecord)));
+	@PreAuthorize("@pms.hasPermission('pay_record_view')")
+	public R getpayNotifyRecordPage(Page page, PayNotifyRecord payNotifyRecord) {
+		LambdaQueryWrapper<PayNotifyRecord> wrapper = Wrappers.lambdaQuery();
+		wrapper.eq(StrUtil.isNotBlank(payNotifyRecord.getNotifyId()), PayNotifyRecord::getNotifyId,
+				payNotifyRecord.getNotifyId());
+		wrapper.eq(StrUtil.isNotBlank(payNotifyRecord.getOrderNo()), PayNotifyRecord::getOrderNo,
+				payNotifyRecord.getOrderNo());
+		return R.ok(payNotifyRecordService.page(page, wrapper));
 	}
 
 	/**
-	 * 通过id查询异步通知记录
+	 * 通过id查询通知记录日志表
 	 * @param id id
 	 * @return R
 	 */
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
+	@PreAuthorize("@pms.hasPermission('pay_record_view')")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(payNotifyRecordService.getById(id));
 	}
 
 	/**
-	 * 新增异步通知记录
-	 * @param payNotifyRecord 异步通知记录
+	 * 新增通知记录日志表
+	 * @param payNotifyRecord 通知记录日志表
 	 * @return R
 	 */
-	@SysLog("新增异步通知记录")
+	@Operation(summary = "新增通知记录日志表", description = "新增通知记录日志表")
+	@SysLog("新增通知记录日志表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_paynotifyrecord_add')")
 	public R save(@RequestBody PayNotifyRecord payNotifyRecord) {
 		return R.ok(payNotifyRecordService.save(payNotifyRecord));
 	}
 
 	/**
-	 * 修改异步通知记录
-	 * @param payNotifyRecord 异步通知记录
+	 * 修改通知记录日志表
+	 * @param payNotifyRecord 通知记录日志表
 	 * @return R
 	 */
-	@SysLog("修改异步通知记录")
+	@Operation(summary = "修改通知记录日志表", description = "修改通知记录日志表")
+	@SysLog("修改通知记录日志表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_paynotifyrecord_edit')")
+	@PreAuthorize("@pms.hasPermission('pay_record_edit')")
 	public R updateById(@RequestBody PayNotifyRecord payNotifyRecord) {
 		return R.ok(payNotifyRecordService.updateById(payNotifyRecord));
 	}
 
 	/**
-	 * 通过id删除异步通知记录
-	 * @param id id
+	 * 通过id删除通知记录日志表
+	 * @param ids id列表
 	 * @return R
 	 */
-	@SysLog("删除异步通知记录")
-	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('pay_paynotifyrecord_del')")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(payNotifyRecordService.removeById(id));
+	@Operation(summary = "通过id删除通知记录日志表", description = "通过id删除通知记录日志表")
+	@SysLog("通过id删除通知记录日志表")
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('pay_record_del')")
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(payNotifyRecordService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
 	/**
@@ -129,7 +146,9 @@ public class PayNotifyRecordController {
 	@Inner(false)
 	@SneakyThrows
 	@XssCleanIgnore
+	@SysLog("支付宝渠道异步回调")
 	@PostMapping("/ali/callbak")
+	@Operation(summary = "支付宝渠道异步回调", description = "支付宝渠道异步回调")
 	public void aliCallbak(HttpServletRequest request, HttpServletResponse response) {
 		// 解析回调信息
 		Map<String, String> params = AliPayApi.toMap(request);
@@ -143,9 +162,10 @@ public class PayNotifyRecordController {
 	 */
 	@Inner(false)
 	@SneakyThrows
-	@ResponseBody
 	@XssCleanIgnore
 	@PostMapping("/wx/callbak")
+	@Operation(summary = "微信渠道支付回调", description = "微信渠道支付回调")
+	@SysLog("微信渠道支付回调")
 	public String wxCallbak(HttpServletRequest request) {
 		String xmlMsg = HttpKit.readData(request);
 		log.info("微信订单回调信息:{}", xmlMsg);
@@ -162,10 +182,24 @@ public class PayNotifyRecordController {
 	@SneakyThrows
 	@XssCleanIgnore
 	@PostMapping("/merge/callbak")
+	@Operation(summary = "聚合渠道异步回调", description = "聚合渠道异步回调")
+	@SysLog("聚合渠道异步回调")
 	public void mergeCallbak(HttpServletRequest request, HttpServletResponse response) {
 		// 解析回调信息
 		Map<String, String> params = AliPayApi.toMap(request);
 		response.getWriter().print(mergePayCallback.handle(params));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param payNotifyRecord 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('pay_record_export')")
+	public List<PayNotifyRecord> export(PayNotifyRecord payNotifyRecord) {
+		return payNotifyRecordService.list(Wrappers.query(payNotifyRecord));
 	}
 
 }

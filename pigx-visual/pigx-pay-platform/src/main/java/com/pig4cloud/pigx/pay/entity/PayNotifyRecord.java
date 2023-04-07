@@ -43,55 +43,64 @@ public class PayNotifyRecord extends Model<PayNotifyRecord> {
 	 * ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
+	@Schema(description = "ID")
 	private Long id;
 
 	/**
 	 * 响应ID
 	 */
+	@Schema(description = "响应ID")
 	private String notifyId;
 
 	/**
 	 * 请求报文
 	 */
+	@Schema(description = "请求报文")
 	private String request;
 
 	/**
 	 * 响应报文
 	 */
+	@Schema(description = "响应报文")
 	private String response;
 
 	/**
 	 * 系统订单号
 	 */
+	@Schema(description = "系统订单号")
 	private String orderNo;
 
 	/**
 	 * http状态
 	 */
+	@Schema(description = "http状态")
 	private String httpStatus;
+
+	/**
+	 * delFlag
+	 */
+	@TableLogic
+	@Schema(description = "delFlag")
+	private String delFlag;
 
 	/**
 	 * 创建时间
 	 */
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
 	/**
 	 * 更新时间
 	 */
+	@Schema(description = "更新时间")
 	@TableField(fill = FieldFill.INSERT_UPDATE)
 	private LocalDateTime updateTime;
 
 	/**
-	 * 是否删除 -1：已删除 0：正常
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	private String delFlag;
-
-	/**
 	 * 租户ID
 	 */
+	@Schema(description = "租户ID")
 	private Long tenantId;
 
 }

@@ -29,6 +29,11 @@ public enum OrderStatusEnum {
 	COMPLETE("2", "完成"),
 
 	/**
+	 * 退款成功
+	 */
+	REFUND_SUCCESS("5", "退款成功"),
+
+	/**
 	 * 订单支付失败
 	 */
 	FAIL("-1", "失败");

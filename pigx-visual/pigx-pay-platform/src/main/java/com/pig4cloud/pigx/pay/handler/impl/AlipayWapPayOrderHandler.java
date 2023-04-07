@@ -119,7 +119,7 @@ public class AlipayWapPayOrderHandler extends AbstractPayOrderHandler {
 		AlipayTradeWapPayModel model = new AlipayTradeWapPayModel();
 		model.setBody(tradeOrder.getBody());
 		model.setSubject(tradeOrder.getBody());
-		model.setOutTradeNo(tradeOrder.getOrderId());
+		model.setOutTradeNo(String.valueOf(tradeOrder.getOrderId()));
 		model.setTimeoutExpress("30m");
 
 		// 分转成元 并且保留两位
@@ -129,7 +129,7 @@ public class AlipayWapPayOrderHandler extends AbstractPayOrderHandler {
 		try {
 			log.info("拉起支付宝wap 支付参数 {}", model);
 			AliPayApi.wapPay(response, model, ChannelPayApiConfigKit.get().getReturnUrl(),
-					ChannelPayApiConfigKit.get().getNotifyUrl() + "/pay/notify/ali/callbak");
+					ChannelPayApiConfigKit.get().getNotifyUrl() + "/admin/notify/ali/callbak");
 		}
 		catch (AlipayApiException e) {
 			log.error("支付宝手机支付失败", e);

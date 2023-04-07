@@ -44,58 +44,74 @@ public class PayChannel extends Model<PayChannel> {
 	 * 渠道主键ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
+	@Schema(description = "渠道主键ID")
 	private Long id;
 
 	/**
-	 * 应用ID
+	 * mchId
 	 */
-	@Sensitive(prefixNoMaskLen = 4, suffixNoMaskLen = 4)
-	private String appId;
+	@Schema(description = "mchId")
+	private String mchId;
 
 	/**
 	 * 渠道ID
 	 */
+	@Schema(description = "渠道ID")
 	private String channelId;
 
 	/**
 	 * 渠道名称,如:alipay,wechat
 	 */
+	@Schema(description = "渠道名称,如:alipay,wechat")
 	private String channelName;
 
 	/**
 	 * 渠道商户ID | 12****123
 	 */
-	@Sensitive(prefixNoMaskLen = 2, suffixNoMaskLen = 3)
+	@Schema(description = "渠道商户ID | 12****123")
 	private String channelMchId;
 
 	/**
 	 * 前端回调地址
 	 */
+	@Schema(description = "前端回调地址")
 	private String returnUrl;
 
 	/**
 	 * 后端回调地址
 	 */
+	@Schema(description = "后端回调地址")
 	private String notifyUrl;
 
 	/**
 	 * 渠道状态
 	 */
+	@Schema(description = "渠道状态")
 	private String state;
 
 	/**
 	 * 配置参数,json字符串
 	 */
+	@Schema(description = "配置参数,json字符串")
 	private String param;
 
 	/**
 	 * 备注
 	 */
+	@Schema(description = "备注")
 	private String remark;
+
+	/**
+	 * delFlag
+	 */
+	@TableLogic
+	@Schema(description = "delFlag")
+	private String delFlag;
 
 	/**
 	 * 创建时间
 	 */
+	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
@@ -103,18 +119,19 @@ public class PayChannel extends Model<PayChannel> {
 	 * 更新时间
 	 */
 	@TableField(fill = FieldFill.INSERT_UPDATE)
+	@Schema(description = "更新时间")
 	private LocalDateTime updateTime;
-
-	/**
-	 * 是否删除 -1：已删除 0：正常
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	private String delFlag;
 
 	/**
 	 * 租户ID
 	 */
+	@Schema(description = "租户ID")
 	private Long tenantId;
+
+	/**
+	 * 应用ID
+	 */
+	@Schema(description = "应用ID")
+	private String appId;
 
 }

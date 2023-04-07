@@ -1,7 +1,5 @@
 package com.pig4cloud.pigx.pay.handler.impl;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -19,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -102,9 +101,11 @@ public class YungouosMergePayNotifyCallbakHandler extends AbstractPayNotifyCallb
 
 		goodsOrderService.updateById(goodsOrder);
 
-		String succTime = MapUtil.getStr(params, "time");
-		tradeOrder.setPaySuccTime(DateUtil.parse(succTime, DatePattern.NORM_DATETIME_FORMAT).getTime());
+		tradeOrder.setPaySuccTime(LocalDateTime.now());
 		tradeOrder.setChannelOrderNo(params.get("orderNo"));
+		// 修改实际的支付渠道
+		String payChannel = params.get(PayConstants.MERGE_OUT_TRADE_NO);
+		tradeOrder.setChannelId(payChannel);
 		tradeOrderService.updateById(tradeOrder);
 		return "SUCCESS";
 	}

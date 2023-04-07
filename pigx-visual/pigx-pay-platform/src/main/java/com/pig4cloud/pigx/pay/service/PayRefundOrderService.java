@@ -28,4 +28,11 @@ import com.pig4cloud.pigx.pay.entity.PayRefundOrder;
  */
 public interface PayRefundOrderService extends IService<PayRefundOrder> {
 
+	/**
+	 * 退款操作
+	 * @param refundOrder refundOrder
+	 * @return true/false
+	 */
+	Boolean refund(PayRefundOrder refundOrder);
+
 }

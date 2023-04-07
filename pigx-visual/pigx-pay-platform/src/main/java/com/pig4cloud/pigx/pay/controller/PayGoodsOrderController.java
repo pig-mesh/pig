@@ -17,15 +17,19 @@
 
 package com.pig4cloud.pigx.pay.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
@@ -34,9 +38,10 @@ import com.pig4cloud.pigx.pay.service.PayChannelService;
 import com.pig4cloud.pigx.pay.service.PayGoodsOrderService;
 import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
 import com.pig4cloud.pigx.pay.utils.PayConstants;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -45,14 +50,14 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 商品
@@ -61,10 +66,10 @@ import java.util.Map;
  * @date 2019-05-28 23:58:27
  */
 @Slf4j
-@Controller
-@AllArgsConstructor
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/goods")
-@Tag(description = "goods", name = "商品订单管理")
+@Tag(description = "goods", name = "商品订单表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayGoodsOrderController {
 
@@ -85,7 +90,7 @@ public class PayGoodsOrderController {
 	@SneakyThrows
 	@Inner(false)
 	@GetMapping("/buy")
-	@SysLog("购买商品")
+	@Operation(summary = "购买商品", description = "购买商品")
 	public void buy(PayGoodsOrder goods, HttpServletRequest request, HttpServletResponse response) {
 		String ua = request.getHeader(HttpHeaders.USER_AGENT);
 		log.info("当前扫码方式 UA:{}", ua);
@@ -102,7 +107,7 @@ public class PayGoodsOrderController {
 			String wxUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s"
 					+ "&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s";
 
-			String redirectUri = String.format("%s/pay/goods/wx?amount=%s&TENANT-ID=%s", channel.getNotifyUrl(),
+			String redirectUri = String.format("%s/admin/goods/wx?amount=%s&TENANT-ID=%s", channel.getNotifyUrl(),
 					goods.getAmount(), TenantContextHolder.getTenantId());
 
 			response.sendRedirect(
@@ -118,7 +123,7 @@ public class PayGoodsOrderController {
 	@SneakyThrows
 	@Inner(false)
 	@GetMapping("/merge/buy")
-	@SysLog("聚合支付购买商品")
+	@Operation(summary = "聚合支付购买商品", description = "聚合支付购买商品")
 	public void mergeBuy(PayGoodsOrder goods, HttpServletResponse response) {
 		Map<String, Object> result = payGoodsOrderService.buy(goods, true);
 		response.setContentType(ContentType.JSON.getValue());
@@ -136,6 +141,7 @@ public class PayGoodsOrderController {
 	@Inner(false)
 	@SneakyThrows
 	@GetMapping("/wx")
+	@Operation(summary = "商品信息", description = "回调code")
 	public ModelAndView wx(PayGoodsOrder goods, String code, ModelAndView modelAndView) {
 		PayChannel channel = channelService.getOne(
 				Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP), false);
@@ -165,10 +171,14 @@ public class PayGoodsOrderController {
 	 * @param payGoodsOrder 商品订单表
 	 * @return
 	 */
-	@ResponseBody
+	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getPayGoodsOrderPage(Page page, PayGoodsOrder payGoodsOrder) {
-		return R.ok(payGoodsOrderService.page(page, Wrappers.query(payGoodsOrder)));
+	public R getpayGoodsOrderPage(Page page, PayGoodsOrder payGoodsOrder) {
+		LambdaQueryWrapper<PayGoodsOrder> wrapper = Wrappers.lambdaQuery();
+		wrapper.eq(StrUtil.isNotBlank(payGoodsOrder.getStatus()), PayGoodsOrder::getStatus, payGoodsOrder.getStatus());
+		wrapper.like(Objects.nonNull(payGoodsOrder.getPayOrderId()), PayGoodsOrder::getPayOrderId,
+				payGoodsOrder.getPayOrderId());
+		return R.ok(payGoodsOrderService.page(page, wrapper));
 	}
 
 	/**
@@ -176,9 +186,9 @@ public class PayGoodsOrderController {
 	 * @param goodsOrderId id
 	 * @return R
 	 */
-	@ResponseBody
-	@GetMapping(value = "/{goodsOrderId}")
-	public R getById(@PathVariable("goodsOrderId") Integer goodsOrderId) {
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/{goodsOrderId}")
+	public R getById(@PathVariable("goodsOrderId") Long goodsOrderId) {
 		return R.ok(payGoodsOrderService.getById(goodsOrderId));
 	}
 
@@ -187,10 +197,9 @@ public class PayGoodsOrderController {
 	 * @param payGoodsOrder 商品订单表
 	 * @return R
 	 */
+	@Operation(summary = "新增商品订单表", description = "新增商品订单表")
 	@SysLog("新增商品订单表")
 	@PostMapping
-	@ResponseBody
-	@PreAuthorize("@pms.hasPermission('generator_paygoodsorder_add')")
 	public R save(@RequestBody PayGoodsOrder payGoodsOrder) {
 		return R.ok(payGoodsOrderService.save(payGoodsOrder));
 	}
@@ -200,25 +209,34 @@ public class PayGoodsOrderController {
 	 * @param payGoodsOrder 商品订单表
 	 * @return R
 	 */
+	@Operation(summary = "修改商品订单表", description = "修改商品订单表")
 	@SysLog("修改商品订单表")
 	@PutMapping
-	@ResponseBody
-	@PreAuthorize("@pms.hasPermission('generator_paygoodsorder_edit')")
 	public R updateById(@RequestBody PayGoodsOrder payGoodsOrder) {
 		return R.ok(payGoodsOrderService.updateById(payGoodsOrder));
 	}
 
 	/**
 	 * 通过id删除商品订单表
-	 * @param goodsOrderId id
+	 * @param ids goodsOrderId列表
 	 * @return R
 	 */
-	@SysLog("删除商品订单表")
-	@ResponseBody
-	@DeleteMapping("/{goodsOrderId}")
-	@PreAuthorize("@pms.hasPermission('generator_paygoodsorder_del')")
-	public R removeById(@PathVariable Integer goodsOrderId) {
-		return R.ok(payGoodsOrderService.removeById(goodsOrderId));
+	@Operation(summary = "通过id删除商品订单表", description = "通过id删除商品订单表")
+	@SysLog("通过id删除商品订单表")
+	@DeleteMapping
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(payGoodsOrderService.removeBatchByIds(CollUtil.toList(ids)));
+	}
+
+	/**
+	 * 导出excel 表格
+	 * @param payGoodsOrder 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	public List<PayGoodsOrder> export(PayGoodsOrder payGoodsOrder) {
+		return payGoodsOrderService.list(Wrappers.query(payGoodsOrder));
 	}
 
 }

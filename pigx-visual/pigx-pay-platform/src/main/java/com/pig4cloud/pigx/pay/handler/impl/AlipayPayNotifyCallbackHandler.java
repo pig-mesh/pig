@@ -35,6 +35,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 /**
@@ -116,11 +117,9 @@ public class AlipayPayNotifyCallbackHandler extends AbstractPayNotifyCallbakHand
 
 		PayTradeOrder tradeOrder = tradeOrderService
 				.getOne(Wrappers.<PayTradeOrder>lambdaQuery().eq(PayTradeOrder::getOrderId, orderNo));
-		Long succTime = MapUtil.getLong(params, "time_end");
-		tradeOrder.setPaySuccTime(succTime);
+		tradeOrder.setPaySuccTime(LocalDateTime.now());
 		tradeOrder.setChannelOrderNo(params.get("trade_no"));
 		tradeOrder.setStatus(TradeStatusEnum.TRADE_SUCCESS.getStatus());
-		tradeOrder.setChannelOrderNo(params.get("transaction_id"));
 		tradeOrderService.updateById(tradeOrder);
 
 		return "success";
