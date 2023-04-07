@@ -94,4 +94,20 @@ public class WxAccountFansController {
 		return R.ok(wxAccountFansService.syncAccountFans(appId));
 	}
 
+	/**
+	 * 取消拉黑
+	 * @param ids
+	 * @param appId
+	 * @return
+	 */
+	@PostMapping("/unblack/{appId}")
+	public R unblack(@RequestBody Long[] ids, @PathVariable String appId) {
+		return R.ok(wxAccountFansService.unblack(ids, appId));
+	}
+
+	@PostMapping("/black/{appId}")
+	public R black(@RequestBody Long[] ids, @PathVariable String appId) {
+		return R.ok(wxAccountFansService.black(ids, appId));
+	}
+
 }

@@ -112,15 +112,14 @@ public class WxMsgServiceImpl extends ServiceImpl<WxMsgMapper, WxMsg> implements
 
 		if (WxConsts.KefuMsgType.NEWS.equals(wxMsg.getRepType())) {
 			List<WxMpKefuMessage.WxArticle> list = new ArrayList<>();
-			JSONArray articles = JSONUtil.parseObj(wxMsg.getContent()).getJSONArray("articles");
-			WxMpKefuMessage.WxArticle t;
-			for (Object object : articles) {
-				JSONObject obj = JSONUtil.parseObj(JSONUtil.toJsonStr(object));
-				t = new WxMpKefuMessage.WxArticle();
-				t.setTitle(obj.getStr("title"));
-				t.setDescription(obj.getStr("digest"));
-				t.setPicUrl(obj.getStr("thumbUrl"));
-				t.setUrl(obj.getStr("url"));
+			JSONArray jsonArray = JSONUtil.parseArray(wxMsg.getContent());
+			for (Object obj : jsonArray) {
+				JSONObject jsonObject = (JSONObject) obj;
+				WxMpKefuMessage.WxArticle t = new WxMpKefuMessage.WxArticle();
+				t.setTitle(jsonObject.getStr("title"));
+				t.setDescription(jsonObject.getStr("digest"));
+				t.setPicUrl(jsonObject.getStr("thumbUrl"));
+				t.setUrl(jsonObject.getStr("url"));
 				list.add(t);
 			}
 			wxMsg.setRepName(wxMsg.getRepName());

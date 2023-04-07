@@ -104,7 +104,7 @@ public class WxAccountTagServiceImpl extends ServiceImpl<WxAccountTagMapper, WxA
 		List<WxUserTag> wxUserTags = wxMpService.getUserTagService().tagGet();
 
 		// 删除旧数据
-		baseMapper.delete(Wrappers.lambdaQuery());
+		baseMapper.delete(Wrappers.<WxAccountTag>lambdaQuery().eq(WxAccountTag::getWxAccountAppid, appId));
 
 		WxAccount wxAccount = accountMapper.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, appId));
 		for (WxUserTag wxUserTag : wxUserTags) {

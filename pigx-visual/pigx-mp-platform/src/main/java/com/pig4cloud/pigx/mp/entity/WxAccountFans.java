@@ -117,6 +117,11 @@ public class WxAccountFans extends Model<WxAccountFans> {
 	private Long[] tagIds;
 
 	/**
+	 * 是否被拉黑
+	 */
+	private Integer isBlack;
+
+	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)

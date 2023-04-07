@@ -22,10 +22,12 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.mp.config.WxMpInitConfigRunner;
 import com.pig4cloud.pigx.mp.entity.WxAccount;
@@ -40,9 +42,11 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.api.WxMpUserBlacklistService;
 import me.chanjar.weixin.mp.api.WxMpUserService;
 import me.chanjar.weixin.mp.api.WxMpUserTagService;
 import me.chanjar.weixin.mp.bean.result.WxMpUser;
+import me.chanjar.weixin.mp.bean.result.WxMpUserBlacklistGetResult;
 import me.chanjar.weixin.mp.bean.result.WxMpUserList;
 import org.springframework.beans.BeanUtils;
 import org.springframework.scheduling.annotation.Async;
@@ -54,7 +58,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author lengleng
@@ -80,13 +86,21 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 	 * @param wxAccountFans 查询条件
 	 * @return
 	 */
+	@SneakyThrows
 	@Override
 	public IPage getFansWithTagPage(Page page, WxAccountFans wxAccountFans) {
 		// 查询当前公众号的标签
 		List<WxAccountTag> wxAccountTags = wxAccountTagMapper.selectList(Wrappers.emptyWrapper());
 
 		// 翻页查询粉丝
-		IPage<WxAccountFans> fansPage = baseMapper.selectPage(page, Wrappers.query(wxAccountFans));
+		LambdaQueryWrapper<WxAccountFans> wrapper = Wrappers.<WxAccountFans>lambdaQuery()
+				.eq(StrUtil.isNotBlank(wxAccountFans.getWxAccountAppid()), WxAccountFans::getWxAccountAppid,
+						wxAccountFans.getWxAccountAppid())
+				.like(StrUtil.isNotBlank(wxAccountFans.getNickname()), WxAccountFans::getNickname,
+						wxAccountFans.getNickname());
+
+		IPage<WxAccountFans> fansPage = baseMapper.selectPage(page, wrapper);
+
 		List<WxAccountFansVo> voList = fansPage.getRecords().stream().map(fans -> {//
 			WxAccountFansVo vo = new WxAccountFansVo();
 			BeanUtils.copyProperties(fans, vo);
@@ -141,6 +155,40 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 				userTagService.batchTagging(tagId, new String[] { wxAccountFans.getOpenid() });
 			}
 		}
+		return Boolean.TRUE;
+	}
+
+	@SneakyThrows
+	@Override
+	public Boolean unblack(Long[] ids, String appId) {
+		List<WxAccountFans> wxAccountFans = this.listByIds(CollUtil.toList(ids));
+		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
+		WxMpUserBlacklistService blackListService = wxMpService.getBlackListService();
+		List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).collect(Collectors.toList());
+		blackListService.pullFromBlacklist(collect);
+		// 更新数据
+		List<WxAccountFans> fansList = wxAccountFans.stream().peek(item -> {
+			item.setIsBlack(CommonConstants.SUCCESS);
+		}).collect(Collectors.toList());
+		this.updateBatchById(fansList);
+
+		return Boolean.TRUE;
+	}
+
+	@SneakyThrows
+	@Override
+	public Boolean black(Long[] ids, String appId) {
+		List<WxAccountFans> wxAccountFans = this.listByIds(CollUtil.toList(ids));
+		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
+		WxMpUserBlacklistService blackListService = wxMpService.getBlackListService();
+		List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).collect(Collectors.toList());
+		blackListService.pushToBlacklist(collect);
+		// 更新数据
+		List<WxAccountFans> fansList = wxAccountFans.stream().peek(item -> {
+			item.setIsBlack(CommonConstants.FAIL);
+		}).collect(Collectors.toList());
+		this.updateBatchById(fansList);
+
 		return Boolean.TRUE;
 	}
 
@@ -230,6 +278,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 		wxAccountFans.setWxAccountId(wxAccount.getId());
 		wxAccountFans.setWxAccountAppid(wxAccount.getAppid());
 		wxAccountFans.setWxAccountName(wxAccount.getName());
+		wxAccountFans.setIsBlack(CommonConstants.SUCCESS);
 		return wxAccountFans;
 	}
 

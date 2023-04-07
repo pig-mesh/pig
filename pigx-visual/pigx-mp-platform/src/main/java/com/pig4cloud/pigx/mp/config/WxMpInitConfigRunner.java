@@ -15,12 +15,16 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.constant.WxMpEventConstants;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -83,7 +87,13 @@ public class WxMpInitConfigRunner {
 
 	private final RedisTemplate redisTemplate;
 
-	@PostConstruct
+	@Async
+	@Order
+	@EventListener({ WebServerInitializedEvent.class })
+	public void WebServerInit() {
+		this.initServices();
+	}
+
 	public void initServices() {
 		// 获取全部租户 遍历所有租户对应的公众号列表
 		List<WxAccount> accountList = new ArrayList<>();

@@ -32,9 +32,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 微信素材
@@ -56,18 +58,21 @@ public class WxMaterialController {
 	 */
 	@PostMapping("/materialFileUpload")
 	@PreAuthorize("@pms.hasPermission('mp_wxmaterial_add')")
-	public R materialFileUpload(@RequestParam("file") MultipartFile mulFile, @RequestParam String appId,
+	public R materialFileUpload(@RequestPart("file") MultipartFile mulFile, @RequestParam String appId,
 			@RequestParam("title") String title, @RequestParam("introduction") String introduction,
 			@RequestParam("mediaType") String mediaType) {
 		try {
+			String originalFilename = new String(
+					Objects.requireNonNull(mulFile.getOriginalFilename()).getBytes(StandardCharsets.ISO_8859_1),
+					StandardCharsets.UTF_8);
 			WxMpMaterial material = new WxMpMaterial();
-			material.setName(mulFile.getOriginalFilename());
+			material.setName(originalFilename);
 			if (WxConsts.MediaFileType.VIDEO.equals(mediaType)) {
 				material.setVideoTitle(title);
 				material.setVideoIntroduction(introduction);
 			}
 
-			File file = FileUtil.newFile(FileUtil.getTmpDirPath() + mulFile.getOriginalFilename());
+			File file = FileUtil.newFile(FileUtil.getTmpDirPath() + originalFilename);
 			mulFile.transferTo(file);
 			material.setFile(file);
 

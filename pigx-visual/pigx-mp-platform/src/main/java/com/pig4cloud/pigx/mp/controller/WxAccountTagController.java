@@ -1,10 +1,13 @@
 package com.pig4cloud.pigx.mp.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.mp.entity.WxAccountTag;
+import com.pig4cloud.pigx.mp.entity.dto.WxAccountTagDeleteDTO;
 import com.pig4cloud.pigx.mp.service.WxAccountTagService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,8 +36,12 @@ public class WxAccountTagController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R<IPage<WxAccountTag>> getWxAccountTagPage(Page page, WxAccountTag wxAccountTag) {
-		return R.ok(wxAccountTagService.page(page, Wrappers.query(wxAccountTag)));
+	public R<Page<WxAccountTag>> getWxAccountTagPage(Page<WxAccountTag> page, WxAccountTag wxAccountTag) {
+		LambdaQueryWrapper<WxAccountTag> wrapper = Wrappers.<WxAccountTag>lambdaQuery()
+				.like(StrUtil.isNotBlank(wxAccountTag.getTag()), WxAccountTag::getTag, wxAccountTag.getTag())
+				.eq(StrUtil.isNotBlank(wxAccountTag.getWxAccountAppid()), WxAccountTag::getWxAccountAppid,
+						wxAccountTag.getWxAccountAppid());
+		return R.ok(wxAccountTagService.page(page, wrapper));
 	}
 
 	/**
@@ -76,8 +83,15 @@ public class WxAccountTagController {
 	 */
 	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_del')")
-	public R<Boolean> removeAccountTagById(@RequestBody WxAccountTag wxAccountTag) {
-		return R.ok(wxAccountTagService.removeAccountTagById(wxAccountTag));
+	public R<Boolean> removeAccountTagById(@RequestBody WxAccountTagDeleteDTO deleteDTO) {
+
+		deleteDTO.getIds().forEach(item -> {
+			WxAccountTag wxAccountTag = new WxAccountTag();
+			wxAccountTag.setId(item);
+			wxAccountTag.setWxAccountAppid(deleteDTO.getWxAccountAppid());
+			wxAccountTagService.removeAccountTagById(wxAccountTag);
+		});
+		return R.ok();
 	}
 
 	/**

@@ -67,7 +67,6 @@ public class WxAutoReplyController {
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('mp_wxautoreply_edit')")
 	public R updateById(@RequestBody WxAutoReply wxAutoReply) {
-		this.jude(wxAutoReply);
 		return R.ok(wxAutoReplyService.updateById(wxAutoReply));
 	}
 
@@ -78,7 +77,7 @@ public class WxAutoReplyController {
 	 */
 	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('mp_wxautoreply_del')")
-	public R removeById(@PathVariable String id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(wxAutoReplyService.removeById(id));
 	}
 

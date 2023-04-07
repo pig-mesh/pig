@@ -16,6 +16,8 @@
  */
 package com.pig4cloud.pigx.mp.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -47,7 +49,11 @@ public class WxFansMsgController {
 	 */
 	@GetMapping("/page")
 	public R getWxMsgPage(Page page, WxMsg msg) {
-		return R.ok(wxMsgService.page(page, Wrappers.query(msg)));
+		LambdaQueryWrapper<WxMsg> wrapper = Wrappers.<WxMsg>lambdaQuery()
+				.eq(StrUtil.isNotBlank(msg.getAppId()), WxMsg::getAppId, msg.getAppId())
+				.like(StrUtil.isNotBlank(msg.getNickName()), WxMsg::getNickName, msg.getNickName())
+				.eq(StrUtil.isNotBlank(msg.getType()), WxMsg::getType, msg.getType());
+		return R.ok(wxMsgService.page(page, wrapper));
 	}
 
 	/**

@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.mp.handler;
 
+import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -167,12 +168,10 @@ public class MsgHandler extends AbstractHandler {
 			}
 			if (WxConsts.KefuMsgType.NEWS.equals(wxAutoReply.getRepType())) {
 				List<WxMpXmlOutNewsMessage.Item> list = new ArrayList<>();
-
-				JSONObject content = JSONUtil.parseObj(wxAutoReply.getContent());
-				List<JSONObject> jsonObjectList = content.getJSONArray("articles").toList(JSONObject.class);
-				WxMpXmlOutNewsMessage.Item t;
-				for (JSONObject jsonObject : jsonObjectList) {
-					t = new WxMpXmlOutNewsMessage.Item();
+				JSONArray jsonArray = JSONUtil.parseArray(wxAutoReply.getContent());
+				for (Object obj : jsonArray) {
+					JSONObject jsonObject = (JSONObject) obj;
+					WxMpXmlOutNewsMessage.Item t = new WxMpXmlOutNewsMessage.Item();
 					t.setTitle(jsonObject.getStr("title"));
 					t.setDescription(jsonObject.getStr("digest"));
 					t.setPicUrl(jsonObject.getStr("thumbUrl"));

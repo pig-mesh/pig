@@ -51,4 +51,8 @@ public interface WxAccountFansService extends IService<WxAccountFans> {
 	 */
 	Boolean updateFans(WxAccountFans wxAccountFans);
 
+	Boolean unblack(Long[] ids, String appId);
+
+	Boolean black(Long[] ids, String appId);
+
 }

@@ -16,6 +16,8 @@
  */
 package com.pig4cloud.pigx.mp.controller;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
@@ -54,7 +56,10 @@ public class WxAccountController {
 	 */
 	@GetMapping("/page")
 	public R getWxAccountPage(Page page, WxAccount wxAccount) {
-		return R.ok(wxAccountService.page(page, Wrappers.query(wxAccount)));
+		LambdaQueryWrapper<WxAccount> wrapper = Wrappers.<WxAccount>lambdaQuery()
+				.like(StrUtil.isNotBlank(wxAccount.getName()), WxAccount::getName, wxAccount.getName())
+				.like(StrUtil.isNotBlank(wxAccount.getAccount()), WxAccount::getAccount, wxAccount.getAccount());
+		return R.ok(wxAccountService.page(page, wrapper));
 	}
 
 	/**
@@ -126,8 +131,10 @@ public class WxAccountController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public R list() {
-		return R.ok(wxAccountService.list());
+	public R list(String name) {
+		LambdaQueryWrapper<WxAccount> wrapper = Wrappers.<WxAccount>lambdaQuery().like(StrUtil.isNotBlank(name),
+				WxAccount::getName, name);
+		return R.ok(wxAccountService.list(wrapper));
 	}
 
 	/**
