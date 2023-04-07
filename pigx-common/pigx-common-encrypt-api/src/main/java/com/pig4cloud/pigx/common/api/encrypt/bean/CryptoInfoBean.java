@@ -1,8 +1,8 @@
 package com.pig4cloud.pigx.common.api.encrypt.bean;
 
+import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 
 /**
  * <p>

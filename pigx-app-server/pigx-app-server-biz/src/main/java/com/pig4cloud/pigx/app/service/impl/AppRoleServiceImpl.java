@@ -19,8 +19,6 @@ package com.pig4cloud.pigx.app.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.pig4cloud.pigx.admin.api.entity.SysRole;
-import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
@@ -37,7 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 

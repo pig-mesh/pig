@@ -20,13 +20,9 @@ package com.pig4cloud.pigx.daemon.quartz.util;
 import com.pig4cloud.pigx.daemon.quartz.config.PigxQuartzFactory;
 import com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
-import com.pig4cloud.pigx.daemon.quartz.config.PigxQuartzFactory;
-import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Component;
-
-import static com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum.*;
 
 /**
  * 定时任务的工具类

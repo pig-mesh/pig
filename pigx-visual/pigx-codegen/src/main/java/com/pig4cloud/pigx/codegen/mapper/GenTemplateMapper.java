@@ -17,8 +17,8 @@
 
 package com.pig4cloud.pigx.codegen.mapper;
 
-import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import com.pig4cloud.pigx.codegen.entity.GenTemplateEntity;
+import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

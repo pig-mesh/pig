@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.api.encrypt.annotation.crypto;
 
-import com.pig4cloud.pigx.common.api.encrypt.annotation.encrypt.ApiEncrypt;
 import com.pig4cloud.pigx.common.api.encrypt.annotation.decrypt.ApiDecrypt;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.encrypt.ApiEncrypt;
 import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 
 import java.lang.annotation.*;

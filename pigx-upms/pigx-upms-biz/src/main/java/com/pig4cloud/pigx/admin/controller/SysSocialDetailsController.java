@@ -22,7 +22,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.service.SysSocialDetailsService;
-import com.pig4cloud.pigx.app.api.entity.AppSocialDetails;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;

@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.daemon.quartz.controller;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -28,8 +27,6 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum;
-import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
-import com.pig4cloud.pigx.daemon.quartz.service.SysJobService;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobLogService;
@@ -45,8 +42,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum.*;
 
 /**
  * @author frwcloud

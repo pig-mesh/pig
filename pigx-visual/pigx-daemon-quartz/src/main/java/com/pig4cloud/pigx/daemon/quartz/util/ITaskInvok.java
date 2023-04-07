@@ -17,8 +17,8 @@
 
 package com.pig4cloud.pigx.daemon.quartz.util;
 
-import com.pig4cloud.pigx.daemon.quartz.exception.TaskException;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
+import com.pig4cloud.pigx.daemon.quartz.exception.TaskException;
 
 /**
  * 定时任务反射实现接口类

@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import com.pig4cloud.pigx.codegen.entity.GenTemplateGroupEntity;
 import org.apache.ibatis.annotations.Mapper;
 

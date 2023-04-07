@@ -23,7 +23,10 @@ import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerIntercept
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.data.config.PigxMybatisProperties;
-import com.pig4cloud.pigx.common.data.datascope.*;
+import com.pig4cloud.pigx.common.data.datascope.DataScopeInnerInterceptor;
+import com.pig4cloud.pigx.common.data.datascope.DataScopeInterceptor;
+import com.pig4cloud.pigx.common.data.datascope.DataScopeSqlInjector;
+import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDatascopeHandle;
 import com.pig4cloud.pigx.common.data.resolver.SqlFilterArgumentResolver;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantHandler;

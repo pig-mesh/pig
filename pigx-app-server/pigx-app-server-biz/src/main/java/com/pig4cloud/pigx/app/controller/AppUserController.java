@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.app.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;

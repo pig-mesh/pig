@@ -22,8 +22,6 @@ import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pigx.daemon.quartz.exception.TaskException;
-import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
-import com.pig4cloud.pigx.daemon.quartz.exception.TaskException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

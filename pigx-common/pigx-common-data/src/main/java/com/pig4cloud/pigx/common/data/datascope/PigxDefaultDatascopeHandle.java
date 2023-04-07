@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.common.data.datascope;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
-import com.pig4cloud.pigx.admin.api.entity.SysDeptRelation;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;

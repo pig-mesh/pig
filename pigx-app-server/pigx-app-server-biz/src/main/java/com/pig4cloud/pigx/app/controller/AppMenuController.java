@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.app.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.entity.AppMenu;
-import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.service.AppMenuService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
