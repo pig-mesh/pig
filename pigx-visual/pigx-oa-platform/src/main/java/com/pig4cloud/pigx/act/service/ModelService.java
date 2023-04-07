@@ -47,10 +47,10 @@ public interface ModelService {
 
 	/**
 	 * 删除流程
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
-	Boolean removeModelById(String id);
+	Boolean removeModelById(String[] ids);
 
 	/**
 	 * 部署流程

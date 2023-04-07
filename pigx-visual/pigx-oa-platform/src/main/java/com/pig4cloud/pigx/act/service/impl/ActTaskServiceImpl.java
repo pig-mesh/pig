@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.act.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -25,6 +26,7 @@ import com.pig4cloud.pigx.act.dto.CommentDto;
 import com.pig4cloud.pigx.act.dto.LeaveBillDto;
 import com.pig4cloud.pigx.act.dto.TaskDTO;
 import com.pig4cloud.pigx.act.entity.LeaveBill;
+import com.pig4cloud.pigx.act.mapper.ActTaskMapper;
 import com.pig4cloud.pigx.act.mapper.LeaveBillMapper;
 import com.pig4cloud.pigx.act.service.ActTaskService;
 import com.pig4cloud.pigx.common.core.constant.PaginationConstants;
@@ -223,6 +225,37 @@ public class ActTaskServiceImpl implements ActTaskService {
 				processEngine.getProcessEngineConfiguration().getActivityFontName(),
 				processEngine.getProcessEngineConfiguration().getLabelFontName(), "宋体", null, 1.0);
 
+	}
+
+	/**
+	 * 批量删除
+	 * @param ids
+	 */
+	@Override
+	public void delTasks(String[] ids) {
+		for (String taskId : ids) {
+			Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
+
+			runtimeService.suspendProcessInstanceById(task.getProcessInstanceId());
+			runtimeService.deleteProcessInstance(task.getProcessInstanceId(), "Deleted");
+		}
+	}
+
+	@Override
+	public List list(TaskDTO taskDTO) {
+
+		TaskQuery taskQuery = taskService.createTaskQuery();
+		List<TaskDTO> taskDTOList = taskQuery.orderByTaskCreateTime().desc().list().stream().map(task -> {
+			TaskDTO dto = new TaskDTO();
+			dto.setTaskId(task.getId());
+			dto.setTaskName(task.getName());
+			dto.setProcessInstanceId(task.getProcessInstanceId());
+			dto.setNodeKey(task.getTaskDefinitionKey());
+			dto.setCategory(task.getCategory());
+			dto.setTime(task.getCreateTime());
+			return dto;
+		}).collect(Collectors.toList());
+		return taskDTOList;
 	}
 
 	private List<String> findOutFlagListByTaskId(Task task, ProcessInstance pi) {

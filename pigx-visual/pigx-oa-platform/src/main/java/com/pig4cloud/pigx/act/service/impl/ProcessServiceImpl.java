@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.act.dto.ProcessDefDTO;
 import com.pig4cloud.pigx.act.entity.LeaveBill;
 import com.pig4cloud.pigx.act.mapper.LeaveBillMapper;
+import com.pig4cloud.pigx.act.mapper.ProcessMapper;
 import com.pig4cloud.pigx.act.service.ProcessService;
 import com.pig4cloud.pigx.common.core.constant.PaginationConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.ProcessStatusEnum;
@@ -59,6 +60,8 @@ public class ProcessServiceImpl implements ProcessService {
 
 	private final LeaveBillMapper leaveBillMapper;
 
+	private final ProcessMapper processMapper;
+
 	/**
 	 * 分页流程列表
 	 * @param params
@@ -72,6 +75,7 @@ public class ProcessServiceImpl implements ProcessService {
 		String category = MapUtil.getStr(params, "category");
 		if (StrUtil.isNotBlank(category)) {
 			query.processDefinitionCategory(category);
+			query.processDefinitionCategoryLike(StrUtil.concat(true, "%", category, "%"));
 		}
 
 		int page = MapUtil.getInt(params, PaginationConstants.CURRENT);
@@ -81,6 +85,8 @@ public class ProcessServiceImpl implements ProcessService {
 		result.setTotal(query.count());
 
 		List<ProcessDefDTO> deploymentList = query.listPage((page - 1) * limit, limit).stream()
+				.filter(processDefinition -> repositoryService.createDeploymentQuery()
+						.deploymentId(processDefinition.getDeploymentId()).singleResult() != null)
 				.map(processDefinition -> {
 					Deployment deployment = repositoryService.createDeploymentQuery()
 							.deploymentId(processDefinition.getDeploymentId()).singleResult();
@@ -140,12 +146,12 @@ public class ProcessServiceImpl implements ProcessService {
 
 	/**
 	 * 删除部署的流程，级联删除流程实例
-	 * @param deploymentId
+	 * @param ids
 	 * @return
 	 */
 	@Override
-	public Boolean removeProcIns(String deploymentId) {
-		repositoryService.deleteDeployment(deploymentId, true);
+	public Boolean removeProcIns(String[] ids) {
+		processMapper.deleteByIds(ids);
 		return Boolean.TRUE;
 	}
 

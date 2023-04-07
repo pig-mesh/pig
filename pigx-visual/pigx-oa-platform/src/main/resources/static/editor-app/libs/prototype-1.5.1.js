@@ -1062,13 +1062,13 @@ Ajax.Request.prototype = Object.extend(new Ajax.Base(), {
 
   setRequestHeaders: function() {
     var tenantId  = 1
-    if (localStorage.getItem('pigx-tenantId')) {
-      tenantId = JSON.parse(localStorage.getItem('pigx-tenantId')).content
+    if (localStorage.getItem('tenantId')) {
+      tenantId = JSON.parse(localStorage.getItem('tenantId'))
     }
 
     var token = ''
-    if (sessionStorage.getItem('pigx-access_token')){
-      token = JSON.parse(sessionStorage.getItem('pigx-access_token')).content
+    if (sessionStorage.getItem('token')){
+      token = JSON.parse(sessionStorage.getItem('token'))
     }
 
     var headers = {

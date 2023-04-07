@@ -20,6 +20,7 @@ package com.pig4cloud.pigx.act.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.pig4cloud.pigx.act.dto.CommentDto;
 import com.pig4cloud.pigx.act.dto.LeaveBillDto;
+import com.pig4cloud.pigx.act.dto.TaskDTO;
 
 import java.io.InputStream;
 import java.util.List;
@@ -66,5 +67,14 @@ public interface ActTaskService {
 	 * @return
 	 */
 	InputStream viewByTaskId(String id);
+
+	/**
+	 * 批量删除
+	 * @param ids
+	 * @return
+	 */
+	void delTasks(String[] ids);
+
+	List<TaskDTO> list(TaskDTO taskDTO);
 
 }

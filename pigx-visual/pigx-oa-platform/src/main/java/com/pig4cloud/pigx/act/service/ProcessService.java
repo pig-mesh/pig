@@ -55,10 +55,10 @@ public interface ProcessService {
 
 	/**
 	 * 删除流程实例
-	 * @param deploymentId
+	 * @param ids
 	 * @return
 	 */
-	Boolean removeProcIns(String deploymentId);
+	Boolean removeProcIns(String[] ids);
 
 	/**
 	 * 启动流程、更新请假单状态

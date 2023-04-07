@@ -33,6 +33,7 @@ import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.editor.constants.ModelDataJsonConstants;
 import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ModelQuery;
@@ -117,7 +118,8 @@ public class ModelServiceImpl implements ModelService {
 				.orderByLastUpdateTime().desc();
 		String category = (String) params.get("category");
 		if (StrUtil.isNotBlank(category)) {
-			modelQuery.modelCategory(category);
+			// like '%category%'
+			modelQuery.modelCategoryLike(StrUtil.concat(true, "%", category, "%"));
 		}
 
 		int page = MapUtil.getInt(params, PaginationConstants.CURRENT);
@@ -131,12 +133,14 @@ public class ModelServiceImpl implements ModelService {
 
 	/**
 	 * 删除流程
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@Override
-	public Boolean removeModelById(String id) {
-		repositoryService.deleteModel(id);
+	public Boolean removeModelById(String[] ids) {
+		for (String id : ids) {
+			repositoryService.deleteModel(id);
+		}
 		return Boolean.TRUE;
 	}
 

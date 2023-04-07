@@ -19,19 +19,23 @@ package com.pig4cloud.pigx.act.controller;
 
 import cn.hutool.core.io.IoUtil;
 import com.pig4cloud.pigx.act.dto.LeaveBillDto;
+import com.pig4cloud.pigx.act.dto.TaskDTO;
 import com.pig4cloud.pigx.act.service.ActTaskService;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.InputStream;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -46,23 +50,27 @@ public class TaskController {
 	private final ActTaskService actTaskService;
 
 	@GetMapping("/todo")
+	@Operation(summary = "条件查询", description = "条件查询")
 	public R todo(@RequestParam Map<String, Object> params) {
 		return R.ok(actTaskService.getTaskByName(params, SecurityUtils.getUser().getUsername()));
 	}
 
 	@GetMapping("/{id}")
+	@Operation(summary = "id查询", description = "id查询")
 	public R getTaskById(@PathVariable String id) {
 		return R.ok(actTaskService.getTaskById(id));
 	}
 
 	@PostMapping
 	@XssCleanIgnore
+	@Operation(summary = "新增", description = "新增")
+	@PreAuthorize("@pms.hasPermission('oa_task_add')")
 	public R submitTask(@RequestBody LeaveBillDto leaveBillDto) {
 		return R.ok(actTaskService.submitTask(leaveBillDto));
 	}
 
-	@Inner(value = false)
 	@GetMapping("/view/{id}")
+	@Operation(summary = "查询", description = "查询")
 	public ResponseEntity viewCurrentImage(@PathVariable String id) {
 		InputStream imageStream = actTaskService.viewByTaskId(id);
 		HttpHeaders headers = new HttpHeaders();
@@ -71,8 +79,25 @@ public class TaskController {
 	}
 
 	@GetMapping("/comment/{id}")
+	@Operation(summary = "查询", description = "查询")
+	@PreAuthorize("@pms.hasPermission('oa_task_view')")
 	public R commitList(@PathVariable String id) {
 		return R.ok(actTaskService.getCommentByTaskId(id));
+	}
+
+	@DeleteMapping
+	@Operation(summary = "删除", description = "删除")
+	@PreAuthorize("@pms.hasPermission('oa_task_del')")
+	public R submitTask(@RequestBody String[] ids) {
+		actTaskService.delTasks(ids);
+		return R.ok();
+	}
+
+	@ResponseExcel
+	@GetMapping("/export")
+	@Operation(summary = "导出", description = "导出")
+	public List<TaskDTO> export(TaskDTO taskDTO) {
+		return actTaskService.list(taskDTO);
 	}
 
 }
