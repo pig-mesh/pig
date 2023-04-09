@@ -79,8 +79,8 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getWxOpenid, openId));
 
 		if (user == null) {
-			log.info("微信小程序未绑定:{}", openId);
-			return null;
+			log.info("微信小程序未绑定:{},创建新的用户", openId);
+			return createAndSaveAppUserInfo(openId);
 		}
 		return appUserService.findUserInfo(user);
 	}
@@ -96,6 +96,18 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 		user.setWxOpenid(identify);
 		appUserService.updateById(user);
 		return true;
+	}
+
+	private AppUserInfo createAndSaveAppUserInfo(String openId) {
+		AppUser appUser = new AppUser();
+		appUser.setUsername(openId);
+		appUser.setWxOpenid(openId);
+		appUser.setPassword(openId);
+		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getUsername, openId));
+
+		AppUserInfo appUserDTO = new AppUserInfo();
+		appUserDTO.setAppUser(appUser);
+		return appUserDTO;
 	}
 
 }

@@ -176,17 +176,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@CacheEvict(value = CacheConstants.USER_DETAILS_MINI, key = "#userDto.username")
 	public R updateUserInfo(AppUserDTO userDto) {
 		AppUser appUser = baseMapper.selectById(userDto.getUserId());
-		if (!ENCODER.matches(userDto.getPassword(), appUser.getPassword())) {
-			log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
-		}
-
 		BeanUtils.copyProperties(userDto, appUser);
-		// 防止把前端传过来的密码设置上
-		appUser.setPassword(null);
-		if (StrUtil.isNotBlank(userDto.getNewpassword1())) {
-			appUser.setPassword(ENCODER.encode(userDto.getNewpassword1()));
-		}
 		return R.ok(this.updateById(appUser));
 	}
 
