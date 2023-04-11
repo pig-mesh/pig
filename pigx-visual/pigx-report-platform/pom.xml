@@ -13,9 +13,9 @@
 
     <packaging>jar</packaging>
 
-    <description>基于 aj-report 的大屏设计系统</description>
+    <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>0.0.3</goview.version>
+        <goview.version>0.0.4</goview.version>
     </properties>
 
     <dependencies>

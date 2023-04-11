@@ -140,10 +140,6 @@
                             <Icon type="md-list"/></Icon>
                             <span>数据报表</span>
                         </Menu-Item>
-                        <Menu-Item name="chartinfo">
-                            <Icon type="md-images"></Icon>
-                            <span>图形报表</span>
-                        </Menu-Item>
                         <Menu-Item name="printinfo">
                             <Icon type="md-print"></Icon>
                             <span>打印设计</span>
@@ -475,7 +471,7 @@
               slot: 'action',
               className: 'table-background',
               fixed:'right'
-            }  
+            }
           ],//列表的列
         },
         computed: {
@@ -600,7 +596,7 @@
             /**
              * 为路径拼接token
              * @param url 需要拼接的路径
-             * @return 拼接后的token 
+             * @return 拼接后的token
              */
             splicingToken(url){
               if(this.token && "null" != this.token){
@@ -677,7 +673,7 @@
             //报表设计和模板案例点击事件
             tabsClick(name){
                this.name=""
-               this.loadData(name) 
+               this.loadData(name)
             },
             //回车搜索事件
             enterSearchClick(){
