@@ -488,7 +488,8 @@ INSERT INTO `sys_menu` VALUES (2904, '系统表-国际化删除', 'sys_i18n_del'
 INSERT INTO `sys_menu` VALUES (2905, '导入导出', 'sys_i18n_export', NULL, 2900, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (2906, '文件管理', NULL, '/admin/file/index', 2000, 'ele-Files', '1', 6, '0', NULL, '0', '', '2019-06-25 12:44:46', 'admin', '2023-02-16 15:24:42', '0', 1);
 INSERT INTO `sys_menu` VALUES (2907, '删除文件', 'sys_file_del', NULL, 2906, NULL, '1', 1, '0', NULL, '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0', 1);
-INSERT INTO `sys_menu` VALUES (3000, '公众号平台', NULL, '/mp', -1, 'iconfont icon-putong', '1', 10, '0', '0', '0', 'admin', '2023-02-24 10:40:44', 'admin', '2023-03-06 10:05:21', '0', 1);
+INSERT INTO `sys_menu` VALUES (2908, '路由管理', NULL, '/ext/route', 2000, 'iconfont icon-diqiu1', '1', 12, '0', NULL, '0', '', '2019-06-25 12:44:46', 'admin', '2023-02-16 15:24:42', '0', 1);
+INSERT INTO `sys_menu` VALUES (3000, '公众号平台', NULL, '/mp', -1, 'iconfont icon-zhongyingzhuanhuan', '1', 10, '0', '0', '0', 'admin', '2023-02-24 10:40:44', 'admin', '2023-03-06 10:05:21', '0', 1);
 INSERT INTO `sys_menu` VALUES (3001, '账号管理', NULL, '/mp/wx-account/index', 3000, 'iconfont icon-putong', '1', 0, '0', '0', '0', 'admin', '2023-02-24 10:43:03', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (3002, '菜单设置', NULL, '/mp/wx-menu/index', 3000, 'iconfont icon--chaifenlie', '1', 1, '0', '0', '0', 'admin', '2023-02-24 11:16:32', 'admin', '2023-03-11 16:28:56', '0', 1);
 INSERT INTO `sys_menu` VALUES (3003, '删除', 'mp_wxaccount_del', NULL, 3001, NULL, '0', 0, '0', '0', '1', 'admin', '2023-02-24 13:12:53', ' ', NULL, '0', 1);
@@ -519,7 +520,7 @@ INSERT INTO `sys_menu` VALUES (3027, '新增菜单', 'mp_wxmenu_add', NULL, 3002
 INSERT INTO `sys_menu` VALUES (3028, '发布菜单', 'mp_wxmenu_push', NULL, 3002, NULL, '0', 0, '0', '0', '1', 'admin', '2023-02-27 20:54:48', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (3029, '删除菜单', 'mp_wxmenu_del', NULL, 3002, NULL, '0', 0, '0', '0', '1', 'admin', '2023-02-27 20:54:57', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (4000, '系统监控', NULL, '/daemon', -1, 'iconfont icon-shuju', '1', 3, '0', '0', '0', 'admin', '2023-02-06 20:20:47', 'admin', '2023-02-23 20:01:07', '0', 1);
-INSERT INTO `sys_menu` VALUES (4001, '文档扩展', NULL, 'http://pigx-gateway:9999/admin/doc.html', 4000, 'icon-wendang', '1', 2, '0', '1', '0', '', '2018-06-26 10:50:32', 'admin', '2023-02-23 20:01:29', '0', 1);
+INSERT INTO `sys_menu` VALUES (4001, '文档扩展', NULL, 'http://pigx-gateway:9999/doc.html', 4000, 'icon-wendang', '1', 2, '0', '1', '0', '', '2018-06-26 10:50:32', 'admin', '2023-02-23 20:01:29', '0', 1);
 INSERT INTO `sys_menu` VALUES (4002, '大屏设计', NULL, '/ext/report', -1, 'iconfont icon-putong', '1', 6, '0', '0', '0', 'admin', '2023-04-07 11:04:01', ' ', '2023-04-07 06:22:16', '0', 1);
 INSERT INTO `sys_menu` VALUES (4003, '报表设计', NULL, '/ext/jimu', -1, 'iconfont icon-shuju', '1', 7, '0', '0', '0', 'admin', '2023-04-07 13:15:56', 'admin', '2023-04-07 06:22:19', '0', 1);
 INSERT INTO `sys_menu` VALUES (5000, '支付系统', NULL, '/pay', -1, 'iconfont icon-neiqianshujuchucun', '1', 4, '0', '0', '0', 'admin', '2023-02-27 10:57:14', 'admin', '2023-02-27 11:00:47', '0', 1);
@@ -846,6 +847,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 2904);
 INSERT INTO `sys_role_menu` VALUES (1, 2905);
 INSERT INTO `sys_role_menu` VALUES (1, 2906);
 INSERT INTO `sys_role_menu` VALUES (1, 2907);
+INSERT INTO `sys_role_menu` VALUES (1, 2908);
 INSERT INTO `sys_role_menu` VALUES (1, 3000);
 INSERT INTO `sys_role_menu` VALUES (1, 3001);
 INSERT INTO `sys_role_menu` VALUES (1, 3002);
@@ -979,18 +981,18 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_route_conf`;
 CREATE TABLE `sys_route_conf` (
   `id` bigint(20) NOT NULL COMMENT '主键',
-  `route_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `route_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `route_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `route_id` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `predicates` json DEFAULT NULL COMMENT '断言',
   `filters` json DEFAULT NULL COMMENT '过滤器',
-  `uri` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `uri` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `sort_order` int(11) DEFAULT '0' COMMENT '排序',
   `metadata` json DEFAULT NULL COMMENT '路由元信息',
   `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
   `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='路由配置表';
 
