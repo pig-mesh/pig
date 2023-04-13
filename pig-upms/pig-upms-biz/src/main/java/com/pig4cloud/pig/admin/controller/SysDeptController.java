@@ -115,13 +115,13 @@ public class SysDeptController {
 
 	/**
 	 * 根据部门名查询部门信息
-	 * @param deptname 部门名
-	 * @return
+	 * @param deptName 部门名
+	 * @return SysDept
 	 */
-	@GetMapping("/details/{deptname}")
-	public R<SysDept> user(@PathVariable String deptname) {
+	@GetMapping("/details/{deptName}")
+	public R<SysDept> user(@PathVariable String deptName) {
 		SysDept condition = new SysDept();
-		condition.setName(deptname);
+		condition.setName(deptName);
 		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
 	}
 
