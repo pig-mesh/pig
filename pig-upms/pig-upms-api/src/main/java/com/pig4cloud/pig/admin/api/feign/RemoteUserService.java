@@ -46,7 +46,6 @@ public interface RemoteUserService {
 	/**
 	 * 通过手机号码查询用户、角色信息
 	 * @param phone 手机号码
-	 * @param from 调用标志
 	 * @return R
 	 */
 	@GetMapping(value = "/app/info/{phone}", headers = SecurityConstants.HEADER_FROM_IN)
@@ -55,7 +54,6 @@ public interface RemoteUserService {
 	/**
 	 * 根据部门id，查询对应的用户 id 集合
 	 * @param deptIds 部门id 集合
-	 * @param from 调用标志
 	 * @return 用户 id 集合
 	 */
 	@GetMapping(value = "/user/ids", headers = SecurityConstants.HEADER_FROM_IN)
