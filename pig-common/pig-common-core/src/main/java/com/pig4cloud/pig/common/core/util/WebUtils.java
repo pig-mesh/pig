@@ -105,7 +105,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		response.addCookie(cookie);
 	}
 
-	public ServletRequestAttributes getServletRequestAttributes(){
+	public ServletRequestAttributes getServletRequestAttributes() {
 		return (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 	}
 
