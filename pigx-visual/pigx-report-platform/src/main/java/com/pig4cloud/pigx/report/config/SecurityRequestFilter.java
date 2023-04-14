@@ -75,7 +75,7 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
 		}
 
 		// 当tenantId参数不存在时，默认为1
-		tenantId = StrUtil.isBlank(tenantId) ? tenantId : "1";
+		tenantId = StrUtil.isNotBlank(tenantId) ? tenantId : "1";
 
 		// 获取用户信息
 		Optional<String> principalName = RetOps
