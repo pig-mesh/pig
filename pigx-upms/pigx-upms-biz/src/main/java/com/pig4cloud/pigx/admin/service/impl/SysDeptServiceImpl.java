@@ -65,7 +65,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
-		List<Long> idList = baseMapper.listDescendant(id).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> idList = this.listDescendant(id).stream().map(SysDept::getDeptId).collect(Collectors.toList());
 
 		Optional.ofNullable(idList).filter(CollUtil::isNotEmpty).ifPresent(this::removeByIds);
 
@@ -174,13 +174,37 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	/**
-	 * 获取部门的所有后代部门列表
-	 * @param deptId 部门ID
-	 * @return 后代部门列表
+	 * 查询所有子节点 （包含当前节点）
+	 * @param deptId 部门ID 目标部门ID
+	 * @return ID
 	 */
 	@Override
 	public List<SysDept> listDescendant(Long deptId) {
-		return baseMapper.listDescendant(deptId);
+		// 查询全部部门
+		List<SysDept> allDeptList = baseMapper.selectList(Wrappers.emptyWrapper());
+
+		// 递归查询所有子节点
+		List<SysDept> resDeptList = new ArrayList<>();
+		recursiveDept(allDeptList, deptId, resDeptList);
+
+		// 添加当前节点
+		resDeptList.addAll(allDeptList.stream().filter(sysDept -> deptId.equals(sysDept.getDeptId()))
+				.collect(Collectors.toList()));
+		return resDeptList;
+	}
+
+	/**
+	 * 递归查询所有子节点。
+	 * @param allDeptList 所有部门列表
+	 * @param parentId 父部门ID
+	 * @param resDeptList 结果集合
+	 */
+	private void recursiveDept(List<SysDept> allDeptList, Long parentId, List<SysDept> resDeptList) {
+		// 使用 Stream API 进行筛选和遍历
+		allDeptList.stream().filter(sysDept -> sysDept.getParentId().equals(parentId)).forEach(sysDept -> {
+			resDeptList.add(sysDept);
+			recursiveDept(allDeptList, sysDept.getDeptId(), resDeptList);
+		});
 	}
 
 }
