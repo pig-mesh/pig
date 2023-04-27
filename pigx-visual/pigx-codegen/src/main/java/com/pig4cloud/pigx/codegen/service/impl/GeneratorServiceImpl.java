@@ -249,6 +249,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 		dataModel.put("fieldList", table.getFieldList());
 		dataModel.put("backendPath", table.getBackendPath());
 		dataModel.put("frontendPath", table.getFrontendPath());
+		dataModel.put("vAuthName", table.getClassName().toLowerCase());
+		dataModel.put("i18nName", StrUtil.lowerFirst(table.getClassName()));
 
 		return dataModel;
 	}
