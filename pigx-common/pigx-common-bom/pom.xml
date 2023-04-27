@@ -26,6 +26,7 @@
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.79</dm.version>
+        <highgo.version>6.2.0</highgo.version>
         <knife4j.version>3.0.3</knife4j.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <springdoc.version>1.6.9</springdoc.version>
@@ -224,6 +225,11 @@
                 <groupId>com.dameng</groupId>
                 <artifactId>DmJdbcDriver18</artifactId>
                 <version>${dm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.highgo</groupId>
+                <artifactId>HgdbJdbc</artifactId>
+                <version>${highgo.version}</version>
             </dependency>
             <!--fastjson-->
             <dependency>

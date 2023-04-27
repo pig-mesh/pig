@@ -72,6 +72,11 @@
             <artifactId>jcc</artifactId>
             <version>${db2.version}</version>
         </dependency>
+        <!-- 瀚高 -->
+        <dependency>
+            <groupId>com.highgo</groupId>
+            <artifactId>HgdbJdbc</artifactId>
+        </dependency>
         <!--DM-->
         <dependency>
             <groupId>com.dameng</groupId>

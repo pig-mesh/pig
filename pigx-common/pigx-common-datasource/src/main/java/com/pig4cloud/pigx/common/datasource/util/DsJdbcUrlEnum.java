@@ -47,7 +47,12 @@ public enum DsJdbcUrlEnum {
 	/**
 	 * 达梦
 	 */
-	DM("dm", "jdbc:dm://%s:%s/%s", "select 1 from dual", "达梦连接");
+	DM("dm", "jdbc:dm://%s:%s/%s", "select 1 from dual", "达梦连接"),
+
+	/**
+	 * pg 数据库
+	 */
+	HIGHGO("highgo", "jdbc:highgo://%s:%s/%s", "select 1", "highgo 链接");
 
 	private final String dbName;
 
