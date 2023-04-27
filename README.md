@@ -45,12 +45,12 @@
 
 | 依赖                   | 版本             |
 | ---------------------- |----------------|
-| Spring Boot            | 3.0.1          |
-| Spring Cloud           | 2022.0.0       |
+| Spring Boot            | 3.0.6          |
+| Spring Cloud           | 2022.0.2       |
 | Spring Cloud Alibaba   | 2022.0.0.0-RC1 |
-| Spring Authorization Server | 1.0.0          |
+| Spring Authorization Server | 1.0.2          |
 | Mybatis Plus           | 3.5.3.1        |
-| hutool                 | 5.8.10         |
+| hutool                 | 5.8.18         |
 
 ### 模块说明
 
