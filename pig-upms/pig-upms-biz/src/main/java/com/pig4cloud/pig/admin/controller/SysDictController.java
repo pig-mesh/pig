@@ -75,9 +75,10 @@ public class SysDictController {
 	 */
 	@GetMapping("/page")
 	public R<IPage<SysDict>> getDictPage(Page page, SysDict sysDict) {
-		return R.ok(sysDictService.page(page, Wrappers.<SysDict>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())
-				.orderByDesc(SysDict::getUpdateTime)));
+		return R.ok(sysDictService.page(page,
+				Wrappers.<SysDict>lambdaQuery()
+					.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())
+					.orderByDesc(SysDict::getUpdateTime)));
 	}
 
 	/**
@@ -88,7 +89,10 @@ public class SysDictController {
 	@GetMapping("/key/{key}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#key")
 	public R<List<SysDictItem>> getDictByKey(@PathVariable String key) {
-		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getDictKey, key).orderByAsc(SysDictItem::getSortOrder)));
+		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query()
+			.lambda()
+			.eq(SysDictItem::getDictKey, key)
+			.orderByAsc(SysDictItem::getSortOrder)));
 	}
 
 	/**
