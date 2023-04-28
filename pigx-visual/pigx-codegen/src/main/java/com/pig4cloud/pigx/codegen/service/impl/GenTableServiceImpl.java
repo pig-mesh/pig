@@ -141,7 +141,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		table.setDsName(dsName);
 		table.setTableComment(MapUtil.getStr(queryTable, "tableComment"));
 		table.setDbType(MapUtil.getStr(queryTable, "dbType"));
-		table.setFormLayout(FormLayoutEnum.ONE.getValue());
+		table.setFormLayout(FormLayoutEnum.TWO.getValue());
 		table.setGeneratorType(GeneratorTypeEnum.ZIP_DOWNLOAD.ordinal());
 		table.setClassName(NamingCase.toPascalCase(tableName));
 		table.setModuleName(GenKit.getModuleName(table.getPackageName()));
