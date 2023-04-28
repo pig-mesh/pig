@@ -217,8 +217,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 获取字段列表
 		List<GenTableColumnEntity> fieldList = columnService.lambdaQuery()
 				.eq(GenTableColumnEntity::getDsName, table.getDsName())
-				.eq(GenTableColumnEntity::getTableName, table.getTableName())
-				.orderByAsc(GenTableColumnEntity::getSort).list();
+				.eq(GenTableColumnEntity::getTableName, table.getTableName()).orderByAsc(GenTableColumnEntity::getSort)
+				.list();
 		table.setFieldList(fieldList);
 
 		// 创建数据模型对象
@@ -250,9 +250,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 		dataModel.put("fieldList", table.getFieldList());
 		dataModel.put("backendPath", table.getBackendPath());
 		dataModel.put("frontendPath", table.getFrontendPath());
-		dataModel.put("vAuthName", table.getClassName().toLowerCase());
-		dataModel.put("i18nName", StrUtil.lowerFirst(table.getClassName()));
-
 		return dataModel;
 	}
 
