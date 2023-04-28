@@ -27,12 +27,7 @@ public class GenKit {
 	 * @return 功能名
 	 */
 	public String getFunctionName(String tableName) {
-		String functionName = StrUtil.subAfter(tableName, "_", true);
-		if (StrUtil.isBlank(functionName)) {
-			functionName = tableName;
-		}
-
-		return functionName;
+		return StrUtil.toCamelCase(tableName);
 	}
 
 	/**
