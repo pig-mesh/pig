@@ -217,7 +217,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 获取字段列表
 		List<GenTableColumnEntity> fieldList = columnService.lambdaQuery()
 				.eq(GenTableColumnEntity::getDsName, table.getDsName())
-				.eq(GenTableColumnEntity::getTableName, table.getTableName()).list();
+				.eq(GenTableColumnEntity::getTableName, table.getTableName())
+				.orderByAsc(GenTableColumnEntity::getSort).list();
 		table.setFieldList(fieldList);
 
 		// 创建数据模型对象
