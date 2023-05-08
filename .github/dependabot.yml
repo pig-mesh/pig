@@ -1,0 +1,54 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+# https://docs.github.com/zh/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  - package-ecosystem: "maven" # See documentation for possible values
+    directory: "/" # Location of package manifests
+    schedule:
+      interval: "daily"
+    # 目标分支
+    target-branch: "dev"
+    # https://docs.github.com/zh/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore
+    ignore:
+      - dependency-name: org.springframework.boot:spring-boot-dependencies
+        # spring-boot 3.0 不支持 JDK 8
+        versions:
+          - ">= 3"
+      - dependency-name: org.springframework.cloud:spring-cloud-dependencies
+        # spring-cloud 2022 不支持 JDK 8
+        versions:
+          - ">= 2022"
+      - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
+        # spring-cloud-alibaba 2022 不支持 JDK 8
+        versions:
+          - ">= 2022"
+      - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
+        # spring-cloud-alibaba 2021.1 为命名错误
+        versions:
+          - "= 2021.1"
+      - dependency-name: de.codecentric:spring-boot-admin-dependencies
+        # spring-boot-admin 3.0 不支持 JDK 8
+        versions:
+          - ">= 3"
+      - dependency-name: org.springframework.security:spring-security-oauth2-authorization-server
+        # spring-security-oauth2-authorization-server 1.0 不支持 JDK 8
+        versions:
+          - ">= 1"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # 目标分支
+    target-branch: "sca-springboot3"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # 目标分支
+    target-branch: "sct-springboot3"
