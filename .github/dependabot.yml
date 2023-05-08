@@ -10,6 +10,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    # 目标分支
     target-branch: "dev"
     # https://docs.github.com/zh/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file#ignore
     ignore:
@@ -37,3 +38,17 @@ updates:
         # spring-security-oauth2-authorization-server 1.0 不支持 JDK 8
         versions:
           - ">= 1"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # 目标分支
+    target-branch: "sca-springboot3"
+
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # 目标分支
+    target-branch: "sct-springboot3"
