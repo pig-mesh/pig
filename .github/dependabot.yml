@@ -21,6 +21,14 @@ updates:
         # spring-cloud 2022 不支持 JDK 8
         versions:
           - ">= 2022"
+      - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
+        # spring-cloud-alibaba 2022 不支持 JDK 8
+        versions:
+          - ">= 2022"
+      - dependency-name: com.alibaba.cloud:spring-cloud-alibaba-dependencies
+        # spring-cloud-alibaba 2021.1 为命名错误
+        versions:
+          - "= 2021.1"
       - dependency-name: de.codecentric:spring-boot-admin-dependencies
         # spring-boot-admin 3.0 不支持 JDK 8
         versions:
