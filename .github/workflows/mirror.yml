@@ -3,8 +3,6 @@ name: 同步代码
 on:
   push:
     branches: [ master,dev ]
-  pull_request:
-    branches: [ master,dev ]
 
 jobs:
   sync:
