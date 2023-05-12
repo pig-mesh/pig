@@ -26,14 +26,14 @@
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
-        <mysql.version>8.0.31</mysql.version>
+        <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
         <excel.version>1.2.6</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.17</hutool.version>
+        <hutool.version>5.8.18</hutool.version>
         <mica.version>2.7.4</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
