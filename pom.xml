@@ -50,7 +50,7 @@
         <docker.namespace>pig4cloud</docker.namespace>
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
-        <git.commit.plugin>4.9.9</git.commit.plugin>
+        <git.commit.plugin>5.0.0</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.34</spring.checkstyle.plugin>
     </properties>
 
