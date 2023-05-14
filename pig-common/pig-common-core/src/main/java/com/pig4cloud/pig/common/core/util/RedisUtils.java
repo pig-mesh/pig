@@ -7,7 +7,6 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.data.redis.core.script.RedisScript;
-import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -29,16 +28,10 @@ public class RedisUtils {
 	 * @param time 时间(秒)
 	 */
 	public boolean expire(String key, long time) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			if (time > 0) {
-				redisTemplate.expire(key, time, TimeUnit.SECONDS);
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(redisTemplate)
+			.filter(template -> time > 0)
+			.ifPresent(template -> template.expire(key, time, TimeUnit.SECONDS));
 		return true;
 	}
 
@@ -48,8 +41,10 @@ public class RedisUtils {
 	 * @return 时间(秒) 返回0代表为永久有效
 	 */
 	public long getExpire(Object key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate)
+			.map(template -> template.getExpire(key, TimeUnit.SECONDS))
+			.orElse(-1L);
 	}
 
 	/**
@@ -58,22 +53,19 @@ public class RedisUtils {
 	 * @return /
 	 */
 	public List<String> scan(String pattern) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
 		ScanOptions options = ScanOptions.scanOptions().match(pattern).build();
-		RedisConnectionFactory factory = redisTemplate.getConnectionFactory();
-		RedisConnection rc = Objects.requireNonNull(factory).getConnection();
-		Cursor<byte[]> cursor = rc.scan(options);
-		List<String> result = new ArrayList<>();
-		while (cursor.hasNext()) {
-			result.add(new String(cursor.next()));
-		}
-		try {
+		return Optional.ofNullable(redisTemplate).map(template -> {
+			RedisConnectionFactory factory = template.getConnectionFactory();
+			RedisConnection rc = Objects.requireNonNull(factory).getConnection();
+			Cursor<byte[]> cursor = rc.scan(options);
+			List<String> result = new ArrayList<>();
+			while (cursor.hasNext()) {
+				result.add(new String(cursor.next()));
+			}
 			RedisConnectionUtils.releaseConnection(rc, factory);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+			return result;
+		}).orElse(Collections.emptyList());
 	}
 
 	/**
@@ -106,12 +98,7 @@ public class RedisUtils {
 			tmpIndex++;
 			cursor.next();
 		}
-		try {
-			RedisConnectionUtils.releaseConnection(rc, factory);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
+		RedisConnectionUtils.releaseConnection(rc, factory);
 		return result;
 	}
 
@@ -121,30 +108,20 @@ public class RedisUtils {
 	 * @return true 存在 false不存在
 	 */
 	public boolean hasKey(String key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.hasKey(key);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate).map(template -> template.hasKey(key)).orElse(false);
 	}
 
 	/**
 	 * 删除缓存
-	 * @param key 可以传一个值 或多个
+	 * @param keys 可以传一个值 或多个
 	 */
-	public void del(String... key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		if (key != null && key.length > 0) {
-			if (key.length == 1) {
-				redisTemplate.delete(key[0]);
-			}
-			else {
-				redisTemplate.delete(CollectionUtils.arrayToList(key));
-			}
-		}
+	public void del(String... keys) {
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(keys)
+			.map(Arrays::asList)
+			.filter(keysList -> !keysList.isEmpty())
+			.ifPresent(redisTemplate::delete);
 	}
 
 	/**
@@ -155,18 +132,10 @@ public class RedisUtils {
 	 * @return boolean
 	 */
 	public boolean getLock(String lockKey, String value, int expireTime) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		Boolean result = false;
-		try {
-			result = redisTemplate.opsForValue().setIfAbsent(lockKey, value, expireTime, TimeUnit.SECONDS);
-			if (null == result) {
-				result = false;
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate)
+			.map(template -> template.opsForValue().setIfAbsent(lockKey, value, expireTime, TimeUnit.SECONDS))
+			.orElse(false);
 	}
 
 	/**
@@ -176,19 +145,13 @@ public class RedisUtils {
 	 * @return boolean
 	 */
 	public boolean releaseLock(String lockKey, String value) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
-			RedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
-			Object result = redisTemplate.execute(redisScript, Collections.singletonList(lockKey), value);
-			if (SUCCESS.equals(Convert.toLong(result))) {
-				return true;
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return false;
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		String script = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end";
+		RedisScript<Long> redisScript = new DefaultRedisScript<>(script, Long.class);
+		return Optional.ofNullable(redisTemplate.execute(redisScript, Collections.singletonList(lockKey), value))
+			.map(Convert::toLong)
+			.filter(SUCCESS::equals)
+			.isPresent();
 	}
 
 	// ============================String=============================
@@ -198,9 +161,9 @@ public class RedisUtils {
 	 * @param key 键
 	 * @return 值
 	 */
-	public Object get(String key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		return key == null ? null : redisTemplate.opsForValue().get(key);
+	public <T> T get(String key) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.opsForValue().get(key);
 	}
 
 	/**
@@ -208,10 +171,9 @@ public class RedisUtils {
 	 * @param keys
 	 * @return
 	 */
-	public List<Object> multiGet(List<String> keys) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		Object obj = redisTemplate.opsForValue().multiGet(Collections.singleton(keys));
-		return null;
+	public <T> List<T> multiGet(List<String> keys) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.opsForValue().multiGet(keys);
 	}
 
 	/**
@@ -221,15 +183,12 @@ public class RedisUtils {
 	 * @return true成功 false失败
 	 */
 	public boolean set(String key, Object value) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForValue().set(key, value);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(redisTemplate).map(template -> {
+			template.opsForValue().set(key, value);
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		});
+		return true;
 	}
 
 	/**
@@ -240,20 +199,16 @@ public class RedisUtils {
 	 * @return true成功 false 失败
 	 */
 	public boolean set(String key, Object value, long time) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate).map(template -> {
 			if (time > 0) {
-				redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
+				template.opsForValue().set(key, value, time, TimeUnit.SECONDS);
 			}
 			else {
-				set(key, value);
+				template.opsForValue().set(key, value);
 			}
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		}).orElse(false);
 	}
 
 	/**
@@ -264,21 +219,18 @@ public class RedisUtils {
 	 * @param timeUnit 类型
 	 * @return true成功 false 失败
 	 */
-	public boolean set(String key, Object value, long time, TimeUnit timeUnit) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
+	public <T> boolean set(String key, T value, long time, TimeUnit timeUnit) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(redisTemplate).map(template -> {
 			if (time > 0) {
-				redisTemplate.opsForValue().set(key, value, time, timeUnit);
+				template.opsForValue().set(key, value, time, timeUnit);
 			}
 			else {
-				set(key, value);
+				template.opsForValue().set(key, value);
 			}
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		});
+		return true;
 	}
 
 	// ================================Map=================================
@@ -286,12 +238,12 @@ public class RedisUtils {
 	/**
 	 * HashGet
 	 * @param key 键 不能为null
-	 * @param item 项 不能为null
+	 * @param hashKey 项 不能为null
 	 * @return 值
 	 */
-	public Object hget(String key, String item) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		return redisTemplate.opsForHash().get(key, item);
+	public <HK, HV> HV hget(String key, HK hashKey) {
+		RedisTemplate<String, HV> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.<HK, HV>opsForHash().get(key, hashKey);
 	}
 
 	/**
@@ -299,10 +251,9 @@ public class RedisUtils {
 	 * @param key 键
 	 * @return 对应的多个键值
 	 */
-	public Map<Object, Object> hmget(String key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		return redisTemplate.opsForHash().entries(key);
-
+	public <HK, HV> Map<HK, HV> hmget(String key) {
+		RedisTemplate<String, HV> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.<HK, HV>opsForHash().entries(key);
 	}
 
 	/**
@@ -312,15 +263,12 @@ public class RedisUtils {
 	 * @return true 成功 false 失败
 	 */
 	public boolean hmset(String key, Map<String, Object> map) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForHash().putAll(key, map);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(redisTemplate).map(template -> {
+			template.opsForHash().putAll(key, map);
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		});
+		return true;
 	}
 
 	/**
@@ -331,18 +279,15 @@ public class RedisUtils {
 	 * @return true成功 false失败
 	 */
 	public boolean hmset(String key, Map<String, Object> map, long time) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForHash().putAll(key, map);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		Optional.ofNullable(redisTemplate).map(template -> {
+			template.opsForHash().putAll(key, map);
 			if (time > 0) {
-				expire(key, time);
+				template.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		});
+		return true;
 	}
 
 	/**
@@ -353,15 +298,11 @@ public class RedisUtils {
 	 * @return true 成功 false失败
 	 */
 	public boolean hset(String key, String item, Object value) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForHash().put(key, item, value);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate).map(template -> {
+			template.opsForHash().put(key, item, value);
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		}).orElse(false);
 	}
 
 	/**
@@ -373,18 +314,14 @@ public class RedisUtils {
 	 * @return true 成功 false失败
 	 */
 	public boolean hset(String key, String item, Object value, long time) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForHash().put(key, item, value);
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate).map(template -> {
+			template.opsForHash().put(key, item, value);
 			if (time > 0) {
-				expire(key, time);
+				template.expire(key, time, TimeUnit.SECONDS);
 			}
 			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		}).orElse(false);
 	}
 
 	/**
@@ -439,15 +376,9 @@ public class RedisUtils {
 	 * @param key 键
 	 * @return
 	 */
-	public Set<Object> sGet(String key) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForSet().members(key);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public <T> Set<T> sGet(String key) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.opsForSet().members(key);
 	}
 
 	/**
@@ -458,13 +389,7 @@ public class RedisUtils {
 	 */
 	public boolean sHasKey(String key, Object value) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForSet().isMember(key, value);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		return redisTemplate.opsForSet().isMember(key, value);
 	}
 
 	/**
@@ -475,13 +400,7 @@ public class RedisUtils {
 	 */
 	public long sSet(String key, Object... values) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForSet().add(key, values);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return redisTemplate.opsForSet().add(key, values);
 	}
 
 	/**
@@ -493,17 +412,11 @@ public class RedisUtils {
 	 */
 	public long sSetAndTime(String key, long time, Object... values) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			Long count = redisTemplate.opsForSet().add(key, values);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return count;
+		Long count = redisTemplate.opsForSet().add(key, values);
+		if (time > 0) {
+			expire(key, time);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return count;
 	}
 
 	/**
@@ -513,13 +426,7 @@ public class RedisUtils {
 	 */
 	public long sGetSetSize(String key) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForSet().size(key);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return redisTemplate.opsForSet().size(key);
 	}
 
 	/**
@@ -530,14 +437,8 @@ public class RedisUtils {
 	 */
 	public long setRemove(String key, Object... values) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			Long count = redisTemplate.opsForSet().remove(key, values);
-			return count;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		Long count = redisTemplate.opsForSet().remove(key, values);
+		return count;
 	}
 
 	/**
@@ -545,15 +446,9 @@ public class RedisUtils {
 	 * @param key 键
 	 * @return
 	 */
-	public Set<Object> sDifference(String key, String otherKey) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForSet().difference(key, otherKey);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public <T> Set<T> sDifference(String key, String otherKey) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.opsForSet().difference(key, otherKey);
 	}
 
 	// ===============================list=================================
@@ -565,15 +460,9 @@ public class RedisUtils {
 	 * @param end 结束 0 到 -1代表所有值
 	 * @return
 	 */
-	public List<Object> lGet(String key, long start, long end) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForList().range(key, start, end);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+	public <T> List<T> lGet(String key, long start, long end) {
+		RedisTemplate<String, T> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return redisTemplate.opsForList().range(key, start, end);
 	}
 
 	/**
@@ -583,13 +472,7 @@ public class RedisUtils {
 	 */
 	public long lGetListSize(String key) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForList().size(key);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return redisTemplate.opsForList().size(key);
 	}
 
 	/**
@@ -600,13 +483,7 @@ public class RedisUtils {
 	 */
 	public Object lGetIndex(String key, long index) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForList().index(key, index);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+		return redisTemplate.opsForList().index(key, index);
 	}
 
 	/**
@@ -617,14 +494,8 @@ public class RedisUtils {
 	 */
 	public boolean lSet(String key, Object value) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForList().rightPush(key, value);
-			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		redisTemplate.opsForList().rightPush(key, value);
+		return true;
 	}
 
 	/**
@@ -635,18 +506,12 @@ public class RedisUtils {
 	 * @return
 	 */
 	public boolean lSet(String key, Object value, long time) {
-		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForList().rightPush(key, value);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return true;
+		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		redisTemplate.opsForList().rightPush(key, value);
+		if (time > 0) {
+			Optional.ofNullable(redisTemplate).ifPresent(template -> template.expire(key, time, TimeUnit.SECONDS));
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -657,14 +522,8 @@ public class RedisUtils {
 	 */
 	public boolean lSet(String key, List<Object> value) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForList().rightPushAll(key, value);
-			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		redisTemplate.opsForList().rightPushAll(key, value);
+		return true;
 	}
 
 	/**
@@ -676,17 +535,11 @@ public class RedisUtils {
 	 */
 	public boolean lSet(String key, List<Object> value, long time) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForList().rightPushAll(key, value);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return true;
+		redisTemplate.opsForList().rightPushAll(key, value);
+		if (time > 0) {
+			expire(key, time);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -698,14 +551,8 @@ public class RedisUtils {
 	 */
 	public boolean lUpdateIndex(String key, long index, Object value) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			redisTemplate.opsForList().set(key, index, value);
-			return true;
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
+		redisTemplate.opsForList().set(key, index, value);
+		return true;
 	}
 
 	/**
@@ -717,13 +564,7 @@ public class RedisUtils {
 	 */
 	public long lRemove(String key, long count, Object value) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForList().remove(key, count, value);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return redisTemplate.opsForList().remove(key, count, value);
 	}
 
 	/**
@@ -735,17 +576,12 @@ public class RedisUtils {
 	 */
 	public long zSetAndTime(String key, long time, Set<ZSetOperations.TypedTuple<Object>> tuples) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			Long count = redisTemplate.opsForZSet().add(key, tuples);
-			if (time > 0) {
-				expire(key, time);
-			}
-			return count;
+		Long count = redisTemplate.opsForZSet().add(key, tuples);
+		if (time > 0) {
+			expire(key, time);
 		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return count;
+
 	}
 
 	/**
@@ -797,13 +633,7 @@ public class RedisUtils {
 	 */
 	public long zGetSetSize(String key) {
 		RedisTemplate redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		try {
-			return redisTemplate.opsForZSet().size(key);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-			return 0;
-		}
+		return redisTemplate.opsForZSet().size(key);
 	}
 
 }
