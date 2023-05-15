@@ -24,7 +24,7 @@
         <spring.checkstyle.plugin>0.0.34</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
         <springdoc.version>2.0.0</springdoc.version>
-        <swagger.core.version>2.2.7</swagger.core.version>
+        <swagger.core.version>2.2.9</swagger.core.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mysql.version>8.0.31</mysql.version>
         <seata.version>1.5.2</seata.version>
