@@ -34,7 +34,7 @@
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <hutool.version>5.8.18</hutool.version>
-        <mica.version>2.7.4</mica.version>
+        <mica.version>3.0.6</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
