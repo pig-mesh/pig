@@ -34,6 +34,10 @@ updates:
         # spring-boot-admin 3.0 不支持 JDK 8
         versions:
           - ">= 3"
+      - dependency-name: de.codecentric:spring-boot-admin-starter-server
+        # spring-boot-admin 3.0 不支持 JDK 8
+        versions:
+          - ">= 3"
       - dependency-name: org.springframework.security:spring-security-oauth2-authorization-server
         # spring-security-oauth2-authorization-server 1.0 不支持 JDK 8
         versions:
