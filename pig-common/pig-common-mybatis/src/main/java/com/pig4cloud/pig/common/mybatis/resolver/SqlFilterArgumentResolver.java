@@ -88,10 +88,12 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		}
 
 		List<OrderItem> orderItemList = new ArrayList<>();
-		Optional.ofNullable(ascs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
-		Optional.ofNullable(descs).ifPresent(s -> orderItemList.addAll(
-				Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
+		Optional.ofNullable(ascs)
+			.ifPresent(s -> orderItemList.addAll(
+					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
+		Optional.ofNullable(descs)
+			.ifPresent(s -> orderItemList.addAll(
+					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
 		return page;

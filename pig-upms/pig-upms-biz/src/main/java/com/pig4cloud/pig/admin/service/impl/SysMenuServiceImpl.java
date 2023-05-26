@@ -103,8 +103,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	public List<Tree<Long>> treeMenu(boolean lazy, Long parentId) {
 		if (!lazy) {
 			List<TreeNode<Long>> collect = baseMapper
-					.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSortOrder)).stream()
-					.map(getNodeFunction()).collect(Collectors.toList());
+				.selectList(Wrappers.<SysMenu>lambdaQuery().orderByAsc(SysMenu::getSortOrder))
+				.stream()
+				.map(getNodeFunction())
+				.collect(Collectors.toList());
 
 			return TreeUtil.build(collect, CommonConstants.MENU_TREE_ROOT_ID);
 		}
@@ -112,9 +114,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
 		List<TreeNode<Long>> collect = baseMapper
-				.selectList(Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent)
-						.orderByAsc(SysMenu::getSortOrder))
-				.stream().map(getNodeFunction()).collect(Collectors.toList());
+			.selectList(
+					Wrappers.<SysMenu>lambdaQuery().eq(SysMenu::getParentId, parent).orderByAsc(SysMenu::getSortOrder))
+			.stream()
+			.map(getNodeFunction())
+			.collect(Collectors.toList());
 
 		return TreeUtil.build(collect, parent);
 	}
@@ -128,8 +132,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	@Override
 	public List<Tree<Long>> filterMenu(Set<SysMenu> all, Long parentId) {
 		List<TreeNode<Long>> collect = all.stream()
-				.filter(menu -> MenuTypeEnum.LEFT_MENU.getType().equals(menu.getType()))
-				.filter(menu -> StrUtil.isNotBlank(menu.getPath())).map(getNodeFunction()).collect(Collectors.toList());
+			.filter(menu -> MenuTypeEnum.LEFT_MENU.getType().equals(menu.getType()))
+			.filter(menu -> StrUtil.isNotBlank(menu.getPath()))
+			.map(getNodeFunction())
+			.collect(Collectors.toList());
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);
 	}

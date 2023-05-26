@@ -57,7 +57,7 @@ public class ConsoleExceptionHandler {
 		LOGGER.error("CONSOLE {}", uri, e);
 		if (uri.contains(Commons.NACOS_SERVER_VERSION_V2)) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-					.body(RestResultUtils.failed(ExceptionUtil.getAllExceptionMsg(e)));
+				.body(RestResultUtils.failed(ExceptionUtil.getAllExceptionMsg(e)));
 		}
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ExceptionUtil.getAllExceptionMsg(e));
 	}

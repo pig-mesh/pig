@@ -111,7 +111,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 */
 	public Optional<HttpServletRequest> getRequest() {
 		return Optional
-				.ofNullable(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
+			.ofNullable(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
 	}
 
 	/**

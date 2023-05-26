@@ -91,7 +91,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 
 				validate(attributes);
 				BeanDefinitionBuilder definition = BeanDefinitionBuilder
-						.genericBeanDefinition(FeignClientFactoryBean.class);
+					.genericBeanDefinition(FeignClientFactoryBean.class);
 				definition.addPropertyValue("url", getUrl(attributes));
 				definition.addPropertyValue("path", getPath(attributes));
 				String name = getName(attributes);

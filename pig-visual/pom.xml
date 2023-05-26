@@ -16,23 +16,21 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pig</artifactId>
-		<version>3.6.4</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig</artifactId>
+        <version>3.6.4</version>
+    </parent>
 
-	<artifactId>pig-visual</artifactId>
+    <artifactId>pig-visual</artifactId>
 
-	<description>pig 图形化相关功能</description>
-	<packaging>pom</packaging>
+    <description>pig 图形化相关功能</description>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>pig-codegen</module>
-		<module>pig-monitor</module>
-		<module>pig-sentinel-dashboard</module>
-		<module>pig-xxl-job-admin</module>
-	</modules>
+    <modules>
+        <module>pig-codegen</module>
+        <module>pig-monitor</module>
+    </modules>
 </project>

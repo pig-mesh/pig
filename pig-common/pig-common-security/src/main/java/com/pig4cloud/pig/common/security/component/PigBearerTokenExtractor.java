@@ -55,8 +55,9 @@ public class PigBearerTokenExtractor implements BearerTokenResolver {
 
 	@Override
 	public String resolve(HttpServletRequest request) {
-		boolean match = urlProperties.getUrls().stream()
-				.anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
+		boolean match = urlProperties.getUrls()
+			.stream()
+			.anyMatch(url -> pathMatcher.match(url, request.getRequestURI()));
 
 		if (match) {
 			return null;
@@ -68,7 +69,7 @@ public class PigBearerTokenExtractor implements BearerTokenResolver {
 		if (authorizationHeaderToken != null) {
 			if (parameterToken != null) {
 				final BearerTokenError error = BearerTokenErrors
-						.invalidRequest("Found multiple bearer tokens in the request");
+					.invalidRequest("Found multiple bearer tokens in the request");
 				throw new OAuth2AuthenticationException(error);
 			}
 			return authorizationHeaderToken;

@@ -63,8 +63,9 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 		for (PostExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验岗位名称或者岗位编码是否存在
-			boolean existPost = postList.stream().anyMatch(post -> excel.getPostName().equals(post.getPostName())
-					|| excel.getPostCode().equals(post.getPostCode()));
+			boolean existPost = postList.stream()
+				.anyMatch(post -> excel.getPostName().equals(post.getPostName())
+						|| excel.getPostCode().equals(post.getPostCode()));
 
 			if (existPost) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_NAMEORCODE_EXISTING, excel.getPostName(),

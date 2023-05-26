@@ -74,11 +74,12 @@ public class SecurityUtils {
 		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
 		List<Long> roleIds = new ArrayList<>();
-		authorities.stream().filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
-				.forEach(granted -> {
-					String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-					roleIds.add(Long.parseLong(id));
-				});
+		authorities.stream()
+			.filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
+			.forEach(granted -> {
+				String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
+				roleIds.add(Long.parseLong(id));
+			});
 		return roleIds;
 	}
 

@@ -28,8 +28,8 @@
 
 	<properties>
 		<nacos.version>2.2.0.PIGOEM</nacos.version>
-		<spring-boot-dependencies.version>2.7.7</spring-boot-dependencies.version>
-		<spring-cloud.version>2021.0.5</spring-cloud.version>
+		<spring-boot-dependencies.version>2.7.10</spring-boot-dependencies.version>
+		<spring-cloud.version>2021.0.7</spring-cloud.version>
 		<spring-boot-admin.version>2.7.8</spring-boot-admin.version>
 	</properties>
 
@@ -131,6 +131,7 @@
 					<exclude>**/*.woff</exclude>
 					<exclude>**/*.woff2</exclude>
 					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.eot</exclude>
 				</excludes>
 			</resource>
 			<resource>
@@ -140,6 +141,7 @@
 					<include>**/*.woff</include>
 					<include>**/*.woff2</include>
 					<include>**/*.ttf</include>
+					<include>**/*.eot</include>
 				</includes>
 			</resource>
 		</resources>

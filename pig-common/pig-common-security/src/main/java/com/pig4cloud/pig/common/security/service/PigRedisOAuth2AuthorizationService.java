@@ -39,35 +39,38 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 		if (isState(authorization)) {
 			String token = authorization.getAttribute("state");
 			redisTemplate.setValueSerializer(RedisSerializer.java());
-			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.STATE, token), authorization, TIMEOUT,
-					TimeUnit.MINUTES);
+			redisTemplate.opsForValue()
+				.set(buildKey(OAuth2ParameterNames.STATE, token), authorization, TIMEOUT, TimeUnit.MINUTES);
 		}
 
 		if (isCode(authorization)) {
 			OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-					.getToken(OAuth2AuthorizationCode.class);
+				.getToken(OAuth2AuthorizationCode.class);
 			OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
 			long between = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
 					authorizationCodeToken.getExpiresAt());
 			redisTemplate.setValueSerializer(RedisSerializer.java());
-			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
-					authorization, between, TimeUnit.MINUTES);
+			redisTemplate.opsForValue()
+				.set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization,
+						between, TimeUnit.MINUTES);
 		}
 
 		if (isRefreshToken(authorization)) {
 			OAuth2RefreshToken refreshToken = authorization.getRefreshToken().getToken();
 			long between = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
 			redisTemplate.setValueSerializer(RedisSerializer.java());
-			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
-					authorization, between, TimeUnit.SECONDS);
+			redisTemplate.opsForValue()
+				.set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization, between,
+						TimeUnit.SECONDS);
 		}
 
 		if (isAccessToken(authorization)) {
 			OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
 			long between = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
 			redisTemplate.setValueSerializer(RedisSerializer.java());
-			redisTemplate.opsForValue().set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
-					authorization, between, TimeUnit.SECONDS);
+			redisTemplate.opsForValue()
+				.set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, between,
+						TimeUnit.SECONDS);
 		}
 	}
 
@@ -83,7 +86,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 		if (isCode(authorization)) {
 			OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-					.getToken(OAuth2AuthorizationCode.class);
+				.getToken(OAuth2AuthorizationCode.class);
 			OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
 			keys.add(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
 		}
@@ -125,7 +128,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	private static boolean isCode(OAuth2Authorization authorization) {
 		OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-				.getToken(OAuth2AuthorizationCode.class);
+			.getToken(OAuth2AuthorizationCode.class);
 		return Objects.nonNull(authorizationCode);
 	}
 

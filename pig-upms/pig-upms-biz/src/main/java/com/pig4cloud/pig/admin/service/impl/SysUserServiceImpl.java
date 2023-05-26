@@ -130,9 +130,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysPost> postList = sysPostMapper.listPostsByUserId(sysUser.getUserId());
 		userInfo.setPostList(postList);
 		// 设置权限列表（menu.permission）
-		Set<String> permissions = roleIds.stream().map(sysMenuService::findMenuByRoleId).flatMap(Collection::stream)
-				.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType())).map(SysMenu::getPermission)
-				.filter(StrUtil::isNotBlank).collect(Collectors.toSet());
+		Set<String> permissions = roleIds.stream()
+			.map(sysMenuService::findMenuByRoleId)
+			.flatMap(Collection::stream)
+			.filter(m -> MenuTypeEnum.BUTTON.getType().equals(m.getType()))
+			.map(SysMenu::getPermission)
+			.filter(StrUtil::isNotBlank)
+			.collect(Collectors.toSet());
 		userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
 
 		return userInfo;
@@ -213,7 +217,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		this.updateById(sysUser);
 
 		sysUserRoleMapper
-				.delete(Wrappers.<SysUserRole>update().lambda().eq(SysUserRole::getUserId, userDto.getUserId()));
+			.delete(Wrappers.<SysUserRole>update().lambda().eq(SysUserRole::getUserId, userDto.getUserId()));
 		userDto.getRole().forEach(roleId -> {
 			SysUserRole userRole = new SysUserRole();
 			userRole.setUserId(sysUser.getUserId());
@@ -260,11 +264,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);
-			String roleNameList = userVO.getRoleList().stream().map(SysRole::getRoleName)
-					.collect(Collectors.joining(StrUtil.COMMA));
+			String roleNameList = userVO.getRoleList()
+				.stream()
+				.map(SysRole::getRoleName)
+				.collect(Collectors.joining(StrUtil.COMMA));
 			excelVO.setRoleNameList(roleNameList);
-			String postNameList = userVO.getPostList().stream().map(SysPost::getPostName)
-					.collect(Collectors.joining(StrUtil.COMMA));
+			String postNameList = userVO.getPostList()
+				.stream()
+				.map(SysPost::getPostName)
+				.collect(Collectors.joining(StrUtil.COMMA));
 			excelVO.setPostNameList(postNameList);
 			return excelVO;
 		}).collect(Collectors.toList());
@@ -293,7 +301,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
 			boolean exsitUserName = userList.stream()
-					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
+				.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
 			if (exsitUserName) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
@@ -301,7 +309,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 			// 判断输入的部门名称列表是否合法
 			Optional<SysDept> deptOptional = deptList.stream()
-					.filter(dept -> excel.getDeptName().equals(dept.getName())).findFirst();
+				.filter(dept -> excel.getDeptName().equals(dept.getName()))
+				.findFirst();
 			if (!deptOptional.isPresent()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptName()));
 			}
@@ -309,8 +318,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			// 判断输入的角色名称列表是否合法
 			List<String> roleNameList = StrUtil.split(excel.getRoleNameList(), StrUtil.COMMA);
 			List<SysRole> roleCollList = roleList.stream()
-					.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
-					.collect(Collectors.toList());
+				.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
+				.collect(Collectors.toList());
 
 			if (roleCollList.size() != roleNameList.size()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
@@ -319,8 +328,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			// 判断输入的岗位名称列表是否合法
 			List<String> postNameList = StrUtil.split(excel.getPostNameList(), StrUtil.COMMA);
 			List<SysPost> postCollList = postList.stream()
-					.filter(post -> postNameList.stream().anyMatch(name -> post.getPostName().equals(name)))
-					.collect(Collectors.toList());
+				.filter(post -> postNameList.stream().anyMatch(name -> post.getPostName().equals(name)))
+				.collect(Collectors.toList());
 
 			if (postCollList.size() != postNameList.size()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_POSTNAME_INEXISTENCE, excel.getPostNameList()));
@@ -393,7 +402,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		String defaultRole = ParamResolver.getStr("USER_DEFAULT_ROLE");
 		// 默认角色
 		SysRole sysRole = sysRoleMapper
-				.selectOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
+			.selectOne(Wrappers.<SysRole>lambdaQuery().eq(SysRole::getRoleCode, defaultRole));
 
 		if (sysRole == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_PARAM_CONFIG_ERROR, "USER_DEFAULT_ROLE"));

@@ -106,8 +106,8 @@ public final class PigSentinelFeign {
 				private Object getFromContext(String name, String type, Class<?> fallbackType, Class<?> targetType) {
 					Object fallbackInstance = feignClientFactory.getInstance(name, fallbackType);
 					if (fallbackInstance == null) {
-						throw new IllegalStateException(String.format(
-								"No %s instance of type %s found for feign client %s", type, fallbackType, name));
+						throw new IllegalStateException(String
+							.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
 					}
 
 					if (!targetType.isAssignableFrom(fallbackType)) {

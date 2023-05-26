@@ -47,7 +47,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Cacheable(value = CacheConstants.PARAMS_DETAILS, key = "#publicKey", unless = "#result == null ")
 	public String getSysPublicParamKeyToValue(String publicKey) {
 		SysPublicParam sysPublicParam = this.baseMapper
-				.selectOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, publicKey));
+			.selectOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, publicKey));
 
 		if (sysPublicParam != null) {
 			return sysPublicParam.getPublicValue();

@@ -1,4 +1,4 @@
-FROM moxm/java:1.8-full
+FROM alibabadragonwell/dragonwell:17-anolis
 
 RUN mkdir -p /pig-auth
 

@@ -39,7 +39,7 @@ public class OAuth2EndpointUtils {
 
 	public boolean matchesPkceTokenRequest(HttpServletRequest request) {
 		return AuthorizationGrantType.AUTHORIZATION_CODE.getValue()
-				.equals(request.getParameter(OAuth2ParameterNames.GRANT_TYPE))
+			.equals(request.getParameter(OAuth2ParameterNames.GRANT_TYPE))
 				&& request.getParameter(OAuth2ParameterNames.CODE) != null
 				&& request.getParameter(PkceParameterNames.CODE_VERIFIER) != null;
 	}
@@ -63,7 +63,8 @@ public class OAuth2EndpointUtils {
 		OAuth2RefreshToken refreshToken = authentication.getRefreshToken().getToken();
 
 		OAuth2AccessTokenResponse.Builder builder = OAuth2AccessTokenResponse.withToken(accessToken.getTokenValue())
-				.tokenType(accessToken.getTokenType()).scopes(accessToken.getScopes());
+			.tokenType(accessToken.getTokenType())
+			.scopes(accessToken.getScopes());
 		if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
 			builder.expiresIn(ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
 		}

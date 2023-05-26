@@ -70,8 +70,9 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 		// 2. 重写StripPrefix
 		addOriginalRequestUrl(exchange, request.getURI());
 		String rawPath = request.getURI().getRawPath();
-		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/")).skip(1L)
-				.collect(Collectors.joining("/"));
+		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/"))
+			.skip(1L)
+			.collect(Collectors.joining("/"));
 
 		ServerHttpRequest newRequest = request.mutate().path(newPath).build();
 		exchange.getAttributes().put(GATEWAY_REQUEST_URL_ATTR, newRequest.getURI());

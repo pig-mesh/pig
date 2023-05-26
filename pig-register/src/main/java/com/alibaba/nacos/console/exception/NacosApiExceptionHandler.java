@@ -59,7 +59,7 @@ public class NacosApiExceptionHandler {
 	public ResponseEntity<Result<String>> handleNacosApiException(NacosApiException e) {
 		LOGGER.error("got exception. {} {}", e.getErrAbstract(), e.getErrMsg());
 		return ResponseEntity.status(e.getErrCode())
-				.body(new Result<>(e.getDetailErrCode(), e.getErrAbstract(), e.getErrMsg()));
+			.body(new Result<>(e.getDetailErrCode(), e.getErrAbstract(), e.getErrMsg()));
 	}
 
 	@ExceptionHandler(NacosException.class)

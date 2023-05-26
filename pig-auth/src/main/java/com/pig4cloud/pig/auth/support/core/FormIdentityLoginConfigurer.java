@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 /**
  * @author lengleng
  * @data 2022-06-04
- * <p>
+ *
  * 基于授权码模式 统一认证登录 spring security & sas 都可以使用 所以抽取成 HttpConfigurer
  */
 public final class FormIdentityLoginConfigurer
@@ -21,13 +21,14 @@ public final class FormIdentityLoginConfigurer
 			formLogin.loginProcessingUrl("/token/form");
 			formLogin.failureHandler(new FormAuthenticationFailureHandler());
 
-		}).logout(httpSecurityLogoutConfigurer -> {
-			// SSO登出成功处理
-			httpSecurityLogoutConfigurer.logoutSuccessHandler(new SsoLogoutSuccessHandler()).deleteCookies("JSESSIONID")
-					.invalidateHttpSession(true);
-		}
-
-		).csrf(AbstractHttpConfigurer::disable);
+		})
+			.logout() // SSO登出成功处理
+			.logoutSuccessHandler(new SsoLogoutSuccessHandler())
+			.deleteCookies("JSESSIONID")
+			.invalidateHttpSession(true)
+			.and()
+			.csrf()
+			.disable();
 	}
 
 }
