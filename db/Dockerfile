@@ -11,5 +11,3 @@ COPY ./pig.sql /docker-entrypoint-initdb.d
 COPY ./pig_codegen.sql /docker-entrypoint-initdb.d
 
 COPY ./pig_config.sql /docker-entrypoint-initdb.d
-
-COPY ./pig_job.sql /docker-entrypoint-initdb.d
