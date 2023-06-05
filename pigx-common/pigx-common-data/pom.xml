@@ -19,52 +19,57 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx-common</artifactId>
-		<version>5.0.0</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx-common</artifactId>
+        <version>5.0.0</version>
+    </parent>
 
-	<artifactId>pigx-common-data</artifactId>
-	<packaging>jar</packaging>
+    <artifactId>pigx-common-data</artifactId>
+    <packaging>jar</packaging>
 
-	<description>pigx 数据操作相关</description>
+    <description>pigx 数据操作相关</description>
 
 
-	<dependencies>
-		<!--工具类核心包-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-core</artifactId>
-		</dependency>
-		<!--mybatis plus-->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-extension</artifactId>
-		</dependency>
-		<!-- druid 连接池 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!--安全依赖获取上下文信息-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-security</artifactId>
-			<optional>true</optional>
-		</dependency>
-		<!--feign client-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-upms-api</artifactId>
-		</dependency>
-		<!--缓存依赖-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--工具类核心包-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-core</artifactId>
+        </dependency>
+        <!--mybatis plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+        </dependency>
+        <!-- 连表查询依赖	-->
+        <dependency>
+            <groupId>com.github.yulichang</groupId>
+            <artifactId>mybatis-plus-join-boot-starter</artifactId>
+        </dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--安全依赖获取上下文信息-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-security</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--feign client-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-upms-api</artifactId>
+        </dependency>
+        <!--缓存依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+    </dependencies>
 </project>

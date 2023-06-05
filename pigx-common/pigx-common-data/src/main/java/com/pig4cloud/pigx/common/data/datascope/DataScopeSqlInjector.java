@@ -3,6 +3,7 @@ package com.pig4cloud.pigx.common.data.datascope;
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
+import com.github.yulichang.injector.MPJSqlInjector;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @author lengleng
  * @date 2020-06-17
  */
-public class DataScopeSqlInjector extends DefaultSqlInjector {
+public class DataScopeSqlInjector extends MPJSqlInjector {
 
 	@Override
 	public List<AbstractMethod> getMethodList(Class<?> mapperClass, TableInfo tableInfo) {

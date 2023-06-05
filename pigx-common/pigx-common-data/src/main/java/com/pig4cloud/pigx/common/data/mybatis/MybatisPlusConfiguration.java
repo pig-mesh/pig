@@ -41,6 +41,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -116,6 +117,7 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 	 * @return
 	 */
 	@Bean
+	@Primary
 	@ConditionalOnBean(DataScopeInterceptor.class)
 	public DataScopeSqlInjector dataScopeSqlInjector() {
 		return new DataScopeSqlInjector();
