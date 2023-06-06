@@ -16,6 +16,7 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -42,7 +43,7 @@ public class SysTenantMenuController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getSysTenantPage(Page page, SysTenantMenu sysTenantMenu) {
+	public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenantMenu sysTenantMenu) {
 		return R.ok(sysTenantMenuService.page(page, Wrappers.query(sysTenantMenu)));
 	}
 
@@ -52,7 +53,7 @@ public class SysTenantMenuController {
 	 * @return 租户信息
 	 */
 	@GetMapping
-	public R getByObj(SysTenantMenu sysTenantMenu) {
+	public R getByObj(@ParameterObject SysTenantMenu sysTenantMenu) {
 		return R.ok(sysTenantMenuService.list(Wrappers.query(sysTenantMenu)));
 	}
 

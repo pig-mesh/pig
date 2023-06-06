@@ -31,6 +31,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -72,7 +73,7 @@ public class SysPublicParamController {
 	 */
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
-	public R getSysPublicParamPage(Page page, SysPublicParam sysPublicParam) {
+	public R getSysPublicParamPage(@ParameterObject Page page, @ParameterObject SysPublicParam sysPublicParam) {
 		LambdaUpdateWrapper<SysPublicParam> wrapper = Wrappers.<SysPublicParam>lambdaUpdate()
 				.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
 						sysPublicParam.getPublicName())
@@ -96,7 +97,7 @@ public class SysPublicParamController {
 	}
 
 	@GetMapping("/details")
-	public R getDetail(SysPublicParam param) {
+	public R getDetail(@ParameterObject SysPublicParam param) {
 		return R.ok(sysPublicParamService.getOne(Wrappers.query(param), false));
 	}
 

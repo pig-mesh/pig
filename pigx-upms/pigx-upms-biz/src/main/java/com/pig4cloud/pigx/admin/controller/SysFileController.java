@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,7 +64,7 @@ public class SysFileController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getSysFilePage(Page page, SysFile sysFile) {
+	public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
 		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
 				.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
 		return R.ok(sysFileService.page(page, wrapper));

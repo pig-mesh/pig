@@ -33,6 +33,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -64,7 +65,7 @@ public class SysI18nController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@pms.hasPermission('sys_i18n_view')")
-	public R getsysI18nPage(Page page, SysI18nEntity sysI18n) {
+	public R getsysI18nPage(@ParameterObject Page page, @ParameterObject SysI18nEntity sysI18n) {
 		LambdaQueryWrapper<SysI18nEntity> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(StrUtil.isNotBlank(sysI18n.getName()), SysI18nEntity::getName, sysI18n.getName());
 		wrapper.like(StrUtil.isNotBlank(sysI18n.getZhCn()), SysI18nEntity::getZhCn, sysI18n.getZhCn());

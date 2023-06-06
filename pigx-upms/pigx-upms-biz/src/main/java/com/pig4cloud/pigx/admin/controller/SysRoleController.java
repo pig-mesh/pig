@@ -35,6 +35,7 @@ import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -73,7 +74,7 @@ public class SysRoleController {
 	 * @return 角色信息
 	 */
 	@GetMapping("/details")
-	public R getDetails(SysRole query) {
+	public R getDetails(@ParameterObject SysRole query) {
 		return R.ok(sysRoleService.getOne(Wrappers.query(query), false));
 	}
 

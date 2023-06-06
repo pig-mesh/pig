@@ -29,8 +29,8 @@
         <dm.version>8.1.2.79</dm.version>
         <highgo.version>6.2.0</highgo.version>
         <knife4j.version>3.0.3</knife4j.version>
-        <swagger.core.version>2.2.0</swagger.core.version>
-        <springdoc.version>1.6.9</springdoc.version>
+        <swagger.core.version>2.2.8</swagger.core.version>
+        <springdoc.version>1.6.15</springdoc.version>
         <mp.weixin.version>4.4.0</mp.weixin.version>
         <ijpay.version>2.8.0</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
@@ -269,12 +269,27 @@
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-models</artifactId>
+                <version>${swagger.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
                 <artifactId>swagger-annotations</artifactId>
                 <version>${swagger.core.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-webflux-core</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-common</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
             <dependency>

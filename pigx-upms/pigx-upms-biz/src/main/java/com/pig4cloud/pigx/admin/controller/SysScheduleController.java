@@ -29,6 +29,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -57,7 +58,7 @@ public class SysScheduleController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getSchedulePage(Page page, SysScheduleEntity sysSchedule) {
+	public R getSchedulePage(@ParameterObject Page page, @ParameterObject SysScheduleEntity sysSchedule) {
 		return R.ok(sysScheduleService.getScheduleByScope(page, sysSchedule));
 	}
 

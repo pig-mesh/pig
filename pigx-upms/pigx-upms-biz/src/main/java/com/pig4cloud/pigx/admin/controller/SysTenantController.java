@@ -31,6 +31,7 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,7 +63,7 @@ public class SysTenantController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getSysTenantPage(Page page, SysTenant sysTenant) {
+	public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenant sysTenant) {
 		return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
 				.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
 	}

@@ -34,6 +34,7 @@ import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
@@ -78,7 +79,7 @@ public class SysDictController {
 	 * @return 字典信息
 	 */
 	@GetMapping("/details")
-	public R getDetails(SysDict query) {
+	public R getDetails(@ParameterObject SysDict query) {
 		return R.ok(sysDictService.getOne(Wrappers.query(query), false));
 	}
 
@@ -88,7 +89,7 @@ public class SysDictController {
 	 * @return 分页对象
 	 */
 	@GetMapping("/page")
-	public R<IPage> getDictPage(Page page, SysDict sysDict) {
+	public R<IPage> getDictPage(@ParameterObject Page page, @ParameterObject SysDict sysDict) {
 		return R.ok(sysDictService.page(page,
 				Wrappers.<SysDict>lambdaQuery()
 						.eq(StrUtil.isNotBlank(sysDict.getSystemFlag()), SysDict::getSystemFlag,

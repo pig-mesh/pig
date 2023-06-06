@@ -32,6 +32,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -72,7 +73,7 @@ public class SysPostController {
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
 	@PreAuthorize("@pms.hasPermission('sys_post_view')")
-	public R getSysPostPage(Page page, SysPost sysPost) {
+	public R getSysPostPage(@ParameterObject Page page, @ParameterObject SysPost sysPost) {
 		return R.ok(sysPostService.page(page, Wrappers.<SysPost>lambdaQuery()
 				.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
 	}

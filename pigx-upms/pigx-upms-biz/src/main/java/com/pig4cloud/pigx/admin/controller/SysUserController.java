@@ -38,6 +38,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
@@ -104,7 +105,7 @@ public class SysUserController {
 	 */
 	@Inner(value = false)
 	@GetMapping("/details")
-	public R getDetails(SysUser query) {
+	public R getDetails(@ParameterObject SysUser query) {
 		SysUser sysUser = userService.getOne(Wrappers.query(query), false);
 		return R.ok(sysUser == null ? null : CommonConstants.SUCCESS);
 	}
@@ -153,7 +154,7 @@ public class SysUserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
-	public R getUserPage(Page page, UserDTO userDTO) {
+	public R getUserPage(@ParameterObject Page page, @ParameterObject UserDTO userDTO) {
 		return R.ok(userService.getUsersWithRolePage(page, userDTO));
 	}
 

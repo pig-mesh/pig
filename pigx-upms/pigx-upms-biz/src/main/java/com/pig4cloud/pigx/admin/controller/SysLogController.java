@@ -32,6 +32,7 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -63,7 +64,7 @@ public class SysLogController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getLogPage(Page page, SysLogDTO sysLog) {
+	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
 		return R.ok(sysLogService.getLogByPage(page, sysLog));
 	}
 

@@ -38,6 +38,7 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -91,7 +92,8 @@ public class SysClientController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R getOauthClientDetailsPage(Page page, SysOauthClientDetails sysOauthClientDetails) {
+	public R getOauthClientDetailsPage(@ParameterObject Page page,
+			@ParameterObject SysOauthClientDetails sysOauthClientDetails) {
 		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()
 				.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
 						sysOauthClientDetails.getClientId())
