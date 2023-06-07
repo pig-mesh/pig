@@ -84,7 +84,7 @@ public class SysTenantController {
 	 * @return 租户信息
 	 */
 	@GetMapping("/details")
-	public R getDetails(SysTenant query) {
+	public R getDetails(@ParameterObject SysTenant query) {
 		return R.ok(sysTenantService.getOne(Wrappers.query(query), false));
 	}
 

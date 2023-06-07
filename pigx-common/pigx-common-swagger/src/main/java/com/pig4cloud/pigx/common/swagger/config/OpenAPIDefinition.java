@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,9 +42,9 @@ import java.util.List;
  *
  * <p>
  * 禁用方法1：使用注解@Profile({"dev","test"})
- *
+ * <p>
  * 表示在开发或测试环境开启，而在生产关闭。（推荐使用） 禁用方法2：使用注解@ConditionalOnProperty(name = "swagger.enable",
- *
+ * <p>
  * havingValue = "true") 然后在测试配置或者开发配置中添加swagger.enable=true即可开启，生产环境不填则默认关闭Swagger.
  * </p>
  *
@@ -80,6 +81,8 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		List<Server> serverList = new ArrayList<>();
 		serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));
 		this.servers(serverList);
+		// 支持参数平铺
+		SpringDocUtils.getConfig().addSimpleTypesForParameterObject(Class.class);
 	}
 
 	@Override
