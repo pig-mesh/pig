@@ -1,4 +1,5 @@
 name: 问题咨询
+description: "![扫码加入微信群](https://minio.pigx.top/oss/1648184189.png)"
 body:
   - type: dropdown
     id: version
