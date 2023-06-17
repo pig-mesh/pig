@@ -1,0 +1,5 @@
+blank_issues_enabled: false # 不允许用户创建空白 Issue
+contact_links:
+  - name: 遇到问题先去看文档！谢谢！ # 外部网站名称
+    url: https://wiki.pig4cloud.com/ # 跳转的外部网站目标地址
+    about: 文档可以解决你80%的疑惑 # 跳转外部网站的描述说明

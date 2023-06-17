@@ -15,19 +15,19 @@
 
 ## 文档视频
 
-[ 🚀🚀🚀 低代码数据可视化](http://datav.avuejs.com)
+[ 🚀🚀🚀 低代码数据可视化](http://datav.pig4cloud.com)
 
-[ 配套文档 wiki.pigx.vip](https://wiki.pigx.vip)
+[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
-[ 配套视频 tv.pigx.vip](https://www.bilibili.com/video/BV12t411B7e9)
+[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
 
-[PIGX 在线体验 pigx.pigx.vip](http://pigx.pigx.vip)
+[PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
 
-[产品白皮书 paper.pigx.vip](https://paper.pigx.vip)
+[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
 
 ## 微信群 [禁广告]
 
-![](https://minio.pigx.vip/oss/1648184189.png)
+![](https://minio.pigx.top/oss/1648184189.png)
 
 ## 快速开始
 
@@ -41,11 +41,11 @@
 | 依赖                          | 版本         |
 |-----------------------------|------------|
 | Spring Boot                 | 2.7.12     |
-| Spring Cloud                | 2021.0.6   |
+| Spring Cloud                | 2021.0.7   |
 | Spring Cloud Alibaba        | 2021.0.5.0 |
 | Spring Authorization Server | 0.4.2      |
 | Mybatis Plus                | 3.5.3.1    |
-| hutool                      | 5.8.17     |
+| hutool                      | 5.8.19     |
 
 ### 模块说明
 
@@ -80,15 +80,10 @@ pig
 
 ### 本地开发 运行
 
-pig 提供了详细的[部署文档 wiki.pigx.vip](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
+pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
 
-### 定制自己微服务
-
-[PIG DIY](https://pig4cloud.com/#/common/diy)
-
-[PIG ARCHETYPE](https://pig4cloud.com/#/common/archetype)
 
 ### Docker 运行
 
@@ -111,12 +106,12 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 
 <table>
   <tr>
-    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.vip/oss/1655474345.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.vip/oss/1656837143.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.top/oss/1655474345.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.top/oss/1656837143.jpg"></a></td>
   </tr>
     <tr>
-    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.vip/oss/1655474369.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.vip/oss/1655474381.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.top/oss/1655474369.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.top/oss/1655474381.jpg"></a></td>
   </tr>
 </table>
 
@@ -127,7 +122,7 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
 允许商业使用，但务必保留类作者、Copyright 信息。
 
-![](https://minio.pigx.vip/oss/1655474288.jpg)
+![](https://minio.pigx.top/oss/1655474288.jpg)
 
 ### 其他说明
 

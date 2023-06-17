@@ -51,7 +51,7 @@ import java.util.Arrays;
 /**
  * @author lengleng
  * @date 2022/5/27
- *
+ * <p>
  * 认证服务器配置
  */
 @Configuration
@@ -115,20 +115,17 @@ public class AuthorizationServerConfiguration {
 	 * @return DelegatingAuthenticationConverter
 	 */
 	private AuthenticationConverter accessTokenRequestConverter() {
-		return new DelegatingAuthenticationConverter(Arrays.asList(
-				new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
-				new OAuth2ResourceOwnerSmsAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(),
-				new OAuth2ClientCredentialsAuthenticationConverter(),
-				new OAuth2AuthorizationCodeAuthenticationConverter(),
-				new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
+		return new DelegatingAuthenticationConverter(
+				Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
+						new OAuth2ResourceOwnerSmsAuthenticationConverter(),
+						new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
 	}
 
 	/**
 	 * 注入授权模式实现提供方
-	 *
+	 * <p>
 	 * 1. 密码模式 </br>
 	 * 2. 短信登录 </br>
-	 *
 	 */
 	@SuppressWarnings("unchecked")
 	private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {

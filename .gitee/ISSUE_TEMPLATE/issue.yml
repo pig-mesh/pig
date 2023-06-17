@@ -1,0 +1,30 @@
+name: 问题咨询
+description: "![扫码加入微信群](https://minio.pigx.top/oss/1648184189.png)"
+body:
+  - type: dropdown
+    id: version
+    attributes:
+      label: PIG版本
+      options:
+        - "3.6"
+        - "3.5"
+        - "3.4"
+        - "3.3"
+        - "3.2"
+        - "3.1"
+        - "3.0"
+    validations:
+      required: true
+  - type: checkboxes
+    attributes:
+      label: 是否修改了包名
+      options:
+        - label: 是
+          required: false
+  - type: textarea
+    id: desired-solution
+    attributes:
+      label: 问题描述
+      description: 详细问题，提供相应截图和日志
+    validations:
+      required: true
