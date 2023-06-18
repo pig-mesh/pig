@@ -78,6 +78,7 @@ public class SysDictController {
 		return R.ok(sysDictService.page(page,
 				Wrappers.<SysDict>lambdaQuery()
 					.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())
+					.eq(StrUtil.isNotBlank(sysDict.getSystemFlag()), SysDict::getSystemFlag, sysDict.getSystemFlag())
 					.orderByDesc(SysDict::getUpdateTime)));
 	}
 
