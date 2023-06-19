@@ -27,7 +27,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<nacos.version>2.2.0.PIGOEM</nacos.version>
+		<nacos.version>2.2.3</nacos.version>
 	</properties>
 
 	<dependencies>
