@@ -37,6 +37,13 @@ import java.util.Map;
 public interface GeneratorMapper extends PigxBaseMapper<ColumnEntity> {
 
 	/**
+	 * 查询全部的表
+	 * @return
+	 */
+	@InterceptorIgnore(tenantLine = "true")
+	List<Map<String, Object>> queryTable();
+
+	/**
 	 * 分页查询表格
 	 * @param page 分页信息
 	 * @param tableName 表名称

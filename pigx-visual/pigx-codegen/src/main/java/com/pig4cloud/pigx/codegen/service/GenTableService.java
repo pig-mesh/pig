@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,10 +38,14 @@ public interface GenTableService extends IService<GenTable> {
 	 * @param path 配置文件路径
 	 * @return
 	 */
-	Map<String, Object> getGeneratorConfig(String path);
+	Map<String, Object> getGeneratorConfig();
 
 	IPage list(Page<GenTable> page, GenTable table);
 
 	GenTable queryOrBuildTable(String dsName, String tableName);
+
+	List<Map<String, Object>> queryDsAllTable(String dsName);
+
+	List<Map<String, String>> queryColumn(String dsName, String tableName);
 
 }

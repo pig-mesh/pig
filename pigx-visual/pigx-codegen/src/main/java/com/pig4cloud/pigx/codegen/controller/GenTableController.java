@@ -123,6 +123,16 @@ public class GenTableController {
 		return tableService.list(Wrappers.query(table));
 	}
 
+	@GetMapping("/list/{dsName}")
+	public R listTable(@PathVariable("dsName") String dsName) {
+		return R.ok(tableService.queryDsAllTable(dsName));
+	}
+
+	@GetMapping("/column/{dsName}/{tableName}")
+	public R column(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+		return R.ok(tableService.queryColumn(dsName, tableName));
+	}
+
 	/**
 	 * 获取表信息
 	 * @param dsName 数据源

@@ -19,6 +19,10 @@ public class NamingCaseTool {
 		return String.format("get%s", NamingCase.toPascalCase(in));
 	}
 
+	public static String setProperty(String in) {
+		return String.format("set%s", NamingCase.toPascalCase(in));
+	}
+
 	/**
 	 * 首字母大写
 	 * @param in 字段

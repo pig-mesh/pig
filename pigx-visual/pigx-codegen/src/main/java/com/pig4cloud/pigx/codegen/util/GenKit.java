@@ -22,7 +22,7 @@ import java.util.Map;
 public class GenKit {
 
 	/**
-	 * 获取功能名
+	 * 获取功能名 sys_a_b sysAb
 	 * @param tableName 表名
 	 * @return 功能名
 	 */

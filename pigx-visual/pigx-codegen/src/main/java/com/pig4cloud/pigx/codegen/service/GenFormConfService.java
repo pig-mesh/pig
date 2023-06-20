@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 表单管理
@@ -36,6 +37,6 @@ public interface GenFormConfService extends IService<GenFormConf> {
 	 * @param formInfo json
 	 * @return 字段
 	 */
-	List<JSONObject> parse(String formInfo);
+	Map<String, List<JSONObject>> parse(String formInfo);
 
 }

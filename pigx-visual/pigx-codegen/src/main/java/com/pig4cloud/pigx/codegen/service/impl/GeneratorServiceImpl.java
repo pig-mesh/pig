@@ -21,6 +21,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
@@ -81,10 +82,17 @@ public class GeneratorServiceImpl implements GeneratorService {
 		GroupVo groupVo = genGroupService.getGroupVoById(style);
 		List<GenTemplateEntity> templateList = groupVo.getTemplateList();
 
+		Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
+		JSONObject project = (JSONObject) generatorConfig.get("project");
+		String frontendPath = project.getStr("frontendPath");
+		String backendPath = project.getStr("backendPath");
+
 		for (GenTemplateEntity template : templateList) {
 			String templateCode = template.getTemplateCode();
 			String generatorPath = template.getGeneratorPath();
 
+			dataModel.put("frontendPath", frontendPath);
+			dataModel.put("backendPath", backendPath);
 			String content = VelocityKit.renderStr(templateCode, dataModel);
 			String path = VelocityKit.renderStr(generatorPath, dataModel);
 
@@ -113,10 +121,18 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 获取模板列表，Lambda 表达式简化代码
 		List<GenTemplateEntity> templateList = genGroupService.getGroupVoById(style).getTemplateList();
 
+		Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
+		JSONObject project = (JSONObject) generatorConfig.get("project");
+		String frontendPath = project.getStr("frontendPath");
+		String backendPath = project.getStr("backendPath");
+
 		return templateList.stream().map(template -> {
 			String templateCode = template.getTemplateCode();
 			String generatorPath = template.getGeneratorPath();
 
+			// 预览模式下, 使用相对路径展示
+			dataModel.put("frontendPath", frontendPath);
+			dataModel.put("backendPath", backendPath);
 			String content = VelocityKit.renderStr(templateCode, dataModel);
 			String path = VelocityKit.renderStr(generatorPath, dataModel);
 
@@ -194,8 +210,10 @@ public class GeneratorServiceImpl implements GeneratorService {
 		Map<String, Object> dataModel = getDataModel(genTable.getId());
 
 		// 解析组件列表
-		List<JSONObject> widgetList = formConfService.parse(formConf.getFormInfo());
-		dataModel.put("widgetList", widgetList);
+		Map<String, List<JSONObject>> resultMap = formConfService.parse(formConf.getFormInfo());
+
+		// 遍历 widgetList
+		dataModel.put("resultMap", resultMap);
 
 		// 获取模板信息
 		GenTemplateEntity genTemplateEntity = Optional
@@ -219,6 +237,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 				.eq(GenTableColumnEntity::getDsName, table.getDsName())
 				.eq(GenTableColumnEntity::getTableName, table.getTableName()).orderByAsc(GenTableColumnEntity::getSort)
 				.list();
+
 		table.setFieldList(fieldList);
 
 		// 创建数据模型对象
@@ -248,8 +267,24 @@ public class GeneratorServiceImpl implements GeneratorService {
 		dataModel.put("className", StrUtil.lowerFirst(table.getClassName()));
 		dataModel.put("ClassName", table.getClassName());
 		dataModel.put("fieldList", table.getFieldList());
+
 		dataModel.put("backendPath", table.getBackendPath());
 		dataModel.put("frontendPath", table.getFrontendPath());
+
+		// 设置子表
+		String childTableName = table.getChildTableName();
+		if (StrUtil.isNotBlank(childTableName)) {
+			List<GenTableColumnEntity> childFieldList = columnService.lambdaQuery()
+					.eq(GenTableColumnEntity::getDsName, table.getDsName())
+					.eq(GenTableColumnEntity::getTableName, table.getChildTableName()).list();
+			dataModel.put("childFieldList", childFieldList);
+			dataModel.put("childTableName", childTableName);
+			dataModel.put("mainField", NamingCase.toCamelCase(table.getMainField()));
+			dataModel.put("childField", NamingCase.toCamelCase(table.getChildField()));
+			dataModel.put("ChildClassName", NamingCase.toPascalCase(childTableName));
+			dataModel.put("childClassName", StrUtil.lowerFirst(NamingCase.toPascalCase(childTableName)));
+		}
+
 		return dataModel;
 	}
 

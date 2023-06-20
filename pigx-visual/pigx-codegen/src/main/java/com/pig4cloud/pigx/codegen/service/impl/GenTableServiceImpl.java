@@ -73,10 +73,24 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 	 * @return
 	 */
 	@Override
-	public Map<String, Object> getGeneratorConfig(String path) {
-		ClassPathResource classPathResource = new ClassPathResource(path);
+	public Map<String, Object> getGeneratorConfig() {
+		ClassPathResource classPathResource = new ClassPathResource(CONFIG_PATH);
 		JSONObject jsonObject = JSONUtil.parseObj(IoUtil.readUtf8(classPathResource.getStream()));
 		return jsonObject.getRaw();
+	}
+
+	@Override
+	public List<Map<String, Object>> queryDsAllTable(String dsName) {
+		GeneratorMapper mapper = GenKit.getMapper(dsName);
+		// 手动切换数据源
+		DynamicDataSourceContextHolder.push(dsName);
+		return mapper.queryTable();
+	}
+
+	@Override
+	public List<Map<String, String>> queryColumn(String dsName, String tableName) {
+		GeneratorMapper mapper = GenKit.getMapper(dsName);
+		return mapper.selectMapTableColumn(tableName, dsName);
 	}
 
 	@Override
@@ -126,7 +140,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		Map<String, String> queryTable = mapper.queryTable(tableName, dsName);
 
 		// 获取默认表配置信息 （）
-		Map<String, Object> generatorConfig = getGeneratorConfig(CONFIG_PATH);
+		Map<String, Object> generatorConfig = getGeneratorConfig();
 
 		JSONObject project = (JSONObject) generatorConfig.get("project");
 		JSONObject developer = (JSONObject) generatorConfig.get("developer");
