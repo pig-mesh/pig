@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.app.mapper.AppTabbarMapper">
+
+  <resultMap id="appTabbarMap" type="com.pig4cloud.pigx.app.api.entity.AppTabbarEntity">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="selected" column="selected"/>
+        <result property="unselected" column="unselected"/>
+        <result property="link" column="link"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+  </resultMap>
+</mapper>

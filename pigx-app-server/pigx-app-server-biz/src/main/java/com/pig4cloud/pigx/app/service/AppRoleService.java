@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.app.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
-import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.validation.BindingResult;
 
@@ -34,7 +33,6 @@ import java.util.List;
  */
 public interface AppRoleService extends IService<AppRole> {
 
-	Boolean updateRoleMenus(AppRoleVO roleVo);
 
 	List<AppRole> findRolesByUserId(Long userId);
 

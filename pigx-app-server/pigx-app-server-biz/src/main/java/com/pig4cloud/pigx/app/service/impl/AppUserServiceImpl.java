@@ -20,34 +20,38 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.app.api.dto.AppUserDTO;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
-import com.pig4cloud.pigx.app.api.entity.AppMenu;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
 import com.pig4cloud.pigx.app.api.entity.AppUserRole;
 import com.pig4cloud.pigx.app.api.vo.AppUserExcelVO;
 import com.pig4cloud.pigx.app.api.vo.AppUserVO;
 import com.pig4cloud.pigx.app.mapper.AppUserMapper;
-import com.pig4cloud.pigx.app.service.AppMenuService;
 import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.app.service.AppUserRoleService;
 import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -73,9 +77,9 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 
 	private final AppUserRoleService appUserRoleService;
 
-	private final AppRoleService appRoleService;
+	private final RedisTemplate<String, String> redisTemplate;
 
-	private final AppMenuService appMenuService;
+	private final AppRoleService appRoleService;
 
 	private final CacheManager cacheManager;
 
@@ -87,7 +91,6 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS_MINI, key = "#userDTO.username")
 	public Boolean updateUser(AppUserDTO userDTO) {
-
 		AppUser appUser = new AppUser();
 		BeanUtils.copyProperties(userDTO, appUser);
 		if (StrUtil.isNotBlank(userDTO.getPassword())) {
@@ -156,18 +159,14 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		AppUserInfo info = new AppUserInfo();
 		info.setAppUser(user);
 		// 设置角色列表 （ID）
-		List<Long> roleIds = appRoleService.findRolesByUserId(user.getUserId()).stream().map(AppRole::getRoleId)
-				.collect(Collectors.toList());
+		List<Long> roleIds = appRoleService.findRolesByUserId(user.getUserId())
+			.stream()
+			.map(AppRole::getRoleId)
+			.collect(Collectors.toList());
 		info.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 
 		// 设置权限列表（menu.permission）
 		Set<String> permissions = new HashSet<>();
-		roleIds.forEach(roleId -> {
-			List<String> permissionList = appMenuService.findMenuByRoleId(roleId).stream()
-					.filter(menu -> StrUtil.isNotEmpty(menu.getPermission())).map(AppMenu::getPermission)
-					.collect(Collectors.toList());
-			permissions.addAll(permissionList);
-		});
 		info.setPermissions(ArrayUtil.toArray(permissions, String.class));
 		return info;
 	}
@@ -175,6 +174,23 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS_MINI, key = "#userDto.username")
 	public R updateUserInfo(AppUserDTO userDto) {
+		// C端客户修改手机号需要判断验证码是否正确
+		PigxUser user = SecurityUtils.getUser();
+		if (UserTypeEnum.TOC.getStatus().equals(user.getUserType()) && StrUtil.isNotBlank(userDto.getPhone())) {
+			String key = CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT
+					+ userDto.getPhone();
+			String codeObj = redisTemplate.opsForValue().get(key);
+
+			if (!userDto.getMobileCode().equals(codeObj)) {
+				return R.failed("验证码错误");
+			}
+		}
+
+		// 更新密码
+		if (StrUtil.isNotBlank(userDto.getPassword())) {
+			userDto.setPassword(ENCODER.encode(userDto.getPassword()));
+		}
+
 		AppUser appUser = baseMapper.selectById(userDto.getUserId());
 		BeanUtils.copyProperties(userDto, appUser);
 		return R.ok(this.updateById(appUser));
@@ -197,12 +213,38 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		}
 		// 删除用户关联表
 		this.appUserRoleService
-				.remove(Wrappers.<AppUserRole>lambdaQuery().in(AppUserRole::getUserId, CollUtil.toList(ids)));
+			.remove(Wrappers.<AppUserRole>lambdaQuery().in(AppUserRole::getUserId, CollUtil.toList(ids)));
 
 		this.removeBatchByIds(CollUtil.toList(ids));
 
 		return Boolean.TRUE;
 
+	}
+
+	@Override
+	public R registerAppUser(AppUserDTO appUser) {
+		List<AppUser> appUserList = baseMapper
+			.selectList(Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, appUser.getPhone()));
+
+		if (CollUtil.isNotEmpty(appUserList)) {
+			return R.failed("手机号已注册，请使用验证码直接登录");
+		}
+
+		String key = CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT
+				+ appUser.getPhone();
+		String codeObj = redisTemplate.opsForValue().get(key);
+
+		if (!appUser.getMobileCode().equals(codeObj)) {
+			return R.failed("验证码错误");
+		}
+
+		AppUser app = new AppUser();
+		BeanUtils.copyProperties(appUser, app);
+		appUser.setUsername(app.getPhone());
+		appUser.setDelFlag(CommonConstants.STATUS_NORMAL);
+		appUser.setPassword(ENCODER.encode(appUser.getPassword()));
+		baseMapper.insert(appUser);
+		return null;
 	}
 
 	/**
@@ -224,7 +266,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
 			boolean exsitUserName = userList.stream()
-					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
+				.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
 			if (exsitUserName) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
@@ -233,8 +275,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 			// 判断输入的角色名称列表是否合法
 			List<String> roleNameList = StrUtil.split(excel.getRoleNameList(), StrUtil.COMMA);
 			List<AppRole> roleCollList = roleList.stream()
-					.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
-					.collect(Collectors.toList());
+				.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
+				.collect(Collectors.toList());
 
 			if (roleCollList.size() != roleNameList.size()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));

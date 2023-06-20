@@ -22,7 +22,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
-import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
 import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
@@ -149,17 +148,6 @@ public class AppRoleController {
 		return R.ok(appRoleService.deleteRoleByIds(ids));
 	}
 
-	/**
-	 * 更新角色菜单
-	 * @param roleVo 角色对象
-	 * @return success、false
-	 */
-	@SysLog("更新角色菜单")
-	@PutMapping("/menu")
-	@PreAuthorize("@pms.hasPermission('app_approle_perm')")
-	public R saveRoleMenus(@RequestBody AppRoleVO roleVo) {
-		return R.ok(appRoleService.updateRoleMenus(roleVo));
-	}
 
 	/**
 	 * 导出excel 表格

@@ -17,14 +17,10 @@
 package com.pig4cloud.pigx.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
-import com.pig4cloud.pigx.app.api.entity.AppRoleMenu;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
-import com.pig4cloud.pigx.app.api.vo.AppRoleVO;
 import com.pig4cloud.pigx.app.mapper.AppRoleMapper;
-import com.pig4cloud.pigx.app.service.AppRoleMenuService;
 import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
@@ -48,13 +44,6 @@ import java.util.Set;
 @AllArgsConstructor
 public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> implements AppRoleService {
 
-	private final AppRoleMenuService appRoleMenuService;
-
-	@Override
-	public Boolean updateRoleMenus(AppRoleVO roleVo) {
-		return appRoleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds());
-	}
-
 	@Override
 	public List<AppRole> findRolesByUserId(Long userId) {
 		return baseMapper.listRolesByUserId(userId);
@@ -67,7 +56,6 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 	@Override
 	public Boolean deleteRoleByIds(Long[] ids) {
 		this.removeBatchByIds(CollUtil.toList(ids));
-		appRoleMenuService.remove(Wrappers.<AppRoleMenu>lambdaQuery().in(AppRoleMenu::getRoleId, CollUtil.toList(ids)));
 		return Boolean.TRUE;
 	}
 
@@ -79,7 +67,6 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 	 */
 	@Override
 	public R importRole(List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
-		//
 		// 通用校验获取失败的数据
 		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
 
@@ -90,8 +77,9 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 		for (AppRoleExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验角色名称或者角色编码是否存在
-			boolean existRole = roleList.stream().anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
-					|| excel.getRoleCode().equals(appRole.getRoleCode()));
+			boolean existRole = roleList.stream()
+				.anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
+						|| excel.getRoleCode().equals(appRole.getRoleCode()));
 
 			if (existRole) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),

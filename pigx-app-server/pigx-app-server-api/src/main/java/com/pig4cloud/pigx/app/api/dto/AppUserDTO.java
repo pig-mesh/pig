@@ -12,16 +12,19 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class AppUserDTO extends AppUser {
 
-	/**
-	 * 角色ID
-	 */
-	@Schema(description = "角色id集合")
-	private List<Long> role;
+    /**
+     * 角色ID
+     */
+    @Schema(description = "角色id集合")
+    private List<Long> role;
 
-	/**
-	 * 新密码
-	 */
-	@Schema(description = "新密码")
-	private String newpassword1;
+    /**
+     * 新密码
+     */
+    @Schema(description = "新密码")
+    private String newpassword1;
+
+    @Schema(description = "验证码")
+    private String mobileCode;
 
 }
