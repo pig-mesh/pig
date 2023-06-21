@@ -23,26 +23,23 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppPageController {
 
-    private final AppPageService pageService;
+	private final AppPageService pageService;
 
+	/**
+	 * 通过id查询文章资讯
+	 * @param id id
+	 * @return R
+	 */
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/{id}")
+	public R getById(@PathVariable("id") Long id) {
+		return R.ok(pageService.getById(id));
+	}
 
-    /**
-     * 通过id查询文章资讯
-     *
-     * @param id id
-     * @return R
-     */
-    @Operation(summary = "通过id查询", description = "通过id查询")
-    @GetMapping("/{id}")
-    public R getById(@PathVariable("id") Long id) {
-        return R.ok(pageService.getById(id));
-    }
-
-
-    @Operation(summary = "更新页面", description = "更新页面")
-    @PutMapping
-    public R update(@RequestBody AppPageEntity page) {
-        return R.ok(pageService.updateById(page));
-    }
+	@Operation(summary = "更新页面", description = "更新页面")
+	@PutMapping
+	public R update(@RequestBody AppPageEntity page) {
+		return R.ok(pageService.updateById(page));
+	}
 
 }

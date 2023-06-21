@@ -36,93 +36,86 @@ import java.util.Objects;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppArticleController {
 
-    private final AppArticleService appArticleService;
+	private final AppArticleService appArticleService;
 
-    /**
-     * 分页查询
-     *
-     * @param page       分页对象
-     * @param appArticle 文章资讯
-     * @return
-     */
-    @Operation(summary = "分页查询", description = "分页查询")
-    @Inner(value = false)
-    @GetMapping("/page")
-    public R getAppArticlePage(@ParameterObject Page page, @ParameterObject AppArticleEntity appArticle) {
-        LambdaQueryWrapper<AppArticleEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(appArticle.getAuthor()), AppArticleEntity::getAuthor, appArticle.getAuthor());
-        wrapper.like(StrUtil.isNotBlank(appArticle.getTitle()), AppArticleEntity::getTitle, appArticle.getTitle());
-        wrapper.eq(Objects.nonNull(appArticle.getCid()), AppArticleEntity::getCid, appArticle.getCid());
-        return R.ok(appArticleService.page(page, wrapper));
-    }
+	/**
+	 * 分页查询
+	 * @param page 分页对象
+	 * @param appArticle 文章资讯
+	 * @return
+	 */
+	@Operation(summary = "分页查询", description = "分页查询")
+	@Inner(value = false)
+	@GetMapping("/page")
+	public R getAppArticlePage(@ParameterObject Page page, @ParameterObject AppArticleEntity appArticle) {
+		LambdaQueryWrapper<AppArticleEntity> wrapper = Wrappers.lambdaQuery();
+		wrapper.like(StrUtil.isNotBlank(appArticle.getAuthor()), AppArticleEntity::getAuthor, appArticle.getAuthor());
+		wrapper.like(StrUtil.isNotBlank(appArticle.getTitle()), AppArticleEntity::getTitle, appArticle.getTitle());
+		wrapper.eq(Objects.nonNull(appArticle.getCid()), AppArticleEntity::getCid, appArticle.getCid());
+		return R.ok(appArticleService.page(page, wrapper));
+	}
 
-    /**
-     * 通过id查询文章资讯
-     *
-     * @param id id
-     * @return R
-     */
-    @Inner(value = false)
-    @Operation(summary = "通过id查询", description = "通过id查询")
-    @GetMapping("/details/{id}/{userId}")
-    public R getById(@PathVariable("id") Long id, @PathVariable(required = false) Long userId) {
-        return R.ok(appArticleService.getArticleAndIncrById(id, userId));
-    }
+	/**
+	 * 通过id查询文章资讯
+	 * @param id id
+	 * @return R
+	 */
+	@Inner(value = false)
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/details/{id}/{userId}")
+	public R getById(@PathVariable("id") Long id, @PathVariable(required = false) Long userId) {
+		return R.ok(appArticleService.getArticleAndIncrById(id, userId));
+	}
 
-    /**
-     * 新增文章资讯
-     *
-     * @param appArticle 文章资讯
-     * @return R
-     */
-    @Operation(summary = "新增文章资讯", description = "新增文章资讯")
-    @SysLog("新增文章资讯")
-    @PostMapping
-    @PreAuthorize("@pms.hasPermission('app_appArticle_add')")
-    public R save(@RequestBody AppArticleEntity appArticle) {
-        return R.ok(appArticleService.save(appArticle));
-    }
+	/**
+	 * 新增文章资讯
+	 * @param appArticle 文章资讯
+	 * @return R
+	 */
+	@Operation(summary = "新增文章资讯", description = "新增文章资讯")
+	@SysLog("新增文章资讯")
+	@PostMapping
+	@PreAuthorize("@pms.hasPermission('app_appArticle_add')")
+	public R save(@RequestBody AppArticleEntity appArticle) {
+		return R.ok(appArticleService.save(appArticle));
+	}
 
-    /**
-     * 修改文章资讯
-     *
-     * @param appArticle 文章资讯
-     * @return R
-     */
-    @Operation(summary = "修改文章资讯", description = "修改文章资讯")
-    @SysLog("修改文章资讯")
-    @PutMapping
-    @PreAuthorize("@pms.hasPermission('app_appArticle_edit')")
-    public R updateById(@RequestBody AppArticleEntity appArticle) {
-        return R.ok(appArticleService.updateById(appArticle));
-    }
+	/**
+	 * 修改文章资讯
+	 * @param appArticle 文章资讯
+	 * @return R
+	 */
+	@Operation(summary = "修改文章资讯", description = "修改文章资讯")
+	@SysLog("修改文章资讯")
+	@PutMapping
+	@PreAuthorize("@pms.hasPermission('app_appArticle_edit')")
+	public R updateById(@RequestBody AppArticleEntity appArticle) {
+		return R.ok(appArticleService.updateById(appArticle));
+	}
 
-    /**
-     * 通过id删除文章资讯
-     *
-     * @param ids id列表
-     * @return R
-     */
-    @Operation(summary = "通过id删除文章资讯", description = "通过id删除文章资讯")
-    @SysLog("通过id删除文章资讯")
-    @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('app_appArticle_del')")
-    public R removeById(@RequestBody Long[] ids) {
-        return R.ok(appArticleService.removeBatchByIds(CollUtil.toList(ids)));
-    }
+	/**
+	 * 通过id删除文章资讯
+	 * @param ids id列表
+	 * @return R
+	 */
+	@Operation(summary = "通过id删除文章资讯", description = "通过id删除文章资讯")
+	@SysLog("通过id删除文章资讯")
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('app_appArticle_del')")
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(appArticleService.removeBatchByIds(CollUtil.toList(ids)));
+	}
 
-
-    /**
-     * 导出excel 表格
-     *
-     * @param appArticle 查询条件
-     * @return excel 文件流
-     */
-    @ResponseExcel
-    @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('app_appArticle_export')")
-    public List<AppArticleEntity> export(AppArticleEntity appArticle) {
-        return appArticleService.list(Wrappers.query(appArticle));
-    }
+	/**
+	 * 导出excel 表格
+	 * @param appArticle 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('app_appArticle_export')")
+	public List<AppArticleEntity> export(AppArticleEntity appArticle) {
+		return appArticleService.list(Wrappers.query(appArticle));
+	}
 
 }

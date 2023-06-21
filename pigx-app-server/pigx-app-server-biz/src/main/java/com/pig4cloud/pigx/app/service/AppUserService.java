@@ -57,4 +57,5 @@ public interface AppUserService extends IService<AppUser> {
 	R importUser(List<AppUserExcelVO> excelVOList, BindingResult bindingResult);
 
 	R registerAppUser(AppUserDTO appUser);
+
 }

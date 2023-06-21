@@ -27,29 +27,26 @@ import java.util.stream.Collectors;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppTabbarController {
 
-    private final AppTabbarService tabbarService;
+	private final AppTabbarService tabbarService;
 
+	/**
+	 * 查询导航列表
+	 * @return R
+	 */
+	@Operation(summary = "查询导航列表", description = "查询导航列表")
+	@GetMapping("/list")
+	public R list() {
+		return R.ok(tabbarService.list());
+	}
 
-    /**
-     * 查询导航列表
-     *
-     * @return R
-     */
-    @Operation(summary = "查询导航列表", description = "查询导航列表")
-    @GetMapping("/list")
-    public R list() {
-        return R.ok(tabbarService.list());
-    }
-
-
-    @Operation(summary = "更新导航", description = "更新导航")
-    @PutMapping
-    public R update(@RequestBody List<AppTabbarEntity> tabbarEntityList) {
-        // 删除不在新增范围的导航菜单
-        List<Long> idList = tabbarService.list().stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
-        List<Long> newIdList = tabbarEntityList.stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
-        tabbarService.removeBatchByIds(CollUtil.subtractToList(idList, newIdList));
-        return R.ok(tabbarService.saveOrUpdateBatch(tabbarEntityList));
-    }
+	@Operation(summary = "更新导航", description = "更新导航")
+	@PutMapping
+	public R update(@RequestBody List<AppTabbarEntity> tabbarEntityList) {
+		// 删除不在新增范围的导航菜单
+		List<Long> idList = tabbarService.list().stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
+		List<Long> newIdList = tabbarEntityList.stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
+		tabbarService.removeBatchByIds(CollUtil.subtractToList(idList, newIdList));
+		return R.ok(tabbarService.saveOrUpdateBatch(tabbarEntityList));
+	}
 
 }

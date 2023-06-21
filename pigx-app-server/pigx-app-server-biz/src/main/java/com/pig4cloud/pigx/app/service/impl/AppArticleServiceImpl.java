@@ -20,33 +20,34 @@ import java.util.Objects;
  */
 @Service
 @RequiredArgsConstructor
-public class AppArticleServiceImpl extends ServiceImpl<AppArticleMapper, AppArticleEntity> implements AppArticleService {
+public class AppArticleServiceImpl extends ServiceImpl<AppArticleMapper, AppArticleEntity>
+		implements AppArticleService {
 
-    private final AppArticleCollectMapper collectMapper;
+	private final AppArticleCollectMapper collectMapper;
 
+	/**
+	 * 获取文章并使阅读数+1
+	 * @param id id
+	 * @return
+	 */
+	@Override
+	public AppArticleEntity getArticleAndIncrById(Long id, Long userId) {
+		AppArticleEntity appArticleEntity = baseMapper.selectById(id);
+		// 查询是否收藏了
+		if (Objects.nonNull(userId)) {
+			boolean exists = collectMapper.exists(Wrappers.<AppArticleCollectEntity>lambdaQuery()//
+					.eq(AppArticleCollectEntity::getArticleId, appArticleEntity.getId())//
+					.eq(AppArticleCollectEntity::getUserId, userId));
+			appArticleEntity.setCollect(exists);
+		}
 
-    /**
-     * 获取文章并使阅读数+1
-     *
-     * @param id id
-     * @return
-     */
-    @Override
-    public AppArticleEntity getArticleAndIncrById(Long id, Long userId) {
-        AppArticleEntity appArticleEntity = baseMapper.selectById(id);
-        // 查询是否收藏了
-        if (Objects.nonNull(userId)) {
-            boolean exists = collectMapper.exists(Wrappers.<AppArticleCollectEntity>lambdaQuery()//
-                    .eq(AppArticleCollectEntity::getArticleId, appArticleEntity.getId())//
-                    .eq(AppArticleCollectEntity::getUserId, userId));
-            appArticleEntity.setCollect(exists);
-        }
+		// TODO 更新条件需要根据其他指数限制
+		Integer nowVisit = appArticleEntity.getVisit();
+		appArticleEntity.setVisit(nowVisit + 1);
+		// 乐观锁
+		baseMapper.update(appArticleEntity, Wrappers.<AppArticleEntity>lambdaQuery().eq(AppArticleEntity::getId, id)
+				.eq(AppArticleEntity::getVisit, nowVisit));
+		return appArticleEntity;
+	}
 
-        //TODO 更新条件需要根据其他指数限制
-        Integer nowVisit = appArticleEntity.getVisit();
-        appArticleEntity.setVisit(nowVisit + 1);
-        // 乐观锁
-        baseMapper.update(appArticleEntity, Wrappers.<AppArticleEntity>lambdaQuery().eq(AppArticleEntity::getId, id).eq(AppArticleEntity::getVisit, nowVisit));
-        return appArticleEntity;
-    }
 }

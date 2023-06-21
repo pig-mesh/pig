@@ -34,65 +34,61 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class SmsLoginHandler extends AbstractLoginHandler {
 
-    private final AppUserService appUserService;
+	private final AppUserService appUserService;
 
-    /**
-     * 验证码登录传入为手机号 不用不处理
-     *
-     * @param mobile
-     * @return
-     */
-    @Override
-    public String identify(String mobile) {
-        return mobile;
-    }
+	/**
+	 * 验证码登录传入为手机号 不用不处理
+	 * @param mobile
+	 * @return
+	 */
+	@Override
+	public String identify(String mobile) {
+		return mobile;
+	}
 
-    /**
-     * 通过mobile 获取用户信息
-     *
-     * @param identify
-     * @return
-     */
-    @Override
-    public AppUserInfo info(String identify) {
-        AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getPhone, identify));
+	/**
+	 * 通过mobile 获取用户信息
+	 * @param identify
+	 * @return
+	 */
+	@Override
+	public AppUserInfo info(String identify) {
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getPhone, identify));
 
-        if (user == null) {
-            log.info("手机号未注册:{}", identify);
-            return createAndSaveAppUserInfo(identify);
-        }
-        return appUserService.findUserInfo(user);
-    }
+		if (user == null) {
+			log.info("手机号未注册:{}", identify);
+			return createAndSaveAppUserInfo(identify);
+		}
+		return appUserService.findUserInfo(user);
+	}
 
-    /**
-     * 创建并插入用户
-     *
-     * @param identify
-     * @return
-     */
-    private AppUserInfo createAndSaveAppUserInfo(String phone) {
-        AppUser appUser = new AppUser();
-        appUser.setUsername(phone);
-        appUser.setPhone(phone);
-        appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, phone));
+	/**
+	 * 创建并插入用户
+	 * @param identify
+	 * @return
+	 */
+	private AppUserInfo createAndSaveAppUserInfo(String phone) {
+		AppUser appUser = new AppUser();
+		appUser.setUsername(phone);
+		appUser.setPhone(phone);
+		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, phone));
 
-        AppUserInfo appUserDTO = new AppUserInfo();
-        appUserDTO.setAppUser(appUser);
-        return appUserDTO;
-    }
+		AppUserInfo appUserDTO = new AppUserInfo();
+		appUserDTO.setAppUser(appUser);
+		return appUserDTO;
+	}
 
-    /**
-     * 绑定逻辑
-     *
-     * @param user     用户实体
-     * @param identify 渠道返回唯一标识
-     * @return
-     */
-    @Override
-    public Boolean bind(AppUser user, String identify) {
-        user.setPhone(identify);
-        appUserService.updateById(user);
-        return true;
-    }
+	/**
+	 * 绑定逻辑
+	 * @param user 用户实体
+	 * @param identify 渠道返回唯一标识
+	 * @return
+	 */
+	@Override
+	public Boolean bind(AppUser user, String identify) {
+		user.setPhone(identify);
+		appUserService.updateById(user);
+		return true;
+	}
 
 }

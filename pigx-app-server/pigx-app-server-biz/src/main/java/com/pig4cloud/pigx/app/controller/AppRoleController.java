@@ -148,7 +148,6 @@ public class AppRoleController {
 		return R.ok(appRoleService.deleteRoleByIds(ids));
 	}
 
-
 	/**
 	 * 导出excel 表格
 	 * @param appRole 查询条件

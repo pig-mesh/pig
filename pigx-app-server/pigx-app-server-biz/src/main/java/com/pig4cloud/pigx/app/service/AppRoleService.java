@@ -33,7 +33,6 @@ import java.util.List;
  */
 public interface AppRoleService extends IService<AppRole> {
 
-
 	List<AppRole> findRolesByUserId(Long userId);
 
 	/**

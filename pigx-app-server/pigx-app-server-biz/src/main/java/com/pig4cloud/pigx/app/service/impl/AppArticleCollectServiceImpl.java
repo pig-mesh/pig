@@ -5,6 +5,7 @@ import com.pig4cloud.pigx.app.api.entity.AppArticleCollectEntity;
 import com.pig4cloud.pigx.app.mapper.AppArticleCollectMapper;
 import com.pig4cloud.pigx.app.service.AppArticleCollectService;
 import org.springframework.stereotype.Service;
+
 /**
  * 文章收藏表
  *
@@ -12,5 +13,7 @@ import org.springframework.stereotype.Service;
  * @date 2023-06-16 14:33:41
  */
 @Service
-public class AppArticleCollectServiceImpl extends ServiceImpl<AppArticleCollectMapper, AppArticleCollectEntity> implements AppArticleCollectService {
+public class AppArticleCollectServiceImpl extends ServiceImpl<AppArticleCollectMapper, AppArticleCollectEntity>
+		implements AppArticleCollectService {
+
 }
