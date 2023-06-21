@@ -123,10 +123,12 @@ public class ApiCryptoUtil {
 		Assert.hasText(secretKey, type + " key is not configured (未配置" + type + ")");
 
 		if (type == EncryptType.AES) {
-			// 构建前端对应解密AES 因子
-			AES aes = new AES(Mode.CFB, Padding.NoPadding, new SecretKeySpec(secretKey.getBytes(), "AES"),
-					new IvParameterSpec(secretKey.getBytes()));
-			return aes.decrypt(StrUtil.str(bodyData, Charset.defaultCharset()));
+
+			AES aes = new AES(Mode.CFB, Padding.NoPadding,
+					new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), "AES"),
+					new IvParameterSpec(secretKey.getBytes(StandardCharsets.UTF_8)));
+			return aes.decrypt(StrUtil.str(bodyData, StandardCharsets.UTF_8));
+
 		}
 		if (type == EncryptType.DES) {
 			return SecureUtil.des(secretKey.getBytes(StandardCharsets.UTF_8)).decrypt(bodyData);
