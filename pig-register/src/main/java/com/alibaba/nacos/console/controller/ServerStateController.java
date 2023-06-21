@@ -39,30 +39,30 @@ import java.util.Map;
 @RestController
 @RequestMapping("/v1/console/server")
 public class ServerStateController {
-    
-    private static final String ANNOUNCEMENT_FILE = "announcement.conf";
-    
-    /**
-     * Get server state of current server.
-     *
-     * @return state json.
-     */
-    @GetMapping("/state")
-    public ResponseEntity<Map<String, String>> serverState() {
-        Map<String, String> serverState = new HashMap<>(4);
-        for (ModuleState each : ModuleStateHolder.getInstance().getAllModuleStates()) {
-            each.getStates().forEach((s, o) -> serverState.put(s, null == o ? null : o.toString()));
-        }
-        return ResponseEntity.ok().body(serverState);
-    }
-    
-    @GetMapping("/announcement")
-    public RestResult<String> getAnnouncement() {
-        File announcementFile = new File(EnvUtil.getConfPath(), ANNOUNCEMENT_FILE);
-        String announcement = null;
-        if (announcementFile.exists() && announcementFile.isFile()) {
-            announcement = DiskUtils.readFile(announcementFile);
-        }
-        return RestResultUtils.success(announcement);
-    }
+
+	private static final String ANNOUNCEMENT_FILE = "announcement.conf";
+
+	/**
+	 * Get server state of current server.
+	 * @return state json.
+	 */
+	@GetMapping("/state")
+	public ResponseEntity<Map<String, String>> serverState() {
+		Map<String, String> serverState = new HashMap<>(4);
+		for (ModuleState each : ModuleStateHolder.getInstance().getAllModuleStates()) {
+			each.getStates().forEach((s, o) -> serverState.put(s, null == o ? null : o.toString()));
+		}
+		return ResponseEntity.ok().body(serverState);
+	}
+
+	@GetMapping("/announcement")
+	public RestResult<String> getAnnouncement() {
+		File announcementFile = new File(EnvUtil.getConfPath(), ANNOUNCEMENT_FILE);
+		String announcement = null;
+		if (announcementFile.exists() && announcementFile.isFile()) {
+			announcement = DiskUtils.readFile(announcementFile);
+		}
+		return RestResultUtils.success(announcement);
+	}
+
 }
