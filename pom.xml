@@ -33,15 +33,15 @@
     </organization>
 
     <properties>
-        <spring-boot.version>2.7.10</spring-boot.version>
-        <spring-cloud.version>2021.0.6</spring-cloud.version>
+        <spring-boot.version>2.7.12</spring-boot.version>
+        <spring-cloud.version>2021.0.7</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.34</spring.checkstyle.version>
-        <spring.authorization.version>0.4.1</spring.authorization.version>
+        <spring.authorization.version>0.4.3</spring.authorization.version>
         <git.commit.version>2.2.5</git.commit.version>
         <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <captcha.version>1.2.7</captcha.version>
