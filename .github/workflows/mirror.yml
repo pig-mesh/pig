@@ -14,3 +14,9 @@ jobs:
         with:
           source-repo: "git@github.com:pig-mesh/pig.git"
           destination-repo: "git@code.gitlink.org.cn:lengleng/pig.git"
+      - uses: wearerequired/git-mirror-action@master #同步至 gitlink
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        with:
+          source-repo: "git@github.com:pig-mesh/pig.git"
+          destination-repo: "git@atomgit.com:log4j/pig.git"
