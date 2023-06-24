@@ -587,7 +587,7 @@ INSERT INTO `sys_menu` VALUES (7201, '删除角色', 'app_approle_del', NULL, 72
 INSERT INTO `sys_menu` VALUES (7202, '编辑角色', 'app_approle_edit', NULL, 7200, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:01', '0', 1);
 INSERT INTO `sys_menu` VALUES (7203, '新增角色', 'app_approle_add', NULL, 7200, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:01', '0', 1);
 INSERT INTO `sys_menu` VALUES (7204, '导出角色', 'app_approle_export', NULL, 7200, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:01', '0', 1);
-INTO `sys_menu` VALUES (7300, 'APP秘钥', NULL, '/app/appsocial/index', 7000, 'iconfont icon-quanxian', '1', 3, '0', '0', '0', 'admin', NULL, 'admin', '2023-03-07 14:18:44', '0', 1);
+INSERT INTO `sys_menu` VALUES (7300, 'APP秘钥', NULL, '/app/appsocial/index', 7000, 'iconfont icon-quanxian', '1', 3, '0', '0', '0', 'admin', NULL, 'admin', '2023-03-07 14:18:44', '0', 1);
 INSERT INTO `sys_menu` VALUES (7301, '删除秘钥', 'app_social_details_del', NULL, 7300, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:02', '0', 1);
 INSERT INTO `sys_menu` VALUES (7302, '修改秘钥', 'app_social_details_edit', NULL, 7300, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:02', '0', 1);
 INSERT INTO `sys_menu` VALUES (7303, '保存秘钥', 'app_social_details_add', NULL, 7300, NULL, '1', 1, '0', NULL, '1', 'admin', NULL, 'admin', '2023-01-29 07:01:02', '0', 1);
