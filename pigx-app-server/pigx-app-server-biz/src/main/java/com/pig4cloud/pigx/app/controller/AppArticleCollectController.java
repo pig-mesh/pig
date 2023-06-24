@@ -48,7 +48,8 @@ public class AppArticleCollectController {
 	public R getAppArticleCollectPage(@ParameterObject Page page) {
 		MPJLambdaWrapper<AppArticleCollectEntity> wrapper = new MPJLambdaWrapper<AppArticleCollectEntity>()
 				.selectAll(AppArticleCollectEntity.class).select(AppArticleEntity::getTitle)
-				.leftJoin(AppArticleEntity.class, AppArticleEntity::getId, AppArticleCollectEntity::getArticleId);
+				.leftJoin(AppArticleEntity.class, AppArticleEntity::getId, AppArticleCollectEntity::getArticleId)
+				.eq(AppArticleCollectEntity::getUserId, SecurityUtils.getUser().getId());
 		return R.ok(appArticleCollectService.selectJoinListPage(page, AppArticleCollectEntity.class, wrapper));
 	}
 
@@ -72,9 +73,7 @@ public class AppArticleCollectController {
 	@SysLog("新增文章收藏表")
 	@PostMapping
 	public R save(@RequestBody AppArticleCollectEntity appArticleCollect) {
-		Long id = SecurityUtils.getUser().getId();
-		appArticleCollect.setUserId(id);
-		return R.ok(appArticleCollectService.save(appArticleCollect));
+		return R.ok(appArticleCollectService.saveArticleCollect(appArticleCollect));
 	}
 
 	/**

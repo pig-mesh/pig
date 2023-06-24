@@ -1,8 +1,6 @@
 package com.pig4cloud.pigx.app.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.app.api.entity.AppArticleEntity;
@@ -21,7 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * 文章资讯
@@ -48,11 +45,7 @@ public class AppArticleController {
 	@Inner(value = false)
 	@GetMapping("/page")
 	public R getAppArticlePage(@ParameterObject Page page, @ParameterObject AppArticleEntity appArticle) {
-		LambdaQueryWrapper<AppArticleEntity> wrapper = Wrappers.lambdaQuery();
-		wrapper.like(StrUtil.isNotBlank(appArticle.getAuthor()), AppArticleEntity::getAuthor, appArticle.getAuthor());
-		wrapper.like(StrUtil.isNotBlank(appArticle.getTitle()), AppArticleEntity::getTitle, appArticle.getTitle());
-		wrapper.eq(Objects.nonNull(appArticle.getCid()), AppArticleEntity::getCid, appArticle.getCid());
-		return R.ok(appArticleService.page(page, wrapper));
+		return R.ok(appArticleService.pageAndCname(page, appArticle));
 	}
 
 	/**

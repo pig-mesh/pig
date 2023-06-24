@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @date 2023-06-07 16:32:35
  */
 @Data
+@FieldNameConstants
 @TableName("app_article")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "文章资讯")
@@ -122,5 +124,11 @@ public class AppArticleEntity extends Model<AppArticleEntity> {
 	 */
 	@TableField(exist = false)
 	private boolean collect;
+
+	/**
+	 * 分类名称
+	 */
+	@TableField(exist = false)
+	private String cname;
 
 }
