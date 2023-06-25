@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.act.mapper;
 
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
-import org.activiti.engine.repository.Model;
+import org.activiti.engine.impl.persistence.entity.ModelEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  * @date 2018-09-27 15:20:44
  */
 @Mapper
-public interface ProcessMapper extends PigxBaseMapper<Model> {
+public interface ProcessMapper extends PigxBaseMapper<ModelEntity> {
 
 	void deleteByIds(@Param("ids") String[] ids);
 
