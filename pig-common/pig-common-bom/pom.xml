@@ -33,7 +33,7 @@
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.19</hutool.version>
+        <hutool.version>5.8.20</hutool.version>
         <mica.version>2.7.4</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
