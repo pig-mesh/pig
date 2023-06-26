@@ -88,8 +88,10 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		if (OAuth2ParameterNames.PASSWORD.equals(grantType)) {
 			String username = request.getParameter(OAuth2ParameterNames.USERNAME);
 
-			// 密码错误记录错误次数
-			if (exception instanceof OAuth2AuthenticationException) {
+			// 密码错误记录错误次数 （TOC用户不记录）
+			String header = WebUtils.getRequest().getHeader(SecurityConstants.HEADER_TOC);
+			if (exception instanceof OAuth2AuthenticationException
+					&& !SecurityConstants.HEADER_TOC_YES.equals(header)) {
 				recordLoginFailureTimes(username);
 			}
 
