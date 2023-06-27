@@ -75,8 +75,10 @@ public class DictController {
 	 */
 	@GetMapping("/page")
 	public R<IPage<SysDict>> getDictPage(Page page, SysDict sysDict) {
-		return R.ok(sysDictService.page(page, Wrappers.<SysDict>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())));
+		return R.ok(sysDictService.page(page,
+				Wrappers.<SysDict>lambdaQuery()
+					.like(StrUtil.isNotBlank(sysDict.getDictKey()), SysDict::getDictKey, sysDict.getDictKey())
+					.eq(StrUtil.isNotBlank(sysDict.getSystemFlag()), SysDict::getSystemFlag, sysDict.getSystemFlag())));
 	}
 
 	/**
