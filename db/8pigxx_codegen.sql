@@ -132,10 +132,8 @@ CREATE TABLE `gen_group` (
 -- Records of gen_group
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_group` VALUES (1, '国际化 vue3 弹框', '含有国际化的内容', 1, ' ', ' ', NULL, NULL, '0');
-INSERT INTO `gen_group` VALUES (2, '不含国际化vue3版本', '表单为弹窗', 1, ' ', ' ', NULL, NULL, '0');
-INSERT INTO `gen_group` VALUES (3, '国际化 vue3 抽屉', '抽屉类型', 1, ' ', ' ', NULL, NULL, '0');
-INSERT INTO `gen_group` VALUES (4, '不含国际化 vue3 抽屉', 'vue3 抽屉', 1, ' ', ' ', NULL, NULL, '0');
+INSERT INTO `gen_group` VALUES (1, '单表增删改查', '单表增删改查', 1, ' ', ' ', NULL, NULL, '0');
+INSERT INTO `gen_group` VALUES (2, '主子表表增删改查', '主子表表增删改查', 1, ' ', ' ', NULL, NULL, '0');
 COMMIT;
 
 -- ----------------------------
@@ -154,6 +152,9 @@ CREATE TABLE `gen_table` (
   `version` varchar(200) DEFAULT NULL COMMENT '项目版本号',
   `i18n` tinyint(4) DEFAULT '1' COMMENT '是否生成带有i18n 0 不带有 1带有',
   `style` bigint(20) DEFAULT '0' COMMENT '代码风格',
+  `child_table_name` varchar(200) DEFAULT NULL COMMENT '子表名称',
+  `main_field` varchar(200) DEFAULT NULL COMMENT '主表关联键',
+  `child_field` varchar(200) DEFAULT NULL COMMENT '子表关联键',
   `generator_type` tinyint(4) DEFAULT NULL COMMENT '生成方式  0：zip压缩包   1：自定义目录',
   `backend_path` varchar(500) DEFAULT NULL COMMENT '后端生成路径',
   `frontend_path` varchar(500) DEFAULT NULL COMMENT '前端生成路径',
@@ -166,7 +167,6 @@ CREATE TABLE `gen_table` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `table_name` (`table_name`,`ds_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1642522692257112067 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='代码生成表';
-
 -- ----------------------------
 -- Records of gen_table
 -- ----------------------------
