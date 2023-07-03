@@ -246,7 +246,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 填充数据模型
 		dataModel.put("dbType", table.getDbType());
 		dataModel.put("package", table.getPackageName());
-		dataModel.put("packagePath", table.getPackageName().replace(".", File.separator));
+		dataModel.put("packagePath", table.getPackageName().replace(".", "/"));
 		dataModel.put("version", table.getVersion());
 		dataModel.put("moduleName", table.getModuleName());
 		dataModel.put("ModuleName", StrUtil.upperFirst(table.getModuleName()));
