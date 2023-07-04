@@ -94,7 +94,7 @@ public class SysAuditLogController {
 	 */
 	@Operation(summary = "通过id删除审计记录表", description = "通过id删除审计记录表")
 	@SysLog("通过id删除审计记录表")
-	@DeleteMapping
+	@DeleteMapping("/delete")
 	@PreAuthorize("@pms.hasPermission('sys_audit_del')")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysAuditLogService.removeBatchByIds(CollUtil.toList(ids)));
