@@ -26,14 +26,14 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		log.debug("mybatis plus start insert fill ....");
 		LocalDateTime now = LocalDateTime.now();
 
-		// 审计字段自动填充
-		fillValIfNullByName("createTime", now, metaObject, false);
-		fillValIfNullByName("updateTime", now, metaObject, false);
-		fillValIfNullByName("createBy", getUserName(), metaObject, false);
-		fillValIfNullByName("updateBy", getUserName(), metaObject, false);
+		// 审计字段自动填充,覆盖用户输入
+		fillValIfNullByName("createTime", now, metaObject, true);
+		fillValIfNullByName("updateTime", now, metaObject, true);
+		fillValIfNullByName("createBy", getUserName(), metaObject, true);
+		fillValIfNullByName("updateBy", getUserName(), metaObject, true);
 
 		// 删除标记自动填充
-		fillValIfNullByName("delFlag", CommonConstants.STATUS_NORMAL, metaObject, false);
+		fillValIfNullByName("delFlag", CommonConstants.STATUS_NORMAL, metaObject, true);
 	}
 
 	@Override
