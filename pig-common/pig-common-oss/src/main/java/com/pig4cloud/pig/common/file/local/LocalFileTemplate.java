@@ -43,8 +43,10 @@ public class LocalFileTemplate implements FileTemplate {
 	 */
 	@Override
 	public List<Bucket> getAllBuckets() {
-		return Arrays.stream(FileUtil.ls(properties.getLocal().getBasePath())).filter(FileUtil::isDirectory)
-				.map(dir -> new Bucket(dir.getName())).collect(Collectors.toList());
+		return Arrays.stream(FileUtil.ls(properties.getLocal().getBasePath()))
+			.filter(FileUtil::isDirectory)
+			.map(dir -> new Bucket(dir.getName()))
+			.collect(Collectors.toList());
 	}
 
 	/**

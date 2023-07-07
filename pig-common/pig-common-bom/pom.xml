@@ -23,18 +23,17 @@
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.34</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
-        <springdoc.version>2.0.0</springdoc.version>
-        <swagger.core.version>2.2.7</swagger.core.version>
+        <springdoc.version>2.1.0</springdoc.version>
+        <swagger.core.version>2.2.14</swagger.core.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
         <excel.version>3.1.0</excel.version>
         <asm.version>7.1</asm.version>
-        <oss.version>3.0.0</oss.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.18</hutool.version>
-        <mica.version>2.7.4</mica.version>
+        <hutool.version>5.8.20</hutool.version>
+        <mica.version>3.0.8</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
@@ -134,12 +133,6 @@
                 <groupId>io.springboot.sms</groupId>
                 <artifactId>aliyun-sms-spring-boot-starter</artifactId>
                 <version>${sms.version}</version>
-            </dependency>
-            <!--oss-->
-            <dependency>
-                <groupId>com.pig4cloud.plugin</groupId>
-                <artifactId>oss-spring-boot-starter</artifactId>
-                <version>${oss.version}</version>
             </dependency>
             <!--  seata kryo 序列化-->
             <dependency>

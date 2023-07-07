@@ -59,7 +59,7 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService {
 
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUsername(username);
-		R<UserInfo> result = remoteUserService.info(userDTO,SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.info(userDTO, SecurityConstants.FROM_IN);
 		UserDetails userDetails = getUserDetails(result);
 		if (cache != null) {
 			cache.put(username, userDetails);
