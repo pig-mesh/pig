@@ -17,25 +17,25 @@ import java.util.Objects;
  */
 public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegistrar {
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 
-        Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true);
-        Object value = annotationAttributes.get("value");
-        if (Objects.isNull(value)) {
-            return;
-        }
+		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true);
+		Object value = annotationAttributes.get("value");
+		if (Objects.isNull(value)) {
+			return;
+		}
 
-        BeanDefinitionBuilder openAPIMetadataRegister = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIMetadataRegister.class);
-        openAPIMetadataRegister.addPropertyValue("path", value);
+		BeanDefinitionBuilder openAPIMetadataRegister = BeanDefinitionBuilder
+			.genericBeanDefinition(OpenAPIMetadataRegister.class);
+		openAPIMetadataRegister.addPropertyValue("path", value);
 
-        registry.registerBeanDefinition("openAPIMetadataRegister", openAPIMetadataRegister.getBeanDefinition());
+		registry.registerBeanDefinition("openAPIMetadataRegister", openAPIMetadataRegister.getBeanDefinition());
 
+		BeanDefinitionBuilder openAPIDefinition = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIDefinition.class);
+		openAPIDefinition.addPropertyValue("path", value);
+		registry.registerBeanDefinition("openAPIDefinition", openAPIDefinition.getBeanDefinition());
 
-        BeanDefinitionBuilder openAPIDefinition = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIDefinition.class);
-        openAPIDefinition.addPropertyValue("path", value);
-        registry.registerBeanDefinition("openAPIDefinition", openAPIDefinition.getBeanDefinition());
-
-    }
+	}
 
 }

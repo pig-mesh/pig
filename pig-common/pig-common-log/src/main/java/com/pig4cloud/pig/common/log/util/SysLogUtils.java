@@ -21,7 +21,7 @@ import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -47,13 +47,12 @@ public class SysLogUtils {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		SysLog sysLog = new SysLog();
-		sysLog.setType(LogTypeEnum.NORMAL.getType());
+		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
 		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
 		sysLog.setCreateBy(getUsername());
-		sysLog.setUpdateBy(getUsername());
 		return sysLog;
 	}
 
@@ -90,7 +89,7 @@ public class SysLogUtils {
 	 * @return 装载参数的容器
 	 */
 	public EvaluationContext getContext(Object[] arguments, Method signatureMethod) {
-		String[] parameterNames = new LocalVariableTableParameterNameDiscoverer().getParameterNames(signatureMethod);
+		String[] parameterNames = new StandardReflectionParameterNameDiscoverer().getParameterNames(signatureMethod);
 		EvaluationContext context = new StandardEvaluationContext();
 		if (parameterNames == null) {
 			return context;

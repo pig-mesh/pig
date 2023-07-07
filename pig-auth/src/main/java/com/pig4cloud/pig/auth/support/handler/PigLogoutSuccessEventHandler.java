@@ -70,7 +70,6 @@ public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutS
 			logVo.setServiceId(authentication.getCredentials().toString());
 		}
 		logVo.setCreateBy(authentication.getName());
-		logVo.setUpdateBy(authentication.getName());
 		SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 	}
 

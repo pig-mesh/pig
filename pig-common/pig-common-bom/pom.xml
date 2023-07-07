@@ -6,7 +6,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig-common-bom</artifactId>
-    <version>3.6.4</version>
+    <version>3.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>pig-common-bom</name>
@@ -15,7 +15,7 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>3.0.6</spring-boot.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -28,7 +28,7 @@
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
-        <excel.version>3.0.0</excel.version>
+        <excel.version>3.1.0</excel.version>
         <asm.version>7.1</asm.version>
         <oss.version>3.0.0</oss.version>
         <sms.version>3.0.0</sms.version>
@@ -64,6 +64,11 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-mybatis</artifactId>
+                <version>${pig.common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-oss</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>
             <dependency>

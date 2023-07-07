@@ -1,29 +1,31 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -31,11 +33,11 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2017-10-29
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-public class SysUser extends BaseEntity {
+@Schema(description = "用户")
+public class SysUser implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +51,7 @@ public class SysUser extends BaseEntity {
 	/**
 	 * 用户名
 	 */
-	@Schema(title = "用户名")
+	@Schema(description = "用户名")
 	private String username;
 
 	/**
@@ -64,6 +66,42 @@ public class SysUser extends BaseEntity {
 	@JsonIgnore
 	@Schema(description = "随机盐")
 	private String salt;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@Schema(description = "修改人")
+	private String updateBy;
+
+	/**
+	 * 创建时间
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "创建时间")
+	private LocalDateTime createTime;
+
+	/**
+	 * 修改时间
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@Schema(description = "修改时间")
+	private LocalDateTime updateTime;
+
+	/**
+	 * 0-正常，1-删除
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "删除标记,1:已删除,0:正常")
+	private String delFlag;
 
 	/**
 	 * 锁定标记
@@ -90,9 +128,51 @@ public class SysUser extends BaseEntity {
 	private Long deptId;
 
 	/**
-	 * 0-正常，1-删除
+	 * 微信openid
 	 */
-	@TableLogic
-	private String delFlag;
+	@Schema(description = "微信openid")
+	private String wxOpenid;
+
+	/**
+	 * 微信小程序openId
+	 */
+	@Schema(description = "微信小程序openid")
+	private String miniOpenid;
+
+	/**
+	 * QQ openid
+	 */
+	@Schema(description = "QQ openid")
+	private String qqOpenid;
+
+	/**
+	 * 码云唯一标识
+	 */
+	@Schema(description = "码云唯一标识")
+	private String giteeLogin;
+
+	/**
+	 * 开源中国唯一标识
+	 */
+	@Schema(description = "开源中国唯一标识")
+	private String oscId;
+
+	/**
+	 * 昵称
+	 */
+	@Schema(description = "昵称")
+	private String nickname;
+
+	/**
+	 * 姓名
+	 */
+	@Schema(description = "姓名")
+	private String name;
+
+	/**
+	 * 邮箱
+	 */
+	@Schema(description = "邮箱")
+	private String email;
 
 }

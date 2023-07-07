@@ -17,9 +17,9 @@
 package com.pig4cloud.pig.common.feign.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.cloud.openfeign.PigFeignClientsRegistrar;
 import org.springframework.context.annotation.Import;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
@@ -51,32 +51,7 @@ public @interface EnablePigFeignClients {
 	 * package names.
 	 * @return the array of 'basePackages'.
 	 */
+	@AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
 	String[] basePackages() default { "com.pig4cloud.pig" };
-
-	/**
-	 * Type-safe alternative to {@link #basePackages()} for specifying the packages to
-	 * scan for annotated components. The package of each class specified will be scanned.
-	 * <p>
-	 * Consider creating a special no-op marker class or interface in each package that
-	 * serves no purpose other than being referenced by this attribute.
-	 * @return the array of 'basePackageClasses'.
-	 */
-	Class<?>[] basePackageClasses() default {};
-
-	/**
-	 * A custom <code>@Configuration</code> for all feign clients. Can contain override
-	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
-	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.
-	 *
-	 * @see FeignClientsConfiguration for the defaults
-	 */
-	Class<?>[] defaultConfiguration() default {};
-
-	/**
-	 * List of classes annotated with @FeignClient. If not empty, disables classpath
-	 * scanning.
-	 * @return
-	 */
-	Class<?>[] clients() default {};
 
 }

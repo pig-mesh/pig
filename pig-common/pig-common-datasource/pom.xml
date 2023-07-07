@@ -16,28 +16,32 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<parent>
-		<artifactId>pig-common</artifactId>
-		<groupId>com.pig4cloud</groupId>
-		<version>3.6.4</version>
-	</parent>
-	<modelVersion>4.0.0</modelVersion>
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>pig-common</artifactId>
+        <groupId>com.pig4cloud</groupId>
+        <version>3.7.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.pig4cloud</groupId>
-	<artifactId>pig-common-datasource</artifactId>
+    <groupId>com.pig4cloud</groupId>
+    <artifactId>pig-common-datasource</artifactId>
 
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
 
-	<description>pig 动态切换数据源</description>
+    <description>pig 动态切换数据源</description>
 
-	<dependencies>
-		<!--mybatis-->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-			<version>${dynamic-ds.version}</version>
-		</dependency>
-	</dependencies>
+    <dependencies>
+        <!--mybatis-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+            <version>${dynamic-ds.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

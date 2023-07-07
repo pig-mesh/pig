@@ -15,7 +15,7 @@ import java.util.List;
  * <p>
  * 查询参数相关
  */
-@FeignClient(contextId = "remoteDictService", value = ServiceNameConstants.UMPS_SERVICE)
+@FeignClient(contextId = "remoteDictService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteDictService {
 
 	/**

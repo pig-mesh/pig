@@ -57,7 +57,7 @@ public class DictResolver {
 
 		SysDictItem sysDictItem = getDictItemByItemLabel(type, itemLabel);
 
-		return ObjectUtils.isNotEmpty(sysDictItem) ? sysDictItem.getValue() : StringPool.EMPTY;
+		return ObjectUtils.isNotEmpty(sysDictItem) ? sysDictItem.getItemValue() : StringPool.EMPTY;
 	}
 
 	/**
@@ -72,7 +72,7 @@ public class DictResolver {
 		List<SysDictItem> dictItemList = getDictItemsByType(type);
 
 		if (CollectionUtils.isNotEmpty(dictItemList)) {
-			return dictItemList.stream().filter(item -> itemValue.equals(item.getValue())).findFirst().orElse(null);
+			return dictItemList.stream().filter(item -> itemValue.equals(item.getItemValue())).findFirst().orElse(null);
 		}
 
 		return null;

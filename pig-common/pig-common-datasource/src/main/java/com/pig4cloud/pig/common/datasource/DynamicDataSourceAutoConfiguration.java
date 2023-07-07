@@ -16,8 +16,12 @@
 
 package com.pig4cloud.pig.common.datasource;
 
+import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
+import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
+import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
+import com.pig4cloud.pig.common.datasource.config.ClearTtlDataSourceFilter;
 import com.pig4cloud.pig.common.datasource.config.DataSourceProperties;
 import com.pig4cloud.pig.common.datasource.config.JdbcDynamicDataSourceProvider;
 import com.pig4cloud.pig.common.datasource.config.LastParamDsProcessor;
@@ -27,6 +31,9 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author lengleng
@@ -40,14 +47,28 @@ import org.springframework.context.annotation.Configuration;
 public class DynamicDataSourceAutoConfiguration {
 
 	@Bean
-	public DynamicDataSourceProvider dynamicDataSourceProvider(StringEncryptor stringEncryptor,
-			DataSourceProperties properties) {
-		return new JdbcDynamicDataSourceProvider(stringEncryptor, properties);
+	public DynamicDataSourceProvider dynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			StringEncryptor stringEncryptor, DataSourceProperties properties) {
+		return new JdbcDynamicDataSourceProvider(defaultDataSourceCreator, stringEncryptor, properties);
 	}
 
 	@Bean
 	public DsProcessor dsProcessor() {
 		return new LastParamDsProcessor();
+	}
+
+	@Bean
+	public DefaultDataSourceCreator defaultDataSourceCreator(HikariDataSourceCreator hikariDataSourceCreator) {
+		DefaultDataSourceCreator defaultDataSourceCreator = new DefaultDataSourceCreator();
+		List<DataSourceCreator> creators = new ArrayList<>();
+		creators.add(hikariDataSourceCreator);
+		defaultDataSourceCreator.setCreators(creators);
+		return defaultDataSourceCreator;
+	}
+
+	@Bean
+	public ClearTtlDataSourceFilter clearTtlDsFilter() {
+		return new ClearTtlDataSourceFilter();
 	}
 
 }
