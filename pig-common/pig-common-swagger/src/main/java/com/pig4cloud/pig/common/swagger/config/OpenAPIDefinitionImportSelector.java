@@ -6,8 +6,7 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * openapi 配置类
@@ -17,25 +16,33 @@ import java.util.Objects;
  */
 public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegistrar {
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+	/**
+	 * 注册Bean定义方法
+	 * @param metadata 注解元数据
+	 * @param registry Bean定义注册器
+	 */
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+		Optional.ofNullable(metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true))
+			.map(attrs -> attrs.get("value"))
+			.ifPresent(value -> {
+				createBeanDefinition(registry, "openAPIMetadataRegister", OpenAPIMetadataRegister.class, value);
+				createBeanDefinition(registry, "openAPIDefinition", OpenAPIDefinition.class, value);
+			});
+	}
 
-        Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true);
-        Object value = annotationAttributes.get("value");
-        if (Objects.isNull(value)) {
-            return;
-        }
-
-        BeanDefinitionBuilder openAPIMetadataRegister = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIMetadataRegister.class);
-        openAPIMetadataRegister.addPropertyValue("path", value);
-
-        registry.registerBeanDefinition("openAPIMetadataRegister", openAPIMetadataRegister.getBeanDefinition());
-
-
-        BeanDefinitionBuilder openAPIDefinition = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIDefinition.class);
-        openAPIDefinition.addPropertyValue("path", value);
-        registry.registerBeanDefinition("openAPIDefinition", openAPIDefinition.getBeanDefinition());
-
-    }
+	/**
+	 * 创建Bean定义
+	 * @param registry Bean定义注册器
+	 * @param beanName Bean名称
+	 * @param beanClass Bean类
+	 * @param value Bean属性值
+	 */
+	private void createBeanDefinition(BeanDefinitionRegistry registry, String beanName, Class<?> beanClass,
+			Object value) {
+		BeanDefinitionBuilder beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(beanClass);
+		beanDefinition.addPropertyValue("path", value);
+		registry.registerBeanDefinition(beanName, beanDefinition.getBeanDefinition());
+	}
 
 }

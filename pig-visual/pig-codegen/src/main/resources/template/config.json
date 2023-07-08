@@ -1,0 +1,12 @@
+{
+  "project": {
+    "packageName": "com.pig4cloud.pig",
+    "version": "1.0.0",
+    "backendPath": "pig",
+    "frontendPath": "pig-ui"
+  },
+  "developer": {
+    "author": "pig",
+    "email": "pig4cloud@qq.com"
+  }
+}

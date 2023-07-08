@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
@@ -31,6 +32,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 公共参数配置
@@ -73,18 +77,18 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 
 	/**
 	 * 删除参数
-	 * @param publicId
+	 * @param publicIds 参数ID列表
 	 * @return
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
-	public R removeParam(Long publicId) {
-		SysPublicParam param = this.getById(publicId);
-		// 系统内置
-		if (DictTypeEnum.SYSTEM.getType().equals(param.getSystemFlag())) {
-			return R.failed("系统内置参数不能删除");
-		}
-		return R.ok(this.removeById(publicId));
+	public R removeParamByIds(Long[] publicIds) {
+		List<Long> idList = this.baseMapper.selectBatchIds(CollUtil.toList(publicIds))
+			.stream()
+			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
+			.map(SysPublicParam::getPublicId)
+			.collect(Collectors.toList());
+		return R.ok(this.removeBatchByIds(idList));
 	}
 
 	/**

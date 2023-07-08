@@ -26,6 +26,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springdoc.core.utils.SpringDocUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -71,7 +72,7 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 	}
 
 	@Override
-	public void afterPropertiesSet() throws Exception {
+	public void afterPropertiesSet() {
 		SwaggerProperties swaggerProperties = applicationContext.getBean(SwaggerProperties.class);
 		this.info(new Info().title(swaggerProperties.getTitle()));
 		// oauth2.0 password
@@ -80,6 +81,8 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		List<Server> serverList = new ArrayList<>();
 		serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));
 		this.servers(serverList);
+		// 支持参数平铺
+		SpringDocUtils.getConfig().addSimpleTypesForParameterObject(Class.class);
 	}
 
 	@Override

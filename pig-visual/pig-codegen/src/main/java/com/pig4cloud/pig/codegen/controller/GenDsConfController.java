@@ -1,34 +1,42 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.codegen.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
+import cn.smallbun.screw.boot.config.Screw;
+import cn.smallbun.screw.boot.properties.ScrewProperties;
+import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.log.annotation.SysLog;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.security.annotation.Inner;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.sql.DataSource;
 
 /**
  * 数据源管理
@@ -39,11 +47,11 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dsconf")
-@Tag(name = "数据源管理模块")
-@SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenDsConfController {
 
 	private final GenDatasourceConfService datasourceConfService;
+
+	private final Screw screw;
 
 	/**
 	 * 分页查询
@@ -52,8 +60,11 @@ public class GenDsConfController {
 	 * @return
 	 */
 	@GetMapping("/page")
-	public R<IPage<GenDatasourceConf>> getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
-		return R.ok(datasourceConfService.page(page, Wrappers.query(datasourceConf)));
+	public R getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
+		return R.ok(datasourceConfService.page(page,
+				Wrappers.<GenDatasourceConf>lambdaQuery()
+					.like(StrUtil.isNotBlank(datasourceConf.getDsName()), GenDatasourceConf::getDsName,
+							datasourceConf.getDsName())));
 	}
 
 	/**
@@ -61,7 +72,8 @@ public class GenDsConfController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	public R<List<GenDatasourceConf>> list() {
+	@Inner(value = false)
+	public R list() {
 		return R.ok(datasourceConfService.list());
 	}
 
@@ -71,7 +83,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@GetMapping("/{id}")
-	public R<GenDatasourceConf> getById(@PathVariable("id") Long id) {
+	public R getById(@PathVariable("id") Long id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
 
@@ -80,9 +92,8 @@ public class GenDsConfController {
 	 * @param datasourceConf 数据源表
 	 * @return R
 	 */
-	@SysLog("新增数据源表")
 	@PostMapping
-	public R<Boolean> save(@RequestBody GenDatasourceConf datasourceConf) {
+	public R save(@RequestBody GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.saveDsByEnc(datasourceConf));
 	}
 
@@ -91,21 +102,42 @@ public class GenDsConfController {
 	 * @param conf 数据源表
 	 * @return R
 	 */
-	@SysLog("修改数据源表")
 	@PutMapping
-	public R<Boolean> updateById(@RequestBody GenDatasourceConf conf) {
+	public R updateById(@RequestBody GenDatasourceConf conf) {
 		return R.ok(datasourceConfService.updateDsByEnc(conf));
 	}
 
 	/**
 	 * 通过id删除数据源表
-	 * @param id id
+	 * @param ids id
 	 * @return R
 	 */
-	@SysLog("删除数据源表")
-	@DeleteMapping("/{id}")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(datasourceConfService.removeByDsId(id));
+	@DeleteMapping
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(datasourceConfService.removeByDsId(ids));
+	}
+
+	/**
+	 * 查询数据源对应的文档
+	 * @param dsName 数据源名称
+	 */
+	@SneakyThrows
+	@GetMapping("/doc")
+	public void generatorDoc(String dsName, HttpServletResponse response) {
+		// 设置指定的数据源
+		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
+		DynamicDataSourceContextHolder.push(dsName);
+		DataSource dataSource = dynamicRoutingDataSource.determineDataSource();
+
+		// 设置指定的目标表
+		ScrewProperties screwProperties = SpringContextHolder.getBean(ScrewProperties.class);
+
+		// 生成
+		byte[] data = screw.documentGeneration(dataSource, screwProperties).toByteArray();
+		response.reset();
+		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentType(ContentType.OCTET_STREAM.getValue());
+		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
 	}
 
 }

@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.security.service;
 
+import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
@@ -54,7 +55,9 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 			return (PigUser) cache.get(phone).get();
 		}
 
-		R<UserInfo> result = remoteUserService.infoByMobile(phone);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setPhone(phone);
+		R<UserInfo> result = remoteUserService.info(userDTO, SecurityConstants.FROM_IN);
 
 		UserDetails userDetails = getUserDetails(result);
 		if (cache != null) {
@@ -80,7 +83,7 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 	 */
 	@Override
 	public boolean support(String clientId, String grantType) {
-		return SecurityConstants.APP.equals(grantType);
+		return SecurityConstants.MOBILE.equals(grantType);
 	}
 
 }

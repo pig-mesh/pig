@@ -1,17 +1,20 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.service.impl;
@@ -23,16 +26,17 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.api.vo.RoleExcelVO;
+import com.pig4cloud.pig.admin.api.vo.RoleVO;
 import com.pig4cloud.pig.admin.mapper.SysRoleMapper;
-import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
+import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.plugin.excel.vo.ErrorMessage;
-import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
+import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -48,25 +52,57 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2017-10-29
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements SysRoleService {
 
-	private final SysRoleMenuMapper sysRoleMenuMapper;
+	private SysRoleMenuService roleMenuService;
+
+	/**
+	 * 通过用户ID，查询角色信息
+	 * @param userId
+	 * @return
+	 */
+	@Override
+	public List findRolesByUserId(Long userId) {
+		return baseMapper.listRolesByUserId(userId);
+	}
+
+	/**
+	 * 根据角色ID 查询角色列表，注意缓存删除
+	 * @param roleIdList 角色ID列表
+	 * @param key 缓存key
+	 * @return
+	 */
+	@Override
+	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
+	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
+		return baseMapper.selectBatchIds(roleIdList);
+	}
 
 	/**
 	 * 通过角色ID，删除角色,并清空角色菜单缓存
-	 * @param id
+	 * @param ids
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-	public Boolean removeRoleById(Long id) {
-		sysRoleMenuMapper.delete(Wrappers.<SysRoleMenu>update().lambda().eq(SysRoleMenu::getRoleId, id));
-		return this.removeById(id);
+	public Boolean removeRoleByIds(Long[] ids) {
+		roleMenuService
+			.remove(Wrappers.<SysRoleMenu>update().lambda().in(SysRoleMenu::getRoleId, CollUtil.toList(ids)));
+		return this.removeBatchByIds(CollUtil.toList(ids));
+	}
+
+	/**
+	 * 根据角色菜单列表
+	 * @param roleVo 角色&菜单列表
+	 * @return
+	 */
+	@Override
+	public Boolean updateRoleMenus(RoleVO roleVo) {
+		return roleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds());
 	}
 
 	/**

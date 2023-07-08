@@ -52,7 +52,7 @@ public class OAuth2ResourceOwnerSmsAuthenticationProvider
 	public void checkClient(RegisteredClient registeredClient) {
 		assert registeredClient != null;
 		if (!registeredClient.getAuthorizationGrantTypes()
-			.contains(new AuthorizationGrantType(SecurityConstants.APP))) {
+			.contains(new AuthorizationGrantType(SecurityConstants.MOBILE))) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
 	}

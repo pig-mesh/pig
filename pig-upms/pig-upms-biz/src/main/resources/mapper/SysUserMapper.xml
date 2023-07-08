@@ -1,179 +1,203 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
   ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
   ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
   ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
   -->
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysUserMapper">
-	<!-- 通用查询映射结果 -->
-	<resultMap id="baseResultMap" type="com.pig4cloud.pig.admin.api.vo.UserVO">
-		<id column="user_id" property="userId"/>
-		<result column="username" property="username"/>
-		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
-		<result column="phone" property="phone"/>
-		<result column="avatar" property="avatar"/>
-		<result column="ucreate_time" property="createTime"/>
-		<result column="uupdate_time" property="updateTime"/>
-		<result column="lock_flag" property="lockFlag"/>
-		<result column="udel_flag" property="delFlag"/>
-		<result column="deptId" property="deptId"/>
-		<result column="deptName" property="deptName"/>
-		<collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole"
-					select="com.pig4cloud.pig.admin.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
-		</collection>
-		<collection property="postList" ofType="com.pig4cloud.pig.admin.api.entity.SysPost"
-					select="com.pig4cloud.pig.admin.mapper.SysPostMapper.listPostsByUserId" column="user_id">
-		</collection>
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.pig4cloud.pig.admin.api.vo.UserVO">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="wx_openid" property="wxOpenid"/>
+        <result column="qq_openid" property="qqOpenid"/>
+        <result column="gitee_login" property="giteeOpenId"/>
+        <result column="osc_id" property="oscOpenId"/>
+        <result column="ucreate_time" property="createTime"/>
+        <result column="uupdate_time" property="updateTime"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="udel_flag" property="delFlag"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="nickname" property="nickname"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole"
+                    select="com.pig4cloud.pig.admin.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
+        </collection>
+        <collection property="postList" ofType="com.pig4cloud.pig.admin.api.entity.SysPost"
+                    select="com.pig4cloud.pig.admin.mapper.SysPostMapper.listPostsByUserId" column="user_id">
+        </collection>
+    </resultMap>
 
-	<!-- userVo结果集 -->
-	<resultMap id="userVoResultMap" type="com.pig4cloud.pig.admin.api.vo.UserVO">
-		<id column="user_id" property="userId"/>
-		<result column="username" property="username"/>
-		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
-		<result column="phone" property="phone"/>
-		<result column="avatar" property="avatar"/>
-		<result column="ucreate_time" property="createTime"/>
-		<result column="uupdate_time" property="updateTime"/>
-		<result column="lock_flag" property="lockFlag"/>
-		<result column="udel_flag" property="delFlag"/>
-		<result column="deptId" property="deptId"/>
-		<result column="deptName" property="deptName"/>
-		<collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole">
-			<id column="role_id" property="roleId"/>
-			<result column="role_name" property="roleName"/>
-			<result column="role_code" property="roleCode"/>
-			<result column="role_desc" property="roleDesc"/>
-			<result column="rcreate_time" property="createTime"/>
-			<result column="rupdate_time" property="updateTime"/>
-		</collection>
-	</resultMap>
+    <sql id="userRoleSql">
+        u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.wx_openid,
+        u.qq_openid,
+        u.dept_id,
+        u.del_flag,
+        u.lock_flag,
+        u.tenant_id,
+        u.create_by,
+        u.create_time  ucreate_time,
+        u.update_time  uupdate_time,
+        r.role_id,
+        r.role_name,
+        r.role_code,
+        r.role_desc,
+        r.create_time  rcreate_time,
+        r.update_time  rupdate_time
+    </sql>
 
-	<sql id="userRoleSql">
-		sys_user.user_id,
-		sys_user.username,
-		sys_user.`password`,
-		sys_user.salt,
-		sys_user.phone,
-		sys_user.avatar,
-		sys_user.dept_id,
-		sys_user.create_time AS ucreate_time,
-		sys_user.update_time AS uupdate_time,
-		sys_user.del_flag    AS udel_flag,
-		sys_user.lock_flag   AS lock_flag,
-		sys_user.dept_id     AS deptId,
-		r.role_id,
-		r.role_name,
-		r.role_code,
-		r.role_desc,
-		r.create_time        AS rcreate_time,
-		r.update_time        AS rupdate_time
-	</sql>
+    <sql id="userRoleDeptSql">
+        u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.wx_openid,
+        u.qq_openid,
+    	u.gitee_login,
+        u.osc_id,
+        u.del_flag,
+        u.lock_flag,
+        u.tenant_id,
+        u.nickname,
+        u.name,
+        u.email,
+        u.create_by,
+        u.create_time  ucreate_time,
+        u.update_time  uupdate_time,
+        d.name  dept_name,
+        d.dept_id
+    </sql>
 
-	<sql id="userRoleDeptSql">
-		sys_user.user_id,
-		sys_user.username,
-		sys_user.`password`,
-		sys_user.salt,
-		sys_user.phone,
-		sys_user.avatar,
-		sys_user.create_time AS ucreate_time,
-		sys_user.update_time AS uupdate_time,
-		sys_user.del_flag    AS udel_flag,
-		sys_user.lock_flag   AS lock_flag,
-		r.role_id,
-		r.role_name,
-		r.role_code,
-		r.role_desc,
-		r.create_time        AS rcreate_time,
-		r.update_time        AS rupdate_time,
-		d.name               AS deptName,
-		d.dept_id            AS deptId
-	</sql>
+    <select id="getUserVoByUsername" resultMap="baseResultMap">
+        SELECT
+        <include refid="userRoleSql"/>
+        FROM
+        sys_user u
+        LEFT JOIN sys_user_role urole ON urole.user_id = u.user_id
+        LEFT JOIN sys_role r ON r.role_id = urole.role_id
+        WHERE u.username = #{username}
+    </select>
 
-	<select id="getUserVoByUsername" resultMap="userVoResultMap">
-		SELECT
-		<include refid="userRoleSql"/>
-		FROM sys_user AS sys_user
-					 LEFT JOIN sys_user_role AS ur ON ur.user_id = sys_user.user_id
-					 LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-		WHERE sys_user.username = #{username}
-	</select>
+    <select id="getUserVoById" resultMap="baseResultMap">
+        SELECT
+        <include refid="userRoleDeptSql"/>
+        FROM
+        sys_user u
+        LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
+        WHERE
+        u.user_id = #{id}
+    </select>
 
-	<select id="getUserVoById" resultMap="userVoResultMap">
-		SELECT
-		<include refid="userRoleDeptSql"/>
-		FROM sys_user AS sys_user
-					 LEFT JOIN sys_user_role AS ur ON ur.user_id = sys_user.user_id
-					 LEFT JOIN sys_role AS r ON r.role_id = ur.role_id
-					 LEFT JOIN sys_dept AS d ON d.dept_id = sys_user.dept_id
-		WHERE sys_user.user_id = #{id}
-	</select>
+    <select id="getUserVosPage" resultMap="baseResultMap">
+        SELECT
+        u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.wx_openid,
+        u.qq_openid,
+        u.dept_id,
+        u.create_by,
+        u.create_time ucreate_time,
+        u.update_time uupdate_time,
+        u.del_flag,
+        u.lock_flag,
+        u.tenant_id,
+        u.nickname,
+        u.name,
+        u.email,
+        d.name dept_name
+        FROM
+        sys_user u
+        LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
+        <where>
+            u.del_flag = '0'
+            <if test="query.username != null and query.username != ''">
+                <bind name="usernameLike" value="'%'+query.username+'%'"/>
+                AND u.username LIKE #{usernameLike}
+            </if>
+            <if test="query.deptId != null and query.deptId != ''">
+                AND u.dept_id = #{query.deptId}
+            </if>
+            <if test="query.phone != null and query.phone != ''">
+                <bind name="phoneLike" value="'%'+query.phone+'%'"/>
+                AND u.phone LIKE #{phoneLike}
+            </if>
+        </where>
 
-	<select id="getUserVosPage" resultMap="baseResultMap">
-		SELECT sys_user.user_id,
-			   sys_user.username,
-			   sys_user.salt,
-			   sys_user.phone,
-			   sys_user.avatar,
-			   sys_user.dept_id,
-			   sys_user.create_time AS ucreate_time,
-			   sys_user.update_time AS uupdate_time,
-			   sys_user.del_flag    AS udel_flag,
-			   sys_user.lock_flag   AS lock_flag,
-			   sys_user.dept_id     AS deptId,
-			   sys_dept.name        AS deptName
-		FROM sys_user
-					 LEFT JOIN sys_dept ON sys_dept.dept_id = sys_user.dept_id
-		<where>
-			sys_user.del_flag = '0'
-			<if test="query.username != null and query.username != ''">
-				<bind name="usernameLike" value="'%' + query.username + '%'" />
-				and sys_user.username LIKE  #{usernameLike}
-			</if>
-		</where>
-		ORDER BY sys_user.create_time DESC
-	</select>
+        <if test="_databaseId != 'mssql'">
+            ORDER BY u.create_time DESC
+        </if>
+    </select>
 
-	<select id="selectVoList" resultMap="baseResultMap">
-		SELECT u.user_id,
-			   u.username,
-			   u.password,
-			   u.salt,
-			   u.phone,
-			   u.avatar,
-			   u.dept_id,
-			   u.create_time ucreate_time,
-			   u.update_time uupdate_time,
-			   u.del_flag,
-			   u.lock_flag,
-			   d.name AS     deptName
-		FROM sys_user u
-					 LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
-		<where>
-			u.del_flag = '0'
-			<if test="query.username != null and query.username != ''">
-				<bind name="usernameLike" value="'%' + query.username + '%'" />
-				AND u.username LIKE #{usernameLike}
-			</if>
-			<if test="query.deptId != null and query.deptId != ''">
-				AND u.dept_id = #{query.deptId}
-			</if>
-		</where>
-		ORDER BY u.create_time DESC
-	</select>
+    <select id="selectVoList" resultMap="baseResultMap">
+        SELECT
+        u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.wx_openid,
+        u.qq_openid,
+        u.dept_id,
+        u.create_by,
+        u.create_time ucreate_time,
+        u.update_time uupdate_time,
+        u.del_flag,
+        u.lock_flag,
+        u.tenant_id,
+        u.nickname,
+        u.name,
+        u.email,
+        d.name dept_name
+        FROM
+        sys_user u
+        LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
+        <where>
+            u.del_flag = '0'
+            <if test="query.username != null and query.username != ''">
+                <bind name="usernameLike" value="'%'+query.username+'%'"/>
+                AND u.username LIKE #{usernameLike}
+            </if>
+            <if test="query.deptId != null and query.deptId != ''">
+                AND u.dept_id = #{query.deptId}
+            </if>
+        </where>
+
+        <if test="_databaseId != 'mssql'">
+            ORDER BY u.create_time DESC
+        </if>
+    </select>
 </mapper>

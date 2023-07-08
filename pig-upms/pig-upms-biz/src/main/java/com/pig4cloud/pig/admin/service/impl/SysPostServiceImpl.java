@@ -37,10 +37,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 岗位管理表 服务实现类
+ * 岗位信息表
  *
- * @author pig code generator
- * @date 2022-03-15 17:18:40
+ * @author fxz
+ * @date 2022-03-26 12:50:43
  */
 @Service
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements SysPostService {

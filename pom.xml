@@ -22,27 +22,28 @@
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig</artifactId>
     <name>${project.artifactId}</name>
-    <version>3.6.4</version>
+    <version>3.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <url>https://www.pig4cloud.com</url>
 
     <properties>
-        <spring-boot.version>3.1.0</spring-boot.version>
-        <spring-cloud.version>2022.0.2</spring-cloud.version>
+        <spring-boot.version>3.1.1</spring-boot.version>
+        <spring-cloud.version>2022.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.0.4</spring-boot-admin.version>
-        <spring.authorization.version>1.1.0</spring.authorization.version>
-        <dynamic-ds.version>3.6.1</dynamic-ds.version>
+        <spring-boot-admin.version>3.1.1</spring-boot-admin.version>
+        <spring.authorization.version>1.1.1</spring.authorization.version>
+        <dynamic-ds.version>4.0.0</dynamic-ds.version>
+        <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.2</captcha.version>
+        <aws.version>1.11.543</aws.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
         <jasypt.version>3.0.5</jasypt.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
-        <knife4j.ui.version>3.0.3</knife4j.ui.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <docker.plugin.version>0.32.0</docker.plugin.version>
         <docker.host>http://192.168.0.100:2375</docker.host>
@@ -52,6 +53,7 @@
         <docker.password>password</docker.password>
         <git.commit.plugin>6.0.0</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
@@ -197,6 +199,17 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <debug>false</debug>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             <!--打包jar 与git commit 关联插件-->
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>

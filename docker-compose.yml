@@ -73,3 +73,10 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
+
+  pig-daemon-quartz:
+    build:
+      context: ./pig-visual/pig-quartz
+    restart: always
+    image: pig-quartz
+    container_name: pig-quartz

@@ -22,6 +22,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.RequestCacheConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
@@ -44,12 +47,8 @@ public class WebSecurityConfiguration {
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers("/token/*")
 			.permitAll()// 开放自定义的部分端点
 			.anyRequest()
-			.authenticated())
-			.headers()
-			.frameOptions()
-			.sameOrigin()// 避免iframe同源无法登录
-			.and()
-			.apply(new FormIdentityLoginConfigurer()); // 表单登录个性化
+			.authenticated()).headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)// 避免iframe同源无法登录许iframe
+		).apply(new FormIdentityLoginConfigurer()); // 表单登录个性化
 		// 处理 UsernamePasswordAuthenticationToken
 		http.authenticationProvider(new PigDaoAuthenticationProvider());
 		return http.build();
@@ -68,12 +67,9 @@ public class WebSecurityConfiguration {
 	SecurityFilterChain resources(HttpSecurity http) throws Exception {
 		http.securityMatchers((matchers) -> matchers.requestMatchers("/actuator/**", "/css/**", "/error"))
 			.authorizeHttpRequests((authorize) -> authorize.anyRequest().permitAll())
-			.requestCache()
-			.disable()
-			.securityContext()
-			.disable()
-			.sessionManagement()
-			.disable();
+			.requestCache(RequestCacheConfigurer::disable)
+			.securityContext(AbstractHttpConfigurer::disable)
+			.sessionManagement(AbstractHttpConfigurer::disable);
 		return http.build();
 	}
 

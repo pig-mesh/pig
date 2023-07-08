@@ -28,8 +28,8 @@ public interface ServiceNameConstants {
 	String AUTH_SERVICE = "pig-auth";
 
 	/**
-	 * UMPS模块
+	 * UPMS模块
 	 */
-	String UMPS_SERVICE = "pig-upms-biz";
+	String UPMS_SERVICE = "pig-upms-biz";
 
 }

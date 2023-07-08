@@ -26,12 +26,18 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 /**
- * 岗位管理 服务类
+ * 岗位信息表
  *
  * @author fxz
- * @date 2022-03-15 17:18:40
+ * @date 2022-03-26 12:50:43
  */
 public interface SysPostService extends IService<SysPost> {
+
+	/**
+	 * 导出excel 表格
+	 * @return
+	 */
+	List<PostExcelVO> listPost();
 
 	/**
 	 * 导入岗位
@@ -40,11 +46,5 @@ public interface SysPostService extends IService<SysPost> {
 	 * @return ok fail
 	 */
 	R importPost(List<PostExcelVO> excelVOList, BindingResult bindingResult);
-
-	/**
-	 * 导出excel 表格
-	 * @return
-	 */
-	List<PostExcelVO> listPost();
 
 }

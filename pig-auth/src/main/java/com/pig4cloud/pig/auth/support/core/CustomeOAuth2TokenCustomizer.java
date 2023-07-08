@@ -31,6 +31,8 @@ public class CustomeOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 
 		PigUser pigUser = (PigUser) context.getPrincipal().getPrincipal();
 		claims.claim(SecurityConstants.DETAILS_USER, pigUser);
+		claims.claim(SecurityConstants.DETAILS_USER_ID, pigUser.getId());
+		claims.claim(SecurityConstants.USERNAME, pigUser.getUsername());
 	}
 
 }

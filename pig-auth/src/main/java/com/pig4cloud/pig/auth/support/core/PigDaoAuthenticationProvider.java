@@ -70,7 +70,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 
 		// app 模式不用校验密码
 		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (StrUtil.equals(SecurityConstants.APP, grantType)) {
+		if (StrUtil.equals(SecurityConstants.MOBILE, grantType)) {
 			return;
 		}
 
