@@ -1,6 +1,7 @@
 package com.pig4cloud.pig.common.security.util;
 
 import cn.hutool.core.map.MapUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
@@ -10,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;

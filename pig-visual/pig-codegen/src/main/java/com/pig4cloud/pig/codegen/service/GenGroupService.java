@@ -18,9 +18,9 @@
 package com.pig4cloud.pig.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pig.codegen.util.vo.GroupVo;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
-import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 
 /**
  * 模板分组

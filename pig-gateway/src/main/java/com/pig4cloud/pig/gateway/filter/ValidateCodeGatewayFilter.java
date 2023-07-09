@@ -56,6 +56,11 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 	private final RedisTemplate<String, Object> redisTemplate;
 
+	/**
+	 * 应用网关过滤器
+	 * @param config 配置对象
+	 * @return 网关过滤器
+	 */
 	@Override
 	public GatewayFilter apply(Object config) {
 		return (exchange, chain) -> {
@@ -63,20 +68,12 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
 					SecurityConstants.OAUTH_TOKEN_URL);
 
-			// 不是登录请求，直接向下执行
-			if (!isAuthToken) {
-				return chain.filter(exchange);
-			}
-
-			// 刷新token，手机号登录（也可以这里进行校验） 直接向下执行
-			String grantType = request.getQueryParams().getFirst("grant_type");
-			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
+			if (!isAuthToken || isRefreshTokenRequest(request)) {
 				return chain.filter(exchange);
 			}
 
 			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request));
 			try {
-				// only oauth and the request not in ignore clients need check code.
 				if (!isIgnoreClient) {
 					checkCode(request);
 				}
@@ -105,6 +102,20 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 		};
 	}
 
+	/**
+	 * 判断是否为刷新令牌请求
+	 * @param request HTTP请求
+	 * @return 是否为刷新令牌请求
+	 */
+	private boolean isRefreshTokenRequest(ServerHttpRequest request) {
+		return StrUtil.equals(SecurityConstants.REFRESH_TOKEN, request.getQueryParams().getFirst("grant_type"));
+	}
+
+	/**
+	 * 检查验证码
+	 * @param request HTTP请求
+	 * @throws ValidateCodeException 验证码异常
+	 */
 	@SneakyThrows
 	private void checkCode(ServerHttpRequest request) {
 		String code = request.getQueryParams().getFirst("code");
@@ -113,10 +124,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 			throw new ValidateCodeException("验证码不能为空");
 		}
 
-		String randomStr = request.getQueryParams().getFirst("randomStr");
-		if (CharSequenceUtil.isBlank(randomStr)) {
-			randomStr = request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME);
-		}
+		String randomStr = StrUtil.blankToDefault(request.getQueryParams().getFirst("randomStr"),
+				request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME));
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
 
