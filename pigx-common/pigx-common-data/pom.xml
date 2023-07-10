@@ -52,7 +52,7 @@
         <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
             <optional>true</optional>
         </dependency>
         <!--安全依赖获取上下文信息-->
