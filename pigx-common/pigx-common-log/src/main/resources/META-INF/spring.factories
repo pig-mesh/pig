@@ -1,4 +1,2 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.pig4cloud.pigx.common.log.LogAutoConfiguration
 org.springframework.boot.env.EnvironmentPostProcessor=\
     com.pig4cloud.pigx.common.log.init.ApplicationLoggerInitializer

@@ -1,0 +1,3 @@
+com.pig4cloud.pigx.common.websocket.config.WebSocketAutoConfiguration
+com.pig4cloud.pigx.common.websocket.config.RedisMessageDistributorConfiguration
+com.pig4cloud.pigx.common.websocket.config.LocalMessageDistributorConfiguration

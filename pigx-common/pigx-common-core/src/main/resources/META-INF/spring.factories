@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.pig4cloud.pigx.common.core.config.JacksonConfiguration,\
-  com.pig4cloud.pigx.common.core.config.MessageSourceConfiguration,\
-  com.pig4cloud.pigx.common.core.config.RestTemplateConfiguration,\
-  com.pig4cloud.pigx.common.core.util.SpringContextHolder
