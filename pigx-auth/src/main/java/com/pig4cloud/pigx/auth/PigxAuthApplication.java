@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pigx.auth;
 
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +28,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnablePigxFeignClients
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 public class PigxAuthApplication {
 
 	public static void main(String[] args) {

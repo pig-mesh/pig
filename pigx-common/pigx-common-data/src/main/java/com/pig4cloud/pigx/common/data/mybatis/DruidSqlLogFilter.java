@@ -25,7 +25,6 @@ import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.util.StringUtils;
-import com.pig4cloud.pigx.common.data.config.PigxMybatisProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;

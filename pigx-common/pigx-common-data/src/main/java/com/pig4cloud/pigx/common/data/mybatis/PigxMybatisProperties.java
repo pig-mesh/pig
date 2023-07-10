@@ -1,4 +1,4 @@
-package com.pig4cloud.pigx.common.data.config;
+package com.pig4cloud.pigx.common.data.mybatis;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
