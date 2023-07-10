@@ -19,7 +19,7 @@ package com.pig4cloud.pigx.act.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotEmpty;
 
 /**
  * @Author felixu

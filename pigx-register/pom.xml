@@ -27,7 +27,10 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-		<nacos.version>2.2.0.PIGOEM</nacos.version>
+        <nacos.version>2.2.0.PIGOEM</nacos.version>
+        <spring-boot-dependencies.version>2.7.13</spring-boot-dependencies.version>
+        <spring-cloud.version>2021.0.8</spring-cloud.version>
+        <spring-boot-admin.version>2.7.8</spring-boot-admin.version>
     </properties>
 
     <dependencies>
@@ -52,40 +55,68 @@
             <artifactId>nacos-istio</artifactId>
             <version>${nacos.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.springboot.nacos</groupId>
+            <artifactId>nacos-plugin-default-impl</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springboot.nacos</groupId>
+            <artifactId>nacos-prometheus</artifactId>
+            <version>${nacos.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-
-		<dependency>
-			<groupId>io.springboot.nacos</groupId>
-			<artifactId>nacos-plugin-default-impl</artifactId>
-			<version>${nacos.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.springboot.nacos</groupId>
-			<artifactId>nacos-prometheus</artifactId>
-			<version>${nacos.version}</version>
-		</dependency>
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-system</artifactId>
         </dependency>
     </dependencies>
+
+
+    <!--依赖版本声明-->
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- SpringBoot 依赖配置 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringCloud 微服务 -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- SpringBoot Admin -->
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring-boot-admin.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>io.fabric8</groupId>

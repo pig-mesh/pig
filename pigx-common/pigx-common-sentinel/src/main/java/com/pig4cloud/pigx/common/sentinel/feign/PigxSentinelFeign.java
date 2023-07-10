@@ -8,7 +8,7 @@ import feign.Target;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.FeignContext;
+import org.springframework.cloud.openfeign.FeignClientFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -40,7 +40,7 @@ public final class PigxSentinelFeign {
 
 		private ApplicationContext applicationContext;
 
-		private FeignContext feignContext;
+		private FeignClientFactory feignClientFactory;
 
 		@Override
 		public Feign.Builder invocationHandlerFactory(InvocationHandlerFactory invocationHandlerFactory) {
@@ -85,10 +85,10 @@ public final class PigxSentinelFeign {
 				}
 
 				private Object getFromContext(String name, String type, Class fallbackType, Class targetType) {
-					Object fallbackInstance = feignContext.getInstance(name, fallbackType);
+					Object fallbackInstance = feignClientFactory.getInstance(name, fallbackType);
 					if (fallbackInstance == null) {
-						throw new IllegalStateException(String.format(
-								"No %s instance of type %s found for feign client %s", type, fallbackType, name));
+						throw new IllegalStateException(String
+							.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
 					}
 
 					if (!targetType.isAssignableFrom(fallbackType)) {
@@ -107,7 +107,7 @@ public final class PigxSentinelFeign {
 		@Override
 		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 			this.applicationContext = applicationContext;
-			feignContext = this.applicationContext.getBean(FeignContext.class);
+			feignClientFactory = this.applicationContext.getBean(FeignClientFactory.class);
 		}
 
 	}

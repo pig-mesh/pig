@@ -64,7 +64,7 @@
 		<!-- druid 连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
+			<artifactId>druid-spring-boot-3-starter</artifactId>
 		</dependency>
 		<!-- 安全模块-->
 		<dependency>

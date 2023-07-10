@@ -24,12 +24,12 @@
 		<!--mybatis-->
 		<dependency>
 			<groupId>com.baomidou</groupId>
-			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+			<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
 		</dependency>
 		<!-- druid 连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
+			<artifactId>druid-spring-boot-3-starter</artifactId>
 			<scope>provided</scope>
 		</dependency>
 		<!--拦截器依赖-->

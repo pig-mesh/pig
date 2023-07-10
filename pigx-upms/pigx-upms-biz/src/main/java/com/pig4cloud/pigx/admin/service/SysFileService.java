@@ -22,7 +22,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysFile;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * 文件管理

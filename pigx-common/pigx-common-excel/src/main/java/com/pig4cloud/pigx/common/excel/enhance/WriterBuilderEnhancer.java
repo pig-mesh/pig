@@ -5,7 +5,7 @@ import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.head.HeadGenerator;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * ExcelWriterBuilder 增强

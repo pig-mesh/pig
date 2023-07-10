@@ -72,22 +72,23 @@ public class AuthorizationServerConfiguration {
 
 		http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
 			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
-					.accessTokenResponseHandler(successEventHandler) // 登录成功处理器
-					.errorResponseHandler(failureEventHandler);// 登录失败处理器
+				.accessTokenResponseHandler(successEventHandler) // 登录成功处理器
+				.errorResponseHandler(failureEventHandler);// 登录失败处理器
 		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
 		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(failureEventHandler))// 处理客户端认证异常
-				.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-						.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)));
+			.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
+				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)));
 
-		DefaultSecurityFilterChain securityFilterChain = http.authorizeHttpRequests(authorizeRequests -> {
+		http.authorizeHttpRequests(authorizeRequests -> {
 			// 自定义接口、端点暴露
-			authorizeRequests.antMatchers("/token/**", "/actuator/**", "/css/**", "/error").permitAll();
+			authorizeRequests.requestMatchers("/token/**", "/actuator/**", "/css/**", "/error").permitAll();
 			authorizeRequests.anyRequest().authenticated();
-		}).apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+		})
+			.apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
 				.authorizationServerSettings(
-						AuthorizationServerSettings.builder().issuer(SecurityConstants.PIGX_LICENSE).build()))
-				// 授权码登录的登录页个性化
-				.and().apply(new FormIdentityLoginConfigurer()).and().build();
+						AuthorizationServerSettings.builder().issuer(SecurityConstants.PIGX_LICENSE).build()));
+		http.apply(new FormIdentityLoginConfigurer());
+		DefaultSecurityFilterChain securityFilterChain = http.build();
 
 		// 注入自定义授权模式实现
 		addCustomOAuth2GrantAuthenticationProvider(http);

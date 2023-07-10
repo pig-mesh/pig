@@ -1,11 +1,11 @@
 package com.pig4cloud.pigx.monitor.support;
 
-import com.alibaba.druid.support.http.ResourceServlet;
+import com.alibaba.druid.support.jakarta.ResourceServlet;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.monitor.service.impl.MonitorStatService;
+import jakarta.servlet.ServletException;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.ServletException;
 
 /**
  * @author linchtech

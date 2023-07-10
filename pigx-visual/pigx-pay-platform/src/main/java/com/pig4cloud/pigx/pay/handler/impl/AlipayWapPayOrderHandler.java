@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.pay.handler.impl;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -42,8 +43,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -100,7 +101,7 @@ public class AlipayWapPayOrderHandler extends AbstractPayOrderHandler {
 		tradeOrder.setAmount(goodsOrder.getAmount());
 		tradeOrder.setChannelId(PayChannelNameEnum.ALIPAY_WAP.getName());
 		tradeOrder.setChannelMchId(AliPayApiConfigKit.getAliPayApiConfig().getAppId());
-		tradeOrder.setClientIp(ServletUtil.getClientIP(request));
+		tradeOrder.setClientIp(JakartaServletUtil.getClientIP(request));
 		tradeOrder.setCurrency("cny");
 		tradeOrder.setExpireTime(30L);
 		tradeOrder.setStatus(OrderStatusEnum.INIT.getStatus());

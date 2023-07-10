@@ -11,7 +11,7 @@ import com.pig4cloud.pigx.common.excel.kit.ExcelException;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**

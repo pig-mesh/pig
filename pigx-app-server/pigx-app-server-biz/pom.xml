@@ -77,7 +77,7 @@
 		<!--选配： druid 连接池 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
+			<artifactId>druid-spring-boot-3-starter</artifactId>
 		</dependency>
 		<!--选配: mysql 数据库驱动 -->
 		<dependency>

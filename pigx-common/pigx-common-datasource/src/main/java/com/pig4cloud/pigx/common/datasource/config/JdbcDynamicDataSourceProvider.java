@@ -17,13 +17,15 @@
 
 package com.pig4cloud.pigx.common.datasource.config;
 
+import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
+import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
+import com.baomidou.dynamic.datasource.creator.druid.DruidConfig;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DataSourceProperty;
-import com.baomidou.dynamic.datasource.spring.boot.autoconfigure.druid.DruidConfig;
 import com.pig4cloud.pigx.common.datasource.support.DataSourceConstants;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
 import org.jasypt.encryption.StringEncryptor;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,8 +45,10 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
 	private final StringEncryptor stringEncryptor;
 
-	public JdbcDynamicDataSourceProvider(StringEncryptor stringEncryptor, DruidDataSourceProperties properties) {
-		super(properties.getDriverClassName(), properties.getUrl(), properties.getUsername(), properties.getPassword());
+	public JdbcDynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			StringEncryptor stringEncryptor, DruidDataSourceProperties properties) {
+		super(defaultDataSourceCreator, properties.getDriverClassName(), properties.getUrl(), properties.getUsername(),
+				properties.getPassword());
 		this.stringEncryptor = stringEncryptor;
 		this.properties = properties;
 	}

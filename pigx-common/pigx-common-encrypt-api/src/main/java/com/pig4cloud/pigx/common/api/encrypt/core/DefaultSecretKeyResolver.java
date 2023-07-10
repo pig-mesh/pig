@@ -4,7 +4,7 @@ import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
 import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 import lombok.RequiredArgsConstructor;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 默认的密钥处理器

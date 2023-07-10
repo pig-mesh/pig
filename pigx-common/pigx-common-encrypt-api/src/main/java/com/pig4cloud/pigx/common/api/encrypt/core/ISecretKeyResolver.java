@@ -2,7 +2,7 @@ package com.pig4cloud.pigx.common.api.encrypt.core;
 
 import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 解析加密密钥

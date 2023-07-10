@@ -20,8 +20,8 @@
         <pigx.version>5.2.0-snapshot</pigx.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.5</mybatis-plus-join.version>
-        <dynamic-ds.version>3.6.0</dynamic-ds.version>
-        <druid.version>1.2.9</druid.version>
+        <dynamic-ds.version>4.0.0</dynamic-ds.version>
+        <druid.version>1.2.18</druid.version>
         <hutool.version>5.8.20</hutool.version>
         <mysql.connector.version>8.0.32</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
@@ -32,7 +32,7 @@
         <swagger.core.version>2.2.8</swagger.core.version>
         <springdoc.version>1.6.15</springdoc.version>
         <mp.weixin.version>4.4.0</mp.weixin.version>
-        <ijpay.version>2.8.0</ijpay.version>
+        <ijpay.version>2.9.6-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <jsoup.version>1.13.1</jsoup.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
@@ -188,7 +188,7 @@
             </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-ds.version}</version>
             </dependency>
             <!-- 连表查询依赖	-->
@@ -206,7 +206,7 @@
             <!-- druid 连接池 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
-                <artifactId>druid-spring-boot-starter</artifactId>
+                <artifactId>druid-spring-boot-3-starter</artifactId>
                 <version>${druid.version}</version>
             </dependency>
             <dependency>

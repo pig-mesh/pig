@@ -6,7 +6,7 @@ import com.pig4cloud.pigx.common.excel.kit.Validators;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;

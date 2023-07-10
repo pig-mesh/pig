@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.datasource.annotation;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.pig4cloud.pigx.common.datasource.DynamicDataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Import;

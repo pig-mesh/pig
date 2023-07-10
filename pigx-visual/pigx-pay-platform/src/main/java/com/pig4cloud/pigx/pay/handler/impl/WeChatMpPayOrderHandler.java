@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.pay.handler.impl;
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -42,7 +43,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -97,7 +98,7 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		tradeOrder.setAmount(goodsOrder.getAmount());
 		tradeOrder.setChannelId(PayChannelNameEnum.WEIXIN_MP.getName());
 		tradeOrder.setChannelMchId(WxPayApiConfigKit.getWxPayApiConfig().getMchId());
-		tradeOrder.setClientIp(ServletUtil.getClientIP(request));
+		tradeOrder.setClientIp(JakartaServletUtil.getClientIP(request));
 		tradeOrder.setCurrency("CNY");
 		tradeOrder.setStatus(OrderStatusEnum.INIT.getStatus());
 		tradeOrder.setBody(goodsOrder.getGoodsName());
@@ -112,7 +113,7 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 	 */
 	@Override
 	public Object pay(PayGoodsOrder goodsOrder, PayTradeOrder tradeOrder) {
-		String ip = ServletUtil.getClientIP(request);
+		String ip = JakartaServletUtil.getClientIP(request);
 		WxPayApiConfig wxPayApiConfig = WxPayApiConfigKit.getWxPayApiConfig();
 
 		// 预订单参数

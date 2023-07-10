@@ -21,12 +21,12 @@ package com.pig4cloud.pigx.common.log.util;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.URLUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import lombok.experimental.UtilityClass;
-import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
@@ -37,7 +37,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
@@ -51,11 +51,11 @@ public class SysLogUtils {
 
 	public SysLogDTO getSysLog() {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
-				.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
+			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		SysLogDTO sysLog = new SysLogDTO();
 		sysLog.setCreateBy(getUsername());
 		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
-		sysLog.setRemoteAddr(ServletUtil.getClientIP(request));
+		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
 		sysLog.setUserAgent(request.getHeader("user-agent"));
@@ -115,7 +115,7 @@ public class SysLogUtils {
 	 * @return 装载参数的容器
 	 */
 	public EvaluationContext getContext(Object[] arguments, Method signatureMethod) {
-		String[] parameterNames = new LocalVariableTableParameterNameDiscoverer().getParameterNames(signatureMethod);
+		String[] parameterNames = new StandardReflectionParameterNameDiscoverer().getParameterNames(signatureMethod);
 		EvaluationContext context = new StandardEvaluationContext();
 		if (parameterNames == null) {
 			return context;

@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.pay.handler.impl;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 /**
@@ -76,7 +77,7 @@ public class AlipayPayOrderRefundHandler implements PayOrderRefundHandler {
 		refundOrder.setChannelOrderNo(tradeOrder.getChannelOrderNo());
 		refundOrder.setChannelId(PayChannelNameEnum.ALIPAY_WAP.getName());
 		refundOrder.setChannelMchId(AliPayApiConfigKit.getAliPayApiConfig().getAppId());
-		refundOrder.setClientIp(ServletUtil.getClientIP(request));
+		refundOrder.setClientIp(JakartaServletUtil.getClientIP(request));
 		refundOrder.setPayAmount(tradeOrder.getAmount());
 		refundOrderMapper.insert(refundOrder);
 		return refundOrder;

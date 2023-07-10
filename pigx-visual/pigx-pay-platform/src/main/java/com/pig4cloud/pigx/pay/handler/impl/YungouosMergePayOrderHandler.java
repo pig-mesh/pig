@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.pay.handler.impl;
 
 import cn.hutool.core.util.NumberUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
@@ -18,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * @author lengleng
@@ -67,7 +68,7 @@ public class YungouosMergePayOrderHandler extends AbstractPayOrderHandler {
 		tradeOrder.setAmount(goodsOrder.getAmount());
 		tradeOrder.setChannelId(PayChannelNameEnum.MERGE_PAY.getName());
 		tradeOrder.setChannelMchId(ChannelPayApiConfigKit.get().getChannelMchId());
-		tradeOrder.setClientIp(ServletUtil.getClientIP(request));
+		tradeOrder.setClientIp(JakartaServletUtil.getClientIP(request));
 		tradeOrder.setCurrency("CNY");
 		tradeOrder.setStatus(OrderStatusEnum.INIT.getStatus());
 		tradeOrder.setBody(goodsOrder.getGoodsName());
