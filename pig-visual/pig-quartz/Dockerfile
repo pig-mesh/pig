@@ -1,18 +1,15 @@
-FROM pig4cloud/java:8-jre
-
-MAINTAINER wangiegie@gmail.com
-
-ENV TZ=Asia/Shanghai
-ENV JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
-
-RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+FROM alibabadragonwell/dragonwell:17-anolis
 
 RUN mkdir -p /pig-quartz
 
 WORKDIR /pig-quartz
 
-EXPOSE 5007
+ARG JAR_FILE=target/pig-quartz.jar
 
-ADD ./target/pig-quartz.jar ./
+COPY ${JAR_FILE} app.jar
 
-CMD sleep 120;java $JAVA_OPTS -jar pig-quartz.jar
+EXPOSE 5001
+
+ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
+
+CMD sleep 60; java $JAVA_OPTS -jar app.jar
