@@ -24,7 +24,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx</artifactId>
-		<version>5.1.0</version>
+		<version>5.2.0-snapshot</version>
 	</parent>
 
 	<artifactId>pigx-upms</artifactId>

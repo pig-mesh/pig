@@ -17,7 +17,7 @@
     <description>pigx 公共版本控制</description>
 
     <properties>
-        <pigx.version>5.1.0</pigx.version>
+        <pigx.version>5.2.0-snapshot</pigx.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.5</mybatis-plus-join.version>
         <dynamic-ds.version>3.6.0</dynamic-ds.version>
@@ -44,7 +44,6 @@
         <seata.version>1.6.1</seata.version>
         <asm.version>7.1</asm.version>
         <log4j2.version>2.17.1</log4j2.version>
-        <javaformat.plugin.version>0.0.23</javaformat.plugin.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <sentinel.version>1.8.4</sentinel.version>
