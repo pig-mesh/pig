@@ -127,9 +127,4 @@ public class SysJobLog extends Model<SysJobLog> {
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
 
-	/**
-	 * 租户id
-	 */
-	private Long tenantId;
-
 }
