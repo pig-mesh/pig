@@ -134,7 +134,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			authorizedScopes = new LinkedHashSet<>(resouceOwnerBaseAuthentication.getScopes());
 		}
 		else {
-			throw new ScopeException(OAuth2ErrorCodesExpand.SCOPE_IS_EMPTY);
+			authorizedScopes = new LinkedHashSet<>();
 		}
 
 		Map<String, Object> reqParameters = resouceOwnerBaseAuthentication.getAdditionalParameters();
@@ -145,10 +145,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			LOGGER.debug("got usernamePasswordAuthenticationToken=" + usernamePasswordAuthenticationToken);
 
 			Authentication usernamePasswordAuthentication = authenticationManager
-					.authenticate(usernamePasswordAuthenticationToken);
+				.authenticate(usernamePasswordAuthenticationToken);
 
-			Object onlineQuantity = registeredClient.getClientSettings().getSettings()
-					.get(CommonConstants.ONLINE_QUANTITY);
+			Object onlineQuantity = registeredClient.getClientSettings()
+				.getSettings()
+				.get(CommonConstants.ONLINE_QUANTITY);
 			// 没有设置并发控制走原有逻辑生成 || 设置同时在线为 true
 			if (Objects.isNull(onlineQuantity) || BooleanUtil.toBooleanObject((String) onlineQuantity)) {
 				return generatAuthenticationToken(resouceOwnerBaseAuthentication, clientPrincipal, registeredClient,
@@ -193,10 +194,10 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		// @formatter:on
 
 		OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization.withRegisteredClient(registeredClient)
-				.principalName(usernamePasswordAuthentication.getName())
-				.authorizationGrantType(resouceOwnerBaseAuthentication.getAuthorizationGrantType())
-				// 0.4.0 新增的方法
-				.authorizedScopes(authorizedScopes);
+			.principalName(usernamePasswordAuthentication.getName())
+			.authorizationGrantType(resouceOwnerBaseAuthentication.getAuthorizationGrantType())
+			// 0.4.0 新增的方法
+			.authorizedScopes(authorizedScopes);
 
 		// ----- Access token -----
 		OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
@@ -211,12 +212,12 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 				generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
 		if (generatedAccessToken instanceof ClaimAccessor) {
 			authorizationBuilder.id(accessToken.getTokenValue())
-					.token(accessToken,
-							(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
-									((ClaimAccessor) generatedAccessToken).getClaims()))
-					// 0.4.0 新增的方法
-					.authorizedScopes(authorizedScopes)
-					.attribute(Principal.class.getName(), usernamePasswordAuthentication);
+				.token(accessToken,
+						(metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
+								((ClaimAccessor) generatedAccessToken).getClaims()))
+				// 0.4.0 新增的方法
+				.authorizedScopes(authorizedScopes)
+				.attribute(Principal.class.getName(), usernamePasswordAuthentication);
 		}
 		else {
 			authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
@@ -277,7 +278,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		}
 		if (authenticationException instanceof LockedException) {
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodesExpand.USER_LOCKED, this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"), ""));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.locked", "User account is locked"), ""));
 		}
 		if (authenticationException instanceof DisabledException) {
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodesExpand.USER_DISABLE,
@@ -286,7 +287,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		}
 		if (authenticationException instanceof AccountExpiredException) {
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodesExpand.USER_EXPIRED, this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.expired", "User account has expired"), ""));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.expired", "User account has expired"), ""));
 		}
 		if (authenticationException instanceof CredentialsExpiredException) {
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodesExpand.CREDENTIALS_EXPIRED,

@@ -57,7 +57,6 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
 	 */
 	@Override
 	public void save(RegisteredClient registeredClient) {
-		throw new UnsupportedOperationException();
 	}
 
 	/**

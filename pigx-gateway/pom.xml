@@ -68,8 +68,8 @@
         </dependency>
         <!--验证码-->
         <dependency>
-            <groupId>com.github.anji-plus</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId>
+            <groupId>io.springboot.plugin</groupId>
+            <artifactId>spring-boot-starter-captcha</artifactId>
             <version>${captcha.version}</version>
         </dependency>
         <!--缓存-->
@@ -95,11 +95,11 @@
         <!--接口文档-->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
         <!--引入Knife4j的官方ui包-->
         <dependency>
-            <groupId>io.springboot</groupId>
+            <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-openapi3-ui</artifactId>
         </dependency>
     </dependencies>

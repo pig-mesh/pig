@@ -28,9 +28,9 @@
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.79</dm.version>
         <highgo.version>6.2.0</highgo.version>
-        <knife4j.version>3.0.3</knife4j.version>
-        <swagger.core.version>2.2.8</swagger.core.version>
-        <springdoc.version>1.6.15</springdoc.version>
+        <knife4j.version>4.1.0</knife4j.version>
+        <springdoc.version>2.1.0</springdoc.version>
+        <swagger.core.version>2.2.14</swagger.core.version>
         <mp.weixin.version>4.4.0</mp.weixin.version>
         <ijpay.version>2.9.6-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
@@ -257,44 +257,25 @@
             </dependency>
             <!--springdoc -->
             <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webmvc-core</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springboot</groupId>
+                <groupId>com.github.xiaoymin</groupId>
                 <artifactId>knife4j-openapi3-ui</artifactId>
-                <version>3.0.3</version>
+                <version>${knife4j.version}</version>
+            </dependency>
+            <!--springdoc -->
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-models</artifactId>
+                <artifactId>swagger-annotations-jakarta</artifactId>
                 <version>${swagger.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger.core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-ui</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-webflux-core</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-common</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-security</artifactId>
-                <version>${springdoc.version}</version>
             </dependency>
             <!--微信依赖-->
             <dependency>

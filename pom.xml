@@ -44,7 +44,7 @@
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>2.2.5</git.commit.version>
-        <captcha.version>1.2.7</captcha.version>
+        <captcha.version>1.3.0</captcha.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
         <dingtalk.old.version>2.0.0</dingtalk.old.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
