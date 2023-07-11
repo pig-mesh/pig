@@ -29,6 +29,7 @@ public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegi
 
 		BeanDefinitionBuilder definition = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIDefinition.class);
 		definition.addPropertyValue("path", value);
+		definition.setPrimary(true);
 
 		registry.registerBeanDefinition("openAPIDefinition", definition.getBeanDefinition());
 

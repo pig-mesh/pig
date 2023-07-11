@@ -35,6 +35,7 @@
         <ijpay.version>2.9.6-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <jsoup.version>1.13.1</jsoup.version>
+        <flowable.version>7.0.0.M1</flowable.version>
         <security.oauth.version>2.3.6.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.3.0</xxl.job.version>
@@ -160,6 +161,12 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pigx-app-server-api</artifactId>
+                <version>${pigx.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pigx-flowable-api</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
 
@@ -321,6 +328,12 @@
                 <groupId>org.jsoup</groupId>
                 <artifactId>jsoup</artifactId>
                 <version>${jsoup.version}</version>
+            </dependency>
+            <!--工作流依赖-->
+            <dependency>
+                <groupId>org.flowable</groupId>
+                <artifactId>flowable-spring-boot-starter-process</artifactId>
+                <version>${flowable.version}</version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
