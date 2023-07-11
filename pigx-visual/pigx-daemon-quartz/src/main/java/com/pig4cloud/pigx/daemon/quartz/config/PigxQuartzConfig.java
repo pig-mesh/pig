@@ -21,7 +21,6 @@ import org.quartz.Calendar;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.Trigger;
-import org.quartz.ee.servlet.QuartzInitializerListener;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,7 +33,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -106,23 +104,11 @@ public class PigxQuartzConfig {
 
 	private void customize(SchedulerFactoryBean schedulerFactoryBean) {
 		if (this.customizers != null) {
-			Iterator var2 = this.customizers.iterator();
-
-			while (var2.hasNext()) {
-				SchedulerFactoryBeanCustomizer customizer = (SchedulerFactoryBeanCustomizer) var2.next();
+			for (SchedulerFactoryBeanCustomizer customizer : this.customizers) {
 				customizer.customize(schedulerFactoryBean);
 			}
 		}
 
-	}
-
-	/**
-	 * 初始化监听器
-	 * @return
-	 */
-	@Bean
-	public QuartzInitializerListener executorListener() {
-		return new QuartzInitializerListener();
 	}
 
 	/**
