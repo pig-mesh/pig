@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.task;
 
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -37,7 +37,7 @@ public class SpringBeanTaskDemo {
 	@SneakyThrows
 	public String demoMethod(String para) {
 		log.info("测试于:{}，输入参数{}", LocalDateTime.now(), para);
-		return PigxQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType();
+		return PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType();
 	}
 
 }

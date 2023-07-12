@@ -44,7 +44,7 @@ import java.util.Properties;
 @Configuration
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
 @EnableConfigurationProperties({ QuartzProperties.class })
-public class PigxQuartzConfig {
+public class PigQuartzConfig {
 
 	private final QuartzProperties properties;
 
@@ -58,7 +58,7 @@ public class PigxQuartzConfig {
 
 	private final ApplicationContext applicationContext;
 
-	public PigxQuartzConfig(QuartzProperties properties,
+	public PigQuartzConfig(QuartzProperties properties,
 			ObjectProvider<List<SchedulerFactoryBeanCustomizer>> customizers, ObjectProvider<JobDetail[]> jobDetails,
 			ObjectProvider<Map<String, Calendar>> calendars, ObjectProvider<Trigger[]> triggers,
 			ApplicationContext applicationContext) {

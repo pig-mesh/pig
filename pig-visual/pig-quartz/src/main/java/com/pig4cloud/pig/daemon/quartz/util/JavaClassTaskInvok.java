@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.daemon.quartz.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pig.daemon.quartz.exception.TaskException;
 import lombok.extern.slf4j.Slf4j;
@@ -56,7 +56,7 @@ public class JavaClassTaskInvok implements ITaskInvok {
 				returnValue = method.invoke(obj);
 			}
 			if (StrUtil.isEmpty(returnValue.toString())
-					|| PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getType().equals(returnValue.toString())) {
+					|| PigQuartzEnum.JOB_LOG_STATUS_FAIL.getType().equals(returnValue.toString())) {
 				log.error("定时任务javaClassTaskInvok异常,执行任务：{}", sysJob.getClassName());
 				throw new TaskException("定时任务javaClassTaskInvok业务执行失败,任务：" + sysJob.getClassName());
 			}

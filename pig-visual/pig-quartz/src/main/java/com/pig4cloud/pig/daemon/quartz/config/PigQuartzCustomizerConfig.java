@@ -17,34 +17,19 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
-import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.quartz.DisallowConcurrentExecution;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
 /**
  * @author 郑健楠
- *
- * <p>
- * 动态任务工厂
  */
-@Slf4j
-@DisallowConcurrentExecution
-public class PigxQuartzFactory implements Job {
-
-	@Autowired
-	private PigxQuartzInvokeFactory pigxQuartzInvokeFactory;
+@Configuration
+public class PigQuartzCustomizerConfig implements SchedulerFactoryBeanCustomizer {
 
 	@Override
-	@SneakyThrows
-	public void execute(JobExecutionContext jobExecutionContext) {
-		SysJob sysJob = (SysJob) jobExecutionContext.getMergedJobDataMap()
-			.get(PigxQuartzEnum.SCHEDULE_JOB_KEY.getType());
-		pigxQuartzInvokeFactory.init(sysJob, jobExecutionContext.getTrigger());
+	public void customize(SchedulerFactoryBean schedulerFactoryBean) {
+		schedulerFactoryBean.setWaitForJobsToCompleteOnShutdown(true);
 	}
 
 }

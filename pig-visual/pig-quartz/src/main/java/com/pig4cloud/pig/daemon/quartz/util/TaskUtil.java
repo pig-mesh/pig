@@ -17,8 +17,8 @@
 
 package com.pig4cloud.pig.daemon.quartz.util;
 
-import com.pig4cloud.pig.daemon.quartz.config.PigxQuartzFactory;
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.config.PigQuartzFactory;
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
@@ -66,9 +66,9 @@ public class TaskUtil {
 			// 判断触发器是否存在（如果存在说明之前运行过但是在当前被禁用了，如果不存在说明一次都没运行过）
 			if (trigger == null) {
 				// 新建一个工作任务 指定任务类型为串接进行的
-				JobDetail jobDetail = JobBuilder.newJob(PigxQuartzFactory.class).withIdentity(jobKey).build();
+				JobDetail jobDetail = JobBuilder.newJob(PigQuartzFactory.class).withIdentity(jobKey).build();
 				// 将任务信息添加到任务信息中
-				jobDetail.getJobDataMap().put(PigxQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysjob);
+				jobDetail.getJobDataMap().put(PigQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysjob);
 				// 将cron表达式进行转换
 				CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(sysjob.getCronExpression());
 				cronScheduleBuilder = this.handleCronScheduleMisfirePolicy(sysjob, cronScheduleBuilder);
@@ -89,12 +89,12 @@ public class TaskUtil {
 					.withSchedule(cronScheduleBuilder)
 					.build();
 				// 将任务信息更新到任务信息中
-				trigger.getJobDataMap().put(PigxQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysjob);
+				trigger.getJobDataMap().put(PigQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysjob);
 				// 重启
 				scheduler.rescheduleJob(triggerKey, trigger);
 			}
 			// 如任务状态为暂停
-			if (sysjob.getJobStatus().equals(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType())) {
+			if (sysjob.getJobStatus().equals(PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType())) {
 				this.pauseJob(sysjob, scheduler);
 			}
 		}
@@ -110,7 +110,7 @@ public class TaskUtil {
 		try {
 			// 参数
 			JobDataMap dataMap = new JobDataMap();
-			dataMap.put(PigxQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysJob);
+			dataMap.put(PigQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysJob);
 
 			scheduler.triggerJob(getJobKey(sysJob), dataMap);
 		}
@@ -215,16 +215,16 @@ public class TaskUtil {
 	 */
 	private CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob sysJob,
 			CronScheduleBuilder cronScheduleBuilder) {
-		if (PigxQuartzEnum.MISFIRE_DEFAULT.getType().equals(sysJob.getMisfirePolicy())) {
+		if (PigQuartzEnum.MISFIRE_DEFAULT.getType().equals(sysJob.getMisfirePolicy())) {
 			return cronScheduleBuilder;
 		}
-		else if (PigxQuartzEnum.MISFIRE_IGNORE_MISFIRES.getType().equals(sysJob.getMisfirePolicy())) {
+		else if (PigQuartzEnum.MISFIRE_IGNORE_MISFIRES.getType().equals(sysJob.getMisfirePolicy())) {
 			return cronScheduleBuilder.withMisfireHandlingInstructionIgnoreMisfires();
 		}
-		else if (PigxQuartzEnum.MISFIRE_FIRE_AND_PROCEED.getType().equals(sysJob.getMisfirePolicy())) {
+		else if (PigQuartzEnum.MISFIRE_FIRE_AND_PROCEED.getType().equals(sysJob.getMisfirePolicy())) {
 			return cronScheduleBuilder.withMisfireHandlingInstructionFireAndProceed();
 		}
-		else if (PigxQuartzEnum.MISFIRE_DO_NOTHING.getType().equals(sysJob.getMisfirePolicy())) {
+		else if (PigQuartzEnum.MISFIRE_DO_NOTHING.getType().equals(sysJob.getMisfirePolicy())) {
 			return cronScheduleBuilder.withMisfireHandlingInstructionDoNothing();
 		}
 		else {

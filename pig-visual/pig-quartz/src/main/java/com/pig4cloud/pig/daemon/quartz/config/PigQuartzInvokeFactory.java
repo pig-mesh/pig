@@ -34,7 +34,7 @@ import org.springframework.stereotype.Service;
 @Aspect
 @Service
 @AllArgsConstructor
-public class PigxQuartzInvokeFactory {
+public class PigQuartzInvokeFactory {
 
 	private final ApplicationEventPublisher publisher;
 

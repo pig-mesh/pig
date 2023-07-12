@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobService;
 import com.pig4cloud.pig.daemon.quartz.util.TaskUtil;
 import lombok.AllArgsConstructor;
@@ -34,7 +34,7 @@ import org.springframework.context.annotation.Configuration;
 @Slf4j
 @Configuration
 @AllArgsConstructor
-public class PigxInitQuartzJob {
+public class PigInitQuartzJob {
 
 	private final SysJobService sysJobService;
 
@@ -45,13 +45,13 @@ public class PigxInitQuartzJob {
 	@Bean
 	public void customize() {
 		sysJobService.list().forEach(sysjob -> {
-			if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
+			if (PigQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
 				taskUtil.removeJob(sysjob, scheduler);
 			}
-			else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
+			else if (PigQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
 				taskUtil.resumeJob(sysjob, scheduler);
 			}
-			else if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
+			else if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
 				taskUtil.pauseJob(sysjob, scheduler);
 			}
 			else {

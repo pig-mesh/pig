@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.daemon.quartz.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.pig4cloud.pig.daemon.quartz.constants.PigxQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pig.daemon.quartz.event.SysJobLogEvent;
@@ -78,20 +78,20 @@ public class TaskInvokUtil {
 			// 确保租户上下文有值，使得当前线程中的多租户特性生效。
 			iTaskInvok.invokMethod(sysJob);
 			// 记录成功状态
-			sysJobLog.setJobMessage(PigxQuartzEnum.JOB_LOG_STATUS_SUCCESS.getDescription());
-			sysJobLog.setJobLogStatus(PigxQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType());
+			sysJobLog.setJobMessage(PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getDescription());
+			sysJobLog.setJobLogStatus(PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType());
 			// 任务表信息更新
-			updateSysjob.setJobExecuteStatus(PigxQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType());
+			updateSysjob.setJobExecuteStatus(PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType());
 		}
 		catch (Throwable e) {
 			log.error("定时任务执行失败，任务名称：{}；任务组名：{}，cron执行表达式：{}，执行时间：{}", sysJob.getJobName(), sysJob.getJobGroup(),
 					sysJob.getCronExpression(), new Date());
 			// 记录失败状态
-			sysJobLog.setJobMessage(PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getDescription());
-			sysJobLog.setJobLogStatus(PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getType());
+			sysJobLog.setJobMessage(PigQuartzEnum.JOB_LOG_STATUS_FAIL.getDescription());
+			sysJobLog.setJobLogStatus(PigQuartzEnum.JOB_LOG_STATUS_FAIL.getType());
 			sysJobLog.setExceptionInfo(StrUtil.sub(e.getMessage(), 0, 2000));
 			// 任务表信息更新
-			updateSysjob.setJobExecuteStatus(PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getType());
+			updateSysjob.setJobExecuteStatus(PigQuartzEnum.JOB_LOG_STATUS_FAIL.getType());
 		}
 		finally {
 			// 记录执行时间 立刻执行使用的是simpleTeigger
