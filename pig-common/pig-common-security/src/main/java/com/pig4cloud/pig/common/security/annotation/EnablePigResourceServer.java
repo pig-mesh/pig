@@ -20,7 +20,6 @@ import com.pig4cloud.pig.common.security.component.PigResourceServerAutoConfigur
 import com.pig4cloud.pig.common.security.component.PigResourceServerConfiguration;
 import com.pig4cloud.pig.common.security.feign.PigFeignClientConfiguration;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 import java.lang.annotation.*;
 
@@ -32,7 +31,6 @@ import java.lang.annotation.*;
  */
 @Documented
 @Inherited
-@EnableMethodSecurity
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Import({ PigResourceServerAutoConfiguration.class, PigResourceServerConfiguration.class,
