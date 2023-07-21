@@ -2,7 +2,7 @@
 
 | 依赖                   | 版本             |
 | ---------------------- |----------------|
-| Spring Boot            | 3.1.1          |
+| Spring Boot            | 3.1.2          |
 | Spring Cloud           | 2022.0.3       |
 | Spring Cloud Alibaba   | 2022.0.0.0-RC2 |
 | Spring Authorization Server | 1.1.1          |
