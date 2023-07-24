@@ -37,6 +37,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -68,8 +69,7 @@ public class PigxFeignClientsRegistrar
 	}
 
 	private void registerFeignClients(BeanDefinitionRegistry registry) {
-		List<String> feignClients = SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(),
-				getBeanClassLoader());
+		List<String> feignClients = new ArrayList<>();
 
 		// 支持 springboot 2.7 + 最新版本的配置方式
 		ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
