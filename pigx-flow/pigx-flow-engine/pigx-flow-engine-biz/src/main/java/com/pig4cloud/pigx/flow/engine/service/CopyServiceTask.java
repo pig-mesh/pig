@@ -15,7 +15,7 @@ import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -75,7 +75,7 @@ public class CopyServiceTask implements JavaDelegate {
 		for (String userIds : userIdList) {
 			// 发送抄送任务
 			ProcessCopyDto processCopyDto = new ProcessCopyDto();
-			processCopyDto.setNodeTime(new Date());
+			processCopyDto.setNodeTime(LocalDateTime.now());
 			processCopyDto.setStartUserId(rootUser.getId());
 			processCopyDto.setFlowId(flowId);
 			processCopyDto.setProcessInstanceId(execution.getProcessInstanceId());

@@ -1,9 +1,8 @@
 package com.pig4cloud.pigx.flow.task.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 public class ProcessCopyDto {
@@ -11,8 +10,7 @@ public class ProcessCopyDto {
 	/**
 	 * 当前节点时间
 	 */
-	@JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date nodeTime;
+	private LocalDateTime nodeTime;
 
 	/**
 	 * 发起人

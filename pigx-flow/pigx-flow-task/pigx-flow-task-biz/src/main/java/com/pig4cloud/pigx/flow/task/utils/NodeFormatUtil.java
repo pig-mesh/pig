@@ -4,7 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -21,6 +22,7 @@ import com.pig4cloud.pigx.flow.task.service.IProcessNodeRecordAssignUserService;
 import com.pig4cloud.pigx.flow.task.service.IRemoteService;
 import com.pig4cloud.pigx.flow.task.vo.NodeVo;
 import com.pig4cloud.pigx.flow.task.vo.UserVo;
+import lombok.SneakyThrows;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,6 +40,7 @@ public class NodeFormatUtil {
 	 * @param processInstanceId
 	 * @param paramMap
 	 */
+	@SneakyThrows
 	public static List<NodeVo> formatProcessNodeShow(Node node, Set<String> completeNodeSet,
 			Set<String> continueNodeSet, String processInstanceId, Map<String, Object> paramMap) {
 		List<NodeVo> list = new ArrayList<>();
@@ -116,7 +119,11 @@ public class NodeFormatUtil {
 					if (assignedType == ProcessInstanceConstant.AssignedTypeClass.SELF_SELECT) {
 						// 发起人自选
 						Object variable = paramMap.get(StrUtil.format("{}_assignee_select", node.getId()));
-						List<NodeUser> nodeUserDtos = JSON.parseArray(JSON.toJSONString(variable), NodeUser.class);
+
+						ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+						List<NodeUser> nodeUserDtos = objectMapper.readValue(objectMapper.writeValueAsString(variable),
+								new TypeReference<>() {
+								});
 
 						List<Long> collect = nodeUserDtos.stream().map(w -> Long.valueOf(w.getId())).toList();
 						for (Long aLong : collect) {
@@ -141,9 +148,11 @@ public class NodeFormatUtil {
 
 				Object o = paramMap.get(formUser);
 				if (o != null) {
-					String jsonString = JSON.toJSONString(o);
+					ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
+					String jsonString = objectMapper.writeValueAsString(o);
 					if (StrUtil.isNotBlank(jsonString)) {
-						List<NodeUser> nodeUserDtoList = JSON.parseArray(jsonString, NodeUser.class);
+						List<NodeUser> nodeUserDtoList = objectMapper.readValue(jsonString, new TypeReference<>() {
+						});
 						List<Long> userIdList = nodeUserDtoList.stream().map(NodeUser::getId).toList();
 						for (Long aLong : userIdList) {
 							userVoList.addAll(CollUtil.newArrayList(buildUser(aLong)));

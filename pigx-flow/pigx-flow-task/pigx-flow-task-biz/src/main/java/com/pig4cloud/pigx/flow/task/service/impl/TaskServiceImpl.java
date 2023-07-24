@@ -6,8 +6,8 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.TypeReference;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowEngineService;
@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.flow.task.entity.ProcessNodeRecordAssignUser;
 import com.pig4cloud.pigx.flow.task.service.*;
 import com.pig4cloud.pigx.flow.task.vo.FormItemVO;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,12 +48,15 @@ public class TaskServiceImpl implements ITaskService {
 
 	private final IProcessInstanceRecordService processInstanceRecordService;
 
+	private final ObjectMapper objectMapper;
+
 	/**
 	 * 查询任务
 	 * @param taskId
 	 * @param view
 	 * @return
 	 */
+	@SneakyThrows
 	@Override
 	public R queryTask(String taskId, boolean view) {
 
@@ -82,7 +86,7 @@ public class TaskServiceImpl implements ITaskService {
 			if (processNodeRecordAssignUser != null) {
 				String data = processNodeRecordAssignUser.getData();
 				if (StrUtil.isNotBlank(data)) {
-					Map<String, Object> collect = JSON.parseObject(data, new TypeReference<Map<String, Object>>() {
+					Map<String, Object> collect = objectMapper.readValue(data, new TypeReference<>() {
 					});
 					paramMap.putAll(collect);
 

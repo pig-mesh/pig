@@ -4,9 +4,9 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.constant.FormTypeEnum;
 import com.pig4cloud.pigx.flow.task.constant.ProcessInstanceConstant;
@@ -19,6 +19,7 @@ import com.pig4cloud.pigx.flow.task.service.IProcessNodeDataService;
 import com.pig4cloud.pigx.flow.task.service.IProcessService;
 import com.pig4cloud.pigx.flow.task.vo.FormItemVO;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,6 +38,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ProcessCopyServiceImpl extends ServiceImpl<ProcessCopyMapper, ProcessCopy> implements IProcessCopyService {
 
+	private final ObjectMapper objectMapper;
+
 	private final IProcessService processService;
 
 	private final IProcessNodeDataService nodeDataService;
@@ -46,6 +49,7 @@ public class ProcessCopyServiceImpl extends ServiceImpl<ProcessCopyMapper, Proce
 	 * @param id
 	 * @return
 	 */
+	@SneakyThrows
 	@Override
 	public R querySingleDetail(long id) {
 		ProcessCopy processCopy = this.getById(id);
@@ -56,7 +60,7 @@ public class ProcessCopyServiceImpl extends ServiceImpl<ProcessCopyMapper, Proce
 		}
 		String formData = processCopy.getFormData();
 
-		Map<String, Object> variableMap = JSON.parseObject(formData, new TypeReference<>() {
+		Map<String, Object> variableMap = objectMapper.readValue(formData, new TypeReference<>() {
 		});
 
 		String nodeId = processCopy.getNodeId();
@@ -64,7 +68,8 @@ public class ProcessCopyServiceImpl extends ServiceImpl<ProcessCopyMapper, Proce
 		Node node = nodeDataService.getNodeData(flowId, nodeId).getData();
 		Map<String, String> formPerms = node.getFormPerms();
 
-		List<FormItemVO> jsonObjectList = JSON.parseArray(oaForms.getFormItems(), FormItemVO.class);
+		List<FormItemVO> jsonObjectList = objectMapper.readValue(oaForms.getFormItems(), new TypeReference<>() {
+		});
 		for (FormItemVO formItemVO : jsonObjectList) {
 			String fid = formItemVO.getId();
 			String perm = formPerms.get(fid);

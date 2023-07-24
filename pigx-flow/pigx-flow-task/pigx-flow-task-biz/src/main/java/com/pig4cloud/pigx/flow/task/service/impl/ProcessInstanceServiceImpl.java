@@ -7,9 +7,9 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.TypeReference;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -22,17 +22,15 @@ import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.task.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.entity.Process;
-import com.pig4cloud.pigx.flow.task.entity.ProcessCopy;
-import com.pig4cloud.pigx.flow.task.entity.ProcessInstanceRecord;
-import com.pig4cloud.pigx.flow.task.entity.ProcessNodeRecord;
-import com.pig4cloud.pigx.flow.task.entity.ProcessNodeRecordAssignUser;
+import com.pig4cloud.pigx.flow.task.entity.*;
 import com.pig4cloud.pigx.flow.task.service.*;
 import com.pig4cloud.pigx.flow.task.utils.NodeFormatUtil;
 import com.pig4cloud.pigx.flow.task.vo.FormItemVO;
 import com.pig4cloud.pigx.flow.task.vo.NodeFormatParamVo;
-import com.pig4cloud.pigx.flow.task.vo.ProcessCopyVo;
 import com.pig4cloud.pigx.flow.task.vo.NodeVo;
+import com.pig4cloud.pigx.flow.task.vo.ProcessCopyVo;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -60,6 +58,8 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 	private final IProcessNodeRecordService processNodeRecordService;
 
 	private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
+
+	private final ObjectMapper objectMapper;
 
 	/**
 	 * 启动流程
@@ -304,6 +304,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 	 * @param nodeFormatParamVo
 	 * @return
 	 */
+	@SneakyThrows
 	@Override
 	public R formatStartNodeShow(NodeFormatParamVo nodeFormatParamVo) {
 		String flowId = nodeFormatParamVo.getFlowId();
@@ -334,7 +335,8 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 					.one();
 
 				String data = processNodeRecordAssignUser.getData();
-				Map<String, Object> variableMap = JSON.parseObject(data, new TypeReference<>() {
+
+				Map<String, Object> variableMap = objectMapper.readValue(data, new TypeReference<>() {
 				});
 				variableMap.putAll(paramMap);
 				paramMap.putAll(variableMap);
@@ -362,7 +364,8 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
 		Process oaForms = processService.getByFlowId(flowId);
 		String process = oaForms.getProcess();
-		Node nodeDto = JSON.parseObject(process, Node.class);
+		Node nodeDto = objectMapper.readValue(process, new TypeReference<>() {
+		});
 
 		List<NodeVo> processNodeShowDtos = NodeFormatUtil.formatProcessNodeShow(nodeDto, completeNodeSet,
 				new HashSet<>(), processInstanceId, paramMap);
@@ -375,6 +378,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 	 * @param processInstanceId
 	 * @return
 	 */
+	@SneakyThrows
 	@Override
 	public R detail(String processInstanceId) {
 		ProcessInstanceRecord processInstanceRecord = processInstanceRecordService.lambdaQuery()
@@ -388,14 +392,16 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
 		// 发起人变量数据
 		String formData = processInstanceRecord.getFormData();
-		Map<String, Object> variableMap = JSON.parseObject(formData, new TypeReference<>() {
+		Map<String, Object> variableMap = objectMapper.readValue(formData, new TypeReference<>() {
 		});
 		// 发起人表单权限
 		String process = oaForms.getProcess();
-		Node nodeDto = JSON.parseObject(process, Node.class);
+
+		Node nodeDto = objectMapper.readValue(process, Node.class);
 		Map<String, String> formPerms1 = nodeDto.getFormPerms();
 
-		List<FormItemVO> jsonObjectList = JSON.parseArray(oaForms.getFormItems(), FormItemVO.class);
+		List<FormItemVO> jsonObjectList = objectMapper.readValue(oaForms.getFormItems(), new TypeReference<>() {
+		});
 		for (FormItemVO formItemVO : jsonObjectList) {
 			String id = formItemVO.getId();
 			String perm = formPerms1.get(id);

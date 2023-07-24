@@ -1,7 +1,6 @@
 package com.pig4cloud.pigx.flow.task.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
@@ -52,7 +51,7 @@ public class ProcessNodeRecordServiceImpl extends ServiceImpl<ProcessNodeRecordM
 	@Override
 	public R complete(ProcessNodeRecordParamDto processNodeRecordParamDto) {
 
-		log.info("节点结束---{}", JSON.toJSONString(processNodeRecordParamDto));
+		log.info("节点结束---{}", processNodeRecordParamDto);
 
 		// TODO 完成节点和完成任务要区分下
 		this.lambdaUpdate()

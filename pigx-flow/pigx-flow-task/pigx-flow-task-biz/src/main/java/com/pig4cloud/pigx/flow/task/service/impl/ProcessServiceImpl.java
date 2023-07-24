@@ -7,8 +7,9 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
-import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.common.sequence.sequence.Sequence;
@@ -25,8 +26,8 @@ import com.pig4cloud.pigx.flow.task.service.IProcessStarterService;
 import com.pig4cloud.pigx.flow.task.utils.NodeUtil;
 import com.pig4cloud.pigx.flow.task.vo.FormItemVO;
 import com.pig4cloud.pigx.flow.task.vo.ProcessVO;
-
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -51,6 +52,8 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 
 	private final Sequence flowSequence;
 
+	private final ObjectMapper objectMapper;
+
 	/**
 	 * 获取详细数据
 	 * @param flowId
@@ -68,15 +71,19 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 	 * @param flowId 流程ID
 	 * @return 流程详情
 	 */
+	@SneakyThrows
 	private ProcessVO getProcessVO(String flowId) {
 
 		Process oaForms = getByFlowId(flowId);
 		String process = oaForms.getProcess();
 		String formItems = oaForms.getFormItems();
-		Node startNode = JSON.parseObject(process, Node.class);
+		Node startNode = objectMapper.readValue(process, new TypeReference<>() {
+		});
 
 		Map<String, String> formPerms = startNode.getFormPerms();
-		List<FormItemVO> formItemVOList = JSON.parseArray(formItems, FormItemVO.class);
+
+		List<FormItemVO> formItemVOList = objectMapper.readValue(formItems, new TypeReference<>() {
+		});
 		for (FormItemVO formItemVO : formItemVOList) {
 			String perm = MapUtil.getStr(formPerms, formItemVO.getId(), ProcessInstanceConstant.FormPermClass.EDIT);
 			formItemVO.setPerm(perm);
@@ -106,7 +113,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 			}
 
 		}
-		oaForms.setFormItems(JSON.toJSONString(formItemVOList));
+		oaForms.setFormItems(objectMapper.writeValueAsString(formItemVOList));
 
 		List<String> selectUserNodeId = NodeUtil.selectUserNodeId(startNode);
 

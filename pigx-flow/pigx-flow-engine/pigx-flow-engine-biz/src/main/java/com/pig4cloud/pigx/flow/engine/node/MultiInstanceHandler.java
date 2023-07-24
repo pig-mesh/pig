@@ -3,12 +3,14 @@ package com.pig4cloud.pigx.flow.engine.node;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson2.JSON;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowTaskService;
 import com.pig4cloud.pigx.flow.task.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.task.dto.Node;
 import com.pig4cloud.pigx.flow.task.dto.NodeUser;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
@@ -29,11 +31,14 @@ public class MultiInstanceHandler {
 
 	private final Map<String, AssignUserStrategy> assignUserStrategyMap;
 
+	private final ObjectMapper objectMapper;
+
 	/**
 	 * 解析执行人
 	 * @param execution 流程执行对象
 	 * @return 执行人集合
 	 */
+	@SneakyThrows
 	public List<Long> resolveAssignee(DelegateExecution execution) {
 		// 执行人集合
 		List<Long> assignList = new ArrayList<>();
@@ -47,7 +52,9 @@ public class MultiInstanceHandler {
 
 		// 发起人
 		Object rootUserObj = execution.getVariable("root");
-		NodeUser rootUser = JSON.parseArray(JSON.toJSONString(rootUserObj), NodeUser.class).get(0);
+		String rootUserJson = objectMapper.writeValueAsString(rootUserObj);
+		NodeUser rootUser = objectMapper.readValue(rootUserJson, new TypeReference<List<NodeUser>>() {
+		}).get(0);
 
 		// 节点数据
 		Node node = remoteFlowTaskService.queryNodeOriData(flowId, nodeId).getData();
@@ -62,7 +69,10 @@ public class MultiInstanceHandler {
 			// 默认值
 			String format = StrUtil.format("{}_assignee_default_list", nodeId);
 			Object variable = execution.getVariable(format);
-			List<NodeUser> nodeUserDtos = JSON.parseArray(JSON.toJSONString(variable), NodeUser.class);
+			String variableJson = objectMapper.writeValueAsString(variable);
+
+			List<NodeUser> nodeUserDtos = objectMapper.readValue(variableJson, new TypeReference<>() {
+			});
 			if (CollUtil.isNotEmpty(nodeUserDtos)) {
 				List<Long> collect = nodeUserDtos.stream().map(NodeUser::getId).toList();
 				assignList.addAll(collect);
