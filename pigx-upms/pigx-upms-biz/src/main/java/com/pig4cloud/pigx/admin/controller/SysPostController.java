@@ -75,7 +75,7 @@ public class SysPostController {
 	@PreAuthorize("@pms.hasPermission('sys_post_view')")
 	public R getSysPostPage(@ParameterObject Page page, @ParameterObject SysPost sysPost) {
 		return R.ok(sysPostService.page(page, Wrappers.<SysPost>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
+			.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
 	}
 
 	/**

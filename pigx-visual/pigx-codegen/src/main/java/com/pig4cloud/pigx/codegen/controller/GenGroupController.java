@@ -64,9 +64,8 @@ public class GenGroupController {
 	@PreAuthorize("@pms.hasPermission('codegen_group_view')")
 	public R getgenGroupPage(Page page, GenGroupEntity genGroup) {
 		LambdaQueryWrapper<GenGroupEntity> wrapper = Wrappers.<GenGroupEntity>lambdaQuery()
-				.like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
-				.like(StrUtil.isNotEmpty(genGroup.getGroupName()), GenGroupEntity::getGroupName,
-						genGroup.getGroupName());
+			.like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
+			.like(StrUtil.isNotEmpty(genGroup.getGroupName()), GenGroupEntity::getGroupName, genGroup.getGroupName());
 		return R.ok(genGroupService.page(page, wrapper));
 	}
 

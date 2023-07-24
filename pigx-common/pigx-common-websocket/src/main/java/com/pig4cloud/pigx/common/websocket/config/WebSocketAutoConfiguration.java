@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.common.websocket.config;
 
 import com.pig4cloud.pigx.common.websocket.handler.JsonMessageHandler;
 import com.pig4cloud.pigx.common.websocket.holder.JsonMessageHandlerHolder;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +12,6 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.server.HandshakeInterceptor;
 
-import jakarta.annotation.PostConstruct;
 import java.util.List;
 
 /**
@@ -33,8 +33,8 @@ public class WebSocketAutoConfiguration {
 	public WebSocketConfigurer webSocketConfigurer(List<HandshakeInterceptor> handshakeInterceptor,
 			WebSocketHandler webSocketHandler) {
 		return registry -> registry.addHandler(webSocketHandler, webSocketProperties.getPath())
-				.setAllowedOrigins(webSocketProperties.getAllowOrigins())
-				.addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
+			.setAllowedOrigins(webSocketProperties.getAllowOrigins())
+			.addInterceptors(handshakeInterceptor.toArray(new HandshakeInterceptor[0]));
 	}
 
 	/**

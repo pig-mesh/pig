@@ -63,8 +63,10 @@ public enum DsJdbcUrlEnum {
 	private final String description;
 
 	public static DsJdbcUrlEnum get(String dsType) {
-		return Arrays.stream(DsJdbcUrlEnum.values()).filter(dsJdbcUrlEnum -> dsType.equals(dsJdbcUrlEnum.getDbName()))
-				.findFirst().get();
+		return Arrays.stream(DsJdbcUrlEnum.values())
+			.filter(dsJdbcUrlEnum -> dsType.equals(dsJdbcUrlEnum.getDbName()))
+			.findFirst()
+			.get();
 	}
 
 }

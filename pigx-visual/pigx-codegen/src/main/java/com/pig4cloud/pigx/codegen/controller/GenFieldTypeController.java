@@ -60,8 +60,9 @@ public class GenFieldTypeController {
 	@GetMapping("/page")
 	public R getFieldTypePage(Page page, GenFieldType fieldType) {
 		return R.ok(fieldTypeService.page(page,
-				Wrappers.<GenFieldType>lambdaQuery().like(StrUtil.isNotBlank(fieldType.getColumnType()),
-						GenFieldType::getColumnType, fieldType.getColumnType())));
+				Wrappers.<GenFieldType>lambdaQuery()
+					.like(StrUtil.isNotBlank(fieldType.getColumnType()), GenFieldType::getColumnType,
+							fieldType.getColumnType())));
 	}
 
 	@Operation(summary = "查询列表", description = "查询列表")

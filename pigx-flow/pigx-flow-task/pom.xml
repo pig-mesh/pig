@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx-flow</artifactId>
+        <version>5.2.0-snapshot</version>
+    </parent>
+
+    <artifactId>pigx-flow-task</artifactId>
+    <description>flowable 工作流业务处理模块</description>
+    <packaging>pom</packaging>
+
+    <!--项目子模块-->
+    <modules>
+        <module>pigx-flow-task-api</module>
+        <module>pigx-flow-task-biz</module>
+    </modules>
+</project>

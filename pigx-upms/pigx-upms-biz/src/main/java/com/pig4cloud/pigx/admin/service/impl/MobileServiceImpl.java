@@ -61,7 +61,7 @@ public class MobileServiceImpl implements MobileService {
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {
 		List<SysUser> userList = userMapper
-				.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
+			.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", mobile);
@@ -69,7 +69,7 @@ public class MobileServiceImpl implements MobileService {
 		}
 
 		Object codeObj = redisTemplate.opsForValue()
-				.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
+			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
 
 		if (codeObj != null) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -78,9 +78,9 @@ public class MobileServiceImpl implements MobileService {
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.debug("手机号生成验证码成功:{},{}", mobile, code);
-		redisTemplate.opsForValue().set(
-				CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code,
-				SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		redisTemplate.opsForValue()
+			.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code,
+					SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 		return R.ok(Boolean.TRUE, code);
 	}
 

@@ -20,10 +20,11 @@ public class NacosServiceInstanceConverter extends DefaultServiceInstanceConvert
 
 	@Override
 	protected Map<String, String> getMetadata(ServiceInstance instance) {
-		return (instance.getMetadata() != null)
-				? instance.getMetadata().entrySet().stream().filter((e) -> e.getKey() != null && e.getValue() != null)
-						.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue))
-				: emptyMap();
+		return (instance.getMetadata() != null) ? instance.getMetadata()
+			.entrySet()
+			.stream()
+			.filter((e) -> e.getKey() != null && e.getValue() != null)
+			.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue)) : emptyMap();
 	}
 
 }

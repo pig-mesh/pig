@@ -91,7 +91,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeRoleByIds(Long[] ids) {
 		roleMenuService
-				.remove(Wrappers.<SysRoleMenu>update().lambda().in(SysRoleMenu::getRoleId, CollUtil.toList(ids)));
+			.remove(Wrappers.<SysRoleMenu>update().lambda().in(SysRoleMenu::getRoleId, CollUtil.toList(ids)));
 		return this.removeBatchByIds(CollUtil.toList(ids));
 	}
 
@@ -123,8 +123,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 		for (RoleExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验角色名称或者角色编码是否存在
-			boolean existRole = roleList.stream().anyMatch(sysRole -> excel.getRoleName().equals(sysRole.getRoleName())
-					|| excel.getRoleCode().equals(sysRole.getRoleCode()));
+			boolean existRole = roleList.stream()
+				.anyMatch(sysRole -> excel.getRoleName().equals(sysRole.getRoleName())
+						|| excel.getRoleCode().equals(sysRole.getRoleCode()));
 
 			if (existRole) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),

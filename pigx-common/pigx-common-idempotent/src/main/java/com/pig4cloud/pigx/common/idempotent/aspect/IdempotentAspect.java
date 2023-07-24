@@ -3,6 +3,7 @@ package com.pig4cloud.pigx.common.idempotent.aspect;
 import com.pig4cloud.pigx.common.idempotent.annotation.Idempotent;
 import com.pig4cloud.pigx.common.idempotent.exception.IdempotentException;
 import com.pig4cloud.pigx.common.idempotent.expression.KeyResolver;
+import jakarta.servlet.http.HttpServletRequest;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +20,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -58,7 +58,7 @@ public class IdempotentAspect {
 	@Before("pointCut()")
 	public void beforePointCut(JoinPoint joinPoint) {
 		ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes();
+			.getRequestAttributes();
 		HttpServletRequest request = requestAttributes.getRequest();
 
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();

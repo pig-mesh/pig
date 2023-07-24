@@ -72,7 +72,7 @@ public class SysSocialDetailsController {
 	@GetMapping("/{type}")
 	public R getByType(@PathVariable("type") String type) {
 		return R.ok(sysSocialDetailsService
-				.list(Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, type)));
+			.list(Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, type)));
 	}
 
 	@GetMapping("/getById/{id}")

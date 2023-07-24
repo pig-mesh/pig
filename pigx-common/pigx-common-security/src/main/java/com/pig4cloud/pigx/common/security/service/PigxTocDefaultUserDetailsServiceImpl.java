@@ -104,7 +104,7 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
 
 		}
 		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 		AppUser user = info.getAppUser();
 		// 构造security用户
 

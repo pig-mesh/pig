@@ -55,10 +55,13 @@ public class XxlJobAutoConfiguration {
 
 		// 如果配置为空则获取注册中心的服务列表 "http://pigx-xxl:9080/xxl-job-admin"
 		if (!StringUtils.hasText(xxlJobProperties.getAdmin().getAddresses())) {
-			String serverList = discoveryClient.getServices().stream().filter(s -> s.contains(XXL_JOB_ADMIN))
-					.flatMap(s -> discoveryClient.getInstances(s).stream()).map(instance -> String
-							.format("http://%s:%s/%s", instance.getHost(), instance.getPort(), XXL_JOB_ADMIN))
-					.collect(Collectors.joining(","));
+			String serverList = discoveryClient.getServices()
+				.stream()
+				.filter(s -> s.contains(XXL_JOB_ADMIN))
+				.flatMap(s -> discoveryClient.getInstances(s).stream())
+				.map(instance -> String.format("http://%s:%s/%s", instance.getHost(), instance.getPort(),
+						XXL_JOB_ADMIN))
+				.collect(Collectors.joining(","));
 			xxlJobSpringExecutor.setAdminAddresses(serverList);
 		}
 		else {

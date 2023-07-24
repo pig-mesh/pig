@@ -74,13 +74,13 @@ public class PigxDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 		if (authentication.getCredentials() == null) {
 			this.logger.debug("Failed to authenticate since no credentials provided");
 			throw new BadCredentialsException(this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
 		}
 		String presentedPassword = authentication.getCredentials().toString();
 		if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
 			this.logger.debug("Failed to authenticate since password does not match stored value");
 			throw new BadCredentialsException(this.messages
-					.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
 		}
 	}
 
@@ -96,14 +96,15 @@ public class PigxDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 		}
 
 		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringUtil
-				.getBeansOfType(PigxUserDetailsService.class);
+			.getBeansOfType(PigxUserDetailsService.class);
 
 		String finalClientId = clientId;
-		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(finalClientId, grantType))
-				.max(Comparator.comparingInt(Ordered::getOrder));
+		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(service -> service.support(finalClientId, grantType))
+			.max(Comparator.comparingInt(Ordered::getOrder));
 
-		if (!optional.isPresent()) {
+		if (optional.isEmpty()) {
 			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");
 		}
 

@@ -81,8 +81,8 @@ public class SysMenuController {
 	 */
 	@GetMapping("/tree/{roleId}")
 	public R getRoleTree(@PathVariable Long roleId) {
-		return R.ok(
-				sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+		return R
+			.ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
 	}
 
 	/**

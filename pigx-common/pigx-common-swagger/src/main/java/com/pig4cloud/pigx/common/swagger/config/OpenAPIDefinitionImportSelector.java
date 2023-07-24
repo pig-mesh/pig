@@ -40,7 +40,7 @@ public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegi
 		}
 
 		BeanDefinitionBuilder openAPIMetadata = BeanDefinitionBuilder
-				.genericBeanDefinition(OpenAPIMetadataConfiguration.class);
+			.genericBeanDefinition(OpenAPIMetadataConfiguration.class);
 		openAPIMetadata.addPropertyValue("path", value);
 		registry.registerBeanDefinition("openAPIMetadata", openAPIMetadata.getBeanDefinition());
 	}

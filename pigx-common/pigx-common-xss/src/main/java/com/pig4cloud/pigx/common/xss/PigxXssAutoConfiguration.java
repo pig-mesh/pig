@@ -70,8 +70,10 @@ public class PigxXssAutoConfiguration implements WebMvcConfigurer {
 			patterns.add("/**");
 		}
 		XssCleanInterceptor interceptor = new XssCleanInterceptor(xssProperties);
-		registry.addInterceptor(interceptor).addPathPatterns(patterns)
-				.excludePathPatterns(xssProperties.getPathExcludePatterns()).order(Ordered.LOWEST_PRECEDENCE);
+		registry.addInterceptor(interceptor)
+			.addPathPatterns(patterns)
+			.excludePathPatterns(xssProperties.getPathExcludePatterns())
+			.order(Ordered.LOWEST_PRECEDENCE);
 	}
 
 }

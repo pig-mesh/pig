@@ -87,7 +87,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	@Cacheable(value = CacheConstants.TENANT_DETAILS)
 	public List<SysTenant> getNormalTenant() {
 		return baseMapper
-				.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, CommonConstants.STATUS_NORMAL));
+			.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, CommonConstants.STATUS_NORMAL));
 	}
 
 	/**
@@ -187,17 +187,20 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			// 插入系统字典
 			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 处理字典项最新关联的字典ID
-			List<SysDictItem> itemList = dictList.stream().flatMap(dict -> dictItemList.stream()
-					.filter(item -> item.getDictType().equals(dict.getDictType())).peek(item -> {
+			List<SysDictItem> itemList = dictList.stream()
+				.flatMap(dict -> dictItemList.stream()
+					.filter(item -> item.getDictType().equals(dict.getDictType()))
+					.peek(item -> {
 						item.setDictId(dict.getId());
 						item.setId(null);
-					})).collect(Collectors.toList());
+					}))
+				.collect(Collectors.toList());
 
 			// 插入客户端
 			clientServices.saveBatch(clientDetailsList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
 			// 插入系统配置
 			paramService
-					.saveBatch(publicParamList.stream().peek(d -> d.setPublicId(null)).collect(Collectors.toList()));
+				.saveBatch(publicParamList.stream().peek(d -> d.setPublicId(null)).collect(Collectors.toList()));
 			return dictItemService.saveBatch(itemList);
 		}));
 

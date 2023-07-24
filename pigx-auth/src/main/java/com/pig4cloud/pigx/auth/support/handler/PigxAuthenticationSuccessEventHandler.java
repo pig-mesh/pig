@@ -26,6 +26,8 @@ import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.log.event.SysLogEvent;
 import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
 import com.pig4cloud.pigx.common.log.util.SysLogUtils;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -45,8 +47,6 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -145,7 +145,8 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 		Map<String, Object> additionalParameters = accessTokenAuthentication.getAdditionalParameters();
 
 		OAuth2AccessTokenResponse.Builder builder = OAuth2AccessTokenResponse.withToken(accessToken.getTokenValue())
-				.tokenType(accessToken.getTokenType()).scopes(accessToken.getScopes());
+			.tokenType(accessToken.getTokenType())
+			.scopes(accessToken.getScopes());
 		if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
 			builder.expiresIn(ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
 		}

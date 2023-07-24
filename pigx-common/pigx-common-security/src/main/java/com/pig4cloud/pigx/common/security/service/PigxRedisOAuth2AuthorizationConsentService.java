@@ -19,8 +19,8 @@ public class PigxRedisOAuth2AuthorizationConsentService implements OAuth2Authori
 	public void save(OAuth2AuthorizationConsent authorizationConsent) {
 		Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
 
-		redisTemplate.opsForValue().set(buildKey(authorizationConsent), authorizationConsent, TIMEOUT,
-				TimeUnit.MINUTES);
+		redisTemplate.opsForValue()
+			.set(buildKey(authorizationConsent), authorizationConsent, TIMEOUT, TimeUnit.MINUTES);
 
 	}
 
@@ -35,7 +35,7 @@ public class PigxRedisOAuth2AuthorizationConsentService implements OAuth2Authori
 		Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
 		Assert.hasText(principalName, "principalName cannot be empty");
 		return (OAuth2AuthorizationConsent) redisTemplate.opsForValue()
-				.get(buildKey(registeredClientId, principalName));
+			.get(buildKey(registeredClientId, principalName));
 	}
 
 	private static String buildKey(String registeredClientId, String principalName) {

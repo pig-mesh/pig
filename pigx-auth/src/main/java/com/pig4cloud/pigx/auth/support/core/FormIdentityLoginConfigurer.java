@@ -23,9 +23,14 @@ public final class FormIdentityLoginConfigurer
 			formLogin.failureHandler(new FormAuthenticationFailureHandler());
 			formLogin.successHandler(new TenantSavedRequestAwareAuthenticationSuccessHandler());
 
-		}).logout() // SSO登出成功处理
-				.logoutSuccessHandler(new SsoLogoutSuccessHandler()).deleteCookies("JSESSIONID")
-				.invalidateHttpSession(true).and().csrf().disable();
+		})
+			.logout() // SSO登出成功处理
+			.logoutSuccessHandler(new SsoLogoutSuccessHandler())
+			.deleteCookies("JSESSIONID")
+			.invalidateHttpSession(true)
+			.and()
+			.csrf()
+			.disable();
 	}
 
 }

@@ -155,7 +155,8 @@ public class GenTableController {
 				Wrappers.<GenTable>lambdaQuery().eq(GenTable::getDsName, dsName).eq(GenTable::getTableName, tableName));
 		// 字段配置删除
 		tableColumnService.remove(Wrappers.<GenTableColumnEntity>lambdaQuery()
-				.eq(GenTableColumnEntity::getDsName, dsName).eq(GenTableColumnEntity::getTableName, tableName));
+			.eq(GenTableColumnEntity::getDsName, dsName)
+			.eq(GenTableColumnEntity::getTableName, tableName));
 		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
 	}
 

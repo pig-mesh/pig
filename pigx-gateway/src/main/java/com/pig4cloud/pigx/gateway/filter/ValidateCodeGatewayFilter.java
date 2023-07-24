@@ -102,8 +102,8 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
 				try {
-					return response.writeWith(Mono.just(
-							response.bufferFactory().wrap(objectMapper.writeValueAsBytes(R.failed(e.getMessage())))));
+					return response.writeWith(Mono
+						.just(response.bufferFactory().wrap(objectMapper.writeValueAsBytes(R.failed(e.getMessage())))));
 				}
 				catch (JsonProcessingException e1) {
 					log.error("对象输出异常", e1);

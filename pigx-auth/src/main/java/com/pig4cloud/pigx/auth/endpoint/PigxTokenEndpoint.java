@@ -38,6 +38,8 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.OAuthClientException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -59,8 +61,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
@@ -114,8 +114,9 @@ public class PigxTokenEndpoint {
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps
-				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN)).getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.getData()
+			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);

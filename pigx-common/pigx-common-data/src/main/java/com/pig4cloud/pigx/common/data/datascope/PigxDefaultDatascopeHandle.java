@@ -60,9 +60,12 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 			return true;
 		}
 
-		List<String> roleIdList = user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-				.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
-				.map(authority -> authority.split(StrUtil.UNDERLINE)[1]).collect(Collectors.toList());
+		List<String> roleIdList = user.getAuthorities()
+			.stream()
+			.map(GrantedAuthority::getAuthority)
+			.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
+			.map(authority -> authority.split(StrUtil.UNDERLINE)[1])
+			.collect(Collectors.toList());
 
 		List<Long> deptList = dataScope.getDeptList();
 
@@ -89,8 +92,8 @@ public class PigxDefaultDatascopeHandle implements DataScopeHandle {
 		// 自定义
 		if (DataScopeTypeEnum.CUSTOM.getType() == dsType && StrUtil.isNotBlank(role.getDsScope())) {
 			String dsScope = role.getDsScope();
-			deptList.addAll(
-					Arrays.stream(dsScope.split(StrUtil.COMMA)).map(Long::parseLong).collect(Collectors.toList()));
+			deptList
+				.addAll(Arrays.stream(dsScope.split(StrUtil.COMMA)).map(Long::parseLong).collect(Collectors.toList()));
 		}
 		// 查询本级及其下级
 		if (DataScopeTypeEnum.OWN_CHILD_LEVEL.getType() == dsType) {

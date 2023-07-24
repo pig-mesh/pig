@@ -65,7 +65,7 @@ public class SysTenantController {
 	@GetMapping("/page")
 	public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenant sysTenant) {
 		return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
+			.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
 	}
 
 	/**
@@ -136,9 +136,11 @@ public class SysTenantController {
 	@Inner(value = false)
 	@GetMapping("/list")
 	public R list() {
-		List<SysTenant> tenants = sysTenantService.getNormalTenant().stream()
-				.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-				.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now())).collect(Collectors.toList());
+		List<SysTenant> tenants = sysTenantService.getNormalTenant()
+			.stream()
+			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+			.collect(Collectors.toList());
 		return R.ok(tenants);
 	}
 

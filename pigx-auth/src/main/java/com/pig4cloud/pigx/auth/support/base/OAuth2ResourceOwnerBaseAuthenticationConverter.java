@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.auth.support.base;
 
 import com.pig4cloud.pigx.common.security.util.OAuth2EndpointUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
@@ -9,7 +10,6 @@ import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
@@ -83,10 +83,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationConverter<T extends O
 		}
 
 		// 扩展信息
-		Map<String, Object> additionalParameters = parameters.entrySet().stream()
-				.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
-						&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
-				.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
+		Map<String, Object> additionalParameters = parameters.entrySet()
+			.stream()
+			.filter(e -> !e.getKey().equals(OAuth2ParameterNames.GRANT_TYPE)
+					&& !e.getKey().equals(OAuth2ParameterNames.SCOPE))
+			.collect(Collectors.toMap(Map.Entry::getKey, e -> e.getValue().get(0)));
 
 		// 创建token
 		return buildToken(clientPrincipal, requestedScopes, additionalParameters);

@@ -51,7 +51,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Cacheable(value = CacheConstants.PARAMS_DETAILS, key = "#publicKey", unless = "#result == null ")
 	public String getSysPublicParamKeyToValue(String publicKey) {
 		SysPublicParam sysPublicParam = this.baseMapper
-				.selectOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, publicKey));
+			.selectOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, publicKey));
 
 		if (sysPublicParam != null) {
 			return sysPublicParam.getPublicValue();
@@ -83,9 +83,11 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
 	public R removeParamByIds(Long[] publicIds) {
-		List<Long> idList = this.baseMapper.selectBatchIds(CollUtil.toList(publicIds)).stream()
-				.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
-				.map(SysPublicParam::getPublicId).collect(Collectors.toList());
+		List<Long> idList = this.baseMapper.selectBatchIds(CollUtil.toList(publicIds))
+			.stream()
+			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
+			.map(SysPublicParam::getPublicId)
+			.collect(Collectors.toList());
 		return R.ok(this.removeBatchByIds(idList));
 	}
 

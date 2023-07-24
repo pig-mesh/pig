@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.common.security.util;
 
 import cn.hutool.core.map.MapUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
@@ -10,7 +11,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -29,15 +29,15 @@ public class OAuth2EndpointUtils {
 		MultiValueMap<String, String> parameters = new LinkedMultiValueMap<>(parameterMap.size());
 		parameterMap.forEach((key, values) -> {
 			for (String value : values) {
-			parameters.add(key, value);
-		}
+				parameters.add(key, value);
+			}
 		});
 		return parameters;
 	}
 
 	public boolean matchesPkceTokenRequest(HttpServletRequest request) {
 		return AuthorizationGrantType.AUTHORIZATION_CODE.getValue()
-				.equals(request.getParameter(OAuth2ParameterNames.GRANT_TYPE))
+			.equals(request.getParameter(OAuth2ParameterNames.GRANT_TYPE))
 				&& request.getParameter(OAuth2ParameterNames.CODE) != null
 				&& request.getParameter(PkceParameterNames.CODE_VERIFIER) != null;
 	}
@@ -61,7 +61,8 @@ public class OAuth2EndpointUtils {
 		OAuth2RefreshToken refreshToken = authentication.getRefreshToken().getToken();
 
 		OAuth2AccessTokenResponse.Builder builder = OAuth2AccessTokenResponse.withToken(accessToken.getTokenValue())
-				.tokenType(accessToken.getTokenType()).scopes(accessToken.getScopes());
+			.tokenType(accessToken.getTokenType())
+			.scopes(accessToken.getScopes());
 		if (accessToken.getIssuedAt() != null && accessToken.getExpiresAt() != null) {
 			builder.expiresIn(ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt()));
 		}

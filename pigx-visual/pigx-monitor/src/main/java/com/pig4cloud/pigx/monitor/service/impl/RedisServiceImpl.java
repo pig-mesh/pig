@@ -31,7 +31,7 @@ public class RedisServiceImpl implements RedisService {
 	public Map<String, Object> getInfo() {
 		Properties info = (Properties) redisTemplate.execute((RedisCallback) redisConnection -> redisConnection.info());
 		Properties commandStats = (Properties) redisTemplate
-				.execute((RedisCallback) redisConnection -> redisConnection.info("commandstats"));
+			.execute((RedisCallback) redisConnection -> redisConnection.info("commandstats"));
 		Object dbSize = redisTemplate.execute((RedisCallback) redisConnection -> redisConnection.dbSize());
 
 		Map<String, Object> result = new HashMap<>(4);

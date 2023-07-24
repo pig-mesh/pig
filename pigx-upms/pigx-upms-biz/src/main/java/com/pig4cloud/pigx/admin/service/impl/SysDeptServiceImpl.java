@@ -75,34 +75,41 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	/**
 	 * 查询全部部门树
 	 * @param deptName
+	 * @param parentId
 	 * @return 树 部门名称
 	 */
 	@Override
-	public List<Tree<Long>> selectTree(String deptName) {
+	public List<Tree<Long>> selectTree(String deptName, Long parentId) {
 		// 查询全部部门
-		List<SysDept> deptAllList = deptMapper.selectList(
-				Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
+		List<SysDept> deptAllList = deptMapper
+			.selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
 		// 查询数据权限内部门
-		List<Long> deptOwnIdList = deptMapper.selectListByScope(
-				Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
-				DataScope.of()).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> deptOwnIdList = deptMapper
+			.selectListByScope(
+					Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
+					DataScope.of())
+			.stream()
+			.map(SysDept::getDeptId)
+			.toList();
 
 		// 权限内部门
 		List<TreeNode<Long>> collect = deptAllList.stream()
-				.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSortOrder)).map(dept -> {
-					TreeNode<Long> treeNode = new TreeNode();
-					treeNode.setId(dept.getDeptId());
-					treeNode.setParentId(dept.getParentId());
-					treeNode.setName(dept.getName());
-					treeNode.setWeight(dept.getSortOrder());
-					// 有权限不返回标识
-					Map<String, Object> extra = new HashMap<>(8);
-					extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
-					extra.put("createTime", dept.getCreateTime());
-					treeNode.setExtra(extra);
-					return treeNode;
-				}).collect(Collectors.toList());
+			.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
+			.sorted(Comparator.comparingInt(SysDept::getSortOrder))
+			.map(dept -> {
+				TreeNode<Long> treeNode = new TreeNode<>();
+				treeNode.setId(dept.getDeptId());
+				treeNode.setParentId(dept.getParentId());
+				treeNode.setName(dept.getName());
+				treeNode.setWeight(dept.getSortOrder());
+				// 有权限不返回标识
+				Map<String, Object> extra = new HashMap<>(8);
+				extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
+				extra.put("createTime", dept.getCreateTime());
+				treeNode.setExtra(extra);
+				return treeNode;
+			})
+			.collect(Collectors.toList());
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
 		if (StrUtil.isNotBlank(deptName)) {
@@ -114,7 +121,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			}).collect(Collectors.toList());
 		}
 
-		return TreeUtil.build(collect, 0L);
+		return TreeUtil.build(collect, parentId == null ? 0 : parentId);
 	}
 
 	/**
@@ -127,8 +134,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		List<DeptExcelVo> deptExcelVos = list.stream().map(item -> {
 			DeptExcelVo deptExcelVo = new DeptExcelVo();
 			deptExcelVo.setName(item.getName());
-			Optional<String> first = this.list().stream().filter(it -> item.getParentId().equals(it.getDeptId()))
-					.map(SysDept::getName).findFirst();
+			Optional<String> first = this.list()
+				.stream()
+				.filter(it -> item.getParentId().equals(it.getDeptId()))
+				.map(SysDept::getName)
+				.findFirst();
 			deptExcelVo.setParentName(first.orElse("根部门"));
 			deptExcelVo.setSortOrder(item.getSortOrder());
 			return deptExcelVo;
@@ -188,8 +198,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		recursiveDept(allDeptList, deptId, resDeptList);
 
 		// 添加当前节点
-		resDeptList.addAll(allDeptList.stream().filter(sysDept -> deptId.equals(sysDept.getDeptId()))
-				.collect(Collectors.toList()));
+		resDeptList.addAll(allDeptList.stream()
+			.filter(sysDept -> deptId.equals(sysDept.getDeptId()))
+			.collect(Collectors.toList()));
 		return resDeptList;
 	}
 

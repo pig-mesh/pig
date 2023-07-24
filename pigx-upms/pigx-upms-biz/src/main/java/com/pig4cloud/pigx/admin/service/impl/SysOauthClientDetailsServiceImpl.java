@@ -93,9 +93,9 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		// 获取扩展信息,插入开关相关
 		String information = clientDetailsDTO.getAdditionalInformation();
 		JSONObject informationObj = JSONUtil.parseObj(information)
-				.set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
-				.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
-				.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
+			.set(CommonConstants.CAPTCHA_FLAG, clientDetailsDTO.getCaptchaFlag())
+			.set(CommonConstants.ENC_FLAG, clientDetailsDTO.getEncFlag())
+			.set(CommonConstants.ONLINE_QUANTITY, clientDetailsDTO.getOnlineQuantity());
 		clientDetails.setAdditionalInformation(informationObj.toString());
 
 		// 更新数据库

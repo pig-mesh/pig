@@ -116,9 +116,10 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 			genTable = this.tableImport(dsName, tableName);
 		}
 
-		List<GenTableColumnEntity> fieldList = columnService
-				.list(Wrappers.<GenTableColumnEntity>lambdaQuery().eq(GenTableColumnEntity::getDsName, dsName)
-						.eq(GenTableColumnEntity::getTableName, tableName).orderByAsc(GenTableColumnEntity::getSort));
+		List<GenTableColumnEntity> fieldList = columnService.list(Wrappers.<GenTableColumnEntity>lambdaQuery()
+			.eq(GenTableColumnEntity::getDsName, dsName)
+			.eq(GenTableColumnEntity::getTableName, tableName)
+			.orderByAsc(GenTableColumnEntity::getSort));
 		genTable.setFieldList(fieldList);
 
 		// 查询模板分组信息

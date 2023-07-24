@@ -36,13 +36,18 @@ public interface ServiceNameConstants {
 	String UPMS_SERVICE = "pigx-upms-biz";
 
 	/**
-	 * 分布式事务协调服务
-	 */
-	String TX_MANAGER = "pigx-tx-manager";
-
-	/**
 	 * app服务
 	 */
 	String APP_SERVER = "pigx-app-server-biz";
+
+	/**
+	 * 流程引擎
+	 */
+	String FLOW_ENGINE_SERVER = "pigx-flow-engine-biz";
+
+	/**
+	 * 流程工单
+	 */
+	String FLOW_TASK_SERVER = "pigx-flow-task-biz";
 
 }

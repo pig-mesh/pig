@@ -48,7 +48,7 @@ public class GenKit {
 		// 获取目标数据源数据库类型
 		GenDatasourceConfMapper datasourceConfMapper = SpringContextHolder.getBean(GenDatasourceConfMapper.class);
 		GenDatasourceConf datasourceConf = datasourceConfMapper
-				.selectOne(Wrappers.<GenDatasourceConf>lambdaQuery().eq(GenDatasourceConf::getName, dsName));
+			.selectOne(Wrappers.<GenDatasourceConf>lambdaQuery().eq(GenDatasourceConf::getName, dsName));
 
 		String dbConfType;
 		// 默认MYSQL 数据源

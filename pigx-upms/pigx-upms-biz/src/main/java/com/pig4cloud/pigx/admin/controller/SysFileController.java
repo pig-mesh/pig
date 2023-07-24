@@ -66,7 +66,7 @@ public class SysFileController {
 	@GetMapping("/page")
 	public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
 		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
+			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
 		return R.ok(sysFileService.page(page, wrapper));
 	}
 

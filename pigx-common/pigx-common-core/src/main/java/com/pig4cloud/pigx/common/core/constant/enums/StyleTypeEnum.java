@@ -50,8 +50,11 @@ public enum StyleTypeEnum {
 	private String description;
 
 	public static String getDecs(String style) {
-		return Arrays.stream(StyleTypeEnum.values()).filter(styleTypeEnum -> styleTypeEnum.getStyle().equals(style))
-				.findFirst().get().getDescription();
+		return Arrays.stream(StyleTypeEnum.values())
+			.filter(styleTypeEnum -> styleTypeEnum.getStyle().equals(style))
+			.findFirst()
+			.get()
+			.getDescription();
 	}
 
 }

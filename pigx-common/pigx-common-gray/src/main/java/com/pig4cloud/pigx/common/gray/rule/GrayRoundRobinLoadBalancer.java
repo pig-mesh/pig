@@ -48,7 +48,7 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 	@Override
 	public Mono<Response<ServiceInstance>> choose(Request request) {
 		ServiceInstanceListSupplier supplier = serviceInstanceListSupplierProvider
-				.getIfAvailable(NoopServiceInstanceListSupplier::new);
+			.getIfAvailable(NoopServiceInstanceListSupplier::new);
 		return supplier.get(request).next().map(serviceInstances -> getInstanceResponse(serviceInstances, request));
 
 	}
@@ -77,8 +77,8 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 		if (StrUtil.isBlank(reqVersion)) {
 			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
-					.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
-					.collect(Collectors.toList());
+				.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
+				.collect(Collectors.toList());
 			if (CollUtil.isEmpty(versionInstanceList)) {
 				// 根据权重获取实例
 				return new DefaultResponse(randomByWeight(instances));

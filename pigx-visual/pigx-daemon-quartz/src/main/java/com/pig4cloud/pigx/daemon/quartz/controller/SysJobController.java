@@ -74,11 +74,11 @@ public class SysJobController {
 	@Operation(description = "分页定时业务查询")
 	public R getSysJobPage(Page page, SysJob sysJob) {
 		LambdaQueryWrapper<SysJob> wrapper = Wrappers.<SysJob>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName())
-				.like(StrUtil.isNotBlank(sysJob.getJobGroup()), SysJob::getJobGroup, sysJob.getJobGroup())
-				.eq(StrUtil.isNotBlank(sysJob.getJobStatus()), SysJob::getJobStatus, sysJob.getJobGroup())
-				.eq(StrUtil.isNotBlank(sysJob.getJobExecuteStatus()), SysJob::getJobExecuteStatus,
-						sysJob.getJobExecuteStatus());
+			.like(StrUtil.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName())
+			.like(StrUtil.isNotBlank(sysJob.getJobGroup()), SysJob::getJobGroup, sysJob.getJobGroup())
+			.eq(StrUtil.isNotBlank(sysJob.getJobStatus()), SysJob::getJobStatus, sysJob.getJobGroup())
+			.eq(StrUtil.isNotBlank(sysJob.getJobExecuteStatus()), SysJob::getJobExecuteStatus,
+					sysJob.getJobExecuteStatus());
 		return R.ok(sysJobService.page(page, wrapper));
 	}
 
@@ -170,8 +170,8 @@ public class SysJobController {
 			// 更新定时任务状态条件，运行状态2更新为暂停状态2
 			this.sysJobService.update(
 					SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()).build(),
-					new UpdateWrapper<SysJob>().lambda().eq(SysJob::getJobStatus,
-							PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
+					new UpdateWrapper<SysJob>().lambda()
+						.eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
 			return R.ok("暂停成功");
 		}
 	}
@@ -187,8 +187,8 @@ public class SysJobController {
 	public R startJobs() {
 		// 更新定时任务状态条件，暂停状态3更新为运行状态2
 		this.sysJobService.update(SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build(),
-				new UpdateWrapper<SysJob>().lambda().eq(SysJob::getJobStatus,
-						PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()));
+				new UpdateWrapper<SysJob>().lambda()
+					.eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()));
 		taskUtil.startJobs(scheduler);
 		return R.ok();
 	}
@@ -236,8 +236,8 @@ public class SysJobController {
 			taskUtil.resumeJob(querySysJob, scheduler);
 		}
 		// 更新定时任务状态条件，暂停状态3更新为运行状态2
-		this.sysJobService.updateById(
-				SysJob.builder().jobId(jobId).jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build());
+		this.sysJobService
+			.updateById(SysJob.builder().jobId(jobId).jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build());
 		return R.ok();
 	}
 
@@ -266,8 +266,10 @@ public class SysJobController {
 	public R shutdownJob(@PathVariable("id") Long id) {
 		SysJob querySysJob = this.sysJobService.getById(id);
 		// 更新定时任务状态条件，运行状态2更新为暂停状态3
-		this.sysJobService.updateById(SysJob.builder().jobId(querySysJob.getJobId())
-				.jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()).build());
+		this.sysJobService.updateById(SysJob.builder()
+			.jobId(querySysJob.getJobId())
+			.jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType())
+			.build());
 		taskUtil.pauseJob(querySysJob, scheduler);
 		return R.ok();
 	}
@@ -290,8 +292,8 @@ public class SysJobController {
 	@Operation(description = "检验任务名称和任务组联合是否唯一")
 	public R isValidTaskName(@RequestParam String jobName, @RequestParam String jobGroup) {
 		return this.sysJobService
-				.count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0
-						? R.failed("任务重复，请检查此组内是否已包含同名任务") : R.ok();
+			.count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0
+					? R.failed("任务重复，请检查此组内是否已包含同名任务") : R.ok();
 	}
 
 	/**

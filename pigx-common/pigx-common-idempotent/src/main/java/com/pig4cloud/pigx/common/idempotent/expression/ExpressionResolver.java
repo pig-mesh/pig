@@ -53,8 +53,9 @@ public class ExpressionResolver implements KeyResolver {
 		Method method = signature.getMethod();
 		if (method.getDeclaringClass().isInterface()) {
 			try {
-				method = joinPoint.getTarget().getClass().getDeclaredMethod(joinPoint.getSignature().getName(),
-						method.getParameterTypes());
+				method = joinPoint.getTarget()
+					.getClass()
+					.getDeclaredMethod(joinPoint.getSignature().getName(), method.getParameterTypes());
 			}
 			catch (SecurityException | NoSuchMethodException e) {
 				throw new RuntimeException(e);

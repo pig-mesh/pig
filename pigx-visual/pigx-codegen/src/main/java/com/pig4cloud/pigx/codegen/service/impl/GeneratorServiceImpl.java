@@ -37,7 +37,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -185,8 +184,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 		// 获取模板信息，Lambda 表达式简化代码
 		GenTemplateEntity genTemplateEntity = Optional
-				.ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_JSON.getTemplateId()))
-				.orElseThrow(() -> new Exception("模板不存在"));
+			.ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_JSON.getTemplateId()))
+			.orElseThrow(() -> new Exception("模板不存在"));
 
 		// 渲染模板并返回结果
 		return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
@@ -217,8 +216,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 		// 获取模板信息
 		GenTemplateEntity genTemplateEntity = Optional
-				.ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_FORM.getTemplateId()))
-				.orElseThrow(() -> new Exception("模板不存在"));
+			.ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_FORM.getTemplateId()))
+			.orElseThrow(() -> new Exception("模板不存在"));
 
 		// 渲染模板并返回结果
 		return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
@@ -234,9 +233,10 @@ public class GeneratorServiceImpl implements GeneratorService {
 		GenTable table = tableService.getById(tableId);
 		// 获取字段列表
 		List<GenTableColumnEntity> fieldList = columnService.lambdaQuery()
-				.eq(GenTableColumnEntity::getDsName, table.getDsName())
-				.eq(GenTableColumnEntity::getTableName, table.getTableName()).orderByAsc(GenTableColumnEntity::getSort)
-				.list();
+			.eq(GenTableColumnEntity::getDsName, table.getDsName())
+			.eq(GenTableColumnEntity::getTableName, table.getTableName())
+			.orderByAsc(GenTableColumnEntity::getSort)
+			.list();
 
 		table.setFieldList(fieldList);
 
@@ -275,8 +275,9 @@ public class GeneratorServiceImpl implements GeneratorService {
 		String childTableName = table.getChildTableName();
 		if (StrUtil.isNotBlank(childTableName)) {
 			List<GenTableColumnEntity> childFieldList = columnService.lambdaQuery()
-					.eq(GenTableColumnEntity::getDsName, table.getDsName())
-					.eq(GenTableColumnEntity::getTableName, table.getChildTableName()).list();
+				.eq(GenTableColumnEntity::getDsName, table.getDsName())
+				.eq(GenTableColumnEntity::getTableName, table.getChildTableName())
+				.list();
 			dataModel.put("childFieldList", childFieldList);
 			dataModel.put("childTableName", childTableName);
 			dataModel.put("mainField", NamingCase.toCamelCase(table.getMainField()));
@@ -295,17 +296,24 @@ public class GeneratorServiceImpl implements GeneratorService {
 	 */
 	private void setFieldTypeList(Map<String, Object> dataModel, GenTable table) {
 		// 按字段类型分组，使用 Map 存储不同类型的字段列表
-		Map<Boolean, List<GenTableColumnEntity>> typeMap = table.getFieldList().stream()
-				.collect(Collectors.partitioningBy(GenTableColumnEntity::isPrimaryPk));
+		Map<Boolean, List<GenTableColumnEntity>> typeMap = table.getFieldList()
+			.stream()
+			.collect(Collectors.partitioningBy(GenTableColumnEntity::isPrimaryPk));
 
 		// 从分组后的 Map 中获取不同类型的字段列表
 		List<GenTableColumnEntity> primaryList = typeMap.get(true);
-		List<GenTableColumnEntity> formList = typeMap.get(false).stream().filter(GenTableColumnEntity::isFormItem)
-				.collect(Collectors.toList());
-		List<GenTableColumnEntity> gridList = typeMap.get(false).stream().filter(GenTableColumnEntity::isGridItem)
-				.collect(Collectors.toList());
-		List<GenTableColumnEntity> queryList = typeMap.get(false).stream().filter(GenTableColumnEntity::isQueryItem)
-				.collect(Collectors.toList());
+		List<GenTableColumnEntity> formList = typeMap.get(false)
+			.stream()
+			.filter(GenTableColumnEntity::isFormItem)
+			.collect(Collectors.toList());
+		List<GenTableColumnEntity> gridList = typeMap.get(false)
+			.stream()
+			.filter(GenTableColumnEntity::isGridItem)
+			.collect(Collectors.toList());
+		List<GenTableColumnEntity> queryList = typeMap.get(false)
+			.stream()
+			.filter(GenTableColumnEntity::isQueryItem)
+			.collect(Collectors.toList());
 
 		if (CollUtil.isNotEmpty(primaryList)) {
 			dataModel.put("pk", primaryList.get(0));

@@ -103,8 +103,8 @@ public class SysTenantMenuController {
 	@Inner(value = false)
 	@GetMapping("/list")
 	public R list() {
-		List<SysTenantMenu> tenants = sysTenantMenuService.list(
-				Wrappers.<SysTenantMenu>lambdaQuery().eq(SysTenantMenu::getStatus, CommonConstants.STATUS_NORMAL));
+		List<SysTenantMenu> tenants = sysTenantMenuService
+			.list(Wrappers.<SysTenantMenu>lambdaQuery().eq(SysTenantMenu::getStatus, CommonConstants.STATUS_NORMAL));
 		return R.ok(tenants);
 	}
 

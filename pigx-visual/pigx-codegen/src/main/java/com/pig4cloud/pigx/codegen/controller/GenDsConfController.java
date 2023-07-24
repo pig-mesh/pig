@@ -31,12 +31,12 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 /**
@@ -63,8 +63,9 @@ public class GenDsConfController {
 	@GetMapping("/page")
 	public R getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.page(page,
-				Wrappers.<GenDatasourceConf>lambdaQuery().like(StrUtil.isNotBlank(datasourceConf.getDsName()),
-						GenDatasourceConf::getDsName, datasourceConf.getDsName())));
+				Wrappers.<GenDatasourceConf>lambdaQuery()
+					.like(StrUtil.isNotBlank(datasourceConf.getDsName()), GenDatasourceConf::getDsName,
+							datasourceConf.getDsName())));
 	}
 
 	/**

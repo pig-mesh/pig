@@ -96,7 +96,7 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
 				if (predicates != null) {
 					JSONArray predicatesArray = (JSONArray) predicates;
 					List<PredicateDefinition> predicateDefinitionList = predicatesArray
-							.toList(PredicateDefinition.class);
+						.toList(PredicateDefinition.class);
 					vo.setPredicates(predicateDefinitionList);
 				}
 

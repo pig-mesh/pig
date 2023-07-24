@@ -70,7 +70,8 @@ public class GenFormConfServiceImpl extends ServiceImpl<GenFormConfMapper, GenFo
 			}
 			else {
 				int span = Optional.ofNullable(json.getJSONObject(VFormConfigConsts.options))
-						.map(options -> options.getInt(VFormConfigConsts.span, 24)).orElse(24);
+					.map(options -> options.getInt(VFormConfigConsts.span, 24))
+					.orElse(24);
 
 				jsonObject.set(VFormConfigConsts.span, span);
 

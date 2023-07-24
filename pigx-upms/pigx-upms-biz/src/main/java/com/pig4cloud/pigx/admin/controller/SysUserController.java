@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
@@ -213,6 +214,11 @@ public class SysUserController {
 		return userService.lockUser(username);
 	}
 
+	/**
+	 * 修改密码接口
+	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
+	 * @return R 返回结果对象，包含修改密码操作的结果信息
+	 */
 	@PutMapping("/password")
 	public R password(@RequestBody UserDTO userDto) {
 		String username = SecurityUtils.getUser().getUsername();
@@ -220,14 +226,54 @@ public class SysUserController {
 		return userService.changePassword(userDto);
 	}
 
+	/**
+	 * 解绑定接口
+	 * @param type 需要解绑定的类型
+	 * @return R 返回结果对象，包含解绑定操作的结果信息
+	 */
 	@PostMapping("/unbinding")
 	public R unbinding(String type) {
 		return userService.unbinding(type);
 	}
 
+	/**
+	 * 校验密码接口
+	 * @param password 需要校验的密码
+	 * @return R 返回结果对象，包含校验密码操作的结果信息
+	 */
 	@PostMapping("/check")
 	public R check(String password) {
 		return userService.checkPassword(password);
+	}
+
+	/**
+	 * 根据角色ID列表获取用户ID列表接口
+	 * @param roleIdList 角色ID列表
+	 * @return R 返回结果对象，包含根据角色ID列表获取到的用户ID列表信息
+	 */
+	@GetMapping("/getUserIdListByRoleIdList")
+	public R<List<Long>> getUserIdListByRoleIdList(Long[] roleIdList) {
+		return R.ok(userService.listUserIdByRoleIds(CollUtil.toList(roleIdList)));
+	}
+
+	/**
+	 * 根据部门ID列表获取用户ID列表接口
+	 * @param deptIdList 部门ID列表
+	 * @return R 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
+	 */
+	@GetMapping("/getUserIdListByDeptIdList")
+	public R<List<SysUser>> getUserIdListByDeptIdList(Long[] deptIdList) {
+		return R.ok(userService.listUserIdByDeptIds(CollUtil.toList(deptIdList)));
+	}
+
+	/**
+	 * 根据用户名获取用户列表
+	 * @param username 用户名
+	 * @return 用户列表
+	 */
+	@GetMapping("/getUserListByUserName")
+	public R<List<SysUser>> getUserListByUserName(String username) {
+		return R.ok(userService.list(Wrappers.<SysUser>lambdaQuery().like(SysUser::getUsername, username)));
 	}
 
 }

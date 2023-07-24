@@ -49,12 +49,13 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
 		}
 
 		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
-				.getBeansOfType(PigxUserDetailsService.class);
+			.getBeansOfType(PigxUserDetailsService.class);
 
-		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values().stream()
-				.filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
-						oldAuthorization.getAuthorizationGrantType().getValue()))
-				.max(Comparator.comparingInt(Ordered::getOrder));
+		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
+					oldAuthorization.getAuthorizationGrantType().getValue()))
+			.max(Comparator.comparingInt(Ordered::getOrder));
 
 		UserDetails userDetails = null;
 		try {
@@ -73,8 +74,9 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
 
 		// 注入客户端信息，方便上下文中获取
 		PigxUser pigxUser = (PigxUser) userDetails;
-		Objects.requireNonNull(pigxUser).getAttributes().put(SecurityConstants.CLIENT_ID,
-				oldAuthorization.getRegisteredClientId());
+		Objects.requireNonNull(pigxUser)
+			.getAttributes()
+			.put(SecurityConstants.CLIENT_ID, oldAuthorization.getRegisteredClientId());
 		return pigxUser;
 	}
 

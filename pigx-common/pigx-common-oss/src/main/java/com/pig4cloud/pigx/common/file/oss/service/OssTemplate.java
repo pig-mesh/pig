@@ -228,9 +228,13 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 		AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getOss().getAccessKey(),
 				properties.getOss().getSecretKey());
 		AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
-		this.amazonS3 = AmazonS3Client.builder().withEndpointConfiguration(endpointConfiguration)
-				.withClientConfiguration(clientConfiguration).withCredentials(awsCredentialsProvider)
-				.disableChunkedEncoding().withPathStyleAccessEnabled(properties.getOss().getPathStyleAccess()).build();
+		this.amazonS3 = AmazonS3Client.builder()
+			.withEndpointConfiguration(endpointConfiguration)
+			.withClientConfiguration(clientConfiguration)
+			.withCredentials(awsCredentialsProvider)
+			.disableChunkedEncoding()
+			.withPathStyleAccessEnabled(properties.getOss().getPathStyleAccess())
+			.build();
 	}
 
 }

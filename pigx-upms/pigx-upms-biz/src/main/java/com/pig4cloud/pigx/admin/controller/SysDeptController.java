@@ -79,8 +79,8 @@ public class SysDeptController {
 	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(String deptName) {
-		return R.ok(sysDeptService.selectTree(deptName));
+	public R getTree(String deptName, Long parentId) {
+		return R.ok(sysDeptService.selectTree(deptName, parentId));
 	}
 
 	/**

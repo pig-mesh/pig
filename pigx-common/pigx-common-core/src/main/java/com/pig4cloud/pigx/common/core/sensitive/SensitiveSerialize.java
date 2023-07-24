@@ -81,7 +81,7 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
 				break;
 			case CUSTOMER:
 				jsonGenerator
-						.writeString(DesensitizedUtils.desValue(origin, prefixNoMaskLen, suffixNoMaskLen, maskStr));
+					.writeString(DesensitizedUtils.desValue(origin, prefixNoMaskLen, suffixNoMaskLen, maskStr));
 				break;
 			default:
 				throw new IllegalArgumentException("Unknow sensitive type enum " + type);

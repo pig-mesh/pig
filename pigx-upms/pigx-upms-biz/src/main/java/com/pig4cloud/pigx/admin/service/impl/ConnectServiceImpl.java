@@ -133,8 +133,9 @@ public class ConnectServiceImpl implements ConnectService {
 			JSONObject userResult = JSONUtil.parseObj(userGetResponse.getBody());
 			JSONObject userObj = JSONUtil.parseObj(userResult.get("result"));
 
-			boolean exist = users.stream().filter(user -> StrUtil.isNotBlank(user.getPhone()))
-					.anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
+			boolean exist = users.stream()
+				.filter(user -> StrUtil.isNotBlank(user.getPhone()))
+				.anyMatch(user -> user.getPhone().equals(userObj.getStr("mobile")));
 
 			if (exist || StrUtil.isBlank(userObj.getStr("mobile"))) {
 				log.info("用户已存在或手机号不合法 {}", userid);
@@ -188,15 +189,16 @@ public class ConnectServiceImpl implements ConnectService {
 		// 数据库中现有的部门
 		List<SysDept> deptList = sysDeptService.list(Wrappers.emptyWrapper());
 		departList.stream()
-				.filter(depart -> deptList.stream().noneMatch(sysDept -> depart.getName().equals(sysDept.getName())))
-				.map(dept -> {
-					SysDept sysDept = new SysDept();
-					sysDept.setName(dept.getName());
-					sysDept.setDeptId(dept.getId());
-					sysDept.setParentId(dept.getParentId());
-					sysDept.setSortOrder(dept.getOrder().intValue());
-					return sysDept;
-				}).forEach(sysDeptService::save);
+			.filter(depart -> deptList.stream().noneMatch(sysDept -> depart.getName().equals(sysDept.getName())))
+			.map(dept -> {
+				SysDept sysDept = new SysDept();
+				sysDept.setName(dept.getName());
+				sysDept.setDeptId(dept.getId());
+				sysDept.setParentId(dept.getParentId());
+				sysDept.setSortOrder(dept.getOrder().intValue());
+				return sysDept;
+			})
+			.forEach(sysDeptService::save);
 		return R.ok();
 	}
 
@@ -226,8 +228,9 @@ public class ConnectServiceImpl implements ConnectService {
 		List<SysUser> userList = sysUserService.list(Wrappers.emptyWrapper());
 
 		for (WxCpUser cpUser : cpUserList) {
-			boolean exist = userList.stream().filter(user -> StrUtil.isNotBlank(user.getPhone()))
-					.anyMatch(user -> user.getPhone().equals(cpUser.getMobile()));
+			boolean exist = userList.stream()
+				.filter(user -> StrUtil.isNotBlank(user.getPhone()))
+				.anyMatch(user -> user.getPhone().equals(cpUser.getMobile()));
 			if (exist || StrUtil.isBlank(cpUser.getMobile())) {
 				log.info("用户已存在或手机号不合法跳过 {}", cpUser);
 				continue;
@@ -250,7 +253,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 	private String getDingAccessToken() {
 		SysSocialDetails dingTalk = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
-				.eq(SysSocialDetails::getType, LoginTypeEnum.DINGTALK.getType()));
+			.eq(SysSocialDetails::getType, LoginTypeEnum.DINGTALK.getType()));
 
 		DingTalkClient client = new DefaultDingTalkClient(SecurityConstants.DING_OLD_GET_TOKEN);
 		OapiGettokenRequest request = new OapiGettokenRequest();
@@ -269,7 +272,7 @@ public class ConnectServiceImpl implements ConnectService {
 
 	public WxCpDefaultConfigImpl getCpConfig() {
 		SysSocialDetails cp = sysSocialDetailsMapper.selectOne(Wrappers.<SysSocialDetails>lambdaQuery()
-				.eq(SysSocialDetails::getType, LoginTypeEnum.WEIXIN_CP.getType()));
+			.eq(SysSocialDetails::getType, LoginTypeEnum.WEIXIN_CP.getType()));
 
 		WxCpDefaultConfigImpl config = new WxCpDefaultConfigImpl();
 		config.setCorpId(cp.getAppId()); // 设置微信企业号的appid
@@ -303,14 +306,15 @@ public class ConnectServiceImpl implements ConnectService {
 
 		// 过滤出数据库存在的部门
 		List<SysDept> depts = resultList.stream()
-				.filter(dept -> deptList.stream().noneMatch(sysDept -> sysDept.getName().equals(dept.get("name"))))
-				.map(dept -> {
-					SysDept sysDept = new SysDept();
-					sysDept.setName(Convert.toStr(dept.get("name")));
-					sysDept.setDeptId(Convert.toLong(dept.get("dept_id")));
-					sysDept.setParentId(Convert.toLong(dept.get("parent_id")));
-					return sysDept;
-				}).collect(Collectors.toList());
+			.filter(dept -> deptList.stream().noneMatch(sysDept -> sysDept.getName().equals(dept.get("name"))))
+			.map(dept -> {
+				SysDept sysDept = new SysDept();
+				sysDept.setName(Convert.toStr(dept.get("name")));
+				sysDept.setDeptId(Convert.toLong(dept.get("dept_id")));
+				sysDept.setParentId(Convert.toLong(dept.get("parent_id")));
+				return sysDept;
+			})
+			.collect(Collectors.toList());
 
 		// 递归查询下一级
 		if (CollectionUtils.isNotEmpty(depts)) {

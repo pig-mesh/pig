@@ -74,8 +74,8 @@ public class PigxQuartzConfig {
 	@ConditionalOnMissingBean
 	public SchedulerFactoryBean quartzScheduler() {
 		SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
-		schedulerFactoryBean.setJobFactory(
-				new AutowireCapableBeanJobFactory(this.applicationContext.getAutowireCapableBeanFactory()));
+		schedulerFactoryBean
+			.setJobFactory(new AutowireCapableBeanJobFactory(this.applicationContext.getAutowireCapableBeanFactory()));
 		if (!this.properties.getProperties().isEmpty()) {
 			schedulerFactoryBean.setQuartzProperties(this.asProperties(this.properties.getProperties()));
 		}

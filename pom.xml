@@ -33,19 +33,20 @@
     </organization>
 
     <properties>
-        <spring-boot.version>3.1.1</spring-boot.version>
+        <spring-boot.version>3.1.2</spring-boot.version>
         <spring-cloud.version>2022.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0-RC2</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.1.1</spring-boot-admin.version>
+        <spring-boot-admin.version>3.1.2</spring-boot-admin.version>
         <spring.authorization.version>1.1.1</spring.authorization.version>
         <maven.compiler.version>3.8.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>2.2.5</git.commit.version>
         <captcha.version>1.3.0</captcha.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
+        <flowable.version>7.0.0.M1</flowable.version>
         <dingtalk.old.version>2.0.0</dingtalk.old.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>2.0.9</knife4j.version>
@@ -118,6 +119,7 @@
         <module>pigx-auth</module>
         <module>pigx-upms</module>
         <module>pigx-common</module>
+        <module>pigx-flow</module>
         <module>pigx-visual</module>
         <module>pigx-app-server</module>
     </modules>

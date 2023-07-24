@@ -183,8 +183,9 @@ class DefaultRedisCacheWriter implements RedisCacheWriter {
 					wasLocked = true;
 				}
 
-				byte[][] keys = Optional.ofNullable(connection.keys(pattern)).orElse(Collections.emptySet())
-						.toArray(new byte[0][]);
+				byte[][] keys = Optional.ofNullable(connection.keys(pattern))
+					.orElse(Collections.emptySet())
+					.toArray(new byte[0][]);
 
 				if (keys.length > 0) {
 					connection.del(keys);

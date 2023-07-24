@@ -90,7 +90,7 @@ public class RedisCacheAutoConfiguration {
 			CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
 			RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
 			config = config.serializeValuesWith(RedisSerializationContext.SerializationPair
-					.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
+				.fromSerializer(new JdkSerializationRedisSerializer(classLoader)));
 			if (redisProperties.getTimeToLive() != null) {
 				config = config.entryTtl(redisProperties.getTimeToLive());
 			}

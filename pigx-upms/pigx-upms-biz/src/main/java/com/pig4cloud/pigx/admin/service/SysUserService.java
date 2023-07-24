@@ -124,10 +124,39 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R<Boolean> lockUser(String username);
 
+	/**
+	 * 修改密码接口
+	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
+	 * @return R 返回结果对象，包含修改密码操作的结果信息
+	 */
 	R changePassword(UserDTO userDto);
 
+	/**
+	 * 解绑定接口
+	 * @param type 需要解绑定的类型
+	 * @return R 返回结果对象，包含解绑定操作的结果信息
+	 */
 	R unbinding(String type);
 
+	/**
+	 * 校验密码接口
+	 * @param password 需要校验的密码
+	 * @return R 返回结果对象，包含校验密码操作的结果信息
+	 */
 	R checkPassword(String password);
+
+	/**
+	 * 根据角色ID列表获取用户ID列表接口
+	 * @param roleIdList 角色ID列表
+	 * @return List<Long> 返回结果对象，包含根据角色ID列表获取到的用户ID列表信息
+	 */
+	List<Long> listUserIdByRoleIds(List<Long> roleIdList);
+
+	/**
+	 * 根据部门ID列表获取用户ID列表接口
+	 * @param deptIdList 部门ID列表
+	 * @return List<Long> 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
+	 */
+	List<SysUser> listUserIdByDeptIds(List<Long> deptIdList);
 
 }

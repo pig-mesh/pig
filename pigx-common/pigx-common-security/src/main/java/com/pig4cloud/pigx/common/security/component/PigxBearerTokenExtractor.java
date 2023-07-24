@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pigx.common.security.component;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -26,7 +27,6 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -70,7 +70,7 @@ public class PigxBearerTokenExtractor implements BearerTokenResolver {
 		if (authorizationHeaderToken != null) {
 			if (parameterToken != null) {
 				final BearerTokenError error = BearerTokenErrors
-						.invalidRequest("Found multiple bearer tokens in the request");
+					.invalidRequest("Found multiple bearer tokens in the request");
 				throw new OAuth2AuthenticationException(error);
 			}
 			return authorizationHeaderToken;

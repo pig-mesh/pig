@@ -58,8 +58,9 @@ public class ImageCodeCheckHandler implements HandlerFunction<ServerResponse> {
 		CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
 		ResponseModel responseModel = captchaService.check(vo);
 
-		return ServerResponse.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON)
-				.body(BodyInserters.fromValue(objectMapper.writeValueAsString(R.ok(responseModel))));
+		return ServerResponse.status(HttpStatus.OK)
+			.contentType(MediaType.APPLICATION_JSON)
+			.body(BodyInserters.fromValue(objectMapper.writeValueAsString(R.ok(responseModel))));
 	}
 
 }

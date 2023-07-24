@@ -88,46 +88,53 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
 	public RegisteredClient findByClientId(String clientId) {
 
 		SysOauthClientDetails clientDetails = RetOps
-				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN)).getData()
-				.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
-						new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
+			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.getData()
+			.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
+					new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
 
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
-				.clientId(clientDetails.getClientId())
-				.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
-				.clientAuthenticationMethods(clientAuthenticationMethods -> {
-					clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-					clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_POST);
-				});
+			.clientId(clientDetails.getClientId())
+			.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
+			.clientAuthenticationMethods(clientAuthenticationMethods -> {
+				clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
+				clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_POST);
+			});
 		// 授权模式
 		Arrays.stream(clientDetails.getAuthorizedGrantTypes())
-				.forEach(grant -> builder.authorizationGrantType(new AuthorizationGrantType(grant)));
+			.forEach(grant -> builder.authorizationGrantType(new AuthorizationGrantType(grant)));
 
 		// 回调地址
-		Optional.ofNullable(clientDetails.getWebServerRedirectUri()).ifPresent(redirectUri -> Arrays
-				.stream(redirectUri.split(StrUtil.COMMA)).filter(StrUtil::isNotBlank).forEach(builder::redirectUri));
+		Optional.ofNullable(clientDetails.getWebServerRedirectUri())
+			.ifPresent(redirectUri -> Arrays.stream(redirectUri.split(StrUtil.COMMA))
+				.filter(StrUtil::isNotBlank)
+				.forEach(builder::redirectUri));
 
 		// scope
-		Optional.ofNullable(clientDetails.getScope()).ifPresent(
-				scope -> Arrays.stream(scope.split(StrUtil.COMMA)).filter(StrUtil::isNotBlank).forEach(builder::scope));
+		Optional.ofNullable(clientDetails.getScope())
+			.ifPresent(scope -> Arrays.stream(scope.split(StrUtil.COMMA))
+				.filter(StrUtil::isNotBlank)
+				.forEach(builder::scope));
 
 		// 注入扩展配置
 		Optional.ofNullable(clientDetails.getAdditionalInformation()).ifPresent(ext -> {
 			Map map = JSONUtil.parseObj(ext).toBean(Map.class);
-			builder.clientSettings(ClientSettings.withSettings(map).requireProofKey(false)
-					.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove())).build());
+			builder.clientSettings(ClientSettings.withSettings(map)
+				.requireProofKey(false)
+				.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
+				.build());
 		});
 
 		return builder
-				.tokenSettings(TokenSettings.builder().accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-						.accessTokenTimeToLive(Duration.ofSeconds(Optional
-								.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
-						.refreshTokenTimeToLive(
-								Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
-										.orElse(refreshTokenValiditySeconds)))
-						.build())
+			.tokenSettings(TokenSettings.builder()
+				.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+				.accessTokenTimeToLive(Duration.ofSeconds(
+						Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
+				.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
+					.orElse(refreshTokenValiditySeconds)))
+				.build())
 
-				.build();
+			.build();
 
 	}
 

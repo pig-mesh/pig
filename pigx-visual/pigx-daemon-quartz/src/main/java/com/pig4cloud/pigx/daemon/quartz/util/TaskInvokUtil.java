@@ -99,8 +99,8 @@ public class TaskInvokUtil {
 		finally {
 			// 记录执行时间 立刻执行使用的是simpleTeigger
 			if (trigger instanceof CronTrigger) {
-				updateSysjob.setStartTime(
-						trigger.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+				updateSysjob
+					.setStartTime(trigger.getStartTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 				updateSysjob.setPreviousTime(
 						trigger.getPreviousFireTime().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 				updateSysjob.setNextTime(

@@ -135,7 +135,7 @@ public class SysRoleController {
 	@GetMapping("/page")
 	public R getRolePage(Page page, SysRole role) {
 		return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery()
-				.like(StrUtil.isNotBlank(role.getRoleName()), SysRole::getRoleName, role.getRoleName())));
+			.like(StrUtil.isNotBlank(role.getRoleName()), SysRole::getRoleName, role.getRoleName())));
 	}
 
 	/**

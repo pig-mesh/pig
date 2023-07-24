@@ -17,7 +17,7 @@ import java.sql.*;
 abstract class BaseDbHelper {
 
 	private static final SqlProviderFactory SQL_PROVIDER_FACTORY = SpringContextHolder
-			.getBean(SqlProviderFactory.class);
+		.getBean(SqlProviderFactory.class);
 
 	private static final long DELTA = 100000000L;
 
@@ -186,7 +186,7 @@ abstract class BaseDbHelper {
 			conn = dataSource.getConnection();
 			stmt = conn.createStatement();
 			ResultSet resultSet = stmt
-					.executeQuery(SQL_PROVIDER_FACTORY.getExistTableSql().replace("#tableName", tableName));
+				.executeQuery(SQL_PROVIDER_FACTORY.getExistTableSql().replace("#tableName", tableName));
 
 			if (!resultSet.next()) {
 				return false;

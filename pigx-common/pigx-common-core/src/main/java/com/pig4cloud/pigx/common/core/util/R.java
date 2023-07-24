@@ -93,4 +93,8 @@ public class R<T> implements Serializable {
 		return apiResult;
 	}
 
+	public boolean isOk() {
+		return this.code == CommonConstants.SUCCESS;
+	}
+
 }

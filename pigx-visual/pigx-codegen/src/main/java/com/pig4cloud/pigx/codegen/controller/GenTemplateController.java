@@ -64,9 +64,9 @@ public class GenTemplateController {
 	@PreAuthorize("@pms.hasPermission('codegen_template_view')")
 	public R getgenTemplatePage(Page page, GenTemplateEntity genTemplate) {
 		LambdaQueryWrapper<GenTemplateEntity> wrapper = Wrappers.<GenTemplateEntity>lambdaQuery()
-				.like(genTemplate.getId() != null, GenTemplateEntity::getId, genTemplate.getId())
-				.like(StrUtil.isNotEmpty(genTemplate.getTemplateName()), GenTemplateEntity::getTemplateName,
-						genTemplate.getTemplateName());
+			.like(genTemplate.getId() != null, GenTemplateEntity::getId, genTemplate.getId())
+			.like(StrUtil.isNotEmpty(genTemplate.getTemplateName()), GenTemplateEntity::getTemplateName,
+					genTemplate.getTemplateName());
 		return R.ok(genTemplateService.page(page, wrapper));
 	}
 

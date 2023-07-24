@@ -84,7 +84,7 @@ public class PigxSentinelInvocationHandler implements InvocationHandler {
 		if (target instanceof Target.HardCodedTarget) {
 			Target.HardCodedTarget hardCodedTarget = (Target.HardCodedTarget) target;
 			MethodMetadata methodMetadata = SentinelContractHolder.METADATA_MAP
-					.get(hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
+				.get(hardCodedTarget.type().getName() + Feign.configKey(hardCodedTarget.type(), method));
 			// resource default is HttpMethod:protocol://url
 			if (methodMetadata == null) {
 				result = methodHandler.invoke(args);
@@ -105,8 +105,8 @@ public class PigxSentinelInvocationHandler implements InvocationHandler {
 					}
 					if (fallbackFactory != null) {
 						try {
-							Object fallbackResult = fallbackMethodMap.get(method).invoke(fallbackFactory.create(ex),
-									args);
+							Object fallbackResult = fallbackMethodMap.get(method)
+								.invoke(fallbackFactory.create(ex), args);
 							return fallbackResult;
 						}
 						catch (IllegalAccessException e) {

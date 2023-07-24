@@ -72,7 +72,7 @@ public class SysClientController {
 	@GetMapping("/{clientId}")
 	public R getByClientId(@PathVariable String clientId) {
 		SysOauthClientDetails details = clientDetailsService
-				.getOne(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
+			.getOne(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
 		String information = details.getAdditionalInformation();
 		String captchaFlag = JSONUtil.parseObj(information).getStr(CommonConstants.CAPTCHA_FLAG);
 		String encFlag = JSONUtil.parseObj(information).getStr(CommonConstants.ENC_FLAG);
@@ -95,10 +95,10 @@ public class SysClientController {
 	public R getOauthClientDetailsPage(@ParameterObject Page page,
 			@ParameterObject SysOauthClientDetails sysOauthClientDetails) {
 		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
-						sysOauthClientDetails.getClientId())
-				.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientSecret()),
-						SysOauthClientDetails::getClientSecret, sysOauthClientDetails.getClientSecret());
+			.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
+					sysOauthClientDetails.getClientId())
+			.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientSecret()), SysOauthClientDetails::getClientSecret,
+					sysOauthClientDetails.getClientSecret());
 		return R.ok(clientDetailsService.page(page, wrapper));
 	}
 

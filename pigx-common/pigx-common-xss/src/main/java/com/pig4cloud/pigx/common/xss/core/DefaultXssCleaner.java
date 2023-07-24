@@ -51,10 +51,10 @@ public class DefaultXssCleaner implements XssCleaner {
 		else {
 			// jsoup html 清理
 			Document.OutputSettings outputSettings = new Document.OutputSettings()
-					// 2. 转义，没找到关闭的方法，目前这个规则最少
-					.escapeMode(Entities.EscapeMode.xhtml)
-					// 3. 保留换行
-					.prettyPrint(properties.isPrettyPrint());
+				// 2. 转义，没找到关闭的方法，目前这个规则最少
+				.escapeMode(Entities.EscapeMode.xhtml)
+				// 3. 保留换行
+				.prettyPrint(properties.isPrettyPrint());
 			Document dirty = Jsoup.parseBodyFragment(bodyHtml, "");
 			Cleaner cleaner = new Cleaner(XssUtil.WHITE_LIST);
 			Document clean = cleaner.clean(dirty);

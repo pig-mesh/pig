@@ -25,10 +25,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,6 +44,14 @@ public interface RemoteUserService {
 	 */
 	@GetMapping("/user/info/{username}")
 	R<UserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
+
+	/**
+	 * 根据用户ID获取用户
+	 * @param userId ID
+	 * @return SysUser
+	 */
+	@GetMapping("/user/details/{userId}")
+	R<SysUser> getUserById(@PathVariable("userId") Long userId);
 
 	/**
 	 * 通过社交账号或手机号查询用户、角色信息
@@ -73,5 +78,29 @@ public interface RemoteUserService {
 	 */
 	@PutMapping("/user/lock/{username}")
 	R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
+
+	/**
+	 * 根据角色ID查询用户列表
+	 * @param roleIdList 角色ID列表
+	 * @return 用户ID列表
+	 */
+	@GetMapping("/user/getUserIdListByRoleIdList")
+	R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
+
+	/**
+	 * 根据部门ID列表获取用户ID列表接口
+	 * @param deptIdList 部门ID列表
+	 * @return 用户ID列表
+	 */
+	@GetMapping("/user/getUserIdListByDeptIdList")
+	R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
+
+	/**
+	 * 通过用户名查询用户列表
+	 * @param userName 用户名
+	 * @return 用户列表
+	 */
+	@GetMapping("/user/getUserListByUserName")
+	R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
 
 }

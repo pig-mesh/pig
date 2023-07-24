@@ -73,8 +73,10 @@ public class TaskUtil {
 				CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(sysjob.getCronExpression());
 				cronScheduleBuilder = this.handleCronScheduleMisfirePolicy(sysjob, cronScheduleBuilder);
 				// 创建触发器并将cron表达式对象给塞入
-				trigger = TriggerBuilder.newTrigger().withIdentity(triggerKey).withSchedule(cronScheduleBuilder)
-						.build();
+				trigger = TriggerBuilder.newTrigger()
+					.withIdentity(triggerKey)
+					.withSchedule(cronScheduleBuilder)
+					.build();
 				// 在调度器中将触发器和任务进行组合
 				scheduler.scheduleJob(jobDetail, trigger);
 			}
@@ -82,8 +84,10 @@ public class TaskUtil {
 				CronScheduleBuilder cronScheduleBuilder = CronScheduleBuilder.cronSchedule(sysjob.getCronExpression());
 				cronScheduleBuilder = this.handleCronScheduleMisfirePolicy(sysjob, cronScheduleBuilder);
 				// 按照新的规则进行
-				trigger = trigger.getTriggerBuilder().withIdentity(triggerKey).withSchedule(cronScheduleBuilder)
-						.build();
+				trigger = trigger.getTriggerBuilder()
+					.withIdentity(triggerKey)
+					.withSchedule(cronScheduleBuilder)
+					.build();
 				// 将任务信息更新到任务信息中
 				trigger.getJobDataMap().put(PigxQuartzEnum.SCHEDULE_JOB_KEY.getType(), sysjob);
 				// 重启

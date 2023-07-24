@@ -41,9 +41,10 @@ public interface SysDeptService extends IService<SysDept> {
 	/**
 	 * 查询部门树菜单
 	 * @param deptName 部门名称
+	 * @param parentId
 	 * @return 树
 	 */
-	List<Tree<Long>> selectTree(String deptName);
+	List<Tree<Long>> selectTree(String deptName, Long parentId);
 
 	/**
 	 * 删除部门
