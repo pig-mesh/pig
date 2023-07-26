@@ -13,6 +13,7 @@ body:
         - "3.2"
         - "3.1"
         - "3.0"
+        - "其他版本已不维护，勿提issue"
     validations:
       required: true
   - type: checkboxes
