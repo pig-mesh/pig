@@ -24,6 +24,7 @@ import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -40,5 +41,13 @@ public interface RemoteDeptService {
 	 */
 	@GetMapping("/dept/list")
 	R<List<SysDept>> getAllDept();
+
+	/**
+	 * 通过部门ID获取负责人列表
+	 * @param deptId 部门ID
+	 * @return 负责人ID列表
+	 */
+	@GetMapping("/dept/leader/{deptId}")
+	R<List<Long>> getAllDeptLeader(@PathVariable("deptId") Long deptId);
 
 }

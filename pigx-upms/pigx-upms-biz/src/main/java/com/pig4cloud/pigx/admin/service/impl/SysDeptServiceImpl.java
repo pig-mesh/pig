@@ -27,8 +27,14 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.entity.SysPost;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.entity.SysUserPost;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pigx.admin.mapper.SysDeptMapper;
+import com.pig4cloud.pigx.admin.mapper.SysPostMapper;
+import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
+import com.pig4cloud.pigx.admin.mapper.SysUserPostMapper;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
@@ -54,7 +60,13 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> implements SysDeptService {
 
+	private final SysUserMapper userMapper;
+
 	private final SysDeptMapper deptMapper;
+
+	private final SysPostMapper postMapper;
+
+	private final SysUserPostMapper userPostMapper;
 
 	/**
 	 * 删除部门
@@ -198,10 +210,37 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		recursiveDept(allDeptList, deptId, resDeptList);
 
 		// 添加当前节点
-		resDeptList.addAll(allDeptList.stream()
-			.filter(sysDept -> deptId.equals(sysDept.getDeptId()))
-			.collect(Collectors.toList()));
+		resDeptList.addAll(allDeptList.stream().filter(sysDept -> deptId.equals(sysDept.getDeptId())).toList());
 		return resDeptList;
+	}
+
+	/**
+	 * 获取部门负责人
+	 *
+	 * 1. 根据dept 查询用户 2. 筛选用户列表中 post
+	 * @param deptId deptId
+	 * @return user id list
+	 */
+	@Override
+	public List<Long> listDeptLeader(Long deptId) {
+		List<SysUser> sysUserList = userMapper
+			.selectList(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getDeptId, deptId));
+		if (CollUtil.isEmpty(sysUserList)) {
+			return null;
+		}
+
+		SysPost deptLeader = postMapper
+			.selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, "DEPT_LEADER"));
+		if (deptLeader == null) {
+			return null;
+		}
+
+		List<Long> userIdList = sysUserList.stream().map(SysUser::getUserId).toList();
+		return userPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, userIdList))
+			.stream()
+			.filter(post -> Objects.equals(post.getPostId(), deptLeader.getPostId()))
+			.map(SysUserPost::getUserId)
+			.toList();
 	}
 
 	/**

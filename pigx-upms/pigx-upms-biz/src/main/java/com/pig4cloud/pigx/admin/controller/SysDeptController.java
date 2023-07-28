@@ -28,13 +28,13 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -129,6 +129,10 @@ public class SysDeptController {
 		return R.ok(sysDeptService.listDescendant(deptId));
 	}
 
+	@GetMapping(value = "/leader/{deptId}")
+	public R getAllDeptLeader(@PathVariable Long deptId){
+		return R.ok(sysDeptService.listDeptLeader(deptId));
+	}
 	/**
 	 * 导出部门
 	 * @return
@@ -147,7 +151,6 @@ public class SysDeptController {
 	 */
 	@PostMapping("import")
 	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
-
 		return sysDeptService.importDept(excelVOList, bindingResult);
 	}
 
