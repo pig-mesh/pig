@@ -8,7 +8,8 @@ import cn.hutool.core.lang.Dict;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.EscapeUtil;
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.googlecode.aviator.AviatorEvaluator;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
@@ -16,6 +17,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.task.dto.NodeUser;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.springframework.stereotype.Component;
@@ -27,16 +29,22 @@ import java.util.stream.Collectors;
 /**
  * 表达式解析
  */
-@Component("expressionHandler")
 @Slf4j
+@Component("expressionHandler")
 @RequiredArgsConstructor
 public class ExpressionHandler {
 
 	private final RemoteUserService remoteUserService;
 
+	private final ObjectMapper objectMapper;
+
+	@SneakyThrows
 	public Long getUserId(String key, DelegateExecution execution) {
 		Object variable = execution.getVariable(key);
-		NodeUser nodeUserDto = JSON.parseArray(JSON.toJSONString(variable), NodeUser.class).get(0);
+		NodeUser nodeUserDto = objectMapper
+			.readValue(objectMapper.writeValueAsString(variable), new TypeReference<List<NodeUser>>() {
+			})
+			.get(0);
 		return nodeUserDto.getId();
 	}
 
@@ -53,9 +61,6 @@ public class ExpressionHandler {
 			String format) {
 
 		Object value = execution.getVariable(key);
-
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件 标识:{} 参数：{} 格式：{}", symbol, JSON.toJSONString(param), format);
 
 		// 表单值为空
 		if (value == null) {
@@ -79,9 +84,6 @@ public class ExpressionHandler {
 	public boolean numberCompare(String key, String symbol, Object param, DelegateExecution execution) {
 
 		Object value = execution.getVariable(key);
-
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件 标识:{} 参数：{}", symbol, JSON.toJSONString(param));
 
 		// 表单值为空
 		if (value == null) {
@@ -112,9 +114,6 @@ public class ExpressionHandler {
 
 		Object value = execution.getVariable(key);
 
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件 标识:{} 参数：{}", symbol, JSON.toJSONString(param));
-
 		// 表单值为空
 		if (value == null) {
 			return false;
@@ -143,9 +142,6 @@ public class ExpressionHandler {
 
 		Object value = execution.getVariable(key);
 
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件 参数：{}", JSON.toJSONString(array));
-
 		if (value == null) {
 			return false;
 		}
@@ -173,8 +169,6 @@ public class ExpressionHandler {
 	public boolean stringContain(String key, DelegateExecution execution, String... array) {
 		Object value = execution.getVariable(key);
 
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件  参数：{}", JSON.toJSONString(array));
 		if (value == null) {
 			return false;
 		}
@@ -190,20 +184,19 @@ public class ExpressionHandler {
 	public boolean stringEqual(String key, String param, DelegateExecution execution) {
 		Object value = execution.getVariable(key);
 
-		log.debug("表单值：key={} value={}", key, JSON.toJSONString(value));
-		log.debug("条件  参数：{}", JSON.toJSONString(param));
 		if (value == null) {
 			return false;
 		}
 		return StrUtil.equals(value.toString(), param);
 	}
 
+	@SneakyThrows
 	public boolean deptCompare(String key, String param, String symbol, DelegateExecution execution) {
 		param = EscapeUtil.unescape(param);
 
 		Object value = execution.getVariable(key);
 
-		String jsonString = JSON.toJSONString(value);
+		String jsonString = objectMapper.writeValueAsString(value);
 		log.debug("表单值：key={} value={} symbol={}", key, jsonString, symbol);
 		log.debug("条件  参数：{}", param);
 		if (value == null) {
@@ -211,14 +204,17 @@ public class ExpressionHandler {
 		}
 
 		// 表单值
-		List<NodeUser> nodeUserDtoList = JSON.parseArray(jsonString, NodeUser.class);
+		List<NodeUser> nodeUserDtoList = objectMapper.readValue(jsonString, new TypeReference<>() {
+		});
 		if (CollUtil.isEmpty(nodeUserDtoList) || nodeUserDtoList.size() != 1) {
 			return false;
 		}
 		NodeUser nodeUserDto = nodeUserDtoList.get(0);
 
 		// 参数
-		List<NodeUser> paramDeptList = JSON.parseArray(param, NodeUser.class);
+
+		List<NodeUser> paramDeptList = objectMapper.readValue(param, new TypeReference<List<NodeUser>>() {
+		});
 		Long deptId = nodeUserDto.getId();
 		List<Long> deptIdList = paramDeptList.stream().map(NodeUser::getId).collect(Collectors.toList());
 
@@ -245,12 +241,13 @@ public class ExpressionHandler {
 	 * @param param 参数
 	 * @return
 	 */
+	@SneakyThrows
 	public boolean userCompare(String key, String param, String symbol, DelegateExecution execution) {
 		param = EscapeUtil.unescape(param);
 
 		Object value = execution.getVariable(key);
 
-		String jsonString = JSON.toJSONString(value);
+		String jsonString = objectMapper.writeValueAsString(value);
 		log.debug("表单值：key={} value={}   symbol={} ", key, jsonString, symbol);
 		log.debug("条件  参数：{}", param);
 
@@ -259,7 +256,8 @@ public class ExpressionHandler {
 		}
 
 		// 表单值
-		List<NodeUser> nodeUserDtoList = JSON.parseArray(jsonString, NodeUser.class);
+		List<NodeUser> nodeUserDtoList = objectMapper.readValue(jsonString, new TypeReference<>() {
+		});
 
 		if (CollUtil.isEmpty(nodeUserDtoList) || nodeUserDtoList.size() != 1) {
 			return false;
@@ -268,7 +266,8 @@ public class ExpressionHandler {
 		NodeUser nodeUserDto = nodeUserDtoList.get(0);
 
 		// 参数
-		List<NodeUser> paramDeptList = JSON.parseArray(param, NodeUser.class);
+		List<NodeUser> paramDeptList = objectMapper.readValue(param, new TypeReference<>() {
+		});
 
 		List<Long> deptIdList = paramDeptList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.DEPT.getKey()))

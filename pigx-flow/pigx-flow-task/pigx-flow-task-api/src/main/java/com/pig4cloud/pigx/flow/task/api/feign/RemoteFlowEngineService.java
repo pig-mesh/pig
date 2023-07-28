@@ -129,7 +129,7 @@ public interface RemoteFlowEngineService {
 	 * @param userId 用户ID
 	 * @return 任务查询结果
 	 */
-	@GetMapping("/task/queryTask")
+	@GetMapping("/task/engine/queryTask")
 	R<TaskResultDto> queryTask(@RequestParam("taskId") String taskId, @RequestParam("userId") Long userId);
 
 }

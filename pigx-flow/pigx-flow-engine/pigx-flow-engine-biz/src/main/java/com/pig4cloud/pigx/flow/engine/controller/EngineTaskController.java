@@ -71,7 +71,7 @@ public class EngineTaskController {
 	 * @param userId 用户ID
 	 * @return 任务结果DTO
 	 */
-	@GetMapping("queryTask")
+	@GetMapping("/engine/queryTask")
 	public R queryTask(String taskId, String userId) {
 		Optional<Task> task = Optional
 			.ofNullable(taskService.createTaskQuery().taskId(taskId).taskAssignee(userId).singleResult());

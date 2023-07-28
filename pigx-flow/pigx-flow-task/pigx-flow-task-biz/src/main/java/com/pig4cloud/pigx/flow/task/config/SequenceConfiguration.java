@@ -17,7 +17,7 @@ import javax.sql.DataSource;
  * 设置发号器生成规则
  */
 @Configuration
-public class SequenceConfig {
+public class SequenceConfiguration {
 
 	/**
 	 * 工作流发号器

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_node_record_assign_user`")
+@TableName("process_node_record_assign_user")
 public class ProcessNodeRecordAssignUser {
 
 	/**
@@ -105,7 +105,7 @@ public class ProcessNodeRecordAssignUser {
 	/**
 	 * 用户id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

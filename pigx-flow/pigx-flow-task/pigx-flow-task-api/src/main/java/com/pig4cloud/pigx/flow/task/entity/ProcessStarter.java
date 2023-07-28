@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_starter`")
+@TableName("process_starter")
 public class ProcessStarter {
 
 	/**
@@ -42,7 +42,7 @@ public class ProcessStarter {
 	/**
 	 * 用户id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

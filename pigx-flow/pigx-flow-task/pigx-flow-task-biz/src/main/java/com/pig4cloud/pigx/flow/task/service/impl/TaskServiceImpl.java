@@ -125,7 +125,7 @@ public class TaskServiceImpl implements ITaskService {
 				// 明细
 
 				List<Map<String, Object>> subParamList = MapUtil.get(paramMap, id,
-						new cn.hutool.core.lang.TypeReference<List<Map<String, Object>>>() {
+						new cn.hutool.core.lang.TypeReference<>() {
 						});
 
 				Object value = formItemVO.getProps().getValue();

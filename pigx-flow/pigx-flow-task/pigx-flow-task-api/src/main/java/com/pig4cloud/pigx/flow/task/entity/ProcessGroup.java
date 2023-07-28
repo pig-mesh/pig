@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_group`")
+@TableName("process_group")
 public class ProcessGroup {
 
 	/**
@@ -36,7 +36,7 @@ public class ProcessGroup {
 	/**
 	 * 用户id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

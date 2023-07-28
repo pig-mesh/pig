@@ -4,13 +4,15 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowTaskService;
 import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.task.dto.Node;
 import com.pig4cloud.pigx.flow.task.dto.NodeUser;
 import com.pig4cloud.pigx.flow.task.dto.ProcessCopyDto;
+import lombok.SneakyThrows;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
@@ -29,6 +31,7 @@ public class CopyServiceTask implements JavaDelegate {
 	 * 执行给定执行的任务。
 	 * @param execution 要处理的执行
 	 */
+	@SneakyThrows
 	@Override
 	public void execute(DelegateExecution execution) {
 
@@ -66,9 +69,13 @@ public class CopyServiceTask implements JavaDelegate {
 			}
 		}
 
+		ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
 		// 获取发起人
 		Object rootUserObj = execution.getVariable("root");
-		NodeUser rootUser = JSON.parseArray(JSON.toJSONString(rootUserObj), NodeUser.class).get(0);
+		NodeUser rootUser = objectMapper
+			.readValue(objectMapper.writeValueAsString(rootUserObj), new TypeReference<List<NodeUser>>() {
+			})
+			.get(0);
 
 		Map<String, Object> variables = execution.getVariables();
 
@@ -81,7 +88,7 @@ public class CopyServiceTask implements JavaDelegate {
 			processCopyDto.setProcessInstanceId(execution.getProcessInstanceId());
 			processCopyDto.setNodeId(nodeId);
 			processCopyDto.setNodeName(entity.getActivityName());
-			processCopyDto.setFormData(JSON.toJSONString(variables));
+			processCopyDto.setFormData(objectMapper.writeValueAsString(variables));
 			processCopyDto.setUserId(Long.parseLong(userIds));
 			remoteFlowTaskService.saveCC(processCopyDto);
 		}

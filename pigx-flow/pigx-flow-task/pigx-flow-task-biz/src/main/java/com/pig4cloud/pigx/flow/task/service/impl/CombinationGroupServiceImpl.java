@@ -40,6 +40,7 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 	public R listGroupWithProcess(Page page, Long groupId) {
 		return R.ok(processService.lambdaQuery()
 			.eq(Process::getGroupId, groupId)
+			.eq(Process::getHidden, false)
 			.orderByAsc(Process::getSort)
 			.orderByDesc(Process::getCreateTime)
 			.page(page));

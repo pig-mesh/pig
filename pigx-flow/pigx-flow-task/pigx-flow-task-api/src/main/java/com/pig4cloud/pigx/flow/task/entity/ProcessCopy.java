@@ -18,8 +18,14 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_copy`")
+@TableName("process_copy")
 public class ProcessCopy {
+
+	/**
+	 * 用户id
+	 */
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
+	private Long id;
 
 	/**
 	 * 流程发起时间
@@ -92,12 +98,6 @@ public class ProcessCopy {
 	 */
 	@TableField("`user_id`")
 	private Long userId;
-
-	/**
-	 * 用户id
-	 */
-	@TableId(value = "id", type = IdType.AUTO)
-	private Long id;
 
 	/**
 	 * 逻辑删除字段

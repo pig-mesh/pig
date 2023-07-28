@@ -3,10 +3,12 @@ package com.pig4cloud.pigx.flow.engine.listeners;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowTaskService;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.utils.NodeUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.delegate.event.FlowableEngineEventType;
 import org.flowable.common.engine.api.delegate.event.FlowableEntityEvent;
@@ -23,6 +25,7 @@ import org.flowable.task.api.DelegationState;
 import org.flowable.task.service.impl.persistence.entity.TaskEntityImpl;
 import org.flowable.variable.api.event.FlowableVariableEvent;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,6 +38,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 	 * 当事件被触发时调用
 	 * @param event 事件对象
 	 */
+	@SneakyThrows
 	@Override
 	public void onEvent(FlowableEvent event) {
 		RemoteFlowTaskService remoteFlowTaskService = SpringUtil.getBean(RemoteFlowTaskService.class);
@@ -154,6 +158,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 
 		}
 
+		ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
 		if (event.getType().toString().equals(FlowableEngineEventType.TASK_COMPLETED.toString())) {
 
 			TaskService taskService = SpringUtil.getBean(TaskService.class);
@@ -176,9 +181,10 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto = new ProcessNodeRecordAssignUserParamDto();
 			processNodeRecordAssignUserParamDto.setFlowId(flowId);
 			processNodeRecordAssignUserParamDto.setProcessInstanceId(processInstanceId);
-			processNodeRecordAssignUserParamDto.setData(JSON.toJSONString(taskService.getVariables(task.getId())));
 			processNodeRecordAssignUserParamDto
-				.setLocalData(JSON.toJSONString(taskService.getVariablesLocal(task.getId())));
+				.setData(objectMapper.writeValueAsString(taskService.getVariables(task.getId())));
+			processNodeRecordAssignUserParamDto
+				.setLocalData(objectMapper.writeValueAsString(taskService.getVariablesLocal(task.getId())));
 			processNodeRecordAssignUserParamDto.setNodeId(taskDefinitionKey);
 			processNodeRecordAssignUserParamDto.setUserId(Long.parseLong(assignee));
 			processNodeRecordAssignUserParamDto.setTaskId(task.getId());
@@ -243,7 +249,11 @@ public class FlowProcessEventListener implements FlowableEventListener {
 				String flowId = entity.getProcessDefinitionKey();
 
 				Object variable = execution.getVariable("root");
-				Long startUserId = JSON.parseArray(JSON.toJSONString(variable), NodeUser.class).get(0).getId();
+
+				List<NodeUser> nodeUsers = objectMapper.readValue(objectMapper.writeValueAsString(variable),
+						new TypeReference<>() {
+						});
+				Long startUserId = nodeUsers.get(0).getId();
 				Map<String, Object> variables = execution.getVariables();
 
 				ProcessInstanceRecordParamDto processInstanceRecordParamDto = new ProcessInstanceRecordParamDto();
@@ -251,7 +261,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 				processInstanceRecordParamDto.setParentProcessInstanceId(nestedProcessInstanceId);
 				processInstanceRecordParamDto.setFlowId(flowId);
 				processInstanceRecordParamDto.setProcessInstanceId(processInstanceId);
-				processInstanceRecordParamDto.setFormData(JSON.toJSONString(variables));
+				processInstanceRecordParamDto.setFormData(objectMapper.writeValueAsString(variables));
 				remoteFlowTaskService.createProcessEvent(processInstanceRecordParamDto);
 			}
 

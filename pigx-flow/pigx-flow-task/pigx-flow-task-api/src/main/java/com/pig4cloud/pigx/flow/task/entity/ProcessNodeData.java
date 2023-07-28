@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_node_data`")
+@TableName("process_node_data")
 public class ProcessNodeData {
 
 	/**
@@ -39,7 +39,7 @@ public class ProcessNodeData {
 	/**
 	 * 用户id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**

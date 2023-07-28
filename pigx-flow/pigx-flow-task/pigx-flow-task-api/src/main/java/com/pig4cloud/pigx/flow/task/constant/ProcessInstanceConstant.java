@@ -57,6 +57,9 @@ public class ProcessInstanceConstant {
 		// 指定用户
 		public static final int USER = 1;
 
+		// 指定主管
+		public static final int LEADER = 2;
+
 		// 发起人自己
 		public static final int SELF = 5;
 

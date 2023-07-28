@@ -27,6 +27,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
 
 /**
@@ -46,6 +47,11 @@ public class PigxSecurityInnerAspect implements Ordered {
 	@Before("@within(inner) || @annotation(inner)")
 	public void around(JoinPoint point, Inner inner) {
 		String header = request.getHeader(SecurityConstants.FROM);
+		if (inner == null) {
+			Class<?> clazz = point.getTarget().getClass();
+			inner = AnnotationUtils.findAnnotation(clazz, Inner.class);
+		}
+
 		if (inner.value() && !StrUtil.equals(SecurityConstants.FROM_IN, header)) {
 			log.warn("访问接口 {} 没有权限", point.getSignature().getName());
 			throw new AccessDeniedException("Access is denied");

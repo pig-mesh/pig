@@ -6,7 +6,6 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -156,6 +155,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 	 * @param process 流程
 	 * @return 操作结果
 	 */
+	@SneakyThrows
 	@Override
 	public R create(Process process) {
 		Map<String, Object> map = new HashMap<>();
@@ -166,9 +166,10 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 			return R.failed(r.getMsg());
 		}
 		String flowId = r.getData();
+		NodeUser nodeUser = objectMapper.readValue(process.getAdmin(), new TypeReference<List<NodeUser>>() {
+		}).get(0);
 
-		NodeUser nodeUser = JSONUtil.toList(process.getAdmin(), NodeUser.class).get(0);
-
+		// 更新流程
 		if (StrUtil.isNotBlank(process.getFlowId())) {
 
 			Process oldProcess = this.getByFlowId(process.getFlowId());
@@ -181,7 +182,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 
 		}
 
-		Node startNode = JSONUtil.toBean(process.getProcess(), Node.class);
+		Node startNode = objectMapper.readValue(process.getProcess(), Node.class);
 
 		List<NodeUser> nodeUserList = startNode.getNodeUserList();
 
@@ -222,7 +223,6 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		this.save(p);
 
 		// 保存范围
-
 		for (NodeUser nodeUserDto : nodeUserList) {
 			ProcessStarter processStarter = new ProcessStarter();
 
@@ -230,7 +230,6 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 			processStarter.setTypeId(nodeUserDto.getId());
 			processStarter.setType(nodeUserDto.getType());
 			processStarterService.save(processStarter);
-
 		}
 
 		return R.ok();
@@ -250,9 +249,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		process.setStop("stop".equals(type));
 		process.setHidden("delete".equals(type));
 		process.setGroupId(groupId);
-
 		this.updateByFlowId(process);
-
 		return R.ok();
 	}
 

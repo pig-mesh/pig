@@ -75,8 +75,8 @@ public class EngineFlowController {
 
 		Process process = MapUtil.get(map, "process", Process.class);
 
-		String flowId = "P" + userId + DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN)
-				+ RandomUtil.randomString(5);
+		String flowId = "P" + DateUtil.format(new Date(), DatePattern.PURE_DATETIME_MS_PATTERN)
+				+ RandomUtil.randomString(5).toUpperCase();
 		log.info("flowId={}", flowId);
 		BpmnModel bpmnModel = ModelUtil.buildBpmnModel(objectMapper.readValue(process.getProcess(), Node.class),
 				process.getName(), flowId);
@@ -86,7 +86,7 @@ public class EngineFlowController {
 			log.debug("部署时的模型文件：{}", filename);
 			FileUtil.writeBytes(bpmnBytess, filename);
 		}
-		repositoryService.createDeployment().addBpmnModel(StrUtil.format("{}.bpmn20.xml", "test1"), bpmnModel).deploy();
+		repositoryService.createDeployment().addBpmnModel(StrUtil.format("{}.bpmn20.xml", "pig"), bpmnModel).deploy();
 
 		return R.ok(flowId);
 	}

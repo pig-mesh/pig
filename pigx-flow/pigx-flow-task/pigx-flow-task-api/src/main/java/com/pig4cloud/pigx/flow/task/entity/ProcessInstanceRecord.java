@@ -19,7 +19,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("`process_instance_record`")
+@TableName("process_instance_record")
 public class ProcessInstanceRecord {
 
 	/**
@@ -91,7 +91,7 @@ public class ProcessInstanceRecord {
 	/**
 	 * 用户id
 	 */
-	@TableId(value = "id", type = IdType.AUTO)
+	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	private Long id;
 
 	/**
