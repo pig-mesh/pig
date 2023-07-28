@@ -16,18 +16,28 @@
  */
 package com.pig4cloud.pigx.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.S3Object;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysFile;
+import com.pig4cloud.pigx.admin.api.entity.SysFileGroup;
+import com.pig4cloud.pigx.admin.mapper.SysFileGroupMapper;
 import com.pig4cloud.pigx.admin.mapper.SysFileMapper;
 import com.pig4cloud.pigx.admin.service.SysFileService;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.file.core.FileProperties;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +45,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 /**
  * 文件管理
@@ -54,15 +62,19 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	private final FileTemplate fileTemplate;
 
+	private final SysFileGroupMapper fileGroupMapper;
+
 	private final FileProperties properties;
 
 	/**
 	 * 上传文件
 	 * @param file
+	 * @param groupId
+	 * @param type
 	 * @return
 	 */
 	@Override
-	public R uploadFile(MultipartFile file) {
+	public R uploadFile(MultipartFile file, Long groupId, String type) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
 		resultMap.put("bucketName", properties.getBucketName());
@@ -72,7 +84,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		try (InputStream inputStream = file.getInputStream()) {
 			fileTemplate.putObject(properties.getBucketName(), fileName, inputStream, file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
-			fileLog(file, fileName);
+			fileLog(file, fileName, groupId, type);
 		}
 		catch (Exception e) {
 			log.error("上传失败", e);
@@ -116,17 +128,98 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	}
 
 	/**
-	 * 文件管理数据记录,收集管理追踪文件
-	 * @param file 上传文件格式
-	 * @param fileName 文件名
+	 * 查询文件组列表
+	 * @param fileGroup SysFileGroup对象，用于筛选条件
+	 * @return 包含文件组树形结构列表的List对象
 	 */
-	private void fileLog(MultipartFile file, String fileName) {
+	@Override
+	public List<Tree<Long>> listFileGroup(SysFileGroup fileGroup) {
+		// 从数据库查询文件组列表
+		List<TreeNode<Long>> treeNodeList = fileGroupMapper.selectList(Wrappers.query(fileGroup))
+			.stream()
+			.map(group -> {
+				TreeNode<Long> treeNode = new TreeNode<>();
+				treeNode.setName(group.getName());
+				treeNode.setId(group.getId());
+				treeNode.setParentId(group.getPid());
+				return treeNode;
+			})
+			.toList();
+
+		// 构建树形结构
+		List<Tree<Long>> treeList = TreeUtil.build(treeNodeList, CommonConstants.MENU_TREE_ROOT_ID);
+		return CollUtil.isEmpty(treeList) ? new ArrayList<>() : treeList;
+	}
+
+	/**
+	 * 添加或更新文件组
+	 * @param fileGroup SysFileGroup对象，要添加或更新的文件组信息
+	 * @return 添加或更新成功返回true，否则返回false
+	 */
+	@Override
+	public Boolean saveOrUpdateGroup(SysFileGroup fileGroup) {
+		if (Objects.isNull(fileGroup.getId())) {
+			// 插入文件组
+			fileGroupMapper.insert(fileGroup);
+		}
+		else {
+			// 更新文件组
+			fileGroupMapper.updateById(fileGroup);
+		}
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 删除文件组
+	 * @param id 待删除文件组的ID
+	 * @return 删除成功返回true，否则返回false
+	 */
+	@Override
+	public Boolean deleteGroup(Long id) {
+		// 根据ID删除文件组
+		fileGroupMapper.deleteById(id);
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 移动文件组
+	 * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
+	 * @return 移动成功返回true，否则返回false
+	 */
+	@Override
+	public Boolean moveFileGroup(SysFileGroupDTO fileGroupDTO) {
+		// 创建SysFile对象并设置groupId属性
+		SysFile file = new SysFile();
+		file.setGroupId(fileGroupDTO.getGroupId());
+
+		// 根据IDS更新对应的SysFile记录
+		baseMapper.update(file, Wrappers.<SysFile>lambdaQuery().in(SysFile::getId, fileGroupDTO.getIds()));
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 文件管理数据记录，收集管理追踪文件
+	 * @param file 上传的文件格式
+	 * @param fileName 文件名
+	 * @param groupId 文件组ID
+	 * @param type 文件类型
+	 */
+	private void fileLog(MultipartFile file, String fileName, Long groupId, String type) {
+		// 创建SysFile对象并设置相关属性
 		SysFile sysFile = new SysFile();
 		sysFile.setFileName(fileName);
-		sysFile.setOriginal(file.getOriginalFilename());
+
+		// 对原始文件名进行编码转换
+		String originalFilename = new String(
+				Objects.requireNonNull(file.getOriginalFilename()).getBytes(StandardCharsets.ISO_8859_1),
+				StandardCharsets.UTF_8);
+		sysFile.setOriginal(originalFilename);
 		sysFile.setFileSize(file.getSize());
-		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
 		sysFile.setBucketName(properties.getBucketName());
+		sysFile.setType(type);
+		sysFile.setGroupId(groupId);
+
+		// 调用save方法保存SysFile对象
 		this.save(sysFile);
 	}
 

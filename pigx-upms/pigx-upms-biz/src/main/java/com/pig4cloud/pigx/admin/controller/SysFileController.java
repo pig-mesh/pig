@@ -22,7 +22,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysFile;
+import com.pig4cloud.pigx.admin.api.entity.SysFileGroup;
 import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -30,6 +32,7 @@ import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springdoc.core.annotations.ParameterObject;
@@ -39,7 +42,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.http.HttpServletResponse;
+import java.util.Objects;
 
 /**
  * 文件管理
@@ -66,6 +69,8 @@ public class SysFileController {
 	@GetMapping("/page")
 	public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
 		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
+			.eq(StrUtil.isNotBlank(sysFile.getType()), SysFile::getType, sysFile.getType())
+			.eq(Objects.nonNull(sysFile.getGroupId()), SysFile::getGroupId, sysFile.getGroupId())
 			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
 		return R.ok(sysFileService.page(page, wrapper));
 	}
@@ -86,14 +91,21 @@ public class SysFileController {
 		return R.ok();
 	}
 
+	@PutMapping("/rename")
+	public R rename(@RequestBody SysFile sysFile) {
+		return R.ok(sysFileService.updateById(sysFile));
+	}
+
 	/**
 	 * 上传文件 文件名采用uuid,避免原始文件名中带"-"符号导致下载的时候解析出现异常
 	 * @param file 资源
 	 * @return R(/ admin / bucketName / filename)
 	 */
 	@PostMapping(value = "/upload")
-	public R upload(@RequestPart("file") MultipartFile file) {
-		return sysFileService.uploadFile(file);
+	public R upload(@RequestPart("file") MultipartFile file,
+			@RequestParam(value = "groupId", required = false) Long groupId,
+			@RequestParam(value = "type", required = false) String type) {
+		return sysFileService.uploadFile(file, groupId, type);
 	}
 
 	/**
@@ -120,6 +132,56 @@ public class SysFileController {
 		ClassPathResource resource = new ClassPathResource("file/" + fileName);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.copy(resource.getInputStream(), response.getOutputStream());
+	}
+
+	/**
+	 * 查询文件组列表
+	 * @param fileGroup SysFileGroup对象，用于筛选条件
+	 * @return 包含文件组列表的R对象
+	 */
+	@GetMapping("/group/list")
+	public R listGroup(SysFileGroup fileGroup) {
+		return R.ok(sysFileService.listFileGroup(fileGroup));
+	}
+
+	/**
+	 * 添加文件组
+	 * @param fileGroup SysFileGroup对象，要添加的文件组信息
+	 * @return 包含添加结果的R对象
+	 */
+	@PostMapping("/group/add")
+	public R addGroup(@RequestBody SysFileGroup fileGroup) {
+		return R.ok(sysFileService.saveOrUpdateGroup(fileGroup));
+	}
+
+	/**
+	 * 更新文件组
+	 * @param fileGroup SysFileGroup对象，要更新的文件组信息
+	 * @return 包含更新结果的R对象
+	 */
+	@PutMapping("/group/update")
+	public R updateGroup(@RequestBody SysFileGroup fileGroup) {
+		return R.ok(sysFileService.saveOrUpdateGroup(fileGroup));
+	}
+
+	/**
+	 * 删除文件组
+	 * @param id 待删除文件组的ID
+	 * @return 包含删除结果的R对象
+	 */
+	@DeleteMapping("/group/delete/{id}")
+	public R updateGroup(@PathVariable Long id) {
+		return R.ok(sysFileService.deleteGroup(id));
+	}
+
+	/**
+	 * 移动文件组
+	 * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
+	 * @return 包含移动结果的R对象
+	 */
+	@PutMapping("/group/move")
+	public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
+		return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
 	}
 
 }

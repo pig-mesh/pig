@@ -70,6 +70,12 @@ public class SysFile extends Model<SysFile> {
 	private String type;
 
 	/**
+	 * 文件组
+	 */
+	@Schema(description = "文件组")
+	private Long groupId;
+
+	/**
 	 * 文件大小
 	 */
 	@Schema(description = "文件大小")
