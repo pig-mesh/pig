@@ -28,7 +28,7 @@
 
     <properties>
         <spring-boot.version>3.1.2</spring-boot.version>
-        <spring-cloud.version>2022.0.3</spring-cloud.version>
+        <spring-cloud.version>2022.0.4</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -47,7 +47,7 @@
         <xxl-job.version>2.3.1</xxl-job.version>
         <docker.plugin.version>0.32.0</docker.plugin.version>
         <docker.host>http://192.168.0.100:2375</docker.host>
-        <docker.registry>192.168.0.100</docker.registry>
+        <docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
         <docker.namespace>pig4cloud</docker.namespace>
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
