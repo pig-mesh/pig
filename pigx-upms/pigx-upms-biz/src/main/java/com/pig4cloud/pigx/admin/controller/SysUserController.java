@@ -38,6 +38,7 @@ import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
@@ -45,7 +46,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -137,18 +137,6 @@ public class SysUserController {
 	}
 
 	/**
-	 * 更新用户信息
-	 * @param userDto 用户信息
-	 * @return R
-	 */
-	@SysLog("更新用户信息")
-	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R updateUser(@Valid @RequestBody UserDTO userDto) {
-		return R.ok(userService.updateUser(userDto));
-	}
-
-	/**
 	 * 分页查询用户
 	 * @param page 参数集
 	 * @param userDTO 查询参数列表
@@ -160,14 +148,38 @@ public class SysUserController {
 	}
 
 	/**
-	 * 修改个人信息
+	 * 管理员更新用户信息
+	 * @param userDto 用户信息
+	 * @return R
+	 */
+	@SysLog("更新用户信息")
+	@PutMapping
+	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
+	public R updateUser(@Valid @RequestBody UserDTO userDto) {
+		return R.ok(userService.updateUser(userDto));
+	}
+
+	/**
+	 * 修改个人信息 （当前用户）
 	 * @param userDto userDto
 	 * @return success/false
 	 */
 	@SysLog("修改个人信息")
-	@PutMapping("/edit")
+	@PutMapping("/personal/edit")
 	public R updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUserInfo(userDto);
+	}
+
+	/**
+	 * 修改个人密码 （当前用户）
+	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
+	 * @return R 返回结果对象，包含修改密码操作的结果信息
+	 */
+	@PutMapping("/personal/password")
+	public R updatePassword(@RequestBody UserDTO userDto) {
+		String username = SecurityUtils.getUser().getUsername();
+		userDto.setUsername(username);
+		return userService.changePassword(userDto);
 	}
 
 	/**
@@ -212,18 +224,6 @@ public class SysUserController {
 	@PutMapping("/lock/{username}")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);
-	}
-
-	/**
-	 * 修改密码接口
-	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
-	 * @return R 返回结果对象，包含修改密码操作的结果信息
-	 */
-	@PutMapping("/password")
-	public R password(@RequestBody UserDTO userDto) {
-		String username = SecurityUtils.getUser().getUsername();
-		userDto.setUsername(username);
-		return userService.changePassword(userDto);
 	}
 
 	/**

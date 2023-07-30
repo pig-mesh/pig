@@ -227,28 +227,37 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
 		sysUser.setUpdateTime(LocalDateTime.now());
+
 		if (StrUtil.isNotBlank(userDto.getPassword())) {
 			sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
 		}
+
 		this.updateById(sysUser);
 
 		// 更新用户角色表
-		sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userDto.getUserId()));
-		userDto.getRole().stream().map(roleId -> {
-			SysUserRole userRole = new SysUserRole();
-			userRole.setUserId(sysUser.getUserId());
-			userRole.setRoleId(roleId);
-			return userRole;
-		}).forEach(SysUserRole::insert);
+		if (userDto.getRole() != null) {
+			sysUserRoleMapper
+				.delete(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userDto.getUserId()));
+			userDto.getRole().stream().map(roleId -> {
+				SysUserRole userRole = new SysUserRole();
+				userRole.setUserId(sysUser.getUserId());
+				userRole.setRoleId(roleId);
+				return userRole;
+			}).forEach(SysUserRole::insert);
+		}
 
 		// 更新用户岗位表
-		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
-		userDto.getPost().stream().map(postId -> {
-			SysUserPost userPost = new SysUserPost();
-			userPost.setUserId(sysUser.getUserId());
-			userPost.setPostId(postId);
-			return userPost;
-		}).forEach(SysUserPost::insert);
+		if (userDto.getPost() != null) {
+			sysUserPostMapper
+				.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
+			userDto.getPost().stream().map(postId -> {
+				SysUserPost userPost = new SysUserPost();
+				userPost.setUserId(sysUser.getUserId());
+				userPost.setPostId(postId);
+				return userPost;
+			}).forEach(SysUserPost::insert);
+		}
+
 		return Boolean.TRUE;
 	}
 
