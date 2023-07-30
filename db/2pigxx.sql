@@ -1089,6 +1089,11 @@ CREATE TABLE `sys_tenant` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户名称',
   `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户编码',
   `tenant_domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '租户域名',
+  `website_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '网站名称',
+  `mini_qr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '移动端二维码',
+  `background` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '登录页背景图',
+  `footer` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '页脚信息',
+  `logo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'logo',
   `start_time` datetime DEFAULT NULL COMMENT '租户开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '租户结束时间',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '租户状态，0正常，1停用',
@@ -1105,8 +1110,9 @@ CREATE TABLE `sys_tenant` (
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '', '2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2023-04-03 12:55:08', 1642752536722997250);
+INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '', NULL, NULL, NULL, NULL, NULL, '2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2023-07-30 14:52:57', 1642752536722997250);
 COMMIT;
+
 
 -- ----------------------------
 -- Table structure for sys_tenant_menu

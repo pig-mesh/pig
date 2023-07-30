@@ -69,6 +69,41 @@ public class SysTenant extends Model<SysTenant> {
 	private String tenantDomain;
 
 	/**
+	 * 网站名称
+	 */
+	@Schema(description = "网站名称")
+	@ExcelProperty("网站名称")
+	private String websiteName;
+
+	/**
+	 * logo
+	 */
+	@Schema(description = "logo")
+	@ExcelProperty("logo")
+	private String logo;
+
+	/**
+	 * footer
+	 */
+	@Schema(description = "footer")
+	@ExcelProperty("footer")
+	private String footer;
+
+	/**
+	 * 移动端二维码
+	 */
+	@Schema(description = "移动端二维码")
+	@ExcelProperty("移动端二维码")
+	private String miniQr;
+
+	/**
+	 * 登录页图片
+	 */
+	@Schema(description = "登录页图片")
+	@ExcelProperty("登录页图片")
+	private String background;
+
+	/**
 	 * 开始时间
 	 */
 	@Schema(description = "开始时间")
