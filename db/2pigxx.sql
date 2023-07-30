@@ -692,9 +692,7 @@ CREATE TABLE `sys_post` (
 -- Records of sys_post
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_post` VALUES (1, 'CTO', 'CTO', 0, 'CTOOO', '0', '2022-03-26 13:48:17', '', '2023-03-08 16:03:35', 'admin', 1);
-INSERT INTO `sys_post` VALUES (2, 'CEO', 'CEO', 1, 'CEO', '0', '2022-03-26 13:48:27', '', '2022-03-26 13:48:38', '', 1);
-INSERT INTO `sys_post` VALUES (1643101283462225922, '员工', '员工', 0, '普通员工', '0', '2023-04-04 12:00:48', 'admin', NULL, '', 1);
+INSERT INTO `sys_post` VALUES (1, 'TEAM_LEADER', '部门负责人', 0, 'LEADER', '0', '2022-03-26 13:48:17', '', '2023-03-08 16:03:35', 'admin', 1);
 COMMIT;
 
 -- ----------------------------
