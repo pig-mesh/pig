@@ -75,18 +75,6 @@ public class ProcessInstanceController {
 	}
 
 	/**
-	 * 显示流程图
-	 * @param procInsId
-	 * @return
-	 */
-
-	@SneakyThrows
-	@GetMapping("showImg")
-	public R showImg(String procInsId) {
-		return processInstanceService.showImg(procInsId);
-	}
-
-	/**
 	 * 格式化流程显示
 	 * @param nodeFormatParamVo
 	 * @return

@@ -52,12 +52,6 @@ public interface IProcessInstanceService {
 	 */
 	R queryMineCC(TaskQueryParamDto taskQueryParamDto);
 
-	/**
-	 * 显示流程实例图片
-	 * @param procInsId
-	 * @return
-	 */
-	R showImg(String procInsId);
 
 	/**
 	 * 格式化流程显示

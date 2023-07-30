@@ -289,15 +289,6 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 		return R.ok(p);
 	}
 
-	/**
-	 * 显示流程实例图片
-	 * @param procInsId
-	 * @return
-	 */
-	@Override
-	public R showImg(String procInsId) {
-		return flowEngineService.showImg(procInsId);
-	}
 
 	/**
 	 * 格式化流程显示

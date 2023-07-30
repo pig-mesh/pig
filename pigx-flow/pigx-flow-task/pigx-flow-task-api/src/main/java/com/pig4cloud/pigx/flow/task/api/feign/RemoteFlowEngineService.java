@@ -115,13 +115,6 @@ public interface RemoteFlowEngineService {
 	@PostMapping("/task/delegateTask")
 	R<String> delegateTask(@RequestBody TaskParamDto taskParamDto);
 
-	/**
-	 * 显示流程图
-	 * @param procInsId 流程实例ID
-	 * @return 流程图地址
-	 */
-	@GetMapping("/flow/showImg")
-	R<String> showImg(@RequestParam("procInsId") String procInsId);
 
 	/**
 	 * 查询任务
