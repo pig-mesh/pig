@@ -51,6 +51,15 @@ public class TaskServiceImpl implements ITaskService {
 	private final ObjectMapper objectMapper;
 
 	/**
+	 * 查询首页数据看板
+	 * @return
+	 */
+	@Override
+	public R queryTaskData() {
+		return flowEngineService.querySimpleData(SecurityUtils.getUser().getId());
+	}
+
+	/**
 	 * 查询任务
 	 * @param taskId
 	 * @param view

@@ -58,4 +58,10 @@ public interface ITaskService {
 	 */
 	R back(TaskParamDto taskParamDto);
 
+	/**
+	 * 查询首页数据看板
+	 * @return
+	 */
+	R queryTaskData();
+
 }

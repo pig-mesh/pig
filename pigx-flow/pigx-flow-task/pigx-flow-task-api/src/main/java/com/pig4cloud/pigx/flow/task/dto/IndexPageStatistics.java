@@ -1,13 +1,17 @@
 package com.pig4cloud.pigx.flow.task.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 首页统计数据
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class IndexPageStatistics {
 
 	/**

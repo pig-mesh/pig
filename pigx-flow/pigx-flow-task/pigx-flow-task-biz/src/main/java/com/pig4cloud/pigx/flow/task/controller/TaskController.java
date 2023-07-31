@@ -18,6 +18,16 @@ public class TaskController {
 	private final ITaskService taskService;
 
 	/**
+	 * 查询首页数据看板
+	 * @return
+	 */
+	@SneakyThrows
+	@GetMapping("queryTaskData")
+	public R queryTaskData() {
+		return taskService.queryTaskData();
+	}
+
+	/**
 	 * 查询任务
 	 * @param taskId
 	 * @return
