@@ -44,7 +44,7 @@ public class SentinelAutoConfiguration {
 	@Bean
 	@Scope("prototype")
 	@ConditionalOnMissingBean
-	@ConditionalOnProperty(name = "feign.sentinel.enabled")
+	@ConditionalOnProperty(name = "spring.cloud.openfeign.sentinel.enabled")
 	public Feign.Builder feignSentinelBuilder() {
 		return PigxSentinelFeign.builder();
 	}
