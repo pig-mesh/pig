@@ -568,7 +568,7 @@ public class ModelUtil {
 
 			{
 				SequenceFlow sequenceFlow = buildSingleSequenceFlow(gatewayId, endId,
-						StrUtil.format("${!" + "{}_approve_condition}", nodeId));
+						StrUtil.format("${!var:get({}_approve_condition)}", nodeId));
 				sequenceFlowList.add(sequenceFlow);
 			}
 

@@ -70,7 +70,7 @@ public class ExpressionHandler {
 		long valueTime = DateUtil.parse(value.toString(), format).getTime();
 		long paramTime = DateUtil.parse(param.toString(), format).getTime();
 
-		return compare(StrUtil.format("${key{}{}}", symbol, paramTime), Dict.create().set("key", valueTime));
+		return compare(StrUtil.format("key{}{}", symbol, paramTime), Dict.create().set("key", valueTime));
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class ExpressionHandler {
 			return false;
 		}
 
-		return compare(StrUtil.format("${key{}{}}", symbol, param), Dict.create().set("key", Convert.toNumber(value)));
+		return compare(StrUtil.format("key{}{}", symbol, param), Dict.create().set("key", Convert.toNumber(value)));
 
 	}
 
@@ -127,7 +127,7 @@ public class ExpressionHandler {
 		log.debug("参数值：{} 格式化显示：{}", paramDateTime.getTime(), DateUtil.formatDateTime(paramDateTime));
 
 		// 获取模板
-		return compare(StrUtil.format("${key{}{}}", symbol, paramDateTime.getTime()),
+		return compare(StrUtil.format("key{}{}", symbol, paramDateTime.getTime()),
 				Dict.create().set("key", valueDateTime.getTime()));
 
 	}
