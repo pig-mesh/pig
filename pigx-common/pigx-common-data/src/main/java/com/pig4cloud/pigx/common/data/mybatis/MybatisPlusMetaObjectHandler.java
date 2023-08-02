@@ -79,12 +79,17 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	 * @return 当前用户名
 	 */
 	private String getUserName() {
-		Authentication authentication = SecurityUtils.getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		// 匿名接口直接返回
 		if (authentication instanceof AnonymousAuthenticationToken) {
 			return null;
 		}
-		return authentication.getName();
+
+		if (Optional.ofNullable(authentication).isPresent()) {
+			return authentication.getName();
+		}
+
+		return null;
 	}
 
 }
