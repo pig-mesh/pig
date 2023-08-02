@@ -1,4 +1,4 @@
-FROM pig4cloud/java:8-jre
+FROM alibabadragonwell/dragonwell:17-anolis
 
 MAINTAINER wangiegie@gmail.com
 
