@@ -33,7 +33,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -57,6 +59,20 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 			return sysPublicParam.getPublicValue();
 		}
 		return null;
+	}
+
+	/**
+	 * 通过key查询公共参数指定值
+	 * @param keys 参数列表
+	 * @return Map
+	 */
+	@Override
+	public Map<String, Object> getSysPublicParamsKeyToValue(String[] keys) {
+		List<SysPublicParam> paramList = this.baseMapper
+			.selectList(Wrappers.<SysPublicParam>lambdaQuery().in(SysPublicParam::getPublicKey, keys));
+		Map<String, Object> result = new HashMap<>(8);
+		paramList.forEach(param -> result.put(param.getPublicKey(), param.getPublicValue()));
+		return result;
 	}
 
 	/**

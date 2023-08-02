@@ -21,6 +21,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysPublicParam;
 import com.pig4cloud.pigx.common.core.util.R;
 
+import java.util.Map;
+
 /**
  * 公共参数配置
  *
@@ -35,6 +37,13 @@ public interface SysPublicParamService extends IService<SysPublicParam> {
 	 * @return
 	 */
 	String getSysPublicParamKeyToValue(String publicKey);
+
+	/**
+	 * 通过key查询公共参数指定值
+	 * @param keys 参数列表
+	 * @return Map
+	 */
+	Map<String, Object> getSysPublicParamsKeyToValue(String[] keys);
 
 	/**
 	 * 更新参数

@@ -66,6 +66,18 @@ public class SysPublicParamController {
 	}
 
 	/**
+	 * 通过key查询公共参数值
+	 * @param keys
+	 * @return
+	 */
+	@Inner(value = false)
+	@Operation(description = "查询公共参数值", summary = "根据key查询公共参数值")
+	@GetMapping("/publicValues")
+	public R publicKeys( String[] keys) {
+		return R.ok(sysPublicParamService.  getSysPublicParamsKeyToValue(keys));
+	}
+
+	/**
 	 * 分页查询
 	 * @param page 分页对象
 	 * @param sysPublicParam 公共参数

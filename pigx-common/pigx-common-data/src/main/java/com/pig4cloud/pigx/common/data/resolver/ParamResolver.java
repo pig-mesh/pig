@@ -7,6 +7,9 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.experimental.UtilityClass;
 
+import java.util.Map;
+import java.util.Objects;
+
 /**
  * @author lengleng
  * @date 2020/5/12
@@ -15,6 +18,21 @@ import lombok.experimental.UtilityClass;
  */
 @UtilityClass
 public class ParamResolver {
+
+	/**
+	 * 根据多个key 查询value 配置 结果使用hutool 的maputil 进行包装处理 MapUtil.getBool(result,key)
+	 * @param key key
+	 * @return Map<String,Object>
+	 */
+	public Map<String, Object> getMap(String... key) {
+		// 校验入参是否合法
+		if (Objects.isNull(key)) {
+			throw new IllegalArgumentException("参数不合法");
+		}
+
+		RemoteParamService remoteParamService = SpringContextHolder.getBean(RemoteParamService.class);
+		return remoteParamService.getByKeys(key, SecurityConstants.FROM_IN).getData();
+	}
 
 	/**
 	 * 根据key 查询value 配置
