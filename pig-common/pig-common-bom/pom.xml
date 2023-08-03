@@ -32,7 +32,7 @@
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.20</hutool.version>
+        <hutool.version>5.8.21</hutool.version>
         <mica.version>3.0.8</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
