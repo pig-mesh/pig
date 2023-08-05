@@ -16,23 +16,32 @@
 
 package com.pig4cloud.pigx.common.data.mybatis;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.DbType;
 import com.alibaba.druid.filter.FilterChain;
 import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.JdbcParameter;
+import com.alibaba.druid.proxy.jdbc.PreparedStatementProxyImpl;
 import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.sql.SQLUtils;
+import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
+import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
 
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 打印可执行的 sql 日志
@@ -112,13 +121,27 @@ public class DruidSqlLogFilter extends FilterEventAdapter {
 		if (StringUtils.isEmpty(sql)) {
 			return;
 		}
+
+		String dbType = statement.getConnectionProxy().getDirectDataSource().getDbType();
+
+		// 判断表名是配置了匹配过滤
+		if (CollUtil.isNotEmpty(properties.getSkipTable())) {
+			List<String> skipTableList = properties.getSkipTable();
+
+			List<String> tableNameList = getTablesBydruid(sql, dbType);
+			if (tableNameList.stream()
+				.anyMatch(tableName -> StrUtil.containsAnyIgnoreCase(tableName,
+						ArrayUtil.toArray(skipTableList, String.class)))) {
+				return;
+			}
+		}
+
 		int parametersSize = statement.getParametersSize();
 		List<Object> parameters = new ArrayList<>(parametersSize);
 		for (int i = 0; i < parametersSize; ++i) {
 			// 转换参数，处理 java8 时间
 			parameters.add(getJdbcParameter(statement.getParameter(i)));
 		}
-		String dbType = statement.getConnectionProxy().getDirectDataSource().getDbType();
 		String formattedSql = SQLUtils.format(sql, DbType.of(dbType), parameters, FORMAT_OPTION);
 		printSql(formattedSql, statement);
 	}
@@ -159,6 +182,27 @@ public class DruidSqlLogFilter extends FilterEventAdapter {
 		else {
 			return String.format("%.3fms", millis);
 		}
+	}
+
+	/**
+	 * 从SQL中提取表名(sql中出现的所有表)
+	 * @param sql sql语句
+	 * @param dbType dbType
+	 * @return List<String>
+	 */
+	public static List<String> getTablesBydruid(String sql, String dbType) {
+		List<String> result = new ArrayList<String>();
+		List<SQLStatement> stmtList = SQLUtils.parseStatements(sql, dbType);
+		for (SQLStatement stmt : stmtList) {
+			// 也可以用更精确的解析器，如MySqlSchemaStatVisitor
+			SchemaStatVisitor visitor = new SchemaStatVisitor();
+			stmt.accept(visitor);
+			Map<TableStat.Name, TableStat> tables = visitor.getTables();
+			for (TableStat.Name name : tables.keySet()) {
+				result.add(name.getName());
+			}
+		}
+		return result;
 	}
 
 }
