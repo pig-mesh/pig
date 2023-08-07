@@ -35,7 +35,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <spring-boot-admin.version>3.1.4</spring-boot-admin.version>
         <spring.authorization.version>1.1.1</spring.authorization.version>
-        <dynamic-ds.version>4.1.1</dynamic-ds.version>
         <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.2</captcha.version>
         <aws.version>1.11.543</aws.version>
