@@ -37,7 +37,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
-            <version>${dynamic-ds.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.servlet</groupId>
