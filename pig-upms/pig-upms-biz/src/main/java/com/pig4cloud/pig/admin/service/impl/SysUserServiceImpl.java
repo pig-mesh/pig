@@ -96,6 +96,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
 		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
+		sysUser.setCreateBy(userDto.getUsername());
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
 		baseMapper.insert(sysUser);
 		// 保存用户岗位信息
