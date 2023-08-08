@@ -71,6 +71,8 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 		AppUser appUser = new AppUser();
 		appUser.setUsername(phone);
 		appUser.setPhone(phone);
+		appUser.setCreateBy(phone);
+		appUser.setUpdateBy(phone);
 		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, phone));
 
 		AppUserInfo appUserDTO = new AppUserInfo();

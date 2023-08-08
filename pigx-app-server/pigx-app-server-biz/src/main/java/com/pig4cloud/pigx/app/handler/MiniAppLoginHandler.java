@@ -102,6 +102,8 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 		AppUser appUser = new AppUser();
 		appUser.setWxOpenid(openId);
 		appUser.setUsername(openId);
+		appUser.setCreateBy(openId);
+		appUser.setUpdateBy(openId);
 		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getUsername, openId));
 
 		AppUserInfo appUserDTO = new AppUserInfo();
