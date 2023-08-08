@@ -71,6 +71,6 @@ public interface SysUserMapper extends PigxBaseMapper<SysUser> {
 	 * @param dataScope 数据权限声明
 	 * @return
 	 */
-	List<UserVO> selectVoListByScope(@Param("query") UserDTO userDTO, DataScope dataScope);
+	List<UserVO> selectVoListByScope(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids, DataScope dataScope);
 
 }

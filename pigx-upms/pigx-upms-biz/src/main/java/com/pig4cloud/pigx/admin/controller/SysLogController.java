@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -108,8 +109,8 @@ public class SysLogController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_log_export')")
-	public List<SysLog> export(SysLog sysLog) {
-		return sysLogService.list(Wrappers.query(sysLog));
+	public List<SysLog> export(SysLog sysLog, Long[] ids) {
+		return sysLogService.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, ids));
 	}
 
 }

@@ -18,6 +18,7 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
@@ -92,8 +93,9 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	 * @return
 	 */
 	@Override
-	public List<PostExcelVO> listPost() {
-		List<SysPost> postList = this.list(Wrappers.emptyWrapper());
+	public List<PostExcelVO> listPost(SysPost query, Long[] ids) {
+		List<SysPost> postList = this
+			.list(Wrappers.lambdaQuery(query).in(ArrayUtil.isNotEmpty(ids), SysPost::getPostId, ids));
 		// 转换成execl 对象输出
 		return postList.stream().map(post -> {
 			PostExcelVO postExcelVO = new PostExcelVO();

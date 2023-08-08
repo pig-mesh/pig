@@ -21,6 +21,7 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
@@ -152,8 +153,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return list
 	 */
 	@Override
-	public List<RoleExcelVO> listRole() {
-		List<SysRole> roleList = this.list(Wrappers.emptyWrapper());
+	public List<RoleExcelVO> listRole(SysRole sysRole, Long[] ids) {
+		List<SysRole> roleList = this
+			.list(Wrappers.lambdaQuery(sysRole).in(ArrayUtil.isNotEmpty(ids), SysRole::getRoleId, ids));
 		// 转换成execl 对象输出
 		return roleList.stream().map(role -> {
 			RoleExcelVO roleExcelVO = new RoleExcelVO();

@@ -130,9 +130,10 @@ public class SysDeptController {
 	}
 
 	@GetMapping(value = "/leader/{deptId}")
-	public R getAllDeptLeader(@PathVariable Long deptId){
+	public R getAllDeptLeader(@PathVariable Long deptId) {
 		return R.ok(sysDeptService.listDeptLeader(deptId));
 	}
+
 	/**
 	 * 导出部门
 	 * @return

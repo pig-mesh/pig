@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -85,7 +86,7 @@ public class SysI18nController {
 	}
 
 	@GetMapping("/details")
-	public R getDetails(SysI18nEntity entity) {
+	public R getDetails(@ParameterObject SysI18nEntity entity) {
 		return R.ok(sysI18nService.getOne(Wrappers.query(entity)));
 	}
 
@@ -139,8 +140,9 @@ public class SysI18nController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_i18n_export')")
-	public List<SysI18nEntity> export(SysI18nEntity sysI18n) {
-		return sysI18nService.list(Wrappers.query(sysI18n));
+	public List<SysI18nEntity> export(SysI18nEntity sysI18n, Long[] ids) {
+		return sysI18nService
+			.list(Wrappers.lambdaQuery(sysI18n).in(ArrayUtil.isNotEmpty(ids), SysI18nEntity::getId, ids));
 	}
 
 	/**

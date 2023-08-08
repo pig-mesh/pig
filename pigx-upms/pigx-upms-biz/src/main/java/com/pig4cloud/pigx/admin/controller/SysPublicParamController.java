@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -73,8 +74,8 @@ public class SysPublicParamController {
 	@Inner(value = false)
 	@Operation(description = "查询公共参数值", summary = "根据key查询公共参数值")
 	@GetMapping("/publicValues")
-	public R publicKeys( String[] keys) {
-		return R.ok(sysPublicParamService.  getSysPublicParamsKeyToValue(keys));
+	public R publicKeys(String[] keys) {
+		return R.ok(sysPublicParamService.getSysPublicParamsKeyToValue(keys));
 	}
 
 	/**
@@ -159,8 +160,9 @@ public class SysPublicParamController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
-	public List<SysPublicParam> export() {
-		return sysPublicParamService.list();
+	public List<SysPublicParam> export(SysPublicParam param, Long[] ids) {
+		return sysPublicParamService
+			.list(Wrappers.lambdaQuery(param).in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, ids));
 	}
 
 	/**

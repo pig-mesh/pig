@@ -23,8 +23,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
-
 /**
  * <p>
  * 部门管理 Mapper 接口

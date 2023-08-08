@@ -99,9 +99,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public Boolean saveUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
+		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
 		sysUser.setCreateBy(userDto.getUsername());
 		sysUser.setUpdateBy(userDto.getUsername());
-		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
 		baseMapper.insert(sysUser);
 		// 保存用户岗位信息
@@ -284,12 +284,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	/**
 	 * 查询全部的用户
 	 * @param userDTO 查询条件
+	 * @param ids ids 用户列表
 	 * @return list
 	 */
 	@Override
-	public List<UserExcelVO> listUser(UserDTO userDTO) {
+	public List<UserExcelVO> listUser(UserDTO userDTO, Long[] ids) {
 		// 根据数据权限查询全部的用户信息
-		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, DataScope.of());
+		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, ids, DataScope.of());
 		// 转换成execl 对象输出
 		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();

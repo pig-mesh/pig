@@ -98,7 +98,7 @@ public class SysPostController {
 	@Operation(description = "查询角色信息", summary = "查询角色信息")
 	@GetMapping("/details")
 	@PreAuthorize("@pms.hasPermission('sys_post_view')")
-	public R getDetails(SysPost query) {
+	public R getDetails(@ParameterObject SysPost query) {
 		return R.ok(sysPostService.getOne(Wrappers.query(query), false));
 	}
 
@@ -148,8 +148,8 @@ public class SysPostController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_post_export')")
-	public List<PostExcelVO> export() {
-		return sysPostService.listPost();
+	public List<PostExcelVO> export(SysPost post, Long[] ids) {
+		return sysPostService.listPost(post, ids);
 	}
 
 	/**

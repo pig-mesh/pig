@@ -199,8 +199,8 @@ public class SysUserController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_user_export')")
-	public List export(UserDTO userDTO) {
-		return userService.listUser(userDTO);
+	public List export(UserDTO userDTO, Long[] ids) {
+		return userService.listUser(userDTO, ids);
 	}
 
 	/**

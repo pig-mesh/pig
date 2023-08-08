@@ -98,9 +98,10 @@ public interface SysUserService extends IService<SysUser> {
 	/**
 	 * 查询全部的用户
 	 * @param userDTO 查询条件
+	 * @param ids 目标列表
 	 * @return list
 	 */
-	List<UserExcelVO> listUser(UserDTO userDTO);
+	List<UserExcelVO> listUser(UserDTO userDTO, Long[] ids);
 
 	/**
 	 * excel 导入用户
@@ -124,25 +125,10 @@ public interface SysUserService extends IService<SysUser> {
 	 */
 	R<Boolean> lockUser(String username);
 
-	/**
-	 * 修改密码接口
-	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
-	 * @return R 返回结果对象，包含修改密码操作的结果信息
-	 */
 	R changePassword(UserDTO userDto);
 
-	/**
-	 * 解绑定接口
-	 * @param type 需要解绑定的类型
-	 * @return R 返回结果对象，包含解绑定操作的结果信息
-	 */
 	R unbinding(String type);
 
-	/**
-	 * 校验密码接口
-	 * @param password 需要校验的密码
-	 * @return R 返回结果对象，包含校验密码操作的结果信息
-	 */
 	R checkPassword(String password);
 
 	/**

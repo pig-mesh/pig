@@ -34,6 +34,7 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
@@ -42,7 +43,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -162,13 +162,15 @@ public class SysRoleController {
 
 	/**
 	 * 导出excel 表格
+	 * @param sysRole 查询条件
+	 * @param ids 导出ids
 	 * @return
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_role_export')")
-	public List<RoleExcelVO> export() {
-		return sysRoleService.listRole();
+	public List<RoleExcelVO> export(SysRole sysRole, Long[] ids) {
+		return sysRoleService.listRole(sysRole, ids);
 	}
 
 	/**

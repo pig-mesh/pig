@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
@@ -28,6 +29,7 @@ import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
@@ -35,7 +37,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -143,8 +144,9 @@ public class SysSocialDetailsController {
 	 * 导出
 	 */
 	@GetMapping("/export")
-	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails) {
-		return sysSocialDetailsService.list(Wrappers.query(sysSocialDetails));
+	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails, Long[] ids) {
+		return sysSocialDetailsService
+			.list(Wrappers.lambdaQuery(sysSocialDetails).in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, ids));
 	}
 
 }

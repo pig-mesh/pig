@@ -83,7 +83,7 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
-    	u.gitee_login,
+        u.gitee_login,
         u.osc_id,
         u.del_flag,
         u.lock_flag,
@@ -194,6 +194,12 @@
             </if>
             <if test="query.deptId != null and query.deptId != ''">
                 AND u.dept_id = #{query.deptId}
+            </if>
+            <if test="ids != null">
+                AND u.user_id in
+                <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
             </if>
         </where>
 

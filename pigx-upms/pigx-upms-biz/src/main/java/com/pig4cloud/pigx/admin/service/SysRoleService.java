@@ -77,8 +77,10 @@ public interface SysRoleService extends IService<SysRole> {
 
 	/**
 	 * 查询全部的角色
+	 * @param sysRole 查询条件
+	 * @param ids 导出ids
 	 * @return list
 	 */
-	List<RoleExcelVO> listRole();
+	List<RoleExcelVO> listRole(SysRole sysRole, Long[] ids);
 
 }

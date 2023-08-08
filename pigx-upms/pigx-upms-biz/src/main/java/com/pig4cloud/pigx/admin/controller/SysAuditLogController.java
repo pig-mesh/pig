@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysAuditLog;
@@ -108,8 +109,9 @@ public class SysAuditLogController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_audit_export')")
-	public List<SysAuditLog> export(SysAuditLog sysAuditLog) {
-		return sysAuditLogService.list(Wrappers.query(sysAuditLog));
+	public List<SysAuditLog> export(SysAuditLog sysAuditLog, Long[] ids) {
+		return sysAuditLogService
+			.list(Wrappers.lambdaQuery(sysAuditLog).in(ArrayUtil.isNotEmpty(ids), SysAuditLog::getId, ids));
 	}
 
 }

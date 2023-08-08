@@ -69,4 +69,5 @@ public interface SysDeptService extends IService<SysDept> {
 	 * @return user id list
 	 */
 	List<Long> listDeptLeader(Long deptId);
+
 }

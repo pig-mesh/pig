@@ -40,6 +40,7 @@ import com.pig4cloud.pigx.common.core.constant.enums.MenuTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -48,7 +49,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -142,9 +142,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		List<SysI18nEntity> list = sysI18nService.list();
 		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).peek(item -> {
 			Optional<SysI18nEntity> first = list.stream().filter(it -> it.getZhCn().equals(item.getName())).findFirst();
-			if (first.isPresent()) {
-				item.setName(first.get().getName());
-			}
+			first.ifPresent(sysI18nEntity -> item.setName(sysI18nEntity.getName()));
 		}).map(getNodeFunction()).collect(Collectors.toList());
 
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
