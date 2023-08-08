@@ -43,7 +43,7 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 		</encoder>
 	</appender>
 
@@ -56,7 +56,7 @@
 			<maxHistory>30</maxHistory>
 		</rollingPolicy>
 		<encoder>
-			<pattern>%date [%thread] %-5level [%logger{50}] %file:%line - %msg%n</pattern>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
 		</encoder>
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
 			<level>ERROR</level>
