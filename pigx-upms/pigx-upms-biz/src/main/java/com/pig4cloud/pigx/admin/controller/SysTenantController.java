@@ -18,13 +18,18 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
+import com.pig4cloud.pigx.admin.service.SysMenuService;
 import com.pig4cloud.pigx.admin.service.SysTenantService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
@@ -38,6 +43,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,6 +61,8 @@ import java.util.stream.Collectors;
 public class SysTenantController {
 
 	private final SysTenantService sysTenantService;
+
+	private final SysMenuService sysMenuService;
 
 	/**
 	 * 分页查询
@@ -109,9 +117,8 @@ public class SysTenantController {
 	@SysLog("修改租户")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_systenant_edit')")
-	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R updateById(@RequestBody SysTenant sysTenant) {
-		return R.ok(sysTenantService.updateById(sysTenant));
+		return R.ok(sysTenantService.updateTenant(sysTenant));
 	}
 
 	/**
@@ -151,8 +158,20 @@ public class SysTenantController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@PreAuthorize("@pms.hasPermission('sys_systenant_export')")
-	public List<SysTenant> export(SysTenant sysTenant) {
-		return sysTenantService.list(Wrappers.query(sysTenant));
+	public List<SysTenant> export(SysTenant sysTenant, Long[] ids) {
+		return sysTenantService
+			.list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, ids));
+	}
+
+	@GetMapping(value = "/tree/menu")
+	public R getTree() {
+		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
+		List<Tree<Long>> trees = new ArrayList<>();
+		TenantBroker.runAs(defaultId, (id) -> {
+			trees.addAll(sysMenuService.treeMenu(null, null, null));
+		});
+
+		return R.ok(trees);
 	}
 
 }

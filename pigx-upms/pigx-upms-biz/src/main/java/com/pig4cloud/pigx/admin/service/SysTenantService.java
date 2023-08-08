@@ -43,4 +43,11 @@ public interface SysTenantService extends IService<SysTenant> {
 	 */
 	Boolean saveTenant(SysTenant sysTenant);
 
+	/**
+	 * 修改租户
+	 * @param sysTenant
+	 * @return
+	 */
+	Boolean updateTenant(SysTenant sysTenant);
+
 }

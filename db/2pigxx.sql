@@ -1100,7 +1100,7 @@ CREATE TABLE `sys_tenant` (
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
+  `menu_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '租户菜单ID',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户表';
 
@@ -1111,30 +1111,6 @@ BEGIN;
 INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '', NULL, NULL, NULL, NULL, NULL, '2019-05-15 00:00:00', '2029-05-15 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2023-07-30 14:52:57', 1642752536722997250);
 COMMIT;
 
-
--- ----------------------------
--- Table structure for sys_tenant_menu
--- ----------------------------
-DROP TABLE IF EXISTS `sys_tenant_menu`;
-CREATE TABLE `sys_tenant_menu` (
-  `id` bigint(20) NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '租户菜单名称',
-  `menu_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单id集合',
-  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '租户菜单,9:冻结,0:正常',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
-
--- ----------------------------
--- Records of sys_tenant_menu
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_tenant_menu` VALUES (1642752536722997250, '基础功能', '1000,1100,1101,1102,1103,1104,1200,1201,1202,1203,1300,1301,1302,1303,1304,1305,1400,1401,1402,1403,1404,1600,1601,1602,1603,1604,1605,1500,1501,1508,1502,1504,1505,1506,1507,1503,2000,2001,2103,2104,2105,2100,2101,2102,2200,2201,2202,2203,2906,2907,2210,2211,2212,2213,2800,2810,2820,2830,2840,2850,2860,2870,2871,2900,2901,2902,2903,2904,2905,2400,2401,2402,2403,2500,2501,2502,2503,2600,2601', '0', '0', 'admin', ' ', '2023-04-03 12:55:00', '2023-04-03 04:55:00');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_user

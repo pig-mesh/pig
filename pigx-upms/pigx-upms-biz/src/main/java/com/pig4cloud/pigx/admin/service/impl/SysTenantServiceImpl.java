@@ -16,6 +16,8 @@
  */
 package com.pig4cloud.pigx.admin.service.impl;
 
+import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.*;
@@ -30,6 +32,7 @@ import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,7 +78,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	private final SysDictService dictService;
 
-	private final SysTenantMenuService sysTenantMenuService;
+	private final CacheManager cacheManager;
 
 	/**
 	 * 获取正常状态租户
@@ -124,12 +127,11 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			// 查询系统内置字典
 			dictList.addAll(dictService.list());
 			// 查询系统内置字典项目
-			dictIdList.addAll(dictList.stream().map(SysDict::getId).collect(Collectors.toList()));
+			dictIdList.addAll(dictList.stream().map(SysDict::getId).toList());
 			dictItemList.addAll(
 					dictItemService.list(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList)));
-			SysTenantMenu tenantMenu = sysTenantMenuService.getById(sysTenant.getMenuId());
-			String[] split = tenantMenu.getMenuIds().split(",");
-			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery().in(SysMenu::getMenuId, split));
+			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery()
+				.in(SysMenu::getMenuId, StrUtil.split(sysTenant.getMenuId(), CharUtil.COMMA)));
 			// 查询当前租户菜单
 			menuList.addAll(newMenuList);
 			// 查询客户端配置
@@ -182,7 +184,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 				roleMenu.setRoleId(role.getRoleId());
 				roleMenu.setMenuId(menu.getMenuId());
 				return roleMenu;
-			}).collect(Collectors.toList());
+			}).toList();
 			roleMenuList.forEach(roleMenuMapper::insert);
 			// 插入系统字典
 			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
@@ -207,6 +209,84 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(sysTenant));
 
 		return Boolean.TRUE;
+	}
+
+	/**
+	 * 修改租户
+	 * @param tenantDTO
+	 * @return
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
+	public Boolean updateTenant(SysTenant tenantDTO) {
+		SysTenant tenant = baseMapper.selectById(tenantDTO.getId());
+		// 更新租户数据
+		updateById(tenantDTO);
+
+		// 如果没有修改租户套餐
+		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
+		if (defaultId.equals(tenantDTO.getId())) {
+			return Boolean.TRUE;
+		}
+		if (tenant.getMenuId().equals(tenantDTO.getMenuId())) {
+			return Boolean.TRUE;
+		}
+
+		List<SysMenu> sysMenuList = TenantBroker.applyAs(defaultId,
+				id -> menuService.list(Wrappers.<SysMenu>lambdaQuery()
+					.in(SysMenu::getMenuId, StrUtil.split(tenantDTO.getMenuId(), CharUtil.COMMA))));
+
+		TenantBroker.runAs(tenantDTO.getId(), (tenantId -> {
+			// 查询当前租户的所有菜单
+			List<SysMenu> menuList = menuService.list(Wrappers.emptyWrapper());
+
+			// 套餐功能对比和已有菜单对比 （新增）
+			List<SysMenu> addMenuList = new ArrayList<>();
+			List<SysMenu> delMenuList = new ArrayList<>();
+
+			// 判断新增的菜单列表
+			menuExist(sysMenuList, menuList, addMenuList);
+
+			// 判断删除的菜单列表
+			menuExist(menuList, sysMenuList, delMenuList);
+
+			// 新增的菜单
+			this.saveTenantMenu(addMenuList, CommonConstants.MENU_TREE_ROOT_ID, CommonConstants.MENU_TREE_ROOT_ID);
+			// 套餐删除的菜单
+			List<Long> menuIdList = delMenuList.stream().map(SysMenu::getMenuId).toList();
+			menuService.removeBatchByIds(menuIdList);
+
+			// 清空菜单权限
+			cacheManager.getCache(CacheConstants.MENU_DETAILS).clear();
+		}));
+
+		return Boolean.TRUE;
+	}
+
+	/**
+	 * 判断菜单是否存在
+	 * @param sysMenuList 要判断的菜单列表
+	 * @param menuList 已有菜单列表
+	 * @param addMenuList 待添加的菜单列表
+	 */
+	private void menuExist(List<SysMenu> sysMenuList, List<SysMenu> menuList, List<SysMenu> addMenuList) {
+		for (SysMenu sysMenu : sysMenuList) {
+
+			if (StrUtil.isNotBlank(sysMenu.getPath())) {
+				// 根据菜单path名称，查询套餐菜单是否存在
+				if (menuList.stream().noneMatch(menu -> sysMenu.getPath().equals(menu.getPath()))) {
+					addMenuList.add(sysMenu);
+				}
+			}
+
+			if (StrUtil.isNotBlank(sysMenu.getPermission())) {
+				// 根据菜单permission名称，查询套餐菜单是否存在
+				if (menuList.stream().noneMatch(menu -> sysMenu.getPermission().equals(menu.getPermission()))) {
+					addMenuList.add(sysMenu);
+				}
+			}
+
+		}
 	}
 
 	/**
