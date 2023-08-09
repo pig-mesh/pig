@@ -29,6 +29,7 @@ import java.util.Map;
 public class AssignUserSelfSelectStrategyImpl implements AssignUserStrategy {
 
 	private final ObjectMapper objectMapper;
+
 	@SneakyThrows
 	@Override
 	public List<Long> handle(Node node, NodeUser rootUser, Map<String, Object> variables) {
@@ -41,7 +42,9 @@ public class AssignUserSelfSelectStrategyImpl implements AssignUserStrategy {
 			return assignList;
 		}
 
-		List<NodeUser> nodeUserDtos =  objectMapper.readValue(objectMapper.writeValueAsString(variable),new TypeReference<>() {});
+		List<NodeUser> nodeUserDtos = objectMapper.readValue(objectMapper.writeValueAsString(variable),
+				new TypeReference<>() {
+				});
 
 		List<Long> collect = nodeUserDtos.stream().map(NodeUser::getId).toList();
 

@@ -16,6 +16,7 @@ import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.task.dto.NodeUser;
+import com.pig4cloud.pigx.flow.task.dto.SelectValue;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -161,18 +162,37 @@ public class ExpressionHandler {
 	}
 
 	/**
-	 * 判断字符数组包含
+	 * 单选处理
 	 * @param key 表单key
 	 * @param array 条件值
 	 * @return
 	 */
-	public boolean stringContain(String key, DelegateExecution execution, String... array) {
+	public boolean singleSelectHandler(String key, DelegateExecution execution, String... array) {
 		Object value = execution.getVariable(key);
 
 		if (value == null) {
 			return false;
 		}
-		return ArrayUtil.contains(array, value.toString());
+		List<SelectValue> list = Convert.toList(SelectValue.class, value);
+		if (CollUtil.isEmpty(list)) {
+			return false;
+		}
+		return ArrayUtil.contains(array, list.get(0).getKey());
+	}
+
+	/**
+	 * 字符串判断包含
+	 * @param key 表单key
+	 * @param param 参数
+	 * @return
+	 */
+	public boolean stringContain(String key, String param, DelegateExecution execution) {
+		Object value = execution.getVariable(key);
+
+		if (value == null) {
+			return false;
+		}
+		return StrUtil.contains(value.toString(), param);
 	}
 
 	/**

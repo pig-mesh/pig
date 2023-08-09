@@ -53,4 +53,6 @@ public class Node {
 
 	private List<GroupCondition> conditionList;
 
+	private Refuse refuse;
+
 }

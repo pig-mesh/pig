@@ -75,21 +75,14 @@ public class NodeExpressionStrategyFactory {
 		return "${(" + join + ")}";
 	}
 
-	/**
-	 * 处理默认分支表达式
-	 * @param branchs 所有分支
-	 * @return
-	 */
-	public static String handleDefaultBranch(List<Node> branchs) {
+	public static String handleDefaultBranch(List<Node> branchs, int currentIndex) {
 
 		List<String> expList = new ArrayList<>();
-
-		int size = branchs.size();
 
 		int index = 1;
 		for (Node branch : branchs) {
 
-			if (index == size) {
+			if (index == currentIndex + 1) {
 				continue;
 			}
 

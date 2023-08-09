@@ -77,7 +77,7 @@ public class ApprovalCreateListener implements TaskListener {
 				taskService.setAssignee(taskEntity.getId(), nodeUser.getId().toString());
 			}
 
-			if (StrUtil.equals(handler, ProcessInstanceConstant.USER_TASK_NOBODY_HANDLER_TO_END)) {
+			if (StrUtil.equals(handler, ProcessInstanceConstant.USER_TASK_NOBODY_HANDLER_TO_REFUSE)) {
 				// 结束
 				Dict param = Dict.create().set(StrUtil.format("{}_approve_condition", nodeId), false);
 				taskService.complete(taskEntity.getId(), param);

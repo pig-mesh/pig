@@ -115,9 +115,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			processNodeRecordParamDto.setFlowId(flowId);
 			processNodeRecordParamDto.setExecutionId(flowableActivityEvent.getExecutionId());
 			processNodeRecordParamDto.setProcessInstanceId(processInstanceId);
-			// processNodeRecordParamDto.setData(JSON.toJSONString(processVariables));
 			processNodeRecordParamDto.setNodeId(activityId);
-			// processNodeRecordParamDto.setNodeType(nodeDto.getType());
 			processNodeRecordParamDto.setNodeName(activityName);
 
 			remoteFlowTaskService.endNodeEvent(processNodeRecordParamDto);

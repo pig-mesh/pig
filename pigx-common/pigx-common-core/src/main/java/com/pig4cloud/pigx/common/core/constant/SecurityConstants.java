@@ -86,6 +86,11 @@ public interface SecurityConstants {
 	String FROM = "from";
 
 	/**
+	 * 请求header
+	 */
+	String HEADER_FROM_IN = FROM + "=" + FROM_IN;
+
+	/**
 	 * OAUTH URL
 	 */
 	String OAUTH_TOKEN_URL = "/oauth2/token";

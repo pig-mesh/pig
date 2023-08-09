@@ -14,10 +14,12 @@ import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowEngineService;
 import com.pig4cloud.pigx.flow.task.constant.FormTypeEnum;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.task.constant.ProcessInstanceConstant;
+import com.pig4cloud.pigx.flow.task.dto.IndexPageStatistics;
 import com.pig4cloud.pigx.flow.task.dto.Node;
 import com.pig4cloud.pigx.flow.task.dto.TaskParamDto;
 import com.pig4cloud.pigx.flow.task.dto.TaskResultDto;
 import com.pig4cloud.pigx.flow.task.entity.Process;
+import com.pig4cloud.pigx.flow.task.entity.ProcessCopy;
 import com.pig4cloud.pigx.flow.task.entity.ProcessInstanceRecord;
 import com.pig4cloud.pigx.flow.task.entity.ProcessNodeRecordAssignUser;
 import com.pig4cloud.pigx.flow.task.service.*;
@@ -42,6 +44,8 @@ public class TaskServiceImpl implements ITaskService {
 
 	private final IProcessService processService;
 
+	private final IProcessCopyService processCopyService;
+
 	private final IProcessNodeDataService nodeDataService;
 
 	private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
@@ -56,7 +60,15 @@ public class TaskServiceImpl implements ITaskService {
 	 */
 	@Override
 	public R queryTaskData() {
-		return flowEngineService.querySimpleData(SecurityUtils.getUser().getId());
+		R<IndexPageStatistics> indexPageStatisticsR = flowEngineService
+			.querySimpleData(SecurityUtils.getUser().getId());
+
+		// 获取抄送任务
+		Long copyCount = processCopyService.lambdaQuery()
+			.eq(ProcessCopy::getUserId, SecurityUtils.getUser().getId())
+			.count();
+		indexPageStatisticsR.getData().setCopyNum(copyCount);
+		return indexPageStatisticsR;
 	}
 
 	/**

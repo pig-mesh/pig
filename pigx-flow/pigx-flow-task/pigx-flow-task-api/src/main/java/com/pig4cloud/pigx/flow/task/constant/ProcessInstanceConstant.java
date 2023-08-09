@@ -27,6 +27,8 @@ public class ProcessInstanceConstant {
 	 */
 	public static final String USER_TASK_NOBODY_HANDLER_TO_END = "TO_END";
 
+	public static final String USER_TASK_NOBODY_HANDLER_TO_REFUSE = "TO_REFUSE";
+
 	/**
 	 * 拒绝之后 结束流程
 	 */

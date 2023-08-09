@@ -19,6 +19,27 @@ public class NodeUtil {
 	}
 
 	/**
+	 * 添加结束节点
+	 * @param node
+	 */
+	public static void addEndNode(Node node) {
+
+		Node children = node.getChildren();
+		if (isNode(children)) {
+			addEndNode(children);
+		}
+		else {
+			Node end = new Node();
+			end.setId("end");
+			end.setType(NodeTypeEnum.END.getValue());
+			end.setName("结束节点");
+			end.setParentId(node.getId());
+			node.setChildren(end);
+		}
+
+	}
+
+	/**
 	 * 需要发起人选择用户的节点
 	 * @param node
 	 */

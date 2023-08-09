@@ -5,6 +5,7 @@ import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.flow.engine.expression.condition.NodeConditionStrategy;
 import com.pig4cloud.pigx.flow.task.dto.Condition;
+import com.pig4cloud.pigx.flow.task.dto.SelectValue;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,22 +26,22 @@ public class SingleSelectNodeConditionStrategy implements NodeConditionStrategy 
 		String id = condition.getKey();
 		Object value = condition.getValue();
 
-		List<?> list = Convert.toList(value);
+		List<SelectValue> list = Convert.toList(SelectValue.class, value);
 
 		StringBuilder sb = new StringBuilder();
 
-		for (Object o : list) {
-			sb.append(",\"").append(o.toString()).append("\"");
+		for (SelectValue o : list) {
+			sb.append(",\"").append(o.getKey()).append("\"");
 		}
 		String string = sb.toString();
 		if (CollUtil.isNotEmpty(list)) {
 			string = string.substring(1);
 		}
 		if (compare.equals("in")) {
-			return StrUtil.format("(expressionHandler.stringContain(\"{}\", execution,{}))", id, string);
+			return StrUtil.format("(expressionHandler.singleSelectHandler(\"{}\", execution,{}))", id, string);
 		}
 
-		return StrUtil.format("(!expressionHandler.stringContain(\"{}\", execution,{}))", id, string);
+		return StrUtil.format("(!expressionHandler.singleSelectHandler(\"{}\", execution,{}))", id, string);
 
 	}
 
