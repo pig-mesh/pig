@@ -353,6 +353,16 @@ INSERT INTO `sys_i18n` VALUES (54, 'router.processManagement', '流程管理', '
 INSERT INTO `sys_i18n` VALUES (55, 'router.leaveWorkOrder', '请假工单', 'Leave Work Order', 'admin', NULL, '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (56, 'router.todoTask', '代办任务', 'Todo Task', 'admin', NULL, '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (57, 'router.tagManagement', '标签管理', 'Tag Management', 'admin', NULL, '', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (58, 'router.articleInformation\n', '文章资讯', 'Article Information', ' ', '2023-08-10 13:40:09', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (59, 'router.articleCategory', '文章分类', 'Article Category', ' ', '2023-08-10 13:40:48', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (60, 'router.interfaceSettings', '界面设置', 'Interface Settings', ' ', '2023-08-10 13:41:21', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (61, 'router.bottomNavigation\n', '底部导航', 'Bottom Navigation', ' ', '2023-08-10 13:41:54', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (62, 'router.cacheMonitoring\n', '缓存监控', 'Cache Monitoring', ' ', '2023-08-10 13:42:35', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (63, 'rotuer. initiateProcess', '发起流程', 'Initiate Process\n', ' ', '2023-08-10 13:44:23', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (64, 'router.taskManagement\n', '任务管理', 'Task Management', ' ', '2023-08-10 13:44:53', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (65, 'router.myInitiations', '我的发起', 'My Initiations', ' ', '2023-08-10 13:45:17', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (66, 'router.copiedtoMe\n', '抄送给我', 'Copied to Me', ' ', '2023-08-10 13:45:46', ' ', NULL, '0');
+INSERT INTO `sys_i18n` VALUES (67, 'router.completedTasks\n', '我的已办', 'Completed Tasks', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 COMMIT;
 
 -- ----------------------------
