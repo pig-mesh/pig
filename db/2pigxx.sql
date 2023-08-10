@@ -363,6 +363,7 @@ INSERT INTO `sys_i18n` VALUES (64, 'router.taskManagement\n', '任务管理', 'T
 INSERT INTO `sys_i18n` VALUES (65, 'router.myInitiations', '我的发起', 'My Initiations', ' ', '2023-08-10 13:45:17', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (66, 'router.copiedtoMe\n', '抄送给我', 'Copied to Me', ' ', '2023-08-10 13:45:46', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (67, 'router.completedTasks\n', '我的已办', 'Completed Tasks', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
+INSERT INTO `sys_i18n` VALUES (68, 'router.createFlow', '创建流程', 'Create Flow', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 COMMIT;
 
 -- ----------------------------
