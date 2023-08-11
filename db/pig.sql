@@ -246,8 +246,8 @@ CREATE TABLE `sys_log` (
   `log_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '日志类型',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志标题',
   `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '服务ID',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remote_addr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '远程地址',
@@ -264,15 +264,6 @@ CREATE TABLE `sys_log` (
   KEY `sys_log_create_date` (`create_time`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='日志表';
 
--- ----------------------------
--- Records of sys_log
--- ----------------------------
-BEGIN;
-INSERT INTO `sys_log` VALUES (1677218733317345282, '0', '更新角色菜单', NULL, 'anonymousUser', ' ', '2023-07-07 15:31:22', NULL, NULL, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '/role/menu', 'PUT', '', 46, '0', NULL);
-INSERT INTO `sys_log` VALUES (1677218768511750146, '0', '更新角色菜单', NULL, 'anonymousUser', ' ', '2023-07-07 15:31:30', NULL, NULL, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '/role/menu', 'PUT', '', 59, '0', NULL);
-INSERT INTO `sys_log` VALUES (1677218849554092033, '0', '更新角色菜单', NULL, 'anonymousUser', ' ', '2023-07-07 15:31:50', NULL, NULL, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '/role/menu', 'PUT', '', 45, '0', NULL);
-INSERT INTO `sys_log` VALUES (1677218871825846274, '0', '更新角色菜单', NULL, 'anonymousUser', ' ', '2023-07-07 15:31:55', NULL, NULL, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36', '/role/menu', 'PUT', '', 9, '0', NULL);
-COMMIT;
 
 -- ----------------------------
 -- Table structure for sys_menu

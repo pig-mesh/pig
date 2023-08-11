@@ -16,9 +16,15 @@
 
 package com.pig4cloud.pig.common.log.util;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.HttpUtil;
-import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.log.config.PigLogProperties;
+import com.pig4cloud.pig.common.log.event.SysLogEventSource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -29,10 +35,12 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -43,16 +51,23 @@ import java.util.Objects;
 @UtilityClass
 public class SysLogUtils {
 
-	public SysLog getSysLog() {
+	public SysLogEventSource getSysLog() {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
-		SysLog sysLog = new SysLog();
+		SysLogEventSource sysLog = new SysLogEventSource();
 		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
+		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
 		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
-		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
 		sysLog.setCreateBy(getUsername());
+		sysLog.setServiceId(getClientId());
+
+		// get 参数脱敏
+		PigLogProperties logProperties = SpringContextHolder.getBean(PigLogProperties.class);
+		Map<String, String[]> paramsMap = MapUtil.removeAny(request.getParameterMap(),
+				ArrayUtil.toArray(logProperties.getExcludeFields(), String.class));
+		sysLog.setParams(HttpUtil.toParams(paramsMap));
 		return sysLog;
 	}
 
@@ -98,6 +113,24 @@ public class SysLogUtils {
 			context.setVariable(parameterNames[i], arguments[i]);
 		}
 		return context;
+	}
+
+	/**
+	 * 获取客户端
+	 * @return clientId
+	 */
+	private String getClientId() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof OAuth2AuthenticatedPrincipal) {
+			OAuth2AuthenticatedPrincipal auth2Authentication = (OAuth2AuthenticatedPrincipal) principal;
+			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT_ID);
+		}
+		return null;
 	}
 
 }
