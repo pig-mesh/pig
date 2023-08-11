@@ -380,6 +380,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 * @return success/false
 	 */
 	@Override
+	@Transactional(rollbackFor = Exception.class)
 	public R<Boolean> registerUser(UserDTO userDto) {
 		// 判断用户名是否存在
 		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
