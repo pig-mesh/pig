@@ -21,18 +21,24 @@ import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.druid.DruidDataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
+import com.baomidou.dynamic.datasource.processor.DsJakartaHeaderProcessor;
+import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
+import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
 import com.pig4cloud.pigx.common.datasource.config.*;
 import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
+import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.expression.BeanFactoryResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,8 +88,16 @@ public class DynamicDataSourceAutoConfiguration {
 	 * @return 数据源处理器
 	 */
 	@Bean
-	public DsProcessor dsProcessor() {
-		return new LastParamDsProcessor();
+	public DsProcessor dsProcessor(BeanFactory beanFactory) {
+		DsProcessor lastParamDsProcessor = new LastParamDsProcessor();
+		DsProcessor headerProcessor = new DsJakartaHeaderProcessor();
+		DsProcessor sessionProcessor = new DsJakartaSessionProcessor();
+		DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
+		spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		lastParamDsProcessor.setNextProcessor(headerProcessor);
+		headerProcessor.setNextProcessor(sessionProcessor);
+		sessionProcessor.setNextProcessor(spelExpressionProcessor);
+		return lastParamDsProcessor;
 	}
 
 	/**
