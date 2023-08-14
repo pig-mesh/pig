@@ -22,9 +22,12 @@ package com.pig4cloud.pigx.common.log;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.log.aspect.SysLogAspect;
+import com.pig4cloud.pigx.common.log.config.PigXLogProperties;
 import com.pig4cloud.pigx.common.log.event.SysLogListener;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,21 +40,19 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * 日志自动配置
  */
 @EnableAsync
-@Configuration
-@AllArgsConstructor
-@ConditionalOnWebApplication
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(PigXLogProperties.class)
+@ConditionalOnProperty(value = "pigx.log.enabled", matchIfMissing = true)
 public class LogAutoConfiguration {
 
-	private final RemoteLogService remoteLogService;
-
 	@Bean
-	public SysLogListener sysLogListener() {
-		return new SysLogListener(remoteLogService);
+	public SysLogListener sysLogListener(PigXLogProperties logProperties, RemoteLogService remoteLogService) {
+		return new SysLogListener(remoteLogService, logProperties);
 	}
 
 	@Bean
-	public SysLogAspect sysLogAspect(ApplicationEventPublisher publisher, KeyStrResolver resolver) {
-		return new SysLogAspect(publisher, resolver);
+	public SysLogAspect sysLogAspect(KeyStrResolver resolver) {
+		return new SysLogAspect(resolver);
 	}
 
 }

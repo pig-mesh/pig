@@ -1,44 +1,46 @@
 /*
+ * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *  Redistribution and use in source and binary forms, with or without
- *  modification, are permitted provided that the following conditions are met:
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Redistributions of source code must retain the above copyright notice,
- *  this list of conditions and the following disclaimer.
- *  Redistributions in binary form must reproduce the above copyright
- *  notice, this list of conditions and the following disclaimer in the
- *  documentation and/or other materials provided with the distribution.
- *  Neither the name of the pig4cloud.com developer nor the names of its
- *  contributors may be used to endorse or promote products derived from
- *  this software without specific prior written permission.
- *  Author: lengleng (wangiegie@gmail.com)
- *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.pig4cloud.pigx.common.log.util;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.log.config.PigXLogProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.Expression;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
+import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -53,33 +55,20 @@ public class SysLogUtils {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
 		SysLogDTO sysLog = new SysLogDTO();
-		sysLog.setCreateBy(getUsername());
 		sysLog.setLogType(LogTypeEnum.NORMAL.getType());
-		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
 		sysLog.setRequestUri(URLUtil.getPath(request.getRequestURI()));
 		sysLog.setMethod(request.getMethod());
-		sysLog.setUserAgent(request.getHeader("user-agent"));
-		sysLog.setParams(HttpUtil.toParams(request.getParameterMap()));
+		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
+		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
+		sysLog.setCreateBy(getUsername());
 		sysLog.setServiceId(getClientId());
+
+		// get 参数脱敏
+		PigXLogProperties logProperties = SpringUtil.getBean(PigXLogProperties.class);
+		Map<String, String[]> paramsMap = MapUtil.removeAny(request.getParameterMap(),
+				ArrayUtil.toArray(logProperties.getExcludeFields(), String.class));
+		sysLog.setParams(HttpUtil.toParams(paramsMap));
 		return sysLog;
-	}
-
-	/**
-	 * 获取客户端
-	 * @return clientId
-	 */
-	private String getClientId() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof OAuth2AuthenticatedPrincipal) {
-			OAuth2AuthenticatedPrincipal auth2Authentication = (OAuth2AuthenticatedPrincipal) principal;
-			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT_ID);
-		}
-		return null;
 	}
 
 	/**
@@ -124,6 +113,24 @@ public class SysLogUtils {
 			context.setVariable(parameterNames[i], arguments[i]);
 		}
 		return context;
+	}
+
+	/**
+	 * 获取客户端
+	 * @return clientId
+	 */
+	private String getClientId() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication == null) {
+			return null;
+		}
+
+		Object principal = authentication.getPrincipal();
+		if (principal instanceof OAuth2AuthenticatedPrincipal) {
+			OAuth2AuthenticatedPrincipal auth2Authentication = (OAuth2AuthenticatedPrincipal) principal;
+			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT_ID);
+		}
+		return null;
 	}
 
 }
