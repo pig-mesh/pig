@@ -42,6 +42,7 @@
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
         <jasypt.version>3.0.5</jasypt.version>
+        <jaxb.version>2.3.5</jaxb.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <xxl-job.version>2.3.1</xxl-job.version>
         <docker.plugin.version>0.32.0</docker.plugin.version>
@@ -85,6 +86,12 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <!-- JAVA 17 -->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${jaxb.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
