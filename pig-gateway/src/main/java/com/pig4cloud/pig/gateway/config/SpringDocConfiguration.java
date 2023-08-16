@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
 import org.springdoc.core.properties.SwaggerUiConfigProperties;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnProperty("springdoc.api-docs.enabled")
 public class SpringDocConfiguration implements InitializingBean {
 
 	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
