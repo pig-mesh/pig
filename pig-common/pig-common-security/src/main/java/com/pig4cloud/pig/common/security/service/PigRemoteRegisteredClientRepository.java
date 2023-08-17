@@ -86,16 +86,15 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	public RegisteredClient findByClientId(String clientId) {
 
 		SysOauthClientDetails clientDetails = RetOps
-				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
-				.getData()
-				.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
-						new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
+			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.getData()
+			.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
+					new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
 
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
-				.clientId(clientDetails.getClientId())
-				.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-
+			.clientId(clientDetails.getClientId())
+			.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
+			.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
 
 		for (String authorizedGrantType : clientDetails.getAuthorizedGrantTypes()) {
 			builder.authorizationGrantType(new AuthorizationGrantType(authorizedGrantType));
@@ -103,28 +102,28 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 
 		// 回调地址
 		Optional.ofNullable(clientDetails.getWebServerRedirectUri())
-				.ifPresent(redirectUri -> Arrays.stream(redirectUri.split(StrUtil.COMMA))
-						.filter(StrUtil::isNotBlank)
-						.forEach(builder::redirectUri));
+			.ifPresent(redirectUri -> Arrays.stream(redirectUri.split(StrUtil.COMMA))
+				.filter(StrUtil::isNotBlank)
+				.forEach(builder::redirectUri));
 
 		// scope
 		Optional.ofNullable(clientDetails.getScope())
-				.ifPresent(scope -> Arrays.stream(scope.split(StrUtil.COMMA))
-						.filter(StrUtil::isNotBlank)
-						.forEach(builder::scope));
+			.ifPresent(scope -> Arrays.stream(scope.split(StrUtil.COMMA))
+				.filter(StrUtil::isNotBlank)
+				.forEach(builder::scope));
 
 		return builder
-				.tokenSettings(TokenSettings.builder()
-						.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-						.accessTokenTimeToLive(Duration.ofSeconds(
-								Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
-						.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
-								.orElse(refreshTokenValiditySeconds)))
-						.build())
-				.clientSettings(ClientSettings.builder()
-						.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
-						.build())
-				.build();
+			.tokenSettings(TokenSettings.builder()
+				.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+				.accessTokenTimeToLive(Duration.ofSeconds(
+						Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
+				.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
+					.orElse(refreshTokenValiditySeconds)))
+				.build())
+			.clientSettings(ClientSettings.builder()
+				.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
+				.build())
+			.build();
 
 	}
 
