@@ -24,10 +24,10 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 岗位管理表 mapper接口
+ * 岗位信息表
  *
  * @author fxz
- * @date 2022-03-15 17:18:40
+ * @date 2022-03-26 12:50:43
  */
 @Mapper
 public interface SysPostMapper extends BaseMapper<SysPost> {

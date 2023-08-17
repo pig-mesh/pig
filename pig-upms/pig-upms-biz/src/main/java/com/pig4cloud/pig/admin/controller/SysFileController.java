@@ -19,7 +19,7 @@ package com.pig4cloud.pig.admin.controller;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
@@ -30,26 +30,26 @@ import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import javax.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * 文件管理
  *
  * @author Luckly
- * @date 2021-09-11
+ * @date 2019-06-18 17:18:42
  */
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/sys-file")
-@Tag(name = "文件管理模块")
+@Tag(description = "sys-file", name = "文件管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysFileController {
 
@@ -63,22 +63,26 @@ public class SysFileController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R<IPage<SysFile>> getSysFilePage(Page page, SysFile sysFile) {
-		return R.ok(sysFileService.page(page, Wrappers.<SysFile>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysFile.getFileName()), SysFile::getFileName, sysFile.getFileName())));
+	public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
+		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
+			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
+		return R.ok(sysFileService.page(page, wrapper));
 	}
 
 	/**
 	 * 通过id删除文件管理
-	 * @param id id
+	 * @param ids id 列表
 	 * @return R
 	 */
 	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
-	@DeleteMapping("/{id:\\d+}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_file_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
-		return R.ok(sysFileService.deleteFile(id));
+	public R removeById(@RequestBody Long[] ids) {
+		for (Long id : ids) {
+			sysFileService.deleteFile(id);
+		}
+		return R.ok();
 	}
 
 	/**
@@ -110,23 +114,11 @@ public class SysFileController {
 	 * @param response 本地文件
 	 */
 	@SneakyThrows
-	@GetMapping("/local/{fileName}")
+	@GetMapping("/local/file/{fileName}")
 	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
 		ClassPathResource resource = new ClassPathResource("file/" + fileName);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.copy(resource.getInputStream(), response.getOutputStream());
-	}
-
-	/**
-	 * 获取文件外网的访问地址
-	 * @param bucket
-	 * @param fileName
-	 * @return
-	 */
-	@Inner(false)
-	@GetMapping("/online/{bucket}/{fileName}")
-	public R<String> onlineFile(@PathVariable String bucket, @PathVariable String fileName) {
-		return R.ok(sysFileService.onlineFile(bucket, fileName));
 	}
 
 }

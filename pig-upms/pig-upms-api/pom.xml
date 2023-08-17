@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-upms</artifactId>
-        <version>3.6.7</version>
+        <version>3.7.0-JDK8</version>
     </parent>
 
     <artifactId>pig-upms-api</artifactId>
@@ -36,15 +36,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-core</artifactId>
         </dependency>
-        <!--swagger-->
-        <dependency>
-            <groupId>io.swagger.core.v3</groupId>
-            <artifactId>swagger-annotations</artifactId>
-        </dependency>
         <!--feign 注解依赖-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-feign</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-openfeign-core</artifactId>
             <optional>true</optional>
         </dependency>
         <!--mybatis 依赖-->

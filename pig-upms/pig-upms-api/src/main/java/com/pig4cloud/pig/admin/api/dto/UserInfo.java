@@ -1,67 +1,54 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.api.dto;
 
-import com.pig4cloud.pig.admin.api.entity.SysPost;
-import com.pig4cloud.pig.admin.api.entity.SysRole;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author lengleng
- * @date 2019/2/1
- * <p>
- * commit('SET_ROLES', data) commit('SET_NAME', data) commit('SET_AVATAR', data)
- * commit('SET_INTRODUCTION', data) commit('SET_PERMISSIONS', data)
+ * @date 2017/11/11
  */
 @Data
+@Schema(description = "用户信息")
 public class UserInfo implements Serializable {
 
 	/**
 	 * 用户基本信息
 	 */
+	@Schema(description = "用户基本信息")
 	private SysUser sysUser;
 
 	/**
 	 * 权限标识集合
 	 */
+	@Schema(description = "权限标识集合")
 	private String[] permissions;
 
 	/**
 	 * 角色集合
 	 */
+	@Schema(description = "角色标识集合")
 	private Long[] roles;
-
-	/**
-	 * 角色集合
-	 */
-	private List<SysRole> roleList;
-
-	/**
-	 * 岗位集合
-	 */
-	private Long[] posts;
-
-	/**
-	 * 岗位集合
-	 */
-	private List<SysPost> postList;
 
 }

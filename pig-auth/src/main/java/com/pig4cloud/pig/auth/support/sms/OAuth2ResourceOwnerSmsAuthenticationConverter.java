@@ -3,13 +3,13 @@ package com.pig4cloud.pig.auth.support.sms;
 import com.pig4cloud.pig.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationConverter;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,13 +29,13 @@ public class OAuth2ResourceOwnerSmsAuthenticationConverter
 	 */
 	@Override
 	public boolean support(String grantType) {
-		return SecurityConstants.APP.equals(grantType);
+		return SecurityConstants.MOBILE.equals(grantType);
 	}
 
 	@Override
 	public OAuth2ResourceOwnerSmsAuthenticationToken buildToken(Authentication clientPrincipal, Set requestedScopes,
 			Map additionalParameters) {
-		return new OAuth2ResourceOwnerSmsAuthenticationToken(new AuthorizationGrantType(SecurityConstants.APP),
+		return new OAuth2ResourceOwnerSmsAuthenticationToken(new AuthorizationGrantType(SecurityConstants.MOBILE),
 				clientPrincipal, requestedScopes, additionalParameters);
 	}
 

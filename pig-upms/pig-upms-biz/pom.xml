@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-upms</artifactId>
-        <version>3.6.7</version>
+        <version>3.7.0-JDK8</version>
     </parent>
 
     <artifactId>pig-upms-biz</artifactId>
@@ -37,8 +37,8 @@
         </dependency>
         <!--文件管理-->
         <dependency>
-            <groupId>com.pig4cloud.plugin</groupId>
-            <artifactId>oss-spring-boot-starter</artifactId>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-oss</artifactId>
         </dependency>
         <!--feign 调用-->
         <dependency>

@@ -3,7 +3,6 @@ package com.pig4cloud.pig.auth.support.base;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pig.common.security.util.ScopeException;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -36,7 +35,6 @@ import java.util.function.Supplier;
  *
  * 处理自定义授权
  */
-@Slf4j
 public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OAuth2ResourceOwnerBaseAuthenticationToken>
 		implements AuthenticationProvider {
 
@@ -111,29 +109,29 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		T resourceOwnerBaseAuthentication = (T) authentication;
+		T resouceOwnerBaseAuthentication = (T) authentication;
 
 		OAuth2ClientAuthenticationToken clientPrincipal = getAuthenticatedClientElseThrowInvalidClient(
-				resourceOwnerBaseAuthentication);
+				resouceOwnerBaseAuthentication);
 
 		RegisteredClient registeredClient = clientPrincipal.getRegisteredClient();
 		checkClient(registeredClient);
 
 		Set<String> authorizedScopes;
 		// Default to configured scopes
-		if (!CollectionUtils.isEmpty(resourceOwnerBaseAuthentication.getScopes())) {
-			for (String requestedScope : resourceOwnerBaseAuthentication.getScopes()) {
+		if (!CollectionUtils.isEmpty(resouceOwnerBaseAuthentication.getScopes())) {
+			for (String requestedScope : resouceOwnerBaseAuthentication.getScopes()) {
 				if (!registeredClient.getScopes().contains(requestedScope)) {
 					throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_SCOPE);
 				}
 			}
-			authorizedScopes = new LinkedHashSet<>(resourceOwnerBaseAuthentication.getScopes());
+			authorizedScopes = new LinkedHashSet<>(resouceOwnerBaseAuthentication.getScopes());
 		}
 		else {
-			throw new ScopeException(OAuth2ErrorCodesExpand.SCOPE_IS_EMPTY);
+			authorizedScopes = new LinkedHashSet<>();
 		}
 
-		Map<String, Object> reqParameters = resourceOwnerBaseAuthentication.getAdditionalParameters();
+		Map<String, Object> reqParameters = resouceOwnerBaseAuthentication.getAdditionalParameters();
 		try {
 
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = buildToken(reqParameters);
@@ -149,14 +147,14 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 					.principal(usernamePasswordAuthentication)
 					.authorizationServerContext(AuthorizationServerContextHolder.getContext())
 					.authorizedScopes(authorizedScopes)
-					.authorizationGrantType(resourceOwnerBaseAuthentication.getAuthorizationGrantType())
-					.authorizationGrant(resourceOwnerBaseAuthentication);
+					.authorizationGrantType(AuthorizationGrantType.PASSWORD)
+					.authorizationGrant(resouceOwnerBaseAuthentication);
 			// @formatter:on
 
 			OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
 				.withRegisteredClient(registeredClient)
 				.principalName(usernamePasswordAuthentication.getName())
-				.authorizationGrantType(resourceOwnerBaseAuthentication.getAuthorizationGrantType())
+				.authorizationGrantType(AuthorizationGrantType.PASSWORD)
 				// 0.4.0 新增的方法
 				.authorizedScopes(authorizedScopes);
 
@@ -219,6 +217,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 
 		}
 		catch (Exception ex) {
+			LOGGER.error("problem in authenticate", ex);
 			throw oAuth2AuthenticationException(authentication, (AuthenticationException) ex);
 		}
 
@@ -266,10 +265,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 			return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.INVALID_SCOPE,
 					this.messages.getMessage("AbstractAccessDecisionManager.accessDenied", "invalid_scope"), ""));
 		}
-
-		log.error(authenticationException.getLocalizedMessage());
-		return new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR),
-				authenticationException.getLocalizedMessage(), authenticationException);
+		return new OAuth2AuthenticationException(OAuth2ErrorCodesExpand.UN_KNOW_LOGIN_ERROR);
 	}
 
 	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(

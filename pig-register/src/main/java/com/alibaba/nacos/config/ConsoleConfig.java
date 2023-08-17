@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.config;
 
-import com.alibaba.nacos.console.filter.XssFilter;
 import com.alibaba.nacos.core.code.ControllerMethodsCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -65,15 +64,9 @@ public class ConsoleConfig {
 		config.addAllowedHeader("*");
 		config.setMaxAge(18000L);
 		config.addAllowedMethod("*");
-		config.addAllowedOriginPattern("*");
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", config);
 		return new CorsFilter(source);
-	}
-
-	@Bean
-	public XssFilter xssFilter() {
-		return new XssFilter();
 	}
 
 	@Bean

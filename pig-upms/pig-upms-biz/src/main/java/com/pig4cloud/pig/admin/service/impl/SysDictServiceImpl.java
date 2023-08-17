@@ -1,20 +1,22 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.admin.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysDict;
@@ -26,11 +28,14 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
-import lombok.RequiredArgsConstructor;
+import com.pig4cloud.pig.common.core.util.R;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 字典表
@@ -39,26 +44,31 @@ import org.springframework.util.Assert;
  * @date 2019/03/19
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
 	private final SysDictItemMapper dictItemMapper;
 
 	/**
 	 * 根据ID 删除字典
-	 * @param id 字典ID
+	 * @param ids 字典ID 列表
 	 * @return
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public void removeDict(Long id) {
-		SysDict dict = this.getById(id);
-		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()),
-				MsgUtils.getMessage(ErrorCodes.SYS_DICT_DELETE_SYSTEM));
-		baseMapper.deleteById(id);
-		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().eq(SysDictItem::getDictId, id));
+	public R removeDictByIds(Long[] ids) {
+
+		List<Long> dictIdList = baseMapper.selectBatchIds(CollUtil.toList(ids))
+			.stream()
+			.filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
+			.map(SysDict::getId)
+			.collect(Collectors.toList());
+
+		baseMapper.deleteBatchIds(dictIdList);
+
+		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList));
+		return R.ok();
 	}
 
 	/**
@@ -67,19 +77,25 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictKey")
-	public void updateDict(SysDict dict) {
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictType")
+	public R updateDict(SysDict dict) {
 		SysDict sysDict = this.getById(dict.getId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag()),
-				MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
+		if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag())) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
+		}
 		this.updateById(dict);
+		return R.ok(dict);
 	}
 
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public void clearDictCache() {
-
+	public R syncDictCache() {
+		return R.ok();
 	}
 
 }

@@ -9,12 +9,20 @@ services:
     restart: always
     container_name: pig-mysql
     image: pig-mysql
+    ports:
+      - 3306:3306
+    networks:
+      - spring_cloud_default
 
   pig-redis:
     image: redis:7.0.0
+    ports:
+      - 6379:6379
     restart: always
     container_name: pig-redis
     hostname: pig-redis
+    networks:
+      - spring_cloud_default
 
   pig-register:
     build:
@@ -25,6 +33,8 @@ services:
     container_name: pig-register
     hostname: pig-register
     image: pig-register
+    networks:
+      - spring_cloud_default
 
   pig-gateway:
     build:
@@ -35,6 +45,8 @@ services:
     container_name: pig-gateway
     hostname: pig-gateway
     image: pig-gateway
+    networks:
+      - spring_cloud_default
 
   pig-auth:
     build:
@@ -43,6 +55,8 @@ services:
     container_name: pig-auth
     hostname: pig-auth
     image: pig-auth
+    networks:
+      - spring_cloud_default
 
   pig-upms:
     build:
@@ -51,6 +65,8 @@ services:
     container_name: pig-upms
     hostname: pig-upms
     image: pig-upms
+    networks:
+      - spring_cloud_default
 
   pig-monitor:
     build:
@@ -61,15 +77,8 @@ services:
     container_name: pig-monitor
     hostname: pig-monitor
     image: pig-monitor
-
-  pig-sentinel:
-    build:
-      context: ./pig-visual/pig-sentinel-dashboard
-    restart: always
-    image: pig-sentinel
-    container_name: pig-sentinel
-    ports:
-      - 5003:5003
+    networks:
+      - spring_cloud_default
 
   pig-codegen:
     build:
@@ -78,13 +87,19 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
+    networks:
+      - spring_cloud_default
 
-  pig-job:
+  pig-quartz:
     build:
-      context: ./pig-visual/pig-xxl-job-admin
+      context: ./pig-visual/pig-quartz
     restart: always
-    container_name: pig-job
-    hostname: pig-job
-    image: pig-job
-    ports:
-      - 5004:5004
+    image: pig-quartz
+    container_name: pig-quartz
+    networks:
+      - spring_cloud_default
+
+networks:
+  spring_cloud_default:
+    name:  spring_cloud_default
+    driver: bridge

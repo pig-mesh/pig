@@ -1,109 +1,95 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.controller;
 
-import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
-import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
-import com.pig4cloud.pig.admin.api.vo.UserInfoVO;
-import com.pig4cloud.pig.admin.api.vo.UserVO;
 import com.pig4cloud.pig.admin.service.SysUserService;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
-import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author lengleng
- * @date 2019/2/1
+ * @date 2018/12/16
  */
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/user")
-@Tag(name = "用户管理模块")
+@Tag(description = "user", name = "用户管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysUserController {
 
 	private final SysUserService userService;
 
 	/**
+	 * 获取指定用户全部信息
+	 * @return 用户信息
+	 */
+	@Inner
+	@GetMapping(value = { "/info/query" })
+	public R info(@RequestParam(required = false) String username, @RequestParam(required = false) String phone) {
+		SysUser user = userService.getOne(Wrappers.<SysUser>query()
+			.lambda()
+			.eq(StrUtil.isNotBlank(username), SysUser::getUsername, username)
+			.eq(StrUtil.isNotBlank(phone), SysUser::getPhone, phone));
+		if (user == null) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
+		}
+		return R.ok(userService.findUserInfo(user));
+	}
+
+	/**
 	 * 获取当前用户全部信息
 	 * @return 用户信息
 	 */
 	@GetMapping(value = { "/info" })
-	public R<UserInfoVO> info() {
+	public R info() {
 		String username = SecurityUtils.getUser().getUsername();
 		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
 		if (user == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
 		}
-		UserInfo userInfo = userService.getUserInfo(user);
-		UserInfoVO vo = new UserInfoVO();
-		vo.setSysUser(userInfo.getSysUser());
-		vo.setRoles(userInfo.getRoles());
-		vo.setPermissions(userInfo.getPermissions());
-		return R.ok(vo);
-	}
-
-	/**
-	 * 获取指定用户全部信息
-	 * @return 用户信息
-	 */
-	@Inner
-	@GetMapping("/info/{username}")
-	public R<UserInfo> info(@PathVariable String username) {
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
-		if (user == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
-		}
-		return R.ok(userService.getUserInfo(user));
-	}
-
-	/**
-	 * 根据部门id，查询对应的用户 id 集合
-	 * @param deptIds 部门id 集合
-	 * @return 用户 id 集合
-	 */
-	@Inner
-	@GetMapping("/ids")
-	public R<List<Long>> listUserIdByDeptIds(@RequestParam("deptIds") Set<Long> deptIds) {
-		return R.ok(userService.listUserIdByDeptIds(deptIds));
+		return R.ok(userService.findUserInfo(user));
 	}
 
 	/**
@@ -111,37 +97,34 @@ public class SysUserController {
 	 * @param id ID
 	 * @return 用户信息
 	 */
-	@GetMapping("/{id:\\d+}")
-	public R<UserVO> user(@PathVariable Long id) {
-		return R.ok(userService.getUserVoById(id));
+	@GetMapping("/details/{id}")
+	public R user(@PathVariable Long id) {
+		return R.ok(userService.selectUserVoById(id));
 	}
 
 	/**
-	 * 判断用户是否存在
-	 * @param userDTO 查询条件
-	 * @return
+	 * 查询用户信息
+	 * @param query 查询条件
+	 * @return 不为空返回用户名
 	 */
-	@Inner(false)
-	@GetMapping("/check/exist")
-	public R<Boolean> isExist(UserDTO userDTO) {
-		List<SysUser> sysUserList = userService.list(new QueryWrapper<>(userDTO));
-		if (CollUtil.isNotEmpty(sysUserList)) {
-			return R.ok(Boolean.TRUE, MsgUtils.getMessage(ErrorCodes.SYS_USER_EXISTING));
-		}
-		return R.ok(Boolean.FALSE);
+	@Inner(value = false)
+	@GetMapping("/details")
+	public R getDetails(@ParameterObject SysUser query) {
+		SysUser sysUser = userService.getOne(Wrappers.query(query), false);
+		return R.ok(sysUser == null ? null : CommonConstants.SUCCESS);
 	}
 
 	/**
 	 * 删除用户信息
-	 * @param id ID
+	 * @param ids ID
 	 * @return R
 	 */
 	@SysLog("删除用户信息")
-	@DeleteMapping("/{id:\\d+}")
+	@DeleteMapping
 	@PreAuthorize("@pms.hasPermission('sys_user_del')")
-	public R<Boolean> userDel(@PathVariable Long id) {
-		SysUser sysUser = userService.getById(id);
-		return R.ok(userService.removeUserById(sysUser));
+	@Operation(summary = "删除用户", description = "根据ID删除用户")
+	public R userDel(@RequestBody Long[] ids) {
+		return R.ok(userService.deleteUserByIds(ids));
 	}
 
 	/**
@@ -151,23 +134,21 @@ public class SysUserController {
 	 */
 	@SysLog("添加用户")
 	@PostMapping
-	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_add')")
-	public R<Boolean> user(@RequestBody UserDTO userDto) {
+	public R user(@RequestBody UserDTO userDto) {
 		return R.ok(userService.saveUser(userDto));
 	}
 
 	/**
-	 * 管理员更新用户信息
+	 * 更新用户信息
 	 * @param userDto 用户信息
 	 * @return R
 	 */
 	@SysLog("更新用户信息")
 	@PutMapping
-	@XssCleanIgnore({ "password" })
 	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
-	public R<Boolean> updateUser(@Valid @RequestBody UserDTO userDto) {
-		return userService.updateUser(userDto);
+	public R updateUser(@Valid @RequestBody UserDTO userDto) {
+		return R.ok(userService.updateUser(userDto));
 	}
 
 	/**
@@ -177,30 +158,19 @@ public class SysUserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
-	public R<IPage<UserVO>> getUserPage(Page page, UserDTO userDTO) {
-		return R.ok(userService.getUserWithRolePage(page, userDTO));
+	public R getUserPage(@ParameterObject Page page, @ParameterObject UserDTO userDTO) {
+		return R.ok(userService.getUsersWithRolePage(page, userDTO));
 	}
 
 	/**
-	 * 个人修改个人信息
+	 * 修改个人信息
 	 * @param userDto userDto
 	 * @return success/false
 	 */
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
-	@XssCleanIgnore({ "password", "newpassword1" })
-	public R<Boolean> updateUserInfo(@Valid @RequestBody UserDTO userDto) {
-		userDto.setUsername(SecurityUtils.getUser().getUsername());
+	public R updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUserInfo(userDto);
-	}
-
-	/**
-	 * @param username 用户名称
-	 * @return 上级部门用户列表
-	 */
-	@GetMapping("/ancestor/{username}")
-	public R<List<SysUser>> listAncestorUsers(@PathVariable String username) {
-		return R.ok(userService.listAncestorUsersByUsername(username));
 	}
 
 	/**
@@ -210,8 +180,8 @@ public class SysUserController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
-	public List<UserExcelVO> export(UserDTO userDTO) {
+	@PreAuthorize("@pms.hasPermission('sys_user_export')")
+	public List export(UserDTO userDTO) {
 		return userService.listUser(userDTO);
 	}
 
@@ -222,9 +192,32 @@ public class SysUserController {
 	 * @return R
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
+	@PreAuthorize("@pms.hasPermission('sys_user_export')")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
+	}
+
+	/**
+	 * 锁定指定用户
+	 * @param username 用户名
+	 * @return R
+	 */
+	@Inner
+	@PutMapping("/lock/{username}")
+	public R lockUser(@PathVariable String username) {
+		return userService.lockUser(username);
+	}
+
+	@PutMapping("/password")
+	public R password(@RequestBody UserDTO userDto) {
+		String username = SecurityUtils.getUser().getUsername();
+		userDto.setUsername(username);
+		return userService.changePassword(userDto);
+	}
+
+	@PostMapping("/check")
+	public R check(String password) {
+		return userService.checkPassword(password);
 	}
 
 }

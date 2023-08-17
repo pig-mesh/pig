@@ -36,6 +36,9 @@ public class ApplicationLoggerInitializer implements EnvironmentPostProcessor, O
 
 		// spring boot admin 直接加载日志
 		System.setProperty("logging.file.name", String.format("%s/%s/debug.log", logBase, appName));
+
+		// 避免 sentinel 1.8.4+ 心跳日志过大
+		System.setProperty("csp.sentinel.log.level", "OFF");
 	}
 
 	@Override

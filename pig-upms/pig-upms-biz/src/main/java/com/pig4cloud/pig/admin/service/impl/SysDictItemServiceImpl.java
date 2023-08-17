@@ -1,17 +1,18 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.admin.service.impl;
 
@@ -25,10 +26,10 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
-import lombok.RequiredArgsConstructor;
+import com.pig4cloud.pig.common.core.util.R;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 /**
  * 字典项
@@ -37,7 +38,7 @@ import org.springframework.util.Assert;
  * @date 2019/03/19
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDictItem> implements SysDictItemService {
 
 	private final SysDictService dictService;
@@ -49,14 +50,15 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public void removeDictItem(Long id) {
+	public R removeDictItem(Long id) {
 		// 根据ID查询字典ID
 		SysDictItem dictItem = this.getById(id);
 		SysDict dict = dictService.getById(dictItem.getDictId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()),
-				MsgUtils.getMessage(ErrorCodes.SYS_DICT_DELETE_SYSTEM));
-		this.removeById(id);
+		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_DICT_DELETE_SYSTEM));
+		}
+		return R.ok(this.removeById(id));
 	}
 
 	/**
@@ -65,14 +67,15 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#item.dictKey")
-	public void updateDictItem(SysDictItem item) {
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#item.dictType")
+	public R updateDictItem(SysDictItem item) {
 		// 查询字典
 		SysDict dict = dictService.getById(item.getDictId());
 		// 系统内置
-		Assert.state(!DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag()),
-				MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
-		this.updateById(item);
+		if (DictTypeEnum.SYSTEM.getType().equals(dict.getSystemFlag())) {
+			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_DICT_UPDATE_SYSTEM));
+		}
+		return R.ok(this.updateById(item));
 	}
 
 }

@@ -1,23 +1,28 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pig.common.core.util.R;
 
 /**
  * <p>
@@ -25,27 +30,36 @@ import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2018-05-15
  */
 public interface SysOauthClientDetailsService extends IService<SysOauthClientDetails> {
 
 	/**
-	 * 通过ID删除客户端
-	 * @param id
+	 * 根据客户端信息
+	 * @param clientDetails
 	 * @return
 	 */
-	Boolean removeClientDetailsById(String id);
+	Boolean updateClientById(SysOauthClientDetails clientDetails);
 
 	/**
-	 * 修改客户端信息
-	 * @param sysOauthClientDetails
+	 * 添加客户端
+	 * @param clientDetails
 	 * @return
 	 */
-	Boolean updateClientDetailsById(SysOauthClientDetails sysOauthClientDetails);
+	Boolean saveClient(SysOauthClientDetails clientDetails);
 
 	/**
-	 * 清除客户端缓存
+	 * 分页查询客户端信息
+	 * @param page
+	 * @param query
+	 * @return
 	 */
-	void clearClientCache();
+	Page queryPage(Page page, SysOauthClientDetails query);
+
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
+	R syncClientCache();
 
 }

@@ -4,9 +4,9 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.plugin.excel.annotation.ExcelLine;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class UserExcelVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * excel 行号
+	 * 导入时候回显行号
 	 */
 	@ExcelLine
 	@ExcelIgnore
@@ -50,6 +50,27 @@ public class UserExcelVO implements Serializable {
 	private String phone;
 
 	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "昵称不能为空")
+	@ExcelProperty("昵称")
+	private String nickname;
+
+	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "姓名不能为空")
+	@ExcelProperty("姓名")
+	private String name;
+
+	/**
+	 * 手机号
+	 */
+	@NotBlank(message = "邮箱不能为空")
+	@ExcelProperty("邮箱")
+	private String email;
+
+	/**
 	 * 部门名称
 	 */
 	@NotBlank(message = "部门名称不能为空")
@@ -64,10 +85,10 @@ public class UserExcelVO implements Serializable {
 	private String roleNameList;
 
 	/**
-	 * 岗位列表
+	 * 角色列表
 	 */
 	@NotBlank(message = "岗位不能为空")
-	@ExcelProperty("岗位")
+	@ExcelProperty("岗位名称")
 	private String postNameList;
 
 	/**

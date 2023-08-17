@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-visual</artifactId>
-		<version>3.6.7</version>
+		<version>3.7.0-JDK8</version>
 	</parent>
 
 	<artifactId>pig-codegen</artifactId>
@@ -66,6 +66,10 @@
 		</dependency>
 		<!--common-->
 		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-json</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-core</artifactId>
 		</dependency>
@@ -94,6 +98,12 @@
 			<groupId>org.apache.velocity.tools</groupId>
 			<artifactId>velocity-tools-generic</artifactId>
 			<version>${velocity.tool.version}</version>
+		</dependency>
+		<!--生成文档-->
+		<dependency>
+			<groupId>io.springboot.plugin</groupId>
+			<artifactId>screw-spring-boot-starter</artifactId>
+			<version>${screw.version}</version>
 		</dependency>
 		<!--undertow容器-->
 		<dependency>

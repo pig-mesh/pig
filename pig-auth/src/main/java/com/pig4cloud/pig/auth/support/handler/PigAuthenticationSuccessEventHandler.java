@@ -24,24 +24,23 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
+import com.pig4cloud.pig.common.security.component.PigCustomOAuth2AccessTokenResponseHttpMessageConverter;
 import com.pig4cloud.pig.common.security.service.PigUser;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AccessTokenAuthenticationToken;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
@@ -53,7 +52,7 @@ import java.util.Map;
 @Slf4j
 public class PigAuthenticationSuccessEventHandler implements AuthenticationSuccessHandler {
 
-	private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
+	private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new PigCustomOAuth2AccessTokenResponseHttpMessageConverter();
 
 	/**
 	 * Called when a user has been successfully authenticated.
@@ -72,10 +71,7 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			// 发送异步日志事件
 			PigUser userInfo = (PigUser) map.get(SecurityConstants.DETAILS_USER);
 			log.info("用户：{} 登录成功", userInfo.getName());
-			// 避免 race condition
-			SecurityContext context = SecurityContextHolder.createEmptyContext();
-			context.setAuthentication(accessTokenAuthentication);
-			SecurityContextHolder.setContext(context);
+			SecurityContextHolder.getContext().setAuthentication(accessTokenAuthentication);
 			SysLog logVo = SysLogUtils.getSysLog();
 			logVo.setTitle("登录成功");
 			String startTimeStr = request.getHeader(CommonConstants.REQUEST_START_TIME);
@@ -84,10 +80,7 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 				Long endTime = System.currentTimeMillis();
 				logVo.setTime(endTime - startTime);
 			}
-
-			logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
 			logVo.setCreateBy(userInfo.getName());
-			logVo.setUpdateBy(userInfo.getName());
 			SpringContextHolder.publishEvent(new SysLogEvent(logVo));
 		}
 
@@ -121,6 +114,7 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 
 		// 无状态 注意删除 context 上下文的信息
 		SecurityContextHolder.clearContext();
+
 		this.accessTokenHttpResponseConverter.write(accessTokenResponse, null, httpResponse);
 	}
 

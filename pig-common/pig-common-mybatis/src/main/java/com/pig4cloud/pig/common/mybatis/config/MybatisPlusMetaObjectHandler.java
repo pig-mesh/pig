@@ -2,8 +2,10 @@ package com.pig4cloud.pig.common.mybatis.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ClassUtils;
@@ -25,10 +27,13 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		log.debug("mybatis plus start insert fill ....");
 		LocalDateTime now = LocalDateTime.now();
 
-		fillValIfNullByName("createTime", now, metaObject, false);
-		fillValIfNullByName("updateTime", now, metaObject, false);
-		fillValIfNullByName("createBy", getUserName(), metaObject, false);
-		fillValIfNullByName("updateBy", getUserName(), metaObject, false);
+		fillValIfNullByName("createTime", now, metaObject, true);
+		fillValIfNullByName("updateTime", now, metaObject, true);
+		fillValIfNullByName("createBy", getUserName(), metaObject, true);
+		fillValIfNullByName("updateBy", getUserName(), metaObject, true);
+
+		// 删除标记自动填充
+		fillValIfNullByName("delFlag", CommonConstants.STATUS_NORMAL, metaObject, true);
 	}
 
 	@Override
@@ -46,6 +51,11 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	 * @param isCover 是否覆盖原有值,避免更新操作手动入参
 	 */
 	private static void fillValIfNullByName(String fieldName, Object fieldVal, MetaObject metaObject, boolean isCover) {
+		// 0. 如果填充值为空
+		if (fieldVal == null) {
+			return;
+		}
+
 		// 1. 没有 set 方法
 		if (!metaObject.hasSetter(fieldName)) {
 			return;
@@ -69,9 +79,15 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	 */
 	private String getUserName() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		// 匿名接口直接返回
+		if (authentication instanceof AnonymousAuthenticationToken) {
+			return null;
+		}
+
 		if (Optional.ofNullable(authentication).isPresent()) {
 			return authentication.getName();
 		}
+
 		return null;
 	}
 

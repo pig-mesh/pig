@@ -41,11 +41,11 @@
 | 依赖                          | 版本         |
 |-----------------------------|------------|
 | Spring Boot                 | 2.7.13     |
-| Spring Cloud                | 2021.0.7   |
+| Spring Cloud                | 2021.0.8   |
 | Spring Cloud Alibaba        | 2021.0.5.0 |
 | Spring Authorization Server | 0.4.3      |
 | Mybatis Plus                | 3.5.3.1    |
-| hutool                      | 5.8.20     |
+| hutool                      | 5.8.1      |
 
 ### 模块说明
 
@@ -60,6 +60,7 @@ pig
      ├── pig-common-datasource -- 动态数据源包
      ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
+     ├── pig-common-oss -- 文件上传工具类
      ├── pig-common-mybatis -- mybatis 扩展封装
      ├── pig-common-seata -- 分布式事务
      ├── pig-common-security -- 安全工具类
@@ -74,8 +75,7 @@ pig
 └── pig-visual
      └── pig-monitor -- 服务监控 [5001]
      ├── pig-codegen -- 图形化代码生成 [5002]
-     ├── pig-sentinel-dashboard -- 流量高可用 [5003]
-     └── pig-xxl-job-admin -- 分布式定时任务管理台 [5004]
+     └── pig-quartz -- 定时任务管理台 [5007]
 ```
 
 ### 本地开发 运行

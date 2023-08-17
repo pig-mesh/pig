@@ -23,13 +23,13 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-common</artifactId>
-		<version>3.6.7</version>
+		<version>3.7.0-JDK8</version>
 	</parent>
 
 	<artifactId>pig-common-job</artifactId>
 	<packaging>jar</packaging>
 
-	<description>pig 定时任务,基于xxl-job</description>
+	<description>pig 定时任务,基于xxl-job 支持自动发现</description>
 
 
 	<dependencies>

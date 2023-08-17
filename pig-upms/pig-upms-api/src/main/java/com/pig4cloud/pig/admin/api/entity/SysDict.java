@@ -1,27 +1,28 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.admin.api.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.pig4cloud.pig.common.mybatis.base.BaseEntity;
+import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 /**
  * 字典表
@@ -32,7 +33,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Schema(description = "字典类型")
 @EqualsAndHashCode(callSuper = true)
-public class SysDict extends BaseEntity {
+public class SysDict extends Model<SysDict> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,14 +47,28 @@ public class SysDict extends BaseEntity {
 	/**
 	 * 类型
 	 */
-	@Schema(description = "字典key")
-	private String dictKey;
+	@Schema(description = "字典类型")
+	private String dictType;
 
 	/**
 	 * 描述
 	 */
 	@Schema(description = "字典描述")
 	private String description;
+
+	/**
+	 * 创建时间
+	 */
+	@Schema(description = "创建时间")
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
+
+	/**
+	 * 更新时间
+	 */
+	@Schema(description = "更新时间")
+	@TableField(fill = FieldFill.UPDATE)
+	private LocalDateTime updateTime;
 
 	/**
 	 * 是否是系统内置
@@ -65,12 +80,27 @@ public class SysDict extends BaseEntity {
 	 * 备注信息
 	 */
 	@Schema(description = "备注信息")
-	private String remark;
+	private String remarks;
+
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "创建人")
+	private String createBy;
+
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@Schema(description = "修改人")
+	private String updateBy;
 
 	/**
 	 * 删除标记
 	 */
 	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
 

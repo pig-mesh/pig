@@ -4,9 +4,9 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.plugin.excel.annotation.ExcelLine;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,7 +23,7 @@ public class RoleExcelVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * excel 行号
+	 * 导入时候回显行号
 	 */
 	@ExcelLine
 	@ExcelIgnore

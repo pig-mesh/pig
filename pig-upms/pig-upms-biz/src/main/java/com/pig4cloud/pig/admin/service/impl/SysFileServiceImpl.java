@@ -26,8 +26,9 @@ import com.pig4cloud.pig.admin.api.entity.SysFile;
 import com.pig4cloud.pig.admin.mapper.SysFileMapper;
 import com.pig4cloud.pig.admin.service.SysFileService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.plugin.oss.OssProperties;
-import com.pig4cloud.plugin.oss.service.OssTemplate;
+import com.pig4cloud.pig.common.file.core.FileProperties;
+import com.pig4cloud.pig.common.file.core.FileTemplate;
+import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -35,11 +36,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
-import java.time.Duration;
-import java.time.temporal.ChronoUnit;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * 文件管理
@@ -52,9 +52,9 @@ import java.util.Map;
 @AllArgsConstructor
 public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements SysFileService {
 
-	private final OssProperties ossProperties;
+	private final FileTemplate fileTemplate;
 
-	private final OssTemplate ossTemplate;
+	private final FileProperties properties;
 
 	/**
 	 * 上传文件
@@ -65,13 +65,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	public R uploadFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
-		resultMap.put("bucketName", ossProperties.getBucketName());
+		resultMap.put("bucketName", properties.getBucketName());
 		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/admin/sys-file/%s/%s", ossProperties.getBucketName(), fileName));
+		resultMap.put("url", String.format("/admin/sys-file/%s/%s", properties.getBucketName(), fileName));
 
-		try {
-			ossTemplate.putObject(ossProperties.getBucketName(), fileName, file.getContentType(),
-					file.getInputStream());
+		try (InputStream inputStream = file.getInputStream()) {
+			fileTemplate.putObject(properties.getBucketName(), fileName, inputStream, file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
 			fileLog(file, fileName);
 		}
@@ -90,7 +89,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = ossTemplate.getObject(bucket, fileName)) {
+		try (S3Object s3Object = fileTemplate.getObject(bucket, fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
 		}
@@ -109,7 +108,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteFile(Long id) {
 		SysFile file = this.getById(id);
-		ossTemplate.removeObject(ossProperties.getBucketName(), file.getFileName());
+		if (Objects.isNull(file)) {
+			return Boolean.FALSE;
+		}
+		fileTemplate.removeObject(properties.getBucketName(), file.getFileName());
 		return this.removeById(id);
 	}
 
@@ -124,19 +126,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		sysFile.setOriginal(file.getOriginalFilename());
 		sysFile.setFileSize(file.getSize());
 		sysFile.setType(FileUtil.extName(file.getOriginalFilename()));
-		sysFile.setBucketName(ossProperties.getBucketName());
+		sysFile.setBucketName(properties.getBucketName());
 		this.save(sysFile);
-	}
-
-	/**
-	 * 默认获取文件的在线地址
-	 * @param bucket
-	 * @param fileName
-	 * @return
-	 */
-	@Override
-	public String onlineFile(String bucket, String fileName) {
-		return ossTemplate.getObjectURL(bucket, fileName, Duration.of(7, ChronoUnit.DAYS));
 	}
 
 }

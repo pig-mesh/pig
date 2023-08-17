@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-common</artifactId>
-        <version>3.6.7</version>
+        <version>3.7.0-JDK8</version>
     </parent>
 
     <artifactId>pig-common-mybatis</artifactId>
@@ -45,17 +45,12 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
-        <!---->
+        <!--swagger  注解-->
         <dependency>
             <groupId>io.swagger.core.v3</groupId>
             <artifactId>swagger-annotations</artifactId>
         </dependency>
         <!--server-api-->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -66,6 +61,10 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

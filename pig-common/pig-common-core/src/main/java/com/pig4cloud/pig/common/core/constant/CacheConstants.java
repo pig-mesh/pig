@@ -30,11 +30,6 @@ public interface CacheConstants {
 	String PROJECT_OAUTH_ACCESS = "token::access_token";
 
 	/**
-	 * oauth 缓存令牌前缀
-	 */
-	String PROJECT_OAUTH_TOKEN = "pig_oauth:token:";
-
-	/**
 	 * 验证码前缀
 	 */
 	String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY:";
@@ -53,6 +48,11 @@ public interface CacheConstants {
 	 * 字典信息缓存
 	 */
 	String DICT_DETAILS = "dict_details";
+
+	/**
+	 * 角色信息缓存
+	 */
+	String ROLE_DETAILS = "role_details";
 
 	/**
 	 * oauth 客户端信息

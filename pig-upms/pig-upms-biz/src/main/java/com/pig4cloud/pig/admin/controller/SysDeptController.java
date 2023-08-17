@@ -1,35 +1,41 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
+
 package com.pig4cloud.pig.admin.controller;
 
-import cn.hutool.core.lang.tree.Tree;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
+import com.pig4cloud.pig.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
-import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import javax.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -38,12 +44,12 @@ import java.util.List;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2018-01-20
  */
 @RestController
-@RequiredArgsConstructor
+@AllArgsConstructor
 @RequestMapping("/dept")
-@Tag(name = "部门管理模块")
+@Tag(description = "dept", name = "部门管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysDeptController {
 
@@ -54,27 +60,27 @@ public class SysDeptController {
 	 * @param id ID
 	 * @return SysDept
 	 */
-	@GetMapping("/{id:\\d+}")
-	public R<SysDept> getById(@PathVariable Long id) {
+	@GetMapping("/{id}")
+	public R getById(@PathVariable Long id) {
 		return R.ok(sysDeptService.getById(id));
 	}
 
 	/**
-	 * 返回树形菜单集合
-	 * @return 树形菜单
+	 * 查询全部部门
 	 */
-	@GetMapping(value = "/tree")
-	public R<List<Tree<Long>>> listDeptTrees() {
-		return R.ok(sysDeptService.listDeptTrees());
+	@GetMapping("/list")
+	public R list() {
+		return R.ok(sysDeptService.list());
 	}
 
 	/**
-	 * 返回当前用户树形菜单集合
+	 * 返回树形菜单集合
+	 * @param deptName 部门名称
 	 * @return 树形菜单
 	 */
-	@GetMapping(value = "/user-tree")
-	public R<List<Tree<Long>>> listCurrentUserDeptTrees() {
-		return R.ok(sysDeptService.listCurrentUserDeptTrees());
+	@GetMapping(value = "/tree")
+	public R getTree(String deptName) {
+		return R.ok(sysDeptService.selectTree(deptName));
 	}
 
 	/**
@@ -85,8 +91,8 @@ public class SysDeptController {
 	@SysLog("添加部门")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_add')")
-	public R<Boolean> save(@Valid @RequestBody SysDept sysDept) {
-		return R.ok(sysDeptService.saveDept(sysDept));
+	public R save(@Valid @RequestBody SysDept sysDept) {
+		return R.ok(sysDeptService.save(sysDept));
 	}
 
 	/**
@@ -95,9 +101,9 @@ public class SysDeptController {
 	 * @return success/false
 	 */
 	@SysLog("删除部门")
-	@DeleteMapping("/{id:\\d+}")
+	@DeleteMapping("/{id}")
 	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
-	public R<Boolean> removeById(@PathVariable Long id) {
+	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
 
@@ -109,30 +115,40 @@ public class SysDeptController {
 	@SysLog("编辑部门")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
-	public R<Boolean> update(@Valid @RequestBody SysDept sysDept) {
-		return R.ok(sysDeptService.updateDeptById(sysDept));
+	public R update(@Valid @RequestBody SysDept sysDept) {
+		sysDept.setUpdateTime(LocalDateTime.now());
+		return R.ok(sysDeptService.updateById(sysDept));
 	}
 
 	/**
-	 * 根据部门名查询部门信息
-	 * @param deptName 部门名
-	 * @return SysDept
+	 * 查收子级列表
+	 * @return 返回子级
 	 */
-	@GetMapping("/details/{deptName}")
-	public R<SysDept> user(@PathVariable String deptName) {
-		SysDept condition = new SysDept();
-		condition.setName(deptName);
-		return R.ok(sysDeptService.getOne(new QueryWrapper<>(condition)));
+	@GetMapping(value = "/getDescendantList/{deptId}")
+	public R getDescendantList(@PathVariable Long deptId) {
+		return R.ok(sysDeptService.listDescendant(deptId));
 	}
 
 	/**
-	 * 查收子级id列表
-	 * @return 返回子级id列表
+	 * 导出部门
+	 * @return
 	 */
-	@Inner
-	@GetMapping(value = "/child-id/{deptId:\\d+}")
-	public R<List<Long>> listChildDeptId(@PathVariable Long deptId) {
-		return R.ok(sysDeptService.listChildDeptId(deptId));
+	@ResponseExcel
+	@GetMapping("/export")
+	public List<DeptExcelVo> export() {
+		return sysDeptService.listExcelVo();
+	}
+
+	/**
+	 * 导入部门
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
+	 */
+	@PostMapping("import")
+	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
+
+		return sysDeptService.importDept(excelVOList, bindingResult);
 	}
 
 }

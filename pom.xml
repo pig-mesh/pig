@@ -22,7 +22,7 @@
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig</artifactId>
     <name>${project.artifactId}</name>
-    <version>3.6.7</version>
+    <version>3.7.0-JDK8</version>
     <packaging>pom</packaging>
     <url>https://www.pig4cloud.com</url>
 
@@ -35,8 +35,8 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <spring.authorization.version>0.4.3</spring.authorization.version>
-        <dynamic-ds.version>3.6.0</dynamic-ds.version>
         <captcha.version>2.2.2</captcha.version>
+        <screw.version>0.0.1</screw.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>

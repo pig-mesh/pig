@@ -17,11 +17,12 @@
 package com.pig4cloud.pig.common.log.aspect;
 
 import cn.hutool.core.util.StrUtil;
-import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
+import com.pig4cloud.pig.common.log.event.SysLogEventSource;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -37,6 +38,7 @@ import org.springframework.expression.EvaluationContext;
  */
 @Aspect
 @Slf4j
+@RequiredArgsConstructor
 public class SysLogAspect {
 
 	@Around("@annotation(sysLog)")
@@ -62,9 +64,12 @@ public class SysLogAspect {
 			}
 		}
 
-		SysLog logVo = SysLogUtils.getSysLog();
+		SysLogEventSource logVo = SysLogUtils.getSysLog();
 		logVo.setTitle(value);
-
+		// 获取请求body参数
+		if (StrUtil.isBlank(logVo.getParams())) {
+			logVo.setBody(point.getArgs());
+		}
 		// 发送异步日志事件
 		Long startTime = System.currentTimeMillis();
 		Object obj;
@@ -73,7 +78,7 @@ public class SysLogAspect {
 			obj = point.proceed();
 		}
 		catch (Exception e) {
-			logVo.setType(LogTypeEnum.ERROR.getType());
+			logVo.setLogType(LogTypeEnum.ERROR.getType());
 			logVo.setException(e.getMessage());
 			throw e;
 		}

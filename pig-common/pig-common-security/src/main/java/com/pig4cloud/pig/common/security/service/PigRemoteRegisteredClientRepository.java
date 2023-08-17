@@ -19,7 +19,6 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.settings.ClientSettings;
 import org.springframework.security.oauth2.server.authorization.settings.OAuth2TokenFormat;
 import org.springframework.security.oauth2.server.authorization.settings.TokenSettings;
-import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -56,7 +55,6 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	 */
 	@Override
 	public void save(RegisteredClient registeredClient) {
-		throw new UnsupportedOperationException();
 	}
 
 	/**
@@ -87,48 +85,46 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
 	public RegisteredClient findByClientId(String clientId) {
 
-		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-			.getData()
-			.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
-					new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
+		SysOauthClientDetails clientDetails = RetOps
+				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+				.getData()
+				.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
+						new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
 
 		RegisteredClient.Builder builder = RegisteredClient.withId(clientDetails.getClientId())
-			.clientId(clientDetails.getClientId())
-			.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
-			.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
-			.clientAuthenticationMethods(clientAuthenticationMethods -> {
-				clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
-				clientAuthenticationMethods.add(ClientAuthenticationMethod.CLIENT_SECRET_POST);
-			});
+				.clientId(clientDetails.getClientId())
+				.clientSecret(SecurityConstants.NOOP + clientDetails.getClientSecret())
+				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC);
 
-		// 授权模式
-		Optional.ofNullable(clientDetails.getAuthorizedGrantTypes())
-			.ifPresent(grants -> StringUtils.commaDelimitedListToSet(grants)
-				.forEach(s -> builder.authorizationGrantType(new AuthorizationGrantType(s))));
+
+		for (String authorizedGrantType : clientDetails.getAuthorizedGrantTypes()) {
+			builder.authorizationGrantType(new AuthorizationGrantType(authorizedGrantType));
+		}
+
 		// 回调地址
 		Optional.ofNullable(clientDetails.getWebServerRedirectUri())
-			.ifPresent(redirectUri -> Arrays.stream(redirectUri.split(StrUtil.COMMA))
-				.filter(StrUtil::isNotBlank)
-				.forEach(builder::redirectUri));
+				.ifPresent(redirectUri -> Arrays.stream(redirectUri.split(StrUtil.COMMA))
+						.filter(StrUtil::isNotBlank)
+						.forEach(builder::redirectUri));
 
 		// scope
 		Optional.ofNullable(clientDetails.getScope())
-			.ifPresent(scope -> Arrays.stream(scope.split(StrUtil.COMMA))
-				.filter(StrUtil::isNotBlank)
-				.forEach(builder::scope));
+				.ifPresent(scope -> Arrays.stream(scope.split(StrUtil.COMMA))
+						.filter(StrUtil::isNotBlank)
+						.forEach(builder::scope));
 
 		return builder
-			.tokenSettings(TokenSettings.builder()
-				.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
-				.accessTokenTimeToLive(Duration.ofSeconds(
-						Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
-				.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
-					.orElse(refreshTokenValiditySeconds)))
-				.build())
-			.clientSettings(ClientSettings.builder()
-				.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
-				.build())
-			.build();
+				.tokenSettings(TokenSettings.builder()
+						.accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+						.accessTokenTimeToLive(Duration.ofSeconds(
+								Optional.ofNullable(clientDetails.getAccessTokenValidity()).orElse(accessTokenValiditySeconds)))
+						.refreshTokenTimeToLive(Duration.ofSeconds(Optional.ofNullable(clientDetails.getRefreshTokenValidity())
+								.orElse(refreshTokenValiditySeconds)))
+						.build())
+				.clientSettings(ClientSettings.builder()
+						.requireAuthorizationConsent(!BooleanUtil.toBoolean(clientDetails.getAutoapprove()))
+						.build())
+				.build();
 
 	}
 

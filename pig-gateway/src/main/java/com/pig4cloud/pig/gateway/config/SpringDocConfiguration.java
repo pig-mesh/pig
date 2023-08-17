@@ -21,11 +21,11 @@ import java.util.Map;
  * swagger 3.0 展示
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = true)
 public class SpringDocConfiguration {
 
 	@Bean
 	@Lazy(false)
-	@ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = true)
 	public List<GroupedOpenApi> apis(SwaggerUiConfigParameters swaggerUiConfigParameters,
 			SwaggerDocProperties swaggerProperties) {
 		List<GroupedOpenApi> groups = new ArrayList<>();

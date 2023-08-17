@@ -1,17 +1,20 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.admin.service.impl;
@@ -23,14 +26,14 @@ import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -39,10 +42,10 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author lengleng
- * @since 2019/2/1
+ * @since 2017-10-29
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements SysRoleMenuService {
 
 	private final CacheManager cacheManager;
@@ -54,6 +57,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, key = "#roleId")
 	public Boolean saveRoleMenus(Long roleId, String menuIds) {
 		this.remove(Wrappers.<SysRoleMenu>query().lambda().eq(SysRoleMenu::getRoleId, roleId));
 
@@ -68,10 +72,9 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 		}).collect(Collectors.toList());
 
 		// 清空userinfo
-		Objects.requireNonNull(cacheManager.getCache(CacheConstants.USER_DETAILS)).clear();
-		// 清空全部的菜单缓存 fix #I4BM58
-		Objects.requireNonNull(cacheManager.getCache(CacheConstants.MENU_DETAILS)).clear();
-		return this.saveBatch(roleMenuList);
+		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();
+		this.saveBatch(roleMenuList);
+		return Boolean.TRUE;
 	}
 
 }

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   ~
   ~      Copyright (c) 2018-2025, lengleng All rights reserved.
@@ -30,9 +29,7 @@
 		<result property="postSort" column="post_sort"/>
 		<result property="delFlag" column="del_flag"/>
 		<result property="createTime" column="create_time"/>
-		<result property="createBy" column="create_by"/>
 		<result property="updateTime" column="update_time"/>
-		<result property="updateBy" column="update_by"/>
 		<result property="remark" column="remark"/>
 	</resultMap>
 
@@ -45,13 +42,11 @@
 			   p.del_flag,
 			   p.create_time,
 			   p.update_time,
-			   p.update_by,
-			   p.create_by,
 			   p.remark
 		FROM sys_post p,
 			 sys_user_post up
 		WHERE p.post_id = up.post_id
-		  AND p.del_flag = 0
+		  AND p.del_flag = '0'
 		  and up.user_id = #{userId}
 	</select>
 
