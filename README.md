@@ -21,7 +21,7 @@
 
 [ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
 
-[PIGX 在线体验 pigx.pig4cloud.com](http://pigx.pig4cloud.com)
+[PIGX 在线体验 pigx.pigx.top](http://pigx.pigx.top)
 
 [产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
 
