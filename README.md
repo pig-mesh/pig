@@ -71,12 +71,12 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 
 <table>
   <tr>
-    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.vip/oss/1655474345.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.vip/oss/1656837143.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.top/oss/1655474345.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.top/oss/1656837143.jpg"></a></td>
   </tr>
     <tr>
-    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.vip/oss/1655474369.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.vip/oss/1655474381.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.top/oss/1655474369.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.top/oss/1655474381.jpg"></a></td>
   </tr>
 </table>
 
@@ -87,7 +87,7 @@ cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
 pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
 允许商业使用，但务必保留类作者、Copyright 信息。
 
-![](https://minio.pigx.vip/oss/1655474288.jpg)
+![](https://minio.pigx.top/oss/1655474288.jpg)
 
 
 ### 其他说明
