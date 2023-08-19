@@ -338,10 +338,6 @@ INSERT INTO `sys_menu` VALUES (2400, '终端管理', 'client', NULL, '/admin/cli
 INSERT INTO `sys_menu` VALUES (2401, '客户端新增', NULL, 'sys_client_add', NULL, 2400, '1', '1', 1, '0', NULL, '1', ' ', '2018-05-15 21:35:18', ' ', '2021-05-25 03:12:55', '0');
 INSERT INTO `sys_menu` VALUES (2402, '客户端修改', NULL, 'sys_client_edit', NULL, 2400, NULL, '1', 1, '0', NULL, '1', ' ', '2018-05-15 21:37:06', ' ', '2021-05-25 03:12:55', '0');
 INSERT INTO `sys_menu` VALUES (2403, '客户端删除', NULL, 'sys_client_del', NULL, 2400, NULL, '1', 1, '0', NULL, '1', ' ', '2018-05-15 21:39:16', ' ', '2021-05-25 03:12:55', '0');
-INSERT INTO `sys_menu` VALUES (2500, '密钥管理', 'key', NULL, '/admin/social/index', 2000, 'iconfont icon-quanxian', '1', 10, '0', NULL, '0', '', '2018-01-20 13:17:19', 'admin', '2023-02-16 15:26:16', '0');
-INSERT INTO `sys_menu` VALUES (2501, '密钥新增', NULL, 'sys_social_details_add', NULL, 2500, '1', '1', 0, '0', NULL, '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0');
-INSERT INTO `sys_menu` VALUES (2502, '密钥修改', NULL, 'sys_social_details_edit', NULL, 2500, '1', '1', 1, '0', NULL, '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:19', '0');
-INSERT INTO `sys_menu` VALUES (2503, '密钥删除', NULL, 'sys_social_details_del', NULL, 2500, '1', '1', 2, '0', NULL, '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:23', '0');
 INSERT INTO `sys_menu` VALUES (2600, '令牌管理', 'token', NULL, '/admin/token/index', 2000, 'ele-Key', '1', 11, '0', NULL, '0', '', '2018-09-04 05:58:41', 'admin', '2023-02-16 15:28:28', '0');
 INSERT INTO `sys_menu` VALUES (2601, '令牌删除', NULL, 'sys_token_del', NULL, 2600, NULL, '1', 1, '0', NULL, '1', ' ', '2018-09-04 05:59:50', ' ', '2020-03-24 08:57:24', '0');
 INSERT INTO `sys_menu` VALUES (2800, 'Quartz管理', 'quartz', NULL, '/daemon/job-manage/index', 2000, 'ele-AlarmClock', '1', 8, '0', NULL, '0', '', '2018-01-20 13:17:19', 'admin', '2023-02-16 15:25:06', '0');
