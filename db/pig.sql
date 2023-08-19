@@ -353,12 +353,6 @@ INSERT INTO `sys_menu` VALUES (2850, '任务开始', NULL, 'job_sys_job_start_jo
 INSERT INTO `sys_menu` VALUES (2860, '任务刷新', NULL, 'job_sys_job_refresh_job', NULL, 2800, '1', '1', 0, '0', NULL, '1', ' ', '2018-05-15 21:35:18', ' ', '2020-03-24 08:57:30', '0');
 INSERT INTO `sys_menu` VALUES (2870, '执行任务', NULL, 'job_sys_job_run_job', NULL, 2800, '1', '1', 0, '0', NULL, '1', ' ', '2019-08-08 15:35:18', ' ', '2020-03-24 08:57:31', '0');
 INSERT INTO `sys_menu` VALUES (2871, '导出', NULL, 'job_sys_job_export', NULL, 2800, NULL, '1', 0, '0', '0', '1', 'admin', '2023-03-06 15:26:13', ' ', NULL, '0');
-INSERT INTO `sys_menu` VALUES (2900, '国际化管理', 'i18n', NULL, '/admin/i18n/index', 2000, 'iconfont icon-zhongyingzhuanhuan', '1', 8, '0', NULL, '0', '', NULL, 'admin', '2023-02-16 15:25:18', '0');
-INSERT INTO `sys_menu` VALUES (2901, '系统表-国际化查看', NULL, 'sys_i18n_view', NULL, 2900, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0');
-INSERT INTO `sys_menu` VALUES (2902, '系统表-国际化新增', NULL, 'sys_i18n_add', NULL, 2900, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0');
-INSERT INTO `sys_menu` VALUES (2903, '系统表-国际化修改', NULL, 'sys_i18n_edit', NULL, 2900, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0');
-INSERT INTO `sys_menu` VALUES (2904, '系统表-国际化删除', NULL, 'sys_i18n_del', NULL, 2900, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0');
-INSERT INTO `sys_menu` VALUES (2905, '导入导出', NULL, 'sys_i18n_export', NULL, 2900, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0');
 INSERT INTO `sys_menu` VALUES (2906, '文件管理', 'file', NULL, '/admin/file/index', 2000, 'ele-Files', '1', 6, '0', NULL, '0', '', '2019-06-25 12:44:46', 'admin', '2023-02-16 15:24:42', '0');
 INSERT INTO `sys_menu` VALUES (2907, '删除文件', NULL, 'sys_file_del', NULL, 2906, NULL, '1', 1, '0', NULL, '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0');
 INSERT INTO `sys_menu` VALUES (4000, '系统监控', 'monitor', NULL, '/daemon', -1, 'iconfont icon-shuju', '1', 3, '0', '0', '0', 'admin', '2023-02-06 20:20:47', 'admin', '2023-02-23 20:01:07', '0');
