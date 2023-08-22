@@ -28,7 +28,7 @@
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.79</dm.version>
         <highgo.version>6.2.0</highgo.version>
-        <knife4j.version>4.3.0</knife4j.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
         <mp.weixin.version>4.4.0</mp.weixin.version>
@@ -277,10 +277,11 @@
             </dependency>
             <!--springdoc -->
             <dependency>
-                <groupId>com.github.xiaoymin</groupId>
+                <groupId>io.springboot</groupId>
                 <artifactId>knife4j-openapi3-ui</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
+
             <!--springdoc -->
             <dependency>
                 <groupId>org.springdoc</groupId>
