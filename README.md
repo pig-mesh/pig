@@ -1,13 +1,52 @@
+<p align="center">
+ <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2021-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
+</p>
+
+## 分支说明
+
+- master: java8 + springboot 2.7 + springcloud 2021
+- jdk17: java17 + springboot 3.1 + springcloud 2022
+
+## 系统说明
+
+- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **权限管理系统**
+- 基于数据驱动视图的理念封装 element-plus，即使没有 vue 的使用经验也能快速上手
+- 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
+- 提供 lambda 、stream api 、webflux 的生产实践
+
+## 文档视频
+
+[ 🚀🚀🚀 低代码数据可视化](http://datav.pig4cloud.com)
+
+[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+
+[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
+
+[PIGX 在线体验 pigx.pigx.top](http://pigx.pigx.top)
+
+[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
+
+## 微信群 [禁广告]
+
+![](https://minio.pigx.top/oss/1648184189.png)
+
+## 快速开始
+
+
 ### 核心依赖
 
-| 依赖                   | 版本         |
-| ---------------------- |------------|
-| Spring Boot            | 3.1.2      |
-| Spring Cloud           | 2022.0.4   |
-| Spring Cloud Alibaba   | 2022.0.0.0 |
-| Spring Authorization Server | 1.1.1      |
-| Mybatis Plus           | 3.5.3.2    |
-| hutool                 | 5.8.21     |
+| 依赖                          | 版本         |
+|-----------------------------|------------|
+| Spring Boot            | 3.1.1          |
+| Spring Cloud           | 2022.0.3       |
+| Spring Cloud Alibaba   | 2022.0.0.0-RC2 |
+| Spring Authorization Server | 1.1.1          |
+| Mybatis Plus           | 3.5.3.1        |
+| hutool                 | 5.8.20         |
 
 ### 模块说明
 
@@ -22,6 +61,7 @@ pig
      ├── pig-common-datasource -- 动态数据源包
      ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
+     ├── pig-common-oss -- 文件上传工具类
      ├── pig-common-mybatis -- mybatis 扩展封装
      ├── pig-common-seata -- 分布式事务
      ├── pig-common-security -- 安全工具类
@@ -35,26 +75,22 @@ pig
      └── pig-upms-biz -- 通用用户权限管理系统业务处理模块[4000]
 └── pig-visual
      └── pig-monitor -- 服务监控 [5001]
-     └──  pig-codegen -- 图形化代码生成 [5002]
+     ├── pig-codegen -- 图形化代码生成 [5002]
+     └── pig-quartz -- 定时任务管理台 [5007]
 ```
 
 ### 本地开发 运行
 
-pig 提供了详细的[部署文档 wiki.pigx.vip](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
+pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
 
-### 定制自己微服务
-
-[PIG DIY](https://pig4cloud.com/#/common/diy)
-
-[PIG ARCHETYPE](https://pig4cloud.com/#/common/archetype)
 
 ### Docker 运行
 
 ```
 # 下载并运行服务端代码
-git clone https://gitee.com/log4j/pig.git
+git clone https://gitee.com/log4j/pig.git -b jdk17
 
 cd pig && mvn clean install && docker-compose up -d
 
@@ -89,7 +125,6 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
 
 ![](https://minio.pigx.top/oss/1655474288.jpg)
 
-
 ### 其他说明
 
 1. 欢迎提交 [PR](https://dwz.cn/2KURd5Vf)，注意对应提交对应 `dev` 分支
@@ -103,7 +138,8 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
     2. 如果使用 IntelliJ IDEA
        开发，请安装自动格式化软件 <a href="https://repo1.maven.org/maven2/io/spring/javaformat/spring-javaformat-intellij-idea-plugin/" target="_blank">
        spring-javaformat-intellij-idea-plugin</a>
-    3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">spring-javaformat</a>
+    3. 其他开发工具，请参考 <a href="https://github.com/spring-io/spring-javaformat" target="_blank">
+       spring-javaformat</a>
        说明，或`提交代码前`在项目根目录运行下列命令（需要开发者电脑支持`mvn`命令）进行代码格式化
        ```
        mvn spring-javaformat:apply
@@ -111,5 +147,3 @@ pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICEN
    </details>
 
 2. 欢迎提交 [issue](https://gitee.com/log4j/pig/issues)，请写清楚遇到问题的原因、开发环境、复显步骤。
-
-3. 联系作者 <a href="mailto:pig4cloud@qq.com">pig4cloud@qq.com</a>
