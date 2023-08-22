@@ -16,6 +16,10 @@ db:
 nacos:
   core:
     auth:
+      server:
+        identity:
+          key: serverIdentity
+          value: security
       plugin.nacos.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
       enabled: false
       system.type: nacos

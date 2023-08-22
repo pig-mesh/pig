@@ -6,6 +6,8 @@ spring:
     name: @artifactId@
   cloud:
     nacos:
+      username: @nacos.username@
+      password: @nacos.password@
       discovery:
         server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
       config:
