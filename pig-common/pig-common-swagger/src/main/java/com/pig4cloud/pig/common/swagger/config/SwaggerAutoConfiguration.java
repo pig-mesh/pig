@@ -25,6 +25,7 @@ import io.swagger.v3.oas.models.security.Scopes;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.ServiceInstance;
@@ -66,6 +67,9 @@ public class SwaggerAutoConfiguration {
 		String path = swaggerProperties.getServices().get(serviceInstance.getServiceId());
 		serverList.add(new Server().url(swaggerProperties.getGateway() + "/" + path));
 		openAPI.servers(serverList);
+
+		// 支持参数平铺
+		SpringDocUtils.getConfig().addSimpleTypesForParameterObject(Class.class);
 		return openAPI;
 	}
 
