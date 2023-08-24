@@ -1,7 +1,5 @@
 FROM moxm/java:1.8-full
 
-RUN mkdir -p /pig-auth
-
 WORKDIR /pig-auth
 
 ARG JAR_FILE=target/pig-auth.jar

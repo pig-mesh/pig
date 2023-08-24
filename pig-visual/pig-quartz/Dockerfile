@@ -1,7 +1,5 @@
 FROM moxm/java:1.8-full
 
-RUN mkdir -p /pig-quartz
-
 WORKDIR /pig-quartz
 
 ARG JAR_FILE=target/pig-quartz.jar

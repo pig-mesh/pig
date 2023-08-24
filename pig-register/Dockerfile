@@ -1,7 +1,5 @@
 FROM moxm/java:1.8-full
 
-RUN mkdir -p /pig-register
-
 WORKDIR /pig-register
 
 ARG JAR_FILE=target/pig-register.jar
