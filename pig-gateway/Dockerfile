@@ -1,7 +1,5 @@
 FROM moxm/java:1.8-full
 
-RUN mkdir -p /pig-gateway
-
 WORKDIR /pig-gateway
 
 ARG JAR_FILE=target/pig-gateway.jar
