@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-upms-biz
-
 WORKDIR /pig-upms-biz
 
 ARG JAR_FILE=target/pig-upms-biz.jar

@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-register
-
 WORKDIR /pig-register
 
 ARG JAR_FILE=target/pig-register.jar
