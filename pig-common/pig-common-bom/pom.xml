@@ -31,7 +31,7 @@
         <seata.version>1.6.1</seata.version>
         <excel.version>1.2.6</excel.version>
         <asm.version>7.1</asm.version>
-        <aws.version>1.11.543</aws.version>
+        <aws.version>1.12.261</aws.version>
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
