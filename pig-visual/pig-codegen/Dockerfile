@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-codegen
-
 WORKDIR /pig-codegen
 
 ARG JAR_FILE=target/pig-codegen.jar

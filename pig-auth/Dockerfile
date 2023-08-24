@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-auth
-
 WORKDIR /pig-auth
 
 ARG JAR_FILE=target/pig-auth.jar

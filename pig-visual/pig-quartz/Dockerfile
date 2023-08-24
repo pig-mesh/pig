@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-quartz
-
 WORKDIR /pig-quartz
 
 ARG JAR_FILE=target/pig-quartz.jar

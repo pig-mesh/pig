@@ -1,7 +1,5 @@
 FROM alibabadragonwell/dragonwell:17-anolis
 
-RUN mkdir -p /pig-gateway
-
 WORKDIR /pig-gateway
 
 ARG JAR_FILE=target/pig-gateway.jar
