@@ -41,7 +41,7 @@
         <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.3.0</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
-        <aws.version>1.11.543</aws.version>
+        <aws.version>1.12.261</aws.version>
         <javers.version>6.10.0</javers.version>
         <seata.version>1.6.1</seata.version>
         <asm.version>7.1</asm.version>
