@@ -1,7 +1,5 @@
 FROM moxm/java:1.8-full
 
-RUN mkdir -p /pig-upms-biz
-
 WORKDIR /pig-upms-biz
 
 ARG JAR_FILE=target/pig-upms-biz.jar
