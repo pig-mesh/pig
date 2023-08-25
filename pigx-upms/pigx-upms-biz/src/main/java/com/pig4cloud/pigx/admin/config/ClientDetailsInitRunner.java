@@ -45,7 +45,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 	@Async
 	@Order
 	@EventListener({ WebServerInitializedEvent.class })
-	public void WebServerInit() {
+	public void webServerInit() {
 		this.initClientDetails();
 	}
 
