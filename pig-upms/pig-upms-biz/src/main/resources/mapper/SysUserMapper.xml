@@ -103,8 +103,8 @@
         FROM
         sys_user u
         LEFT JOIN sys_user_role urole ON urole.user_id = u.user_id
-        LEFT JOIN sys_role r ON r.role_id = urole.role_id
-        WHERE u.username = #{username}
+        LEFT JOIN sys_role r ON r.role_id = urole.role_id and r.del_flag = '0'
+        WHERE u.username = #{username} and u.del_flag = '0'
     </select>
 
     <select id="getUserVoById" resultMap="baseResultMap">
@@ -112,9 +112,9 @@
         <include refid="userRoleDeptSql"/>
         FROM
         sys_user u
-        LEFT JOIN sys_dept d ON d.dept_id = u.dept_id
+        LEFT JOIN sys_dept d ON d.dept_id = u.dept_id and d.del_flag = '0'
         WHERE
-        u.user_id = #{id}
+        u.user_id = #{id} and u.del_flag = '0'
     </select>
 
     <select id="getUserVosPage" resultMap="baseResultMap">
