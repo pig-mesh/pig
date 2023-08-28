@@ -192,7 +192,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysUser> userList = baseMapper.selectBatchIds(CollUtil.toList(ids));
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
 		for (SysUser sysUser : userList) {
-			cache.evict(sysUser.getUsername());
+			// 立即删除
+			cache.evictIfPresent(sysUser.getUsername());
 		}
 
 		sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getUserId, CollUtil.toList(ids)));
