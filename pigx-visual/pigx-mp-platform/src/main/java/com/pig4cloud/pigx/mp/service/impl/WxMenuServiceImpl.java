@@ -100,7 +100,7 @@ public class WxMenuServiceImpl extends ServiceImpl<WxMenuMapper, WxMpMenu> imple
 			menuService.menuCreate(wxMpMenu.getMenu());
 		}
 		catch (WxErrorException e) {
-			log.error("发布微信菜单失败", e.getError().getErrorMsg());
+			log.error("发布微信菜单失败 {}", e.getError().getErrorMsg());
 			return R.failed(e.getError().getErrorMsg());
 		}
 
@@ -139,7 +139,7 @@ public class WxMenuServiceImpl extends ServiceImpl<WxMenuMapper, WxMpMenu> imple
 			menuService.menuDelete();
 		}
 		catch (WxErrorException e) {
-			log.error("微信菜单删除失败", e.getError().getErrorMsg());
+			log.error("微信菜单删除失败 {}", e.getError().getErrorMsg());
 			return R.failed(e.getError().getErrorMsg());
 		}
 

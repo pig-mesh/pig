@@ -157,7 +157,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		table.setTableComment(MapUtil.getStr(queryTable, "tableComment"));
 		table.setDbType(MapUtil.getStr(queryTable, "dbType"));
 		table.setFormLayout(FormLayoutEnum.TWO.getValue());
-		table.setGeneratorType(GeneratorTypeEnum.ZIP_DOWNLOAD.ordinal());
+		table.setGeneratorType(GeneratorTypeEnum.ZIP_DOWNLOAD.getValue());
 		table.setClassName(NamingCase.toPascalCase(tableName));
 		table.setModuleName(GenKit.getModuleName(table.getPackageName()));
 		table.setFunctionName(GenKit.getFunctionName(tableName));
@@ -177,10 +177,11 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 			genTableColumnEntity.setFieldComment(MapUtil.getStr(columnMap, "comments"));
 			genTableColumnEntity.setFieldType(MapUtil.getStr(columnMap, "dataType"));
 			String columnKey = MapUtil.getStr(columnMap, "columnKey");
-			genTableColumnEntity.setPrimaryPk(StringUtils.isNotBlank(columnKey) && "PRI".equalsIgnoreCase(columnKey));
+			genTableColumnEntity.setPrimaryPk((StringUtils.isNotBlank(columnKey) && "PRI".equalsIgnoreCase(columnKey))
+					? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
 			genTableColumnEntity.setAutoFill(AutoFillEnum.DEFAULT.name());
-			genTableColumnEntity.setFormItem(true);
-			genTableColumnEntity.setGridItem(true);
+			genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
+			genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());
 
 			// 审计字段处理
 			if (EnumUtil.contains(CommonColumnFiledEnum.class, columnName)) {

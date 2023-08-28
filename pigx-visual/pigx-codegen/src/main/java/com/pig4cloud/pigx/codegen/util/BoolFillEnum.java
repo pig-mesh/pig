@@ -4,22 +4,22 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
- * 代码生成方式 枚举
+ * boolean 类型枚举
  *
- * @author 阿沐 babamu@126.com
  */
+
 @Getter
 @RequiredArgsConstructor
-public enum GeneratorTypeEnum {
+public enum BoolFillEnum {
 
 	/**
-	 * zip压缩包 0
+	 * true
 	 */
-	ZIP_DOWNLOAD("0"),
+	TRUE("1"),
 	/**
-	 * 自定义目录 1
+	 * false
 	 */
-	CUSTOM_DIRECTORY("1");
+	FALSE("0");
 
 	private final String value;
 
