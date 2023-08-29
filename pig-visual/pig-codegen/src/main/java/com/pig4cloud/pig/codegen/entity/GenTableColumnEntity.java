@@ -94,22 +94,22 @@ public class GenTableColumnEntity extends Model<GenDatasourceConf> {
 	/**
 	 * 主键 0：否 1：是
 	 */
-	private boolean primaryPk;
+	private String primaryPk;
 
 	/**
 	 * 基类字段 0：否 1：是
 	 */
-	private boolean baseField;
+	private String baseField;
 
 	/**
 	 * 表单项 0：否 1：是
 	 */
-	private boolean formItem;
+	private String formItem;
 
 	/**
 	 * 表单必填 0：否 1：是
 	 */
-	private boolean formRequired;
+	private String formRequired;
 
 	/**
 	 * 表单类型
@@ -124,17 +124,17 @@ public class GenTableColumnEntity extends Model<GenDatasourceConf> {
 	/**
 	 * 列表项 0：否 1：是
 	 */
-	private boolean gridItem;
+	private String gridItem;
 
 	/**
 	 * 列表排序 0：否 1：是
 	 */
-	private boolean gridSort;
+	private String gridSort;
 
 	/**
 	 * 查询项 0：否 1：是
 	 */
-	private boolean queryItem;
+	private String queryItem;
 
 	/**
 	 * 查询方式

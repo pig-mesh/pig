@@ -37,9 +37,10 @@ import com.pig4cloud.pig.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pig.codegen.service.GenGroupService;
 import com.pig4cloud.pig.codegen.service.GenTableColumnService;
 import com.pig4cloud.pig.codegen.service.GenTableService;
+import com.pig4cloud.pig.codegen.util.BoolFillEnum;
 import com.pig4cloud.pig.codegen.util.CommonColumnFiledEnum;
 import com.pig4cloud.pig.codegen.util.GenKit;
-import com.pig4cloud.pig.codegen.util.GeneratorFileTypeEnum;
+import com.pig4cloud.pig.codegen.util.GeneratorTypeEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -157,7 +158,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		table.setTableComment(MapUtil.getStr(queryTable, "tableComment"));
 		table.setDbType(MapUtil.getStr(queryTable, "dbType"));
 		table.setFormLayout(2);
-		table.setGeneratorType(GeneratorFileTypeEnum.ZIP.ordinal());
+		table.setGeneratorType(GeneratorTypeEnum.ZIP_DOWNLOAD.getValue());
 		table.setClassName(NamingCase.toPascalCase(tableName));
 		table.setModuleName(GenKit.getModuleName(table.getPackageName()));
 		table.setFunctionName(GenKit.getFunctionName(tableName));
@@ -177,10 +178,12 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 			genTableColumnEntity.setFieldComment(MapUtil.getStr(columnMap, "comments"));
 			genTableColumnEntity.setFieldType(MapUtil.getStr(columnMap, "dataType"));
 			String columnKey = MapUtil.getStr(columnMap, "columnKey");
-			genTableColumnEntity.setPrimaryPk(StringUtils.isNotBlank(columnKey) && "PRI".equalsIgnoreCase(columnKey));
 			genTableColumnEntity.setAutoFill("DEFAULT");
-			genTableColumnEntity.setFormItem(true);
-			genTableColumnEntity.setGridItem(true);
+			genTableColumnEntity.setPrimaryPk((StringUtils.isNotBlank(columnKey) && "PRI".equalsIgnoreCase(columnKey))
+					? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
+			genTableColumnEntity.setAutoFill("DEFAULT");
+			genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
+			genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());
 
 			// 审计字段处理
 			if (EnumUtil.contains(CommonColumnFiledEnum.class, columnName)) {

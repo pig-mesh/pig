@@ -21,6 +21,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import com.pig4cloud.pig.codegen.entity.GenTable;
@@ -61,8 +62,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 	private final GenTableService tableService;
 
 	private final GenGroupService genGroupService;
-
-	private final GenTemplateService genTemplateService;
 
 	/**
 	 * 生成代码zip写出
@@ -225,21 +224,21 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 按字段类型分组，使用 Map 存储不同类型的字段列表
 		Map<Boolean, List<GenTableColumnEntity>> typeMap = table.getFieldList()
 			.stream()
-			.collect(Collectors.partitioningBy(GenTableColumnEntity::isPrimaryPk));
+			.collect(Collectors.partitioningBy(columnEntity -> BooleanUtil.toBoolean(columnEntity.getPrimaryPk())));
 
 		// 从分组后的 Map 中获取不同类型的字段列表
 		List<GenTableColumnEntity> primaryList = typeMap.get(true);
 		List<GenTableColumnEntity> formList = typeMap.get(false)
 			.stream()
-			.filter(GenTableColumnEntity::isFormItem)
+			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getFormItem()))
 			.collect(Collectors.toList());
 		List<GenTableColumnEntity> gridList = typeMap.get(false)
 			.stream()
-			.filter(GenTableColumnEntity::isGridItem)
+			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getGridItem()))
 			.collect(Collectors.toList());
 		List<GenTableColumnEntity> queryList = typeMap.get(false)
 			.stream()
-			.filter(GenTableColumnEntity::isQueryItem)
+			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getQueryItem()))
 			.collect(Collectors.toList());
 
 		if (CollUtil.isNotEmpty(primaryList)) {

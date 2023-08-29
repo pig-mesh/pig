@@ -108,7 +108,7 @@ public class GenTable extends Model<GenTable> {
 	 * 生成方式 0：zip压缩包 1：自定义目录
 	 */
 	@Schema(description = "生成方式  0：zip压缩包   1：自定义目录")
-	private Integer generatorType;
+	private String generatorType;
 
 	/**
 	 * 后端生成路径

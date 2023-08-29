@@ -16,7 +16,7 @@
 
 package com.pig4cloud.pig.common.swagger.annotation;
 
-import com.pig4cloud.pig.common.swagger.config.SwaggerAutoConfiguration;
+import com.pig4cloud.pig.common.swagger.config.OpenAPIDefinitionImportSelector;
 import com.pig4cloud.pig.common.swagger.support.SwaggerProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Import;
@@ -34,7 +34,13 @@ import java.lang.annotation.*;
 @Documented
 @Inherited
 @EnableConfigurationProperties(SwaggerProperties.class)
-@Import({ SwaggerAutoConfiguration.class })
+@Import({ OpenAPIDefinitionImportSelector.class })
 public @interface EnablePigDoc {
+
+	/**
+	 * 网关路由前缀
+	 * @return String
+	 */
+	String value();
 
 }
