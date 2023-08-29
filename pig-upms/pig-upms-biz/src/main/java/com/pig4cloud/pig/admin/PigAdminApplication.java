@@ -32,7 +32,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * <p>
  * 用户统一管理系统
  */
-@EnablePigDoc
+@EnablePigDoc("admin")
 @EnablePigFeignClients
 @EnablePigResourceServer
 @EnableDiscoveryClient
