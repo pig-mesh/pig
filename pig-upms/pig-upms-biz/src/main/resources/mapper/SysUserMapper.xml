@@ -35,7 +35,7 @@
         <result column="ucreate_time" property="createTime"/>
         <result column="uupdate_time" property="updateTime"/>
         <result column="lock_flag" property="lockFlag"/>
-        <result column="udel_flag" property="delFlag"/>
+        <result column="del_flag" property="delFlag"/>
         <result column="dept_id" property="deptId"/>
         <result column="dept_name" property="deptName"/>
         <result column="nickname" property="nickname"/>
@@ -61,7 +61,6 @@
         u.dept_id,
         u.del_flag,
         u.lock_flag,
-        u.tenant_id,
         u.create_by,
         u.create_time  ucreate_time,
         u.update_time  uupdate_time,
@@ -86,7 +85,6 @@
         u.osc_id,
         u.del_flag,
         u.lock_flag,
-        u.tenant_id,
         u.nickname,
         u.name,
         u.email,
@@ -133,7 +131,6 @@
         u.update_time uupdate_time,
         u.del_flag,
         u.lock_flag,
-        u.tenant_id,
         u.nickname,
         u.name,
         u.email,
@@ -177,7 +174,6 @@
         u.update_time uupdate_time,
         u.del_flag,
         u.lock_flag,
-        u.tenant_id,
         u.nickname,
         u.name,
         u.email,
