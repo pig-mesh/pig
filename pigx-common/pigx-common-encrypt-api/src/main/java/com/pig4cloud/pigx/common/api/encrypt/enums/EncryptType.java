@@ -14,6 +14,6 @@ public enum EncryptType {
 	/**
 	 * 加密方式
 	 */
-	DES, AES, RSA
+	DES, AES, RSA, SM4
 
 }

@@ -47,6 +47,11 @@ public class ApiEncryptProperties {
 	private String desKey;
 
 	/**
+	 * sm4 密钥
+	 */
+	private String sm4Key;
+
+	/**
 	 * rsa 私钥
 	 */
 	private String rsaPrivateKey;

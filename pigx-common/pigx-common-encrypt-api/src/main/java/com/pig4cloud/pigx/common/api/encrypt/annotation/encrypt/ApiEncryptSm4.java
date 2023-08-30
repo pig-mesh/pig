@@ -6,18 +6,17 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * des 加密
+ * sm4 加密
  *
- * @author licoy.cn
- * @author L.cm
- * @version 2018/9/4
+ * @author lengleng
+ * @version 2023/8/30
  * @see ApiEncrypt
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@ApiEncrypt(EncryptType.DES)
-public @interface ApiEncryptDes {
+@ApiEncrypt(EncryptType.SM4)
+public @interface ApiEncryptSm4 {
 
 	/**
 	 * Alias for {@link ApiEncrypt#secretKey()}.

@@ -18,10 +18,9 @@
 package com.pig4cloud.pigx.gateway.filter;
 
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.Mode;
-import cn.hutool.crypto.Padding;
-import cn.hutool.crypto.symmetric.AES;
+import cn.hutool.crypto.SmUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -54,8 +53,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -159,15 +156,10 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 	 */
 	private Function decryptAES() {
 		return s -> {
-			// 构建前端对应解密AES 因子
-			AES aes = new AES(Mode.CFB, Padding.NoPadding,
-					new SecretKeySpec(gatewayConfig.getEncodeKey().getBytes(), KEY_ALGORITHM),
-					new IvParameterSpec(gatewayConfig.getEncodeKey().getBytes()));
-
 			// 获取请求密码并解密
 			Map<String, String> inParamsMap = HttpUtil.decodeParamMap((String) s, CharsetUtil.CHARSET_UTF_8);
 			if (inParamsMap.containsKey(PASSWORD)) {
-				String password = aes.decryptStr(inParamsMap.get(PASSWORD));
+				String password = SmUtil.sm4(HexUtil.decodeHex(gatewayConfig.getEncodeKey())).decryptStr(inParamsMap.get(PASSWORD));
 				// 返回修改后报文字符
 				inParamsMap.put(PASSWORD, password);
 			}

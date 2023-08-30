@@ -1,9 +1,11 @@
 package com.pig4cloud.pigx.common.api.encrypt.util;
 
+import cn.hutool.core.util.HexUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.symmetric.AES;
 import com.pig4cloud.pigx.common.api.encrypt.annotation.decrypt.ApiDecrypt;
@@ -98,8 +100,12 @@ public class ApiCryptoUtil {
 			return aes.encryptBase64(jsonData);
 		}
 		if (type == EncryptType.RSA) {
-			return SecureUtil.rsa(secretKey.getBytes(StandardCharsets.UTF_8), null).encryptBase64(jsonData,
-					KeyType.PrivateKey);
+			return SecureUtil.rsa(secretKey.getBytes(StandardCharsets.UTF_8), null)
+				.encryptBase64(jsonData, KeyType.PrivateKey);
+		}
+
+		if (type == EncryptType.SM4) {
+			return SmUtil.sm4(HexUtil.decodeHex(secretKey)).encryptHex(jsonData);
 		}
 		throw new EncryptBodyFailException();
 	}
@@ -134,9 +140,16 @@ public class ApiCryptoUtil {
 			return SecureUtil.des(secretKey.getBytes(StandardCharsets.UTF_8)).decrypt(bodyData);
 		}
 		if (type == EncryptType.RSA) {
-			return SecureUtil.rsa(secretKey.getBytes(StandardCharsets.UTF_8), null).decrypt(bodyData,
-					KeyType.PrivateKey);
+			return SecureUtil.rsa(secretKey.getBytes(StandardCharsets.UTF_8), null)
+				.decrypt(bodyData, KeyType.PrivateKey);
 		}
+
+		if (type == EncryptType.SM4) {
+			return SmUtil.sm4(HexUtil.decodeHex(secretKey))
+				.decryptStr(StrUtil.str(bodyData, Charset.defaultCharset()))
+				.getBytes();
+		}
+
 		throw new EncryptMethodNotFoundException();
 	}
 

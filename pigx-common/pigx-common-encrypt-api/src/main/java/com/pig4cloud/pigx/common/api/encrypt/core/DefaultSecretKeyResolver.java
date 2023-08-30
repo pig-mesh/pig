@@ -18,14 +18,12 @@ public class DefaultSecretKeyResolver implements ISecretKeyResolver {
 
 	@Override
 	public String getSecretKey(HttpServletRequest request, EncryptType encryptType) {
-		switch (encryptType) {
-			case DES:
-				return properties.getDesKey();
-			case RSA:
-				return properties.getRsaPrivateKey();
-			default:
-				return properties.getAesKey();
-		}
+		return switch (encryptType) {
+			case SM4 -> properties.getSm4Key();
+			case DES -> properties.getDesKey();
+			case RSA -> properties.getRsaPrivateKey();
+			default -> properties.getAesKey();
+		};
 	}
 
 }
