@@ -1,0 +1,18 @@
+FROM alibabadragonwell/dragonwell:17-anolis
+
+MAINTAINER wangiegie@gmail.com
+
+ENV TZ=Asia/Shanghai
+ENV JAVA_OPTS="-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
+
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN mkdir -p /pigx-flow-engine
+
+WORKDIR /pigx-flow-engine
+
+EXPOSE 4000
+
+ADD ./target/pigx-flow-engine-biz.jar ./
+
+CMD sleep 60;java $JAVA_OPTS -jar pigx-flow-engine-biz.jar

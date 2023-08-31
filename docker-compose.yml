@@ -1,4 +1,4 @@
-# 使用说明 V4.4.0
+# 使用说明 V5.2
 # 1. 使用docker-compose  宿主机不需要配置host来发现
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
@@ -55,6 +55,19 @@ services:
     container_name: pigx-upms
     image: pigx-upms
 
+  pigx-flow-task:
+    build:
+      context: ./pigx-flow/pigx-flow-task/pigx-flow-task-biz
+    restart: always
+    container_name: pigx-flow-task
+    image: pigx-flow-task
+
+  pigx-flow-engine:
+    build:
+      context: ./pigx-flow/pigx-flow-engine/pigx-flow-engine-biz
+    restart: always
+    container_name: pigx-flow-engine
+    image: pigx-flow-engine
 
   pigx-app-server:
     build:
@@ -106,13 +119,6 @@ services:
     restart: always
     image: pigx-pay-platform
     container_name: pigx-pay-platform
-
-  pigx-oa-platform:
-    build:
-      context: ./pigx-visual/pigx-oa-platform
-    restart: always
-    image: pigx-oa-platform
-    container_name: pigx-oa-platform
 
   pigx-report-platform:
     build:
