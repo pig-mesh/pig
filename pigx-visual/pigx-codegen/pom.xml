@@ -16,7 +16,7 @@
 
     <properties>
         <magic.version>2.0.2</magic.version>
-        <screw.version>0.0.2</screw.version>
+        <screw.version>0.0.3</screw.version>
         <db2.version>11.5.0.0</db2.version>
         <configuration.version>1.10</configuration.version>
     </properties>
