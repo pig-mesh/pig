@@ -21,7 +21,7 @@
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.5</mybatis-plus-join.version>
         <dynamic-ds.version>4.1.3</dynamic-ds.version>
-        <druid.version>1.2.18</druid.version>
+        <druid.version>1.2.19</druid.version>
         <hutool.version>5.8.21</hutool.version>
         <mysql.connector.version>8.0.32</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
