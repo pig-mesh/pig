@@ -16,5 +16,3 @@ spring:
     import:
       - optional:nacos:application-@profiles.active@.yml
       - optional:nacos:${spring.application.name}-@profiles.active@.yml
-  liquibase:
-    enabled: false
