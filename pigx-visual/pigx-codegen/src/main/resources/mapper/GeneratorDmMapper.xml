@@ -29,7 +29,7 @@
 				'PRI'
 				WHEN 'C' THEN
 				'UNI' ELSE''
-			END "COLUMNKEY"
+			END "columnKey"
 		FROM
 			(
 			SELECT
