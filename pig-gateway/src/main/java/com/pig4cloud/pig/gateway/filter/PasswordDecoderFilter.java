@@ -18,8 +18,9 @@ package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.SmUtil;
-import cn.hutool.crypto.symmetric.SymmetricCrypto;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.gateway.config.GatewayConfigProperties;
@@ -35,7 +36,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
-import org.springframework.security.crypto.codec.Hex;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.HandlerStrategies;
@@ -44,6 +44,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +62,8 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 	private static final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
 
 	private static final String PASSWORD = "password";
+
+	private static final String KEY_ALGORITHM = "AES";
 
 	private final GatewayConfigProperties gatewayConfig;
 
@@ -106,12 +110,15 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 	 */
 	private Function decryptAES() {
 		return s -> {
+			// 构建前端对应解密AES 因子
+			AES aes = new AES(Mode.CFB, Padding.NoPadding,
+					new SecretKeySpec(gatewayConfig.getEncodeKey().getBytes(), KEY_ALGORITHM),
+					new IvParameterSpec(gatewayConfig.getEncodeKey().getBytes()));
 
 			// 获取请求密码并解密
 			Map<String, String> inParamsMap = HttpUtil.decodeParamMap((String) s, CharsetUtil.CHARSET_UTF_8);
 			if (inParamsMap.containsKey(PASSWORD)) {
-				SymmetricCrypto sm4 = SmUtil.sm4(Hex.decode(gatewayConfig.getEncodeKey()));
-				String password = sm4.decryptStr(inParamsMap.get(PASSWORD), CharsetUtil.CHARSET_UTF_8);
+				String password = aes.decryptStr(inParamsMap.get(PASSWORD));
 				// 返回修改后报文字符
 				inParamsMap.put(PASSWORD, password);
 			}
