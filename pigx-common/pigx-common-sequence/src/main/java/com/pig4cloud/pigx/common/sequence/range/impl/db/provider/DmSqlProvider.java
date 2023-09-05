@@ -29,14 +29,14 @@ public class DmSqlProvider implements SqlProvider {
 	 */
 	@Override
 	public String getCreateTableSql() {
-		return "CREATE TABLE #tableName (ID BIGINT IDENTITY (1,1) NOT NULL,VALUE BIGINT NOT NULL"
+		return "CREATE TABLE #tableName (ID BIGINT NOT NULL,VALUE BIGINT NOT NULL"
 				+ ",NAME VARCHAR (32) NOT NULL,GMT_CREATE TIMESTAMP (0) NOT NULL,GMT_MODIFIED TIMESTAMP (0) NOT NULL"
 				+ ",NOT CLUSTER PRIMARY KEY (ID),CONSTRAINT UK_NAME UNIQUE (NAME)) STORAGE (ON MAIN,CLUSTERBTR);";
 	}
 
 	@Override
 	public Boolean support(DbType dbType) {
-		return DbType.SQL_SERVER.equals(dbType);
+		return DbType.DM.equals(dbType);
 	}
 
 }
