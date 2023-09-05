@@ -166,7 +166,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 			return R.failed(r.getMsg());
 		}
 		String flowId = r.getData();
-		NodeUser nodeUser = objectMapper.readValue(process.getAdmin(), new TypeReference<List<NodeUser>>() {
+		NodeUser nodeUser = objectMapper.readValue(process.getAdminList(), new TypeReference<List<NodeUser>>() {
 		}).get(0);
 
 		// 更新流程
@@ -217,7 +217,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		p.setStop(false);
 		p.setAdminId(nodeUser.getId());
 		p.setUniqueId(IdUtil.fastSimpleUUID());
-		p.setAdmin(process.getAdmin());
+		p.setAdminList(process.getAdminList());
 		p.setRangeShow(stringBuilder.toString());
 
 		this.save(p);

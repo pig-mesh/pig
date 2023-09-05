@@ -24,19 +24,19 @@ public class ProcessStarter {
 	/**
 	 * 用户id或者部门id
 	 */
-	@TableField("`type_id`")
+	@TableField("type_id")
 	private Long typeId;
 
 	/**
 	 * 类型 user dept
 	 */
-	@TableField("`type`")
+	@TableField("type")
 	private String type;
 
 	/**
 	 * 流程id
 	 */
-	@TableField("`process_id`")
+	@TableField("process_id")
 	private Long processId;
 
 	/**

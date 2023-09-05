@@ -25,58 +25,58 @@ public class ProcessNodeRecord {
 	/**
 	 * 流程id
 	 */
-	@TableField("`flow_id`")
+	@TableField("flow_id")
 	private String flowId;
 
 	/**
 	 * 流程实例id
 	 */
-	@TableField("`process_instance_id`")
+	@TableField("process_instance_id")
 	private String processInstanceId;
 
 	/**
 	 * 表单数据
 	 */
-	@TableField("`data`")
+	@TableField("data")
 	private String data;
 
-	@TableField("`node_id`")
+	@TableField("node_id")
 	private String nodeId;
 
 	/**
 	 * 节点类型
 	 */
-	@TableField("`node_type`")
+	@TableField("node_type")
 	private String nodeType;
 
 	/**
 	 * 节点名字
 	 */
-	@TableField("`node_name`")
+	@TableField("node_name")
 	private String nodeName;
 
 	/**
 	 * 节点状态
 	 */
-	@TableField("`status`")
+	@TableField("status")
 	private Integer status;
 
 	/**
 	 * 开始时间
 	 */
-	@TableField("`start_time`")
+	@TableField("start_time")
 	private Date startTime;
 
 	/**
 	 * 结束时间
 	 */
-	@TableField("`end_time`")
+	@TableField("end_time")
 	private Date endTime;
 
 	/**
 	 * 执行id
 	 */
-	@TableField("`execution_id`")
+	@TableField("execution_id")
 	private String executionId;
 
 	/**

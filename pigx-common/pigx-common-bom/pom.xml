@@ -26,7 +26,7 @@
         <mysql.connector.version>8.0.32</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
-        <dm.version>8.1.2.79</dm.version>
+        <dm.version>8.1.2.192</dm.version>
         <highgo.version>6.2.0</highgo.version>
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
@@ -250,6 +250,11 @@
             <dependency>
                 <groupId>com.dameng</groupId>
                 <artifactId>DmJdbcDriver18</artifactId>
+                <version>${dm.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dameng</groupId>
+                <artifactId>DmDialect-for-hibernate5.3</artifactId>
                 <version>${dm.version}</version>
             </dependency>
             <dependency>

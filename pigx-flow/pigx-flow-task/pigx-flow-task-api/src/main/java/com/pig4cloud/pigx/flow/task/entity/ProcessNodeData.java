@@ -24,16 +24,16 @@ public class ProcessNodeData {
 	/**
 	 * 流程id
 	 */
-	@TableField("`flow_id`")
+	@TableField("flow_id")
 	private String flowId;
 
 	/**
 	 * 表单数据
 	 */
-	@TableField("`data`")
+	@TableField("data")
 	private String data;
 
-	@TableField("`node_id`")
+	@TableField("node_id")
 	private String nodeId;
 
 	/**

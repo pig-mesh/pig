@@ -6,10 +6,13 @@ server:
     include-message: always
 db:
   num: 1
-  user: ${MYSQL_USER:root}
-  password: ${MYSQL_PWD:root}
+  user: SYSDBA
+  password: SYSDBA
   url:
-    0: jdbc:mysql://${MYSQL_HOST:pigx-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pigxx_config}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
+    0: jdbc:dm://home:35236
+  pool:
+    config:
+      driver-class-name: dm.jdbc.driver.DmDriver
 
 nacos:
   core:
@@ -26,7 +29,7 @@ nacos:
 
 spring:
   datasource:
-    platform: mysql  #这个过期属性不能修改，nacos 代码对此有硬编码
+    platform: dameng  #这个过期属性不能修改，nacos 代码对此有硬编码
   security:
     enabled: true
   boot: # 接入 spring boot admin

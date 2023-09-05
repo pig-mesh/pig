@@ -24,13 +24,13 @@ public class ProcessGroup {
 	/**
 	 * 分组名
 	 */
-	@TableField("`group_name`")
+	@TableField("group_name")
 	private String groupName;
 
 	/**
 	 * 排序
 	 */
-	@TableField("`sort`")
+	@TableField("sort")
 	private Integer sort;
 
 	/**
