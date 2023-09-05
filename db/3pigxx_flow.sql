@@ -25,7 +25,7 @@ CREATE TABLE `process` (
   `is_stop` tinyint(1) NOT NULL COMMENT '0 正常 1=停用 ',
   `admin_id` bigint DEFAULT NULL COMMENT '流程管理员',
   `unique_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '唯一性id',
-  `admin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '管理员',
+  `admin_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '管理员',
   `range_show` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '范围描述显示',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
