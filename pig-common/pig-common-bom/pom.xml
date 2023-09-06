@@ -23,6 +23,7 @@
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
@@ -103,6 +104,11 @@
                 <version>${mysql.version}</version>
             </dependency>
             <!--springdoc -->
+            <dependency>
+                <groupId>io.springboot</groupId>
+                <artifactId>knife4j-openapi3-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>

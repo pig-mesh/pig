@@ -83,6 +83,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
         </dependency>
+        <!--引入Knife4j的官方ui包-->
+        <dependency>
+            <groupId>io.springboot</groupId>
+            <artifactId>knife4j-openapi3-ui</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
