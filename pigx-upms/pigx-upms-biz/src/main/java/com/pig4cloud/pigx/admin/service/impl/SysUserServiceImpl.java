@@ -491,7 +491,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		}
 		else if (type.equals("tencent")) {
 			wrapper = Wrappers.<SysUser>lambdaUpdate()
-				.set(SysUser::getTenantId, null)
+				.set(SysUser::getQqOpenid, null)
 				.eq(SysUser::getUserId, user.getId());
 		}
 		if (wrapper == null) {
