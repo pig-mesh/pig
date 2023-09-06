@@ -23,6 +23,7 @@
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
+        <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.3.2</mybatis-plus.version>
@@ -109,6 +110,12 @@
                 <version>${mysql.version}</version>
             </dependency>
             <!--springdoc -->
+            <!--引入Knife4j的官方ui包-->
+            <dependency>
+                <groupId>io.springboot</groupId>
+                <artifactId>knife4j-openapi3-ui</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-webmvc-core</artifactId>

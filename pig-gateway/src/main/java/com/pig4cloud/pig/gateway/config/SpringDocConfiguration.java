@@ -1,18 +1,20 @@
 package com.pig4cloud.pig.gateway.config;
 
-import lombok.Data;
-import org.springdoc.core.GroupedOpenApi;
-import org.springdoc.core.SwaggerUiConfigParameters;
+import com.alibaba.nacos.client.naming.event.InstancesChangeEvent;
+import com.alibaba.nacos.common.notify.Event;
+import com.alibaba.nacos.common.notify.NotifyCenter;
+import com.alibaba.nacos.common.notify.listener.Subscriber;
+import com.alibaba.nacos.common.utils.StringUtils;
+import lombok.RequiredArgsConstructor;
+import org.springdoc.core.AbstractSwaggerUiConfigProperties;
+import org.springdoc.core.SwaggerUiConfigProperties;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -21,52 +23,65 @@ import java.util.Map;
  * swagger 3.0 展示
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = true)
-public class SpringDocConfiguration {
+@RequiredArgsConstructor
+@ConditionalOnProperty(name = "springdoc.api-docs.enabled", matchIfMissing = false)
+public class SpringDocConfiguration implements InitializingBean {
 
-	@Bean
-	@Lazy(false)
-	public List<GroupedOpenApi> apis(SwaggerUiConfigParameters swaggerUiConfigParameters,
-			SwaggerDocProperties swaggerProperties) {
-		List<GroupedOpenApi> groups = new ArrayList<>();
-		for (String value : swaggerProperties.getServices().values()) {
-			swaggerUiConfigParameters.addGroup(value);
-		}
-		return groups;
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
+
+	private final DiscoveryClient discoveryClient;
+
+	/**
+	 * 在初始化后调用的方法，用于注册SwaggerDocRegister订阅器
+	 */
+	@Override
+	public void afterPropertiesSet() {
+		SwaggerDocRegister swaggerDocRegister = new SwaggerDocRegister(swaggerUiConfigProperties, discoveryClient);
+		// 手动调用一次，避免监听事件掉线问题
+		swaggerDocRegister.onEvent(null);
+		NotifyCenter.registerSubscriber(swaggerDocRegister);
 	}
 
-	@Data
-	@Component
-	@ConfigurationProperties("swagger")
-	public class SwaggerDocProperties {
+}
 
-		private Map<String, String> services;
+/**
+ * Swagger文档注册器，继承自Subscriber<InstancesChangeEvent>
+ */
+@RequiredArgsConstructor
+class SwaggerDocRegister extends Subscriber<InstancesChangeEvent> {
 
-		/**
-		 * 认证参数
-		 */
-		private SwaggerBasic basic = new SwaggerBasic();
+	private final SwaggerUiConfigProperties swaggerUiConfigProperties;
 
-		@Data
-		public class SwaggerBasic {
+	private final DiscoveryClient discoveryClient;
 
-			/**
-			 * 是否开启 basic 认证
-			 */
-			private Boolean enabled;
+	/**
+	 * 事件回调方法，处理InstancesChangeEvent事件
+	 * @param event 事件对象
+	 */
+	@Override
+	public void onEvent(InstancesChangeEvent event) {
+		Set<AbstractSwaggerUiConfigProperties.SwaggerUrl> swaggerUrlSet = discoveryClient.getServices()
+			.stream()
+			.flatMap(serviceId -> discoveryClient.getInstances(serviceId).stream())
+			.filter(instance -> StringUtils.isNotBlank(instance.getMetadata().get("spring-doc")))
+			.map(instance -> {
+				AbstractSwaggerUiConfigProperties.SwaggerUrl swaggerUrl = new AbstractSwaggerUiConfigProperties.SwaggerUrl();
+				swaggerUrl.setName(instance.getServiceId());
+				swaggerUrl.setUrl(String.format("/%s/v3/api-docs", instance.getMetadata().get("spring-doc")));
+				return swaggerUrl;
+			})
+			.collect(Collectors.toSet());
 
-			/**
-			 * 用户名
-			 */
-			private String username;
+		swaggerUiConfigProperties.setUrls(swaggerUrlSet);
+	}
 
-			/**
-			 * 密码
-			 */
-			private String password;
-
-		}
-
+	/**
+	 * 订阅类型方法，返回订阅的事件类型
+	 * @return 订阅的事件类型
+	 */
+	@Override
+	public Class<? extends Event> subscribeType() {
+		return InstancesChangeEvent.class;
 	}
 
 }
