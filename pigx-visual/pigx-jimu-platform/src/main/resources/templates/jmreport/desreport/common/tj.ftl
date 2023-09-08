@@ -5,7 +5,7 @@
         var s = document.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
-        s.src = "https://hm.baidu.com/hm.js?5819d05c0869771ff6e6a81cdec5b2e8";
+        s.src = "https://hm.baidu.com/hm.js?b756a4a8e1c58d613e27d1459c6d6076";
         var x = document.getElementsByTagName('script')[0];
         x.parentNode.insertBefore(s, x);
     }

@@ -1083,15 +1083,15 @@
     },
     data(){
       return {
-        url:["http://report.jeecg.com/2332214",
-             "http://report.jeecg.com/2332216",
-             "http://report.jeecg.com/2332217",
-             "http://report.jeecg.com/2332218",
-             "http://report.jeecg.com/2332219",
-             "http://report.jeecg.com/2332221",
-             "http://report.jeecg.com/2358337",
-             "http://report.jeecg.com/2361961",
-             "http://report.jeecg.com/2365251"]
+        url:["https://help.jeecg.com/jimureport/function/cell.html",
+             "https://help.jeecg.com/jimureport/function/condition.html",
+             "https://help.jeecg.com/jimureport/function/date.html",
+             "https://help.jeecg.com/jimureport/function/math.html",
+             "https://help.jeecg.com/jimureport/function/characterString.html",
+             "https://help.jeecg.com/jimureport/function/colour.html",
+             "https://help.jeecg.com/jimureport/function/library.html",
+             "https://help.jeecg.com/jimureport/function/determine.html",
+             "https://help.jeecg.com/jimureport/function/tongji.html"]
       }
     },
     methods: {

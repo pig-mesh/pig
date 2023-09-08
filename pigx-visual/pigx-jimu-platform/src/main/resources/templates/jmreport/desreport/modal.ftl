@@ -51,7 +51,7 @@
         <p slot="header">
             <span>添加图表
                <Tooltip :transfer="true" content="图表文档" placement="top">
-                  <a class="jimu-table-tip help-color" href="http://report.jeecg.com/1605007" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                  <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/chart.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                </Tooltip>  
             </span>
         </p>
@@ -94,7 +94,7 @@
         <p slot="header">
             <span>添加表达式
                <Tooltip :transfer="true" content="表达式文档" placement="top">
-                   <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2332213" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                   <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/function.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                </Tooltip>
                <Tooltip style="cursor: pointer;float: right;margin-right: 30px;" v-if="functionScreen" :transfer="true" content="缩小" placement="top">
                    <Icon type="ios-contract" @click="functionScreenClick"/>

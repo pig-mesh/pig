@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.13">
+<#assign CACHE_VERSION = "v=1693888295.10">
 <#assign config_id = "${id!''}">
 <!DOCTYPE html>
 <html>
@@ -490,7 +490,7 @@
                                         <div style="width:95%;height: 30px;border: none;margin-left: 10px; z-index:999;cursor: pointer;margin-left:27px">
                                             <span class="rightFontSize">数据集管理
                                                 <Tooltip :transfer="true" content="数据源管理文档" placement="left" class="jimu-tooltip">
-                                                    <a class=" help-color" href="http://report.jeecg.com/1835711" target="_blank" style="margin-right: 15px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 4px;"/></a>
+                                                    <a class=" help-color" href="https://help.jeecg.com/jimureport/base/dataSet.html" target="_blank" style="margin-right: 15px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 4px;"/></a>
                                                 </Tooltip>
                                             </span>
                                             <Dropdown @on-click="onMenuSelect" placement="bottom-start" :transfer="true">
@@ -537,7 +537,7 @@
                                     <div style="width:100%;height: 45px;border: none;margin-left: 25px;cursor: pointer;margin-top: 10px">
                                       <span @click="createDictClick" class="rightFontSize">数据字典<i style="position: relative;left:100px;font-size: 14px;" class="ivu-icon ivu-icon-md-create"></i></span>
                                       <Tooltip :transfer="true" content="数据字典文档" placement="left" class="jimu-tooltip">
-                                          <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2083759" target="_blank"  style="margin-right: 26px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 4px;"/></a>
+                                          <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/base/dictionary.html" target="_blank"  style="margin-right: 26px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 4px;"/></a>
                                       </Tooltip>
                                     </div>
                                 </i-menu>
@@ -606,7 +606,7 @@
                                           <template slot="title">
                                               <span class="rightFontSize">补充空白行
                                                 <Tooltip :transfer="true" content="补充空白行文档" placement="left" class="jimu-tooltip">
-                                                    <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2361240" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                    <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/base/completeLines.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                                 </Tooltip>
                                               </span>
                                           </template>
@@ -628,7 +628,7 @@
                                         <template slot="title">
                                           <span class="rightFontSize">分组设置
                                              <Tooltip :transfer="true" content="分组设置文档" placement="left" class="jimu-tooltip">
-                                                <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2032023" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/datareport/group.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                             </Tooltip>      
                                           </span>
                                         </template>
@@ -652,6 +652,10 @@
                                                 </i-select>
                                             </div>
                                             <div class="basicSettingTop rightFontSize">
+                                                <span>自定义文本排序</span>
+                                                <i-input v-model="excel.textOrders" :autosize="true" type="textarea" @on-change="selectTextOrders" placeholder="文本以|分割，示例：1月|2月|3月"></i-input>
+                                            </div>
+                                            <div class="basicSettingTop rightFontSize">
                                               <span>高级配置</span>
                                               <i-select :transfer="true" :model.sync="excel.advanced" :transfer="true"  v-model="excel.advanced" @on-change="selectAdvancedList" class="fourInputWidth">
                                                 <i-option class="rightFontSize" v-for="item in advancedList" :value="item.value">{{ item.label }}</i-option>
@@ -664,7 +668,7 @@
                                             <template slot="title">
                                                 <span class="rightFontSize">小计设置
                                                     <Tooltip :transfer="true" content="分组小计文档" placement="left" class="jimu-tooltip">
-                                                        <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2333594" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                        <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/group/verticalSubtotal.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                                     </Tooltip>  
                                                 </span>
                                             </template>
@@ -690,7 +694,7 @@
                                     <template slot="title">
                                         <span class="rightFontSize">超链接设置
                                             <Tooltip :transfer="true" content="超链接文档" placement="left" class="jimu-tooltip">
-                                                <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2232719" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/datareport/linkage.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                             </Tooltip>
                                         </span>
                                     </template>
@@ -719,7 +723,7 @@
                                       <template slot="title">
                                           <span class="rightFontSize">其他设置
                                               <Tooltip :transfer="true" content="数据格式化文档" placement="left" class="jimu-tooltip">
-                                                  <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2084138" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                  <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/base/dataFormat.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                               </Tooltip>  
                                           </span>
                                       </template>
@@ -736,7 +740,7 @@
                                       <template slot="title">
                                           <span class="rightFontSize">主子报表参数设置
                                             <Tooltip :transfer="true" content="主子报表文档" placement="left" class="jimu-tooltip">
-                                                <a class="jimu-table-tip help-color help-margin" href="http://report.jeecg.com/2296481" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                <a class="jimu-table-tip help-color help-margin" href="https://help.jeecg.com/jimureport/datareport/masterReport.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                             </Tooltip>
                                           </span>
                                       </template>
@@ -1050,14 +1054,17 @@
             token = getRequestUrl().token;
         }
         excel_req_token = token
-        console.log("index_load--------------",token);
+        //console.log("index_load--------------",token);
         let reportConfig = getReportConfigJson();
-        let colLength = 50, viewPageSize = [10,20,30], printPaper = []
+        let colLength = 50,rowLength = 100, viewPageSize = [10,20,30], printPaper = []
         if(reportConfig['pageSize']){
             viewPageSize = reportConfig['pageSize']
         }
         if(reportConfig['col']){
             colLength = reportConfig['col']
+        }
+        if(reportConfig['row']){
+            rowLength = reportConfig['row']
         }
         if(reportConfig['printPaper']){
             printPaper = reportConfig['printPaper']
@@ -1082,7 +1089,7 @@
                 width: () => document.documentElement.clientWidth,
             },
             row: {
-                len: 100,
+                len: rowLength,
                 height: 25,
                 minRowResizerHeight:1 //拖拽行最小高度
             },
@@ -1113,6 +1120,7 @@
         x.spreadsheet.locale('zh-cn');
         xs = x.spreadsheet('#jm-sheet-wrapper', options)
                 .onSave(function (data) {
+                    console.log("data: ", data)
                     //设置报表打印宽度
                     const dataRect = xs.data.getDataRect();
                     let dataRectWidth = 0;
@@ -1261,7 +1269,7 @@
             if(!str) return;
             //页面加载时设置报表宽度
             const jsonStr = JSON.parse(str);
-            console.log('jsonstr', jsonStr)
+            //console.log('jsonstr', jsonStr)
             // 设置增强
             vm.setEnhanceConfig(res.cssStr, res.jsStr)
             if(jsonStr.chartList)

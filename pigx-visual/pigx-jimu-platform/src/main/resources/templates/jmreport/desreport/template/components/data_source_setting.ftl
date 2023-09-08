@@ -61,7 +61,7 @@
                             </i-select>
                             <i-button size="small"  @click="sourceManage" v-if="sqlForm.dbType == 0" type="primary">维护</i-button>
                             <Tooltip :transfer="true" content="数据源维护文档" placement="top" class="jimu-tooltip">
-                              <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2084137" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                              <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/base/dbsource.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                             </Tooltip>
                         </div>
                         <i-input size="small" style="margin-top: 10px" search enter-button v-model="tableName" placeholder="表名查询" @on-search="queryTableName" />
@@ -110,7 +110,7 @@
                                         <#--<Checkbox :checked.sync="sqlForm.isPage" v-if="addIsPage == true" disabled v-model="sqlForm.isPage">是否分页</Checkbox>-->
                                         <Checkbox :checked.sync="sqlForm.isPage" v-if="sqlForm.isList == true && sqlForm.dbType != 3" v-model="sqlForm.isPage" @on-change="checkChange" style="width: 100px;margin-left: -86px">是否分页
                                           <Tooltip :transfer="true" content="分页文档" placement="top" class="jimu-tooltip">
-                                            <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2084139" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                            <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/base/paging.html" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                           </Tooltip>
                                         </Checkbox>
                                     </form-item>
@@ -139,7 +139,7 @@
                                           <li>您可以编写${'#'}${'{sysUserCode}'} 做为一个系统变量,这里sysUserCode是当前登录人。例如:select * from table where create_by=${"'#"}${"{sysUserCode}'"}。</li>
                                           <li>您可以编写存储过程CALL proc_sys_role(${'$'}${'{'}${'pageNo'}${"}"}, ${'$'}${'{'}${'pageSize'}${"}"}),CALL为开启存储过程。
                                             <Tooltip content="数据源用法文档" placement="top">
-                                              <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2384069" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                              <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/dsUse.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                             </Tooltip>
                                           </li>  
                                       </ul>
@@ -154,9 +154,9 @@
                                           <ul>
                                             <li>如果id字段为字符串类型则需要加单引号:http://127.0.0.1:8080/jeecg-boot/jimureport/test?id=${"$"}${"{id}"}。</li>
                                             <li>您可以编写${"#"}${"{sysDateTime}"}做为一个系统变量,这里sysDateTime是当前系统时间。例如:http://127.0.0.1:8080/jeecg-boot/jimureport/test?riqi=${"#"}${"{sysDateTime}"}。</li>
-                                            <li>您可以简写访问路径，如：{ { domainURL } }/jimureport/test。
+                                            <li>您可以简写访问路径，如：${"#"}${"{domainURL}"}/jimureport/test/getList
                                               <Tooltip content="数据源用法文档" placement="top">
-                                                <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2384069" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                                <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/dsUse.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                               </Tooltip>
                                             </li>
                                           </ul>
@@ -167,17 +167,17 @@
                                       <i-input v-model="sqlForm.jsonData" type="textarea" :rows="4"  placeholder="请输入JSON数据" style="min-height: 120px;max-height: 620px;width:950px">
                                       </i-input>
                                      </form-item>
-                                    <i-button @click="handleSQLAnalyze" v-if="sqlForm.dbType == 0" type="primary">SQL解析</i-button>
+                                    <i-button @click="handleAnalyze('sql')" v-if="sqlForm.dbType == 0" type="primary">SQL解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 0"  :transfer="true" content="SQL解析文档" placement="top">
-                                        <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2020087" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                        <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/sql.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
-                                    <i-button @click="handleApiAnalyze" v-if="sqlForm.dbType == 1" type="primary">Api解析</i-button>
+                                    <i-button @click="handleAnalyze('api')" v-if="sqlForm.dbType == 1" type="primary">Api解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 1"  :transfer="true" content="Api解析文档" placement="top">
-                                        <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2020177" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                        <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/api.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
-                                    <i-button @click="handleJsonAnalyze" v-if="sqlForm.dbType == 3" type="primary">JSON解析</i-button>
+                                    <i-button @click="handleAnalyze('json')" v-if="sqlForm.dbType == 3" type="primary">JSON解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 3"  :transfer="true" content="JSON解析文档" placement="top">
-                                        <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2290859" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                        <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/dataSet/json.html" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
                                 </i-col>
                             </Row>
@@ -1512,7 +1512,6 @@
                                  results.searchFlag = 0
                               }
                               results.orderNum = i
-                              results.extJson=""
                               newData.push(results);
                               i++;
                           }
@@ -1598,7 +1597,7 @@
                       if(result && result.length>0){
                         Vue.prototype.$Message.success("解析成功！");
                       }else{
-                        Vue.prototype.$Message.warning("数据为空，报表字段明细会被清空！");
+                        Vue.prototype.$Message.warning("执行成功，但是数据为空，无法解析报表字段！！");
                       }
                       //update-end--Author:wangshuai--Date:20211109--for:api解析为空提示
                       //update-begin--Author:wangshuai  Date:20210430  for：api动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
@@ -1633,7 +1632,6 @@
                           results.searchFlag = 0
                         }
                         results.orderNum = i
-                        results.extJson = ""
                         newData.push(results);
                         i++;
                       }
@@ -2353,6 +2351,28 @@
                  this.tab2.data[this.tableIndex].extJson = this.paramConfigData
                }
               this.extJsonCancel(); 
+            },
+            /**
+             * 是否需要更新字段
+             */
+            handleAnalyze(value) {
+                let that = this;
+                this.$Modal.confirm({
+                    title:'是否要重置字段?',
+                    content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
+                    onOk: () => {
+                        if(value == 'sql'){
+                            that.handleSQLAnalyze();
+                        }else if(value == 'api'){
+                            that.handleApiAnalyze();
+                        }else if(value == 'json'){
+                            that.handleJsonAnalyze();
+                        }
+                    },
+                    onCancel: () => {
+                        console.info("不重置字段")
+                    }
+                });
             }
         }
     })

@@ -167,7 +167,7 @@
                 $http.metaGet(this.url).then((res) => {
                     this.combineTreeData(res.data)
                 }).catch(function (error){
-                  console.log('加载树错误', error)
+                  console.error('加载树错误', error)
                 });
             },
             initTreeSelected(){
@@ -345,10 +345,10 @@
                 }
             },
             selectChange (obj) {
-                console.log('selectChange', obj)
+                //console.log('selectChange', obj)
             },
             treeCheckChange(arr){
-                console.log('treeCheckChange', arr)
+                //console.log('treeCheckChange', arr)
                 this.multipleShowVal = []
                 this.multipleHideVal = []
                 for (let i = 0; i < arr.length; i++) {

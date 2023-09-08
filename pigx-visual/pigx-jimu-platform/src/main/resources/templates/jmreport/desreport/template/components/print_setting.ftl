@@ -4,7 +4,7 @@
             <p slot="header">
             <span>打印设置
                <Tooltip :transfer="true" content="打印文档" placement="top">
-                  <a class="jimu-table-tip help-color" href="http://report.jeecg.com/1605005" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                  <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/print.html" target="_blank"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                </Tooltip>
             </span>
             </p>

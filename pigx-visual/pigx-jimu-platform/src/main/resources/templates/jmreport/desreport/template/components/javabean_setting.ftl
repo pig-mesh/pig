@@ -37,7 +37,7 @@
                         <form-item prop="isPage" style="display: flex">
                             <Checkbox v-if="formData.isList == true" v-model="formData.isPage" @on-change="checkChange" style="width: 100px">是否分页
                               <Tooltip :transfer="true" content="分页文档" placement="top" class="jimu-tooltip">
-                                <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2084139" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                                <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/base/paging.html" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                               </Tooltip>
                             </Checkbox>
                         </form-item>
@@ -56,9 +56,9 @@
                         <form-item prop="javaValue" label="值：">
                             <i-input v-model="formData.javaValue" type="text" style="width: 400px" placeholder="请填入对应的值"/>
                         </form-item>
-                        <i-button @click="analyze" type="primary">解 析</i-button>
+                        <i-button @click="handelAnalyze" type="primary">解 析</i-button>
                         <Tooltip :transfer="true" content="javabean解析文档" placement="top">
-                            <a class="jimu-table-tip help-color" href="http://report.jeecg.com/2220323" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
+                            <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/dataSet/java.html" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                         </Tooltip>
                     </i-col>
                 </Row>
@@ -685,6 +685,22 @@
               }else{
                   return true
               }
+            },
+            /**
+             * 解析之前提示是否重置字段
+             */
+            handelAnalyze(){
+                let that = this;
+                this.$Modal.confirm({
+                    title:'是否要重置字段?',
+                    content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
+                    onOk: () => {
+                        that.analyze();
+                    },
+                    onCancel: () => {
+                        console.info("不重置字段")
+                    }
+                });
             },
             analyze(){
                 let { javaType, javaValue, isPage } = this.formData

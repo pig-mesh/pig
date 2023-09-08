@@ -128,7 +128,7 @@
                 if(type === 'pie' || type === 'funnel' || type === 'scatter' || type === 'graph'){
                     //如果是选中数值状态
                     if(this.izShowNumber){
-                        this.seriesOption.formatter="{b}\n{c}"
+                        this.seriesOption.formatter="{b}:{c}"
                     }else{
                         this.seriesOption.formatter="{b}"
                     } 

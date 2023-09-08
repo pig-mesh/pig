@@ -473,7 +473,7 @@
             if (that.dictItemModel.status ==undefined) {
               that.dictItemModel.status = 1
             }
-            console.log(that.dictItemModel);
+            //console.log(that.dictItemModel);
             $http.post({
               url: url,
               contentType: 'json',
@@ -590,7 +590,7 @@
       },
       //字典详情编辑
       editItemDict(row) {
-        console.log(row)
+        //console.log(row)
         this.dictItemTitle = "修改"
         this.dictItemModel = row
         this.createDictItemShow = true

@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.13">
+<#assign CACHE_VERSION = "v=1693888295.10">
 <!DOCTYPE html>
 <html>
 <head>
@@ -119,15 +119,18 @@
     .ivu-select-dropdown-list .ivu-select-item-focus{
         background: none !important;
     }
+    /*列表底部tooltip字体大小*/
+    .tooltip-footer-font-size .ivu-tooltip-inner{
+        font-size: 12px;
+    }
+    .tooltip-footer-font-size{
+        font-size: 12px;
+    }
 </style>
 <!--引入自定义组件-->
 <#include "./template/list.ftl">
 <div id="app" style="padding-left: 30px">
     <div class="layout" style="margin-left: -30px;margin-top: -10px;">
-<#--      <div style="background-color: #1890FF;height: 47px">-->
-<#--        <span class="aui-logo"></span>-->
-<#--        <span class="jimu-header">欢迎进入积木报表工作台 </span>-->
-<#--      </div>-->
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
                 <i-menu theme="primary" width="auto" :class="menuitemClasses" active-name="datainfo" :open-names="['sub']" @on-select="onMenuSelect">
@@ -152,7 +155,7 @@
                 <tab-pane icon="md-desktop" label="报表设计" name="name1" class="jimu-tab">
                   <div style="display: flex;justify-content:space-between;margin-left:16px;margin-right: 38px;">
                     <div>
-                      <i-input size="small" v-model="name" @keyup.enter.native="enterSearchClick" placeholder="回车搜索报表名称"></i-input>
+                      <i-input size="small" v-model="name" @keyup.enter.native="enterSearchClick" placeholder="搜索报表名称"></i-input>
                     </div>
                     <div class="page">
                         <Page :total="page.total"
@@ -204,25 +207,32 @@
 
                             <!-- 底部 &ndash;&gt;-->
                             <div class="item-footer">
-                                <span class="item-name">{{ item.name }}</span>
+                                <Tooltip :content="item.name" placement="top-start" :transfer="true">
+                                    <template slot="content">
+                                        <span class="tooltip-footer-font-size">{{item.name}}</span>
+                                    </template>
+                                    <div class="item-name">
+                                        {{ item.name }}
+                                    </div>
+                                </Tooltip>
                                 <div>
                                     <a class="opt-show" :href="getExcelViewUrl(item)" target="_blank">
-                                        <Tooltip content="预览模板" placement="top">
+                                        <Tooltip content="预览模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" v-show="userMessage" @click="setTemplate(item,1)">
-                                        <Tooltip content="收藏模板" placement="top">
+                                        <Tooltip content="收藏模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-star-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleDelete(item)">
-                                        <Tooltip content="删除模板" placement="top">
+                                        <Tooltip content="删除模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-trash" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleCopy(item)">
-                                        <Tooltip content="复制模板" placement="top">
+                                        <Tooltip content="复制模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
@@ -280,7 +290,7 @@
                 <tab-pane icon="md-options" label="模板案例" name="name2" class="jimu-tab">
                   <div style="display: flex;justify-content:space-between;margin-left:16px;margin-right: 38px">
                     <div>
-                      <i-input size="small" v-model="name" @keyup.enter.native="loadData" placeholder="回车搜索报表名称"></i-input>
+                      <i-input size="small" v-model="name" @keyup.enter.native="loadData" placeholder="搜索报表名称"></i-input>
                     </div>
                     <div class="page">
                         <Page :total="page.total"
@@ -326,20 +336,27 @@
 
                             <!-- 底部 &ndash;&gt;-->
                             <div class="item-footer">
-                                <span class="item-name">{{ item.name }}</span>
+                                <Tooltip placement="top-start" transfer>
+                                    <template slot="content">
+                                        <span class="tooltip-footer-font-size">{{item.name}}</span>
+                                    </template>
+                                    <div class="item-name">
+                                        {{ item.name }}
+                                    </div>
+                                </Tooltip>
                                 <div style="margin-left: 14%;">
                                     <a class="opt-show" :href="getExcelViewUrl(item)" target="_blank">
-                                        <Tooltip content="预览模板" placement="top">
+                                        <Tooltip content="预览模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" v-show="userMessage" @click="setTemplate(item,0)">
-                                        <Tooltip content="取消收藏" placement="top">
+                                        <Tooltip content="取消收藏" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-star" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleCopy(item)">
-                                        <Tooltip content="复制模板" placement="top">
+                                        <Tooltip content="复制模板" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
@@ -354,7 +371,7 @@
                                             :on-format-error="handleFormatError"
                                             :on-exceeded-size="handleMaxSize"
                                             :on-success="handleSuccess">
-                                        <Tooltip content="上传封面" placement="top-end">
+                                        <Tooltip content="上传封面" placement="top-end" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-md-image" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </Upload>
@@ -370,22 +387,22 @@
                     <i-table size="small" style="margin-top: 10px"  border :columns="listColumns" :data="dataSource">
                       <template slot-scope="{ row, index }" slot="action">
                         <a class="opt-list-show" :href="getExcelEditUrl(row)" target="_blank">
-                          <Tooltip transfer="true" content="编辑" placement="top">
+                          <Tooltip transfer="true" content="编辑" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-md-create" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
                         <a class="opt-list-show" :href="getExcelViewUrl(row)" target="_blank">
-                          <Tooltip transfer="true" content="预览模板" placement="top">
+                          <Tooltip transfer="true" content="预览模板" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
                         <a class="opt-list-show" v-show="userMessage" @click="setTemplate(row,0)">
-                          <Tooltip transfer="true" content="取消收藏" placement="top">
+                          <Tooltip transfer="true" content="取消收藏" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-ios-star" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
                         <a class="opt-list-show" @click="handleCopy(row)">
-                          <Tooltip transfer="true" content="复制模板" placement="top">
+                          <Tooltip transfer="true" content="复制模板" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
@@ -484,7 +501,7 @@
         },
         mounted:function(){
            this.token = token;
-            console.log("list_mount--------------",this.token);
+            //console.log("list_mount--------------",this.token);
            this.uploadHeader = {"X-Access-Token":this.token};
            this.actionUrl=BASE_URL+"/jmreport/putFile";
            this.$nextTick(()=>{
@@ -640,7 +657,7 @@
                 },this);
             },
             handlerViewExcel: function(item){
-                console.log(item)
+                //console.log(item)
             },
             getExcelEditUrl: function(item){
                 //update-begin---author:wangshuai ---date:20220215  for：[issues/I4SOSH]做完的积木报表，预览生成的访问地址，默认都加了token=null------------

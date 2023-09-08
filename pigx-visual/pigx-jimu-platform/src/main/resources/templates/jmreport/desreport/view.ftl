@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1.0.13">
+<#assign CACHE_VERSION = "v=1693888295.10">
 <#assign config_id = "${id!''}">
 <#assign shareView = "${shareView}">
 <!DOCTYPE html>
@@ -163,85 +163,88 @@ function getLocalRequestUrl() {
                 <span style="color: #000000;" title="点击展开显示查询信息">查 询 栏</span>
                 <div slot="content">
                     <i-form ref="queryForm" :model="queryInfo" inline :label-width="100" class="jm-query-form" @keydown.native.enter.prevent="doReportQuery">
-                        <template v-for="(item, index) in configQueryList">
-                            <form-item :label="getQueryItemLabel(item)" :index="index">
+                        <Row>
+                            <i-col :span="6" v-for="(item, index) in configQueryList" :key="index">
+                                <form-item style="margin-bottom: 12px !important;" :label="getQueryItemLabel(item)" :index="index">
 
-                                <!-- 日期选择器 yyyy-MM-dd HH:mm:ss -->
-                                <template v-if="item.type=='date'">
-                                    <Row v-if="item.mode==2" :class="'jmreport-query-'+item.realType">
-                                        <i-col span="11">
-                                            <date-picker :ref="item.key+'_begin'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_begin')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_begin']" class="jm-select-box" :placeholder="'请选择起始值'"></date-picker>
-                                        </i-col>
-                                        <i-col span="2" style="text-align: center">&nbsp;~</i-col>
-                                        <i-col span="11">
-                                            <date-picker :ref="item.key+'_end'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_end')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_end']" class="jm-select-box" :placeholder="'请选择结束值'"></date-picker>
-                                        </i-col>
-                                    </Row>
-                                    <date-picker v-else :ref="item.key" :type="item.realType" class="jm-select-box" :transfer="true" :format="item.format" :class="'jmreport-query-'+item.type" v-model="queryInfo['onlyshow_'+item.key]" @on-change="(str)=>handleQueryDateChange(str, item.key)" :placeholder="'请选择'+item.title"></date-picker>
-                                </template>
+                                    <!-- 日期选择器 yyyy-MM-dd HH:mm:ss -->
+                                    <template v-if="item.type=='date'">
+                                        <Row v-if="item.mode==2" :class="'jmreport-query-'+item.realType">
+                                            <i-col span="11">
+                                                <date-picker :ref="item.key+'_begin'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_begin')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_begin']" :placeholder="'请选择起始值'"></date-picker>
+                                            </i-col>
+                                            <i-col span="2" style="text-align: center">&nbsp;~</i-col>
+                                            <i-col span="11">
+                                                <date-picker :ref="item.key+'_end'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_end')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_end']" :placeholder="'请选择结束值'"></date-picker>
+                                            </i-col>
+                                        </Row>
+                                        <date-picker v-else :ref="item.key" :type="item.realType" class="jm-select-box" :transfer="true" :format="item.format" :class="'jmreport-query-'+item.type" v-model="queryInfo['onlyshow_'+item.key]" @on-change="(str)=>handleQueryDateChange(str, item.key)" :placeholder="'请选择'+item.title"></date-picker>
+                                    </template>
 
-                                <!-- 时间选择器 HH:mm:ss -->
-                                <template v-else-if="item.type=='time'">
-                                    <Row v-if="item.mode==2" :class="'jmreport-query-'+item.realType">
-                                        <i-col span="11">
-                                            <time-picker :ref="item.key+'_begin'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_begin')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_begin']" class="jm-select-box" :placeholder="'请选择起始值'"></time-picker>
-                                        </i-col>
-                                        <i-col span="2" style="text-align: center">&nbsp;~</i-col>
-                                        <i-col span="11">
-                                            <time-picker :ref="item.key+'_end'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_end')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_end']" class="jm-select-box" :placeholder="'请选择结束值'"></time-picker>
-                                        </i-col>
-                                    </Row>
-                                    <time-picker :ref="item.key" :time-picker-options="{disabledHours:true}" v-else :type="item.realType" class="jm-select-box" :transfer="true" :format="item.format" :class="'jmreport-query-'+item.type" v-model="queryInfo['onlyshow_'+item.key]" @on-change="(str)=>handleQueryDateChange(str, item.key)" :placeholder="'请选择'+item.title"></time-picker>
-                                </template>
+                                    <!-- 时间选择器 HH:mm:ss -->
+                                    <template v-else-if="item.type=='time'">
+                                        <Row v-if="item.mode==2" :class="'jmreport-query-'+item.realType">
+                                            <i-col span="11">
+                                                <time-picker :ref="item.key+'_begin'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_begin')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_begin']" :placeholder="'请选择起始值'"></time-picker>
+                                            </i-col>
+                                            <i-col span="2" style="text-align: center">&nbsp;~</i-col>
+                                            <i-col span="11">
+                                                <time-picker :ref="item.key+'_end'" @on-change="(str)=>handleQueryDateChange(str, item.key+'_end')" :type="item.realType" :format="item.format" :transfer="true" v-model="queryInfo['onlyshow_'+item.key+'_end']" :placeholder="'请选择结束值'"></time-picker>
+                                            </i-col>
+                                        </Row>
+                                        <time-picker :ref="item.key" :time-picker-options="{disabledHours:true}" v-else :type="item.realType" class="jm-select-box" :transfer="true" :format="item.format" :class="'jmreport-query-'+item.type" v-model="queryInfo['onlyshow_'+item.key]" @on-change="(str)=>handleQueryDateChange(str, item.key)" :placeholder="'请选择'+item.title"></time-picker>
+                                    </template>
 
-                                <!-- 下拉树 -->
-                                <template v-else-if="item.mode==6">
-                                    <j-tree-select :ref="item.key" :url="item.loadTree" :loadtreeurl="item.loadTreeByValue" v-model="queryInfo[item.key]"></j-tree-select>
-                                </template>
+                                    <!-- 下拉树 -->
+                                    <template v-else-if="item.mode==6">
+                                        <j-tree-select :ref="item.key" :url="item.loadTree" :loadtreeurl="item.loadTreeByValue" v-model="queryInfo[item.key]"></j-tree-select>
+                                    </template>
 
-                                <!-- 自定义下拉框 -->
-                                <template v-else-if="item.mode==7">
-                                    <i-select :ref="item.key" class="jm-select-box" clearable :transfer="true" v-model="queryInfo[item.key]" :placeholder="'请选择'+item.title">
-                                        <i-option v-for="(dict, dIndex) in item.dictList" :key="dIndex" :index="index" :value="dict.value">{{ dict.text }}</i-option>
-                                    </i-select>
-                                </template>
+                                    <!-- 自定义下拉框 -->
+                                    <template v-else-if="item.mode==7">
+                                        <i-select :ref="item.key" class="jm-select-box" clearable :transfer="true" v-model="queryInfo[item.key]" :placeholder="'请选择'+item.title">
+                                            <i-option v-for="(dict, dIndex) in item.dictList" :key="dIndex" :index="index" :value="dict.value">{{ dict.text }}</i-option>
+                                        </i-select>
+                                    </template>
 
-                               <template v-else>
-                                   <template v-if="item.dictList && item.dictList.length>0 && (item.mode==4 ||item.mode==3)">
-                                       <!-- 多选 -->
-                                       <j-select-scroll-multiple v-if="item.mode==3"  v-model="queryInfo['onlyshow_'+item.key]" :item="JSON.stringify(item)"  @dictmultipleok="handleDictMultipleOk" :index="index"></j-select-scroll-multiple>
+                                    <template v-else>
+                                        <template v-if="item.dictList && item.dictList.length>0 && (item.mode==4 ||item.mode==3)">
+                                            <!-- 多选 -->
+                                            <j-select-scroll-multiple v-if="item.mode==3"  v-model="queryInfo['onlyshow_'+item.key]" :item="JSON.stringify(item)"  @dictmultipleok="handleDictMultipleOk" :index="index"></j-select-scroll-multiple>
 
-                                       <!-- 单选 -->
-                                       <j-select-scroll-radio v-if="item.mode==4"  v-model="queryInfo[item.key]" :item="JSON.stringify(item)"  @dictok="handleDictOk"></j-select-scroll-radio>
-                                   </template>
+                                            <!-- 单选 -->
+                                            <j-select-scroll-radio v-if="item.mode==4"  v-model="queryInfo[item.key]" :item="JSON.stringify(item)"  @dictok="handleDictOk"></j-select-scroll-radio>
+                                        </template>
 
-                                   <!-- 数值查询 -->
-                                   <template v-else-if="item.type=='number'">
-                                       <Row v-if="item.mode==2">
-                                           <i-col span="11">
-                                               <i-input :ref="item.key+'_begin'" class="jm-select-box" v-model="queryInfo[item.key+'_begin']" type="number" :placeholder="'请输入起始值'" clearable></i-input>
-                                           </i-col>
-                                           <i-col span="2" style="text-align: center">&nbsp;~</i-col>
-                                           <i-col span="11">
-                                               <i-input :ref="item.key+'_end'" class="jm-select-box" v-model="queryInfo[item.key+'_end']" type="number" :placeholder="'请输入结束值'" clearable></i-input>
-                                           </i-col>
-                                       </Row>
-                                       <i-input v-else :ref="item.key" class="jm-select-box" type="number" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
-                                   </template>
+                                        <!-- 数值查询 -->
+                                        <template v-else-if="item.type=='number'">
+                                            <Row v-if="item.mode==2">
+                                                <i-col span="11">
+                                                    <i-input :ref="item.key+'_begin'"  v-model="queryInfo[item.key+'_begin']" type="number" :placeholder="'请输入起始值'" clearable></i-input>
+                                                </i-col>
+                                                <i-col span="2" style="text-align: center">&nbsp;~</i-col>
+                                                <i-col span="11">
+                                                    <i-input :ref="item.key+'_end'" v-model="queryInfo[item.key+'_end']" type="number" :placeholder="'请输入结束值'" clearable></i-input>
+                                                </i-col>
+                                            </Row>
+                                            <i-input v-else :ref="item.key" class="jm-select-box" type="number" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
+                                        </template>
 
-                                   <!-- 默认输入框 模糊查询参数加* -->
-                                   <template v-else>
-                                       <i-input v-if="item.mode==5" :ref="item.key" @on-change="(e)=>handleLikeQueryChange(e, item.key)" class="jm-select-box" v-model="queryInfo['onlyshow_'+item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
-                                       <i-input v-else :ref="item.key" class="jm-select-box" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
-                                   </template>
-                               </template>
-                            </form-item>
-                        </template>
-               
-                        <form-item class="jm-search-btns">
-                            <i-button type="primary" icon="ios-search-outline" @click="doReportQuery">查询</i-button>
-                            <i-button style="margin-left: 8px" icon="ios-redo-outline" @click="resetReportQuery">重置</i-button>
-                        </form-item>
+                                        <!-- 默认输入框 模糊查询参数加* -->
+                                        <template v-else>
+                                            <i-input v-if="item.mode==5" :ref="item.key" @on-change="(e)=>handleLikeQueryChange(e, item.key)" class="jm-select-box" v-model="queryInfo['onlyshow_'+item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
+                                            <i-input v-else :ref="item.key" class="jm-select-box" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
+                                        </template>
+                                    </template>
+                                </form-item>
+                            </i-col>
+                            <i-col :span="6">
+                                <form-item class="jm-search-btns">
+                                    <i-button type="primary" icon="ios-search-outline" @click="doReportQuery">查询</i-button>
+                                    <i-button style="margin-left: 8px" icon="ios-redo-outline" @click="resetReportQuery">重置</i-button>
+                                </form-item>
+                            </i-col>
+                        </Row>
 
                     </i-form>
                 </div>

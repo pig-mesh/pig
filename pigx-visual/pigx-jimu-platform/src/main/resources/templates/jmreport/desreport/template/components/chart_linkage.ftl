@@ -362,7 +362,7 @@
             },
             // 参数选中改变事件
             handleClParamSelected(selections){
-                console.log('selections', selections)
+                //console.log('selections', selections)
                 let arr = []
                 selections.map(k=>{
                     arr.push(k.index)
