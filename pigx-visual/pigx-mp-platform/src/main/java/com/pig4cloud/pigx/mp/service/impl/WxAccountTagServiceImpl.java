@@ -42,7 +42,7 @@ public class WxAccountTagServiceImpl extends ServiceImpl<WxAccountTagMapper, WxA
 	@Transactional(rollbackFor = Exception.class)
 	public WxAccountTag saveAccountTag(WxAccountTag accountTag) {
 		WxAccountTag wxAccountTag = baseMapper
-				.selectOne(Wrappers.<WxAccountTag>lambdaQuery().eq(WxAccountTag::getTag, accountTag.getTag()));
+			.selectOne(Wrappers.<WxAccountTag>lambdaQuery().eq(WxAccountTag::getTag, accountTag.getTag()));
 		Assert.isNull(wxAccountTag, StrUtil.format("名称为[{}]的标签已经存在", accountTag.getTag()));
 
 		// 调用微信公众号接口删除
@@ -52,7 +52,7 @@ public class WxAccountTagServiceImpl extends ServiceImpl<WxAccountTagMapper, WxA
 
 		// 查询公众号详细信息
 		WxAccount wxAccount = accountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, accountTag.getWxAccountAppid()));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, accountTag.getWxAccountAppid()));
 		accountTag.setWxAccountId(wxAccount.getId());
 		accountTag.setWxAccountAppid(wxAccount.getAppid());
 		accountTag.setWxAccountName(wxAccount.getName());

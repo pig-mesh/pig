@@ -63,7 +63,7 @@ public class AppRoleController {
 	@GetMapping("/page")
 	public R getAppRolePage(Page page, AppRole appRole) {
 		return R.ok(appRoleService.page(page, Wrappers.<AppRole>lambdaQuery()
-				.like(StrUtil.isNotBlank(appRole.getRoleName()), AppRole::getRoleName, appRole.getRoleName())));
+			.like(StrUtil.isNotBlank(appRole.getRoleName()), AppRole::getRoleName, appRole.getRoleName())));
 	}
 
 	/**

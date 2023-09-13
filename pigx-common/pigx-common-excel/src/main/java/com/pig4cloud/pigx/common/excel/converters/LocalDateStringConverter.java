@@ -41,7 +41,7 @@ public enum LocalDateStringConverter implements Converter<LocalDate> {
 		}
 		else {
 			DateTimeFormatter formatter = DateTimeFormatter
-					.ofPattern(contentProperty.getDateTimeFormatProperty().getFormat());
+				.ofPattern(contentProperty.getDateTimeFormatProperty().getFormat());
 			return LocalDate.parse(cellData.getStringValue(), formatter);
 		}
 	}

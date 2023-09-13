@@ -86,9 +86,9 @@ public class YungouosMergePayNotifyCallbakHandler extends AbstractPayNotifyCallb
 		String mergeCode = params.get(PayConstants.MERGE_CODE);
 		String orderNo = params.get(PayConstants.MERGE_OUT_TRADE_NO);
 		PayGoodsOrder goodsOrder = goodsOrderService
-				.getOne(Wrappers.<PayGoodsOrder>lambdaQuery().eq(PayGoodsOrder::getPayOrderId, orderNo));
+			.getOne(Wrappers.<PayGoodsOrder>lambdaQuery().eq(PayGoodsOrder::getPayOrderId, orderNo));
 		PayTradeOrder tradeOrder = tradeOrderService
-				.getOne(Wrappers.<PayTradeOrder>lambdaQuery().eq(PayTradeOrder::getOrderId, orderNo));
+			.getOne(Wrappers.<PayTradeOrder>lambdaQuery().eq(PayTradeOrder::getOrderId, orderNo));
 
 		if (OrderStatusEnum.SUCCESS.getStatus().equals(mergeCode)) {
 			goodsOrder.setStatus(OrderStatusEnum.SUCCESS.getStatus());

@@ -506,7 +506,7 @@ public abstract class AbstractEngineConfiguration {
 		databaseTypeMappings.setProperty("DB2/PTX", DATABASE_TYPE_DB2);
 		databaseTypeMappings.setProperty("DB2/2", DATABASE_TYPE_DB2);
 		databaseTypeMappings.setProperty("DB2 UDB AS400", DATABASE_TYPE_DB2);
-		databaseTypeMappings.setProperty("DM DBMS",DATABASE_TYPE_MYSQL);//扩展支持达梦数据
+		databaseTypeMappings.setProperty("DM DBMS", DATABASE_TYPE_MYSQL);// 扩展支持达梦数据
 		databaseTypeMappings.setProperty(PRODUCT_NAME_CRDB, DATABASE_TYPE_COCKROACHDB);
 		return databaseTypeMappings;
 	}

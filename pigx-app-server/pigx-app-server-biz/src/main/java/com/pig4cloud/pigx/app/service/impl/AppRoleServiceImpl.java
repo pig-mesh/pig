@@ -77,8 +77,9 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 		for (AppRoleExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			// 检验角色名称或者角色编码是否存在
-			boolean existRole = roleList.stream().anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
-					|| excel.getRoleCode().equals(appRole.getRoleCode()));
+			boolean existRole = roleList.stream()
+				.anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
+						|| excel.getRoleCode().equals(appRole.getRoleCode()));
 
 			if (existRole) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),

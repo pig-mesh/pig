@@ -28,9 +28,12 @@ public class SequenceConfig {
 	@Bean
 	public Sequence paySequence(DataSource dataSource, SequenceDbProperties properties) {
 		return DbSeqBuilder.create()
-				.bizName(() -> String.format("pay_%s_%s", TenantContextHolder.getTenantId(), DateUtil.today()))
-				.dataSource(dataSource).step(properties.getStep()).retryTimes(properties.getRetryTimes())
-				.tableName(properties.getTableName()).build();
+			.bizName(() -> String.format("pay_%s_%s", TenantContextHolder.getTenantId(), DateUtil.today()))
+			.dataSource(dataSource)
+			.step(properties.getStep())
+			.retryTimes(properties.getRetryTimes())
+			.tableName(properties.getTableName())
+			.build();
 	}
 
 	/**
@@ -41,9 +44,13 @@ public class SequenceConfig {
 	 */
 	@Bean
 	public Sequence channelSequence(DataSource dataSource, SequenceDbProperties properties) {
-		return DbSeqBuilder.create().bizName(() -> String.format("channel_%s", TenantContextHolder.getTenantId()))
-				.dataSource(dataSource).step(properties.getStep()).retryTimes(properties.getRetryTimes())
-				.tableName(properties.getTableName()).build();
+		return DbSeqBuilder.create()
+			.bizName(() -> String.format("channel_%s", TenantContextHolder.getTenantId()))
+			.dataSource(dataSource)
+			.step(properties.getStep())
+			.retryTimes(properties.getRetryTimes())
+			.tableName(properties.getTableName())
+			.build();
 	}
 
 }

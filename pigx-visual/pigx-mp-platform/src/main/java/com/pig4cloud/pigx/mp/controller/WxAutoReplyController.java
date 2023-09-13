@@ -87,8 +87,8 @@ public class WxAutoReplyController {
 	 */
 	public void jude(WxAutoReply wxAutoReply) {
 		if (ReplyTypeEnum.MSG.getType().equals(wxAutoReply.getType())) {
-			Wrapper<WxAutoReply> queryWrapper = Wrappers.<WxAutoReply>lambdaQuery().eq(WxAutoReply::getReqType,
-					wxAutoReply.getReqType());
+			Wrapper<WxAutoReply> queryWrapper = Wrappers.<WxAutoReply>lambdaQuery()
+				.eq(WxAutoReply::getReqType, wxAutoReply.getReqType());
 			List<WxAutoReply> list = wxAutoReplyService.list(queryWrapper);
 			if (wxAutoReply.getId() != null) {
 				if (list != null && list.size() == 1) {
@@ -103,8 +103,8 @@ public class WxAutoReplyController {
 		}
 		if (ReplyTypeEnum.KEYWORD.getType().equals(wxAutoReply.getType())) {
 			Wrapper<WxAutoReply> queryWrapper = Wrappers.<WxAutoReply>lambdaQuery()
-					.eq(WxAutoReply::getReqKey, wxAutoReply.getReqKey())
-					.eq(WxAutoReply::getRepType, wxAutoReply.getRepMate());
+				.eq(WxAutoReply::getReqKey, wxAutoReply.getReqKey())
+				.eq(WxAutoReply::getRepType, wxAutoReply.getRepMate());
 			List<WxAutoReply> list = wxAutoReplyService.list(queryWrapper);
 			if (list != null && list.size() == 1) {
 				if (!list.get(0).getId().equals(wxAutoReply.getId())) {

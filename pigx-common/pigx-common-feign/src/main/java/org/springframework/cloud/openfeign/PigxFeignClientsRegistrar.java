@@ -91,7 +91,8 @@ public class PigxFeignClientsRegistrar
 					continue;
 				}
 
-				registerClientConfiguration(registry, getClientName(attributes), className, attributes.get("configuration"));
+				registerClientConfiguration(registry, getClientName(attributes), className,
+						attributes.get("configuration"));
 
 				validate(attributes);
 				BeanDefinitionBuilder definition = BeanDefinitionBuilder
@@ -255,7 +256,7 @@ public class PigxFeignClientsRegistrar
 	}
 
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
-	                                         Object configuration) {
+			Object configuration) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
 		builder.addConstructorArgValue(name);
 		builder.addConstructorArgValue(className);

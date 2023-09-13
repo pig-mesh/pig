@@ -24,8 +24,9 @@ public class AppArticleCollectServiceImpl extends ServiceImpl<AppArticleCollectM
 		appArticleCollect.setUserId(id);
 
 		this.saveOrUpdate(appArticleCollect,
-				Wrappers.<AppArticleCollectEntity>lambdaQuery().eq(AppArticleCollectEntity::getUserId, id)
-						.eq(AppArticleCollectEntity::getArticleId, appArticleCollect.getArticleId()));
+				Wrappers.<AppArticleCollectEntity>lambdaQuery()
+					.eq(AppArticleCollectEntity::getUserId, id)
+					.eq(AppArticleCollectEntity::getArticleId, appArticleCollect.getArticleId()));
 
 		return Boolean.TRUE;
 	}

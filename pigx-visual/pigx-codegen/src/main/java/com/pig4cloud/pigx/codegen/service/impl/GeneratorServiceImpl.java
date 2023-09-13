@@ -299,7 +299,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 按字段类型分组，使用 Map 存储不同类型的字段列表
 		Map<Boolean, List<GenTableColumnEntity>> typeMap = table.getFieldList()
 			.stream()
-			.collect(Collectors.partitioningBy(columnEntity -> BooleanUtil.toBoolean(columnEntity.getPrimaryPk().toString())));
+			.collect(Collectors
+				.partitioningBy(columnEntity -> BooleanUtil.toBoolean(columnEntity.getPrimaryPk().toString())));
 
 		// 从分组后的 Map 中获取不同类型的字段列表
 		List<GenTableColumnEntity> primaryList = typeMap.get(true);

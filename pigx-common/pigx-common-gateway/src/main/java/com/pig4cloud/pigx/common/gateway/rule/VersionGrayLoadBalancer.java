@@ -65,8 +65,8 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		if (StrUtil.isBlank(reqVersion)) {
 			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
-					.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
-					.collect(Collectors.toList());
+				.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
+				.collect(Collectors.toList());
 			if (CollUtil.isEmpty(versionInstanceList)) {
 				// 根据权重获取实例
 				return randomByWeight(instances);
@@ -76,9 +76,9 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		}
 		// 遍历可以实例元数据，若匹配则返回此实例
 		List<ServiceInstance> availableList = instances.stream()
-				.filter(instance -> reqVersion
-						.equalsIgnoreCase(MapUtil.getStr(instance.getMetadata(), CommonConstants.VERSION)))
-				.collect(Collectors.toList());
+			.filter(instance -> reqVersion
+				.equalsIgnoreCase(MapUtil.getStr(instance.getMetadata(), CommonConstants.VERSION)))
+			.collect(Collectors.toList());
 		if (CollUtil.isEmpty(availableList)) {
 			// 根据权重获取实例
 			return randomByWeight(instances);

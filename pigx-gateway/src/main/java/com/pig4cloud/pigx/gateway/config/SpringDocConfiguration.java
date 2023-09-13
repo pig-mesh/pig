@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(value = "springdoc.api-docs.enabled",matchIfMissing = true)
+@ConditionalOnProperty(value = "springdoc.api-docs.enabled", matchIfMissing = true)
 public class SpringDocConfiguration implements InitializingBean {
 
 	private final SwaggerUiConfigProperties swaggerUiConfigProperties;

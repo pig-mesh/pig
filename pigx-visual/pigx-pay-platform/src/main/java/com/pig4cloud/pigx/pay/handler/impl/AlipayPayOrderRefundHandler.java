@@ -57,10 +57,14 @@ public class AlipayPayOrderRefundHandler implements PayOrderRefundHandler {
 		}
 
 		JSONObject params = JSONUtil.parseObj(channel.getParam());
-		AliPayApiConfig aliPayApiConfig = AliPayApiConfig.builder().setAppId(channel.getAppId())
-				.setPrivateKey(params.getStr("privateKey")).setCharset(CharsetUtil.UTF_8)
-				.setAliPayPublicKey(params.getStr("publicKey")).setServiceUrl(params.getStr("serviceUrl"))
-				.setSignType("RSA2").build();
+		AliPayApiConfig aliPayApiConfig = AliPayApiConfig.builder()
+			.setAppId(channel.getAppId())
+			.setPrivateKey(params.getStr("privateKey"))
+			.setCharset(CharsetUtil.UTF_8)
+			.setAliPayPublicKey(params.getStr("publicKey"))
+			.setServiceUrl(params.getStr("serviceUrl"))
+			.setSignType("RSA2")
+			.build();
 		AliPayApiConfigKit.setThreadLocalAliPayApiConfig(aliPayApiConfig);
 		return channel;
 	}

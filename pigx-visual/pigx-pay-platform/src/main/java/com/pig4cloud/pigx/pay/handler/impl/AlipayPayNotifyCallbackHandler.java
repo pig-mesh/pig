@@ -107,16 +107,16 @@ public class AlipayPayNotifyCallbackHandler extends AbstractPayNotifyCallbakHand
 	@Override
 	public String parse(Map<String, String> params) {
 		String tradeStatus = EnumUtil.fromString(TradeStatusEnum.class, params.get(PayConstants.TRADE_STATUS))
-				.getStatus();
+			.getStatus();
 
 		String orderNo = params.get(PayConstants.OUT_TRADE_NO);
 		PayGoodsOrder goodsOrder = goodsOrderService
-				.getOne(Wrappers.<PayGoodsOrder>lambdaQuery().eq(PayGoodsOrder::getPayOrderId, orderNo));
+			.getOne(Wrappers.<PayGoodsOrder>lambdaQuery().eq(PayGoodsOrder::getPayOrderId, orderNo));
 		goodsOrder.setStatus(tradeStatus);
 		goodsOrderService.updateById(goodsOrder);
 
 		PayTradeOrder tradeOrder = tradeOrderService
-				.getOne(Wrappers.<PayTradeOrder>lambdaQuery().eq(PayTradeOrder::getOrderId, orderNo));
+			.getOne(Wrappers.<PayTradeOrder>lambdaQuery().eq(PayTradeOrder::getOrderId, orderNo));
 		tradeOrder.setPaySuccTime(LocalDateTime.now());
 		tradeOrder.setChannelOrderNo(params.get("trade_no"));
 		tradeOrder.setStatus(TradeStatusEnum.TRADE_SUCCESS.getStatus());

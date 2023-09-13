@@ -66,7 +66,7 @@ public class SubscribeHandler extends AbstractHandler {
 			wxAccountFans.setOpenid(wxMpUser.getOpenId());
 			wxAccountFans.setSubscribeStatus(String.valueOf(BooleanUtil.toInt(wxMpUser.getSubscribe())));
 			wxAccountFans.setSubscribeTime(LocalDateTime
-					.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
+				.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
 
 			// 随机生成一个昵称，方便平台内部使用
 			String generatedName = ChineseNameGenerator.getInstance().generate();
@@ -77,7 +77,7 @@ public class SubscribeHandler extends AbstractHandler {
 			wxAccountFans.setTagIds(wxAccountFans.getTagIds());
 
 			WxAccount wxAccount = wxAccountMapper
-					.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, WxMpContextHolder.getAppId()));
+				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, WxMpContextHolder.getAppId()));
 			wxAccountFans.setWxAccountId(wxAccount.getId());
 			wxAccountFans.setWxAccountAppid(wxAccount.getAppid());
 			wxAccountFans.setWxAccountName(wxAccount.getName());
@@ -97,12 +97,13 @@ public class SubscribeHandler extends AbstractHandler {
 	 */
 	private WxMpXmlOutMessage handleSpecial(WxMpXmlMessage wxMessage, WxAccountFans fans) {
 		// 发送关注消息
-		List<WxAutoReply> listWxAutoReply = wxAutoReplyService
-				.list(Wrappers.<WxAutoReply>query().lambda().eq(WxAutoReply::getType, ReplyTypeEnum.ATTENTION.getType())
-						.eq(WxAutoReply::getAppId, WxMpContextHolder.getAppId()));
+		List<WxAutoReply> listWxAutoReply = wxAutoReplyService.list(Wrappers.<WxAutoReply>query()
+			.lambda()
+			.eq(WxAutoReply::getType, ReplyTypeEnum.ATTENTION.getType())
+			.eq(WxAutoReply::getAppId, WxMpContextHolder.getAppId()));
 		// 查询公众号 基本信息
 		WxAccount wxAccount = wxAccountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
 		WxMpXmlOutMessage wxMpXmlOutMessage = MsgHandler.getWxMpXmlOutMessage(wxMessage, listWxAutoReply, fans,
 				msgMapper, wxAccount);
 		return wxMpXmlOutMessage;

@@ -44,10 +44,10 @@ public class LogHandler extends AbstractHandler {
 		log.debug("接收到请求消息，内容：{}", wxMessage.getContent());
 
 		WxAccount wxAccount = accountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
 
 		WxAccountFans fans = fansMapper
-				.selectOne(Wrappers.<WxAccountFans>lambdaQuery().eq(WxAccountFans::getOpenid, wxMessage.getFromUser()));
+			.selectOne(Wrappers.<WxAccountFans>lambdaQuery().eq(WxAccountFans::getOpenid, wxMessage.getFromUser()));
 
 		if (fans == null) {
 			return null;

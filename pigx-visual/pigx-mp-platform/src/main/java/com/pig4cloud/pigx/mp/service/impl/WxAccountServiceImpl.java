@@ -64,7 +64,7 @@ public class WxAccountServiceImpl extends ServiceImpl<WxAccountMapper, WxAccount
 			String url = wxMpService.getQrcodeService().qrCodePictureUrl(ticket.getTicket());
 
 			WxAccount wxAccount = baseMapper
-					.selectOne(Wrappers.<WxAccount>query().lambda().eq(WxAccount::getAppid, appId));
+				.selectOne(Wrappers.<WxAccount>query().lambda().eq(WxAccount::getAppid, appId));
 			wxAccount.setQrUrl(url);
 			baseMapper.updateById(wxAccount);
 		}
@@ -94,29 +94,37 @@ public class WxAccountServiceImpl extends ServiceImpl<WxAccountMapper, WxAccount
 		List<List<Object>> result = new ArrayList<>();
 		try {
 			// 获取累计用户数据
-			List<Object> cumulateList = cubeService.getUserCumulate(start, end).stream()
-					.map(WxDataCubeUserCumulate::getCumulateUser).collect(Collectors.toList());
+			List<Object> cumulateList = cubeService.getUserCumulate(start, end)
+				.stream()
+				.map(WxDataCubeUserCumulate::getCumulateUser)
+				.collect(Collectors.toList());
 			result.add(cumulateList);
 
 			// 获取用户分享数据
-			List<Object> shareList = cubeService.getUserShare(start, end).stream()
-					.map(WxDataCubeArticleResult::getShareCount).collect(Collectors.toList());
+			List<Object> shareList = cubeService.getUserShare(start, end)
+				.stream()
+				.map(WxDataCubeArticleResult::getShareCount)
+				.collect(Collectors.toList());
 			result.add(shareList);
 
 			// 获取消息发送概况数据
-			List<Object> upstreamList = cubeService.getUpstreamMsg(start, end).stream()
-					.map(WxDataCubeMsgResult::getMsgCount).collect(Collectors.toList());
+			List<Object> upstreamList = cubeService.getUpstreamMsg(start, end)
+				.stream()
+				.map(WxDataCubeMsgResult::getMsgCount)
+				.collect(Collectors.toList());
 			result.add(upstreamList);
 
 			// 获取接口调用概况数据
 			List<WxDataCubeInterfaceResult> interfaceSummaryList = cubeService.getInterfaceSummary(start, end);
-			List<Object> interfaceList = interfaceSummaryList.stream().map(WxDataCubeInterfaceResult::getCallbackCount)
-					.collect(Collectors.toList());
+			List<Object> interfaceList = interfaceSummaryList.stream()
+				.map(WxDataCubeInterfaceResult::getCallbackCount)
+				.collect(Collectors.toList());
 			result.add(interfaceList);
 
 			// 接口日期保存
-			List<Object> dateList = interfaceSummaryList.stream().map(WxDataCubeInterfaceResult::getRefDate)
-					.collect(Collectors.toList());
+			List<Object> dateList = interfaceSummaryList.stream()
+				.map(WxDataCubeInterfaceResult::getRefDate)
+				.collect(Collectors.toList());
 			result.add(dateList);
 		}
 		catch (WxErrorException e) {

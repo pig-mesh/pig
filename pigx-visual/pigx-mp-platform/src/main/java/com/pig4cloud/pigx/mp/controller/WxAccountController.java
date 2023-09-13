@@ -57,8 +57,8 @@ public class WxAccountController {
 	@GetMapping("/page")
 	public R getWxAccountPage(Page page, WxAccount wxAccount) {
 		LambdaQueryWrapper<WxAccount> wrapper = Wrappers.<WxAccount>lambdaQuery()
-				.like(StrUtil.isNotBlank(wxAccount.getName()), WxAccount::getName, wxAccount.getName())
-				.like(StrUtil.isNotBlank(wxAccount.getAccount()), WxAccount::getAccount, wxAccount.getAccount());
+			.like(StrUtil.isNotBlank(wxAccount.getName()), WxAccount::getName, wxAccount.getName())
+			.like(StrUtil.isNotBlank(wxAccount.getAccount()), WxAccount::getAccount, wxAccount.getAccount());
 		return R.ok(wxAccountService.page(page, wrapper));
 	}
 
@@ -132,8 +132,8 @@ public class WxAccountController {
 	 */
 	@GetMapping("/list")
 	public R list(String name) {
-		LambdaQueryWrapper<WxAccount> wrapper = Wrappers.<WxAccount>lambdaQuery().like(StrUtil.isNotBlank(name),
-				WxAccount::getName, name);
+		LambdaQueryWrapper<WxAccount> wrapper = Wrappers.<WxAccount>lambdaQuery()
+			.like(StrUtil.isNotBlank(name), WxAccount::getName, name);
 		return R.ok(wxAccountService.list(wrapper));
 	}
 

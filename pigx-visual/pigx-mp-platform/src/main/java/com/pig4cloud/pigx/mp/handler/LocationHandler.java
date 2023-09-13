@@ -45,17 +45,18 @@ public class LocationHandler extends AbstractHandler {
 				wxMessage.getPrecision());
 
 		// 发送关注消息
-		List<WxAutoReply> listWxAutoReply = wxAutoReplyService
-				.list(Wrappers.<WxAutoReply>query().lambda().eq(WxAutoReply::getType, ReplyTypeEnum.MSG.getType())
-						.eq(WxAutoReply::getAppId, WxMpContextHolder.getAppId())
-						.eq(WxAutoReply::getReqType, wxMessage.getMsgType()));
+		List<WxAutoReply> listWxAutoReply = wxAutoReplyService.list(Wrappers.<WxAutoReply>query()
+			.lambda()
+			.eq(WxAutoReply::getType, ReplyTypeEnum.MSG.getType())
+			.eq(WxAutoReply::getAppId, WxMpContextHolder.getAppId())
+			.eq(WxAutoReply::getReqType, wxMessage.getMsgType()));
 		// 查询公众号 基本信息
 		WxAccount wxAccount = wxAccountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAccount, wxMessage.getToUser()));
 
 		// 查询粉丝基本信息
 		WxAccountFans fans = wxAccountFansMapper
-				.selectOne(Wrappers.<WxAccountFans>lambdaQuery().eq(WxAccountFans::getOpenid, wxMessage.getFromUser()));
+			.selectOne(Wrappers.<WxAccountFans>lambdaQuery().eq(WxAccountFans::getOpenid, wxMessage.getFromUser()));
 
 		return MsgHandler.getWxMpXmlOutMessage(wxMessage, listWxAutoReply, fans, msgMapper, wxAccount);
 	}

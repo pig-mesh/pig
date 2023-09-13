@@ -159,8 +159,10 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		AppUserInfo info = new AppUserInfo();
 		info.setAppUser(user);
 		// 设置角色列表 （ID）
-		List<Long> roleIds = appRoleService.findRolesByUserId(user.getUserId()).stream().map(AppRole::getRoleId)
-				.collect(Collectors.toList());
+		List<Long> roleIds = appRoleService.findRolesByUserId(user.getUserId())
+			.stream()
+			.map(AppRole::getRoleId)
+			.collect(Collectors.toList());
 		info.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 
 		// 设置权限列表（menu.permission）
@@ -211,7 +213,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 		}
 		// 删除用户关联表
 		this.appUserRoleService
-				.remove(Wrappers.<AppUserRole>lambdaQuery().in(AppUserRole::getUserId, CollUtil.toList(ids)));
+			.remove(Wrappers.<AppUserRole>lambdaQuery().in(AppUserRole::getUserId, CollUtil.toList(ids)));
 
 		this.removeBatchByIds(CollUtil.toList(ids));
 
@@ -222,7 +224,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@Override
 	public R registerAppUser(AppUserDTO appUser) {
 		List<AppUser> appUserList = baseMapper
-				.selectList(Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, appUser.getPhone()));
+			.selectList(Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, appUser.getPhone()));
 
 		if (CollUtil.isNotEmpty(appUserList)) {
 			return R.failed("手机号已注册，请使用验证码直接登录");
@@ -264,7 +266,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
 			boolean exsitUserName = userList.stream()
-					.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
+				.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
 			if (exsitUserName) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
@@ -273,8 +275,8 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 			// 判断输入的角色名称列表是否合法
 			List<String> roleNameList = StrUtil.split(excel.getRoleNameList(), StrUtil.COMMA);
 			List<AppRole> roleCollList = roleList.stream()
-					.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
-					.collect(Collectors.toList());
+				.filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
+				.collect(Collectors.toList());
 
 			if (roleCollList.size() != roleNameList.size()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));

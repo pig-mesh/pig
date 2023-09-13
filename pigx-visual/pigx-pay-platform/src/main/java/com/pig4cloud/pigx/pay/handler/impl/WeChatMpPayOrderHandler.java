@@ -79,8 +79,11 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		}
 
 		JSONObject params = JSONUtil.parseObj(channel.getParam());
-		WxPayApiConfig wx = WxPayApiConfig.builder().appId(channel.getAppId()).mchId(channel.getChannelMchId())
-				.partnerKey(params.getStr("partnerKey")).build();
+		WxPayApiConfig wx = WxPayApiConfig.builder()
+			.appId(channel.getAppId())
+			.mchId(channel.getChannelMchId())
+			.partnerKey(params.getStr("partnerKey"))
+			.build();
 
 		WxPayApiConfigKit.setThreadLocalWxPayApiConfig(wx);
 		return channel;
@@ -117,14 +120,20 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		WxPayApiConfig wxPayApiConfig = WxPayApiConfigKit.getWxPayApiConfig();
 
 		// 预订单参数
-		Map<String, String> params = UnifiedOrderModel.builder().appid(wxPayApiConfig.getAppId())
-				.mch_id(wxPayApiConfig.getMchId()).nonce_str(WxPayKit.generateStr()).body(goodsOrder.getGoodsName())
-				.attach(TenantContextHolder.getTenantId().toString())
-				.out_trade_no(String.valueOf(tradeOrder.getOrderId())).total_fee(goodsOrder.getAmount())
-				.spbill_create_ip(ip)
-				.notify_url(ChannelPayApiConfigKit.get().getNotifyUrl() + "/admin/notify/wx/callbak")
-				.trade_type(TradeType.JSAPI.getTradeType()).openid(goodsOrder.getUserId()).build()
-				.createSign(wxPayApiConfig.getPartnerKey(), SignType.HMACSHA256);
+		Map<String, String> params = UnifiedOrderModel.builder()
+			.appid(wxPayApiConfig.getAppId())
+			.mch_id(wxPayApiConfig.getMchId())
+			.nonce_str(WxPayKit.generateStr())
+			.body(goodsOrder.getGoodsName())
+			.attach(TenantContextHolder.getTenantId().toString())
+			.out_trade_no(String.valueOf(tradeOrder.getOrderId()))
+			.total_fee(goodsOrder.getAmount())
+			.spbill_create_ip(ip)
+			.notify_url(ChannelPayApiConfigKit.get().getNotifyUrl() + "/admin/notify/wx/callbak")
+			.trade_type(TradeType.JSAPI.getTradeType())
+			.openid(goodsOrder.getUserId())
+			.build()
+			.createSign(wxPayApiConfig.getPartnerKey(), SignType.HMACSHA256);
 
 		String xmlResult = WxPayApi.pushOrder(false, params);
 		log.info("微信统一下单返回 {}", xmlResult);

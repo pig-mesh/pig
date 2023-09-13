@@ -40,7 +40,7 @@ public class AppIndexServiceImpl implements AppIndexService {
 		Map<String, Object> response = new LinkedHashMap<>();
 		AppPageEntity appPageEntity = appPageMapper.selectById(1);
 		List<AppArticleEntity> articleList = appArticleMapper
-				.selectList(Wrappers.<AppArticleEntity>lambdaQuery().orderByDesc(AppArticleEntity::getSort));
+			.selectList(Wrappers.<AppArticleEntity>lambdaQuery().orderByDesc(AppArticleEntity::getSort));
 		response.put("pages", appPageEntity);
 		response.put("article", articleList);
 		return response;

@@ -63,7 +63,7 @@ public class ResponseExcelAutoConfiguration {
 	@PostConstruct
 	public void setReturnValueHandlers() {
 		List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
-				.getReturnValueHandlers();
+			.getReturnValueHandlers();
 
 		List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>();
 		newHandlers.add(responseExcelReturnValueHandler);

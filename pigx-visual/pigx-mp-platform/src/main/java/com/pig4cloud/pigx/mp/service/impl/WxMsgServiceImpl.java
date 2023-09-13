@@ -52,7 +52,7 @@ public class WxMsgServiceImpl extends ServiceImpl<WxMsgMapper, WxMsg> implements
 		// 查询用户详细
 		WxAccountFans wxUser = accountFansMapper.selectById(wxMsg.getWxUserId());
 		WxAccount wxAccount = accountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, wxMsg.getAppId()));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, wxMsg.getAppId()));
 
 		// 维护消息-用户
 		wxMsg.setNickName(wxAccount.getName());

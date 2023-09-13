@@ -44,8 +44,7 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
 
 		// 返回true 不拦截直接返回原始 SQL （只针对 COUNT 查询）
 		if (dataScopeHandle.calcScope(dataScope) && DataScopeFuncEnum.COUNT.equals(dataScope.getFunc())) {
-			mpBs.sql(String.format("SELECT %s FROM (%s) temp_data_scope",
-					dataScope.getFunc().getType(), originalSql));
+			mpBs.sql(String.format("SELECT %s FROM (%s) temp_data_scope", dataScope.getFunc().getType(), originalSql));
 			return;
 		}
 

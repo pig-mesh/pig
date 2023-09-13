@@ -63,8 +63,11 @@ public class AppUserController {
 	@Inner
 	@GetMapping("/info/{username}")
 	public R info(@PathVariable String username) {
-		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getUsername, username).or()
-				.eq(AppUser::getPhone, username));
+		AppUser user = appUserService.getOne(Wrappers.<AppUser>query()
+			.lambda()
+			.eq(AppUser::getUsername, username)
+			.or()
+			.eq(AppUser::getPhone, username));
 		if (user == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.APP_USER_USERINFO_EMPTY, username));
 		}

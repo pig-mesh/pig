@@ -115,7 +115,6 @@ public interface RemoteFlowEngineService {
 	@PostMapping("/task/delegateTask")
 	R<String> delegateTask(@RequestBody TaskParamDto taskParamDto);
 
-
 	/**
 	 * 查询任务
 	 * @param taskId 任务ID

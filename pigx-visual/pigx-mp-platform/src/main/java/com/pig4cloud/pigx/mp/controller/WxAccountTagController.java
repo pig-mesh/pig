@@ -37,9 +37,9 @@ public class WxAccountTagController {
 	@GetMapping("/page")
 	public R<Page<WxAccountTag>> getWxAccountTagPage(Page<WxAccountTag> page, WxAccountTag wxAccountTag) {
 		LambdaQueryWrapper<WxAccountTag> wrapper = Wrappers.<WxAccountTag>lambdaQuery()
-				.like(StrUtil.isNotBlank(wxAccountTag.getTag()), WxAccountTag::getTag, wxAccountTag.getTag())
-				.eq(StrUtil.isNotBlank(wxAccountTag.getWxAccountAppid()), WxAccountTag::getWxAccountAppid,
-						wxAccountTag.getWxAccountAppid());
+			.like(StrUtil.isNotBlank(wxAccountTag.getTag()), WxAccountTag::getTag, wxAccountTag.getTag())
+			.eq(StrUtil.isNotBlank(wxAccountTag.getWxAccountAppid()), WxAccountTag::getWxAccountAppid,
+					wxAccountTag.getWxAccountAppid());
 		return R.ok(wxAccountTagService.page(page, wrapper));
 	}
 

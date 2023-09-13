@@ -40,8 +40,8 @@ public class AppArticleServiceImpl extends ServiceImpl<AppArticleMapper, AppArti
 		// 查询是否收藏了
 		if (Objects.nonNull(userId)) {
 			boolean exists = collectMapper.exists(Wrappers.<AppArticleCollectEntity>lambdaQuery()//
-					.eq(AppArticleCollectEntity::getArticleId, appArticleEntity.getId())//
-					.eq(AppArticleCollectEntity::getUserId, userId));
+				.eq(AppArticleCollectEntity::getArticleId, appArticleEntity.getId())//
+				.eq(AppArticleCollectEntity::getUserId, userId));
 			appArticleEntity.setCollect(exists);
 		}
 
@@ -49,8 +49,10 @@ public class AppArticleServiceImpl extends ServiceImpl<AppArticleMapper, AppArti
 		Integer nowVisit = appArticleEntity.getVisit();
 		appArticleEntity.setVisit(nowVisit + 1);
 		// 乐观锁
-		baseMapper.update(appArticleEntity, Wrappers.<AppArticleEntity>lambdaQuery().eq(AppArticleEntity::getId, id)
-				.eq(AppArticleEntity::getVisit, nowVisit));
+		baseMapper.update(appArticleEntity,
+				Wrappers.<AppArticleEntity>lambdaQuery()
+					.eq(AppArticleEntity::getId, id)
+					.eq(AppArticleEntity::getVisit, nowVisit));
 		return appArticleEntity;
 	}
 
@@ -64,11 +66,11 @@ public class AppArticleServiceImpl extends ServiceImpl<AppArticleMapper, AppArti
 	public Page pageAndCname(Page page, AppArticleEntity appArticle) {
 		MPJLambdaWrapper<AppArticleEntity> wrapper = new MPJLambdaWrapper<>();
 		wrapper.selectAll(AppArticleEntity.class)
-				.selectAs(AppArticleCategoryEntity::getName, AppArticleEntity.Fields.cname)
-				.leftJoin(AppArticleCategoryEntity.class, AppArticleCategoryEntity::getId, AppArticleEntity::getCid)
-				.like(StrUtil.isNotBlank(appArticle.getAuthor()), AppArticleEntity::getAuthor, appArticle.getAuthor())
-				.like(StrUtil.isNotBlank(appArticle.getTitle()), AppArticleEntity::getTitle, appArticle.getTitle())
-				.eq(Objects.nonNull(appArticle.getCid()), AppArticleEntity::getCid, appArticle.getCid());
+			.selectAs(AppArticleCategoryEntity::getName, AppArticleEntity.Fields.cname)
+			.leftJoin(AppArticleCategoryEntity.class, AppArticleCategoryEntity::getId, AppArticleEntity::getCid)
+			.like(StrUtil.isNotBlank(appArticle.getAuthor()), AppArticleEntity::getAuthor, appArticle.getAuthor())
+			.like(StrUtil.isNotBlank(appArticle.getTitle()), AppArticleEntity::getTitle, appArticle.getTitle())
+			.eq(Objects.nonNull(appArticle.getCid()), AppArticleEntity::getCid, appArticle.getCid());
 		return this.page(page, wrapper);
 	}
 

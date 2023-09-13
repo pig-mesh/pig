@@ -52,7 +52,6 @@ public interface IProcessInstanceService {
 	 */
 	R queryMineCC(TaskQueryParamDto taskQueryParamDto);
 
-
 	/**
 	 * 格式化流程显示
 	 * @param nodeFormatParamVo

@@ -289,7 +289,6 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 		return R.ok(p);
 	}
 
-
 	/**
 	 * 格式化流程显示
 	 * @param nodeFormatParamVo

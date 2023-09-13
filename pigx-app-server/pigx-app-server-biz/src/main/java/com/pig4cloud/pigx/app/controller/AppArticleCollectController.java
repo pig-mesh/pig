@@ -47,9 +47,10 @@ public class AppArticleCollectController {
 	@GetMapping("/page")
 	public R getAppArticleCollectPage(@ParameterObject Page page) {
 		MPJLambdaWrapper<AppArticleCollectEntity> wrapper = new MPJLambdaWrapper<AppArticleCollectEntity>()
-				.selectAll(AppArticleCollectEntity.class).select(AppArticleEntity::getTitle)
-				.leftJoin(AppArticleEntity.class, AppArticleEntity::getId, AppArticleCollectEntity::getArticleId)
-				.eq(AppArticleCollectEntity::getUserId, SecurityUtils.getUser().getId());
+			.selectAll(AppArticleCollectEntity.class)
+			.select(AppArticleEntity::getTitle)
+			.leftJoin(AppArticleEntity.class, AppArticleEntity::getId, AppArticleCollectEntity::getArticleId)
+			.eq(AppArticleCollectEntity::getUserId, SecurityUtils.getUser().getId());
 		return R.ok(appArticleCollectService.selectJoinListPage(page, AppArticleCollectEntity.class, wrapper));
 	}
 
@@ -106,7 +107,8 @@ public class AppArticleCollectController {
 	public R removeByArticleId(@PathVariable String articleId) {
 		Long id = SecurityUtils.getUser().getId();
 		return R.ok(appArticleCollectService.remove(Wrappers.<AppArticleCollectEntity>lambdaQuery()
-				.eq(AppArticleCollectEntity::getUserId, id).eq(AppArticleCollectEntity::getArticleId, articleId)));
+			.eq(AppArticleCollectEntity::getUserId, id)
+			.eq(AppArticleCollectEntity::getArticleId, articleId)));
 	}
 
 	/**

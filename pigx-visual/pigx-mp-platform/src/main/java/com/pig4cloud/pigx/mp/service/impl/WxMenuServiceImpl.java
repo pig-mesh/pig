@@ -64,7 +64,7 @@ public class WxMenuServiceImpl extends ServiceImpl<WxMenuMapper, WxMpMenu> imple
 		baseMapper.delete(Wrappers.<WxMpMenu>lambdaQuery().eq(WxMpMenu::getWxAccountAppid, appId));
 
 		WxAccount wxAccount = wxAccountMapper
-				.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, appId));
+			.selectOne(Wrappers.<WxAccount>lambdaQuery().eq(WxAccount::getAppid, appId));
 		WxMpMenu wxMpMenu = new WxMpMenu();
 		wxMpMenu.setMenu(wxMenus.toStringPretty());
 		wxMpMenu.setWxAccountId(wxAccount.getId());
@@ -82,7 +82,7 @@ public class WxMenuServiceImpl extends ServiceImpl<WxMenuMapper, WxMpMenu> imple
 	@Override
 	public R push(String appId) {
 		List<WxMpMenu> wxMpMenuList = baseMapper
-				.selectList(Wrappers.<WxMpMenu>lambdaQuery().eq(WxMpMenu::getWxAccountAppid, appId));
+			.selectList(Wrappers.<WxMpMenu>lambdaQuery().eq(WxMpMenu::getWxAccountAppid, appId));
 
 		if (CollUtil.isEmpty(wxMpMenuList)) {
 			return R.failed("微信菜单配置未保存，不能发布");
@@ -118,7 +118,7 @@ public class WxMenuServiceImpl extends ServiceImpl<WxMenuMapper, WxMpMenu> imple
 	@Override
 	public R getByAppId(String appId) {
 		List<WxMpMenu> wxMpMenuList = baseMapper
-				.selectList(Wrappers.<WxMpMenu>lambdaQuery().eq(WxMpMenu::getWxAccountAppid, appId));
+			.selectList(Wrappers.<WxMpMenu>lambdaQuery().eq(WxMpMenu::getWxAccountAppid, appId));
 
 		if (CollUtil.isEmpty(wxMpMenuList)) {
 			return R.ok();

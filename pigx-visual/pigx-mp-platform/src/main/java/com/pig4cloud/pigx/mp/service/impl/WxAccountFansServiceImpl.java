@@ -91,10 +91,10 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 
 		// 翻页查询粉丝
 		LambdaQueryWrapper<WxAccountFans> wrapper = Wrappers.<WxAccountFans>lambdaQuery()
-				.eq(StrUtil.isNotBlank(wxAccountFans.getWxAccountAppid()), WxAccountFans::getWxAccountAppid,
-						wxAccountFans.getWxAccountAppid())
-				.like(StrUtil.isNotBlank(wxAccountFans.getNickname()), WxAccountFans::getNickname,
-						wxAccountFans.getNickname());
+			.eq(StrUtil.isNotBlank(wxAccountFans.getWxAccountAppid()), WxAccountFans::getWxAccountAppid,
+					wxAccountFans.getWxAccountAppid())
+			.like(StrUtil.isNotBlank(wxAccountFans.getNickname()), WxAccountFans::getNickname,
+					wxAccountFans.getNickname());
 
 		IPage<WxAccountFans> fansPage = baseMapper.selectPage(page, wrapper);
 
@@ -104,9 +104,9 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 			// 赋值 TAG_NAME
 			if (ArrayUtil.isNotEmpty(fans.getTagIds())) {
 				List<WxAccountTag> tagList = wxAccountTags.stream()
-						.filter(tag -> tag.getWxAccountAppid().endsWith(fans.getWxAccountAppid()) //
-								&& ArrayUtil.contains(fans.getTagIds(), tag.getTagId()))
-						.collect(Collectors.toList());
+					.filter(tag -> tag.getWxAccountAppid().endsWith(fans.getWxAccountAppid()) //
+							&& ArrayUtil.contains(fans.getTagIds(), tag.getTagId()))
+					.collect(Collectors.toList());
 				vo.setTagList(tagList);
 			}
 			return vo;
@@ -198,7 +198,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 	@Override
 	public Boolean syncAccountFans(String appId) {
 		WxAccount wxAccount = wxAccountMapper
-				.selectOne(Wrappers.<WxAccount>query().lambda().eq(WxAccount::getAppid, appId));
+			.selectOne(Wrappers.<WxAccount>query().lambda().eq(WxAccount::getAppid, appId));
 
 		// 获取操作微信接口类
 		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
@@ -222,8 +222,10 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 		try {
 			WxMpUserList wxMpUserList = wxMpUserService.userList(nextOpenid);
 			// openId 分组 每组 100个 openid
-			List<List<String>> openIdsList = CollUtil.split(wxMpUserList.getOpenids(), SIZE).stream()
-					.filter(CollUtil::isNotEmpty).collect(Collectors.toList());
+			List<List<String>> openIdsList = CollUtil.split(wxMpUserList.getOpenids(), SIZE)
+				.stream()
+				.filter(CollUtil::isNotEmpty)
+				.collect(Collectors.toList());
 			// 处理每个分组. 调用查询用户信息
 			for (List<String> openIdList : openIdsList) {
 				log.info("开始批量获取用户信息 {}", openIdList);
@@ -262,7 +264,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 		// 2020-11-25 部分用户订阅时间为空，跳过此字段处理
 		if (ObjectUtil.isNotEmpty(wxMpUser.getSubscribeTime())) {
 			wxAccountFans.setSubscribeTime(LocalDateTime
-					.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
+				.ofInstant(Instant.ofEpochMilli(wxMpUser.getSubscribeTime() * 1000L), ZoneId.systemDefault()));
 		}
 
 		// 随机生成一个昵称，方便平台内部使用
@@ -286,8 +288,11 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 	 */
 	private String queryNextOpenId(String appId) {
 		Page<WxAccountFans> queryPage = new Page<>(0, 1);
-		Page<WxAccountFans> fansPage = baseMapper.selectPage(queryPage, Wrappers.<WxAccountFans>query().lambda()
-				.eq(WxAccountFans::getWxAccountAppid, appId).orderByDesc(WxAccountFans::getCreateTime));
+		Page<WxAccountFans> fansPage = baseMapper.selectPage(queryPage,
+				Wrappers.<WxAccountFans>query()
+					.lambda()
+					.eq(WxAccountFans::getWxAccountAppid, appId)
+					.orderByDesc(WxAccountFans::getCreateTime));
 		String nextOpenId = null;
 		if (fansPage.getTotal() > 0) {
 			nextOpenId = fansPage.getRecords().get(0).getOpenid();
