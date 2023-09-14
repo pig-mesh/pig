@@ -11,7 +11,7 @@ RUN mkdir -p /pigx-flow-task
 
 WORKDIR /pigx-flow-task
 
-EXPOSE 4000
+EXPOSE 9030
 
 ADD ./target/pigx-flow-task-biz.jar ./
 

@@ -11,7 +11,7 @@ RUN mkdir -p /pigx-flow-engine
 
 WORKDIR /pigx-flow-engine
 
-EXPOSE 4000
+EXPOSE 9020
 
 ADD ./target/pigx-flow-engine-biz.jar ./
 
