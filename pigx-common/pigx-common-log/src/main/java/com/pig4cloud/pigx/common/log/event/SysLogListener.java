@@ -27,7 +27,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysLog;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.jackson.PigxJavaTimeModule;
-import com.pig4cloud.pigx.common.log.config.PigXLogProperties;
+import com.pig4cloud.pigx.common.log.config.PigxLogProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +51,7 @@ public class SysLogListener implements InitializingBean {
 
 	private final RemoteLogService remoteLogService;
 
-	private final PigXLogProperties logProperties;
+	private final PigxLogProperties logProperties;
 
 	@SneakyThrows
 	@Async

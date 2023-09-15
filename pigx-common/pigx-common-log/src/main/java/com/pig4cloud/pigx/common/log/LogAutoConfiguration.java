@@ -22,7 +22,7 @@ package com.pig4cloud.pigx.common.log;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.log.aspect.SysLogAspect;
-import com.pig4cloud.pigx.common.log.config.PigXLogProperties;
+import com.pig4cloud.pigx.common.log.config.PigxLogProperties;
 import com.pig4cloud.pigx.common.log.event.SysLogListener;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -41,12 +41,12 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @EnableAsync
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(PigXLogProperties.class)
+@EnableConfigurationProperties(PigxLogProperties.class)
 @ConditionalOnProperty(value = "pigx.log.enabled", matchIfMissing = true)
 public class LogAutoConfiguration {
 
 	@Bean
-	public SysLogListener sysLogListener(PigXLogProperties logProperties, RemoteLogService remoteLogService) {
+	public SysLogListener sysLogListener(PigxLogProperties logProperties, RemoteLogService remoteLogService) {
 		return new SysLogListener(remoteLogService, logProperties);
 	}
 

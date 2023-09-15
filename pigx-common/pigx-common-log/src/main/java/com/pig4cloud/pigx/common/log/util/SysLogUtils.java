@@ -24,7 +24,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.log.config.PigXLogProperties;
+import com.pig4cloud.pigx.common.log.config.PigxLogProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.experimental.UtilityClass;
 import org.springframework.core.StandardReflectionParameterNameDiscoverer;
@@ -64,7 +64,7 @@ public class SysLogUtils {
 		sysLog.setServiceId(getClientId());
 
 		// get 参数脱敏
-		PigXLogProperties logProperties = SpringUtil.getBean(PigXLogProperties.class);
+		PigxLogProperties logProperties = SpringUtil.getBean(PigxLogProperties.class);
 		Map<String, String[]> paramsMap = MapUtil.removeAny(request.getParameterMap(),
 				ArrayUtil.toArray(logProperties.getExcludeFields(), String.class));
 		sysLog.setParams(HttpUtil.toParams(paramsMap));
