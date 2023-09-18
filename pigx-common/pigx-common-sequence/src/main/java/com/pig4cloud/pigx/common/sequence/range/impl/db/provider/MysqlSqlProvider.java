@@ -19,7 +19,7 @@ public class MysqlSqlProvider implements SqlProvider {
 	@Override
 	public String getCreateTableSql() {
 		return "CREATE TABLE IF NOT EXISTS #tableName(" + "id bigint(20) NOT NULL AUTO_INCREMENT,"
-				+ "value bigint(20) NOT NULL," + "name varchar(32) NOT NULL," + "gmt_create DATETIME NOT NULL,"
+				+ "value bigint(20) NOT NULL," + "name varchar(64) NOT NULL," + "gmt_create DATETIME NOT NULL,"
 				+ "gmt_modified DATETIME NOT NULL," + "PRIMARY KEY (`id`),UNIQUE uk_name (`name`)" + ")";
 	}
 

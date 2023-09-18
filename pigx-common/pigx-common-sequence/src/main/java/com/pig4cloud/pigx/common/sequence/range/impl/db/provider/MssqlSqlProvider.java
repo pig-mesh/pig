@@ -22,7 +22,7 @@ public class MssqlSqlProvider implements SqlProvider {
 	public String getCreateTableSql() {
 		return "IF NOT EXISTS (\n"
 				+ "SELECT*FROM sys.all_objects WHERE object_id=OBJECT_ID(N'#tableName') AND type IN ('U')) \n"
-				+ "CREATE TABLE #tableName (id bigint NOT NULL,VALUE bigint NOT NULL,name nvarchar (32) COLLATE "
+				+ "CREATE TABLE #tableName (id bigint NOT NULL,VALUE bigint NOT NULL,name nvarchar (64) COLLATE "
 				+ "Chinese_PRC_CI_AS NOT NULL,gmt_create datetime2 (7) NOT NULL,gmt_modified datetime2 (7) NOT NULL) GO";
 	}
 
