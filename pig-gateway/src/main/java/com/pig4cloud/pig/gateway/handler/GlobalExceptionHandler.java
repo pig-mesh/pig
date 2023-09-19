@@ -40,7 +40,6 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Order(-1)
-@Configuration
 @RequiredArgsConstructor
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
