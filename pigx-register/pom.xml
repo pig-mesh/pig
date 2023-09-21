@@ -30,7 +30,8 @@
 		<nacos.version>2.2.4-OEM</nacos.version>
 		<spring-boot-dependencies.version>2.7.12</spring-boot-dependencies.version>
 		<spring-cloud.version>2021.0.8</spring-cloud.version>
-		<spring-boot-admin.version>2.7.8</spring-boot-admin.version>
+		<spring-boot-admin.version>2.7.10</spring-boot-admin.version>
+		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -109,6 +110,11 @@
 				<version>${spring-boot-admin.version}</version>
 			</dependency>
 
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 

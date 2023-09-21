@@ -19,6 +19,7 @@
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
     <dependencies>
         <!--注册中心客户端-->
@@ -120,6 +121,12 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
