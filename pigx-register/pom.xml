@@ -28,10 +28,9 @@
 
 	<properties>
 		<nacos.version>2.2.4-OEM</nacos.version>
-		<spring-boot-dependencies.version>2.7.12</spring-boot-dependencies.version>
+		<spring-boot-dependencies.version>2.7.16</spring-boot-dependencies.version>
 		<spring-cloud.version>2021.0.8</spring-cloud.version>
-		<spring-boot-admin.version>2.7.10</spring-boot-admin.version>
-		<lombok.version>1.18.30</lombok.version>
+		<spring-boot-admin.version>2.7.11</spring-boot-admin.version>
 	</properties>
 
 	<dependencies>
@@ -108,12 +107,6 @@
 				<groupId>de.codecentric</groupId>
 				<artifactId>spring-boot-admin-starter-server</artifactId>
 				<version>${spring-boot-admin.version}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.projectlombok</groupId>
-				<artifactId>lombok</artifactId>
-				<version>${lombok.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

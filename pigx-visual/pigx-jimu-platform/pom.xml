@@ -13,13 +13,11 @@
 
     <description>积木报表系统</description>
     <properties>
-        <druid.version>1.2.16</druid.version>
-        <spring-boot.version>2.7.14</spring-boot.version>
-        <spring-boot-dependencies.version>2.7.14</spring-boot-dependencies.version>
+        <druid.version>1.2.19</druid.version>
+        <spring-boot-dependencies.version>2.7.16</spring-boot-dependencies.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
-        <lombok.version>1.18.30</lombok.version>
+        <spring-boot-admin.version>2.7.11</spring-boot-admin.version>
     </properties>
     <dependencies>
         <!--注册中心客户端-->
@@ -93,7 +91,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot-dependencies.version}</version>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -121,12 +119,6 @@
                 <version>${spring-cloud-alibaba.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

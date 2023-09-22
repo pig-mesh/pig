@@ -45,7 +45,6 @@
         <javers.version>6.10.0</javers.version>
         <seata.version>1.6.1</seata.version>
         <asm.version>7.1</asm.version>
-        <lombok.version>1.18.30</lombok.version>
         <log4j2.version>2.17.1</log4j2.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -372,12 +371,6 @@
                 <version>${log4j2.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!-- 指定最新的lombok 版本 -->
-            <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
             </dependency>
             <!--hutool bom-->
             <dependency>
