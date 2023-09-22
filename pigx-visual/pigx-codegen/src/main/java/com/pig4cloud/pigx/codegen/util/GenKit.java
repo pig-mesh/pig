@@ -1,12 +1,14 @@
 package com.pig4cloud.pigx.codegen.util;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
 import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pigx.codegen.mapper.GeneratorMapper;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
-import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
+import com.pig4cloud.pigx.common.datasource.config.DruidDataSourceProperties;
 import lombok.experimental.UtilityClass;
 import org.springframework.context.ApplicationContext;
 
@@ -51,9 +53,12 @@ public class GenKit {
 			.selectOne(Wrappers.<GenDatasourceConf>lambdaQuery().eq(GenDatasourceConf::getName, dsName));
 
 		String dbConfType;
-		// 默认MYSQL 数据源
+		// 为空 根据jdbc-url推断数据库类型
 		if (datasourceConf == null) {
-			dbConfType = DsJdbcUrlEnum.MYSQL.getDbName();
+			DruidDataSourceProperties dataSourceProperties = SpringContextHolder
+					.getBean(DruidDataSourceProperties.class);
+			DbType dbType = JdbcUtils.getDbType(dataSourceProperties.getUrl());
+			dbConfType = dbType.getDb();
 		}
 		else {
 			dbConfType = datasourceConf.getDsType();
