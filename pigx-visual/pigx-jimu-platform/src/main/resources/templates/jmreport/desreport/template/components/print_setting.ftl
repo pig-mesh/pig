@@ -78,7 +78,35 @@
                         <i-input v-model="printCallBackUrl" style="width: 100%"></i-input>
                     </i-col>
                 </Row>
-                
+
+                <Row style="margin-top: 8px">
+                    <i-col span="6">
+                        <span>显示页码?：</span>
+                    </i-col>
+                    <i-col span="18">
+                        <i-switch v-model="paginationShow"></i-switch>
+                    </i-col>
+                </Row>
+
+                <Row style="margin-top: 8px" v-if="paginationShow">
+                    <i-col span="6">
+                        <span>页码位置?：</span>
+                    </i-col>
+                    <i-col span="18">
+                        <RadioGroup v-model="paginationLocation">
+                            <Radio label="left" border>
+                                <span>左</span>
+                            </Radio>
+                            <Radio label="middle" border>
+                                <span>中</span>
+                            </Radio>
+                            <Radio label="right" border>
+                                <span>右</span>
+                            </Radio>
+                        </RadioGroup>
+                    </i-col>
+                </Row>
+
             </i-form>
         </Modal>
     </div>
@@ -128,7 +156,8 @@
                 marginX: 10,
                 marginY: 10,
                 layout: 'portrait',
-                printCallBackUrl: ''
+                paginationShow: true,
+                paginationLocation: 'middle',
             }
         },
         created(){
@@ -169,7 +198,9 @@
                   marginX: this.marginX || 0,
                   marginY: this.marginY || 0,
                   layout: this.layout,
-                  printCallBackUrl: this.printCallBackUrl
+                  printCallBackUrl: this.printCallBackUrl,
+                  paginationShow: this.paginationShow,
+                  paginationLocation: this.paginationLocation,
               }
             },
             // 纸张大小改变事件
@@ -247,6 +278,10 @@
                         this.isBackend = param.isBackend
                     }
                     this.printCallBackUrl = param.printCallBackUrl || ''
+                    this.paginationShow = param.paginationShow || false
+                    if(param.paginationLocation){
+                        this.paginationLocation = param.paginationLocation
+                    }
                 }
             },
             // 重置宽高px的值

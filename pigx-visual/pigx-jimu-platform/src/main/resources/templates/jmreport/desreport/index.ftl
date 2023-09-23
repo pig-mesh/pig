@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1693888295.10">
+<#assign CACHE_VERSION = "v=1694491301.10">
 <#assign config_id = "${id!''}">
 <!DOCTYPE html>
 <html>
@@ -582,9 +582,22 @@
                                         <i-option value="img" key="2" class="rightFontSize">图片</i-option>
                                         <i-option value="barcode" key="3" class="rightFontSize">条形码</i-option>
                                         <i-option value="qrcode" key="4" class="rightFontSize">二维码</i-option>
+                                        <i-option value="richText" key="5" class="rightFontSize">富文本?</i-option>
                                         <#--<i-option value="chart" key="5">图表</i-option>-->
                                     </i-select>
                                   </div>
+                                  <div class="basicSettingTop rightFontSize" v-if="excel.type == 'img'">
+                                    <span>尺寸?</span>
+                                      <i-select class="twoInputWidth" v-model="excel.imgSize" @on-change="onChangeCellImgSize">
+                                          <i-option value="0" key="0" class="rightFontSize">完全覆盖(cover)</i-option>
+                                          <i-option value="1" key="1" class="rightFontSize">适应内容(contain)</i-option>
+                                          <i-option value="2" key="2" class="rightFontSize">width100%--center</i-option>
+                                          <i-option value="3" key="3" class="rightFontSize">height100%--center</i-option>
+                                          <i-option value="4" key="4" class="rightFontSize">居中显示</i-option>
+                                          <i-option value="5" key="5" class="rightFontSize">拉伸(100% 100%)</i-option>
+                                      </i-select>
+                                  </div>
+
                                   <div class="basicSettingTop rightFontSize">
                                     <span>值</span>
                                     <i-input @on-click="enlargeInputClick" icon="md-contract" style="margin-left: 16px;" v-model="excel.excelValue" @keyup.enter.native="submitValue" @on-blur="submitValue" class="twoInputWidth"></i-input>
@@ -1036,6 +1049,7 @@
 
     var excel_config_id = "${config_id}";
     var excel_req_token = '';
+    var excel_req_tenantId = '';
     var xs = null;
     var vm = null;
     let autoSaveFun;
@@ -1054,6 +1068,11 @@
             token = getRequestUrl().token;
         }
         excel_req_token = token
+        let tenantId = window.localStorage.getItem('JmReport-Tenant-Id');
+        if (tenantId == "" || tenantId == null){
+            tenantId = getRequestUrl().tenantId;
+        }
+        excel_req_tenantId = tenantId;
         //console.log("index_load--------------",token);
         let reportConfig = getReportConfigJson();
         let colLength = 50,rowLength = 100, viewPageSize = [10,20,30], printPaper = []
@@ -1264,33 +1283,45 @@
             if(excel_req_token && excel_req_token!="null"){
               xs.data.settings.viewUrl = xs.data.settings.viewUrl +'?token='+excel_req_token
             }
+            if(excel_req_tenantId && excel_req_tenantId!=="null"){
+                if(xs.data.settings.viewUrl.indexOf("?") !== -1){
+                    xs.data.settings.viewUrl = xs.data.settings.viewUrl +'&tenantId='+excel_req_tenantId
+                }else{
+                    xs.data.settings.viewUrl = xs.data.settings.viewUrl +'?tenantId='+excel_req_tenantId
+                }
+            }
             //update-end---author:wangshuai ---date:20220215  for：[issues/I4SOSH]做完的积木报表，预览生成的访问地址，默认都加了token=null------------
             var str = res.jsonStr;
             if(!str) return;
             //页面加载时设置报表宽度
-            const jsonStr = JSON.parse(str);
-            //console.log('jsonstr', jsonStr)
-            // 设置增强
-            vm.setEnhanceConfig(res.cssStr, res.jsStr)
-            if(jsonStr.chartList)
-            {
-                jsonStr.chartList.forEach(function(item){
-                    let config = JSON.parse(item.config);
-                    if (config.geo){
-                        if (loadMap){
-                            loadMap && loadMap(item)
+            try{
+                const jsonStr = JSON.parse(str);
+                //console.log('jsonstr', jsonStr)
+                // 设置增强
+                vm.setEnhanceConfig(res.cssStr, res.jsStr)
+                if(jsonStr.chartList)
+                {
+                    jsonStr.chartList.forEach(function(item){
+                        let config = JSON.parse(item.config);
+                        if (config.geo){
+                            if (loadMap){
+                                loadMap && loadMap(item)
+                            }
                         }
-                    }
-                })
-            }
-            xs.data.settings.printElWidth = jsonStr.printElWidth || 0;
-            xs.data.printElHeight = jsonStr.printElHeight ||  1047; //默认a4纸大小
-          //  xs.sheet.toolbar.toolPrintHeightInputEl.input.el.value =  xs.data.printElHeight;
-            xs.loadData(jsonStr);
-            if(jsonStr.settings){
-                if(jsonStr.settings.showGrid == false){
-                    vm.gridLine = "false"
+                    })
                 }
+                xs.data.settings.printElWidth = jsonStr.printElWidth || 0;
+                xs.data.printElHeight = jsonStr.printElHeight ||  1047; //默认a4纸大小
+                //  xs.sheet.toolbar.toolPrintHeightInputEl.input.el.value =  xs.data.printElHeight;
+                xs.loadData(jsonStr);
+                if(jsonStr.settings){
+                    if(jsonStr.settings.showGrid == false){
+                        vm.gridLine = "false"
+                    }
+                }
+            }catch(error){
+                console.error('jsonStr数据解析报错:', error)
+                vm.$Message.warning('配置有误,请检查数据JSON配置项！');
             }
             setTimeout(function(){
                 if (xs.data.chartList && xs.data.chartList.length > 0){

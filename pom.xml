@@ -55,7 +55,7 @@
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <jimu.version>1.6.2-beta</jimu.version>
+        <jimu.version>1.6.2-GA5</jimu.version>
         <aws.version>1.11.543</aws.version>
         <xxl.job.version>2.4.0</xxl.job.version>
         <activiti.version>5.22.0</activiti.version>

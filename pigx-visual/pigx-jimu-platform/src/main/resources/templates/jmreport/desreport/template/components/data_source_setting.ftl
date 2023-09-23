@@ -857,10 +857,6 @@
                             }
                         },
                         {
-                            title: '用户名',
-                            key: 'dbUsername'
-                        },
-                        {
                             title: '操作',
                             key: 'action',
                             width: 150,
@@ -1472,8 +1468,10 @@
                             //Vue.prototype.$Message.error(message);
                             //弹窗sql解析报错字段
                             if(dbDynSql.indexOf("$")!=-1){
-                              this.$refs.sqlFunctionReplace.sqlFunctionShow = true
-                              this.$refs.sqlFunctionReplace.initDataSource(this.sqlForm.dbDynSql, this.sqlForm.dbSource, this.tab2.data)
+                                if(this.tab2.data.length>0){
+                                    this.$refs.sqlFunctionReplace.sqlFunctionShow = true
+                                    this.$refs.sqlFunctionReplace.initDataSource(this.sqlForm.dbDynSql, this.sqlForm.dbSource, this.tab2.data)
+                                }
                             }else{
                               Vue.prototype.$Message.error(message);
                             }
@@ -1529,9 +1527,11 @@
                     fail:(res)=>{
                       //1001注入异常
                       if(res.code!=1001 && type!=1){
-                        //弹窗sql解析报错字段
-                        this.$refs.sqlFunctionReplace.sqlFunctionShow = true
-                        this.$refs.sqlFunctionReplace.initDataSource(this.sqlForm.dbDynSql,this.sqlForm.dbSource,this.tab2.data)
+                          if(this.tab2.data.length>0){
+                              //弹窗sql解析报错字段
+                              this.$refs.sqlFunctionReplace.sqlFunctionShow = true
+                              this.$refs.sqlFunctionReplace.initDataSource(this.sqlForm.dbDynSql,this.sqlForm.dbSource,this.tab2.data)
+                          }
                       }
                     }
                 })
@@ -2126,12 +2126,14 @@
                         },
                         on: {
                             click: () => {
-                                this.sourceTab.data.forEach((item)=>{
-                                    if (item.id === params.row.id){
-                                        this.dataSource = item;
+                                $http.get({
+                                    url: api.getDataSourceById,
+                                    data:{'id': params.row.id},
+                                    success:(result)=>{
+                                        this.visibleData = true;
+                                        this.dataSource = result;
                                     }
                                 })
-                                this.visibleData = true;
                             }
                         }
                     },'编辑'),

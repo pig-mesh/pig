@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1693888295.10">
+<#assign CACHE_VERSION = "v=1694491301.10">
 <!DOCTYPE html>
 <html>
 <head>
@@ -142,6 +142,10 @@
                         <Menu-Item name="datainfo">
                             <Icon type="md-list"/></Icon>
                             <span>数据报表</span>
+                        </Menu-Item>
+                        <Menu-Item name="chartinfo">
+                            <Icon type="md-images"></Icon>
+                            <span>图形报表</span>
                         </Menu-Item>
                         <Menu-Item name="printinfo">
                             <Icon type="md-print"></Icon>
@@ -425,6 +429,7 @@
         data: {
             isCollapsed: false,
             token:'',//token
+            tenantId:'',//租户id
             name:'',
             designerObj:{},
             loading:true,
@@ -501,7 +506,8 @@
         },
         mounted:function(){
            this.token = token;
-            //console.log("list_mount--------------",this.token);
+           this.tenantId = tenantId;
+           //console.log("list_mount--------------",this.token);
            this.uploadHeader = {"X-Access-Token":this.token};
            this.actionUrl=BASE_URL+"/jmreport/putFile";
            this.$nextTick(()=>{
@@ -617,13 +623,26 @@
              */
             splicingToken(url){
               if(this.token && "null" != this.token){
-                if(url.indexOf("?")!=-1){
-                  url =url + "&token="+this.token;
-                }else{
-                  url =url + "?token="+this.token;
-                }
+                  url = this.splicingUrl("token",this.token,url);
+              }
+              if(this.tenantId && "null" !== this.tenantId){
+                  url = this.splicingUrl("tenantId",this.tenantId,url);
               }
               return url;
+            },
+            /**
+             * 拼接路径
+             * @param name
+             * @param value
+             * @param url
+             */
+            splicingUrl(name, value, url) {
+                if (url.indexOf("?") !== -1) {
+                    url = url + "&" + name + "=" + value;
+                } else {
+                    url = url + "?" + name + "=" + value;
+                }
+                return url;
             },
             //删除报表
             handleDelete:function(item){

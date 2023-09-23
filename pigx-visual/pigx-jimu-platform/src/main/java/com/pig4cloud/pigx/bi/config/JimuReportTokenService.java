@@ -38,6 +38,9 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 				.orElse(null);
 		// @formatter:off
 	}
+	@Override public String[] getRoles(String s) {
+    return new String[0];
+    }
 
 	@Override
 	public Map<String, Object> getUserInfo(String token) {

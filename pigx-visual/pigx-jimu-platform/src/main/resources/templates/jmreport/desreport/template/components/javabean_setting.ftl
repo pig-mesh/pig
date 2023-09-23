@@ -1066,7 +1066,6 @@
                                                 this.$Notice.success({
                                                     title: '删除成功'
                                                 });
-                                                this.initDataSource();
                                             }
                                         });
                                     }

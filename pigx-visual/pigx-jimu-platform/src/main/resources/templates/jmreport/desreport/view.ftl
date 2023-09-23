@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1693888295.10">
+<#assign CACHE_VERSION = "v=1694491301.10">
 <#assign config_id = "${id!''}">
 <#assign shareView = "${shareView}">
 <!DOCTYPE html>
@@ -220,14 +220,14 @@ function getLocalRequestUrl() {
                                         <template v-else-if="item.type=='number'">
                                             <Row v-if="item.mode==2">
                                                 <i-col span="11">
-                                                    <i-input :ref="item.key+'_begin'"  v-model="queryInfo[item.key+'_begin']" type="number" :placeholder="'请输入起始值'" clearable></i-input>
+                                                    <input-number :ref="item.key+'_begin'"  v-model="queryInfo[item.key+'_begin']" :placeholder="'请输入起始值'" clearable style="width: 100%"></input-number>
                                                 </i-col>
                                                 <i-col span="2" style="text-align: center">&nbsp;~</i-col>
                                                 <i-col span="11">
-                                                    <i-input :ref="item.key+'_end'" v-model="queryInfo[item.key+'_end']" type="number" :placeholder="'请输入结束值'" clearable></i-input>
+                                                    <input-number :ref="item.key+'_end'" v-model="queryInfo[item.key+'_end']" :placeholder="'请输入结束值'" clearable style="width: 100%"></input-number>
                                                 </i-col>
                                             </Row>
-                                            <i-input v-else :ref="item.key" class="jm-select-box" type="number" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable></i-input>
+                                            <input-number v-else :ref="item.key" class="jm-select-box" v-model="queryInfo[item.key]" :placeholder="'请输入'+item.title" clearable style="width: 100%"></input-number>
                                         </template>
 
                                         <!-- 默认输入框 模糊查询参数加* -->
@@ -287,7 +287,7 @@ function getLocalRequestUrl() {
             <i-button type="primary" @click="lockClick('${config_id}')">确定</i-button>
         </div>
         <div style="padding-right: 30px">
-            <i-form label-colon :label-width="90">
+            <i-form label-colon :label-width="90" @keydown.native.enter.prevent="lockClick('${config_id}')">
                 <form-item label="密码">
                     <i-input v-model="lock" placeholder="请输入密码"></i-input>
                 </form-item>
