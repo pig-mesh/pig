@@ -34,7 +34,7 @@ public interface WxAccountFansService extends IService<WxAccountFans> {
 	 * @param appId
 	 * @return
 	 */
-	Boolean syncAccountFans(String appId);
+	void syncAccountFans(String appId);
 
 	/**
 	 * 分页查询粉丝

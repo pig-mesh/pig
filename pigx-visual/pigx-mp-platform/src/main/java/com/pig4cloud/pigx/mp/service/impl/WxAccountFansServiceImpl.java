@@ -196,7 +196,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 	 */
 	@Async
 	@Override
-	public Boolean syncAccountFans(String appId) {
+	public void syncAccountFans(String appId) {
 		WxAccount wxAccount = wxAccountMapper
 			.selectOne(Wrappers.<WxAccount>query().lambda().eq(WxAccount::getAppid, appId));
 
@@ -209,7 +209,6 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
 				(id) -> fetchUser(finalNextOpenId, wxAccount, wxMpUserService));
 
 		log.info("公众号 {} 粉丝同步完成", wxAccount.getName());
-		return Boolean.TRUE;
 	}
 
 	/**
