@@ -41,7 +41,7 @@ public class SqlProviderFactory {
 				url = environment.getProperty("spring.datasource.druid.url");
 			}
 
-			JdbcUtils.getDbType(url);
+			dbType = JdbcUtils.getDbType(url);
 		}
 		else {
 			dbType = dbProperties.getDbType();
