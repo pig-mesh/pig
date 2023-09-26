@@ -4,12 +4,14 @@ import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
+import com.pig4cloud.pigx.common.sequence.properties.SequenceDbProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * sql语句提供工厂
@@ -22,20 +24,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SqlProviderFactory {
 
-	private final DruidDataSource druidDataSource;
+	private final Optional<DruidDataSource> druidDataSourceOptional;
+
+	private final SequenceDbProperties dbProperties;
 
 	private final List<SqlProvider> sqlProviders;
 
 	private final Environment environment;
 
 	public SqlProvider getSqlProvider() {
-		String url = druidDataSource.getUrl();
-		// druid 形式 进行降级获取
-		if (StrUtil.isBlank(url)) {
-			url = environment.getProperty("spring.datasource.druid.url");
+		DbType dbType = null;
+		if (druidDataSourceOptional.isPresent()) {
+			String url = druidDataSourceOptional.get().getUrl();
+			// druid 形式 进行降级获取
+			if (StrUtil.isBlank(url)) {
+				url = environment.getProperty("spring.datasource.druid.url");
+			}
+
+			JdbcUtils.getDbType(url);
+		}
+		else {
+			dbType = dbProperties.getDbType();
 		}
 
-		DbType dbType = JdbcUtils.getDbType(url);
 		for (SqlProvider sqlProvider : sqlProviders) {
 			if (sqlProvider.support(dbType)) {
 				return sqlProvider;

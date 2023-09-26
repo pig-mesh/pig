@@ -5,6 +5,7 @@ package com.pig4cloud.pigx.common.sequence.properties;
  * @date 2019-05-26
  */
 
+import com.baomidou.mybatisplus.annotation.DbType;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,11 @@ import org.springframework.stereotype.Component;
 @Component
 @ConfigurationProperties(prefix = "pigx.xsequence.db")
 public class SequenceDbProperties extends BaseSequenceProperties {
+
+	/**
+	 * 默认数据库类型
+	 */
+	private DbType dbType = DbType.MYSQL;
 
 	/**
 	 * 表名称
