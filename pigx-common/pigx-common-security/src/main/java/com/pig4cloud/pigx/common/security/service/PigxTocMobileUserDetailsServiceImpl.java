@@ -34,10 +34,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户详细信息
@@ -48,7 +45,7 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsService {
 
-	private final RemoteAppUserService remoteAppUserService;
+	private final Optional<RemoteAppUserService> remoteAppUserServiceOptional;
 
 	/**
 	 * 用户密码登录
@@ -58,7 +55,10 @@ public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsServi
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String phone) {
-		R<AppUserInfo> info = remoteAppUserService.social(phone, SecurityConstants.FROM_IN);
+		if (!remoteAppUserServiceOptional.isPresent()) {
+			throw new UnsupportedOperationException();
+		}
+		R<AppUserInfo> info = remoteAppUserServiceOptional.get().social(phone, SecurityConstants.FROM_IN);
 		return this.getUserDetailsAppUser(info);
 	}
 

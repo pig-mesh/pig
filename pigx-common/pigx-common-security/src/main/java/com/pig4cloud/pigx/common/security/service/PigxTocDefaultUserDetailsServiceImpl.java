@@ -37,10 +37,7 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户详细信息
@@ -53,7 +50,7 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
 
 	private final CacheManager cacheManager;
 
-	private final RemoteAppUserService remoteAppUserService;
+	private final Optional<RemoteAppUserService> remoteAppUserServiceOptional;
 
 	/**
 	 * 用户密码登录
@@ -63,11 +60,15 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String username) {
+		if (!remoteAppUserServiceOptional.isPresent()) {
+			throw new UnsupportedOperationException();
+		}
+
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS_MINI);
 		if (cache != null && cache.get(username) != null) {
 			return cache.get(username, PigxUser.class);
 		}
-		R<AppUserInfo> info = remoteAppUserService.info(username, SecurityConstants.FROM_IN);
+		R<AppUserInfo> info = remoteAppUserServiceOptional.get().info(username, SecurityConstants.FROM_IN);
 		UserDetails userDetailsAppUser = this.getUserDetailsAppUser(info);
 		if (cache != null) {
 			cache.put(username, userDetailsAppUser);
