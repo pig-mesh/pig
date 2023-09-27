@@ -34,6 +34,7 @@
         <mp.weixin.version>4.4.0</mp.weixin.version>
         <ijpay.version>2.9.6-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
+        <javax.version>4.0.1</javax.version>
         <jsoup.version>1.13.1</jsoup.version>
         <aviator.version>5.3.3</aviator.version>
         <flowable.version>7.0.0.M1</flowable.version>
@@ -340,6 +341,11 @@
                 <groupId>org.codehaus.groovy</groupId>
                 <artifactId>groovy</artifactId>
                 <version>${groovy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${javax.version}</version>
             </dependency>
             <!--稳定版本，替代spring security bom内置-->
             <dependency>

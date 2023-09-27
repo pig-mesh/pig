@@ -31,6 +31,7 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-3-starter</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 </project>
