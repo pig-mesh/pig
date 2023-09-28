@@ -521,7 +521,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<Long> listUserIdByRoleIds(List<Long> roleIdList) {
 		return sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getRoleId, roleIdList))
 			.stream()
-			.map(SysUserRole::getRoleId)
+			.map(SysUserRole::getUserId)
 			.collect(Collectors.toList());
 	}
 
