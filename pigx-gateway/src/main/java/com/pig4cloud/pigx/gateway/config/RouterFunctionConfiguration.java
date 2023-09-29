@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.gateway.config;
 
 import com.pig4cloud.pigx.gateway.handler.ImageCodeCheckHandler;
 import com.pig4cloud.pigx.gateway.handler.ImageCodeCreateHandler;
+import com.pig4cloud.pigx.gateway.handler.ImageCodeMathHandler;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -41,11 +42,15 @@ public class RouterFunctionConfiguration {
 
 	private final ImageCodeCreateHandler imageCodeCreateHandler;
 
+	private final ImageCodeMathHandler imageCodeMathHandler;
+
 	@Bean
 	public RouterFunction routerFunction() {
 		return RouterFunctions
 			.route(RequestPredicates.path("/code/create").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
 					imageCodeCreateHandler)
+			.andRoute(RequestPredicates.path("/code/image").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+					imageCodeMathHandler)
 			.andRoute(RequestPredicates.POST("/code/check").and(RequestPredicates.accept(MediaType.ALL)),
 					imageCodeCheckHandler);
 

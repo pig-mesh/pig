@@ -72,6 +72,12 @@
             <artifactId>spring-boot-starter-captcha</artifactId>
             <version>${captcha.version}</version>
         </dependency>
+        <!--图形验证码-->
+        <dependency>
+            <groupId>io.springboot.plugin</groupId>
+            <artifactId>captcha-core</artifactId>
+            <version>${captcha.image.version}</version>
+        </dependency>
         <!--缓存-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
