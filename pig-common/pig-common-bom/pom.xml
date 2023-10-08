@@ -35,8 +35,7 @@
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.0</shardingsphere.version>
-        <hutool.version>5.8.21</hutool.version>
-        <mica.version>3.0.8</mica.version>
+        <hutool.version>5.8.22</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
@@ -180,14 +179,6 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-bom</artifactId>
                 <version>${hutool.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--mica bom 工具类-->
-            <dependency>
-                <groupId>net.dreamlu</groupId>
-                <artifactId>mica-bom</artifactId>
-                <version>${mica.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
