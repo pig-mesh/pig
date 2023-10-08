@@ -27,7 +27,7 @@
     <url>https://www.pig4cloud.com</url>
 
     <properties>
-        <spring-boot.version>2.7.15</spring-boot.version>
+        <spring-boot.version>2.7.16</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -37,6 +37,7 @@
         <spring.authorization.version>0.4.3</spring.authorization.version>
         <captcha.version>2.2.3</captcha.version>
         <screw.version>0.0.1</screw.version>
+        <lombok.version>1.18.30</lombok.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
@@ -83,6 +84,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
         <!--测试依赖-->
