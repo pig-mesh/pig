@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.common.core.sensitive;
 
+import cn.hutool.core.util.DesensitizedUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -78,6 +79,12 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
 				break;
 			case KEY:
 				jsonGenerator.writeString(DesensitizedUtils.key(origin));
+				break;
+			case IPV4:
+				jsonGenerator.writeString(DesensitizedUtils.ipv4(origin));
+				break;
+			case CAR_LICENSE:
+				jsonGenerator.writeString(DesensitizedUtil.carLicense(origin));
 				break;
 			case CUSTOMER:
 				jsonGenerator

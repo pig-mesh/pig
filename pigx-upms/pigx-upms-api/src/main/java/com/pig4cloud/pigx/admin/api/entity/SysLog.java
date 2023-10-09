@@ -22,10 +22,12 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
+import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -96,6 +98,7 @@ public class SysLog implements Serializable {
 	 */
 	@ExcelProperty("操作ip地址")
 	@Schema(description = "操作ip地址")
+	@Sensitive(type = SensitiveTypeEnum.IPV4)
 	private String remoteAddr;
 
 	/**

@@ -168,4 +168,8 @@ public class DesensitizedUtils {
 		}
 	}
 
+	public static String ipv4(String origin) {
+		return StrUtil.subBefore(origin, '.', true) + ".*";
+	}
+
 }
