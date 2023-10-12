@@ -20,6 +20,12 @@ import java.lang.annotation.*;
 public @interface ApiDecrypt {
 
 	/**
+	 * 参数名称 仅针对GET请求有效
+	 * @return string
+	 */
+	String parameter() default "";
+
+	/**
 	 * 解密类型
 	 * @return 类型
 	 */

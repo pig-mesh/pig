@@ -20,6 +20,13 @@ import java.lang.annotation.*;
 public @interface ApiDecryptAes {
 
 	/**
+	 * 参数名称 仅针对GET请求有效
+	 * @return string
+	 */
+	@AliasFor(annotation = ApiDecrypt.class, attribute = "parameter")
+	String value() default "";
+
+	/**
 	 * Alias for {@link ApiDecrypt#secretKey()}.
 	 * @return {String}
 	 */

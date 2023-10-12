@@ -17,7 +17,8 @@
 package com.pig4cloud.pigx.common.api.encrypt.core;
 
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.common.api.encrypt.annotation.decrypt.ApiDecrypt;
 import com.pig4cloud.pigx.common.api.encrypt.bean.CryptoInfoBean;
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
@@ -44,8 +45,6 @@ public class ApiDecryptParamResolver implements HandlerMethodArgumentResolver {
 
 	private final ApiEncryptProperties properties;
 
-	private final ObjectMapper objectMapper;
-
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return AnnotatedElementUtils.hasAnnotation(parameter.getParameter(), ApiDecrypt.class);
@@ -57,6 +56,11 @@ public class ApiDecryptParamResolver implements HandlerMethodArgumentResolver {
 			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		Parameter parameter = methodParameter.getParameter();
 		ApiDecrypt apiDecrypt = AnnotatedElementUtils.getMergedAnnotation(parameter, ApiDecrypt.class);
+
+		if (StrUtil.isBlank(apiDecrypt.parameter())) {
+			return null;
+		}
+
 		String text = webRequest.getParameter(properties.getParamName());
 		if (StrUtil.isBlank(text)) {
 			return null;
@@ -64,8 +68,8 @@ public class ApiDecryptParamResolver implements HandlerMethodArgumentResolver {
 		CryptoInfoBean infoBean = new CryptoInfoBean(apiDecrypt.value(), apiDecrypt.secretKey());
 		byte[] textBytes = text.getBytes(StandardCharsets.UTF_8);
 		byte[] decryptData = ApiCryptoUtil.decryptData(textBytes, infoBean);
-
-		return objectMapper.readValue(decryptData, parameter.getType());
+		JSONObject jsonObject = JSONUtil.parseObj(decryptData);
+		return jsonObject.get(apiDecrypt.parameter(), parameter.getType());
 	}
 
 }

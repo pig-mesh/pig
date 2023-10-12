@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pigx.common.api.encrypt.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.api.encrypt.core.ApiDecryptParamResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,10 +35,8 @@ public class ApiEncryptParamConfiguration implements WebMvcConfigurer {
 
 	private final ApiEncryptProperties apiEncryptProperties;
 
-	private final ObjectMapper objectMapper;
-
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
-		argumentResolvers.add(new ApiDecryptParamResolver(apiEncryptProperties, objectMapper));
+		argumentResolvers.add(new ApiDecryptParamResolver(apiEncryptProperties));
 	}
 
 }
