@@ -381,6 +381,7 @@ CREATE TABLE `xxl_job_lock` (
 -- Records of xxl_job_lock
 -- ----------------------------
 BEGIN;
+INSERT INTO `xxl_job_lock` ( `lock_name`) VALUES ( 'schedule_lock');
 COMMIT;
 
 -- ----------------------------
