@@ -59,8 +59,7 @@ public class ServerStateController {
 	@SneakyThrows
 	@GetMapping("/announcement")
 	public RestResult<String> getAnnouncement() {
-		ClassPathResource resource = new ClassPathResource(ANNOUNCEMENT_FILE);
-		return RestResultUtils.success(FileUtil.readString(resource.getFile(), Charset.defaultCharset()));
+		return RestResultUtils.success();
 	}
 
 }
