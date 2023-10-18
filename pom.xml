@@ -34,7 +34,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <spring-boot-admin.version>2.7.10</spring-boot-admin.version>
-        <spring.authorization.version>0.4.3</spring.authorization.version>
+        <spring.authorization.version>0.4.4</spring.authorization.version>
         <captcha.version>2.2.3</captcha.version>
         <screw.version>0.0.1</screw.version>
         <lombok.version>1.18.30</lombok.version>
