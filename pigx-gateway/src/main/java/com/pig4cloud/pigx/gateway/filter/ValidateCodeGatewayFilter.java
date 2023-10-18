@@ -38,7 +38,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -57,9 +56,9 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("all")
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
-	private final ObjectMapper objectMapper;
+	private final RedisTemplate<String, String> redisTemplate;
 
-	private final RedisTemplate redisTemplate;
+	private final ObjectMapper objectMapper;
 
 	@Override
 	public GatewayFilter apply(Object config) {
@@ -127,15 +126,14 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.TENANT_ID_1 : tenantId,
 				CacheConstants.CLIENT_FLAG, clientId);
 
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-		Object val = redisTemplate.opsForValue().get(key);
+		String val = redisTemplate.opsForValue().get(key);
 
 		// 当配置不存在时，不用校验
 		if (val == null) {
 			return false;
 		}
 
-		JSONObject information = JSONUtil.parseObj(val.toString());
+		JSONObject information = JSONUtil.parseObj(val);
 		if (StrUtil.equals(CaptchaFlagTypeEnum.OFF.getType(), information.getStr(CommonConstants.CAPTCHA_FLAG))) {
 			return false;
 		}
@@ -175,19 +173,16 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
-
 		if (!redisTemplate.hasKey(key)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		Object codeObj = redisTemplate.opsForValue().get(key);
+		String saveCode = redisTemplate.opsForValue().get(key);
 
-		if (codeObj == null) {
+		if (saveCode == null) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		String saveCode = codeObj.toString();
 		if (StrUtil.isBlank(saveCode)) {
 			redisTemplate.delete(key);
 			throw new ValidateCodeException("验证码不合法");

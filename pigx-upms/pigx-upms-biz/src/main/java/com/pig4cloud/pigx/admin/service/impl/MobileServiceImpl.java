@@ -49,7 +49,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class MobileServiceImpl implements MobileService {
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	private final SysUserMapper userMapper;
 
