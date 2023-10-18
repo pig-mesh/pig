@@ -20,6 +20,7 @@ import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
@@ -66,6 +67,11 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 	private static final String KEY_ALGORITHM = "AES";
 
 	private final GatewayConfigProperties gatewayConfig;
+
+	static {
+		// 关闭hutool 强制关闭Bouncy Castle库的依赖
+		SecureUtil.disableBouncyCastle();
+	}
 
 	@Override
 	public GatewayFilter apply(Object config) {
