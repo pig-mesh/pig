@@ -17,6 +17,8 @@
 
 package com.pig4cloud.pigx.common.file.oss.service;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSCredentialsProvider;
@@ -145,6 +147,21 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 	}
 
 	/**
+	 * 获取文件
+	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
+	 * @param objectName 文件名称
+	 * @return 二进制流 API Documentation</a>
+	 */
+	@Override
+	public S3Object getObject(String bucketName, String dir, String objectName) {
+		if (StrUtil.isNotBlank(dir)) {
+			objectName = dir + FileUtil.FILE_SEPARATOR + objectName;
+		}
+		return getObject(bucketName, objectName);
+	}
+
+	/**
 	 * 上传文件
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
@@ -165,6 +182,26 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 	 */
 	public void putObject(String bucketName, String objectName, InputStream stream, String contextType)
 			throws Exception {
+		putObject(bucketName, objectName, stream, stream.available(), contextType);
+	}
+
+	/**
+	 * 上传文件
+	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
+	 * @param objectName 文件名称
+	 * @param stream 文件流
+	 * @param contextType 文件类型
+	 * @throws Exception
+	 */
+	@Override
+	public void putObject(String bucketName, String dir, String objectName, InputStream stream, String contextType)
+			throws Exception {
+		if (StrUtil.isNotBlank(dir)) {
+			// dir 路径为 a/b
+			objectName = dir + FileUtil.FILE_SEPARATOR + objectName;
+		}
+
 		putObject(bucketName, objectName, stream, stream.available(), contextType);
 	}
 

@@ -68,23 +68,25 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 上传文件
-	 * @param file
-	 * @param groupId
-	 * @param type
+	 * @param file 文件流
+	 * @param dir 文件夹
+	 * @param groupId 分组ID
+	 * @param type 类型
 	 * @return
 	 */
 	@Override
-	public R uploadFile(MultipartFile file, Long groupId, String type) {
+	public R uploadFile(MultipartFile file, String dir, Long groupId, String type) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
 		resultMap.put("bucketName", properties.getBucketName());
 		resultMap.put("fileName", fileName);
-		resultMap.put("url", String.format("/admin/sys-file/%s/%s", properties.getBucketName(), fileName));
+
+		resultMap.put("url", String.format("/admin/sys-file/oss/file?fileName=%s", fileName));
 
 		try (InputStream inputStream = file.getInputStream()) {
-			fileTemplate.putObject(properties.getBucketName(), fileName, inputStream, file.getContentType());
+			fileTemplate.putObject(properties.getBucketName(), dir, fileName, inputStream, file.getContentType());
 			// 文件管理数据记录,收集管理追踪文件
-			fileLog(file, fileName, groupId, type);
+			fileLog(file, dir, fileName, groupId, type);
 		}
 		catch (Exception e) {
 			log.error("上传失败", e);
@@ -100,8 +102,9 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	 * @param response
 	 */
 	@Override
-	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = fileTemplate.getObject(bucket, fileName)) {
+	public void getFile(String fileName, HttpServletResponse response) {
+		SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
+		try (S3Object s3Object = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
 		}
@@ -200,11 +203,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	/**
 	 * 文件管理数据记录，收集管理追踪文件
 	 * @param file 上传的文件格式
+	 * @param dir 文件夹
 	 * @param fileName 文件名
 	 * @param groupId 文件组ID
 	 * @param type 文件类型
 	 */
-	private void fileLog(MultipartFile file, String fileName, Long groupId, String type) {
+	private void fileLog(MultipartFile file, String dir, String fileName, Long groupId, String type) {
 		// 创建SysFile对象并设置相关属性
 		SysFile sysFile = new SysFile();
 		sysFile.setFileName(fileName);
@@ -213,6 +217,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		String originalFilename = new String(
 				Objects.requireNonNull(file.getOriginalFilename()).getBytes(StandardCharsets.ISO_8859_1),
 				StandardCharsets.UTF_8);
+		sysFile.setDir(dir);
 		sysFile.setOriginal(originalFilename);
 		sysFile.setFileSize(file.getSize());
 		sysFile.setBucketName(properties.getBucketName());

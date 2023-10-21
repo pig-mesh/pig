@@ -40,6 +40,18 @@ public interface FileTemplate extends InitializingBean {
 	 * 上传文件
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
+	 * @param dir 文件夹名称
+	 * @param stream 文件流
+	 * @param contextType 文件类型
+	 * @throws Exception
+	 */
+	void putObject(String bucketName, String dir, String objectName, InputStream stream, String contextType)
+			throws Exception;
+
+	/**
+	 * 上传文件
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
 	 * @param stream 文件流
 	 * @param contextType 文件类型
 	 * @throws Exception
@@ -55,6 +67,15 @@ public interface FileTemplate extends InitializingBean {
 	 * @throws Exception
 	 */
 	void putObject(String bucketName, String objectName, InputStream stream) throws Exception;
+
+	/**
+	 * 获取文件
+	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
+	 * @param objectName 文件名称
+	 * @return 二进制流 API Documentation</a>
+	 */
+	S3Object getObject(String bucketName, String dir, String objectName);
 
 	/**
 	 * 获取文件

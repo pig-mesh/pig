@@ -23,9 +23,8 @@ import com.pig4cloud.pigx.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysFile;
 import com.pig4cloud.pigx.admin.api.entity.SysFileGroup;
 import com.pig4cloud.pigx.common.core.util.R;
-import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -39,20 +38,20 @@ public interface SysFileService extends IService<SysFile> {
 
 	/**
 	 * 上传文件
-	 * @param file
-	 * @param groupId
-	 * @param type
+	 * @param file 文件流
+	 * @param dir 文件夹
+	 * @param groupId 分组ID
+	 * @param type 类型
 	 * @return
 	 */
-	R uploadFile(MultipartFile file, Long groupId, String type);
+	R uploadFile(MultipartFile file, String dir, Long groupId, String type);
 
 	/**
 	 * 读取文件
-	 * @param bucket 桶名称
 	 * @param fileName 文件名称
 	 * @param response 输出流
 	 */
-	void getFile(String bucket, String fileName, HttpServletResponse response);
+	void getFile(String fileName, HttpServletResponse response);
 
 	/**
 	 * 删除文件

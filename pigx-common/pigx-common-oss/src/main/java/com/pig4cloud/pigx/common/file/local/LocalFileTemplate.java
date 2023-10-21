@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.common.file.local;
 
 import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.amazonaws.services.s3.model.Bucket;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
@@ -79,6 +80,24 @@ public class LocalFileTemplate implements FileTemplate {
 	}
 
 	/**
+	 * 上传文件
+	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
+	 * @param objectName 文件名称
+	 * @param stream 文件流
+	 * @param contextType 文件类型
+	 * @throws Exception
+	 */
+	@Override
+	public void putObject(String bucketName, String dir, String objectName, InputStream stream, String contextType)
+			throws Exception {
+		if (StrUtil.isNotBlank(dir)) {
+			bucketName = bucketName + FileUtil.FILE_SEPARATOR + dir;
+		}
+		putObject(bucketName, objectName, stream, contextType);
+	}
+
+	/**
 	 * 获取文件
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
@@ -91,6 +110,21 @@ public class LocalFileTemplate implements FileTemplate {
 		S3Object s3Object = new S3Object();
 		s3Object.setObjectContent(FileUtil.getInputStream(dir + FileUtil.FILE_SEPARATOR + objectName));
 		return s3Object;
+	}
+
+	/**
+	 * 获取文件
+	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
+	 * @param objectName 文件名称
+	 * @return 二进制流 API Documentation</a>
+	 */
+	@Override
+	public S3Object getObject(String bucketName, String dir, String objectName) {
+		if (StrUtil.isNotBlank(dir)) {
+			bucketName = bucketName + FileUtil.FILE_SEPARATOR + dir;
+		}
+		return getObject(bucketName, objectName);
 	}
 
 	/**

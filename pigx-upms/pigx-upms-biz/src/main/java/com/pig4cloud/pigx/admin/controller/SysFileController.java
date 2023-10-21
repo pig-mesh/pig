@@ -99,26 +99,26 @@ public class SysFileController {
 	/**
 	 * 上传文件 文件名采用uuid,避免原始文件名中带"-"符号导致下载的时候解析出现异常
 	 * @param file 资源
+	 * @param dir 文件夹
 	 * @return R(/ admin / bucketName / filename)
 	 */
 	@PostMapping(value = "/upload")
-	public R upload(@RequestPart("file") MultipartFile file,
+	public R upload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
 			@RequestParam(value = "groupId", required = false) Long groupId,
 			@RequestParam(value = "type", required = false) String type) {
-		return sysFileService.uploadFile(file, groupId, type);
+		return sysFileService.uploadFile(file, dir,groupId, type);
 	}
 
 	/**
 	 * 获取文件
-	 * @param bucket 桶名称
 	 * @param fileName 文件空间/名称
 	 * @param response
 	 * @return
 	 */
 	@Inner(false)
-	@GetMapping("/{bucket}/{fileName}")
-	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
-		sysFileService.getFile(bucket, fileName, response);
+	@GetMapping("/oss/file")
+	public void file(String fileName, HttpServletResponse response) {
+		sysFileService.getFile(fileName, response);
 	}
 
 	/**

@@ -63,6 +63,12 @@ public class SysFile extends Model<SysFile> {
 	@Schema(description = "存储桶名称")
 	private String bucketName;
 
+	/***
+	 * 文件夹
+	 */
+	@Schema(description = "文件夹")
+	private String dir;
+
 	/**
 	 * 文件类型
 	 */
