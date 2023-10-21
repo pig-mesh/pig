@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.common.api.encrypt;
 
+import cn.hutool.crypto.SecureUtil;
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptParamConfiguration;
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
 import com.pig4cloud.pigx.common.api.encrypt.core.ApiDecryptRequestBodyAdvice;
@@ -24,6 +25,11 @@ import org.springframework.context.annotation.Import;
 @Import({ ApiEncryptParamConfiguration.class, ApiDecryptRequestBodyAdvice.class, ApiEncryptResponseBodyAdvice.class })
 @ConditionalOnProperty(value = ApiEncryptProperties.PREFIX + ".enable", havingValue = "true", matchIfMissing = true)
 public class ApiEncryptAutoConfiguration {
+
+	static {
+		// 关闭hutool 强制关闭Bouncy Castle库的依赖
+		SecureUtil.disableBouncyCastle();
+	}
 
 	/**
 	 * 默认的 key 获取策略
