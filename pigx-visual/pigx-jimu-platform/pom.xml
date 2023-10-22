@@ -13,7 +13,7 @@
 
     <description>积木报表系统</description>
     <properties>
-        <druid.version>1.2.19</druid.version>
+        <druid.version>1.2.20</druid.version>
         <spring-boot-dependencies.version>2.7.16</spring-boot-dependencies.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>

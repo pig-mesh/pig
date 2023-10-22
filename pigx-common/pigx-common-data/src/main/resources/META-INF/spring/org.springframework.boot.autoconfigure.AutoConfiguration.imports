@@ -7,4 +7,3 @@ com.pig4cloud.pigx.common.data.tenant.TenantContextHolderFilter
 com.pig4cloud.pigx.common.data.tenant.PigxTenantConfiguration
 com.pig4cloud.pigx.common.data.mybatis.MybatisPlusConfiguration
 com.pig4cloud.pigx.common.data.resolver.TenantKeyStrResolver
-com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure
