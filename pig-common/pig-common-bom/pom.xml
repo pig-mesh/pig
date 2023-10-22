@@ -34,7 +34,7 @@
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <shardingsphere.version>5.4.0</shardingsphere.version>
+        <shardingsphere.version>5.4.1</shardingsphere.version>
         <hutool.version>5.8.22</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
