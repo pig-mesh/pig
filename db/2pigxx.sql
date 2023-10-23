@@ -511,6 +511,7 @@ INSERT INTO `sys_menu` VALUES (2905, '导入导出', 'sys_i18n_export', NULL, 29
 INSERT INTO `sys_menu` VALUES (2906, '文件管理', NULL, '/admin/file/index', 2000, 'ele-Files', '1', 6, '0', NULL, '0', '', '2019-06-25 12:44:46', 'admin', '2023-02-16 15:24:42', '0', 1);
 INSERT INTO `sys_menu` VALUES (2907, '删除文件', 'sys_file_del', NULL, 2906, NULL, '1', 1, '0', NULL, '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0', 1);
 INSERT INTO `sys_menu` VALUES (2908, '路由管理', NULL, '/ext/route', 2000, 'iconfont icon-diqiu1', '1', 12, '0', NULL, '0', '', '2019-06-25 12:44:46', 'admin', '2023-02-16 15:24:42', '0', 1);
+INSERT INTO `sys_menu` VALUES (2909, '路由配置', 'sys_route_manage', NULL, 2908, NULL, '1', 1, '0', NULL, '1', ' ', '2019-06-25 13:41:41', ' ', '2020-03-24 08:58:42', '0', 1);
 INSERT INTO `sys_menu` VALUES (3000, '公众号平台', NULL, '/mp', -1, 'iconfont icon-zhongyingzhuanhuan', '1', 10, '0', '0', '0', 'admin', '2023-02-24 10:40:44', 'admin', '2023-03-06 10:05:21', '0', 1);
 INSERT INTO `sys_menu` VALUES (3001, '账号管理', NULL, '/mp/wx-account/index', 3000, 'iconfont icon-putong', '1', 0, '0', '0', '0', 'admin', '2023-02-24 10:43:03', ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` VALUES (3002, '菜单设置', NULL, '/mp/wx-menu/index', 3000, 'iconfont icon--chaifenlie', '1', 1, '0', '0', '0', 'admin', '2023-02-24 11:16:32', 'admin', '2023-03-11 16:28:56', '0', 1);

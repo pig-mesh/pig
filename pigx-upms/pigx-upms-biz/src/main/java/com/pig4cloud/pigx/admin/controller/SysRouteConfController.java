@@ -17,7 +17,10 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
-import cn.hutool.json.JSONArray;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.admin.api.entity.SysRouteConf;
 import com.pig4cloud.pigx.admin.service.SysRouteConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -47,19 +50,26 @@ public class SysRouteConfController {
 	 * @return
 	 */
 	@GetMapping
-	public R listRoutes() {
-		return R.ok(sysRouteConfService.list());
+	public R listRoutes(@RequestParam(required = false) String routeId) {
+		return R.ok(sysRouteConfService.list(Wrappers.<SysRouteConf>lambdaQuery()
+			.eq(StrUtil.isNotBlank(routeId), SysRouteConf::getRouteId, routeId)));
+	}
+
+	@DeleteMapping("/{routeId}")
+	public R deleteRoute(@PathVariable String routeId) {
+		return R
+			.ok(sysRouteConfService.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, routeId)));
 	}
 
 	/**
-	 * 修改路由
-	 * @param routes 路由定义
-	 * @return
+	 * 新增修改路由
+	 * @param route 路由定义
+	 * @return success
 	 */
-	@SysLog("修改路由")
-	@PutMapping
-	public R updateRoutes(@RequestBody JSONArray routes) {
-		return R.ok(sysRouteConfService.updateRoutes(routes));
+	@SysLog("新增修改路由")
+	@PostMapping
+	public R addOrUpdateRoute(@RequestBody JSONObject route) {
+		return R.ok(sysRouteConfService.addOrUpdateRoute(route));
 	}
 
 }

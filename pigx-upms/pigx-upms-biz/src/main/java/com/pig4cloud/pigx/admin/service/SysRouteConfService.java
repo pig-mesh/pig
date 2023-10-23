@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.admin.service;
 
-import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysRouteConf;
 import reactor.core.publisher.Mono;
@@ -32,9 +32,9 @@ public interface SysRouteConfService extends IService<SysRouteConf> {
 
 	/**
 	 * 更新路由信息
-	 * @param routes 路由信息
+	 * @param route 路由信息
 	 * @return
 	 */
-	Mono<Void> updateRoutes(JSONArray routes);
+	Mono<Void> addOrUpdateRoute(JSONObject route);
 
 }
