@@ -28,7 +28,7 @@
         <swagger.core.version>2.2.14</swagger.core.version>
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <mysql.version>8.0.33</mysql.version>
-        <dynamic-ds.version>4.1.3</dynamic-ds.version>
+        <dynamic-ds.version>4.2.0</dynamic-ds.version>
         <seata.version>1.6.1</seata.version>
         <excel.version>3.1.0</excel.version>
         <asm.version>7.1</asm.version>
