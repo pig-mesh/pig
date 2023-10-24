@@ -103,6 +103,8 @@ public class SysJobController {
 	@PreAuthorize("@pms.hasPermission('job_sys_job_add')")
 	@Operation(description = "新增定时任务")
 	public R save(@RequestBody SysJob sysJob) {
+		// 初始化任务
+		taskUtil.addOrUpateJob(sysJob, scheduler);
 		sysJob.setJobStatus(PigxQuartzEnum.JOB_STATUS_RELEASE.getType());
 		sysJob.setCreateBy(SecurityUtils.getUser().getUsername());
 		return R.ok(sysJobService.save(sysJob));
