@@ -44,7 +44,8 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
 
 		// 客户端模式默认返回
 		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
-			return new PigxClientCredentialsOAuth2AuthenticatedPrincipal(oldAuthorization.getAttributes(),
+			return new PigxClientCredentialsOAuth2AuthenticatedPrincipal(
+					Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()),
 					AuthorityUtils.NO_AUTHORITIES, oldAuthorization.getPrincipalName());
 		}
 
