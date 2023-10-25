@@ -56,7 +56,7 @@ public class GenKit {
 		// 为空 根据jdbc-url推断数据库类型
 		if (datasourceConf == null) {
 			DruidDataSourceProperties dataSourceProperties = SpringContextHolder
-					.getBean(DruidDataSourceProperties.class);
+				.getBean(DruidDataSourceProperties.class);
 			DbType dbType = JdbcUtils.getDbType(dataSourceProperties.getUrl());
 			dbConfType = dbType.getDb();
 		}

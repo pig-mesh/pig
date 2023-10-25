@@ -106,7 +106,7 @@ public class SysFileController {
 	public R upload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
 			@RequestParam(value = "groupId", required = false) Long groupId,
 			@RequestParam(value = "type", required = false) String type) {
-		return sysFileService.uploadFile(file, dir,groupId, type);
+		return sysFileService.uploadFile(file, dir, groupId, type);
 	}
 
 	/**

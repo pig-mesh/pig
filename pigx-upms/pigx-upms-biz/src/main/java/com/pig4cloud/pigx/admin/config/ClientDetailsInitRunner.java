@@ -37,7 +37,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 
 	private final SysTenantService tenantService;
 
-	private final RedisTemplate<String,String> redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	/**
 	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
