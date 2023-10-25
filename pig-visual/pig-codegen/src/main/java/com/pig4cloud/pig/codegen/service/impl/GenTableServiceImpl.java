@@ -185,7 +185,6 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 			genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
 			genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());
 
-
 			// 审计字段处理
 			if (EnumUtil.contains(CommonColumnFiledEnum.class, columnName)) {
 				CommonColumnFiledEnum commonColumnFiledEnum = CommonColumnFiledEnum.valueOf(columnName);
