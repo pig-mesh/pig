@@ -46,7 +46,8 @@ public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector
 		// 客户端模式默认返回
 		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
 			return new DefaultOAuth2AuthenticatedPrincipal(oldAuthorization.getPrincipalName(),
-					Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()), AuthorityUtils.NO_AUTHORITIES);
+					Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()),
+					AuthorityUtils.NO_AUTHORITIES);
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
