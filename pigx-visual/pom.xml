@@ -40,5 +40,6 @@
         <module>pigx-pay-platform</module>
         <module>pigx-monitor</module>
         <module>pigx-mp-platform</module>
+        <module>pigx-xxl-job-admin</module>
     </modules>
 </project>
