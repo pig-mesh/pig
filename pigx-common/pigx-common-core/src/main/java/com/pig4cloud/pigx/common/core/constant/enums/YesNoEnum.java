@@ -13,16 +13,16 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum YesNoEnum {
 
-    YES("1", "是"),
-    NO("0", "否");
+	YES("1", "是"), NO("0", "否");
 
-    /**
-     * 编码
-     */
-    private String code;
+	/**
+	 * 编码
+	 */
+	private String code;
 
-    /**
-     * 描述
-     */
-    private String desc;
+	/**
+	 * 描述
+	 */
+	private String desc;
+
 }
