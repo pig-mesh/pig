@@ -54,11 +54,6 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-job</artifactId>
-                <version>${pig.common.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-log</artifactId>
                 <version>${pig.common.version}</version>
             </dependency>

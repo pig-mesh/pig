@@ -33,7 +33,6 @@
         <module>pig-common-bom</module>
         <module>pig-common-core</module>
         <module>pig-common-datasource</module>
-        <module>pig-common-job</module>
         <module>pig-common-log</module>
         <module>pig-common-mybatis</module>
         <module>pig-common-oss</module>
