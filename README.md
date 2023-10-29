@@ -59,7 +59,6 @@ pig
      ├── pig-common-bom -- 全局依赖管理控制
      ├── pig-common-core -- 公共工具类核心包
      ├── pig-common-datasource -- 动态数据源包
-     ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
      ├── pig-common-oss -- 文件上传工具类
      ├── pig-common-mybatis -- mybatis 扩展封装
