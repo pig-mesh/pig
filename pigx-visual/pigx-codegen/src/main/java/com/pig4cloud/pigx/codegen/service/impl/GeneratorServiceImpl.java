@@ -313,7 +313,7 @@ public class GeneratorServiceImpl implements GeneratorService {
      * @param dataModel 存储数据的 Map 对象
      * @param table     表信息对象
      */
-    private void setFieldTypeList(Map<String, Object> d ataModel, GenTable table) {
+    private void setFieldTypeList(Map<String, Object> dataModel, GenTable table) {
         // 按字段类型分组，使用 Map 存储不同类型的字段列表
         Map<Boolean, List<GenTableColumnEntity>> typeMap = table.getFieldList()
                 .stream()
