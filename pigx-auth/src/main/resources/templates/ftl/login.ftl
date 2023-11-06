@@ -1,44 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>PigX微服务统一认证</title>
-
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/css/signin.css" rel="stylesheet">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <#-- 内网部署下载相对应放文件放在 resource目录离线加载-->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<link href="/css/signin.css" rel="stylesheet">
 </head>
+<body>
+<div class="h-screen bg-white relative flex flex-col space-y-10 justify-center items-center">
+	<div class="bg-white md:shadow-lg shadow-none rounded p-6 w-96">
+		<h1 class="text-3xl font-bold leading-normal text-center">统一身份平台</h1>
+		<form class="space-y-5 mt-5" action="/token/form" method="post">
+			<input type="hidden" name="client_id" class="form-control" value="pig" placeholder="所属客户端" >
 
-<body class="sign_body">
-<div class="container form-margin-top">
-    <form class="form-signin" action="/token/form" method="post">
-        <h2 class="form-signin-heading" align="center">统一认证系统</h2>
-
-        <#if tenantList??>
-            <select class="form-control form-margin-top" placeholder="所属租户" name="TENANT-ID">
-                <#list tenantList as tenant>
-                    <option value="${tenant.id}">${tenant.name}</option>
-                </#list>
-            </select>
-        </#if>
-
-        <input type="hidden" name="client_id" class="form-control" value="pig" placeholder="所属客户端" >
-        <input type="text" name="username" class="form-control" placeholder="账号" required autofocus>
-        <input type="password" name="password" class="form-control" placeholder="密码" required>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">sign in</button>
+			<div class="mb-4 relative">
+                <#if tenantList??>
+					<select class="w-full rounded px-3 border border-gray-500 pt-5 pb-2 focus:outline-none input active:outline-none" placeholder="所属租户" name="TENANT-ID">
+                        <#list tenantList as tenant>
+							<option value="${tenant.id}">${tenant.name}</option>
+                        </#list>
+					</select>
+                </#if>
+			</div>
+			<div class="mb-4 relative">
+				<input id="username" required
+				       class="w-full rounded px-3 border border-gray-500 pt-5 pb-2 focus:outline-none input active:outline-none"
+				       type="text" autofocus>
+				<label for="username"
+				       class="label absolute mb-0 -mt-2 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">账号</label>
+			</div>
+			<div class="relative flex items-center border border-gray-500 focus:ring focus:border-blue-500 rounded">
+				<input id="password" required
+				       class="w-full rounded px-3 pt-5 outline-none pb-2 focus:outline-none active:outline-none input active:border-blue-500"
+				       type="password"/>
+				<label for="password"
+				       class="label absolute mb-0 -mt-2 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">密码</label>
+			</div>
+			<button class="w-full text-center bg-blue-700 hover:bg-blue-900 rounded-full text-white py-3 font-medium">
+				登 录
+			</button>
+		</form>
         <#if error??>
-            <span style="color: red; ">${error?html}</span>
+			<p class="text-sm leading-normal text-red-900">${error?html}</p>
         </#if>
-    </form>
+	</div>
 </div>
-<footer>
-    <p>support by: pig4cloud</p>
-    <p>email: <a href="mailto:support@mail.pigx.vip">support@mail.pigx.vip</a></p>
-</footer>
 </body>
 </html>
