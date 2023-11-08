@@ -25,7 +25,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
-import com.pig4cloud.pigx.admin.api.vo.TokenVo;
+import com.pig4cloud.pigx.admin.api.vo.TokenVO;
 import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -202,18 +202,18 @@ public class PigxTokenEndpoint {
 	 */
 	@Inner
 	@PostMapping("/page")
-	public R<Page<TokenVo>> tokenList(@RequestBody Map<String, Object> params) {
+	public R<Page<TokenVO>> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
 		String key = String.format("%s::%s::*", tenantKeyStrResolver.key(), CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
 		Set<String> keys = redisTemplate.keys(key);
 		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
-		Page<TokenVo> result = new Page(current, size);
+		Page<TokenVO> result = new Page(current, size);
 
-		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
+		List<TokenVO> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
 			OAuth2Authorization authorization = (OAuth2Authorization) obj;
-			TokenVo tokenVo = new TokenVo();
+			TokenVO tokenVo = new TokenVO();
 			tokenVo.setClientId(authorization.getRegisteredClientId());
 			tokenVo.setId(authorization.getId());
 			tokenVo.setUsername(authorization.getPrincipalName());

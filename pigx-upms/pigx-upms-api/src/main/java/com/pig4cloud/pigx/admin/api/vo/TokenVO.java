@@ -9,7 +9,7 @@ import lombok.Data;
  * @date 2022/6/2
  */
 @Data
-public class TokenVo {
+public class TokenVO {
 
 	private String id;
 

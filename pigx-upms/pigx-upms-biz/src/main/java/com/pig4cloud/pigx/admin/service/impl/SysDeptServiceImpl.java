@@ -30,7 +30,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.entity.SysUserPost;
-import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DeptExcelVO;
 import com.pig4cloud.pigx.admin.mapper.SysDeptMapper;
 import com.pig4cloud.pigx.admin.mapper.SysPostMapper;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
@@ -141,10 +141,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return
 	 */
 	@Override
-	public List<DeptExcelVo> listExcelVo() {
+	public List<DeptExcelVO> listExcelVo() {
 		List<SysDept> list = this.list();
-		List<DeptExcelVo> deptExcelVos = list.stream().map(item -> {
-			DeptExcelVo deptExcelVo = new DeptExcelVo();
+		List<DeptExcelVO> deptExcelVos = list.stream().map(item -> {
+			DeptExcelVO deptExcelVo = new DeptExcelVO();
 			deptExcelVo.setName(item.getName());
 			Optional<String> first = this.list()
 				.stream()
@@ -159,11 +159,11 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	@Override
-	public R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
+	public R importDept(List<DeptExcelVO> excelVOList, BindingResult bindingResult) {
 		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
 
 		List<SysDept> deptList = this.list();
-		for (DeptExcelVo item : excelVOList) {
+		for (DeptExcelVO item : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
 			boolean exsitUsername = deptList.stream().anyMatch(sysDept -> item.getName().equals(sysDept.getName()));
 			if (exsitUsername) {

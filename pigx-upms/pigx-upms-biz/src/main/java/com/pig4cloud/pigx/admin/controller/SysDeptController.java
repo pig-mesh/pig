@@ -20,7 +20,7 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
-import com.pig4cloud.pigx.admin.api.vo.DeptExcelVo;
+import com.pig4cloud.pigx.admin.api.vo.DeptExcelVO;
 import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
@@ -140,7 +140,7 @@ public class SysDeptController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<DeptExcelVo> export() {
+	public List<DeptExcelVO> export() {
 		return sysDeptService.listExcelVo();
 	}
 
@@ -151,7 +151,7 @@ public class SysDeptController {
 	 * @return
 	 */
 	@PostMapping("import")
-	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
+	public R importDept(@RequestExcel List<DeptExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysDeptService.importDept(excelVOList, bindingResult);
 	}
 

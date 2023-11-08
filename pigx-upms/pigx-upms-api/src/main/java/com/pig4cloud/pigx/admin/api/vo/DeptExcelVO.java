@@ -12,7 +12,7 @@ import java.io.Serializable;
  * 部门导入导出
  */
 @Data
-public class DeptExcelVo implements Serializable {
+public class DeptExcelVO implements Serializable {
 
 	/**
 	 * 导入时候回显行号
