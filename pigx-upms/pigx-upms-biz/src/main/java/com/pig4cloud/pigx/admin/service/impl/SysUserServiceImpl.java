@@ -99,7 +99,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public Boolean saveUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
-		sysUser.setDelFlag(CommonConstants.STATUS_NORMAL);
+		sysUser.setDelFlag(StrUtil.isBlank(userDto.getLockFlag()) ? CommonConstants.STATUS_NORMAL : sysUser.getDelFlag());
 		sysUser.setCreateBy(userDto.getUsername());
 		sysUser.setUpdateBy(userDto.getUsername());
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
@@ -394,6 +394,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userDTO.setNickname(excel.getNickname());
 		userDTO.setName(excel.getName());
 		userDTO.setEmail(excel.getEmail());
+        userDTO.setLockFlag(excel.getLockFlag());
 		// 批量导入初始密码为手机号
 		userDTO.setPassword(userDTO.getPhone());
 		// 根据部门名称查询部门ID
