@@ -30,6 +30,7 @@ services:
     restart: always
     ports:
       - 8848:8848
+      - 9848:9848
     container_name: pig-register
     hostname: pig-register
     image: pig-register
