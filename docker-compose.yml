@@ -90,7 +90,7 @@ services:
     networks:
       - spring_cloud_default
 
-  pig-daemon-quartz:
+  pig-quartz:
     build:
       context: ./pig-visual/pig-quartz
     restart: always
