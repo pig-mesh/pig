@@ -21,6 +21,7 @@ import com.pig4cloud.pig.common.file.local.LocalFileProperties;
 import com.pig4cloud.pig.common.file.oss.OssProperties;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * 文件 配置信息
@@ -41,11 +42,13 @@ public class FileProperties {
 	/**
 	 * 本地文件配置信息
 	 */
+	@NestedConfigurationProperty
 	private LocalFileProperties local;
 
 	/**
 	 * oss 文件配置信息
 	 */
+	@NestedConfigurationProperty
 	private OssProperties oss;
 
 }

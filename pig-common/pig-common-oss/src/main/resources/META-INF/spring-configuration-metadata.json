@@ -1,0 +1,165 @@
+{
+  "groups": [
+    {
+      "name": "file",
+      "type": "com.pig4cloud.pig.common.file.core.FileProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    },
+    {
+      "name": "file.local",
+      "type": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    },
+    {
+      "name": "file.oss",
+      "type": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    },
+    {
+      "name": "local",
+      "type": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties"
+    },
+    {
+      "name": "oss",
+      "type": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "file.bucket-name",
+      "type": "java.lang.String",
+      "description": "默认的存储桶名称",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties",
+      "defaultValue": "local"
+    },
+    {
+      "name": "file.local.base-path",
+      "type": "java.lang.String",
+      "description": "默认路径",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties"
+    },
+    {
+      "name": "file.local.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "file.oss.access-key",
+      "type": "java.lang.String",
+      "description": "Access key就像用户ID，可以唯一标识你的账户",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.app-id",
+      "type": "java.lang.String",
+      "description": "应用ID",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.custom-domain",
+      "type": "java.lang.String",
+      "description": "自定义域名",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.endpoint",
+      "type": "java.lang.String",
+      "description": "对象存储服务的URL",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.max-connections",
+      "type": "java.lang.Integer",
+      "description": "最大线程数，默认： 100",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": 100
+    },
+    {
+      "name": "file.oss.path-style-access",
+      "type": "java.lang.Boolean",
+      "description": "true path-style nginx 反向代理和S3默认支持 pathStyle {http:\/\/endpoint\/bucketname} false supports virtual-hosted-style 阿里云等需要配置为 virtual-hosted-style 模式{http:\/\/bucketname.endpoint}",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "file.oss.region",
+      "type": "java.lang.String",
+      "description": "区域",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret key是你账户的密码",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "local.base-path",
+      "type": "java.lang.String",
+      "description": "默认路径",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties"
+    },
+    {
+      "name": "local.enable",
+      "type": "java.lang.Boolean",
+      "description": "是否开启",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "oss.access-key",
+      "type": "java.lang.String",
+      "description": "Access key就像用户ID，可以唯一标识你的账户",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "oss.app-id",
+      "type": "java.lang.String",
+      "description": "应用ID",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "oss.custom-domain",
+      "type": "java.lang.String",
+      "description": "自定义域名",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "oss.endpoint",
+      "type": "java.lang.String",
+      "description": "对象存储服务的URL",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "oss.max-connections",
+      "type": "java.lang.Integer",
+      "description": "最大线程数，默认： 100",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": 100
+    },
+    {
+      "name": "oss.path-style-access",
+      "type": "java.lang.Boolean",
+      "description": "true path-style nginx 反向代理和S3默认支持 pathStyle {http:\/\/endpoint\/bucketname} false supports virtual-hosted-style 阿里云等需要配置为 virtual-hosted-style 模式{http:\/\/bucketname.endpoint}",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "oss.region",
+      "type": "java.lang.String",
+      "description": "区域",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "oss.secret-key",
+      "type": "java.lang.String",
+      "description": "Secret key是你账户的密码",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    }
+  ],
+  "hints": []
+}
