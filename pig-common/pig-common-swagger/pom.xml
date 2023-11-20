@@ -66,5 +66,9 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-core</artifactId>
+        </dependency>
     </dependencies>
 </project>
