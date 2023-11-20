@@ -1,6 +1,5 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-2022.0.4-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-3.1.5-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
@@ -10,6 +9,7 @@
 
 - master: java8 + springboot 2.7 + springcloud 2021
 - jdk17: java17 + springboot 3.1 + springcloud 2022
+- boot: java17 + springboot 3.1 单体版本
 
 ## 系统说明
 
@@ -53,29 +53,13 @@
 ```lua
 pig-ui  -- https://gitee.com/log4j/pig-ui
 
-pig
-├── pig-auth -- 授权服务提供[3000]
-└── pig-common -- 系统公共模块
-     ├── pig-common-bom -- 全局依赖管理控制
-     ├── pig-common-core -- 公共工具类核心包
-     ├── pig-common-datasource -- 动态数据源包
-     ├── pig-common-log -- 日志服务
-     ├── pig-common-oss -- 文件上传工具类
-     ├── pig-common-mybatis -- mybatis 扩展封装
-     ├── pig-common-seata -- 分布式事务
-     ├── pig-common-security -- 安全工具类
-     ├── pig-common-swagger -- 接口文档
-     ├── pig-common-feign -- feign 扩展封装
-     └── pig-common-xss -- xss 安全封装
-├── pig-register -- Nacos Server[8848]
-├── pig-gateway -- Spring Cloud Gateway网关[9999]
-└── pig-upms -- 通用用户权限管理模块
-     └── pig-upms-api -- 通用用户权限管理系统公共api模块
-     └── pig-upms-biz -- 通用用户权限管理系统业务处理模块[4000]
-└── pig-visual
-     └── pig-monitor -- 服务监控 [5001]
-     ├── pig-codegen -- 图形化代码生成 [5002]
-     └── pig-quartz -- 定时任务管理台 [5007]
+├── pig-auth
+├── pig-codegen
+├── pig-common
+├── pig-quartz
+├── pig-upms
+└── pom.xml
+
 ```
 
 ### 本地开发 运行

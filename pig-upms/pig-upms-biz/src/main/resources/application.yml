@@ -3,36 +3,78 @@ server:
   servlet:
     context-path: /admin
 
-# 配置文件加密根密码
-jasypt:
-  encryptor:
-    password: pig
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator
-
 spring:
   application:
     name: @project.artifactId@
+  cache:
+    type: redis
+  # 缓存相关配置
+  data:
+    redis:
+      host: pig-redis
+  # 数据库相关配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true
+  # 定时任务属性配置
+  quartz:
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 50
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    job-store-type: jdbc
+  # 上传文件大小限制
   servlet:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-  profiles:
-    active: dev,job
   main:
     allow-bean-definition-overriding: true
-# 端点对外暴露
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    restart:
-      enabled: true
-    health:
-      show-details: ALWAYS
 
+# 前端密码登录解密密钥
+gateway:
+  encodeKey: thanks,pig4cloud
+
+# 本地文件系统
+file:
+  local:
+    enable: true
+    base-path: /Users/lengleng/Downloads/img
+
+## spring security 对外暴露接口设置
+security:
+  oauth2:
+    ignore:
+      urls:
+        - /webjars/**
+        - /v3/api-docs/**
+        - /doc.html
+        - /swagger-ui.html
+        - /swagger-ui/**
+        - /swagger-resources
+        - /token/check_token
+        - /error
+        - /actuator/**
+        - /code/**
+
+
+#--------------如下配置尽量不要变动-------------
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
@@ -48,10 +90,3 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
     call-setters-on-nulls: true
     shrink-whitespaces-in-sql: true
-
-# 配置swagger 信息覆盖 common-swagger 中内置的
-swagger:
-  enabled: true
-  title: Pig Swagger API
-  token-url: ${swagger.gateway}/admin/oauth2/token
-  scope: server

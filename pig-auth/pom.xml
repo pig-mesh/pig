@@ -40,27 +40,32 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
         </dependency>
+        <!-- pig4cloud通用安全模块 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-security</artifactId>
         </dependency>
+        <!-- Spring Boot安全模块 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!-- log -->
+        <!-- pig4cloud通用日志模块 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-log</artifactId>
         </dependency>
+        <!-- 调用验证码核心模块 -->
         <dependency>
             <groupId>io.springboot.plugin</groupId>
             <artifactId>captcha-core</artifactId>
-            <version>2.2.3</version>
+            <version>${captcha.version}</version>
         </dependency>
+        <!-- 使用Hutool工具库中的加密模块 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
         </dependency>
+
     </dependencies>
 </project>

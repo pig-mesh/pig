@@ -24,41 +24,6 @@ services:
     networks:
       - spring_cloud_default
 
-  pig-register:
-    build:
-      context: ./pig-register
-    restart: always
-    ports:
-      - 8848:8848
-      - 9848:9848
-    container_name: pig-register
-    hostname: pig-register
-    image: pig-register
-    networks:
-      - spring_cloud_default
-
-  pig-gateway:
-    build:
-      context: ./pig-gateway
-    restart: always
-    ports:
-      - 9999:9999
-    container_name: pig-gateway
-    hostname: pig-gateway
-    image: pig-gateway
-    networks:
-      - spring_cloud_default
-
-  pig-auth:
-    build:
-      context: ./pig-auth
-    restart: always
-    container_name: pig-auth
-    hostname: pig-auth
-    image: pig-auth
-    networks:
-      - spring_cloud_default
-
   pig-upms:
     build:
       context: ./pig-upms/pig-upms-biz
@@ -69,18 +34,6 @@ services:
     networks:
       - spring_cloud_default
 
-  pig-monitor:
-    build:
-      context: ./pig-visual/pig-monitor
-    restart: always
-    ports:
-      - 5001:5001
-    container_name: pig-monitor
-    hostname: pig-monitor
-    image: pig-monitor
-    networks:
-      - spring_cloud_default
-
   pig-codegen:
     build:
       context: ./pig-visual/pig-codegen
@@ -88,15 +41,6 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
-    networks:
-      - spring_cloud_default
-
-  pig-quartz:
-    build:
-      context: ./pig-visual/pig-quartz
-    restart: always
-    image: pig-quartz
-    container_name: pig-quartz
     networks:
       - spring_cloud_default
 

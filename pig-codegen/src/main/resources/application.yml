@@ -3,13 +3,6 @@ server:
   servlet:
     context-path: /gen
 
-# 配置文件加密根密码
-jasypt:
-  encryptor:
-    password: pig
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator
-
 spring:
   application:
     name: @project.artifactId@
@@ -17,20 +10,23 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-  profiles:
-    default: @profiles.active@
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://pig-mysql:3306/pig_codegen?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
+  data:
+    redis:
+      host: pig-redis
+  cache:
+    type: redis
 
-# 端点对外暴露
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    restart:
-      enabled: true
-    health:
-      show-details: ALWAYS
+# 数据源加密根密码
+jasypt:
+  encryptor:
+    password: pig
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
 # mybatis-plus 配置
 mybatis-plus:
@@ -46,10 +42,4 @@ mybatis-plus:
   configuration:
     jdbc-type-for-null: 'null'
     call-setters-on-nulls: true
-
-# oauth2 资源服务器相关配置
-security:
-  oauth2:
-    resource:
-      token-info-uri: /oauth/check_token
 

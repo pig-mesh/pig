@@ -34,12 +34,11 @@
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-auth</artifactId>
-            <version>3.7.1</version>
         </dependency>
+        <!-- 引入pig-quartz依赖 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-quartz</artifactId>
-            <version>3.7.1</version>
         </dependency>
         <!--upms api、model 模块-->
         <dependency>
