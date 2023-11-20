@@ -39,6 +39,8 @@ spring:
             threadPriority: 5
             threadsInheritContextClassLoaderOfInitializingThread: true
     job-store-type: jdbc
+    jdbc:
+      initialize-schema: always # 生产注意设置为 never
   # 上传文件大小限制
   servlet:
     multipart:
