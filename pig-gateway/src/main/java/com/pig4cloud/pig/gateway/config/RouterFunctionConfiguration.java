@@ -43,7 +43,8 @@ public class RouterFunctionConfiguration {
 	@Bean
 	public RouterFunction<ServerResponse> routerFunction() {
 		return RouterFunctions.route(
-				RequestPredicates.path("/code/image").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)), imageCodeHandler);
+				RequestPredicates.path("/code/image").and(RequestPredicates.accept(MediaType.TEXT_PLAIN)),
+				imageCodeHandler);
 	}
 
 }
