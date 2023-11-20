@@ -38,6 +38,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -46,6 +47,7 @@ import java.io.IOException;
  * @date 2022-06-02
  */
 @Slf4j
+@Component
 public class PigAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
 
 	private final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();

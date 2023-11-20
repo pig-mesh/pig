@@ -1,7 +1,7 @@
 server:
-  port: 9999
+  port: 5003
   servlet:
-    context-path: /admin
+    context-path: /gen
 
 # 配置文件加密根密码
 jasypt:
@@ -18,9 +18,8 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   profiles:
-    active: dev,job
-  main:
-    allow-bean-definition-overriding: true
+    default: @profiles.active@
+
 # 端点对外暴露
 management:
   endpoints:
@@ -35,7 +34,7 @@ management:
 
 # mybatis-plus 配置
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath:/mapper/*Mapper.xml
   global-config:
     banner: false
     db-config:
@@ -43,15 +42,14 @@ mybatis-plus:
       where-strategy: not_empty
       insert-strategy: not_empty
       update-strategy: not_null
-  type-handlers-package: com.pig4cloud.pig.common.mybatis.handler
+  type-handlers-package: com.pig4cloud.pigx.common.data.handler
   configuration:
     jdbc-type-for-null: 'null'
     call-setters-on-nulls: true
-    shrink-whitespaces-in-sql: true
 
-# 配置swagger 信息覆盖 common-swagger 中内置的
-swagger:
-  enabled: true
-  title: Pig Swagger API
-  token-url: ${swagger.gateway}/admin/oauth2/token
-  scope: server
+# oauth2 资源服务器相关配置
+security:
+  oauth2:
+    resource:
+      token-info-uri: /oauth/check_token
+

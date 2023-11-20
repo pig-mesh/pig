@@ -6,7 +6,8 @@ import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.type.AnnotationMetadata;
 
-import java.util.Optional;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * openapi 配置类
@@ -16,33 +17,32 @@ import java.util.Optional;
  */
 public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegistrar {
 
-	/**
-	 * 注册Bean定义方法
-	 * @param metadata 注解元数据
-	 * @param registry Bean定义注册器
-	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-		Optional.ofNullable(metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true))
-			.map(attrs -> attrs.get("value"))
-			.ifPresent(value -> {
-				createBeanDefinition(registry, "openAPIMetadataRegister", OpenAPIMetadataRegister.class, value);
-				createBeanDefinition(registry, "openAPIDefinition", OpenAPIDefinition.class, value);
-			});
-	}
 
-	/**
-	 * 创建Bean定义
-	 * @param registry Bean定义注册器
-	 * @param beanName Bean名称
-	 * @param beanClass Bean类
-	 * @param value Bean属性值
-	 */
-	private void createBeanDefinition(BeanDefinitionRegistry registry, String beanName, Class<?> beanClass,
-			Object value) {
-		BeanDefinitionBuilder beanDefinition = BeanDefinitionBuilder.genericBeanDefinition(beanClass);
-		beanDefinition.addPropertyValue("path", value);
-		registry.registerBeanDefinition(beanName, beanDefinition.getBeanDefinition());
+		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(),
+				true);
+		Object value = annotationAttributes.get("value");
+		if (Objects.isNull(value)) {
+			return;
+		}
+
+		BeanDefinitionBuilder definition = BeanDefinitionBuilder.genericBeanDefinition(OpenAPIDefinition.class);
+		definition.addPropertyValue("path", value);
+		definition.setPrimary(true);
+
+		registry.registerBeanDefinition("openAPIDefinition", definition.getBeanDefinition());
+
+		// 如果是微服务架构则，引入了服务发现声明相关的元数据配置
+		Object isMicro = annotationAttributes.getOrDefault("isMicro", true);
+		if (isMicro.equals(false)) {
+			return;
+		}
+
+		BeanDefinitionBuilder openAPIMetadata = BeanDefinitionBuilder
+			.genericBeanDefinition(OpenAPIMetadataConfiguration.class);
+		openAPIMetadata.addPropertyValue("path", value);
+		registry.registerBeanDefinition("openAPIMetadata", openAPIMetadata.getBeanDefinition());
 	}
 
 }

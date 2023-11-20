@@ -33,6 +33,17 @@
         <!--upms api、model 模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-auth</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-quartz</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+        <!--upms api、model 模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
         </dependency>
         <!--文件管理-->
@@ -68,16 +79,6 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-        </dependency>
-        <!--注册中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!--配置中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!-- 阿里云短信下发 -->
         <dependency>
