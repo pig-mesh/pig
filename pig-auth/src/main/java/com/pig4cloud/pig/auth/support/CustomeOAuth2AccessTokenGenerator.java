@@ -1,6 +1,8 @@
 package com.pig4cloud.pig.auth.support;
 
 import org.springframework.lang.Nullable;
+import org.springframework.security.crypto.keygen.Base64StringKeyGenerator;
+import org.springframework.security.crypto.keygen.StringKeyGenerator;
 import org.springframework.security.oauth2.core.ClaimAccessor;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -13,10 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -25,6 +24,9 @@ import java.util.UUID;
 public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
 
 	private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;
+	private final StringKeyGenerator accessTokenGenerator =
+			new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 96);
+
 
 	@Nullable
 	@Override
@@ -83,7 +85,7 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 		OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 		return new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
-				UUID.randomUUID().toString(), accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(),
+				this.accessTokenGenerator.generateKey(), accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(),
 				context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
 	}
 
