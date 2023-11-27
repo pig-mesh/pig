@@ -30,15 +30,16 @@ import com.pig4cloud.pigx.admin.api.entity.SysLog;
 import com.pig4cloud.pigx.admin.api.vo.PreLogVO;
 import com.pig4cloud.pigx.admin.mapper.SysLogMapper;
 import com.pig4cloud.pigx.admin.service.SysLogService;
-import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
+import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +62,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	public Boolean saveBatchLogs(List<PreLogVO> preLogVoList) {
 		List<SysLog> sysLogs = preLogVoList.stream().map(pre -> {
 			SysLog log = new SysLog();
-			log.setLogType(CommonConstants.STATUS_LOCK);
+			log.setLogType(LogTypeEnum.ERROR.getType());
 			log.setTitle(pre.getInfo());
 			log.setException(pre.getStack());
 			log.setParams(pre.getMessage());
@@ -104,6 +105,15 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 			return baseMapper.insert(log);
 		});
 		return Boolean.TRUE;
+	}
+
+	/**
+	 * sum 函数计算三十天内的数据
+	 * @return list map
+	 */
+	@Override
+	public List<Map<String, Object>> getLogSum() {
+		return baseMapper.selectLogSumByType();
 	}
 
 }

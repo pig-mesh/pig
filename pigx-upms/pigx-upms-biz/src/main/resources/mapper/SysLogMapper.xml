@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
+  ~
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SysLogMapper">
+
+	<select id="selectLogSumByType" resultType="java.util.Map">
+		SELECT
+		DATE(create_time) AS log_date,
+		SUM(CASE WHEN log_type = '0' THEN 1 ELSE 0 END) AS successful_count,
+		SUM(CASE WHEN log_type = '9' THEN 1 ELSE 0 END) AS failed_count
+		FROM
+		sys_log
+		WHERE
+		create_time >= CURDATE() - INTERVAL 30 DAY
+		GROUP BY
+		log_date
+		ORDER BY
+		log_date;
+	</select>
+</mapper>

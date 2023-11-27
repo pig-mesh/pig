@@ -26,6 +26,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysLog;
 import com.pig4cloud.pigx.admin.api.vo.PreLogVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -58,5 +59,11 @@ public interface SysLogService extends IService<SysLog> {
 	 * @return true/false
 	 */
 	Boolean saveLog(SysLogDTO sysLog);
+
+	/**
+	 * sum 函数计算三十天内的数据
+	 * @return list map
+	 */
+	List<Map<String, Object>> getLogSum();
 
 }

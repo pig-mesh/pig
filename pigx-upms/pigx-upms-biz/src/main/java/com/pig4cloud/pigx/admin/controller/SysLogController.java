@@ -31,13 +31,13 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -67,6 +67,15 @@ public class SysLogController {
 	@GetMapping("/page")
 	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
 		return R.ok(sysLogService.getLogByPage(page, sysLog));
+	}
+
+	/**
+	 * 统计三十天内的数据
+	 * @return R
+	 */
+	@GetMapping("/sum")
+	public R getLogSum() {
+		return R.ok(sysLogService.getLogSum());
 	}
 
 	/**

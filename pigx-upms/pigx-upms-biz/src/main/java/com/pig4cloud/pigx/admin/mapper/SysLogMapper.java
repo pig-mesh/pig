@@ -23,6 +23,9 @@ import com.pig4cloud.pigx.admin.api.entity.SysLog;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * <p>
  * 日志表 Mapper 接口
@@ -33,5 +36,11 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysLogMapper extends PigxBaseMapper<SysLog> {
+
+	/**
+	 * 通过日志类型统计日志总数 返回一个包含日志类型和日志总数的列表
+	 * @return List<Map<String, Object>>
+	 */
+	List<Map<String, Object>> selectLogSumByType();
 
 }
