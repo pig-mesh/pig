@@ -49,7 +49,7 @@ public enum StyleTypeEnum {
 	 */
 	private String description;
 
-	public static String getDecs(String style) {
+	public static String getDesc(String style) {
 		return Arrays.stream(StyleTypeEnum.values())
 			.filter(styleTypeEnum -> styleTypeEnum.getStyle().equals(style))
 			.findFirst()
