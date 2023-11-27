@@ -40,7 +40,6 @@ import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutput
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
@@ -80,7 +79,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 	private static final String KEY_ALGORITHM = "AES";
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	private final GatewayConfigProperties gatewayConfig;
 
@@ -144,7 +143,6 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 		String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.TENANT_ID_1 : tenantId,
 				CacheConstants.CLIENT_FLAG, clientId);
 
-		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		Object val = redisTemplate.opsForValue().get(key);
 
 		// 当配置不存在时，默认需要解密
