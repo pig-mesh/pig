@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.constant.UserStateEnum;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.*;
@@ -39,7 +40,6 @@ import com.pig4cloud.pigx.admin.mapper.SysUserRoleMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
-import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -99,8 +99,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public Boolean saveUser(UserDTO userDto) {
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
-		sysUser
-			.setDelFlag(StrUtil.isBlank(userDto.getLockFlag()) ? CommonConstants.STATUS_NORMAL : sysUser.getDelFlag());
+		sysUser.setLockFlag(
+				StrUtil.isBlank(userDto.getLockFlag()) ? UserStateEnum.NORMAL.getCode() : UserStateEnum.LOCK.getCode());
 		sysUser.setCreateBy(userDto.getUsername());
 		sysUser.setUpdateBy(userDto.getUsername());
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
@@ -438,7 +438,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		SysUser sysUser = baseMapper.selectOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
 
 		if (Objects.nonNull(sysUser)) {
-			sysUser.setLockFlag(CommonConstants.STATUS_LOCK);
+			sysUser.setLockFlag(UserStateEnum.LOCK.getCode());
 			baseMapper.updateById(sysUser);
 		}
 		return R.ok();
@@ -496,6 +496,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				.set(SysUser::getQqOpenid, null)
 				.eq(SysUser::getUserId, user.getId());
 		}
+		else if (type.equals("cp")) {
+			wrapper = Wrappers.<SysUser>lambdaUpdate()
+				.set(SysUser::getWxCpUserid, null)
+				.eq(SysUser::getUserId, user.getId());
+		}
+		else if (type.equals("dingding")) {
+			wrapper = Wrappers.<SysUser>lambdaUpdate()
+				.set(SysUser::getWxDingUserid, null)
+				.eq(SysUser::getUserId, user.getId());
+		}
 		if (wrapper == null) {
 			return R.failed("解绑账号类型不存在");
 		}
@@ -536,5 +546,4 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<SysUser> listUserIdByDeptIds(List<Long> deptIdList) {
 		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getDeptId, deptIdList));
 	}
-
 }

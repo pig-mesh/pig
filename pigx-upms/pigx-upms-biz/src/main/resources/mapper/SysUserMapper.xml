@@ -30,6 +30,8 @@
         <result column="avatar" property="avatar"/>
         <result column="wx_openid" property="wxOpenid"/>
         <result column="qq_openid" property="qqOpenid"/>
+        <result column="wx_cp_userid" property="wxCpUserid"/>
+        <result column="wx_ding_userid" property="wxDingUserid"/>
         <result column="gitee_login" property="giteeOpenId"/>
         <result column="osc_id" property="oscOpenId"/>
         <result column="ucreate_time" property="createTime"/>
@@ -59,6 +61,8 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
+        u.wx_cp_userid,
+        u.wx_ding_userid,
         u.dept_id,
         u.del_flag,
         u.lock_flag,
@@ -83,7 +87,9 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
-        u.gitee_login,
+    	u.gitee_login,
+    	u.wx_cp_userid,
+    	u.wx_ding_userid,
         u.osc_id,
         u.del_flag,
         u.lock_flag,
@@ -128,6 +134,8 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
+        u.wx_cp_userid,
+        u.wx_ding_userid,
         u.dept_id,
         u.create_by,
         u.create_time ucreate_time,
@@ -172,6 +180,8 @@
         u.avatar,
         u.wx_openid,
         u.qq_openid,
+        u.wx_cp_userid,
+        u.wx_ding_userid,
         u.dept_id,
         u.create_by,
         u.create_time ucreate_time,

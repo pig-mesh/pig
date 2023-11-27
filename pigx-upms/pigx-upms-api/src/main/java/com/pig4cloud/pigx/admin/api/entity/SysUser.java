@@ -144,6 +144,18 @@ public class SysUser implements Serializable {
 	private String wxOpenid;
 
 	/**
+	 * 企微微信 userid
+	 */
+	@Schema(description = "企微微信 userid")
+	private String wxCpUserid;
+
+	/**
+	 * 钉钉 userid
+	 */
+	@Schema(description = "钉钉 userid")
+	private String wxDingUserid;
+
+	/**
 	 * 微信小程序openId
 	 */
 	@Schema(description = "微信小程序openid")

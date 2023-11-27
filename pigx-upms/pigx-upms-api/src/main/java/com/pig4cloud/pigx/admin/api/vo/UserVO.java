@@ -172,4 +172,16 @@ public class UserVO implements Serializable {
 	@Schema(description = "邮箱")
 	private String email;
 
+	/**
+	 * 企微微信 userid
+	 */
+	@Schema(description = "企微微信 userid")
+	private String wxCpUserid;
+
+	/**
+	 * 钉钉 userid
+	 */
+	@Schema(description = "钉钉 userid")
+	private String wxDingUserid;
+
 }
