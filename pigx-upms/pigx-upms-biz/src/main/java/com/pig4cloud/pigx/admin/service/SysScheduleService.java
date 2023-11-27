@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysScheduleEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -32,8 +33,18 @@ import java.util.List;
  */
 public interface SysScheduleService extends IService<SysScheduleEntity> {
 
+	/**
+	 * 根据分页信息和日程实体获取指定范围的日程列表
+	 * @param page 分页信息
+	 * @param sysSchedule 日程实体
+	 * @return 日程列表
+	 */
 	IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule);
 
-	List<SysScheduleEntity> selectListByScope(String month);
+	/**
+	 * 根据月份查询日程列表
+	 * @return 日程列表
+	 */
+	List<SysScheduleEntity> selectListByScope(LocalDate startDate, LocalDate endDate);
 
 }

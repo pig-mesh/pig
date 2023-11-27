@@ -33,6 +33,7 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -122,8 +123,9 @@ public class SysScheduleController {
 
 	@Operation(summary = "列表查询", description = "列表查询")
 	@GetMapping("/list")
-	public R list(String month) {
-		List<SysScheduleEntity> list = sysScheduleService.selectListByScope(month);
+	public R list(@RequestParam(required = false) LocalDate startDate,
+			@RequestParam(required = false) LocalDate endDate) {
+		List<SysScheduleEntity> list = sysScheduleService.selectListByScope(startDate, endDate);
 		return R.ok(list);
 	}
 

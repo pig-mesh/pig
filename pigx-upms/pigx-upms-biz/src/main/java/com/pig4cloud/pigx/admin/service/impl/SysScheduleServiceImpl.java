@@ -16,12 +16,15 @@
  */
 package com.pig4cloud.pigx.admin.service.impl;
 
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.constant.ScheduleStateEnum;
 import com.pig4cloud.pigx.admin.api.entity.SysScheduleEntity;
 import com.pig4cloud.pigx.admin.mapper.SysScheduleMapper;
 import com.pig4cloud.pigx.admin.service.SysScheduleService;
@@ -30,8 +33,6 @@ import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,6 +46,12 @@ import java.util.Objects;
 public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysScheduleEntity>
 		implements SysScheduleService {
 
+	/**
+	 * 根据范围获取计划列表
+	 * @param page 分页对象
+	 * @param sysSchedule 计划实体对象
+	 * @return 分页对象
+	 */
 	@Override
 	public IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule) {
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
@@ -56,13 +63,20 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 		return baseMapper.selectPageByScope(page, wrapper, dataScope);
 	}
 
+	/**
+	 * 根据月份查询日程列表
+	 * @param startDate 本周开始日期
+	 * @param endDate 本周结束日期
+	 * @return 日程列表
+	 */
 	@Override
-	public List<SysScheduleEntity> selectListByScope(String month) {
-		LocalDate parse = LocalDate.parse(month, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-		LocalDate firstDay = parse.with(TemporalAdjusters.firstDayOfMonth()); // 获取当前月的第一天
-		LocalDate lastDay = parse.with(TemporalAdjusters.lastDayOfMonth());
+	public List<SysScheduleEntity> selectListByScope(LocalDate startDate, LocalDate endDate) {
+		DateTime beginOfWeek = DateUtil.beginOfWeek(DateUtil.date());
+		DateTime endOfWeek = DateUtil.endOfWeek(DateUtil.date());
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
-		wrapper.between(SysScheduleEntity::getDate, firstDay, lastDay);
+		wrapper.between(SysScheduleEntity::getDate, Objects.isNull(startDate) ? beginOfWeek : startDate,
+				Objects.isNull(endDate) ? endOfWeek : endDate);
+		wrapper.ne(SysScheduleEntity::getState, ScheduleStateEnum.END.getCode());
 		DataScope dataScope = new DataScope();
 		dataScope.setUsername(SecurityUtils.getUser().getUsername());
 		return baseMapper.selectListByScope(wrapper, dataScope);

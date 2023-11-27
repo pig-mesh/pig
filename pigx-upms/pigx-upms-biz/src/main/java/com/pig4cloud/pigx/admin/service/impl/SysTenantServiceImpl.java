@@ -20,6 +20,7 @@ import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.constant.TenantStateEnum;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pigx.admin.mapper.SysRoleMenuMapper;
@@ -90,7 +91,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	@Cacheable(value = CacheConstants.TENANT_DETAILS)
 	public List<SysTenant> getNormalTenant() {
 		return baseMapper
-			.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, CommonConstants.STATUS_NORMAL));
+			.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode()));
 	}
 
 	/**
