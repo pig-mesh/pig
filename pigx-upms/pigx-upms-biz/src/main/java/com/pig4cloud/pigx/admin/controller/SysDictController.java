@@ -33,6 +33,7 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
@@ -41,7 +42,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -104,7 +104,10 @@ public class SysDictController {
 	@GetMapping("/type/{type}")
 	@Cacheable(value = CacheConstants.DICT_DETAILS, key = "#type", unless = "#result.data.isEmpty()")
 	public R<List<SysDictItem>> getDictByType(@PathVariable String type) {
-		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query().lambda().eq(SysDictItem::getDictType, type)));
+		return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query()
+			.lambda()
+			.eq(SysDictItem::getDictType, type)
+			.orderByDesc(SysDictItem::getSortOrder)));
 	}
 
 	/**
