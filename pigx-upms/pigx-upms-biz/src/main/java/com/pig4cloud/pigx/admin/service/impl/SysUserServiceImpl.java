@@ -546,4 +546,5 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<SysUser> listUserIdByDeptIds(List<Long> deptIdList) {
 		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getDeptId, deptIdList));
 	}
+
 }
