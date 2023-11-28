@@ -32,6 +32,7 @@ import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
@@ -53,7 +54,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DynamicRouteInitRunner implements InitializingBean {
 
-	private final RedisTemplate redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	private final SysRouteConfService routeConfService;
 
@@ -89,8 +90,10 @@ public class DynamicRouteInitRunner implements InitializingBean {
 			vo.setPredicates(predicateObj.toList(PredicateDefinition.class));
 			vo.setMetadata(JSONUtil.toBean(route.getMetadata(), Map.class));
 			log.info("加载路由ID：{},{}", route.getRouteId(), vo);
+
 			redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
-			redisTemplate.opsForHash().put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);
+			HashOperations<String, String, RouteDefinitionVo> stringStringValueOperations = redisTemplate.opsForHash();
+			stringStringValueOperations.put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);
 		});
 
 		// 通知网关重置路由
