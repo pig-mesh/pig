@@ -155,4 +155,24 @@ public class SysDeptController {
 		return sysDeptService.importDept(excelVOList, bindingResult);
 	}
 
+	/**
+	 * 查询全部部门包含用户
+	 * @param parentDeptId 父部门ID
+	 * @param type 查询类型
+	 */
+	@GetMapping("/org")
+	public R listOrgTree(Long parentDeptId, String type) {
+		return R.ok(sysDeptService.listOrgTree(parentDeptId, type));
+	}
+
+	/**
+	 * 模糊搜索用户
+	 * @param username 用户名/拼音/首字母
+	 * @return 匹配到的用户
+	 */
+	@GetMapping("/org/user/search")
+	public R getOrgTreeUser(@RequestParam String username) {
+		return R.ok(sysDeptService.getOrgTreeUser(username));
+	}
+
 }

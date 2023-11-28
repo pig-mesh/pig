@@ -23,10 +23,12 @@ import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVO;
+import com.pig4cloud.pigx.admin.api.vo.OrgTreeVO;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -69,5 +71,19 @@ public interface SysDeptService extends IService<SysDept> {
 	 * @return user id list
 	 */
 	List<Long> listDeptLeader(Long deptId);
+
+	/**
+	 * 查询全部部门包含用户
+	 * @param parentDeptId 父部门ID
+	 * @param type 查询类型
+	 */
+	Map<String, Object> listOrgTree(Long parentDeptId, String type);
+
+	/**
+	 * 根据用户名模糊搜索用户
+	 * @param username 用户名
+	 * @return List user
+	 */
+	List<OrgTreeVO> getOrgTreeUser(String username);
 
 }
