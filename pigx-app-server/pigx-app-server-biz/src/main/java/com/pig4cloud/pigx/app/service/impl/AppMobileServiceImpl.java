@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.app.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.pig4cloud.pigx.app.service.AppMobileService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
@@ -53,10 +54,10 @@ public class AppMobileServiceImpl implements AppMobileService {
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {
-		Object codeObj = redisTemplate.opsForValue()
+		String codeObj = redisTemplate.opsForValue()
 			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile);
 
-		if (codeObj != null) {
+		if (StrUtil.isNotBlank(codeObj)) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
 			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
 		}

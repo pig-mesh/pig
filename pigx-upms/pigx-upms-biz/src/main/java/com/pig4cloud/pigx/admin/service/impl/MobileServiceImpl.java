@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
@@ -68,10 +69,10 @@ public class MobileServiceImpl implements MobileService {
 			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
 		}
 
-		Object codeObj = redisTemplate.opsForValue()
+		String codeObj = redisTemplate.opsForValue()
 			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
 
-		if (codeObj != null) {
+		if (StrUtil.isNotBlank(codeObj)) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
 			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
 		}
