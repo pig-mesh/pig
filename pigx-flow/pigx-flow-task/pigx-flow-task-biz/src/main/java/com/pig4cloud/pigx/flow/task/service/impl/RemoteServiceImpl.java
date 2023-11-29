@@ -8,6 +8,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDeptService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pigx.admin.api.utils.DataUtil;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.task.dto.*;
@@ -16,7 +17,6 @@ import com.pig4cloud.pigx.flow.task.entity.ProcessCopy;
 import com.pig4cloud.pigx.flow.task.entity.ProcessGroup;
 import com.pig4cloud.pigx.flow.task.entity.ProcessInstanceRecord;
 import com.pig4cloud.pigx.flow.task.service.*;
-import com.pig4cloud.pigx.flow.task.utils.DataUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -112,7 +112,7 @@ public class RemoteServiceImpl implements IRemoteService {
 		Long parentId = checkParentDto.getParentId();
 		List<Long> deptIdList = checkParentDto.getDeptIdList();
 		// 查询子级包括自己
-		List<SysDept> allDept = deptService.getAllDept().getData();
+		List<SysDept> allDept = deptService.getAllDept(null).getData();
 		List<SysDept> childrenDeptList = DataUtil.selectChildrenByDept(parentId, allDept);
 
 		List<Long> childrenDeptIdList = childrenDeptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
@@ -148,14 +148,11 @@ public class RemoteServiceImpl implements IRemoteService {
 		Long childId = checkChildDto.getChildId();
 		List<Long> deptIdList = checkChildDto.getDeptIdList();
 		// 查询父级包括自己
-		List<SysDept> allDept = deptService.getAllDept().getData();
+		List<SysDept> allDept = deptService.getAllDept(null).getData();
 		List<SysDept> parentDeptList = DataUtil.selectParentByDept(childId, allDept);
-
 		List<Long> parentDeptIdList = parentDeptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
 		parentDeptIdList.remove(childId);
-
 		List<Long> remainIdList = CollUtil.removeAny(deptIdList, ArrayUtil.toArray(parentDeptIdList, Long.class));
-
 		return R.ok(remainIdList.isEmpty());
 	}
 

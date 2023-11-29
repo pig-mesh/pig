@@ -25,6 +25,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -37,10 +38,11 @@ public interface RemoteDeptService {
 
 	/**
 	 * 获取所有部门接口
+	 * @param parentDeptId 父部门ID
 	 * @return R 返回结果对象，包含所有部门信息列表
 	 */
 	@GetMapping("/dept/list")
-	R<List<SysDept>> getAllDept();
+	R<List<SysDept>> getAllDept(@RequestParam("parentDeptId") Long parentDeptId);
 
 	/**
 	 * 通过部门ID获取负责人列表
