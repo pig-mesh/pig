@@ -146,7 +146,6 @@ public class PayNotifyRecordController {
 	@Inner(false)
 	@SneakyThrows
 	@XssCleanIgnore
-	@SysLog("支付宝渠道异步回调")
 	@PostMapping("/ali/callbak")
 	@Operation(summary = "支付宝渠道异步回调", description = "支付宝渠道异步回调")
 	public void aliCallbak(HttpServletRequest request, HttpServletResponse response) {
@@ -165,7 +164,6 @@ public class PayNotifyRecordController {
 	@XssCleanIgnore
 	@PostMapping("/wx/callbak")
 	@Operation(summary = "微信渠道支付回调", description = "微信渠道支付回调")
-	@SysLog("微信渠道支付回调")
 	public String wxCallbak(HttpServletRequest request) {
 		String xmlMsg = HttpKit.readData(request);
 		log.info("微信订单回调信息:{}", xmlMsg);
@@ -183,7 +181,6 @@ public class PayNotifyRecordController {
 	@XssCleanIgnore
 	@PostMapping("/merge/callbak")
 	@Operation(summary = "聚合渠道异步回调", description = "聚合渠道异步回调")
-	@SysLog("聚合渠道异步回调")
 	public void mergeCallbak(HttpServletRequest request, HttpServletResponse response) {
 		// 解析回调信息
 		Map<String, String> params = AliPayApi.toMap(request);

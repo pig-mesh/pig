@@ -16,7 +16,11 @@
 
 package com.pig4cloud.pigx.common.log.event;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -36,7 +40,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.validation.BindingResult;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -46,7 +55,14 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysLogListener implements InitializingBean {
 
-	// new 一个 避免日志脱敏策略影响全局ObjectMapper
+	/**
+	 * 忽略序列化的对象类型
+	 */
+	private final static Class[] ignoreClass = { ServletRequest.class, BindingResult.class };
+
+	/**
+	 * new 一个 避免日志脱敏策略影响全局ObjectMapper
+	 */
 	private final static ObjectMapper objectMapper = new ObjectMapper();
 
 	private final RemoteLogService remoteLogService;
@@ -62,8 +78,19 @@ public class SysLogListener implements InitializingBean {
 
 		// json 格式刷参数放在异步中处理，提升性能
 		if (Objects.nonNull(source.getBody()) && logProperties.isRequestEnabled()) {
-			String params = objectMapper.writeValueAsString(source.getBody());
-			source.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
+			Object[] args = (Object[]) source.getBody();
+			List<Object> list = CollUtil.toList(args);
+			// 删除部分无法序列化的参数
+			list.removeIf(obj -> Arrays.stream(ignoreClass).anyMatch(clazz -> clazz.isAssignableFrom(obj.getClass())));
+
+			try {
+				// 序列化参数
+				String params = objectMapper.writeValueAsString(list);
+				source.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
+			}
+			catch (Exception e) {
+				log.error("请求参数序列化异常:{}", e.getMessage());
+			}
 		}
 
 		source.setBody(null);
