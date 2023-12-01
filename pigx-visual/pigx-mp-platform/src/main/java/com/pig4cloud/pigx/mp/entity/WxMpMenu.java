@@ -18,6 +18,7 @@ package com.pig4cloud.pigx.mp.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
  * @date 2019-03-27 20:45:18
  */
 @Data
+@TenantTable
 @EqualsAndHashCode(callSuper = true)
 public class WxMpMenu extends Model<WxMpMenu> {
 

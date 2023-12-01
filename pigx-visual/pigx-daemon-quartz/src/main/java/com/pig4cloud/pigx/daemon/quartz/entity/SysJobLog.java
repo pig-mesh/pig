@@ -22,11 +22,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -38,9 +36,11 @@ import java.time.LocalDateTime;
  */
 @Data
 @Builder
+@TenantTable
 @NoArgsConstructor
 @AllArgsConstructor
 @Schema(description = "定时任务日志")
+@EqualsAndHashCode(callSuper = true)
 public class SysJobLog extends Model<SysJobLog> {
 
 	private static final long serialVersionUID = 1L;

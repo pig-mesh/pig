@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
  * @date 2019/03/19
  */
 @Data
+@TenantTable
 @Schema(description = "字典项")
 @EqualsAndHashCode(callSuper = true)
 public class SysDictItem extends Model<SysDictItem> {

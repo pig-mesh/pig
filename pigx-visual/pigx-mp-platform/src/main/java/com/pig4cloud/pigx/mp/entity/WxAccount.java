@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
 import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
  * @date 2019-03-26 22:07:53
  */
 @Data
+@TenantTable
 @EqualsAndHashCode(callSuper = true)
 public class WxAccount extends Model<WxAccount> {
 

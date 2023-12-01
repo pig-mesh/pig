@@ -21,6 +21,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import org.javers.core.metamodel.annotation.DiffInclude;
@@ -38,6 +39,7 @@ import java.time.LocalDateTime;
  * @since 2017-10-29
  */
 @Data
+@TenantTable
 @Schema(description = "用户")
 public class SysUser implements Serializable {
 

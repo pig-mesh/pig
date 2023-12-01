@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.pay.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
  * @date 2019-05-28 23:58:18
  */
 @Data
+@TenantTable
 @TableName("pay_trade_order")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "支付订单表")

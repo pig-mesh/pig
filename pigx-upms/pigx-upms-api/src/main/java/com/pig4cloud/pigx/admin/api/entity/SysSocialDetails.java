@@ -20,6 +20,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -35,6 +36,7 @@ import java.time.LocalDateTime;
  * @date 2018-08-16 21:30:41
  */
 @Data
+@TenantTable
 @Schema(description = "第三方账号信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysSocialDetails extends Model<SysSocialDetails> {

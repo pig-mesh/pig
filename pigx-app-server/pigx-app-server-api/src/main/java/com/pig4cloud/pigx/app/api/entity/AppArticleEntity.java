@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.app.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
  * @date 2023-06-07 16:32:35
  */
 @Data
+@TenantTable
 @FieldNameConstants
 @TableName("app_article")
 @EqualsAndHashCode(callSuper = true)

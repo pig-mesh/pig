@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @date 2023/7/25
  */
 @Data
+@TenantTable
 @Schema(description = "文件")
 @EqualsAndHashCode(callSuper = true)
 public class SysFileGroup extends Model<SysFile> {
