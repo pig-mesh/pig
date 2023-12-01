@@ -49,7 +49,7 @@ public class ImageCodeMathHandler implements HandlerFunction<ServerResponse> {
 
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-	private final RedisTemplate<String,String> redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest serverRequest) {

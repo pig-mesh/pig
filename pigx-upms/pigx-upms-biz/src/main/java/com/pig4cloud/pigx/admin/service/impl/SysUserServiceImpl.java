@@ -209,11 +209,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
-
+		Long userId = SecurityUtils.getUser().getId();
 		SysUser sysUser = new SysUser();
 		sysUser.setPhone(userDto.getPhone());
-		sysUser.setUserId(userVO.getUserId());
+		sysUser.setUserId(userId);
 		sysUser.setAvatar(userDto.getAvatar());
 		sysUser.setNickname(userDto.getNickname());
 		sysUser.setName(userDto.getName());
