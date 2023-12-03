@@ -630,7 +630,7 @@ INSERT INTO `sys_menu` VALUES (7701, '底部导航', NULL, '/biz/app/tabbar/inde
 INSERT INTO `sys_menu` VALUES (9000, '开发平台', NULL, '/gen', -1, 'iconfont icon-shuxingtu', '1', 9, '0', '0', '0', '', '2019-08-12 09:35:16', 'admin', '2023-02-23 20:02:24', '0', 1);
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource/index', 9000, 'ele-Coin', '1', 0, '0', NULL, '0', '', '2019-08-12 09:42:11', 'admin', '2023-02-16 15:31:37', '0', 1);
 INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design/index', 9000, 'iconfont icon-AIshiyanshi', '0', 2, '0', '0', '0', '', '2019-08-16 10:08:56', 'admin', '2023-02-23 14:06:50', '0', 1);
-INSERT INTO `sys_menu` VALUES (9007, '生成页面', NULL, '/gen/gener/index', 9000, 'iconfont icon-tongzhi4', '0', 0, '0', '0', '0', 'admin', '2023-02-20 09:58:23', 'admin', '2023-02-20 14:41:43', '0', 1);
+INSERT INTO `sys_menu` VALUES (9007, '生成页面', NULL, '/gen/gener/index', 9000, 'iconfont icon-tongzhi4', '0', 1, '0', '0', '0', 'admin', '2023-02-20 09:58:23', 'admin', '2023-02-20 14:41:43', '0', 1);
 INSERT INTO `sys_menu` VALUES (9050, '元数据管理', NULL, '/gen/metadata', 9000, 'iconfont icon--chaifenhang', '1', 9, '0', '0', '0', '', '2018-07-27 01:13:21', 'admin', '2023-02-23 19:55:10', '0', 1);
 INSERT INTO `sys_menu` VALUES (9051, '模板管理', NULL, '/gen/template/index', 9050, 'iconfont icon--chaifenhang', '1', 5, '0', '0', '0', 'admin', '2023-02-21 11:22:54', 'admin', '2023-02-23 19:56:03', '0', 1);
 INSERT INTO `sys_menu` VALUES (9052, '查询', 'codegen_template_view', NULL, 9051, NULL, '0', 0, '0', '0', '1', 'admin', '2023-02-21 12:33:03', 'admin', '2023-02-21 13:50:54', '0', 1);
