@@ -17,7 +17,7 @@
     <description>pigx 公共版本控制</description>
 
     <properties>
-        <pigx.version>5.3.0-SNAPSHOT</pigx.version>
+        <pigx.version>5.3.0</pigx.version>
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <mybatis-plus-join.version>1.4.6</mybatis-plus-join.version>
         <dynamic-ds.version>4.2.0</dynamic-ds.version>
