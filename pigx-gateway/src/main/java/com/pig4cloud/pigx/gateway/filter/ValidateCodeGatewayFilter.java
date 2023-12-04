@@ -37,7 +37,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -56,7 +56,7 @@ import reactor.core.publisher.Mono;
 @SuppressWarnings("all")
 public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory {
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	private final ObjectMapper objectMapper;
 

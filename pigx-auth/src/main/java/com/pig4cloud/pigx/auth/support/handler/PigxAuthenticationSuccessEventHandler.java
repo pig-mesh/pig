@@ -32,7 +32,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
@@ -62,7 +62,7 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 
 	private static final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	private final ApplicationEventPublisher publisher;
 

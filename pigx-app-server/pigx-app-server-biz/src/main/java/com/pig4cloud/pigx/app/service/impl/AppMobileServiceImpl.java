@@ -29,7 +29,7 @@ import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
@@ -45,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class AppMobileServiceImpl implements AppMobileService {
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	/**
 	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端

@@ -12,7 +12,7 @@ import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
@@ -37,7 +37,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 
 	private final SysTenantService tenantService;
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	/**
 	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件

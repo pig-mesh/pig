@@ -22,7 +22,7 @@ import io.springboot.captcha.ArithmeticCaptcha;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -49,7 +49,7 @@ public class ImageCodeMathHandler implements HandlerFunction<ServerResponse> {
 
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	@Override
 	public Mono<ServerResponse> handle(ServerRequest serverRequest) {

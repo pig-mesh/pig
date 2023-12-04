@@ -39,7 +39,7 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.cloud.gateway.filter.factory.rewrite.CachedBodyOutputMessage;
 import org.springframework.cloud.gateway.support.BodyInserterContext;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.HttpMessageReader;
@@ -79,7 +79,7 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 
 	private static final String KEY_ALGORITHM = "AES";
 
-	private final RedisTemplate<String, String> redisTemplate;
+	private final StringRedisTemplate redisTemplate;
 
 	private final GatewayConfigProperties gatewayConfig;
 
@@ -143,14 +143,14 @@ public class PasswordDecoderFilter extends AbstractGatewayFilterFactory {
 		String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.TENANT_ID_1 : tenantId,
 				CacheConstants.CLIENT_FLAG, clientId);
 
-		Object val = redisTemplate.opsForValue().get(key);
+		String val = redisTemplate.opsForValue().get(key);
 
 		// 当配置不存在时，默认需要解密
 		if (val == null) {
 			return true;
 		}
 
-		JSONObject information = JSONUtil.parseObj(val.toString());
+		JSONObject information = JSONUtil.parseObj(val);
 		if (StrUtil.equals(EncFlagTypeEnum.NO.getType(), information.getStr(CommonConstants.ENC_FLAG))) {
 			return false;
 		}
