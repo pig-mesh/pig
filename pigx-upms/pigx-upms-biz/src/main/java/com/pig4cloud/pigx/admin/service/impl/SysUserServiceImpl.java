@@ -100,7 +100,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		SysUser sysUser = new SysUser();
 		BeanUtils.copyProperties(userDto, sysUser);
 		sysUser.setLockFlag(
-				StrUtil.isBlank(userDto.getLockFlag()) ? UserStateEnum.NORMAL.getCode() : UserStateEnum.LOCK.getCode());
+				StrUtil.isBlank(userDto.getLockFlag()) ? UserStateEnum.NORMAL.getCode() :userDto.getLockFlag());
 		sysUser.setCreateBy(userDto.getUsername());
 		sysUser.setUpdateBy(userDto.getUsername());
 		sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
