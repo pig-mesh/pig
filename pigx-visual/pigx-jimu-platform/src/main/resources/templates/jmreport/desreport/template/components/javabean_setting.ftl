@@ -75,6 +75,8 @@
                              stripe
                              @on-select="selectField"
                              @on-select-all="selectFieldAll"
+                             @on-select-all-cancel="cancelFieldAll"
+                             @on-select-cancel="cancelField"
                              :columns="tab1.columns"
                              :data="tab1.data"
                              :height="tableHeight">
@@ -218,7 +220,8 @@
                                     // 下拉选项
                                     {title: '数值类型', value: 'number'},
                                     {title: '字符类型', value: 'string'},
-                                    {title: '日期类型', value: 'date'}
+                                    {title: '日期类型', value: 'date'},
+                                    { title: '富文本', value: 'richText' },
                                 ];
 
                                 return h('i-select', {
@@ -686,23 +689,7 @@
                   return true
               }
             },
-            /**
-             * 解析之前提示是否重置字段
-             */
             handelAnalyze(){
-                let that = this;
-                this.$Modal.confirm({
-                    title:'是否要重置字段?',
-                    content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
-                    onOk: () => {
-                        that.analyze();
-                    },
-                    onCancel: () => {
-                        console.info("不重置字段")
-                    }
-                });
-            },
-            analyze(){
                 let { javaType, javaValue, isPage } = this.formData
                 let param = {}
                 this.tab2.data.map(item=>{
@@ -721,12 +708,20 @@
                     contentType: 'json',
                     data: dataStr,
                     success:(result)=>{
-                        this.tab1.data = result
-                        this.tab1.data.forEach((item,index)=>{
-                            item.tableIndex = index+1;
-                            item.searchFlag = 0
-                            item.extJson = ""
-                        })
+                        if(this.tab1.data && this.tab1.data.length>0){
+                            this.$Modal.confirm({
+                                title:'是否要重置字段?',
+                                content: '数据为空会删除所有字段！',
+                                onOk: () => {
+                                    this.setTabFieldData(result);
+                                },
+                                onCancel: () => {
+                                    console.info("不重置字段")
+                                }
+                            });
+                        }else{
+                            this.setTabFieldData(result);
+                        }
                     }
                 })
             },
@@ -979,6 +974,18 @@
             selectField(selection,row){
                 this.tab1.selectParamTables=[...this.tab1.selectParamTables,{"tableIndex":row.tableIndex,"id":row.id}];
             },
+            /**
+             * 取消选中全部
+             */ 
+            cancelFieldAll(){
+                this.tab1.selectParamTables = [];
+            },
+            /**
+             * 取消选中的其中一个复选框
+             */ 
+            cancelField(selection,row){
+                this.tab1.selectParamTables = this.tab1.selectParamTables.filter(item=>item.tableIndex!=row.tableIndex);
+            },
             removeFieldTable(){
                 this.deleteFieldModel = true;
             },
@@ -986,6 +993,8 @@
                 let tableIndexArr = this.tab1.selectParamTables.map(item=>item.tableIndex);
                 let arr = this.tab1.data.filter(item=>!tableIndexArr.includes(item.tableIndex));
                 this.tab1.data = [...arr]
+                //删除之后清除复选框的key
+                this.tab1.selectParamTables = [];
             },
 
             selectParamAll(){
@@ -1138,6 +1147,47 @@
               this.tab2.data[this.tableIndex].extJson = this.paramConfigData
             }
             this.extJsonCancel();
+          },
+          /**
+           * 设置tabs 字段详细的数据
+           * @param result 请求接口返回的数据
+           */
+          setTabFieldData(result){
+              let data = this.tab1.data;
+              data = data.concat(result)
+              //先去除没有的数据
+              let newJson = [];
+              //找到不重复的数据
+              for (const datum of data) {
+                  //建立标记，判断数据是否重复，true为不重复
+                  let flag = true;
+                  for (const results of newJson) {
+                      //循环数据删除this.tab1.data已经存在的数据
+                      if(datum['fieldName'] == results['fieldName']){
+                          flag = false;
+                      }
+                  }
+                  //判断是否重复
+                  if(flag == true){
+                      //不重复的放入新数组。  新数组的内容会继续进行上边的循环。
+                      newJson.push(datum);
+                  }
+              }
+              //去除没有的数据
+              newJson = newJson.filter(item => result.some(value => value.fieldName == item.fieldName))
+              //循环给当前剔除的数组加上index和排序及查询框
+              let newData=[];
+              let i =0;
+              for (const results of newJson) {
+                  results.tableIndex = i
+                  if(!results){
+                      results.searchFlag = 0
+                  }
+                  results.orderNum = i
+                  newData.push(results);
+                  i++;
+              }
+              this.tab1.data = newData
           }
         }
     })

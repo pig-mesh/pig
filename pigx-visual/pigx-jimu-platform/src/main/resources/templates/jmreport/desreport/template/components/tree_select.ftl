@@ -156,7 +156,7 @@
                 $http.metaGet(this.url, params).then((res) => {
                     this.combineTreeData(res.data, callback, item)
                 }).catch(function (error){
-                    console.log('加载树错误', error)
+                    console.error('加载树错误', error)
                 });
             },
             // 加载数据

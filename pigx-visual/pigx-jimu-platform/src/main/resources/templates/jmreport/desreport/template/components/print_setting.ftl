@@ -81,7 +81,7 @@
 
                 <Row style="margin-top: 8px">
                     <i-col span="6">
-                        <span>显示页码?：</span>
+                        <span>显示页码：</span>
                     </i-col>
                     <i-col span="18">
                         <i-switch v-model="paginationShow"></i-switch>
@@ -90,7 +90,7 @@
 
                 <Row style="margin-top: 8px" v-if="paginationShow">
                     <i-col span="6">
-                        <span>页码位置?：</span>
+                        <span>页码位置：</span>
                     </i-col>
                     <i-col span="18">
                         <RadioGroup v-model="paginationLocation">

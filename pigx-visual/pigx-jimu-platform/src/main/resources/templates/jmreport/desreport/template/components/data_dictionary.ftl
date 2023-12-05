@@ -7,7 +7,8 @@
             :title="moduleTitle"
             fullscreen=true
             :closable="true"
-            :mask-closable="false">
+            :mask-closable="false"
+            :closable="false">
       <div slot="footer">
         <i-button @click="close">关闭</i-button>
       </div>
@@ -37,6 +38,7 @@
         <i-button type="primary" @click="dictClick">添加</i-button>
         <i-button icon="ios-loading" type="primary" @click="dictReflesh">刷新缓存</i-button>
         <i-button v-if="dictDeleteShow==true" type="error" @click="dictDeleteBatch">删除</i-button>
+        <i-button @click="recycleBinClick">回收站</i-button>
       </div>
       <div style="margin-top: 10px">
         <i-table @on-selection-change="dictTableSelect" border stripe :columns="dictData.columns" :data="dictData.data"
@@ -101,9 +103,13 @@
         <div slot="footer">
           <i-button @click="recycleBinReset">关闭</i-button>
         </div>
+        <div style="margin-top: 10px" v-if="recycleBinRows.length>0">
+          <i-button type="primary" size="small" style="cursor: pointer" @click="recycleBinBatch('recycle')">批量取回</i-button>
+          <i-button type="error" size="small" style="cursor: pointer" @click="recycleBinBatch('delete')">批量刪除</i-button>
+        </div>
         <div style="margin-top: 10px">
           <i-table border stripe :columns="recycleBin.columns" :data="recycleBin.data"
-                   style="margin-top: 1%;">
+                   style="margin-top: 1%;" @on-selection-change="recycleBinChange">
             <template slot-scope="{ row, index }" slot="action">
               <i-button type="primary" size="small" style="cursor: pointer" @click="recycleBinRetrieve(row.id)">取回</i-button>
               <Poptip
@@ -342,7 +348,9 @@
         createDictItemShow: false, //字典详细是否显示
         createDictItemLoading: false,
         recycleBinShow:false, //回收站显示
-        queryParam:{} //查询条件
+        queryParam:{}, //查询条件
+        //回收站选择数据
+        recycleBinRows:[],
       }
     },
     created() {
@@ -597,6 +605,7 @@
       },
       close() {
         this.dictShow = false
+        this.recycleBinRows = [];
         this.resetParam()
       },
       getRowClassname(row) {
@@ -653,6 +662,75 @@
             this.loadRecycleBin()
           }
         })
+      },
+      /**
+       * 回收站复选框选中事件
+       * @param selection
+       */
+      recycleBinChange(selection){
+        if (selection.length > 0) {
+          this.recycleBinRows = selection
+        } else {
+          this.recycleBinRows = [];
+        }
+      },
+      /**
+       * 回收站批量操作
+       * @param type
+       */ 
+      recycleBinBatch(type){
+        let recycleBinRows = this.recycleBinRows
+        let ids = ""
+        for (const recycle of recycleBinRows) {
+          let id = recycle.id;
+          ids = ids + id + ","
+        }
+        if (ids.length > 1) {
+          ids = ids.substr(0, ids.lastIndexOf(","))
+        }
+        if(type === 'recycle'){
+          //批量取回
+          this.recycleBinBatchRecycle(ids);
+        }else if(type === 'delete'){
+          //批量删除
+          this.recycleBinBatchDelete(ids);
+        }
+      },
+      /**
+       * 批量取回
+       * @param ids
+       */
+      recycleBinBatchRecycle(ids){
+        $http.post({
+          url: api.batchRevert,
+          data: {"ids": ids},
+          success: (res) => {
+            this.recycleBinRows = [];
+            this.loadRecycleBin();
+            this.loadData();
+          }
+        })
+      },
+      /**
+       * 批量删除
+       * @param ids
+       */
+      recycleBinBatchDelete(ids){
+        this.$Modal.confirm({
+          title: "批量删除",
+          content: "确定要删除吗",
+          closable: true,
+          onOk: (res) => {
+            $http.del({
+              url: api.batchRealDelete,
+              data: {"ids": ids},
+              success: (res) => {
+                this.recycleBinRows = [];
+                this.loadRecycleBin();
+              }
+            })
+          },
+        });
       }
     }
   })

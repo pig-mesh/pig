@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1694491301.10">
+<#assign CACHE_VERSION = "v=1699715555.10">
 <#assign config_id = "${id!''}">
 <#assign shareView = "${shareView}">
 <!DOCTYPE html>

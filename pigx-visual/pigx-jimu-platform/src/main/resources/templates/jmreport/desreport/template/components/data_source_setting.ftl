@@ -131,7 +131,7 @@
                                     <form-item prop="dbDynSql" label="报表SQL:" v-if="sqlForm.dbType == 0">
                                         <i-input v-model="sqlForm.dbDynSql"  @on-blur="dbDynSqlBlur"  type="textarea" :rows="4"  placeholder="请输入查询SQL" style="min-height: 100px;max-height: 620px;width:950px">
                                         </i-input>
-                                    <div style="font-size: 10px;">
+                                    <div style="font-size: 12px;">
                                       <p style="margin-left: 14px">
                                         <ul>
                                           <li>如果id字段为字符串类型则需要加单引号:select * from table where id=${"'$"}${"{id}'"}。</li>
@@ -149,7 +149,7 @@
                                     <form-item prop="apiUrl" label="Api地址:" v-else-if="sqlForm.dbType == 1">
                                         <i-input v-model="sqlForm.apiUrl" @on-blur="dbApiBlur" type="textarea" :rows="4"  placeholder="请输入Api地址" style="min-height: 100px;max-height: 620px;width:950px">
                                         </i-input>
-                                      <div style="font-size: 10px;">
+                                      <div style="font-size: 12px;">
                                         <p style="margin-left: 14px">
                                           <ul>
                                             <li>如果id字段为字符串类型则需要加单引号:http://127.0.0.1:8080/jeecg-boot/jimureport/test?id=${"$"}${"{id}"}。</li>
@@ -167,15 +167,15 @@
                                       <i-input v-model="sqlForm.jsonData" type="textarea" :rows="4"  placeholder="请输入JSON数据" style="min-height: 120px;max-height: 620px;width:950px">
                                       </i-input>
                                      </form-item>
-                                    <i-button @click="handleAnalyze('sql')" v-if="sqlForm.dbType == 0" type="primary">SQL解析</i-button>
+                                    <i-button @click="handleSQLAnalyze" v-if="sqlForm.dbType == 0" type="primary">SQL解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 0"  :transfer="true" content="SQL解析文档" placement="top">
                                         <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/sql.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
-                                    <i-button @click="handleAnalyze('api')" v-if="sqlForm.dbType == 1" type="primary">Api解析</i-button>
+                                    <i-button @click="handleApiAnalyze" v-if="sqlForm.dbType == 1" type="primary">Api解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 1"  :transfer="true" content="Api解析文档" placement="top">
                                         <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/api.html" target="_blank" style="font-size: 14px"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
-                                    <i-button @click="handleAnalyze('json')" v-if="sqlForm.dbType == 3" type="primary">JSON解析</i-button>
+                                    <i-button @click="handleJsonAnalyze" v-if="sqlForm.dbType == 3" type="primary">JSON解析</i-button>
                                     <Tooltip v-if="sqlForm.dbType == 3"  :transfer="true" content="JSON解析文档" placement="top">
                                         <a class="jimu-table-tip help-color" href="https://help.jeecg.com/jimureport/dataSet/json.html" target="_blank" style="font-size: 14px;"><Icon size="14" type="ios-help-circle-outline" style="margin-top: 2px"/></a>
                                     </Tooltip>
@@ -221,7 +221,7 @@
 
                             </tab-pane>
                             <tab-pane label="数据预览" name="3" v-if="sqlForm.dbType == 0">
-                                <span style="color: red">提示：仅显示10条数据</span>
+                                <span style="color: red">提示：仅显示10条数据 <span v-if="izTestData==true">因权限控制，列表为测试数据</span> </span>
                                 <i-table ref="viewParamTable"  stripe :columns="tab3.columns" :data="tab3.data" :loading="tab3Loading"></i-table>
 <#--                                <div style="float:right;margin-top:20px;">-->
 <#--                                    <Page :total="tab3.page.total" @on-change="handleCurrentChange"></Page>-->
@@ -452,7 +452,8 @@
                                     // 下拉选项
                                     {title: '数值类型', value: 'number'},
                                     {title: '字符类型', value: 'string'},
-                                    {title: '日期类型', value: 'date'}
+                                    {title: '日期类型', value: 'date'},
+                                    { title: '富文本', value: 'richText' }
                                 ];
 
                                 return h('i-select', {
@@ -918,7 +919,9 @@
                 extJsonShow:false, //参数配置弹窗是否显示
                 tableIndex:-1, //当前table的下标
                 tableType:-1, //判断当前是字段还是参数 0字段 1参数
-                daSourceDesc:"选择数据源" //数据源维护描述的内容
+                daSourceDesc:"选择数据源", //数据源维护描述的内容
+                //是否为测试数据
+                izTestData: false
             }
         },
         mounted(){
@@ -1128,6 +1131,7 @@
                 this.loadTableData(val,this.sqlForm.dbDynSql);
             },
             loadTableData(page,sql){
+                this.izTestData = false;
                 if(page){
                     this.tab3.page.page = page;
                 }
@@ -1184,6 +1188,11 @@
                     fail:(res)=>{
                         this.tab3Loading=false;
                         this.spinShow=false;
+                         //update-begin---author:wangshuai---date:2023-10-31---for:【QQYUN-6534】积木的数据预览，在无权限的时候，是不是生成一些测试数据---
+                        if(res.code === 402 && this.tab1.data && this.tab1.data.length>0){
+                            this.generateTestData();
+                        }
+                        //update-end---author:wangshuai---date:2023-10-31---for:【QQYUN-6534】积木的数据预览，在无权限的时候，是不是生成一些测试数据---                        
                     },
                     error:()=>{
                         this.tab3Loading=false;
@@ -1477,44 +1486,22 @@
                             }
                         }else{
                       let resultElement = result['fieldList'];
+                      let that = this;
                       if(this.tab1.data && resultElement){
-                          let data = this.tab1.data;
-                          //update-begin--Author:wangshuai  Date:20210430  for：sql动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
-                          data = data.concat(resultElement)  
-                          //先去除没有的数据
-                          let newJson = [];
-                          //找到不重复的数据
-                          for (const datum of data) {
-                              //建立标记，判断数据是否重复，true为不重复
-                              let flag = true;
-                              for (const results of newJson) {
-                                  //循环数据删除this.tab1.data已经存在的数据
-                                  if(datum['fieldName'] == results['fieldName']){
-                                    flag = false;
+                          if(this.tab1.data.length>0){
+                              this.$Modal.confirm({
+                                  title:'是否要重置字段?',
+                                  content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
+                                  onOk: () => {
+                                      that.setTabFieldData(resultElement);
+                                  },
+                                  onCancel: () => {
+                                      console.info("不重置字段");
                                   }
-                              }
-                            //判断是否重复
-                            if(flag == true){
-                              //不重复的放入新数组。  新数组的内容会继续进行上边的循环。
-                              newJson.push(datum);
-                            } 
-                        }
-                          //去除没有的数据
-                          newJson = newJson.filter(item => resultElement.some(value => value.fieldName == item.fieldName))
-                          //循环给当前剔除的数组加上index和排序及查询框
-                          let newData=[];
-                          let i =0;
-                          for (const results of newJson) {
-                              results.tableIndex = i
-                              if(!results){
-                                 results.searchFlag = 0
-                              }
-                              results.orderNum = i
-                              newData.push(results);
-                              i++;
+                              });
+                          }else{
+                              that.setTabFieldData(resultElement);
                           }
-                          this.tab1.data = newData
-                          //update-end--Author:wangshuai  Date:20210430  for：sql动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
                       }else{
                         this.tab1.data = resultElement;
                         this.tab1.data.forEach((item,index)=>{
@@ -1600,43 +1587,21 @@
                         Vue.prototype.$Message.warning("执行成功，但是数据为空，无法解析报表字段！！");
                       }
                       //update-end--Author:wangshuai--Date:20211109--for:api解析为空提示
-                      //update-begin--Author:wangshuai  Date:20210430  for：api动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
-                      let data = this.tab1.data;
-                      data = data.concat(result)
-                      //先去除没有的数据
-                      let newJson = [];
-                      //找到不重复的数据
-                      for (const datum of data) {
-                        //建立标记，判断数据是否重复，true为不重复
-                        let flag = true;
-                        for (const results of newJson) {
-                          //循环数据删除this.tab1.data已经存在的数据
-                          if(datum['fieldName'] == results['fieldName']){
-                            flag = false;
-                          }
-                        }
-                        //判断是否重复
-                        if(flag == true){
-                          //不重复的放入新数组。  新数组的内容会继续进行上边的循环。
-                          newJson.push(datum);
-                        }
+                      let that = this;  
+                      if(this.tab1.data.length>0){
+                          this.$Modal.confirm({
+                              title:'是否要重置字段?',
+                              content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
+                              onOk: () => {
+                                  that.setTabFieldData(result);
+                              },
+                              onCancel: () => {
+                                  console.info("不重置字段");
+                              }
+                          });
+                      }else{
+                          that.setTabFieldData(result);
                       }
-                      //去除没有的数据
-                      newJson = newJson.filter(item => result.some(value => value.fieldName == item.fieldName))
-                      //循环给当前剔除的数组加上index和排序及查询框
-                      let newData=[];
-                      let i =0;
-                      for (const results of newJson) {
-                        results.tableIndex = i
-                        if(!results){
-                          results.searchFlag = 0
-                        }
-                        results.orderNum = i
-                        newData.push(results);
-                        i++;
-                      }
-                      this.tab1.data = newData;
-                      //update-end--Author:wangshuai  Date:20210430  for：api动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
                     }
                 })
             },
@@ -1715,7 +1680,8 @@
                 if(!reg.test(dbDynSql)){
                     return;
                 }
-
+                //替换“$“{DaoFormat. 为空，使SQL能正常解析
+                dbDynSql = dbDynSql.replaceAll('\$\{DaoFormat.','');
                 let dbDynSqlArr = dbDynSql.match(reg);
                 let paramsArr = [];
                 if(dbDynSqlArr && dbDynSqlArr.length>0){
@@ -2288,7 +2254,7 @@
                   })
                 }
               }
-              console.log("tabData:",tabData)
+                //console.log("tabData:",tabData)
               this.tab2.data = tabData
               //1需要报错提示
               this.handleSQLAnalyze("1");
@@ -2346,7 +2312,7 @@
             },
             //放大确定事件
             extJsonOk(){
-              console.log(this.paramConfigData)
+                //console.log(this.paramConfigData)
                if(this.tableType == 0){
                  this.tab1.data[this.tableIndex].extJson = this.paramConfigData
                }else if(this.tableType == 1){
@@ -2355,26 +2321,70 @@
               this.extJsonCancel(); 
             },
             /**
-             * 是否需要更新字段
+             * 设置tabs 字段详细的数据
+             * @param result 请求接口返回的数据
              */
-            handleAnalyze(value) {
-                let that = this;
-                this.$Modal.confirm({
-                    title:'是否要重置字段?',
-                    content: '已存在的字段不会修改，但是数据为空会删除所有字段！',
-                    onOk: () => {
-                        if(value == 'sql'){
-                            that.handleSQLAnalyze();
-                        }else if(value == 'api'){
-                            that.handleApiAnalyze();
-                        }else if(value == 'json'){
-                            that.handleJsonAnalyze();
+            setTabFieldData(result){
+                let data = this.tab1.data;
+                //update-begin--Author:wangshuai  Date:20210430  for：sql动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
+                data = data.concat(result)
+                //先去除没有的数据
+                let newJson = [];
+                //找到不重复的数据
+                for (const datum of data) {
+                    //建立标记，判断数据是否重复，true为不重复
+                    let flag = true;
+                    for (const results of newJson) {
+                        //循环数据删除this.tab1.data已经存在的数据
+                        if(datum['fieldName'] == results['fieldName']){
+                            flag = false;
                         }
-                    },
-                    onCancel: () => {
-                        console.info("不重置字段")
                     }
-                });
+                    //判断是否重复
+                    if(flag == true){
+                        //不重复的放入新数组。  新数组的内容会继续进行上边的循环。
+                        newJson.push(datum);
+                    }
+                }
+                //去除没有的数据
+                newJson = newJson.filter(item => result.some(value => value.fieldName == item.fieldName))
+                //循环给当前剔除的数组加上index和排序及查询框
+                let newData=[];
+                let i =0;
+                for (const results of newJson) {
+                    results.tableIndex = i
+                    if(!results){
+                        results.searchFlag = 0
+                    }
+                    results.orderNum = i
+                    newData.push(results);
+                    i++;
+                }
+                this.tab1.data = newData
+                //update-end--Author:wangshuai  Date:20210430  for：sql动态报表配置明细如果字段存在就不替换，否则替换，要不然会引起数据清空--------------------
+            },
+            generateTestData() {
+                let fieldArray = [];
+                for (const item of this.tab1.data) {
+                    fieldArray.push({
+                        fieldName: item.fieldName,
+                        widgetType: item.widgetType,
+                    });
+                }
+                let fieldJson = "";
+                if (fieldArray.length > 0) {
+                    fieldJson = JSON.stringify(fieldArray);
+                }
+                $http.post({
+                    url: api.generateTestData,
+                    contentType:"json",
+                    data: fieldJson,
+                    success: (result) => {
+                        this.izTestData = true;
+                        this.tab3.data = result;
+                        this.tab3.page.total = 10;
+                    }
+                })
             }
         }
     })

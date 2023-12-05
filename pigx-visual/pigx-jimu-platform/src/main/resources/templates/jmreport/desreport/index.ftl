@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1694491301.10">
+<#assign CACHE_VERSION = "v=1699715555.10">
 <#assign config_id = "${id!''}">
 <!DOCTYPE html>
 <html>
@@ -582,12 +582,12 @@
                                         <i-option value="img" key="2" class="rightFontSize">图片</i-option>
                                         <i-option value="barcode" key="3" class="rightFontSize">条形码</i-option>
                                         <i-option value="qrcode" key="4" class="rightFontSize">二维码</i-option>
-                                        <i-option value="richText" key="5" class="rightFontSize">富文本?</i-option>
+                                        <i-option value="richText" key="5" class="rightFontSize">富文本</i-option>
                                         <#--<i-option value="chart" key="5">图表</i-option>-->
                                     </i-select>
                                   </div>
                                   <div class="basicSettingTop rightFontSize" v-if="excel.type == 'img'">
-                                    <span>尺寸?</span>
+                                    <span>尺寸</span>
                                       <i-select class="twoInputWidth" v-model="excel.imgSize" @on-change="onChangeCellImgSize">
                                           <i-option value="0" key="0" class="rightFontSize">完全覆盖(cover)</i-option>
                                           <i-option value="1" key="1" class="rightFontSize">适应内容(contain)</i-option>
@@ -1139,7 +1139,7 @@
         x.spreadsheet.locale('zh-cn');
         xs = x.spreadsheet('#jm-sheet-wrapper', options)
                 .onSave(function (data) {
-                    console.log("data: ", data)
+                    //console.log("data: ", data)
                     //设置报表打印宽度
                     const dataRect = xs.data.getDataRect();
                     let dataRectWidth = 0;

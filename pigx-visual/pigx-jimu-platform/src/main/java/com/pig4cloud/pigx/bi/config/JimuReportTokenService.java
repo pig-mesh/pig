@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @author lengleng
  * @date 2022/4/6
- *
+ * <p>
  * 积木安全控制
  */
 @Component
@@ -40,7 +40,7 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 		// @formatter:off
 	}
 	@Override public String[] getRoles(String s) {
-    return new String[0];
+    return new String[]{"admin"};
     }
 
 	@Override

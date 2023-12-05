@@ -1,4 +1,4 @@
-<#assign CACHE_VERSION = "v=1694491301.10">
+<#assign CACHE_VERSION = "v=1699715555.10">
 <!DOCTYPE html>
 <html>
 <head>
@@ -131,6 +131,10 @@
 <#include "./template/list.ftl">
 <div id="app" style="padding-left: 30px">
     <div class="layout" style="margin-left: -30px;margin-top: -10px;">
+<#--      <div style="background-color: #1890FF;height: 47px">-->
+<#--        <span class="aui-logo"></span>-->
+<#--        <span class="jimu-header">欢迎进入积木报表工作台 </span>-->
+<#--      </div>-->
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
                 <i-menu theme="primary" width="auto" :class="menuitemClasses" active-name="datainfo" :open-names="['sub']" @on-select="onMenuSelect">
@@ -143,13 +147,13 @@
                             <Icon type="md-list"/></Icon>
                             <span>数据报表</span>
                         </Menu-Item>
-                        <Menu-Item name="chartinfo">
-                            <Icon type="md-images"></Icon>
-                            <span>图形报表</span>
-                        </Menu-Item>
                         <Menu-Item name="printinfo">
                             <Icon type="md-print"></Icon>
                             <span>打印设计</span>
+                        </Menu-Item>
+                        <Menu-Item name="recycleBin">
+                            <Icon type="md-trash"></Icon>
+                            <span>回收站</span>
                         </Menu-Item>
                     </Submenu>
                 </i-menu>
@@ -158,7 +162,9 @@
             <Tabs value="name1" style="width: 100%" @on-click="tabsClick">
                 <tab-pane icon="md-desktop" label="报表设计" name="name1" class="jimu-tab">
                   <div style="display: flex;justify-content:space-between;margin-left:16px;margin-right: 38px;">
-                    <div>
+                    <div style="display: flex">
+                      <input type="file" accept=".json" id="fileInput" ref="fileInput" style="display: none" @input="handleFileUpload">
+                      <i-button size="small" icon="ios-cloud-upload-outline" style="margin-right: 5px;" type="primary" @click="uploadFile" v-if="menuitem!='recycleBin'">导入报表</i-button>
                       <i-input size="small" v-model="name" @keyup.enter.native="enterSearchClick" placeholder="搜索报表名称"></i-input>
                     </div>
                     <div class="page">
@@ -184,7 +190,7 @@
                     </div>
                   </div>
                     <div style="display: flex;flex-wrap: wrap;" v-if="previewModel =='view'">
-                        <div class="excel-view-item excel-list-add">
+                        <div class="excel-view-item excel-list-add" v-if="menuitem!='recycleBin'">
                             <a @click="createExcel">
                                 <i class="ivu-icon ivu-icon-md-add" style="font-size:20px; padding-bottom: 5px;"></i>
                                 <p style="letter-spacing: 2px;font-size: 14px;">新建报表</p>
@@ -202,7 +208,7 @@
                             <!-- 缩略图 &ndash;&gt;-->
                             <div class="thumb">
                                 <img :src="getThumbSrc(item)"/>
-                                <div class="excel-edit-container" v-show="item.editable">
+                                <div class="excel-edit-container" v-show="item.editable && menuitem!='recycleBin'">
                                     <a :href="getExcelEditUrl(item)" target="_blank">
                                         设计
                                     </a>
@@ -219,24 +225,24 @@
                                         {{ item.name }}
                                     </div>
                                 </Tooltip>
-                                <div>
+                                <div v-if="menuitem!='recycleBin'">
                                     <a class="opt-show" :href="getExcelViewUrl(item)" target="_blank">
-                                        <Tooltip content="预览模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="预览报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" v-show="userMessage" @click="setTemplate(item,1)">
-                                        <Tooltip content="收藏模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="收藏报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-star-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleDelete(item)">
-                                        <Tooltip content="删除模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="删除报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-trash" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleCopy(item)">
-                                        <Tooltip content="复制模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="复制报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
@@ -247,51 +253,78 @@
                                     </a>
                                 </div>
 
+                                <div style="margin-left: 14%;" v-else>
+                                    <a class="opt-show" @click="handleReduction(item)">
+                                        <Tooltip content="还原报表" placement="top" class="tooltip-footer-font-size">
+                                            <i class="ivu-icon ivu-icon-ios-refresh" style="font-size: 16px;transform: rotate(200deg)"></i>
+                                        </Tooltip>
+                                    </a>
+                                    <a class="opt-show" @click="handleRealDelete(item)">
+                                        <Tooltip content="彻底删除报表" placement="top" transfer class="tooltip-footer-font-size">
+                                            <i class="ivu-icon ivu-icon-md-trash" style="font-size: 16px"></i>
+                                        </Tooltip>
+                                    </a>
+                                </div>
+
                             </div>
                         </div>
                         <!-- 循环结束 &ndash;&gt;-->
                     </div>
                   <div v-else style="padding: 10px 10px">
-                    <i-button type="primary" @click="createExcel"  size="small" style="margin-left: 6px;width:78px;font-size: 10px">
+                    <i-button v-if="menuitem!='recycleBin'" type="primary" @click="createExcel"  size="small" style="margin-left: 6px;width:78px;font-size: 10px">
                         新建报表
                     </i-button>
                     <i-table size="small" style="margin-top: 10px"  border :columns="listColumns" :data="dataSource">
                       <template slot-scope="{ row, index }" slot="action">
-                        <a class="opt-list-show" :href="getExcelViewUrl(row)" target="_blank">
-                          <Tooltip transfer="true" content="预览模板" placement="top">
-                            <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
-                        <a class="opt-list-show" :href="getExcelEditUrl(row)" target="_blank">
-                          <Tooltip transfer="true" content="编辑" placement="top">
-                            <i class="ivu-icon ivu-icon-md-create" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
-                        <a class="opt-list-show" v-show="userMessage" @click="setTemplate(row,1)">
-                          <Tooltip transfer="true" content="收藏模板" placement="top">
-                            <i class="ivu-icon ivu-icon-ios-star-outline" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
-                        <a class="opt-list-show" @click="handleDelete(row)">
-                          <Tooltip transfer="true" content="删除模板" placement="top">
-                            <i class="ivu-icon ivu-icon-ios-trash" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
-                        <a class="opt-list-show" @click="handleCopy(row)">
-                          <Tooltip transfer="true" content="复制模板" placement="top">
-                            <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
-                        <a class="opt-list-show" @click="handleShare(row.id)">
-                          <Tooltip transfer="true" content="分享" placement="top">
-                            <i class="ivu-icon ivu-icon-ios-share-alt" style="font-size: 16px"></i>
-                          </Tooltip>
-                        </a>
+                          <template v-if="menuitem!='recycleBin'">
+                              <a class="opt-list-show" :href="getExcelViewUrl(row)" target="_blank">
+                                  <Tooltip transfer="true" content="预览报表" placement="top">
+                                      <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" :href="getExcelEditUrl(row)" target="_blank">
+                                  <Tooltip transfer="true" content="编辑" placement="top">
+                                      <i class="ivu-icon ivu-icon-md-create" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" v-show="userMessage" @click="setTemplate(row,1)">
+                                  <Tooltip transfer="true" content="收藏报表" placement="top">
+                                      <i class="ivu-icon ivu-icon-ios-star-outline" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" @click="handleDelete(row)">
+                                  <Tooltip transfer="true" content="删除报表" placement="top">
+                                      <i class="ivu-icon ivu-icon-ios-trash" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" @click="handleCopy(row)">
+                                  <Tooltip transfer="true" content="复制报表" placement="top">
+                                      <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" @click="handleShare(row.id)">
+                                  <Tooltip transfer="true" content="分享" placement="top">
+                                      <i class="ivu-icon ivu-icon-ios-share-alt" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                          </template>
+                          <template v-else>
+                              <a class="opt-list-show" @click="handleReduction(row)">
+                                  <Tooltip content="还原报表" placement="top" transfer class="tooltip-footer-font-size">
+                                      <i class="ivu-icon ivu-icon-ios-refresh" style="font-size: 16px;transform: rotate(200deg)"></i>
+                                  </Tooltip>
+                              </a>
+                              <a class="opt-list-show" @click="handleRealDelete(row)">
+                                  <Tooltip content="彻底删除报表" placement="top" transfer class="tooltip-footer-font-size">
+                                      <i class="ivu-icon ivu-icon-md-trash" style="font-size: 16px"></i>
+                                  </Tooltip>
+                              </a>
+                          </template>
                       </template>
                     </i-table>
                   </div>
                 </tab-pane>
-                <tab-pane icon="md-options" label="模板案例" name="name2" class="jimu-tab">
+                <tab-pane icon="md-options" label="模板案例" name="name2" class="jimu-tab" v-if="menuitem!='recycleBin'">
                   <div style="display: flex;justify-content:space-between;margin-left:16px;margin-right: 38px">
                     <div>
                       <i-input size="small" v-model="name" @keyup.enter.native="loadData" placeholder="搜索报表名称"></i-input>
@@ -350,7 +383,7 @@
                                 </Tooltip>
                                 <div style="margin-left: 14%;">
                                     <a class="opt-show" :href="getExcelViewUrl(item)" target="_blank">
-                                        <Tooltip content="预览模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="预览报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
@@ -360,7 +393,7 @@
                                         </Tooltip>
                                     </a>
                                     <a class="opt-show" @click="handleCopy(item)">
-                                        <Tooltip content="复制模板" placement="top" class="tooltip-footer-font-size">
+                                        <Tooltip content="复制报表" placement="top" class="tooltip-footer-font-size">
                                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                                         </Tooltip>
                                     </a>
@@ -396,7 +429,7 @@
                           </Tooltip>
                         </a>
                         <a class="opt-list-show" :href="getExcelViewUrl(row)" target="_blank">
-                          <Tooltip transfer="true" content="预览模板" placement="top" class="tooltip-footer-font-size">
+                          <Tooltip transfer="true" content="预览报表" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-ios-eye-outline" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
@@ -406,7 +439,7 @@
                           </Tooltip>
                         </a>
                         <a class="opt-list-show" @click="handleCopy(row)">
-                          <Tooltip transfer="true" content="复制模板" placement="top" class="tooltip-footer-font-size">
+                          <Tooltip transfer="true" content="复制报表" placement="top" class="tooltip-footer-font-size">
                             <i class="ivu-icon ivu-icon-ios-browsers" style="font-size: 16px"></i>
                           </Tooltip>
                         </a>
@@ -765,6 +798,33 @@
                     this.$Spin.hide();
                 }, 3000);*/
             },
+            //----------导入导出begin----------------------
+            handleFileUpload(event) {
+                const file = event.target.files[0];
+                const formData = new FormData();
+                formData.append('file', file);
+                // 处理文件上传操作，例如读取文件内容等
+                $http.post({
+                    url:api.importReportJson,
+                    contentType: "multipart/form-data",
+                    data:formData,
+                    success:(result)=>{
+                        //console.log(result);
+                        this.$Message.success(result);
+                        this.loadData()
+                        this.$refs.fileInput.value = null;
+                    },
+                    error:(err)=>{
+                        console.error(err);
+                        this.$Message.error(err);
+                    }
+                });
+            },
+            uploadFile(event) {
+                const input = document.querySelector("#fileInput");
+                input?.click();
+            },
+            //----------导入导出end----------------------
             //分享按钮点击事件
             handleShare(id){
                 $http.get({
@@ -810,6 +870,46 @@
                         return "${base}"+"${customPrePath}"+JM_VIEW_IMG_URL+"/"+item.thumb
                     }
                 }
+            },
+            /**
+             * 真实删除
+             * @param item
+             */
+            handleRealDelete(item){
+                var that = this;
+                this.$Modal.confirm({
+                    title: "彻底删除",
+                    content: "确定要彻底删除吗，删除之后无法恢复",
+                    closable: true,
+                    onOk: (res) => {
+                        $http.del({
+                            url: api.deleteReportById,
+                            data: {
+                                id: item.id
+                            },
+                            success:(res)=>{
+                                that.loadData();
+                            }
+                        })
+                    },
+                });
+            },
+            /**
+             * 撤回
+             * @param item
+             */
+            handleReduction(item){
+                var that = this;
+                $http.post({
+                    contentType:'json',
+                    url: api.revertReportById,
+                    data: {
+                        id: item.id
+                    },
+                    success:(res)=>{
+                        that.loadData();
+                    }
+                })
             }
         }
     })

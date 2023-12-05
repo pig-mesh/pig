@@ -316,11 +316,11 @@
             getChartParamSelectOptions() {
                 let data = this.currentChart
                 if(!data){
-                    console.log("未选择联动图表!")
+                    //console.log("未选择联动图表!")
                     return []
                 }
                 if(!data.x || !data.y){
-                    console.log("图表未正确配置数据源!")
+                    //console.log("图表未正确配置数据源!")
                     return []
                 }
                 let arr = [{

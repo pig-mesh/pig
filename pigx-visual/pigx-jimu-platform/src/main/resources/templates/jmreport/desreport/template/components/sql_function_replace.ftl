@@ -83,7 +83,14 @@
       },
       //初始化参数解析
       initDataSource(dbDynSql,dbKey,paramData){
-        this.dbDynSql = dbDynSql
+        //update-begin---author:wangshuai---date:2023-10-10---for:【QQYUN-6755】参数替换 解析时，弹框参数不对---
+        //替换“$“{DaoFormat. 为空，使SQL能正常解析
+        //update-begin---author:wangshuai   Date:20211221  for：[JMREP-2505]存储过程没有空格参数会连接到一起------------
+        if(dbDynSql){
+          dbDynSql = dbDynSql.replaceAll('\$\{DaoFormat.','');
+        }
+        this.dbDynSql = dbDynSql;
+        //update-end---author:wangshuai---date:2023-10-10---for:【QQYUN-6755】参数替换 解析时，弹框参数不对---
         this.dbKey = dbKey
         //update-begin---author:wangshuai   Date:20211221  for：[JMREP-2505]存储过程没有空格参数会连接到一起------------
         let reg=/\$\{[^}]*\}/g;
