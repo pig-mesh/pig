@@ -30,9 +30,10 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 	@Override
 	public String getUsername(String token) {
 		// 分割出 PIGX 的租户信息
-		List<String> splitList = StrUtil.split(token, CharUtil.UNDERLINE);
+		String tenant = StrUtil.subBefore(token, CharUtil.UNDERLINE, false);
+		String tokenStr = StrUtil.subAfter(token, CharUtil.UNDERLINE, false);
 		// @formatter:off
-		return RetOps.of(tokenService.queryToken(splitList.get(1), splitList.get(0) ,SecurityConstants.FROM_IN))
+		return RetOps.of(tokenService.queryToken(tokenStr, tenant ,SecurityConstants.FROM_IN))
 				.getDataIf(RetOps.CODE_SUCCESS)
 				.map(o -> (String)o.get("principalName"))
 				.orElse(null);
