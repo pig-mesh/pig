@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>0.2.1</goview.version>
+        <goview.version>0.3.0</goview.version>
     </properties>
 
     <dependencies>
@@ -69,7 +69,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-upms-api</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
         <!--undertow容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
