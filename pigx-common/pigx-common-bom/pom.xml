@@ -44,7 +44,7 @@
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.12.261</aws.version>
         <javers.version>7.3.3</javers.version>
-        <seata.version>1.6.1</seata.version>
+        <seata.version>1.7.0</seata.version>
         <asm.version>7.1</asm.version>
         <log4j2.version>2.17.1</log4j2.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>

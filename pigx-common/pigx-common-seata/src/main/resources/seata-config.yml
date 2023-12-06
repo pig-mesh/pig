@@ -15,7 +15,7 @@ seata:
     tm-rollback-retry-count: 3 # 一阶段全局回滚结果上报TC重试次数（默认1次，建议大于1）
     undo:
       data-validation: true # 二阶段回滚镜像校验（默认true开启）
-      log-serialization: kryo # undo序列化方式（默认jackson 不支持 LocalDateTime）
+      log-serialization: jackson # undo序列化方式（默认jackson 不支持 LocalDateTime）
       log-table: undo_log  # 自定义undo表名（默认undo_log）
     log:
       exceptionRate: 100 # 日志异常输出概率（默认100）
