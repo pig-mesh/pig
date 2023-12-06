@@ -29,7 +29,7 @@
         <mybatis-plus.version>3.5.4</mybatis-plus.version>
         <mysql.version>8.0.33</mysql.version>
         <dynamic-ds.version>4.2.0</dynamic-ds.version>
-        <seata.version>1.6.1</seata.version>
+        <seata.version>1.7.0</seata.version>
         <excel.version>3.1.0</excel.version>
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
@@ -161,12 +161,6 @@
                 <groupId>io.springboot.sms</groupId>
                 <artifactId>aliyun-sms-spring-boot-starter</artifactId>
                 <version>${sms.version}</version>
-            </dependency>
-            <!--  seata kryo 序列化-->
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-serializer-kryo</artifactId>
-                <version>${seata.version}</version>
             </dependency>
             <!--orm 相关-->
             <dependency>
