@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-2022.0.4-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-3.1.5-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2023.0.0-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-3.2.0-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
@@ -9,7 +9,7 @@
 ## 分支说明
 
 - master: java8 + springboot 2.7 + springcloud 2021
-- jdk17: java17 + springboot 3.1 + springcloud 2022
+- jdk17: java17 + springboot 3.2 + springcloud 2023
 
 ## 系统说明
 
