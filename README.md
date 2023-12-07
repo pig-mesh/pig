@@ -41,10 +41,10 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.1.5      |
-| Spring Cloud                | 2022.0.4   |
+| Spring Boot                 | 3.2.0      |
+| Spring Cloud                | 2023.0.0   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
-| Spring Authorization Server | 1.1.3      |
+| Spring Authorization Server | 1.2.0      |
 | Mybatis Plus                | 3.5.4      |
 | hutool                      | 5.8.22     |
 

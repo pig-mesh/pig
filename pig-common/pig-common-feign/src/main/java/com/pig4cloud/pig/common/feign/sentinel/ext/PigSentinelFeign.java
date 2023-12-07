@@ -72,7 +72,7 @@ public final class PigSentinelFeign {
 		}
 
 		@Override
-		public Feign build() {
+		public Feign internalBuild() {
 			super.invocationHandlerFactory(new InvocationHandlerFactory() {
 				@Override
 				public InvocationHandler create(Target target, Map<Method, MethodHandler> dispatch) {
@@ -107,7 +107,7 @@ public final class PigSentinelFeign {
 					Object fallbackInstance = feignClientFactory.getInstance(name, fallbackType);
 					if (fallbackInstance == null) {
 						throw new IllegalStateException(String
-							.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
+								.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
 					}
 
 					if (!targetType.isAssignableFrom(fallbackType)) {
@@ -120,7 +120,7 @@ public final class PigSentinelFeign {
 			});
 
 			super.contract(new SentinelContractHolder(contract));
-			return super.build();
+			return super.internalBuild();
 		}
 
 		private Object getFieldValue(Object instance, String fieldName) {
@@ -138,7 +138,7 @@ public final class PigSentinelFeign {
 		@Override
 		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 			this.applicationContext = applicationContext;
-			this.feignClientFactory = (FeignClientFactory) this.applicationContext.getBean(FeignClientFactory.class);
+			this.feignClientFactory = this.applicationContext.getBean(FeignClientFactory.class);
 		}
 
 	}
