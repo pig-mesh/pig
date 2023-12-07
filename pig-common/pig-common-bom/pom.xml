@@ -15,11 +15,11 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>3.1.5</spring-boot.version>
+        <spring-boot.version>3.2.0</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
         <fastjson.version>1.2.83</fastjson.version>
@@ -180,8 +180,8 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
                 <version>${mybatis-spring.version}</version>
             </dependency>
             <!--hutool bom 工具类-->
