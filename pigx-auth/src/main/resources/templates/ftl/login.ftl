@@ -24,14 +24,14 @@
                 </#if>
 			</div>
 			<div class="mb-4 relative">
-				<input id="username" required
+				<input id="username" required name="username"
 				       class="w-full rounded px-3 border border-gray-500 pt-5 pb-2 focus:outline-none input active:outline-none"
 				       type="text" autofocus>
 				<label for="username"
 				       class="label absolute mb-0 -mt-2 pl-3 leading-tighter text-gray-500 text-base mt-2 cursor-text">账号</label>
 			</div>
 			<div class="relative flex items-center border border-gray-500 focus:ring focus:border-blue-500 rounded">
-				<input id="password" required
+				<input id="password" required name="password"
 				       class="w-full rounded px-3 pt-5 outline-none pb-2 focus:outline-none active:outline-none input active:border-blue-500"
 				       type="password"/>
 				<label for="password"
