@@ -24,9 +24,9 @@ import java.util.*;
 public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
 
 	private OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer;
-	private final StringKeyGenerator accessTokenGenerator =
-			new Base64StringKeyGenerator(Base64.getUrlEncoder().withoutPadding(), 96);
 
+	private final StringKeyGenerator accessTokenGenerator = new Base64StringKeyGenerator(
+			Base64.getUrlEncoder().withoutPadding(), 96);
 
 	@Nullable
 	@Override
@@ -85,8 +85,8 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 		OAuth2TokenClaimsSet accessTokenClaimsSet = claimsBuilder.build();
 		return new CustomeOAuth2AccessTokenGenerator.OAuth2AccessTokenClaims(OAuth2AccessToken.TokenType.BEARER,
-				this.accessTokenGenerator.generateKey(), accessTokenClaimsSet.getIssuedAt(), accessTokenClaimsSet.getExpiresAt(),
-				context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
+				this.accessTokenGenerator.generateKey(), accessTokenClaimsSet.getIssuedAt(),
+				accessTokenClaimsSet.getExpiresAt(), context.getAuthorizedScopes(), accessTokenClaimsSet.getClaims());
 	}
 
 	/**
