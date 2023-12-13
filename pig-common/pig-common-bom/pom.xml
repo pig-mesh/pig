@@ -15,7 +15,7 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>3.2.0</spring-boot.version>
+        <spring-boot.version>3.2.1</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
         <maven.compiler.source>17</maven.compiler.source>
@@ -26,17 +26,16 @@
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
-        <mybatis-spring.version>3.0.3</mybatis-spring.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <mysql.version>8.0.33</mysql.version>
-        <dynamic-ds.version>4.2.0</dynamic-ds.version>
+        <dynamic-ds.version>4.3.0</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
         <excel.version>3.1.0</excel.version>
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
-        <hutool.version>5.8.22</hutool.version>
+        <hutool.version>5.8.23</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
 
@@ -166,7 +165,7 @@
             <!--orm 相关-->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>
@@ -178,11 +177,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
             </dependency>
             <!--hutool bom 工具类-->
             <dependency>
