@@ -111,7 +111,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 			.filter(service -> service.support(finalClientId, grantType))
 			.max(Comparator.comparingInt(Ordered::getOrder));
 
-		if (!optional.isPresent()) {
+		if (optional.isEmpty()) {
 			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");
 		}
 
