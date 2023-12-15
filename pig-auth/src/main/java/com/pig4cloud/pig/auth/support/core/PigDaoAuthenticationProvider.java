@@ -63,7 +63,6 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
