@@ -46,4 +46,5 @@ public class ImageCodeEndpoint {
 		// 转换流信息写出
 		captcha.out(response.getOutputStream());
 	}
+
 }

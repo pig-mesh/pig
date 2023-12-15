@@ -37,6 +37,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
@@ -86,17 +87,18 @@ public class AuthorizationServerConfiguration {
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 
 		http.addFilterAfter(pigLoginPreFilter, UsernamePasswordAuthenticationFilter.class);
-		http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
+		http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
 			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
 				.accessTokenResponseHandler(successEventHandler) // 登录成功处理器
 				.errorResponseHandler(failureEventHandler);// 登录失败处理器
 		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
 		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(failureEventHandler))// 处理客户端认证异常
 			.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)))
-			.authorizationService(authorizationService)
-			.authorizationServerSettings(
-					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build());
+				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)), Customizer.withDefaults())
+			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+				.authorizationServerSettings(
+						AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+					Customizer.withDefaults());
 
 		AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
 			.stream()
@@ -116,9 +118,10 @@ public class AuthorizationServerConfiguration {
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 			.csrf(AbstractHttpConfigurer::disable);
 
-		http.apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+		http.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
 			.authorizationServerSettings(
-					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()));
+					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+				Customizer.withDefaults());
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 
 		// 注入自定义授权模式实现

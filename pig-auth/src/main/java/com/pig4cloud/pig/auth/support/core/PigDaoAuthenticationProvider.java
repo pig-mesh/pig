@@ -1,18 +1,13 @@
 package com.pig4cloud.pig.auth.support.core;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.crypto.Mode;
-import cn.hutool.crypto.Padding;
-import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
 import org.springframework.core.Ordered;
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,8 +24,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
 
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
@@ -42,175 +35,159 @@ import java.util.function.Supplier;
  */
 public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-    /**
-     * The plaintext password used to perform PasswordEncoder#matches(CharSequence,
-     * String)} on when the user is not found to avoid SEC-2056.
-     */
-    private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
+	/**
+	 * The plaintext password used to perform PasswordEncoder#matches(CharSequence,
+	 * String)} on when the user is not found to avoid SEC-2056.
+	 */
+	private static final String USER_NOT_FOUND_PASSWORD = "userNotFoundPassword";
 
-    private final static BasicAuthenticationConverter basicConvert = new BasicAuthenticationConverter();
+	private final static BasicAuthenticationConverter basicConvert = new BasicAuthenticationConverter();
 
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 
-    /**
-     * The password used to perform {@link PasswordEncoder#matches(CharSequence, String)}
-     * on when the user is not found to avoid SEC-2056. This is necessary, because some
-     * {@link PasswordEncoder} implementations will short circuit if the password is not
-     * in a valid format.
-     */
-    private volatile String userNotFoundEncodedPassword;
+	/**
+	 * The password used to perform {@link PasswordEncoder#matches(CharSequence, String)}
+	 * on when the user is not found to avoid SEC-2056. This is necessary, because some
+	 * {@link PasswordEncoder} implementations will short circuit if the password is not
+	 * in a valid format.
+	 */
+	private volatile String userNotFoundEncodedPassword;
 
-    private UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
-    private UserDetailsPasswordService userDetailsPasswordService;
+	private UserDetailsPasswordService userDetailsPasswordService;
 
+	public PigDaoAuthenticationProvider() {
+		setMessageSource(SpringUtil.getBean("securityMessageSource"));
+		setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
+	}
 
-    public PigDaoAuthenticationProvider() {
-        setMessageSource(SpringUtil.getBean("securityMessageSource"));
-        setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
-    }
+	@Override
+	@SuppressWarnings("deprecation")
+	protected void additionalAuthenticationChecks(UserDetails userDetails,
+			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
-    @Override
-    @SuppressWarnings("deprecation")
-    protected void additionalAuthenticationChecks(UserDetails userDetails,
-                                                  UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+		// app 模式不用校验密码
+		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (StrUtil.equals(SecurityConstants.MOBILE, grantType)) {
+			return;
+		}
 
-        // app 模式不用校验密码
-        String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (StrUtil.equals(SecurityConstants.MOBILE, grantType)) {
-            return;
-        }
+		if (authentication.getCredentials() == null) {
+			this.logger.debug("Failed to authenticate since no credentials provided");
+			throw new BadCredentialsException(this.messages
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+		}
+		String presentedPassword = authentication.getCredentials().toString();
+		if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
+			this.logger.debug("Failed to authenticate since password does not match stored value");
+			throw new BadCredentialsException(this.messages
+				.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
+		}
+	}
 
-        if (authentication.getCredentials() == null) {
-            this.logger.debug("Failed to authenticate since no credentials provided");
-            throw new BadCredentialsException(this.messages
-                    .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
-        }
-        String presentedPassword = authentication.getCredentials().toString();
+	@SneakyThrows
+	@Override
 
-        // 解密密码
-        presentedPassword = decode(presentedPassword);
-        if (!this.passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
-            this.logger.debug("Failed to authenticate since password does not match stored value");
-            throw new BadCredentialsException(this.messages
-                    .getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
-        }
-    }
+	protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
+		prepareTimingAttackProtection();
+		HttpServletRequest request = WebUtils.getRequest()
+			.orElseThrow(
+					(Supplier<Throwable>) () -> new InternalAuthenticationServiceException("web request is empty"));
 
-    @SneakyThrows
-    @Override
+		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		String clientId = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.CLIENT_ID);
 
-    protected final UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication) {
-        prepareTimingAttackProtection();
-        HttpServletRequest request = WebUtils.getRequest()
-                .orElseThrow(
-                        (Supplier<Throwable>) () -> new InternalAuthenticationServiceException("web request is empty"));
+		if (StrUtil.isBlank(clientId)) {
+			clientId = basicConvert.convert(request).getName();
+		}
 
-        String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        String clientId = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.CLIENT_ID);
+		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
+			.getBeansOfType(PigUserDetailsService.class);
 
-        if (StrUtil.isBlank(clientId)) {
-            clientId = basicConvert.convert(request).getName();
-        }
+		String finalClientId = clientId;
+		Optional<PigUserDetailsService> optional = userDetailsServiceMap.values()
+			.stream()
+			.filter(service -> service.support(finalClientId, grantType))
+			.max(Comparator.comparingInt(Ordered::getOrder));
 
-        Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
-                .getBeansOfType(PigUserDetailsService.class);
+		if (optional.isEmpty()) {
+			throw new InternalAuthenticationServiceException("UserDetailsService error , not register");
+		}
 
-        String finalClientId = clientId;
-        Optional<PigUserDetailsService> optional = userDetailsServiceMap.values()
-                .stream()
-                .filter(service -> service.support(finalClientId, grantType))
-                .max(Comparator.comparingInt(Ordered::getOrder));
+		try {
+			UserDetails loadedUser = optional.get().loadUserByUsername(username);
+			if (loadedUser == null) {
+				throw new InternalAuthenticationServiceException(
+						"UserDetailsService returned null, which is an interface contract violation");
+			}
+			return loadedUser;
+		}
+		catch (UsernameNotFoundException ex) {
+			mitigateAgainstTimingAttack(authentication);
+			throw ex;
+		}
+		catch (InternalAuthenticationServiceException ex) {
+			throw ex;
+		}
+		catch (Exception ex) {
+			throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+		}
+	}
 
-        if (!optional.isPresent()) {
-            throw new InternalAuthenticationServiceException("UserDetailsService error , not register");
-        }
+	@Override
+	protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
+			UserDetails user) {
+		boolean upgradeEncoding = this.userDetailsPasswordService != null
+				&& this.passwordEncoder.upgradeEncoding(user.getPassword());
+		if (upgradeEncoding) {
+			String presentedPassword = authentication.getCredentials().toString();
+			String newPassword = this.passwordEncoder.encode(presentedPassword);
+			user = this.userDetailsPasswordService.updatePassword(user, newPassword);
+		}
+		return super.createSuccessAuthentication(principal, authentication, user);
+	}
 
-        try {
-            UserDetails loadedUser = optional.get().loadUserByUsername(username);
-            if (loadedUser == null) {
-                throw new InternalAuthenticationServiceException(
-                        "UserDetailsService returned null, which is an interface contract violation");
-            }
-            return loadedUser;
-        } catch (UsernameNotFoundException ex) {
-            mitigateAgainstTimingAttack(authentication);
-            throw ex;
-        } catch (InternalAuthenticationServiceException ex) {
-            throw ex;
-        } catch (Exception ex) {
-            throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
-        }
-    }
+	private void prepareTimingAttackProtection() {
+		if (this.userNotFoundEncodedPassword == null) {
+			this.userNotFoundEncodedPassword = this.passwordEncoder.encode(USER_NOT_FOUND_PASSWORD);
+		}
+	}
 
-    @Override
-    protected Authentication createSuccessAuthentication(Object principal, Authentication authentication,
-                                                         UserDetails user) {
-        boolean upgradeEncoding = this.userDetailsPasswordService != null
-                && this.passwordEncoder.upgradeEncoding(user.getPassword());
-        if (upgradeEncoding) {
-            String presentedPassword = authentication.getCredentials().toString();
-            String newPassword = this.passwordEncoder.encode(presentedPassword);
-            user = this.userDetailsPasswordService.updatePassword(user, newPassword);
-        }
-        return super.createSuccessAuthentication(principal, authentication, user);
-    }
+	private void mitigateAgainstTimingAttack(UsernamePasswordAuthenticationToken authentication) {
+		if (authentication.getCredentials() != null) {
+			String presentedPassword = authentication.getCredentials().toString();
+			this.passwordEncoder.matches(presentedPassword, this.userNotFoundEncodedPassword);
+		}
+	}
 
-    private void prepareTimingAttackProtection() {
-        if (this.userNotFoundEncodedPassword == null) {
-            this.userNotFoundEncodedPassword = this.passwordEncoder.encode(USER_NOT_FOUND_PASSWORD);
-        }
-    }
+	/**
+	 * Sets the PasswordEncoder instance to be used to encode and validate passwords. If
+	 * not set, the password will be compared using
+	 * {@link PasswordEncoderFactories#createDelegatingPasswordEncoder()}
+	 * @param passwordEncoder must be an instance of one of the {@code PasswordEncoder}
+	 * types.
+	 */
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		Assert.notNull(passwordEncoder, "passwordEncoder cannot be null");
+		this.passwordEncoder = passwordEncoder;
+		this.userNotFoundEncodedPassword = null;
+	}
 
-    private void mitigateAgainstTimingAttack(UsernamePasswordAuthenticationToken authentication) {
-        if (authentication.getCredentials() != null) {
-            String presentedPassword = authentication.getCredentials().toString();
-            this.passwordEncoder.matches(presentedPassword, this.userNotFoundEncodedPassword);
-        }
-    }
+	protected PasswordEncoder getPasswordEncoder() {
+		return this.passwordEncoder;
+	}
 
-    /**
-     * Sets the PasswordEncoder instance to be used to encode and validate passwords. If
-     * not set, the password will be compared using
-     * {@link PasswordEncoderFactories#createDelegatingPasswordEncoder()}
-     *
-     * @param passwordEncoder must be an instance of one of the {@code PasswordEncoder}
-     *                        types.
-     */
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
-        Assert.notNull(passwordEncoder, "passwordEncoder cannot be null");
-        this.passwordEncoder = passwordEncoder;
-        this.userNotFoundEncodedPassword = null;
-    }
+	public void setUserDetailsService(UserDetailsService userDetailsService) {
+		this.userDetailsService = userDetailsService;
+	}
 
-    protected PasswordEncoder getPasswordEncoder() {
-        return this.passwordEncoder;
-    }
+	protected UserDetailsService getUserDetailsService() {
+		return this.userDetailsService;
+	}
 
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
-    protected UserDetailsService getUserDetailsService() {
-        return this.userDetailsService;
-    }
-
-    public void setUserDetailsPasswordService(UserDetailsPasswordService userDetailsPasswordService) {
-        this.userDetailsPasswordService = userDetailsPasswordService;
-    }
-
-    /**
-     * 密码解密
-     *
-     * @param presentedPassword 加密密码
-     */
-    private String decode(String presentedPassword) {
-        // 构建前端对应解密AES 因子
-        String key = SpringContextHolder.getBean(Environment.class)
-                .getProperty("gateway.encodeKey", "pigxpigxpigxpigx");
-        AES aes = new AES(Mode.CFB, Padding.NoPadding, new SecretKeySpec(key.getBytes(), "AES"),
-                new IvParameterSpec(key.getBytes()));
-        return aes.decryptStr(presentedPassword);
-    }
+	public void setUserDetailsPasswordService(UserDetailsPasswordService userDetailsPasswordService) {
+		this.userDetailsPasswordService = userDetailsPasswordService;
+	}
 
 }

@@ -102,12 +102,16 @@
     </dependencies>
 
     <modules>
-        <module>pig-register</module>
-        <module>pig-gateway</module>
+        <!-- PIG代码生成模块 -->
+        <module>pig-codegen</module>
+        <!-- PIGQuartz模块 -->
+        <module>pig-quartz</module>
+        <!-- PIG身份验证模块 -->
         <module>pig-auth</module>
+        <!-- PIG用户管理系统模块 -->
         <module>pig-upms</module>
+        <!-- PIG通用模块 -->
         <module>pig-common</module>
-        <module>pig-visual</module>
     </modules>
 
     <dependencyManagement>

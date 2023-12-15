@@ -47,7 +47,6 @@ public class PigLoginPreFilter extends OncePerRequestFilter {
 				return;
 			}
 
-
 			// 校验验证码 1. 客户端开启验证码 2. 短信模式
 			if (true) {
 				try {

@@ -20,8 +20,7 @@ public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegi
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 
-		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(),
-				true);
+		Map<String, Object> annotationAttributes = metadata.getAnnotationAttributes(EnablePigDoc.class.getName(), true);
 		Object value = annotationAttributes.get("value");
 		if (Objects.isNull(value)) {
 			return;
