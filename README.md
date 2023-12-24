@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2023.0.0-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-3.2.0-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Boot-3.2.1-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
@@ -41,7 +41,7 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.2.0      |
+| Spring Boot                 | 3.2.1      |
 | Spring Cloud                | 2023.0.0   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.0      |
