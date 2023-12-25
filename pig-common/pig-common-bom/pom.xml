@@ -27,7 +27,6 @@
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
-        <mybatis-spring.version>3.0.3</mybatis-spring.version>
         <mysql.version>8.0.33</mysql.version>
         <dynamic-ds.version>4.2.0</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
@@ -163,11 +162,6 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis-spring</artifactId>
-                <version>${mybatis-spring.version}</version>
             </dependency>
             <!--hutool bom 工具类-->
             <dependency>
