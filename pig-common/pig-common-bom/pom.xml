@@ -26,7 +26,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <dynamic-ds.version>4.2.0</dynamic-ds.version>
         <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
