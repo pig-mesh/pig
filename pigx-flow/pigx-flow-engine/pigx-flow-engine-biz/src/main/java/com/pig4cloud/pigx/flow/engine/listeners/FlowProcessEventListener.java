@@ -184,7 +184,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			processNodeRecordAssignUserParamDto
 				.setLocalData(objectMapper.writeValueAsString(taskService.getVariablesLocal(task.getId())));
 			processNodeRecordAssignUserParamDto.setNodeId(taskDefinitionKey);
-			processNodeRecordAssignUserParamDto.setUserId(Long.parseLong(assignee));
+			processNodeRecordAssignUserParamDto.setUserId(Long.parseLong(task.getAssignee()));
 			processNodeRecordAssignUserParamDto.setTaskId(task.getId());
 			processNodeRecordAssignUserParamDto.setNodeName(task.getName());
 			processNodeRecordAssignUserParamDto.setTaskType("COMPLETE");
@@ -219,7 +219,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			processNodeRecordAssignUserParamDto.setProcessInstanceId(processInstanceId);
 			// processNodeRecordAssignUserParamDto.setData();
 			processNodeRecordAssignUserParamDto.setNodeId(taskDefinitionKey);
-			processNodeRecordAssignUserParamDto.setUserId(Long.parseLong(assignee));
+			processNodeRecordAssignUserParamDto.setUserId(Long.parseLong(task.getAssignee()));
 			processNodeRecordAssignUserParamDto.setTaskId(task.getId());
 			processNodeRecordAssignUserParamDto.setNodeName(task.getName());
 			processNodeRecordAssignUserParamDto

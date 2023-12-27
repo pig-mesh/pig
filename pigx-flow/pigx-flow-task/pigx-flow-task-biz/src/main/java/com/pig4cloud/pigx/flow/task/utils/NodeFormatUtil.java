@@ -252,6 +252,10 @@ public class NodeFormatUtil {
 	 * @return
 	 */
 	private static UserVo buildUser(long userId) {
+		if (ProcessInstanceConstant.DEFAULT_EMPTY_ASSIGN == userId){
+			return UserVo.builder().id(userId).build();
+		}
+
 		RemoteUserService userService = SpringUtil.getBean(RemoteUserService.class);
 		SysUser user = userService.getUserById(userId).getData();
 		if (user == null) {
