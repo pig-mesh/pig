@@ -37,24 +37,28 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 public class PigInitQuartzJob implements InitializingBean {
 
-    private final SysJobService sysJobService;
+	private final SysJobService sysJobService;
 
-    private final TaskUtil taskUtil;
+	private final TaskUtil taskUtil;
 
-    private final Scheduler scheduler;
+	private final Scheduler scheduler;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        sysJobService.list().forEach(sysjob -> {
-            if (PigQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.removeJob(sysjob, scheduler);
-            } else if (PigQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.resumeJob(sysjob, scheduler);
-            } else if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.pauseJob(sysjob, scheduler);
-            } else {
-                taskUtil.removeJob(sysjob, scheduler);
-            }
-        });
-    }
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		sysJobService.list().forEach(sysjob -> {
+			if (PigQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+			else if (PigQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.resumeJob(sysjob, scheduler);
+			}
+			else if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.pauseJob(sysjob, scheduler);
+			}
+			else {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+		});
+	}
+
 }
