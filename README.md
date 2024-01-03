@@ -44,9 +44,9 @@
 | Spring Boot                 | 3.2.1      |
 | Spring Cloud                | 2023.0.0   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
-| Spring Authorization Server | 1.2.0      |
+| Spring Authorization Server | 1.2.1      |
 | Mybatis Plus                | 3.5.5      |
-| hutool                      | 5.8.22     |
+| hutool                      | 5.8.23     |
 
 ### 模块说明
 
