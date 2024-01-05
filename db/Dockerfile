@@ -3,6 +3,7 @@ FROM mysql/mysql-server:8.0.33
 MAINTAINER lengleng(wangiegie@gmail.com)
 
 ENV TZ=Asia/Shanghai
+ENV LANG C.UTF-8
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
