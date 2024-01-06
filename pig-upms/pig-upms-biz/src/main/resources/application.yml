@@ -6,9 +6,9 @@ server:
 spring:
   application:
     name: @project.artifactId@
+  # 缓存相关配置
   cache:
     type: redis
-  # 缓存相关配置
   data:
     redis:
       host: pig-redis
@@ -49,9 +49,11 @@ spring:
   main:
     allow-bean-definition-overriding: true
 
-# 前端密码登录解密密钥
 gateway:
+  # 前端密码登录解密密钥，和前端 .env 保存一致（16位）
   encodeKey: thanks,pig4cloud
+  # 跳过验证码的客户端  clientId1,clientId2
+  ignore-clients: test,Admin
 
 # 本地文件系统
 file:

@@ -17,101 +17,121 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Optional;
 
-@Component
+/**
+ * @author lbw
+ * @date 2024-01-06
+ * <p>
+ * 登录前置处理器： 前端密码传输密文解密，验证码处理
+ */
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class PigLoginPreFilter extends OncePerRequestFilter {
 
-	private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
+    @Value("${gateway.ignore-clients}")
+    private List<String> ignoreClients;
 
-		String requestUrl = request.getServletPath();
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
-		if (SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
-			// 刷新token，直接向下执行
-			String grantType = request.getParameter("grant_type");
-			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
-				filterChain.doFilter(request, response);
-				return;
-			}
+        String requestUrl = request.getServletPath();
 
-			// 校验验证码 1. 客户端开启验证码 2. 短信模式
-			if (true) {
-				try {
-					checkCode();
-				}
-				catch (ValidateCodeException validateCodeException) {
-					response.setCharacterEncoding(CharsetUtil.UTF_8);
-					response.setStatus(HttpStatus.PRECONDITION_REQUIRED.value());
-					R<String> result = new R<>();
-					result.setCode(CommonConstants.FAIL);
-					result.setData(validateCodeException.getLocalizedMessage());
-					result.setMsg(validateCodeException.getLocalizedMessage());
-					PrintWriter printWriter = response.getWriter();
-					response.setContentType(ContentType.JSON.getValue());
-					printWriter.append(objectMapper.writeValueAsString(result));
-					return;
-				}
-			}
-		}
-		filterChain.doFilter(request, response);
-	}
+        // 不是登录URL 请求直接跳过
+        if (!SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-	/**
-	 * 校验验证码
-	 */
-	private void checkCode() throws ValidateCodeException {
-		Optional<HttpServletRequest> request = WebUtils.getRequest();
-		String code = request.get().getParameter("code");
+        // 如果登录URL 但是刷新token的请求，直接向下执行
+        String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+        if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-		if (StrUtil.isBlank(code)) {
-			throw new ValidateCodeException("验证码不能为空");
-		}
+        // 客户端配置跳过验证码
+        boolean isIgnoreClient = ignoreClients.contains(WebUtils.getClientId());
+        if (isIgnoreClient) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
-		String randomStr = request.get().getParameter("randomStr");
+        // 校验验证码 1. 客户端开启验证码 2. 短信模式
+        try {
+            checkCode();
+        } catch (ValidateCodeException validateCodeException) {
+            response.setCharacterEncoding(CharsetUtil.UTF_8);
+            response.setStatus(HttpStatus.PRECONDITION_REQUIRED.value());
+            R<String> result = new R<>();
+            result.setCode(CommonConstants.FAIL);
+            result.setData(validateCodeException.getLocalizedMessage());
+            result.setMsg(validateCodeException.getLocalizedMessage());
+            PrintWriter printWriter = response.getWriter();
+            response.setContentType(ContentType.JSON.getValue());
+            printWriter.append(objectMapper.writeValueAsString(result));
+            return;
+        }
+        filterChain.doFilter(request, response);
+    }
 
-		// https://gitee.com/log4j/pig/issues/IWA0D
-		String mobile = request.get().getParameter("mobile");
-		if (StrUtil.isNotBlank(mobile)) {
-			randomStr = mobile;
-		}
+    /**
+     * 校验验证码
+     */
+    private void checkCode() throws ValidateCodeException {
+        Optional<HttpServletRequest> request = WebUtils.getRequest();
+        String code = request.get().getParameter("code");
 
-		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		if (!redisTemplate.hasKey(key)) {
-			throw new ValidateCodeException("验证码不合法");
-		}
+        if (StrUtil.isBlank(code)) {
+            throw new ValidateCodeException("验证码不能为空");
+        }
 
-		Object codeObj = redisTemplate.opsForValue().get(key);
+        String randomStr = request.get().getParameter("randomStr");
 
-		if (codeObj == null) {
-			throw new ValidateCodeException("验证码不合法");
-		}
+        // https://gitee.com/log4j/pig/issues/IWA0D
+        String mobile = request.get().getParameter("mobile");
+        if (StrUtil.isNotBlank(mobile)) {
+            randomStr = mobile;
+        }
 
-		String saveCode = codeObj.toString();
-		if (StrUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
+        String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
+        RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
+            throw new ValidateCodeException("验证码不合法");
+        }
 
-		if (!StrUtil.equals(saveCode, code)) {
-			redisTemplate.delete(key);
-			throw new ValidateCodeException("验证码不合法");
-		}
+        Object codeObj = redisTemplate.opsForValue().get(key);
 
-		redisTemplate.delete(key);
-	}
+        if (codeObj == null) {
+            throw new ValidateCodeException("验证码不合法");
+        }
+
+        String saveCode = codeObj.toString();
+        if (StrUtil.isBlank(saveCode)) {
+            redisTemplate.delete(key);
+            throw new ValidateCodeException("验证码不合法");
+        }
+
+        if (!StrUtil.equals(saveCode, code)) {
+            redisTemplate.delete(key);
+            throw new ValidateCodeException("验证码不合法");
+        }
+
+        redisTemplate.delete(key);
+    }
 
 }
