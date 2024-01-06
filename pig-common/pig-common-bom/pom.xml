@@ -15,7 +15,7 @@
 
     <properties>
         <pig.common.version>${project.version}</pig.common.version>
-        <spring-boot.version>2.7.16</spring-boot.version>
+        <spring-boot.version>2.7.18</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <log4j2.version>2.17.1</log4j2.version>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -26,7 +26,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <dynamic-ds.version>4.2.0</dynamic-ds.version>
         <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
@@ -36,7 +36,7 @@
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.22</hutool.version>
+        <hutool.version>5.8.23</hutool.version>
         <mica.version>2.7.4</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
     </properties>
