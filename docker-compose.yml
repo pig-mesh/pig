@@ -102,5 +102,4 @@ services:
 
 networks:
   spring_cloud_default:
-    name:  spring_cloud_default
     driver: bridge
