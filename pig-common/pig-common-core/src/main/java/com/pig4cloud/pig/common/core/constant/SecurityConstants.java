@@ -63,6 +63,11 @@ public interface SecurityConstants {
 	String REFRESH_TOKEN = "refresh_token";
 
 	/**
+	 * password 模式
+	 */
+	String PASSWORD = "password";
+
+	/**
 	 * 手机号登录
 	 */
 	String MOBILE = "mobile";
