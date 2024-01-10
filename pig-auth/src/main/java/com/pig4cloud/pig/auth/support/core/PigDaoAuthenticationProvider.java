@@ -20,6 +20,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
@@ -67,9 +68,9 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
-		// app 模式不用校验密码
+		// 只有密码模式需要校验密码
 		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (StrUtil.equals(SecurityConstants.MOBILE, grantType)) {
+		if (!StrUtil.equals(AuthorizationGrantType.PASSWORD.getValue(), grantType)) {
 			return;
 		}
 
