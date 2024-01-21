@@ -132,7 +132,7 @@ public class LocalFileTemplate implements FileTemplate {
 		return Arrays.stream(FileUtil.ls(dir)).filter(file -> file.getName().startsWith(prefix)).map(file -> {
 			S3ObjectSummary summary = new S3ObjectSummary();
 			summary.setKey(file.getName());
-			return new S3ObjectSummary();
+			return summary;
 		}).collect(Collectors.toList());
 	}
 
