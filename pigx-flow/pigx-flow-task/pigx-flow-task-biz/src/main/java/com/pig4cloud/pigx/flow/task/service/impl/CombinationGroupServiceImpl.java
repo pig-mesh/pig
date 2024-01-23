@@ -33,7 +33,7 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 
 	/**
 	 * 查询表单组包含流程
-	 * @param hidden
+	 * @param groupId groupId
 	 * @return 表单组数据
 	 */
 	@Override

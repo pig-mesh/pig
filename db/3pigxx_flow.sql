@@ -9,7 +9,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `process`;
 CREATE TABLE `process` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '表单ID',
@@ -40,7 +40,7 @@ CREATE TABLE `process` (
 DROP TABLE IF EXISTS `process_copy`;
 CREATE TABLE `process_copy` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `start_time` datetime NOT NULL COMMENT ' 流程发起时间',
@@ -67,7 +67,7 @@ CREATE TABLE `process_copy` (
 DROP TABLE IF EXISTS `process_group`;
 CREATE TABLE `process_group` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `group_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分组名',
@@ -88,7 +88,7 @@ CREATE TABLE `process_instance_record` (
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程名字',
   `logo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '头像',
   `user_id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程id',
@@ -112,7 +112,7 @@ CREATE TABLE `process_instance_record` (
 DROP TABLE IF EXISTS `process_node_data`;
 CREATE TABLE `process_node_data` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
@@ -130,7 +130,7 @@ CREATE TABLE `process_node_data` (
 DROP TABLE IF EXISTS `process_node_record`;
 CREATE TABLE `process_node_record` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
@@ -155,7 +155,7 @@ CREATE TABLE `process_node_record` (
 DROP TABLE IF EXISTS `process_node_record_assign_user`;
 CREATE TABLE `process_node_record_assign_user` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
@@ -184,7 +184,7 @@ CREATE TABLE `process_node_record_assign_user` (
 DROP TABLE IF EXISTS `process_starter`;
 CREATE TABLE `process_starter` (
   `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` tinyint(1) NOT NULL COMMENT '逻辑删除字段',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   `type_id` bigint NOT NULL COMMENT '用户id或者部门id',

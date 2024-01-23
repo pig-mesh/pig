@@ -76,13 +76,13 @@ public class Process {
 	 * 0 正常 1=隐藏
 	 */
 	@TableField("is_hidden")
-	private Boolean hidden;
+	private String hidden;
 
 	/**
 	 * 0 正常 1=停用
 	 */
 	@TableField("is_stop")
-	private Boolean stop;
+	private String stop;
 
 	/**
 	 * 流程管理员
