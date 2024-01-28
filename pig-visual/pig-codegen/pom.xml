@@ -22,7 +22,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-visual</artifactId>
-		<version>3.7.3</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>pig-codegen</artifactId>
