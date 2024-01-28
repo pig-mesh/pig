@@ -34,16 +34,6 @@ services:
     networks:
       - spring_cloud_default
 
-  pig-codegen:
-    build:
-      context: ./pig-visual/pig-codegen
-    restart: always
-    container_name: pig-codegen
-    hostname: pig-codegen
-    image: pig-codegen
-    networks:
-      - spring_cloud_default
-
 networks:
   spring_cloud_default:
     name:  spring_cloud_default
