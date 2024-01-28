@@ -54,8 +54,6 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 	private final GatewayConfigProperties configProperties;
 
-	private final ObjectMapper objectMapper;
-
 	private final RedisTemplate<String, Object> redisTemplate;
 
 	/**
@@ -89,7 +87,7 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 						CharsetUtil.CHARSET_UTF_8);
 				// 刷新请求跳过，直接向下执行
 				if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, requestBodyMap.get("grant_type"))) {
-					return chain.filter(exchange);
+					return chain.filter(exchange.mutate().request(serverHttpRequest).build());
 				}
 
 				// 根据 randomStr 参数判断验证码是否正常
