@@ -6,7 +6,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig-common-bom</artifactId>
-    <version>3.7.1-JDK8</version>
+    <version>3.7.4-JDK8</version>
     <packaging>pom</packaging>
 
     <name>pig-common-bom</name>
@@ -27,7 +27,7 @@
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
-        <dynamic-ds.version>4.2.0</dynamic-ds.version>
+        <dynamic-ds.version>4.3.0</dynamic-ds.version>
         <mysql.version>8.0.33</mysql.version>
         <seata.version>1.6.1</seata.version>
         <excel.version>1.2.6</excel.version>
