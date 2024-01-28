@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pig-visual</artifactId>
-		<version>3.7.4-JDK8</version>
+		<version>${revision}</version>
 	</parent>
 
 	<artifactId>pig-monitor</artifactId>

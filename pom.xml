@@ -22,11 +22,13 @@
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig</artifactId>
     <name>${project.artifactId}</name>
-    <version>3.7.4-JDK8</version>
+    <version>${revision}</version>
     <packaging>pom</packaging>
     <url>https://www.pig4cloud.com</url>
 
     <properties>
+        <!-- 项目版本号 -->
+        <revision>3.7.4-JDK8</revision>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
@@ -53,6 +55,7 @@
         <docker.password>password</docker.password>
         <git.commit.plugin>4.9.9</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.39</spring.checkstyle.plugin>
+        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
@@ -199,6 +202,32 @@
             </plugins>
         </pluginManagement>
         <plugins>
+            <!-- 统一 revision 版本 -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
+                <configuration>
+                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
+                    <updatePomFile>true</updatePomFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!--打包jar 与git commit 关联插件-->
             <plugin>
                 <groupId>io.github.git-commit-id</groupId>
