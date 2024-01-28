@@ -17,14 +17,14 @@
 package com.pig4cloud.pig.gateway.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import cn.hutool.http.HttpUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
-import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.gateway.config.GatewayConfigProperties;
 import lombok.RequiredArgsConstructor;
@@ -32,13 +32,15 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import reactor.core.publisher.Mono;
+
+import java.nio.CharBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * The type Validate code gateway filter.
@@ -56,66 +58,61 @@ public class ValidateCodeGatewayFilter extends AbstractGatewayFilterFactory<Obje
 
 	private final RedisTemplate<String, Object> redisTemplate;
 
+	/**
+	 * 应用网关过滤器
+	 * @param config 配置对象
+	 * @return 网关过滤器
+	 */
 	@Override
 	public GatewayFilter apply(Object config) {
+
 		return (exchange, chain) -> {
 			ServerHttpRequest request = exchange.getRequest();
-			boolean isAuthToken = CharSequenceUtil.containsAnyIgnoreCase(request.getURI().getPath(),
-					SecurityConstants.OAUTH_TOKEN_URL);
-
 			// 不是登录请求，直接向下执行
-			if (!isAuthToken) {
+			if (!StrUtil.containsAnyIgnoreCase(request.getURI().getPath(), SecurityConstants.OAUTH_TOKEN_URL)) {
 				return chain.filter(exchange);
 			}
 
-			// 刷新token，手机号登录（也可以这里进行校验） 直接向下执行
-			String grantType = request.getQueryParams().getFirst("grant_type");
-			if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
-				return chain.filter(exchange);
-			}
-
+			// 客户端配置跳过，直接向下执行
 			boolean isIgnoreClient = configProperties.getIgnoreClients().contains(WebUtils.getClientId(request));
-			try {
-				// only oauth and the request not in ignore clients need check code.
-				if (!isIgnoreClient) {
-					checkCode(request);
+			if (isIgnoreClient) {
+				return chain.filter(exchange);
+			}
+
+			// 构建缓存body，可重复读获取form data
+			return ServerWebExchangeUtils.cacheRequestBody(exchange, (serverHttpRequest) -> {
+				// get cacheRequestBody
+				DataBuffer cachedRequestBody = exchange.getAttribute("cachedRequestBody");
+				CharBuffer charBuffer = StandardCharsets.UTF_8
+					.decode(Objects.requireNonNull(cachedRequestBody).asByteBuffer());
+				Map<String, String> requestBodyMap = HttpUtil.decodeParamMap(charBuffer.toString(),
+						CharsetUtil.CHARSET_UTF_8);
+				// 刷新请求跳过，直接向下执行
+				if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, requestBodyMap.get("grant_type"))) {
+					return chain.filter(exchange);
 				}
-			}
-			catch (Exception e) {
-				ServerHttpResponse response = exchange.getResponse();
-				response.setStatusCode(HttpStatus.PRECONDITION_REQUIRED);
-				response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
 
-				final String errMsg = e.getMessage();
-				return response.writeWith(Mono.create(monoSink -> {
-					try {
-						byte[] bytes = objectMapper.writeValueAsBytes(R.failed(errMsg));
-						DataBuffer dataBuffer = response.bufferFactory().wrap(bytes);
+				// 根据 randomStr 参数判断验证码是否正常
+				String code = requestBodyMap.get("code");
+				String randomStr = requestBodyMap.getOrDefault("randomStr",
+						requestBodyMap.get(SecurityConstants.SMS_PARAMETER_NAME));
+				checkCode(code, randomStr);
 
-						monoSink.success(dataBuffer);
-					}
-					catch (JsonProcessingException jsonProcessingException) {
-						log.error("对象输出异常", jsonProcessingException);
-						monoSink.error(jsonProcessingException);
-					}
-				}));
-			}
-
-			return chain.filter(exchange);
+				return chain.filter(exchange.mutate().request(serverHttpRequest).build());
+			});
 		};
 	}
 
+	/**
+	 * 检查验证码，错误扔出 ValidateCodeException GlobalExceptionHandler统一处理
+	 * @param code 验证码
+	 * @param randomStr 请求参数
+	 * @throws ValidateCodeException 验证码异常
+	 */
 	@SneakyThrows
-	private void checkCode(ServerHttpRequest request) {
-		String code = request.getQueryParams().getFirst("code");
-
+	private void checkCode(String code, String randomStr) {
 		if (CharSequenceUtil.isBlank(code)) {
 			throw new ValidateCodeException("验证码不能为空");
-		}
-
-		String randomStr = request.getQueryParams().getFirst("randomStr");
-		if (CharSequenceUtil.isBlank(randomStr)) {
-			randomStr = request.getQueryParams().getFirst(SecurityConstants.SMS_PARAMETER_NAME);
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
