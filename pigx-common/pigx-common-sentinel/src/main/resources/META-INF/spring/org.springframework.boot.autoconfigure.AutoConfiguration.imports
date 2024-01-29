@@ -1,2 +1,1 @@
-com.pig4cloud.pigx.common.sentinel.SentinelAutoConfiguration
-com.pig4cloud.pigx.common.sentinel.handle.GlobalBizExceptionHandler
+com.pig4cloud.pigx.common.sentinel.PigxSentinelAutoConfiguration

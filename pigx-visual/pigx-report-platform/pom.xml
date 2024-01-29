@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>0.2.2</goview.version>
+        <goview.version>1.0.0-SNAPSHOT</goview.version>
     </properties>
 
     <dependencies>
@@ -34,7 +34,7 @@
         <!-- goview 数据可视化-->
         <dependency>
             <groupId>io.springboot.plugin</groupId>
-            <artifactId>goview-spring-boot-starter</artifactId>
+            <artifactId>goview-spring-boot3-starter</artifactId>
             <version>${goview.version}</version>
         </dependency>
 

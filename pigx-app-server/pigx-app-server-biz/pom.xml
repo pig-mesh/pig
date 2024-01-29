@@ -72,7 +72,7 @@
 		<!--选配: mybatis 依赖 -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
 		</dependency>
 		<!--选配： druid 连接池 -->
 		<dependency>

@@ -13,14 +13,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import reactor.core.publisher.Mono;
 
 /**
  * @author lengleng
  * @date 2023-07-30
  * <p>
- * 网关异常通用处理器，只作用在webflux 环境下 , 优先级低于 {@link ResponseStatusExceptionHandler} 执行
+ * 网关异常通用处理器，只作用在webflux 环境下 , 优先级低于 ReactiveNoResourceFoundHandler 执行
  */
 @Slf4j
 @Order(-1)
@@ -47,7 +46,7 @@ public class GlobalExceptionConfiguration implements ErrorWebExceptionHandler {
 		return response.writeWith(Mono.fromSupplier(() -> {
 			DataBufferFactory bufferFactory = response.bufferFactory();
 			try {
-				log.error("Error rquest :{} Error Spring Cloud Gateway : {}", exchange.getRequest().getPath(),
+				log.error("Error request :{} Error Spring Cloud Gateway : {}", exchange.getRequest().getPath(),
 						ex.getMessage());
 				return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
 			}

@@ -35,6 +35,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
@@ -71,14 +72,14 @@ public class AuthorizationServerConfiguration {
 			PigxAuthenticationFailureEventHandler failureEventHandler) throws Exception {
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 
-		http.apply(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
+		http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
 			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
 				.accessTokenResponseHandler(successEventHandler) // 登录成功处理器
 				.errorResponseHandler(failureEventHandler);// 登录失败处理器
 		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
 		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(failureEventHandler))// 处理客户端认证异常
 			.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)));
+				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)),Customizer.withDefaults());
 
 		AntPathRequestMatcher[] requestMatchers = new AntPathRequestMatcher[] {
 				AntPathRequestMatcher.antMatcher("/token/**"), AntPathRequestMatcher.antMatcher("/actuator/**"),
@@ -89,10 +90,10 @@ public class AuthorizationServerConfiguration {
 			authorizeRequests.requestMatchers(requestMatchers).permitAll();
 			authorizeRequests.anyRequest().authenticated();
 		})
-			.apply(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
 				.authorizationServerSettings(
-						AuthorizationServerSettings.builder().issuer(SecurityConstants.PIGX_LICENSE).build()));
-		http.apply(new FormIdentityLoginConfigurer());
+						AuthorizationServerSettings.builder().issuer(SecurityConstants.PIGX_LICENSE).build()), Customizer.withDefaults());
+		http.with(new FormIdentityLoginConfigurer(), Customizer.withDefaults());
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 
 		// 注入自定义授权模式实现

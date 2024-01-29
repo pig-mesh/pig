@@ -20,10 +20,10 @@ package com.pig4cloud.pigx.daemon.quartz.config;
 import com.pig4cloud.pigx.daemon.quartz.constants.PigxQuartzEnum;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobService;
 import com.pig4cloud.pigx.daemon.quartz.util.TaskUtil;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -33,8 +33,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Slf4j
 @Configuration
-@AllArgsConstructor
-public class PigxInitQuartzJob {
+@RequiredArgsConstructor
+public class PigxInitQuartzJob implements InitializingBean {
 
 	private final SysJobService sysJobService;
 
@@ -42,22 +42,22 @@ public class PigxInitQuartzJob {
 
 	private final Scheduler scheduler;
 
-	@Bean
-	public void customize() {
-		sysJobService.list().forEach(sysjob -> {
-			if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
-				taskUtil.removeJob(sysjob, scheduler);
-			}
-			else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
-				taskUtil.resumeJob(sysjob, scheduler);
-			}
-			else if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
-				taskUtil.pauseJob(sysjob, scheduler);
-			}
-			else {
-				taskUtil.removeJob(sysjob, scheduler);
-			}
-		});
-	}
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        sysJobService.list().forEach(sysjob -> {
+            if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
+                taskUtil.removeJob(sysjob, scheduler);
+            }
+            else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
+                taskUtil.resumeJob(sysjob, scheduler);
+            }
+            else if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
+                taskUtil.pauseJob(sysjob, scheduler);
+            }
+            else {
+                taskUtil.removeJob(sysjob, scheduler);
+            }
+        });
+    }
 }
