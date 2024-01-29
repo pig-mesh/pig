@@ -1078,7 +1078,7 @@ CREATE TABLE `sys_schedule` (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
   `tenant_id` bigint(20) unsigned DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统日程管理表';
 
 -- ----------------------------
 -- Records of sys_schedule
