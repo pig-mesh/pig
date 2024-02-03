@@ -42,7 +42,7 @@
 |-----------------------------|------------|
 | Spring Boot                 | 2.7.18     |
 | Spring Cloud                | 2021.0.8   |
-| Spring Cloud Alibaba        | 2021.0.5.0 |
+| Spring Cloud Alibaba        | 2021.0.6.0 |
 | Spring Authorization Server | 0.4.4      |
 | Mybatis Plus                | 3.5.5      |
 | hutool                      | 5.8.22     |
