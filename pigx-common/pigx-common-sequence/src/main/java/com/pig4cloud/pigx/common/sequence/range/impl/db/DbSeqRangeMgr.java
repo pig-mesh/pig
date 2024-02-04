@@ -1,10 +1,12 @@
 package com.pig4cloud.pigx.common.sequence.range.impl.db;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.pig4cloud.pigx.common.sequence.exception.SeqException;
 import com.pig4cloud.pigx.common.sequence.range.SeqRange;
 import com.pig4cloud.pigx.common.sequence.range.SeqRangeMgr;
 
 import javax.sql.DataSource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * DB区间管理器
@@ -60,7 +62,9 @@ public class DbSeqRangeMgr implements SeqRangeMgr {
 			if (BaseDbHelper.updateRange(getDataSource(), getRealTableName(), newValue, oldValue, name)) {
 				return new SeqRange(oldValue + 1, newValue);
 			}
-			// else 失败重试
+
+			// else 1秒后 失败重试
+			ThreadUtil.sleep(1, TimeUnit.SECONDS);
 		}
 
 		throw new SeqException("Retried too many times, retryTimes = " + getRetryTimes());
