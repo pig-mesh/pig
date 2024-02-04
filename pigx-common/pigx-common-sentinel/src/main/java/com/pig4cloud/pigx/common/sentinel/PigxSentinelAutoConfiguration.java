@@ -23,14 +23,12 @@ import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginPars
 import com.pig4cloud.pigx.common.sentinel.feign.PigxSentinelFeign;
 import com.pig4cloud.pigx.common.sentinel.handle.GlobalBizExceptionHandler;
 import com.pig4cloud.pigx.common.sentinel.handle.PigxUrlBlockHandler;
-import com.pig4cloud.pigx.common.sentinel.handle.ReactiveNoResourceFoundHandler;
-import com.pig4cloud.pigx.common.sentinel.handle.WebNoResourceFoundHandler;
 import com.pig4cloud.pigx.common.sentinel.parser.PigxHeaderRequestOriginParser;
 import feign.Feign;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
@@ -77,28 +75,11 @@ public class PigxSentinelAutoConfiguration {
      * 创建一个全局业务异常处理器实例
      * 用于处理全局的业务异常
      */
+    @Bean
+    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
     public GlobalBizExceptionHandler globalBizExceptionHandler() {
         return new GlobalBizExceptionHandler();
     }
 
-    /**
-     * 创建一个响应式资源未找到异常处理器实例
-     * 如果存在org.springframework.web.reactive.resource.NoResourceFoundException类，则创建一个ReactiveNoResourceFoundHandler实例
-     */
-    @Bean
-    @ConditionalOnClass(name = {"org.springframework.web.reactive.resource.NoResourceFoundException"})
-    public ReactiveNoResourceFoundHandler reactiveNoResourceFoundHandler() {
-        return new ReactiveNoResourceFoundHandler();
-    }
-
-    /**
-     * 创建一个Web资源未找到异常处理器实例
-     * 如果存在org.springframework.web.servlet.resource.NoResourceFoundException类，则创建一个WebNoResourceFoundHandler实例
-     */
-    @Bean
-    @ConditionalOnClass(name = {"org.springframework.web.servlet.resource.NoResourceFoundException"})
-    public WebNoResourceFoundHandler webNoResourceFoundHandler() {
-        return new WebNoResourceFoundHandler();
-    }
 
 }

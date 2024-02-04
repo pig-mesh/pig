@@ -28,6 +28,7 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.List;
 
@@ -36,7 +37,6 @@ import java.util.List;
  * @date 2020-06-29
  */
 @Slf4j
-@RestController
 @RestControllerAdvice
 public class GlobalBizExceptionHandler {
 
@@ -107,6 +107,22 @@ public class GlobalBizExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	public R noHandlerFoundException() {
 		return R.failed(HttpStatus.NOT_FOUND.getReasonPhrase());
+	}
+
+	/**
+	 * 保持和低版本请求路径不存在的行为一致
+	 * <p>
+	 * <a href="https://github.com/spring-projects/spring-boot/issues/38733">[Spring Boot
+	 * 3.2.0] 404 Not Found behavior #38733</a>
+	 *
+	 * @param exception
+	 * @return R
+	 */
+	@ExceptionHandler({NoResourceFoundException.class})
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public R noResourceFoundException(NoResourceFoundException exception) {
+		log.debug("请求路径 404 {}", exception.getMessage());
+		return R.failed(exception.getMessage());
 	}
 
 }
