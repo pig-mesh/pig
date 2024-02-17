@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.admin.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
@@ -30,10 +31,13 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -43,44 +47,60 @@ import java.util.Map;
 @AllArgsConstructor
 @Service("sysSocialDetailsService")
 public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMapper, SysSocialDetails>
-		implements SysSocialDetailsService {
+        implements SysSocialDetailsService {
 
-	private final Map<String, LoginHandler> loginHandlerMap;
+    private final Map<String, LoginHandler> loginHandlerMap;
 
-	private final CacheManager cacheManager;
+    private final CacheManager cacheManager;
 
-	private final SysUserMapper sysUserMapper;
+    private final SysUserMapper sysUserMapper;
 
-	/**
-	 * 绑定社交账号
-	 * @param type type
-	 * @param code code
-	 * @return
-	 */
-	@Override
-	public Boolean bindSocial(String type, String code) {
-		LoginHandler loginHandler = loginHandlerMap.get(type);
-		// 绑定逻辑
-		String identify = loginHandler.identify(code);
-		SysUser sysUser = sysUserMapper.selectById(SecurityUtils.getUser().getId());
-		loginHandler.bind(sysUser, identify);
+    /**
+     * 绑定社交账号
+     *
+     * @param type type
+     * @param code code
+     * @return
+     */
+    @Override
+    public Boolean bindSocial(String type, String code) {
+        LoginHandler loginHandler = loginHandlerMap.get(type);
+        // 绑定逻辑
+        String identify = loginHandler.identify(code);
+        SysUser sysUser = sysUserMapper.selectById(SecurityUtils.getUser().getId());
+        loginHandler.bind(sysUser, identify);
 
-		// 更新緩存
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(sysUser.getUsername());
-		return Boolean.TRUE;
-	}
+        // 更新緩存
+        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(sysUser.getUsername());
+        return Boolean.TRUE;
+    }
 
-	/**
-	 * 根据入参查询用户信息
-	 * @param inStr TYPE@code
-	 * @return
-	 */
-	@Override
-	public UserInfo getUserInfo(String inStr) {
-		String[] inStrs = inStr.split(StringPool.AT);
-		String type = inStrs[0];
-		String loginStr = inStr.substring(type.length() + 1);
-		return loginHandlerMap.get(type).handle(loginStr);
-	}
+    /**
+     * 根据入参查询用户信息
+     *
+     * @param inStr TYPE@code
+     * @return
+     */
+    @Override
+    public UserInfo getUserInfo(String inStr) {
+        String[] inStrs = inStr.split(StringPool.AT);
+        String type = inStrs[0];
+        String loginStr = inStr.substring(type.length() + 1);
+        return loginHandlerMap.get(type).handle(loginStr);
+    }
 
+    /**
+     * 查询当前租户下的三方应用信息 ，脱敏 appSecret
+     *
+     * @return List<SysSocialDetails>
+     */
+    @Override
+    public List<SysSocialDetails> selectList() {
+        List<SysSocialDetails> sysSocialDetailsList = baseMapper.selectList(Wrappers.query());
+        return sysSocialDetailsList.stream().map(sysSocialDetails -> {
+            SysSocialDetails newSysSocialDetails = new SysSocialDetails();
+            BeanUtils.copyProperties(sysSocialDetails, newSysSocialDetails, SysSocialDetails.Fields.appSecret);
+            return newSysSocialDetails;
+        }).collect(Collectors.toList());
+    }
 }

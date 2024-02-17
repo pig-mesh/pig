@@ -66,6 +66,16 @@ public class SysSocialDetailsController {
 	}
 
 	/**
+	 * 获取当前租户的三方登录列表
+	 * @return R List
+	 */
+	@Inner(value = false)
+	@GetMapping("/getLoginAppList")
+	public R getLoginAppList(){
+		return R.ok(sysSocialDetailsService.selectList());
+	}
+
+	/**
 	 * 信息
 	 * @param type 类型
 	 * @return R

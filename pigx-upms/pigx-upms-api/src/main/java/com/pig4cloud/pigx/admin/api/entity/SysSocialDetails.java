@@ -27,6 +27,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import jakarta.validation.constraints.NotBlank;
+import lombok.experimental.FieldNameConstants;
+
 import java.time.LocalDateTime;
 
 /**
@@ -36,7 +38,7 @@ import java.time.LocalDateTime;
  * @date 2018-08-16 21:30:41
  */
 @Data
-@TenantTable
+@FieldNameConstants
 @Schema(description = "第三方账号信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysSocialDetails extends Model<SysSocialDetails> {

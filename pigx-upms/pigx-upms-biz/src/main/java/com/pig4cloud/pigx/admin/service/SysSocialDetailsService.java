@@ -21,6 +21,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 
+import java.util.List;
+
 /**
  * 系统社交登录账号表
  *
@@ -44,4 +46,5 @@ public interface SysSocialDetailsService extends IService<SysSocialDetails> {
 	 */
 	UserInfo getUserInfo(String inStr);
 
+    List<SysSocialDetails> selectList();
 }
