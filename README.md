@@ -47,7 +47,8 @@
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.1      |
 | Mybatis Plus                | 3.5.5      |
-| hutool                      | 5.8.23     |
+| Vue                      | 3.4     |
+| Element Plus                      | 2.5     |
 
 ### 模块说明
 
