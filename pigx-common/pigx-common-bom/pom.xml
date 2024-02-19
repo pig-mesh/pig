@@ -23,7 +23,7 @@
         <dynamic-ds.version>4.3.0</dynamic-ds.version>
         <druid.version>1.2.20</druid.version>
         <hutool.version>5.8.23</hutool.version>
-        <mysql.connector.version>8.0.33</mysql.connector.version>
+        <mysql.connector.version>8.3.0</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.192</dm.version>
@@ -31,12 +31,12 @@
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
-        <mp.weixin.version>4.4.0</mp.weixin.version>
-        <ijpay.version>2.9.6-17</ijpay.version>
+        <mp.weixin.version>4.6.0</mp.weixin.version>
+        <ijpay.version>2.9.10-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <javax.version>4.0.1</javax.version>
-        <jsoup.version>1.13.1</jsoup.version>
-        <aviator.version>5.3.3</aviator.version>
+        <jsoup.version>1.15.3</jsoup.version>
+        <aviator.version>5.4.1</aviator.version>
         <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>

@@ -61,7 +61,7 @@ public class XssUtil {
 	 *
 	 * @author michael
 	 */
-	public static class HtmlWhitelist extends org.jsoup.safety.Whitelist {
+	public static class HtmlWhitelist extends org.jsoup.safety.Safelist {
 
 		public HtmlWhitelist() {
 			addTags("a", "b", "blockquote", "br", "caption", "cite", "code", "col", "colgroup", "dd", "div", "span",

@@ -57,7 +57,7 @@
         <ttl.version>2.12.6</ttl.version>
         <jaxb.version>2.3.5</jaxb.version>
         <jimu.version>1.6.6-beta2</jimu.version>
-        <aws.version>1.11.543</aws.version>
+        <aws.version>1.12.261</aws.version>
         <xxl.job.version>2.4.0</xxl.job.version>
         <activiti.version>5.22.0</activiti.version>
         <docker.registry>172.17.0.111</docker.registry>
