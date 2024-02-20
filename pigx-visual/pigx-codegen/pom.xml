@@ -18,6 +18,7 @@
         <magic.version>2.0.2</magic.version>
         <screw.version>0.0.3</screw.version>
         <db2.version>11.5.0.0</db2.version>
+        <anyline.version>8.7.1-jdk17-20232101</anyline.version>
         <configuration.version>1.10</configuration.version>
     </properties>
 
@@ -86,6 +87,22 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
+        <!--anyline-->
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-data-jdbc-mysql</artifactId>
+            <version>${anyline.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-data-jdbc-postgresql</artifactId>
+            <version>${anyline.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-data-jdbc-dm</artifactId>
+            <version>${anyline.version}</version>
         </dependency>
         <!--common-->
         <dependency>
