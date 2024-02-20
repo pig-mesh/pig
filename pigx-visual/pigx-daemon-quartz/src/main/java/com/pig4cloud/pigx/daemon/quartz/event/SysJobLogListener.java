@@ -26,6 +26,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
  * @author frwcloud 异步监听定时任务日志事件
  */
@@ -41,7 +43,10 @@ public class SysJobLogListener {
 	@EventListener(SysJobLogEvent.class)
 	public void saveSysJobLog(SysJobLogEvent event) {
 		SysJobLog sysJobLog = event.getSysJobLog();
-		sysJobLogService.save(sysJobLog);
+		// 只保存发布状态的任务日志
+		if (Objects.nonNull(sysJobLog.getJobId())){
+			sysJobLogService.save(sysJobLog);
+		}
 		log.info("执行定时任务日志");
 	}
 
