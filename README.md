@@ -45,7 +45,7 @@
 | Spring Boot                 | 3.2.2      |
 | Spring Cloud                | 2023.0.0   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
-| Spring Authorization Server | 1.2.1      |
+| Spring Authorization Server | 1.2.2      |
 | Mybatis Plus                | 3.5.5      |
 | Vue                      | 3.4     |
 | Element Plus                      | 2.5     |
