@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-app-server</artifactId>
-		<version>5.3.0</version>
+		<version>5.4.0</version>
 	</parent>
 
 	<artifactId>pigx-app-server-biz</artifactId>
@@ -62,7 +62,7 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-app-server-api</artifactId>
-			<version>5.3.0</version>
+			<version>5.4.0</version>
 		</dependency>
 		<!--必备: log 依赖-->
 		<dependency>
