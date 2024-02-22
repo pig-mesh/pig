@@ -31,7 +31,7 @@ CREATE TABLE `process` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `idx_form_id` (`flow_id`) USING BTREE,
   KEY `idx_id` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程定义数据';
 
 
 -- ----------------------------
@@ -75,7 +75,7 @@ CREATE TABLE `process_group` (
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_id` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程分组';
 
 
 
