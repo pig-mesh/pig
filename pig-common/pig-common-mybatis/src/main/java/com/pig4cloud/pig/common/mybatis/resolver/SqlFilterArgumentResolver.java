@@ -20,6 +20,7 @@ package com.pig4cloud.pig.common.mybatis.resolver;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +45,6 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
-
-	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
-			"alter", "drop", "sleep", "extractvalue", "concat" };
 
 	/**
 	 * 判断Controller是否包含page 参数
@@ -90,21 +88,13 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Optional.ofNullable(ascs)
 			.ifPresent(s -> orderItemList.addAll(
-					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
+					Arrays.stream(s).filter(SqlInjectionUtils::check).map(OrderItem::asc).collect(Collectors.toList())));
 		Optional.ofNullable(descs)
 			.ifPresent(s -> orderItemList.addAll(
-					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
+					Arrays.stream(s).filter(SqlInjectionUtils::check).map(OrderItem::desc).collect(Collectors.toList())));
 		page.addOrder(orderItemList);
 
 		return page;
-	}
-
-	/**
-	 * 判断用户输入里面有没有关键字
-	 * @return Predicate
-	 */
-	private Predicate<String> sqlInjectPredicate() {
-		return sql -> Arrays.stream(KEYWORDS).noneMatch(keyword -> StrUtil.containsIgnoreCase(sql, keyword));
 	}
 
 }
