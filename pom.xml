@@ -29,14 +29,14 @@
     <properties>
         <!-- 项目版本号 -->
         <revision>3.7.4</revision>
-        <spring-boot.version>3.2.2</spring-boot.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.2.1</spring-boot-admin.version>
-        <spring.authorization.version>1.2.1</spring.authorization.version>
+        <spring-boot-admin.version>3.2.2</spring-boot-admin.version>
+        <spring.authorization.version>1.2.2</spring.authorization.version>
         <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.3</captcha.version>
         <aws.version>1.12.261</aws.version>
