@@ -42,7 +42,7 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.2.2      |
+| Spring Boot                 | 3.2.3      |
 | Spring Cloud                | 2023.0.0   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.2      |
