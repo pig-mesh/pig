@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>1.0.0-SNAPSHOT</goview.version>
+        <goview.version>1.0.0</goview.version>
     </properties>
 
     <dependencies>
