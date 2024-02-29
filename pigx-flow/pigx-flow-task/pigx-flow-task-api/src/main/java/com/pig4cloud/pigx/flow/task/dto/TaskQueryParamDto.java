@@ -18,12 +18,12 @@ public class TaskQueryParamDto {
 	/**
 	 * 页码
 	 */
-	private Integer pageNum;
+	private Integer current;
 
 	/**
 	 * 每页的数量
 	 */
-	private Integer pageSize;
+	private Integer size;
 
 	/**
 	 * 流程名称

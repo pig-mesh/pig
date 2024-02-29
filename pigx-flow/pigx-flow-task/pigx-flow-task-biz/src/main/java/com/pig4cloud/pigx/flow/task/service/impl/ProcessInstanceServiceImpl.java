@@ -239,7 +239,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 					ArrayUtil.isNotEmpty(taskQueryParamDto.getTaskTime()) ? taskQueryParamDto.getTaskTime()[0] : null,
 					ArrayUtil.isNotEmpty(taskQueryParamDto.getTaskTime()) ? taskQueryParamDto.getTaskTime()[1] : null)
 			.orderByDesc(ProcessInstanceRecord::getCreateTime)
-			.page(new Page<>(taskQueryParamDto.getPageNum(), taskQueryParamDto.getPageSize()));
+			.page(new Page<>(taskQueryParamDto.getCurrent(), taskQueryParamDto.getSize()));
 
 		return R.ok(instanceRecordPage);
 	}
@@ -260,7 +260,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 					ArrayUtil.isNotEmpty(taskQueryParamDto.getTaskTime()) ? taskQueryParamDto.getTaskTime()[0] : null,
 					ArrayUtil.isNotEmpty(taskQueryParamDto.getTaskTime()) ? taskQueryParamDto.getTaskTime()[1] : null)
 			.orderByDesc(ProcessCopy::getNodeTime)
-			.page(new Page<>(taskQueryParamDto.getPageNum(), taskQueryParamDto.getPageSize()));
+			.page(new Page<>(taskQueryParamDto.getCurrent(), taskQueryParamDto.getSize()));
 
 		List<ProcessCopy> records = page.getRecords();
 
