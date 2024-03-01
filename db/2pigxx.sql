@@ -1078,6 +1078,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 9063);
 INSERT INTO `sys_role_menu` VALUES (1, 9064);
 INSERT INTO `sys_role_menu` VALUES (1, 9065);
 INSERT INTO `sys_role_menu` VALUES (1, 9070);
+INSERT INTO `sys_role_menu` VALUES (1, 9071);
 INSERT INTO `sys_role_menu` VALUES (1, 9900);
 INSERT INTO `sys_role_menu` VALUES (1, 9910);
 INSERT INTO `sys_role_menu` VALUES (1, 9911);
