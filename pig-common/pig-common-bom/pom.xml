@@ -29,7 +29,7 @@
         <mysql.version>8.0.33</mysql.version>
         <dynamic-ds.version>4.3.0</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
-        <excel.version>3.1.0</excel.version>
+        <excel.version>3.2.0</excel.version>
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
