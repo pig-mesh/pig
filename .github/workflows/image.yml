@@ -5,9 +5,7 @@ name: PIG 镜像 action
 
 on:
   push:
-    branches: [ jdk17,jdk17-dev ]
-  pull_request:
-    branches: [ jdk17,jdk17-dev ]
+    branches: [ jdk17 ]
 
 jobs:
   build:
