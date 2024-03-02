@@ -20,6 +20,7 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HttpUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
@@ -61,7 +62,7 @@ public class SysLogUtils {
 		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
 		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		sysLog.setCreateBy(getUsername());
-		sysLog.setServiceId(getClientId());
+		sysLog.setServiceId(SpringUtil.getProperty("spring.application.name"));
 
 		// get 参数脱敏
 		PigLogProperties logProperties = SpringContextHolder.getBean(PigLogProperties.class);
@@ -113,24 +114,6 @@ public class SysLogUtils {
 			context.setVariable(parameterNames[i], arguments[i]);
 		}
 		return context;
-	}
-
-	/**
-	 * 获取客户端
-	 * @return clientId
-	 */
-	private String getClientId() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof OAuth2AuthenticatedPrincipal) {
-			OAuth2AuthenticatedPrincipal auth2Authentication = (OAuth2AuthenticatedPrincipal) principal;
-			return MapUtil.getStr(auth2Authentication.getAttributes(), SecurityConstants.CLIENT_ID);
-		}
-		return null;
 	}
 
 }
