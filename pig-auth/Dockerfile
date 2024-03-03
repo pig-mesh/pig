@@ -1,4 +1,4 @@
-FROM alibabadragonwell/dragonwell:17-anolis
+FROM alibabadragonwell/dragonwell:21-anolis
 
 WORKDIR /pig-auth
 
