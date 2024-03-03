@@ -14,7 +14,7 @@
 
     <description>pigx xss 安全过滤插件 基于 JSOUP</description>
     <properties>
-        <jsoup.version>1.15.3</jsoup.version>
+        <jsoup.version>1.17.2</jsoup.version>
     </properties>
 
     <dependencies>
