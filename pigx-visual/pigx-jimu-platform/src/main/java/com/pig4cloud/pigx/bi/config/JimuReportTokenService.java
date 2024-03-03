@@ -12,7 +12,6 @@ import org.jeecg.modules.jmreport.api.JmReportTokenServiceI;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,8 +55,9 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 	@Override
 	public Boolean verifyToken(String token) {
 		// 分割出 PIGX 的租户信息
-		List<String> splitList = StrUtil.split(token, CharUtil.UNDERLINE);
-		R<Map<String, Object>> result = tokenService.queryToken(splitList.get(1), splitList.get(0) , SecurityConstants.FROM_IN);
+		String tenant = StrUtil.subBefore(token, CharUtil.UNDERLINE, false);
+		String tokenStr = StrUtil.subAfter(token, CharUtil.UNDERLINE, false);
+		R<Map<String, Object>> result = tokenService.queryToken(tokenStr,tenant , SecurityConstants.FROM_IN);
 		if (CommonConstants.SUCCESS.equals(result.getCode())) {
 			return true;
 		}

@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>com.pig4cloud</groupId>
 		<artifactId>pigx-visual</artifactId>
-		<version>5.3.0</version>
+		<version>5.4.0</version>
 	</parent>
 
 	<artifactId>pigx-daemon-elastic-job</artifactId>
@@ -55,7 +55,7 @@
 		<!--mybatis-->
 		<dependency>
 			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>com.mysql</groupId>

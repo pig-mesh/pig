@@ -21,6 +21,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ import java.time.LocalDateTime;
  * @date 2022-12-07 09:52:03
  */
 @Data
+@TenantTable
 @TableName("app_role")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "app角色表")

@@ -61,7 +61,8 @@ public class SysLogUtils {
 		sysLog.setRemoteAddr(JakartaServletUtil.getClientIP(request));
 		sysLog.setUserAgent(request.getHeader(HttpHeaders.USER_AGENT));
 		sysLog.setCreateBy(getUsername());
-		sysLog.setServiceId(getClientId());
+		// 获取服务名称
+		sysLog.setServiceId(SpringUtil.getProperty("spring.application.name"));
 
 		// get 参数脱敏
 		PigxLogProperties logProperties = SpringUtil.getBean(PigxLogProperties.class);

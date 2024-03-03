@@ -177,8 +177,8 @@ public class EngineFlowController {
 		}
 
 		List<HistoricActivityInstance> list = activityInstanceQuery.listPage(
-				(taskQueryParamDto.getPageNum() - 1) * taskQueryParamDto.getPageSize(),
-				taskQueryParamDto.getPageSize());
+				(taskQueryParamDto.getCurrent() - 1) * taskQueryParamDto.getSize(),
+				taskQueryParamDto.getSize());
 
 		long count = activityInstanceQuery.count();
 		List<TaskDto> taskDtoList = new ArrayList<>();
@@ -230,8 +230,8 @@ public class EngineFlowController {
 
 		List<TaskDto> taskDtoList = new ArrayList<>();
 
-		int pageIndex = taskQueryParamDto.getPageNum() - 1;
-		int pageSize = taskQueryParamDto.getPageSize();
+		int pageIndex = taskQueryParamDto.getCurrent() - 1;
+		int pageSize = taskQueryParamDto.getSize();
 
 		Page<TaskDto> pageResultDto = new Page<>();
 		TaskQuery taskQuery = taskService.createTaskQuery().taskAssignee(assign).orderByTaskCreateTime().desc();

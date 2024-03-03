@@ -27,7 +27,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
-import com.pig4cloud.pigx.admin.api.vo.RoleVO;
+import com.pig4cloud.pigx.admin.api.vo.RoleMenuVO;
 import com.pig4cloud.pigx.admin.mapper.SysRoleMapper;
 import com.pig4cloud.pigx.admin.service.SysRoleMenuService;
 import com.pig4cloud.pigx.admin.service.SysRoleService;
@@ -102,7 +102,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return
 	 */
 	@Override
-	public Boolean updateRoleMenus(RoleVO roleVo) {
+	public Boolean updateRoleMenus(RoleMenuVO roleVo) {
 		return roleMenuService.saveRoleMenus(roleVo.getRoleId(), roleVo.getMenuIds());
 	}
 

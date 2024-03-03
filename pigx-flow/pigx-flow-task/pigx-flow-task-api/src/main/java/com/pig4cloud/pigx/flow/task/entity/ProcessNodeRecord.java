@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.flow.task.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -18,6 +19,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
+@TenantTable
 @Accessors(chain = true)
 @TableName("process_node_record")
 public class ProcessNodeRecord {

@@ -131,10 +131,6 @@
 <#include "./template/list.ftl">
 <div id="app" style="padding-left: 30px">
     <div class="layout" style="margin-left: -30px;margin-top: -10px;">
-<#--      <div style="background-color: #1890FF;height: 47px">-->
-<#--        <span class="aui-logo"></span>-->
-<#--        <span class="jimu-header">欢迎进入积木报表工作台 </span>-->
-<#--      </div>-->
         <Layout>
             <Sider breakpoint="md" collapsible :collapsed-width="78" v-model="isCollapsed">
                 <i-menu theme="primary" width="auto" :class="menuitemClasses" active-name="datainfo" :open-names="['sub']" @on-select="onMenuSelect">
@@ -147,6 +143,10 @@
                             <Icon type="md-list"/></Icon>
                             <span>数据报表</span>
                         </Menu-Item>
+<#--                        <Menu-Item name="chartinfo">-->
+<#--                            <Icon type="md-images"></Icon>-->
+<#--                            <span>图形报表</span>-->
+<#--                        </Menu-Item>-->
                         <Menu-Item name="printinfo">
                             <Icon type="md-print"></Icon>
                             <span>打印设计</span>
@@ -588,6 +588,10 @@
                 if (name != null && name != ""){
                     that.tabpan = name;
                     that.page={page: 1,size: 10,total: 0,};
+                }
+                //查询报表名称加trim
+                if(that.name){
+                    that.name = that.name.trim();
                 }
                 var url = "";
                 that.dataSource=[];

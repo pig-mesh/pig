@@ -23,12 +23,12 @@ import com.alibaba.druid.DbType;
 import com.alibaba.druid.filter.FilterChain;
 import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.JdbcParameter;
-import com.alibaba.druid.proxy.jdbc.PreparedStatementProxyImpl;
 import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
 import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
+import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerSchemaStatVisitor;
 import com.alibaba.druid.sql.visitor.SchemaStatVisitor;
 import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.StringUtils;
@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Import;
 
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
@@ -195,7 +194,14 @@ public class DruidSqlLogFilter extends FilterEventAdapter {
 		List<SQLStatement> stmtList = SQLUtils.parseStatements(sql, dbType);
 		for (SQLStatement stmt : stmtList) {
 			// 也可以用更精确的解析器，如MySqlSchemaStatVisitor
-			SchemaStatVisitor visitor = new SchemaStatVisitor();
+			SchemaStatVisitor visitor;
+			// SQL server 数据库特殊处理
+			if (DbType.sqlserver.name().equalsIgnoreCase(dbType)) {
+				visitor = new SQLServerSchemaStatVisitor();
+			}
+			else {
+				visitor = new SchemaStatVisitor();
+			}
 			stmt.accept(visitor);
 			Map<TableStat.Name, TableStat> tables = visitor.getTables();
 			for (TableStat.Name name : tables.keySet()) {

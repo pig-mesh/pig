@@ -24,6 +24,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
 import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -40,6 +41,7 @@ import java.time.LocalDateTime;
  * @since 2017-11-20
  */
 @Data
+@TenantTable
 @Schema(description = "日志")
 public class SysLog implements Serializable {
 

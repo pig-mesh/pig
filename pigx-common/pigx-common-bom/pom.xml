@@ -17,13 +17,13 @@
     <description>pigx 公共版本控制</description>
 
     <properties>
-        <pigx.version>5.3.0</pigx.version>
-        <mybatis-plus.version>3.5.4</mybatis-plus.version>
-        <mybatis-plus-join.version>1.4.6</mybatis-plus-join.version>
-        <dynamic-ds.version>4.2.0</dynamic-ds.version>
+        <pigx.version>5.4.0</pigx.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <mybatis-plus-join.version>1.4.10</mybatis-plus-join.version>
+        <dynamic-ds.version>4.3.0</dynamic-ds.version>
         <druid.version>1.2.20</druid.version>
-        <hutool.version>5.8.22</hutool.version>
-        <mysql.connector.version>8.0.33</mysql.connector.version>
+        <hutool.version>5.8.26</hutool.version>
+        <mysql.connector.version>8.3.0</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
         <dm.version>8.1.2.192</dm.version>
@@ -31,13 +31,13 @@
         <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
-        <mp.weixin.version>4.4.0</mp.weixin.version>
-        <ijpay.version>2.9.6-17</ijpay.version>
+        <mp.weixin.version>4.6.0</mp.weixin.version>
+        <ijpay.version>2.9.10-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <javax.version>4.0.1</javax.version>
-        <jsoup.version>1.13.1</jsoup.version>
-        <aviator.version>5.3.3</aviator.version>
-        <flowable.version>7.0.0.M1</flowable.version>
+        <jsoup.version>1.15.3</jsoup.version>
+        <aviator.version>5.4.1</aviator.version>
+        <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.3.0</xxl.job.version>
@@ -141,6 +141,11 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
+                <artifactId>pigx-common-sse</artifactId>
+                <version>${pigx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
                 <artifactId>pigx-common-websocket</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
@@ -183,12 +188,6 @@
                 <artifactId>asm</artifactId>
                 <version>${asm.version}</version>
             </dependency>
-            <!--  seata kryo 序列化-->
-            <dependency>
-                <groupId>io.seata</groupId>
-                <artifactId>seata-serializer-kryo</artifactId>
-                <version>${seata.version}</version>
-            </dependency>
             <!--mybatis plus extension,包含了mybatis plus core-->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -198,7 +197,7 @@
             <!--mybatis-->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
             <dependency>

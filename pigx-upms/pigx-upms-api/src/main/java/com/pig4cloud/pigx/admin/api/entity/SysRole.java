@@ -21,6 +21,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -38,6 +39,7 @@ import java.time.LocalDateTime;
  * @since 2017-10-29
  */
 @Data
+@TenantTable
 @Schema(description = "角色")
 @EqualsAndHashCode(callSuper = true)
 public class SysRole extends Model<SysRole> {

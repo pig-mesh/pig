@@ -59,7 +59,7 @@ public class SysMenuController {
 	public R getUserMenu(String type, Long parentId) {
 		// 获取符合条件的菜单
 		Set<SysMenu> all = new HashSet<>();
-		SecurityUtils.getRoles().forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
+		SecurityUtils.getRoleIds().forEach(roleId -> all.addAll(sysMenuService.findMenuByRoleId(roleId)));
 		return R.ok(sysMenuService.filterMenu(all, type, parentId));
 	}
 

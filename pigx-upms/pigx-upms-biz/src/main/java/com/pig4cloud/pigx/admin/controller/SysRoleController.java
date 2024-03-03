@@ -25,7 +25,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
-import com.pig4cloud.pigx.admin.api.vo.RoleVO;
+import com.pig4cloud.pigx.admin.api.vo.RoleMenuVO;
 import com.pig4cloud.pigx.admin.service.SysRoleService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -146,7 +146,7 @@ public class SysRoleController {
 	@SysLog("更新角色菜单")
 	@PutMapping("/menu")
 	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
-	public R saveRoleMenus(@RequestBody RoleVO roleVo) {
+	public R saveRoleMenus(@RequestBody RoleMenuVO roleVo) {
 		return R.ok(sysRoleService.updateRoleMenus(roleVo));
 	}
 

@@ -160,6 +160,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			// 扩展属性
 			Map<String, Object> extra = new HashMap<>();
 			extra.put("path", menu.getPath());
+			extra.put("componentPath", menu.getComponent());
 			extra.put("menuType", menu.getMenuType());
 			extra.put("permission", menu.getPermission());
 			extra.put("sortOrder", menu.getSortOrder());

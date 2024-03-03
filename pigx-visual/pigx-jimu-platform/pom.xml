@@ -5,20 +5,14 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.3.0</version>
+        <version>5.4.0</version>
     </parent>
 
     <artifactId>pigx-jimu-platform</artifactId>
     <packaging>jar</packaging>
 
     <description>积木报表系统</description>
-    <properties>
-        <druid.version>1.2.20</druid.version>
-        <spring-boot-dependencies.version>2.7.18</spring-boot-dependencies.version>
-        <spring-cloud.version>2021.0.8</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
-        <spring-boot-admin.version>2.7.11</spring-boot-admin.version>
-    </properties>
+
     <dependencies>
         <!--注册中心客户端-->
         <dependency>
@@ -58,14 +52,13 @@
         </dependency>
         <dependency>
             <groupId>org.jeecgframework.jimureport</groupId>
-            <artifactId>jimureport-spring-boot-starter</artifactId>
+            <artifactId>jimureport-spring-boot3-starter</artifactId>
             <version>${jimu.version}</version>
         </dependency>
         <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
         </dependency>
         <!--MYSQL 数据驱动-->
         <dependency>
@@ -84,44 +77,6 @@
         </dependency>
     </dependencies>
 
-    <!--依赖版本声明-->
-    <dependencyManagement>
-        <dependencies>
-            <!-- SpringBoot 依赖配置 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot-dependencies.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- SpringCloud 微服务 -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!-- SpringBoot Admin -->
-            <dependency>
-                <groupId>de.codecentric</groupId>
-                <artifactId>spring-boot-admin-starter-server</artifactId>
-                <version>${spring-boot-admin.version}</version>
-            </dependency>
-
-            <!--spring cloud alibaba-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <plugins>

@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.flow.task.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -33,7 +34,7 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 
 	/**
 	 * 查询表单组包含流程
-	 * @param hidden
+	 * @param groupId groupId
 	 * @return 表单组数据
 	 */
 	@Override
@@ -70,8 +71,8 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 
 			List<Process> processList = processService.lambdaQuery()
 				.eq(Process::getGroupId, group.getId())
-				.eq(Process::getHidden, false)
-				.eq(Process::getStop, false)
+				.eq(Process::getHidden, YesNoEnum.NO.getCode())
+				.eq(Process::getStop, YesNoEnum.NO.getCode())
 				.orderByAsc(Process::getSort)
 				.list();
 

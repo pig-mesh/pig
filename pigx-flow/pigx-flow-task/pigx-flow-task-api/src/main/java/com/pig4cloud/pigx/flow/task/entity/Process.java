@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.flow.task.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@TenantTable
 @Accessors(chain = true)
 @TableName("process")
 public class Process {
@@ -76,13 +78,13 @@ public class Process {
 	 * 0 正常 1=隐藏
 	 */
 	@TableField("is_hidden")
-	private Boolean hidden;
+	private String hidden;
 
 	/**
 	 * 0 正常 1=停用
 	 */
 	@TableField("is_stop")
-	private Boolean stop;
+	private String stop;
 
 	/**
 	 * 流程管理员

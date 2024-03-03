@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.3.0</version>
+        <version>5.4.0</version>
     </parent>
 
     <artifactId>pigx-report-platform</artifactId>
@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>0.3.0</goview.version>
+        <goview.version>1.0.0</goview.version>
     </properties>
 
     <dependencies>
@@ -34,7 +34,7 @@
         <!-- goview 数据可视化-->
         <dependency>
             <groupId>io.springboot.plugin</groupId>
-            <artifactId>goview-spring-boot-starter</artifactId>
+            <artifactId>goview-spring-boot3-starter</artifactId>
             <version>${goview.version}</version>
         </dependency>
 
@@ -69,10 +69,7 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-upms-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
-        </dependency>
+
         <!--undertow容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

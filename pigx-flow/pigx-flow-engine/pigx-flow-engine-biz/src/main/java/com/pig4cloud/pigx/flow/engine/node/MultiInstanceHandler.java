@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -79,12 +78,10 @@ public class MultiInstanceHandler {
 			}
 		}
 
-		Optional.of(assignList).orElseGet(() -> {
-			List<Long> defaultList = new ArrayList<>();
-			defaultList.add(ProcessInstanceConstant.DEFAULT_EMPTY_ASSIGN);
-			return defaultList;
-		});
-
+		// 标记为空
+		if (CollUtil.isEmpty(assignList)) {
+			assignList.add(ProcessInstanceConstant.DEFAULT_EMPTY_ASSIGN);
+		}
 		return assignList;
 	}
 

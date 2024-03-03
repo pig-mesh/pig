@@ -48,10 +48,12 @@ public class RedisAutoCacheManager extends RedisCacheManager {
 
 	private static final int CACHE_LENGTH = 2;
 
-	RedisAutoCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration,
-			Map<String, RedisCacheConfiguration> initialCacheConfigurations, boolean allowInFlightCacheCreation) {
-		super(cacheWriter, defaultCacheConfiguration, initialCacheConfigurations, allowInFlightCacheCreation);
+	public RedisAutoCacheManager(RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration,
+	                             boolean allowInFlightCacheCreation,
+	                             Map<String, RedisCacheConfiguration> initialCacheConfigurations) {
+		super(cacheWriter, defaultCacheConfiguration, allowInFlightCacheCreation, initialCacheConfigurations);
 	}
+
 
 	@Override
 	protected RedisCache createRedisCache(String name, @Nullable RedisCacheConfiguration cacheConfig) {

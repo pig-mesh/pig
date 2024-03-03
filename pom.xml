@@ -24,7 +24,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pigx</artifactId>
-    <version>5.3.0</version>
+    <version>5.4.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <organization>
@@ -33,15 +33,15 @@
     </organization>
 
     <properties>
-        <spring-boot.version>3.1.6</spring-boot.version>
-        <spring-cloud.version>2022.0.4</spring-cloud.version>
+        <spring-boot.version>3.2.3</spring-boot.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2022.0.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.1.8</spring-boot-admin.version>
-        <spring.authorization.version>1.2.0</spring.authorization.version>
-        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <spring-boot-admin.version>3.2.2</spring-boot-admin.version>
+        <spring.authorization.version>1.2.2</spring.authorization.version>
+        <maven.compiler.version>3.11.0</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>2.2.5</git.commit.version>
         <captcha.version>1.3.0</captcha.version>
@@ -56,8 +56,8 @@
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <jimu.version>1.6.5</jimu.version>
-        <aws.version>1.11.543</aws.version>
+        <jimu.version>1.6.6-beta2</jimu.version>
+        <aws.version>1.12.261</aws.version>
         <xxl.job.version>2.4.0</xxl.job.version>
         <activiti.version>5.22.0</activiti.version>
         <docker.registry>172.17.0.111</docker.registry>
@@ -240,7 +240,7 @@
                     <target>${maven.compiler.target}</target>
                     <source>${maven.compiler.source}</source>
                     <encoding>UTF-8</encoding>
-                    <skip>true</skip>
+                    <parameters>true</parameters>
                 </configuration>
             </plugin>
             <!--打包关联最新 git commit 信息插件-->

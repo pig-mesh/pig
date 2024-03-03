@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.codegen.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
  * @date 2019-08-12 15:55:35
  */
 @Data
+@TenantTable
 @TableName("gen_form_conf")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "生成记录")

@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
  * @date 2023-10-25 18:07:23
  */
 @Data
+@TenantTable
 @TableName("sys_message_relation")
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "系统消息推送记录")
