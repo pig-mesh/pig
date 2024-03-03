@@ -21,7 +21,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <git.commit.plugin>4.9.9</git.commit.plugin>
-        <fastjson.version>1.2.83_noneautotype</fastjson.version>
+        <fastjson.version>2.0.47</fastjson.version>
         <knife4j.version>3.1.0</knife4j.version>
         <springdoc.version>2.3.0</springdoc.version>
         <swagger.core.version>2.2.20</swagger.core.version>
