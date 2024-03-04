@@ -44,7 +44,7 @@
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
         <jasypt.version>3.0.5</jasypt.version>
-        <jaxb.version>2.3.9</jaxb.version>
+        <jaxb.version>4.0.4</jaxb.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <docker.plugin.version>0.44.0</docker.plugin.version>
@@ -53,7 +53,7 @@
         <docker.namespace>pig4cloud</docker.namespace>
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
-        <git.commit.plugin>6.0.0</git.commit.plugin>
+        <git.commit.plugin>7.0.0</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.41</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
