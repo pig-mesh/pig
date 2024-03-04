@@ -20,6 +20,7 @@ package com.pig4cloud.pig.common.mybatis.resolver;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -45,66 +46,56 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
 
-	private final static String[] KEYWORDS = { "master", "truncate", "insert", "select", "delete", "update", "declare",
-			"alter", "drop", "sleep", "extractvalue", "concat" };
+    /**
+     * 判断Controller是否包含page 参数
+     *
+     * @param parameter 参数
+     * @return 是否过滤
+     */
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.getParameterType().equals(Page.class);
+    }
 
-	/**
-	 * 判断Controller是否包含page 参数
-	 * @param parameter 参数
-	 * @return 是否过滤
-	 */
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.getParameterType().equals(Page.class);
-	}
+    /**
+     * @param parameter     入参集合
+     * @param mavContainer  model 和 view
+     * @param webRequest    web相关
+     * @param binderFactory 入参解析
+     * @return 检查后新的page对象
+     * <p>
+     * page 只支持查询 GET .如需解析POST获取请求报文体处理
+     */
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+                                  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
-	/**
-	 * @param parameter 入参集合
-	 * @param mavContainer model 和 view
-	 * @param webRequest web相关
-	 * @param binderFactory 入参解析
-	 * @return 检查后新的page对象
-	 * <p>
-	 * page 只支持查询 GET .如需解析POST获取请求报文体处理
-	 */
-	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+        HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
-		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
+        String[] ascs = request.getParameterValues("ascs");
+        String[] descs = request.getParameterValues("descs");
+        String current = request.getParameter("current");
+        String size = request.getParameter("size");
 
-		String[] ascs = request.getParameterValues("ascs");
-		String[] descs = request.getParameterValues("descs");
-		String current = request.getParameter("current");
-		String size = request.getParameter("size");
+        Page<?> page = new Page<>();
+        if (StrUtil.isNotBlank(current)) {
+            page.setCurrent(Long.parseLong(current));
+        }
 
-		Page<?> page = new Page<>();
-		if (StrUtil.isNotBlank(current)) {
-			page.setCurrent(Long.parseLong(current));
-		}
+        if (StrUtil.isNotBlank(size)) {
+            page.setSize(Long.parseLong(size));
+        }
 
-		if (StrUtil.isNotBlank(size)) {
-			page.setSize(Long.parseLong(size));
-		}
+        List<OrderItem> orderItemList = new ArrayList<>();
+        Optional.ofNullable(ascs)
+                .ifPresent(s -> orderItemList.addAll(
+                        Arrays.stream(s).filter(asc -> !SqlInjectionUtils.check(asc)).map(OrderItem::asc).collect(Collectors.toList())));
+        Optional.ofNullable(descs)
+                .ifPresent(s -> orderItemList.addAll(
+                        Arrays.stream(s).filter(desc -> !SqlInjectionUtils.check(desc)).map(OrderItem::desc).collect(Collectors.toList())));
+        page.addOrder(orderItemList);
 
-		List<OrderItem> orderItemList = new ArrayList<>();
-		Optional.ofNullable(ascs)
-			.ifPresent(s -> orderItemList.addAll(
-					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::asc).collect(Collectors.toList())));
-		Optional.ofNullable(descs)
-			.ifPresent(s -> orderItemList.addAll(
-					Arrays.stream(s).filter(sqlInjectPredicate()).map(OrderItem::desc).collect(Collectors.toList())));
-		page.addOrder(orderItemList);
-
-		return page;
-	}
-
-	/**
-	 * 判断用户输入里面有没有关键字
-	 * @return Predicate
-	 */
-	private Predicate<String> sqlInjectPredicate() {
-		return sql -> Arrays.stream(KEYWORDS).noneMatch(keyword -> StrUtil.containsIgnoreCase(sql, keyword));
-	}
+        return page;
+    }
 
 }
