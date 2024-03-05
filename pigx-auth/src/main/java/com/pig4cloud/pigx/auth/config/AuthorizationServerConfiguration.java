@@ -20,6 +20,7 @@ import com.pig4cloud.pigx.auth.support.CustomeOAuth2AccessTokenGenerator;
 import com.pig4cloud.pigx.auth.support.core.CustomeOAuth2TokenCustomizer;
 import com.pig4cloud.pigx.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pigx.auth.support.core.PigxDaoAuthenticationProvider;
+import com.pig4cloud.pigx.auth.support.core.PigxOAuth2RefreshTokenAuthenticationConverter;
 import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
 import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationSuccessEventHandler;
 import com.pig4cloud.pigx.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
@@ -131,7 +132,7 @@ public class AuthorizationServerConfiguration {
 	private AuthenticationConverter accessTokenRequestConverter() {
 		return new DelegatingAuthenticationConverter(Arrays.asList(
 				new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
-				new OAuth2ResourceOwnerSmsAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(),
+				new OAuth2ResourceOwnerSmsAuthenticationConverter(), new PigxOAuth2RefreshTokenAuthenticationConverter(),
 				new OAuth2ClientCredentialsAuthenticationConverter(),
 				new OAuth2AuthorizationCodeAuthenticationConverter(),
 				new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
