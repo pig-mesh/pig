@@ -39,7 +39,7 @@
         <spring.authorization.version>1.2.2</spring.authorization.version>
         <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.3</captcha.version>
-        <aws.version>1.12.673</aws.version>
+        <aws.version>1.12.674</aws.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
