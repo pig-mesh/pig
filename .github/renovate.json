@@ -1,0 +1,18 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "baseBranches": [
+    "jdk17-dev",
+    "boot-dev"
+  ],
+  "extends": [
+    "config:recommended"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": [
+        "^com.amazonaws:aws-java-sdk-s3$"
+      ],
+      "enabled": false
+    }
+  ]
+}
