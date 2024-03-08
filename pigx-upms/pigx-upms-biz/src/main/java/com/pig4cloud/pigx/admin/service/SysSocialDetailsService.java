@@ -20,6 +20,7 @@ package com.pig4cloud.pigx.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
+import com.pig4cloud.pigx.admin.api.vo.SysSocialDetailsVO;
 
 import java.util.List;
 
@@ -46,5 +47,5 @@ public interface SysSocialDetailsService extends IService<SysSocialDetails> {
 	 */
 	UserInfo getUserInfo(String inStr);
 
-    List<SysSocialDetails> selectList();
+    List<SysSocialDetailsVO> selectList();
 }

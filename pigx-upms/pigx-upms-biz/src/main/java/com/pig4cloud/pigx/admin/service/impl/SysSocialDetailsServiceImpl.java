@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.admin.api.vo.SysSocialDetailsVO;
 import com.pig4cloud.pigx.admin.handler.LoginHandler;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
@@ -95,11 +96,11 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
      * @return List<SysSocialDetails>
      */
     @Override
-    public List<SysSocialDetails> selectList() {
+    public List<SysSocialDetailsVO> selectList() {
         List<SysSocialDetails> sysSocialDetailsList = baseMapper.selectList(Wrappers.query());
         return sysSocialDetailsList.stream().map(sysSocialDetails -> {
-            SysSocialDetails newSysSocialDetails = new SysSocialDetails();
-            BeanUtils.copyProperties(sysSocialDetails, newSysSocialDetails, SysSocialDetails.Fields.appSecret);
+            SysSocialDetailsVO newSysSocialDetails = new SysSocialDetailsVO();
+            BeanUtils.copyProperties(sysSocialDetails, newSysSocialDetails);
             return newSysSocialDetails;
         }).collect(Collectors.toList());
     }
