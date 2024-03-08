@@ -133,7 +133,7 @@ public class PigTokenEndpoint {
 		}
 
 		String tokenValue = authHeader.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
-		return removeToken(tokenValue);
+		return removeToken(new String[]{tokenValue});
 	}
 
 	/**
@@ -170,25 +170,26 @@ public class PigTokenEndpoint {
 	 * 令牌管理调用
 	 * @param token token
 	 */
-	@Inner
-	@DeleteMapping("/{token}")
-	public R<Boolean> removeToken(@PathVariable("token") String token) {
-		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-		if (authorization == null) {
-			return R.ok();
-		}
+	@DeleteMapping("/delete")
+	public R<Boolean> removeToken(@RequestBody String[] accessTokens) {
+		for (String token : accessTokens) {
+			OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+			if (authorization == null) {
+				return R.ok();
+			}
 
-		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
-			return R.ok();
+			OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
+			if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
+				return R.ok();
+			}
+			// 清空用户信息
+			cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
+			// 清空access token
+			authorizationService.remove(authorization);
+			// 处理自定义退出事件，保存相关日志
+			SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
+					authorization.getPrincipalName(), authorization.getRegisteredClientId())));
 		}
-		// 清空用户信息（立即删除）
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evictIfPresent(authorization.getPrincipalName());
-		// 清空access token
-		authorizationService.remove(authorization);
-		// 处理自定义退出事件，保存相关日志
-		SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
-				authorization.getPrincipalName(), authorization.getRegisteredClientId())));
 		return R.ok();
 	}
 
@@ -197,7 +198,6 @@ public class PigTokenEndpoint {
 	 * @param params 分页参数
 	 * @return
 	 */
-	@Inner
 	@PostMapping("/page")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
