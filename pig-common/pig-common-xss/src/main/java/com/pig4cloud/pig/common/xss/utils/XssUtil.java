@@ -102,7 +102,7 @@ public class XssUtil {
 		}
 
 		@Override
-		protected boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
+		public boolean isSafeAttribute(String tagName, Element el, Attribute attr) {
 			// 不允许 javascript 开头的 src 和 href
 			if ("src".equalsIgnoreCase(attr.getKey()) || "href".equalsIgnoreCase(attr.getKey())) {
 				String value = attr.getValue();
