@@ -23,11 +23,11 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 
@@ -42,6 +42,7 @@ import java.time.LocalDateTime;
 @Data
 @TenantTable
 @Schema(description = "菜单")
+@FieldNameConstants
 @EqualsAndHashCode(callSuper = true)
 public class SysMenu extends Model<SysMenu> {
 
