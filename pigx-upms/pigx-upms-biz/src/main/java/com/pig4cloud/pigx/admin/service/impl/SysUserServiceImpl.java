@@ -446,16 +446,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R changePassword(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
-		if (Objects.isNull(userVO)) {
-			return R.failed("用户不存在");
-		}
-
+		SysUser user = baseMapper.selectById(SecurityUtils.getUser().getId());
 		if (StrUtil.isEmpty(userDto.getPassword())) {
 			return R.failed("原密码不能为空");
 		}
 
-		if (!ENCODER.matches(userDto.getPassword(), userVO.getPassword())) {
+		if (!ENCODER.matches(userDto.getPassword(), user.getPassword())) {
 			log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
 		}
@@ -467,7 +463,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		this.update(Wrappers.<SysUser>lambdaUpdate()
 			.set(SysUser::getPassword, password)
-			.eq(SysUser::getUserId, userVO.getUserId()));
+			.eq(SysUser::getUserId, user.getUserId()));
 		return R.ok();
 	}
 
