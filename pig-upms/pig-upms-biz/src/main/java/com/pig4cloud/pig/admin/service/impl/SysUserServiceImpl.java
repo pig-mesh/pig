@@ -204,7 +204,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
+		UserVO userVO = baseMapper.getUserVoById(SecurityUtils.getUser().getId());
 
 		SysUser sysUser = new SysUser();
 		sysUser.setPhone(userDto.getPhone());
@@ -412,7 +412,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R changePassword(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
+		UserVO userVO = baseMapper.getUserVoById(SecurityUtils.getUser().getId());
 		if (Objects.isNull(userVO)) {
 			return R.failed("用户不存在");
 		}
