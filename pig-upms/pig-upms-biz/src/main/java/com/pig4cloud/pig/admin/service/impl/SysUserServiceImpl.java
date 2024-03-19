@@ -204,11 +204,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
-
 		SysUser sysUser = new SysUser();
 		sysUser.setPhone(userDto.getPhone());
-		sysUser.setUserId(userVO.getUserId());
+		sysUser.setUserId(SecurityUtils.getUser().getId());
 		sysUser.setAvatar(userDto.getAvatar());
 		sysUser.setNickname(userDto.getNickname());
 		sysUser.setName(userDto.getName());
@@ -259,7 +257,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 根据数据权限查询全部的用户信息
 		List<UserVO> voList = baseMapper.selectVoList(userDTO);
 		// 转换成execl 对象输出
-		List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
+        return voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);
 			String roleNameList = userVO.getRoleList()
@@ -274,7 +272,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			excelVO.setPostNameList(postNameList);
 			return excelVO;
 		}).collect(Collectors.toList());
-		return userExcelVOList;
 	}
 
 	/**
@@ -412,8 +409,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R changePassword(UserDTO userDto) {
-		UserVO userVO = baseMapper.getUserVoByUsername(userDto.getUsername());
-		if (Objects.isNull(userVO)) {
+		SysUser sysUser = baseMapper.selectById(SecurityUtils.getUser().getId());
+		if (Objects.isNull(sysUser)) {
 			return R.failed("用户不存在");
 		}
 
@@ -421,7 +418,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return R.failed("原密码不能为空");
 		}
 
-		if (!ENCODER.matches(userDto.getPassword(), userVO.getPassword())) {
+		if (!ENCODER.matches(userDto.getPassword(), sysUser.getPassword())) {
 			log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
 		}
@@ -433,7 +430,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		this.update(Wrappers.<SysUser>lambdaUpdate()
 			.set(SysUser::getPassword, password)
-			.eq(SysUser::getUserId, userVO.getUserId()));
+			.eq(SysUser::getUserId, sysUser.getUserId()));
 		return R.ok();
 	}
 
