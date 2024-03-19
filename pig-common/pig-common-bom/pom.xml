@@ -36,7 +36,7 @@
         <shardingsphere.version>5.4.1</shardingsphere.version>
         <hutool.version>5.8.26</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <git.commit.plugin>8.0.1</git.commit.plugin>
+        <git.commit.plugin>8.0.2</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.41</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
