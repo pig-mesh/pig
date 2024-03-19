@@ -30,6 +30,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -40,89 +41,106 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalBizExceptionHandler {
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-	/**
-	 * 全局异常.
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R handleGlobalException(Exception e) {
+    /**
+     * 全局异常.
+     *
+     * @param e the e
+     * @return R
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public R handleGlobalException(Exception e) {
 
-		log.error("全局异常信息 ex={}", e.getMessage(), e);
+        log.error("全局异常信息 ex={}", e.getMessage(), e);
 
-		// 业务异常交由 sentinel 记录
-		Tracer.trace(e);
-		return R.failed(e.getLocalizedMessage());
-	}
+        // 业务异常交由 sentinel 记录
+        Tracer.trace(e);
+        return R.failed(e.getLocalizedMessage());
+    }
 
-	@SneakyThrows
-	@ExceptionHandler(FeignException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	public R handleGlobalException(FeignException e) {
-		log.error("全局异常信息 ex={}", e.getMessage(), e);
+    /**
+     * SQLException Exception
+     *
+     * @param exception 数据库调用异常
+     * @return R
+     */
+    @ExceptionHandler({SQLException.class})
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public R handleSQLException(SQLException exception) {
+        log.error("数据库调用异常 ex={}", exception.getMessage(), exception);
+        return R.failed("数据库调用异常，请联系管理员处理");
+    }
 
-		// 业务异常交由 sentinel 记录
-		Tracer.trace(e);
+    @SneakyThrows
+    @ExceptionHandler(FeignException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public R handleGlobalException(FeignException e) {
+        log.error("全局异常信息 ex={}", e.getMessage(), e);
 
-		if (e.responseBody().isPresent()) {
-			return objectMapper.readValue(e.responseBody().get().array(), R.class);
-		}
+        // 业务异常交由 sentinel 记录
+        Tracer.trace(e);
 
-		return R.failed(e.getLocalizedMessage());
-	}
+        if (e.responseBody().isPresent()) {
+            return objectMapper.readValue(e.responseBody().get().array(), R.class);
+        }
 
-	/**
-	 * AccessDeniedException
-	 * @param e the e
-	 * @return R
-	 */
-	@ExceptionHandler(AccessDeniedException.class)
-	@ResponseStatus(HttpStatus.FORBIDDEN)
-	public R handleAccessDeniedException(AccessDeniedException e) {
-		log.error("拒绝授权异常信息 ex={}", e.getMessage());
-		return R.failed("权限不足，不允许访问");
-	}
+        return R.failed(e.getLocalizedMessage());
+    }
 
-	/**
-	 * validation Exception
-	 * @param exception
-	 * @return R
-	 */
-	@ExceptionHandler({ BindException.class })
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public R handleBodyValidException(BindException exception) {
-		List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
-		// 插入log 的逻辑
-		return R.failed(String.format("%s %s", fieldErrors.get(0).getField(), fieldErrors.get(0).getDefaultMessage()));
-	}
+    /**
+     * AccessDeniedException
+     *
+     * @param e the e
+     * @return R
+     */
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public R handleAccessDeniedException(AccessDeniedException e) {
+        log.error("拒绝授权异常信息 ex={}", e.getMessage());
+        return R.failed("权限不足，不允许访问");
+    }
 
-	/**
-	 * 避免 404 重定向到 /error 导致NPE ,ignore-url 需要配置对应端点
-	 * @return R
-	 */
-	@DeleteMapping("/error")
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public R noHandlerFoundException() {
-		return R.failed(HttpStatus.NOT_FOUND.getReasonPhrase());
-	}
+    /**
+     * validation Exception
+     *
+     * @param exception
+     * @return R
+     */
+    @ExceptionHandler({BindException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public R handleBodyValidException(BindException exception) {
+        List<FieldError> fieldErrors = exception.getBindingResult().getFieldErrors();
+        // 插入log 的逻辑
+        return R.failed(String.format("%s %s", fieldErrors.get(0).getField(), fieldErrors.get(0).getDefaultMessage()));
+    }
 
-	/**
-	 * 保持和低版本请求路径不存在的行为一致
-	 * <p>
-	 * <a href="https://github.com/spring-projects/spring-boot/issues/38733">[Spring Boot
-	 * 3.2.0] 404 Not Found behavior #38733</a>
-	 *
-	 * @param exception
-	 * @return R
-	 */
-	@ExceptionHandler({NoResourceFoundException.class})
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public R noResourceFoundException(NoResourceFoundException exception) {
-		log.debug("请求路径 404 {}", exception.getMessage());
-		return R.failed(exception.getMessage());
-	}
+    /**
+     * 避免 404 重定向到 /error 导致NPE ,ignore-url 需要配置对应端点
+     *
+     * @return R
+     */
+    @DeleteMapping("/error")
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public R noHandlerFoundException() {
+        return R.failed(HttpStatus.NOT_FOUND.getReasonPhrase());
+    }
+
+    /**
+     * 保持和低版本请求路径不存在的行为一致
+     * <p>
+     * <a href="https://github.com/spring-projects/spring-boot/issues/38733">[Spring Boot
+     * 3.2.0] 404 Not Found behavior #38733</a>
+     *
+     * @param exception
+     * @return R
+     */
+    @ExceptionHandler({NoResourceFoundException.class})
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public R noResourceFoundException(NoResourceFoundException exception) {
+        log.debug("请求路径 404 {}", exception.getMessage());
+        return R.failed(exception.getMessage());
+    }
 
 }
