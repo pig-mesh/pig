@@ -3,6 +3,7 @@ package com.pig4cloud.pigx.common.sse.config;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.common.sse.holder.SseEmitterHolder;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import java.util.Objects;
 @RequestMapping("/sse")
 public class SseEmitterEndpoint {
 
+    @SneakyThrows
     @RequestMapping("/info")
     public SseEmitter info() {
         SseEmitter sseEmitter = new SseEmitter(0L);
@@ -39,6 +41,7 @@ public class SseEmitterEndpoint {
             log.error("MSG: SseConnectError | EmitterHash: {} |ID: {}", sseEmitter.hashCode(), SecurityUtils.getUser().getId());
         });
         SseEmitterHolder.addSseEmitter(SecurityUtils.getUser().getId(), sseEmitter);
+        sseEmitter.send("pong");
         return sseEmitter;
     }
 
