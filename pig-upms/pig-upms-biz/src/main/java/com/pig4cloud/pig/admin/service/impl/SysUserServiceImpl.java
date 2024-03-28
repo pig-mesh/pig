@@ -257,7 +257,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 根据数据权限查询全部的用户信息
 		List<UserVO> voList = baseMapper.selectVoList(userDTO);
 		// 转换成execl 对象输出
-        return voList.stream().map(userVO -> {
+		return voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);
 			String roleNameList = userVO.getRoleList()
