@@ -30,6 +30,7 @@ import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationCo
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -43,8 +44,7 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeRequestAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.*;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
@@ -71,6 +71,7 @@ public class AuthorizationServerConfiguration {
 
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
+	@ConditionalOnProperty(value = "security.micro", matchIfMissing = true)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
 
 		// OAuth 2.1 默认配置
@@ -115,6 +116,7 @@ public class AuthorizationServerConfiguration {
 	/**
 	 * 令牌生成规则实现 </br>
 	 * client:username:uuid
+	 *
 	 * @return OAuth2TokenGenerator
 	 */
 	@Bean
@@ -127,13 +129,12 @@ public class AuthorizationServerConfiguration {
 
 	/**
 	 * request -> xToken 注入请求转换器
+	 *
 	 * @return DelegatingAuthenticationConverter
 	 */
-	private AuthenticationConverter accessTokenRequestConverter() {
-		return new DelegatingAuthenticationConverter(
-				Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
-						new OAuth2ResourceOwnerSmsAuthenticationConverter(),
-						new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
+	@Bean
+	public AuthenticationConverter accessTokenRequestConverter() {
+		return new DelegatingAuthenticationConverter(Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(), new OAuth2ResourceOwnerSmsAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(), new OAuth2ClientCredentialsAuthenticationConverter(), new OAuth2AuthorizationCodeAuthenticationConverter(), new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
 	}
 
 	/**
