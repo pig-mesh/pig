@@ -15,7 +15,7 @@
 
     <properties>
         <!-- 项目版本号 -->
-        <revision>3.7.6</revision>
+        <revision>3.8.0-SNAPSHOT</revision>
         <spring-boot.version>3.2.4</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -107,6 +107,11 @@
             <dependency>
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+                <version>${springdoc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
                 <version>${springdoc.version}</version>
             </dependency>
             <dependency>

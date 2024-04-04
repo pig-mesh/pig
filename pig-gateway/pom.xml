@@ -59,24 +59,10 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        <!--验证码 源码： https://github.com/pig-mesh/easy-captcha -->
-        <dependency>
-            <groupId>com.pig4cloud.plugin</groupId>
-            <artifactId>captcha-spring-boot-starter</artifactId>
-            <version>${captcha.version}</version>
-        </dependency>
         <!-- 工具包依赖 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-http</artifactId>
         </dependency>
         <!--接口文档-->
         <dependency>
@@ -87,6 +73,10 @@
         <dependency>
             <groupId>io.springboot</groupId>
             <artifactId>knife4j-openapi3-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
         </dependency>
     </dependencies>
 
