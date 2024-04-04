@@ -50,7 +50,7 @@ public interface RemoteTokenService {
 	 * @param from 内部调用标志
 	 * @return
 	 */
-	@DeleteMapping("/token/{token}")
+	@DeleteMapping("/token/remove/{token}")
 	R<Boolean> removeTokenById(@PathVariable("token") String token, @RequestHeader(SecurityConstants.FROM) String from);
 
 	/**
