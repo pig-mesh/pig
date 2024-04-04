@@ -20,6 +20,8 @@ import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
 import com.pig4cloud.pig.auth.support.core.CustomeOAuth2TokenCustomizer;
 import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.filter.PasswordDecoderFilter;
+import com.pig4cloud.pig.auth.support.filter.ValidateCodeFilter;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
 import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
@@ -41,10 +43,12 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.web.authentication.*;
+import org.springframework.security.oauth2.server.authorization.web.authentication.DelegatingAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeRequestAuthenticationConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
@@ -60,6 +64,11 @@ public class AuthorizationServerConfiguration {
 
 	private final OAuth2AuthorizationService authorizationService;
 
+	private final PasswordDecoderFilter passwordDecoderFilter;
+
+	private final ValidateCodeFilter validateCodeFilter;
+
+
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -72,6 +81,12 @@ public class AuthorizationServerConfiguration {
 		// 使用 HttpSecurity 获取 OAuth 2.1 配置中的 OAuth2AuthorizationServerConfigurer 对象
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = http
 			.getConfigurer(OAuth2AuthorizationServerConfigurer.class);
+
+
+		// 增加验证码过滤器
+		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+		// 增加密码解密过滤器
+		http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
 
 		authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
 			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
