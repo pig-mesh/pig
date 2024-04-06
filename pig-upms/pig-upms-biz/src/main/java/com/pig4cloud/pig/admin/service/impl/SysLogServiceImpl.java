@@ -32,6 +32,8 @@ import com.pig4cloud.pig.admin.service.SysLogService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * <p>
  * 日志表 服务实现类
@@ -43,32 +45,52 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
 
-	@Override
-	public Page getLogByPage(Page page, SysLogDTO sysLog) {
+    @Override
+    public Page getLogByPage(Page page, SysLogDTO sysLog) {
+        return baseMapper.selectPage(page, buildQuery(sysLog));
+    }
 
-		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
-		if (StrUtil.isNotBlank(sysLog.getLogType())) {
-			wrapper.eq(SysLog::getLogType, sysLog.getLogType());
-		}
+    /**
+     * 插入日志
+     *
+     * @param sysLog 日志对象
+     * @return true/false
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveLog(SysLog sysLog) {
+        baseMapper.insert(sysLog);
+        return Boolean.TRUE;
+    }
 
-		if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
-			wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
-				.le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
-		}
+    /**
+     * 查询日志列表
+     *
+     * @param sysLog 查询条件
+     * @return List<SysLog>
+     */
+    @Override
+    public List<SysLog> getList(SysLogDTO sysLog) {
+        return baseMapper.selectList(buildQuery(sysLog));
+    }
 
-		return baseMapper.selectPage(page, wrapper);
-	}
+    /**
+     * 构建查询条件
+     *
+     * @param sysLog 前端条件
+     * @return LambdaQueryWrapper
+     */
+    private LambdaQueryWrapper buildQuery(SysLogDTO sysLog) {
+        LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
+        if (StrUtil.isNotBlank(sysLog.getLogType())) {
+            wrapper.eq(SysLog::getLogType, sysLog.getLogType());
+        }
 
-	/**
-	 * 插入日志
-	 * @param sysLog 日志对象
-	 * @return true/false
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Boolean saveLog(SysLog sysLog) {
-		baseMapper.insert(sysLog);
-		return Boolean.TRUE;
-	}
+        if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
+            wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
+                    .le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
+        }
 
+        return wrapper;
+    }
 }
