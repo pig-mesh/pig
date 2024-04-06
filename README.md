@@ -8,9 +8,8 @@
 
 ## 分支说明
 
+- jdk17: java17/21 + springboot 3.2 + springcloud 2023
 - master: java8 + springboot 2.7 + springcloud 2021
-- jdk17: java17 + springboot 3.2 + springcloud 2023
-- boot(单体版本): java17 + springboot 3.2 
 
 ## 系统说明
 
@@ -47,8 +46,8 @@
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.3      |
 | Mybatis Plus                | 3.5.5      |
-| Vue                      | 3.4        |
-| Element Plus                      | 2.5        |
+| Vue                         | 3.4        |
+| Element Plus                | 2.6        |
 
 ### 模块说明
 
@@ -56,6 +55,7 @@
 pig-ui  -- https://gitee.com/log4j/pig-ui
 
 pig
+├── pig-boot -- 单体模式启动器[9999]
 ├── pig-auth -- 授权服务提供[3000]
 └── pig-common -- 系统公共模块
      ├── pig-common-bom -- 全局依赖管理控制
