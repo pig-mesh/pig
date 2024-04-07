@@ -5,7 +5,7 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import io.springboot.captcha.ArithmeticCaptcha;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ public class ImageCodeEndpoint {
 
     private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-    private final RedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
     /**
      * 创建图形验证码

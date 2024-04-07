@@ -17,6 +17,7 @@ import com.pig4cloud.pig.common.core.util.WebUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
@@ -97,7 +98,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         }
 
         String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-        RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+        RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(StringRedisTemplate.class);
         if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
             throw new ValidateCodeException("验证码不合法");
         }

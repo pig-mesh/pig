@@ -19,15 +19,11 @@ package com.pig4cloud.pig.auth.support.handler;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -39,6 +35,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -95,12 +93,6 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 		}
 		else {
 			errorMessage = exception.getLocalizedMessage();
-		}
-
-		// 手机号登录
-		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (SecurityConstants.MOBILE.equals(grantType)) {
-			errorMessage = MsgUtils.getSecurityMessage("AbstractUserDetailsAuthenticationProvider.smsBadCredentials");
 		}
 
 		this.errorHttpResponseConverter.write(R.failed(errorMessage), MediaType.APPLICATION_JSON, httpResponse);
