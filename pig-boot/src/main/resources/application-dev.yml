@@ -29,3 +29,7 @@ jasypt:
     password: pig
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+# swagger 配置
+swagger:
+  token-url: ${swagger.gateway}/admin/oauth2/token
