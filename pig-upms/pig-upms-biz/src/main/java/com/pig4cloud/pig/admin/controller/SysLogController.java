@@ -29,13 +29,13 @@ import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -101,7 +101,7 @@ public class SysLogController {
     @GetMapping("/export")
     @PreAuthorize("@pms.hasPermission('sys_log_export')")
     public List<SysLog> export(SysLogDTO sysLog) {
-        return sysLogService.getList(sysLog);
-    }
+		return sysLogService.getList(sysLog);
+	}
 
 }

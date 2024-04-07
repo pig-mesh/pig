@@ -68,7 +68,6 @@ public class AuthorizationServerConfiguration {
 
 	private final ValidateCodeFilter validateCodeFilter;
 
-
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
 	@ConditionalOnProperty(value = "security.micro", matchIfMissing = true)
@@ -82,7 +81,6 @@ public class AuthorizationServerConfiguration {
 		// 使用 HttpSecurity 获取 OAuth 2.1 配置中的 OAuth2AuthorizationServerConfigurer 对象
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = http
 			.getConfigurer(OAuth2AuthorizationServerConfigurer.class);
-
 
 		// 增加验证码过滤器
 		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
@@ -116,7 +114,6 @@ public class AuthorizationServerConfiguration {
 	/**
 	 * 令牌生成规则实现 </br>
 	 * client:username:uuid
-	 *
 	 * @return OAuth2TokenGenerator
 	 */
 	@Bean
@@ -129,12 +126,16 @@ public class AuthorizationServerConfiguration {
 
 	/**
 	 * request -> xToken 注入请求转换器
-	 *
 	 * @return DelegatingAuthenticationConverter
 	 */
 	@Bean
 	public AuthenticationConverter accessTokenRequestConverter() {
-		return new DelegatingAuthenticationConverter(Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(), new OAuth2ResourceOwnerSmsAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(), new OAuth2ClientCredentialsAuthenticationConverter(), new OAuth2AuthorizationCodeAuthenticationConverter(), new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
+		return new DelegatingAuthenticationConverter(Arrays.asList(
+				new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
+				new OAuth2ResourceOwnerSmsAuthenticationConverter(), new OAuth2RefreshTokenAuthenticationConverter(),
+				new OAuth2ClientCredentialsAuthenticationConverter(),
+				new OAuth2AuthorizationCodeAuthenticationConverter(),
+				new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
 	}
 
 	/**

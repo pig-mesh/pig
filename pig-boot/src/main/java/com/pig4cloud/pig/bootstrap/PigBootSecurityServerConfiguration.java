@@ -92,14 +92,20 @@ public class PigBootSecurityServerConfiguration {
                                 oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
                         .authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
                                 .consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)))
-                .authorizationService(authorizationService).authorizationServerSettings(
+                .authorizationService(authorizationService)
+                .authorizationServerSettings(
                         AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build());
 
-        AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls().stream().map(AntPathRequestMatcher::new)
-                .collect(Collectors.toList()).toArray(new AntPathRequestMatcher[]{});
+        AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
+                .stream()
+                .map(AntPathRequestMatcher::new)
+                .collect(Collectors.toList())
+                .toArray(new AntPathRequestMatcher[]{});
 
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers).permitAll()
-                        .anyRequest().authenticated())
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
                                 .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
@@ -138,6 +144,6 @@ public class PigBootSecurityServerConfiguration {
         http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
         // 处理 OAuth2ResourceOwnerSmsAuthenticationToken
         http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
-    }
+	}
 
 }

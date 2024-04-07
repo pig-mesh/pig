@@ -48,7 +48,6 @@ public @interface EnablePigDoc {
 
 	/**
 	 * 是否是微服务架构
-	 *
 	 * @return bool
 	 */
 	boolean isMicro() default true;

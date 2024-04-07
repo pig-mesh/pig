@@ -34,7 +34,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -68,11 +67,12 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
     }
 
     private void registerFeignClients(BeanDefinitionRegistry registry) {
-        List<String> feignClients = new ArrayList<>();
+
+        List<String> feignClients = new ArrayList<>(
+                SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
 
         // 支持 springboot 2.7 + 最新版本的配置方式
         ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
-
         // 如果 spring.factories 里为空
         if (feignClients.isEmpty()) {
             return;
@@ -93,8 +93,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
                     continue;
                 }
 
-                registerClientConfiguration(registry, getClientName(attributes), className,
-                        attributes.get("configuration"));
+                registerClientConfiguration(registry, getClientName(attributes), attributes.get("configuration"));
 
                 validate(attributes);
                 BeanDefinitionBuilder definition = BeanDefinitionBuilder
@@ -115,13 +114,8 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
                 }
 
                 definition.addPropertyValue("type", className);
-                definition.addPropertyValue("dismiss404",
-                        Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
-                Object fallbackFactory = attributes.get("fallbackFactory");
-                if (fallbackFactory != null) {
-                    definition.addPropertyValue("fallbackFactory", fallbackFactory instanceof Class ? fallbackFactory
-                            : ClassUtils.resolveClassName(fallbackFactory.toString(), null));
-                }
+                definition.addPropertyValue("decode404", attributes.get("decode404"));
+                definition.addPropertyValue("fallback", attributes.get("fallback"));
                 definition.addPropertyValue("fallbackFactory", attributes.get("fallbackFactory"));
                 definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 
@@ -258,19 +252,9 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
                 builder.getBeanDefinition());
     }
 
-    private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
-                                             Object configuration) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
-        builder.addConstructorArgValue(name);
-        builder.addConstructorArgValue(className);
-        builder.addConstructorArgValue(configuration);
-        registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
-                builder.getBeanDefinition());
-    }
-
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-    }
+	}
 
 }

@@ -46,33 +46,34 @@ import org.springframework.context.annotation.Scope;
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "feign.sentinel.enabled")
-    public Feign.Builder feignSentinelBuilder() {
-        return PigSentinelFeign.builder();
-    }
+	@Bean
+	@Scope("prototype")
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(name = "feign.sentinel.enabled")
+	public Feign.Builder feignSentinelBuilder() {
+		return PigSentinelFeign.builder();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
-        return new PigUrlBlockHandler(objectMapper);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
+		return new PigUrlBlockHandler(objectMapper);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RequestOriginParser requestOriginParser() {
-        return new PigHeaderRequestOriginParser();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public RequestOriginParser requestOriginParser() {
+		return new PigHeaderRequestOriginParser();
+	}
 
-    /**
-     * set connection close header
-     *
-     * @return RequestInterceptor
-     */
-    @Bean
-    public RequestInterceptor pigFeignRequestCloseInterceptor() {
-        return new PigFeignRequestCloseInterceptor();
-    }
+	/**
+	 * set connection close header
+	 *
+	 * @return RequestInterceptor
+	 */
+	@Bean
+	public RequestInterceptor pigFeignRequestCloseInterceptor() {
+		return new PigFeignRequestCloseInterceptor();
+	}
+
 }

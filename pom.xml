@@ -99,6 +99,7 @@
     </dependencies>
 
     <modules>
+        <module>pig-boot</module>
         <module>pig-register</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>

@@ -19,19 +19,19 @@ import java.util.List;
 @ConfigurationProperties("security")
 public class AuthSecurityConfigProperties {
 
-    /**
-     * 是否是微服务架构
-     */
-    private boolean isMicro;
+	/**
+	 * 是否是微服务架构
+	 */
+	private boolean isMicro;
 
-    /**
-     * 网关解密登录前端密码 秘钥
-     */
-    private String encodeKey;
+	/**
+	 * 网关解密登录前端密码 秘钥
+	 */
+	private String encodeKey;
 
-    /**
-     * 网关不需要校验验证码的客户端
-     */
-    private List<String> ignoreClients;
+	/**
+	 * 网关不需要校验验证码的客户端
+	 */
+	private List<String> ignoreClients;
 
 }

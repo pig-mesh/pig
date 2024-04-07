@@ -53,14 +53,14 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 
     private static final String KEY_ALGORITHM = "AES";
 
-
     static {
         // 关闭hutool 强制关闭Bouncy Castle库的依赖
         SecureUtil.disableBouncyCastle();
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+            throws ServletException, IOException {
         // 不是登录请求，直接向下执行
         if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)) {
             chain.doFilter(request, response);
@@ -76,7 +76,6 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
                 new SecretKeySpec(authSecurityConfigProperties.getEncodeKey().getBytes(), KEY_ALGORITHM),
                 new IvParameterSpec(authSecurityConfigProperties.getEncodeKey().getBytes()));
 
-
         parameterMap.forEach((k, v) -> {
             String[] values = parameterMap.get(k);
             if (!PASSWORD.equals(k) || ArrayUtil.isEmpty(values)) {
@@ -89,6 +88,5 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
         });
         chain.doFilter(requestWrapper, response);
     }
-
 
 }
