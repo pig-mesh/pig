@@ -69,6 +69,17 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-swagger</artifactId>
         </dependency>
+        <!-- 接口文档  -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-openapi3-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
         <!--undertow容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
