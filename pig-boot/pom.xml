@@ -73,6 +73,10 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.springboot</groupId>
+            <artifactId>knife4j-openapi3-ui</artifactId>
+        </dependency>
         <!--接口文档-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
