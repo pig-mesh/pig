@@ -22,7 +22,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <git.commit.plugin>8.0.2</git.commit.plugin>
         <fastjson.version>1.2.83_noneautotype</fastjson.version>
-        <knife4j.version>4.5.0</knife4j.version>
+        <knife4j.version>4.6.0</knife4j.version>
         <springdoc.version>2.5.0</springdoc.version>
         <swagger.core.version>2.2.21</swagger.core.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
