@@ -29,8 +29,10 @@ import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.openfeign.PigFeignClientsRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -40,6 +42,7 @@ import org.springframework.context.annotation.Scope;
  * @date 2020-02-12
  */
 @Configuration(proxyBeanMethods = false)
+@Import(PigFeignClientsRegistrar.class)
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
