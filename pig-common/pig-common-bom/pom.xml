@@ -21,7 +21,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <fastjson.version>1.2.83</fastjson.version>
-        <knife4j.version>3.0.3</knife4j.version>
         <springdoc.version>1.6.9</springdoc.version>
         <swagger.core.version>2.2.0</swagger.core.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
@@ -34,7 +33,7 @@
         <oss.version>1.0.5</oss.version>
         <sms.version>2.0.2</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
-        <hutool.version>5.8.26</hutool.version>
+        <hutool.version>5.8.27</hutool.version>
         <mica.version>2.7.4</mica.version>
         <sentinel.version>1.8.4</sentinel.version>
         <git.commit.plugin>4.9.9</git.commit.plugin>
@@ -110,12 +109,10 @@
                 <artifactId>mysql-connector-j</artifactId>
                 <version>${mysql.version}</version>
             </dependency>
-            <!--springdoc -->
-            <!--引入Knife4j的官方ui包-->
             <dependency>
-                <groupId>io.springboot</groupId>
-                <artifactId>knife4j-openapi3-ui</artifactId>
-                <version>${knife4j.version}</version>
+                <groupId>org.springdoc</groupId>
+                <artifactId>springdoc-openapi-ui</artifactId>
+                <version>${springdoc.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springdoc</groupId>

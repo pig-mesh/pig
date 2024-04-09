@@ -44,8 +44,7 @@
         <velocity.tool.version>3.1</velocity.tool.version>
         <configuration.version>1.10</configuration.version>
         <jasypt.version>3.0.5</jasypt.version>
-        <swagger.fox.version>3.0.0</swagger.fox.version>
-        <knife4j.version>4.3.0</knife4j.version>
+        <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>1.6.9</springdoc.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <docker.plugin.version>0.32.0</docker.plugin.version>
