@@ -75,7 +75,8 @@
         </dependency>
         <dependency>
             <groupId>io.springboot</groupId>
-            <artifactId>knife4j-openapi3-ui</artifactId>
+            <artifactId>knife4j-boot-openapi3-ui</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
         <!--接口文档-->
         <dependency>

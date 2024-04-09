@@ -73,6 +73,7 @@
         <dependency>
             <groupId>io.springboot</groupId>
             <artifactId>knife4j-openapi3-ui</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

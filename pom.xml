@@ -45,7 +45,7 @@
         <configuration.version>1.10</configuration.version>
         <jasypt.version>3.0.5</jasypt.version>
         <jaxb.version>4.0.5</jaxb.version>
-        <knife4j.version>4.5.0</knife4j.version>
+        <knife4j.version>3.0.5</knife4j.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <xxl-job.version>2.4.0</xxl-job.version>
         <docker.plugin.version>0.44.0</docker.plugin.version>
