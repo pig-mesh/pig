@@ -6,36 +6,34 @@
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
 
-## 分支说明
+## 系统说明
+
+- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **企业快速开发平台**， 同时支持微服务架构和单体架构
+- 提供对 Spring Authorization Server 生产级实践，支持多种安全授权模式
+- 提供对常见容器化方案支持 Kubernetes、Rancher2 、Kubesphere、EDAS、SAE 支持
+
+#### 分支说明
 
 - jdk17: java17/21 + springboot 3.2 + springcloud 2023
 - master: java8 + springboot 2.7 + springcloud 2021
 
-## 系统说明
+#### 文档视频
 
-- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **权限管理系统**
-- 基于数据驱动视图的理念封装 element-plus，即使没有 vue 的使用经验也能快速上手
-- 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
-- 提供 lambda 、stream api 、webflux 的生产实践
+- 🔥 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
-## 文档视频
+#### 其他产品
 
-[ 🚀🚀🚀 低代码数据可视化](http://datav.pig4cloud.com)
+- 👉🏻 [PIGX 在线体验](http://home.pig4cloud.com:38081)
 
-[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+- 👉🏻 [自研BPMN工作流引擎](http://home.pig4cloud.com:38082)
 
-[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
-
-[PIGX 在线体验 pigx.pigx.top](http://pigx.pigx.top)
-
-[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
+- 👉🏻 [大模型 RAG 知识库](http://home.pig4cloud.com:38083)
 
 ## 微信群 [禁广告]
 
 ![](https://minio.pigx.top/oss/1648184189.png)
 
 ## 快速开始
-
 
 ### 核心依赖
 
@@ -45,7 +43,7 @@
 | Spring Cloud                | 2023.0.1   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.3      |
-| Mybatis Plus                | 3.5.5      |
+| Mybatis Plus                | 3.5.6      |
 | Vue                         | 3.4        |
 | Element Plus                | 2.6        |
 
@@ -85,7 +83,6 @@ pig
 pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
-
 
 ### Docker 运行
 
