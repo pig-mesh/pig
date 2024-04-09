@@ -89,8 +89,9 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
         if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
             wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
                     .le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
-        }
+		}
 
-        return wrapper;
-    }
+		return wrapper;
+	}
+
 }

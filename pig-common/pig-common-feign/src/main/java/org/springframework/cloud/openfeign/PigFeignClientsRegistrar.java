@@ -271,6 +271,6 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
     @Override
     public void setEnvironment(Environment environment) {
         this.environment = environment;
-    }
+	}
 
 }

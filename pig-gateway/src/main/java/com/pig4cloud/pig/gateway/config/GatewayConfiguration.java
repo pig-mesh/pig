@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 public class GatewayConfiguration {
 
-
 	/**
 	 * 创建PigRequest全局过滤器
 	 * @return PigRequest全局过滤器
@@ -23,7 +22,6 @@ public class GatewayConfiguration {
 	public PigRequestGlobalFilter pigRequestGlobalFilter() {
 		return new PigRequestGlobalFilter();
 	}
-
 
 	/**
 	 * 创建全局异常处理程序
@@ -34,6 +32,5 @@ public class GatewayConfiguration {
 	public GlobalExceptionHandler globalExceptionHandler(ObjectMapper objectMapper) {
 		return new GlobalExceptionHandler(objectMapper);
 	}
-
 
 }

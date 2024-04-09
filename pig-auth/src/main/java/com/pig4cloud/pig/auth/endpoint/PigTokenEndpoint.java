@@ -231,9 +231,9 @@ public class PigTokenEndpoint {
             tokenVo.setIssuedAt(issuedAt);
             return tokenVo;
         }).collect(Collectors.toList());
-        result.setRecords(tokenVoList);
-        result.setTotal(keys.size());
-        return R.ok(result);
-    }
+		result.setRecords(tokenVoList);
+		result.setTotal(keys.size());
+		return R.ok(result);
+	}
 
 }

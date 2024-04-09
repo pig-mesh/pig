@@ -27,7 +27,6 @@ public class OpenAPIMetadataConfiguration implements InitializingBean, Applicati
             return;
         }
 
-
         ServiceInstance serviceInstance = applicationContext.getBean(ServiceInstance.class);
         serviceInstance.getMetadata().put("spring-doc", path);
     }

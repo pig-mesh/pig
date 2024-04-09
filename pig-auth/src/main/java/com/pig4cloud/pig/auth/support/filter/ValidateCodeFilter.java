@@ -7,7 +7,6 @@ package com.pig4cloud.pig.auth.support.filter;
  * @date 2024/4/3
  */
 
-
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
@@ -42,9 +41,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
     private final AuthSecurityConfigProperties authSecurityConfigProperties;
 
-
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
 
         String requestUrl = request.getServletPath();
 
@@ -120,7 +119,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         }
 
         redisTemplate.delete(key);
-    }
+	}
 
 }
-

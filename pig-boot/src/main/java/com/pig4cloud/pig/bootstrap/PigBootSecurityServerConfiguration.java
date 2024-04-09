@@ -52,8 +52,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
- * @author lengleng
- * 认证授权服务器配置
+ * @author lengleng 认证授权服务器配置
  */
 @Configuration
 @RequiredArgsConstructor
@@ -76,7 +75,6 @@ public class PigBootSecurityServerConfiguration {
     private final ValidateCodeFilter validateCodeFilter;
 
     private final PermitAllUrlProperties permitAllUrl;
-
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -132,7 +130,6 @@ public class PigBootSecurityServerConfiguration {
         return securityFilterChain;
     }
 
-
     /**
      * 注入授权模式实现提供方
      * <p>
@@ -156,6 +153,6 @@ public class PigBootSecurityServerConfiguration {
         http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
         // 处理 OAuth2ResourceOwnerSmsAuthenticationToken
         http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
-    }
+	}
 
 }
