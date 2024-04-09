@@ -30,33 +30,28 @@
     <description>pig 单体版本启动</description>
 
     <dependencies>
-        <!--upms api、model 模块-->
+        <!--必备：认证中心模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-auth</artifactId>
             <version>${revision}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
+        <!--必备：用户管理模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-upms-biz</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--可选：代码生成模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-codegen</artifactId>
             <version>${revision}</version>
         </dependency>
-        <!-- 引入pig-quartz依赖 -->
+        <!--可选：定时任务模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-quartz</artifactId>
-            <version>${revision}</version>
-        </dependency>
-        <!--upms api、model 模块-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-upms-biz</artifactId>
             <version>${revision}</version>
         </dependency>
         <!--安全模块-->
