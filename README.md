@@ -44,8 +44,8 @@
 | Spring Cloud                | 2021.0.8   |
 | Spring Cloud Alibaba        | 2021.0.6.0 |
 | Spring Authorization Server | 0.4.4      |
-| Mybatis Plus                | 3.5.5      |
-| hutool                      | 5.8.22     |
+| Mybatis Plus                | 3.5.6      |
+| hutool                      | 5.8.27     |
 
 ### 模块说明
 
@@ -54,6 +54,7 @@ pig-ui  -- https://gitee.com/log4j/pig-ui
 
 pig
 ├── pig-auth -- 授权服务提供[3000]
+├── pig-boot -- 单体模式启动[9999]
 └── pig-common -- 系统公共模块
      ├── pig-common-bom -- 全局依赖管理控制
      ├── pig-common-core -- 公共工具类核心包

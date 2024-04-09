@@ -28,7 +28,7 @@
 
     <properties>
         <!-- 项目版本号 -->
-        <revision>3.7.4-JDK8</revision>
+        <revision>3.8.0-JDK8</revision>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-cloud.version>2021.0.8</spring-cloud.version>
         <spring-cloud-alibaba.version>2021.0.6.0</spring-cloud-alibaba.version>
