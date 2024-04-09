@@ -30,7 +30,7 @@
 		<nacos.version>2.2.4-OEM</nacos.version>
 		<spring-boot-dependencies.version>2.7.18</spring-boot-dependencies.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
-		<spring-boot-admin.version>2.7.15</spring-boot-admin.version>
+		<spring-boot-admin.version>3.2.3</spring-boot-admin.version>
 	</properties>
 
 	<dependencies>
