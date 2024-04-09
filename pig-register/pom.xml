@@ -27,7 +27,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<nacos.version>2.2.4-OEM</nacos.version>
+		<nacos.version>2.2.4-x86</nacos.version>
 		<spring-boot-dependencies.version>2.7.18</spring-boot-dependencies.version>
 		<spring-cloud.version>2023.0.1</spring-cloud.version>
 		<spring-boot-admin.version>2.7.15</spring-boot-admin.version>
