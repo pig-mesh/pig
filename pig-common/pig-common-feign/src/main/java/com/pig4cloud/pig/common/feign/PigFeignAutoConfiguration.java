@@ -68,7 +68,6 @@ public class PigFeignAutoConfiguration {
 
 	/**
 	 * set connection close header
-	 *
 	 * @return RequestInterceptor
 	 */
 	@Bean

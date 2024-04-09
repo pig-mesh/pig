@@ -55,10 +55,9 @@ public interface SysLogService extends IService<SysLog> {
 
     /**
      * 查询日志列表
-     *
      * @param sysLog 查询条件
-     * @return List<SysLog>
-     */
+	 * @return List<SysLog>
+	 */
 	List<SysLog> getList(SysLogDTO sysLog);
 
 }

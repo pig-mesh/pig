@@ -35,7 +35,6 @@ public class WebSecurityConfiguration {
 
 	/**
 	 * spring security 默认的安全策略
-	 *
 	 * @param http security注入点
 	 * @return SecurityFilterChain
 	 * @throws Exception
@@ -60,7 +59,6 @@ public class WebSecurityConfiguration {
 	 * 暴露静态资源
 	 * <p>
 	 * https://github.com/spring-projects/spring-security/issues/10938
-	 *
 	 * @param http
 	 * @return
 	 * @throws Exception

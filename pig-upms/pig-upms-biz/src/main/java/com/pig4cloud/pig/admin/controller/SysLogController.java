@@ -100,7 +100,7 @@ public class SysLogController {
     @ResponseExcel
     @GetMapping("/export")
     @PreAuthorize("@pms.hasPermission('sys_log_export')")
-    public List<SysLog> export(SysLogDTO sysLog) {
+	public List<SysLog> export(SysLogDTO sysLog) {
 		return sysLogService.getList(sysLog);
 	}
 

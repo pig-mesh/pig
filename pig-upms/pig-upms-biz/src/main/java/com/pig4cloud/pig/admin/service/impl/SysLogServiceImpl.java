@@ -52,7 +52,6 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	/**
 	 * 插入日志
-	 *
 	 * @param sysLog 日志对象
 	 * @return true/false
 	 */
@@ -65,7 +64,6 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	/**
 	 * 查询日志列表
-	 *
 	 * @param sysLog 查询条件
 	 * @return List<SysLog>
 	 */
@@ -76,7 +74,6 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	/**
 	 * 构建查询条件
-	 *
 	 * @param sysLog 前端条件
 	 * @return LambdaQueryWrapper
 	 */
@@ -88,7 +85,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 		if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
 			wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
-					.le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
+                    .le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
 		}
 
 		return wrapper;

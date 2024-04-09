@@ -445,9 +445,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public R checkPassword(String password) {
         String username = SecurityUtils.getUser().getUsername();
-        SysUser condition = new SysUser();
-        condition.setUsername(username);
-        SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
+		SysUser condition = new SysUser();
+		condition.setUsername(username);
+		SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
 
 		if (!ENCODER.matches(password, sysUser.getPassword())) {
 			log.info("原密码错误");
