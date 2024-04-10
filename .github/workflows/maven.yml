@@ -5,9 +5,9 @@ name: PIG 构建action
 
 on:
   push:
-    branches: [ master,dev ]
+    branches: [ jdk17-dev,dev ]
   pull_request:
-    branches: [ master,dev ]
+    branches: [ jdk17-dev,dev ]
 
 jobs:
   build:
