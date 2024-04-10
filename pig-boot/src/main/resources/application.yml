@@ -1,0 +1,86 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /admin
+
+spring:
+  application:
+    name: @project.artifactId@
+  # 缓存相关配置
+  cache:
+    type: redis
+  # 定时任务属性配置
+  quartz:
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            tablePrefix: QRTZ_
+            isClustered: true
+            clusterCheckinInterval: 10000
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool
+            threadCount: 50
+            threadPriority: 5
+            threadsInheritContextClassLoaderOfInitializingThread: true
+    job-store-type: jdbc
+    jdbc:
+      initialize-schema: always # 生产注意设置为 never
+    startup-delay: 10
+  # 上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+
+## spring security 对外暴露接口设置
+security:
+  micro: false
+  oauth2:
+    ignore:
+      urls:
+        - /webjars/**
+        - /v3/api-docs/**
+        - /doc.html
+        - /swagger-ui.html
+        - /swagger-ui/**
+        - /swagger-resources
+        - /token/check_token
+        - /error
+        - /token/**
+        - /actuator/**
+        - /code/**
+
+#--------------如下配置尽量不要变动-------------
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      where-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_null
+  type-handlers-package: com.pig4cloud.pig.common.mybatis.handler
+  configuration:
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    shrink-whitespaces-in-sql: true

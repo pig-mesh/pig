@@ -29,8 +29,10 @@ import feign.RequestInterceptor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.openfeign.PigFeignClientsRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 
 /**
@@ -40,36 +42,37 @@ import org.springframework.context.annotation.Scope;
  * @date 2020-02-12
  */
 @Configuration(proxyBeanMethods = false)
+@Import(PigFeignClientsRegistrar.class)
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "feign.sentinel.enabled")
-    public Feign.Builder feignSentinelBuilder() {
-        return PigSentinelFeign.builder();
-    }
+	@Bean
+	@Scope("prototype")
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(name = "feign.sentinel.enabled")
+	public Feign.Builder feignSentinelBuilder() {
+		return PigSentinelFeign.builder();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
-        return new PigUrlBlockHandler(objectMapper);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
+		return new PigUrlBlockHandler(objectMapper);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public RequestOriginParser requestOriginParser() {
-        return new PigHeaderRequestOriginParser();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public RequestOriginParser requestOriginParser() {
+		return new PigHeaderRequestOriginParser();
+	}
 
-    /**
-     * set connection close header
-     *
-     * @return RequestInterceptor
-     */
-    @Bean
-    public RequestInterceptor pigFeignRequestCloseInterceptor() {
-        return new PigFeignRequestCloseInterceptor();
-    }
+	/**
+	 * set connection close header
+	 * @return RequestInterceptor
+	 */
+	@Bean
+	public RequestInterceptor pigFeignRequestCloseInterceptor() {
+		return new PigFeignRequestCloseInterceptor();
+	}
+
 }

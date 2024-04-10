@@ -20,6 +20,12 @@ public class OpenAPIMetadataConfiguration implements InitializingBean, Applicati
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
+        String[] beanNamesForType = applicationContext.getBeanNamesForType(ServiceInstance.class);
+
+        if (beanNamesForType.length == 0) {
+            return;
+        }
+
 		ServiceInstance serviceInstance = applicationContext.getBean(ServiceInstance.class);
 		serviceInstance.getMetadata().put("spring-doc", path);
 	}

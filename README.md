@@ -1,33 +1,29 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
- <img src="https://img.shields.io/badge/Spring%20Cloud-2023-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-3.2-blue.svg" alt="Downloads">
- <img src="https://img.shields.io/badge/Vue-3.4-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2021-blue.svg" alt="Coverage Status">
+ <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
 
 ## 系统说明
 
-- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **企业快速开发平台**， 同时支持微服务架构和单体架构
-- 提供对 Spring Authorization Server 生产级实践，支持多种安全授权模式
-- 提供对常见容器化方案支持 Kubernetes、Rancher2 、Kubesphere、EDAS、SAE 支持
+- 基于 Spring Cloud 2021 、Spring Boot 2.7、 OAuth2 的 RBAC **权限管理系统**
+- 基于数据驱动视图的理念封装 element-plus，即使没有 vue 的使用经验也能快速上手
+- 提供对常见容器化支持 Docker、Kubernetes、Rancher2 支持
+- 提供 lambda 、stream api 、webflux 的生产实践
 
-#### 分支说明
+## 文档视频
 
-- jdk17: java17/21 + springboot 3.2 + springcloud 2023
-- master: java8 + springboot 2.7 + springcloud 2021
+[ 🚀🚀🚀 低代码数据可视化](http://datav.pig4cloud.com)
 
-#### 文档视频
+[ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
-- 🔥 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
+[ 配套视频 tv.pig4cloud.com](https://www.bilibili.com/video/BV12t411B7e9)
 
-#### 其他产品
+[PIGX 在线体验 pigx.pigx.top](http://pigx.pigx.top)
 
-- 👉🏻 [PIGX 在线体验](http://home.pig4cloud.com:38081)
-
-- 👉🏻 [自研BPMN工作流引擎](http://home.pig4cloud.com:38082)
-
-- 👉🏻 [大模型 RAG 知识库](http://home.pig4cloud.com:38083)
+[产品白皮书 paper.pig4cloud.com](https://paper.pig4cloud.com)
 
 ## 微信群 [禁广告]
 
@@ -35,17 +31,21 @@
 
 ## 快速开始
 
+### 分支说明
+
+- master: java8 + springboot 2.7 + springcloud 2021
+- jdk17: java17 + springboot 3.1 + springcloud 2022
+
 ### 核心依赖
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.2.4      |
-| Spring Cloud                | 2023.0.1   |
-| Spring Cloud Alibaba        | 2022.0.0.0 |
-| Spring Authorization Server | 1.2.3      |
+| Spring Boot                 | 2.7.18     |
+| Spring Cloud                | 2021.0.8   |
+| Spring Cloud Alibaba        | 2021.0.6.0 |
+| Spring Authorization Server | 0.4.4      |
 | Mybatis Plus                | 3.5.6      |
-| Vue                         | 3.4        |
-| Element Plus                | 2.6        |
+| hutool                      | 5.8.27     |
 
 ### 模块说明
 
@@ -53,12 +53,13 @@
 pig-ui  -- https://gitee.com/log4j/pig-ui
 
 pig
-├── pig-boot -- 单体模式启动器[9999]
 ├── pig-auth -- 授权服务提供[3000]
+├── pig-boot -- 单体模式启动[9999]
 └── pig-common -- 系统公共模块
      ├── pig-common-bom -- 全局依赖管理控制
      ├── pig-common-core -- 公共工具类核心包
      ├── pig-common-datasource -- 动态数据源包
+     ├── pig-common-job -- xxl-job 封装
      ├── pig-common-log -- 日志服务
      ├── pig-common-oss -- 文件上传工具类
      ├── pig-common-mybatis -- mybatis 扩展封装
@@ -84,11 +85,12 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 
 请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
 
+
 ### Docker 运行
 
 ```
 # 下载并运行服务端代码
-git clone https://gitee.com/log4j/pig.git -b jdk17
+git clone https://gitee.com/log4j/pig.git
 
 cd pig && mvn clean install && docker-compose up -d
 

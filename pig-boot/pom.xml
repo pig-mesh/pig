@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pig</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>pig-boot</artifactId>
+    <packaging>jar</packaging>
+
+    <description>pig 单体版本启动</description>
+
+    <dependencies>
+        <!--必备：认证中心模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-auth</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--必备：用户管理模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-upms-biz</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--可选：代码生成模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-codegen</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--可选：定时任务模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-quartz</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <!--安全模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-security</artifactId>
+        </dependency>
+        <!--接口文档-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-swagger</artifactId>
+        </dependency>
+        <!-- 接口文档  -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springboot</groupId>
+            <artifactId>knife4j-boot-openapi3-ui</artifactId>
+            <version>${knife4j.version}</version>
+        </dependency>
+        <!--undertow容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>boot</id>
+            <properties>
+                <!-- 环境标识，需要与配置文件的名称相对应 -->
+                <profiles.active>dev</profiles.active>
+            </properties>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+</project>

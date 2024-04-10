@@ -20,4 +20,5 @@ public class PigFeignRequestCloseInterceptor implements RequestInterceptor {
     public void apply(feign.RequestTemplate template) {
         template.header(HttpHeaders.CONNECTION, "close");
     }
+
 }
