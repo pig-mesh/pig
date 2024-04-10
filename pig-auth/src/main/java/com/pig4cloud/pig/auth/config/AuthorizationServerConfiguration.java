@@ -115,7 +115,6 @@ public class AuthorizationServerConfiguration {
 	/**
 	 * 令牌生成规则实现 </br>
 	 * client:username:uuid
-	 *
 	 * @return OAuth2TokenGenerator
 	 */
 	@Bean
@@ -128,7 +127,6 @@ public class AuthorizationServerConfiguration {
 
 	/**
 	 * request -> xToken 注入请求转换器
-	 *
 	 * @return DelegatingAuthenticationConverter
 	 */
 	@Bean

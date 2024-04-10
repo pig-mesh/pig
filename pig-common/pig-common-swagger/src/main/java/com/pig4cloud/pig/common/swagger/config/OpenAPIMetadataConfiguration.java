@@ -13,27 +13,27 @@ import org.springframework.context.ApplicationContextAware;
  */
 public class OpenAPIMetadataConfiguration implements InitializingBean, ApplicationContextAware {
 
-    private ApplicationContext applicationContext;
+	private ApplicationContext applicationContext;
 
-    @Setter
-    private String path;
+	@Setter
+	private String path;
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
+	@Override
+	public void afterPropertiesSet() throws Exception {
 
-        String[] beanNamesForType = applicationContext.getBeanNamesForType(ServiceInstance.class);
+		String[] beanNamesForType = applicationContext.getBeanNamesForType(ServiceInstance.class);
 
-        if (beanNamesForType.length == 0) {
-            return;
-        }
+		if (beanNamesForType.length == 0) {
+			return;
+		}
 
-        ServiceInstance serviceInstance = applicationContext.getBean(ServiceInstance.class);
-        serviceInstance.getMetadata().put("spring-doc", path);
-    }
+		ServiceInstance serviceInstance = applicationContext.getBean(ServiceInstance.class);
+		serviceInstance.getMetadata().put("spring-doc", path);
+	}
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
+	}
 
 }

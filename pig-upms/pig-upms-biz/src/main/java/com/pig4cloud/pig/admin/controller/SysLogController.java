@@ -53,54 +53,54 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysLogController {
 
-    private final SysLogService sysLogService;
+	private final SysLogService sysLogService;
 
-    /**
-     * 简单分页查询
-     *
-     * @param page   分页对象
-     * @param sysLog 系统日志
-     * @return
-     */
-    @GetMapping("/page")
-    public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
-        return R.ok(sysLogService.getLogByPage(page, sysLog));
-    }
+	/**
+	 * 简单分页查询
+	 *
+	 * @param page   分页对象
+	 * @param sysLog 系统日志
+	 * @return
+	 */
+	@GetMapping("/page")
+	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
+		return R.ok(sysLogService.getLogByPage(page, sysLog));
+	}
 
-    /**
-     * 批量删除日志
-     *
-     * @param ids ID
-     * @return success/false
-     */
-    @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('sys_log_del')")
-    public R removeByIds(@RequestBody Long[] ids) {
-        return R.ok(sysLogService.removeBatchByIds(CollUtil.toList(ids)));
-    }
+	/**
+	 * 批量删除日志
+	 *
+	 * @param ids ID
+	 * @return success/false
+	 */
+	@DeleteMapping
+	@PreAuthorize("@pms.hasPermission('sys_log_del')")
+	public R removeByIds(@RequestBody Long[] ids) {
+		return R.ok(sysLogService.removeBatchByIds(CollUtil.toList(ids)));
+	}
 
-    /**
-     * 插入日志
-     *
-     * @param sysLog 日志实体
-     * @return success/false
-     */
-    @Inner
-    @PostMapping("/save")
-    public R save(@Valid @RequestBody SysLog sysLog) {
-        return R.ok(sysLogService.saveLog(sysLog));
-    }
+	/**
+	 * 插入日志
+	 *
+	 * @param sysLog 日志实体
+	 * @return success/false
+	 */
+	@Inner
+	@PostMapping("/save")
+	public R save(@Valid @RequestBody SysLog sysLog) {
+		return R.ok(sysLogService.saveLog(sysLog));
+	}
 
-    /**
-     * 导出excel 表格
-     *
-     * @param sysLog 查询条件
-     * @return
-     */
-    @ResponseExcel
-    @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('sys_log_export')")
-    public List<SysLog> export(SysLogDTO sysLog) {
+	/**
+	 * 导出excel 表格
+	 *
+	 * @param sysLog 查询条件
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	public List<SysLog> export(SysLogDTO sysLog) {
 		return sysLogService.getList(sysLog);
 	}
 

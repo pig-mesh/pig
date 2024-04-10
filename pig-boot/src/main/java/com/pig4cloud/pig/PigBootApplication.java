@@ -29,8 +29,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class PigBootApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PigBootApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(PigBootApplication.class, args);
+	}
 
 }

@@ -47,46 +47,46 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class PasswordDecoderFilter extends OncePerRequestFilter {
 
-    private final AuthSecurityConfigProperties authSecurityConfigProperties;
+	private final AuthSecurityConfigProperties authSecurityConfigProperties;
 
-    private static final String PASSWORD = "password";
+	private static final String PASSWORD = "password";
 
-    private static final String KEY_ALGORITHM = "AES";
+	private static final String KEY_ALGORITHM = "AES";
 
-    static {
-        // 关闭hutool 强制关闭Bouncy Castle库的依赖
-        SecureUtil.disableBouncyCastle();
-    }
+	static {
+		// 关闭hutool 强制关闭Bouncy Castle库的依赖
+		SecureUtil.disableBouncyCastle();
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-            throws ServletException, IOException {
-        // 不是登录请求，直接向下执行
-        if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)) {
-            chain.doFilter(request, response);
-            return;
-        }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+			throws ServletException, IOException {
+		// 不是登录请求，直接向下执行
+		if (!StrUtil.containsAnyIgnoreCase(request.getRequestURI(), SecurityConstants.OAUTH_TOKEN_URL)) {
+			chain.doFilter(request, response);
+			return;
+		}
 
-        // 将请求流转换为可多次读取的请求流
-        RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
-        Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
+		// 将请求流转换为可多次读取的请求流
+		RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
+		Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
 
-        // 构建前端对应解密AES 因子
-        AES aes = new AES(Mode.CFB, Padding.NoPadding,
-                new SecretKeySpec(authSecurityConfigProperties.getEncodeKey().getBytes(), KEY_ALGORITHM),
-                new IvParameterSpec(authSecurityConfigProperties.getEncodeKey().getBytes()));
+		// 构建前端对应解密AES 因子
+		AES aes = new AES(Mode.CFB, Padding.NoPadding,
+				new SecretKeySpec(authSecurityConfigProperties.getEncodeKey().getBytes(), KEY_ALGORITHM),
+				new IvParameterSpec(authSecurityConfigProperties.getEncodeKey().getBytes()));
 
-        parameterMap.forEach((k, v) -> {
-            String[] values = parameterMap.get(k);
-            if (!PASSWORD.equals(k) || ArrayUtil.isEmpty(values)) {
-                return;
-            }
+		parameterMap.forEach((k, v) -> {
+			String[] values = parameterMap.get(k);
+			if (!PASSWORD.equals(k) || ArrayUtil.isEmpty(values)) {
+				return;
+			}
 
-            // 解密密码
-            String decryptPassword = aes.decryptStr(values[0]);
-            parameterMap.put(k, new String[]{decryptPassword});
-        });
-        chain.doFilter(requestWrapper, response);
-    }
+			// 解密密码
+			String decryptPassword = aes.decryptStr(values[0]);
+			parameterMap.put(k, new String[]{decryptPassword});
+		});
+		chain.doFilter(requestWrapper, response);
+	}
 
 }

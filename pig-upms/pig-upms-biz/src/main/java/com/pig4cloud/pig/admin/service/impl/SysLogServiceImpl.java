@@ -45,50 +45,50 @@ import java.util.List;
 @Service
 public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
 
-    @Override
-    public Page getLogByPage(Page page, SysLogDTO sysLog) {
-        return baseMapper.selectPage(page, buildQuery(sysLog));
-    }
+	@Override
+	public Page getLogByPage(Page page, SysLogDTO sysLog) {
+		return baseMapper.selectPage(page, buildQuery(sysLog));
+	}
 
-    /**
-     * 插入日志
-     *
-     * @param sysLog 日志对象
-     * @return true/false
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Boolean saveLog(SysLog sysLog) {
-        baseMapper.insert(sysLog);
-        return Boolean.TRUE;
-    }
+	/**
+	 * 插入日志
+	 *
+	 * @param sysLog 日志对象
+	 * @return true/false
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public Boolean saveLog(SysLog sysLog) {
+		baseMapper.insert(sysLog);
+		return Boolean.TRUE;
+	}
 
-    /**
-     * 查询日志列表
-     *
-     * @param sysLog 查询条件
-     * @return List<SysLog>
-     */
-    @Override
-    public List<SysLog> getList(SysLogDTO sysLog) {
-        return baseMapper.selectList(buildQuery(sysLog));
-    }
+	/**
+	 * 查询日志列表
+	 *
+	 * @param sysLog 查询条件
+	 * @return List<SysLog>
+	 */
+	@Override
+	public List<SysLog> getList(SysLogDTO sysLog) {
+		return baseMapper.selectList(buildQuery(sysLog));
+	}
 
-    /**
-     * 构建查询条件
-     *
-     * @param sysLog 前端条件
-     * @return LambdaQueryWrapper
-     */
-    private LambdaQueryWrapper buildQuery(SysLogDTO sysLog) {
-        LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
-        if (StrUtil.isNotBlank(sysLog.getLogType())) {
-            wrapper.eq(SysLog::getLogType, sysLog.getLogType());
-        }
+	/**
+	 * 构建查询条件
+	 *
+	 * @param sysLog 前端条件
+	 * @return LambdaQueryWrapper
+	 */
+	private LambdaQueryWrapper buildQuery(SysLogDTO sysLog) {
+		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();
+		if (StrUtil.isNotBlank(sysLog.getLogType())) {
+			wrapper.eq(SysLog::getLogType, sysLog.getLogType());
+		}
 
-        if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
-            wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
-                    .le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
+		if (ArrayUtil.isNotEmpty(sysLog.getCreateTime())) {
+			wrapper.ge(SysLog::getCreateTime, sysLog.getCreateTime()[0])
+					.le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
 		}
 
 		return wrapper;

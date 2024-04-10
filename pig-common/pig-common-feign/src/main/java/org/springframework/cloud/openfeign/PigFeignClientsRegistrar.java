@@ -49,228 +49,228 @@ import java.util.Map;
  */
 public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware, EnvironmentAware {
 
-    private final static String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
+	private final static String BASE_URL = "http://127.0.0.1:${server.port}${server.servlet.context-path}";
 
-    @Getter
-    private ClassLoader beanClassLoader;
+	@Getter
+	private ClassLoader beanClassLoader;
 
-    @Getter
-    private Environment environment;
+	@Getter
+	private Environment environment;
 
-    @Override
-    public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
-        registerFeignClients(registry);
-    }
+	@Override
+	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
+		registerFeignClients(registry);
+	}
 
-    @Override
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        this.beanClassLoader = classLoader;
-    }
+	@Override
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		this.beanClassLoader = classLoader;
+	}
 
-    private void registerFeignClients(BeanDefinitionRegistry registry) {
-        List<String> feignClients = new ArrayList<>();
+	private void registerFeignClients(BeanDefinitionRegistry registry) {
+		List<String> feignClients = new ArrayList<>();
 
-        // 支持 springboot 2.7 + 最新版本的配置方式
-        ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
+		// 支持 springboot 2.7 + 最新版本的配置方式
+		ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
 
-        // 如果 spring.factories 里为空
-        if (feignClients.isEmpty()) {
-            return;
-        }
-        for (String className : feignClients) {
-            try {
-                Class<?> clazz = beanClassLoader.loadClass(className);
-                AnnotationAttributes attributes = AnnotatedElementUtils.getMergedAnnotationAttributes(clazz,
-                        FeignClient.class);
-                if (attributes == null) {
-                    continue;
-                }
+		// 如果 spring.factories 里为空
+		if (feignClients.isEmpty()) {
+			return;
+		}
+		for (String className : feignClients) {
+			try {
+				Class<?> clazz = beanClassLoader.loadClass(className);
+				AnnotationAttributes attributes = AnnotatedElementUtils.getMergedAnnotationAttributes(clazz,
+						FeignClient.class);
+				if (attributes == null) {
+					continue;
+				}
 
-                // 如果是单体项目自动注入 & url 为空
-                Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
-                // 如果已经存在该 bean，支持原生的 Feign
-                if (registry.containsBeanDefinition(className) && isMicro) {
-                    continue;
-                }
+				// 如果是单体项目自动注入 & url 为空
+				Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
+				// 如果已经存在该 bean，支持原生的 Feign
+				if (registry.containsBeanDefinition(className) && isMicro) {
+					continue;
+				}
 
-                registerClientConfiguration(registry, getClientName(attributes), className,
-                        attributes.get("configuration"));
+				registerClientConfiguration(registry, getClientName(attributes), className,
+						attributes.get("configuration"));
 
-                validate(attributes);
-                BeanDefinitionBuilder definition = BeanDefinitionBuilder
-                        .genericBeanDefinition(FeignClientFactoryBean.class);
-                definition.addPropertyValue("url", getUrl(registry, attributes));
-                definition.addPropertyValue("path", getPath(attributes));
-                String name = getName(attributes);
-                definition.addPropertyValue("name", name);
+				validate(attributes);
+				BeanDefinitionBuilder definition = BeanDefinitionBuilder
+						.genericBeanDefinition(FeignClientFactoryBean.class);
+				definition.addPropertyValue("url", getUrl(registry, attributes));
+				definition.addPropertyValue("path", getPath(attributes));
+				String name = getName(attributes);
+				definition.addPropertyValue("name", name);
 
-                // 兼容最新版本的 spring-cloud-openfeign，尚未发布
-                StringBuilder aliasBuilder = new StringBuilder(18);
-                if (attributes.containsKey("contextId")) {
-                    String contextId = getContextId(attributes);
-                    aliasBuilder.append(contextId);
-                    definition.addPropertyValue("contextId", contextId);
-                } else {
-                    aliasBuilder.append(name);
-                }
+				// 兼容最新版本的 spring-cloud-openfeign，尚未发布
+				StringBuilder aliasBuilder = new StringBuilder(18);
+				if (attributes.containsKey("contextId")) {
+					String contextId = getContextId(attributes);
+					aliasBuilder.append(contextId);
+					definition.addPropertyValue("contextId", contextId);
+				} else {
+					aliasBuilder.append(name);
+				}
 
-                definition.addPropertyValue("type", className);
-                definition.addPropertyValue("dismiss404",
-                        Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
-                Object fallbackFactory = attributes.get("fallbackFactory");
-                if (fallbackFactory != null) {
-                    definition.addPropertyValue("fallbackFactory", fallbackFactory instanceof Class ? fallbackFactory
-                            : ClassUtils.resolveClassName(fallbackFactory.toString(), null));
-                }
-                definition.addPropertyValue("fallbackFactory", attributes.get("fallbackFactory"));
-                definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
+				definition.addPropertyValue("type", className);
+				definition.addPropertyValue("dismiss404",
+						Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
+				Object fallbackFactory = attributes.get("fallbackFactory");
+				if (fallbackFactory != null) {
+					definition.addPropertyValue("fallbackFactory", fallbackFactory instanceof Class ? fallbackFactory
+							: ClassUtils.resolveClassName(fallbackFactory.toString(), null));
+				}
+				definition.addPropertyValue("fallbackFactory", attributes.get("fallbackFactory"));
+				definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 
-                AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
+				AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
 
-                // alias
-                String alias = aliasBuilder.append("FeignClient").toString();
+				// alias
+				String alias = aliasBuilder.append("FeignClient").toString();
 
-                // has a default, won't be null
-                boolean primary = (Boolean) attributes.get("primary");
+				// has a default, won't be null
+				boolean primary = (Boolean) attributes.get("primary");
 
-                beanDefinition.setPrimary(primary);
+				beanDefinition.setPrimary(primary);
 
-                String qualifier = getQualifier(attributes);
-                if (StringUtils.hasText(qualifier)) {
-                    alias = qualifier;
-                }
+				String qualifier = getQualifier(attributes);
+				if (StringUtils.hasText(qualifier)) {
+					alias = qualifier;
+				}
 
-                BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className,
-                        new String[]{alias});
-                BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
+				BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className,
+						new String[]{alias});
+				BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
 
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-    /**
-     * Return the class used by {@link SpringFactoriesLoader} to load configuration
-     * candidates.
-     *
-     * @return the factory class
-     */
-    private Class<?> getSpringFactoriesLoaderFactoryClass() {
-        return PigFeignAutoConfiguration.class;
-    }
+	/**
+	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
+	 * candidates.
+	 *
+	 * @return the factory class
+	 */
+	private Class<?> getSpringFactoriesLoaderFactoryClass() {
+		return PigFeignAutoConfiguration.class;
+	}
 
-    private void validate(Map<String, Object> attributes) {
-        AnnotationAttributes annotation = AnnotationAttributes.fromMap(attributes);
-        // This blows up if an aliased property is overspecified
-        FeignClientsRegistrar.validateFallback(annotation.getClass("fallback"));
-        FeignClientsRegistrar.validateFallbackFactory(annotation.getClass("fallbackFactory"));
-    }
+	private void validate(Map<String, Object> attributes) {
+		AnnotationAttributes annotation = AnnotationAttributes.fromMap(attributes);
+		// This blows up if an aliased property is overspecified
+		FeignClientsRegistrar.validateFallback(annotation.getClass("fallback"));
+		FeignClientsRegistrar.validateFallbackFactory(annotation.getClass("fallbackFactory"));
+	}
 
-    private String getName(Map<String, Object> attributes) {
-        String name = (String) attributes.get("serviceId");
-        if (!StringUtils.hasText(name)) {
-            name = (String) attributes.get("name");
-        }
-        if (!StringUtils.hasText(name)) {
-            name = (String) attributes.get("value");
-        }
-        name = resolve(name);
-        return FeignClientsRegistrar.getName(name);
-    }
+	private String getName(Map<String, Object> attributes) {
+		String name = (String) attributes.get("serviceId");
+		if (!StringUtils.hasText(name)) {
+			name = (String) attributes.get("name");
+		}
+		if (!StringUtils.hasText(name)) {
+			name = (String) attributes.get("value");
+		}
+		name = resolve(name);
+		return FeignClientsRegistrar.getName(name);
+	}
 
-    private String getContextId(Map<String, Object> attributes) {
-        String contextId = (String) attributes.get("contextId");
-        if (!StringUtils.hasText(contextId)) {
-            return getName(attributes);
-        }
+	private String getContextId(Map<String, Object> attributes) {
+		String contextId = (String) attributes.get("contextId");
+		if (!StringUtils.hasText(contextId)) {
+			return getName(attributes);
+		}
 
-        contextId = resolve(contextId);
-        return FeignClientsRegistrar.getName(contextId);
-    }
+		contextId = resolve(contextId);
+		return FeignClientsRegistrar.getName(contextId);
+	}
 
-    private String resolve(String value) {
-        if (StringUtils.hasText(value)) {
-            return this.environment.resolvePlaceholders(value);
-        }
-        return value;
-    }
+	private String resolve(String value) {
+		if (StringUtils.hasText(value)) {
+			return this.environment.resolvePlaceholders(value);
+		}
+		return value;
+	}
 
-    private String getUrl(BeanDefinitionRegistry registry, Map<String, Object> attributes) {
+	private String getUrl(BeanDefinitionRegistry registry, Map<String, Object> attributes) {
 
-        // 如果是单体项目自动注入 & url 为空
-        Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
+		// 如果是单体项目自动注入 & url 为空
+		Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
 
-        if (isMicro) {
-            return null;
-        }
+		if (isMicro) {
+			return null;
+		}
 
-        String url = resolve(BASE_URL);
+		String url = resolve(BASE_URL);
 
-        return FeignClientsRegistrar.getUrl(url);
-    }
+		return FeignClientsRegistrar.getUrl(url);
+	}
 
-    private String getPath(Map<String, Object> attributes) {
-        String path = resolve((String) attributes.get("path"));
-        return FeignClientsRegistrar.getPath(path);
-    }
+	private String getPath(Map<String, Object> attributes) {
+		String path = resolve((String) attributes.get("path"));
+		return FeignClientsRegistrar.getPath(path);
+	}
 
-    @Nullable
-    private String getQualifier(@Nullable Map<String, Object> client) {
-        if (client == null) {
-            return null;
-        }
-        String qualifier = (String) client.get("qualifier");
-        if (StringUtils.hasText(qualifier)) {
-            return qualifier;
-        }
-        return null;
-    }
+	@Nullable
+	private String getQualifier(@Nullable Map<String, Object> client) {
+		if (client == null) {
+			return null;
+		}
+		String qualifier = (String) client.get("qualifier");
+		if (StringUtils.hasText(qualifier)) {
+			return qualifier;
+		}
+		return null;
+	}
 
-    @Nullable
-    private String getClientName(@Nullable Map<String, Object> client) {
-        if (client == null) {
-            return null;
-        }
-        String value = (String) client.get("contextId");
-        if (!StringUtils.hasText(value)) {
-            value = (String) client.get("value");
-        }
-        if (!StringUtils.hasText(value)) {
-            value = (String) client.get("name");
-        }
-        if (!StringUtils.hasText(value)) {
-            value = (String) client.get("serviceId");
-        }
-        if (StringUtils.hasText(value)) {
-            return value;
-        }
+	@Nullable
+	private String getClientName(@Nullable Map<String, Object> client) {
+		if (client == null) {
+			return null;
+		}
+		String value = (String) client.get("contextId");
+		if (!StringUtils.hasText(value)) {
+			value = (String) client.get("value");
+		}
+		if (!StringUtils.hasText(value)) {
+			value = (String) client.get("name");
+		}
+		if (!StringUtils.hasText(value)) {
+			value = (String) client.get("serviceId");
+		}
+		if (StringUtils.hasText(value)) {
+			return value;
+		}
 
-        throw new IllegalStateException(
-                "Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
-    }
+		throw new IllegalStateException(
+				"Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
+	}
 
-    private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
-        builder.addConstructorArgValue(name);
-        builder.addConstructorArgValue(configuration);
-        registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
-                builder.getBeanDefinition());
-    }
+	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
+		builder.addConstructorArgValue(name);
+		builder.addConstructorArgValue(configuration);
+		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
+				builder.getBeanDefinition());
+	}
 
-    private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
-                                             Object configuration) {
-        BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
-        builder.addConstructorArgValue(name);
-        builder.addConstructorArgValue(className);
-        builder.addConstructorArgValue(configuration);
-        registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
-                builder.getBeanDefinition());
-    }
+	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
+	                                         Object configuration) {
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
+		builder.addConstructorArgValue(name);
+		builder.addConstructorArgValue(className);
+		builder.addConstructorArgValue(configuration);
+		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
+				builder.getBeanDefinition());
+	}
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
+	@Override
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
 	}
 
 }
