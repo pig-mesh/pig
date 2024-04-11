@@ -110,7 +110,6 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
                 }
 
                 formItemVO.getProps().setValue(subList);
-                formItemVO.getProps();
             }
 
         }

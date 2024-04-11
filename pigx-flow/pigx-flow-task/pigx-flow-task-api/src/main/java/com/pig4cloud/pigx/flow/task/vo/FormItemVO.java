@@ -10,50 +10,58 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FormItemVO {
 
-	private String id;
+    private String id;
 
-	private String perm;
+    private String perm;
 
-	private String icon;
+    private String icon;
 
-	private String name;
+    private String name;
 
-	private String type;
+    private String type;
 
-	private Boolean required;
+    private Boolean required;
 
-	private String typeName;
+    private String typeName;
 
-	private String placeholder;
+    private String placeholder;
 
-	private Props props;
+    private Props props;
 
-	@Data
-	@NoArgsConstructor
-	public static class Props {
+    @Data
+    @NoArgsConstructor
+    public static class Props {
 
-		private Object value;
+        private Object value;
 
-		private Object dictValue;
+        private Object dictValue;
 
-		private Object options;
+        private Object options;
 
-		private Boolean self;
+        private Boolean self;
 
-		private Boolean multi;
+        private Boolean multi;
 
-		private Object oriForm;
+        private Object oriForm;
 
-		private Object maxLength;
+        private Object maxLength;
 
-		private Object minLength;
+        private Object minLength;
 
-		private Object regex;
+        private Object regex;
 
-		private Object regexDesc;
+        private Object regexDesc;
 
-		private String prefix;
+        private String prefix;
 
-	}
+        private Long min;
+
+        private Long max;
+
+        private String unit;
+
+        private Integer radixNum;
+
+    }
 
 }
