@@ -81,28 +81,28 @@ public class AuthorizationServerConfiguration {
 		http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
 
 		http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
-					tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
-							.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
-							.errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
-				}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
-						oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
-				.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-						.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)), Customizer.withDefaults());
+			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter()) // 注入自定义的授权认证Converter
+				.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
+				.errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
+		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
+		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
+			.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
+				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)), Customizer.withDefaults());
 
-		AntPathRequestMatcher[] requestMatchers = new AntPathRequestMatcher[]{
+		AntPathRequestMatcher[] requestMatchers = new AntPathRequestMatcher[] {
 				AntPathRequestMatcher.antMatcher("/token/**"), AntPathRequestMatcher.antMatcher("/actuator/**"),
 				AntPathRequestMatcher.antMatcher("/code/image"), AntPathRequestMatcher.antMatcher("/css/**"),
-				AntPathRequestMatcher.antMatcher("/error")};
+				AntPathRequestMatcher.antMatcher("/error") };
 
 		http.authorizeHttpRequests(authorizeRequests -> {
-					// 自定义接口、端点暴露
-					authorizeRequests.requestMatchers(requestMatchers).permitAll();
-					authorizeRequests.anyRequest().authenticated();
-				})
-				.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-								.authorizationServerSettings(
-										AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
-						Customizer.withDefaults());
+			// 自定义接口、端点暴露
+			authorizeRequests.requestMatchers(requestMatchers).permitAll();
+			authorizeRequests.anyRequest().authenticated();
+		})
+			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+				.authorizationServerSettings(
+						AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+					Customizer.withDefaults());
 		http.with(new FormIdentityLoginConfigurer(), Customizer.withDefaults());
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 

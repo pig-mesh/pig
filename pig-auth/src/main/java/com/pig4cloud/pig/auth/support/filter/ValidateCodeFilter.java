@@ -71,7 +71,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		try {
 			checkCode();
 			filterChain.doFilter(request, response);
-		} catch (ValidateCodeException validateCodeException) {
+		}
+		catch (ValidateCodeException validateCodeException) {
 			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
 		}
 	}

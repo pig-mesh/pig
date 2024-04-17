@@ -84,7 +84,7 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 
 			// 解密密码
 			String decryptPassword = aes.decryptStr(values[0]);
-			parameterMap.put(k, new String[]{decryptPassword});
+			parameterMap.put(k, new String[] { decryptPassword });
 		});
 		chain.doFilter(requestWrapper, response);
 	}

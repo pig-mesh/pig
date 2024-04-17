@@ -92,9 +92,8 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 认证页面
-	 *
 	 * @param modelAndView
-	 * @param error        表单登录失败处理回调的错误信息
+	 * @param error 表单登录失败处理回调的错误信息
 	 * @return ModelAndView
 	 */
 	@GetMapping("/login")
@@ -106,13 +105,13 @@ public class PigTokenEndpoint {
 
 	@GetMapping("/confirm_access")
 	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
-	                            @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-	                            @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-	                            @RequestParam(OAuth2ParameterNames.STATE) String state) {
+			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+			@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps
-				.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
-				.getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.getData()
+			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);
@@ -125,7 +124,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 退出并删除token
-	 *
 	 * @param authHeader Authorization
 	 */
 	@DeleteMapping("/logout")
@@ -140,7 +138,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 校验token
-	 *
 	 * @param token 令牌
 	 */
 	@SneakyThrows
@@ -171,7 +168,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 令牌管理调用
-	 *
 	 * @param token token
 	 */
 	@Inner
@@ -198,7 +194,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 查询token
-	 *
 	 * @param params 分页参数
 	 * @return
 	 */

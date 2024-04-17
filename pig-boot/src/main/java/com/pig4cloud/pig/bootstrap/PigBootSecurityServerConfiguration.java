@@ -88,39 +88,39 @@ public class PigBootSecurityServerConfiguration {
 
 		// 认证服务器配置
 		http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
-							tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter) // 注入自定义的授权认证Converter
-									.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
-									.errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
-						}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
-								oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
-						, Customizer.withDefaults())
-				.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-								.authorizationServerSettings(
-										AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
-						Customizer.withDefaults());
+			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter) // 注入自定义的授权认证Converter
+				.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
+				.errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
+		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
+		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
+				, Customizer.withDefaults())
+			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+				.authorizationServerSettings(
+						AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+					Customizer.withDefaults());
 
 		// 资源服务器配置
 		AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
-				.stream()
-				.map(AntPathRequestMatcher::new)
-				.toList()
-				.toArray(new AntPathRequestMatcher[]{});
+			.stream()
+			.map(AntPathRequestMatcher::new)
+			.toList()
+			.toArray(new AntPathRequestMatcher[] {});
 
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
-						.permitAll()
-						.anyRequest()
-						.authenticated())
-				.oauth2ResourceServer(
-						oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-								.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-								.bearerTokenResolver(pigBearerTokenExtractor))
-				.exceptionHandling(configurer -> configurer.authenticationEntryPoint(resourceAuthExceptionEntryPoint))
-				.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-				.csrf(AbstractHttpConfigurer::disable);
+			.permitAll()
+			.anyRequest()
+			.authenticated())
+			.oauth2ResourceServer(
+					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+						.bearerTokenResolver(pigBearerTokenExtractor))
+			.exceptionHandling(configurer -> configurer.authenticationEntryPoint(resourceAuthExceptionEntryPoint))
+			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+			.csrf(AbstractHttpConfigurer::disable);
 
 		http.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-						.authorizationServerSettings(
-								AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+			.authorizationServerSettings(
+					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
 				Customizer.withDefaults());
 
 		DefaultSecurityFilterChain securityFilterChain = http.build();

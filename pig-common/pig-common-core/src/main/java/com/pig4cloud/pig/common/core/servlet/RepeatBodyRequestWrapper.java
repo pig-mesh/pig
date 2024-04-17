@@ -84,7 +84,8 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 		byte[] body = new byte[0];
 		try {
 			body = StreamUtils.copyToByteArray(request.getInputStream());
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("解析流中数据异常", e);
 		}
 		return body;
@@ -92,7 +93,6 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
 	/**
 	 * 重写 getParameterMap() 方法 解决 undertow 中流被读取后，会进行标记，从而导致无法正确获取 body 中的表单数据的问题
-	 *
 	 * @return Map<String, String [ ]> parameterMap
 	 */
 	@Override

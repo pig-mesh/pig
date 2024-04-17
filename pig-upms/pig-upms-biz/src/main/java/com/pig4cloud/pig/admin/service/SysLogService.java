@@ -38,7 +38,6 @@ public interface SysLogService extends IService<SysLog> {
 
 	/**
 	 * 分页查询日志
-	 *
 	 * @param page
 	 * @param sysLog
 	 * @return
@@ -47,7 +46,6 @@ public interface SysLogService extends IService<SysLog> {
 
 	/**
 	 * 插入日志
-	 *
 	 * @param sysLog 日志对象
 	 * @return true/false
 	 */

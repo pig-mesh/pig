@@ -57,8 +57,7 @@ public class SysLogController {
 
 	/**
 	 * 简单分页查询
-	 *
-	 * @param page   分页对象
+	 * @param page 分页对象
 	 * @param sysLog 系统日志
 	 * @return
 	 */
@@ -69,7 +68,6 @@ public class SysLogController {
 
 	/**
 	 * 批量删除日志
-	 *
 	 * @param ids ID
 	 * @return success/false
 	 */
@@ -81,7 +79,6 @@ public class SysLogController {
 
 	/**
 	 * 插入日志
-	 *
 	 * @param sysLog 日志实体
 	 * @return success/false
 	 */
@@ -93,7 +90,6 @@ public class SysLogController {
 
 	/**
 	 * 导出excel 表格
-	 *
 	 * @param sysLog 查询条件
 	 * @return
 	 */
