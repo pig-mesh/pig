@@ -22,7 +22,7 @@ jobs:
           distribution: 'zulu'
 
       - name: mvn clean install
-        run: mvn clean install -pl !'pig-boot' -Pcloud
+        run: mvn clean install -Pcloud
 
       - name: Login to Docker Registry
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
