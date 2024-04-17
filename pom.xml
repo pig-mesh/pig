@@ -99,7 +99,6 @@
     </dependencies>
 
     <modules>
-        <module>pig-boot</module>
         <module>pig-register</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>
@@ -279,6 +278,12 @@
                 <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>boot</id>
+            <modules>
+                <module>pig-boot</module>
+            </modules>
         </profile>
     </profiles>
 </project>
