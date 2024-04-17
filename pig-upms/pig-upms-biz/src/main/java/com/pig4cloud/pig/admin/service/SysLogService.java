@@ -36,26 +36,24 @@ import java.util.List;
  */
 public interface SysLogService extends IService<SysLog> {
 
-    /**
-     * 分页查询日志
-     *
-     * @param page
-     * @param sysLog
-     * @return
-     */
-    Page getLogByPage(Page page, SysLogDTO sysLog);
+	/**
+	 * 分页查询日志
+	 * @param page
+	 * @param sysLog
+	 * @return
+	 */
+	Page getLogByPage(Page page, SysLogDTO sysLog);
 
-    /**
-     * 插入日志
-     *
-     * @param sysLog 日志对象
-     * @return true/false
-     */
-    Boolean saveLog(SysLog sysLog);
+	/**
+	 * 插入日志
+	 * @param sysLog 日志对象
+	 * @return true/false
+	 */
+	Boolean saveLog(SysLog sysLog);
 
-    /**
-     * 查询日志列表
-     * @param sysLog 查询条件
+	/**
+	 * 查询日志列表
+	 * @param sysLog 查询条件
 	 * @return List<SysLog>
 	 */
 	List<SysLog> getList(SysLogDTO sysLog);

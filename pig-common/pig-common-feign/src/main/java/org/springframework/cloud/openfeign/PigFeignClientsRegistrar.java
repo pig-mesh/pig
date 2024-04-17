@@ -97,7 +97,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 
 				validate(attributes);
 				BeanDefinitionBuilder definition = BeanDefinitionBuilder
-						.genericBeanDefinition(FeignClientFactoryBean.class);
+					.genericBeanDefinition(FeignClientFactoryBean.class);
 				definition.addPropertyValue("url", getUrl(registry, attributes));
 				definition.addPropertyValue("path", getPath(attributes));
 				String name = getName(attributes);
@@ -109,7 +109,8 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 					String contextId = getContextId(attributes);
 					aliasBuilder.append(contextId);
 					definition.addPropertyValue("contextId", contextId);
-				} else {
+				}
+				else {
 					aliasBuilder.append(name);
 				}
 
@@ -135,10 +136,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 				}
 
 				BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className,
-						new String[]{alias});
+						new String[] { alias });
 				BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
 
-			} catch (ClassNotFoundException e) {
+			}
+			catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
@@ -147,7 +149,6 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	/**
 	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
 	 * candidates.
-	 *
 	 * @return the factory class
 	 */
 	private Class<?> getSpringFactoriesLoaderFactoryClass() {
