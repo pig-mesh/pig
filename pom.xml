@@ -301,6 +301,12 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+        <profile>
+            <id>boot</id>
+            <modules>
+                <module>pig-boot</module>
+            </modules>
+        </profile>
     </profiles>
 
     <repositories>
