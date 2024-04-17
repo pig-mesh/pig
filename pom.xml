@@ -107,7 +107,6 @@
 
     <modules>
         <module>pig-register</module>
-        <module>pig-boot</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>
         <module>pig-upms</module>
