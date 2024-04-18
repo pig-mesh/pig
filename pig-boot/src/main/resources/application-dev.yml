@@ -1,7 +1,11 @@
 spring:
+  cache:
+    type: redis # 缓存类型 Redis
   data:
     redis:
-      host: pig-redis
+      host: pig-redis  # Redis地址
+      password: # Redis密码，没有留空
+      port: 6379  # Redis端口
   # 数据库相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,9 +30,9 @@ security:
 # 配置文件加密根密码
 jasypt:
   encryptor:
-    password: pig
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    password: pig  # 加密根密码
+    algorithm: PBEWithMD5AndDES  # 加密算法
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator # 无向量生成器
 
 # swagger 配置
 swagger:

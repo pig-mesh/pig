@@ -1,56 +1,29 @@
 server:
-  port: 9999
+  port: 9999    # 项目端口
   servlet:
-    context-path: /admin
+    context-path: /admin  # 项目访问路径
 
 spring:
   application:
-    name: @project.artifactId@
-  # 缓存相关配置
-  cache:
-    type: redis
-  # 定时任务属性配置
-  quartz:
-    properties:
-      org:
-        quartz:
-          scheduler:
-            instanceName: clusteredScheduler
-            instanceId: AUTO
-          jobStore:
-            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-            tablePrefix: QRTZ_
-            isClustered: true
-            clusterCheckinInterval: 10000
-            useProperties: false
-          threadPool:
-            class: org.quartz.simpl.SimpleThreadPool
-            threadCount: 50
-            threadPriority: 5
-            threadsInheritContextClassLoaderOfInitializingThread: true
-    job-store-type: jdbc
-    jdbc:
-      initialize-schema: always # 生产注意设置为 never
-    startup-delay: 10
+    name: @project.artifactId@  # 服务名称，取 pom.xml 中的 artifactId
   # 上传文件大小限制
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 100MB # 单个文件最大
+      max-request-size: 100MB # 接收的最大请求大小
   cloud:
-    nacos:
+    nacos:  # 单机版本关闭nacos 服务发现和配置管理的能力
       config:
         enabled: false
       discovery:
         enabled: false
   main:
-    allow-bean-definition-overriding: true
+    allow-bean-definition-overriding: true # 允许覆盖bean定义
   profiles:
-    active: dev
+    active: dev  # 激活dev，对应 application-dev.yml
 
 
-## spring security 对外暴露接口设置
+## spring security 对外暴露接口设置（不鉴权直接可访问）
 security:
   micro: false
   oauth2:
@@ -71,16 +44,16 @@ security:
 #--------------如下配置尽量不要变动-------------
 # mybatis-plus 配置
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/*Mapper.xml
+  mapper-locations: classpath*:/mapper/*Mapper.xml # mapper文件位置
   global-config:
-    banner: false
+    banner: false # 是否打印 mybatis-plus banner
     db-config:
-      id-type: auto
-      where-strategy: not_empty
-      insert-strategy: not_empty
-      update-strategy: not_null
-  type-handlers-package: com.pig4cloud.pig.common.mybatis.handler
+      id-type: auto  # 主键类型
+      where-strategy: not_empty # where 条件策略
+      insert-strategy: not_empty # 插入策略
+      update-strategy: not_null  # 更新策略
+  type-handlers-package: com.pig4cloud.pig.common.mybatis.handler # 类型处理器包
   configuration:
-    jdbc-type-for-null: 'null'
-    call-setters-on-nulls: true
-    shrink-whitespaces-in-sql: true
+    jdbc-type-for-null: 'null' # 是否设置字段为null
+    call-setters-on-nulls: true # 是否调用set方法时传入null值
+    shrink-whitespaces-in-sql: true # 去掉sql中多余的空格
