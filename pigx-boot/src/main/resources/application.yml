@@ -1,0 +1,65 @@
+server:
+  port: 9999
+  servlet:
+    context-path: /admin
+
+spring:
+  application:
+    name: @project.artifactId@
+  # 缓存相关配置
+  cache:
+    type: redis
+  # 上传文件大小限制
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        enabled: false
+    gateway:
+      enabled: false
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active: dev
+
+## spring security 对外暴露接口设置
+security:
+  micro: false
+  oauth2:
+    client:
+      ignore-urls:
+        - /webjars/**
+        - /v3/api-docs/**
+        - /doc.html
+        - /swagger-ui.html
+        - /swagger-ui/**
+        - /swagger-resources
+        - /token/check_token
+        - /error
+        - /druid/**
+        - /actuator/**
+        - /code/**
+
+#--------------如下配置尽量不要变动-------------
+# mybatis-plus 配置
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      where-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_null
+  type-handlers-package: com.pig4cloud.pigx.common.data.handler
+  configuration:
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    shrink-whitespaces-in-sql: true
+mybatis-plus-join:
+  banner: false

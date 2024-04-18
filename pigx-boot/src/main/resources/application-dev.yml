@@ -1,0 +1,39 @@
+spring:
+  data:
+    redis:
+      host: pigx-redis
+  # 数据库相关配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: root
+      url: jdbc:mysql://pigx-mysql:3306/pigxx_boot?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true
+
+
+# 文件上传配置
+file:
+  local:
+    enable: true
+    base-path: /Users/lengleng/Downloads/img
+
+# 验证码配置
+aj:
+  captcha:
+    water-mark: pig4cloud
+    cache-type: redis
+security:
+  # 登录报文加密根密钥 ，必须是16位
+  encodeKey: pigxpigxpigxpigx
+
+# 配置文件加密根密码
+jasypt:
+  encryptor:
+    password: pigx
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+
+# swagger 配置
+swagger:
+  token-url: ${swagger.gateway}/admin/oauth2/token
