@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
+import com.pig4cloud.pig.common.core.factory.YamlPropertySourceFactory;
 import org.quartz.Calendar;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -30,6 +31,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
@@ -42,6 +44,7 @@ import java.util.Properties;
  */
 @EnableAsync
 @Configuration
+@PropertySource(value = "classpath:quartz-config.yml", factory = YamlPropertySourceFactory.class)
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
 @EnableConfigurationProperties({ QuartzProperties.class })
 public class PigQuartzConfig {
