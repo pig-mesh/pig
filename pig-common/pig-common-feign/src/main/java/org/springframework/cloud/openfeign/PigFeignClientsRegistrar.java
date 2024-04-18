@@ -34,6 +34,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -67,12 +68,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	}
 
 	private void registerFeignClients(BeanDefinitionRegistry registry) {
-
-		List<String> feignClients = new ArrayList<>(
-				SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader()));
+		List<String> feignClients = new ArrayList<>();
 
 		// 支持 springboot 2.7 + 最新版本的配置方式
 		ImportCandidates.load(FeignClient.class, getBeanClassLoader()).forEach(feignClients::add);
+
 		// 如果 spring.factories 里为空
 		if (feignClients.isEmpty()) {
 			return;
@@ -93,12 +93,13 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 					continue;
 				}
 
-				registerClientConfiguration(registry, getClientName(attributes), attributes.get("configuration"));
+				registerClientConfiguration(registry, getClientName(attributes), className,
+						attributes.get("configuration"));
 
 				validate(attributes);
 				BeanDefinitionBuilder definition = BeanDefinitionBuilder
-						.genericBeanDefinition(FeignClientFactoryBean.class);
-				definition.addPropertyValue("url", getUrl(registry, attributes));
+					.genericBeanDefinition(FeignClientFactoryBean.class);
+				definition.addPropertyValue("url", getUrl(attributes));
 				definition.addPropertyValue("path", getPath(attributes));
 				String name = getName(attributes);
 				definition.addPropertyValue("name", name);
@@ -109,13 +110,19 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 					String contextId = getContextId(attributes);
 					aliasBuilder.append(contextId);
 					definition.addPropertyValue("contextId", contextId);
-				} else {
+				}
+				else {
 					aliasBuilder.append(name);
 				}
 
 				definition.addPropertyValue("type", className);
-				definition.addPropertyValue("decode404", attributes.get("decode404"));
-				definition.addPropertyValue("fallback", attributes.get("fallback"));
+				definition.addPropertyValue("dismiss404",
+						Boolean.parseBoolean(String.valueOf(attributes.get("dismiss404"))));
+				Object fallbackFactory = attributes.get("fallbackFactory");
+				if (fallbackFactory != null) {
+					definition.addPropertyValue("fallbackFactory", fallbackFactory instanceof Class ? fallbackFactory
+							: ClassUtils.resolveClassName(fallbackFactory.toString(), null));
+				}
 				definition.addPropertyValue("fallbackFactory", attributes.get("fallbackFactory"));
 				definition.setAutowireMode(AbstractBeanDefinition.AUTOWIRE_BY_TYPE);
 
@@ -135,10 +142,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 				}
 
 				BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className,
-						new String[]{alias});
+						new String[] { alias });
 				BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
 
-			} catch (ClassNotFoundException e) {
+			}
+			catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
@@ -147,7 +155,6 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	/**
 	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
 	 * candidates.
-	 *
 	 * @return the factory class
 	 */
 	private Class<?> getSpringFactoriesLoaderFactoryClass() {
@@ -190,7 +197,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return value;
 	}
 
-	private String getUrl(BeanDefinitionRegistry registry, Map<String, Object> attributes) {
+	private String getUrl(Map<String, Object> attributes) {
 
 		// 如果是单体项目自动注入 & url 为空
 		Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
@@ -199,7 +206,15 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 			return null;
 		}
 
-		String url = resolve(BASE_URL);
+		Object objUrl = attributes.get("url");
+
+		String url = "";
+		if (StringUtils.hasText(objUrl.toString())) {
+			url = resolve(objUrl.toString());
+		}
+		else {
+			url = resolve(BASE_URL);
+		}
 
 		return FeignClientsRegistrar.getUrl(url);
 	}
@@ -247,6 +262,16 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
 		builder.addConstructorArgValue(name);
+		builder.addConstructorArgValue(configuration);
+		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
+				builder.getBeanDefinition());
+	}
+
+	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
+			Object configuration) {
+		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
+		builder.addConstructorArgValue(name);
+		builder.addConstructorArgValue(className);
 		builder.addConstructorArgValue(configuration);
 		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
 				builder.getBeanDefinition());
