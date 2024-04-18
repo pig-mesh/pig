@@ -17,6 +17,8 @@
 
 package org.springframework.cloud.openfeign;
 
+import cn.hutool.core.map.MapUtil;
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration;
 import lombok.Getter;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -99,7 +101,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 				validate(attributes);
 				BeanDefinitionBuilder definition = BeanDefinitionBuilder
 					.genericBeanDefinition(FeignClientFactoryBean.class);
-				definition.addPropertyValue("url", getUrl(registry, attributes));
+				definition.addPropertyValue("url", getUrl(attributes));
 				definition.addPropertyValue("path", getPath(attributes));
 				String name = getName(attributes);
 				definition.addPropertyValue("name", name);
@@ -197,7 +199,7 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return value;
 	}
 
-	private String getUrl(BeanDefinitionRegistry registry, Map<String, Object> attributes) {
+	private String getUrl(Map<String, Object> attributes) {
 
 		// 如果是单体项目自动注入 & url 为空
 		Boolean isMicro = environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
@@ -206,7 +208,15 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 			return null;
 		}
 
-		String url = resolve(BASE_URL);
+		Object objUrl = attributes.get("url");
+
+		String url = "";
+		if (StringUtils.hasText(objUrl.toString())) {
+			url = resolve(objUrl.toString());
+		}
+		else {
+			url = resolve(BASE_URL);
+		}
 
 		return FeignClientsRegistrar.getUrl(url);
 	}
