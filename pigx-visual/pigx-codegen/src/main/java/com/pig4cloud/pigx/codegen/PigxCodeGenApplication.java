@@ -30,8 +30,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date 2018/07/29 代码生成模块
  */
 @EnableDynamicDataSource
-@EnableOpenApi("gen")
 @EnablePigxFeignClients
+@EnableOpenApi("gen")
 @EnableDiscoveryClient
 @EnablePigxResourceServer
 @SpringBootApplication

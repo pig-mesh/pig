@@ -23,7 +23,6 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
-import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
@@ -163,11 +162,6 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 			errorMessage = exception.getLocalizedMessage();
 		}
 
-		// 手机号登录
-		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (SecurityConstants.APP.equals(grantType)) {
-			errorMessage = MsgUtils.getSecurityMessage("AbstractUserDetailsAuthenticationProvider.smsBadCredentials");
-		}
 
 		this.errorHttpResponseConverter.write(R.failed(errorMessage), MediaType.APPLICATION_JSON, httpResponse);
 	}

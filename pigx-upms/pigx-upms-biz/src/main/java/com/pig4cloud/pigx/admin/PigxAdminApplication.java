@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pigx.admin;
 
-import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import com.pig4cloud.pigx.common.security.annotation.EnablePigxResourceServer;
 import com.pig4cloud.pigx.common.swagger.annotation.EnableOpenApi;
 import org.springframework.boot.SpringApplication;
@@ -33,7 +32,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * 用户统一管理系统
  */
 @EnableOpenApi("admin")
-@EnablePigxFeignClients
 @EnablePigxResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication

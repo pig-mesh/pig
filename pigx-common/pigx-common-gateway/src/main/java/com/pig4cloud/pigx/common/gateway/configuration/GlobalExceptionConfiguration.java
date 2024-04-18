@@ -5,20 +5,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import org.springframework.web.reactive.resource.NoResourceFoundException;
 
 /**
  * @author lengleng
@@ -30,6 +26,7 @@ import org.springframework.web.reactive.resource.NoResourceFoundException;
 @Order(-1)
 @Configuration
 @RequiredArgsConstructor
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GlobalExceptionConfiguration implements ErrorWebExceptionHandler {
 
     private final ObjectMapper objectMapper;
@@ -59,27 +56,6 @@ public class GlobalExceptionConfiguration implements ErrorWebExceptionHandler {
                 return bufferFactory.wrap(new byte[0]);
             }
         }));
-    }
-
-}
-
-
-/**
- * 保持和低版本请求路径不存在的行为一致
- * <p>
- * <a href="https://github.com/spring-projects/spring-boot/issues/38733">[Spring Boot
- * 3.2.0] 404 Not Found behavior #38733</a>
- */
-@Slf4j
-@RestControllerAdvice
-class ReactiveNoResourceFoundHandler {
-
-
-    @ExceptionHandler({NoResourceFoundException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public R noResourceFoundException(NoResourceFoundException exception) {
-        log.debug("请求路径 404 {}", exception.getMessage());
-        return R.failed(exception.getMessage());
     }
 
 }

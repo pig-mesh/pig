@@ -15,7 +15,7 @@ import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.constant.WxMpEventConstants;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -88,7 +88,7 @@ public class WxMpInitConfigRunner {
 
 	@Async
 	@Order
-	@EventListener({ WebServerInitializedEvent.class })
+	@EventListener({ ApplicationReadyEvent.class })
 	public void WebServerInit() {
 		this.initServices();
 	}

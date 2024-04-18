@@ -50,7 +50,7 @@
         <flowable.version>7.0.0</flowable.version>
         <dingtalk.old.version>2.0.0</dingtalk.old.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
-        <knife4j.version>2.0.9</knife4j.version>
+        <knife4j.version>3.0.5</knife4j.version>
         <velocity.version>2.3</velocity.version>
         <velocity.tool.version>3.1</velocity.tool.version>
         <jasypt.version>3.0.5</jasypt.version>
@@ -252,45 +252,9 @@
         </plugins>
     </build>
 
-    <!--  增加云效nexus示例仓库 （演示使用，可自行删除）  -->
-    <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2161442-release-DcBZC1/</url>
-        </repository>
-        <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>https://packages.aliyun.com/maven/repository/2161442-snapshot-FzKqZK/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>https://maven.aliyun.com/repository/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>aliyun-plugin</id>
-            <url>https://maven.aliyun.com/repository/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </pluginRepository>
-    </pluginRepositories>
-
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>cloud</id>
             <properties>
                 <!-- 环境标识，需要与配置文件的名称相对应 -->
                 <profiles.active>dev</profiles.active>
@@ -301,6 +265,12 @@
                 <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>boot</id>
+            <modules>
+                <module>pigx-boot</module>
+            </modules>
         </profile>
     </profiles>
 

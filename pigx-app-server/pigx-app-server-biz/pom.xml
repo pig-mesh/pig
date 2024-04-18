@@ -1,105 +1,124 @@
 <?xml version="1.0"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
             http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx-app-server</artifactId>
-		<version>5.4.0</version>
-	</parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx-app-server</artifactId>
+        <version>5.4.0</version>
+    </parent>
 
-	<artifactId>pigx-app-server-biz</artifactId>
+    <artifactId>pigx-app-server-biz</artifactId>
 
-	<dependencies>
-		<!--必备: undertow容器-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
-		</dependency>
-		<!--必备: spring boot web-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<!--必备: 注册中心客户端-->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-		</dependency>
-		<!--必备: 配置中心客户端-->
-		<dependency>
-			<groupId>com.alibaba.cloud</groupId>
-			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-		</dependency>
-		<!--必备: 操作数据源相关-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-data</artifactId>
-		</dependency>
-		<!--必备：pigx安全模块-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-security</artifactId>
-		</dependency>
-		<!--必备：xss 过滤模块-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-xss</artifactId>
-		</dependency>
-		<!--必备: sentinel 依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-sentinel</artifactId>
-		</dependency>
-		<!--必备: feign 依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-feign</artifactId>
-		</dependency>
-		<!--必备: 依赖api模块-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-app-server-api</artifactId>
-			<version>5.4.0</version>
-		</dependency>
-		<!--必备: log 依赖-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-log</artifactId>
-		</dependency>
-		<!--选配: mybatis 依赖 -->
-		<dependency>
-			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-		</dependency>
-		<!--选配： druid 连接池 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-3-starter</artifactId>
-		</dependency>
-		<!--选配: mysql 数据库驱动 -->
-		<dependency>
-			<groupId>com.mysql</groupId>
-			<artifactId>mysql-connector-j</artifactId>
-		</dependency>
-		<!--选配: swagger文档-->
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-common-swagger</artifactId>
-		</dependency>
-	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>io.fabric8</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <dependencies>
+        <!--必备: undertow容器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+        <!--必备: spring boot web-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--必备: 注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--必备: 配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--必备: 操作数据源相关-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-data</artifactId>
+        </dependency>
+        <!--必备：pigx安全模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-security</artifactId>
+        </dependency>
+        <!--必备：xss 过滤模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-xss</artifactId>
+        </dependency>
+        <!--必备: sentinel 依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-sentinel</artifactId>
+        </dependency>
+        <!--必备: feign 依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-feign</artifactId>
+        </dependency>
+        <!--必备: 依赖api模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-app-server-api</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+        <!--必备: log 依赖-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-log</artifactId>
+        </dependency>
+        <!--选配: mybatis 依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <!--选配： druid 连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
+        <!--选配: mysql 数据库驱动 -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!--选配: swagger文档-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-swagger</artifactId>
+        </dependency>
+    </dependencies>
+
+    <profiles>
+        <profile>
+            <id>cloud</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                                <configuration>
+                                    <loaderImplementation>CLASSIC</loaderImplementation>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

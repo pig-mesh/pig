@@ -1,4 +1,4 @@
-package com.pig4cloud.pigx.gateway.config;
+package com.pig4cloud.pigx.auth.endpoint;
 
 import com.anji.captcha.service.CaptchaCacheService;
 import org.springframework.beans.factory.annotation.Autowired;

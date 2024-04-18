@@ -25,7 +25,6 @@ import com.alibaba.druid.filter.FilterEventAdapter;
 import com.alibaba.druid.proxy.jdbc.JdbcParameter;
 import com.alibaba.druid.proxy.jdbc.ResultSetProxy;
 import com.alibaba.druid.proxy.jdbc.StatementProxy;
-import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.alibaba.druid.sql.SQLUtils;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.dialect.sqlserver.visitor.SQLServerSchemaStatVisitor;
@@ -34,7 +33,6 @@ import com.alibaba.druid.stat.TableStat;
 import com.alibaba.druid.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Import;
 
 import java.sql.SQLException;
 import java.time.temporal.TemporalAccessor;
@@ -53,7 +51,6 @@ import java.util.Map;
  */
 @Slf4j
 @RequiredArgsConstructor
-@Import(DruidDataSourceAutoConfigure.class)
 public class DruidSqlLogFilter extends FilterEventAdapter {
 
 	private static final SQLUtils.FormatOption FORMAT_OPTION = new SQLUtils.FormatOption(false, false);

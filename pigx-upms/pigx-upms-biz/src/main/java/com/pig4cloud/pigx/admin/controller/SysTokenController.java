@@ -39,7 +39,7 @@ import java.util.Map;
  */
 @RestController
 @AllArgsConstructor
-@RequestMapping("/token")
+@RequestMapping("/sys-token")
 @Tag(description = "token", name = "令牌管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysTokenController {
