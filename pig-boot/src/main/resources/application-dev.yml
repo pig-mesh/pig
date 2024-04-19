@@ -1,4 +1,7 @@
 spring:
+  # 缓存相关配置
+  cache:
+    type: redis
   redis:
     host: pig-redis
   # 数据库相关配置

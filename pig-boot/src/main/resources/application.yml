@@ -6,33 +6,6 @@ server:
 spring:
   application:
     name: @project.artifactId@
-  # 缓存相关配置
-  cache:
-    type: redis
-  # 定时任务属性配置
-  quartz:
-    properties:
-      org:
-        quartz:
-          scheduler:
-            instanceName: clusteredScheduler
-            instanceId: AUTO
-          jobStore:
-            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
-            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
-            tablePrefix: QRTZ_
-            isClustered: true
-            clusterCheckinInterval: 10000
-            useProperties: false
-          threadPool:
-            class: org.quartz.simpl.SimpleThreadPool
-            threadCount: 50
-            threadPriority: 5
-            threadsInheritContextClassLoaderOfInitializingThread: true
-    job-store-type: jdbc
-    jdbc:
-      initialize-schema: always # 生产注意设置为 never
-    startup-delay: 10
   # 上传文件大小限制
   servlet:
     multipart:
