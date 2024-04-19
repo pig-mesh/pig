@@ -2,6 +2,7 @@ com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService
 com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService
 com.pig4cloud.pigx.admin.api.feign.RemoteLogService
 com.pig4cloud.pigx.admin.api.feign.RemoteParamService
+com.pig4cloud.pigx.admin.api.feign.RemoteFileService
 com.pig4cloud.pigx.admin.api.feign.RemoteTenantService
 com.pig4cloud.pigx.admin.api.feign.RemoteTokenService
 com.pig4cloud.pigx.admin.api.feign.RemoteUserService
