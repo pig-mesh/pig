@@ -39,6 +39,10 @@ public class ApplicationLoggerInitializer implements EnvironmentPostProcessor, O
 
 		// 避免 sentinel 1.8.4+ 心跳日志过大
 		System.setProperty("csp.sentinel.log.level", "OFF");
+
+		// 避免各种依赖的地方组件造成 BeanPostProcessorChecker 警告
+		System.setProperty("logging.level.org.springframework.context.support.PostProcessorRegistrationDelegate",
+				"ERROR");
 	}
 
 	@Override
