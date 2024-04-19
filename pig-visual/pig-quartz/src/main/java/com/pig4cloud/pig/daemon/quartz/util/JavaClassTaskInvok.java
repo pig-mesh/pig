@@ -64,7 +64,8 @@ public class JavaClassTaskInvok implements ITaskInvok {
 		catch (ClassNotFoundException e) {
 			log.error("定时任务java反射类没有找到,执行任务：{}", sysJob.getClassName());
 			throw new TaskException("定时任务java反射类没有找到,执行任务：" + sysJob.getClassName());
-        } catch (IllegalAccessException | InstantiationException e) {
+		}
+		catch (IllegalAccessException | InstantiationException e) {
 			log.error("定时任务java反射类异常,执行任务：{}", sysJob.getClassName());
 			throw new TaskException("定时任务java反射类异常,执行任务：" + sysJob.getClassName());
 		}
