@@ -1,0 +1,24 @@
+# 如下配置为使用数据库存储定时任务，属性不经常修改，所以不放在 application.yml 中统一管理
+spring:
+  quartz:
+    properties:
+      org:
+        quartz:
+          scheduler:
+            instanceName: clusteredScheduler
+            instanceId: AUTO
+          jobStore:
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore # 数据库存储
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate # 数据库代理
+            tablePrefix: QRTZ_ # 表前缀
+            isClustered: true # 集群
+            clusterCheckinInterval: 30000 # 集群检查间隔
+            useProperties: false
+          threadPool:
+            class: org.quartz.simpl.SimpleThreadPool # 线程池
+            threadCount: 50 # 线程数量
+            threadPriority: 5 # 线程优先级
+            threadsInheritContextClassLoaderOfInitializingThread: true # 是否继承类加载器
+    job-store-type: jdbc # 持久化到数据库
+    jdbc:
+      initialize-schema: never # 不初始化表结构
