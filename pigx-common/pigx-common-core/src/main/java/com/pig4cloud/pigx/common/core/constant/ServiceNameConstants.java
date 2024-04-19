@@ -50,4 +50,9 @@ public interface ServiceNameConstants {
 	 */
 	String FLOW_TASK_SERVER = "pigx-flow-task-biz";
 
+	/**
+	 * 代码生成模块
+	 */
+	String CODEGEN_SERVICE = "pigx-codegen";
+
 }
