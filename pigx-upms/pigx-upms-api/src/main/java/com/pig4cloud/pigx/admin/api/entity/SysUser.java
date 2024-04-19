@@ -20,6 +20,7 @@
 package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,7 +42,7 @@ import java.time.LocalDateTime;
 @Data
 @TenantTable
 @Schema(description = "用户")
-public class SysUser implements Serializable {
+public class SysUser extends Model<SysUser> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
