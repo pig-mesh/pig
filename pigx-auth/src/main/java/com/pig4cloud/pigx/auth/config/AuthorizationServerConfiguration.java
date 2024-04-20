@@ -100,7 +100,8 @@ public class AuthorizationServerConfiguration {
 
         AntPathRequestMatcher[] requestMatchers = new AntPathRequestMatcher[]{
                 AntPathRequestMatcher.antMatcher("/token/**"), AntPathRequestMatcher.antMatcher("/actuator/**"),
-                AntPathRequestMatcher.antMatcher("/css/**"), AntPathRequestMatcher.antMatcher("/error")};
+                AntPathRequestMatcher.antMatcher("/code/**"), AntPathRequestMatcher.antMatcher("/css/**"),
+                AntPathRequestMatcher.antMatcher("/error")};
 
         http.authorizeHttpRequests(authorizeRequests -> {
                     // 自定义接口、端点暴露
