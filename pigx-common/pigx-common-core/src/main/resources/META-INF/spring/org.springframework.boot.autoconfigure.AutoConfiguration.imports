@@ -1,3 +1,4 @@
+com.pig4cloud.pigx.common.core.config.AsyncConfiguration
 com.pig4cloud.pigx.common.core.config.JacksonConfiguration
 com.pig4cloud.pigx.common.core.config.MessageSourceConfiguration
 com.pig4cloud.pigx.common.core.config.RestTemplateConfiguration
