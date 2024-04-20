@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx</artifactId>
-        <version>5.4.0</version>
+        <version>5.5.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-boot</artifactId>
