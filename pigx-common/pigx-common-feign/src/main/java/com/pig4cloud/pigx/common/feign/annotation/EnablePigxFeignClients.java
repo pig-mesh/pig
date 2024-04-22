@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.feign.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
+import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
@@ -49,6 +50,7 @@ public @interface EnablePigxFeignClients {
 	 * package names.
 	 * @return the array of 'basePackages'.
 	 */
+	@AliasFor(annotation = EnableFeignClients.class)
 	String[] basePackages() default { "com.pig4cloud.pigx" };
 
 	/**
@@ -59,6 +61,7 @@ public @interface EnablePigxFeignClients {
 	 * serves no purpose other than being referenced by this attribute.
 	 * @return the array of 'basePackageClasses'.
 	 */
+	@AliasFor(annotation = EnableFeignClients.class)
 	Class<?>[] basePackageClasses() default {};
 
 	/**
@@ -68,6 +71,7 @@ public @interface EnablePigxFeignClients {
 	 *
 	 * @see FeignClientsConfiguration for the defaults
 	 */
+	@AliasFor(annotation = EnableFeignClients.class)
 	Class<?>[] defaultConfiguration() default {};
 
 	/**
@@ -75,6 +79,7 @@ public @interface EnablePigxFeignClients {
 	 * scanning.
 	 * @return
 	 */
+	@AliasFor(annotation = EnableFeignClients.class)
 	Class<?>[] clients() default {};
 
 }
