@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.api.feign;
 
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -36,71 +37,88 @@ import java.util.List;
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteUserService {
 
-	/**
-	 * 通过用户名查询用户、角色信息
-	 * @param username 用户名
-	 * @param from 调用标志
-	 * @return R
-	 */
-	@GetMapping("/user/info/{username}")
-	R<UserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
+    /**
+     * 通过用户名查询用户、角色信息
+     *
+     * @param username 用户名
+     * @param from     调用标志
+     * @return R
+     */
+    @GetMapping("/user/info/{username}")
+    R<UserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
-	/**
-	 * 根据用户ID获取用户
-	 * @param userId ID
-	 * @return SysUser
-	 */
-	@GetMapping("/user/details/{userId}")
-	R<SysUser> getUserById(@PathVariable("userId") Long userId);
+    /**
+     * 根据用户ID获取用户
+     *
+     * @param userId ID
+     * @return SysUser
+     */
+    @GetMapping("/user/details/{userId}")
+    R<SysUser> getUserById(@PathVariable("userId") Long userId);
 
-	/**
-	 * 通过社交账号或手机号查询用户、角色信息
-	 * @param inStr appid@code
-	 * @param from 调用标志
-	 * @return
-	 */
-	@GetMapping("/social/info/{inStr}")
-	R<UserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
+    /**
+     * 通过社交账号或手机号查询用户、角色信息
+     *
+     * @param inStr appid@code
+     * @param from  调用标志
+     * @return
+     */
+    @GetMapping("/social/info/{inStr}")
+    R<UserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
 
-	/**
-	 * 查询上级部门的用户信息
-	 * @param username 用户名
-	 * @return R
-	 */
-	@GetMapping("/user/ancestor/{username}")
-	R<List<SysUser>> ancestorUsers(@PathVariable("username") String username);
+    /**
+     * 查询上级部门的用户信息
+     *
+     * @param username 用户名
+     * @return R
+     */
+    @GetMapping("/user/ancestor/{username}")
+    R<List<SysUser>> ancestorUsers(@PathVariable("username") String username);
 
-	/**
-	 * 锁定用户
-	 * @param username 用户名
-	 * @param from 调用标识
-	 * @return
-	 */
-	@PutMapping("/user/lock/{username}")
-	R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
+    /**
+     * 锁定用户
+     *
+     * @param username 用户名
+     * @param from     调用标识
+     * @return
+     */
+    @PutMapping("/user/lock/{username}")
+    R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
-	/**
-	 * 根据角色ID查询用户列表
-	 * @param roleIdList 角色ID列表
-	 * @return 用户ID列表
-	 */
-	@GetMapping("/user/getUserIdListByRoleIdList")
-	R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
+    /**
+     * 根据角色ID查询用户列表
+     *
+     * @param roleIdList 角色ID列表
+     * @return 用户ID列表
+     */
+    @GetMapping("/user/getUserIdListByRoleIdList")
+    R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
 
-	/**
-	 * 根据部门ID列表获取用户ID列表接口
-	 * @param deptIdList 部门ID列表
-	 * @return 用户ID列表
-	 */
-	@GetMapping("/user/getUserIdListByDeptIdList")
-	R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
+    /**
+     * 根据部门ID列表获取用户ID列表接口
+     *
+     * @param deptIdList 部门ID列表
+     * @return 用户ID列表
+     */
+    @GetMapping("/user/getUserIdListByDeptIdList")
+    R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
 
-	/**
-	 * 通过用户名查询用户列表
-	 * @param userName 用户名
-	 * @return 用户列表
-	 */
-	@GetMapping("/user/getUserListByUserName")
-	R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
+    /**
+     * 通过用户名查询用户列表
+     *
+     * @param userName 用户名
+     * @return 用户列表
+     */
+    @GetMapping("/user/getUserListByUserName")
+    R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
+
+    /**
+     * 注册用户
+     *
+     * @param userDTO 用户信息
+     * @return success/false
+     */
+    @PostMapping("/register/user")
+    R<Boolean> registerUser(@RequestBody UserDTO userDTO, @RequestHeader(SecurityConstants.FROM) String from);
 
 }
