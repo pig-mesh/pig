@@ -134,6 +134,7 @@
                     <exclude>**/*.otf</exclude>
                     <exclude>**/*.eot</exclude>
                     <exclude>**/*.js</exclude>
+                    <exclude>**/*.css</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -146,6 +147,7 @@
                     <include>**/*.otf</include>
                     <include>**/*.eot</include>
                     <include>**/*.js</include>
+                    <include>**/*.css</include>
                 </includes>
             </resource>
         </resources>
