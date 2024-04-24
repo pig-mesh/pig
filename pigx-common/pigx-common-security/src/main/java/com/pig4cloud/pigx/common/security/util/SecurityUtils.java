@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,6 +43,18 @@ public class SecurityUtils {
 	 */
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
+	}
+
+	/**
+	 * 获取Authentication Token
+	 * @return
+	 */
+	public String getToken(){
+		Authentication authentication = SecurityUtils.getAuthentication();
+		if (authentication instanceof BearerTokenAuthentication bearerTokenAuthentication) {
+			return bearerTokenAuthentication.getToken().getTokenValue();
+		}
+		return null;
 	}
 
 	/**
