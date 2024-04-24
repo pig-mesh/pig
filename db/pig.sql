@@ -695,6 +695,7 @@ CREATE TABLE `sys_job` (
                            `start_time` timestamp NULL DEFAULT NULL COMMENT '初次执行时间',
                            `previous_time` timestamp NULL DEFAULT NULL COMMENT '上次执行时间',
                            `next_time` timestamp NULL DEFAULT NULL COMMENT '下次执行时间',
+                           `remark` varchar(255) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '备注信息',
                             PRIMARY KEY (`job_id`) USING BTREE,
                            UNIQUE KEY `job_name_group_idx` (`job_name`,`job_group`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='定时任务调度表';
