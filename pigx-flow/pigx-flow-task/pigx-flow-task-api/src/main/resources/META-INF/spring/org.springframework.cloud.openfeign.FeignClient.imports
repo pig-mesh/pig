@@ -1,2 +1,3 @@
 com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowTaskService
 com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowEngineService
+com.pig4cloud.pigx.flow.task.api.feign.RemoteAiFlowService

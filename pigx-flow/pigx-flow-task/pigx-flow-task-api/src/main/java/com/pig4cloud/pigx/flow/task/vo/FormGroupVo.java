@@ -18,40 +18,41 @@ import java.util.List;
 @AllArgsConstructor
 public class FormGroupVo {
 
-	private Long id;
+    private Long id;
 
-	/**
-	 * 流程名字
-	 */
-	private String name;
+    /**
+     * 流程名字
+     */
+    private String name;
 
-	/**
-	 * 流程
-	 */
-	private List<FlowVo> items;
+    /**
+     * 流程
+     */
+    private List<FlowVo> items;
 
-	@Data
-	@Builder
-	@AllArgsConstructor
-	public static class FlowVo {
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class FlowVo {
 
-		private String flowId;
+        private String flowId;
 
-		/**
-		 * 发起范围
-		 */
-		private String rangeShow;
+        /**
+         * 发起范围
+         */
+        private String rangeShow;
 
-		private String name;
+        private String name;
 
-		private String logo;
+        private String logo;
 
-		private String stop;
+        private String stop;
 
-		private String remark;
+        private String remark;
 
-		private LocalDateTime updated;
+        private LocalDateTime updated;
 
-	}
+    }
 
 }
