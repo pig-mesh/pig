@@ -119,11 +119,8 @@ public class PigxDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
 			mitigateAgainstTimingAttack(authentication);
 			throw ex;
 		}
-		catch (InternalAuthenticationServiceException ex) {
-			throw ex;
-		}
 		catch (Exception ex) {
-			throw new InternalAuthenticationServiceException(ex.getMessage(), ex);
+			throw ex;
 		}
 	}
 
