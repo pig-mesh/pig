@@ -44,6 +44,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -157,6 +158,7 @@ public class ConnectServiceImpl implements ConnectService {
 			userDTO.setEmail(userObj.getStr("email"));
 			// 初始化密码为 手机号
 			userDTO.setPassword(userObj.getStr("mobile"));
+			userDTO.setPasswordModifyTime(LocalDateTime.now());
 			sysUserService.saveUser(userDTO);
 		}
 

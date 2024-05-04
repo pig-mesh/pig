@@ -113,6 +113,18 @@ public class UserVO implements Serializable {
 	private String lockFlag;
 
 	/**
+	 * 密码过期标记
+	 */
+	@Schema(description = "密码过期标记")
+	private String passwordExpireFlag;
+
+	/**
+	 * 密码修改时间
+	 */
+	@Schema(description = "密码修改时间")
+	private LocalDateTime passwordModifyTime;
+
+	/**
 	 * 手机号
 	 */
 	@Sensitive(type = SensitiveTypeEnum.MOBILE_PHONE)

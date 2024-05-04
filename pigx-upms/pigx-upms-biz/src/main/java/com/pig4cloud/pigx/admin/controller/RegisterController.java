@@ -18,24 +18,37 @@ import org.springframework.web.bind.annotation.RestController;
  * <p>
  * 客户端注册功能 register.user = false
  */
+@Inner(value = false)
 @RestController
 @RequestMapping("/register")
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "register.user", matchIfMissing = true)
 public class RegisterController {
 
-	private final SysUserService userService;
+    private final SysUserService userService;
 
-	/**
-	 * 注册用户
-	 * @param userDto 用户信息
-	 * @return success/false
-	 */
-	@Inner(value = false)
-	@SysLog("注册用户")
-	@PostMapping("/user")
-	public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
-		return userService.registerUser(userDto);
-	}
+    /**
+     * 注册用户
+     *
+     * @param userDto 用户信息
+     * @return success/false
+     */
+    @SysLog("注册用户")
+    @PostMapping("/user")
+    @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
+    public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
+        return userService.registerUser(userDto);
+    }
+
+    /**
+     * 重置用户密码
+     *
+     * @param userDto 用户信息
+     * @return success/false
+     */
+    @SysLog("重置用户密码")
+    @PostMapping("/password")
+    public R<Boolean> resetUserPassword(@RequestBody UserDTO userDto) {
+        return userService.resetUserPassword(userDto);
+    }
 
 }

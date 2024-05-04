@@ -243,7 +243,7 @@ public class SysUserController {
 	 */
 	@PostMapping("/check")
 	public R check(String password) {
-		return userService.checkPassword(password);
+		return userService.checkPassword(SecurityUtils.getUser().getUsername(),password);
 	}
 
 	/**

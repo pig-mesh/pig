@@ -40,6 +40,7 @@ import com.pig4cloud.pigx.admin.mapper.SysUserRoleMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
+import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -105,6 +106,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         sysUser.setCreateBy(userDto.getUsername());
         sysUser.setUpdateBy(userDto.getUsername());
         sysUser.setPassword(ENCODER.encode(userDto.getPassword()));
+        sysUser.setPasswordModifyTime(LocalDateTime.now());
         baseMapper.insert(sysUser);
         // 保存用户岗位信息
         Optional.ofNullable(userDto.getPost()).ifPresent(posts -> {
@@ -403,6 +405,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userDTO.setEmail(excel.getEmail());
         userDTO.setLockFlag(excel.getLockFlag());
         // 批量导入初始密码为手机号
+        userDTO.setPasswordModifyTime(LocalDateTime.now());
         userDTO.setPassword(userDTO.getPhone());
         // 根据部门名称查询部门ID
         userDTO.setDeptId(deptOptional.get().getDeptId());
@@ -481,6 +484,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         this.update(Wrappers.<SysUser>lambdaUpdate()
                 .set(SysUser::getPassword, password)
+                .set(SysUser::getPasswordModifyTime, LocalDateTime.now())
                 .eq(SysUser::getUserId, user.getUserId()));
         return R.ok();
     }
@@ -522,8 +526,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public R checkPassword(String password) {
-        String username = SecurityUtils.getUser().getUsername();
+    public R checkPassword(String username, String password) {
         SysUser condition = new SysUser();
         condition.setUsername(username);
         SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
@@ -534,6 +537,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         } else {
             return R.ok();
         }
+    }
+
+    /**
+     * 重置用户密码
+     *
+     * @param userDto 用户信息
+     * @return
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
+    public R<Boolean> resetUserPassword(UserDTO userDto) {
+        // 校验密码
+        R checkedPassword = checkPassword(userDto.getUsername(), userDto.getPassword());
+        if (!checkedPassword.isOk()) {
+            return checkedPassword;
+        }
+
+        // 新密码校验
+        if (StrUtil.equals(userDto.getPassword(), userDto.getNewpassword1())) {
+            return R.failed("新旧密码不能相同");
+        }
+
+        // 重置密码
+        String password = ENCODER.encode(userDto.getNewpassword1());
+        this.update(Wrappers.<SysUser>lambdaUpdate()
+                .set(SysUser::getPassword, password)
+                .set(SysUser::getPasswordModifyTime, LocalDateTime.now())
+                .set(SysUser::getPasswordExpireFlag, CommonConstants.STATUS_NORMAL)
+                .eq(SysUser::getUsername, userDto.getUsername()));
+        return R.ok();
     }
 
     @Override

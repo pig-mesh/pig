@@ -43,6 +43,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -157,6 +158,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             // 构造初始化用户
             SysUser user = new SysUser();
             user.setUsername(defaultUsername);
+            user.setPasswordModifyTime(LocalDateTime.now());
             user.setPassword(ENCODER.encode(defaultPassword));
             user.setDeptId(dept.getDeptId());
             userService.save(user);
