@@ -64,7 +64,7 @@ public class PermissionService {
      *
      * @param scopes scope 列表
      * @return {boolean}
-     * @PreAuthorize("@pms.hasPermission('sys_role_add')")
+     * @PreAuthorize("@pms.hasScope('server')")
      */
     public boolean hasScope(String... scopes) {
         if (ArrayUtil.isEmpty(scopes)) {
