@@ -28,6 +28,7 @@ import com.pig4cloud.pigx.app.mapper.AppSocialDetailsMapper;
 import com.pig4cloud.pigx.app.service.AppUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -43,72 +44,79 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class MiniAppLoginHandler extends AbstractLoginHandler {
 
-	private final AppUserService appUserService;
+    private final AppUserService appUserService;
 
-	private final AppSocialDetailsMapper appSocialDetailsMapper;
+    private final AppSocialDetailsMapper appSocialDetailsMapper;
 
-	/**
-	 * 小程序登录传入code
-	 * <p>
-	 * 通过code 调用qq 获取唯一标识
-	 * @param code
-	 * @return
-	 */
-	@Override
-	public String identify(String code) {
-		AppSocialDetails condition = new AppSocialDetails();
-		condition.setType(LoginTypeEnum.MINI_APP.getType());
-		AppSocialDetails socialDetails = appSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+    /**
+     * 小程序登录传入code
+     * <p>
+     * 通过code 调用qq 获取唯一标识
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public String identify(String code) {
+        AppSocialDetails condition = new AppSocialDetails();
+        condition.setType(LoginTypeEnum.MINI_APP.getType());
+        AppSocialDetails socialDetails = appSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-		String url = String.format(SecurityConstants.MINI_APP_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
-				socialDetails.getAppSecret(), code);
-		String result = HttpUtil.get(url);
-		log.debug("微信小程序响应报文:{}", result);
+        String url = String.format(SecurityConstants.MINI_APP_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+                socialDetails.getAppSecret(), code);
+        String result = HttpUtil.get(url);
+        log.debug("微信小程序响应报文:{}", result);
 
-		Object obj = JSONUtil.parseObj(result).get("openid");
-		return obj.toString();
-	}
+        if (JSONUtil.parseObj(result).containsKey("openid")) {
+            return JSONUtil.parseObj(result).get("openid").toString();
+        } else {
+            log.error("微信小程序登录失败:{}", result);
+            throw new CheckedException("微信小程序登录失败");
+        }
+    }
 
-	/**
-	 * openId 获取用户信息
-	 * @param openId
-	 * @return
-	 */
-	@Override
-	public AppUserInfo info(String openId) {
-		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getWxOpenid, openId));
+    /**
+     * openId 获取用户信息
+     *
+     * @param openId
+     * @return
+     */
+    @Override
+    public AppUserInfo info(String openId) {
+        AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getWxOpenid, openId));
 
-		if (user == null) {
-			log.info("微信小程序未绑定:{},创建新的用户", openId);
-			return createAndSaveAppUserInfo(openId);
-		}
-		return appUserService.findUserInfo(user);
-	}
+        if (user == null) {
+            log.info("微信小程序未绑定:{},创建新的用户", openId);
+            return createAndSaveAppUserInfo(openId);
+        }
+        return appUserService.findUserInfo(user);
+    }
 
-	/**
-	 * 绑定逻辑
-	 * @param user 用户实体
-	 * @param identify 渠道返回唯一标识
-	 * @return
-	 */
-	@Override
-	public Boolean bind(AppUser user, String identify) {
-		user.setWxOpenid(identify);
-		appUserService.updateById(user);
-		return true;
-	}
+    /**
+     * 绑定逻辑
+     *
+     * @param user     用户实体
+     * @param identify 渠道返回唯一标识
+     * @return
+     */
+    @Override
+    public Boolean bind(AppUser user, String identify) {
+        user.setWxOpenid(identify);
+        appUserService.updateById(user);
+        return true;
+    }
 
-	private AppUserInfo createAndSaveAppUserInfo(String openId) {
-		AppUser appUser = new AppUser();
-		appUser.setWxOpenid(openId);
-		appUser.setUsername(openId);
-		appUser.setCreateBy(openId);
-		appUser.setUpdateBy(openId);
-		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getUsername, openId));
+    private AppUserInfo createAndSaveAppUserInfo(String openId) {
+        AppUser appUser = new AppUser();
+        appUser.setWxOpenid(openId);
+        appUser.setUsername(openId);
+        appUser.setCreateBy(openId);
+        appUser.setUpdateBy(openId);
+        appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getUsername, openId));
 
-		AppUserInfo appUserDTO = new AppUserInfo();
-		appUserDTO.setAppUser(appUser);
-		return appUserDTO;
-	}
+        AppUserInfo appUserDTO = new AppUserInfo();
+        appUserDTO.setAppUser(appUser);
+        return appUserDTO;
+    }
 
 }
