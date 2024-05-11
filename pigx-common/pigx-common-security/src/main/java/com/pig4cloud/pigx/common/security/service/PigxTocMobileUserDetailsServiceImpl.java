@@ -33,6 +33,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 
 import java.util.*;
 
@@ -45,74 +48,81 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsService {
 
-	private final Optional<RemoteAppUserService> remoteAppUserServiceOptional;
+    private final Optional<RemoteAppUserService> remoteAppUserServiceOptional;
 
-	/**
-	 * 用户密码登录
-	 * @param phone 用户密码登录
-	 * @return
-	 */
-	@Override
-	@SneakyThrows
-	public UserDetails loadUserByUsername(String phone) {
-		if (!remoteAppUserServiceOptional.isPresent()) {
-			throw new UnsupportedOperationException();
-		}
-		R<AppUserInfo> info = remoteAppUserServiceOptional.get().social(phone, SecurityConstants.FROM_IN);
-		return this.getUserDetailsAppUser(info);
-	}
+    /**
+     * 用户密码登录
+     *
+     * @param phone 用户密码登录
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    public UserDetails loadUserByUsername(String phone) {
+        if (!remoteAppUserServiceOptional.isPresent()) {
+            throw new UnsupportedOperationException();
+        }
+        R<AppUserInfo> info = remoteAppUserServiceOptional.get().social(phone, SecurityConstants.FROM_IN);
+        return this.getUserDetailsAppUser(info);
+    }
 
-	@Override
-	public UserDetails loadUserByUser(PigxUser pigxUser) {
-		return pigxUser;
-	}
+    @Override
+    public UserDetails loadUserByUser(PigxUser pigxUser) {
+        return pigxUser;
+    }
 
-	UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
-		// @formatter:off
-		return RetOps.of(result).getData().map(this::convertUserDetailsAppUser).orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+    UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
+        // @formatter:off
+		return RetOps.of(result)
+				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户信息获取失败",null)))
+				.getData()
+				.map(this::convertUserDetailsAppUser)
+				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 		// @formatter:on
-	}
+    }
 
-	/**
-	 * UserInfo 转 UserDetails
-	 * @param info
-	 * @return 返回UserDetails对象
-	 */
-	UserDetails convertUserDetailsAppUser(AppUserInfo info) {
-		Set<String> dbAuthsSet = new HashSet<>();
-		if (ArrayUtil.isNotEmpty(info.getRoles())) {
-			// 获取角色
-			Arrays.stream(info.getRoles()).forEach(roleId -> dbAuthsSet.add(SecurityConstants.ROLE + roleId));
-			// 获取资源
-			dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
+    /**
+     * UserInfo 转 UserDetails
+     *
+     * @param info
+     * @return 返回UserDetails对象
+     */
+    UserDetails convertUserDetailsAppUser(AppUserInfo info) {
+        Set<String> dbAuthsSet = new HashSet<>();
+        if (ArrayUtil.isNotEmpty(info.getRoles())) {
+            // 获取角色
+            Arrays.stream(info.getRoles()).forEach(roleId -> dbAuthsSet.add(SecurityConstants.ROLE + roleId));
+            // 获取资源
+            dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
 
-		}
-		Collection<? extends GrantedAuthority> authorities = AuthorityUtils
-			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
-		AppUser user = info.getAppUser();
-		// 构造security用户
+        }
+        Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+                .createAuthorityList(dbAuthsSet.toArray(new String[0]));
+        AppUser user = info.getAppUser();
+        // 构造security用户
 
-		return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
-				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(), true,
-				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
-	}
+        return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
+                user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
+                SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(), true,
+                !CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
+    }
 
-	@Override
-	public int getOrder() {
-		return 15;
-	}
+    @Override
+    public int getOrder() {
+        return 15;
+    }
 
-	/**
-	 * 支持所有的 mobile 类型
-	 * @param clientId 目标客户端
-	 * @param grantType 授权类型
-	 * @return true/false
-	 */
-	@Override
-	public boolean support(String clientId, String grantType) {
-		String header = WebUtils.getRequest().getHeader(SecurityConstants.HEADER_TOC);
-		return SecurityConstants.HEADER_TOC_YES.equals(header) && SecurityConstants.GRANT_MOBILE.equals(grantType);
-	}
+    /**
+     * 支持所有的 mobile 类型
+     *
+     * @param clientId  目标客户端
+     * @param grantType 授权类型
+     * @return true/false
+     */
+    @Override
+    public boolean support(String clientId, String grantType) {
+        String header = WebUtils.getRequest().getHeader(SecurityConstants.HEADER_TOC);
+        return SecurityConstants.HEADER_TOC_YES.equals(header) && SecurityConstants.GRANT_MOBILE.equals(grantType);
+    }
 
 }
