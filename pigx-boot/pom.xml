@@ -42,42 +42,42 @@
             <artifactId>pigx-upms-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
-<!--        &lt;!&ndash;选配：代码生成模块 &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-codegen</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-app-server-biz</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-daemon-quartz</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-flow-engine-biz</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-flow-task-biz</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-mp-platform</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.pig4cloud</groupId>-->
-<!--            <artifactId>pigx-pay-platform</artifactId>-->
-<!--            <version>${project.version}</version>-->
-<!--        </dependency>-->
+        <!--选配：代码生成模块 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-codegen</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-app-server-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-daemon-quartz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-flow-engine-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-flow-task-biz</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-mp-platform</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-pay-platform</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--安全模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
