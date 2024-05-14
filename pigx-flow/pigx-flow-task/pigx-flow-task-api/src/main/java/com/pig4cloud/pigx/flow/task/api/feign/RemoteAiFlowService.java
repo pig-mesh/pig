@@ -17,7 +17,7 @@ import java.util.List;
  * @author lengleng
  * @date 2023/7/14
  */
-@FeignClient(contextId = "remoteFlowTaskService", value = ServiceNameConstants.FLOW_TASK_SERVER)
+@FeignClient(contextId = "remoteAiFlowService", value = ServiceNameConstants.FLOW_TASK_SERVER)
 public interface RemoteAiFlowService {
 
     /**
