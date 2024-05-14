@@ -38,6 +38,10 @@
                     <artifactId>pigx-common-excel</artifactId>
                     <groupId>com.pig4cloud</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>com.github.jsqlparser</groupId>
+                    <artifactId>jsqlparser</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!--web 模块-->
