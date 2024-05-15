@@ -718,38 +718,6 @@ INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `p
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9911, '路由管理', NULL, '/tools/route/index', NULL, 9910, 'iconfont icon-crew_feature', '1', 3, '0', '0', '0', 'admin', '2023-11-01 17:13:09', 'admin', '2023-11-27 14:53:33', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9912, '大屏看板', NULL, '/tools/data/report', NULL, 9910, 'iconfont icon-shuju', '1', 5, '0', '0', '0', 'admin', '2023-11-01 17:19:38', 'admin', '2023-11-27 14:53:38', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9913, '数据报表', NULL, '/tools/data/jimu', NULL, 9910, 'iconfont icon-ico_shuju', '1', 6, '0', '0', '0', 'admin', '2023-11-01 17:20:06', 'admin', '2023-11-27 14:53:43', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9710, '文档管理', '', '/knowledge/aiDocument/index', NULL, 9700, 'fa fa-book', '1', 2, '0', NULL, '0', '', NULL, 'admin', '2024-03-14 13:59:01', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9711, '知识文档查看', 'knowledge_aiDocument_view', NULL, NULL, 9710, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9712, '知识文档新增', 'knowledge_aiDocument_add', NULL, NULL, 9710, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9713, '知识文档修改', 'knowledge_aiDocument_edit', NULL, NULL, 9710, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9714, '知识文档删除', 'knowledge_aiDocument_del', NULL, NULL, 9710, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9715, '导入导出', 'knowledge_aiDocument_export', NULL, NULL, 9710, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9720, '知识库管理', '', '/knowledge/aiDataset/index', NULL, 9700, 'fa fa-meetup', '1', 1, '0', NULL, '0', '', NULL, 'admin', '2024-03-14 13:59:41', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9721, '知识库查看', 'knowledge_aiDataset_view', NULL, NULL, 9720, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9722, '知识库新增', 'knowledge_aiDataset_add', NULL, NULL, 9720, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9723, '知识库修改', 'knowledge_aiDataset_edit', NULL, NULL, 9720, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9724, '知识库删除', 'knowledge_aiDataset_del', NULL, NULL, 9720, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9725, '导入导出', 'knowledge_aiDataset_export', NULL, NULL, 9720, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9730, '切片管理', '', '/knowledge/aiSlice/index', NULL, 9700, 'fa fa-stack-exchange', '1', 3, '0', NULL, '0', '', NULL, 'admin', '2024-03-14 13:59:24', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9731, '知识切片查看', 'knowledge_aiSlice_view', NULL, NULL, 9730, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9732, '知识切片新增', 'knowledge_aiSlice_add', NULL, NULL, 9730, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9733, '知识切片修改', 'knowledge_aiSlice_edit', NULL, NULL, 9730, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9734, '知识切片删除', 'knowledge_aiSlice_del', NULL, NULL, 9730, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9735, '导入导出', 'knowledge_aiSlice_export', NULL, NULL, 9730, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9740, '提示词管理', '', '/knowledge/aiPrompt/index', NULL, 9700, 'fa fa-tasks', '1', 8, '0', NULL, '0', '', NULL, 'admin', '2024-03-20 16:43:46', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9741, '提示词查看', 'knowledge_aiPrompt_view', NULL, NULL, 9740, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9742, '提示词新增', 'knowledge_aiPrompt_add', NULL, NULL, 9740, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9743, '提示词修改', 'knowledge_aiPrompt_edit', NULL, NULL, 9740, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9744, '提示词删除', 'knowledge_aiPrompt_del', NULL, NULL, 9740, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9745, '导入导出', 'knowledge_aiPrompt_export', NULL, NULL, 9740, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9750, '账单管理', '', '/knowledge/aiBill/index', NULL, 9700, 'fa fa-cc-mastercard', '1', 0, '0', NULL, '0', '', NULL, 'admin', '2024-03-26 11:30:25', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9751, '账单查看', 'knowledge_aiBill_view', NULL, NULL, 9750, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9752, '账单新增', 'knowledge_aiBill_add', NULL, NULL, 9750, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9753, '账单修改', 'knowledge_aiBill_edit', NULL, NULL, 9750, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9754, '账单删除', 'knowledge_aiBill_del', NULL, NULL, 9750, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9755, '导入导出', 'knowledge_aiBill_export', NULL, NULL, 9750, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9700, 'AI知识库', NULL, '/knowledge', NULL, -1, 'iconfont icon-crew_feature', '1', 5, '0', NULL, '0', 'admin', '2024-03-14 13:48:31', 'admin', '2024-03-14 14:02:06', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9760, 'AI助手', NULL, '/knowledge/aiChat/index', NULL, 9700, 'fa fa-tencent-weibo', '1', 9, '0', '0', '0', 'admin', '2024-03-20 14:51:13', ' ', NULL, '0', 1);
 COMMIT;
 
 
@@ -1914,117 +1882,6 @@ CREATE TABLE `sys_job_log` (
                                PRIMARY KEY (`job_log_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='定时任务执行日志表';
 
-CREATE TABLE `xxl_job_info` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_group` int(11) NOT NULL COMMENT '执行器主键ID',
-  `job_desc` varchar(255) NOT NULL,
-  `add_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  `author` varchar(64) DEFAULT NULL COMMENT '作者',
-  `alarm_email` varchar(255) DEFAULT NULL COMMENT '报警邮件',
-  `schedule_type` varchar(50) NOT NULL DEFAULT 'NONE' COMMENT '调度类型',
-  `schedule_conf` varchar(128) DEFAULT NULL COMMENT '调度配置，值含义取决于调度类型',
-  `misfire_strategy` varchar(50) NOT NULL DEFAULT 'DO_NOTHING' COMMENT '调度过期策略',
-  `executor_route_strategy` varchar(50) DEFAULT NULL COMMENT '执行器路由策略',
-  `executor_handler` varchar(255) DEFAULT NULL COMMENT '执行器任务handler',
-  `executor_param` varchar(512) DEFAULT NULL COMMENT '执行器任务参数',
-  `executor_block_strategy` varchar(50) DEFAULT NULL COMMENT '阻塞处理策略',
-  `executor_timeout` int(11) NOT NULL DEFAULT '0' COMMENT '任务执行超时时间，单位秒',
-  `executor_fail_retry_count` int(11) NOT NULL DEFAULT '0' COMMENT '失败重试次数',
-  `glue_type` varchar(50) NOT NULL COMMENT 'GLUE类型',
-  `glue_source` mediumtext COMMENT 'GLUE源代码',
-  `glue_remark` varchar(128) DEFAULT NULL COMMENT 'GLUE备注',
-  `glue_updatetime` datetime DEFAULT NULL COMMENT 'GLUE更新时间',
-  `child_jobid` varchar(255) DEFAULT NULL COMMENT '子任务ID，多个逗号分隔',
-  `trigger_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '调度状态：0-停止，1-运行',
-  `trigger_last_time` bigint(13) NOT NULL DEFAULT '0' COMMENT '上次调度时间',
-  `trigger_next_time` bigint(13) NOT NULL DEFAULT '0' COMMENT '下次调度时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_log` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `job_group` int(11) NOT NULL COMMENT '执行器主键ID',
-  `job_id` int(11) NOT NULL COMMENT '任务，主键ID',
-  `executor_address` varchar(255) DEFAULT NULL COMMENT '执行器地址，本次执行的地址',
-  `executor_handler` varchar(255) DEFAULT NULL COMMENT '执行器任务handler',
-  `executor_param` varchar(512) DEFAULT NULL COMMENT '执行器任务参数',
-  `executor_sharding_param` varchar(20) DEFAULT NULL COMMENT '执行器任务分片参数，格式如 1/2',
-  `executor_fail_retry_count` int(11) NOT NULL DEFAULT '0' COMMENT '失败重试次数',
-  `trigger_time` datetime DEFAULT NULL COMMENT '调度-时间',
-  `trigger_code` int(11) NOT NULL COMMENT '调度-结果',
-  `trigger_msg` text COMMENT '调度-日志',
-  `handle_time` datetime DEFAULT NULL COMMENT '执行-时间',
-  `handle_code` int(11) NOT NULL COMMENT '执行-状态',
-  `handle_msg` text COMMENT '执行-日志',
-  `alarm_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败',
-  PRIMARY KEY (`id`),
-  KEY `I_trigger_time` (`trigger_time`),
-  KEY `I_handle_code` (`handle_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_log_report` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `trigger_day` datetime DEFAULT NULL COMMENT '调度-时间',
-  `running_count` int(11) NOT NULL DEFAULT '0' COMMENT '运行中-日志数量',
-  `suc_count` int(11) NOT NULL DEFAULT '0' COMMENT '执行成功-日志数量',
-  `fail_count` int(11) NOT NULL DEFAULT '0' COMMENT '执行失败-日志数量',
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `i_trigger_day` (`trigger_day`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_logglue` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `job_id` int(11) NOT NULL COMMENT '任务，主键ID',
-  `glue_type` varchar(50) DEFAULT NULL COMMENT 'GLUE类型',
-  `glue_source` mediumtext COMMENT 'GLUE源代码',
-  `glue_remark` varchar(128) NOT NULL COMMENT 'GLUE备注',
-  `add_time` datetime DEFAULT NULL,
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_registry` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `registry_group` varchar(50) NOT NULL,
-  `registry_key` varchar(255) NOT NULL,
-  `registry_value` varchar(255) NOT NULL,
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `i_g_k_v` (`registry_group`,`registry_key`,`registry_value`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_group` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `app_name` varchar(64) NOT NULL COMMENT '执行器AppName',
-  `title` varchar(12) NOT NULL COMMENT '执行器名称',
-  `address_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '执行器地址类型：0=自动注册、1=手动录入',
-  `address_list` text COMMENT '执行器地址列表，多地址逗号分隔',
-  `update_time` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL COMMENT '账号',
-  `password` varchar(50) NOT NULL COMMENT '密码',
-  `role` tinyint(4) NOT NULL COMMENT '角色：0-普通用户、1-管理员',
-  `permission` varchar(255) DEFAULT NULL COMMENT '权限：执行器ID列表，多个逗号分割',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `i_username` (`username`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE `xxl_job_lock` (
-  `lock_name` varchar(50) NOT NULL COMMENT '锁名称',
-  PRIMARY KEY (`lock_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-INSERT INTO `xxl_job_user`(`id`, `username`, `password`, `role`, `permission`) VALUES (1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', 1, NULL);
-INSERT INTO `xxl_job_lock` ( `lock_name`) VALUES ( 'schedule_lock');
-
-SET FOREIGN_KEY_CHECKS = 1;
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -2688,137 +2545,18 @@ COMMIT;
 DROP TABLE IF EXISTS `gen_create_table`;
 CREATE TABLE `gen_create_table` (
   `id` bigint NOT NULL COMMENT '主键ID',
-  `table_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '表名称',
+  `table_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
   `ds_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据源',
-  `comments` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '表注释',
+  `comments` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '表注释',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL,
-  `column_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字段信息',
+  `column_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段信息',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='自动创建表管理';
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for ai_bill
--- ----------------------------
-DROP TABLE IF EXISTS `ai_bill`;
-CREATE TABLE `ai_bill` (
-  `id` bigint NOT NULL COMMENT '主键ID',
-  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
-  `prompt_tokens` bigint DEFAULT NULL COMMENT '提示令牌数量',
-  `completion_tokens` bigint DEFAULT NULL COMMENT '补全令牌数量',
-  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型名称',
-  `reqid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求ID',
-  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'IP地址',
-  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
-  `token_id` bigint DEFAULT NULL COMMENT '令牌ID',
-  `tokens` bigint DEFAULT NULL COMMENT '令牌数量',
-  `token_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '令牌类型 0 系统  1 用户',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='账单';
-
--- ----------------------------
--- Table structure for ai_dataset
--- ----------------------------
-DROP TABLE IF EXISTS `ai_dataset`;
-CREATE TABLE `ai_dataset` (
-  `id` bigint NOT NULL COMMENT '主键',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '头像',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
-  `units` bigint DEFAULT NULL COMMENT '知识数量',
-  `file_size` bigint DEFAULT NULL COMMENT '大小',
-  `multi_round` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否支持多轮会话',
-  `top_k` int DEFAULT NULL COMMENT '匹配条数',
-  `score` int DEFAULT NULL COMMENT '匹配率',
-  `sort_order` int DEFAULT NULL COMMENT '排序值',
-  `empty_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '未匹配提示',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识库';
-
--- ----------------------------
--- Table structure for ai_document
--- ----------------------------
-DROP TABLE IF EXISTS `ai_document`;
-CREATE TABLE `ai_document` (
-  `id` bigint NOT NULL COMMENT '主键',
-  `dataset_id` bigint DEFAULT NULL COMMENT '知识库ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件类型',
-  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件链接',
-  `file_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MD5hash',
-  `source_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件来源',
-  `slice_count` bigint DEFAULT NULL COMMENT '切片数量',
-  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
-  `file_size` bigint DEFAULT NULL COMMENT '文件大小',
-  `file_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识文档';
-
--- ----------------------------
--- Table structure for ai_prompt
--- ----------------------------
-DROP TABLE IF EXISTS `ai_prompt`;
-CREATE TABLE `ai_prompt` (
-  `id` bigint NOT NULL COMMENT '主键ID',
-  `act` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标题',
-  `prompt` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '提示词',
-  `prompt_sort` bigint DEFAULT NULL COMMENT '列表排序',
-  `prompt_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
-  `user_id` bigint DEFAULT NULL COMMENT '所属人',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='提示词';
-
--- ----------------------------
--- Table structure for ai_slice
--- ----------------------------
-DROP TABLE IF EXISTS `ai_slice`;
-CREATE TABLE `ai_slice` (
-  `id` bigint NOT NULL COMMENT '主键',
-  `document_id` bigint DEFAULT NULL COMMENT '文档ID',
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
-  `units` bigint DEFAULT NULL COMMENT '知识数量',
-  `file_size` bigint DEFAULT NULL COMMENT '大小',
-  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
-  `char_count` bigint DEFAULT NULL COMMENT '字符数量',
-  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '内容',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
-  `slice_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '训练状态',
-  `qdrant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '向量ID',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识切片';
 
 SET FOREIGN_KEY_CHECKS = 1;
 
