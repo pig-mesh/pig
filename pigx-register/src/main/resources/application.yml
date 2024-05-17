@@ -1,5 +1,5 @@
 server:
-  port: 18848
+  port: 8848
   tomcat:
     basedir: logs
   error:
@@ -41,8 +41,6 @@ spring:
         password: pig
         instance:
           service-host-type: ip
-  application:
-    name: @project.artifactId@
 
 useAddressServer: true
 

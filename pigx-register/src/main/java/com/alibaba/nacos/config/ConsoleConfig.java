@@ -18,6 +18,7 @@ package com.alibaba.nacos.config;
 
 import com.alibaba.nacos.core.code.ControllerMethodsCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -44,6 +45,13 @@ public class ConsoleConfig {
 
 	@Autowired
 	private ControllerMethodsCache methodsCache;
+
+	@Value("${nacos.console.ui.enabled:true}")
+	private boolean consoleUiEnabled;
+
+	public boolean isConsoleUiEnabled() {
+		return consoleUiEnabled;
+	}
 
 	/**
 	 * Init.
