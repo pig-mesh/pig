@@ -23,21 +23,17 @@ import com.alibaba.nacos.api.model.v2.ErrorCode;
 import com.alibaba.nacos.api.model.v2.Result;
 import com.alibaba.nacos.auth.annotation.Secured;
 import com.alibaba.nacos.common.utils.StringUtils;
-import com.alibaba.nacos.console.model.Namespace;
-import com.alibaba.nacos.console.model.NamespaceAllInfo;
-import com.alibaba.nacos.console.model.form.NamespaceForm;
-import com.alibaba.nacos.console.service.NamespaceOperationService;
+import com.alibaba.nacos.console.paramcheck.ConsoleDefaultHttpParamExtractor;
+import com.alibaba.nacos.core.namespace.model.Namespace;
+import com.alibaba.nacos.core.namespace.model.form.NamespaceForm;
+import com.alibaba.nacos.core.namespace.repository.NamespacePersistService;
+import com.alibaba.nacos.core.paramcheck.ExtractorManager;
+import com.alibaba.nacos.core.service.NamespaceOperationService;
 import com.alibaba.nacos.plugin.auth.constant.ActionTypes;
 import com.alibaba.nacos.plugin.auth.constant.SignType;
 import com.alibaba.nacos.plugin.auth.impl.constant.AuthConstants;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -52,15 +48,22 @@ import java.util.regex.Pattern;
 @NacosApi
 @RestController
 @RequestMapping("/v2/console/namespace")
+@ExtractorManager.Extractor(httpExtractor = ConsoleDefaultHttpParamExtractor.class)
 public class NamespaceControllerV2 {
 
 	private final NamespaceOperationService namespaceOperationService;
 
-	public NamespaceControllerV2(NamespaceOperationService namespaceOperationService) {
+	private NamespacePersistService namespacePersistService;
+
+	public NamespaceControllerV2(NamespaceOperationService namespaceOperationService,
+			NamespacePersistService namespacePersistService) {
 		this.namespaceOperationService = namespaceOperationService;
+		this.namespacePersistService = namespacePersistService;
 	}
 
 	private final Pattern namespaceIdCheckPattern = Pattern.compile("^[\\w-]+");
+
+	private final Pattern namespaceNameCheckPattern = Pattern.compile("^[^@#$%^&*]+$");
 
 	private static final int NAMESPACE_ID_MAX_LENGTH = 128;
 
@@ -81,8 +84,7 @@ public class NamespaceControllerV2 {
 	@GetMapping()
 	@Secured(resource = AuthConstants.CONSOLE_RESOURCE_NAME_PREFIX + "namespaces", action = ActionTypes.READ,
 			signType = SignType.CONSOLE)
-	public Result<NamespaceAllInfo> getNamespace(@RequestParam("namespaceId") String namespaceId)
-			throws NacosException {
+	public Result<Namespace> getNamespace(@RequestParam("namespaceId") String namespaceId) throws NacosException {
 		return Result.success(namespaceOperationService.getNamespace(namespaceId));
 	}
 
@@ -115,6 +117,16 @@ public class NamespaceControllerV2 {
 				throw new NacosApiException(HttpStatus.BAD_REQUEST.value(), ErrorCode.ILLEGAL_NAMESPACE,
 						"too long namespaceId, over " + NAMESPACE_ID_MAX_LENGTH);
 			}
+			// check unique
+			if (namespacePersistService.tenantInfoCountByTenantId(namespaceId) > 0) {
+				throw new NacosApiException(HttpStatus.BAD_REQUEST.value(), ErrorCode.ILLEGAL_NAMESPACE,
+						"the namespaceId is existed, namespaceId: " + namespaceForm.getNamespaceId());
+			}
+		}
+		// contains illegal chars
+		if (!namespaceNameCheckPattern.matcher(namespaceName).matches()) {
+			throw new NacosApiException(HttpStatus.BAD_REQUEST.value(), ErrorCode.ILLEGAL_NAMESPACE,
+					"namespaceName [" + namespaceName + "] contains illegal char");
 		}
 		return Result.success(namespaceOperationService.createNamespace(namespaceId, namespaceName, namespaceDesc));
 	}
@@ -129,6 +141,11 @@ public class NamespaceControllerV2 {
 			signType = SignType.CONSOLE)
 	public Result<Boolean> editNamespace(NamespaceForm namespaceForm) throws NacosException {
 		namespaceForm.validate();
+		// contains illegal chars
+		if (!namespaceNameCheckPattern.matcher(namespaceForm.getNamespaceName()).matches()) {
+			throw new NacosApiException(HttpStatus.BAD_REQUEST.value(), ErrorCode.ILLEGAL_NAMESPACE,
+					"namespaceName [" + namespaceForm.getNamespaceName() + "] contains illegal char");
+		}
 		return Result.success(namespaceOperationService.editNamespace(namespaceForm.getNamespaceId(),
 				namespaceForm.getNamespaceName(), namespaceForm.getNamespaceDesc()));
 	}
