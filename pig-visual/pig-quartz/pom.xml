@@ -79,6 +79,10 @@
     <profiles>
         <profile>
             <id>cloud</id>
+            <activation>
+                <!-- 默认环境 -->
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
