@@ -9,15 +9,15 @@ services:
     restart: always
     container_name: pig-mysql
     image: pig-mysql
-#    ports:
-#      - 3306:3306
+    ports:
+      - 33306:3306
     networks:
       - spring_cloud_default
 
   pig-redis:
     image: redis:7.2.4
-#    ports:
-#      - 6379:6379
+    ports:
+      - 36379:6379
     restart: always
     container_name: pig-redis
     hostname: pig-redis
