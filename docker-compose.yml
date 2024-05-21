@@ -15,7 +15,7 @@ services:
       - spring_cloud_default
 
   pig-redis:
-    image: redis:7.2.4
+    image: redis:7.2.5
     ports:
       - 36379:6379
     restart: always
