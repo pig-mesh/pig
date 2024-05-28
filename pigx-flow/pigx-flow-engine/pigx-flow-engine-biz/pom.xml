@@ -155,5 +155,8 @@
                 </plugins>
             </build>
         </profile>
+        <profile>
+            <id>boot</id>
+        </profile>
     </profiles>
 </project>
