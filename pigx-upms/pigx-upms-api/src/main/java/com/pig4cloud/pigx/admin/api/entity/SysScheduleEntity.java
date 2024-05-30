@@ -41,85 +41,86 @@ import java.time.LocalTime;
 @Schema(description = "日程")
 public class SysScheduleEntity extends Model<SysScheduleEntity> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(description = "id")
-	private Long id;
+    /**
+     * id
+     */
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "id")
+    private Long id;
 
-	/**
-	 * 标题
-	 */
-	@Schema(description = "标题")
-	private String title;
+    /**
+     * 标题
+     */
+    @Schema(description = "标题")
+    private String title;
 
-	/**
-	 * 日程类型
-	 */
-	@Schema(description = "日程类型")
-	private String type;
+    /**
+     * 日程类型
+     */
+    @Schema(description = "日程类型")
+    @TableField("schedule_type")
+    private String type;
 
-	/**
-	 * 状态
-	 */
-	@Schema(description = "状态")
-	private String state;
+    /**
+     * 状态
+     */
+    @Schema(description = "状态")
+    private String state;
 
-	/**
-	 * 内容
-	 */
-	@Schema(description = "内容")
-	private String content;
+    /**
+     * 内容
+     */
+    @Schema(description = "内容")
+    private String content;
 
-	/**
-	 * 时间
-	 */
-	@Schema(description = "时间")
-	private LocalTime time;
+    /**
+     * 时间
+     */
+    @Schema(description = "时间")
+    private LocalTime time;
 
-	/**
-	 * 日期
-	 */
-	@Schema(description = "日期")
-	private LocalDate date;
+    /**
+     * 日期
+     */
+    @Schema(description = "日期")
+    private LocalDate date;
 
-	/**
-	 * 创建人
-	 */
-	@Schema(description = "创建人")
-	@TableField(fill = FieldFill.INSERT)
-	private String createBy;
+    /**
+     * 创建人
+     */
+    @Schema(description = "创建人")
+    @TableField(fill = FieldFill.INSERT)
+    private String createBy;
 
-	/**
-	 * 创建时间
-	 */
-	@Schema(description = "创建时间")
-	@TableField(fill = FieldFill.INSERT)
-	private LocalDateTime createTime;
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
-	/**
-	 * 修改人
-	 */
-	@Schema(description = "修改人")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private String updateBy;
+    /**
+     * 修改人
+     */
+    @Schema(description = "修改人")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private String updateBy;
 
-	/**
-	 * 更新时间
-	 */
-	@Schema(description = "更新时间")
-	@TableField(fill = FieldFill.INSERT_UPDATE)
-	private LocalDateTime updateTime;
+    /**
+     * 更新时间
+     */
+    @Schema(description = "更新时间")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
-	/**
-	 * 删除标记
-	 */
-	@TableLogic
-	@Schema(description = "删除标记")
-	@TableField(fill = FieldFill.INSERT)
-	private String delFlag;
+    /**
+     * 删除标记
+     */
+    @TableLogic
+    @Schema(description = "删除标记")
+    @TableField(fill = FieldFill.INSERT)
+    private String delFlag;
 
 }

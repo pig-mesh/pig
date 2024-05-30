@@ -19,6 +19,8 @@
 
 package com.pig4cloud.pigx.admin.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -113,7 +115,24 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	 */
 	@Override
 	public List<Map<String, Object>> getLogSum() {
-		return baseMapper.selectLogSumByType();
+		// 查询createTime 最近 30天的数据
+		List<SysLog> sysLogList = baseMapper
+			.selectList(Wrappers.<SysLog>lambdaQuery().ge(SysLog::getCreateTime, LocalDateTime.now().minusDays(30)));
+		return sysLogList.stream()
+			.collect(Collectors.groupingBy(log -> DateUtil.format(log.getCreateTime(), DatePattern.NORM_DATE_PATTERN)))
+			.entrySet()
+			.stream()
+			.map(entry -> {
+				Map<String, Object> map = entry.getValue()
+					.stream()
+					.collect(Collectors.groupingBy(SysLog::getLogType))
+					.entrySet()
+					.stream()
+					.collect(Collectors.toMap(Map.Entry::getKey, value -> value.getValue().size()));
+				map.put(SysLog.Fields.createTime, entry.getKey());
+				return map;
+			})
+			.collect(Collectors.toList());
 	}
 
 }

@@ -28,6 +28,7 @@ import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -42,6 +43,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TenantTable
+@FieldNameConstants
 @Schema(description = "日志")
 public class SysLog implements Serializable {
 

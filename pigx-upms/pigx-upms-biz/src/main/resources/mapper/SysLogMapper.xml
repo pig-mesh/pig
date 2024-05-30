@@ -21,18 +21,4 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pigx.admin.mapper.SysLogMapper">
 
-	<select id="selectLogSumByType" resultType="java.util.Map">
-		SELECT
-		DATE(create_time) AS log_date,
-		SUM(CASE WHEN log_type = '0' THEN 1 ELSE 0 END) AS successful_count,
-		SUM(CASE WHEN log_type = '9' THEN 1 ELSE 0 END) AS failed_count
-		FROM
-		sys_log
-		WHERE
-		create_time >= CURDATE() - INTERVAL 30 DAY
-		GROUP BY
-		log_date
-		ORDER BY
-		log_date;
-	</select>
 </mapper>

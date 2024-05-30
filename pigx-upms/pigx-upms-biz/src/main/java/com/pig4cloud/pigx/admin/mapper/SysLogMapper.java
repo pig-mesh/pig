@@ -37,10 +37,4 @@ import java.util.Map;
 @Mapper
 public interface SysLogMapper extends PigxBaseMapper<SysLog> {
 
-	/**
-	 * 通过日志类型统计日志总数 返回一个包含日志类型和日志总数的列表
-	 * @return List<Map<String, Object>>
-	 */
-	List<Map<String, Object>> selectLogSumByType();
-
 }
