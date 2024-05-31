@@ -52,7 +52,7 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
             nodeList.add(treeNode);
         }
 
-        return TreeUtil.build(nodeList, Optional.ofNullable(sysArea.getPid()).orElse(1L));
+        return TreeUtil.build(nodeList, Optional.ofNullable(sysArea.getPid()).orElse(100000L));
     }
 
     /**
