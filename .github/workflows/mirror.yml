@@ -2,9 +2,9 @@ name: 同步代码
 
 on:
   push:
-    branches: [ master,jdk17 ]
+    branches: [ master,jdk17,jdk17-dev,dev ]
   pull_request:
-    branches: [ master,jdk17 ]
+    branches: [ master,jdk17,jdk17-dev,dev ]
 
 jobs:
   sync:

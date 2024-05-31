@@ -31,7 +31,7 @@
 
 ## 微信群 [禁广告]
 
-<img src='https://minio.pigx.top/oss/202405/1716970688.png'/>
+<img src='https://minio.pigx.top/oss/202405/1717136749.png' alt='1717136749'/>
 
 ## 快速开始
 
