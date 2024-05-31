@@ -60,14 +60,13 @@ public class SysScheduleEntity extends Model<SysScheduleEntity> {
      * 日程类型
      */
     @Schema(description = "日程类型")
-    @TableField("schedule_type")
-    private String type;
+    private String scheduleType;
 
     /**
      * 状态
      */
     @Schema(description = "状态")
-    private String state;
+    private String scheduleState;
 
     /**
      * 内容
@@ -79,13 +78,14 @@ public class SysScheduleEntity extends Model<SysScheduleEntity> {
      * 时间
      */
     @Schema(description = "时间")
-    private LocalTime time;
+    private LocalTime scheduleTime;
 
     /**
      * 日期
      */
     @Schema(description = "日期")
-    private LocalDate date;
+    @TableField("schedule_date")
+    private LocalDate scheduleDate;
 
     /**
      * 创建人

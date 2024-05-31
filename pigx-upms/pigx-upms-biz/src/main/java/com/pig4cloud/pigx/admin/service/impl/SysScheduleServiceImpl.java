@@ -56,8 +56,8 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 	public IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule) {
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(StrUtil.isNotBlank(sysSchedule.getTitle()), SysScheduleEntity::getTitle, sysSchedule.getTitle());
-		wrapper.like(StrUtil.isNotBlank(sysSchedule.getType()), SysScheduleEntity::getType, sysSchedule.getType());
-		wrapper.eq(Objects.nonNull(sysSchedule.getDate()), SysScheduleEntity::getDate, sysSchedule.getDate());
+		wrapper.like(StrUtil.isNotBlank(sysSchedule.getScheduleType()), SysScheduleEntity::getScheduleType, sysSchedule.getScheduleType());
+		wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate, sysSchedule.getScheduleDate());
 		DataScope dataScope = new DataScope();
 		dataScope.setUsername(SecurityUtils.getUser().getUsername());
 		return baseMapper.selectPageByScope(page, wrapper, dataScope);
@@ -74,9 +74,9 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 		DateTime beginOfWeek = DateUtil.beginOfWeek(DateUtil.date());
 		DateTime endOfWeek = DateUtil.endOfWeek(DateUtil.date());
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
-		wrapper.between(SysScheduleEntity::getDate, Objects.isNull(startDate) ? beginOfWeek : startDate,
+		wrapper.between(SysScheduleEntity::getScheduleDate, Objects.isNull(startDate) ? beginOfWeek : startDate,
 				Objects.isNull(endDate) ? endOfWeek : endDate);
-		wrapper.ne(SysScheduleEntity::getState, ScheduleStateEnum.END.getCode());
+		wrapper.ne(SysScheduleEntity::getScheduleState, ScheduleStateEnum.END.getCode());
 		DataScope dataScope = new DataScope();
 		dataScope.setUsername(SecurityUtils.getUser().getUsername());
 		return baseMapper.selectListByScope(wrapper, dataScope);
