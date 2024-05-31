@@ -88,6 +88,9 @@
 
     <profiles>
         <profile>
+            <id>boot</id>
+        </profile>
+        <profile>
             <id>cloud</id>
             <activation>
                 <!-- 默认环境 -->

@@ -1,7 +1,7 @@
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2023-blue.svg" alt="Coverage Status">
- <img src="https://img.shields.io/badge/Spring%20Boot-3.2-blue.svg" alt="Downloads">
+ <img src="https://img.shields.io/badge/Spring%20Boot-3.3-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.4-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
 </p>
@@ -14,7 +14,7 @@
 
 #### 分支说明
 
-- jdk17: java17/21 + springboot 3.2 + springcloud 2023
+- jdk17: java17/21 + springboot 3.3 + springcloud 2023
 - master: java8 + springboot 2.7 + springcloud 2021
 
 #### 文档视频
@@ -31,7 +31,7 @@
 
 ## 微信群 [禁广告]
 
-![](https://minio.pigx.top/oss/1648184189.png)
+<img src='https://minio.pigx.top/oss/202405/1716970688.png'/>
 
 ## 快速开始
 
@@ -39,7 +39,7 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.2.4      |
+| Spring Boot                 | 3.3.0      |
 | Spring Cloud                | 2023.0.1   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.2.4      |
