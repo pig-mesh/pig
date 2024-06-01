@@ -124,22 +124,13 @@ public class SysClientController {
 		return R.ok(clientDetailsService.updateClientById(clientDetails));
 	}
 
-	@Inner(false)
+	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public R getClientDetailsById(@PathVariable String clientId) {
 		return R.ok(clientDetailsService.getOne(
 				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
 	}
 
-	/**
-	 * 查询全部客户端
-	 * @return
-	 */
-	@Inner(false)
-	@GetMapping("/list")
-	public R listClients() {
-		return R.ok(clientDetailsService.list());
-	}
 
 	/**
 	 * 同步缓存字典
