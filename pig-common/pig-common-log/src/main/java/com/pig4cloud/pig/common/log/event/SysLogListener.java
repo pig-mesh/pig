@@ -44,45 +44,45 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class SysLogListener implements InitializingBean {
 
-    // new 一个 避免日志脱敏策略影响全局ObjectMapper
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+	// new 一个 避免日志脱敏策略影响全局ObjectMapper
+	private final static ObjectMapper objectMapper = new ObjectMapper();
 
-    private final RemoteLogService remoteLogService;
+	private final RemoteLogService remoteLogService;
 
-    private final PigLogProperties logProperties;
+	private final PigLogProperties logProperties;
 
-    @SneakyThrows
-    @Async
-    @Order
-    @EventListener(SysLogEvent.class)
-    public void saveSysLog(SysLogEvent event) {
-        SysLogEventSource source = (SysLogEventSource) event.getSource();
-        SysLog sysLog = new SysLog();
-        BeanUtils.copyProperties(source, sysLog);
+	@SneakyThrows
+	@Async
+	@Order
+	@EventListener(SysLogEvent.class)
+	public void saveSysLog(SysLogEvent event) {
+		SysLogEventSource source = (SysLogEventSource) event.getSource();
+		SysLog sysLog = new SysLog();
+		BeanUtils.copyProperties(source, sysLog);
 
-        // json 格式刷参数放在异步中处理，提升性能
-        if (Objects.nonNull(source.getBody())) {
-            String params = objectMapper.writeValueAsString(source.getBody());
-            sysLog.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
-        }
+		// json 格式刷参数放在异步中处理，提升性能
+		if (Objects.nonNull(source.getBody())) {
+			String params = objectMapper.writeValueAsString(source.getBody());
+			sysLog.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
+		}
 
-        remoteLogService.saveLog(sysLog);
-    }
+		remoteLogService.saveLog(sysLog);
+	}
 
-    @Override
-    public void afterPropertiesSet() {
-        objectMapper.addMixIn(Object.class, PropertyFilterMixIn.class);
-        String[] ignorableFieldNames = logProperties.getExcludeFields().toArray(new String[0]);
+	@Override
+	public void afterPropertiesSet() {
+		objectMapper.addMixIn(Object.class, PropertyFilterMixIn.class);
+		String[] ignorableFieldNames = logProperties.getExcludeFields().toArray(new String[0]);
 
-        FilterProvider filters = new SimpleFilterProvider().addFilter("filter properties by name",
-                SimpleBeanPropertyFilter.serializeAllExcept(ignorableFieldNames));
-        objectMapper.setFilterProvider(filters);
-        objectMapper.registerModule(new PigJavaTimeModule());
-    }
+		FilterProvider filters = new SimpleFilterProvider().addFilter("filter properties by name",
+				SimpleBeanPropertyFilter.serializeAllExcept(ignorableFieldNames));
+		objectMapper.setFilterProvider(filters);
+		objectMapper.registerModule(new PigJavaTimeModule());
+	}
 
-    @JsonFilter("filter properties by name")
-    class PropertyFilterMixIn {
+	@JsonFilter("filter properties by name")
+	class PropertyFilterMixIn {
 
-    }
+	}
 
 }

@@ -39,37 +39,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 @RequiredArgsConstructor
 public class PigUserDetailsServiceImpl implements PigUserDetailsService {
 
-    private final RemoteUserService remoteUserService;
+	private final RemoteUserService remoteUserService;
 
-    private final CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
-    /**
-     * 用户名密码登录
-     *
-     * @param username 用户名
-     * @return
-     */
-    @Override
-    @SneakyThrows
-    public UserDetails loadUserByUsername(String username) {
-        Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-        if (cache != null && cache.get(username) != null) {
-            return (PigUser) cache.get(username).get();
-        }
+	/**
+	 * 用户名密码登录
+	 * @param username 用户名
+	 * @return
+	 */
+	@Override
+	@SneakyThrows
+	public UserDetails loadUserByUsername(String username) {
+		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+		if (cache != null && cache.get(username) != null) {
+			return (PigUser) cache.get(username).get();
+		}
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(username);
-        R<UserInfo> result = remoteUserService.info(userDTO);
-        UserDetails userDetails = getUserDetails(result);
-        if (cache != null) {
-            cache.put(username, userDetails);
-        }
-        return userDetails;
-    }
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUsername(username);
+		R<UserInfo> result = remoteUserService.info(userDTO);
+		UserDetails userDetails = getUserDetails(result);
+		if (cache != null) {
+			cache.put(username, userDetails);
+		}
+		return userDetails;
+	}
 
-    @Override
-    public int getOrder() {
-        return Integer.MIN_VALUE;
-    }
+	@Override
+	public int getOrder() {
+		return Integer.MIN_VALUE;
+	}
 
 }

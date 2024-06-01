@@ -131,7 +131,6 @@ public class SysClientController {
 				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
 	}
 
-
 	/**
 	 * 同步缓存字典
 	 * @return R

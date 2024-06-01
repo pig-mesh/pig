@@ -17,8 +17,6 @@
 
 package org.springframework.cloud.openfeign;
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration;
 import lombok.Getter;
 import org.springframework.beans.factory.BeanClassLoaderAware;

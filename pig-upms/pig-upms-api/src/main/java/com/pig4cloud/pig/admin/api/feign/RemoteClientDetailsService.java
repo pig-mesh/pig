@@ -34,15 +34,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(contextId = "remoteClientDetailsService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteClientDetailsService {
 
-    /**
-     * 通过clientId 查询客户端信息 (未登录，需要无token 内部调用)
-     *
-     * @param clientId 用户名
-     * @return R
-     */
-    @NoToken
-    @GetMapping("/client/getClientDetailsById/{clientId}")
-    R<SysOauthClientDetails> getClientDetailsById(@PathVariable("clientId") String clientId);
-
+	/**
+	 * 通过clientId 查询客户端信息 (未登录，需要无token 内部调用)
+	 * @param clientId 用户名
+	 * @return R
+	 */
+	@NoToken
+	@GetMapping("/client/getClientDetailsById/{clientId}")
+	R<SysOauthClientDetails> getClientDetailsById(@PathVariable("clientId") String clientId);
 
 }
