@@ -38,9 +38,8 @@
         </dependency>
         <!--feign 注解依赖-->
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-openfeign-core</artifactId>
-            <optional>true</optional>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-feign</artifactId>
         </dependency>
         <!--mybatis 依赖-->
         <dependency>

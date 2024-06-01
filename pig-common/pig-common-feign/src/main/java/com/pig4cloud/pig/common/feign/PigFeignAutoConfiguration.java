@@ -20,6 +20,7 @@ import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pig.common.feign.core.PigFeignInnerRequestInterceptor;
 import com.pig4cloud.pig.common.feign.core.PigFeignRequestCloseInterceptor;
 import com.pig4cloud.pig.common.feign.sentinel.ext.PigSentinelFeign;
 import com.pig4cloud.pig.common.feign.sentinel.handle.PigUrlBlockHandler;
@@ -45,33 +46,44 @@ import org.springframework.context.annotation.Scope;
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
-	@Bean
-	@Scope("prototype")
-	@ConditionalOnMissingBean
-	@ConditionalOnProperty(name = "feign.sentinel.enabled")
-	public Feign.Builder feignSentinelBuilder() {
-		return PigSentinelFeign.builder();
-	}
+    @Bean
+    @Scope("prototype")
+    @ConditionalOnMissingBean
+    @ConditionalOnProperty(name = "feign.sentinel.enabled")
+    public Feign.Builder feignSentinelBuilder() {
+        return PigSentinelFeign.builder();
+    }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
-		return new PigUrlBlockHandler(objectMapper);
-	}
+    @Bean
+    @ConditionalOnMissingBean
+    public BlockExceptionHandler blockExceptionHandler(ObjectMapper objectMapper) {
+        return new PigUrlBlockHandler(objectMapper);
+    }
 
-	@Bean
-	@ConditionalOnMissingBean
-	public RequestOriginParser requestOriginParser() {
-		return new PigHeaderRequestOriginParser();
-	}
+    @Bean
+    @ConditionalOnMissingBean
+    public RequestOriginParser requestOriginParser() {
+        return new PigHeaderRequestOriginParser();
+    }
 
-	/**
-	 * add http connection close header
-	 * @return
-	 */
-	@Bean
-	public PigFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
-		return new PigFeignRequestCloseInterceptor();
-	}
+    /**
+     * add http connection close header
+     *
+     * @return
+     */
+    @Bean
+    public PigFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
+        return new PigFeignRequestCloseInterceptor();
+    }
+
+    /**
+     * add inner request header
+     *
+     * @return PigFeignInnerRequestInterceptor
+     */
+    @Bean
+    public PigFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {
+        return new PigFeignInnerRequestInterceptor();
+    }
 
 }
