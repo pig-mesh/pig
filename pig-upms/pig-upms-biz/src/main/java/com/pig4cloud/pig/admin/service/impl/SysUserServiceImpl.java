@@ -22,7 +22,6 @@ package com.pig4cloud.pig.admin.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -436,10 +435,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	@Override
 	public R checkPassword(String password) {
-		String username = SecurityUtils.getUser().getUsername();
-		SysUser condition = new SysUser();
-		condition.setUsername(username);
-		SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
+		SysUser sysUser = baseMapper.selectById(SecurityUtils.getUser().getId());
 
 		if (!ENCODER.matches(password, sysUser.getPassword())) {
 			log.info("原密码错误");

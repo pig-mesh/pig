@@ -38,7 +38,6 @@ import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
@@ -46,6 +45,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -202,7 +202,6 @@ public class SysUserController {
 	 * @param username 用户名
 	 * @return R
 	 */
-	@Inner
 	@PutMapping("/lock/{username}")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);

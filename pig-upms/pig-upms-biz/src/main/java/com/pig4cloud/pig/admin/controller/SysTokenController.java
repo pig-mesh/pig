@@ -18,7 +18,6 @@
 package com.pig4cloud.pig.admin.controller;
 
 import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -53,7 +52,7 @@ public class SysTokenController {
 	 */
 	@RequestMapping("/page")
 	public R getTokenPage(@RequestBody Map<String, Object> params) {
-		return remoteTokenService.getTokenPage(params, SecurityConstants.FROM_IN);
+		return remoteTokenService.getTokenPage(params);
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class SysTokenController {
 	@PreAuthorize("@pms.hasPermission('sys_token_del')")
 	public R removeById(@RequestBody String[] tokens) {
 		for (String token : tokens) {
-			remoteTokenService.removeTokenById(token, SecurityConstants.FROM_IN);
+			remoteTokenService.removeTokenById(token);
 		}
 		return R.ok();
 	}
