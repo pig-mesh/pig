@@ -24,10 +24,7 @@ public class RedisMessageDistributor implements MessageDistributor {
 	 */
 	@Override
 	public void distribute(MessageDO messageDO) {
-		// 包装 sessionKey 适配分布式多环境
-		List<Object> sessionKeyList = new ArrayList<>(messageDO.getSessionKeys());
-		messageDO.setSessionKeys(sessionKeyList);
-
+		
 		String str = JSONUtil.toJsonStr(messageDO);
 		stringRedisTemplate.convertAndSend(RedisSseEmitterMessageListener.CHANNEL, str);
 	}
