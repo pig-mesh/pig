@@ -1,4 +1,4 @@
-FROM alibabadragonwell/dragonwell:21-anolis
+FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/java:21-anolis
 
 WORKDIR /pig-register
 
