@@ -1,18 +1,7 @@
 package com.pig4cloud.pigx.codegen.util;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.toolkit.JdbcUtils;
-import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
-import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
-import com.pig4cloud.pigx.codegen.mapper.GeneratorMapper;
-import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
-import com.pig4cloud.pigx.common.datasource.config.DruidDataSourceProperties;
 import lombok.experimental.UtilityClass;
-import org.springframework.context.ApplicationContext;
-
-import java.util.Map;
 
 /**
  * 代码生成工具类
@@ -23,59 +12,25 @@ import java.util.Map;
 @UtilityClass
 public class GenKit {
 
-	/**
-	 * 获取功能名 sys_a_b sysAb
-	 * @param tableName 表名
-	 * @return 功能名
-	 */
-	public String getFunctionName(String tableName) {
-		return StrUtil.toCamelCase(tableName);
-	}
+    /**
+     * 获取功能名 sys_a_b sysAb
+     *
+     * @param tableName 表名
+     * @return 功能名
+     */
+    public String getFunctionName(String tableName) {
+        return StrUtil.toCamelCase(tableName);
+    }
 
-	/**
-	 * 获取模块名称
-	 * @param packageName 包名
-	 * @return 功能名
-	 */
-	public String getModuleName(String packageName) {
-		return StrUtil.subAfter(packageName, ".", true);
-	}
+    /**
+     * 获取模块名称
+     *
+     * @param packageName 包名
+     * @return 功能名
+     */
+    public String getModuleName(String packageName) {
+        return StrUtil.subAfter(packageName, ".", true);
+    }
 
-	/**
-	 * 获取数据源对应方言的mapper
-	 * @param dsName 数据源名称
-	 * @return GeneratorMapper
-	 */
-	public GeneratorMapper getMapper(String dsName) {
-		// 获取目标数据源数据库类型
-		GenDatasourceConfMapper datasourceConfMapper = SpringContextHolder.getBean(GenDatasourceConfMapper.class);
-		GenDatasourceConf datasourceConf = datasourceConfMapper
-			.selectOne(Wrappers.<GenDatasourceConf>lambdaQuery().eq(GenDatasourceConf::getName, dsName));
-
-		String dbConfType;
-		// 为空 根据jdbc-url推断数据库类型
-		if (datasourceConf == null) {
-			DruidDataSourceProperties dataSourceProperties = SpringContextHolder
-				.getBean(DruidDataSourceProperties.class);
-			DbType dbType = JdbcUtils.getDbType(dataSourceProperties.getUrl());
-			dbConfType = dbType.getDb();
-		}
-		else {
-			dbConfType = datasourceConf.getDsType();
-		}
-
-		// 获取全部数据实现
-		ApplicationContext context = SpringContextHolder.getApplicationContext();
-		Map<String, GeneratorMapper> beansOfType = context.getBeansOfType(GeneratorMapper.class);
-
-		// 根据数据类型选择mapper
-		for (String key : beansOfType.keySet()) {
-			if (StrUtil.containsIgnoreCase(key, dbConfType)) {
-				return beansOfType.get(key);
-			}
-		}
-
-		throw new IllegalArgumentException("dsName 不合法: " + dsName);
-	}
 
 }
