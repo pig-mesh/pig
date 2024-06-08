@@ -50,6 +50,7 @@
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <sentinel.version>1.8.4</sentinel.version>
+        <anyline.version>8.7.2-jdk17-20240530</anyline.version>
     </properties>
 
     <dependencyManagement>
@@ -261,6 +262,32 @@
                 <groupId>com.highgo</groupId>
                 <artifactId>HgdbJdbc</artifactId>
                 <version>${highgo.version}</version>
+            </dependency>
+            <!--anyline-->
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-environment-spring-data-jdbc</artifactId>
+                <version>${anyline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-data-jdbc-mysql</artifactId>
+                <version>${anyline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-data-jdbc-oracle</artifactId>
+                <version>${anyline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-data-jdbc-postgresql</artifactId>
+                <version>${anyline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.anyline</groupId>
+                <artifactId>anyline-data-jdbc-dm</artifactId>
+                <version>${anyline.version}</version>
             </dependency>
             <!--fastjson-->
             <dependency>

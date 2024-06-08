@@ -17,36 +17,58 @@
 
 package com.pig4cloud.pigx.common.sequence;
 
-import com.pig4cloud.pigx.common.sequence.builder.SnowflakeSeqBuilder;
-import com.pig4cloud.pigx.common.sequence.properties.SequenceSnowflakeProperties;
-import com.pig4cloud.pigx.common.sequence.sequence.Sequence;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+import com.pig4cloud.pigx.common.sequence.properties.BaseSequenceProperties;
+import com.pig4cloud.pigx.common.sequence.range.impl.db.SequenceTable;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.anyline.metadata.Column;
+import org.anyline.metadata.Index;
+import org.anyline.metadata.Table;
+import org.anyline.proxy.ServiceProxy;
+import org.anyline.service.AnylineService;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.EventListener;
+
+import java.util.LinkedHashMap;
+import java.util.Objects;
 
 /**
  * @author lengleng
  * @date 2019-05-26
  */
+@Slf4j
 @Configuration
-@ComponentScan("com.pig4cloud.pigx.common.sequence")
-@ConditionalOnMissingBean(Sequence.class)
+@RequiredArgsConstructor
+@EnableConfigurationProperties(BaseSequenceProperties.class)
 public class SequenceAutoConfiguration {
 
-	/**
-	 * snowflak 算法作为发号器实现
-	 * @param properties
-	 * @return
-	 */
-	@Bean
-	@ConditionalOnBean(SequenceSnowflakeProperties.class)
-	public Sequence snowflakeSequence(SequenceSnowflakeProperties properties) {
-		return SnowflakeSeqBuilder.create()
-			.datacenterId(properties.getDatacenterId())
-			.workerId(properties.getWorkerId())
-			.build();
-	}
+    private final BaseSequenceProperties sequenceDbProperties;
+
+    /**
+     * 启动后自动创建表
+     */
+    @EventListener({WebServerInitializedEvent.class})
+    public void onApplicationReady() throws Exception {
+        // 判断是否需要创建表
+        AnylineService service = ServiceProxy.service();
+        Table tableMetadata = service.metadata().table(sequenceDbProperties.getDb().getTableName(), false);
+        if (Objects.isNull(tableMetadata)) {
+            Table table = Table.from(SequenceTable.class);
+            table.setName(sequenceDbProperties.getDb().getTableName());
+            table.setComment("序列号区间管理表");
+            table.setPrimaryKey(SequenceTable.Fields.id);
+            LinkedHashMap<String, Index> indexLinkedHashMap = new LinkedHashMap<>();
+            Index nameUnique = new Index(SequenceTable.Fields.name);
+            nameUnique.setUnique(true);
+            nameUnique.addColumn(new Column(SequenceTable.Fields.name));
+            indexLinkedHashMap.put(SequenceTable.Fields.name, nameUnique);
+            table.setIndexes(indexLinkedHashMap);
+
+            service.ddl().create(table);
+            log.debug("发号器自动创建表成功:{} ", table);
+        }
+    }
 
 }

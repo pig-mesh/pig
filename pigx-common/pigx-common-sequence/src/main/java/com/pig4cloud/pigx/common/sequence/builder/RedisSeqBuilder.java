@@ -1,9 +1,11 @@
 package com.pig4cloud.pigx.common.sequence.builder;
 
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sequence.range.BizName;
 import com.pig4cloud.pigx.common.sequence.range.impl.redis.RedisSeqRangeMgr;
 import com.pig4cloud.pigx.common.sequence.sequence.Sequence;
 import com.pig4cloud.pigx.common.sequence.sequence.impl.DefaultRangeSequence;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
  * 基于redis取步长，序列号生成器构建者
@@ -13,24 +15,10 @@ import com.pig4cloud.pigx.common.sequence.sequence.impl.DefaultRangeSequence;
 public class RedisSeqBuilder implements SeqBuilder {
 
 	/**
-	 * 连接redis的IP[必选]
-	 */
-	private String ip;
-
-	/**
-	 * 连接redis的port[必选]
-	 */
-	private int port;
-
-	/**
 	 * 业务名称[必选]
 	 */
 	private BizName bizName;
 
-	/**
-	 * 认证权限，看redis是否配置了需要密码auth[可选]
-	 */
-	private String auth;
 
 	/**
 	 * 获取range步长[可选，默认：1000]
@@ -42,6 +30,7 @@ public class RedisSeqBuilder implements SeqBuilder {
 	 */
 	private long stepStart = 0;
 
+
 	public static RedisSeqBuilder create() {
 		RedisSeqBuilder builder = new RedisSeqBuilder();
 		return builder;
@@ -51,11 +40,9 @@ public class RedisSeqBuilder implements SeqBuilder {
 	public Sequence build() {
 		// 利用Redis获取区间管理器
 		RedisSeqRangeMgr redisSeqRangeMgr = new RedisSeqRangeMgr();
-		redisSeqRangeMgr.setIp(this.ip);
-		redisSeqRangeMgr.setPort(this.port);
-		redisSeqRangeMgr.setAuth(this.auth);
-		redisSeqRangeMgr.setStep(this.step);
+		redisSeqRangeMgr.setStringRedisTemplate(null);
 		redisSeqRangeMgr.setStepStart(stepStart);
+		redisSeqRangeMgr.setStringRedisTemplate(SpringContextHolder.getBean(StringRedisTemplate.class));
 		redisSeqRangeMgr.init();
 		// 构建序列号生成器
 		DefaultRangeSequence sequence = new DefaultRangeSequence();
@@ -64,20 +51,6 @@ public class RedisSeqBuilder implements SeqBuilder {
 		return sequence;
 	}
 
-	public RedisSeqBuilder ip(String ip) {
-		this.ip = ip;
-		return this;
-	}
-
-	public RedisSeqBuilder port(int port) {
-		this.port = port;
-		return this;
-	}
-
-	public RedisSeqBuilder auth(String auth) {
-		this.auth = auth;
-		return this;
-	}
 
 	public RedisSeqBuilder step(int step) {
 		this.step = step;

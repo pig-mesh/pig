@@ -53,7 +53,6 @@ public class DbSeqBuilder implements SeqBuilder {
 	public Sequence build() {
 		// 利用DB获取区间管理器
 		DbSeqRangeMgr dbSeqRangeMgr = new DbSeqRangeMgr();
-		dbSeqRangeMgr.setDataSource(this.dataSource);
 		dbSeqRangeMgr.setTableName(this.tableName);
 		dbSeqRangeMgr.setRetryTimes(this.retryTimes);
 		dbSeqRangeMgr.setStep(this.step);

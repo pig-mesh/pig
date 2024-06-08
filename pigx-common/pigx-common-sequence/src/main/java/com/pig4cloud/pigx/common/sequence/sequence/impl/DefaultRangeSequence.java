@@ -110,6 +110,10 @@ public class DefaultRangeSequence implements RangeSequence {
 		this.seqRangeMgr = seqRangeMgr;
 	}
 
+	public SeqRangeMgr getSeqRangeMgr() {
+		return seqRangeMgr;
+	}
+
 	@Override
 	public void setName(BizName name) {
 		this.bizName = name;
