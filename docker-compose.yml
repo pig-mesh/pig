@@ -15,7 +15,7 @@ services:
       - spring_cloud_default
 
   pig-redis:
-    image: redis:7.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/redis
     ports:
       - 6379:6379
     restart: always

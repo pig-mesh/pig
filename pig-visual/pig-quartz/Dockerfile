@@ -1,4 +1,4 @@
-FROM moxm/java:1.8-full
+FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/java:1.8-full
 
 WORKDIR /pig-quartz
 

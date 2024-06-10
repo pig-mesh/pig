@@ -1,4 +1,4 @@
-FROM mysql/mysql-server:8.0.31
+FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/mysql/mysql-server:8.0.32
 
 MAINTAINER lengleng(wangiegie@gmail.com)
 
