@@ -19,7 +19,7 @@ jobs:
   gitee:
     runs-on: ubuntu-latest
     container:
-      image: "centos:7"
+      image: "centos:8"
     steps:
       - uses: wearerequired/git-mirror-action@master #同步至 gitee
         env:
