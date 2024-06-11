@@ -16,7 +16,7 @@ spring:
             useProperties: false
           threadPool:
             class: org.quartz.simpl.SimpleThreadPool # 线程池
-            threadCount: 50 # 线程数量
+            threadCount: 3 # 线程数量
             threadPriority: 5 # 线程优先级
             threadsInheritContextClassLoaderOfInitializingThread: true # 是否继承类加载器
     job-store-type: jdbc # 持久化到数据库
