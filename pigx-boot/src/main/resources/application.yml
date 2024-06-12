@@ -22,6 +22,9 @@ spring:
         enabled: false
     gateway:
       enabled: false
+      redis.enabled: false
+    sentinel:
+      enabled: false
   main:
     allow-bean-definition-overriding: true
   profiles:
