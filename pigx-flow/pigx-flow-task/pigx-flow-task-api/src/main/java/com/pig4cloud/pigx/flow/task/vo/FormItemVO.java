@@ -62,6 +62,10 @@ public class FormItemVO {
 
         private Integer radixNum;
 
+        private Integer maxSize;
+
+        private String[] suffixArray;
+
     }
 
 }
