@@ -18,7 +18,6 @@ package com.pig4cloud.pigx.codegen.controller;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
 import cn.smallbun.screw.boot.config.Screw;
 import cn.smallbun.screw.boot.properties.ScrewProperties;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
@@ -146,7 +145,7 @@ public class GenDsConfController {
         byte[] data = screw.documentGeneration(dsName, dataSource, screwProperties).toByteArray();
         response.reset();
         response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
-        response.setContentType(ContentType.OCTET_STREAM.getValue());
+        response.setContentType("application/octet-stream");
         IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
     }
 
