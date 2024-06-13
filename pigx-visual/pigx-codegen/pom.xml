@@ -16,7 +16,7 @@
 
     <properties>
         <magic.version>2.0.2</magic.version>
-        <screw.version>0.0.3</screw.version>
+        <screw.version>0.0.4</screw.version>
         <db2.version>11.5.0.0</db2.version>
         <anyline.version>8.7.1-jdk17-20232101</anyline.version>
         <configuration.version>1.10</configuration.version>
@@ -164,7 +164,7 @@
         </dependency>
         <!--生成文档-->
         <dependency>
-            <groupId>io.springboot.plugin</groupId>
+            <groupId>group.springframework.plugin</groupId>
             <artifactId>screw-spring-boot-starter</artifactId>
             <version>${screw.version}</version>
         </dependency>
