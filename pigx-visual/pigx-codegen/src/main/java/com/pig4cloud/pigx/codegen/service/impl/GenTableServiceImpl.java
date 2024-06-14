@@ -111,7 +111,12 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         // 手动切换数据源
         DynamicDataSourceContextHolder.push(table.getDsName());
         List<Table> tableList = ServiceProxy.metadata().tables().values().stream()
-                .filter(t -> StrUtil.containsIgnoreCase(t.getTableName(), table.getTableName())).toList();
+                .filter(t -> {
+                    if (StrUtil.isBlank(table.getTableName())) {
+                        return true;
+                    }
+                    return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName());
+                }).toList();
 
         // 根据 page 进行分页
         List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);
