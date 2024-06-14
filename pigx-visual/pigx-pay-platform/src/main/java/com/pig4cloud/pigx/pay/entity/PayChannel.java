@@ -19,6 +19,8 @@ package com.pig4cloud.pigx.pay.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
+import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -67,9 +69,10 @@ public class PayChannel extends Model<PayChannel> {
 	private String channelName;
 
 	/**
-	 * 渠道商户ID | 12****123
+	 * 渠道商户ID | 123333***
 	 */
-	@Schema(description = "渠道商户ID | 12****123")
+	@Sensitive(type = SensitiveTypeEnum.KEY)
+	@Schema(description = "渠道商户ID")
 	private String channelMchId;
 
 	/**
@@ -132,6 +135,7 @@ public class PayChannel extends Model<PayChannel> {
 	/**
 	 * 应用ID
 	 */
+	@Sensitive(type = SensitiveTypeEnum.KEY)
 	@Schema(description = "应用ID")
 	private String appId;
 
