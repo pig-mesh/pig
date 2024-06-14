@@ -28,6 +28,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.constant.OrgTypeEnum;
+import com.pig4cloud.pigx.admin.api.constant.PostCodeEnum;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.api.utils.DataUtil;
 import com.pig4cloud.pigx.admin.api.vo.DeptExcelVO;
@@ -230,7 +231,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		}
 
 		SysPost deptLeader = postMapper
-			.selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, "DEPT_LEADER"));
+			.selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, PostCodeEnum.TEAM_LEADER.getCode()));
 		if (deptLeader == null) {
 			return null;
 		}
