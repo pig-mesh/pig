@@ -25,6 +25,7 @@ import com.pig4cloud.pigx.codegen.service.GenTableColumnService;
 import com.pig4cloud.pigx.codegen.service.GenTableService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -77,6 +78,16 @@ public class GenTableController {
     }
 
     /**
+     * 查询数据源所有表
+     *
+     * @param dsName 数据源
+     */
+    @GetMapping("/list/{dsName}")
+    public R listTable(@PathVariable("dsName") String dsName) {
+        return R.ok(tableService.queryTableList(dsName));
+    }
+
+    /**
      * 获取表信息
      *
      * @param dsName    数据源
@@ -94,6 +105,17 @@ public class GenTableController {
      * @param tableName 表名称
      */
     @GetMapping("/column/{dsName}/{tableName}")
+    public R getColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+        return R.ok(tableService.queryTableColumn(dsName, tableName));
+    }
+
+    /**
+     * 查询表DDL语句
+     *
+     * @param dsName    数据源
+     * @param tableName 表名称
+     */
+    @GetMapping("/ddl/{dsName}/{tableName}")
     public R getDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
         return R.ok(tableService.queryTableDdl(dsName, tableName));
     }
@@ -115,6 +137,18 @@ public class GenTableController {
                 .eq(GenTableColumnEntity::getDsName, dsName)
                 .eq(GenTableColumnEntity::getTableName, tableName));
         return R.ok(tableService.queryOrBuildTable(dsName, tableName));
+    }
+
+    /**
+     * 修改列属性
+     * @param table 列属性
+     * @return R
+     */
+    @Operation(summary = "修改列属性", description = "修改列属性")
+    @SysLog("修改列属性")
+    @PutMapping
+    public R updateById(@RequestBody GenTable table) {
+        return R.ok(tableService.updateById(table));
     }
 
     /**

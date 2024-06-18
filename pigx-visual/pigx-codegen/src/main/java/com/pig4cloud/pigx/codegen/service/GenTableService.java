@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
 import org.anyline.metadata.Table;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -66,4 +67,18 @@ public interface GenTableService extends IService<GenTable> {
      */
     String queryTableDdl(String dsName, String tableName) throws Exception;
 
+    /**
+     * 查询数据源里面的全部表
+     * @param dsName 数据源名称
+     * @return table
+     */
+    List<String> queryTableList(String dsName);
+
+    /**
+     * 查询表的全部字段
+     * @param dsName 数据源
+     * @param tableName 表名称
+     * @return column
+     */
+    List<String> queryTableColumn(String dsName, String tableName);
 }

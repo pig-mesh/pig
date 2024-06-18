@@ -100,6 +100,20 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     }
 
     /**
+     * 查询表的全部字段
+     *
+     * @param dsName    数据源
+     * @param tableName 表名称
+     * @return column
+     */
+    @Override
+    public List<String> queryTableColumn(String dsName, String tableName) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
+        return ServiceProxy.metadata().columns(tableName).values().stream().map(Column::getName).toList();
+    }
+
+    /**
      * 查询对应数据源的表
      *
      * @param page  分页信息
@@ -123,6 +137,19 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         page.setTotal(tableList.size());
         page.setRecords(records);
         return page;
+    }
+
+    /**
+     * 查询数据源里面的全部表
+     *
+     * @param dsName 数据源名称
+     * @return table
+     */
+    @Override
+    public List<String> queryTableList(String dsName) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
+        return ServiceProxy.metadata().tables().values().stream().map(Table::getName).toList();
     }
 
     /**
