@@ -18,6 +18,7 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.CharUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -34,6 +35,8 @@ import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -43,11 +46,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -115,14 +116,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     public Boolean saveTenant(SysTenant sysTenant) {
         this.save(sysTenant);
         // 查询系统默认租户配置参数
-        Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
-        String defaultDeptName = ParamResolver.getStr("TENANT_DEFAULT_DEPTNAME", "租户默认部门");
-        String defaultUsername = ParamResolver.getStr("TENANT_DEFAULT_USERNAME", "admin");
-        String defaultPassword = ParamResolver.getStr("TENANT_DEFAULT_PASSWORD", "123456");
-        String defaultRoleCode = ParamResolver.getStr("TENANT_DEFAULT_ROLECODE", "ROLE_ADMIN");
-        String defaultRoleName = ParamResolver.getStr("TENANT_DEFAULT_ROLENAME", "租户默认角色");
-        String userDefaultRoleCode = ParamResolver.getStr("USER_DEFAULT_ROLECODE", "GENERAL_USER");
-        String userDefaultRoleName = ParamResolver.getStr("USER_DEFAULT_ROLENAME", "普通用户");
+        TenantDefaultConfig tenantDefault = new TenantDefaultConfig();
 
         List<SysDict> dictList = new ArrayList<>(32);
         List<Long> dictIdList = new ArrayList<>(32);
@@ -131,7 +125,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         List<SysOauthClientDetails> clientDetailsList = new ArrayList<>(16);
         List<SysPublicParam> publicParamList = new ArrayList<>(64);
 
-        TenantBroker.runAs(defaultId, (id) -> {
+        TenantBroker.runAs(tenantDefault.getTenantDefaultId(), (id) -> {
             // 查询系统内置字典
             dictList.addAll(dictService.list());
             // 查询系统内置字典项目
@@ -152,28 +146,28 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         TenantBroker.applyAs(sysTenant.getId(), (id -> {
             // 插入部门
             SysDept dept = new SysDept();
-            dept.setName(defaultDeptName);
+            dept.setName(tenantDefault.getTenantDefaultDeptname());
             dept.setParentId(0L);
             deptService.save(dept);
             // 构造初始化用户
             SysUser user = new SysUser();
-            user.setUsername(defaultUsername);
+            user.setUsername(tenantDefault.getTenantDefaultUsername());
             user.setPasswordModifyTime(LocalDateTime.now());
-            user.setPassword(ENCODER.encode(defaultPassword));
+            user.setPassword(ENCODER.encode(tenantDefault.getTenantDefaultPassword()));
             user.setDeptId(dept.getDeptId());
             userService.save(user);
 
             // 构造普通用户角色
             SysRole roleDefault = new SysRole();
-            roleDefault.setRoleCode(userDefaultRoleCode);
-            roleDefault.setRoleName(userDefaultRoleName);
+            roleDefault.setRoleCode(tenantDefault.getTenantDefaultRolecode());
+            roleDefault.setRoleName(tenantDefault.getTenantDefaultRolename());
             roleDefault.setDsType(DataScopeTypeEnum.SELF_LEVEL.getType());
             roleService.save(roleDefault);
 
             // 构造新角色 管理员角色
             SysRole role = new SysRole();
-            role.setRoleCode(defaultRoleCode);
-            role.setRoleName(defaultRoleName);
+            role.setRoleCode(tenantDefault.getTenantDefaultRolecode());
+            role.setRoleName(tenantDefault.getTenantDefaultRolename());
             role.setDsType(DataScopeTypeEnum.ALL.getType());
             roleService.save(role);
             // 用户角色关系
@@ -238,9 +232,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         updateById(tenantDTO);
 
         // 如果没有修改租户套餐
-        Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
-        List<SysMenu> sysMenuList = TenantBroker.applyAs(defaultId, id -> menuService.list());
-        if (defaultId.equals(tenantDTO.getId())) {
+        TenantDefaultConfig tenantDefault = new TenantDefaultConfig();
+        List<SysMenu> sysMenuList = TenantBroker.applyAs(tenantDefault.getTenantDefaultId(), id -> menuService.list());
+        if (tenantDefault.getTenantDefaultId().equals(tenantDTO.getId())) {
             return Boolean.TRUE;
         }
 
@@ -252,30 +246,32 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         // 0. 计算两个差集，差集表示变化的功能项
         Collection<String> disjunctionList = CollUtil.disjunction(newMenuIdList, oldMenuIdList);
         // 1. 如果旧套餐包含差集元素则删除
-        CollUtil.intersection(oldMenuIdList, disjunctionList).forEach(menuId -> TenantBroker.runAs(tenantDTO.getId(), (tenantId -> {
-            //查询租户菜单元信息
-            SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
+        CollUtil.intersection(oldMenuIdList, disjunctionList)
+                .forEach(menuId -> TenantBroker.runAs(tenantDTO.getId(), (tenantId -> {
+                    // 查询租户菜单元信息
+                    SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
 
-            // 根据path 或者 permisson 删除目标租户菜单
-            menuService.remove(Wrappers.<SysMenu>lambdaQuery()
-                    .eq(StrUtil.isNotBlank(menu.getPath()), SysMenu::getPath, menu.getPath())
-                    .or()
-                    .eq(StrUtil.isNotBlank(menu.getPermission()), SysMenu::getPermission, menu.getPermission())
-            );
-        })));
+                    // 根据path 或者 permisson 删除目标租户菜单
+                    menuService.remove(Wrappers.<SysMenu>lambdaQuery()
+                            .eq(StrUtil.isNotBlank(menu.getPath()), SysMenu::getPath, menu.getPath())
+                            .or()
+                            .eq(StrUtil.isNotBlank(menu.getPermission()), SysMenu::getPermission, menu.getPermission()));
+                })));
 
         // 2. 如果旧套餐不包含差集元素则新增
-        List<SysMenu> newTenantMenuIdList = CollUtil.subtract(disjunctionList, oldMenuIdList).stream().map(menuId -> TenantBroker.applyAs(tenantDTO.getId(), (tenantId -> {
-            //查询租户菜单元信息
-            SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
+        List<SysMenu> newTenantMenuIdList = CollUtil.subtract(disjunctionList, oldMenuIdList)
+                .stream()
+                .map(menuId -> TenantBroker.applyAs(tenantDTO.getId(), (tenantId -> {
+                    // 查询租户菜单元信息
+                    SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
 
-            // 新增租户菜单，但未维护上下级关系
-            SysMenu newMenu = new SysMenu();
-            BeanUtils.copyProperties(menu, newMenu, SysMenu.Fields.menuId);
-            menuService.save(newMenu);
-            return newMenu;
-        }))).collect(Collectors.toList());
-
+                    // 新增租户菜单，但未维护上下级关系
+                    SysMenu newMenu = new SysMenu();
+                    BeanUtils.copyProperties(menu, newMenu, SysMenu.Fields.menuId);
+                    menuService.save(newMenu);
+                    return newMenu;
+                })))
+                .toList();
 
         // 3. 更新新增菜单上下级关系
         for (SysMenu tenantMenu : newTenantMenuIdList) {
@@ -291,9 +287,11 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
                 // 根据path 或者 permisson 查询目标父菜单
                 SysMenu tenantParentMenu = menuService.getOne(Wrappers.<SysMenu>lambdaQuery()
-                        .eq(StrUtil.isNotBlank(parentMenu.getPath()), SysMenu::getPath, parentMenu.getPath())
-                        .or()
-                        .eq(StrUtil.isNotBlank(parentMenu.getPermission()), SysMenu::getPermission, parentMenu.getPermission()), false);
+                                .eq(StrUtil.isNotBlank(parentMenu.getPath()), SysMenu::getPath, parentMenu.getPath())
+                                .or()
+                                .eq(StrUtil.isNotBlank(parentMenu.getPermission()), SysMenu::getPermission,
+                                        parentMenu.getPermission()),
+                        false);
 
                 tenantMenu.setParentId(tenantParentMenu.getMenuId());
                 menuService.updateById(tenantMenu);
@@ -304,7 +302,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         cacheManager.getCache(CacheConstants.MENU_DETAILS).clear();
         return Boolean.TRUE;
     }
-
 
     /**
      * 保存新的租户菜单，维护成新的菜单
@@ -325,4 +322,32 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         });
     }
 
+}
+
+/**
+ * 租户默认配置
+ */
+@Data
+class TenantDefaultConfig {
+    private Long tenantDefaultId = 1L;
+    private String tenantDefaultDeptname = "租户默认部门";
+    private String tenantDefaultUsername = "admin";
+    private String tenantDefaultPassword = "123456";
+    private String tenantDefaultRolecode = "ROLE_ADMIN";
+    private String tenantDefaultRolename = "租户默认角色";
+    private String userDefaultRolecode = "GENERAL_USER";
+    private String userDefaultRolename = "普通用户";
+
+    @SneakyThrows
+    public TenantDefaultConfig() {
+        List<String> args = Arrays.stream(ReflectUtil.getFields(this.getClass()))
+                .map(Field::getName).map(StrUtil::toUnderlineCase).map(String::toUpperCase).toList();
+        Map<String, Object> paramsMap = ParamResolver.getMap(args.toArray(new String[]{}));
+        for (Field field : ReflectUtil.getFields(this.getClass())) {
+            String key = StrUtil.toUnderlineCase(field.getName()).toUpperCase();
+            if (paramsMap.containsKey(key)) {
+                field.set(this, paramsMap.get(key));
+            }
+        }
+    }
 }
