@@ -43,7 +43,7 @@
         <spring.authorization.version>1.3.0</spring.authorization.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
-        <git.commit.version>2.2.5</git.commit.version>
+        <git.commit.version>4.9.9</git.commit.version>
         <captcha.version>1.3.0</captcha.version>
         <captcha.image.version>2.2.3</captcha.image.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
@@ -245,9 +245,28 @@
             </plugin>
             <!--打包关联最新 git commit 信息插件-->
             <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
+                <groupId>io.github.git-commit-id</groupId>
+                <artifactId>git-commit-id-maven-plugin</artifactId>
                 <version>${git.commit.version}</version>
+                <executions>
+                    <execution>
+                        <id>get-the-git-infos</id>
+                        <goals>
+                            <goal>revision</goal>
+                        </goals>
+                        <phase>validate</phase> <!-- 或者使用 prepare-package -->
+                    </execution>
+                </executions>
+                <configuration>
+                    <failOnNoGitDirectory>false</failOnNoGitDirectory>
+                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
+                    <!--因为项目定制了jackson的日期时间序列化/反序列化格式，因此这里要进行配置,不然通过management.info.git.mode=full进行完整git信息监控时会存在问题-->
+                    <dateFormat>yyyy-MM-dd HH:mm:ss</dateFormat>
+                    <includeOnlyProperties>
+                        <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+                        <includeOnlyProperty>^git.commit.(id|message|time).*$</includeOnlyProperty>
+                    </includeOnlyProperties>
+                </configuration>
             </plugin>
         </plugins>
     </build>
