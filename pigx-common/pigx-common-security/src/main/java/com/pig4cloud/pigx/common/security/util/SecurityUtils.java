@@ -38,63 +38,69 @@ import java.util.List;
 @UtilityClass
 public class SecurityUtils {
 
-	/**
-	 * 获取Authentication
-	 */
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+    /**
+     * 获取Authentication
+     */
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
-	/**
-	 * 获取Authentication Token
-	 * @return
-	 */
-	public String getToken(){
-		Authentication authentication = SecurityUtils.getAuthentication();
-		if (authentication instanceof BearerTokenAuthentication bearerTokenAuthentication) {
-			return bearerTokenAuthentication.getToken().getTokenValue();
-		}
-		return null;
-	}
+    /**
+     * 获取Authentication Token
+     *
+     * @return
+     */
+    public String getToken() {
+        Authentication authentication = SecurityUtils.getAuthentication();
+        if (authentication instanceof BearerTokenAuthentication bearerTokenAuthentication) {
+            return bearerTokenAuthentication.getToken().getTokenValue();
+        }
+        return null;
+    }
 
-	/**
-	 * 获取用户
-	 * @param authentication
-	 * @return PigxUser
-	 * <p>
-	 */
-	public PigxUser getUser(Authentication authentication) {
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof PigxUser) {
-			return (PigxUser) principal;
-		}
-		return null;
-	}
+    /**
+     * 获取用户
+     *
+     * @param authentication
+     * @return PigxUser
+     * <p>
+     */
+    public PigxUser getUser(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof PigxUser) {
+            return (PigxUser) principal;
+        }
+        return null;
+    }
 
-	/**
-	 * 获取用户
-	 */
-	public PigxUser getUser() {
-		Authentication authentication = getAuthentication();
-		return getUser(authentication);
-	}
+    /**
+     * 获取用户
+     */
+    public PigxUser getUser() {
+        Authentication authentication = getAuthentication();
+        return getUser(authentication);
+    }
 
-	/**
-	 * 获取用户角色信息
-	 * @return 角色集合
-	 */
-	public List<Long> getRoleIds() {
-		Authentication authentication = getAuthentication();
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    /**
+     * 获取用户角色信息
+     *
+     * @return 角色集合
+     */
+    public List<Long> getRoleIds() {
+        Authentication authentication = getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-		List<Long> roleIds = new ArrayList<>();
-		authorities.stream()
-			.filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
-			.forEach(granted -> {
-				String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-				roleIds.add(Long.parseLong(id));
-			});
-		return roleIds;
-	}
+        List<Long> roleIds = new ArrayList<>();
+        authorities.stream()
+                .filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
+                .forEach(granted -> {
+                    String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
+                    roleIds.add(Long.parseLong(id));
+                });
+        return roleIds;
+    }
 
 }

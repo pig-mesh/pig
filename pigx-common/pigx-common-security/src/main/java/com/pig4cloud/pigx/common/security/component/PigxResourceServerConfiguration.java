@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pigx.common.security.component;
 
+import com.pig4cloud.pigx.common.security.handler.SensitiveSkipHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -27,13 +28,14 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author lengleng
  * @date 2022-06-04
- *
+ * <p>
  * 资源服务器认证授权配置
  */
 @Slf4j
@@ -42,35 +44,38 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class PigxResourceServerConfiguration {
 
-	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-	private final PermitAllUrlProperties permitAllUrl;
+    private final PermitAllUrlProperties permitAllUrl;
 
-	private final PigxBearerTokenExtractor pigxBearerTokenExtractor;
+    private final PigxBearerTokenExtractor pigxBearerTokenExtractor;
 
-	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+    private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		AntPathRequestMatcher[] requestMatchers = permitAllUrl.getIgnoreUrls()
-			.stream()
-			.map(AntPathRequestMatcher::new)
-			.toList()
-			.toArray(new AntPathRequestMatcher[] {});
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        AntPathRequestMatcher[] requestMatchers = permitAllUrl.getIgnoreUrls()
+                .stream()
+                .map(AntPathRequestMatcher::new)
+                .toList()
+                .toArray(new AntPathRequestMatcher[]{});
 
-		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
-			.permitAll()
-			.anyRequest()
-			.authenticated())
-			.oauth2ResourceServer(
-					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-						.bearerTokenResolver(pigxBearerTokenExtractor))
-			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-			.csrf(AbstractHttpConfigurer::disable);
+        // 增加输出脱敏的处理
+        http.addFilterAfter(new SensitiveSkipHandler(), BearerTokenAuthenticationFilter.class);
 
-		return http.build();
-	}
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
+                                .bearerTokenResolver(pigxBearerTokenExtractor))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .csrf(AbstractHttpConfigurer::disable);
+
+        return http.build();
+    }
 
 }
