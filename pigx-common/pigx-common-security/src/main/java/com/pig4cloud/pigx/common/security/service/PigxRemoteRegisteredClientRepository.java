@@ -88,7 +88,7 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
 	public RegisteredClient findByClientId(String clientId) {
 
 		SysOauthClientDetails clientDetails = RetOps
-			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.of(clientDetailsService.getClientDetailsById(clientId))
 			.getData()
 			.orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
 					new OAuth2Error("客户端查询异常，请检查数据库链接"), null));

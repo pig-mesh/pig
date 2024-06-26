@@ -20,14 +20,12 @@
 package com.pig4cloud.pigx.app.api.feign;
 
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 /**
  * @author lengleng
@@ -42,8 +40,9 @@ public interface RemoteAppUserService {
 	 * @param from 调用标志
 	 * @return R
 	 */
+	@NoToken
 	@GetMapping("/appuser/info/{username}")
-	R<AppUserInfo> info(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
+	R<AppUserInfo> info(@PathVariable("username") String username);
 
 	/**
 	 * 通过社交账号或手机号查询用户、角色信息
@@ -51,16 +50,9 @@ public interface RemoteAppUserService {
 	 * @param from 调用标志
 	 * @return
 	 */
+	@NoToken
 	@GetMapping("/appsocial/info/{inStr}")
-	R<AppUserInfo> social(@PathVariable("inStr") String inStr, @RequestHeader(SecurityConstants.FROM) String from);
+	R<AppUserInfo> social(@PathVariable("inStr") String inStr);
 
-	/**
-	 * 锁定用户
-	 * @param username 用户名
-	 * @param from 调用标识
-	 * @return
-	 */
-	@PutMapping("/appuser/lock/{username}")
-	R<Boolean> lockUser(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM) String from);
 
 }

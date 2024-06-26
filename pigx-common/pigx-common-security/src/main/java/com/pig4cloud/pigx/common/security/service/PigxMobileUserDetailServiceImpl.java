@@ -24,7 +24,7 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 	@Override
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String phone) {
-		R<UserInfo> result = remoteUserService.social(phone, SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.social(phone);
 		return getUserDetails(result);
 	}
 

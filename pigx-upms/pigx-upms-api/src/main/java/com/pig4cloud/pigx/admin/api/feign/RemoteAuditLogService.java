@@ -20,13 +20,12 @@
 package com.pig4cloud.pigx.admin.api.feign;
 
 import com.pig4cloud.pigx.admin.api.entity.SysAuditLog;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -40,10 +39,10 @@ public interface RemoteAuditLogService {
 	/**
 	 * 保存日志
 	 * @param auditLogList 日志实体 列表
-	 * @param from 是否内部调用
 	 * @return succes、false
 	 */
+	@NoToken
 	@PostMapping("/audit")
-	R<Boolean> saveLog(@RequestBody List<SysAuditLog> auditLogList, @RequestHeader(SecurityConstants.FROM) String from);
+	R<Boolean> saveLog(@RequestBody List<SysAuditLog> auditLogList);
 
 }

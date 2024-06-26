@@ -20,12 +20,11 @@
 package com.pig4cloud.pigx.admin.api.feign;
 
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
@@ -40,10 +39,10 @@ public interface RemoteTenantService {
 
 	/**
 	 * 查询全部有效租户
-	 * @param from 内部标志
 	 * @return
 	 */
+	@NoToken
 	@GetMapping("/tenant/list")
-	R<List<SysTenant>> list(@RequestHeader(SecurityConstants.FROM) String from);
+	R<List<SysTenant>> list();
 
 }

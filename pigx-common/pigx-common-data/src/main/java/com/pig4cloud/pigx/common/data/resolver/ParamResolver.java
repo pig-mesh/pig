@@ -3,7 +3,6 @@ package com.pig4cloud.pigx.common.data.resolver;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.feign.RemoteParamService;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.experimental.UtilityClass;
 
@@ -31,7 +30,7 @@ public class ParamResolver {
 		}
 
 		RemoteParamService remoteParamService = SpringContextHolder.getBean(RemoteParamService.class);
-		return remoteParamService.getByKeys(key, SecurityConstants.FROM_IN).getData();
+		return remoteParamService.getByKeys(key).getData();
 	}
 
 	/**
@@ -62,7 +61,7 @@ public class ParamResolver {
 
 		RemoteParamService remoteParamService = SpringContextHolder.getBean(RemoteParamService.class);
 
-		String result = remoteParamService.getByKey(key, SecurityConstants.FROM_IN).getData();
+		String result = remoteParamService.getByKey(key).getData();
 
 		if (StrUtil.isNotBlank(result)) {
 			return Convert.convert(clazz, result);

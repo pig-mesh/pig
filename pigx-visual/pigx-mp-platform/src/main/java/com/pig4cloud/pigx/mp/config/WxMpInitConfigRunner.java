@@ -3,7 +3,6 @@ package com.pig4cloud.pigx.mp.config;
 import com.google.common.collect.Maps;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.mp.entity.WxAccount;
@@ -97,7 +96,7 @@ public class WxMpInitConfigRunner {
 		// 获取全部租户 遍历所有租户对应的公众号列表
 		List<WxAccount> accountList = new ArrayList<>();
 		// @formatter:off
-		RetOps.of(tenantService.list(SecurityConstants.FROM_IN))
+		RetOps.of(tenantService.list())
 				.getData()
 				.orElseGet(Collections::emptyList)
 				.forEach(
@@ -123,7 +122,7 @@ public class WxMpInitConfigRunner {
 	private WxMpMessageRouter newRouter(WxMpService wxMpService) {
 		final WxMpMessageRouter newRouter = new WxMpMessageRouter(wxMpService);
 
-		// 记录所有事件的日志 （异步执行）
+		// 记录所有事件的日志 （异步执行） #5637 大数据量瓶颈
 		newRouter.rule().handler(this.logHandler).next();
 
 		// 接收客服会话管理事件

@@ -103,7 +103,7 @@ public class PigxTokenEndpoint {
 		modelAndView.setViewName("ftl/login");
 		modelAndView.addObject("error", error);
 
-		R<List<SysTenant>> tenantList = tenantService.list(SecurityConstants.FROM_IN);
+		R<List<SysTenant>> tenantList = tenantService.list();
 		modelAndView.addObject("tenantList", tenantList.getData());
 		return modelAndView;
 	}
@@ -114,7 +114,7 @@ public class PigxTokenEndpoint {
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps
-			.of(clientDetailsService.getClientDetailsById(clientId, SecurityConstants.FROM_IN))
+			.of(clientDetailsService.getClientDetailsById(clientId))
 			.getData()
 			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 

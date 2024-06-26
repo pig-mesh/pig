@@ -62,7 +62,7 @@ public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsServi
         if (!remoteAppUserServiceOptional.isPresent()) {
             throw new UnsupportedOperationException();
         }
-        R<AppUserInfo> info = remoteAppUserServiceOptional.get().social(phone, SecurityConstants.FROM_IN);
+        R<AppUserInfo> info = remoteAppUserServiceOptional.get().social(phone);
         return this.getUserDetailsAppUser(info);
     }
 
@@ -121,6 +121,10 @@ public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsServi
      */
     @Override
     public boolean support(String clientId, String grantType) {
+        if (Objects.isNull(WebUtils.getRequest())) {
+            return false;
+        }
+
         String header = WebUtils.getRequest().getHeader(SecurityConstants.HEADER_TOC);
         return SecurityConstants.HEADER_TOC_YES.equals(header) && SecurityConstants.GRANT_MOBILE.equals(grantType);
     }

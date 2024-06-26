@@ -4,7 +4,6 @@ import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +31,7 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 		String tenant = StrUtil.subBefore(token, CharUtil.UNDERLINE, false);
 		String tokenStr = StrUtil.subAfter(token, CharUtil.UNDERLINE, false);
 		// @formatter:off
-		return RetOps.of(tokenService.queryToken(tokenStr, tenant ,SecurityConstants.FROM_IN))
+		return RetOps.of(tokenService.queryToken(tokenStr, tenant ))
 				.getDataIf(RetOps.CODE_SUCCESS)
 				.map(o -> (String)o.get("principalName"))
 				.orElse(null);
@@ -57,7 +56,7 @@ public class JimuReportTokenService implements JmReportTokenServiceI {
 		// 分割出 PIGX 的租户信息
 		String tenant = StrUtil.subBefore(token, CharUtil.UNDERLINE, false);
 		String tokenStr = StrUtil.subAfter(token, CharUtil.UNDERLINE, false);
-		R<Map<String, Object>> result = tokenService.queryToken(tokenStr,tenant , SecurityConstants.FROM_IN);
+		R<Map<String, Object>> result = tokenService.queryToken(tokenStr,tenant );
 		if (CommonConstants.SUCCESS.equals(result.getCode())) {
 			return true;
 		}

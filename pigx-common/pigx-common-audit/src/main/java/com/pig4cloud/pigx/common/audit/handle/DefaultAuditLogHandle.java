@@ -77,7 +77,7 @@ public class DefaultAuditLogHandle implements IAuditLogHandle {
 
 	@Async
 	public void asyncSend(List<SysAuditLog> auditLogList) {
-		remoteLogService.saveLog(auditLogList, SecurityConstants.FROM_IN);
+		remoteLogService.saveLog(auditLogList);
 	}
 
 }

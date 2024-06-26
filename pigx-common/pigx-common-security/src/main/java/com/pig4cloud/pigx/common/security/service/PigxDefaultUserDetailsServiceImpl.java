@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.common.security.service;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
@@ -60,7 +59,7 @@ public class PigxDefaultUserDetailsServiceImpl implements PigxUserDetailsService
 			return cache.get(username, PigxUser.class);
 		}
 
-		R<UserInfo> result = remoteUserService.info(username, SecurityConstants.FROM_IN);
+		R<UserInfo> result = remoteUserService.info(username);
 		UserDetails userDetails = getUserDetails(result);
 		cache.put(username, userDetails);
 		return userDetails;

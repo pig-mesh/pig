@@ -18,6 +18,8 @@
 package com.pig4cloud.pigx.common.feign;
 
 import com.pig4cloud.pigx.common.feign.endpoint.FeignClientEndpoint;
+import com.pig4cloud.pigx.common.feign.interceptor.PigxFeignInnerRequestInterceptor;
+import com.pig4cloud.pigx.common.feign.interceptor.PigxFeignRequestCloseInterceptor;
 import feign.Feign;
 import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -42,11 +44,35 @@ import org.springframework.context.annotation.Import;
 @AutoConfigureAfter(EnableFeignClients.class)
 public class PigxFeignAutoConfiguration {
 
-	@Bean
-	@ConditionalOnMissingBean
-	@ConditionalOnAvailableEndpoint
-	public FeignClientEndpoint feignClientEndpoint(ApplicationContext context) {
-		return new FeignClientEndpoint(context);
-	}
+    /**
+     * feign actuator endpoint
+     * @param context
+     * @return FeignClientEndpoint
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnAvailableEndpoint
+    public FeignClientEndpoint feignClientEndpoint(ApplicationContext context) {
+        return new FeignClientEndpoint(context);
+    }
 
+    /**
+     * add http connection close header
+     *
+     * @return PigxFeignRequestCloseInterceptor
+     */
+    @Bean
+    public PigxFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
+        return new PigxFeignRequestCloseInterceptor();
+    }
+
+    /**
+     * add inner request header
+     *
+     * @return PigxFeignInnerRequestInterceptor
+     */
+    @Bean
+    public PigxFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {
+        return new PigxFeignInnerRequestInterceptor();
+    }
 }

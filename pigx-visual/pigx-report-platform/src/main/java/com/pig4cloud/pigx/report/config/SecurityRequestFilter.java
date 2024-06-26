@@ -79,7 +79,7 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
 
 		// 获取用户信息
 		Optional<String> principalName = RetOps
-			.of(remoteTokenService.queryToken(accessToken, tenantId, SecurityConstants.FROM_IN))
+			.of(remoteTokenService.queryToken(accessToken, tenantId))
 			.getDataIf(RetOps.CODE_SUCCESS)
 			.map(o -> (String) o.get("principalName"));
 
