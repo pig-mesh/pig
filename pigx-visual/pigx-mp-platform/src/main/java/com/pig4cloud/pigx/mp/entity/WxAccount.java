@@ -18,9 +18,9 @@ package com.pig4cloud.pigx.mp.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
-import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
+import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
+import com.pig4cloud.pigx.common.sensitive.core.SensitiveTypeEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

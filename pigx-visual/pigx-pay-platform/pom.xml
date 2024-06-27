@@ -70,10 +70,12 @@
             <artifactId>pigx-common-sequence</artifactId>
         </dependency>
 
+        <!--必备：脱敏工具类-->
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-sensitive</artifactId>
         </dependency>
+
         <!--灰度支持-->
         <dependency>
             <groupId>com.pig4cloud</groupId>

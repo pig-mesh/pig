@@ -19,14 +19,13 @@ package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
+import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import jakarta.validation.constraints.NotBlank;
 import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
@@ -39,6 +38,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @FieldNameConstants
+@TenantTable
 @Schema(description = "第三方账号信息")
 @EqualsAndHashCode(callSuper = true)
 public class SysSocialDetails extends Model<SysSocialDetails> {

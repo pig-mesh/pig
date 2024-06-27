@@ -76,6 +76,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-log</artifactId>
 		</dependency>
+		<!--必备：脱敏工具类-->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-sensitive</artifactId>
+		</dependency>
 		<!-- sentinel-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>

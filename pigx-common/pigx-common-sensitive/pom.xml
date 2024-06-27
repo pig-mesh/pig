@@ -23,51 +23,42 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.pig4cloud</groupId>
-        <artifactId>pigx-upms</artifactId>
+        <artifactId>pigx-common</artifactId>
         <version>5.5.0</version>
     </parent>
 
-    <artifactId>pigx-upms-api</artifactId>
+    <artifactId>pigx-common-sensitive</artifactId>
     <packaging>jar</packaging>
 
-    <description>pigx 通用用户权限管理系统公共api模块</description>
+    <description>pigx 输出脱敏工具类</description>
 
 
     <dependencies>
-        <!-- 连表查询注解 -->
+        <!--mvc 相关配置-->
         <dependency>
-            <groupId>com.github.yulichang</groupId>
-            <artifactId>mybatis-plus-join-annotation</artifactId>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <scope>provided</scope>
         </dependency>
-        <!--core 工具类-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-core</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
         </dependency>
-        <!--mybatis plus extension,包含了mybatis plus core-->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
         </dependency>
-        <!--feign 工具类-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-feign</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
         </dependency>
-        <!-- excel 导入导出 -->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-excel</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
-        <!--字段审计注解-->
         <dependency>
-            <groupId>org.javers</groupId>
-            <artifactId>javers-core</artifactId>
-        </dependency>
-        <!-- 脱敏工具类-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-sensitive</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
         </dependency>
     </dependencies>
 </project>

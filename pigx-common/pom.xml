@@ -49,6 +49,7 @@
 		<module>pigx-common-oss</module>
 		<module>pigx-common-seata</module>
 		<module>pigx-common-security</module>
+		<module>pigx-common-sensitive</module>
 		<module>pigx-common-sentinel</module>
 		<module>pigx-common-sequence</module>
 		<module>pigx-common-swagger</module>

@@ -15,10 +15,12 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.sensitive;
+package com.pig4cloud.pigx.common.sensitive.annotation;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.pig4cloud.pigx.common.sensitive.core.SensitiveSerialize;
+import com.pig4cloud.pigx.common.sensitive.core.SensitiveTypeEnum;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -15,18 +15,20 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.sensitive;
+package com.pig4cloud.pigx.common.sensitive.core;
 
-import cn.hutool.core.util.DesensitizedUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
-import com.pig4cloud.pigx.common.core.util.DesensitizedUtils;
+import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -37,69 +39,32 @@ import java.util.Objects;
  * <p>
  * 脱敏序列化
  */
+@Slf4j
 @NoArgsConstructor
 @AllArgsConstructor
 public class SensitiveSerialize extends JsonSerializer<String> implements ContextualSerializer {
 
-    private SensitiveTypeEnum type;
-
-    private Integer prefixNoMaskLen;
-
-    private Integer suffixNoMaskLen;
-
-    private String maskStr;
+    private Sensitive sensitive;
 
     @Override
     public void serialize(final String origin, final JsonGenerator jsonGenerator,
                           final SerializerProvider serializerProvider) throws IOException {
 
-        // 跳过脱敏
-        if (SensitiveSkipContextHolder.getSkip()) {
+        if (StrUtil.isBlank(origin)) {
             jsonGenerator.writeString(origin);
             return;
         }
 
-        switch (type) {
-            case CHINESE_NAME:
-                jsonGenerator.writeString(DesensitizedUtils.chineseName(origin));
-                break;
-            case ID_CARD:
-                jsonGenerator.writeString(DesensitizedUtils.idCardNum(origin));
-                break;
-            case FIXED_PHONE:
-                jsonGenerator.writeString(DesensitizedUtils.fixedPhone(origin));
-                break;
-            case MOBILE_PHONE:
-                jsonGenerator.writeString(DesensitizedUtils.mobilePhone(origin));
-                break;
-            case ADDRESS:
-                jsonGenerator.writeString(DesensitizedUtils.address(origin));
-                break;
-            case EMAIL:
-                jsonGenerator.writeString(DesensitizedUtils.email(origin));
-                break;
-            case BANK_CARD:
-                jsonGenerator.writeString(DesensitizedUtils.bankCard(origin));
-                break;
-            case PASSWORD:
-                jsonGenerator.writeString(DesensitizedUtils.password(origin));
-                break;
-            case KEY:
-                jsonGenerator.writeString(DesensitizedUtils.key(origin));
-                break;
-            case IPV4:
-                jsonGenerator.writeString(DesensitizedUtils.ipv4(origin));
-                break;
-            case CAR_LICENSE:
-                jsonGenerator.writeString(DesensitizedUtil.carLicense(origin));
-                break;
-            case CUSTOMER:
-                jsonGenerator
-                        .writeString(DesensitizedUtils.desValue(origin, prefixNoMaskLen, suffixNoMaskLen, maskStr));
-                break;
-            default:
-                throw new IllegalArgumentException("Unknow sensitive type enum " + type);
+        // 判断是否有可以查看原文
+        SensitiveService sensitiveService = SpringUtil.getBean(SensitiveService.class);
+        if (!sensitiveService.isSensitive(sensitive)) {
+            jsonGenerator.writeString(origin);
+            return;
         }
+
+        // 根据配置注解获取脱敏类型并处理
+        String result = sensitive.type().getStrategy().apply(sensitive, origin);
+        jsonGenerator.writeString(result);
     }
 
     @Override
@@ -112,8 +77,8 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
                     sensitive = beanProperty.getContextAnnotation(Sensitive.class);
                 }
                 if (sensitive != null) {
-                    return new SensitiveSerialize(sensitive.type(), sensitive.prefixNoMaskLen(),
-                            sensitive.suffixNoMaskLen(), sensitive.maskStr());
+                    this.sensitive = sensitive;
+                    return this;
                 }
             }
             return serializerProvider.findValueSerializer(beanProperty.getType(), beanProperty);

@@ -21,8 +21,8 @@ package com.pig4cloud.pigx.admin.api.vo;
 
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
-import com.pig4cloud.pigx.common.core.sensitive.Sensitive;
-import com.pig4cloud.pigx.common.core.sensitive.SensitiveTypeEnum;
+import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
+import com.pig4cloud.pigx.common.sensitive.core.SensitiveTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 

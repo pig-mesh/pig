@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.util;
+package com.pig4cloud.pigx.common.sensitive.util;
 
 import cn.hutool.core.util.StrUtil;
 

@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pigx.common.security.component;
 
-import com.pig4cloud.pigx.common.security.handler.SensitiveSkipHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +27,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
-import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -60,9 +58,6 @@ public class PigxResourceServerConfiguration {
                 .map(AntPathRequestMatcher::new)
                 .toList()
                 .toArray(new AntPathRequestMatcher[]{});
-
-        // 增加输出脱敏的处理
-        http.addFilterAfter(new SensitiveSkipHandler(), BearerTokenAuthenticationFilter.class);
 
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
                         .permitAll()

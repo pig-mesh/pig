@@ -14,7 +14,7 @@
     <artifactId>pigx-common-bom</artifactId>
     <packaging>pom</packaging>
     <version>${pigx.version}</version>
-    <description>pigx 公共版本控制</description>
+    <description>pigx 公共版本控制，在此pom定义的依赖，全局业务微服务不需要指定版本。</description>
 
     <properties>
         <pigx.version>5.5.0</pigx.version>
@@ -109,6 +109,11 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pigx-common-security</artifactId>
+                <version>${pigx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pigx-common-sensitive</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
             <dependency>
