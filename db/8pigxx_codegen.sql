@@ -10,7 +10,7 @@ DROP TABLE IF EXISTS `gen_datasource_conf`;
 CREATE TABLE `gen_datasource_conf` (
   `id` bigint NOT NULL COMMENT '主键',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '别名',
-  `url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'jdbcurl',
+  `url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'jdbcurl',
   `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名',
   `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
