@@ -23,6 +23,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
+import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
@@ -86,7 +87,11 @@ public class SysUserController {
 		if (user == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
 		}
-		return R.ok(userService.findUserInfo(user));
+
+		// UserInfo 是复用对象，不能通过设置 @jsonIgnore 来忽略密码字段
+		UserInfo userInfo = userService.findUserInfo(user);
+		userInfo.getSysUser().setPassword(null);
+		return R.ok(userInfo);
 	}
 
 	/**
