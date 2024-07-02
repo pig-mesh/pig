@@ -25,7 +25,7 @@
         <springdoc.version>2.5.0</springdoc.version>
         <swagger.core.version>2.2.22</swagger.core.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
-        <mysql.version>8.4.0</mysql.version>
+        <mysql.version>9.0.0</mysql.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
         <excel.version>3.2.1</excel.version>
