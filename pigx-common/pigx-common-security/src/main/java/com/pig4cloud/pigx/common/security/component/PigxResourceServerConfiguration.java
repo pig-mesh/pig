@@ -46,8 +46,6 @@ public class PigxResourceServerConfiguration {
 
     private final PermitAllUrlProperties permitAllUrl;
 
-    private final PigxBearerTokenExtractor pigxBearerTokenExtractor;
-
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
     @Bean
@@ -65,8 +63,7 @@ public class PigxResourceServerConfiguration {
                         .authenticated())
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-                                .bearerTokenResolver(pigxBearerTokenExtractor))
+                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable);
 
