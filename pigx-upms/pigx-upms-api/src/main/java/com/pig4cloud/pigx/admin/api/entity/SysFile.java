@@ -38,91 +38,97 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class SysFile extends Model<SysFile> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 编号
-	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(description = "文件编号")
-	private Long id;
+    /**
+     * 编号
+     */
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "文件编号")
+    private Long id;
 
-	/**
-	 * 文件名
-	 */
-	@Schema(description = "文件名")
-	private String fileName;
+    /**
+     * 文件名
+     */
+    @Schema(description = "文件名")
+    private String fileName;
 
-	/**
-	 * 原文件名
-	 */
-	@Schema(description = "原始文件名")
-	private String original;
+    /**
+     * 原文件名
+     */
+    @Schema(description = "原始文件名")
+    private String original;
 
-	/**
-	 * 容器名称
-	 */
-	@Schema(description = "存储桶名称")
-	private String bucketName;
+    /**
+     * 容器名称
+     */
+    @Schema(description = "存储桶名称")
+    private String bucketName;
 
-	/***
-	 * 文件夹
-	 */
-	@Schema(description = "文件夹")
-	private String dir;
+    /***
+     * 文件夹
+     */
+    @Schema(description = "文件夹")
+    private String dir;
 
-	/**
-	 * 文件类型
-	 */
-	@Schema(description = "文件类型")
-	private String type;
+    /**
+     * 文件类型
+     */
+    @Schema(description = "文件类型")
+    private String type;
 
-	/**
-	 * 文件组
-	 */
-	@Schema(description = "文件组")
-	private Long groupId;
+    /**
+     * 文件组
+     */
+    @Schema(description = "文件组")
+    private Long groupId;
 
-	/**
-	 * 文件大小
-	 */
-	@Schema(description = "文件大小")
-	private Long fileSize;
+    /**
+     * 文件大小
+     */
+    @Schema(description = "文件大小")
+    private Long fileSize;
 
-	/**
-	 * 上传人
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "创建者")
-	private String createBy;
+    /**
+     * 文件hash
+     */
+    @Schema(description = "文件hash")
+    private String hash;
 
-	/**
-	 * 上传时间
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "创建时间")
-	private LocalDateTime createTime;
+    /**
+     * 上传人
+     */
+    @TableField(fill = FieldFill.INSERT)
+    @Schema(description = "创建者")
+    private String createBy;
 
-	/**
-	 * 更新人
-	 */
-	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "更新者")
-	private String updateBy;
+    /**
+     * 上传时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
-	/**
-	 * 更新时间
-	 */
-	@TableField(fill = FieldFill.UPDATE)
-	@Schema(description = "更新时间")
-	private LocalDateTime updateTime;
+    /**
+     * 更新人
+     */
+    @TableField(fill = FieldFill.INSERT)
+    @Schema(description = "更新者")
+    private String updateBy;
 
-	/**
-	 * 删除标识：1-删除，0-正常
-	 */
-	@TableLogic
-	@TableField(fill = FieldFill.INSERT)
-	@Schema(description = "删除标记,1:已删除,0:正常")
-	private String delFlag;
+    /**
+     * 更新时间
+     */
+    @TableField(fill = FieldFill.UPDATE)
+    @Schema(description = "更新时间")
+    private LocalDateTime updateTime;
+
+    /**
+     * 删除标识：1-删除，0-正常
+     */
+    @TableLogic
+    @TableField(fill = FieldFill.INSERT)
+    @Schema(description = "删除标记,1:已删除,0:正常")
+    private String delFlag;
 
 }
