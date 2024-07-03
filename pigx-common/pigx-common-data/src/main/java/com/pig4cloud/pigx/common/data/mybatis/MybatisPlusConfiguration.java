@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.data.mybatis;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
@@ -58,99 +59,110 @@ import java.util.Properties;
 @EnableConfigurationProperties(PigxMybatisProperties.class)
 public class MybatisPlusConfiguration implements WebMvcConfigurer {
 
-	/**
-	 * 增加请求参数解析器，对请求中的参数注入SQL 检查
-	 * @param resolverList
-	 */
-	@Override
-	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
-		resolverList.add(new SqlFilterArgumentResolver());
-	}
+    /**
+     * 增加请求参数解析器，对请求中的参数注入SQL 检查
+     *
+     * @param resolverList
+     */
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
+        resolverList.add(new SqlFilterArgumentResolver());
+    }
 
-	/**
-	 * mybatis plus 拦截器配置
-	 * @return PigxDefaultDatascopeHandle
-	 */
-	@Bean
-	public MybatisPlusInterceptor mybatisPlusInterceptor(TenantLineInnerInterceptor tenantLineInnerInterceptor,
-			DataScopeInterceptor dataScopeInterceptor) {
-		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-		// 注入多租户支持
-		interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
-		// 数据权限
-		interceptor.addInnerInterceptor(dataScopeInterceptor);
-		// 分页支持
-		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
-		paginationInnerInterceptor.setMaxLimit(1000L);
-		interceptor.addInnerInterceptor(paginationInnerInterceptor);
-		return interceptor;
-	}
+    /**
+     * mybatis plus 拦截器配置
+     *
+     * @return PigxDefaultDatascopeHandle
+     */
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor(TenantLineInnerInterceptor tenantLineInnerInterceptor,
+                                                         DataScopeInterceptor dataScopeInterceptor) {
+        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+        // 注入多租户支持
+        interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
+        // 数据权限
+        interceptor.addInnerInterceptor(dataScopeInterceptor);
+        // 分页支持
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+        paginationInnerInterceptor.setMaxLimit(1000L);
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
 
-	/**
-	 * 创建租户维护处理器对象
-	 * @return 处理后的租户维护处理器
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	public TenantLineInnerInterceptor tenantLineInnerInterceptor(PigxTenantConfigProperties tenantConfigProperties) {
-		TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
-		tenantLineInnerInterceptor.setTenantLineHandler(new PigxTenantHandler(tenantConfigProperties));
-		return tenantLineInnerInterceptor;
-	}
+        // 乐观锁插件
+        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+        return interceptor;
+    }
 
-	/**
-	 * 数据权限拦截器
-	 * @return DataScopeInterceptor
-	 */
-	@Bean
-	@ConditionalOnMissingBean
-	@ConditionalOnClass(PigxUser.class)
-	public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
-		DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
-		dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDatascopeHandle(dataScopeService));
-		return dataScopeInnerInterceptor;
-	}
+    /**
+     * 创建租户维护处理器对象
+     *
+     * @return 处理后的租户维护处理器
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public TenantLineInnerInterceptor tenantLineInnerInterceptor(PigxTenantConfigProperties tenantConfigProperties) {
+        TenantLineInnerInterceptor tenantLineInnerInterceptor = new TenantLineInnerInterceptor();
+        tenantLineInnerInterceptor.setTenantLineHandler(new PigxTenantHandler(tenantConfigProperties));
+        return tenantLineInnerInterceptor;
+    }
 
-	/**
-	 * 扩展 mybatis-plus baseMapper 支持数据权限
-	 * @return
-	 */
-	@Bean
-	@Primary
-	@ConditionalOnBean(DataScopeInterceptor.class)
-	public DataScopeSqlInjector dataScopeSqlInjector() {
-		return new DataScopeSqlInjector();
-	}
+    /**
+     * 数据权限拦截器
+     *
+     * @return DataScopeInterceptor
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnClass(PigxUser.class)
+    public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
+        DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
+        dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDatascopeHandle(dataScopeService));
+        return dataScopeInnerInterceptor;
+    }
 
-	/**
-	 * SQL 日志格式化
-	 * @return DruidSqlLogFilter
-	 */
-	@Bean
-	public DruidSqlLogFilter sqlLogFilter(PigxMybatisProperties properties) {
-		return new DruidSqlLogFilter(properties);
-	}
+    /**
+     * 扩展 mybatis-plus baseMapper 支持数据权限
+     *
+     * @return
+     */
+    @Bean
+    @Primary
+    @ConditionalOnBean(DataScopeInterceptor.class)
+    public DataScopeSqlInjector dataScopeSqlInjector() {
+        return new DataScopeSqlInjector();
+    }
 
-	/**
-	 * 审计字段自动填充
-	 * @return {@link MetaObjectHandler}
-	 */
-	@Bean
-	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
-		return new MybatisPlusMetaObjectHandler();
-	}
+    /**
+     * SQL 日志格式化
+     *
+     * @return DruidSqlLogFilter
+     */
+    @Bean
+    public DruidSqlLogFilter sqlLogFilter(PigxMybatisProperties properties) {
+        return new DruidSqlLogFilter(properties);
+    }
 
-	/**
-	 * 数据库方言配置
-	 * @return
-	 */
-	@Bean
-	public DatabaseIdProvider databaseIdProvider() {
-		VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
-		Properties properties = new Properties();
-		properties.setProperty("SQL Server", "mssql");
-		databaseIdProvider.setProperties(properties);
-		return databaseIdProvider;
-	}
+    /**
+     * 审计字段自动填充
+     *
+     * @return {@link MetaObjectHandler}
+     */
+    @Bean
+    public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
+        return new MybatisPlusMetaObjectHandler();
+    }
+
+    /**
+     * 数据库方言配置
+     *
+     * @return
+     */
+    @Bean
+    public DatabaseIdProvider databaseIdProvider() {
+        VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+        Properties properties = new Properties();
+        properties.setProperty("SQL Server", "mssql");
+        databaseIdProvider.setProperties(properties);
+        return databaseIdProvider;
+    }
 
 }

@@ -28,7 +28,6 @@ import com.pig4cloud.pigx.auth.support.password.OAuth2ResourceOwnerPasswordAuthe
 import com.pig4cloud.pigx.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.security.component.PermitAllUrlProperties;
-import com.pig4cloud.pigx.common.security.component.PigxBearerTokenExtractor;
 import com.pig4cloud.pigx.common.security.component.ResourceAuthExceptionEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -65,8 +64,6 @@ public class PigxBootSecurityServerConfiguration {
     private final AuthenticationConverter accessTokenRequestConverter;
 
     private final OAuth2AuthorizationService authorizationService;
-
-    private final PigxBearerTokenExtractor pigBearerTokenExtractor;
 
     private final PasswordDecoderFilter passwordDecoderFilter;
 
@@ -114,8 +111,7 @@ public class PigxBootSecurityServerConfiguration {
                         .authenticated())
                 .oauth2ResourceServer(
                         oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-                                .bearerTokenResolver(pigBearerTokenExtractor))
+                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint))
                 .exceptionHandling(configurer -> configurer.authenticationEntryPoint(resourceAuthExceptionEntryPoint))
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable);
