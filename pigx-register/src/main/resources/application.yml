@@ -41,6 +41,8 @@ spring:
         password: pig
         instance:
           service-host-type: ip
+  application:
+    name: @project.artifactId@
 
 useAddressServer: true
 
