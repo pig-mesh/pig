@@ -20,7 +20,7 @@ services:
 
   pigx-redis:
     container_name: pigx-redis
-    image: redis:6.2.6
+    image: registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/redis
     restart: always
     networks:
       - spring_cloud_default
