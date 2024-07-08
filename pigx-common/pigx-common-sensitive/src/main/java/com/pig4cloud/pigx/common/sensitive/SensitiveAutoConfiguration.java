@@ -8,14 +8,15 @@ import com.pig4cloud.pigx.common.sensitive.core.SensitiveService;
 import com.pig4cloud.pigx.common.sensitive.util.RemoteSensitiveService;
 import com.pig4cloud.pigx.common.sensitive.util.SensitiveWordsProperties;
 import com.pig4cloud.pigx.common.sensitive.word.SensitiveWordCustomizer;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.security.core.Authentication;
@@ -32,9 +33,12 @@ import java.util.Objects;
  */
 @Slf4j
 @AutoConfiguration
+@RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(SensitiveWordsProperties.class)
-public class SensitiveAutoConfiguration {
+public class SensitiveAutoConfiguration implements InitializingBean {
+
+    private final RedisMessageListenerContainer redisMessageListenerContainer;
 
     /**
      * 注入默认的脱敏权限判断
@@ -106,23 +110,14 @@ public class SensitiveAutoConfiguration {
                 .init();
     }
 
-    /**
-     * redis 监听配置
-     *
-     * @param redisConnectionFactory redis 配置
-     * @return
-     */
-    @Bean
-    public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory) {
-        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(redisConnectionFactory);
-        container.addMessageListener((message, bytes) -> {
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        redisMessageListenerContainer.addMessageListener((message, bytes) -> {
                     log.info("开始重新加载敏感词库");
                     SpringContextHolder.getBean(SensitiveWordBs.class).init();
                     log.info("敏感词库加载完成");
                 },
                 new ChannelTopic(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC));
-        return container;
     }
-
 }
