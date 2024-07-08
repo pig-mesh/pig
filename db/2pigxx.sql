@@ -335,6 +335,21 @@ CREATE TABLE `sys_file_group` (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='文件分类表';
 
+DROP TABLE IF EXISTS `sys_sensitive_word`;
+CREATE TABLE `sys_sensitive_word` (
+  `sensitive_id` bigint NOT NULL COMMENT '主键',
+  `sensitive_word` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '敏感词',
+  `sensitive_type` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类型',
+  `remark` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`sensitive_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='敏感词';
+
 -- ----------------------------
 -- Table structure for sys_i18n
 -- ----------------------------
@@ -582,6 +597,12 @@ INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `p
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2913, '行政区划表删除', 'sys_sysArea_del', NULL, NULL, 2910, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', '2024-02-17 14:31:21', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2914, '导入导出', 'sys_sysArea_export', NULL, NULL, 2910, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', '2024-02-17 14:31:26', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2915, '行政区划表修改', 'sys_sysArea_edit', NULL, NULL, 2910, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', '2024-02-17 14:31:31', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2920, '敏感词管理', '', '/admin/sensitive/index', NULL, 2000, 'iconfont icon-wenducanshu-05', '1', 12, '0', NULL, '0', '', NULL, 'admin', '2024-07-07 15:09:27', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2921, '敏感词查看', 'admin_sysSensitiveWord_view', NULL, NULL, 2920, '1', '1', 0, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2922, '敏感词新增', 'admin_sysSensitiveWord_add', NULL, NULL, 2920, '1', '1', 1, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2923, '敏感词修改', 'admin_sysSensitiveWord_edit', NULL, NULL, 2920, '1', '1', 2, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2924, '敏感词删除', 'admin_sysSensitiveWord_del', NULL, NULL, 2920, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (2925, '导入导出', 'admin_sysSensitiveWord_export', NULL, NULL, 2920, '1', '1', 3, '0', NULL, '1', ' ', NULL, ' ', NULL, '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (3000, '公众号平台', NULL, '/mp', NULL, 9900, 'iconfont icon-putong', '1', 3, '0', '0', '0', 'admin', '2023-02-24 10:40:44', 'admin', '2023-11-27 14:52:28', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (3001, '账号管理', NULL, '/biz/mp/wx-account/index', NULL, 3000, 'iconfont icon-putong', '1', 0, '0', '0', '0', 'admin', '2023-02-24 10:43:03', ' ', '2023-11-01 17:28:07', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (3002, '菜单设置', NULL, '/biz/mp/wx-menu/index', NULL, 3000, 'iconfont icon--chaifenlie', '1', 1, '0', '0', '0', 'admin', '2023-02-24 11:16:32', 'admin', '2023-11-01 17:28:11', '0', 1);
@@ -951,6 +972,12 @@ INSERT INTO `sys_role_menu` VALUES (1, 2912);
 INSERT INTO `sys_role_menu` VALUES (1, 2913);
 INSERT INTO `sys_role_menu` VALUES (1, 2914);
 INSERT INTO `sys_role_menu` VALUES (1, 2915);
+INSERT INTO `sys_role_menu` VALUES (1, 2920);
+INSERT INTO `sys_role_menu` VALUES (1, 2921);
+INSERT INTO `sys_role_menu` VALUES (1, 2922);
+INSERT INTO `sys_role_menu` VALUES (1, 2923);
+INSERT INTO `sys_role_menu` VALUES (1, 2924);
+INSERT INTO `sys_role_menu` VALUES (1, 2925);
 INSERT INTO `sys_role_menu` VALUES (1, 3000);
 INSERT INTO `sys_role_menu` VALUES (1, 3001);
 INSERT INTO `sys_role_menu` VALUES (1, 3002);

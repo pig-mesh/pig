@@ -18,13 +18,13 @@
 package com.pig4cloud.pigx.common.sensitive.core;
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.BeanProperty;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.ContextualSerializer;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -56,7 +56,7 @@ public class SensitiveSerialize extends JsonSerializer<String> implements Contex
         }
 
         // 判断是否有可以查看原文
-        SensitiveService sensitiveService = SpringUtil.getBean(SensitiveService.class);
+        SensitiveService sensitiveService = SpringContextHolder.getBean(SensitiveService.class);
         if (!sensitiveService.isSensitive(sensitive)) {
             jsonGenerator.writeString(origin);
             return;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pigx.admin.mapper.SysSensitiveWordMapper">
+
+  <resultMap id="sysSensitiveWordMap" type="com.pig4cloud.pigx.admin.api.entity.SysSensitiveWordEntity">
+        <id property="sensitiveId" column="sensitive_id"/>
+        <result property="sensitiveWord" column="sensitive_word"/>
+        <result property="sensitiveType" column="sensitive_type"/>
+        <result property="remark" column="remark"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="tenantId" column="tenant_id"/>
+  </resultMap>
+</mapper>

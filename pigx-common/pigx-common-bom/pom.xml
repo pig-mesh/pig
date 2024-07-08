@@ -46,6 +46,7 @@
         <javers.version>7.3.3</javers.version>
         <seata.version>1.7.0</seata.version>
         <asm.version>7.1</asm.version>
+        <sensitive.word.version>0.17.0</sensitive.word.version>
         <log4j2.version>2.17.1</log4j2.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -194,6 +195,12 @@
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>
                 <version>${asm.version}</version>
+            </dependency>
+            <!-- 必备：敏感词-->
+            <dependency>
+                <groupId>com.github.houbb</groupId>
+                <artifactId>sensitive-word</artifactId>
+                <version>${sensitive.word.version}</version>
             </dependency>
             <!--mybatis plus extension,包含了mybatis plus core-->
             <dependency>
