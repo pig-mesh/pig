@@ -144,6 +144,11 @@
             <artifactId>alibaba-dingtalk-service-sdk</artifactId>
             <version>${dingtalk.old.version}</version>
         </dependency>
+        <!--加密类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+        </dependency>
         <!--企业微信-->
         <dependency>
             <groupId>com.github.binarywang</groupId>
