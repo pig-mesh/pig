@@ -63,12 +63,12 @@ public class SensitiveWordsProperties {
     /**
      * Whether to enable number check when detecting sensitive words.
      */
-    private boolean enableNumCheck = true;
+    private boolean enableNumCheck = false;
 
     /**
      * Whether to enable email check when detecting sensitive words.
      */
-    private boolean enableEmailCheck = true;
+    private boolean enableEmailCheck = false;
 
     /**
      * Whether to enable URL check when detecting sensitive words.
