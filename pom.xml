@@ -33,7 +33,7 @@
     </organization>
 
     <properties>
-        <spring-boot.version>3.2.6</spring-boot.version>
+        <spring-boot.version>3.2.7</spring-boot.version>
         <spring-cloud.version>2023.0.1</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -60,11 +60,12 @@
         <aws.version>1.12.261</aws.version>
         <xxl.job.version>2.4.0</xxl.job.version>
         <activiti.version>5.22.0</activiti.version>
-        <docker.registry>172.17.0.111</docker.registry>
-        <docker.host>http://172.17.0.111:2375</docker.host>
-        <docker.namespace>library</docker.namespace>
-        <docker.username>admin</docker.username>
-        <docker.password>Harbor12345</docker.password>
+
+        <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
+        <docker.host>http://127.0.0.1:2375</docker.host>
+        <docker.namespace>pigcloudx</docker.namespace>
+        <docker.username>佩小格科技</docker.username>
+        <docker.password>qq123456</docker.password>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <!--  默认忽略docker构建 -->
         <docker.skip>false</docker.skip>
@@ -292,5 +293,4 @@
             </modules>
         </profile>
     </profiles>
-
 </project>
