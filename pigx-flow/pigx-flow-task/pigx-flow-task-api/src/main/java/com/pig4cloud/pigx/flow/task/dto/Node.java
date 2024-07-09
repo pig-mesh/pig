@@ -29,6 +29,8 @@ public class Node {
 	@JsonProperty("childNode")
 	private Node children;
 
+	private String eventConfig;
+
 	private Integer assignedType;
 
 	private Boolean multiple;

@@ -5,6 +5,8 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
+import com.pig4cloud.pigx.flow.engine.service.NodeTaskCompleteNotifyService;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowTaskService;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.utils.NodeUtil;
@@ -119,7 +121,6 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			processNodeRecordParamDto.setNodeName(activityName);
 
 			remoteFlowTaskService.endNodeEvent(processNodeRecordParamDto);
-
 		}
 
 		if (event.getType().toString().equals(FlowableEngineEventType.VARIABLE_UPDATED.toString())) {
@@ -193,6 +194,8 @@ public class FlowProcessEventListener implements FlowableEventListener {
 
 			remoteFlowTaskService.taskEndEvent(processNodeRecordAssignUserParamDto);
 
+
+			SpringUtil.getBean(NodeTaskCompleteNotifyService.class).sendNotify(SecurityUtils.getToken(),processNodeRecordAssignUserParamDto);
 		}
 		if (event.getType().toString().equals(FlowableEngineEventType.TASK_ASSIGNED.toString())) {
 			// 任务被指派了人员
