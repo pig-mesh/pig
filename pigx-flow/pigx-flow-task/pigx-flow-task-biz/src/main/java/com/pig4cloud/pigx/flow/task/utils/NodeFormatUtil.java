@@ -193,7 +193,9 @@ public class NodeFormatUtil {
             userVoList.addAll(tempList);
 
         }
-        nodeVo.setUserVoList(userVoList);
+
+        //  根据userVo 的ID 去重userVoList
+        nodeVo.setUserVoList(CollUtil.distinct(userVoList, UserVo::getId, true));
 
         List<NodeVo> branchList = new ArrayList<>();
 
