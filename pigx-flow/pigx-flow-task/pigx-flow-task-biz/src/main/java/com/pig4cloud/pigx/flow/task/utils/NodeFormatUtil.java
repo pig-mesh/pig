@@ -257,7 +257,7 @@ public class NodeFormatUtil {
         }
 
         RemoteUserService userService = SpringUtil.getBean(RemoteUserService.class);
-        SysUser user = userService.getUserById(userId).getData();
+        SysUser user = userService.getUserById(CollUtil.newArrayList(userId)).getData().get(0);
         if (user == null) {
             return null;
         }

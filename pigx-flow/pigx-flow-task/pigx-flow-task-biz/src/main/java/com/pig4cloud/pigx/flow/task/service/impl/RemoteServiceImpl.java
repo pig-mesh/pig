@@ -163,7 +163,7 @@ public class RemoteServiceImpl implements IRemoteService {
 	 */
 	@Override
 	public R<Map<String, Object>> queryUserAllInfo(long userId) {
-		SysUser sysUser = userService.getUserById(userId).getData();
+		SysUser sysUser = userService.getUserById(CollUtil.newArrayList(userId)).getData().get(0);
 		return R.ok(BeanUtil.beanToMap(sysUser));
 	}
 
