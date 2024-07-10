@@ -48,11 +48,11 @@ public interface RemoteUserService {
 
 	/**
 	 * 根据用户ID获取用户
-	 * @param userId ID
+	 * @param userIds ID
 	 * @return SysUser
 	 */
-	@GetMapping("/user/details/{userId}")
-	R<SysUser> getUserById(@PathVariable("userId") Long userId);
+	@GetMapping("/user/list")
+	R<List<SysUser>> getUserById(@RequestParam("userIds") List<Long> userIds);
 
 	/**
 	 * 通过社交账号或手机号查询用户、角色信息
