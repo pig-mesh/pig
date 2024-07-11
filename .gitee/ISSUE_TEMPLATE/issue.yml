@@ -1,25 +1,28 @@
 name: 问题咨询
-description: "![扫码加入微信群](https://minio.pigx.top/oss/1648184189.png)"
+description: "请尽可能详细的描述问题，提供足够的上下文，一分钟的描述不需要期望别人花半小时帮你排查"
 body:
   - type: dropdown
     id: version
     attributes:
       label: PIG版本
       options:
+        - "不处理PIGX或其他魔改版本"
         - "3.8"
         - "3.7"
     validations:
       required: true
   - type: checkboxes
+    validations:
+      required: true
     attributes:
-      label: 是否修改了包名
+      label: 架构
       options:
-        - label: 是
-          required: false
+        - label: 微服务架构
+        - label: 单体架构
   - type: textarea
     id: desired-solution
     attributes:
       label: 问题描述
-      description: 详细问题，提供相应截图和日志
+      description: 详细问题，提供相应截图和日志，一分钟的描述不需要期望别人花半小时帮你排查
     validations:
       required: true

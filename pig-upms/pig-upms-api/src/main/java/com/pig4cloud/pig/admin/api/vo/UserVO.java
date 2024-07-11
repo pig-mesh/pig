@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pig.admin.api.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -53,13 +54,13 @@ public class UserVO implements Serializable {
 	/**
 	 * 密码
 	 */
-	@Schema(description = "密码")
+	@JsonIgnore
 	private String password;
 
 	/**
 	 * 随机盐
 	 */
-	@Schema(description = "随机盐")
+	@JsonIgnore
 	private String salt;
 
 	/**
