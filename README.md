@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-3.8-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2023-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-3.3-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.4-blue.svg" alt="Downloads">
@@ -40,7 +40,7 @@
 | 依赖                          | 版本         |
 |-----------------------------|------------|
 | Spring Boot                 | 3.3.1      |
-| Spring Cloud                | 2023.0.1   |
+| Spring Cloud                | 2023.0.3   |
 | Spring Cloud Alibaba        | 2022.0.0.0 |
 | Spring Authorization Server | 1.3.1      |
 | Mybatis Plus                | 3.5.7      |
