@@ -20,12 +20,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <git.commit.plugin>9.0.0</git.commit.plugin>
+        <git.commit.plugin>9.0.1</git.commit.plugin>
         <fastjson.version>1.2.83_noneautotype</fastjson.version>
-        <springdoc.version>2.5.0</springdoc.version>
+        <springdoc.version>2.6.0</springdoc.version>
         <swagger.core.version>2.2.22</swagger.core.version>
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
-        <mysql.version>8.4.0</mysql.version>
+        <mysql.version>9.0.0</mysql.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
         <excel.version>3.2.1</excel.version>
@@ -33,7 +33,7 @@
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
-        <hutool.version>5.8.28</hutool.version>
+        <hutool.version>5.8.29</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
         <spring.checkstyle.plugin>0.0.41</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
