@@ -3,7 +3,7 @@
 
 <mapper namespace="com.pig4cloud.pigx.codegen.mapper.GenGroupMapper">
 
-  <resultMap id="genGroupMap" type="com.pig4cloud.pigx.codegen.util.vo.GroupVo">
+  <resultMap id="genGroupMap" type="com.pig4cloud.pigx.codegen.util.vo.GroupVO">
         <id property="id" column="group_id"/>
         <result property="groupName" column="group_name"/>
         <result property="groupDesc" column="group_desc"/>

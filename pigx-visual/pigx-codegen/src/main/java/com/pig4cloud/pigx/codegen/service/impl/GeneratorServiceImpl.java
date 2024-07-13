@@ -32,7 +32,7 @@ import com.pig4cloud.pigx.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pigx.codegen.service.*;
 import com.pig4cloud.pigx.codegen.util.GeneratorStyleEnum;
 import com.pig4cloud.pigx.codegen.util.VelocityKit;
-import com.pig4cloud.pigx.codegen.util.vo.GroupVo;
+import com.pig4cloud.pigx.codegen.util.vo.GroupVO;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -81,7 +81,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         Long style = (Long) dataModel.get("style");
 
-        GroupVo groupVo = genGroupService.getGroupVoById(style);
+        GroupVO groupVo = genGroupService.getGroupVoById(style);
         List<GenTemplateEntity> templateList = groupVo.getTemplateList();
 
         Map<String, Object> generatorConfig = tableService.getGeneratorConfig();

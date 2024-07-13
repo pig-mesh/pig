@@ -19,7 +19,7 @@ package com.pig4cloud.pigx.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
-import com.pig4cloud.pigx.codegen.util.vo.GroupVo;
+import com.pig4cloud.pigx.codegen.util.vo.GroupVO;
 import com.pig4cloud.pigx.codegen.util.vo.TemplateGroupDTO;
 
 /**
@@ -42,12 +42,12 @@ public interface GenGroupService extends IService<GenGroupEntity> {
 	 * 查询group数据
 	 * @param id
 	 */
-	GroupVo getGroupVoById(Long id);
+	GroupVO getGroupVoById(Long id);
 
 	/**
 	 * 更新group数据
-	 * @param groupVo
+	 * @param GroupVo
 	 */
-	void updateGroupAndTemplateById(GroupVo groupVo);
+	void updateGroupAndTemplateById(GroupVO GroupVo);
 
 }

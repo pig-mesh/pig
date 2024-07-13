@@ -18,7 +18,7 @@
 package com.pig4cloud.pigx.codegen.mapper;
 
 import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
-import com.pig4cloud.pigx.codegen.util.vo.GroupVo;
+import com.pig4cloud.pigx.codegen.util.vo.GroupVO;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,6 +32,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface GenGroupMapper extends PigxBaseMapper<GenGroupEntity> {
 
-	GroupVo getGroupVoById(@Param("id") Long id);
+	GroupVO getGroupVoById(@Param("id") Long id);
 
 }
