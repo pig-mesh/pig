@@ -16,11 +16,31 @@
  */
 package com.pig4cloud.pigx.codegen.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpStatus;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pigx.codegen.entity.GenTemplateEntity;
+import com.pig4cloud.pigx.codegen.entity.GenTemplateGroupEntity;
+import com.pig4cloud.pigx.codegen.mapper.GenGroupMapper;
+import com.pig4cloud.pigx.codegen.mapper.GenTemplateGroupMapper;
 import com.pig4cloud.pigx.codegen.mapper.GenTemplateMapper;
 import com.pig4cloud.pigx.codegen.service.GenTemplateService;
+import com.pig4cloud.pigx.codegen.util.vo.GenTemplateFileVO;
+import com.pig4cloud.pigx.common.core.exception.CheckedException;
+import com.pig4cloud.pigx.common.core.util.R;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 模板
@@ -28,8 +48,104 @@ import org.springframework.stereotype.Service;
  * @author PIG
  * @date 2023-02-21 11:08:43
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTemplateEntity>
-		implements GenTemplateService {
+        implements GenTemplateService {
 
+    private static final String URL = "https://git.pig4cloud.com/pig/CGTM/raw/master";
+
+    private final GenTemplateGroupMapper genTemplateGroupMapper;
+
+    private final GenGroupMapper genGroupMapper;
+
+
+    /**
+     * 在线更新
+     *
+     * @return {@link R }
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R onlineUpdate() {
+        // 1. 获取 config.json + version 文件
+        String configFile = getCGTMFile("config.json");
+        String versionFile = getCGTMFile("VERSION");
+
+        // 解析 config.json
+        JSONObject configJsonObj = JSONUtil.parseObj(configFile);
+
+        // 查询出全部的模板组名称
+        Set<String> cgtmConfigGroupNames = configJsonObj.keySet();
+
+        // 根据模板组名称+version 查询是否存在，不存在则新增，存在跳过
+        for (String cgtmConfigGroupName : cgtmConfigGroupNames) {
+            boolean exists = genGroupMapper.exists(Wrappers.<GenGroupEntity>lambdaQuery()
+                    .eq(GenGroupEntity::getGroupName, cgtmConfigGroupName + versionFile));
+
+            if (exists) {
+                continue;
+            }
+
+            // 插入新的模板组（名称 + VERSION）, 再解析 config.json group 里面的所有模板
+            insertTemplateFiles(versionFile, configJsonObj, cgtmConfigGroupName);
+        }
+
+        return R.ok("更新成功，版本号:" + versionFile);
+    }
+
+    /**
+     * 插入模板文件
+     *
+     * @param version       版本
+     * @param configJsonObj config.json
+     * @param groupName     组名称
+     */
+    private void insertTemplateFiles(String version, JSONObject configJsonObj, String groupName) {
+        // 创建新的 group
+        GenGroupEntity genGroupEntity = new GenGroupEntity();
+        genGroupEntity.setGroupName(groupName + version);
+        genGroupMapper.insert(genGroupEntity);
+
+        // 解析json配置文件
+        List<GenTemplateFileVO> templateFileVOList = configJsonObj.getBeanList(groupName, GenTemplateFileVO.class);
+        for (GenTemplateFileVO genTemplateFileVO : templateFileVOList) {
+            // 1. 获取模板文件
+            String templateFile = getCGTMFile(genTemplateFileVO.getTemplateFile());
+
+            // 2. 插入模板文件
+            GenTemplateEntity genTemplateEntity = new GenTemplateEntity();
+            genTemplateEntity.setTemplateName(genTemplateFileVO.getTemplateName() + version);
+            genTemplateEntity.setTemplateDesc(genTemplateFileVO.getTemplateName() + version);
+            genTemplateEntity.setTemplateCode(templateFile);
+            genTemplateEntity.setGeneratorPath(genTemplateFileVO.getGeneratorPath());
+            baseMapper.insert(genTemplateEntity);
+
+            // 3. 插入模板组关联
+            GenTemplateGroupEntity genTemplateGroupEntity = new GenTemplateGroupEntity();
+            genTemplateGroupEntity.setTemplateId(genTemplateEntity.getId());
+            genTemplateGroupEntity.setGroupId(genGroupEntity.getId());
+            genTemplateGroupMapper.insert(genTemplateGroupEntity);
+        }
+    }
+
+
+    /**
+     * 获取 cgtmfile
+     *
+     * @param fileName 文件名
+     * @return {@link String }
+     */
+    private String getCGTMFile(String fileName) {
+        HttpResponse response = HttpRequest.get(String.format("%s/%s", URL, fileName))
+                .execute();
+
+        if (response.getStatus() == HttpStatus.HTTP_OK || StrUtil.isNotBlank(response.body())) {
+            return response.body();
+        } else {
+            log.warn("在线更新模板失败:{} ，Http Code:{}", fileName, response.getStatus());
+            throw new CheckedException("在线更新模板失败，任务终止！");
+        }
+    }
 }
