@@ -41,7 +41,7 @@
 |-----------------------------|------------|
 | Spring Boot                 | 3.3.1      |
 | Spring Cloud                | 2023.0.3   |
-| Spring Cloud Alibaba        | 2022.0.0.0 |
+| Spring Cloud Alibaba        | 2023.0.1.2 |
 | Spring Authorization Server | 1.3.1      |
 | Mybatis Plus                | 3.5.7      |
 | Vue                         | 3.4        |
