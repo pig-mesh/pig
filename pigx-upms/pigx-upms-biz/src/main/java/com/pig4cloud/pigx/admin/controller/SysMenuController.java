@@ -91,14 +91,14 @@ public class SysMenuController {
     }
 
     /**
-     * 通过ID查询菜单的详细信息
+     * 获取详细信息
      *
-     * @param id 菜单ID
-     * @return 菜单详细信息
+     * @param query 查询条件
+     * @return {@link R }
      */
     @GetMapping("/details")
-    public R getById(@ParameterObject SysMenu query) {
-        return R.ok(sysMenuService.getOne(Wrappers.query(query), false));
+    public R getDetails(@ParameterObject SysMenu query) {
+        return R.ok(sysMenuService.list(Wrappers.query(query)));
     }
 
     /**
