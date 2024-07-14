@@ -62,14 +62,13 @@ public class SysAreaController {
         return R.ok(sysAreaService.selectTree(sysArea));
     }
 
-
     /**
-     * 通过id查询行政区划
+     * 获取详细信息
      *
      * @param sysArea 查询条件
-     * @return R
+     * @return {@link R }
      */
-    @Operation(summary = "通过id查询", description = "通过id查询")
+    @Operation(summary = "获取详细信息", description = "获取详细信息")
     @GetMapping("/details")
     @PreAuthorize("@pms.hasPermission('sys_sysArea_view')")
     public R getDetails(@ParameterObject SysAreaEntity sysArea) {
@@ -118,7 +117,6 @@ public class SysAreaController {
         return R.ok(sysAreaService.removeBatchByIds(CollUtil.toList(ids)));
     }
 
-
     /**
      * 导出excel 表格
      *
@@ -130,6 +128,8 @@ public class SysAreaController {
     @GetMapping("/export")
     @PreAuthorize("@pms.hasPermission('sys_sysArea_export')")
     public List<SysAreaEntity> export(SysAreaEntity sysArea, Long[] ids) {
-        return sysAreaService.list(Wrappers.lambdaQuery(sysArea).in(ArrayUtil.isNotEmpty(ids), SysAreaEntity::getId, ids));
+        return sysAreaService
+                .list(Wrappers.lambdaQuery(sysArea).in(ArrayUtil.isNotEmpty(ids), SysAreaEntity::getId, ids));
     }
+
 }
