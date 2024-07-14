@@ -2,7 +2,7 @@
   "project": {
     "packageName": "com.pig4cloud.pigx",
     "version": "1.0.0",
-    "backendPath": "pigx",
+    "backendPath": "admin",
     "frontendPath": "pigx-ui"
   },
   "developer": {
