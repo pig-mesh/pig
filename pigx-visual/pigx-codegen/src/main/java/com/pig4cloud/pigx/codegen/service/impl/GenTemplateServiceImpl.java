@@ -22,6 +22,7 @@ import cn.hutool.http.HttpResponse;
 import cn.hutool.http.HttpStatus;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import cn.smallbun.screw.core.constant.DefaultConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
@@ -53,8 +54,6 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTemplateEntity>
         implements GenTemplateService {
-
-    private static final String URL = "https://git.pig4cloud.com/pig/CGTM/raw/master";
 
     private final GenTemplateGroupMapper genTemplateGroupMapper;
 
@@ -138,7 +137,7 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
      * @return {@link String }
      */
     private String getCGTMFile(String fileName) {
-        HttpResponse response = HttpRequest.get(String.format("%s/%s", URL, fileName))
+        HttpResponse response = HttpRequest.get(String.format("%s/CGTM/raw/master/%s", DefaultConstants.CGTM_URL, fileName))
                 .execute();
 
         if (response.getStatus() == HttpStatus.HTTP_OK || StrUtil.isNotBlank(response.body())) {

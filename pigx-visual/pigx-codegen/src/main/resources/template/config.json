@@ -2,11 +2,11 @@
   "project": {
     "packageName": "com.pig4cloud.pigx",
     "version": "1.0.0",
-    "backendPath": "admin",
+    "backendPath": "pigx",
     "frontendPath": "pigx-ui"
   },
   "developer": {
     "author": "pig",
-    "email": "sw@mail.pigx.vip"
+    "email": "sw@pigx.vip"
   }
 }
