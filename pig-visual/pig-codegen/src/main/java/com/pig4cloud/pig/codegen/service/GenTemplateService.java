@@ -19,6 +19,7 @@ package com.pig4cloud.pig.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
+import com.pig4cloud.pig.common.core.util.R;
 
 /**
  * 模板
@@ -28,4 +29,18 @@ import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
  */
 public interface GenTemplateService extends IService<GenTemplateEntity> {
 
+
+    /**
+     * 检查版本
+     *
+     * @return {@link R }
+     */
+    R checkVersion();
+
+    /**
+     * 在线更新
+     *
+     * @return {@link R }
+     */
+    R onlineUpdate();
 }

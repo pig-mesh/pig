@@ -158,10 +158,31 @@ public class GenTable extends Model<GenTable> {
 	private Long style;
 
 	/**
+	 * 子表名称
+	 */
+	private String childTableName;
+
+	/**
+	 * 主表关联键
+	 */
+	private String mainField;
+
+	/**
+	 * 子表关联键
+	 */
+	private String childField;
+
+	/**
 	 * 字段列表
 	 */
 	@TableField(exist = false)
 	private List<GenTableColumnEntity> fieldList;
+
+	/**
+	 * 子表字段列表
+	 */
+	@TableField(exist = false)
+	private List<GenTableColumnEntity> childFieldList;
 
 	/**
 	 * 代码风格（模版分组信息）

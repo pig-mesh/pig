@@ -25,7 +25,7 @@ import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 import com.pig4cloud.pig.codegen.mapper.GenGroupMapper;
 import com.pig4cloud.pig.codegen.service.GenGroupService;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
-import com.pig4cloud.pig.codegen.util.vo.GroupVo;
+import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -87,7 +87,7 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	 * @return
 	 */
 	@Override
-	public GroupVo getGroupVoById(Long id) {
+	public GroupVO getGroupVoById(Long id) {
 		return baseMapper.getGroupVoById(id);
 	}
 
@@ -96,7 +96,7 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	 * @param groupVo
 	 */
 	@Override
-	public void updateGroupAndTemplateById(GroupVo groupVo) {
+	public void updateGroupAndTemplateById(GroupVO groupVo) {
 		// 1.更新自身
 		GenGroupEntity groupEntity = new GenGroupEntity();
 		BeanUtil.copyProperties(groupVo, groupEntity);

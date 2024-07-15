@@ -19,7 +19,7 @@ package com.pig4cloud.pig.codegen.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
-import com.pig4cloud.pig.codegen.util.vo.GroupVo;
+import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,6 +32,6 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface GenGroupMapper extends BaseMapper<GenGroupEntity> {
 
-	GroupVo getGroupVoById(@Param("id") Long id);
+	GroupVO getGroupVoById(@Param("id") Long id);
 
 }

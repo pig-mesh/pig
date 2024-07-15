@@ -3,12 +3,12 @@
 
 <mapper namespace="com.pig4cloud.pig.codegen.mapper.GenGroupMapper">
 
-  <resultMap id="genGroupMap" type="com.pig4cloud.pig.codegen.util.vo.GroupVo">
+  <resultMap id="genGroupMap" type="com.pig4cloud.pig.codegen.util.vo.GroupVO">
         <id property="id" column="group_id"/>
         <result property="groupName" column="group_name"/>
         <result property="groupDesc" column="group_desc"/>
 	    <collection property="templateList" ofType="com.pig4cloud.pig.codegen.entity.GenTemplateEntity"
-                    select="com.pig4cloud.pig.codegen.mapper.GenTemplateMapper.listTemplateById" column="group_id">
+				  select="com.pig4cloud.pig.codegen.mapper.GenTemplateMapper.listTemplateById" column="group_id">
 	    </collection>
   </resultMap>
 

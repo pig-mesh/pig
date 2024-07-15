@@ -23,7 +23,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pig.codegen.service.GenGroupService;
-import com.pig4cloud.pig.codegen.util.vo.GroupVo;
+import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
@@ -51,95 +51,106 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenGroupController {
 
-	private final GenGroupService genGroupService;
+    private final GenGroupService genGroupService;
 
-	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param genGroup 模板分组
-	 * @return
-	 */
-	@Operation(summary = "分页查询", description = "分页查询")
-	@GetMapping("/page")
-	@HasPermission("codegen_group_view")
-	public R getgenGroupPage(Page page, GenGroupEntity genGroup) {
-		LambdaQueryWrapper<GenGroupEntity> wrapper = Wrappers.<GenGroupEntity>lambdaQuery()
-			.like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
-			.like(StrUtil.isNotEmpty(genGroup.getGroupName()), GenGroupEntity::getGroupName, genGroup.getGroupName());
-		return R.ok(genGroupService.page(page, wrapper));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page     分页对象
+     * @param genGroup 模板分组
+     * @return
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    @HasPermission("codegen_group_view")
+    public R getgenGroupPage(Page page, GenGroupEntity genGroup) {
+        LambdaQueryWrapper<GenGroupEntity> wrapper = Wrappers.<GenGroupEntity>lambdaQuery()
+                .like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
+                .like(StrUtil.isNotEmpty(genGroup.getGroupName()), GenGroupEntity::getGroupName, genGroup.getGroupName());
+        return R.ok(genGroupService.page(page, wrapper));
+    }
 
-	/**
-	 * 通过id查询模板分组
-	 * @param id id
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{id}")
-	@HasPermission("codegen_group_view")
-	public R getById(@PathVariable("id") Long id) {
-		return R.ok(genGroupService.getGroupVoById(id));
-	}
+    /**
+     * 通过id查询模板分组
+     *
+     * @param id id
+     * @return R
+     */
+    @Operation(summary = "通过id查询", description = "通过id查询")
+    @GetMapping("/{id}")
+    @HasPermission("codegen_group_view")
+    public R getById(@PathVariable("id") Long id) {
+        return R.ok(genGroupService.getGroupVoById(id));
+    }
 
-	/**
-	 * 新增模板分组
-	 * @param genTemplateGroup 模板分组
-	 * @return R
-	 */
-	@Operation(summary = "新增模板分组", description = "新增模板分组")
-	@SysLog("新增模板分组")
-	@PostMapping
-	@HasPermission("codegen_group_add")
-	public R save(@RequestBody TemplateGroupDTO genTemplateGroup) {
-		genGroupService.saveGenGroup(genTemplateGroup);
-		return R.ok();
-	}
+    /**
+     * 新增模板分组
+     *
+     * @param genTemplateGroup 模板分组
+     * @return R
+     */
+    @Operation(summary = "新增模板分组", description = "新增模板分组")
+    @SysLog("新增模板分组")
+    @PostMapping
+    @HasPermission("codegen_group_add")
+    public R save(@RequestBody TemplateGroupDTO genTemplateGroup) {
+        genGroupService.saveGenGroup(genTemplateGroup);
+        return R.ok();
+    }
 
-	/**
-	 * 修改模板分组
-	 * @param groupVo 模板分组
-	 * @return R
-	 */
-	@Operation(summary = "修改模板分组", description = "修改模板分组")
-	@SysLog("修改模板分组")
-	@PutMapping
-	@HasPermission("codegen_group_edit")
-	public R updateById(@RequestBody GroupVo groupVo) {
-		genGroupService.updateGroupAndTemplateById(groupVo);
-		return R.ok();
-	}
+    /**
+     * 修改模板分组
+     *
+     * @param groupVo 模板分组
+     * @return R
+     */
+    @Operation(summary = "修改模板分组", description = "修改模板分组")
+    @SysLog("修改模板分组")
+    @PutMapping
+    @HasPermission("codegen_group_edit")
+    public R updateById(@RequestBody GroupVO groupVo) {
+        genGroupService.updateGroupAndTemplateById(groupVo);
+        return R.ok();
+    }
 
-	/**
-	 * 通过id删除模板分组
-	 * @param ids id列表
-	 * @return R
-	 */
-	@Operation(summary = "通过id删除模板分组", description = "通过id删除模板分组")
-	@SysLog("通过id删除模板分组")
-	@DeleteMapping
-	@HasPermission("codegen_group_del")
-	public R removeById(@RequestBody Long[] ids) {
-		genGroupService.delGroupAndTemplate(ids);
-		return R.ok();
-	}
+    /**
+     * 通过id删除模板分组
+     *
+     * @param ids id列表
+     * @return R
+     */
+    @Operation(summary = "通过id删除模板分组", description = "通过id删除模板分组")
+    @SysLog("通过id删除模板分组")
+    @DeleteMapping
+    @HasPermission("codegen_group_del")
+    public R removeById(@RequestBody Long[] ids) {
+        genGroupService.delGroupAndTemplate(ids);
+        return R.ok();
+    }
 
-	/**
-	 * 导出excel 表格
-	 * @param genGroup 查询条件
-	 * @return excel 文件流
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	@HasPermission("codegen_group_export")
-	public List<GenGroupEntity> export(GenGroupEntity genGroup) {
-		return genGroupService.list(Wrappers.query(genGroup));
-	}
+    /**
+     * 导出excel 表格
+     *
+     * @param genGroup 查询条件
+     * @return excel 文件流
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    @HasPermission("codegen_group_export")
+    public List<GenGroupEntity> export(GenGroupEntity genGroup) {
+        return genGroupService.list(Wrappers.query(genGroup));
+    }
 
-	@GetMapping("/list")
-	@Operation(summary = "查询列表", description = "查询列表")
-	public R list() {
-		List<GenGroupEntity> list = genGroupService.list();
-		return R.ok(list);
-	}
+
+    /**
+     * @return 响应信息主体
+     */
+    @GetMapping("/list")
+    @Operation(summary = "查询列表", description = "查询列表")
+    public R list() {
+        List<GenGroupEntity> list = genGroupService.list(Wrappers.<GenGroupEntity>lambdaQuery()
+                .orderByDesc(GenGroupEntity::getCreateTime));
+        return R.ok(list);
+    }
 
 }
