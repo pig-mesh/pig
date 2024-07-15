@@ -46,61 +46,59 @@ import java.util.zip.ZipOutputStream;
 @RequestMapping("/generator")
 public class GeneratorController {
 
-    private final GeneratorService generatorService;
+	private final GeneratorService generatorService;
 
-    /**
-     * ZIP 下载生成代码
-     *
-     * @param tableIds 数据表ID
-     * @param response 流输出对象
-     */
-    @SneakyThrows
-    @GetMapping("/download")
-    public void download(String tableIds, HttpServletResponse response) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(outputStream);
+	/**
+	 * ZIP 下载生成代码
+	 * @param tableIds 数据表ID
+	 * @param response 流输出对象
+	 */
+	@SneakyThrows
+	@GetMapping("/download")
+	public void download(String tableIds, HttpServletResponse response) {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ZipOutputStream zip = new ZipOutputStream(outputStream);
 
-        // 生成代码
-        for (String tableId : tableIds.split(StrUtil.COMMA)) {
-            generatorService.downloadCode(Long.parseLong(tableId), zip);
-        }
+		// 生成代码
+		for (String tableId : tableIds.split(StrUtil.COMMA)) {
+			generatorService.downloadCode(Long.parseLong(tableId), zip);
+		}
 
-        IoUtil.close(zip);
+		IoUtil.close(zip);
 
-        // zip压缩包数据
-        byte[] data = outputStream.toByteArray();
+		// zip压缩包数据
+		byte[] data = outputStream.toByteArray();
 
-        response.reset();
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", tableIds));
-        response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
-        response.setContentType("application/octet-stream; charset=UTF-8");
-        IoUtil.write(response.getOutputStream(), false, data);
-    }
+		response.reset();
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", tableIds));
+		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentType("application/octet-stream; charset=UTF-8");
+		IoUtil.write(response.getOutputStream(), false, data);
+	}
 
-    /**
-     * 目标目录生成代码
-     */
-    @ResponseBody
-    @GetMapping("/code")
-    public R<String> code(String tableIds) throws Exception {
-        // 生成代码
-        for (String tableId : tableIds.split(StrUtil.COMMA)) {
-            generatorService.generatorCode(Long.valueOf(tableId));
-        }
+	/**
+	 * 目标目录生成代码
+	 */
+	@ResponseBody
+	@GetMapping("/code")
+	public R<String> code(String tableIds) throws Exception {
+		// 生成代码
+		for (String tableId : tableIds.split(StrUtil.COMMA)) {
+			generatorService.generatorCode(Long.valueOf(tableId));
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 预览代码
-     *
-     * @param tableId 表ID
-     * @return
-     */
-    @SneakyThrows
-    @GetMapping("/preview")
-    public List<Map<String, String>> preview(Long tableId) {
-        return generatorService.preview(tableId);
-    }
+	/**
+	 * 预览代码
+	 * @param tableId 表ID
+	 * @return
+	 */
+	@SneakyThrows
+	@GetMapping("/preview")
+	public List<Map<String, String>> preview(Long tableId) {
+		return generatorService.preview(tableId);
+	}
 
 }
