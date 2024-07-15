@@ -91,7 +91,7 @@ public class GlobalBizExceptionHandler {
 		String msg = SpringSecurityMessageSource.getAccessor()
 			.getMessage("AbstractAccessDecisionManager.accessDenied", e.getMessage());
 		log.warn("拒绝授权异常信息 ex={}", msg);
-		return R.failed(e.getLocalizedMessage());
+		return R.failed(msg);
 	}
 
 	/**
