@@ -25,13 +25,13 @@ import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class GenTemplateGroupController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_view')")
+	@HasPermission("codegen_templateGroup_view")
 	public R getgenTemplateGroupPage(Page page, GenTemplateGroupEntity genTemplateGroup) {
 		LambdaQueryWrapper<GenTemplateGroupEntity> wrapper = Wrappers.lambdaQuery();
 		return R.ok(genTemplateGroupService.page(page, wrapper));
@@ -72,7 +72,7 @@ public class GenTemplateGroupController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{groupId}")
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_view')")
+	@HasPermission("codegen_templateGroup_view")
 	public R getById(@PathVariable("groupId") Long groupId) {
 		return R.ok(genTemplateGroupService.getById(groupId));
 	}
@@ -85,7 +85,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "新增模板分组关联表", description = "新增模板分组关联表")
 	@SysLog("新增模板分组关联表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_add')")
+	@HasPermission("codegen_templateGroup_add")
 	public R save(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.save(genTemplateGroup));
 	}
@@ -98,7 +98,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "修改模板分组关联表", description = "修改模板分组关联表")
 	@SysLog("修改模板分组关联表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_edit')")
+	@HasPermission("codegen_templateGroup_edit")
 	public R updateById(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.updateById(genTemplateGroup));
 	}
@@ -111,7 +111,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "通过id删除模板分组关联表", description = "通过id删除模板分组关联表")
 	@SysLog("通过id删除模板分组关联表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_del')")
+	@HasPermission("codegen_templateGroup_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(genTemplateGroupService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -123,7 +123,7 @@ public class GenTemplateGroupController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('codegen_templateGroup_export')")
+	@HasPermission("codegen_templateGroup_export")
 	public List<GenTemplateGroupEntity> export(GenTemplateGroupEntity genTemplateGroup) {
 		return genTemplateGroupService.list(Wrappers.query(genTemplateGroup));
 	}

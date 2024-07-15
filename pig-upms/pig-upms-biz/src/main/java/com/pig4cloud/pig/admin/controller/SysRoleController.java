@@ -30,6 +30,7 @@ import com.pig4cloud.pig.admin.service.SysRoleService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -39,7 +40,6 @@ import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,7 +85,7 @@ public class SysRoleController {
 	 */
 	@SysLog("添加角色")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_role_add')")
+	@HasPermission("sys_role_add")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R save(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
@@ -98,7 +98,7 @@ public class SysRoleController {
 	 */
 	@SysLog("修改角色")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_role_edit')")
+	@HasPermission("sys_role_edit")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R update(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.updateById(sysRole));
@@ -111,7 +111,7 @@ public class SysRoleController {
 	 */
 	@SysLog("删除角色")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_role_del')")
+	@HasPermission("sys_role_del")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysRoleService.removeRoleByIds(ids));
@@ -145,7 +145,7 @@ public class SysRoleController {
 	 */
 	@SysLog("更新角色菜单")
 	@PutMapping("/menu")
-	@PreAuthorize("@pms.hasPermission('sys_role_perm')")
+	@HasPermission("sys_role_perm")
 	public R saveRoleMenus(@RequestBody RoleVO roleVo) {
 		return R.ok(sysRoleService.updateRoleMenus(roleVo));
 	}
@@ -166,7 +166,7 @@ public class SysRoleController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_role_export')")
+	@HasPermission("sys_role_export")
 	public List<RoleExcelVO> export() {
 		return sysRoleService.listRole();
 	}
@@ -178,7 +178,7 @@ public class SysRoleController {
 	 * @return ok fail
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('sys_role_export')")
+	@HasPermission("sys_role_export")
 	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysRoleService.importRole(excelVOList, bindingResult);
 	}

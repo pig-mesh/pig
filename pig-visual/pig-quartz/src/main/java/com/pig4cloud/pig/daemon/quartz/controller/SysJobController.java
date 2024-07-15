@@ -24,6 +24,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
@@ -40,7 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -103,7 +103,7 @@ public class SysJobController {
 	 */
 	@SysLog("新增定时任务")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('job_sys_job_add')")
+	@HasPermission("job_sys_job_add")
 	@Operation(description = "新增定时任务")
 	public R save(@RequestBody SysJob sysJob) {
 		long count = sysJobService.count(
@@ -124,7 +124,7 @@ public class SysJobController {
 	 */
 	@SysLog("修改定时任务")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('job_sys_job_edit')")
+	@HasPermission("job_sys_job_edit")
 	@Operation(description = "修改定时任务")
 	public R updateById(@RequestBody SysJob sysJob) {
 		sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
@@ -147,7 +147,7 @@ public class SysJobController {
 	 */
 	@SysLog("删除定时任务")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_del')")
+	@HasPermission("job_sys_job_del")
 	@Operation(description = "唯一标识查询定时任务，暂停任务才能删除")
 	public R removeById(@PathVariable Long id) {
 		SysJob querySysJob = this.sysJobService.getById(id);
@@ -167,7 +167,7 @@ public class SysJobController {
 	 */
 	@SysLog("暂停全部定时任务")
 	@PostMapping("/shutdown-jobs")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_shutdown_job')")
+	@HasPermission("job_sys_job_shutdown_job")
 	@Operation(description = "暂停全部定时任务")
 	public R shutdownJobs() {
 		taskUtil.pauseJobs(scheduler);
@@ -192,7 +192,7 @@ public class SysJobController {
 	 */
 	@SysLog("启动全部暂停的定时任务")
 	@PostMapping("/start-jobs")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_start_job')")
+	@HasPermission("job_sys_job_start_job")
 	@Operation(description = "启动全部暂停的定时任务")
 	public R startJobs() {
 		// 更新定时任务状态条件，暂停状态3更新为运行状态2
@@ -209,7 +209,7 @@ public class SysJobController {
 	 */
 	@SysLog("刷新全部定时任务")
 	@PostMapping("/refresh-jobs")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_refresh_job')")
+	@HasPermission("job_sys_job_refresh_job")
 	@Operation(description = "刷新全部定时任务")
 	public R refreshJobs() {
 		sysJobService.list().forEach(sysjob -> {
@@ -231,7 +231,7 @@ public class SysJobController {
 	 */
 	@SysLog("启动定时任务")
 	@PostMapping("/start-job/{id}")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_start_job')")
+	@HasPermission("job_sys_job_start_job")
 	@Operation(description = "启动定时任务")
 	public R startJob(@PathVariable("id") Long jobId) throws SchedulerException {
 		SysJob querySysJob = this.sysJobService.getById(jobId);
@@ -264,7 +264,7 @@ public class SysJobController {
 	 */
 	@SysLog("立刻执行定时任务")
 	@PostMapping("/run-job/{id}")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_run_job')")
+	@HasPermission("job_sys_job_run_job")
 	@Operation(description = "立刻执行定时任务")
 	public R runJob(@PathVariable("id") Long jobId) throws SchedulerException {
 		SysJob querySysJob = this.sysJobService.getById(jobId);
@@ -285,7 +285,7 @@ public class SysJobController {
 	 */
 	@SysLog("暂停定时任务")
 	@PostMapping("/shutdown-job/{id}")
-	@PreAuthorize("@pms.hasPermission('job_sys_job_shutdown_job')")
+	@HasPermission("job_sys_job_shutdown_job")
 	@Operation(description = "暂停定时任务")
 	public R shutdownJob(@PathVariable("id") Long id) {
 		SysJob querySysJob = this.sysJobService.getById(id);

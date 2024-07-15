@@ -24,6 +24,7 @@ import com.pig4cloud.pig.admin.api.vo.DeptExcelVo;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -31,7 +32,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,7 +90,7 @@ public class SysDeptController {
 	 */
 	@SysLog("添加部门")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_dept_add')")
+	@HasPermission("sys_dept_add")
 	public R save(@Valid @RequestBody SysDept sysDept) {
 		return R.ok(sysDeptService.save(sysDept));
 	}
@@ -102,7 +102,7 @@ public class SysDeptController {
 	 */
 	@SysLog("删除部门")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('sys_dept_del')")
+	@HasPermission("sys_dept_del")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
@@ -114,7 +114,7 @@ public class SysDeptController {
 	 */
 	@SysLog("编辑部门")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_dept_edit')")
+	@HasPermission("sys_dept_edit")
 	public R update(@Valid @RequestBody SysDept sysDept) {
 		sysDept.setUpdateTime(LocalDateTime.now());
 		return R.ok(sysDeptService.updateById(sysDept));

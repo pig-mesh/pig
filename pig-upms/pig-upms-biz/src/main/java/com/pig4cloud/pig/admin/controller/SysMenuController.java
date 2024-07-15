@@ -23,13 +23,13 @@ import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.service.SysMenuService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
@@ -102,7 +102,7 @@ public class SysMenuController {
 	 */
 	@SysLog("新增菜单")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_menu_add')")
+	@HasPermission("sys_menu_add")
 	public R save(@Valid @RequestBody SysMenu sysMenu) {
 		sysMenuService.save(sysMenu);
 		return R.ok(sysMenu);
@@ -115,7 +115,7 @@ public class SysMenuController {
 	 */
 	@SysLog("删除菜单")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('sys_menu_del')")
+	@HasPermission("sys_menu_del")
 	public R removeById(@PathVariable Long id) {
 		return sysMenuService.removeMenuById(id);
 	}
@@ -127,7 +127,7 @@ public class SysMenuController {
 	 */
 	@SysLog("更新菜单")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_menu_edit')")
+	@HasPermission("sys_menu_edit")
 	public R update(@Valid @RequestBody SysMenu sysMenu) {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}

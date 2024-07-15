@@ -27,13 +27,13 @@ import com.pig4cloud.pig.codegen.util.vo.GroupVo;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,7 +61,7 @@ public class GenGroupController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('codegen_group_view')")
+	@HasPermission("codegen_group_view")
 	public R getgenGroupPage(Page page, GenGroupEntity genGroup) {
 		LambdaQueryWrapper<GenGroupEntity> wrapper = Wrappers.<GenGroupEntity>lambdaQuery()
 			.like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
@@ -76,7 +76,7 @@ public class GenGroupController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('codegen_group_view')")
+	@HasPermission("codegen_group_view")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(genGroupService.getGroupVoById(id));
 	}
@@ -89,7 +89,7 @@ public class GenGroupController {
 	@Operation(summary = "新增模板分组", description = "新增模板分组")
 	@SysLog("新增模板分组")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('codegen_group_add')")
+	@HasPermission("codegen_group_add")
 	public R save(@RequestBody TemplateGroupDTO genTemplateGroup) {
 		genGroupService.saveGenGroup(genTemplateGroup);
 		return R.ok();
@@ -103,7 +103,7 @@ public class GenGroupController {
 	@Operation(summary = "修改模板分组", description = "修改模板分组")
 	@SysLog("修改模板分组")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('codegen_group_edit')")
+	@HasPermission("codegen_group_edit")
 	public R updateById(@RequestBody GroupVo groupVo) {
 		genGroupService.updateGroupAndTemplateById(groupVo);
 		return R.ok();
@@ -117,7 +117,7 @@ public class GenGroupController {
 	@Operation(summary = "通过id删除模板分组", description = "通过id删除模板分组")
 	@SysLog("通过id删除模板分组")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('codegen_group_del')")
+	@HasPermission("codegen_group_del")
 	public R removeById(@RequestBody Long[] ids) {
 		genGroupService.delGroupAndTemplate(ids);
 		return R.ok();
@@ -130,7 +130,7 @@ public class GenGroupController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('codegen_group_export')")
+	@HasPermission("codegen_group_export")
 	public List<GenGroupEntity> export(GenGroupEntity genGroup) {
 		return genGroupService.list(Wrappers.query(genGroup));
 	}

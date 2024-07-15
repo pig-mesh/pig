@@ -26,6 +26,7 @@ import com.pig4cloud.pig.admin.api.entity.SysFile;
 import com.pig4cloud.pig.admin.service.SysFileService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,7 +37,6 @@ import lombok.SneakyThrows;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -77,7 +77,7 @@ public class SysFileController {
 	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_file_del')")
+	@HasPermission("sys_file_del")
 	public R removeById(@RequestBody Long[] ids) {
 		for (Long id : ids) {
 			sysFileService.deleteFile(id);

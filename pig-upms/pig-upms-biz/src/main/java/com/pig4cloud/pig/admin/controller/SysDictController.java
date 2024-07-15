@@ -30,6 +30,7 @@ import com.pig4cloud.pig.admin.service.SysDictService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,6 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -114,7 +114,7 @@ public class SysDictController {
 	 */
 	@SysLog("添加字典")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
+	@HasPermission("sys_dict_add")
 	public R save(@Valid @RequestBody SysDict sysDict) {
 		sysDictService.save(sysDict);
 		return R.ok(sysDict);
@@ -127,7 +127,7 @@ public class SysDictController {
 	 */
 	@SysLog("删除字典")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_dict_del')")
+	@HasPermission("sys_dict_del")
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysDictService.removeDictByIds(ids));
@@ -140,7 +140,7 @@ public class SysDictController {
 	 */
 	@PutMapping
 	@SysLog("修改字典")
-	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
+	@HasPermission("sys_dict_edit")
 	public R updateById(@Valid @RequestBody SysDict sysDict) {
 		return sysDictService.updateDict(sysDict);
 	}

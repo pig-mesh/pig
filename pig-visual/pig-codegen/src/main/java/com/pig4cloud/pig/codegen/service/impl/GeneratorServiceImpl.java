@@ -33,6 +33,7 @@ import com.pig4cloud.pig.codegen.util.vo.GroupVo;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -186,6 +187,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 		Map<String, Object> dataModel = new HashMap<>();
 
 		// 填充数据模型
+		dataModel.put("isSpringBoot3", isSpringBoot3());
 		dataModel.put("dbType", table.getDbType());
 		dataModel.put("package", table.getPackageName());
 		dataModel.put("packagePath", table.getPackageName().replace(".", File.separator));
@@ -250,4 +252,12 @@ public class GeneratorServiceImpl implements GeneratorService {
 		dataModel.put("queryList", queryList);
 	}
 
+	/**
+	 * 判断当前是否是 SpringBoot3 版本
+	 *
+	 * @return true/fasle
+	 */
+	private boolean isSpringBoot3() {
+		return StrUtil.startWith(SpringBootVersion.getVersion(), "3");
+	}
 }

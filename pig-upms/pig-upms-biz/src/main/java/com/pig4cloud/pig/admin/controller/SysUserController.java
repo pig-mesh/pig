@@ -31,6 +31,7 @@ import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
@@ -42,7 +43,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -121,7 +121,7 @@ public class SysUserController {
 	 */
 	@SysLog("删除用户信息")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_user_del')")
+	@HasPermission("sys_user_del")
 	@Operation(summary = "删除用户", description = "根据ID删除用户")
 	public R userDel(@RequestBody Long[] ids) {
 		return R.ok(userService.deleteUserByIds(ids));
@@ -134,7 +134,7 @@ public class SysUserController {
 	 */
 	@SysLog("添加用户")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_user_add')")
+	@HasPermission("sys_user_add")
 	public R user(@RequestBody UserDTO userDto) {
 		return R.ok(userService.saveUser(userDto));
 	}
@@ -146,7 +146,7 @@ public class SysUserController {
 	 */
 	@SysLog("更新用户信息")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_user_edit')")
+	@HasPermission("sys_user_edit")
 	public R updateUser(@Valid @RequestBody UserDTO userDto) {
 		return R.ok(userService.updateUser(userDto));
 	}
@@ -180,7 +180,7 @@ public class SysUserController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_user_export')")
+	@HasPermission("sys_user_export")
 	public List export(UserDTO userDTO) {
 		return userService.listUser(userDTO);
 	}
@@ -192,7 +192,7 @@ public class SysUserController {
 	 * @return R
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('sys_user_export')")
+	@HasPermission("sys_user_export")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUser(excelVOList, bindingResult);
 	}

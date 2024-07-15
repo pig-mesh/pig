@@ -20,11 +20,11 @@ package com.pig4cloud.pig.admin.controller;
 import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -62,7 +62,7 @@ public class SysTokenController {
 	 */
 	@SysLog("删除用户token")
 	@DeleteMapping("/delete")
-	@PreAuthorize("@pms.hasPermission('sys_token_del')")
+	@HasPermission("sys_token_del")
 	public R removeById(@RequestBody String[] tokens) {
 		for (String token : tokens) {
 			remoteTokenService.removeTokenById(token);

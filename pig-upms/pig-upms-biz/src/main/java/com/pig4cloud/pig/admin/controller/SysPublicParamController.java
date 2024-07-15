@@ -25,6 +25,7 @@ import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
 import com.pig4cloud.pig.admin.service.SysPublicParamService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
+import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +34,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -109,7 +109,7 @@ public class SysPublicParamController {
 	@Operation(description = "新增公共参数", summary = "新增公共参数")
 	@SysLog("新增公共参数")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_add')")
+	@HasPermission("sys_syspublicparam_add")
 	public R save(@RequestBody SysPublicParam sysPublicParam) {
 		return R.ok(sysPublicParamService.save(sysPublicParam));
 	}
@@ -122,7 +122,7 @@ public class SysPublicParamController {
 	@Operation(description = "修改公共参数", summary = "修改公共参数")
 	@SysLog("修改公共参数")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
+	@HasPermission("sys_syspublicparam_edit")
 	public R updateById(@RequestBody SysPublicParam sysPublicParam) {
 		return sysPublicParamService.updateParam(sysPublicParam);
 	}
@@ -135,7 +135,7 @@ public class SysPublicParamController {
 	@Operation(description = "删除公共参数", summary = "删除公共参数")
 	@SysLog("删除公共参数")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_del')")
+	@HasPermission("sys_syspublicparam_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysPublicParamService.removeParamByIds(ids));
 	}
@@ -146,7 +146,7 @@ public class SysPublicParamController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
+	@HasPermission("sys_syspublicparam_edit")
 	public List<SysPublicParam> export() {
 		return sysPublicParamService.list();
 	}
@@ -157,7 +157,7 @@ public class SysPublicParamController {
 	 */
 	@SysLog("同步参数")
 	@PutMapping("/sync")
-	@PreAuthorize("@pms.hasPermission('sys_syspublicparam_edit')")
+	@HasPermission("sys_syspublicparam_edit")
 	public R sync() {
 		return sysPublicParamService.syncParamCache();
 	}
