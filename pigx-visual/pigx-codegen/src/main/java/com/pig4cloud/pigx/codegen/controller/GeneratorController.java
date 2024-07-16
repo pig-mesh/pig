@@ -21,6 +21,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.codegen.service.GeneratorService;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.idempotent.annotation.Idempotent;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -56,6 +57,7 @@ public class GeneratorController {
 	 */
 	@SneakyThrows
 	@GetMapping("/download")
+	@Idempotent(key = "#tableIds", expireTime = 10, info = "正在生成代码，请勿重复操作")
 	public void download(String tableIds, HttpServletResponse response) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
@@ -82,6 +84,7 @@ public class GeneratorController {
 	 */
 	@ResponseBody
 	@GetMapping("/code")
+	@Idempotent(key = "#tableIds", expireTime = 10, info = "正在生成代码，请勿重复操作")
 	public R<String> code(String tableIds) throws Exception {
 		// 生成代码
 		for (String tableId : tableIds.split(StrUtil.COMMA)) {

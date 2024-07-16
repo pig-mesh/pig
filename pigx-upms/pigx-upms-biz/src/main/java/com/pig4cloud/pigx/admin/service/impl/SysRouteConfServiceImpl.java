@@ -51,83 +51,96 @@ import java.util.Map;
 @AllArgsConstructor
 @Service("sysRouteConfService")
 public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, SysRouteConf>
-		implements SysRouteConfService {
+        implements SysRouteConfService {
 
-	private final ApplicationEventPublisher applicationEventPublisher;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
-	/**
-	 * 更新路由信息
-	 * @param route 路由信息
-	 * @return
-	 */
-	@Override
-	@Transactional(rollbackFor = Exception.class)
-	public Mono<Void> addOrUpdateRoute(JSONObject route) {
-		try {
-			log.info("更新路由 ->{}", route);
-			RouteDefinitionVo vo = new RouteDefinitionVo();
+    /**
+     * 更新路由信息
+     *
+     * @param route 路由信息
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Mono<Void> addOrUpdateRoute(JSONObject route) {
+        try {
+            log.info("更新路由 ->{}", route);
+            RouteDefinitionVo vo = new RouteDefinitionVo();
 
-			String id = route.getStr("routeId");
-			if (StrUtil.isNotBlank(id)) {
-				vo.setId(id);
-			}
+            String id = route.getStr("routeId");
+            if (StrUtil.isNotBlank(id)) {
+                vo.setId(id);
+            }
 
-			String routeName = route.getStr("routeName");
-			if (StrUtil.isNotBlank(routeName)) {
-				vo.setRouteName(routeName);
-			}
+            String routeName = route.getStr("routeName");
+            if (StrUtil.isNotBlank(routeName)) {
+                vo.setRouteName(routeName);
+            }
 
-			JSONArray predicates = route.getJSONArray("predicates");
-			if (predicates != null) {
-				List<PredicateDefinition> predicateDefinitionList = predicates.toList(PredicateDefinition.class);
-				vo.setPredicates(predicateDefinitionList);
-			}
+            JSONArray predicates = route.getJSONArray("predicates");
+            if (predicates != null) {
+                List<PredicateDefinition> predicateDefinitionList = predicates.toList(PredicateDefinition.class);
+                vo.setPredicates(predicateDefinitionList);
+            }
 
-			JSONArray filters = route.getJSONArray("filters");
-			if (filters != null) {
-				List<FilterDefinition> filterDefinitionList = filters.toList(FilterDefinition.class);
-				vo.setFilters(filterDefinitionList);
-			}
+            JSONArray filters = route.getJSONArray("filters");
+            if (filters != null) {
+                List<FilterDefinition> filterDefinitionList = filters.toList(FilterDefinition.class);
+                vo.setFilters(filterDefinitionList);
+            }
 
-			Object uri = route.getStr("uri");
-			if (uri != null) {
-				vo.setUri(URI.create(String.valueOf(uri)));
-			}
+            Object uri = route.getStr("uri");
+            if (uri != null) {
+                vo.setUri(URI.create(String.valueOf(uri)));
+            }
 
-			Integer order = route.getInt("order");
-			if (order != null) {
-				vo.setOrder(order);
-			}
+            Integer order = route.getInt("order");
+            if (order != null) {
+                vo.setOrder(order);
+            }
 
-			Map<String, Object> metadataMap = route.getBean("metadata", Map.class);
-			if (metadataMap != null) {
-				vo.setMetadata(metadataMap);
-			}
+            Map<String, Object> metadataMap = route.getBean("metadata", Map.class);
+            if (metadataMap != null) {
+                vo.setMetadata(metadataMap);
+            }
 
-			// 逻辑删除 ，不直接更新避免危险！
-			this.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, id));
+            // 逻辑删除 ，不直接更新避免危险！
+            this.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, id));
 
-			// 插入生效路由
-			SysRouteConf routeConf = new SysRouteConf();
-			routeConf.setRouteId(vo.getId());
-			routeConf.setRouteName(vo.getRouteName());
-			routeConf.setFilters(JSONUtil.toJsonStr(vo.getFilters()));
-			routeConf.setPredicates(JSONUtil.toJsonStr(vo.getPredicates()));
-			routeConf.setSortOrder(vo.getOrder());
-			routeConf.setUri(vo.getUri().toString());
-			routeConf.setMetadata(JSONUtil.toJsonStr(vo.getMetadata()));
-			this.save(routeConf);
-			log.debug("更新网关路由结束 ");
-		}
-		catch (Exception e) {
-			log.error("路由配置解析失败", e);
-			// 抛出异常
-			throw new RuntimeException(e);
-		}
-		finally {
-			this.applicationEventPublisher.publishEvent(new DynamicRouteInitEvent(this));
-		}
-		return Mono.empty();
-	}
+            // 插入生效路由
+            SysRouteConf routeConf = new SysRouteConf();
+            routeConf.setRouteId(vo.getId());
+            routeConf.setRouteName(vo.getRouteName());
+            routeConf.setFilters(JSONUtil.toJsonStr(vo.getFilters()));
+            routeConf.setPredicates(JSONUtil.toJsonStr(vo.getPredicates()));
+            routeConf.setSortOrder(vo.getOrder());
+            routeConf.setUri(vo.getUri().toString());
+            routeConf.setMetadata(JSONUtil.toJsonStr(vo.getMetadata()));
+            this.save(routeConf);
+            log.debug("更新网关路由结束 ");
+        } catch (Exception e) {
+            log.error("路由配置解析失败", e);
+            // 抛出异常
+            throw new RuntimeException(e);
+        } finally {
+            this.applicationEventPublisher.publishEvent(new DynamicRouteInitEvent(this));
+        }
+        return Mono.empty();
+    }
+
+    /**
+     * 保存路由
+     *
+     * @param routeConf 路由配置
+     * @return {@link SysRouteConf }
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public SysRouteConf saveRoute(SysRouteConf routeConf) {
+        baseMapper.insert(routeConf);
+        this.applicationEventPublisher.publishEvent(new DynamicRouteInitEvent(this));
+        return routeConf;
+    }
 
 }

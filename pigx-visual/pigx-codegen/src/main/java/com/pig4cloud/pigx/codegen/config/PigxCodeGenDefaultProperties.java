@@ -73,4 +73,9 @@ public class PigxCodeGenDefaultProperties {
 	 */
 	private String generatorType = "0";
 
+	/**
+	 * 是否同步路由
+	 */
+	private String syncRoute = "1";
+
 }

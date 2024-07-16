@@ -113,6 +113,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-core</artifactId>
         </dependency>
+        <!-- 幂等插件使用 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-idempotent</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-configuration</groupId>
             <artifactId>commons-configuration</artifactId>

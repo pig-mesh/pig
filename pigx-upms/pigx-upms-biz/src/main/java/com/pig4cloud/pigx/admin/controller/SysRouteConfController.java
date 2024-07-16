@@ -77,4 +77,10 @@ public class SysRouteConfController {
         return R.ok(sysRouteConfService.addOrUpdateRoute(route));
     }
 
+    @SysLog("新增路由")
+    @PostMapping("/save")
+    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    public R saveRoute(@RequestBody SysRouteConf routeConf) {
+        return R.ok(sysRouteConfService.saveRoute(routeConf));
+    }
 }
