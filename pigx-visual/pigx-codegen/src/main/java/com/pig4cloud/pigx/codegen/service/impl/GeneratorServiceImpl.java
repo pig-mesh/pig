@@ -25,6 +25,7 @@ import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.codegen.config.PigxCodeGenDefaultProperties;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
@@ -34,6 +35,7 @@ import com.pig4cloud.pigx.codegen.service.*;
 import com.pig4cloud.pigx.codegen.util.GeneratorStyleEnum;
 import com.pig4cloud.pigx.codegen.util.VelocityKit;
 import com.pig4cloud.pigx.codegen.util.vo.GroupVO;
+import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -188,16 +190,17 @@ public class GeneratorServiceImpl implements GeneratorService {
         Map<String, Object> dataModel = getDataModel(genTable.getId());
 
         // 获取模板信息，Lambda 表达式简化代码
-        GenTemplateEntity genTemplateEntity = Optional
-                .ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_JSON.getTemplateId()))
-                .orElseThrow(() -> new Exception("模板不存在"));
-
+        GenTemplateEntity genTemplateEntity = genTemplateService.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
+                        .likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_JSON.getDesc())
+                        .orderByDesc(GenTemplateEntity::getCreateTime)
+                )
+                .orElseThrow(() -> new CheckedException("模板不存在"));
         // 渲染模板并返回结果
         return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
     }
 
     /**
-     * 获取表单设计器需要的 JSON 方法
+     * 获取sfc vue
      *
      * @param id 表单配置 ID
      * @return JSON 字符串
@@ -220,10 +223,12 @@ public class GeneratorServiceImpl implements GeneratorService {
         // 遍历 widgetList
         dataModel.put("resultMap", resultMap);
 
-        // 获取模板信息
-        GenTemplateEntity genTemplateEntity = Optional
-                .ofNullable(genTemplateService.getById(GeneratorStyleEnum.VFORM_FORM.getTemplateId()))
-                .orElseThrow(() -> new Exception("模板不存在"));
+        // 获取模板信息 查询模板中最新的 vform.json 文件
+        GenTemplateEntity genTemplateEntity = genTemplateService.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
+                        .likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_VUE.getDesc())
+                        .orderByDesc(GenTemplateEntity::getCreateTime)
+                )
+                .orElseThrow(() -> new CheckedException("模板不存在"));
 
         // 渲染模板并返回结果
         return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);

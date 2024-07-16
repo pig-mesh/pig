@@ -25,6 +25,7 @@ import cn.hutool.json.JSONUtil;
 import cn.smallbun.screw.core.constant.DefaultConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.codegen.config.PigxCodeGenDefaultProperties;
 import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pigx.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pigx.codegen.entity.GenTemplateGroupEntity;
@@ -40,7 +41,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,6 +58,8 @@ import java.util.Set;
 public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTemplateEntity>
         implements GenTemplateService {
 
+    private final PigxCodeGenDefaultProperties defaultProperties;
+
     private final GenTemplateGroupMapper genTemplateGroupMapper;
 
     private final GenGroupMapper genGroupMapper;
@@ -68,12 +73,10 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R onlineUpdate() {
-        // 1. 获取 config.json + version 文件
-        String configFile = getCGTMFile("config.json");
-        String versionFile = getCGTMFile("VERSION");
-
-        // 解析 config.json
-        JSONObject configJsonObj = JSONUtil.parseObj(configFile);
+        // 获取 config.json 和 version 文件
+        Map<String, Object> configAndVersion = getConfigAndVersion();
+        JSONObject configJsonObj = (JSONObject) configAndVersion.get("configJsonObj");
+        String versionFile = (String) configAndVersion.get("versionFile");
 
         // 查询出全部的模板组名称
         Set<String> cgtmConfigGroupNames = configJsonObj.keySet();
@@ -90,9 +93,57 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
             // 插入新的模板组（名称 + VERSION）, 再解析 config.json group 里面的所有模板
             insertTemplateFiles(versionFile, configJsonObj, cgtmConfigGroupName);
         }
-
         return R.ok("更新成功，版本号:" + versionFile);
     }
+
+    /**
+     * 检查版本
+     *
+     * @return {@link R }
+     */
+    public R checkVersion() {
+        // 关闭在线更新提示
+        if (!defaultProperties.isAutoCheckVersion()) {
+            return R.ok(true);
+        }
+
+        // 获取 config.json 和 version 文件
+        Map<String, Object> configAndVersion = getConfigAndVersion();
+        JSONObject configJsonObj = (JSONObject) configAndVersion.get("configJsonObj");
+        String versionFile = (String) configAndVersion.get("versionFile");
+
+        // 查询出全部的模板组名称
+        boolean exists = false;
+        Set<String> cgtmConfigGroupNames = configJsonObj.keySet();
+        for (String cgtmConfigGroupName : cgtmConfigGroupNames) {
+            exists = genGroupMapper.exists(Wrappers.<GenGroupEntity>lambdaQuery()
+                    .eq(GenGroupEntity::getGroupName, cgtmConfigGroupName + versionFile));
+        }
+
+        return R.ok(exists);
+    }
+
+    /**
+     * 获取配置和版本
+     *
+     * @return {@link Map }<{@link String }, {@link Object }>
+     */
+    private Map<String, Object> getConfigAndVersion() {
+        // 获取 config.json 和 version 文件
+        String configFile = getCGTMFile("config.json");
+        String versionFile = getCGTMFile("VERSION");
+
+        // 解析 config.json
+        JSONObject configJsonObj = JSONUtil.parseObj(configFile);
+
+        // 将 configJsonObj 和 versionFile 放入 Map 中
+        Map<String, Object> configAndVersion = new HashMap<>();
+        configAndVersion.put("configJsonObj", configJsonObj);
+        configAndVersion.put("versionFile", versionFile);
+
+        return configAndVersion;
+    }
+
 
     /**
      * 插入模板文件

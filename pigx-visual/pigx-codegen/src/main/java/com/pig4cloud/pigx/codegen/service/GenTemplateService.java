@@ -29,6 +29,12 @@ import com.pig4cloud.pigx.common.core.util.R;
  */
 public interface GenTemplateService extends IService<GenTemplateEntity> {
 
+    /**
+     * 检查版本
+     * @return {@link R }
+     */
+    R checkVersion();
+
 
     /**
      * 在线更新

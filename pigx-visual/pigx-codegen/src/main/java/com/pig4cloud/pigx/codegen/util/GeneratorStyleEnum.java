@@ -12,9 +12,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum GeneratorStyleEnum {
 
-	VFORM_JSON(1L, "element-plus 风格"),
+	VFORM_JSON(1L, "vform.json"),
 
-	VFORM_FORM(2L, "uview 风格");
+	VFORM_VUE(2L, "vform.vue");
 
 	/**
 	 * 对应模板ID
