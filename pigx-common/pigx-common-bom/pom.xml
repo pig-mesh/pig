@@ -50,7 +50,8 @@
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <anyline.version>8.7.2-jdk17-20240530</anyline.version>
+        <anyline.version>8.7.2-jdk17-20240715</anyline.version>
+        <sms4j.version>3.2.1</sms4j.version>
     </properties>
 
     <dependencyManagement>
@@ -396,6 +397,12 @@
                 <groupId>org.flowable</groupId>
                 <artifactId>flowable-spring-boot-starter-process</artifactId>
                 <version>${flowable.version}</version>
+            </dependency>
+            <!-- 短信发送工具类 -->
+            <dependency>
+                <groupId>org.dromara.sms4j</groupId>
+                <artifactId>sms4j-spring-boot-starter</artifactId>
+                <version>${sms4j.version} </version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
