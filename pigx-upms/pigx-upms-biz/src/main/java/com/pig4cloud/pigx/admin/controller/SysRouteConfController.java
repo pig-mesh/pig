@@ -28,6 +28,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -43,33 +44,37 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysRouteConfController {
 
-	private final SysRouteConfService sysRouteConfService;
+    private final SysRouteConfService sysRouteConfService;
 
-	/**
-	 * 获取当前定义的路由信息
-	 * @return
-	 */
-	@GetMapping
-	public R listRoutes(@RequestParam(required = false) String routeId) {
-		return R.ok(sysRouteConfService.list(Wrappers.<SysRouteConf>lambdaQuery()
-			.eq(StrUtil.isNotBlank(routeId), SysRouteConf::getRouteId, routeId)));
-	}
+    /**
+     * 获取当前定义的路由信息
+     *
+     * @return
+     */
+    @GetMapping
+    public R listRoutes(@RequestParam(required = false) String routeId) {
+        return R.ok(sysRouteConfService.list(Wrappers.<SysRouteConf>lambdaQuery()
+                .eq(StrUtil.isNotBlank(routeId), SysRouteConf::getRouteId, routeId)));
+    }
 
-	@DeleteMapping("/{routeId}")
-	public R deleteRoute(@PathVariable String routeId) {
-		return R
-			.ok(sysRouteConfService.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, routeId)));
-	}
+    @DeleteMapping("/{routeId}")
+    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    public R deleteRoute(@PathVariable String routeId) {
+        return R
+                .ok(sysRouteConfService.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, routeId)));
+    }
 
-	/**
-	 * 新增修改路由
-	 * @param route 路由定义
-	 * @return success
-	 */
-	@SysLog("新增修改路由")
-	@PostMapping
-	public R addOrUpdateRoute(@RequestBody JSONObject route) {
-		return R.ok(sysRouteConfService.addOrUpdateRoute(route));
-	}
+    /**
+     * 新增修改路由
+     *
+     * @param route 路由定义
+     * @return success
+     */
+    @SysLog("新增修改路由")
+    @PostMapping
+    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    public R addOrUpdateRoute(@RequestBody JSONObject route) {
+        return R.ok(sysRouteConfService.addOrUpdateRoute(route));
+    }
 
 }
