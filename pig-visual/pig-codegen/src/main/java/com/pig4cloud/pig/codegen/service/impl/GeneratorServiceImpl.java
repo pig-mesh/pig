@@ -185,6 +185,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 		Map<String, Object> dataModel = new HashMap<>();
 
 		// 填充数据模型
+		dataModel.put("opensource", true);
 		dataModel.put("isSpringBoot3", isSpringBoot3());
 		dataModel.put("dbType", table.getDbType());
 		dataModel.put("package", table.getPackageName());
