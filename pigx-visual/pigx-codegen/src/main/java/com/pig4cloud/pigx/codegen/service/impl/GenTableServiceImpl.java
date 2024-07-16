@@ -17,18 +17,15 @@
 package com.pig4cloud.pigx.codegen.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.io.resource.ClassPathResource;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.codegen.config.PigxCodeGenDefaultProperties;
 import com.pig4cloud.pigx.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
 import com.pig4cloud.pigx.codegen.entity.GenTableColumnEntity;
@@ -36,7 +33,10 @@ import com.pig4cloud.pigx.codegen.mapper.GenTableMapper;
 import com.pig4cloud.pigx.codegen.service.GenGroupService;
 import com.pig4cloud.pigx.codegen.service.GenTableColumnService;
 import com.pig4cloud.pigx.codegen.service.GenTableService;
-import com.pig4cloud.pigx.codegen.util.*;
+import com.pig4cloud.pigx.codegen.util.AutoFillEnum;
+import com.pig4cloud.pigx.codegen.util.BoolFillEnum;
+import com.pig4cloud.pigx.codegen.util.CommonColumnFiledEnum;
+import com.pig4cloud.pigx.codegen.util.GenKit;
 import lombok.RequiredArgsConstructor;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Database;
@@ -48,7 +48,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * 列属性
@@ -60,25 +63,12 @@ import java.util.*;
 @RequiredArgsConstructor
 public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> implements GenTableService {
 
-	/**
-	 * 默认配置信息
-	 */
-	private static final String CONFIG_PATH = "template/config.json";
+	private final PigxCodeGenDefaultProperties defaultProperties;
 
 	private final GenTableColumnService columnService;
 
 	private final GenGroupService genGroupService;
 
-	/**
-	 * 获取配置信息
-	 * @return map
-	 */
-	@Override
-	public Map<String, Object> getGeneratorConfig() {
-		ClassPathResource classPathResource = new ClassPathResource(CONFIG_PATH);
-		JSONObject jsonObject = JSONUtil.parseObj(IoUtil.readUtf8(classPathResource.getStream()));
-		return jsonObject.getRaw();
-	}
 
 	/**
 	 * 查询表ddl 语句
@@ -185,24 +175,20 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		Table tableMetadata = service.metadata().table(tableName);
 		Database database = service.metadata().database();
 		// 获取默认表配置信息 （）
-		Map<String, Object> generatorConfig = getGeneratorConfig();
 
-		JSONObject project = (JSONObject) generatorConfig.get("project");
-		JSONObject developer = (JSONObject) generatorConfig.get("developer");
-
-		table.setPackageName(project.getStr("packageName"));
-		table.setVersion(project.getStr("version"));
-		table.setBackendPath(project.getStr("backendPath"));
-		table.setFrontendPath(project.getStr("frontendPath"));
-		table.setAuthor(developer.getStr("author"));
-		table.setEmail(developer.getStr("email"));
+		table.setPackageName(defaultProperties.getPackageName());
+		table.setVersion(defaultProperties.getVersion());
+		table.setBackendPath(defaultProperties.getBackendPath());
+		table.setFrontendPath(defaultProperties.getFrontendPath());
+		table.setAuthor(defaultProperties.getAuthor());
+		table.setEmail(defaultProperties.getEmail());
 		table.setTableName(tableName);
 		table.setDsName(dsName);
 		table.setTableComment(tableMetadata.getComment());
 
 		table.setDbType(database.getDatabase().title());
-		table.setFormLayout(FormLayoutEnum.TWO.getValue());
-		table.setGeneratorType(GeneratorTypeEnum.ZIP_DOWNLOAD.getValue());
+		table.setFormLayout(defaultProperties.getFormLayout());
+		table.setGeneratorType(defaultProperties.getGeneratorType());
 		table.setClassName(NamingCase.toPascalCase(tableName));
 		// 模块名称默认为 admin
 		table.setModuleName("admin");

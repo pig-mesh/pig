@@ -24,7 +24,6 @@ import com.pig4cloud.pigx.codegen.entity.GenTable;
 import org.anyline.metadata.Table;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 列属性
@@ -34,16 +33,11 @@ import java.util.Map;
  */
 public interface GenTableService extends IService<GenTable> {
 
-    /**
-     * 获取默认配置信息
-     *
-     * @return map
-     */
-    Map<String, Object> getGeneratorConfig();
 
     /**
      * 查询对应数据源的表
-     * @param page 分页信息
+     *
+     * @param page  分页信息
      * @param table 查询条件
      * @return 表
      */
@@ -51,7 +45,8 @@ public interface GenTableService extends IService<GenTable> {
 
     /**
      * 查询表信息（列），然后插入到中间表中
-     * @param dsName 数据源
+     *
+     * @param dsName    数据源
      * @param tableName 表名
      * @return GenTable
      */
@@ -60,7 +55,7 @@ public interface GenTableService extends IService<GenTable> {
     /**
      * 查询表ddl 语句
      *
-     * @param dsName 数据源名称
+     * @param dsName    数据源名称
      * @param tableName 表名称
      * @return ddl 语句
      * @throws Exception
@@ -69,6 +64,7 @@ public interface GenTableService extends IService<GenTable> {
 
     /**
      * 查询数据源里面的全部表
+     *
      * @param dsName 数据源名称
      * @return table
      */
@@ -76,9 +72,11 @@ public interface GenTableService extends IService<GenTable> {
 
     /**
      * 查询表的全部字段
-     * @param dsName 数据源
+     *
+     * @param dsName    数据源
      * @param tableName 表名称
      * @return column
      */
     List<String> queryTableColumn(String dsName, String tableName);
+
 }

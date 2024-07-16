@@ -25,6 +25,7 @@ import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
+import com.pig4cloud.pigx.codegen.config.PigxCodeGenDefaultProperties;
 import com.pig4cloud.pigx.codegen.entity.GenFormConf;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
 import com.pig4cloud.pigx.codegen.entity.GenTableColumnEntity;
@@ -55,6 +56,8 @@ import java.util.zip.ZipOutputStream;
 @RequiredArgsConstructor
 public class GeneratorServiceImpl implements GeneratorService {
 
+    private final PigxCodeGenDefaultProperties defaultProperties;
+
     private final GenTableColumnService columnService;
 
     private final GenFormConfService formConfService;
@@ -84,10 +87,8 @@ public class GeneratorServiceImpl implements GeneratorService {
         GroupVO groupVo = genGroupService.getGroupVoById(style);
         List<GenTemplateEntity> templateList = groupVo.getTemplateList();
 
-        Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
-        JSONObject project = (JSONObject) generatorConfig.get("project");
-        String frontendPath = project.getStr("frontendPath");
-        String backendPath = project.getStr("backendPath");
+        String frontendPath = defaultProperties.getFrontendPath();
+        String backendPath = defaultProperties.getBackendPath();
 
         for (GenTemplateEntity template : templateList) {
             String templateCode = template.getTemplateCode();
@@ -124,10 +125,8 @@ public class GeneratorServiceImpl implements GeneratorService {
         // 获取模板列表，Lambda 表达式简化代码
         List<GenTemplateEntity> templateList = genGroupService.getGroupVoById(style).getTemplateList();
 
-        Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
-        JSONObject project = (JSONObject) generatorConfig.get("project");
-        String frontendPath = project.getStr("frontendPath");
-        String backendPath = project.getStr("backendPath");
+        String frontendPath = defaultProperties.getFrontendPath();
+        String backendPath = defaultProperties.getBackendPath();
 
         return templateList.stream().map(template -> {
             String templateCode = template.getTemplateCode();
