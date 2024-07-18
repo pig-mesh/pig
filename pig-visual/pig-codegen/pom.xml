@@ -16,7 +16,7 @@
 
     <properties>
         <screw.version>0.0.6</screw.version>
-        <anyline.version>8.7.2-20240717</anyline.version>
+        <anyline.version>8.7.2-20240718</anyline.version>
         <configuration.version>1.10</configuration.version>
     </properties>
 
