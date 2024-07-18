@@ -1,0 +1,26 @@
+version: 2.1
+
+executors:
+  maven-executor:
+    docker:
+      - image: circleci/openjdk:17-jdk
+
+jobs:
+  build:
+    executor: maven-executor
+    steps:
+      - checkout
+      - run:
+          name: Install Maven
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y maven
+      - run:
+          name: Build with Maven
+          command: mvn clean install -DskipTests -Pcloud
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
