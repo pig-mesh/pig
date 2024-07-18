@@ -11,7 +11,8 @@
       "matchPackagePatterns": [
         "^com.amazonaws:aws-java-sdk-s3$",
         "^io.springboot:knife4j-openapi3-ui$",
-        "^com.alibaba:fastjson$"
+        "^com.alibaba:fastjson$",
+        "^org.anyline:anyline$"
       ],
       "enabled": false
     }
