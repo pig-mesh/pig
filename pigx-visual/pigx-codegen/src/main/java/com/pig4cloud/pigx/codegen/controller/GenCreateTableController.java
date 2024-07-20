@@ -25,12 +25,12 @@ import com.pig4cloud.pigx.codegen.entity.GenCreateTable;
 import com.pig4cloud.pigx.codegen.service.GenCreateTableService;
 import com.pig4cloud.pigx.codegen.util.vo.GenCreateTableVO;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -82,7 +82,7 @@ public class GenCreateTableController {
 	 */
 	@Operation(summary = "新增自动创建表管理", description = "新增自动创建表管理")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('codegen_table_add')")
+	@HasPermission("codegen_table_add")
 	public R save(@RequestBody GenCreateTableVO createTableVO) {
 		// 切换目标数据源
 		DynamicDataSourceContextHolder.push(createTableVO.getDsName());
@@ -100,7 +100,7 @@ public class GenCreateTableController {
 	 */
 	@Operation(summary = "修改自动创建表管理", description = "修改自动创建表管理")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('codegen_table_add')")
+	@HasPermission("codegen_table_add")
 	public R updateById(@RequestBody GenCreateTable createTable) {
 		return R.ok(createTableService.updateById(createTable));
 	}
@@ -112,7 +112,7 @@ public class GenCreateTableController {
 	 */
 	@Operation(summary = "通过id删除自动创建表管理", description = "通过id删除自动创建表管理")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('codegen_table_add')")
+	@HasPermission("codegen_table_add")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(createTableService.removeById(id));
 	}
@@ -133,7 +133,7 @@ public class GenCreateTableController {
 	 */
 	@Operation(summary = "通过ids删除", description = "通过ids删除")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('codegen_table_add')")
+	@HasPermission("codegen_table_add")
 	public R removeById(@RequestBody List<Long> ids) {
 		return R.ok(createTableService.removeByIds(ids));
 	}

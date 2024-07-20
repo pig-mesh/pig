@@ -19,9 +19,9 @@ package com.pig4cloud.pigx.mp.controller;
 import cn.hutool.json.JSONObject;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.mp.service.WxMenuService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -54,7 +54,7 @@ public class WxMenuController {
 	 */
 	@SysLog("新增微信菜单")
 	@PostMapping("/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxmenu_add')")
+	@HasPermission("mp_wxmenu_add")
 	public R save(@RequestBody JSONObject wxMenu, @PathVariable String appId) {
 		return R.ok(wxMenuService.save(wxMenu, appId));
 	}
@@ -66,13 +66,13 @@ public class WxMenuController {
 	 */
 	@SysLog("发布微信菜单")
 	@PutMapping("/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxmenu_push')")
+	@HasPermission("mp_wxmenu_push")
 	public R updateById(@PathVariable String appId) {
 		return wxMenuService.push(appId);
 	}
 
 	@DeleteMapping("/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxmenu_del')")
+	@HasPermission("mp_wxmenu_del")
 	public R delete(@PathVariable("appId") String appId) {
 		return wxMenuService.delete(appId);
 	}

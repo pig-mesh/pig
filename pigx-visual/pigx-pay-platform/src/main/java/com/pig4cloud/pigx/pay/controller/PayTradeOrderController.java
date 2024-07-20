@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.pay.entity.PayTradeOrder;
 import com.pig4cloud.pigx.pay.service.PayTradeOrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class PayTradeOrderController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('pay_trade_view')")
+	@HasPermission("pay_trade_view")
 	public R getpayTradeOrderPage(Page page, PayTradeOrder payTradeOrder) {
 		LambdaQueryWrapper<PayTradeOrder> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(payTradeOrder.getOrderId() != null, PayTradeOrder::getOrderId, payTradeOrder.getOrderId());
@@ -75,7 +75,7 @@ public class PayTradeOrderController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{orderId}")
-	@PreAuthorize("@pms.hasPermission('pay_trade_view')")
+	@HasPermission("pay_trade_view")
 	public R getById(@PathVariable("orderId") Long orderId) {
 		return R.ok(payTradeOrderService.getById(orderId));
 	}
@@ -88,7 +88,7 @@ public class PayTradeOrderController {
 	@Operation(summary = "新增支付订单表", description = "新增支付订单表")
 	@SysLog("新增支付订单表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_trade_add')")
+	@HasPermission("pay_trade_add")
 	public R save(@RequestBody PayTradeOrder payTradeOrder) {
 		return R.ok(payTradeOrderService.save(payTradeOrder));
 	}
@@ -101,7 +101,7 @@ public class PayTradeOrderController {
 	@Operation(summary = "修改支付订单表", description = "修改支付订单表")
 	@SysLog("修改支付订单表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_trade_edit')")
+	@HasPermission("pay_trade_edit")
 	public R updateById(@RequestBody PayTradeOrder payTradeOrder) {
 		return R.ok(payTradeOrderService.updateById(payTradeOrder));
 	}
@@ -114,7 +114,7 @@ public class PayTradeOrderController {
 	@Operation(summary = "通过id删除支付订单表", description = "通过id删除支付订单表")
 	@SysLog("通过id删除支付订单表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('pay_trade_del')")
+	@HasPermission("pay_trade_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(payTradeOrderService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -126,7 +126,7 @@ public class PayTradeOrderController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('pay_trade_export')")
+	@HasPermission("pay_trade_export")
 	public List<PayTradeOrder> export(PayTradeOrder payTradeOrder) {
 		return payTradeOrderService.list(Wrappers.query(payTradeOrder));
 	}

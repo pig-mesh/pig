@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.pay.entity.PayRefundOrder;
 import com.pig4cloud.pigx.pay.service.PayRefundOrderService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class PayRefundOrderController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('pay_refund_view')")
+	@HasPermission("pay_refund_view")
 	public R getpayRefundOrderPage(Page page, PayRefundOrder payRefundOrder) {
 		LambdaQueryWrapper<PayRefundOrder> wrapper = Wrappers.lambdaQuery();
 		wrapper.eq(payRefundOrder.getRefundOrderId() != null, PayRefundOrder::getRefundOrderId,
@@ -78,7 +78,7 @@ public class PayRefundOrderController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{refundOrderId}")
-	@PreAuthorize("@pms.hasPermission('pay_refund_view')")
+	@HasPermission("pay_refund_view")
 	public R getById(@PathVariable("refundOrderId") Long refundOrderId) {
 		return R.ok(payRefundOrderService.getById(refundOrderId));
 	}
@@ -91,7 +91,7 @@ public class PayRefundOrderController {
 	@Operation(summary = "新增退款订单表", description = "新增退款订单表")
 	@SysLog("新增退款订单表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_refund_add')")
+	@HasPermission("pay_refund_add")
 	public R save(@RequestBody PayRefundOrder payRefundOrder) {
 		return R.ok(payRefundOrderService.refund(payRefundOrder));
 	}
@@ -104,7 +104,7 @@ public class PayRefundOrderController {
 	@Operation(summary = "修改退款订单表", description = "修改退款订单表")
 	@SysLog("修改退款订单表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_refund_edit')")
+	@HasPermission("pay_refund_edit")
 	public R updateById(@RequestBody PayRefundOrder payRefundOrder) {
 		return R.ok(payRefundOrderService.updateById(payRefundOrder));
 	}
@@ -117,7 +117,7 @@ public class PayRefundOrderController {
 	@Operation(summary = "通过id删除退款订单表", description = "通过id删除退款订单表")
 	@SysLog("通过id删除退款订单表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('pay_refund_del')")
+	@HasPermission("pay_refund_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(payRefundOrderService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -129,7 +129,7 @@ public class PayRefundOrderController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('pay_refund_export')")
+	@HasPermission("pay_refund_export")
 	public List<PayRefundOrder> export(PayRefundOrder payRefundOrder) {
 		return payRefundOrderService.list(Wrappers.query(payRefundOrder));
 	}

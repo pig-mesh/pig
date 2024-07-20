@@ -12,6 +12,7 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -20,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class SysSensitiveWordController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_view')")
+    @HasPermission("admin_sysSensitiveWord_view")
     public R getSysSensitiveWordPage(@ParameterObject Page page, @ParameterObject SysSensitiveWordEntity sysSensitiveWord) {
         LambdaQueryWrapper<SysSensitiveWordEntity> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StrUtil.isNotBlank(sysSensitiveWord.getSensitiveWord())
@@ -77,7 +77,7 @@ public class SysSensitiveWordController {
      */
     @Operation(summary = "通过id查询", description = "通过id查询")
     @GetMapping("/details")
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_view')")
+    @HasPermission("admin_sysSensitiveWord_view")
     public R getById(@ParameterObject SysSensitiveWordEntity sysSensitiveWord) {
         return R.ok(sysSensitiveWordService.getOne(Wrappers.lambdaQuery(sysSensitiveWord), false));
     }
@@ -91,7 +91,7 @@ public class SysSensitiveWordController {
     @Operation(summary = "新增敏感词", description = "新增敏感词")
     @SysLog("新增敏感词")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_add')")
+    @HasPermission("admin_sysSensitiveWord_add")
     public R save(@RequestBody SysSensitiveWordEntity sysSensitiveWord) {
         return R.ok(sysSensitiveWordService.saveSensitive(sysSensitiveWord));
     }
@@ -105,7 +105,7 @@ public class SysSensitiveWordController {
     @Operation(summary = "修改敏感词", description = "修改敏感词")
     @SysLog("修改敏感词")
     @PutMapping
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_edit')")
+    @HasPermission("admin_sysSensitiveWord_edit")
     public R updateById(@RequestBody SysSensitiveWordEntity sysSensitiveWord) {
         sysSensitiveWordService.updateById(sysSensitiveWord);
         redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
@@ -121,7 +121,7 @@ public class SysSensitiveWordController {
     @Operation(summary = "查询敏感词", description = "查询敏感词")
     @SysLog("查询敏感词")
     @PostMapping("/match")
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_del')")
+    @HasPermission("admin_sysSensitiveWord_del")
     public R match(@RequestBody SysSensitiveWordEntity sysSensitiveWord) {
         return R.ok(sysSensitiveWordService.matchSensitiveWord(sysSensitiveWord));
     }
@@ -135,7 +135,7 @@ public class SysSensitiveWordController {
     @Operation(summary = "通过id删除敏感词", description = "通过id删除敏感词")
     @SysLog("通过id删除敏感词")
     @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_del')")
+    @HasPermission("admin_sysSensitiveWord_del")
     public R removeById(@RequestBody Long[] ids) {
         sysSensitiveWordService.removeBatchByIds(CollUtil.toList(ids));
         redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
@@ -152,7 +152,7 @@ public class SysSensitiveWordController {
      */
     @ResponseExcel
     @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_export')")
+    @HasPermission("admin_sysSensitiveWord_export")
     public List<SysSensitiveWordEntity> export(SysSensitiveWordEntity sysSensitiveWord, Long[] ids) {
         return sysSensitiveWordService.list(Wrappers.lambdaQuery(sysSensitiveWord).in(ArrayUtil.isNotEmpty(ids), SysSensitiveWordEntity::getSensitiveId, ids));
     }
@@ -164,7 +164,7 @@ public class SysSensitiveWordController {
      */
     @Operation(summary = "刷新敏感词缓存", description = "刷新敏感词缓存")
     @GetMapping("/refresh")
-    @PreAuthorize("@pms.hasPermission('admin_sysSensitiveWord_del')")
+    @HasPermission("admin_sysSensitiveWord_del")
     public R refresh() {
         redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
         return R.ok();

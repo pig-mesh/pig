@@ -27,12 +27,12 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -117,7 +117,7 @@ public class AppRoleController {
 	@Operation(summary = "新增app角色表", description = "新增app角色表")
 	@SysLog("新增app角色表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('app_approle_add')")
+	@HasPermission("app_approle_add")
 	public R save(@RequestBody AppRole appRole) {
 		return R.ok(appRoleService.save(appRole));
 	}
@@ -130,7 +130,7 @@ public class AppRoleController {
 	@Operation(summary = "修改app角色表", description = "修改app角色表")
 	@SysLog("修改app角色表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('app_approle_edit')")
+	@HasPermission("app_approle_edit")
 	public R updateById(@RequestBody AppRole appRole) {
 		return R.ok(appRoleService.updateById(appRole));
 	}
@@ -143,7 +143,7 @@ public class AppRoleController {
 	@Operation(summary = "通过ids批量删除app角色表", description = "通过ids批量删除app角色表")
 	@SysLog("通过ids批量删除app角色表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('app_approle_del')")
+	@HasPermission("app_approle_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(appRoleService.deleteRoleByIds(ids));
 	}
@@ -155,7 +155,7 @@ public class AppRoleController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('app_approle_export')")
+	@HasPermission("app_approle_export")
 	public List<AppRole> export(AppRole appRole) {
 		return appRoleService.list(Wrappers.query(appRole));
 	}
@@ -167,7 +167,7 @@ public class AppRoleController {
 	 * @return ok fail
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('app_approle_export')")
+	@HasPermission("app_approle_export")
 	public R importRole(@RequestExcel List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return appRoleService.importRole(excelVOList, bindingResult);
 	}

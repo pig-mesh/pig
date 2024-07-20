@@ -15,6 +15,7 @@ import com.pig4cloud.pigx.admin.service.SysMessageService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -23,7 +24,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +52,7 @@ public class SysMessageController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@pms.hasPermission('sys_message_view')")
+    @HasPermission("sys_message_view")
     public R getSysMessagePage(@ParameterObject Page page, @ParameterObject SysMessageEntity sysMessage) {
         LambdaQueryWrapper<SysMessageEntity> wrapper = Wrappers.lambdaQuery();
         wrapper.like(StrUtil.isNotBlank(sysMessage.getTitle()), SysMessageEntity::getTitle, sysMessage.getTitle());
@@ -67,7 +67,7 @@ public class SysMessageController {
      */
     @Operation(summary = "通过id查询", description = "通过id查询")
     @GetMapping("/{id}")
-    @PreAuthorize("@pms.hasPermission('sys_message_view')")
+    @HasPermission("sys_message_view")
     public R getById(@PathVariable("id") Long id) {
         return R.ok(sysMessageService.getMessage(id));
     }
@@ -81,7 +81,7 @@ public class SysMessageController {
     @Operation(summary = "新增站内信息", description = "新增站内信息")
     @SysLog("新增站内信息")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_add')")
+    @HasPermission("sys_message_add")
     public R save(@RequestBody SysMessageVO sysMessage) {
         return R.ok(sysMessageService.saveOrUpdateMessage(sysMessage));
     }
@@ -95,7 +95,7 @@ public class SysMessageController {
     @Operation(summary = "修改站内信息", description = "修改站内信息")
     @SysLog("修改站内信息")
     @PutMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_edit')")
+    @HasPermission("sys_message_edit")
     public R updateById(@RequestBody SysMessageVO sysMessage) {
         return R.ok(sysMessageService.saveOrUpdateMessage(sysMessage));
     }
@@ -109,7 +109,7 @@ public class SysMessageController {
     @Operation(summary = "通过id删除站内信息", description = "通过id删除站内信息")
     @SysLog("通过id删除站内信息")
     @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_del')")
+    @HasPermission("sys_message_del")
     public R removeById(@RequestBody Long[] ids) {
         return R.ok(sysMessageService.removeBatchByIds(CollUtil.toList(ids)));
     }
@@ -123,7 +123,7 @@ public class SysMessageController {
      */
     @ResponseExcel
     @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('sys_message_export')")
+    @HasPermission("sys_message_export")
     public List<SysMessageEntity> export(SysMessageEntity sysMessage, Long[] ids) {
         return sysMessageService
                 .list(Wrappers.lambdaQuery(sysMessage).in(ArrayUtil.isNotEmpty(ids), SysMessageEntity::getId, ids));
@@ -138,7 +138,7 @@ public class SysMessageController {
     @Operation(summary = "发送站内信息", description = "发送站内信息")
     @SysLog("发送站内信息")
     @PostMapping("/send")
-    @PreAuthorize("@pms.hasPermission('sys_message_add')")
+    @HasPermission("sys_message_add")
     public R send(Long id) {
         return R.ok(sysMessageService.sendMessage(id));
     }

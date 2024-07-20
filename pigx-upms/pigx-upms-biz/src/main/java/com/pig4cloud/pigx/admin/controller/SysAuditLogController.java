@@ -26,6 +26,7 @@ import com.pig4cloud.pigx.admin.service.SysAuditLogService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -33,7 +34,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -96,7 +96,7 @@ public class SysAuditLogController {
 	@Operation(summary = "通过id删除审计记录表", description = "通过id删除审计记录表")
 	@SysLog("通过id删除审计记录表")
 	@DeleteMapping("/delete")
-	@PreAuthorize("@pms.hasPermission('sys_audit_del')")
+	@HasPermission("sys_audit_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysAuditLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -108,7 +108,7 @@ public class SysAuditLogController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_audit_export')")
+	@HasPermission("sys_audit_export")
 	public List<SysAuditLog> export(SysAuditLog sysAuditLog, Long[] ids) {
 		return sysAuditLogService
 			.list(Wrappers.lambdaQuery(sysAuditLog).in(ArrayUtil.isNotEmpty(ids), SysAuditLog::getId, ids));

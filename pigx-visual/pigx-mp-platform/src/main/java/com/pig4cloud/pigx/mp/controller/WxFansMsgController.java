@@ -21,11 +21,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.mp.entity.WxMsg;
 import com.pig4cloud.pigx.mp.service.WxMsgService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -72,7 +72,7 @@ public class WxFansMsgController {
 	 * @return R
 	 */
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxmsg_add')")
+	@HasPermission("mp_wxmsg_add")
 	public R save(@RequestBody WxMsg wxMsg) {
 		return wxMsgService.saveAndPushMsg(wxMsg);
 	}
@@ -83,7 +83,7 @@ public class WxFansMsgController {
 	 * @return R
 	 */
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxmsg_edit')")
+	@HasPermission("mp_wxmsg_edit")
 	public R updateById(@RequestBody WxMsg wxMsg) {
 		return R.ok(wxMsgService.updateById(wxMsg));
 	}
@@ -94,7 +94,7 @@ public class WxFansMsgController {
 	 * @return R
 	 */
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('mp_wxmsg_del')")
+	@HasPermission("mp_wxmsg_del")
 	public R removeById(@PathVariable String id) {
 		return R.ok(wxMsgService.removeById(id));
 	}

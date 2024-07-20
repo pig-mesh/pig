@@ -28,6 +28,7 @@ import com.ijpay.core.kit.WxPayKit;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
 import com.pig4cloud.pigx.pay.entity.PayNotifyRecord;
@@ -36,15 +37,14 @@ import com.pig4cloud.pigx.pay.service.PayNotifyRecordService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +78,7 @@ public class PayNotifyRecordController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('pay_record_view')")
+	@HasPermission("pay_record_view")
 	public R getpayNotifyRecordPage(Page page, PayNotifyRecord payNotifyRecord) {
 		LambdaQueryWrapper<PayNotifyRecord> wrapper = Wrappers.lambdaQuery();
 		wrapper.eq(StrUtil.isNotBlank(payNotifyRecord.getNotifyId()), PayNotifyRecord::getNotifyId,
@@ -95,7 +95,7 @@ public class PayNotifyRecordController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('pay_record_view')")
+	@HasPermission("pay_record_view")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(payNotifyRecordService.getById(id));
 	}
@@ -120,7 +120,7 @@ public class PayNotifyRecordController {
 	@Operation(summary = "修改通知记录日志表", description = "修改通知记录日志表")
 	@SysLog("修改通知记录日志表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_record_edit')")
+	@HasPermission("pay_record_edit")
 	public R updateById(@RequestBody PayNotifyRecord payNotifyRecord) {
 		return R.ok(payNotifyRecordService.updateById(payNotifyRecord));
 	}
@@ -133,7 +133,7 @@ public class PayNotifyRecordController {
 	@Operation(summary = "通过id删除通知记录日志表", description = "通过id删除通知记录日志表")
 	@SysLog("通过id删除通知记录日志表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('pay_record_del')")
+	@HasPermission("pay_record_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(payNotifyRecordService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -194,7 +194,7 @@ public class PayNotifyRecordController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('pay_record_export')")
+	@HasPermission("pay_record_export")
 	public List<PayNotifyRecord> export(PayNotifyRecord payNotifyRecord) {
 		return payNotifyRecordService.list(Wrappers.query(payNotifyRecord));
 	}

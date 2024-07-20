@@ -34,17 +34,17 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -109,7 +109,7 @@ public class SysClientController {
 	 */
 	@SysLog("添加终端")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_client_add')")
+	@HasPermission("sys_client_add")
 	public R add(@Valid @RequestBody SysOauthClientDetailsDTO clientDetailsDTO) {
 		return R.ok(clientDetailsService.saveClient(clientDetailsDTO));
 	}
@@ -121,7 +121,7 @@ public class SysClientController {
 	 */
 	@SysLog("删除终端")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_client_del')")
+	@HasPermission("sys_client_del")
 	public R removeById(@RequestBody Long[] ids) {
 		clientDetailsService.removeBatchByIds(CollUtil.toList(ids));
 		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(ids));
@@ -135,7 +135,7 @@ public class SysClientController {
 	 */
 	@SysLog("编辑终端")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_client_edit')")
+	@HasPermission("sys_client_edit")
 	public R update(@Valid @RequestBody SysOauthClientDetailsDTO clientDetailsDTO) {
 		return R.ok(clientDetailsService.updateClientById(clientDetailsDTO));
 	}

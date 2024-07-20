@@ -32,6 +32,7 @@ import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,7 +40,6 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -103,7 +103,7 @@ public class SysTenantController {
 	 */
 	@SysLog("新增租户")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('sys_systenant_add')")
+	@HasPermission("sys_systenant_add")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R save(@RequestBody SysTenant sysTenant) {
 		return R.ok(sysTenantService.saveTenant(sysTenant));
@@ -116,7 +116,7 @@ public class SysTenantController {
 	 */
 	@SysLog("修改租户")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('sys_systenant_edit')")
+	@HasPermission("sys_systenant_edit")
 	public R updateById(@RequestBody SysTenant sysTenant) {
 		return R.ok(sysTenantService.updateTenant(sysTenant));
 	}
@@ -130,7 +130,7 @@ public class SysTenantController {
 	 */
 	@SysLog("删除租户")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_systenant_del')")
+	@HasPermission("sys_systenant_del")
 	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysTenantService.removeBatchByIds(CollUtil.toList(ids)));
@@ -157,7 +157,7 @@ public class SysTenantController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_systenant_export')")
+	@HasPermission("sys_systenant_export")
 	public List<SysTenant> export(SysTenant sysTenant, Long[] ids) {
 		return sysTenantService
 			.list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, ids));

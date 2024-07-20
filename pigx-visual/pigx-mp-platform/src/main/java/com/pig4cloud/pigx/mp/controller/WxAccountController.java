@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.mp.config.WxMpInitConfigRunner;
 import com.pig4cloud.pigx.mp.entity.WxAccount;
 import com.pig4cloud.pigx.mp.service.WxAccountService;
@@ -30,7 +31,6 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import me.chanjar.weixin.mp.api.WxMpService;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -79,7 +79,7 @@ public class WxAccountController {
 	 */
 	@SysLog("新增公众号账户")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxaccount_add')")
+	@HasPermission("mp_wxaccount_add")
 	public R save(@RequestBody WxAccount wxAccount) {
 		wxAccountService.save(wxAccount);
 		redisTemplate.convertAndSend(CacheConstants.MP_REDIS_RELOAD_TOPIC, "重新加载公众号配置");
@@ -93,7 +93,7 @@ public class WxAccountController {
 	 */
 	@SysLog("修改公众号账户")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxaccount_edit')")
+	@HasPermission("mp_wxaccount_edit")
 	public R updateById(@RequestBody WxAccount wxAccount) {
 		wxAccountService.updateById(wxAccount);
 		redisTemplate.convertAndSend(CacheConstants.MP_REDIS_RELOAD_TOPIC, "重新加载公众号配置");
@@ -107,7 +107,7 @@ public class WxAccountController {
 	 */
 	@SysLog("删除公众号账户")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('mp_wxaccount_del')")
+	@HasPermission("mp_wxaccount_del")
 	public R removeById(@PathVariable Long id) {
 		wxAccountService.removeById(id);
 		redisTemplate.convertAndSend(CacheConstants.MP_REDIS_RELOAD_TOPIC, "重新加载公众号配置");
@@ -121,7 +121,7 @@ public class WxAccountController {
 	 */
 	@SysLog("生成公众号二维码")
 	@PostMapping("/qr/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxaccount_add')")
+	@HasPermission("mp_wxaccount_add")
 	public R qr(@PathVariable String appId) {
 		return wxAccountService.generateQr(appId);
 	}
@@ -150,7 +150,7 @@ public class WxAccountController {
 
 	@SneakyThrows
 	@PostMapping("/clear-quota/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxaccount_del')")
+	@HasPermission("mp_wxaccount_del")
 	public R clearQuota(@PathVariable String appId) {
 		WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
 		wxMpService.clearQuota(appId);

@@ -8,6 +8,7 @@ import com.pig4cloud.pigx.app.service.AppArticleService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -68,7 +68,7 @@ public class AppArticleController {
 	@Operation(summary = "新增文章资讯", description = "新增文章资讯")
 	@SysLog("新增文章资讯")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('app_appArticle_add')")
+	@HasPermission("app_appArticle_add")
 	public R save(@RequestBody AppArticleEntity appArticle) {
 		return R.ok(appArticleService.save(appArticle));
 	}
@@ -81,7 +81,7 @@ public class AppArticleController {
 	@Operation(summary = "修改文章资讯", description = "修改文章资讯")
 	@SysLog("修改文章资讯")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('app_appArticle_edit')")
+	@HasPermission("app_appArticle_edit")
 	public R updateById(@RequestBody AppArticleEntity appArticle) {
 		return R.ok(appArticleService.updateById(appArticle));
 	}
@@ -94,7 +94,7 @@ public class AppArticleController {
 	@Operation(summary = "通过id删除文章资讯", description = "通过id删除文章资讯")
 	@SysLog("通过id删除文章资讯")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('app_appArticle_del')")
+	@HasPermission("app_appArticle_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(appArticleService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -106,7 +106,7 @@ public class AppArticleController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('app_appArticle_export')")
+	@HasPermission("app_appArticle_export")
 	public List<AppArticleEntity> export(AppArticleEntity appArticle) {
 		return appArticleService.list(Wrappers.query(appArticle));
 	}

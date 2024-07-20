@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.service.PayChannelService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,7 +33,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class PayChannelController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	@PreAuthorize("@pms.hasPermission('pay_channel_view')")
+	@HasPermission("pay_channel_view")
 	public R getpayChannelPage(Page page, PayChannel payChannel) {
 		LambdaQueryWrapper<PayChannel> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(StrUtil.isNotBlank(payChannel.getChannelName()), PayChannel::getChannelName,
@@ -76,7 +76,7 @@ public class PayChannelController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('pay_channel_view')")
+	@HasPermission("pay_channel_view")
 	public R getById(@PathVariable("id") Long id) {
 		return R.ok(payChannelService.getById(id));
 	}
@@ -89,7 +89,7 @@ public class PayChannelController {
 	@Operation(summary = "新增支付渠道表", description = "新增支付渠道表")
 	@SysLog("新增支付渠道表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('pay_channel_add')")
+	@HasPermission("pay_channel_add")
 	public R save(@RequestBody PayChannel payChannel) {
 		return R.ok(payChannelService.save(payChannel));
 	}
@@ -102,7 +102,7 @@ public class PayChannelController {
 	@Operation(summary = "修改支付渠道表", description = "修改支付渠道表")
 	@SysLog("修改支付渠道表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('pay_channel_edit')")
+	@HasPermission("pay_channel_edit")
 	public R updateById(@RequestBody PayChannel payChannel) {
 		return R.ok(payChannelService.updateById(payChannel));
 	}
@@ -115,7 +115,7 @@ public class PayChannelController {
 	@Operation(summary = "通过id删除支付渠道表", description = "通过id删除支付渠道表")
 	@SysLog("通过id删除支付渠道表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('pay_channel_del')")
+	@HasPermission("pay_channel_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(payChannelService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -127,7 +127,7 @@ public class PayChannelController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('pay_channel_export')")
+	@HasPermission("pay_channel_export")
 	public List<PayChannel> export(PayChannel payChannel) {
 		return payChannelService.list(Wrappers.query(payChannel));
 	}

@@ -26,16 +26,16 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.ValidGroup;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -75,7 +75,7 @@ public class AppSocialDetailsController {
 	 */
 	@SysLog("保存三方信息")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('app_social_details_add')")
+	@HasPermission("app_social_details_add")
 	public R save(@Valid @RequestBody AppSocialDetails appSocialDetails) {
 		return R.ok(appSocialDetailsService.save(appSocialDetails));
 	}
@@ -87,7 +87,7 @@ public class AppSocialDetailsController {
 	 */
 	@SysLog("修改三方信息")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('app_social_details_edit')")
+	@HasPermission("app_social_details_edit")
 	public R updateById(@Validated({ ValidGroup.Update.class }) @RequestBody AppSocialDetails appSocialDetails) {
 		appSocialDetailsService.updateById(appSocialDetails);
 		return R.ok(Boolean.TRUE);
@@ -100,7 +100,7 @@ public class AppSocialDetailsController {
 	 */
 	@SysLog("删除三方信息")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('app_social_details_del')")
+	@HasPermission("app_social_details_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(appSocialDetailsService.removeBatchByIds(CollUtil.toList(ids)));
 	}

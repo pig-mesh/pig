@@ -9,13 +9,13 @@ import com.pig4cloud.pigx.admin.service.SysAreaService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class SysAreaController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_view')")
+    @HasPermission("sys_sysArea_view")
     public R getSysAreaPage(@ParameterObject Page page, @ParameterObject SysAreaEntity sysArea) {
         return R.ok(sysAreaService.selectPage(page, sysArea));
     }
@@ -57,7 +57,7 @@ public class SysAreaController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/tree")
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_view')")
+    @HasPermission("sys_sysArea_view")
     public R getSysAreaTree(@ParameterObject SysAreaEntity sysArea) {
         return R.ok(sysAreaService.selectTree(sysArea));
     }
@@ -70,7 +70,7 @@ public class SysAreaController {
      */
     @Operation(summary = "获取详细信息", description = "获取详细信息")
     @GetMapping("/details")
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_view')")
+    @HasPermission("sys_sysArea_view")
     public R getDetails(@ParameterObject SysAreaEntity sysArea) {
         return R.ok(sysAreaService.getOne(Wrappers.query(sysArea)));
     }
@@ -84,7 +84,7 @@ public class SysAreaController {
     @Operation(summary = "新增行政区划", description = "新增行政区划")
     @SysLog("新增行政区划")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_add')")
+    @HasPermission("sys_sysArea_add")
     public R save(@RequestBody SysAreaEntity sysArea) {
         return R.ok(sysAreaService.save(sysArea));
     }
@@ -98,7 +98,7 @@ public class SysAreaController {
     @Operation(summary = "修改行政区划", description = "修改行政区划")
     @SysLog("修改行政区划")
     @PutMapping
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_edit')")
+    @HasPermission("sys_sysArea_edit")
     public R updateById(@RequestBody SysAreaEntity sysArea) {
         return R.ok(sysAreaService.updateById(sysArea));
     }
@@ -112,7 +112,7 @@ public class SysAreaController {
     @Operation(summary = "通过id删除行政区划", description = "通过id删除行政区划")
     @SysLog("通过id删除行政区划")
     @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_del')")
+    @HasPermission("sys_sysArea_del")
     public R removeById(@RequestBody Long[] ids) {
         return R.ok(sysAreaService.removeBatchByIds(CollUtil.toList(ids)));
     }
@@ -126,7 +126,7 @@ public class SysAreaController {
      */
     @ResponseExcel
     @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('sys_sysArea_export')")
+    @HasPermission("sys_sysArea_export")
     public List<SysAreaEntity> export(SysAreaEntity sysArea, Long[] ids) {
         return sysAreaService
                 .list(Wrappers.lambdaQuery(sysArea).in(ArrayUtil.isNotEmpty(ids), SysAreaEntity::getId, ids));

@@ -24,11 +24,11 @@ import com.pig4cloud.pigx.admin.api.entity.SysRouteConf;
 import com.pig4cloud.pigx.admin.service.SysRouteConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -58,7 +58,7 @@ public class SysRouteConfController {
     }
 
     @DeleteMapping("/{routeId}")
-    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    @HasPermission("sys_route_manage")
     public R deleteRoute(@PathVariable String routeId) {
         return R
                 .ok(sysRouteConfService.remove(Wrappers.<SysRouteConf>lambdaQuery().eq(SysRouteConf::getRouteId, routeId)));
@@ -72,14 +72,14 @@ public class SysRouteConfController {
      */
     @SysLog("新增修改路由")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    @HasPermission("sys_route_manage")
     public R addOrUpdateRoute(@RequestBody JSONObject route) {
         return R.ok(sysRouteConfService.addOrUpdateRoute(route));
     }
 
     @SysLog("新增路由")
     @PostMapping("/save")
-    @PreAuthorize("@pms.hasPermission('sys_route_manage')")
+    @HasPermission("sys_route_manage")
     public R saveRoute(@RequestBody SysRouteConf routeConf) {
         return R.ok(sysRouteConfService.saveRoute(routeConf));
     }

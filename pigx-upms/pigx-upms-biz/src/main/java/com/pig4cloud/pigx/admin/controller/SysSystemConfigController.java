@@ -9,13 +9,13 @@ import com.pig4cloud.pigx.admin.service.SysSystemConfigService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class SysSystemConfigController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
-    @PreAuthorize("@pms.hasPermission('sys_message_view')")
+    @HasPermission("sys_message_view")
     public R getSysSystemConfigPage(@ParameterObject Page page, @ParameterObject SysSystemConfigEntity sysSystemConfig) {
         return sysSystemConfigService.pageSystemConfig(page, sysSystemConfig);
     }
@@ -58,7 +58,7 @@ public class SysSystemConfigController {
      */
     @Operation(summary = "通过条件查询", description = "通过条件查询对象")
     @GetMapping("/details")
-    @PreAuthorize("@pms.hasPermission('sys_message_view')")
+    @HasPermission("sys_message_view")
     public R getDetails(@ParameterObject SysSystemConfigEntity sysSystemConfig) {
         return sysSystemConfigService.listSystemConfig(sysSystemConfig);
     }
@@ -72,7 +72,7 @@ public class SysSystemConfigController {
     @Operation(summary = "新增系统配置", description = "新增系统配置")
     @SysLog("新增系统配置")
     @PostMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_add')")
+    @HasPermission("sys_message_add")
     public R save(@RequestBody SysSystemConfigEntity sysSystemConfig) {
         return R.ok(sysSystemConfigService.save(sysSystemConfig));
     }
@@ -86,7 +86,7 @@ public class SysSystemConfigController {
     @Operation(summary = "修改系统配置", description = "修改系统配置")
     @SysLog("修改系统配置")
     @PutMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_edit')")
+    @HasPermission("sys_message_edit")
     public R updateById(@RequestBody SysSystemConfigEntity sysSystemConfig) {
         return sysSystemConfigService.updateSystemConfig(sysSystemConfig);
     }
@@ -100,7 +100,7 @@ public class SysSystemConfigController {
     @Operation(summary = "通过id删除系统配置", description = "通过id删除系统配置")
     @SysLog("通过id删除系统配置")
     @DeleteMapping
-    @PreAuthorize("@pms.hasPermission('sys_message_del')")
+    @HasPermission("sys_message_del")
     public R removeById(@RequestBody Long[] ids) {
         return R.ok(sysSystemConfigService.removeBatchByIds(CollUtil.toList(ids)));
     }
@@ -115,7 +115,7 @@ public class SysSystemConfigController {
      */
     @ResponseExcel
     @GetMapping("/export")
-    @PreAuthorize("@pms.hasPermission('sys_message_export')")
+    @HasPermission("sys_message_export")
     public List<SysSystemConfigEntity> export(SysSystemConfigEntity sysSystemConfig, Long[] ids) {
         return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig).in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, ids));
     }

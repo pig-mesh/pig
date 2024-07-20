@@ -5,14 +5,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.mp.entity.WxAccountTag;
 import com.pig4cloud.pigx.mp.entity.dto.WxAccountTagDeleteDTO;
 import com.pig4cloud.pigx.mp.service.WxAccountTagService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -59,7 +59,7 @@ public class WxAccountTagController {
 	 * @return 包含保存成功后的账户标签的API调用结果
 	 */
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_add')")
+	@HasPermission("mp_wx_account_tag_add")
 	public R<WxAccountTag> saveAccountTag(@RequestBody @Valid WxAccountTag wxAccountTag) {
 		return R.ok(wxAccountTagService.saveAccountTag(wxAccountTag));
 	}
@@ -70,7 +70,7 @@ public class WxAccountTagController {
 	 * @return 包含修改成功后的账户标签的API调用结果
 	 */
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_edit')")
+	@HasPermission("mp_wx_account_tag_edit")
 	public R<WxAccountTag> updateAccountTag(@RequestBody @Valid WxAccountTag wxAccountTag) {
 		return R.ok(wxAccountTagService.updateAccountTag(wxAccountTag));
 	}
@@ -81,7 +81,7 @@ public class WxAccountTagController {
 	 * @return R
 	 */
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_del')")
+	@HasPermission("mp_wx_account_tag_del")
 	public R<Boolean> removeAccountTagById(@RequestBody WxAccountTagDeleteDTO deleteDTO) {
 
 		deleteDTO.getIds().forEach(item -> {
@@ -99,7 +99,7 @@ public class WxAccountTagController {
 	 * @return
 	 */
 	@PostMapping("/sync/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wx_account_tag_sync')")
+	@HasPermission("mp_wx_account_tag_sync")
 	public R sync(@PathVariable String appId) {
 		return R.ok(wxAccountTagService.syncAccountTags(appId));
 	}

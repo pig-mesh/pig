@@ -19,10 +19,10 @@ package com.pig4cloud.pigx.mp.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.mp.entity.WxAccountFans;
 import com.pig4cloud.pigx.mp.service.WxAccountFansService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -66,7 +66,7 @@ public class WxAccountFansController {
 	 */
 	@SysLog("修改微信公众号粉丝")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_edit')")
+	@HasPermission("mp_wxaccountfans_edit")
 	public R updateById(@RequestBody WxAccountFans wxAccountFans) {
 		return R.ok(wxAccountFansService.updateFans(wxAccountFans));
 	}
@@ -78,7 +78,7 @@ public class WxAccountFansController {
 	 */
 	@SysLog("删除微信公众号粉丝")
 	@DeleteMapping("/{id}")
-	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_del')")
+	@HasPermission("mp_wxaccountfans_del")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(wxAccountFansService.removeById(id));
 	}
@@ -89,7 +89,7 @@ public class WxAccountFansController {
 	 * @return
 	 */
 	@PostMapping("/sync/{appId}")
-	@PreAuthorize("@pms.hasPermission('mp_wxaccountfans_sync')")
+	@HasPermission("mp_wxaccountfans_sync")
 	public R sync(@PathVariable String appId) {
 		wxAccountFansService.syncAccountFans(appId);
 		return R.ok();

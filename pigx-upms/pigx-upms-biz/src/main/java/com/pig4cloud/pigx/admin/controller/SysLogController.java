@@ -28,6 +28,7 @@ import com.pig4cloud.pigx.admin.api.vo.PreLogVO;
 import com.pig4cloud.pigx.admin.service.SysLogService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +36,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,7 +84,7 @@ public class SysLogController {
 	 * @return success/false
 	 */
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('sys_log_del')")
+	@HasPermission("sys_log_del")
 	public R removeByIds(@RequestBody Long[] ids) {
 		return R.ok(sysLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -117,7 +117,7 @@ public class SysLogController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('sys_log_export')")
+	@HasPermission("sys_log_export")
 	public List<SysLog> export(SysLog sysLog, Long[] ids) {
 		return sysLogService.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, ids));
 	}

@@ -31,18 +31,18 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 /**
@@ -129,7 +129,7 @@ public class AppUserController {
 	@Operation(summary = "新增app用户表", description = "新增app用户表")
 	@SysLog("新增app用户表")
 	@PostMapping
-	@PreAuthorize("@pms.hasPermission('app_appuser_add')")
+	@HasPermission("app_appuser_add")
 	public R save(@RequestBody AppUserDTO appUser) {
 		appUserService.saveUser(appUser);
 		return R.ok();
@@ -143,7 +143,7 @@ public class AppUserController {
 	@Operation(summary = "修改app用户表", description = "修改app用户表")
 	@SysLog("修改app用户表")
 	@PutMapping
-	@PreAuthorize("@pms.hasPermission('app_appuser_edit')")
+	@HasPermission("app_appuser_edit")
 	public R updateById(@RequestBody AppUserDTO appUser) {
 		return R.ok(appUserService.updateUser(appUser));
 	}
@@ -156,7 +156,7 @@ public class AppUserController {
 	@Operation(summary = "通过ids删除app用户表", description = "通过ids删除app用户表")
 	@SysLog("通过id删除app用户表")
 	@DeleteMapping
-	@PreAuthorize("@pms.hasPermission('app_appuser_del')")
+	@HasPermission("app_appuser_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(appUserService.deleteAppUserByIds(ids));
 	}
@@ -168,7 +168,7 @@ public class AppUserController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@PreAuthorize("@pms.hasPermission('app_appuser_export')")
+	@HasPermission("app_appuser_export")
 	public List<AppUserExcelVO> export(AppUserDTO appUser) {
 		return appUserService.listUser(appUser);
 	}
@@ -191,7 +191,7 @@ public class AppUserController {
 	 * @return R
 	 */
 	@PostMapping("/import")
-	@PreAuthorize("@pms.hasPermission('app_appuser_export')")
+	@HasPermission("app_appuser_export")
 	public R importUser(@RequestExcel List<AppUserExcelVO> excelVOList, BindingResult bindingResult) {
 		return appUserService.importUser(excelVOList, bindingResult);
 	}
