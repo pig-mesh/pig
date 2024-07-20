@@ -89,6 +89,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 				.le(SysLog::getCreateTime, sysLog.getCreateTime()[1]);
 		}
 
+		wrapper.eq(StrUtil.isNotBlank(sysLog.getServiceId()), SysLog::getServiceId, sysLog.getServiceId());
 		return baseMapper.selectPage(page, wrapper);
 	}
 

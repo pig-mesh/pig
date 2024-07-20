@@ -33,27 +33,27 @@ import java.util.List;
 @ConfigurationProperties(PigxLogProperties.PREFIX)
 public class PigxLogProperties {
 
-	public static final String PREFIX = "pigx.log";
+    public static final String PREFIX = "pigx.log";
 
-	/**
-	 * 开启日志记录
-	 */
-	private boolean enabled = true;
+    /**
+     * 开启日志记录
+     */
+    private boolean enabled = true;
 
-	/**
-	 * 记录请求报文体
-	 */
-	private boolean requestEnabled = true;
+    /**
+     * 记录请求报文体
+     */
+    private boolean requestEnabled = true;
 
-	/**
-	 * 放行字段，password,mobile,idcard,phone
-	 */
-	@Value("${pigx.log.exclude-fields:password,mobile,idcard,phone}")
-	private List<String> excludeFields;
+    /**
+     * 放行字段，password,mobile,idcard,phone
+     */
+    @Value("${pigx.log.exclude-fields:password,mobile,idcard,phone,accessSecret,tokenId,sign}")
+    private List<String> excludeFields;
 
-	/**
-	 * 请求报文最大存储长度
-	 */
-	private Integer maxLength = 2000;
+    /**
+     * 请求报文最大存储长度
+     */
+    private Integer maxLength = 2000;
 
 }
