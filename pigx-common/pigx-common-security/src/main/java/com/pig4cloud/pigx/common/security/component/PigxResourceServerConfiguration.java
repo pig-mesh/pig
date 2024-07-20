@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -70,4 +71,13 @@ public class PigxResourceServerConfiguration {
         return http.build();
     }
 
+    /**
+     * 支持自定义权限表达式
+     *
+     * @return {@link PrePostTemplateDefaults }
+     */
+    @Bean
+    PrePostTemplateDefaults prePostTemplateDefaults() {
+        return new PrePostTemplateDefaults();
+    }
 }
