@@ -18,8 +18,8 @@
 package com.pig4cloud.pigx.common.sentinel;
 
 import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.BlockExceptionHandler;
-import com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.RequestOriginParser;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.BlockExceptionHandler;
+import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.RequestOriginParser;
 import com.pig4cloud.pigx.common.sentinel.feign.PigxSentinelFeign;
 import com.pig4cloud.pigx.common.sentinel.handle.GlobalBizExceptionHandler;
 import com.pig4cloud.pigx.common.sentinel.handle.PigxUrlBlockHandler;
