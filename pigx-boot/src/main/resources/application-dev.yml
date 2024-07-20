@@ -22,18 +22,17 @@ file:
 aj:
   captcha:
     water-mark: pig4cloud
-    cache-type: redis
+
+# 登录报文加密根密钥 ，必须是16位
 security:
-  # 登录报文加密根密钥 ，必须是16位
   encodeKey: pigxpigxpigxpigx
 
 # 配置文件加密根密码
 jasypt:
   encryptor:
     password: pigx
-    algorithm: PBEWithMD5AndDES
-    iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
-# swagger 配置
+# swagger token url 配置
 swagger:
   token-url: ${swagger.gateway}/admin/oauth2/token
+
