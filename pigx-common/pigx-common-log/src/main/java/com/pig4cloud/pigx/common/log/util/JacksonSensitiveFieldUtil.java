@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 
 /**
- * Jackson 脱敏
+ * Jackson 脱敏工具类
  *
  * @author lengleng
  * @date 2024/07/18
@@ -55,6 +55,17 @@ public class JacksonSensitiveFieldUtil {
     public static String readStr(String content) {
         Object o = objectMapper.readValue(content, Object.class);
         return objectMapper.writeValueAsString(o);
+    }
+
+    /**
+     * 将值写入字符串
+     *
+     * @param value 价值
+     * @return {@link String }
+     */
+    @SneakyThrows
+    public static String writeValueAsString(Object value) {
+        return objectMapper.writeValueAsString(value);
     }
 
     @JsonFilter("filter properties by name")

@@ -53,6 +53,9 @@
         <sentinel.version>1.8.4</sentinel.version>
         <anyline.version>8.7.2-jdk17-20240715</anyline.version>
         <sms4j.version>3.2.1</sms4j.version>
+        <jakarta.mail.version>2.0.1</jakarta.mail.version>
+        <velocity.version>2.3</velocity.version>
+        <velocity.tool.version>3.1</velocity.tool.version>
     </properties>
 
     <dependencyManagement>
@@ -414,7 +417,30 @@
             <dependency>
                 <groupId>org.dromara.sms4j</groupId>
                 <artifactId>sms4j-spring-boot-starter</artifactId>
-                <version>${sms4j.version} </version>
+                <version>${sms4j.version}</version>
+            </dependency>
+            <!--  邮件发送工具 -->
+            <dependency>
+                <groupId>com.sun.mail</groupId>
+                <artifactId>jakarta.mail</artifactId>
+                <version>${jakarta.mail.version}</version>
+            </dependency>
+            <!--webhook-->
+            <dependency>
+                <groupId>org.dromara.sms4j</groupId>
+                <artifactId>sms4j-oa-core</artifactId>
+                <version>${sms4j.version}</version>
+            </dependency>
+            <!-- velocity -->
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity.tools</groupId>
+                <artifactId>velocity-tools-generic</artifactId>
+                <version>${velocity.tool.version}</version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
