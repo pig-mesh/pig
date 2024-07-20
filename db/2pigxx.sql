@@ -443,7 +443,7 @@ INSERT INTO `sys_i18n` VALUES (69, 'router.baseTools', '基础工具', 'Base Too
 INSERT INTO `sys_i18n` VALUES (70, 'router.route', '路由管理', 'Route Management', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 INSERT INTO `sys_i18n` VALUES (71, 'router.datav', '大屏看板', 'Data Visual', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 INSERT INTO `sys_i18n` VALUES (72, 'router.bi', '数据报表', 'Bi Report', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
-INSERT INTO `sys_i18n` VALUES (73, 'router.message', '站内信管理', 'Message', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
+INSERT INTO `sys_i18n` VALUES (73, 'router.message', '信息推送', 'Message', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 COMMIT;
 
 -- ----------------------------
@@ -636,11 +636,11 @@ INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `p
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4000, '系统监控', NULL, '/daemon', NULL, -1, 'iconfont icon-shuju', '1', 3, '0', '0', '0', 'admin', '2023-02-06 20:20:47', 'admin', '2023-11-01 17:12:31', '1', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4001, '文档扩展', NULL, 'http://pigx-gateway:9999/admin/doc.html', NULL, 9910, 'iconfont icon-biaodan', '1', 2, '0', '1', '0', '', '2018-06-26 10:50:32', 'admin', '2023-11-27 14:52:54', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4002, '缓存监控', NULL, '/tools/data/cache', NULL, 9910, 'iconfont icon-shuju', '1', 1, '0', '0', '0', 'admin', '2023-05-29 15:12:59', 'admin', '2023-11-27 14:52:56', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4010, '站内信管理', '', '/tools/message/index', NULL, 9910, 'iconfont icon-zhongduancanshuchaxun', '1', 7, '0', NULL, '0', '', NULL, 'admin', '2023-11-27 14:52:57', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4011, '站内信息查看', 'sys_message_view', NULL, NULL, 4010, '1', '1', 0, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:51:54', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4012, '站内信息新增', 'sys_message_add', NULL, NULL, 4010, '1', '1', 1, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:00', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4013, '站内信息修改', 'sys_message_edit', NULL, NULL, 4010, '1', '1', 2, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:04', '0', 1);
-INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4014, '站内信息删除', 'sys_message_del', NULL, NULL, 4010, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:09', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4010, '信息推送', '', '/tools/message/index', NULL, 9910, 'iconfont icon-zhongduancanshuchaxun', '1', 7, '0', NULL, '0', '', NULL, 'admin', '2023-11-27 14:52:57', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4011, '信息推送查看', 'sys_message_view', NULL, NULL, 4010, '1', '1', 0, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:51:54', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4012, '信息推送新增', 'sys_message_add', NULL, NULL, 4010, '1', '1', 1, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:00', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4013, '信息推送修改', 'sys_message_edit', NULL, NULL, 4010, '1', '1', 2, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:04', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (4014, '信息推送删除', 'sys_message_del', NULL, NULL, 4010, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:09', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (5000, '支付系统', NULL, '/pay', NULL, 9900, 'iconfont icon-neiqianshujuchucun', '1', 1, '0', '0', '0', 'admin', '2023-02-27 10:57:14', 'admin', '2023-11-27 14:52:11', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (5001, '收银台', NULL, '/biz/pay/cd/index', NULL, 5000, 'iconfont icon-diqiu1', '1', 0, '0', '0', '0', 'admin', '2023-02-27 10:58:13', 'admin', '2023-11-01 17:28:57', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (5002, '支付渠道', NULL, '/biz/pay/channel/index', NULL, 5000, 'iconfont icon-crew_feature', '1', 1, '0', '0', '0', 'admin', '2023-02-27 19:36:55', 'admin', '2023-11-01 17:29:01', '0', 1);
@@ -1343,7 +1343,7 @@ CREATE TABLE `sys_message` (
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '删除时间',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='站内信息';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='站内信';
 
 -- ----------------------------
 -- Records of sys_message
@@ -1370,5 +1370,21 @@ CREATE TABLE `sys_message_relation` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统消息推送记录';
 
+DROP TABLE IF EXISTS `sys_system_config`;
+CREATE TABLE `sys_system_config` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `config_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '配置类型',
+  `config_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '配置名称',
+  `config_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '配置标识',
+  `config_value` longtext COLLATE utf8mb4_general_ci COMMENT '配置值',
+  `config_status` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '开启状态',
+  `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统配置';
 
 SET FOREIGN_KEY_CHECKS = 1;
