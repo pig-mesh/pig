@@ -30,18 +30,8 @@ import java.util.List;
  */
 public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
-	/**
-	 * 初始化字段列表
-	 * @param tableFieldList 表字段列表
-	 */
 	void initFieldList(List<GenTableColumnEntity> tableFieldList);
 
-	/**
-	 * 更新表字段
-	 * @param dsName 数据源名称
-	 * @param tableName 表名称
-	 * @param tableFieldList 表字段列表
-	 */
 	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 }

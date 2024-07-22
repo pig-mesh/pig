@@ -61,31 +61,74 @@ public class GenTableController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	public R getTablePage(Page page, GenTable table) {
-
-		return R.ok(tableService.list(page, table));
+		return R.ok(tableService.queryTablePage(page, table));
 	}
 
 	/**
-	 * 通过id查询列属性
+	 * 通过id查询表信息（代码生成设置 + 表 + 字段设置）
 	 * @param id id
 	 * @return R
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Long id) {
+	public R getTable(@PathVariable("id") Long id) {
 		return R.ok(tableService.getById(id));
 	}
 
 	/**
-	 * 新增列属性
-	 * @param table 列属性
-	 * @return R
+	 * 查询数据源所有表
+	 * @param dsName 数据源
 	 */
-	@Operation(summary = "新增列属性", description = "新增列属性")
-	@SysLog("新增列属性")
-	@PostMapping
-	public R save(@RequestBody GenTable table) {
-		return R.ok(tableService.save(table));
+	@GetMapping("/list/{dsName}")
+	public R listTable(@PathVariable("dsName") String dsName) {
+		return R.ok(tableService.queryTableList(dsName));
+	}
+
+	/**
+	 * 获取表信息
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 */
+	@GetMapping("/{dsName}/{tableName}")
+	public R<GenTable> getTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
+	}
+
+	/**
+	 * 查询表DDL语句
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 */
+	@GetMapping("/column/{dsName}/{tableName}")
+	public R getColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+		return R.ok(tableService.queryTableColumn(dsName, tableName));
+	}
+
+	/**
+	 * 查询表DDL语句
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 */
+	@GetMapping("/ddl/{dsName}/{tableName}")
+	public R getDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+		return R.ok(tableService.queryTableDdl(dsName, tableName));
+	}
+
+	/**
+	 * 同步表信息
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 */
+	@GetMapping("/sync/{dsName}/{tableName}")
+	public R<GenTable> syncTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+		// 表配置删除
+		tableService.remove(
+				Wrappers.<GenTable>lambdaQuery().eq(GenTable::getDsName, dsName).eq(GenTable::getTableName, tableName));
+		// 字段配置删除
+		tableColumnService.remove(Wrappers.<GenTableColumnEntity>lambdaQuery()
+			.eq(GenTableColumnEntity::getDsName, dsName)
+			.eq(GenTableColumnEntity::getTableName, tableName));
+		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
 	}
 
 	/**
@@ -101,15 +144,16 @@ public class GenTableController {
 	}
 
 	/**
-	 * 通过id删除列属性
-	 * @param id id
-	 * @return R
+	 * 修改表字段数据
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 * @param tableFieldList 字段列表
 	 */
-	@Operation(summary = "通过id删除列属性", description = "通过id删除列属性")
-	@SysLog("通过id删除列属性")
-	@DeleteMapping("/{id}")
-	public R removeById(@PathVariable Long id) {
-		return R.ok(tableService.removeById(id));
+	@PutMapping("/field/{dsName}/{tableName}")
+	public R<String> updateTableField(@PathVariable("dsName") String dsName, @PathVariable String tableName,
+			@RequestBody List<GenTableColumnEntity> tableFieldList) {
+		tableColumnService.updateTableField(dsName, tableName, tableFieldList);
+		return R.ok();
 	}
 
 	/**
@@ -121,56 +165,6 @@ public class GenTableController {
 	@GetMapping("/export")
 	public List<GenTable> export(GenTable table) {
 		return tableService.list(Wrappers.query(table));
-	}
-
-	@GetMapping("/list/{dsName}")
-	public R listTable(@PathVariable("dsName") String dsName) {
-		return R.ok(tableService.queryDsAllTable(dsName));
-	}
-
-	@GetMapping("/column/{dsName}/{tableName}")
-	public R column(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
-		return R.ok(tableService.queryColumn(dsName, tableName));
-	}
-
-	/**
-	 * 获取表信息
-	 * @param dsName 数据源
-	 * @param tableName 表名称
-	 */
-	@GetMapping("/{dsName}/{tableName}")
-	public R<GenTable> info(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
-		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
-	}
-
-	/**
-	 * 同步表信息
-	 * @param dsName 数据源
-	 * @param tableName 表名称
-	 */
-	@GetMapping("/sync/{dsName}/{tableName}")
-	public R<GenTable> sync(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
-		// 表配置删除
-		tableService.remove(
-				Wrappers.<GenTable>lambdaQuery().eq(GenTable::getDsName, dsName).eq(GenTable::getTableName, tableName));
-		// 字段配置删除
-		tableColumnService.remove(Wrappers.<GenTableColumnEntity>lambdaQuery()
-			.eq(GenTableColumnEntity::getDsName, dsName)
-			.eq(GenTableColumnEntity::getTableName, tableName));
-		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
-	}
-
-	/**
-	 * 修改表字段数据
-	 * @param dsName 数据源
-	 * @param tableName 表名称
-	 * @param tableFieldList 字段列表
-	 */
-	@PutMapping("/field/{dsName}/{tableName}")
-	public R<String> updateTableField(@PathVariable("dsName") String dsName, @PathVariable String tableName,
-			@RequestBody List<GenTableColumnEntity> tableFieldList) {
-		tableColumnService.updateTableField(dsName, tableName, tableFieldList);
-		return R.ok();
 	}
 
 }

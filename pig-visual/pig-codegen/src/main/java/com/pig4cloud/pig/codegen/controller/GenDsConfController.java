@@ -18,7 +18,6 @@ package com.pig4cloud.pig.codegen.controller;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
 import cn.smallbun.screw.boot.config.Screw;
 import cn.smallbun.screw.boot.properties.ScrewProperties;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
@@ -30,6 +29,7 @@ import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
@@ -93,6 +93,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@PostMapping
+	@XssCleanIgnore
 	public R save(@RequestBody GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.saveDsByEnc(datasourceConf));
 	}
@@ -103,6 +104,7 @@ public class GenDsConfController {
 	 * @return R
 	 */
 	@PutMapping
+	@XssCleanIgnore
 	public R updateById(@RequestBody GenDatasourceConf conf) {
 		return R.ok(datasourceConfService.updateDsByEnc(conf));
 	}
@@ -133,11 +135,11 @@ public class GenDsConfController {
 		ScrewProperties screwProperties = SpringContextHolder.getBean(ScrewProperties.class);
 
 		// 生成
-		byte[] data = screw.documentGeneration(dataSource, screwProperties).toByteArray();
+		byte[] data = screw.documentGeneration(dsName, dataSource, screwProperties).toByteArray();
 		response.reset();
 		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
-		response.setContentType(ContentType.OCTET_STREAM.getValue());
-		IoUtil.write(response.getOutputStream(), Boolean.TRUE, data);
+		response.setContentType("application/octet-stream");
+		IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
 	}
 
 }

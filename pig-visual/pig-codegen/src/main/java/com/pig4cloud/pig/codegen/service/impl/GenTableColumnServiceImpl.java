@@ -78,6 +78,7 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	 * @param tableFieldList 表单字段列表
 	 */
 	@Override
+
 	public void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
 		AtomicInteger sort = new AtomicInteger();
 		this.updateBatchById(tableFieldList.stream()

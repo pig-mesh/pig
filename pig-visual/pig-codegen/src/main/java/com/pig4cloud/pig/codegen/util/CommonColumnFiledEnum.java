@@ -16,36 +16,36 @@ public enum CommonColumnFiledEnum {
 	/**
 	 * create_by 字段
 	 */
-	create_by("0", "0", "INSERT", 100),
+	create_by("0", "0", AutoFillEnum.INSERT.name(), 100),
 
 	/**
 	 * create_time 字段
 	 */
-	create_time("0", "0", "INSERT", 101),
+	create_time("0", "0", AutoFillEnum.INSERT.name(), 101),
 	/**
 	 * update_by 字段
 	 */
-	update_by("0", "0", "INSERT_UPDATE", 102),
+	update_by("0", "0", AutoFillEnum.INSERT_UPDATE.name(), 102),
 	/**
 	 * update_time 字段
 	 */
-	update_time("0", "0", "INSERT_UPDATE", 103),
+	update_time("0", "0", AutoFillEnum.INSERT_UPDATE.name(), 103),
 	/**
 	 * del_flag 字段
 	 */
-	del_flag("0", "0", "DEFAULT", 104),
+	del_flag("0", "0", AutoFillEnum.DEFAULT.name(), 104),
 	/**
 	 * tenant_id 字段
 	 */
-	tenant_id("0", "0", "DEFAULT", 105);
+	tenant_id("0", "0", AutoFillEnum.DEFAULT.name(), 105);
 
 	/**
-	 * 表单是否默认显示
+	 * 表单是否默认显示 1/0
 	 */
 	private String formItem;
 
 	/**
-	 * 表格是否默认显示
+	 * 表格是否默认显示 1/0
 	 */
 	private String gridItem;
 

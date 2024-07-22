@@ -21,21 +21,22 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
+import com.pig4cloud.pig.codegen.config.PigCodeGenDefaultProperties;
 import com.pig4cloud.pig.codegen.entity.GenTable;
 import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pig.codegen.service.*;
 import com.pig4cloud.pig.codegen.util.VelocityKit;
-import com.pig4cloud.pig.codegen.util.vo.GroupVo;
+import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringBootVersion;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,8 @@ import java.util.zip.ZipOutputStream;
 @Service
 @RequiredArgsConstructor
 public class GeneratorServiceImpl implements GeneratorService {
+
+	private final PigCodeGenDefaultProperties configurationProperties;
 
 	private final GenTableColumnService columnService;
 
@@ -76,13 +79,11 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 		Long style = (Long) dataModel.get("style");
 
-		GroupVo groupVo = genGroupService.getGroupVoById(style);
+		GroupVO groupVo = genGroupService.getGroupVoById(style);
 		List<GenTemplateEntity> templateList = groupVo.getTemplateList();
 
-		Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
-		JSONObject project = (JSONObject) generatorConfig.get("project");
-		String frontendPath = project.getStr("frontendPath");
-		String backendPath = project.getStr("backendPath");
+		String frontendPath = configurationProperties.getFrontendPath();
+		String backendPath = configurationProperties.getBackendPath();
 
 		for (GenTemplateEntity template : templateList) {
 			String templateCode = template.getTemplateCode();
@@ -118,10 +119,8 @@ public class GeneratorServiceImpl implements GeneratorService {
 		// 获取模板列表，Lambda 表达式简化代码
 		List<GenTemplateEntity> templateList = genGroupService.getGroupVoById(style).getTemplateList();
 
-		Map<String, Object> generatorConfig = tableService.getGeneratorConfig();
-		JSONObject project = (JSONObject) generatorConfig.get("project");
-		String frontendPath = project.getStr("frontendPath");
-		String backendPath = project.getStr("backendPath");
+		String frontendPath = configurationProperties.getFrontendPath();
+		String backendPath = configurationProperties.getBackendPath();
 
 		return templateList.stream().map(template -> {
 			String templateCode = template.getTemplateCode();
@@ -186,9 +185,11 @@ public class GeneratorServiceImpl implements GeneratorService {
 		Map<String, Object> dataModel = new HashMap<>();
 
 		// 填充数据模型
+		dataModel.put("opensource", true);
+		dataModel.put("isSpringBoot3", isSpringBoot3());
 		dataModel.put("dbType", table.getDbType());
 		dataModel.put("package", table.getPackageName());
-		dataModel.put("packagePath", table.getPackageName().replace(".", File.separator));
+		dataModel.put("packagePath", table.getPackageName().replace(".", "/"));
 		dataModel.put("version", table.getVersion());
 		dataModel.put("moduleName", table.getModuleName());
 		dataModel.put("ModuleName", StrUtil.upperFirst(table.getModuleName()));
@@ -212,7 +213,43 @@ public class GeneratorServiceImpl implements GeneratorService {
 
 		dataModel.put("backendPath", table.getBackendPath());
 		dataModel.put("frontendPath", table.getFrontendPath());
+
+		// 设置子表
+		String childTableName = table.getChildTableName();
+		if (StrUtil.isNotBlank(childTableName)) {
+			List<GenTableColumnEntity> childFieldList = columnService.lambdaQuery()
+				.eq(GenTableColumnEntity::getDsName, table.getDsName())
+				.eq(GenTableColumnEntity::getTableName, table.getChildTableName())
+				.list();
+			dataModel.put("childFieldList", childFieldList);
+			dataModel.put("childTableName", childTableName);
+			dataModel.put("mainField", NamingCase.toCamelCase(table.getMainField()));
+			dataModel.put("childField", NamingCase.toCamelCase(table.getChildField()));
+			dataModel.put("ChildClassName", NamingCase.toPascalCase(childTableName));
+			dataModel.put("childClassName", StrUtil.lowerFirst(NamingCase.toPascalCase(childTableName)));
+			// 设置是否是多租户模式 (判断字段列表中是否包含 tenant_id 字段)
+			childFieldList.stream()
+				.filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
+				.findFirst()
+				.ifPresent(columnEntity -> dataModel.put("isChildTenant", true));
+		}
+
+		// 设置是否是多租户模式 (判断字段列表中是否包含 tenant_id 字段)
+		table.getFieldList()
+			.stream()
+			.filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
+			.findFirst()
+			.ifPresent(columnEntity -> dataModel.put("isTenant", true));
+
 		return dataModel;
+	}
+
+	/**
+	 * 判断当前是否是 SpringBoot3 版本
+	 * @return true/fasle
+	 */
+	private boolean isSpringBoot3() {
+		return StrUtil.startWith(SpringBootVersion.getVersion(), "3");
 	}
 
 	/**

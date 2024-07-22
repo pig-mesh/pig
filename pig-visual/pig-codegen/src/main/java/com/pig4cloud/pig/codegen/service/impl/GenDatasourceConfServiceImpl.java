@@ -19,9 +19,8 @@ package com.pig4cloud.pig.codegen.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
-import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
-import com.baomidou.dynamic.datasource.creator.druid.DruidConfig;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.mapper.GenDatasourceConfMapper;
@@ -53,7 +52,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	private final StringEncryptor stringEncryptor;
 
-	private final DefaultDataSourceCreator druidDataSourceCreator;
+	private final DataSourceCreator hikariDataSourceCreator;
 
 	/**
 	 * 保存数据源并且加密
@@ -126,11 +125,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		dataSourceProperty.setUrl(conf.getUrl());
 		dataSourceProperty.setUsername(conf.getUsername());
 		dataSourceProperty.setPassword(conf.getPassword());
-
-		// 增加 ValidationQuery 参数
-		DruidConfig druidConfig = new DruidConfig();
-		dataSourceProperty.setDruid(druidConfig);
-		DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
+		DataSource dataSource = hikariDataSourceCreator.createDataSource(dataSourceProperty);
 
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
 		dynamicRoutingDataSource.addDataSource(dataSourceProperty.getPoolName(), dataSource);

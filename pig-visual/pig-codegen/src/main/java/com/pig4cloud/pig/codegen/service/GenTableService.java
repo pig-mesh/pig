@@ -21,9 +21,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenTable;
+import org.anyline.metadata.Table;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 列属性
@@ -34,40 +34,43 @@ import java.util.Map;
 public interface GenTableService extends IService<GenTable> {
 
 	/**
-	 * 获取默认配置信息
-	 * @return 默认配置信息
-	 */
-	Map<String, Object> getGeneratorConfig();
-
-	/**
-	 * 分页查询表格列表
-	 * @param page 分页对象
+	 * 查询对应数据源的表
+	 * @param page 分页信息
 	 * @param table 查询条件
-	 * @return 表格列表分页结果
+	 * @return 表
 	 */
-	IPage list(Page<GenTable> page, GenTable table);
+	IPage queryTablePage(Page<Table> page, GenTable table);
 
 	/**
-	 * 根据数据源名称和表名查询或构建表格
-	 * @param dsName 数据源名称
+	 * 查询表信息（列），然后插入到中间表中
+	 * @param dsName 数据源
 	 * @param tableName 表名
-	 * @return 查询到的表格信息
+	 * @return GenTable
 	 */
 	GenTable queryOrBuildTable(String dsName, String tableName);
 
 	/**
-	 * 查询指定数据源下的所有表格
+	 * 查询表ddl 语句
 	 * @param dsName 数据源名称
-	 * @return 所有表格的列表
+	 * @param tableName 表名称
+	 * @return ddl 语句
+	 * @throws Exception
 	 */
-	List<Map<String, Object>> queryDsAllTable(String dsName);
+	String queryTableDdl(String dsName, String tableName) throws Exception;
 
 	/**
-	 * 查询指定数据源和表名的列信息
+	 * 查询数据源里面的全部表
 	 * @param dsName 数据源名称
-	 * @param tableName 表名
-	 * @return 列信息列表
+	 * @return table
 	 */
-	List<Map<String, String>> queryColumn(String dsName, String tableName);
+	List<String> queryTableList(String dsName);
+
+	/**
+	 * 查询表的全部字段
+	 * @param dsName 数据源
+	 * @param tableName 表名称
+	 * @return column
+	 */
+	List<String> queryTableColumn(String dsName, String tableName);
 
 }

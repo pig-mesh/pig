@@ -23,7 +23,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pig.codegen.service.GenGroupService;
-import com.pig4cloud.pig.codegen.util.vo.GroupVo;
+import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
@@ -104,7 +104,7 @@ public class GenGroupController {
 	@SysLog("修改模板分组")
 	@PutMapping
 	@PreAuthorize("@pms.hasPermission('codegen_group_edit')")
-	public R updateById(@RequestBody GroupVo groupVo) {
+	public R updateById(@RequestBody GroupVO groupVo) {
 		genGroupService.updateGroupAndTemplateById(groupVo);
 		return R.ok();
 	}
@@ -135,10 +135,14 @@ public class GenGroupController {
 		return genGroupService.list(Wrappers.query(genGroup));
 	}
 
+	/**
+	 * @return 响应信息主体
+	 */
 	@GetMapping("/list")
 	@Operation(summary = "查询列表", description = "查询列表")
 	public R list() {
-		List<GenGroupEntity> list = genGroupService.list();
+		List<GenGroupEntity> list = genGroupService
+			.list(Wrappers.<GenGroupEntity>lambdaQuery().orderByDesc(GenGroupEntity::getCreateTime));
 		return R.ok(list);
 	}
 

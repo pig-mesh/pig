@@ -9,7 +9,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class GroupVo {
+public class GroupVO {
 
 	/**
 	 * id
