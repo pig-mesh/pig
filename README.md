@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-3.7-success.svg" alt="Build Status">
+ <img src="https://img.shields.io/badge/Pig-3.8-success.svg" alt="Build Status">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2021-blue.svg" alt="Coverage Status">
  <img src="https://img.shields.io/badge/Spring%20Boot-2.7-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.2-blue.svg" alt="Downloads">
@@ -42,10 +42,10 @@
 |-----------------------------|------------|
 | Spring Boot                 | 2.7.18     |
 | Spring Cloud                | 2021.0.8   |
-| Spring Cloud Alibaba        | 2021.0.6.0 |
+| Spring Cloud Alibaba        | 2021.0.6.1 |
 | Spring Authorization Server | 0.4.4      |
-| Mybatis Plus                | 3.5.6      |
-| hutool                      | 5.8.27     |
+| Mybatis Plus                | 3.5.7      |
+| hutool                      | 5.8.29     |
 
 ### 模块说明
 
