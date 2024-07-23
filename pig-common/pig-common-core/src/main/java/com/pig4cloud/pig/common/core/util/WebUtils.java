@@ -26,7 +26,6 @@ import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -127,8 +126,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 	 * @return
 	 */
 	@SneakyThrows
-	public String getClientId(ServerHttpRequest request) {
-		String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+	public String getClientId(HttpServletRequest request) {
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		return splitClient(header)[0];
 	}
 
@@ -139,6 +138,12 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 			return splitClient(header)[0];
 		}
 		return null;
+	}
+
+	@SneakyThrows
+	public String getClientSecret(HttpServletRequest request) {
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		return splitClient(header)[1];
 	}
 
 	@NotNull
@@ -163,6 +168,33 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 			throw new CheckedException("Invalid basic authentication token");
 		}
 		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
+	}
+
+	/**
+	 * 获取 bearer 令牌
+	 * @return {@link String }
+	 */
+	@SneakyThrows
+	public String getToken() {
+		if (WebUtils.getRequest().isPresent()) {
+			// 获取请求
+			Optional<HttpServletRequest> requestOpt = WebUtils.getRequest();
+			if (requestOpt.isPresent()) {
+				HttpServletRequest request = requestOpt.get();
+				// 获取Authorization头信息
+				String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+				if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+					// 返回去掉"Bearer "前缀的Token
+					return authorizationHeader.substring(7);
+				}
+				else {
+					// 处理Authorization头信息为空或格式不正确的情况
+					return null;
+				}
+			}
+		}
+		// 请求不存在时返回null
+		return null;
 	}
 
 }

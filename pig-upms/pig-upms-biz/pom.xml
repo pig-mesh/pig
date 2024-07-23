@@ -48,7 +48,7 @@
         <!--安全模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-security</artifactId>
+            <artifactId>pig-common-satoken</artifactId>
         </dependency>
         <!--日志处理-->
         <dependency>

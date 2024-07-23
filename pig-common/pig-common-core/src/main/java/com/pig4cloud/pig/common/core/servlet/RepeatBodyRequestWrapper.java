@@ -100,4 +100,13 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 		return this.parameterMap;
 	}
 
+	@Override
+	public String getParameter(String name) {
+		String[] strings = this.getParameterMap().get(name);
+		if (strings == null) {
+			return null;
+		}
+		return strings[0];
+	}
+
 }

@@ -109,6 +109,7 @@
         <module>pig-register</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>
+        <module>pig-auth-satoken</module>
         <module>pig-upms</module>
         <module>pig-common</module>
         <module>pig-visual</module>
