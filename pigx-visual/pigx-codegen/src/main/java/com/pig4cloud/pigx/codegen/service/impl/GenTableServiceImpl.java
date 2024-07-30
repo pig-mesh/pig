@@ -117,7 +117,10 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
             if (StrUtil.isBlank(table.getTableName())) {
                 return true;
             }
-            return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName());
+
+            // 通过表名和表注释进行模糊查询
+            return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName())
+                    || StrUtil.containsIgnoreCase(t.getComment(), table.getTableName());
         }).toList();
 
         // 根据 page 进行分页
