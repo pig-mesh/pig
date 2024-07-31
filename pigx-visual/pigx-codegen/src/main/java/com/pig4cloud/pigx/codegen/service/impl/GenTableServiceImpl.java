@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.codegen.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.EnumUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -52,6 +53,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 列属性
@@ -113,15 +115,22 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     public IPage queryTablePage(Page<Table> page, GenTable table) {
         // 手动切换数据源
         DynamicDataSourceContextHolder.push(table.getDsName());
-        List<Table> tableList = ServiceProxy.metadata().tables().values().stream().filter(t -> {
-            if (StrUtil.isBlank(table.getTableName())) {
-                return true;
-            }
+        List<Table> tableList = ServiceProxy.metadata().tables()
+                .values().stream().filter(t -> {
+                    if (StrUtil.isBlank(table.getTableName())) {
+                        return true;
+                    }
 
-            // 通过表名和表注释进行模糊查询
-            return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName())
-                    || StrUtil.containsIgnoreCase(t.getComment(), table.getTableName());
-        }).toList();
+                    // 通过表名和表注释进行模糊查询
+                    return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName())
+                            || StrUtil.containsIgnoreCase(t.getComment(), table.getTableName());
+                })
+                // 根据 createTime 、updateTime 倒序排序 ,如果有 updateTime 则按 updateTime ，如果有 createTime 则按 createTime
+                .sorted((o1, o2) -> {
+                    long time1 = o1.getUpdateTime() == null ? o1.getCreateTime().getTime() : o1.getUpdateTime().getTime();
+                    long time2 = o2.getUpdateTime() == null ? o2.getCreateTime().getTime() : o2.getUpdateTime().getTime();
+                    return NumberUtil.compare(time2, time1);
+                }).collect(Collectors.toList());
 
         // 根据 page 进行分页
         List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);
