@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.auth.endpoint;
 
+import cn.hutool.core.lang.Validator;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import io.springboot.captcha.ArithmeticCaptcha;
@@ -24,25 +25,29 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class ImageCodeEndpoint {
 
-	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
+    private static final Integer DEFAULT_IMAGE_WIDTH = 100;
 
-	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
+    private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-	private final RedisTemplate redisTemplate;
+    private final RedisTemplate redisTemplate;
 
-	/**
-	 * 创建图形验证码
-	 */
-	@SneakyThrows
-	@GetMapping("/image")
-	public void image(String randomStr, HttpServletResponse response) {
-		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+    /**
+     * 创建图形验证码
+     */
+    @SneakyThrows
+    @GetMapping("/image")
+    public void image(String randomStr, HttpServletResponse response) {
+        ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
-		String result = captcha.text();
-		redisTemplate.opsForValue()
-			.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
-		// 转换流信息写出
-		captcha.out(response.getOutputStream());
-	}
+        if (Validator.isMobile(randomStr)) {
+            return;
+        }
+
+        String result = captcha.text();
+        redisTemplate.opsForValue()
+                .set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+        // 转换流信息写出
+        captcha.out(response.getOutputStream());
+    }
 
 }
