@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.auth.endpoint;
 
+import cn.hutool.core.lang.Validator;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
@@ -46,6 +47,12 @@ public class ImageCodeEndpoint {
         ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
         String result = captcha.text();
+
+        // 如果是手机号码，不存储下发验证码
+        if (Validator.isMobile(randomStr)) {
+            return;
+        }
+
         redisTemplate.opsForValue()
                 .set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
         // 转换流信息写出
@@ -53,8 +60,7 @@ public class ImageCodeEndpoint {
     }
 
     /**
-     * 行为
-     * 创建滑块图形验证码
+     * 行为 创建滑块图形验证码
      */
     @SneakyThrows
     @GetMapping("/create")
@@ -66,8 +72,7 @@ public class ImageCodeEndpoint {
     }
 
     /**
-     * 行为
-     * 创建滑块图形验证码
+     * 行为 创建滑块图形验证码
      */
     @SneakyThrows
     @PostMapping("/check")
