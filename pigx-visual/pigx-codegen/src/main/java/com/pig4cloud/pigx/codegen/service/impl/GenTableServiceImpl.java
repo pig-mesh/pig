@@ -125,10 +125,12 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
                     return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName())
                             || StrUtil.containsIgnoreCase(t.getComment(), table.getTableName());
                 })
-                // 根据 createTime 、updateTime 倒序排序 ,如果有 updateTime 则按 updateTime ，如果有 createTime 则按 createTime
+                // 根据 createTime 、updateTime 倒序排序
                 .sorted((o1, o2) -> {
-                    long time1 = o1.getUpdateTime() == null ? o1.getCreateTime().getTime() : o1.getUpdateTime().getTime();
-                    long time2 = o2.getUpdateTime() == null ? o2.getCreateTime().getTime() : o2.getUpdateTime().getTime();
+                    long time1 = (o1.getUpdateTime() != null ? o1.getUpdateTime().getTime() :
+                            (o1.getCreateTime() != null ? o1.getCreateTime().getTime() : 0));
+                    long time2 = (o2.getUpdateTime() != null ? o2.getUpdateTime().getTime() :
+                            (o2.getCreateTime() != null ? o2.getCreateTime().getTime() : 0));
                     return NumberUtil.compare(time2, time1);
                 }).collect(Collectors.toList());
 

@@ -2,6 +2,8 @@ package com.pig4cloud.pigx.codegen.config;
 
 import cn.smallbun.screw.core.constant.DefaultConstants;
 import lombok.Data;
+import org.anyline.util.ConfigTable;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration(proxyBeanMethods = false)
 @ConfigurationProperties(prefix = PigxCodeGenDefaultProperties.PREFIX)
-public class PigxCodeGenDefaultProperties {
+public class PigxCodeGenDefaultProperties implements InitializingBean {
 
 	public static final String PREFIX = "codegen";
 
@@ -78,4 +80,13 @@ public class PigxCodeGenDefaultProperties {
 	 */
 	private String syncRoute = "1";
 
+	/**
+     * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
+     *
+     * @throws Exception 例外
+     */
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		ConfigTable.KEEP_ADAPTER = 0;
+	}
 }
