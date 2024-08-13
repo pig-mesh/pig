@@ -227,22 +227,27 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		this.updateById(sysUser);
 
 		// 更新用户角色表
-		sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userDto.getUserId()));
-		userDto.getRole().stream().map(roleId -> {
-			SysUserRole userRole = new SysUserRole();
-			userRole.setUserId(sysUser.getUserId());
-			userRole.setRoleId(roleId);
-			return userRole;
-		}).forEach(SysUserRole::insert);
+		if (Objects.nonNull(userDto.getRole())) {
+			// 删除用户角色关系
+			sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().eq(SysUserRole::getUserId, userDto.getUserId()));
+			userDto.getRole().stream().map(roleId -> {
+				SysUserRole userRole = new SysUserRole();
+				userRole.setUserId(sysUser.getUserId());
+				userRole.setRoleId(roleId);
+				return userRole;
+			}).forEach(SysUserRole::insert);
+		}
 
-		// 更新用户岗位表
-		sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
-		userDto.getPost().stream().map(postId -> {
-			SysUserPost userPost = new SysUserPost();
-			userPost.setUserId(sysUser.getUserId());
-			userPost.setPostId(postId);
-			return userPost;
-		}).forEach(SysUserPost::insert);
+		if (Objects.nonNull(userDto.getPost())) {
+			// 删除用户岗位关系
+			sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().eq(SysUserPost::getUserId, userDto.getUserId()));
+			userDto.getPost().stream().map(postId -> {
+				SysUserPost userPost = new SysUserPost();
+				userPost.setUserId(sysUser.getUserId());
+				userPost.setPostId(postId);
+				return userPost;
+			}).forEach(SysUserPost::insert);
+		}
 		return Boolean.TRUE;
 	}
 
