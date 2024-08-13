@@ -239,11 +239,11 @@ public class EngineFlowController {
         TaskQuery taskQuery = taskService.createTaskQuery().taskAssignee(assign).orderByTaskCreateTime().desc();
         if (StrUtil.isNotBlank(taskQueryParamDto.getProcessName())) {
             List<ProcessInstance> processInstanceList = runtimeService.createProcessInstanceQuery()
-                    .processInstanceNameLikeIgnoreCase(taskQueryParamDto.getProcessName())
+                    .processDefinitionName(taskQueryParamDto.getProcessName())
                     .list();
             if (CollUtil.isNotEmpty(processInstanceList)) {
                 taskQuery.processInstanceIdIn(processInstanceList.stream()
-                        .map(ProcessInstance::getProcessDefinitionId)
+                        .map(ProcessInstance::getProcessInstanceId)
                         .collect(Collectors.toList()));
             }
         }
