@@ -23,8 +23,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
-import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
-import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 
 /**
  * @author lengleng
@@ -34,51 +32,45 @@ import org.springframework.security.oauth2.server.resource.web.DefaultBearerToke
 @EnableConfigurationProperties(PermitAllUrlProperties.class)
 public class PigxResourceServerAutoConfiguration {
 
-    /**
-     * 鉴权具体的实现逻辑
-     *
-     * @return （#pms.xxx）
-     */
-    @Bean("pms")
-    public PermissionService permissionService() {
-        return new PermissionService();
-    }
+	/**
+	 * 鉴权具体的实现逻辑
+	 * @return （#pms.xxx）
+	 */
+	@Bean("pms")
+	public PermissionService permissionService() {
+		return new PermissionService();
+	}
 
-    /**
-     * 请求令牌的抽取逻辑
-     *
-     * @return BearerTokenExtractor
-     */
-    @Bean
-    public BearerTokenResolver pigBearerTokenExtractor() {
-        DefaultBearerTokenResolver defaultBearerTokenResolver = new DefaultBearerTokenResolver();
-        defaultBearerTokenResolver.setAllowUriQueryParameter(true);
-        defaultBearerTokenResolver.setAllowFormEncodedBodyParameter(true);
-        return defaultBearerTokenResolver;
-    }
+	/**
+	 * 请求令牌的抽取逻辑
+	 * @param urlProperties 对外暴露的接口列表
+	 * @return BearerTokenExtractor
+	 */
+	@Bean
+	public PigxBearerTokenExtractor pigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+		return new PigxBearerTokenExtractor(urlProperties);
+	}
 
-    /**
-     * 资源服务器异常处理
-     *
-     * @param objectMapper          jackson 输出对象
-     * @param securityMessageSource 自定义国际化处理器
-     * @return ResourceAuthExceptionEntryPoint
-     */
-    @Bean
-    public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper,
-                                                                           MessageSource securityMessageSource) {
-        return new ResourceAuthExceptionEntryPoint(objectMapper, securityMessageSource);
-    }
+	/**
+	 * 资源服务器异常处理
+	 * @param objectMapper jackson 输出对象
+	 * @param securityMessageSource 自定义国际化处理器
+	 * @return ResourceAuthExceptionEntryPoint
+	 */
+	@Bean
+	public ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint(ObjectMapper objectMapper,
+			MessageSource securityMessageSource) {
+		return new ResourceAuthExceptionEntryPoint(objectMapper, securityMessageSource);
+	}
 
-    /**
-     * 资源服务器toke内省处理器
-     *
-     * @param authorizationService token 存储实现
-     * @return TokenIntrospector
-     */
-    @Bean
-    public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
-        return new PigxCustomOpaqueTokenIntrospector(authorizationService);
-    }
+	/**
+	 * 资源服务器toke内省处理器
+	 * @param authorizationService token 存储实现
+	 * @return TokenIntrospector
+	 */
+	@Bean
+	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
+		return new PigxCustomOpaqueTokenIntrospector(authorizationService);
+	}
 
 }
