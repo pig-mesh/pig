@@ -38,73 +38,73 @@ import java.time.LocalDateTime;
 @Schema(description = "自动创建表管理")
 public class GenCreateTable extends Model<GenCreateTable> {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键ID
-     */
-    @TableId(type = IdType.ASSIGN_ID)
-    @Schema(description = "主键ID")
-    private Long id;
+	/**
+	 * 主键ID
+	 */
+	@TableId(type = IdType.ASSIGN_ID)
+	@Schema(description = "主键ID")
+	private Long id;
 
-    /**
-     * 数据源名称
-     */
-    @Schema(description = "数据源名称")
-    private String dsName;
+	/**
+	 * 数据源名称
+	 */
+	@Schema(description = "数据源名称")
+	private String dsName;
 
-    /**
-     * 表名称
-     */
-    @Schema(description = "表名称")
-    private String tableName;
+	/**
+	 * 表名称
+	 */
+	@Schema(description = "表名称")
+	private String tableName;
 
-    /**
-     * 表注释
-     */
-    @Schema(description = "表注释")
-    private String comments;
+	/**
+	 * 表注释
+	 */
+	@Schema(description = "表注释")
+	private String comments;
 
-    /**
-     * 字段信息
-     */
-    @Schema(description = "字段信息")
-    private String columnInfo;
+	/**
+	 * 字段信息
+	 */
+	@Schema(description = "字段信息")
+	private String columnInfo;
 
-    /**
-     * 创建人
-     */
-    @TableField(fill = FieldFill.INSERT)
-    @Schema(description = "创建人")
-    private String createBy;
+	/**
+	 * 创建人
+	 */
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "创建人")
+	private String createBy;
 
-    /**
-     * 修改人
-     */
-    @TableField(fill = FieldFill.UPDATE)
-    @Schema(description = "修改人")
-    private String updateBy;
+	/**
+	 * 修改人
+	 */
+	@TableField(fill = FieldFill.UPDATE)
+	@Schema(description = "修改人")
+	private String updateBy;
 
-    /**
-     * 创建时间
-     */
-    @Schema(description = "创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+	/**
+	 * 创建时间
+	 */
+	@Schema(description = "创建时间")
+	@TableField(fill = FieldFill.INSERT)
+	private LocalDateTime createTime;
 
-    /**
-     * 修改时间
-     */
-    @Schema(description = "修改时间")
-    @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
+	/**
+	 * 修改时间
+	 */
+	@Schema(description = "修改时间")
+	@TableField(fill = FieldFill.UPDATE)
+	private LocalDateTime updateTime;
 
-    /**
-     * 删除标识（0-正常,1-删除）
-     */
-    @TableLogic
-    @TableField(fill = FieldFill.INSERT)
-    @Schema(description = "删除标记,1:已删除,0:正常")
-    private String delFlag;
+	/**
+	 * 删除标识（0-正常,1-删除）
+	 */
+	@TableLogic
+	@TableField(fill = FieldFill.INSERT)
+	@Schema(description = "删除标记,1:已删除,0:正常")
+	private String delFlag;
 
 }
