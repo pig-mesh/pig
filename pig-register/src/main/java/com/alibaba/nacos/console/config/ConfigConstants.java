@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.alibaba.nacos.config;
+package com.alibaba.nacos.console.config;
 
 /**
  * @author lengleng

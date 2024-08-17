@@ -16,7 +16,6 @@
 
 package com.alibaba.nacos.console.config;
 
-import com.alibaba.nacos.config.ConsoleConfig;
 import com.alibaba.nacos.sys.module.ModuleState;
 import com.alibaba.nacos.sys.module.ModuleStateBuilder;
 import com.alibaba.nacos.sys.utils.ApplicationUtils;
