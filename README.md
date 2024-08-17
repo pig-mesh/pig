@@ -39,7 +39,7 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.3.1      |
+| Spring Boot                 | 3.3.2      |
 | Spring Cloud                | 2023.0.3   |
 | Spring Cloud Alibaba        | 2023.0.1.2 |
 | Spring Authorization Server | 1.3.1      |
@@ -90,15 +90,14 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 # 下载并运行服务端代码
 git clone https://gitee.com/log4j/pig.git -b jdk17
 
-cd pig && mvn clean install && docker-compose up -d
+cd pig && mvn clean install && docker compose up -d
 
 # 下载并运行前端UI
 git clone https://gitee.com/log4j/pig-ui.git
 
-cd pig-ui && npm install -g cnpm --registry=https://registry.npm.taobao.org
+cd pig-ui && npm install  --registry=https://registry.npmmirror.com
 
-
-cnpm install && cnpm run build:docker && cd docker && docker-compose up -d
+npm install && npm run build:docker && cd docker && docker compose up -d
 ```
 
 ## 免费公开课
