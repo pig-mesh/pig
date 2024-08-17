@@ -32,9 +32,6 @@ jobs:
       - name: mvn clean install
         run: mvn clean install
 
-      - name: Start containers
-        run: docker-compose build && docker-compose up -d
-
       - name:  failure
         if: failure() && github.repository == 'pig-mesh/pig'
         uses: chf007/action-wechat-work@master
