@@ -156,7 +156,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 	@Override
 	public S3Object getObject(String bucketName, String dir, String objectName) {
 		if (StrUtil.isNotBlank(dir)) {
-			objectName = dir + FileUtil.FILE_SEPARATOR + objectName;
+			objectName = dir + '/' + objectName;
 		}
 		return getObject(bucketName, objectName);
 	}
@@ -199,7 +199,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 			throws Exception {
 		if (StrUtil.isNotBlank(dir)) {
 			// dir 路径为 a/b
-			objectName = dir + FileUtil.FILE_SEPARATOR + objectName;
+			objectName = dir + '/' + objectName;
 		}
 
 		putObject(bucketName, objectName, stream, stream.available(), contextType);

@@ -39,12 +39,7 @@ public class SseEmitterMessageSender {
 			return false;
 		}
 
-		Object sendFailed = ReflectUtil.getFieldValue(sseEmitter, "sendFailed");
-		if ((boolean) sendFailed) {
-			log.error("[send] sseEmitter 已经关闭");
-			SseEmitterHolder.removeSseEmitter(sseEmitter);
-			return false;
-		}
+
 		try {
 			sseEmitter.send(message);
 		}
