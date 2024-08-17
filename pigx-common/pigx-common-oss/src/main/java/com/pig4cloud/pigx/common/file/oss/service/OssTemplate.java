@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.common.file.oss.service;
 
-import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.text.CharPool;
 import cn.hutool.core.util.StrUtil;
 import com.amazonaws.ClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
@@ -156,7 +156,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 	@Override
 	public S3Object getObject(String bucketName, String dir, String objectName) {
 		if (StrUtil.isNotBlank(dir)) {
-			objectName = dir + '/' + objectName;
+			objectName = dir + CharPool.SLASH + objectName;
 		}
 		return getObject(bucketName, objectName);
 	}
@@ -199,7 +199,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 			throws Exception {
 		if (StrUtil.isNotBlank(dir)) {
 			// dir 路径为 a/b
-			objectName = dir + '/' + objectName;
+			objectName = dir + CharPool.SLASH + objectName;
 		}
 
 		putObject(bucketName, objectName, stream, stream.available(), contextType);
