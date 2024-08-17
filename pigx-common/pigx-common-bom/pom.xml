@@ -36,7 +36,7 @@
         <groovy.version>3.0.3</groovy.version>
         <javax.version>4.0.1</javax.version>
         <jsoup.version>1.15.3</jsoup.version>
-        <aviator.version>5.4.1</aviator.version>
+        <aviator.version>5.4.3</aviator.version>
         <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
