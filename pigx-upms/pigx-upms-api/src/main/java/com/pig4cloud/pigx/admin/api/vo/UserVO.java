@@ -90,6 +90,18 @@ public class UserVO implements Serializable {
 	private String oscOpenId;
 
 	/**
+	 * 企微微信 userid
+	 */
+	@Schema(description = "企微微信 userid")
+	private String wxCpUserid;
+
+	/**
+	 * 钉钉 userid
+	 */
+	@Schema(description = "钉钉 userid")
+	private String wxDingUserid;
+
+	/**
 	 * 创建时间
 	 */
 	@Schema(description = "创建时间")
@@ -185,16 +197,5 @@ public class UserVO implements Serializable {
 	@Schema(description = "邮箱")
 	private String email;
 
-	/**
-	 * 企微微信 userid
-	 */
-	@Schema(description = "企微微信 userid")
-	private String wxCpUserid;
-
-	/**
-	 * 钉钉 userid
-	 */
-	@Schema(description = "钉钉 userid")
-	private String wxDingUserid;
 
 }
