@@ -17,6 +17,9 @@
 
 package com.pig4cloud.pigx.common.data.cache;
 
+import cn.hutool.core.util.ReflectUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pigx.common.core.jackson.PigxJavaTimeModule;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
@@ -94,8 +97,12 @@ public class RedisCacheAutoConfiguration {
         } else {
             CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
             RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+
+            RedisSerializer<Object> jsonRedisSerializer = RedisSerializer.json();
+            ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(jsonRedisSerializer, "mapper");
+            objectMapper.registerModules(new PigxJavaTimeModule());
             config = config.serializeValuesWith(RedisSerializationContext.SerializationPair
-                    .fromSerializer(RedisSerializer.java()));
+                    .fromSerializer(jsonRedisSerializer));
             if (redisProperties.getTimeToLive() != null) {
                 config = config.entryTtl(redisProperties.getTimeToLive());
             }

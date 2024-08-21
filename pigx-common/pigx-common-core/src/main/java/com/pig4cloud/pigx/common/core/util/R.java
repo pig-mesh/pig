@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.common.core.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -96,6 +97,7 @@ public class R<T> implements Serializable {
         return apiResult;
     }
 
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     public boolean isOk() {
         return this.code == CommonConstants.SUCCESS;
     }
