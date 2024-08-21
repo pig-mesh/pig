@@ -24,24 +24,31 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppPageController {
 
-	private final AppPageService pageService;
+    private final AppPageService pageService;
 
-	/**
-	 * 通过id查询文章资讯
-	 * @param pageType pageType
-	 * @return R
-	 */
-	@Operation(summary = "通过页面类型查询", description = "通过页面类型查询")
-	@GetMapping("/{pageType}")
-	public R getById(@PathVariable("pageType") Long pageType) {
-		AppPageEntity one = pageService.getOne(Wrappers.<AppPageEntity>lambdaQuery().eq(AppPageEntity::getPageType, pageType));
-		return R.ok(one);
-	}
+    /**
+     * 查询文章资讯
+     *
+     * @param pageType pageType
+     * @return R
+     */
+    @Operation(summary = "通过页面类型查询", description = "通过页面类型查询")
+    @GetMapping("/{pageType}")
+    public R getByPageType(@PathVariable("pageType") Long pageType) {
+        AppPageEntity appPage = pageService.getOne(Wrappers.<AppPageEntity>lambdaQuery().eq(AppPageEntity::getPageType, pageType));
+        return R.ok(appPage);
+    }
 
-	@Operation(summary = "更新页面", description = "更新页面")
-	@PutMapping
-	public R update(@RequestBody AppPageEntity page) {
-		return R.ok(pageService.saveOrUpdate(page));
-	}
+    /**
+     * 更新
+     *
+     * @param page 页面
+     * @return {@link R }
+     */
+    @Operation(summary = "更新页面", description = "更新页面")
+    @PutMapping
+    public R update(@RequestBody AppPageEntity page) {
+        return R.ok(pageService.saveOrUpdate(page));
+    }
 
 }
