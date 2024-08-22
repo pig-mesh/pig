@@ -738,6 +738,7 @@ INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `p
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9911, '路由管理', NULL, '/tools/route/index', NULL, 9910, 'iconfont icon-crew_feature', '1', 3, '0', '0', '0', 'admin', '2023-11-01 17:13:09', 'admin', '2023-11-27 14:53:33', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9912, '大屏看板', NULL, '/tools/data/report', NULL, 9910, 'iconfont icon-shuju', '1', 5, '0', '0', '0', 'admin', '2023-11-01 17:19:38', 'admin', '2023-11-27 14:53:38', '0', 1);
 INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9913, '数据报表', NULL, '/tools/data/jimu', NULL, 9910, 'iconfont icon-ico_shuju', '1', 6, '0', '0', '0', 'admin', '2023-11-01 17:20:06', 'admin', '2023-11-27 14:53:43', '0', 1);
+    INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`, `tenant_id`) VALUES (9914, '路由维护', 'sys_route_manage', NULL, NULL, 9911, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:51', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -930,6 +931,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 2102);
 INSERT INTO `sys_role_menu` VALUES (1, 2103);
 INSERT INTO `sys_role_menu` VALUES (1, 2104);
 INSERT INTO `sys_role_menu` VALUES (1, 2105);
+INSERT INTO `sys_role_menu` VALUES (1, 2106);
 INSERT INTO `sys_role_menu` VALUES (1, 2200);
 INSERT INTO `sys_role_menu` VALUES (1, 2201);
 INSERT INTO `sys_role_menu` VALUES (1, 2202);
@@ -1113,6 +1115,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 9910);
 INSERT INTO `sys_role_menu` VALUES (1, 9911);
 INSERT INTO `sys_role_menu` VALUES (1, 9912);
 INSERT INTO `sys_role_menu` VALUES (1, 9913);
+INSERT INTO `sys_role_menu` VALUES (1, 9914);
 COMMIT;
 
 -- ----------------------------
