@@ -24,6 +24,7 @@ import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.amazonaws.services.s3.model.S3Object;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -43,6 +44,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -112,6 +114,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             response.setContentType("application/octet-stream; charset=UTF-8");
             // 文件唯一hash
             response.addHeader("Hash", sysFile.getHash());
+            response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLUtil.encode(sysFile.getOriginal()));
             IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
         } catch (Exception e) {
             log.error("文件读取异常: {}", e.getLocalizedMessage());

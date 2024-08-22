@@ -22,8 +22,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
-import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.core.util.RetOps;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -31,10 +29,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -63,16 +58,14 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
     }
 
     /**
-     * 构建userdetails
+     * 获取用户详细信息
      *
-     * @param result 用户信息
-     * @return UserDetails
-     * @throws UsernameNotFoundException
+     * @param userInfoOptional 用户信息：可选
+     * @return {@link UserDetails }
      */
-    default UserDetails getUserDetails(R<UserInfo> result) {
+    default UserDetails getUserDetails(Optional<UserInfo> userInfoOptional) {
         // @formatter:off
-		return RetOps.of(result)
-				.getData()
+		return  userInfoOptional
 				.map(this::convertUserDetails)
 				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
 		// @formatter:on

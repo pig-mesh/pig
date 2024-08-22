@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.common.data.tenant;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
@@ -40,7 +41,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.List;
-import java.util.Objects;
 
 /**
  * @author lengleng
@@ -100,12 +100,11 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             return true;
         }
 
-        Cache.ValueWrapper valueWrapper = cache.get(SimpleKey.EMPTY);
-        if (Objects.isNull(valueWrapper)) {
+        List<SysTenant> tenantList = cache.get(SimpleKey.EMPTY, List.class);
+        if (CollUtil.isEmpty(tenantList)) {
             return true;
         }
 
-        List<SysTenant> tenantList = (List<SysTenant>) valueWrapper.get();
         boolean exist = tenantList.stream().anyMatch(tenant -> NumberUtil.equals(tenant.getId(), TenantContextHolder.getTenantId()));
         if (exist) {
             return true;

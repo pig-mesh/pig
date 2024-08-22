@@ -4,6 +4,7 @@ import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class PigxMobileUserDetailServiceImpl implements PigxUserDetailsService {
 	@SneakyThrows
 	public UserDetails loadUserByUsername(String phone) {
 		R<UserInfo> result = remoteUserService.social(phone);
-		return getUserDetails(result);
+		return getUserDetails(RetOps.of(result).getData());
 	}
 
 	@Override

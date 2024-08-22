@@ -110,6 +110,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 		List<TreeNode<Long>> collect = baseMapper
 			.selectList(Wrappers.<SysMenu>lambdaQuery()
+				.eq(Objects.nonNull(parentId),SysMenu::getParentId, parentId)
 				.like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName)
 				.eq(StrUtil.isNotBlank(type), SysMenu::getMenuType, type)
 				.orderByAsc(SysMenu::getSortOrder))

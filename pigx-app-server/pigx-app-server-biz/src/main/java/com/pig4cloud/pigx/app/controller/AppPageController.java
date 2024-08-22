@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.app.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.entity.AppPageEntity;
 import com.pig4cloud.pigx.app.service.AppPageService;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -23,23 +24,31 @@ import org.springframework.web.bind.annotation.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppPageController {
 
-	private final AppPageService pageService;
+    private final AppPageService pageService;
 
-	/**
-	 * 通过id查询文章资讯
-	 * @param id id
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Long id) {
-		return R.ok(pageService.getById(id));
-	}
+    /**
+     * 查询文章资讯
+     *
+     * @param pageType pageType
+     * @return R
+     */
+    @Operation(summary = "通过页面类型查询", description = "通过页面类型查询")
+    @GetMapping("/{pageType}")
+    public R getByPageType(@PathVariable("pageType") Long pageType) {
+        AppPageEntity appPage = pageService.getOne(Wrappers.<AppPageEntity>lambdaQuery().eq(AppPageEntity::getPageType, pageType));
+        return R.ok(appPage);
+    }
 
-	@Operation(summary = "更新页面", description = "更新页面")
-	@PutMapping
-	public R update(@RequestBody AppPageEntity page) {
-		return R.ok(pageService.updateById(page));
-	}
+    /**
+     * 更新
+     *
+     * @param page 页面
+     * @return {@link R }
+     */
+    @Operation(summary = "更新页面", description = "更新页面")
+    @PutMapping
+    public R update(@RequestBody AppPageEntity page) {
+        return R.ok(pageService.saveOrUpdate(page));
+    }
 
 }
