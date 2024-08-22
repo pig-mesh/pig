@@ -24,6 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 脱敏配置类
@@ -38,7 +39,7 @@ import java.util.Objects;
 @EnableConfigurationProperties(SensitiveWordsProperties.class)
 public class SensitiveAutoConfiguration implements InitializingBean {
 
-    private final RedisMessageListenerContainer redisMessageListenerContainer;
+    private final Optional<RedisMessageListenerContainer> redisMessageListenerContainerOptional;
 
     /**
      * 注入默认的脱敏权限判断
@@ -113,11 +114,13 @@ public class SensitiveAutoConfiguration implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        redisMessageListenerContainer.addMessageListener((message, bytes) -> {
-                    log.info("开始重新加载敏感词库");
-                    SpringContextHolder.getBean(SensitiveWordBs.class).init();
-                    log.info("敏感词库加载完成");
-                },
-                new ChannelTopic(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC));
+        redisMessageListenerContainerOptional.ifPresent(redisMessageListenerContainer -> {
+            redisMessageListenerContainer.addMessageListener((message, bytes) -> {
+                        log.info("开始重新加载敏感词库");
+                        SpringContextHolder.getBean(SensitiveWordBs.class).init();
+                        log.info("敏感词库加载完成");
+                    },
+                    new ChannelTopic(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC));
+        });
     }
 }
