@@ -78,7 +78,7 @@ public class PigxCodeGenDefaultProperties implements InitializingBean {
 	/**
 	 * 是否同步路由
 	 */
-	private String syncRoute = "1";
+	private String syncRoute = "0";
 
 	/**
      * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
