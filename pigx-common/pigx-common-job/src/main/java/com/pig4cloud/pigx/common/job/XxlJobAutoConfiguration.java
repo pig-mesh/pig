@@ -49,7 +49,7 @@ public class XxlJobAutoConfiguration {
 		xxlJobSpringExecutor.setAddress(executor.getAddress());
 		xxlJobSpringExecutor.setIp(executor.getIp());
 		xxlJobSpringExecutor.setPort(executor.getPort());
-		xxlJobSpringExecutor.setAccessToken(executor.getAccessToken());
+		xxlJobSpringExecutor.setAccessToken(xxlJobProperties.getAccessToken());
 		xxlJobSpringExecutor.setLogPath(executor.getLogPath());
 		xxlJobSpringExecutor.setLogRetentionDays(executor.getLogRetentionDays());
 

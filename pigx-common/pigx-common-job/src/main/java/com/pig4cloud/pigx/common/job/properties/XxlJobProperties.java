@@ -14,10 +14,15 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @ConfigurationProperties(prefix = "xxl.job")
 public class XxlJobProperties {
 
-	@NestedConfigurationProperty
-	private XxlAdminProperties admin = new XxlAdminProperties();
+    /**
+     * 执行器通讯TOKEN [选填]：非空时启用；
+     */
+    private String accessToken;
 
-	@NestedConfigurationProperty
-	private XxlExecutorProperties executor = new XxlExecutorProperties();
+    @NestedConfigurationProperty
+    private XxlAdminProperties admin = new XxlAdminProperties();
+
+    @NestedConfigurationProperty
+    private XxlExecutorProperties executor = new XxlExecutorProperties();
 
 }

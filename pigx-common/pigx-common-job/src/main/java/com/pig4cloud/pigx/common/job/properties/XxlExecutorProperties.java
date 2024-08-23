@@ -35,6 +35,7 @@ public class XxlExecutorProperties {
 	/**
 	 * 执行器通讯TOKEN [选填]：非空时启用；
 	 */
+	@Deprecated
 	private String accessToken;
 
 	/**
