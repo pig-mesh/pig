@@ -2,6 +2,8 @@ package com.pig4cloud.pig.codegen.config;
 
 import cn.smallbun.screw.core.constant.DefaultConstants;
 import lombok.Data;
+import org.anyline.util.ConfigTable;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @Configuration(proxyBeanMethods = false)
 @ConfigurationProperties(prefix = PigCodeGenDefaultProperties.PREFIX)
-public class PigCodeGenDefaultProperties {
+public class PigCodeGenDefaultProperties implements InitializingBean {
 
 	public static final String PREFIX = "codegen";
 
@@ -72,5 +74,10 @@ public class PigCodeGenDefaultProperties {
 	 * 下载方式 （0 文件下载、1写入目录）
 	 */
 	private String generatorType = "0";
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		ConfigTable.KEEP_ADAPTER = 0;
+	}
 
 }

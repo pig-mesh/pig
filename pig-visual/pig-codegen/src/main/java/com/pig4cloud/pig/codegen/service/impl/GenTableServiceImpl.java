@@ -41,6 +41,7 @@ import lombok.RequiredArgsConstructor;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Database;
 import org.anyline.metadata.Table;
+import org.anyline.proxy.CacheProxy;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
 import org.jetbrains.annotations.NotNull;
@@ -96,6 +97,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 	public List<String> queryTableColumn(String dsName, String tableName) {
 		// 手动切换数据源
 		DynamicDataSourceContextHolder.push(dsName);
+		CacheProxy.clear();
 		return ServiceProxy.metadata().columns(tableName).values().stream().map(Column::getName).toList();
 	}
 
@@ -109,6 +111,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 	public IPage queryTablePage(Page<Table> page, GenTable table) {
 		// 手动切换数据源
 		DynamicDataSourceContextHolder.push(table.getDsName());
+		CacheProxy.clear();
 		List<Table> tableList = ServiceProxy.metadata().tables().values().stream().filter(t -> {
 			if (StrUtil.isBlank(table.getTableName())) {
 				return true;
@@ -132,6 +135,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 	public List<String> queryTableList(String dsName) {
 		// 手动切换数据源
 		DynamicDataSourceContextHolder.push(dsName);
+		CacheProxy.clear();
 		return ServiceProxy.metadata().tables().values().stream().map(Table::getName).toList();
 	}
 
@@ -170,6 +174,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		// 查询表是否存在
 		GenTable table = new GenTable();
 		// 从数据库获取表信息
+		CacheProxy.clear();
 		AnylineService service = ServiceProxy.service();
 		Table tableMetadata = service.metadata().table(tableName);
 		Database database = service.metadata().database();
