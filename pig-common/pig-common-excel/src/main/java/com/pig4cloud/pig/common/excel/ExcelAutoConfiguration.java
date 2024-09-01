@@ -17,6 +17,16 @@ import org.springframework.web.client.RestTemplate;
 public class ExcelAutoConfiguration {
 
 	/**
+	 * REST 模板
+	 * @return {@link RestTemplate }
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
+
+	/**
 	 * dict 数据提供程序
 	 * @param restTemplate REST 模板
 	 * @return {@link DictDataProvider }

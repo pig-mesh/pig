@@ -96,7 +96,7 @@ public class UserExcelVO implements Serializable {
 	 * 锁定标记
 	 */
 	@ExcelProperty("锁定标记,0:正常,9:已锁定")
-	@DictTypeProperty("lock_flagX")
+	@DictTypeProperty("lock_flag")
 	private String lockFlag;
 
 	/**

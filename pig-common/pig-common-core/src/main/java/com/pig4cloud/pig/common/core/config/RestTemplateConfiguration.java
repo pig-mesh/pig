@@ -17,6 +17,8 @@
 package com.pig4cloud.pig.common.core.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,7 +29,13 @@ import org.springframework.web.client.RestTemplate;
 @AutoConfiguration
 public class RestTemplateConfiguration {
 
+	/**
+	 * 动态 REST 模板
+	 * @return {@link RestTemplate }
+	 */
 	@Bean
+	@LoadBalanced
+	@ConditionalOnProperty(value = "spring.cloud.nacos.discovery.enabled", havingValue = "true", matchIfMissing = true)
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
