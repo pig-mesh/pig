@@ -19,7 +19,7 @@ public class SensitiveWordsProperties {
     /**
      * The sensitive words to detect.
      */
-    private String mask = "*";
+    private String mask = "no_mask";
 
     /**
      * Whether the sensitive words detection is enabled.
