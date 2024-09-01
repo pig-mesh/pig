@@ -35,6 +35,7 @@
         <shardingsphere.version>5.4.1</shardingsphere.version>
         <hutool.version>5.8.32</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
+        <common.io.version>2.16.1</common.io.version>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
@@ -129,6 +130,12 @@
                 <groupId>com.pig4cloud.excel</groupId>
                 <artifactId>excel-spring-boot-starter</artifactId>
                 <version>${excel.version}</version>
+            </dependency>
+            <!-- commons.io 覆盖easyexcel-->
+            <dependency>
+                <artifactId>commons-io</artifactId>
+                <groupId>commons-io</groupId>
+                <version>${common.io.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
