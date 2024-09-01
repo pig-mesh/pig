@@ -28,7 +28,7 @@
         <mysql.version>9.0.0</mysql.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
-        <excel.version>3.3.0</excel.version>
+        <excel.version>3.3.1-SNAPSHOT</excel.version>
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
@@ -86,6 +86,11 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-xss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-excel</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

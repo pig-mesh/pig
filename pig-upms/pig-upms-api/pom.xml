@@ -46,10 +46,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-mybatis</artifactId>
         </dependency>
-        <!-- excel 导入导出 https://github.com/pig-mesh/excel-spring-boot-starter -->
+        <!-- excel 导入导出 -->
         <dependency>
-            <groupId>com.pig4cloud.excel</groupId>
-            <artifactId>excel-spring-boot-starter</artifactId>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-excel</artifactId>
         </dependency>
     </dependencies>
 </project>
