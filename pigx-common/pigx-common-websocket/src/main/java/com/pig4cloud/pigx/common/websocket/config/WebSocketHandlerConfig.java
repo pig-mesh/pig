@@ -51,7 +51,7 @@ public class WebSocketHandlerConfig {
 	public WebSocketHandler webSocketHandler1(@Autowired(required = false) SessionKeyGenerator sessionKeyGenerator) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler();
 		if (webSocketProperties.isMapSession()) {
-			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator);
+			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator, webSocketProperties);
 		}
 		return customWebSocketHandler;
 	}
@@ -63,7 +63,7 @@ public class WebSocketHandlerConfig {
 			PlanTextMessageHandler planTextMessageHandler) {
 		CustomWebSocketHandler customWebSocketHandler = new CustomWebSocketHandler(planTextMessageHandler);
 		if (webSocketProperties.isMapSession()) {
-			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator);
+			return new MapSessionWebSocketHandlerDecorator(customWebSocketHandler, sessionKeyGenerator,webSocketProperties);
 		}
 		return customWebSocketHandler;
 	}
