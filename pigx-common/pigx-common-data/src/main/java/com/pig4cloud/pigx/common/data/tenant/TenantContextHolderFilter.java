@@ -75,10 +75,16 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             TenantContextHolder.setTenantId(CommonConstants.TENANT_ID_1);
         }
 
-        if (!checkTenantStatus(request, response)) return;
+        if (!checkTenantStatus(request, response)) {
+            TenantContextHolder.clear();
+            return;
+        }
 
-        filterChain.doFilter(request, response);
-        TenantContextHolder.clear();
+        try {
+            filterChain.doFilter(request, response);
+        } finally {
+            TenantContextHolder.clear();
+        }
     }
 
     /**
