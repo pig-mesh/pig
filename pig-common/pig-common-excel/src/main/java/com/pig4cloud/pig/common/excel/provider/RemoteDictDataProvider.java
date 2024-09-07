@@ -2,20 +2,11 @@ package com.pig4cloud.pig.common.excel.provider;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.plugin.excel.handler.DictDataProvider;
 import com.pig4cloud.plugin.excel.vo.DictEnum;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RemoteDictDataProvider implements DictDataProvider {
 
-	private final RestTemplate restTemplate;
+	private final RemoteDictApiService remoteDictApiService;
 
 	/**
 	 * 获取 dict
@@ -37,18 +28,8 @@ public class RemoteDictDataProvider implements DictDataProvider {
 	 */
 	@Override
 	public DictEnum[] getDict(String type) {
-		// 获取服务URL
-		String serviceUrl = getServiceUrl(type);
-		// 创建请求实体
-		HttpHeaders headers = new HttpHeaders();
-		headers.add(SecurityConstants.FROM, SecurityConstants.FROM_IN);
-		HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-		// 发送HTTP请求并获取响应
-		ResponseEntity<Map> response = restTemplate.exchange(serviceUrl, HttpMethod.GET, requestEntity, Map.class,
-				type);
-
-		// 解析响应数据
-		List<Map<String, Object>> dictDataList = MapUtil.get(response.getBody(), R.Fields.data, ArrayList.class);
+		R<List<Map<String, Object>>> dictDataListR = remoteDictApiService.getDictByType(type);
+		List<Map<String, Object>> dictDataList = dictDataListR.getData();
 		if (CollUtil.isEmpty(dictDataList)) {
 			return new DictEnum[0];
 		}
@@ -62,22 +43,6 @@ public class RemoteDictDataProvider implements DictDataProvider {
 		}
 
 		return dictEnumBuilder.build();
-	}
-
-	/**
-	 * 获取服务 URL
-	 * @param param 参数
-	 * @return {@link String }
-	 */
-	private String getServiceUrl(String param) {
-		// 根据当前架构模式，组装URL
-		if (SpringContextHolder.isMicro()) {
-			return String.format("http://%s/dict/remote/type/%s", ServiceNameConstants.UPMS_SERVICE, param);
-		}
-		else {
-			return String.format("http://%s/dict/remote/type/%s", SpringContextHolder.getEnvironment()
-				.resolvePlaceholders("127.0.0.1:${server.port}${server.servlet.context-path}"), param);
-		}
 	}
 
 }
