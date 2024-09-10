@@ -36,6 +36,7 @@ public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 	@SneakyThrows
 	public String[] getNullableResult(ResultSet rs, String columnName) {
 		String reString = rs.getString(columnName);
+		if (StrUtil.isBlank(reString)) return new String[]{};
 		return Convert.toStrArray(reString);
 	}
 
@@ -43,6 +44,7 @@ public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 	@SneakyThrows
 	public String[] getNullableResult(ResultSet rs, int columnIndex) {
 		String reString = rs.getString(columnIndex);
+		if (StrUtil.isBlank(reString)) return new String[]{};
 		return Convert.toStrArray(reString);
 	}
 
@@ -50,6 +52,7 @@ public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 	@SneakyThrows
 	public String[] getNullableResult(CallableStatement cs, int columnIndex) {
 		String reString = cs.getString(columnIndex);
+		if (StrUtil.isBlank(reString)) return new String[]{};
 		return Convert.toStrArray(reString);
 	}
 
