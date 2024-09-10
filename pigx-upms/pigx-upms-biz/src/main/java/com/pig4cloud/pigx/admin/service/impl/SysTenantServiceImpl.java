@@ -41,6 +41,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,7 +86,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
     private final SysDictService dictService;
 
-    private final CacheManager cacheManager;
+    private final RedisTemplate redisTemplate;
 
     /**
      * 获取正常状态租户
@@ -298,8 +299,11 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             });
         }
 
-        // 清空菜单权限缓存
-        cacheManager.getCache(CacheConstants.MENU_DETAILS).clear();
+        // 清空指定租户的菜单权限缓存
+        Set keys = redisTemplate.keys(String.format("%s:%s::*", tenantDTO.getId(), CacheConstants.MENU_DETAILS));
+        if (CollUtil.isNotEmpty(keys)) {
+            redisTemplate.delete(keys);
+        }
         return Boolean.TRUE;
     }
 
