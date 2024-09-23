@@ -37,15 +37,15 @@
 
 ### 核心依赖
 
-| 依赖                          | 版本         |
-|-----------------------------|------------|
-| Spring Boot                 | 3.3.3      |
-| Spring Cloud                | 2023.0.3   |
+| 依赖                          | 版本        |
+|-----------------------------|-----------|
+| Spring Boot                 | 3.3.4     |
+| Spring Cloud                | 2023.0.3  |
 | Spring Cloud Alibaba        | 2023.0.1.2 |
-| Spring Authorization Server | 1.3.1      |
-| Mybatis Plus                | 3.5.7      |
-| Vue                         | 3.4        |
-| Element Plus                | 2.7        |
+| Spring Authorization Server | 1.3.1     |
+| Mybatis Plus                | 3.5.8     |
+| Vue                         | 3.4       |
+| Element Plus                | 2.7       |
 
 ### 模块说明
 
