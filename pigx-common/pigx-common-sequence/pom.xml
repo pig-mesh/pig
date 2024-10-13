@@ -15,6 +15,7 @@
     <description>pigx 分布式发号器</description>
 
     <dependencies>
+        <!-- 核心依赖 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-core</artifactId>
@@ -29,21 +30,10 @@
             <groupId>org.anyline</groupId>
             <artifactId>anyline-environment-spring-data-jdbc</artifactId>
         </dependency>
+        <!-- 修改其他类型数据库时：根据数据库，添加不同的依赖 postgresql、oracle、dm-->
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-mysql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-oracle</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-dm</artifactId>
         </dependency>
     </dependencies>
 </project>
