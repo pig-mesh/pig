@@ -26,7 +26,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.admin.api.vo.TokenVO;
-import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -55,7 +54,6 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -77,8 +75,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/token")
 public class PigxTokenEndpoint {
-
-	private final PigxAuthenticationFailureEventHandler authenticationFailureHandler;
 
 	private final OAuth2AuthorizationService authorizationService;
 
@@ -153,16 +149,14 @@ public class PigxTokenEndpoint {
 
 		if (StrUtil.isBlank(token)) {
 			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
-					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.TOKEN_MISSING));
-			return R.failed();
+			return R.failed(OAuth2ErrorCodesExpand.TOKEN_MISSING);
 		}
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
 		// 如果令牌不存在 返回401
 		if (authorization == null || authorization.getAccessToken() == null) {
-			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
-					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
+			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+			return R.failed(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN);
 		}
 
 		// 获取令牌
