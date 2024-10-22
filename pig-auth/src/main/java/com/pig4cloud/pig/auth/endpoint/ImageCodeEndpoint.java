@@ -1,9 +1,9 @@
 package com.pig4cloud.pig.auth.endpoint;
 
 import cn.hutool.core.lang.Validator;
+import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import io.springboot.captcha.ArithmeticCaptcha;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
