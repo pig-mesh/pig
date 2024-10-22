@@ -1,0 +1,41 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Docker 镜像 构建
+
+on:
+  push:
+    branches: [ jdk17-dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ 17 ]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK ${{ matrix.java-version }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ matrix.java-version }}
+          distribution: 'zulu'
+
+      - name: mvn clean install
+        run: mvn clean install -Pcloud
+
+      - name: Login to Docker Registry
+        run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} registry.cn-hangzhou.aliyuncs.com
+
+      - name: Build and push Docker images
+        run: |
+          docker compose build
+          registry="registry.cn-hangzhou.aliyuncs.com/pigx/"
+          for service in $(docker-compose config --services); do
+            if [ "$service" != "pig-redis" ]; then
+              docker tag ${service}:latest ${registry}${service}:latest
+              docker push ${registry}${service}:latest
+            else
+              echo "Skipping pig-redis service"
+            fi
+          done
