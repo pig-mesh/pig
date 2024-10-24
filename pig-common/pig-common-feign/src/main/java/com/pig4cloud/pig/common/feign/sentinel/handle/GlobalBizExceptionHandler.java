@@ -131,7 +131,7 @@ public class GlobalBizExceptionHandler {
 	 */
 	@ExceptionHandler({ NoResourceFoundException.class })
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public R bindExceptionHandler(NoResourceFoundException exception) {
+	public R NotFoundExceptionHandler(NoResourceFoundException exception) {
 		log.debug("请求路径 404 {}", exception.getMessage());
 		return R.failed(exception.getMessage());
 	}
