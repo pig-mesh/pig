@@ -38,7 +38,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -160,8 +159,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
             // 构造普通用户角色
             SysRole roleDefault = new SysRole();
-            roleDefault.setRoleCode(tenantDefault.getTenantDefaultRolecode());
-            roleDefault.setRoleName(tenantDefault.getTenantDefaultRolename());
+            roleDefault.setRoleCode(tenantDefault.getUserDefaultRolecode());
+            roleDefault.setRoleName(tenantDefault.getUserDefaultRolename());
             roleDefault.setDsType(DataScopeTypeEnum.SELF_LEVEL.getType());
             roleService.save(roleDefault);
 
