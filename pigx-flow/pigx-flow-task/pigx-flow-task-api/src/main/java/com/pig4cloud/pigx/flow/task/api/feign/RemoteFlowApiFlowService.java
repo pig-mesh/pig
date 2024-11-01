@@ -2,7 +2,6 @@ package com.pig4cloud.pigx.flow.task.api.feign;
 
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import com.pig4cloud.pigx.flow.task.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.task.vo.FormGroupVo;
 import com.pig4cloud.pigx.flow.task.vo.ProcessVO;
@@ -45,8 +44,7 @@ public interface RemoteFlowApiFlowService {
      * @param paramDto param dto
      * @return {@link R } 流程实例ID {@link String}
      */
-    @NoToken
-    @PostMapping("/process-instance/startInnerProcessInstance")
-    R<String> startInnerProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
+    @PostMapping("/process-instance/startProcessInstance")
+    R<String> startProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
 
 }
