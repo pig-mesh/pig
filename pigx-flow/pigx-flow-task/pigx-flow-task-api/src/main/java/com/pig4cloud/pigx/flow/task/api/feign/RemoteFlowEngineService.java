@@ -3,6 +3,7 @@ package com.pig4cloud.pigx.flow.task.api.feign;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,7 @@ public interface RemoteFlowEngineService {
 	 * @param processInstanceParamDto 流程实例参数
 	 * @return 启动流程结果
 	 */
+	@NoToken
 	@PostMapping("/flow/start")
 	R<String> startProcess(@RequestBody ProcessInstanceParamDto processInstanceParamDto);
 

@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.flow.task.controller;
 
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.flow.task.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.task.dto.TaskQueryParamDto;
 import com.pig4cloud.pigx.flow.task.service.IProcessInstanceService;
@@ -27,6 +28,19 @@ public class ProcessInstanceController {
 	@SneakyThrows
 	@PostMapping("startProcessInstance")
 	public R startProcessInstance(@RequestBody ProcessInstanceParamDto processInstanceParamDto) {
+		return processInstanceService.startProcessInstance(processInstanceParamDto);
+	}
+
+	/**
+	 * 启动内部流程实例
+	 *
+	 * @param processInstanceParamDto 进程实例参数 DTO
+	 * @return {@link R }
+	 */
+	@Inner
+	@SneakyThrows
+	@PostMapping("startInnerProcessInstance")
+	public R startInnerProcessInstance(@RequestBody ProcessInstanceParamDto processInstanceParamDto) {
 		return processInstanceService.startProcessInstance(processInstanceParamDto);
 	}
 

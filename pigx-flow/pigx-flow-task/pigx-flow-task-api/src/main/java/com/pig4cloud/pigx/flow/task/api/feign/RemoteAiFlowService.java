@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.flow.task.api.feign;
 
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import com.pig4cloud.pigx.flow.task.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.task.vo.FormGroupVo;
 import com.pig4cloud.pigx.flow.task.vo.ProcessVO;
@@ -18,7 +19,7 @@ import java.util.List;
  * @date 2023/7/14
  */
 @FeignClient(contextId = "remoteAiFlowService", value = ServiceNameConstants.FLOW_TASK_SERVER)
-public interface RemoteAiFlowService {
+public interface RemoteFlowApiFlowService {
 
     /**
      * 查询所有我可以发起的表单
@@ -38,7 +39,14 @@ public interface RemoteAiFlowService {
     R<ProcessVO> getDetail(@RequestParam("flowId") String flowId);
 
 
-    @PostMapping("/process-instance/startProcessInstance")
-    R startProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
+    /**
+     * 启动流程实例
+     *
+     * @param paramDto param dto
+     * @return {@link R } 流程实例ID {@link String}
+     */
+    @NoToken
+    @PostMapping("/process-instance/startInnerProcessInstance")
+    R<String> startInnerProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
 
 }

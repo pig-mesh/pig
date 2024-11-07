@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.flow.task.api.feign;
 
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,7 @@ public interface RemoteFlowTaskService {
 	 * 节点开始事件
 	 * @param nodeRecordParamDto
 	 */
+	@NoToken
 	@PostMapping("/remote/startNodeEvent")
 	void startNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
 
@@ -29,6 +31,7 @@ public interface RemoteFlowTaskService {
 	 * 节点结束事件
 	 * @param nodeRecordParamDto
 	 */
+	@NoToken
 	@PostMapping("/remote/endNodeEvent")
 	void endNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
 
@@ -43,6 +46,7 @@ public interface RemoteFlowTaskService {
 	 * 创建流程事件
 	 * @param processInstanceRecordParamDto
 	 */
+	@NoToken
 	@PostMapping("/remote/createProcessEvent")
 	void createProcessEvent(@RequestBody ProcessInstanceRecordParamDto processInstanceRecordParamDto);
 
@@ -73,6 +77,7 @@ public interface RemoteFlowTaskService {
 	 * @param nodeId 节点id
 	 * @return
 	 */
+	@NoToken
 	@GetMapping("/processNodeData/getNodeData")
 	R<Node> queryNodeOriData(@RequestParam("flowId") String flowId, @RequestParam("nodeId") String nodeId);
 
@@ -80,6 +85,7 @@ public interface RemoteFlowTaskService {
 	 * 节点开始指派用户了
 	 * @param processNodeRecordAssignUserParamDto
 	 */
+	@NoToken
 	@PostMapping("/remote/startAssignUser")
 	R startAssignUser(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
 
@@ -87,6 +93,7 @@ public interface RemoteFlowTaskService {
 	 * 任务结束事件
 	 * @param processNodeRecordAssignUserParamDto
 	 */
+	@NoToken
 	@PostMapping("/remote/taskEndEvent")
 	R taskEndEvent(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
 

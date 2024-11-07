@@ -11,6 +11,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.flow.engine.utils.ModelUtil;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.entity.Process;
@@ -95,6 +96,7 @@ public class EngineFlowController {
      * @param processInstanceParamDto 启动参数
      * @return 流程实例ID
      */
+    @Inner
     @PostMapping("/start")
     public R start(@RequestBody ProcessInstanceParamDto processInstanceParamDto) {
         Authentication.setAuthenticatedUserId(processInstanceParamDto.getStartUserId());
