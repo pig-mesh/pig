@@ -268,7 +268,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         }
 
         String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
-        log.debug("手机号生成验证码成功:{},{}", mobile, code);
+        log.info("手机号生成验证码成功:{},{}", mobile, code);
         redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
         // 发送
