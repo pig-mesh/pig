@@ -47,7 +47,7 @@
         <!--mybatis plus extension,包含了mybatis plus core-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
+            <artifactId>mybatis-plus-spring</artifactId>
         </dependency>
         <!--feign 工具类-->
         <dependency>

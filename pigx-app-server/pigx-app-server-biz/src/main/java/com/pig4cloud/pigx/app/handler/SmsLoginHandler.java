@@ -20,10 +20,13 @@ package com.pig4cloud.pigx.app.handler;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.dto.AppUserInfo;
 import com.pig4cloud.pigx.app.api.entity.AppUser;
+import com.pig4cloud.pigx.app.mapper.AppUserMapper;
 import com.pig4cloud.pigx.app.service.AppUserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 /**
  * @author lengleng
@@ -55,30 +58,24 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	public AppUserInfo info(String identify) {
 		AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getPhone, identify));
 
-		if (user == null) {
+		// 未注册用户自动注册
+		if (Objects.isNull(user)) {
 			log.info("手机号未注册:{}", identify);
-			return createAndSaveAppUserInfo(identify);
+			AppUser appUser = new AppUser();
+			appUser.setUsername(identify);
+			appUser.setPhone(identify);
+			appUser.setCreateBy(identify);
+			appUser.setUpdateBy(identify);
+			appUserService.save(appUser);
+			AppUserInfo appUserDTO = new AppUserInfo();
+			appUserDTO.setAppUser(appUser);
+			return appUserDTO;
 		}
+
+		// 返回用户信息
 		return appUserService.findUserInfo(user);
 	}
 
-	/**
-	 * 创建并插入用户
-	 * @param identify
-	 * @return
-	 */
-	private AppUserInfo createAndSaveAppUserInfo(String phone) {
-		AppUser appUser = new AppUser();
-		appUser.setUsername(phone);
-		appUser.setPhone(phone);
-		appUser.setCreateBy(phone);
-		appUser.setUpdateBy(phone);
-		appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getPhone, phone));
-
-		AppUserInfo appUserDTO = new AppUserInfo();
-		appUserDTO.setAppUser(appUser);
-		return appUserDTO;
-	}
 
 	/**
 	 * 绑定逻辑
