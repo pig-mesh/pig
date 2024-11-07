@@ -18,11 +18,11 @@
 
     <properties>
         <pigx.version>5.6.0</pigx.version>
-        <mybatis-plus.version>3.5.7</mybatis-plus.version>
-        <mybatis-plus-join.version>1.4.13</mybatis-plus-join.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
+        <mybatis-plus-join.version>1.5.2</mybatis-plus-join.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
-        <druid.version>1.2.20</druid.version>
-        <hutool.version>5.8.31</hutool.version>
+        <druid.version>1.2.23</druid.version>
+        <hutool.version>5.8.33</hutool.version>
         <mysql.connector.version>8.3.0</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>8.4.1.jre8</sqlserver.version>
@@ -31,7 +31,7 @@
         <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>2.1.0</springdoc.version>
         <swagger.core.version>2.2.14</swagger.core.version>
-        <mp.weixin.version>4.6.0</mp.weixin.version>
+        <mp.weixin.version>4.6.7.B</mp.weixin.version>
         <ijpay.version>2.9.10-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <javax.version>4.0.1</javax.version>
@@ -40,13 +40,13 @@
         <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <xxl.job.version>2.4.2</xxl.job.version>
+        <xxl.job.version>2.3.0</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.12.261</aws.version>
         <javers.version>7.3.3</javers.version>
         <seata.version>1.7.0</seata.version>
         <asm.version>7.1</asm.version>
-        <sensitive.word.version>0.17.0</sensitive.word.version>
+        <sensitive.word.version>0.21.0</sensitive.word.version>
         <log4j2.version>2.17.1</log4j2.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
@@ -54,6 +54,7 @@
         <anyline.version>8.7.2-jdk17-20240808</anyline.version>
         <sms4j.version>3.2.1</sms4j.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
+        <dashscope.version>2.16.5</dashscope.version>
         <velocity.version>2.3</velocity.version>
         <common.io.version>2.16.1</common.io.version>
         <velocity.tool.version>3.1</velocity.tool.version>
@@ -206,18 +207,6 @@
                 <artifactId>sensitive-word</artifactId>
                 <version>${sensitive.word.version}</version>
             </dependency>
-            <!--mybatis plus extension,包含了mybatis plus core-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <!--mybatis-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
@@ -272,7 +261,7 @@
             </dependency>
             <dependency>
                 <groupId>com.dameng</groupId>
-                <artifactId>DmDialect-for-hibernate6.1</artifactId>
+                <artifactId>DmDialect-for-hibernate5.3</artifactId>
                 <version>${dm.version}</version>
             </dependency>
             <dependency>
@@ -432,6 +421,18 @@
                 <artifactId>jakarta.mail</artifactId>
                 <version>${jakarta.mail.version}</version>
             </dependency>
+            <!--  阿里云百炼工具 -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>dashscope-sdk-java</artifactId>
+                <version>${dashscope.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <artifactId>slf4j-simple</artifactId>
+                        <groupId>org.slf4j</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
             <!--webhook-->
             <dependency>
                 <groupId>org.dromara.sms4j</groupId>
@@ -502,6 +503,13 @@
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>sentinel-api-gateway-adapter-common</artifactId>
                 <version>${sentinel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-bom</artifactId>
+                <version>${mybatis-plus.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
