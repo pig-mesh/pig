@@ -64,5 +64,9 @@ mybatis-plus:
     jdbc-type-for-null: 'null'
     call-setters-on-nulls: true
     shrink-whitespaces-in-sql: true
-mybatis-plus-join:
-  banner: false
+# 查询以下前缀的表，不输出日志
+pigx:
+  mybatis:
+    skip-table:
+      - QRTZ_  #quartz 定时任务的表
+      - ACT_   #工作流相关的表

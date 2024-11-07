@@ -24,3 +24,7 @@ liteflow:
   print-banner: false
   print-execution-log: false
   enable: true
+
+# 关闭连表插件的banner
+mybatis-plus-join:
+  banner: false
