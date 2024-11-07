@@ -16,19 +16,21 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class AppArticleCollectServiceImpl extends ServiceImpl<AppArticleCollectMapper, AppArticleCollectEntity>
-		implements AppArticleCollectService {
+        implements AppArticleCollectService {
 
-	@Override
-	public Boolean saveArticleCollect(AppArticleCollectEntity appArticleCollect) {
-		Long id = SecurityUtils.getUser().getId();
-		appArticleCollect.setUserId(id);
+    @Override
+    public Boolean saveArticleCollect(AppArticleCollectEntity appArticleCollect) {
+        Long id = SecurityUtils.getUser().getId();
+        appArticleCollect.setUserId(id);
 
-		this.saveOrUpdate(appArticleCollect,
-				Wrappers.<AppArticleCollectEntity>lambdaQuery()
-					.eq(AppArticleCollectEntity::getUserId, id)
-					.eq(AppArticleCollectEntity::getArticleId, appArticleCollect.getArticleId()));
+        if (baseMapper.exists(Wrappers.<AppArticleCollectEntity>lambdaQuery()
+                .eq(AppArticleCollectEntity::getUserId, id)
+                .eq(AppArticleCollectEntity::getArticleId, appArticleCollect.getArticleId()))) {
+            return Boolean.FALSE;
+        }
 
-		return Boolean.TRUE;
-	}
+        return this.save(appArticleCollect);
+
+    }
 
 }

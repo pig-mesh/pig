@@ -33,6 +33,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Objects;
+
 /**
  * @author lengleng
  * @date 2019年11月02日
@@ -85,10 +87,21 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
     public AppUserInfo info(String openId) {
         AppUser user = appUserService.getOne(Wrappers.<AppUser>query().lambda().eq(AppUser::getWxOpenid, openId));
 
-        if (user == null) {
+        // 未注册用户自动注册
+        if (Objects.isNull(user)) {
             log.info("微信小程序未绑定:{},创建新的用户", openId);
-            return createAndSaveAppUserInfo(openId);
+            AppUser appUser = new AppUser();
+            appUser.setWxOpenid(openId);
+            appUser.setUsername(openId);
+            appUser.setCreateBy(openId);
+            appUser.setUpdateBy(openId);
+            appUserService.saveOrUpdate(appUser);
+
+            AppUserInfo appUserDTO = new AppUserInfo();
+            appUserDTO.setAppUser(appUser);
+            return appUserDTO;
         }
+
         return appUserService.findUserInfo(user);
     }
 
@@ -104,19 +117,6 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
         user.setWxOpenid(identify);
         appUserService.updateById(user);
         return true;
-    }
-
-    private AppUserInfo createAndSaveAppUserInfo(String openId) {
-        AppUser appUser = new AppUser();
-        appUser.setWxOpenid(openId);
-        appUser.setUsername(openId);
-        appUser.setCreateBy(openId);
-        appUser.setUpdateBy(openId);
-        appUserService.saveOrUpdate(appUser, Wrappers.<AppUser>lambdaQuery().eq(AppUser::getUsername, openId));
-
-        AppUserInfo appUserDTO = new AppUserInfo();
-        appUserDTO.setAppUser(appUser);
-        return appUserDTO;
     }
 
 }
