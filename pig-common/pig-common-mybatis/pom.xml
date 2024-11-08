@@ -39,11 +39,12 @@
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-annotation</artifactId>
+            <artifactId>mybatis-plus-spring</artifactId>
         </dependency>
+        <!-- mybatis-plus 3.5.9 需要单独引入此依赖-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-extension</artifactId>
+            <artifactId>mybatis-plus-jsqlparser</artifactId>
         </dependency>
         <!--swagger  注解-->
         <dependency>
