@@ -34,7 +34,9 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.alibaba.nacos.common.utils.StringUtils.*;
+import static com.alibaba.nacos.common.utils.StringUtils.FOLDER_SEPARATOR;
+import static com.alibaba.nacos.common.utils.StringUtils.TOP_PATH;
+import static com.alibaba.nacos.common.utils.StringUtils.WINDOWS_FOLDER_SEPARATOR;
 
 /**
  * Server state controller.
