@@ -21,44 +21,45 @@
         <version>${revision}</version>
     </parent>
 
+
     <artifactId>pig-register</artifactId>
     <packaging>jar</packaging>
     <name>pig-register</name>
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>2.3.2-OEM</nacos.version>
+        <nacos.version>2.4.3</nacos.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>group.springframework.nacos</groupId>
+            <groupId>io.github.pig-mesh.nacos</groupId>
             <artifactId>nacos-config</artifactId>
             <version>${nacos.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>group.springframework.nacos</groupId>
+            <groupId>io.github.pig-mesh.nacos</groupId>
             <artifactId>nacos-naming</artifactId>
             <version>${nacos.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>group.springframework.nacos</groupId>
+            <groupId>io.github.pig-mesh.nacos</groupId>
             <artifactId>nacos-istio</artifactId>
             <version>${nacos.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>group.springframework.nacos</groupId>
+            <groupId>io.github.pig-mesh.nacos</groupId>
             <artifactId>nacos-default-plugin-all</artifactId>
             <version>${nacos.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>group.springframework.nacos</groupId>
+            <groupId>io.github.pig-mesh.nacos</groupId>
             <artifactId>nacos-prometheus</artifactId>
             <version>${nacos.version}</version>
         </dependency>
@@ -80,6 +81,7 @@
         </dependency>
 
     </dependencies>
+
 
     <!--依赖版本声明-->
     <dependencyManagement>

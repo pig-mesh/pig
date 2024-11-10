@@ -3,6 +3,7 @@ package com.pig4cloud.pig.admin.api.vo;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import com.pig4cloud.plugin.excel.annotation.DictTypeProperty;
 import com.pig4cloud.plugin.excel.annotation.ExcelLine;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -95,6 +96,7 @@ public class UserExcelVO implements Serializable {
 	 * 锁定标记
 	 */
 	@ExcelProperty("锁定标记,0:正常,9:已锁定")
+	@DictTypeProperty("lock_flag")
 	private String lockFlag;
 
 	/**

@@ -75,7 +75,7 @@
         </dependency>
         <!-- 调用验证码核心模块 -->
         <dependency>
-            <groupId>io.springboot.plugin</groupId>
+            <groupId>com.pig4cloud.plugin</groupId>
             <artifactId>captcha-core</artifactId>
             <version>${captcha.version}</version>
         </dependency>

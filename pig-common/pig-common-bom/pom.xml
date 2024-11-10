@@ -15,27 +15,28 @@
 
     <properties>
         <!-- 项目版本号 -->
-        <revision>3.8.1</revision>
-        <spring-boot.version>3.3.2</spring-boot.version>
+        <revision>3.8.2</revision>
+        <spring-boot.version>3.3.5</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <git.commit.plugin>9.0.1</git.commit.plugin>
         <fastjson.version>1.2.83_noneautotype</fastjson.version>
         <springdoc.version>2.6.0</springdoc.version>
-        <swagger.core.version>2.2.22</swagger.core.version>
-        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <swagger.core.version>2.2.25</swagger.core.version>
+        <mybatis-plus.version>3.5.9</mybatis-plus.version>
         <mysql.version>9.0.0</mysql.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <seata.version>1.7.0</seata.version>
-        <excel.version>3.2.1</excel.version>
+        <excel.version>3.3.1</excel.version>
         <asm.version>7.1</asm.version>
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
-        <hutool.version>5.8.29</hutool.version>
+        <hutool.version>5.8.33</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <spring.checkstyle.plugin>0.0.42</spring.checkstyle.plugin>
+        <common.io.version>2.17.0</common.io.version>
+        <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
 
@@ -89,6 +90,11 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-excel</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-upms-api</artifactId>
                 <version>${revision}</version>
             </dependency>
@@ -135,6 +141,12 @@
                 <artifactId>excel-spring-boot-starter</artifactId>
                 <version>${excel.version}</version>
             </dependency>
+            <!-- commons.io 覆盖easyexcel-->
+            <dependency>
+                <artifactId>commons-io</artifactId>
+                <groupId>commons-io</groupId>
+                <version>${common.io.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.shardingsphere</groupId>
                 <artifactId>shardingsphere-jdbc-core</artifactId>
@@ -155,18 +167,10 @@
             <!--orm 相关-->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <artifactId>mybatis-plus-bom</artifactId>
                 <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-extension</artifactId>
-                <version>${mybatis-plus.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-annotation</artifactId>
-                <version>${mybatis-plus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <!--hutool bom 工具类-->
             <dependency>

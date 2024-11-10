@@ -19,6 +19,7 @@ package com.pig4cloud.pig.common.core.util;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import lombok.*;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 
@@ -32,6 +33,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Accessors(chain = true)
+@FieldNameConstants
 public class R<T> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

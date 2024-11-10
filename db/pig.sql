@@ -992,12 +992,6 @@ CREATE TABLE `gen_group` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模板分组';
 
--- ----------------------------
--- Records of gen_group
--- ----------------------------
-BEGIN;
-INSERT INTO `gen_group` VALUES (1, '增删改查', '单表增删改查', ' ', ' ', NULL, NULL, '0');
-COMMIT;
 
 -- ----------------------------
 -- Table structure for gen_table

@@ -42,5 +42,6 @@
         <module>pig-common-feign</module>
         <module>pig-common-swagger</module>
         <module>pig-common-xss</module>
+        <module>pig-common-excel</module>
     </modules>
 </project>

@@ -1,8 +1,9 @@
 package com.pig4cloud.pig.auth.endpoint;
 
+import cn.hutool.core.lang.Validator;
+import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import io.springboot.captcha.ArithmeticCaptcha;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -37,6 +38,10 @@ public class ImageCodeEndpoint {
 	@GetMapping("/image")
 	public void image(String randomStr, HttpServletResponse response) {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+
+		if (Validator.isMobile(randomStr)) {
+			return;
+		}
 
 		String result = captcha.text();
 		redisTemplate.opsForValue()

@@ -22,7 +22,9 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
+import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,15 +34,25 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @Lazy(false)
-public class SpringContextHolder implements ApplicationContextAware, DisposableBean {
+public class SpringContextHolder implements ApplicationContextAware, EnvironmentAware, DisposableBean {
 
 	private static ApplicationContext applicationContext = null;
+
+	private static Environment environment = null;
 
 	/**
 	 * 取得存储在静态变量中的ApplicationContext.
 	 */
 	public static ApplicationContext getApplicationContext() {
 		return applicationContext;
+	}
+
+	/**
+	 * 获取环境
+	 * @return {@link Environment }
+	 */
+	public static Environment getEnvironment() {
+		return environment;
 	}
 
 	/**
@@ -88,12 +100,25 @@ public class SpringContextHolder implements ApplicationContextAware, DisposableB
 	}
 
 	/**
+	 * 是否是微服务
+	 * @return boolean
+	 */
+	public static boolean isMicro() {
+		return environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
+	}
+
+	/**
 	 * 实现DisposableBean接口, 在Context关闭时清理静态变量.
 	 */
 	@Override
 	@SneakyThrows
 	public void destroy() {
 		SpringContextHolder.clearHolder();
+	}
+
+	@Override
+	public void setEnvironment(Environment environment) {
+		SpringContextHolder.environment = environment;
 	}
 
 }

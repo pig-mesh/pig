@@ -31,8 +31,6 @@ nacos:
 spring:
   application:
     name: @project.artifactId@
-  datasource:
-    platform: mysql  #这个过期属性不能修改，nacos 代码对此有硬编码
   security:
     enabled: true
   boot: # 接入 spring boot admin
@@ -43,6 +41,9 @@ spring:
         password: pig
         instance:
           service-host-type: ip
+  sql:
+    init:
+      platform: mysql
 
 useAddressServer: true
 
