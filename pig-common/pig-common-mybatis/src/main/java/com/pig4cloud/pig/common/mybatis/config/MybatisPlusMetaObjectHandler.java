@@ -1,18 +1,16 @@
 package com.pig4cloud.pig.common.mybatis.config;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ClassUtils;
 
 import java.nio.charset.Charset;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Objects;
 
 /**
  * MybatisPlus 自动填充配置
@@ -74,21 +72,16 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 	}
 
 	/**
-	 * 获取 spring security 当前的用户名
-	 * @return 当前用户名
+	 * 获取用户名
+	 *
+	 * @return {@link String }
 	 */
 	private String getUserName() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		// 匿名接口直接返回
-		if (authentication instanceof AnonymousAuthenticationToken) {
+		Object username = StpUtil.getLoginIdDefaultNull();
+		if (Objects.isNull(username)) {
 			return null;
 		}
-
-		if (Optional.ofNullable(authentication).isPresent()) {
-			return authentication.getName();
-		}
-
-		return null;
+		return username.toString();
 	}
 
 }

@@ -7,6 +7,7 @@ package com.pig4cloud.pig.auth.support.filter;
  * @date 2024/4/3
  */
 
+import cn.dev33.satoken.oauth2.consts.SaOAuth2Consts;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +25,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -59,7 +59,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		}
 
 		// 如果登录URL 但是刷新token的请求，直接向下执行
-		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		String grantType = request.getParameter(SaOAuth2Consts.Param.grant_type);
 		if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
 			filterChain.doFilter(request, response);
 			return;

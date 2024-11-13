@@ -62,11 +62,10 @@
             <artifactId>spring-webmvc</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--security 依赖-->
+        <!-- 安全框架 API 方便获取用户信息-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <optional>true</optional>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.pig4cloud</groupId>

@@ -49,14 +49,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
         </dependency>
-        <!--安全依赖获取上下文信息-->
+        <!-- 安全框架 API 方便获取用户信息-->
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-core</artifactId>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
         </dependency>
     </dependencies>
 </project>
