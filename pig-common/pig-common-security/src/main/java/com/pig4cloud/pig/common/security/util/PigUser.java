@@ -14,21 +14,37 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pig.common.security.feign;
+package com.pig4cloud.pig.common.security.util;
 
-import feign.RequestInterceptor;
-import org.springframework.context.annotation.Bean;
+import lombok.Data;
+import lombok.Getter;
 
-public class PigFeignClientConfiguration {
+/**
+ * @author lengleng
+ * @date 2019/2/1 扩展用户信息
+ */
+@Data
+public class PigUser {
 
 	/**
-	 * 注入 oauth2 feign token 增强
-	 * @param tokenResolver token获取处理器
-	 * @return 拦截器
+	 * 用户ID
 	 */
-	@Bean
-	public RequestInterceptor oauthRequestInterceptor() {
-		return new PigOAuthRequestInterceptor();
-	}
+	@Getter
+	private Long id;
+
+	/**
+	 * 部门ID
+	 */
+	private Long deptId;
+
+	/**
+	 * 手机号
+	 */
+	private String phone;
+
+	/**
+	 * 用户名
+	 */
+	private String username;
 
 }

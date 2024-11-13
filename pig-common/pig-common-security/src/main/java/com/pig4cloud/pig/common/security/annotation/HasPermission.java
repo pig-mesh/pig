@@ -1,7 +1,5 @@
 package com.pig4cloud.pig.common.security.annotation;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -13,9 +11,8 @@ import java.lang.annotation.Target;
  * @author lengleng
  * @date 2024/07/15
  */
-@Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@pms.hasPermission('{value}'.split(','))")
+@Target({ ElementType.METHOD, ElementType.TYPE })
 public @interface HasPermission {
 
 	/**

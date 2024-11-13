@@ -27,7 +27,7 @@
     <artifactId>pig-auth</artifactId>
     <packaging>jar</packaging>
 
-    <description>pig 认证授权中心，基于 spring security oAuth2</description>
+    <description>pig 认证授权中心，基于 sa-token实现</description>
 
     <dependencies>
         <!--注册中心客户端-->
@@ -49,14 +49,6 @@
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
         <!--freemarker-->
         <dependency>
@@ -83,6 +75,11 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
+        </dependency>
+        <!--  基于 SaToken 认证中心模块-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-security</artifactId>
         </dependency>
     </dependencies>
 

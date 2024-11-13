@@ -22,6 +22,7 @@ import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
+import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.servlet.RepeatBodyRequestWrapper;
 import jakarta.servlet.FilterChain;
@@ -30,7 +31,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.spec.IvParameterSpec;
@@ -43,9 +45,9 @@ import java.util.Map;
  * @date 2019 /2/1 密码解密工具类
  */
 @Slf4j
-@Component
 @RequiredArgsConstructor
-public class PasswordDecoderFilter extends OncePerRequestFilter {
+@Configuration(proxyBeanMethods = false)
+public class PasswordDecoderFilter extends OncePerRequestFilter implements Ordered {
 
 	private final AuthSecurityConfigProperties authSecurityConfigProperties;
 
@@ -67,9 +69,10 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 			return;
 		}
 
+		Map<String, String[]> parameterMap = request.getParameterMap();
+
 		// 将请求流转换为可多次读取的请求流
 		RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
-		Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
 
 		// 构建前端对应解密AES 因子
 		AES aes = new AES(Mode.CFB, Padding.NoPadding,
@@ -86,7 +89,14 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 			String decryptPassword = aes.decryptStr(values[0]);
 			parameterMap.put(k, new String[] { decryptPassword });
 		});
+
+		requestWrapper.getParameterMap().putAll(parameterMap);
 		chain.doFilter(requestWrapper, response);
+	}
+
+	@Override
+	public int getOrder() {
+		return Ordered.HIGHEST_PRECEDENCE;
 	}
 
 }

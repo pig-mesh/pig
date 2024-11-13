@@ -16,152 +16,179 @@
 
 package com.pig4cloud.pig.auth.endpoint;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.TemporalAccessorUtil;
+import cn.dev33.satoken.SaManager;
+import cn.dev33.satoken.dao.SaTokenDao;
+import cn.dev33.satoken.oauth2.SaOAuth2Manager;
+import cn.dev33.satoken.oauth2.consts.SaOAuth2Consts;
+import cn.dev33.satoken.oauth2.dao.SaOAuth2Dao;
+import cn.dev33.satoken.oauth2.data.model.AccessTokenModel;
+import cn.dev33.satoken.oauth2.processor.SaOAuth2ServerProcessor;
+import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
-import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
-import com.pig4cloud.pig.admin.api.vo.TokenVo;
-import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.auth.support.handle.NoLoginViewHandle;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.RetOps;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.security.annotation.Inner;
-import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
-import com.pig4cloud.pig.common.security.util.OAuth2ErrorCodesExpand;
-import com.pig4cloud.pig.common.security.util.OAuthClientException;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.security.authentication.event.LogoutSuccessEvent;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.oauth2.core.endpoint.OAuth2AccessTokenResponse;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.core.http.converter.OAuth2AccessTokenResponseHttpMessageConverter;
-import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
-import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.util.StringUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.security.Principal;
+import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 /**
+ * pig 令牌终端节点
+ *
  * @author lengleng
- * @date 2019/2/1 删除token端点
+ * @date 2024/11/10
  */
 @Slf4j
 @RestController
+@RequestMapping
 @RequiredArgsConstructor
-@RequestMapping("/token")
 public class PigTokenEndpoint {
 
-	private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
+	private final StringRedisTemplate stringRedisTemplate;
 
-	private final AuthenticationFailureHandler authenticationFailureHandler = new PigAuthenticationFailureEventHandler();
-
-	private final OAuth2AuthorizationService authorizationService;
-
-	private final RemoteClientDetailsService clientDetailsService;
-
-	private final RedisTemplate<String, Object> redisTemplate;
-
-	private final CacheManager cacheManager;
+	private final NoLoginViewHandle noLoginViewHandle;
 
 	/**
-	 * 认证页面
-	 * @param modelAndView
-	 * @param error 表单登录失败处理回调的错误信息
-	 * @return ModelAndView
+	 * 密码模式、刷新模型、客户端模式获取 token
+	 * @return {@link Object }
 	 */
-	@GetMapping("/login")
-	public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
-		modelAndView.setViewName("ftl/login");
-		modelAndView.addObject("error", error);
-		return modelAndView;
-	}
-
-	@GetMapping("/confirm_access")
-	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
-			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-			@RequestParam(OAuth2ParameterNames.STATE) String state) {
-		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-			.getData()
-			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
-
-		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
-		modelAndView.addObject("clientId", clientId);
-		modelAndView.addObject("state", state);
-		modelAndView.addObject("scopeList", authorizedScopes);
-		modelAndView.addObject("principalName", principal.getName());
-		modelAndView.setViewName("ftl/confirm");
-		return modelAndView;
-	}
-
-	/**
-	 * 退出并删除token
-	 * @param authHeader Authorization
-	 */
-	@DeleteMapping("/logout")
-	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
-		if (StrUtil.isBlank(authHeader)) {
-			return R.ok();
+	@RequestMapping(value = "/oauth2/*")
+	public ResponseEntity<Object> mixed() {
+		Object result = SaOAuth2ServerProcessor.instance.dister();
+		SaResult saResult = (SaResult) result;
+		if (saResult.getCode().equals(HttpStatus.OK.value())) {
+			return ResponseEntity.ok(saResult);
 		}
-
-		String tokenValue = authHeader.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
-		return removeToken(tokenValue);
+		else {
+			return ResponseEntity.ok(R.failed(saResult.getMsg()));
+		}
 	}
 
 	/**
-	 * 校验token
-	 * @param token 令牌
+	 * 授权码登录：跳转至登录页面
+	 * <p>
+	 * 需要保存当前请求地址，登录成功后重定向
+	 * @return {@link Object }
+	 */
+	@RequestMapping(value = "/oauth2/authorize")
+	public ResponseEntity authorize(HttpSession session, HttpServletRequest request) {
+		session.setAttribute("preUrl", request.getRequestURL() + "?" + request.getQueryString());
+		Object result = SaOAuth2ServerProcessor.instance.dister();
+		return ResponseEntity.ok(result);
+	}
+
+	/**
+	 * 授权码：账号密码登录
+	 * <p>
+	 * 成功：重定向至第三方应用带 code 失败：登录页面
+	 * @return {@link Object }
 	 */
 	@SneakyThrows
-	@GetMapping("/check_token")
-	public void checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
-		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+	@PostMapping("/oauth2/doLogin")
+	public ResponseEntity<String> doLogin(HttpSession session) {
+		Object result = SaOAuth2ServerProcessor.instance.dister();
+		SaResult saResult = (SaResult) result;
+
+		if (saResult.getCode().equals(HttpStatus.OK.value())) {
+			Object preUrl = session.getAttribute("preUrl");
+
+			if (Objects.nonNull(preUrl)) {
+				HttpHeaders headers = new HttpHeaders();
+				headers.setLocation(URI.create(preUrl.toString()));
+				return new ResponseEntity<>(headers, HttpStatus.FOUND); // 302重定向至授权码URL重新
+			}
+		}
+
+		// 如果未登录，跳转到登录页面
+		return ResponseEntity.ok(noLoginViewHandle.get(Map.of("error", saResult.getMsg())));
+	}
+
+	/**
+	 * 授权码：确认页面
+	 * <p>
+	 * 成功：重定向至第三方应用带 code 失败：登录页面
+	 * @return {@link Object }
+	 */
+	@SneakyThrows
+	@PostMapping("/oauth2/doConfirm")
+	public ResponseEntity<String> doConfirm() {
+		Object result = SaOAuth2ServerProcessor.instance.dister();
+		SaResult saResult = (SaResult) result;
+
+		if (saResult.getCode().equals(HttpStatus.OK.value())) {
+			String redirectURI = saResult.get(SaOAuth2Consts.Param.redirect_uri, String.class);
+			if (Objects.nonNull(redirectURI)) {
+				HttpHeaders headers = new HttpHeaders();
+				headers.setLocation(URI.create(redirectURI));
+				return new ResponseEntity<>(headers, HttpStatus.FOUND); // 302重定向至用户页面
+			}
+		}
+
+		// 如果未登录，跳转到登录页面
+		return ResponseEntity.ok(noLoginViewHandle.get(Map.of("error", saResult.getMsg())));
+	}
+
+	/**
+	 * OAuth2 注销 ，回至登录页面
+	 * @return {@link R }
+	 */
+	@RequestMapping("/oauth2/logout")
+	public ResponseEntity<String> oauth2Logout() {
+		StpUtil.logout();
+		return ResponseEntity.ok(noLoginViewHandle.get(Map.of()));
+	}
+
+	/**
+	 * Token 简易注销， 只回收当前 token
+	 * @return {@link R }
+	 */
+	@RequestMapping("/token/logout")
+	public R logout() {
+		String token = WebUtils.getToken();
 
 		if (StrUtil.isBlank(token)) {
-			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
-					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.TOKEN_MISSING));
-			return;
+			return R.failed("token 不能为空");
 		}
-		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+		SaOAuth2Util.revokeAccessToken(token);
+		return R.ok();
+	}
 
-		// 如果令牌不存在 返回401
-		if (authorization == null || authorization.getAccessToken() == null) {
-			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
-					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
-			return;
+	/**
+	 * 检查令牌
+	 * @param token 令 牌
+	 * @return {@link ResponseEntity }
+	 */
+	@RequestMapping("/token/check_token")
+	public R checkToken(@RequestParam String token) {
+
+		AccessTokenModel accessToken = SaOAuth2Util.getAccessToken(token);
+
+		if (Objects.isNull(accessToken)) {
+			return R.failed();
 		}
 
-		Map<String, Object> claims = authorization.getAccessToken().getClaims();
-		OAuth2AccessTokenResponse sendAccessTokenResponse = OAuth2EndpointUtils.sendAccessTokenResponse(authorization,
-				claims);
-		this.accessTokenHttpResponseConverter.write(sendAccessTokenResponse, MediaType.APPLICATION_JSON, httpResponse);
+		return R.ok(token);
 	}
 
 	/**
@@ -169,24 +196,9 @@ public class PigTokenEndpoint {
 	 * @param token token
 	 */
 	@Inner
-	@DeleteMapping("/remove/{token}")
+	@DeleteMapping("/token/remove/{token}")
 	public R<Boolean> removeToken(@PathVariable("token") String token) {
-		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-		if (authorization == null) {
-			return R.ok();
-		}
-
-		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
-			return R.ok();
-		}
-		// 清空用户信息（立即删除）
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evictIfPresent(authorization.getPrincipalName());
-		// 清空access token
-		authorizationService.remove(authorization);
-		// 处理自定义退出事件，保存相关日志
-		SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
-				authorization.getPrincipalName(), authorization.getRegisteredClientId())));
+		SaOAuth2Util.revokeAccessToken(token);
 		return R.ok();
 	}
 
@@ -196,36 +208,62 @@ public class PigTokenEndpoint {
 	 * @return
 	 */
 	@Inner
-	@PostMapping("/page")
+	@PostMapping("/token/page")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
-		// 根据分页参数获取对应数据
-		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
-		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
+		int current = MapUtil.getInt(params, CommonConstants.CURRENT) - 1;
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
-		Set<String> keys = redisTemplate.keys(key);
-		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
+		String username = MapUtil.getStr(params, SaOAuth2Consts.Param.username);
+
+		SaTokenDao saTokenDao = SaManager.getSaTokenDao();
+		SaOAuth2Dao saOAuth2Dao = SaOAuth2Manager.getDao();
+		if (StrUtil.isNotBlank(username)) {
+			// 获取用户的所有 token
+			String accessTokenSaveKey = saOAuth2Dao.splicingAccessTokenIndexKey("*", username);
+			List<String> keyList = saTokenDao.searchData(accessTokenSaveKey, StrUtil.EMPTY, current, size, false);
+
+			List<Map<String, String>> accessTokenModels = keyList.stream()
+				.map(key -> stringRedisTemplate.opsForValue().get(key))
+				.map(SaOAuth2Util::getAccessToken)
+				.map(accessToken -> {
+					Map<String, String> result = new HashMap<>(8);
+					if (Objects.nonNull(accessToken.getLoginId())) {
+						result.put(SaOAuth2Consts.Param.username, accessToken.getLoginId().toString());
+					}
+					result.put(SecurityConstants.CLIENT_ID, accessToken.getClientId());
+					result.put("accessToken", accessToken.accessToken);
+					result.put("expiresAt", DateUtil.date(accessToken.expiresTime).toString());
+					return result;
+				})
+				.toList();
+
+			Page result = new Page(current, size);
+			result.setRecords(accessTokenModels);
+			result.setTotal(stringRedisTemplate.keys(accessTokenSaveKey + "*").size());
+			return R.ok(result);
+		}
+
+		// 获取 token 前缀
+		String accessTokenSaveKey = saOAuth2Dao.splicingAccessTokenSaveKey(StrUtil.EMPTY);
+		List<String> keyList = saTokenDao.searchData(accessTokenSaveKey,
+				StrUtil.isBlank(username) ? StrUtil.EMPTY : username, current, size, false);
+		List<Map<String, String>> accessTokenModels = keyList.stream()
+			.map(key -> StrUtil.removeAll(key, accessTokenSaveKey))
+			.map(SaOAuth2Util::getAccessToken)
+			.map(accessToken -> {
+				Map<String, String> result = new HashMap<>(8);
+				if (Objects.nonNull(accessToken.getLoginId())) {
+					result.put(SaOAuth2Consts.Param.username, accessToken.getLoginId().toString());
+				}
+				result.put(SecurityConstants.CLIENT_ID, accessToken.getClientId());
+				result.put("accessToken", accessToken.accessToken);
+				result.put("expiresAt", DateUtil.date(accessToken.expiresTime).toString());
+				return result;
+			})
+			.toList();
+
 		Page result = new Page(current, size);
-
-		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
-			OAuth2Authorization authorization = (OAuth2Authorization) obj;
-			TokenVo tokenVo = new TokenVo();
-			tokenVo.setClientId(authorization.getRegisteredClientId());
-			tokenVo.setId(authorization.getId());
-			tokenVo.setUsername(authorization.getPrincipalName());
-			OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-			tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
-
-			String expiresAt = TemporalAccessorUtil.format(accessToken.getToken().getExpiresAt(),
-					DatePattern.NORM_DATETIME_PATTERN);
-			tokenVo.setExpiresAt(expiresAt);
-
-			String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
-					DatePattern.NORM_DATETIME_PATTERN);
-			tokenVo.setIssuedAt(issuedAt);
-			return tokenVo;
-		}).collect(Collectors.toList());
-		result.setRecords(tokenVoList);
-		result.setTotal(keys.size());
+		result.setRecords(accessTokenModels);
+		result.setTotal(stringRedisTemplate.keys(accessTokenSaveKey + "*").size());
 		return R.ok(result);
 	}
 

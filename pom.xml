@@ -36,7 +36,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring-boot-admin.version>3.3.5</spring-boot-admin.version>
-        <spring.authorization.version>1.3.3</spring.authorization.version>
+        <sa-token.version>1.39.0</sa-token.version>
         <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.4</captcha.version>
         <aws.version>1.12.675</aws.version>
@@ -109,7 +109,6 @@
         <module>pig-register</module>
         <module>pig-gateway</module>
         <module>pig-auth</module>
-        <module>pig-auth-satoken</module>
         <module>pig-upms</module>
         <module>pig-common</module>
         <module>pig-visual</module>
@@ -185,6 +184,7 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${docker.plugin.version}</version>
                     <configuration>
+                        <skip>${docker.s}</skip>
                         <!-- Docker Remote Api-->
                         <dockerHost>${docker.host}</dockerHost>
                         <!-- Docker 镜像私服-->

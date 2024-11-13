@@ -8,9 +8,13 @@ package com.pig4cloud.pig.auth.support.filter;
  */
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
+import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import jakarta.servlet.FilterChain;
@@ -20,7 +24,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -40,6 +43,8 @@ import java.util.Optional;
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	private final AuthSecurityConfigProperties authSecurityConfigProperties;
+
+	private final ObjectMapper objectMapper;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -73,7 +78,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		}
 		catch (ValidateCodeException validateCodeException) {
-			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
+			response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			response.setContentType(ContentType.JSON.getValue());
+			objectMapper.writeValue(response.getOutputStream(), R.failed(validateCodeException.getMessage()));
+
 		}
 	}
 

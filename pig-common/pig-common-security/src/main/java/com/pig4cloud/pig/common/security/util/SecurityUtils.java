@@ -16,16 +16,18 @@
 
 package com.pig4cloud.pig.common.security.util;
 
-import cn.hutool.core.util.StrUtil;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.service.PigUser;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pig.admin.api.dto.UserDTO;
+import com.pig4cloud.pig.admin.api.dto.UserInfo;
+import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import lombok.experimental.UtilityClass;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,50 +39,87 @@ import java.util.List;
 public class SecurityUtils {
 
 	/**
-	 * 获取Authentication
+	 * 获取当前用户
+	 * @return {@link PigUser} 当前登录的用户信息
 	 */
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
+	public PigUser getUser() {
+		Object loginId = StpUtil.getLoginId();
+		if (ObjectUtil.isNull(loginId)) {
+			return null;
+		}
+
+		String username = loginId.toString();
+		Cache cache = SpringUtil.getBean(CacheManager.class).getCache(CacheConstants.USER_DETAILS);
+		PigUser pigUser = getCachedPigUser(cache, username);
+		if (ObjectUtil.isNotNull(pigUser)) {
+			return pigUser;
+		}
+
+		UserInfo userInfo = fetchUserInfoFromRemote(username);
+		return convertToPigUser(loginId, userInfo);
 	}
 
 	/**
-	 * 获取用户
+	 * 获取当前用户角色ID列表
+	 * @return {@link List<Long>} 当前用户的角色ID列表
 	 */
-	public PigUser getUser(Authentication authentication) {
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof PigUser) {
-			return (PigUser) principal;
+	public List<Long> getRoles() {
+		Object loginId = StpUtil.getLoginId();
+		if (ObjectUtil.isNull(loginId)) {
+			return null;
+		}
+
+		String username = loginId.toString();
+		Cache cache = SpringUtil.getBean(CacheManager.class).getCache(CacheConstants.USER_DETAILS);
+		List<Long> roles = getCachedRoles(cache, username);
+		if (ObjectUtil.isNotNull(roles)) {
+			return roles;
+		}
+
+		UserInfo userInfo = fetchUserInfoFromRemote(username);
+		return Arrays.asList(userInfo.getRoles());
+	}
+
+	/**
+	 * 从缓存中获取 PigUser
+	 */
+	private PigUser getCachedPigUser(Cache cache, String username) {
+		if (ObjectUtil.isNotNull(cache) && ObjectUtil.isNotNull(cache.get(username))) {
+			UserInfo userInfo = cache.get(username, UserInfo.class);
+			return convertToPigUser(username, userInfo);
 		}
 		return null;
 	}
 
 	/**
-	 * 获取用户
+	 * 从缓存中获取角色列表
 	 */
-	public PigUser getUser() {
-		Authentication authentication = getAuthentication();
-		if (authentication == null) {
-			return null;
+	private List<Long> getCachedRoles(Cache cache, String username) {
+		if (ObjectUtil.isNotNull(cache) && ObjectUtil.isNotNull(cache.get(username))) {
+			UserInfo userInfo = cache.get(username, UserInfo.class);
+			return Arrays.asList(userInfo.getRoles());
 		}
-		return getUser(authentication);
+		return null;
 	}
 
 	/**
-	 * 获取用户角色信息
-	 * @return 角色集合
+	 * 从远程服务获取用户信息
 	 */
-	public List<Long> getRoles() {
-		Authentication authentication = getAuthentication();
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+	public UserInfo fetchUserInfoFromRemote(String username) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUsername(username);
+		return SpringUtil.getBean(RemoteUserService.class).info(userDTO).getData();
+	}
 
-		List<Long> roleIds = new ArrayList<>();
-		authorities.stream()
-			.filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
-			.forEach(granted -> {
-				String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-				roleIds.add(Long.parseLong(id));
-			});
-		return roleIds;
+	/**
+	 * 将 UserInfo 转换为 PigUser
+	 */
+	private PigUser convertToPigUser(Object loginId, UserInfo userInfo) {
+		PigUser pigUser = new PigUser();
+		pigUser.setUsername(loginId.toString());
+		pigUser.setId(userInfo.getSysUser().getUserId());
+		pigUser.setDeptId(userInfo.getSysUser().getDeptId());
+		return pigUser;
 	}
 
 }

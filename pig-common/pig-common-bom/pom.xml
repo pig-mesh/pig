@@ -17,6 +17,7 @@
         <!-- 项目版本号 -->
         <revision>3.8.2</revision>
         <spring-boot.version>3.3.5</spring-boot.version>
+        <sa-token.version>1.39.0</sa-token.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -100,7 +101,7 @@
             </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-satoken</artifactId>
+                <artifactId>pig-common-security</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
@@ -163,6 +164,14 @@
                 <groupId>io.springboot.sms</groupId>
                 <artifactId>aliyun-sms-spring-boot-starter</artifactId>
                 <version>${sms.version}</version>
+            </dependency>
+            <!--  sa-token version-->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-bom</artifactId>
+                <version>${sa-token.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <!--orm 相关-->
             <dependency>
