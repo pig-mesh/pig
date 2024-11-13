@@ -18,8 +18,8 @@ package com.pig4cloud.pig.common.security.annotation;
 
 import com.pig4cloud.pig.common.security.config.PermissionAspect;
 import com.pig4cloud.pig.common.security.config.PermitAllUrlProperties;
+import com.pig4cloud.pig.common.security.config.ResourceServerConfiguration;
 import com.pig4cloud.pig.common.security.config.SaPermissionImpl;
-import com.pig4cloud.pig.common.security.config.SecurityConfiguration;
 import com.pig4cloud.pig.common.security.feign.PigFeignClientConfiguration;
 import org.springframework.context.annotation.Import;
 
@@ -33,10 +33,10 @@ import java.lang.annotation.*;
  */
 @Documented
 @Inherited
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({ SecurityConfiguration.class, SaPermissionImpl.class, PermissionAspect.class, PermitAllUrlProperties.class,
-		PigFeignClientConfiguration.class })
+@Import({ResourceServerConfiguration.class, SaPermissionImpl.class, PermissionAspect.class, PermitAllUrlProperties.class,
+        PigFeignClientConfiguration.class})
 public @interface EnablePigResourceServer {
 
 }

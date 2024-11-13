@@ -35,10 +35,9 @@ security:
         - /swagger-ui.html
         - /swagger-ui/**
         - /swagger-resources
-        - /token/check_token
         - /error
         - /token/**
-        - /actuator/**
+        - /oauth2/**
         - /code/**
 
 #--------------如下配置尽量不要变动-------------
