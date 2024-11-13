@@ -5,8 +5,8 @@
 	<meta name="viewport"
 	      content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
 	<title>Pig 第三方授权</title>
-	<link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-	<link rel="stylesheet" type="text/css" href="/css/signin.css"/>
+	<link rel="stylesheet" type="text/css" href="${contextPath}/css/bootstrap.min.css"/>
+	<link rel="stylesheet" type="text/css" href="${contextPath}/css/signin.css"/>
 </head>
 
 <body>
@@ -26,11 +26,11 @@
 	</div>
 </nav>
 <div style="padding-top: 80px;width: 300px; color: #555; margin:0px auto;">
-	<form id='confirmationForm' name='confirmationForm' action="/oauth2/doConfirm" method='post'>
+	<form id='confirmationForm' name='confirmationForm' action="${contextPath}/oauth2/doConfirm" method='post'>
 		<input type="hidden" name="client_id" value="${clientId}">
 		<input type="hidden" name="build_redirect_uri" value="true">
 		<input type="hidden" name="response_type" value="code">
-		<input type="hidden" name="redirect_uri" value="https://pig4cloud.com">
+		<input type="hidden" name="redirect_uri" value="${redirectUri}">
 		<p>
 			将获得以下权限：</p>
 			<ul class="list-group">

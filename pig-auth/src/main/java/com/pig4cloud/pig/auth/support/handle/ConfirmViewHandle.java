@@ -2,7 +2,9 @@ package com.pig4cloud.pig.auth.support.handle;
 
 import cn.dev33.satoken.oauth2.function.SaOAuth2ConfirmViewFunction;
 import cn.dev33.satoken.stp.StpUtil;
+import com.pig4cloud.pig.common.core.util.WebUtils;
 import freemarker.template.Template;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,20 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ConfirmViewHandle implements SaOAuth2ConfirmViewFunction {
 
-	private final FreeMarkerConfigurer freeMarker;
+    private final FreeMarkerConfigurer freeMarker;
 
-	@Override
-	@SneakyThrows
-	public Object apply(String clientId, List<String> scopes) {
-		Template confirmTemplate = freeMarker.getConfiguration().getTemplate("confirm.ftl");
-		Map<String, Object> model = Map.of("clientId", clientId, "scopes", scopes, "loginId", StpUtil.getLoginId());
-		return FreeMarkerTemplateUtils.processTemplateIntoString(confirmTemplate, model);
-	}
+    @Override
+    @SneakyThrows
+    public Object apply(String clientId, List<String> scopes) {
 
+        HttpServletRequest httpServletRequest = WebUtils.getRequest().get();
+
+        Template confirmTemplate = freeMarker.getConfiguration().getTemplate("confirm.ftl");
+        Map<String, Object> model = Map.of("clientId", clientId
+                , "scopes", scopes
+                , "loginId", StpUtil.getLoginId()
+                , "redirectUri", httpServletRequest.getParameter("redirect_uri")
+                , "contextPath", httpServletRequest.getContextPath());
+        return FreeMarkerTemplateUtils.processTemplateIntoString(confirmTemplate, model);
+    }
 }

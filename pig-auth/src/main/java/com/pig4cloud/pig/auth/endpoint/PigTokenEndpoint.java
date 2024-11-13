@@ -121,7 +121,9 @@ public class PigTokenEndpoint {
 		}
 
 		// 如果未登录，跳转到登录页面
-		return ResponseEntity.ok(noLoginViewHandle.get(Map.of("error", saResult.getMsg())));
+		Map<String, Object> model = new HashMap<>();
+		model.put("error", saResult.getMsg());
+		return ResponseEntity.ok(noLoginViewHandle.get(model));
 	}
 
 	/**
@@ -146,7 +148,9 @@ public class PigTokenEndpoint {
 		}
 
 		// 如果未登录，跳转到登录页面
-		return ResponseEntity.ok(noLoginViewHandle.get(Map.of("error", saResult.getMsg())));
+		Map<String, Object> model = new HashMap<>();
+		model.put("error", saResult.getMsg());
+		return ResponseEntity.ok(noLoginViewHandle.get(model));
 	}
 
 	/**
@@ -156,7 +160,7 @@ public class PigTokenEndpoint {
 	@RequestMapping("/oauth2/logout")
 	public ResponseEntity<String> oauth2Logout() {
 		StpUtil.logout();
-		return ResponseEntity.ok(noLoginViewHandle.get(Map.of()));
+		return ResponseEntity.ok(noLoginViewHandle.get().toString());
 	}
 
 	/**

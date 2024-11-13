@@ -25,7 +25,7 @@
 			<div class="mb-7">
 				<h3 class="font-semibold text-2xl text-gray-800 text-center">统一身份平台</h3>
 			</div>
-			<form class="form-signin" action="/oauth2/doLogin" method="post">
+			<form class="form-signin" action="${contextPath}/oauth2/doLogin" method="post">
 				<div class="space-y-6">
 					<div class="">
 						<input class=" w-full text-sm  px-4 py-3 bg-gray-200 focus:bg-gray-100 border  border-gray-200 rounded-lg focus:outline-none focus:border-purple-400"
