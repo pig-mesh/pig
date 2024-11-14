@@ -10,6 +10,7 @@ import lombok.SneakyThrows;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
@@ -36,7 +37,7 @@ public class ImageCodeEndpoint {
 	 */
 	@SneakyThrows
 	@GetMapping("/image")
-	public void image(String randomStr, HttpServletResponse response) {
+	public void image(@RequestParam("randomStr") String randomStr, HttpServletResponse response) {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
 		if (Validator.isMobile(randomStr)) {
