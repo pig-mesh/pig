@@ -17,7 +17,6 @@
     <properties>
         <screw.version>0.0.6</screw.version>
         <anyline.version>8.7.2-jdk17-20240808</anyline.version>
-        <configuration.version>1.10</configuration.version>
     </properties>
 
     <dependencies>
@@ -69,11 +68,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-configuration</groupId>
-            <artifactId>commons-configuration</artifactId>
-            <version>${configuration.version}</version>
         </dependency>
         <!--swagger-->
         <dependency>
