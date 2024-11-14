@@ -12,7 +12,8 @@
         "^com.amazonaws:aws-java-sdk-s3$",
         "^io.springboot:knife4j-openapi3-ui$",
         "^com.alibaba:fastjson$",
-        "^org.anyline:anyline.*$"
+        "^org.anyline:anyline.*$",
+        "^org.apache.velocity:velocity-engine-core.*$"
       ],
       "enabled": false
     }
