@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.3.5</spring-boot-admin.version>
+        <spring-boot-admin.version>3.3.6</spring-boot-admin.version>
         <spring.authorization.version>1.3.3</spring.authorization.version>
         <screw.version>0.0.3</screw.version>
         <captcha.version>2.2.4</captcha.version>
