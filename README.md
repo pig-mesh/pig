@@ -31,7 +31,7 @@
 
 ## 微信群 [禁广告]
 
-<img src='https://foruda.gitee.com/images/1731647278591226450/68ad7b55_441246.pngg' alt='1717136749'/>
+<img src='https://foruda.gitee.com/images/1731647278591226450/68ad7b55_441246.png' alt='1717136749'/>
 
 ## 快速开始
 
