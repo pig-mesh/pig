@@ -1,5 +1,6 @@
 package com.xxl.job.admin.controller;
 
+import com.xxl.job.admin.controller.interceptor.PermissionInterceptor;
 import com.xxl.job.admin.core.complete.XxlJobCompleter;
 import com.xxl.job.admin.core.exception.XxlJobException;
 import com.xxl.job.admin.core.model.XxlJobGroup;
@@ -22,9 +23,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -59,7 +62,7 @@ public class JobLogController {
 		List<XxlJobGroup> jobGroupList_all = xxlJobGroupDao.findAll();
 
 		// filter group
-		List<XxlJobGroup> jobGroupList = JobInfoController.filterJobGroupByRole(request, jobGroupList_all);
+		List<XxlJobGroup> jobGroupList = PermissionInterceptor.filterJobGroupByRole(request, jobGroupList_all);
 		if (jobGroupList == null || jobGroupList.size() == 0) {
 			throw new XxlJobException(I18nUtil.getString("jobgroup_empty"));
 		}
@@ -77,7 +80,7 @@ public class JobLogController {
 			model.addAttribute("jobInfo", jobInfo);
 
 			// valid permission
-			JobInfoController.validPermission(request, jobInfo.getJobGroup());
+			PermissionInterceptor.validJobGroupPermission(request, jobInfo.getJobGroup());
 		}
 
 		return "joblog/joblog.index";
@@ -98,8 +101,8 @@ public class JobLogController {
 			String filterTime) {
 
 		// valid permission
-		JobInfoController.validPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
-																// jobGroup
+		PermissionInterceptor.validJobGroupPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
+																			// jobGroup
 
 		// parse param
 		Date triggerTimeStart = null;
@@ -166,6 +169,13 @@ public class JobLogController {
 				}
 			}
 
+			// fix xss
+			if (logResult.getContent() != null && StringUtils.hasText(logResult.getContent().getLogContent())) {
+				String newLogContent = logResult.getContent().getLogContent();
+				newLogContent = HtmlUtils.htmlEscape(newLogContent, "UTF-8");
+				logResult.getContent().setLogContent(newLogContent);
+			}
+
 			return logResult;
 		}
 		catch (Exception e) {
@@ -213,8 +223,11 @@ public class JobLogController {
 
 	@RequestMapping("/clearLog")
 	@ResponseBody
-	public ReturnT<String> clearLog(int jobGroup, int jobId, int type) {
+	public ReturnT<String> clearLog(HttpServletRequest request, int jobGroup, int jobId, int type) {
+		// valid permission
+		PermissionInterceptor.validJobGroupPermission(request, jobGroup);
 
+		// opt
 		Date clearBeforeTime = null;
 		int clearBeforeNum = 0;
 		if (type == 1) {

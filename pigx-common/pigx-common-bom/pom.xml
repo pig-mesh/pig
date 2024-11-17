@@ -40,7 +40,7 @@
         <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <xxl.job.version>2.3.0</xxl.job.version>
+        <xxl.job.version>2.4.2</xxl.job.version>
         <aliyun.version>3.0.52.ALL</aliyun.version>
         <aws.version>1.12.261</aws.version>
         <javers.version>7.3.3</javers.version>

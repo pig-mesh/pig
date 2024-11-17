@@ -12,8 +12,6 @@
     <packaging>jar</packaging>
     <properties>
         <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
-        <jakarta.servlet-api.version>6.0.0</jakarta.servlet-api.version>
-        <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
     </properties>
 
 
@@ -97,14 +95,12 @@
         <dependency>
             <groupId>jakarta.annotation</groupId>
             <artifactId>jakarta.annotation-api</artifactId>
-            <version>${jakarta.annotation-api.version}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
-            <version>${jakarta.servlet-api.version}</version>
             <scope>compile</scope>
         </dependency>
 
