@@ -58,10 +58,15 @@
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
         </dependency>
-        <!--oauth server 依赖-->
+        <!--spring security 异常依赖-->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
+        </dependency>
+        <!-- sa-token 依赖依赖 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
         </dependency>
         <!-- 异常枚举 -->
         <dependency>

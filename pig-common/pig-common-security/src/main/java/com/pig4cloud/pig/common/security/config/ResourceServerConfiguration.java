@@ -8,14 +8,12 @@ import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.SaLoginConfig;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -46,7 +44,7 @@ public class ResourceServerConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 校验是否从网关转发
+     * 资源服务器配置
      */
     @Bean
     public SaServletFilter getSaServletFilter() {
@@ -61,10 +59,9 @@ public class ResourceServerConfiguration implements WebMvcConfigurer {
                 StpUtil.login(loginId, SaLoginConfig.setToken(token));
             });
         }).setError(e -> {
-            SaHolder.getResponse().setHeader(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
+            // 校验令牌失败 424 (主要是和401区分)
             SaHolder.getResponse().setStatus(HttpStatus.FAILED_DEPENDENCY.value());
-            // 使用封装的 JSON 工具类转换数据格式
-            return JSONUtil.toJsonStr(R.failed("认证失败，无法访问系统资源"));
+            return R.failed(e.getMessage());
         });
 
         for (String url : permitAllUrlProperties.getUrls()) {

@@ -37,3 +37,11 @@ jasypt:
 # swagger 配置
 swagger:
   token-url: ${swagger.gateway}/admin/oauth2/token
+
+# sa-token 配置
+sa-token:
+  is-print: false  # 不输出 banner
+  token-name: pig  # token 存储的前缀
+  is-concurrent: true  # 是否允许同时在线
+  is-share: false      # 是否允许复用token (同一账号同时登录的情况)
+

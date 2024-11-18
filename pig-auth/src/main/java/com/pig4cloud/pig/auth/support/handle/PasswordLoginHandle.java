@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.auth.support.handle;
 
+import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.dev33.satoken.oauth2.function.SaOAuth2DoLoginHandleFunction;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.dev33.satoken.stp.StpUtil;
@@ -7,6 +8,7 @@ import cn.dev33.satoken.util.SaResult;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -48,7 +50,8 @@ public class PasswordLoginHandle implements SaOAuth2DoLoginHandleFunction {
 			return SaResult.ok();
 		}
 
-		return SaResult.error("账号名或密码错误");
+		// 如果验证失败，抛出badCredentials
+		throw new SaOAuth2Exception(MsgUtils.getSecurityMessage("BindAuthenticator.badCredentials"));
 	}
 
 }
