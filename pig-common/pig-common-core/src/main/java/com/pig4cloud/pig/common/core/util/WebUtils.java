@@ -17,6 +17,7 @@
 package com.pig4cloud.pig.common.core.util;
 
 import cn.hutool.core.codec.Base64;
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -183,7 +184,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 				HttpServletRequest request = requestOpt.get();
 				// 获取Authorization头信息
 				String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-				if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+				if (authorizationHeader != null && StrUtil.startWithAnyIgnoreCase(authorizationHeader, "Bearer ")) {
 					// 返回去掉"Bearer "前缀的Token
 					return authorizationHeader.substring(7);
 				}
