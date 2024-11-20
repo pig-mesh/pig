@@ -40,6 +40,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -66,7 +67,9 @@ public class SysLogUtils {
 
 		// get 参数脱敏
 		PigxLogProperties logProperties = SpringUtil.getBean(PigxLogProperties.class);
-		Map<String, String[]> paramsMap = MapUtil.removeAny(request.getParameterMap(),
+
+		// 修复request.getParameterMap()其他容器不允许改，tomcat会报错，当然undertow默认可以的
+		Map<String, String[]> paramsMap = MapUtil.removeAny(new HashMap<>(request.getParameterMap()),
 				ArrayUtil.toArray(logProperties.getExcludeFields(), String.class));
 		sysLog.setParams(HttpUtil.toParams(paramsMap));
 		return sysLog;
