@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>1.0.0</goview.version>
+        <goview.version>1.0.1</goview.version>
     </properties>
 
     <dependencies>
@@ -33,24 +33,26 @@
 
         <!-- goview 数据可视化-->
         <dependency>
-            <groupId>io.springboot.plugin</groupId>
+            <groupId>io.github.pig-mesh</groupId>
             <artifactId>goview-spring-boot3-starter</artifactId>
             <version>${goview.version}</version>
         </dependency>
 
+        <!-- MYSQL驱动 -->
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
 
+        <!-- 达梦驱动 -->
         <dependency>
             <groupId>com.dameng</groupId>
-            <artifactId>DmDialect-for-hibernate5.3</artifactId>
+            <artifactId>DmJdbcDriver18</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.dameng</groupId>
-            <artifactId>DmJdbcDriver18</artifactId>
+            <artifactId>DmDialect-for-hibernate6.1</artifactId>
         </dependency>
 
         <!-- druid 连接池 -->
@@ -59,6 +61,7 @@
             <artifactId>druid-spring-boot-3-starter</artifactId>
         </dependency>
 
+        <!--  web 容器 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -75,8 +78,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-
-
     </dependencies>
 
     <build>

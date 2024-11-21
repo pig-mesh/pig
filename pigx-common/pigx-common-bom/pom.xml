@@ -272,7 +272,7 @@
             </dependency>
             <dependency>
                 <groupId>com.dameng</groupId>
-                <artifactId>DmDialect-for-hibernate5.3</artifactId>
+                <artifactId>DmDialect-for-hibernate6.1</artifactId>
                 <version>${dm.version}</version>
             </dependency>
             <dependency>
