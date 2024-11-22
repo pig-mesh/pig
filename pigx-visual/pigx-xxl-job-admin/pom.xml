@@ -59,7 +59,7 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- mybatis-starter：mybatis + mybatis-spring + hikari（default） -->
+        <!-- mybatis-starter：mybatis + mybatis-spring + druid（default） -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -74,6 +74,11 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dameng</groupId>
+            <artifactId>DmJdbcDriver18</artifactId>
         </dependency>
 
         <!-- xxl-job-core -->
