@@ -62,6 +62,11 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
             return true;
         }
 
+        // 业务代码里的规则，覆盖计算规则
+        if (StrUtil.isNotBlank(dataScope.getUsername()) || CollUtil.isNotEmpty(dataScope.getDeptList())) {
+            return false;
+        }
+
         // 获取用户角色ID列表
         List<String> roleIdList = user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

@@ -26,7 +26,7 @@ import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeInnerInterceptor;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeInterceptor;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeSqlInjector;
-import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDatascopeHandle;
+import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDataScopeHandle;
 import com.pig4cloud.pigx.common.data.resolver.SqlFilterArgumentResolver;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantHandler;
@@ -115,7 +115,7 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
     @ConditionalOnClass(PigxUser.class)
     public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
         DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
-        dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDatascopeHandle(dataScopeService));
+        dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDataScopeHandle(dataScopeService));
         return dataScopeInnerInterceptor;
     }
 
