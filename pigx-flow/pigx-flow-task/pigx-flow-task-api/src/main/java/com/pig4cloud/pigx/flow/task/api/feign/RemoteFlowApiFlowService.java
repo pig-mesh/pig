@@ -18,7 +18,7 @@ import java.util.List;
  * @date 2023/7/14
  */
 @FeignClient(contextId = "remoteAiFlowService", value = ServiceNameConstants.FLOW_TASK_SERVER)
-public interface RemoteAiFlowService {
+public interface RemoteFlowApiFlowService {
 
     /**
      * 查询所有我可以发起的表单
@@ -38,7 +38,13 @@ public interface RemoteAiFlowService {
     R<ProcessVO> getDetail(@RequestParam("flowId") String flowId);
 
 
+    /**
+     * 启动流程实例
+     *
+     * @param paramDto param dto
+     * @return {@link R } 流程实例ID {@link String}
+     */
     @PostMapping("/process-instance/startProcessInstance")
-    R startProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
+    R<String> startProcessInstance(@RequestBody ProcessInstanceParamDto paramDto);
 
 }

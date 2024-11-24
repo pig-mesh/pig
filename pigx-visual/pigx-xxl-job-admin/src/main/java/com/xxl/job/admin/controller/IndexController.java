@@ -1,8 +1,8 @@
 package com.xxl.job.admin.controller;
 
 import com.xxl.job.admin.controller.annotation.PermissionLimit;
-import com.xxl.job.admin.service.LoginService;
 import com.xxl.job.admin.service.XxlJobService;
+import com.xxl.job.admin.service.impl.LoginService;
 import com.xxl.job.core.biz.model.ReturnT;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class IndexController {
 	private LoginService loginService;
 
 	@RequestMapping("/")
-	public String index(Model model, HttpServletRequest request) {
+	public String index(Model model) {
 
 		Map<String, Object> dashboardMap = xxlJobService.dashboardInfo();
 		model.addAllAttributes(dashboardMap);

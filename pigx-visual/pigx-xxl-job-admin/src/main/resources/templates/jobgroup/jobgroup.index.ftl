@@ -13,7 +13,7 @@
 	<@netCommon.commonHeader />
 	<!-- left -->
 	<@netCommon.commonLeft "jobgroup" />
-
+	
 	<!-- Content Wrapper. Contains page content -->
 	<div class="content-wrapper">
 		<!-- Content Header (Page header) -->
@@ -44,7 +44,7 @@
                     <button class="btn btn-block btn-success add" type="button">${I18n.jobinfo_field_add}</button>
                 </div>
             </div>
-
+			
 			<div class="row">
 				<div class="col-xs-12">
 					<div class="box">
@@ -70,6 +70,25 @@
 	    </section>
 	</div>
 
+    <!-- 注册列表查看.模态框 -->
+    <div class="modal fade" id="showRegistryListModal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" >${I18n.jobinfo_opt_registryinfo}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="data" style="word-wrap: break-word;"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center" >
+                        <button type="button" class="btn btn-info ok" data-dismiss="modal" >${I18n.system_ok}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 新增.模态框 -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog"  aria-hidden="true">
         <div class="modal-dialog ">
@@ -85,7 +104,7 @@
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">${I18n.jobgroup_field_title}<font color="red">*</font></label>
-                            <div class="col-sm-10"><input type="text" class="form-control" name="title" placeholder="${I18n.system_please_input}${I18n.jobgroup_field_title}" maxlength="24" ></div>
+                            <div class="col-sm-10"><input type="text" class="form-control" name="title" placeholder="${I18n.system_please_input}${I18n.jobgroup_field_title}" maxlength="12" ></div>
                         </div>
                         <div class="form-group">
                             <label for="lastname" class="col-sm-2 control-label">${I18n.jobgroup_field_addressType}<font color="red">*</font></label>
@@ -158,7 +177,7 @@
             </div>
         </div>
     </div>
-
+	
 	<!-- footer -->
 	<@netCommon.commonFooter />
 </div>

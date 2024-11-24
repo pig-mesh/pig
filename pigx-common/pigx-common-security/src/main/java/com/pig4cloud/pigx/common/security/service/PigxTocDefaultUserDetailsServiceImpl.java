@@ -84,7 +84,7 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
     UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
         // @formatter:off
 		return RetOps.of(result)
-				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户信息获取失败",null)))
+				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户名或密码错误",null)))
 				.getData()
 				.map(this::convertUserDetailsAppUser)
 				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
