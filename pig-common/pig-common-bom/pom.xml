@@ -35,7 +35,7 @@
         <shardingsphere.version>5.4.1</shardingsphere.version>
         <hutool.version>5.8.33</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <common.io.version>2.17.0</common.io.version>
+        <common.io.version>2.18.0</common.io.version>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
     </properties>
