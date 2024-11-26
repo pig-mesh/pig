@@ -8,13 +8,16 @@ import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.SaLoginConfig;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -60,8 +63,9 @@ public class ResourceServerConfiguration implements WebMvcConfigurer {
             });
         }).setError(e -> {
             // 校验令牌失败 424 (主要是和401区分)
+            SaHolder.getResponse().setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
             SaHolder.getResponse().setStatus(HttpStatus.FAILED_DEPENDENCY.value());
-            return R.failed(e.getMessage());
+            return JSONUtil.toJsonStr(R.failed(e.getMessage()));
         });
 
         for (String url : permitAllUrlProperties.getUrls()) {
