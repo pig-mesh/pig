@@ -66,7 +66,7 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
         }
 
         // 获取用户角色ID列表
-        List<Long> roleIdList = user.getRoleIds();
+        List<Long> roleIdList = SecurityUtils.getRoleIds();
         if (CollUtil.isEmpty(roleIdList)) {
             return false;
         }
