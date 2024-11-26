@@ -54,10 +54,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
+        <!-- 积木报表核心依赖-->
         <dependency>
             <groupId>org.jeecgframework.jimureport</groupId>
-            <artifactId>jimureport-spring-boot3-starter</artifactId>
+            <artifactId>jimureport-spring-boot3-starter-fastjson2</artifactId>
             <version>${jimu.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>html2image</artifactId>
+                    <groupId>gui.ava</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- druid 连接池 -->
         <dependency>

@@ -5,7 +5,7 @@ pigX 并非一个开源软件，作者保留全部的权利。
 
 ## 商业使用
 -  [商用请购买商业授权](https://pig4cloud.com)
--  [使用对应的专属版本](https://pigx.vip/#/buy/form3)
+-  [使用对应的专属版本](https://pig4cloud.com/data/other/form3.html)
 
 ### 🚫禁止  
 

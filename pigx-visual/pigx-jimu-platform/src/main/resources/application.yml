@@ -1,5 +1,7 @@
 server:
   port: 5008
+  undertow:
+    buffer-size: 1MB
 
 spring:
   application:
