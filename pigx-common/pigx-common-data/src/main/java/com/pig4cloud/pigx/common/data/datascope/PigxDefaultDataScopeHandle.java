@@ -22,13 +22,11 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,11 +66,7 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
         }
 
         // 获取用户角色ID列表
-        List<String> roleIdList = user.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(authority -> authority.startsWith(SecurityConstants.ROLE))
-                .map(authority -> authority.split(StrUtil.UNDERLINE)[1])
-                .collect(Collectors.toList());
+        List<Long> roleIdList = user.getRoleIds();
         if (CollUtil.isEmpty(roleIdList)) {
             return false;
         }

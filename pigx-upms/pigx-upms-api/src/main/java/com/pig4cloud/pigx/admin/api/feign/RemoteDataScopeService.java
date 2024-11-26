@@ -44,7 +44,7 @@ public interface RemoteDataScopeService {
 	 * @return
 	 */
 	@PostMapping("/role/getRoleList")
-	R<List<SysRole>> getRoleList(@RequestBody List<String> roleIdList);
+	R<List<SysRole>> getRoleList(@RequestBody List<Long> roleIdList);
 
 	/**
 	 * 获取子级部门
