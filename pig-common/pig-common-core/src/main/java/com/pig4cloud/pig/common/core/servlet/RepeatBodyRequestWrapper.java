@@ -28,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,13 +40,13 @@ import java.util.Map;
 public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
 	private final byte[] bodyByteArray;
-
 	private final Map<String, String[]> parameterMap;
 
 	public RepeatBodyRequestWrapper(HttpServletRequest request) {
 		super(request);
 		this.bodyByteArray = getByteBody(request);
-		this.parameterMap = super.getParameterMap();
+		// 使用 HashMap 以便后续可以修改
+		this.parameterMap = new HashMap<>(request.getParameterMap());
 	}
 
 	@Override
@@ -60,17 +61,17 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 		return new ServletInputStream() {
 			@Override
 			public boolean isFinished() {
-				return false;
+				return byteArrayInputStream.available() == 0;
 			}
 
 			@Override
 			public boolean isReady() {
-				return false;
+				return true; // 可以读取
 			}
 
 			@Override
 			public void setReadListener(ReadListener readListener) {
-				// doNoting
+				// doNothing
 			}
 
 			@Override
@@ -84,20 +85,36 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 		byte[] body = new byte[0];
 		try {
 			body = StreamUtils.copyToByteArray(request.getInputStream());
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			log.error("解析流中数据异常", e);
 		}
 		return body;
 	}
 
-	/**
-	 * 重写 getParameterMap() 方法 解决 undertow 中流被读取后，会进行标记，从而导致无法正确获取 body 中的表单数据的问题
-	 * @return Map<String, String [ ]> parameterMap
-	 */
 	@Override
 	public Map<String, String[]> getParameterMap() {
-		return this.parameterMap;
+		return this.parameterMap; // 返回可变的 parameterMap
 	}
 
+	/**
+	 * 设置新的参数映射
+	 * @param parameterMap 新的参数映射
+	 */
+	public void setParameterMap(Map<String, String[]> parameterMap) {
+		this.parameterMap.clear();
+		this.parameterMap.putAll(parameterMap);
+	}
+
+	@Override
+	public String getParameter(String name) {
+		String[] values = parameterMap.get(name);
+		return (values != null && values.length > 0) ? values[0] : null;
+	}
+
+	@Override
+	public String[] getParameterValues(String name) {
+		return parameterMap.get(name);
+	}
 }
+
+

@@ -39,6 +39,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -64,7 +65,7 @@ public class SysLogUtils {
 
 		// get 参数脱敏
 		PigLogProperties logProperties = SpringContextHolder.getBean(PigLogProperties.class);
-		Map<String, String[]> paramsMap = MapUtil.removeAny(request.getParameterMap(),
+		Map<String, String[]> paramsMap = MapUtil.removeAny(new HashMap<>(request.getParameterMap()),
 				ArrayUtil.toArray(logProperties.getExcludeFields(), String.class));
 		sysLog.setParams(HttpUtil.toParams(paramsMap));
 		return sysLog;
