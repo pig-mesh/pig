@@ -22,6 +22,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import org.springframework.core.Ordered;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -36,6 +37,12 @@ import java.util.*;
  * @date 2018/8/15
  */
 public interface PigxUserDetailsService extends UserDetailsService, Ordered {
+
+    /**
+     * Notfound 用户错误代码
+     */
+    String NOTFOUND_USER_ERROR_CODE = "UserDetailsService.notFound";
+
 
     /**
      * 是否支持此客户端校验
@@ -67,7 +74,7 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
         // @formatter:off
 		return  userInfoOptional
 				.map(this::convertUserDetails)
-				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+				.orElseThrow(() -> new UsernameNotFoundException(MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE)));
 		// @formatter:on
     }
 

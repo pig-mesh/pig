@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.app.api.feign.RemoteAppUserService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
@@ -38,6 +39,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 
 import java.util.*;
+
+import static com.pig4cloud.pigx.common.security.service.PigxTocDefaultUserDetailsServiceImpl.NOTFOUND_USER_ERROR_CODE;
 
 /**
  * 用户详细信息
@@ -74,10 +77,10 @@ public class PigxTocMobileUserDetailsServiceImpl implements PigxUserDetailsServi
     UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
         // @formatter:off
 		return RetOps.of(result)
-				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户信息获取失败",null)))
+				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR,MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE),null)))
 				.getData()
 				.map(this::convertUserDetailsAppUser)
-				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+				.orElseThrow(() -> new UsernameNotFoundException(MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE)));
 		// @formatter:on
     }
 

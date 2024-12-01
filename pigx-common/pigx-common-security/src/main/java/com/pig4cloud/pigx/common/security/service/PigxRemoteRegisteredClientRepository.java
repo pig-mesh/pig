@@ -7,6 +7,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -36,6 +37,8 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 public class PigxRemoteRegisteredClientRepository implements RegisteredClientRepository {
+
+    private final static String NOTFOUND_CLIENT_ERROR_CODE = "RegisteredClient.notFound";
 
     /**
      * 刷新令牌有效期默认 30 天
@@ -104,7 +107,7 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
                     .of(clientDetailsService.getClientDetailsById(clientId))
                     .getData()
                     .orElseThrow(() -> new OAuth2AuthorizationCodeRequestAuthenticationException(
-                            new OAuth2Error("客户端查询异常，请检查数据库链接"), null));
+                            new OAuth2Error(MsgUtils.getSecurityMessage(NOTFOUND_CLIENT_ERROR_CODE)), null));
 
             clientDetails = fetchedClientDetails;
             Optional.ofNullable(cache).ifPresent(c -> c.put(clientId, fetchedClientDetails));

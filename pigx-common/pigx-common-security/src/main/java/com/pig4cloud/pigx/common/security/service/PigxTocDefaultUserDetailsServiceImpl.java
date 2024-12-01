@@ -24,6 +24,7 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
@@ -50,6 +51,7 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsService {
+
 
     private final CacheManager cacheManager;
 
@@ -84,10 +86,10 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
     UserDetails getUserDetailsAppUser(R<AppUserInfo> result) {
         // @formatter:off
 		return RetOps.of(result)
-				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, "用户名或密码错误",null)))
+				.assertSuccess(r -> new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE),null)))
 				.getData()
 				.map(this::convertUserDetailsAppUser)
-				.orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+				.orElseThrow(() -> new UsernameNotFoundException(MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE)));
 		// @formatter:on
     }
 
