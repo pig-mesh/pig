@@ -269,8 +269,7 @@ public class TaskServiceImpl implements ITaskService {
 	 */
 	@Override
 	public R setAssignee(TaskParamDto taskParamDto) {
-		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
-		R r = flowEngineService.setAssignee(taskParamDto);
+		R r = flowEngineService.transferTask(taskParamDto);
 		if (!r.isOk()) {
 			return R.failed(r.getMsg());
 		}
