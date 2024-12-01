@@ -82,8 +82,8 @@ public interface RemoteFlowEngineService {
 	 * @param taskParamDto 任务参数
 	 * @return 设置负责人结果
 	 */
-	@PostMapping("/task/setAssignee")
-	R<String> setAssignee(@RequestBody TaskParamDto taskParamDto);
+	@PostMapping("/task/transferTask")
+	R<String> transferTask(@RequestBody TaskParamDto taskParamDto);
 
 	/**
 	 * 停止流程实例

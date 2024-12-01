@@ -154,4 +154,28 @@ public class EngineTaskController {
         return R.ok();
     }
 
+    /**
+     * 设置执行人 （转办）
+     *
+     * @param taskParamDto 任务参数DTO
+     * @return 操作结果
+     */
+    @PostMapping("/transferTask")
+    public R transferTask(@RequestBody TaskParamDto taskParamDto) {
+        Map<String, Object> taskLocalParamMap = taskParamDto.getTaskLocalParamMap();
+        if (CollUtil.isNotEmpty(taskLocalParamMap)) {
+            taskService.setVariablesLocal(taskParamDto.getTaskId(), taskLocalParamMap);
+        }
+
+        // 设置任务的 owner 为当前任务的 assignee
+        Task task = taskService.createTaskQuery().taskId(taskParamDto.getTaskId()).includeTaskLocalVariables().singleResult();
+        taskService.setOwner(taskParamDto.getTaskId(), task.getAssignee());
+
+        // 设置任务的 assignee 为目标用户 (转办用户)
+        for (Long targetUserId : taskParamDto.getTargetUserIdList()) {
+            taskService.setAssignee(taskParamDto.getTaskId(), targetUserId.toString());
+        }
+        return R.ok();
+    }
+
 }
