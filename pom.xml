@@ -31,7 +31,7 @@
         <revision>3.8.2</revision>
         <spring-boot.version>3.3.6</spring-boot.version>
         <spring-cloud.version>2023.0.4</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.1.3</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
