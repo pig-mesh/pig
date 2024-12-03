@@ -14,7 +14,7 @@
 
 #### 分支说明
 
-- jdk17: java17/21 + springboot 3.3 + springcloud 2023
+- jdk17: java17/21 + springboot 3.4 + springcloud 2024
 - master: java8 + springboot 2.7 + springcloud 2021
 
 #### 文档视频
