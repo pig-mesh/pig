@@ -39,6 +39,6 @@ public @interface Idempotent {
 	 * 是否在业务完成后删除key true:删除 false:不删除
 	 * @return boolean
 	 */
-	boolean delKey() default true;
+	boolean delKey() default false;
 
 }

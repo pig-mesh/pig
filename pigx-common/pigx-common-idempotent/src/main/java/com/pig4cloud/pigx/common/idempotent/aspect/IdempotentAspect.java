@@ -25,12 +25,22 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * The Idempotent Aspect
+ * IdempotentAspect: 拦截带有 @Idempotent 注解的方法，提供幂等性控制
  *
- * @author ITyunqing
+ * 功能包括：
+ * 1. 根据 URL 或自定义 Key 标识唯一性。
+ * 2. 通过 Redisson 的分布式缓存机制，控制请求幂等性。
+ * 3. 可根据业务配置 Key 的有效期和是否自动删除等选项。
+ *
+ * 使用方式：
+ * 1. 在方法上添加 @Idempotent 注解。
+ * 2. 配置 Redisson 和 KeyResolver 实现类。
+ *
+ * @author 冷冷
  */
 @Aspect
 @RequiredArgsConstructor
@@ -38,75 +48,89 @@ public class IdempotentAspect {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IdempotentAspect.class);
 
+    /** 线程缓存，用于存储当前线程的幂等性信息 */
     private static final ThreadLocal<Map<String, Object>> THREAD_CACHE = ThreadLocal.withInitial(HashMap::new);
 
+    /** Redisson Map 缓存的键 */
     private static final String RMAPCACHE_KEY = "idempotent";
 
+    /** 缓存中的 Key 标识 */
     private static final String KEY = "key";
 
+    /** 是否自动删除 Key 标识 */
     private static final String DELKEY = "delKey";
 
     private final Redisson redisson;
 
     private final KeyResolver keyResolver;
 
+
+    /**
+     * 定义切点：拦截带有 @Idempotent 注解的方法
+     */
     @Pointcut("@annotation(com.pig4cloud.pigx.common.idempotent.annotation.Idempotent)")
     public void pointCut() {
+        // Pointcut for methods annotated with @Idempotent
     }
 
+    /**
+     * 方法执行前的拦截逻辑
+     * - 检查是否存在幂等性 Key，若不存在则抛出异常。
+     * - 若首次访问，则存储幂等性 Key 到缓存中。
+     *
+     * @param joinPoint 切点信息
+     */
     @Before("pointCut()")
     public void beforePointCut(JoinPoint joinPoint) {
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder
-                .getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
+        // 获取当前请求对象
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
+        // 获取方法签名和目标方法
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
+
+        // 检查方法是否有 @Idempotent 注解
         if (!method.isAnnotationPresent(Idempotent.class)) {
             return;
         }
+
+        // 获取注解配置信息
         Idempotent idempotent = method.getAnnotation(Idempotent.class);
+        String key = resolveKey(idempotent, joinPoint, request);
 
-        String key;
-
-        // 若没有配置 幂等 标识编号，则使用 url + 参数列表作为区分
-        if (!StringUtils.hasLength(idempotent.key())) {
-            String url = request.getRequestURL().toString();
-            String argString = Arrays.asList(joinPoint.getArgs()).toString();
-            key = url + argString;
-        } else {
-            // 使用jstl 规则区分
-            key = keyResolver.resolver(idempotent, joinPoint);
-        }
-
+        // 获取注解中的其他配置
         long expireTime = idempotent.expireTime();
         String info = idempotent.info();
         TimeUnit timeUnit = idempotent.timeUnit();
         boolean delKey = idempotent.delKey();
 
-        // do not need check null
+        // 访问 Redisson Map 缓存
         RMapCache<String, Object> rMapCache = redisson.getMapCache(RMAPCACHE_KEY);
-        String value = LocalDateTime.now().toString().replace("T", " ");
-        Object v1;
-        if (null != rMapCache.get(key)) {
-            // had stored
+        String value = LocalDateTime.now().toString();
+
+        // 原子性操作：若 Key 已存在，则抛出幂等性异常
+        Object existingValue = rMapCache.put(key, value, expireTime, timeUnit);
+        if (Objects.nonNull(existingValue)) {
             throw new IdempotentException(info);
         }
-        synchronized (this) {
-            v1 = rMapCache.putIfAbsent(key, value, expireTime, timeUnit);
-            if (null != v1) {
-                throw new IdempotentException(info);
-            } else {
-                LOGGER.info("[idempotent]:has stored key={},value={},expireTime={}{},now={}", key, value, expireTime,
-                        timeUnit, LocalDateTime.now().toString());
-            }
-        }
 
+        // 日志记录：幂等性 Key 成功存储
+        LOGGER.info("[idempotent]: stored key={}, value={}, expireTime={} {}, now={}",
+                key, value, expireTime, timeUnit, LocalDateTime.now());
+
+        // 将幂等性信息保存到线程缓存中
         Map<String, Object> map = THREAD_CACHE.get();
         map.put(KEY, key);
         map.put(DELKEY, delKey);
     }
 
+    /**
+     * 方法执行后的拦截逻辑
+     * - 根据配置决定是否移除缓存中的幂等性 Key。
+     * - 清理当前线程的缓存数据。
+     *
+     * @param joinPoint 切点信息
+     */
     @After("pointCut()")
     public void afterPointCut(JoinPoint joinPoint) {
         Map<String, Object> map = THREAD_CACHE.get();
@@ -122,11 +146,33 @@ public class IdempotentAspect {
         String key = map.get(KEY).toString();
         boolean delKey = (boolean) map.get(DELKEY);
 
+        // 如果配置了自动删除，则从缓存中移除 Key
         if (delKey) {
             mapCache.fastRemove(key);
-            LOGGER.info("[idempotent]:has removed key={}", key);
+            LOGGER.info("[idempotent]: removed key={}", key);
         }
+        // 清理当前线程的缓存
         THREAD_CACHE.remove();
     }
 
+    /**
+     * 解析幂等性 Key 的方法
+     * - 若注解中未配置 Key，则使用 URL 和参数列表生成默认 Key。
+     * - 若注解中配置了 Key，则使用 KeyResolver 解析。
+     *
+     * @param idempotent Idempotent 注解
+     * @param joinPoint 切点信息
+     * @param request 当前请求对象
+     * @return 解析后的 Key
+     */
+    private String resolveKey(Idempotent idempotent, JoinPoint joinPoint, HttpServletRequest request) {
+        if (!StringUtils.hasLength(idempotent.key())) {
+            // 默认使用 URL 和参数生成 Key
+            String url = request.getRequestURI();
+            String argString = Arrays.asList(joinPoint.getArgs()).toString();
+            return url + argString;
+        }
+        // 使用自定义 KeyResolver 解析 Key
+        return keyResolver.resolver(idempotent, joinPoint);
+    }
 }
