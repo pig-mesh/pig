@@ -41,6 +41,7 @@ import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -493,32 +494,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public R unbinding(String type) {
         PigxUser user = SecurityUtils.getUser();
         LambdaUpdateWrapper<SysUser> wrapper = null;
-        if (type.equals("wechat")) {
+
+        // 微信开放平台 （普通用户扫码登录）
+        if (type.equals(LoginTypeEnum.WECHAT.getType())) {
             wrapper = Wrappers.<SysUser>lambdaUpdate()
                     .set(SysUser::getWxOpenid, null)
                     .eq(SysUser::getUserId, user.getId());
-        } else if (type.equals("gitee")) {
+            // 码云登录 （方便申请）
+        } else if (type.equals(LoginTypeEnum.GITEE.getType())) {
             wrapper = Wrappers.<SysUser>lambdaUpdate()
                     .set(SysUser::getGiteeLogin, null)
                     .eq(SysUser::getUserId, user.getId());
-        } else if (type.equals("osc")) {
-            wrapper = Wrappers.<SysUser>lambdaUpdate()
-                    .set(SysUser::getOscId, null)
-                    .eq(SysUser::getUserId, user.getId());
-        } else if (type.equals("tencent")) {
-            wrapper = Wrappers.<SysUser>lambdaUpdate()
-                    .set(SysUser::getQqOpenid, null)
-                    .eq(SysUser::getUserId, user.getId());
-        } else if (type.equals("cp")) {
+            // 企业微信登录
+        } else if (type.equals(LoginTypeEnum.WEIXIN_CP.getType())) {
             wrapper = Wrappers.<SysUser>lambdaUpdate()
                     .set(SysUser::getWxCpUserid, null)
                     .eq(SysUser::getUserId, user.getId());
-        } else if (type.equals("dingding")) {
+            // 钉钉登录
+        } else if (type.equals(LoginTypeEnum.DINGTALK.getType())) {
             wrapper = Wrappers.<SysUser>lambdaUpdate()
                     .set(SysUser::getWxDingUserid, null)
                     .eq(SysUser::getUserId, user.getId());
         }
-        if (wrapper == null) {
+
+        if (Objects.isNull(wrapper)) {
             return R.failed("解绑账号类型不存在");
         }
         this.update(wrapper);
