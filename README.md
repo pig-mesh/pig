@@ -14,7 +14,7 @@
 
 #### 分支说明
 
-- jdk17: java17/21 + springboot 3.3 + springcloud 2023
+- jdk17: java17/21 + springboot 3.4 + springcloud 2024
 - master: java8 + springboot 2.7 + springcloud 2021
 
 #### 文档视频
@@ -31,7 +31,7 @@
 
 ## 微信群 [禁广告]
 
-<img src='https://minio.pigx.top/oss/202405/1717136749.png' alt='1717136749'/>
+<img src='https://foruda.gitee.com/images/1731647278591226450/68ad7b55_441246.png' alt='1717136749'/>
 
 ## 快速开始
 
@@ -104,12 +104,12 @@ npm install && npm run build:docker && cd docker && docker compose up -d
 
 <table>
   <tr>
-    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://minio.pigx.top/oss/1655474345.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://minio.pigx.top/oss/1656837143.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av45084065" target="_blank"><img src="https://foruda.gitee.com/images/1731647304254897555/88a9c2fa_441246.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/av77344954" target="_blank"><img src="https://foruda.gitee.com/images/1731647324953921510/39689640_441246.jpeg"></a></td>
   </tr>
     <tr>
-    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://minio.pigx.top/oss/1655474369.jpg"></a></td>
-    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://minio.pigx.top/oss/1655474381.jpg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV1J5411476V" target="_blank"><img src="https://foruda.gitee.com/images/1731647357502030768/7f31f392_441246.jpeg"></a></td>
+    <td><a href="https://www.bilibili.com/video/BV14p4y197K5" target="_blank"><img src="https://foruda.gitee.com/images/1731647375444479120/2b8fd494_441246.jpeg"></a></td>
   </tr>
 </table>
 
@@ -120,7 +120,7 @@ npm install && npm run build:docker && cd docker && docker compose up -d
 pig 开源软件遵循 [Apache 2.0 协议](https://www.apache.org/licenses/LICENSE-2.0.html)。
 允许商业使用，但务必保留类作者、Copyright 信息。
 
-![](https://minio.pigx.top/oss/1655474288.jpg)
+![](https://foruda.gitee.com/images/1731647419204307063/91217172_441246.jpeg)
 
 ### 其他说明
 
