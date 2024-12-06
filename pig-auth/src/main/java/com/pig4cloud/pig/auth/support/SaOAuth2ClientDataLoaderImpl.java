@@ -5,9 +5,11 @@ import cn.dev33.satoken.oauth2.data.model.loader.SaClientModel;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -33,6 +35,7 @@ public class SaOAuth2ClientDataLoaderImpl implements SaOAuth2DataLoader {
 	 * @return ClientModel
 	 */
 	@Override
+	@Cacheable(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientId", unless = "#result == null")
 	public SaClientModel getClientModel(String clientId) {
 		R<SysOauthClientDetails> clientDetailsById = remoteClientDetailsService.getClientDetailsById(clientId);
 

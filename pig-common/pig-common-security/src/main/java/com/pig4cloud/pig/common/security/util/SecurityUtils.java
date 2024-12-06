@@ -44,10 +44,6 @@ public class SecurityUtils {
 	 */
 	public PigUser getUser() {
 		Object loginId = StpUtil.getLoginId();
-		if (ObjectUtil.isNull(loginId)) {
-			return null;
-		}
-
 		String username = loginId.toString();
 		Cache cache = SpringUtil.getBean(CacheManager.class).getCache(CacheConstants.USER_DETAILS);
 		PigUser pigUser = getCachedPigUser(cache, username);
@@ -65,10 +61,6 @@ public class SecurityUtils {
 	 */
 	public List<Long> getRoles() {
 		Object loginId = StpUtil.getLoginId();
-		if (ObjectUtil.isNull(loginId)) {
-			return null;
-		}
-
 		String username = loginId.toString();
 		Cache cache = SpringUtil.getBean(CacheManager.class).getCache(CacheConstants.USER_DETAILS);
 		List<Long> roles = getCachedRoles(cache, username);
