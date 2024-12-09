@@ -39,10 +39,10 @@
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.3.5      |
-| Spring Cloud                | 2023.0.3   |
-| Spring Cloud Alibaba        | 2023.0.1.2 |
-| Spring Authorization Server | 1.3.3      |
+| Spring Boot                 | 3.4.0      |
+| Spring Cloud                | 2024.0.0   |
+| Spring Cloud Alibaba        | 2023.0.3.1 |
+| Spring Authorization Server | 1.4.0      |
 | Mybatis Plus                | 3.5.9      |
 | Vue                         | 3.4        |
 | Element Plus                | 2.7        |
