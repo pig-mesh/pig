@@ -1,8 +1,8 @@
 package com.pig4cloud.pig.admin.api.vo;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import cn.idev.excel.annotation.ExcelIgnore;
+import cn.idev.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.plugin.excel.annotation.DictTypeProperty;
 import com.pig4cloud.plugin.excel.annotation.ExcelLine;
 import jakarta.validation.constraints.NotBlank;
