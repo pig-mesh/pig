@@ -4,7 +4,7 @@ body:
   - type: dropdown
     id: version
     attributes:
-      label: PIG版本
+      label: PIG版本（提问先右上角 Star ♥️）
       options:
         - "不处理PIGX或其他魔改版本"
         - "3.8"
@@ -22,7 +22,7 @@ body:
   - type: textarea
     id: desired-solution
     attributes:
-      label: 问题描述
+      label: 问题描述，提供详细截图和报错
       description: 详细问题，提供相应截图和日志，一分钟的描述不需要期望别人花半小时帮你排查
     validations:
       required: true

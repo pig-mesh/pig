@@ -27,9 +27,6 @@ import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandl
 import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.component.PermitAllUrlProperties;
-import com.pig4cloud.pig.common.security.component.PigBearerTokenExtractor;
-import com.pig4cloud.pig.common.security.component.ResourceAuthExceptionEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,18 +35,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * @author lengleng 认证授权服务器配置
@@ -58,101 +51,75 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @RequiredArgsConstructor
 public class PigBootSecurityServerConfiguration {
 
-	private final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    private final AuthenticationConverter accessTokenRequestConverter;
 
-	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+    private final OAuth2AuthorizationService authorizationService;
 
-	private final AuthenticationConverter accessTokenRequestConverter;
+    private final PasswordDecoderFilter passwordDecoderFilter;
 
-	private final OAuth2AuthorizationService authorizationService;
+    private final OAuth2TokenGenerator oAuth2TokenGenerator;
 
-	private final PigBearerTokenExtractor pigBearerTokenExtractor;
+    private final ValidateCodeFilter validateCodeFilter;
 
-	private final PasswordDecoderFilter passwordDecoderFilter;
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+        OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        // 配置授权服务器的安全策略，只有/oauth2/**的请求才会走如下的配置
+        http.securityMatcher("/oauth2/**");
+        // 增加验证码过滤器
+        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        // 增加密码解密过滤器
+        http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
 
-	private final OAuth2TokenGenerator oAuth2TokenGenerator;
+        // 认证服务器配置
+        http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
+                            tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter) // 注入自定义的授权认证Converter
+                                    .accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
+                                    .errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
+                        }).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
+                                oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
+                        , Customizer.withDefaults())
+                .with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+                                .authorizationServerSettings(
+                                        AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+                        Customizer.withDefaults());
 
-	private final ValidateCodeFilter validateCodeFilter;
+        http.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+                        .authorizationServerSettings(
+                                AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+                Customizer.withDefaults());
 
-	private final PermitAllUrlProperties permitAllUrl;
+        DefaultSecurityFilterChain securityFilterChain = http.build();
 
-	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
-		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
+        // 注入自定义授权模式实现
+        addCustomOAuth2GrantAuthenticationProvider(http);
+        return securityFilterChain;
+    }
 
-		// 增加验证码过滤器
-		http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
-		// 增加密码解密过滤器
-		http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
+    /**
+     * 注入授权模式实现提供方
+     * <p>
+     * 1. 密码模式 </br>
+     * 2. 短信登录 </br>
+     */
+    @SuppressWarnings("unchecked")
+    private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {
+        AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
+        OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);
 
-		// 认证服务器配置
-		http.with(authorizationServerConfigurer.tokenEndpoint((tokenEndpoint) -> {// 个性化认证授权端点
-			tokenEndpoint.accessTokenRequestConverter(accessTokenRequestConverter) // 注入自定义的授权认证Converter
-				.accessTokenResponseHandler(new PigAuthenticationSuccessEventHandler()) // 登录成功处理器
-				.errorResponseHandler(new PigAuthenticationFailureEventHandler());// 登录失败处理器
-		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
-		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
-				, Customizer.withDefaults())
-			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-				.authorizationServerSettings(
-						AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
-					Customizer.withDefaults());
+        OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(
+                authenticationManager, authorizationService, oAuth2TokenGenerator);
 
-		// 资源服务器配置
-		AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
-			.stream()
-			.map(AntPathRequestMatcher::new)
-			.toList()
-			.toArray(new AntPathRequestMatcher[] {});
+        OAuth2ResourceOwnerSmsAuthenticationProvider resourceOwnerSmsAuthenticationProvider = new OAuth2ResourceOwnerSmsAuthenticationProvider(
+                authenticationManager, authorizationService, oAuth2TokenGenerator);
 
-		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
-			.permitAll()
-			.anyRequest()
-			.authenticated())
-			.oauth2ResourceServer(
-					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-						.bearerTokenResolver(pigBearerTokenExtractor))
-			.exceptionHandling(configurer -> configurer.authenticationEntryPoint(resourceAuthExceptionEntryPoint))
-			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-			.csrf(AbstractHttpConfigurer::disable);
-
-		http.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-			.authorizationServerSettings(
-					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
-				Customizer.withDefaults());
-
-		DefaultSecurityFilterChain securityFilterChain = http.build();
-
-		// 注入自定义授权模式实现
-		addCustomOAuth2GrantAuthenticationProvider(http);
-		return securityFilterChain;
-	}
-
-	/**
-	 * 注入授权模式实现提供方
-	 * <p>
-	 * 1. 密码模式 </br>
-	 * 2. 短信登录 </br>
-	 */
-	@SuppressWarnings("unchecked")
-	private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {
-		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
-		OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);
-
-		OAuth2ResourceOwnerPasswordAuthenticationProvider resourceOwnerPasswordAuthenticationProvider = new OAuth2ResourceOwnerPasswordAuthenticationProvider(
-				authenticationManager, authorizationService, oAuth2TokenGenerator);
-
-		OAuth2ResourceOwnerSmsAuthenticationProvider resourceOwnerSmsAuthenticationProvider = new OAuth2ResourceOwnerSmsAuthenticationProvider(
-				authenticationManager, authorizationService, oAuth2TokenGenerator);
-
-		// 处理 UsernamePasswordAuthenticationToken
-		http.authenticationProvider(new PigDaoAuthenticationProvider());
-		// 处理 OAuth2ResourceOwnerPasswordAuthenticationToken
-		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
-		// 处理 OAuth2ResourceOwnerSmsAuthenticationToken
-		http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
-	}
+        // 处理 UsernamePasswordAuthenticationToken
+        http.authenticationProvider(new PigDaoAuthenticationProvider());
+        // 处理 OAuth2ResourceOwnerPasswordAuthenticationToken
+        http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
+        // 处理 OAuth2ResourceOwnerSmsAuthenticationToken
+        http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
+    }
 
 }
