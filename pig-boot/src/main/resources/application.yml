@@ -17,6 +17,10 @@ spring:
         enabled: false
       discovery:
         enabled: false
+  freemarker: # freemarker 配置，授权码模式页面渲染使用
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    request-context-attribute: request
   main:
     allow-bean-definition-overriding: true # 允许覆盖bean定义
   profiles:
@@ -35,11 +39,10 @@ security:
         - /swagger-ui.html
         - /swagger-ui/**
         - /swagger-resources
-        - /token/check_token
+        - /code/image
         - /error
         - /token/**
         - /actuator/**
-        - /code/**
 
 #--------------如下配置尽量不要变动-------------
 # mybatis-plus 配置

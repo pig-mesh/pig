@@ -40,6 +40,7 @@ import java.util.Map;
 public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 
 	private final byte[] bodyByteArray;
+
 	private final Map<String, String[]> parameterMap;
 
 	public RepeatBodyRequestWrapper(HttpServletRequest request) {
@@ -85,7 +86,8 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 		byte[] body = new byte[0];
 		try {
 			body = StreamUtils.copyToByteArray(request.getInputStream());
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("解析流中数据异常", e);
 		}
 		return body;
@@ -115,6 +117,5 @@ public class RepeatBodyRequestWrapper extends HttpServletRequestWrapper {
 	public String[] getParameterValues(String name) {
 		return parameterMap.get(name);
 	}
+
 }
-
-

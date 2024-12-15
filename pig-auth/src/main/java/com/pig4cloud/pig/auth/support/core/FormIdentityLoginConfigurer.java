@@ -18,11 +18,12 @@ public final class FormIdentityLoginConfigurer
 	public void init(HttpSecurity http) throws Exception {
 		http.formLogin(formLogin -> {
 			formLogin.loginPage("/token/login");
-			formLogin.loginProcessingUrl("/token/form");
+			formLogin.loginProcessingUrl("/oauth2/form");
 			formLogin.failureHandler(new FormAuthenticationFailureHandler());
 
 		})
-			.logout(logout -> logout.logoutSuccessHandler(new SsoLogoutSuccessHandler())
+			.logout(logout -> logout.logoutUrl("/oauth2/logout")
+				.logoutSuccessHandler(new SsoLogoutSuccessHandler())
 				.deleteCookies("JSESSIONID")
 				.invalidateHttpSession(true)) // SSO登出成功处理
 

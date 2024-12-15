@@ -60,9 +60,9 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		// 客户端配置跳过验证码
+		// 如果是密码模式 && 客户端不需要校验验证码
 		boolean isIgnoreClient = authSecurityConfigProperties.getIgnoreClients().contains(WebUtils.getClientId());
-		if (isIgnoreClient) {
+		if (StrUtil.equals(SecurityConstants.PASSWORD, grantType) && isIgnoreClient) {
 			filterChain.doFilter(request, response);
 			return;
 		}

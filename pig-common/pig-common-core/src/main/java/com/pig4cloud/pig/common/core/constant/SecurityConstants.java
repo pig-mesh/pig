@@ -125,6 +125,6 @@ public interface SecurityConstants {
 	/**
 	 * 授权码模式confirm
 	 */
-	String CUSTOM_CONSENT_PAGE_URI = "/token/confirm_access";
+	String CUSTOM_CONSENT_PAGE_URI = "/oauth2/confirm_access";
 
 }

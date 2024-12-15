@@ -30,7 +30,6 @@ import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationCo
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -44,12 +43,15 @@ import org.springframework.security.oauth2.server.authorization.settings.Authori
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-import org.springframework.security.oauth2.server.authorization.web.authentication.*;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeRequestAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
+import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2RefreshTokenAuthenticationConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
+import org.springframework.security.web.authentication.DelegatingAuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import java.util.Arrays;
 
@@ -69,10 +71,17 @@ public class AuthorizationServerConfiguration {
 
 	private final ValidateCodeFilter validateCodeFilter;
 
+	/**
+	 * Authorization Server 配置，仅对 /oauth2/** 的请求有效
+	 * @param http http
+	 * @return {@link SecurityFilterChain }
+	 * @throws Exception 异常
+	 */
 	@Bean
 	@Order(Ordered.HIGHEST_PRECEDENCE)
-	@ConditionalOnProperty(value = "security.micro", matchIfMissing = true)
-	public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
+	public SecurityFilterChain authorizationServer(HttpSecurity http) throws Exception {
+		// 配置授权服务器的安全策略，只有/oauth2/**的请求才会走如下的配置
+		http.securityMatcher("/oauth2/**");
 		OAuth2AuthorizationServerConfigurer authorizationServerConfigurer = new OAuth2AuthorizationServerConfigurer();
 
 		// 增加验证码过滤器
@@ -87,22 +96,16 @@ public class AuthorizationServerConfiguration {
 		}).clientAuthentication(oAuth2ClientAuthenticationConfigurer -> // 个性化客户端认证
 		oAuth2ClientAuthenticationConfigurer.errorResponseHandler(new PigAuthenticationFailureEventHandler()))// 处理客户端认证异常
 			.authorizationEndpoint(authorizationEndpoint -> authorizationEndpoint// 授权码端点个性化confirm页面
-				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)), Customizer.withDefaults());
+				.consentPage(SecurityConstants.CUSTOM_CONSENT_PAGE_URI)), Customizer.withDefaults())
+			.authorizeHttpRequests(authorizeRequests -> authorizeRequests.anyRequest().authenticated());
 
-		AntPathRequestMatcher[] requestMatchers = new AntPathRequestMatcher[] {
-				AntPathRequestMatcher.antMatcher("/token/**"), AntPathRequestMatcher.antMatcher("/actuator/**"),
-				AntPathRequestMatcher.antMatcher("/code/image"), AntPathRequestMatcher.antMatcher("/css/**"),
-				AntPathRequestMatcher.antMatcher("/error") };
+		// 设置 Token 存储的策略
+		http.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
+			.authorizationServerSettings(
+					AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
+				Customizer.withDefaults());
 
-		http.authorizeHttpRequests(authorizeRequests -> {
-			// 自定义接口、端点暴露
-			authorizeRequests.requestMatchers(requestMatchers).permitAll();
-			authorizeRequests.anyRequest().authenticated();
-		})
-			.with(authorizationServerConfigurer.authorizationService(authorizationService)// redis存储token的实现
-				.authorizationServerSettings(
-						AuthorizationServerSettings.builder().issuer(SecurityConstants.PROJECT_LICENSE).build()),
-					Customizer.withDefaults());
+		// 设置授权码模式登录页面
 		http.with(new FormIdentityLoginConfigurer(), Customizer.withDefaults());
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 

@@ -19,8 +19,6 @@ package com.pig4cloud.pig.common.security.component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -33,7 +31,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 /**
  * @author lengleng
  * @date 2022-06-04
- *
+ * <p>
  * 资源服务器认证授权配置
  */
 @Slf4j
@@ -50,16 +48,21 @@ public class PigResourceServerConfiguration {
 
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
+	/**
+	 * 资源服务器安全配置
+	 * @param http http
+	 * @return {@link SecurityFilterChain }
+	 * @throws Exception 异常
+	 */
 	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		AntPathRequestMatcher[] requestMatchers = permitAllUrl.getUrls()
+	SecurityFilterChain resourceServer(HttpSecurity http) throws Exception {
+		AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
 			.stream()
 			.map(AntPathRequestMatcher::new)
 			.toList()
 			.toArray(new AntPathRequestMatcher[] {});
 
-		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
+		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
 			.permitAll()
 			.anyRequest()
 			.authenticated())
