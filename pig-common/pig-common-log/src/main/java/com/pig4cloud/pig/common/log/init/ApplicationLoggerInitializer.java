@@ -43,6 +43,9 @@ public class ApplicationLoggerInitializer implements EnvironmentPostProcessor, O
 
 		// 避免 sentinel 1.8.4+ 心跳日志过大
 		System.setProperty("csp.sentinel.log.level", "OFF");
+
+		// 避免 sentinel 健康检查 server
+		System.setProperty("management.health.sentinel.enabled", "false");
 	}
 
 	@Override
