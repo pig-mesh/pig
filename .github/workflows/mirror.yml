@@ -7,15 +7,6 @@ on:
     branches: [ master,jdk17,jdk17-dev,dev ]
 
 jobs:
-  gitcode:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: wearerequired/git-mirror-action@master #同步至 gitcode
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-        with:
-          source-repo: "git@github.com:pig-mesh/pig.git"
-          destination-repo: "git@gitcode.com:pig-mesh/pig.git"
   gitlink:
     runs-on: ubuntu-latest
     steps:
