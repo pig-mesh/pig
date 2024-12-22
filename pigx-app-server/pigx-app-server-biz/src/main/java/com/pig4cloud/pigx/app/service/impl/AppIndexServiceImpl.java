@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.entity.AppArticleEntity;
 import com.pig4cloud.pigx.app.api.entity.AppPageEntity;
 import com.pig4cloud.pigx.app.api.entity.AppTabbarEntity;
+import com.pig4cloud.pigx.app.api.enums.PageTypeEnums;
 import com.pig4cloud.pigx.app.mapper.AppArticleMapper;
 import com.pig4cloud.pigx.app.mapper.AppPageMapper;
 import com.pig4cloud.pigx.app.mapper.AppTabbarMapper;
@@ -26,48 +27,53 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AppIndexServiceImpl implements AppIndexService {
 
-	private final AppArticleMapper appArticleMapper;
+    private final AppArticleMapper appArticleMapper;
 
-	private final AppTabbarMapper appTabbarMapper;
+    private final AppTabbarMapper appTabbarMapper;
 
-	private final AppPageMapper appPageMapper;
+    private final AppPageMapper appPageMapper;
 
-	/**
-	 * 商城首页 首页数据
-	 */
-	@Override
-	public Map<String, Object> index() {
-		Map<String, Object> response = new LinkedHashMap<>();
-		AppPageEntity appPageEntity = appPageMapper.selectById(1);
-		List<AppArticleEntity> articleList = appArticleMapper
-			.selectList(Wrappers.<AppArticleEntity>lambdaQuery().orderByDesc(AppArticleEntity::getSort));
-		response.put("pages", appPageEntity);
-		response.put("article", articleList);
-		return response;
-	}
+    /**
+     * 商城首页 首页数据
+     */
+    @Override
+    public Map<String, Object> index() {
+        Map<String, Object> response = new LinkedHashMap<>();
+        AppPageEntity appPageEntity = appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery()
+                        .eq(AppPageEntity::getPageType, PageTypeEnums.HOME.getPageType())
+                        .orderByDesc(AppPageEntity::getCreateTime),
+                false
+        );
+        List<AppArticleEntity> articleList = appArticleMapper
+                .selectList(Wrappers.<AppArticleEntity>lambdaQuery().orderByDesc(AppArticleEntity::getSort));
+        response.put("pages", appPageEntity);
+        response.put("article", articleList);
+        return response;
+    }
 
-	/**
-	 * 配置
-	 * @return Map<String, Object>
-	 */
-	@Override
-	public Map<String, Object> config() {
-		Map<String, Object> response = new LinkedHashMap<>();
-		List<AppTabbarEntity> tabbarEntityList = appTabbarMapper.selectList(Wrappers.emptyWrapper());
-		response.put("tabbar", tabbarEntityList);
-		return response;
-	}
+    /**
+     * 导航栏配置
+     *
+     * @return Map<String, Object>
+     */
+    @Override
+    public Map<String, Object> config() {
+        Map<String, Object> response = new LinkedHashMap<>();
+        List<AppTabbarEntity> tabbarEntityList = appTabbarMapper.selectList(Wrappers.emptyWrapper());
+        response.put("tabbar", tabbarEntityList);
+        return response;
+    }
 
-	/**
-	 * 装修
-	 *
-	 * @author fzr
-	 * @param id 主键
-	 * @return Map<String, Object>
-	 */
-	@Override
-	public AppPageEntity decorate(Integer id) {
-		return appPageMapper.selectById(id);
-	}
+    /**
+     * 根据类型查询页面配置
+     *
+     * @param pageType 页面类型
+     * @return {@link AppPageEntity }
+     */
+    @Override
+    public AppPageEntity decorate(Integer pageType) {
+        return appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery().eq(AppPageEntity::getPageType, pageType)
+                .orderByDesc(AppPageEntity::getCreateTime), false);
+    }
 
 }

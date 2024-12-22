@@ -29,31 +29,40 @@ import java.util.Map;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppIndexController {
 
-	private final AppIndexService indexService;
+    private final AppIndexService indexService;
 
-	/**
-	 * 首页
-	 * @return Object
-	 */
-	@Inner(value = false)
-	@GetMapping("/index")
-	public R index() {
-		Map<String, Object> detail = indexService.index();
-		return R.ok(detail);
-	}
+    /**
+     * 获取主页配置
+     *
+     * @return {@link R }
+     */
+    @Inner(value = false)
+    @GetMapping("/index")
+    public R index() {
+        return R.ok(indexService.index());
+    }
 
-	@Inner(value = false)
-	@GetMapping("/config")
-	public R config() {
-		Map<String, Object> map = indexService.config();
-		return R.ok(map);
-	}
+    /**
+     * 获取移动端appTabbar 配置
+     *
+     * @return {@link R }
+     */
+    @Inner(value = false)
+    @GetMapping("/config")
+    public R config() {
+        return R.ok(indexService.config());
+    }
 
-	@Inner(value = false)
-	@GetMapping("/decorate")
-	public R decorate(@Validated @RequestParam("id") Integer id) {
-		AppPageEntity detail = indexService.decorate(id);
-		return R.ok(detail);
-	}
+    /**
+     * 根据页面类型查询页面配置
+     *
+     * @param pageType 页面类型
+     * @return {@link R }
+     */
+    @Inner(value = false)
+    @GetMapping("/decorate")
+    public R decorate(@Validated @RequestParam("id") Integer pageType) {
+        return R.ok(indexService.decorate(pageType));
+    }
 
 }
