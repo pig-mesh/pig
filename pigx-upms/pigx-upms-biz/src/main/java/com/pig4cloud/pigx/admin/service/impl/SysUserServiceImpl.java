@@ -29,6 +29,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.constant.UserStateEnum;
+import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.*;
@@ -428,7 +429,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public R<Boolean> registerUser(UserDTO userDto) {
+    public R<Boolean> registerUser(RegisterUserDTO userDto) {
         // 判断用户名是否存在
         boolean usernameExists = this.exists(Wrappers.<SysUser>lambdaQuery()
                 .eq(SysUser::getUsername, userDto.getUsername()));
@@ -444,7 +445,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, userDto.getPhone());
             return R.failed(message);
         }
-        return R.ok(saveUser(userDto));
+
+        // 单独的用户避免越权
+        UserDTO user = new UserDTO();
+        BeanUtils.copyProperties(userDto, user);
+        return R.ok(saveUser(user));
     }
 
     /**
@@ -546,7 +551,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-    public R<Boolean> resetUserPassword(UserDTO userDto) {
+    public R<Boolean> resetUserPassword(RegisterUserDTO userDto) {
         // 校验密码
         R checkedPassword = checkPassword(userDto.getUsername(), userDto.getPassword());
         if (!checkedPassword.isOk()) {

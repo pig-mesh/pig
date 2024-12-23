@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.admin.controller;
 
-import com.pig4cloud.pigx.admin.api.dto.UserDTO;
+import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/register")
 @RequiredArgsConstructor
-public class RegisterController {
+public class SysRegisterController {
 
     private final SysUserService userService;
 
@@ -35,7 +35,7 @@ public class RegisterController {
     @SysLog("注册用户")
     @PostMapping("/user")
     @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
-    public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
+    public R<Boolean> registerUser(@RequestBody RegisterUserDTO userDto) {
         return userService.registerUser(userDto);
     }
 
@@ -47,7 +47,7 @@ public class RegisterController {
      */
     @SysLog("重置用户密码")
     @PostMapping("/password")
-    public R<Boolean> resetUserPassword(@RequestBody UserDTO userDto) {
+    public R<Boolean> resetUserPassword(@RequestBody RegisterUserDTO userDto) {
         return userService.resetUserPassword(userDto);
     }
 

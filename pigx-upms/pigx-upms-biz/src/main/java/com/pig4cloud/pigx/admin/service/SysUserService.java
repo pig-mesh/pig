@@ -22,6 +22,7 @@ package com.pig4cloud.pigx.admin.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
@@ -127,7 +128,7 @@ public interface SysUserService extends IService<SysUser> {
      * @param userDto 用户信息
      * @return success/false
      */
-    R<Boolean> registerUser(UserDTO userDto);
+    R<Boolean> registerUser(RegisterUserDTO userDto);
 
     /**
      * 锁定用户
@@ -184,5 +185,5 @@ public interface SysUserService extends IService<SysUser> {
      * @param userDto 用户信息
      * @return
      */
-    R<Boolean> resetUserPassword(UserDTO userDto);
+    R<Boolean> resetUserPassword(RegisterUserDTO userDto);
 }
