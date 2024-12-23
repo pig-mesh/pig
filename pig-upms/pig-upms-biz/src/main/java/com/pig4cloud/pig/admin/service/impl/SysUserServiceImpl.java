@@ -26,6 +26,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pig.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.*;
@@ -385,14 +386,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
-	public R<Boolean> registerUser(UserDTO userDto) {
+	public R<Boolean> registerUser(RegisterUserDTO userDto) {
 		// 判断用户名是否存在
 		SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
 		if (sysUser != null) {
 			String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
 			return R.failed(message);
 		}
-		return R.ok(saveUser(userDto));
+
+		UserDTO user = new UserDTO();
+		BeanUtils.copyProperties(userDto, user);
+		return R.ok(saveUser(user));
 	}
 
 	/**

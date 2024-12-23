@@ -1,6 +1,6 @@
 package com.pig4cloud.pig.admin.controller;
 
-import com.pig4cloud.pig.admin.api.dto.UserDTO;
+import com.pig4cloud.pig.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
@@ -28,14 +28,15 @@ public class SysRegisterController {
 
 	/**
 	 * 注册用户
-	 * @param userDto 用户信息
-	 * @return success/false
+	 *
+	 * @param registerUserDTO 注册用户 DTO
+	 * @return {@link R }<{@link Boolean }>
 	 */
 	@Inner(value = false)
 	@SysLog("注册用户")
 	@PostMapping("/user")
-	public R<Boolean> registerUser(@RequestBody UserDTO userDto) {
-		return userService.registerUser(userDto);
+	public R<Boolean> registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
+		return userService.registerUser(registerUserDTO);
 	}
 
 }
