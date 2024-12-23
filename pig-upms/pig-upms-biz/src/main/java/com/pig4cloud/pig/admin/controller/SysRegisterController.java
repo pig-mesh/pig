@@ -28,7 +28,6 @@ public class SysRegisterController {
 
 	/**
 	 * 注册用户
-	 *
 	 * @param registerUserDTO 注册用户 DTO
 	 * @return {@link R }<{@link Boolean }>
 	 */
