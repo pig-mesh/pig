@@ -6,6 +6,7 @@
   "extends": [
     "config:recommended"
   ],
+  "rangeStrategy": "bump",
   "packageRules": [
     {
       "matchPackagePatterns": [
