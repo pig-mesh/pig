@@ -33,6 +33,11 @@ import java.util.List;
 public class DataScope extends HashMap {
 
 	/**
+	 * 跳过数据权限，直接在参数设置 skip
+	 */
+	private boolean skip = false;
+
+	/**
 	 * 限制范围的字段名称
 	 */
 	private String scopeDeptName = "dept_id";

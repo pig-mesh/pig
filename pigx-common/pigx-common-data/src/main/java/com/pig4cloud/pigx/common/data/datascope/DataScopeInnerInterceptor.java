@@ -37,6 +37,11 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
             return;
         }
 
+        // 是否强制跳过数据权限
+        if (dataScope.isSkip()) {
+            return;
+        }
+
         // 返回true 不拦截直接返回原始 SQL （只针对 * 查询）
         if (DataScopeFuncEnum.ALL.equals(dataScope.getFunc()) && dataScopeHandle.calcScope(dataScope)) {
             return;
