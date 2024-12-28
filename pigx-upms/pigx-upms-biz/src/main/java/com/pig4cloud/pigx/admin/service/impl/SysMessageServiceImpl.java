@@ -320,7 +320,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                 sysLog.setTitle(String.format("发送短信 %s", mobile));
                 sysLog.setLogType(LogTypeEnum.NORMAL.getType());
                 sysLog.setServiceId(SystemConfigTypeEnum.SMS.getValue());
-                sysLog.setParams(JacksonSensitiveFieldUtil.writeValueAsString(smsResponse));
+                sysLog.setParams(JacksonSensitiveFieldUtil.writeValueAsString(messageSmsDTO));
                 sysLog.setTime(System.currentTimeMillis() - start);
                 sysLog.setException(JacksonSensitiveFieldUtil.writeValueAsString(smsResponse));
                 remoteLogService.saveLog(sysLog);
