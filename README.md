@@ -17,6 +17,16 @@
 - jdk17: java17/21 + springboot 3.4 + springcloud 2024
 - master: java8 + springboot 2.7 + springcloud 2021
 
+
+#### 快速部署
+
+```shell
+# 可用内存大于4G
+curl -o docker-compose.yaml https://try.pig4cloud.com
+# 等待5分钟
+docker compose up
+```
+
 #### 文档视频
 
 - 🔥 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
