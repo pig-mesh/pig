@@ -17,20 +17,6 @@
 - jdk17: java17/21 + springboot 3.4 + springcloud 2024
 - master: java8 + springboot 2.7 + springcloud 2021
 
-
-#### 快速部署
-
-```shell
-# 可用内存大于4G
-curl -o docker-compose.yaml https://try.pig4cloud.com
-# 等待5分钟
-docker compose up
-```
-
-#### 文档视频
-
-- 🔥 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
-
 #### 其他产品
 
 - 👉🏻 [PIGX 在线体验](http://home.pig4cloud.com:38081)
@@ -44,6 +30,23 @@ docker compose up
 <img src='https://minio.pigx.vip/oss/202412/1735262426.png' alt='1735262426'/>
 
 ## 快速开始
+
+#### Docker 快速体验
+
+```shell
+# 可用内存大于4G
+curl -o docker-compose.yaml https://try.pig4cloud.com
+# 等待5分钟
+docker compose up
+```
+
+#### 本地开发运行
+
+pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
+
+请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
+
+- 🔥 [ 配套文档 wiki.pig4cloud.com](https://wiki.pig4cloud.com)
 
 ### 核心依赖
 
@@ -86,28 +89,6 @@ pig
      └── pig-monitor -- 服务监控 [5001]
      ├── pig-codegen -- 图形化代码生成 [5002]
      └── pig-quartz -- 定时任务管理台 [5007]
-```
-
-### 本地开发 运行
-
-pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pig4cloud/pig/vsdox9)，包括开发环境安装、服务端代码运行、前端代码运行等。
-
-请务必**完全按照**文档部署运行章节 进行操作，减少踩坑弯路！！
-
-### Docker 运行
-
-```
-# 下载并运行服务端代码
-git clone https://gitee.com/log4j/pig.git -b jdk17
-
-cd pig && mvn clean install && docker compose up -d
-
-# 下载并运行前端UI
-git clone https://gitee.com/log4j/pig-ui.git
-
-cd pig-ui && npm install  --registry=https://registry.npmmirror.com
-
-npm install && npm run build:docker && cd docker && docker compose up -d
 ```
 
 ## 免费公开课
