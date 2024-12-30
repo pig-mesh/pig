@@ -28,7 +28,6 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
 import com.pig4cloud.pigx.common.file.core.FileProperties;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import lombok.Cleanup;
@@ -36,7 +35,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.InitializingBean;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
@@ -212,21 +210,15 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 	 * @param stream 文件流
 	 * @param size 大小
 	 * @param contextType 类型
-	 * @throws Exception
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObject">AWS
 	 * API Documentation</a>
 	 */
 	public PutObjectResult putObject(String bucketName, String objectName, InputStream stream, long size,
-			String contextType) throws Exception {
-		// String fileName = getFileName(objectName);
-		byte[] bytes = IOUtils.toByteArray(stream);
+			String contextType) {
 		ObjectMetadata objectMetadata = new ObjectMetadata();
 		objectMetadata.setContentLength(size);
 		objectMetadata.setContentType(contextType);
-		ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-		// 上传
-		return amazonS3.putObject(bucketName, objectName, byteArrayInputStream, objectMetadata);
-
+		return amazonS3.putObject(bucketName, objectName, stream, objectMetadata);
 	}
 
 	/**
