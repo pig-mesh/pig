@@ -221,7 +221,7 @@
             <if test="query.deptId != null and query.deptId != ''">
                 AND u.dept_id = #{query.deptId}
             </if>
-            <if test="ids != null">
+            <if test="ids != null and ids.length > 0">
                 AND u.user_id in
                 <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
                     #{id}
