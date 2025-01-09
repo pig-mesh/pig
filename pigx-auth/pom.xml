@@ -83,6 +83,11 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
         </dependency>
+        <!-- API加解密 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-encrypt-api</artifactId>
+        </dependency>
         <!-- 调用验证码核心模块 -->
         <dependency>
             <groupId>io.springboot.plugin</groupId>

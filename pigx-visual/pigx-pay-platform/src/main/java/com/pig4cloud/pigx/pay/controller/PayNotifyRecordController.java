@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ijpay.alipay.AliPayApi;
 import com.ijpay.core.kit.HttpKit;
 import com.ijpay.core.kit.WxPayKit;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.NoEncrypt;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -146,6 +147,7 @@ public class PayNotifyRecordController {
 	@Inner(false)
 	@SneakyThrows
 	@XssCleanIgnore
+	@NoEncrypt
 	@PostMapping("/ali/callbak")
 	@Operation(summary = "支付宝渠道异步回调", description = "支付宝渠道异步回调")
 	public void aliCallbak(HttpServletRequest request, HttpServletResponse response) {
@@ -161,6 +163,7 @@ public class PayNotifyRecordController {
 	 */
 	@Inner(false)
 	@SneakyThrows
+	@NoEncrypt
 	@XssCleanIgnore
 	@PostMapping("/wx/callbak")
 	@Operation(summary = "微信渠道支付回调", description = "微信渠道支付回调")
@@ -178,6 +181,7 @@ public class PayNotifyRecordController {
 	 */
 	@Inner(false)
 	@SneakyThrows
+	@NoEncrypt
 	@XssCleanIgnore
 	@PostMapping("/merge/callbak")
 	@Operation(summary = "聚合渠道异步回调", description = "聚合渠道异步回调")

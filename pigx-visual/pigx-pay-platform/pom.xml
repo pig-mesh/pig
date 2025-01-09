@@ -78,6 +78,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-swagger</artifactId>
         </dependency>
+        <!--必备:  API加解密 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-encrypt-api</artifactId>
+        </dependency>
         <!--安全模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>

@@ -146,6 +146,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-log</artifactId>
         </dependency>
+        <!--必备:  API加解密 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-encrypt-api</artifactId>
+        </dependency>
         <!--灰度支持-->
         <dependency>
             <groupId>com.pig4cloud</groupId>

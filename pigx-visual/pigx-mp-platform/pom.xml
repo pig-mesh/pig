@@ -81,6 +81,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-sensitive</artifactId>
 		</dependency>
+		<!--必备:  API加解密 -->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-encrypt-api</artifactId>
+		</dependency>
 		<!-- sentinel-->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>

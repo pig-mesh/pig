@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.mp.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.NoEncrypt;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 @Inner(value = false)
 @RestController
 @AllArgsConstructor
-@RequestMapping("/{appId}/portal")
+@RequestMapping("/wx-portal/{appId}")
 public class WxPortalController {
 
 	/**
@@ -74,6 +75,7 @@ public class WxPortalController {
 	 * @param nonce 随机数
 	 * @return
 	 */
+	@NoEncrypt
 	@XssCleanIgnore
 	@PostMapping(produces = "application/xml; charset=UTF-8")
 	public String post(@PathVariable("appId") String appId, @RequestBody String requestBody,

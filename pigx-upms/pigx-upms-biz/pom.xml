@@ -122,6 +122,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-gray</artifactId>
         </dependency>
+        <!-- API加解密 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-encrypt-api</artifactId>
+        </dependency>
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>

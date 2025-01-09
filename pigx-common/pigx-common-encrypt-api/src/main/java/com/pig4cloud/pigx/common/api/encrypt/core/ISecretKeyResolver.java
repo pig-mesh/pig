@@ -1,7 +1,6 @@
 package com.pig4cloud.pigx.common.api.encrypt.core;
 
 import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
-
 import jakarta.servlet.http.HttpServletRequest;
 
 /**

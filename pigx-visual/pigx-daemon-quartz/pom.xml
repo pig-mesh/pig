@@ -84,6 +84,11 @@
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pigx-common-gray</artifactId>
 		</dependency>
+		<!--必备:  API加解密 -->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pigx-common-encrypt-api</artifactId>
+		</dependency>
 		<!--web 模块-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

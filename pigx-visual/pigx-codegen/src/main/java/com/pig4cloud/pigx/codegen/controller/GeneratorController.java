@@ -20,6 +20,7 @@ package com.pig4cloud.pigx.codegen.controller;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.codegen.service.GeneratorService;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.NoEncrypt;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.idempotent.annotation.Idempotent;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,6 +57,7 @@ public class GeneratorController {
 	 * @param response 流输出对象
 	 */
 	@SneakyThrows
+	@NoEncrypt
 	@GetMapping("/download")
 	@Idempotent(key = "#tableIds", expireTime = 10, info = "正在生成代码，请勿重复操作")
 	public void download(String tableIds, HttpServletResponse response) {

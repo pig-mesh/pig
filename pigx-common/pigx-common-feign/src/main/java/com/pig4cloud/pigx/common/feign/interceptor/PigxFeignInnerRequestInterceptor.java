@@ -26,6 +26,9 @@ public class PigxFeignInnerRequestInterceptor implements RequestInterceptor, Ord
 		if (noToken != null) {
 			template.header(SecurityConstants.FROM, SecurityConstants.FROM_IN);
 		}
+
+		// 从内部调用标识
+		template.header(SecurityConstants.FEIGN_USER_AGENT, SecurityConstants.FROM_IN);
 	}
 
 	@Override

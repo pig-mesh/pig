@@ -4,11 +4,12 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pigx.common.api.encrypt.annotation.encrypt.ApiEncrypt;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.NoEncrypt;
 import com.pig4cloud.pigx.common.api.encrypt.bean.CryptoInfoBean;
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
-import com.pig4cloud.pigx.common.api.encrypt.exception.EncryptBodyFailException;
 import com.pig4cloud.pigx.common.api.encrypt.util.ApiCryptoUtil;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,10 +20,16 @@ import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import static com.pig4cloud.pigx.common.api.encrypt.util.ApiCryptoUtil.KEY_EXTRACTORS;
 
 /**
  * 响应数据的加密处理<br>
@@ -39,47 +46,57 @@ import java.util.Map;
 @Order(1)
 @ControllerAdvice
 @RequiredArgsConstructor
-@ConditionalOnProperty(value = ApiEncryptProperties.PREFIX + ".enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(value = ApiEncryptProperties.PREFIX + ".enable", havingValue = "true")
 public class ApiEncryptResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
-	private final ApiEncryptProperties properties;
+    private final ApiEncryptProperties properties;
 
-	private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-	@Override
-	public boolean supports(MethodParameter returnType, Class converterType) {
-		return AnnotationUtil.hasAnnotation(returnType.getMethod(), ApiEncrypt.class);
-	}
+    @Override
+    public boolean supports(MethodParameter methodParameter, Class converterType) {
 
-	@Nullable
-	@Override
-	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
-			Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-		if (body == null) {
-			return null;
-		}
+        // 非feign调用才进行加密
+        if (StrUtil.isNotBlank(WebUtils.getRequest().getHeader(SecurityConstants.FEIGN_USER_AGENT))) {
+            return false;
+        }
 
-		CryptoInfoBean cryptoInfoBean = ApiCryptoUtil.getEncryptInfo(returnType);
-		if (cryptoInfoBean == null) {
-			throw new EncryptBodyFailException();
-		}
+        // 上传文件的请求不加密，因为 element 的组件，需要自己定义HTTP ，不能使用全局 http 加密工具解析
+        if (Arrays.stream(Objects.requireNonNull(methodParameter.getMethod()).getParameterTypes())
+                .anyMatch(type -> MultipartFile.class.isAssignableFrom(type) || InputStream.class.isAssignableFrom(type))) {
+            return false;
+        }
 
-		byte[] bodyJsonBytes;
-		try {
-			bodyJsonBytes = objectMapper.writeValueAsBytes(body);
-		}
-		catch (JsonProcessingException e) {
-			throw new RuntimeException(e);
-		}
+        if (AnnotationUtil.hasAnnotation(methodParameter.getMethod(), NoEncrypt.class)) {
+            return false;
+        }
 
-		// body 内容 json key, 默认：data {"data":"base64加密字符串"}
-		String bodyJsonKey = properties.getBodyJsonKey();
-		if (StrUtil.isBlank(bodyJsonKey)) {
-			return ApiCryptoUtil.encryptData(bodyJsonBytes, cryptoInfoBean);
-		}
-		Map<String, Object> data = new HashMap<>(2);
-		data.put(bodyJsonKey, ApiCryptoUtil.encryptData(bodyJsonBytes, cryptoInfoBean));
-		return data;
-	}
+        return properties.getSkipUrl().stream().noneMatch(WebUtils.getRequest().getRequestURI()::contains);
+    }
+
+    @Nullable
+    @Override
+    public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
+                                  Class selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
+
+        String key = KEY_EXTRACTORS.get(properties.getDefaultEncryptType()).apply(properties);
+        CryptoInfoBean cryptoInfoBean = new CryptoInfoBean(properties.getDefaultEncryptType(), key);
+
+        byte[] bodyJsonBytes;
+        try {
+            bodyJsonBytes = objectMapper.writeValueAsBytes(body);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        // body 内容 json key, 默认：data {"data":"base64加密字符串"}
+        String bodyJsonKey = properties.getBodyJsonKey();
+        if (StrUtil.isBlank(bodyJsonKey)) {
+            return ApiCryptoUtil.encryptData(bodyJsonBytes, cryptoInfoBean);
+        }
+        Map<String, Object> data = new HashMap<>(2);
+        data.put(bodyJsonKey, ApiCryptoUtil.encryptData(bodyJsonBytes, cryptoInfoBean));
+        return data;
+    }
 
 }

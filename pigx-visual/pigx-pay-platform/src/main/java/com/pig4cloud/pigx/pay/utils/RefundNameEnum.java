@@ -12,25 +12,30 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum RefundNameEnum {
 
-	/**
-	 * 支付宝wap支付
-	 */
-	ALIPAY("ALIPAY_REFUND", "支付宝退款"),
+    /**
+     * 支付宝wap支付
+     */
+    ALIPAY("ALIPAY_REFUND", "支付宝退款"),
 
-	/**
-	 * 微信H5支付
-	 */
-	WEIXIN("WEIXIN_REFUND", "微信退款");
+    /**
+     * 微信H5支付
+     */
+    WEIXIN("WEIXIN_REFUND", "微信退款"),
 
-	/**
-	 * 名称
-	 */
-	@Getter
-	private String name;
+    /**
+     * 合并支付
+     */
+    MERGE_PAY("MERGE_PAY_REFUND", "合并支付退款");
 
-	/**
-	 * 描述
-	 */
-	private String description;
+    /**
+     * 名称
+     */
+    @Getter
+    private String name;
+
+    /**
+     * 描述
+     */
+    private String description;
 
 }

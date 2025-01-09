@@ -86,6 +86,11 @@ public interface SecurityConstants {
     String FROM = "from";
 
     /**
+     * Feign 用户代理
+     */
+    String FEIGN_USER_AGENT = "pigx-feign";
+
+    /**
      * 请求header
      */
     String HEADER_FROM_IN = FROM + "=" + FROM_IN;

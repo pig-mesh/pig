@@ -69,6 +69,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-log</artifactId>
         </dependency>
+        <!--必备:  API加解密 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-encrypt-api</artifactId>
+        </dependency>
         <!--选配: mybatis 依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>

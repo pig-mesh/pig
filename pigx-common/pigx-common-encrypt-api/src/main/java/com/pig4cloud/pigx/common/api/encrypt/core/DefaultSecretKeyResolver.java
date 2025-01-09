@@ -2,9 +2,8 @@ package com.pig4cloud.pigx.common.api.encrypt.core;
 
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
 import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
-import lombok.RequiredArgsConstructor;
-
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 默认的密钥处理器

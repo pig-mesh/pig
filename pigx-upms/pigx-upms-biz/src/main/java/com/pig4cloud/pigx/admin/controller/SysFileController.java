@@ -26,6 +26,7 @@ import com.pig4cloud.pigx.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysFile;
 import com.pig4cloud.pigx.admin.api.entity.SysFileGroup;
 import com.pig4cloud.pigx.admin.service.SysFileService;
+import com.pig4cloud.pigx.common.api.encrypt.annotation.NoEncrypt;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
@@ -116,6 +117,7 @@ public class SysFileController {
 	 * @return
 	 */
 	@Inner(false)
+	@NoEncrypt
 	@GetMapping("/oss/file")
 	public void file(String fileName, HttpServletResponse response) {
 		sysFileService.getFile(fileName, response);
@@ -127,6 +129,7 @@ public class SysFileController {
 	 * @param response 本地文件
 	 */
 	@SneakyThrows
+	@NoEncrypt
 	@GetMapping("/local/file/{fileName}")
 	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
 		ClassPathResource resource = new ClassPathResource("file/" + fileName);
