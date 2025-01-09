@@ -59,7 +59,8 @@ public class AppIndexServiceImpl implements AppIndexService {
     @Override
     public Map<String, Object> config() {
         Map<String, Object> response = new LinkedHashMap<>();
-        List<AppTabbarEntity> tabbarEntityList = appTabbarMapper.selectList(Wrappers.emptyWrapper());
+        List<AppTabbarEntity> tabbarEntityList = appTabbarMapper
+                .selectList(Wrappers.<AppTabbarEntity>lambdaQuery().orderByAsc(AppTabbarEntity::getSortOrder));
         response.put("tabbar", tabbarEntityList);
         return response;
     }

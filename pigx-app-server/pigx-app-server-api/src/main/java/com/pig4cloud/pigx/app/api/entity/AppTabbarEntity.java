@@ -58,6 +58,12 @@ public class AppTabbarEntity extends Model<AppTabbarEntity> {
 	private String link;
 
 	/**
+	 * 排序顺序
+	 */
+	@Schema(description = "排序值")
+	private Integer sortOrder;
+
+	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)

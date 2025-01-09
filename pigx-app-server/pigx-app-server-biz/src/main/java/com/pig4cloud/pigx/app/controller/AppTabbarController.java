@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.app.controller;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.app.api.entity.AppTabbarEntity;
 import com.pig4cloud.pigx.app.service.AppTabbarService;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -37,7 +38,7 @@ public class AppTabbarController {
     @Operation(summary = "查询导航列表", description = "查询导航列表")
     @GetMapping("/list")
     public R list() {
-        return R.ok(tabbarService.list());
+        return R.ok(tabbarService.list(Wrappers.<AppTabbarEntity>lambdaQuery().orderByAsc(AppTabbarEntity::getSortOrder)));
     }
 
     @Operation(summary = "更新导航", description = "更新导航")
