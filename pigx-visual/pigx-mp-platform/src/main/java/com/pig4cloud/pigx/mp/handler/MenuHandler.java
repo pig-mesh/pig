@@ -22,7 +22,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Binary Wang(https://github.com/binarywang)
@@ -59,7 +58,7 @@ public class MenuHandler extends AbstractHandler {
 		List<JSONObject> buttonList = new ArrayList<>();
 		for (JSONObject button : buttons) {
 			JSONArray subButton = button.getJSONArray("sub_button");
-			if (Objects.isNull(subButton)) {
+			if (subButton.isEmpty()) {
 				buttonList.add(button);
 				continue;
 			}
