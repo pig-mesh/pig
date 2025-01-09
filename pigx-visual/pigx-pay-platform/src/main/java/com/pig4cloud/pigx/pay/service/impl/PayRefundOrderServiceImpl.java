@@ -17,11 +17,15 @@
 package com.pig4cloud.pigx.pay.service.impl;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.entity.PayRefundOrder;
 import com.pig4cloud.pigx.pay.handler.PayOrderRefundHandler;
+import com.pig4cloud.pigx.pay.mapper.PayChannelMapper;
 import com.pig4cloud.pigx.pay.mapper.PayRefundOrderMapper;
 import com.pig4cloud.pigx.pay.service.PayRefundOrderService;
+import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
 import com.pig4cloud.pigx.pay.utils.RefundNameEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,26 +41,29 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class PayRefundOrderServiceImpl extends ServiceImpl<PayRefundOrderMapper, PayRefundOrder>
-		implements PayRefundOrderService {
+        implements PayRefundOrderService {
 
-	private final Map<String, PayOrderRefundHandler> refundHandlerMap;
+    private final Map<String, PayOrderRefundHandler> refundHandlerMap;
 
-	/**
-	 * 退款操作
-	 * @param refundOrder refundOrder
-	 * @return true/false
-	 */
-	@Override
-	public Boolean refund(PayRefundOrder refundOrder) {
-		String channelId = refundOrder.getChannelId();
-		// 判断用哪个通道
-		if (StrUtil.containsAnyIgnoreCase(channelId, "ali")) {
-			refundHandlerMap.get(RefundNameEnum.ALIPAY.getName()).handle(refundOrder);
-		}
-		else {
-			throw new UnsupportedOperationException();
-		}
-		return null;
-	}
+    private final PayChannelMapper channelMapper;
+
+    /**
+     * 退款操作
+     *
+     * @param refundOrder refundOrder
+     * @return true/false
+     */
+    @Override
+    public Boolean refund(PayRefundOrder refundOrder) {
+        PayChannel payChannel = channelMapper.selectOne(Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelMchId, refundOrder.getChannelMchId()));
+
+
+        // 判断用哪个通道
+        if (StrUtil.equals(payChannel.getChannelId(), PayChannelNameEnum.ALIPAY_WAP.getName())) {
+            refundHandlerMap.get(RefundNameEnum.ALIPAY.getName()).handle(refundOrder);
+        }
+
+        throw new UnsupportedOperationException("暂不支持该渠道退款");
+    }
 
 }

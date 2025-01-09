@@ -18,7 +18,7 @@
 package com.pig4cloud.pigx.pay.handler.impl;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -39,11 +39,11 @@ import com.pig4cloud.pigx.pay.mapper.PayTradeOrderMapper;
 import com.pig4cloud.pigx.pay.utils.ChannelPayApiConfigKit;
 import com.pig4cloud.pigx.pay.utils.OrderStatusEnum;
 import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 /**
@@ -119,7 +119,8 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		String ip = JakartaServletUtil.getClientIP(request);
 		WxPayApiConfig wxPayApiConfig = WxPayApiConfigKit.getWxPayApiConfig();
 
-		// 预订单参数
+		// 判断是否是单体架构
+		Boolean isMicro = SpringUtil.getProperty("security.micro", Boolean.class, true);
 		Map<String, String> params = UnifiedOrderModel.builder()
 			.appid(wxPayApiConfig.getAppId())
 			.mch_id(wxPayApiConfig.getMchId())
@@ -129,7 +130,7 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 			.out_trade_no(String.valueOf(tradeOrder.getOrderId()))
 			.total_fee(goodsOrder.getAmount())
 			.spbill_create_ip(ip)
-			.notify_url(ChannelPayApiConfigKit.get().getNotifyUrl() + "/admin/notify/wx/callbak")
+			.notify_url(String.format("%s/api/%s/notify/wx/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), isMicro ? "pay" : "admin"))
 			.trade_type(TradeType.JSAPI.getTradeType())
 			.openid(goodsOrder.getUserId())
 			.build()

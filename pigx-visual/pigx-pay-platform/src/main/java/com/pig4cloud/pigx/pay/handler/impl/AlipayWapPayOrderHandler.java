@@ -20,7 +20,7 @@ package com.pig4cloud.pigx.pay.handler.impl;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.servlet.ServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.alipay.api.AlipayApiException;
@@ -39,12 +39,12 @@ import com.pig4cloud.pigx.pay.mapper.PayTradeOrderMapper;
 import com.pig4cloud.pigx.pay.utils.ChannelPayApiConfigKit;
 import com.pig4cloud.pigx.pay.utils.OrderStatusEnum;
 import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -131,10 +131,13 @@ public class AlipayWapPayOrderHandler extends AbstractPayOrderHandler {
 		model.setTotalAmount(NumberUtil.div(tradeOrder.getAmount(), "100", 2).toString());
 		model.setProductCode(goodsOrder.getGoodsId());
 		model.setPassbackParams(String.valueOf(TenantContextHolder.getTenantId()));
+
+		Boolean isMicro = SpringUtil.getProperty("security.micro", Boolean.class, true);
+
 		try {
 			log.info("拉起支付宝wap 支付参数 {}", model);
 			AliPayApi.wapPay(response, model, ChannelPayApiConfigKit.get().getReturnUrl(),
-					ChannelPayApiConfigKit.get().getNotifyUrl() + "/admin/notify/ali/callbak");
+					String.format("%s/api/%s/notify/ali/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), isMicro ? "pay" : "admin"));
 		}
 		catch (AlipayApiException e) {
 			log.error("支付宝手机支付失败", e);
