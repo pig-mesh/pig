@@ -210,7 +210,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         table.setDsName(dsName);
         table.setTableComment(tableMetadata.getComment());
 
-        table.setDbType(database.getDatabase().title());
+        table.setDbType(database.getDatabaseType().title());
         table.setFormLayout(defaultProperties.getFormLayout());
         table.setSyncRoute(defaultProperties.getSyncRoute());
         table.setGeneratorType(defaultProperties.getGeneratorType());

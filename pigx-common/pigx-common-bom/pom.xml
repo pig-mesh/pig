@@ -51,8 +51,8 @@
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <sentinel.version>1.8.4</sentinel.version>
-        <anyline.version>8.7.2-jdk17-20240808</anyline.version>
-        <sms4j.version>3.2.1</sms4j.version>
+        <anyline.version>8.7.2-jdk17-20250109</anyline.version>
+        <sms4j.version>3.3.3</sms4j.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <dashscope.version>2.16.5</dashscope.version>
         <velocity.version>2.3</velocity.version>
