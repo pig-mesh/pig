@@ -3,15 +3,13 @@ spring:
     type: redis # 缓存类型 Redis
   data:
     redis:
-      host: pig-redis  # Redis地址
-      password: # Redis密码，没有留空
-      port: 6379  # Redis端口
+      host: 127.0.0.1  # Redis地址
   # 数据库相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: root
-    url: jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true
+    url: jdbc:mysql://127.0.0.1:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true
 
 # 本地文件系统
 file:
