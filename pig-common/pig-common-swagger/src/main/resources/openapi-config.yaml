@@ -2,6 +2,6 @@
 swagger:
   enabled: true
   title: Pig Swagger API
-  gateway: http://${GATEWAY-HOST:pig-gateway}:${GATEWAY-PORT:9999}
+  gateway: http://${GATEWAY-HOST:127.0.0.1}:${GATEWAY-PORT:9999}
   token-url: ${swagger.gateway}/auth/oauth2/token
   scope: server
