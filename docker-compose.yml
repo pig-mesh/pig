@@ -31,6 +31,9 @@ services:
     ports:
       - 8848:8848
       - 9848:9848
+    environment:
+      MYSQL_HOST: pig-mysql
+      REDIS_HOST: pig-redis
     container_name: pig-register
     hostname: pig-register
     image: pig-register
@@ -46,6 +49,8 @@ services:
     container_name: pig-gateway
     hostname: pig-gateway
     image: pig-gateway
+    environment:
+      REDIS_HOST: pig-redis
     networks:
       - spring_cloud_default
 
@@ -56,6 +61,8 @@ services:
     container_name: pig-auth
     hostname: pig-auth
     image: pig-auth
+    environment:
+      REDIS_HOST: pig-redis
     networks:
       - spring_cloud_default
 
@@ -66,6 +73,9 @@ services:
     container_name: pig-upms
     hostname: pig-upms
     image: pig-upms
+    environment:
+      MYSQL_HOST: pig-mysql
+      REDIS_HOST: pig-redis
     networks:
       - spring_cloud_default
 
@@ -88,6 +98,9 @@ services:
     container_name: pig-codegen
     hostname: pig-codegen
     image: pig-codegen
+    environment:
+      MYSQL_HOST: pig-mysql
+      REDIS_HOST: pig-redis
     networks:
       - spring_cloud_default
 
@@ -97,6 +110,9 @@ services:
     restart: always
     image: pig-quartz
     container_name: pig-quartz
+    environment:
+      MYSQL_HOST: pig-mysql
+      REDIS_HOST: pig-redis
     networks:
       - spring_cloud_default
 
