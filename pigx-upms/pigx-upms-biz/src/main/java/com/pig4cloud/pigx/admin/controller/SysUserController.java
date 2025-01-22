@@ -272,6 +272,7 @@ public class SysUserController {
      * @param roleIdList 角色ID列表
      * @return R 返回结果对象，包含根据角色ID列表获取到的用户ID列表信息
      */
+    @Inner
     @GetMapping("/getUserIdListByRoleIdList")
     public R<List<Long>> getUserIdListByRoleIdList(Long[] roleIdList) {
         return R.ok(userService.listUserIdByRoleIds(CollUtil.toList(roleIdList)));
@@ -283,6 +284,7 @@ public class SysUserController {
      * @param deptIdList 部门ID列表
      * @return R 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
      */
+    @Inner
     @GetMapping("/getUserIdListByDeptIdList")
     public R<List<SysUser>> getUserIdListByDeptIdList(Long[] deptIdList) {
         return R.ok(userService.listUserIdByDeptIds(CollUtil.toList(deptIdList)));

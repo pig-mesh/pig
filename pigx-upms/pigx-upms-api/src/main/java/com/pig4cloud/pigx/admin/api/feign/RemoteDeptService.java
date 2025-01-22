@@ -22,6 +22,7 @@ package com.pig4cloud.pigx.admin.api.feign;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,6 +50,7 @@ public interface RemoteDeptService {
 	 * @param deptId 部门ID
 	 * @return 负责人ID列表
 	 */
+	@NoToken
 	@GetMapping("/dept/leader/{deptId}")
 	R<List<Long>> getAllDeptLeader(@PathVariable("deptId") Long deptId);
 
