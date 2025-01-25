@@ -184,7 +184,7 @@ public class ModelUtil {
 					if (ord == size) {
 						expression = NodeExpressionStrategyFactory.handleDefaultBranch(branchs, ord - 1);
 					}
-					else if (nodeDto.getType() == NodeTypeEnum.EXCLUSIVE_GATEWAY.getValue().intValue() && ord > 1) {
+					else if (ord > 1) {
 						expression = NodeExpressionStrategyFactory.handleDefaultBranch(branchs, ord - 1);
 					}
 					else {

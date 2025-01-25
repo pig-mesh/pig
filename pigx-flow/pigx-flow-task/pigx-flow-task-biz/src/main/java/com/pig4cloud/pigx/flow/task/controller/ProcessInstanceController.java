@@ -1,7 +1,6 @@
 package com.pig4cloud.pigx.flow.task.controller;
 
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.flow.task.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.task.dto.TaskQueryParamDto;
 import com.pig4cloud.pigx.flow.task.service.IProcessInstanceService;
@@ -32,22 +31,10 @@ public class ProcessInstanceController {
 	}
 
 	/**
-	 * 启动内部流程实例
+	 * 查询挖矿任务
 	 *
-	 * @param processInstanceParamDto 进程实例参数 DTO
+	 * @param queryParamDto Query param DTO
 	 * @return {@link R }
-	 */
-	@Inner
-	@SneakyThrows
-	@PostMapping("startInnerProcessInstance")
-	public R startInnerProcessInstance(@RequestBody ProcessInstanceParamDto processInstanceParamDto) {
-		return processInstanceService.startProcessInstance(processInstanceParamDto);
-	}
-
-	/**
-	 * 查询当前登录用户的待办任务
-	 * @param pageDto
-	 * @return
 	 */
 	@SneakyThrows
 	@PostMapping("queryMineTask")
@@ -67,9 +54,10 @@ public class ProcessInstanceController {
 	}
 
 	/**
-	 * 查询我发起的
-	 * @param pageDto
-	 * @return
+	 * 查询我已启动
+	 *
+	 * @param taskQueryParamDto task query param dto
+	 * @return {@link R }
 	 */
 	@SneakyThrows
 	@PostMapping("queryMineStarted")
@@ -78,9 +66,10 @@ public class ProcessInstanceController {
 	}
 
 	/**
-	 * 查询抄送我的
-	 * @param pageDto
-	 * @return
+	 * 查询我 CC
+	 *
+	 * @param taskQueryParamDto task query param dto
+	 * @return {@link R }
 	 */
 	@SneakyThrows
 	@PostMapping("queryMineCC")

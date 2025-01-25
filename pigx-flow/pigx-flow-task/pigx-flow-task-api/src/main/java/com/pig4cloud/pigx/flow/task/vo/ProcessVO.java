@@ -16,4 +16,9 @@ public class ProcessVO extends Process {
 
 	private Map<String, Object> variableMap;
 
+	/**
+	 * 发起人节点的表单权限
+	 */
+	private Map<String,String> formPerms;
+
 }

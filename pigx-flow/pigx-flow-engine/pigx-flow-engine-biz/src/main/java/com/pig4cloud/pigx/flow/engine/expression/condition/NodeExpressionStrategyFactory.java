@@ -10,18 +10,27 @@ import com.pig4cloud.pigx.flow.task.dto.Node;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class NodeExpressionStrategyFactory {
 
 	public static String handleSingleCondition(Condition nodeConditionDto) {
 		Map<String, NodeConditionStrategy> nodeConditionStrategyMap = SpringUtil
 			.getBeansOfType(NodeConditionStrategy.class);
-		NodeConditionStrategy nodeConditionHandler = nodeConditionStrategyMap
-			.get(nodeConditionDto.getKeyType() + "NodeConditionStrategy");
-		if (nodeConditionHandler == null) {
+
+		// 通过keyType获取对应的处理器, 忽略大小写
+		AtomicReference<NodeConditionStrategy> nodeConditionHandler = new AtomicReference<>();
+		nodeConditionStrategyMap.forEach((k, v) -> {
+			if (k.equalsIgnoreCase(nodeConditionDto.getKeyType() + "NodeConditionStrategy")) {
+				nodeConditionHandler.set(v);
+			}
+		});
+
+
+		if (nodeConditionHandler.get() == null) {
 			return "(1==1)";
 		}
-		return nodeConditionHandler.handle(nodeConditionDto);
+		return nodeConditionHandler.get().handle(nodeConditionDto);
 	}
 
 	/**

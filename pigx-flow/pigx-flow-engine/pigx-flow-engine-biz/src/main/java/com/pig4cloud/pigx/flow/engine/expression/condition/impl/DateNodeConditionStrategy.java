@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * 字符类型处理器
  */
-@Component("DateNodeConditionStrategy")
+@Component("datePickerNodeConditionStrategy")
 public class DateNodeConditionStrategy implements NodeConditionStrategy {
 
 	/**

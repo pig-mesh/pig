@@ -64,18 +64,16 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
      */
     @Override
     public R startProcessInstance(ProcessInstanceParamDto processInstanceParamDto) {
-        // 如果没有传递根节点(发起人)，则根据当前用户初始化一个
-        if (StrUtil.isBlank(processInstanceParamDto.getStartUserId())) {
-            PigxUser user = SecurityUtils.getUser();
-            processInstanceParamDto.setStartUserId(String.valueOf(user.getId()));
-            Map<String, Object> paramMap = processInstanceParamDto.getParamMap();
-            Dict rootUser = Dict.create()
-                    .set("id", user.getId())
-                    .set("name", user.getUsername())
-                    .set("type", NodeUserTypeEnum.USER.getKey());
-            paramMap.put("root", CollUtil.newArrayList(rootUser));
-        }
 
+        PigxUser user = SecurityUtils.getUser();
+
+        processInstanceParamDto.setStartUserId(String.valueOf(user.getId()));
+        Map<String, Object> paramMap = processInstanceParamDto.getParamMap();
+        Dict rootUser = Dict.create()
+                .set("id", user.getId())
+                .set("name", user.getUsername())
+                .set("type", NodeUserTypeEnum.USER.getKey());
+        paramMap.put("root", CollUtil.newArrayList(rootUser));
         return flowEngineService.startProcess(processInstanceParamDto);
     }
 
@@ -88,52 +86,52 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
     @Override
     public R queryMineTask(TaskQueryParamDto taskQueryParamDto) {
         taskQueryParamDto.setAssign(SecurityUtils.getUser().getId().toString());
-        R<Page<TaskDto>> r = flowEngineService.queryAssignTask(taskQueryParamDto);
+		R<Page<TaskDto>> r = flowEngineService.queryAssignTask(taskQueryParamDto);
 
-        if (CollUtil.isEmpty(r.getData().getRecords())) {
-            return r;
-        }
+		if (CollUtil.isEmpty(r.getData().getRecords())) {
+			return r;
+		}
 
-        Set<String> processInstanceIdSet = r.getData()
-                .getRecords()
-                .stream()
-                .map(TaskDto::getProcessInstanceId)
-                .collect(Collectors.toSet());
+		Set<String> processInstanceIdSet = r.getData()
+			.getRecords()
+			.stream()
+			.map(TaskDto::getProcessInstanceId)
+			.collect(Collectors.toSet());
 
         // 流程实例记录
         List<ProcessInstanceRecord> processInstanceRecordList = processInstanceRecordService.lambdaQuery()
                 .in(ProcessInstanceRecord::getProcessInstanceId, processInstanceIdSet)
                 .list();
 
-        // 发起人
+		// 发起人
         // 发起人
         List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).collect(Collectors.toList());
         List<SysUser> startUserList = userService.getUserById(collect).getData();
 
-        Page<TaskDto> pageResultDto = r.getData();
-        List<TaskDto> taskDtoList = new ArrayList<>();
-        for (TaskDto record : r.getData().getRecords()) {
-            ProcessInstanceRecord processInstanceRecord = processInstanceRecordList.stream()
-                    .filter(w -> StrUtil.equals(w.getProcessInstanceId(), record.getProcessInstanceId()))
-                    .findAny()
-                    .orElse(null);
+		Page<TaskDto> pageResultDto = r.getData();
+		List<TaskDto> taskDtoList = new ArrayList<>();
+		for (TaskDto record : r.getData().getRecords()) {
+			ProcessInstanceRecord processInstanceRecord = processInstanceRecordList.stream()
+				.filter(w -> StrUtil.equals(w.getProcessInstanceId(), record.getProcessInstanceId()))
+				.findAny()
+				.orElse(null);
 
-            if (processInstanceRecord != null) {
-                record.setProcessName(processInstanceRecord.getName());
-                SysUser startUser = startUserList.stream()
-                        .filter(w -> w.getUserId().longValue() == processInstanceRecord.getUserId())
-                        .findAny()
-                        .orElse(null);
+			if (processInstanceRecord != null) {
+				record.setProcessName(processInstanceRecord.getName());
+				SysUser startUser = startUserList.stream()
+					.filter(w -> w.getUserId().longValue() == processInstanceRecord.getUserId())
+					.findAny()
+					.orElse(null);
 
-                record.setRootUserId(processInstanceRecord.getUserId());
-                record.setGroupName(processInstanceRecord.getGroupName());
-                record.setRootUserName(startUser.getUsername());
-                record.setRootUserAvatarUrl(startUser.getAvatar());
-                record.setStartTime(processInstanceRecord.getCreateTime());
+				record.setRootUserId(processInstanceRecord.getUserId());
+				record.setGroupName(processInstanceRecord.getGroupName());
+				record.setRootUserName(startUser.getUsername());
+				record.setRootUserAvatarUrl(startUser.getAvatar());
+				record.setStartTime(processInstanceRecord.getCreateTime());
 
-                taskDtoList.add(record);
-            }
-        }
+				taskDtoList.add(record);
+			}
+		}
 
         pageResultDto.setRecords(taskDtoList);
 
@@ -162,10 +160,10 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
                 .map(TaskDto::getProcessInstanceId)
                 .collect(Collectors.toSet());
 
-        // 流程实例记录
-        List<ProcessInstanceRecord> processInstanceRecordList = processInstanceRecordService.lambdaQuery()
-                .in(ProcessInstanceRecord::getProcessInstanceId, processInstanceIdSet)
-                .list();
+		// 流程实例记录
+		List<ProcessInstanceRecord> processInstanceRecordList = processInstanceRecordService.lambdaQuery()
+			.in(ProcessInstanceRecord::getProcessInstanceId, processInstanceIdSet)
+			.list();
 
         // 发起人
         List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).collect(Collectors.toList());
@@ -198,9 +196,9 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
             }
         }
 
-        pageResultDto.setRecords(taskDtoList);
+		pageResultDto.setRecords(taskDtoList);
 
-        return R.ok(pageResultDto);
+		return R.ok(pageResultDto);
     }
 
     /**

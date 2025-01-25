@@ -1,7 +1,6 @@
 package com.pig4cloud.pigx.flow.task.controller;
 
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.flow.task.dto.Node;
 import com.pig4cloud.pigx.flow.task.dto.ProcessNodeDataDto;
 import com.pig4cloud.pigx.flow.task.service.IProcessNodeDataService;
@@ -39,7 +38,6 @@ public class ProcessNodeDataController {
 	 * @param nodeId
 	 * @return
 	 */
-	@Inner
 	@GetMapping("getNodeData")
 	public R<Node> getNodeData(String flowId, String nodeId) {
 		return processNodeDataService.getNodeData(flowId, nodeId);

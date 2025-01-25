@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.feign.RemoteUserService;
+import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.task.constant.NodeTypeEnum;
@@ -101,12 +102,16 @@ public class NodeFormatUtil {
                     List<ProcessNodeRecordAssignUser> value = entry.getValue();
                     List<UserVo> collect = value.stream().map(w -> {
                         UserVo userVo = buildUser(Long.parseLong(w.getUserId()));
+                        if (userVo == null) {
+                            return null;
+                        }
+
                         userVo.setShowTime(w.getEndTime());
                         userVo.setApproveDesc(w.getApproveDesc());
                         userVo.setStatus(w.getStatus());
                         userVo.setOperType(w.getTaskType());
                         return userVo;
-                    }).toList();
+                    }).filter(Objects::nonNull).toList();
                     userVoList.addAll(collect);
                 }
 
@@ -257,7 +262,10 @@ public class NodeFormatUtil {
         }
 
         RemoteUserService userService = SpringUtil.getBean(RemoteUserService.class);
-        SysUser user = userService.getUserById(CollUtil.newArrayList(userId)).getData().get(0);
+        SysUser user = RetOps.of(userService.getUserById(CollUtil.newArrayList(userId)))
+                .getData()
+                .map(sysUsers -> sysUsers.isEmpty() ? null : sysUsers.get(0))
+                .orElse(null);
         if (user == null) {
             return null;
         }

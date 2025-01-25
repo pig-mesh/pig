@@ -79,6 +79,7 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		ProcessVO processVO = BeanUtil.copyProperties(oaForms, ProcessVO.class);
 		processVO.setSelectUserNodeId(selectUserNodeId);
 		processVO.setFormItems(formItems);
+		processVO.setFormPerms(startNode.getFormPerms());
 		return processVO;
 	}
 
