@@ -2,9 +2,7 @@ package com.pig4cloud.pigx.flow.task.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.convert.Convert;
 import cn.hutool.core.lang.Dict;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,16 +14,13 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowEngineService;
-import com.pig4cloud.pigx.flow.task.constant.FormTypeEnum;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
-import com.pig4cloud.pigx.flow.task.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.entity.Process;
 import com.pig4cloud.pigx.flow.task.entity.*;
 import com.pig4cloud.pigx.flow.task.service.*;
 import com.pig4cloud.pigx.flow.task.utils.NodeFormatUtil;
-import com.pig4cloud.pigx.flow.task.vo.FormItemVO;
 import com.pig4cloud.pigx.flow.task.vo.NodeFormatParamVo;
 import com.pig4cloud.pigx.flow.task.vo.NodeVo;
 import com.pig4cloud.pigx.flow.task.vo.ProcessCopyVo;
@@ -385,60 +380,18 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
         // 发起人变量数据
         String formData = processInstanceRecord.getFormData();
-        Map<String, Object> variableMap = objectMapper.readValue(formData, new TypeReference<>() {
-        });
-        // 发起人表单权限
         String process = oaForms.getProcess();
 
         Node nodeDto = objectMapper.readValue(process, Node.class);
         Map<String, String> formPerms1 = nodeDto.getFormPerms();
 
-        List<FormItemVO> jsonObjectList = objectMapper.readValue(oaForms.getFormItems(), new TypeReference<>() {
-        });
-        for (FormItemVO formItemVO : jsonObjectList) {
-            String id = formItemVO.getId();
-            String perm = formPerms1.get(id);
 
-            formItemVO.setPerm(StrUtil.isBlankIfStr(perm) ? ProcessInstanceConstant.FormPermClass.READ
-                    : (StrUtil.equals(perm, ProcessInstanceConstant.FormPermClass.HIDE) ? perm
-                    : ProcessInstanceConstant.FormPermClass.READ));
-
-            if (formItemVO.getType().equals(FormTypeEnum.LAYOUT.getType())) {
-                // 明细
-                List<Map<String, Object>> subParamList = MapUtil.get(variableMap, id,
-                        new cn.hutool.core.lang.TypeReference<>() {
-                        });
-
-                Object value = formItemVO.getProps().getValue();
-
-                List<List<FormItemVO>> l = new ArrayList<>();
-                for (Map<String, Object> map : subParamList) {
-                    List<FormItemVO> subItemList = Convert.toList(FormItemVO.class, value);
-                    for (FormItemVO itemVO : subItemList) {
-                        itemVO.getProps().setValue(map.get(itemVO.getId()));
-
-                        String permSub = formPerms1.get(itemVO.getId());
-
-                        itemVO.setPerm(StrUtil.isBlankIfStr(permSub) ? ProcessInstanceConstant.FormPermClass.READ
-                                : (StrUtil.equals(permSub, ProcessInstanceConstant.FormPermClass.HIDE) ? permSub
-                                : ProcessInstanceConstant.FormPermClass.READ));
-
-                    }
-                    l.add(subItemList);
-                }
-                formItemVO.getProps().setValue(l);
-
-            } else {
-                formItemVO.getProps().setValue(variableMap.get(id));
-
-            }
-
-        }
         Dict set = Dict.create()
                 .set("processInstanceId", processInstanceId)
                 .set("process", oaForms.getProcess())
-
-                .set("formItems", jsonObjectList);
+                .set("formItems", oaForms.getFormItems())
+                .set("formData", formData)
+                .set("formPerms", formPerms1);
 
         return R.ok(set);
     }

@@ -26,7 +26,7 @@ public class FormItemVO {
 
     private String placeholder;
 
-    private Props props;
+    private Props props = new Props();
 
     @Data
     @NoArgsConstructor
