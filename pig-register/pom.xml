@@ -28,7 +28,7 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>2.4.3</nacos.version>
+        <nacos.version>2.5.0</nacos.version>
         <tomcat.version>9.0.98</tomcat.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
