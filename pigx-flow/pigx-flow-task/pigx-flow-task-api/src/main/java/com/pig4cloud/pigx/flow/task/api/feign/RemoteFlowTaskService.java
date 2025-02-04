@@ -36,7 +36,6 @@ public interface RemoteFlowTaskService {
 	 * 流程结束事件
 	 * @param processInstanceParamDto
 	 */
-	@NoToken
 	@PostMapping("/remote/endProcess")
 	void endProcessEvent(@RequestBody ProcessInstanceParamDto processInstanceParamDto);
 
