@@ -191,6 +191,7 @@ INSERT INTO `sys_dict` VALUES (25, 'schedule_type', '日程类型', 'admin', ' '
 INSERT INTO `sys_dict` VALUES (26, 'schedule_status', '日程状态', 'admin', ' ', '2023-03-06 14:52:57', NULL, NULL, '0', '0', 1);
 INSERT INTO `sys_dict` VALUES (27, 'ds_type', '代码生成器支持的数据库类型', 'admin', ' ', '2023-03-12 09:57:59', NULL, NULL, '1', '0', 1);
 INSERT INTO `sys_dict` VALUES (28, 'message_type', '消息类型', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (29, 'sensitive_type', '敏感词类型', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -315,6 +316,8 @@ INSERT INTO `sys_dict_item` VALUES (91, 27, 'dm', '达梦', 'ds_type', '达梦',
 INSERT INTO `sys_dict_item` VALUES (92, 27, 'highgo', '瀚高', 'ds_type', '瀚高数据库', 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (93, 28, '0', '公告', 'message_type', '主页公告显示', 0, 'admin', ' ', '2023-10-27 10:30:14', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (94, 28, '1', '站内信', 'message_type', '右上角显示', 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (95, 29, '0', '黑名单', 'sensitive_type', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (96, 29, '1', '白名单', 'sensitive_type', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
 COMMIT;
 
 -- ----------------------------
