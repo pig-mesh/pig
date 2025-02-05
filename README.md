@@ -52,7 +52,7 @@ pig 提供了详细的[部署文档 wiki.pig4cloud.com](https://www.yuque.com/pi
 
 | 依赖                          | 版本         |
 |-----------------------------|------------|
-| Spring Boot                 | 3.4.1      |
+| Spring Boot                 | 3.4.2      |
 | Spring Cloud                | 2024.0.0   |
 | Spring Cloud Alibaba        | 2023.0.3.2 |
 | Spring Authorization Server | 1.4.1      |
