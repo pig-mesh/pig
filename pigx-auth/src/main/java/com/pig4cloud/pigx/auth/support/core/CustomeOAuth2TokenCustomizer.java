@@ -32,7 +32,7 @@ public class CustomeOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth
 		}
 
 		PigxUser pigxUser = (PigxUser) context.getPrincipal().getPrincipal();
-		claims.claim(SecurityConstants.DETAILS_USER_ID, pigxUser.getId());
+		claims.claim(SecurityConstants.DETAILS_USER_ID, pigxUser.getId().toString());
 		claims.claim(SecurityConstants.DETAILS_USERNAME, pigxUser.getUsername());
 	}
 
