@@ -131,9 +131,9 @@ CREATE TABLE `app_tabbar` (
 -- Records of app_tabbar
 -- ----------------------------
 BEGIN;
-INSERT INTO `app_tabbar` VALUES (1, '首页', 'https://minio.pigx.top/oss/app/tabbar0.png', 'https://minio.pigx.top/oss/app/tabbar0_0.png', '{\"path\":\"/pages/index/index\",\"name\":\"商城首页\",\"type\":\"shop\"}', NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
-INSERT INTO `app_tabbar` VALUES (2, '资讯', 'https://minio.pigx.top/oss/app/tabbar1.png', 'https://minio.pigx.top/oss/app/tabbar1_1.png', '{\"path\":\"/pages/news/news\",\"name\":\"文章资讯\",\"type\":\"shop\"}', NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
-INSERT INTO `app_tabbar` VALUES (3, '我的', 'https://minio.pigx.top/oss/app/tabbar3.png', 'https://minio.pigx.top/oss/app/tabbar3_3.png', '{\"path\":\"/pages/user/user\",\"name\":\"个人中心\",\"type\":\"shop\"}', NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
+INSERT INTO `app_tabbar` VALUES (1, '首页', 'https://minio.pigx.top/oss/app/tabbar0.png', 'https://minio.pigx.top/oss/app/tabbar0_0.png', '{\"path\":\"/pages/index/index\",\"name\":\"商城首页\",\"type\":\"shop\"}', 0, NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
+INSERT INTO `app_tabbar` VALUES (2, '资讯', 'https://minio.pigx.top/oss/app/tabbar1.png', 'https://minio.pigx.top/oss/app/tabbar1_1.png', '{\"path\":\"/pages/news/news\",\"name\":\"文章资讯\",\"type\":\"shop\"}', 1, NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
+INSERT INTO `app_tabbar` VALUES (3, '我的', 'https://minio.pigx.top/oss/app/tabbar3.png', 'https://minio.pigx.top/oss/app/tabbar3_3.png', '{\"path\":\"/pages/user/user\",\"name\":\"个人中心\",\"type\":\"shop\"}',2, NULL, '2023-06-15 09:16:25', NULL, 'admin', '0',1);
 COMMIT;
 
 -- ----------------------------
