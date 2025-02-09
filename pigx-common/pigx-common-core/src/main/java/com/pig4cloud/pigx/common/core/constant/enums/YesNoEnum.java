@@ -25,4 +25,15 @@ public enum YesNoEnum {
 	 */
 	private String desc;
 
+
+	/**
+	 * 通过布尔值获取代码
+	 *
+	 * @param bool 布尔
+	 * @return {@link String }
+	 */
+	public static String getCode(Boolean bool) {
+		return bool ? YES.getCode() : NO.getCode();
+	}
+
 }
