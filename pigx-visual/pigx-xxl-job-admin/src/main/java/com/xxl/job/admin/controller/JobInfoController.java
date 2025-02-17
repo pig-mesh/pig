@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * index controller
@@ -50,7 +47,7 @@ public class JobInfoController {
 
 	@RequestMapping
 	public String index(HttpServletRequest request, Model model,
-			@RequestParam(required = false, defaultValue = "-1") int jobGroup) {
+			@RequestParam(value = "jobGroup", required = false, defaultValue = "-1") int jobGroup) {
 
 		// 枚举-字典
 		model.addAttribute("ExecutorRouteStrategyEnum", ExecutorRouteStrategyEnum.values()); // 路由策略-列表
@@ -76,9 +73,11 @@ public class JobInfoController {
 
 	@RequestMapping("/pageList")
 	@ResponseBody
-	public Map<String, Object> pageList(@RequestParam(required = false, defaultValue = "0") int start,
-			@RequestParam(required = false, defaultValue = "10") int length, int jobGroup, int triggerStatus,
-			String jobDesc, String executorHandler, String author) {
+	public Map<String, Object> pageList(@RequestParam(value = "start", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "length", required = false, defaultValue = "10") int length,
+			@RequestParam("jobGroup") int jobGroup, @RequestParam("triggerStatus") int triggerStatus,
+			@RequestParam("jobDesc") String jobDesc, @RequestParam("executorHandler") String executorHandler,
+			@RequestParam("author") String author) {
 
 		return xxlJobService.pageList(start, length, jobGroup, triggerStatus, jobDesc, executorHandler, author);
 	}
@@ -107,25 +106,27 @@ public class JobInfoController {
 
 	@RequestMapping("/remove")
 	@ResponseBody
-	public ReturnT<String> remove(int id) {
+	public ReturnT<String> remove(@RequestParam("id") int id) {
 		return xxlJobService.remove(id);
 	}
 
 	@RequestMapping("/stop")
 	@ResponseBody
-	public ReturnT<String> pause(int id) {
+	public ReturnT<String> pause(@RequestParam("id") int id) {
 		return xxlJobService.stop(id);
 	}
 
 	@RequestMapping("/start")
 	@ResponseBody
-	public ReturnT<String> start(int id) {
+	public ReturnT<String> start(@RequestParam("id") int id) {
 		return xxlJobService.start(id);
 	}
 
 	@RequestMapping("/trigger")
 	@ResponseBody
-	public ReturnT<String> triggerJob(HttpServletRequest request, int id, String executorParam, String addressList) {
+	public ReturnT<String> triggerJob(HttpServletRequest request, @RequestParam("id") int id,
+			@RequestParam("executorParam") String executorParam, @RequestParam("addressList") String addressList) {
+
 		// login user
 		XxlJobUser loginUser = PermissionInterceptor.getLoginUser(request);
 		// trigger
@@ -134,7 +135,8 @@ public class JobInfoController {
 
 	@RequestMapping("/nextTriggerTime")
 	@ResponseBody
-	public ReturnT<List<String>> nextTriggerTime(String scheduleType, String scheduleConf) {
+	public ReturnT<List<String>> nextTriggerTime(@RequestParam("scheduleType") String scheduleType,
+			@RequestParam("scheduleConf") String scheduleConf) {
 
 		XxlJobInfo paramXxlJobInfo = new XxlJobInfo();
 		paramXxlJobInfo.setScheduleType(scheduleType);
@@ -154,7 +156,7 @@ public class JobInfoController {
 			}
 		}
 		catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			logger.error("nextTriggerTime error. scheduleType = {}, scheduleConf= {}", scheduleType, scheduleConf, e);
 			return new ReturnT<List<String>>(ReturnT.FAIL_CODE,
 					(I18nUtil.getString("schedule_type") + I18nUtil.getString("system_unvalid")) + e.getMessage());
 		}

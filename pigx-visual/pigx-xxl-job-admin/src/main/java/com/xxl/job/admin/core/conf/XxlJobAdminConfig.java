@@ -54,6 +54,9 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 	@Value("${xxl.job.accessToken:}")
 	private String accessToken;
 
+	@Value("${xxl.job.timeout:100}")
+	private int timeout;
+
 	@Value("${spring.mail.from}")
 	private String emailFrom;
 
@@ -101,6 +104,10 @@ public class XxlJobAdminConfig implements InitializingBean, DisposableBean {
 
 	public String getAccessToken() {
 		return accessToken;
+	}
+
+	public int getTimeout() {
+		return timeout;
 	}
 
 	public String getEmailFrom() {

@@ -11,7 +11,7 @@
     <description>xxl job admin 控制台内置方便开发</description>
     <packaging>jar</packaging>
     <properties>
-        <mybatis-spring-boot-starter.version>3.0.3</mybatis-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
     </properties>
 
 

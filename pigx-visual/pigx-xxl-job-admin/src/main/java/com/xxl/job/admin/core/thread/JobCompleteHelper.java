@@ -65,7 +65,7 @@ public class JobCompleteHelper {
 				try {
 					TimeUnit.MILLISECONDS.sleep(50);
 				}
-				catch (InterruptedException e) {
+				catch (Throwable e) {
 					if (!toStop) {
 						logger.error(e.getMessage(), e);
 					}
@@ -95,7 +95,7 @@ public class JobCompleteHelper {
 
 						}
 					}
-					catch (Exception e) {
+					catch (Throwable e) {
 						if (!toStop) {
 							logger.error(">>>>>>>>>>> xxl-job, job fail monitor thread error:{}", e);
 						}
@@ -104,7 +104,7 @@ public class JobCompleteHelper {
 					try {
 						TimeUnit.SECONDS.sleep(60);
 					}
-					catch (Exception e) {
+					catch (Throwable e) {
 						if (!toStop) {
 							logger.error(e.getMessage(), e);
 						}
@@ -132,7 +132,7 @@ public class JobCompleteHelper {
 		try {
 			monitorThread.join();
 		}
-		catch (InterruptedException e) {
+		catch (Throwable e) {
 			logger.error(e.getMessage(), e);
 		}
 	}

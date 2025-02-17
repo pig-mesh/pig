@@ -56,7 +56,7 @@ public class JobLogController {
 
 	@RequestMapping
 	public String index(HttpServletRequest request, Model model,
-			@RequestParam(required = false, defaultValue = "0") Integer jobId) {
+			@RequestParam(value = "jobId", required = false, defaultValue = "0") Integer jobId) {
 
 		// 执行器列表
 		List<XxlJobGroup> jobGroupList_all = xxlJobGroupDao.findAll();
@@ -88,7 +88,7 @@ public class JobLogController {
 
 	@RequestMapping("/getJobsByGroup")
 	@ResponseBody
-	public ReturnT<List<XxlJobInfo>> getJobsByGroup(int jobGroup) {
+	public ReturnT<List<XxlJobInfo>> getJobsByGroup(@RequestParam("jobGroup") int jobGroup) {
 		List<XxlJobInfo> list = xxlJobInfoDao.getJobsByGroup(jobGroup);
 		return new ReturnT<List<XxlJobInfo>>(list);
 	}
@@ -96,9 +96,10 @@ public class JobLogController {
 	@RequestMapping("/pageList")
 	@ResponseBody
 	public Map<String, Object> pageList(HttpServletRequest request,
-			@RequestParam(required = false, defaultValue = "0") int start,
-			@RequestParam(required = false, defaultValue = "10") int length, int jobGroup, int jobId, int logStatus,
-			String filterTime) {
+			@RequestParam(value = "start", required = false, defaultValue = "0") int start,
+			@RequestParam(value = "length", required = false, defaultValue = "10") int length,
+			@RequestParam("jobGroup") int jobGroup, @RequestParam("jobId") int jobId,
+			@RequestParam("logStatus") int logStatus, @RequestParam("filterTime") String filterTime) {
 
 		// valid permission
 		PermissionInterceptor.validJobGroupPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
@@ -130,7 +131,7 @@ public class JobLogController {
 	}
 
 	@RequestMapping("/logDetailPage")
-	public String logDetailPage(int id, Model model) {
+	public String logDetailPage(@RequestParam("id") int id, Model model) {
 
 		// base check
 		ReturnT<String> logStatue = ReturnT.SUCCESS;
@@ -147,7 +148,8 @@ public class JobLogController {
 
 	@RequestMapping("/logDetailCat")
 	@ResponseBody
-	public ReturnT<LogResult> logDetailCat(long logId, int fromLineNum) {
+	public ReturnT<LogResult> logDetailCat(@RequestParam("logId") long logId,
+			@RequestParam("fromLineNum") int fromLineNum) {
 		try {
 			// valid
 			XxlJobLog jobLog = xxlJobLogDao.load(logId); // todo, need to improve
@@ -186,7 +188,7 @@ public class JobLogController {
 
 	@RequestMapping("/logKill")
 	@ResponseBody
-	public ReturnT<String> logKill(int id) {
+	public ReturnT<String> logKill(@RequestParam("id") int id) {
 		// base check
 		XxlJobLog log = xxlJobLogDao.load(id);
 		XxlJobInfo jobInfo = xxlJobInfoDao.loadById(log.getJobId());
@@ -223,7 +225,8 @@ public class JobLogController {
 
 	@RequestMapping("/clearLog")
 	@ResponseBody
-	public ReturnT<String> clearLog(HttpServletRequest request, int jobGroup, int jobId, int type) {
+	public ReturnT<String> clearLog(HttpServletRequest request, @RequestParam("jobGroup") int jobGroup,
+			@RequestParam("jobId") int jobId, @RequestParam("type") int type) {
 		// valid permission
 		PermissionInterceptor.validJobGroupPermission(request, jobGroup);
 
