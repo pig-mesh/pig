@@ -49,7 +49,7 @@ public interface RemoteTokenService {
 	 * @return
 	 */
 	@NoToken
-	@DeleteMapping("/token/{token}")
+	@DeleteMapping("/token/remove/{token}")
 	R<Boolean> removeTokenById(@PathVariable("token") String token);
 
 	/**

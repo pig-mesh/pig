@@ -25,6 +25,10 @@ spring:
       redis.enabled: false
     sentinel:
       enabled: false
+  freemarker: # freemarker 配置，授权码模式页面渲染使用
+    suffix: .ftl
+    template-loader-path: classpath:/templates/
+    request-context-attribute: request
   main:
     allow-bean-definition-overriding: true
   profiles:
@@ -42,7 +46,7 @@ security:
         - /swagger-ui.html
         - /swagger-ui/**
         - /swagger-resources
-        - /token/check_token
+        - /token/**
         - /error
         - /druid/**
         - /actuator/**
