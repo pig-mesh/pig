@@ -25,7 +25,7 @@ import java.io.IOException;
 @Slf4j
 public class TenantSavedRequestAwareAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-	private RequestCache requestCache = new HttpSessionRequestCache();
+	private final RequestCache requestCache = new HttpSessionRequestCache();
 
 	public TenantSavedRequestAwareAuthenticationSuccessHandler() {
 	}
