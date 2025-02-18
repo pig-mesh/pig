@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.security.component;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
@@ -27,6 +28,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -45,9 +47,10 @@ public class PigxResourceServerConfiguration {
 
     protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-    private final PermitAllUrlProperties permitAllUrl;
-
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+
+    @Lazy
+    private final PermitAllUrlProperties permitAllUrl;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -77,7 +80,7 @@ public class PigxResourceServerConfiguration {
      * @return {@link PrePostTemplateDefaults }
      */
     @Bean
-    PrePostTemplateDefaults prePostTemplateDefaults() {
-        return new PrePostTemplateDefaults();
+    AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
     }
 }
