@@ -33,7 +33,7 @@
         <sms.version>3.0.0</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
-        <hutool.version>5.8.35</hutool.version>
+        <hutool.version>5.8.36</hutool.version>
         <sentinel.version>1.8.4</sentinel.version>
         <common.io.version>2.18.0</common.io.version>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
