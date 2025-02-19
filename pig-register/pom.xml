@@ -29,7 +29,7 @@
 
     <properties>
         <nacos.version>2.5.0</nacos.version>
-        <tomcat.version>9.0.99</tomcat.version>
+        <tomcat.version>9.0.100</tomcat.version>
         <spring-boot.version>2.7.18</spring-boot.version>
         <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
     </properties>
