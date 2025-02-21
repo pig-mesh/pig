@@ -57,7 +57,7 @@
         <git.commit.plugin>9.0.1</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
