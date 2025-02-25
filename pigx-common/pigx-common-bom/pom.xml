@@ -52,7 +52,7 @@
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <sentinel.version>1.8.4</sentinel.version>
         <anyline.version>8.7.2-jdk17-20250109</anyline.version>
-        <sms4j.version>3.3.3</sms4j.version>
+        <sms4j.version>3.3.4</sms4j.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
         <dashscope.version>2.16.5</dashscope.version>
         <velocity.version>2.3</velocity.version>
@@ -411,7 +411,7 @@
             </dependency>
             <!-- 短信发送工具类 -->
             <dependency>
-                <groupId>org.dromara.sms4j</groupId>
+                <groupId>io.github.pig-mesh.sms4j</groupId>
                 <artifactId>sms4j-spring-boot-starter</artifactId>
                 <version>${sms4j.version}</version>
             </dependency>
@@ -435,7 +435,7 @@
             </dependency>
             <!--webhook-->
             <dependency>
-                <groupId>org.dromara.sms4j</groupId>
+                <groupId>io.github.pig-mesh.sms4j</groupId>
                 <artifactId>sms4j-oa-core</artifactId>
                 <version>${sms4j.version}</version>
             </dependency>

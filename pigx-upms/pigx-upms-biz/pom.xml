@@ -156,7 +156,7 @@
         </dependency>
         <!-- 短信工具类 -->
         <dependency>
-            <groupId>org.dromara.sms4j</groupId>
+            <groupId>io.github.pig-mesh.sms4j</groupId>
             <artifactId>sms4j-spring-boot-starter</artifactId>
         </dependency>
         <!-- 邮件工具 -->
@@ -166,7 +166,7 @@
         </dependency>
         <!-- webhook工具类 -->
         <dependency>
-            <groupId>org.dromara.sms4j</groupId>
+            <groupId>io.github.pig-mesh.sms4j</groupId>
             <artifactId>sms4j-oa-core</artifactId>
         </dependency>
         <!-- 模板引擎-->
