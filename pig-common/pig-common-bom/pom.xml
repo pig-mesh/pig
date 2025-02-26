@@ -37,7 +37,7 @@
         <sentinel.version>1.8.4</sentinel.version>
         <common.io.version>2.18.0</common.io.version>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
     </properties>
 
     <!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号-->

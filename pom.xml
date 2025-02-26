@@ -56,7 +56,7 @@
         <docker.password>password</docker.password>
         <git.commit.plugin>9.0.1</git.commit.plugin>
         <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <flatten-maven-plugin.version>1.7.0</flatten-maven-plugin.version>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
     </properties>
 
