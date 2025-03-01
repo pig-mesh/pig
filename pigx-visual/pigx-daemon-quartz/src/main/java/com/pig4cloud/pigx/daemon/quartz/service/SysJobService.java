@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.daemon.quartz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 
 /**
@@ -28,4 +29,12 @@ import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
  */
 public interface SysJobService extends IService<SysJob> {
 
+    /**
+     * 检查任务配置
+     *
+     * @param field  字段
+     * @param sysJob sys 作业
+     * @return {@link R }
+     */
+    R checkJob(String field, SysJob sysJob);
 }

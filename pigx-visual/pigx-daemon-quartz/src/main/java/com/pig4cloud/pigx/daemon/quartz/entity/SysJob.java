@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 
@@ -38,6 +39,7 @@ import java.time.LocalDateTime;
 @TenantTable
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldNameConstants
 @Schema(description = "定时任务")
 @EqualsAndHashCode(callSuper = true)
 public class SysJob extends Model<SysJob> {

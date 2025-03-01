@@ -17,13 +17,23 @@
 
 package com.pig4cloud.pigx.daemon.quartz.service.impl;
 
+import cn.hutool.core.util.ClassUtil;
+import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.daemon.quartz.constants.JobTypeQuartzEnum;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pigx.daemon.quartz.mapper.SysJobMapper;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Method;
+import java.util.Objects;
 
 /**
  * 定时任务调度表
@@ -36,4 +46,110 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> implements SysJobService {
 
+    /**
+     * 检查任务配置
+     *
+     * @param field
+     * @param sysJob sys 作业
+     * @return {@link R }
+     */
+    @Override
+    public R checkJob(String field, SysJob sysJob) {
+        // 如果是 spring bean 类型任务
+        if (JobTypeQuartzEnum.SPRING_BEAN.getType().equals(sysJob.getJobType())) {
+
+            R<?> ok = checkSpringBeanType(field, sysJob);
+            if (ok != null) return ok;
+        }
+
+        if (JobTypeQuartzEnum.JAVA.getType().equals(sysJob.getJobType())) {
+
+            R<?> ok = checkClassType(field, sysJob);
+            if (ok != null) return ok;
+        }
+        return R.ok();
+    }
+
+    /**
+     * 检查类类型
+     *
+     * @param field  字段
+     * @param sysJob sys 作业
+     * @return {@link R }<{@link ? }>
+     */
+    @Nullable
+    private static R<?> checkClassType(String field, SysJob sysJob) {
+        if (StrUtil.isEmpty(sysJob.getClassName())) {
+            return R.ok("Class方式，类名称必须填写");
+        }
+
+        if (SysJob.Fields.className.equals(field)) {
+            try {
+                Class.forName(sysJob.getClassName());
+                return R.ok();
+            } catch (ClassNotFoundException e) {
+                return R.ok("当前服务中，不包含此类路径");
+            }
+        }
+
+        Class<Object> objectClass = ClassUtil.loadClass(sysJob.getClassName());
+        if (SysJob.Fields.methodName.equals(field)) {
+            Method method = ReflectUtil.getMethodByName(objectClass, sysJob.getMethodName());
+            if (Objects.isNull(method)) {
+                return R.ok("当前Class 未找到此方法");
+            }
+        }
+
+        Method method = ReflectUtil.getMethodByName(objectClass, sysJob.getMethodName());
+        if (StrUtil.isNotBlank(sysJob.getMethodParamsValue())) {
+            if (method.getParameterCount() == 0) {
+                return R.ok("当前方法不需要参数，请清空参数值");
+            }
+        } else if (method.getParameterCount() != 0) {
+            return R.ok("当前方法需要参数，请填写 【参数值】字段");
+        }
+        return null;
+    }
+
+    /**
+     * 检查 Spring Bean 类型
+     *
+     * @param field  字段
+     * @param sysJob sys 作业
+     * @return {@link R }<{@link ? }>
+     */
+    @Nullable
+    private static R<?> checkSpringBeanType(String field, SysJob sysJob) {
+        if (StrUtil.isEmpty(sysJob.getClassName())) {
+            return R.ok("spring bean方式，Bean名称必须填写");
+        }
+
+
+        if (SysJob.Fields.className.equals(field)) {
+            if (SpringUtil.getApplicationContext().containsBean(sysJob.getClassName())) {
+                return R.ok();
+            }
+            return R.ok("当前服务未找到此Bean");
+        }
+
+
+        if (SysJob.Fields.methodName.equals(field)) {
+            Method method = ReflectUtil.getMethodByName(SpringUtil.getBean(sysJob.getClassName()).getClass(), sysJob.getMethodName());
+            if (Objects.isNull(method)) {
+                return R.ok("当前Bean未找到此方法");
+            }
+            return R.ok();
+        }
+
+
+        Method method = ReflectUtil.getMethodByName(SpringUtil.getBean(sysJob.getClassName()).getClass(), sysJob.getMethodName());
+        if (StrUtil.isNotBlank(sysJob.getMethodParamsValue())) {
+            if (method.getParameterCount() == 0) {
+                return R.ok("当前方法不需要参数，请清空参数值");
+            }
+        } else if (method.getParameterCount() != 0) {
+            return R.ok("当前方法需要参数，请填写 【参数值】字段");
+        }
+        return null;
+    }
 }
