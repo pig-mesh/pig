@@ -39,87 +39,88 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-    private final AuthSecurityConfigProperties authSecurityConfigProperties;
+	private final AuthSecurityConfigProperties authSecurityConfigProperties;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-        String requestUrl = request.getServletPath();
+		String requestUrl = request.getServletPath();
 
-        // 不是登录URL 请求直接跳过
-        if (!SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 不是登录URL 请求直接跳过
+		if (!SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 如果登录URL 但是刷新token的请求，直接向下执行
-        String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 如果登录URL 但是刷新token的请求，直接向下执行
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (StrUtil.equals(SecurityConstants.REFRESH_TOKEN, grantType)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 如果是密码模式 && 客户端不需要校验验证码
-        boolean isIgnoreClient = authSecurityConfigProperties.getIgnoreClients().contains(WebUtils.getClientId());
-        if (StrUtil.equalsAnyIgnoreCase(grantType, SecurityConstants.PASSWORD
-                , SecurityConstants.CLIENT_CREDENTIALS, SecurityConstants.AUTHORIZATION_CODE) && isIgnoreClient) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 如果是密码模式 && 客户端不需要校验验证码
+		boolean isIgnoreClient = authSecurityConfigProperties.getIgnoreClients().contains(WebUtils.getClientId());
+		if (StrUtil.equalsAnyIgnoreCase(grantType, SecurityConstants.PASSWORD, SecurityConstants.CLIENT_CREDENTIALS,
+				SecurityConstants.AUTHORIZATION_CODE) && isIgnoreClient) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 校验验证码 1. 客户端开启验证码 2. 短信模式
-        try {
-            checkCode();
-            filterChain.doFilter(request, response);
-        } catch (ValidateCodeException validateCodeException) {
-            throw new OAuth2AuthenticationException(validateCodeException.getMessage());
-        }
-    }
+		// 校验验证码 1. 客户端开启验证码 2. 短信模式
+		try {
+			checkCode();
+			filterChain.doFilter(request, response);
+		}
+		catch (ValidateCodeException validateCodeException) {
+			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
+		}
+	}
 
-    /**
-     * 校验验证码
-     */
-    private void checkCode() throws ValidateCodeException {
-        Optional<HttpServletRequest> request = WebUtils.getRequest();
-        String code = request.get().getParameter("code");
+	/**
+	 * 校验验证码
+	 */
+	private void checkCode() throws ValidateCodeException {
+		Optional<HttpServletRequest> request = WebUtils.getRequest();
+		String code = request.get().getParameter("code");
 
-        if (StrUtil.isBlank(code)) {
-            throw new ValidateCodeException("验证码不能为空");
-        }
+		if (StrUtil.isBlank(code)) {
+			throw new ValidateCodeException("验证码不能为空");
+		}
 
-        String randomStr = request.get().getParameter("randomStr");
+		String randomStr = request.get().getParameter("randomStr");
 
-        // https://gitee.com/log4j/pig/issues/IWA0D
-        String mobile = request.get().getParameter("mobile");
-        if (StrUtil.isNotBlank(mobile)) {
-            randomStr = mobile;
-        }
+		// https://gitee.com/log4j/pig/issues/IWA0D
+		String mobile = request.get().getParameter("mobile");
+		if (StrUtil.isNotBlank(mobile)) {
+			randomStr = mobile;
+		}
 
-        String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-        RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-        if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
-            throw new ValidateCodeException("验证码不合法");
-        }
+		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
+		RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
+			throw new ValidateCodeException("验证码不合法");
+		}
 
-        Object codeObj = redisTemplate.opsForValue().get(key);
+		Object codeObj = redisTemplate.opsForValue().get(key);
 
-        if (codeObj == null) {
-            throw new ValidateCodeException("验证码不合法");
-        }
+		if (codeObj == null) {
+			throw new ValidateCodeException("验证码不合法");
+		}
 
-        String saveCode = codeObj.toString();
-        if (StrUtil.isBlank(saveCode)) {
-            redisTemplate.delete(key);
-            throw new ValidateCodeException("验证码不合法");
-        }
+		String saveCode = codeObj.toString();
+		if (StrUtil.isBlank(saveCode)) {
+			redisTemplate.delete(key);
+			throw new ValidateCodeException("验证码不合法");
+		}
 
-        if (!StrUtil.equals(saveCode, code)) {
-            redisTemplate.delete(key);
-            throw new ValidateCodeException("验证码不合法");
-        }
+		if (!StrUtil.equals(saveCode, code)) {
+			redisTemplate.delete(key);
+			throw new ValidateCodeException("验证码不合法");
+		}
 
-        redisTemplate.delete(key);
-    }
+		redisTemplate.delete(key);
+	}
 
 }
