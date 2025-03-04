@@ -30,17 +30,25 @@ public class SseEmitterEndpoint {
             log.debug("MSG: SseConnectError");
             return null;
         }
+
+        Long userId = SecurityUtils.getUser().getId();
         log.info("MSG: SseConnect | EmitterHash: {} | ID: {}", sseEmitter.hashCode(), SecurityUtils.getUser().getId());
         sseEmitter.onCompletion(() -> {
-            log.info("MSG: SseConnectCompletion | EmitterHash: {} |ID: {}", sseEmitter.hashCode(), SecurityUtils.getUser().getId());
+            log.info("MSG: SseConnectCompletion | EmitterHash: {} |ID: {}", sseEmitter.hashCode(),
+                    SecurityUtils.getUser().getId());
+            SseEmitterHolder.removeSseEmitter(sseEmitter);
         });
         sseEmitter.onTimeout(() -> {
-            log.error("MSG: SseConnectTimeout | EmitterHash: {} |ID: {} ", sseEmitter.hashCode(), SecurityUtils.getUser().getId());
+            log.error("MSG: SseConnectTimeout | EmitterHash: {} |ID: {} ", sseEmitter.hashCode(),
+                    SecurityUtils.getUser().getId());
+            SseEmitterHolder.removeSseEmitter(sseEmitter);
         });
         sseEmitter.onError(t -> {
-            log.error("MSG: SseConnectError | EmitterHash: {} |ID: {}", sseEmitter.hashCode(), SecurityUtils.getUser().getId());
+            log.error("MSG: SseConnectError | EmitterHash: {} |ID: {}", sseEmitter.hashCode(),
+                    SecurityUtils.getUser().getId());
+            SseEmitterHolder.removeSseEmitter(sseEmitter);
         });
-        SseEmitterHolder.addSseEmitter(SecurityUtils.getUser().getId(), sseEmitter);
+        SseEmitterHolder.addSseEmitter(userId, sseEmitter);
         sseEmitter.send("pong");
         return sseEmitter;
     }

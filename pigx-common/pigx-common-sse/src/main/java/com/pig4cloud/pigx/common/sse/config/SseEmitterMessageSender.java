@@ -1,6 +1,5 @@
 package com.pig4cloud.pigx.common.sse.config;
 
-import cn.hutool.core.util.ReflectUtil;
 import com.pig4cloud.pigx.common.sse.holder.SseEmitterHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;

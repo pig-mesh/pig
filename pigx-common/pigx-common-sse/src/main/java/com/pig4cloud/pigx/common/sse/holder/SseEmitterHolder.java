@@ -31,10 +31,10 @@ public final class SseEmitterHolder {
 
 	/**
 	 * 删除一个 sseEmitter
-	 * @param sseEmitterKey sseEmitter唯一标识
+     * @param sseEmitter SseEmitter
 	 */
-	public static void removeSseEmitter(Object sseEmitterKey) {
-		USER_SSE_EMITTER_MAP.remove(sseEmitterKey.toString());
+    public static void removeSseEmitter(SseEmitter sseEmitter) {
+        USER_SSE_EMITTER_MAP.values().remove(sseEmitter);
 	}
 
 	/**
