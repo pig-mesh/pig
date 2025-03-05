@@ -62,7 +62,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 		// 如果是密码模式 && 客户端不需要校验验证码
 		boolean isIgnoreClient = authSecurityConfigProperties.getIgnoreClients().contains(WebUtils.getClientId());
-		if (StrUtil.equals(SecurityConstants.PASSWORD, grantType) && isIgnoreClient) {
+		if (StrUtil.equalsAnyIgnoreCase(grantType, SecurityConstants.PASSWORD, SecurityConstants.CLIENT_CREDENTIALS,
+				SecurityConstants.AUTHORIZATION_CODE) && isIgnoreClient) {
 			filterChain.doFilter(request, response);
 			return;
 		}

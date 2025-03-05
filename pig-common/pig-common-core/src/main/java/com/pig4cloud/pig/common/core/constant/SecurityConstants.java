@@ -63,6 +63,11 @@ public interface SecurityConstants {
 	String PASSWORD = "password";
 
 	/**
+	 * 授权码
+	 */
+	String AUTHORIZATION_CODE = "authorization_code";
+
+	/**
 	 * 手机号登录
 	 */
 	String MOBILE = "mobile";

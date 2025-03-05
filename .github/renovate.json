@@ -11,6 +11,7 @@
     {
       "matchPackagePatterns": [
         "^com.amazonaws:aws-java-sdk-s3$",
+        "^tomcat$",
         "^io.springboot:knife4j-openapi3-ui$",
         "^com.alibaba:fastjson$",
         "^org.anyline:anyline.*$",
