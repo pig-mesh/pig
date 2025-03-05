@@ -92,4 +92,12 @@ public interface SysMessageService extends IService<SysMessageEntity> {
      * @return {@link R }
      */
     R sendHook(MessageHookDTO messageHookDTO);
+
+    /**
+     * 列出 Hook 业务代码
+     *
+     * @param messageHookDTO 消息钩子 DTO
+     * @return {@link R }
+     */
+    R listHookBizCode(MessageHookDTO messageHookDTO);
 }

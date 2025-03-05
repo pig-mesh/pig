@@ -471,4 +471,18 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         tempFileList.forEach(FileUtil::del);
         return R.ok();
     }
+
+    /**
+     * 列出 Hook 业务代码
+     *
+     * @param messageHookDTO 消息钩子 DTO
+     * @return {@link R }
+     */
+    @Override
+    public R listHookBizCode(MessageHookDTO messageHookDTO) {
+        List<SysSystemConfigEntity> configEntityList = sysSystemConfigMapper.selectList(Wrappers.<SysSystemConfigEntity>lambdaQuery()
+                .eq(SysSystemConfigEntity::getConfigType, messageHookDTO.getMessageType())
+                .eq(SysSystemConfigEntity::getConfigStatus, YesNoEnum.YES.getCode()));
+        return R.ok(configEntityList);
+    }
 }

@@ -221,8 +221,13 @@ public class SysMessageController {
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */
-    @PostMapping("/send/webhook")
+    @PostMapping("/send/hook")
     public R sendWebhook(@Valid @RequestBody MessageHookDTO messageHookDTO) {
         return sysMessageService.sendHook(messageHookDTO);
+    }
+
+    @GetMapping("/list/hook")
+    public R listHookBizCode(MessageHookDTO messageHookDTO) {
+        return sysMessageService.listHookBizCode(messageHookDTO);
     }
 }
