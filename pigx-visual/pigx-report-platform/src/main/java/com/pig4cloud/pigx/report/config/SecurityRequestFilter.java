@@ -2,13 +2,18 @@ package com.pig4cloud.pigx.report.config;
 
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import io.springboot.plugin.goview.common.domain.AjaxResult;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,14 +25,11 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -40,6 +42,7 @@ import java.util.Optional;
 @Configuration(proxyBeanMethods = false)
 public class SecurityRequestFilter extends OncePerRequestFilter {
 
+	public static final String TOKEN = "token";
 	private final PathMatcher pathMatcher = new AntPathMatcher();
 
 	private final RemoteTokenService remoteTokenService;
@@ -65,8 +68,16 @@ public class SecurityRequestFilter extends OncePerRequestFilter {
 		}
 
 		// 获取请求头中的token和tenantId参数
-		String accessToken = request.getHeader("token");
+		String accessToken = request.getHeader(TOKEN);
 		String tenantId = request.getHeader(CommonConstants.TENANT_ID);
+
+
+		if (StrUtil.isBlank(accessToken)) {
+			Map<String, Cookie> cookieMap = JakartaServletUtil.readCookieMap(request);
+			if (cookieMap.containsKey(TOKEN)) {
+				accessToken = cookieMap.get(TOKEN).getValue();
+			}
+		}
 
 		// 如果token参数不存在，返回错误信息
 		if (StrUtil.isBlank(accessToken)) {
