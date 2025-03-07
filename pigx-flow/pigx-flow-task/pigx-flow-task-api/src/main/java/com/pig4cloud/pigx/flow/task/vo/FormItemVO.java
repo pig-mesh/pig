@@ -2,12 +2,14 @@ package com.pig4cloud.pigx.flow.task.vo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.FieldNameConstants;
 
 /**
  * 表单
  */
 @Data
 @NoArgsConstructor
+@FieldNameConstants
 public class FormItemVO {
 
     private String id;
@@ -30,6 +32,7 @@ public class FormItemVO {
 
     @Data
     @NoArgsConstructor
+    @FieldNameConstants
     public static class Props {
 
         private Object value;
