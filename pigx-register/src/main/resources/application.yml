@@ -1,5 +1,5 @@
 server:
-  port: 8848
+  port: 8848  # nacos 端口，看文档：https://sourl.cn/Czg3h6
   tomcat:
     basedir: logs
   error:
@@ -29,20 +29,21 @@ nacos:
       urls: /actuator/**,/,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/**,/v1/console/health/**,/actuator/**,/v1/console/server/**
 
 spring:
-  datasource:
-    platform: mysql  #这个过期属性不能修改，nacos 代码对此有硬编码
+  application:
+    name: @project.artifactId@
   security:
     enabled: true
   boot: # 接入 spring boot admin
     admin:
       client:
-        url: http://pigx-monitor:5001
+        url: http://pig-monitor:5001
         username: pig
         password: pig
         instance:
           service-host-type: ip
-  application:
-    name: @project.artifactId@
+  sql:
+    init:
+      platform: mysql
 
 useAddressServer: true
 
