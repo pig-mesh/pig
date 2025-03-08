@@ -18,8 +18,6 @@
 package com.pig4cloud.pigx.pay.controller;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -61,12 +59,8 @@ public class PayChannelController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@HasPermission("pay_channel_view")
-	public R getpayChannelPage(Page page, PayChannel payChannel) {
-		LambdaQueryWrapper<PayChannel> wrapper = Wrappers.lambdaQuery();
-		wrapper.like(StrUtil.isNotBlank(payChannel.getChannelName()), PayChannel::getChannelName,
-				payChannel.getChannelName());
-		wrapper.eq(StrUtil.isNotBlank(payChannel.getState()), PayChannel::getState, payChannel.getState());
-		return R.ok(payChannelService.page(page, wrapper));
+	public R page(Page page, PayChannel payChannel) {
+		return R.ok(payChannelService.queryPage(page, payChannel));
 	}
 
 	/**
@@ -78,7 +72,7 @@ public class PayChannelController {
 	@GetMapping("/{id}")
 	@HasPermission("pay_channel_view")
 	public R getById(@PathVariable("id") Long id) {
-		return R.ok(payChannelService.getById(id));
+		return R.ok(payChannelService.getChannel(id));
 	}
 
 	/**

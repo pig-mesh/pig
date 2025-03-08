@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.pay.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
 
@@ -35,4 +36,20 @@ public interface PayChannelService extends IService<PayChannel> {
 	 */
 	Boolean saveChannel(PayChannel payChannel);
 
+	/**
+	 * 分页查询
+	 *
+	 * @param page       页
+	 * @param payChannel 付费频道
+	 * @return {@link Page }<{@link PayChannel }>
+	 */
+	Page<PayChannel> queryPage(Page page, PayChannel payChannel);
+
+	/**
+	 * 获取channel
+	 *
+	 * @param id id
+	 * @return {@link PayChannel }
+	 */
+	PayChannel getChannel(Long id);
 }
