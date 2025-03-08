@@ -3,6 +3,8 @@ package com.pig4cloud.pigx.pay.handler.impl;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
@@ -93,10 +95,13 @@ public class YungouosMergePayOrderHandler extends AbstractPayOrderHandler {
         // 判断是否是单体架构
         Boolean isMicro = SpringUtil.getProperty("security.micro", Boolean.class, true);
 
+        JSONObject params = JSONUtil.parseObj(channel.getParam());
+        String key = params.getStr("key");
+
         return MergePay.nativePay(String.valueOf(tradeOrder.getOrderId()), money, channel.getChannelMchId(),
                 tradeOrder.getBody(), "1", TenantContextHolder.getTenantId().toString(),
                 String.format("%s/api/%s/notify/merge/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), isMicro ? "pay" : "admin"),
-                ChannelPayApiConfigKit.get().getReturnUrl(), "", "", "", channel.getParam());
+                ChannelPayApiConfigKit.get().getReturnUrl(), "", "", "", key);
     }
 
     /**
