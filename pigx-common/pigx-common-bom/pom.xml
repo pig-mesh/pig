@@ -425,7 +425,7 @@
             </dependency>
             <!-- 短信发送工具类 -->
             <dependency>
-                <groupId>io.github.pig-mesh.sms4j</groupId>
+                <groupId>org.dromara.sms4j</groupId>
                 <artifactId>sms4j-spring-boot-starter</artifactId>
                 <version>${sms4j.version}</version>
             </dependency>
@@ -449,7 +449,7 @@
             </dependency>
             <!--webhook-->
             <dependency>
-                <groupId>io.github.pig-mesh.sms4j</groupId>
+                <groupId>org.dromara.sms4j</groupId>
                 <artifactId>sms4j-oa-core</artifactId>
                 <version>${sms4j.version}</version>
             </dependency>
