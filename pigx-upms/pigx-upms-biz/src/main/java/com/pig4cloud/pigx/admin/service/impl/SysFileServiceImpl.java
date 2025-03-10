@@ -37,6 +37,7 @@ import com.pig4cloud.pigx.admin.mapper.SysFileMapper;
 import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.file.core.FileProperties;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
@@ -227,10 +228,15 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         SysFile sysFile = new SysFile();
         sysFile.setFileName(fileName);
 
-        // 对原始文件名进行编码转换
-        String originalFilename = new String(
-                Objects.requireNonNull(file.getOriginalFilename()).getBytes(StandardCharsets.ISO_8859_1),
-                StandardCharsets.UTF_8);
+        String originalFilename;
+        if (WebUtils.isMicro()) {
+            originalFilename = file.getOriginalFilename();
+        } else {
+            // 对原始文件名进行编码转换
+            originalFilename = new String(
+                    Objects.requireNonNull(file.getOriginalFilename()).getBytes(StandardCharsets.ISO_8859_1),
+                    StandardCharsets.UTF_8);
+        }
         sysFile.setDir(dir);
         sysFile.setOriginal(originalFilename);
         sysFile.setFileSize(file.getSize());

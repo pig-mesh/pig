@@ -18,7 +18,6 @@
 package com.pig4cloud.pigx.pay.handler.impl;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -29,6 +28,7 @@ import com.ijpay.wxpay.WxPayApi;
 import com.ijpay.wxpay.WxPayApiConfig;
 import com.ijpay.wxpay.WxPayApiConfigKit;
 import com.ijpay.wxpay.model.UnifiedOrderModel;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.entity.PayGoodsOrder;
@@ -120,7 +120,6 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 		WxPayApiConfig wxPayApiConfig = WxPayApiConfigKit.getWxPayApiConfig();
 
 		// 判断是否是单体架构
-		Boolean isMicro = SpringUtil.getProperty("security.micro", Boolean.class, true);
 		Map<String, String> params = UnifiedOrderModel.builder()
 			.appid(wxPayApiConfig.getAppId())
 			.mch_id(wxPayApiConfig.getMchId())
@@ -130,7 +129,7 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 			.out_trade_no(String.valueOf(tradeOrder.getOrderId()))
 			.total_fee(goodsOrder.getAmount())
 			.spbill_create_ip(ip)
-			.notify_url(String.format("%s/api/%s/notify/wx/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), isMicro ? "pay" : "admin"))
+				.notify_url(String.format("%s/api/%s/notify/wx/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), WebUtils.isMicro() ? "pay" : "admin"))
 			.trade_type(TradeType.JSAPI.getTradeType())
 			.openid(goodsOrder.getUserId())
 			.build()

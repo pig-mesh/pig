@@ -273,4 +273,9 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
         }
     }
 
+    public boolean isMicro() {
+        return SpringContextHolder.getApplicationContext()
+                .getEnvironment()
+                .getProperty("security.micro", Boolean.class, true);
+    }
 }
