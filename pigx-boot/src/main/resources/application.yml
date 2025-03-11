@@ -16,15 +16,13 @@ spring:
       max-request-size: 100MB
   cloud:
     nacos:
-      config:
-        enabled: false
-      discovery:
-        enabled: false
+      config.enabled: false
+      discovery.enabled: false
     gateway:
       enabled: false
       redis.enabled: false
-    sentinel:
-      enabled: false
+    sentinel.enabled: false
+    openfeign.okhttp.enabled: true
   freemarker: # freemarker 配置，授权码模式页面渲染使用
     suffix: .ftl
     template-loader-path: classpath:/templates/
@@ -33,6 +31,7 @@ spring:
     allow-bean-definition-overriding: true
   profiles:
     active: dev
+
 
 ## spring security 对外暴露接口设置
 security:
