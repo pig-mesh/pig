@@ -95,7 +95,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	@Override
 	public List<PostExcelVO> listPost(SysPost query, Long[] ids) {
 		List<SysPost> postList = this
-			.list(Wrappers.lambdaQuery(query).in(ArrayUtil.isNotEmpty(ids), SysPost::getPostId, ids));
+			.list(Wrappers.lambdaQuery(query).in(ArrayUtil.isNotEmpty(ids), SysPost::getPostId, CollUtil.toList(ids)));
 		// 转换成execl 对象输出
 		return postList.stream().map(post -> {
 			PostExcelVO postExcelVO = new PostExcelVO();

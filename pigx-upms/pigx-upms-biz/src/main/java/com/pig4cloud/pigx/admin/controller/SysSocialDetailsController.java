@@ -156,7 +156,7 @@ public class SysSocialDetailsController {
 	@GetMapping("/export")
 	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails, Long[] ids) {
 		return sysSocialDetailsService
-			.list(Wrappers.lambdaQuery(sysSocialDetails).in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, ids));
+			.list(Wrappers.lambdaQuery(sysSocialDetails).in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, CollUtil.toList(ids)));
 	}
 
 }

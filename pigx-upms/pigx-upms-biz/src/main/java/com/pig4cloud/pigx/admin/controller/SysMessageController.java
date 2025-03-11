@@ -126,7 +126,7 @@ public class SysMessageController {
     @HasPermission("sys_message_export")
     public List<SysMessageEntity> export(SysMessageEntity sysMessage, Long[] ids) {
         return sysMessageService
-                .list(Wrappers.lambdaQuery(sysMessage).in(ArrayUtil.isNotEmpty(ids), SysMessageEntity::getId, ids));
+                .list(Wrappers.lambdaQuery(sysMessage).in(ArrayUtil.isNotEmpty(ids), SysMessageEntity::getId, CollUtil.toList(ids)));
     }
 
     /**

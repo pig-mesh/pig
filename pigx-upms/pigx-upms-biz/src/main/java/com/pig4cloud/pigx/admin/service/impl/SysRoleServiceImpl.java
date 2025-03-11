@@ -80,7 +80,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
 	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
-		return baseMapper.selectBatchIds(roleIdList);
+		return baseMapper.selectByIds(roleIdList);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Override
 	public List<RoleExcelVO> listRole(SysRole sysRole, Long[] ids) {
 		List<SysRole> roleList = this
-			.list(Wrappers.lambdaQuery(sysRole).in(ArrayUtil.isNotEmpty(ids), SysRole::getRoleId, ids));
+			.list(Wrappers.lambdaQuery(sysRole).in(ArrayUtil.isNotEmpty(ids), SysRole::getRoleId, CollUtil.toList(ids)));
 		// 转换成execl 对象输出
 		return roleList.stream().map(role -> {
 			RoleExcelVO roleExcelVO = new RoleExcelVO();

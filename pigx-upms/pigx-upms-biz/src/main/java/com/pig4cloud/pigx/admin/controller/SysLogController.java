@@ -119,7 +119,7 @@ public class SysLogController {
 	@GetMapping("/export")
 	@HasPermission("sys_log_export")
 	public List<SysLog> export(SysLog sysLog, Long[] ids) {
-		return sysLogService.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, ids));
+		return sysLogService.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, CollUtil.toList(ids)));
 	}
 
 }

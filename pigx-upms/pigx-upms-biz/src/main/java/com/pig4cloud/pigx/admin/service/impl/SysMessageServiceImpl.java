@@ -217,7 +217,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         List<Long> userIdList = relationMapper.selectList(Wrappers.<SysMessageRelationEntity>lambdaQuery().eq(SysMessageRelationEntity::getMsgId, id)).stream().map(SysMessageRelationEntity::getUserId).collect(Collectors.toList());
 
         if (CollUtil.isNotEmpty(userIdList)) {
-            List<OrgTreeVO> orgNodeUserVoList = userMapper.selectBatchIds(userIdList).stream().map(user -> {
+            List<OrgTreeVO> orgNodeUserVoList = userMapper.selectByIds(userIdList).stream().map(user -> {
                 OrgTreeVO nodeUserVo = new OrgTreeVO();
                 nodeUserVo.setId(user.getUserId());
                 nodeUserVo.setAvatar(user.getAvatar());

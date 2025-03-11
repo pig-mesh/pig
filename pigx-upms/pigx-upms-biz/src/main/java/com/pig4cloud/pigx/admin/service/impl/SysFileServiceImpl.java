@@ -209,7 +209,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         file.setGroupId(fileGroupDTO.getGroupId());
 
         // 根据IDS更新对应的SysFile记录
-        baseMapper.update(file, Wrappers.<SysFile>lambdaQuery().in(SysFile::getId, fileGroupDTO.getIds()));
+        baseMapper.update(file, Wrappers.<SysFile>lambdaQuery().in(SysFile::getId, CollUtil.toList(fileGroupDTO.getIds())));
         return Boolean.TRUE;
     }
 

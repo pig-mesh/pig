@@ -78,7 +78,7 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 		this.removeBatchByIds(CollUtil.toList(ids));
 		// 删除关系
 		genTemplateGroupService
-			.remove(Wrappers.<GenTemplateGroupEntity>lambdaQuery().in(GenTemplateGroupEntity::getGroupId, ids));
+			.remove(Wrappers.<GenTemplateGroupEntity>lambdaQuery().in(GenTemplateGroupEntity::getGroupId, CollUtil.toList(ids)));
 	}
 
 	/**

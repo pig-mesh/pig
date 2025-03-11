@@ -208,7 +208,7 @@ public class AppUserServiceImpl extends ServiceImpl<AppUserMapper, AppUser> impl
 	@Override
 	public Boolean deleteAppUserByIds(Long[] ids) {
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS_MINI);
-		for (AppUser appUser : baseMapper.selectBatchIds(CollUtil.toList(ids))) {
+		for (AppUser appUser : baseMapper.selectByIds(CollUtil.toList(ids))) {
 			cache.evict(appUser.getUsername());
 		}
 		// 删除用户关联表

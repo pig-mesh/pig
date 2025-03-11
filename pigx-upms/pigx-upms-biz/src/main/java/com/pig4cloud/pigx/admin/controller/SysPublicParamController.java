@@ -17,8 +17,19 @@
 
 package com.pig4cloud.pigx.admin.controller;
 
-import cn.hutool.core.util.ArrayUtil;
-import cn.hutool.core.util.StrUtil;
+import java.util.List;
+
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,15 +40,14 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * 公共参数
@@ -162,7 +172,7 @@ public class SysPublicParamController {
 	@HasPermission("sys_syspublicparam_edit")
 	public List<SysPublicParam> export(SysPublicParam param, Long[] ids) {
 		return sysPublicParamService
-			.list(Wrappers.lambdaQuery(param).in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, ids));
+			.list(Wrappers.lambdaQuery(param).in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, CollUtil.toList(ids)));
 	}
 
 	/**

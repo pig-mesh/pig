@@ -69,7 +69,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Override
 	public Map<String, Object> getSysPublicParamsKeyToValue(String[] keys) {
 		List<SysPublicParam> paramList = this.baseMapper
-			.selectList(Wrappers.<SysPublicParam>lambdaQuery().in(SysPublicParam::getPublicKey, keys));
+			.selectList(Wrappers.<SysPublicParam>lambdaQuery().in(SysPublicParam::getPublicKey, CollUtil.toList(keys)));
 		Map<String, Object> result = new HashMap<>(8);
 		paramList.forEach(param -> result.put(param.getPublicKey(), param.getPublicValue()));
 		return result;
@@ -99,7 +99,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
 	public R removeParamByIds(Long[] publicIds) {
-		List<Long> idList = this.baseMapper.selectBatchIds(CollUtil.toList(publicIds))
+		List<Long> idList = this.baseMapper.selectByIds(CollUtil.toList(publicIds))
 			.stream()
 			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
 			.map(SysPublicParam::getPublicId)
