@@ -117,6 +117,6 @@ public class SysSystemConfigController {
     @GetMapping("/export")
     @HasPermission("sys_message_export")
     public List<SysSystemConfigEntity> export(SysSystemConfigEntity sysSystemConfig, Long[] ids) {
-        return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig).in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, ids));
+        return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig).in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, CollUtil.toList(ids)));
     }
 }

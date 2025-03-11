@@ -160,7 +160,7 @@ public class SysTenantController {
 	@HasPermission("sys_systenant_export")
 	public List<SysTenant> export(SysTenant sysTenant, Long[] ids) {
 		return sysTenantService
-			.list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, ids));
+			.list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, CollUtil.toList(ids)));
 	}
 
 	@GetMapping(value = "/tree/menu")

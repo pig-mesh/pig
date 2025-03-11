@@ -142,7 +142,7 @@ public class SysI18nController {
 	@HasPermission("sys_i18n_export")
 	public List<SysI18nEntity> export(SysI18nEntity sysI18n, Long[] ids) {
 		return sysI18nService
-			.list(Wrappers.lambdaQuery(sysI18n).in(ArrayUtil.isNotEmpty(ids), SysI18nEntity::getId, ids));
+			.list(Wrappers.lambdaQuery(sysI18n).in(ArrayUtil.isNotEmpty(ids), SysI18nEntity::getId, CollUtil.toList(ids)));
 	}
 
 	/**

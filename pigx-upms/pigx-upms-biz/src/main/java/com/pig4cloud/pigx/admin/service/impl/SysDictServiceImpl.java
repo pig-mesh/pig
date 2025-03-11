@@ -59,13 +59,13 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
 	public R removeDictByIds(Long[] ids) {
 
-		List<Long> dictIdList = baseMapper.selectBatchIds(CollUtil.toList(ids))
+		List<Long> dictIdList = baseMapper.selectByIds(CollUtil.toList(ids))
 			.stream()
 			.filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
 			.map(SysDict::getId)
 			.collect(Collectors.toList());
 
-		baseMapper.deleteBatchIds(dictIdList);
+		baseMapper.deleteByIds(dictIdList);
 
 		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList));
 		return R.ok();

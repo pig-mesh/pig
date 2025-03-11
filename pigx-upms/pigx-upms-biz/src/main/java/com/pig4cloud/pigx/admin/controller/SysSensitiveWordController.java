@@ -154,7 +154,7 @@ public class SysSensitiveWordController {
     @GetMapping("/export")
     @HasPermission("admin_sysSensitiveWord_export")
     public List<SysSensitiveWordEntity> export(SysSensitiveWordEntity sysSensitiveWord, Long[] ids) {
-        return sysSensitiveWordService.list(Wrappers.lambdaQuery(sysSensitiveWord).in(ArrayUtil.isNotEmpty(ids), SysSensitiveWordEntity::getSensitiveId, ids));
+        return sysSensitiveWordService.list(Wrappers.lambdaQuery(sysSensitiveWord).in(ArrayUtil.isNotEmpty(ids), SysSensitiveWordEntity::getSensitiveId, CollUtil.toList(ids)));
     }
 
     /**
