@@ -4,6 +4,8 @@ spring:
     properties:
       org:
         quartz:
+          auto-startup: true  #默认就是true
+          overwrite-existing-jobs: true #默认true
           scheduler:
             instanceName: clusteredScheduler
             instanceId: AUTO
