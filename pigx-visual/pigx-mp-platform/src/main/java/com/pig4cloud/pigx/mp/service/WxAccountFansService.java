@@ -20,6 +20,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.mp.entity.WxAccountFans;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 
 /**
  * 微信公众号粉丝
@@ -29,30 +30,54 @@ import com.pig4cloud.pigx.mp.entity.WxAccountFans;
  */
 public interface WxAccountFansService extends IService<WxAccountFans> {
 
-	/**
-	 * 同步指定公众号粉丝
-	 * @param appId
-	 * @return
-	 */
-	void syncAccountFans(String appId);
+    /**
+     * 同步指定公众号粉丝
+     *
+     * @param appId
+     * @return
+     */
+    void syncAccountFans(String appId);
 
-	/**
-	 * 分页查询粉丝
-	 * @param page 粉丝
-	 * @param wxAccountFans 查询条件
-	 * @return
-	 */
-	IPage getFansWithTagPage(Page page, WxAccountFans wxAccountFans);
+    /**
+     * 分页查询粉丝
+     *
+     * @param page          粉丝
+     * @param wxAccountFans 查询条件
+     * @return
+     */
+    IPage getFansWithTagPage(Page page, WxAccountFans wxAccountFans);
 
-	/**
-	 * 更新粉丝信息
-	 * @param wxAccountFans 信息
-	 * @return
-	 */
-	Boolean updateFans(WxAccountFans wxAccountFans);
+    /**
+     * 更新粉丝信息
+     *
+     * @param wxAccountFans 信息
+     * @return
+     */
+    Boolean updateFans(WxAccountFans wxAccountFans);
 
-	Boolean unblack(Long[] ids, String appId);
+    /**
+     * unblack
+     *
+     * @param ids   IDS
+     * @param appId 应用程序id
+     * @return {@link Boolean }
+     */
+    Boolean unblack(Long[] ids, String appId);
 
-	Boolean black(Long[] ids, String appId);
+    /**
+     * 拉黑
+     *
+     * @param ids   IDS
+     * @param appId 应用程序id
+     * @return {@link Boolean }
+     */
+    Boolean black(Long[] ids, String appId);
 
+    /**
+     * 保存粉丝
+     *
+     * @param wxMpUser wx mp 用户
+     * @return boolean
+     */
+    WxAccountFans saveFans(WxMpUser wxMpUser);
 }
