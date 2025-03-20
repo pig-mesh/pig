@@ -67,7 +67,7 @@ public class AppMobileServiceImpl implements AppMobileService {
 		redisTemplate.opsForValue()
 			.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile, code,
 					SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
-		return R.ok(Boolean.TRUE, code);
+		return R.ok(Boolean.TRUE);
 	}
 
 }
