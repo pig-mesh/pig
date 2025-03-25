@@ -14,7 +14,7 @@
 
     <description>支付系统</description>
     <properties>
-        <yungouos.version>2.0.4</yungouos.version>
+        <yungouos.version>2.0.37</yungouos.version>
     </properties>
 
     <dependencies>
