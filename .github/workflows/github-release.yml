@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Generate changelog
         id: changelog
-        uses: metcalfc/changelog-generator@v4.3.1
+        uses: metcalfc/changelog-generator@v4.5.0
         with:
           myToken: ${{ secrets.GH_TOKEN }}
 
