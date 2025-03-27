@@ -99,11 +99,11 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
      * @return column
      */
     @Override
-    public List<String> queryTableColumn(String dsName, String tableName) {
+    public List<Column> queryTableColumn(String dsName, String tableName) {
         // 手动切换数据源
         DynamicDataSourceContextHolder.push(dsName);
         CacheProxy.clear();
-        return ServiceProxy.metadata().columns(tableName).values().stream().map(Column::getName).toList();
+        return ServiceProxy.metadata().columns(tableName).values().stream().toList();
     }
 
     /**
@@ -151,11 +151,11 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
      * @return table
      */
     @Override
-    public List<String> queryTableList(String dsName) {
+    public List<Table> queryTableList(String dsName) {
         // 手动切换数据源
         DynamicDataSourceContextHolder.push(dsName);
         CacheProxy.clear();
-        return ServiceProxy.metadata().tables().values().stream().map(Table::getName).toList();
+        return ServiceProxy.metadata().tables().values().stream().toList();
     }
 
     /**

@@ -28,7 +28,6 @@ import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pigx.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +71,6 @@ public class GenDsConfController {
 	 * @return
 	 */
 	@GetMapping("/list")
-	@Inner(value = false)
 	public R list() {
 		return R.ok(datasourceConfService.list());
 	}
