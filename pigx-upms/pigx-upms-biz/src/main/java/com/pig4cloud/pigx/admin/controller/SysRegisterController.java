@@ -1,16 +1,14 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author lengleng
@@ -51,4 +49,16 @@ public class SysRegisterController {
         return userService.resetUserPassword(userDto);
     }
 
+    /**
+     * 找回密码
+     *
+     * @param userDto 用户信息
+     * @param code    验证码
+     * @return success/false
+     */
+    @SysLog("找回用户密码")
+    @PostMapping("/forget/{code}")
+    public R<Boolean> forgetUserPassword(@RequestBody RegisterUserDTO userDto, @PathVariable String code) {
+        return userService.forgetUserPassword(userDto, code);
+    }
 }
