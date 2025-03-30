@@ -176,10 +176,7 @@
                 AND u.phone LIKE #{phoneLike}
             </if>
         </where>
-
-        <if test="_databaseId != 'mssql'">
-            ORDER BY u.create_time DESC
-        </if>
+        ORDER BY u.create_time DESC
     </select>
 
     <select id="selectVoListByScope" resultMap="baseResultMap">
@@ -228,9 +225,6 @@
                 </foreach>
             </if>
         </where>
-
-        <if test="_databaseId != 'mssql'">
-            ORDER BY u.create_time DESC
-        </if>
+        ORDER BY u.create_time DESC
     </select>
 </mapper>
