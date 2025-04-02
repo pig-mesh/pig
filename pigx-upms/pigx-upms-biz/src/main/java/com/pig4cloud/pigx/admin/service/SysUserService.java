@@ -186,4 +186,13 @@ public interface SysUserService extends IService<SysUser> {
      * @return
      */
     R<Boolean> resetUserPassword(RegisterUserDTO userDto);
+
+    /**
+     * 找回用户密码
+     *
+     * @param userDto 用户信息
+     * @param code    验证码
+     * @return
+     */
+    R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code);
 }

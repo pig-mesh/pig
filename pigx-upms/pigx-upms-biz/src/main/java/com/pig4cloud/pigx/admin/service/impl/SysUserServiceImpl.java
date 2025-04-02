@@ -25,6 +25,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -57,11 +58,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -91,6 +94,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysUserPostMapper sysUserPostMapper;
 
     private final CacheManager cacheManager;
+
+    private final StringRedisTemplate redisTemplate;
 
     /**
      * 保存用户信息
@@ -570,6 +575,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .set(SysUser::getPasswordModifyTime, LocalDateTime.now())
                 .set(SysUser::getPasswordExpireFlag, CommonConstants.STATUS_NORMAL)
                 .eq(SysUser::getUsername, userDto.getUsername()));
+        return R.ok();
+    }
+
+    @Override
+    public R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code) {
+        if (StrUtil.isBlank(userDto.getPhone())){
+            return R.failed("非法参数");
+        }
+
+        String codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
+        if (!StrUtil.equals(codeObj, code)){
+            return R.failed("验证码错误");
+        }
+
+        String username = lambdaQuery().select(SysUser::getUsername).eq(SysUser::getPhone, userDto.getPhone()).one().getUsername();
+
+        // 重置密码
+        String password = ENCODER.encode(userDto.getNewpassword1());
+        this.update(Wrappers.<SysUser>lambdaUpdate()
+                .set(SysUser::getPassword, password)
+                .set(SysUser::getPasswordModifyTime, LocalDateTime.now())
+                .set(SysUser::getPasswordExpireFlag, CommonConstants.STATUS_NORMAL)
+                .eq(SysUser::getPhone, userDto.getPhone()));
+        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(username);
         return R.ok();
     }
 
