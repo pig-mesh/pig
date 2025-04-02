@@ -93,7 +93,7 @@ public class WxPortalController {
 	}
 
 	@XssCleanIgnore
-	@GetMapping
+	@GetMapping("/jssdk-config")
 	public R getJssdkConfig(@PathVariable("appId") String appId,
 							@RequestParam(name = "url", required = false) String url){
 		if (StrUtil.isAllBlank(url)) {
