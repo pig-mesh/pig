@@ -8,6 +8,6 @@ COPY ${JAR_FILE} app.jar
 
 EXPOSE 9999
 
-ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms2048m -Xmx4096m -Djava.security.egd=file:/dev/./urandom"
+ENV TZ=Asia/Shanghai JAVA_OPTS="-Djava.security.egd=file:/dev/./urandom"
 
 CMD sleep 30; java $JAVA_OPTS -jar app.jar
