@@ -18,90 +18,111 @@ import java.util.List;
 @FeignClient(contextId = "remoteFlowTaskService", value = ServiceNameConstants.FLOW_TASK_SERVER)
 public interface RemoteFlowTaskService {
 
-	/**
-	 * 节点开始事件
-	 * @param nodeRecordParamDto
-	 */
-	@PostMapping("/remote/startNodeEvent")
-	void startNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
+    /**
+     * 节点开始事件
+     *
+     * @param nodeRecordParamDto
+     */
+    @PostMapping("/remote/startNodeEvent")
+    void startNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
 
-	/**
-	 * 节点结束事件
-	 * @param nodeRecordParamDto
-	 */
-	@PostMapping("/remote/endNodeEvent")
-	void endNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
+    /**
+     * 节点结束事件
+     *
+     * @param nodeRecordParamDto
+     */
+    @PostMapping("/remote/endNodeEvent")
+    void endNodeEvent(@RequestBody ProcessNodeRecordParamDto nodeRecordParamDto);
 
-	/**
-	 * 流程结束事件
-	 * @param processInstanceParamDto
-	 */
-	@PostMapping("/remote/endProcess")
-	void endProcessEvent(@RequestBody ProcessInstanceParamDto processInstanceParamDto);
+    /**
+     * 流程结束事件
+     *
+     * @param processInstanceParamDto
+     */
+    @PostMapping("/remote/endProcess")
+    void endProcessEvent(@RequestBody ProcessInstanceParamDto processInstanceParamDto);
 
-	/**
-	 * 创建流程事件
-	 * @param processInstanceRecordParamDto
-	 */
-	@PostMapping("/remote/createProcessEvent")
-	void createProcessEvent(@RequestBody ProcessInstanceRecordParamDto processInstanceRecordParamDto);
+    /**
+     * 创建流程事件
+     *
+     * @param processInstanceRecordParamDto
+     */
+    @PostMapping("/remote/createProcessEvent")
+    void createProcessEvent(@RequestBody ProcessInstanceRecordParamDto processInstanceRecordParamDto);
 
-	/**
-	 * 根据角色id集合查询用户id集合
-	 * @param roleIdList
-	 */
-	@PostMapping("/remote/queryUserIdListByRoleIdList")
-	R<List<String>> queryUserIdListByRoleIdList(@RequestBody List<String> roleIdList);
+    /**
+     * 根据角色id集合查询用户id集合
+     *
+     * @param roleIdList
+     */
+    @PostMapping("/remote/queryUserIdListByRoleIdList")
+    R<List<String>> queryUserIdListByRoleIdList(@RequestBody List<String> roleIdList);
 
-	/**
-	 * 根据部门id集合查询所有的用户id集合
-	 * @param deptIdList
-	 */
-	@PostMapping("/remote/queryUserIdListByDepIdList")
-	R<List<String>> queryUserIdListByDepIdList(@RequestBody List<String> deptIdList);
+    /**
+     * 根据部门id集合查询所有的用户id集合
+     *
+     * @param deptIdList
+     */
+    @PostMapping("/remote/queryUserIdListByDepIdList")
+    R<List<String>> queryUserIdListByDepIdList(@RequestBody List<String> deptIdList);
 
-	/**
-	 * 查询流程管理员
-	 * @param flowId 流程id
-	 */
-	@GetMapping("/remote/queryProcessAdmin")
-	R<Long> queryProcessAdmin(@RequestParam("flowId") String flowId);
+    /**
+     * 查询流程管理员
+     *
+     * @param flowId 流程id
+     */
+    @GetMapping("/remote/queryProcessAdmin")
+    R<Long> queryProcessAdmin(@RequestParam("flowId") String flowId);
 
-	/**
-	 * 查询节点数据
-	 * @param flowId 流程id
-	 * @param nodeId 节点id
-	 * @return
-	 */
-	@GetMapping("/processNodeData/getNodeData")
-	R<Node> queryNodeOriData(@RequestParam("flowId") String flowId, @RequestParam("nodeId") String nodeId);
+    /**
+     * 查询节点数据
+     *
+     * @param flowId 流程id
+     * @param nodeId 节点id
+     * @return
+     */
+    @GetMapping("/processNodeData/getNodeData")
+    R<Node> queryNodeOriData(@RequestParam("flowId") String flowId, @RequestParam("nodeId") String nodeId);
 
-	/**
-	 * 节点开始指派用户了
-	 * @param processNodeRecordAssignUserParamDto
-	 */
-	@PostMapping("/remote/startAssignUser")
-	R startAssignUser(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
+    /**
+     * 节点开始指派用户了
+     *
+     * @param processNodeRecordAssignUserParamDto
+     */
+    @PostMapping("/remote/startAssignUser")
+    R startAssignUser(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
 
-	/**
-	 * 任务结束事件
-	 * @param processNodeRecordAssignUserParamDto
-	 */
-	@PostMapping("/remote/taskEndEvent")
-	R taskEndEvent(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
+    /**
+     * 任务结束事件
+     *
+     * @param processNodeRecordAssignUserParamDto
+     */
+    @PostMapping("/remote/taskEndEvent")
+    R taskEndEvent(@RequestBody ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
 
-	/**
-	 * 保存抄送数据
-	 * @param processCopyDto
-	 */
-	@PostMapping("/remote/savecc")
-	R saveCC(@RequestBody ProcessCopyDto processCopyDto);
+    /**
+     * 保存抄送数据
+     *
+     * @param processCopyDto
+     */
+    @PostMapping("/remote/savecc")
+    R saveCC(@RequestBody ProcessCopyDto processCopyDto);
 
-	/**
-	 * 保存节点原始数据
-	 * @param processNodeDataDto
-	 */
-	@PostMapping("/processNodeData/saveNodeData")
-	R saveNodeOriData(@RequestBody ProcessNodeDataDto processNodeDataDto);
+    /**
+     * 保存节点原始数据
+     *
+     * @param processNodeDataDto
+     */
+    @PostMapping("/processNodeData/saveNodeData")
+    R saveNodeOriData(@RequestBody ProcessNodeDataDto processNodeDataDto);
 
+
+    /**
+     * 查询流程实例记录
+     *
+     * @param processInstanceId 过程实例id
+     * @return {@link R }
+     */
+    @GetMapping("/process-instance/detail")
+    R queryProcessInstanceRecord(@RequestParam String processInstanceId);
 }

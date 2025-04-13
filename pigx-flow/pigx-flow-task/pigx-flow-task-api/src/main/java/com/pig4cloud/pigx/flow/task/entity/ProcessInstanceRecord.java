@@ -5,6 +5,7 @@ import com.pig4cloud.pigx.common.core.util.TenantTable;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -21,6 +22,7 @@ import java.util.Date;
 @Setter
 @TenantTable
 @Accessors(chain = true)
+@FieldNameConstants
 @TableName("process_instance_record")
 public class ProcessInstanceRecord {
 

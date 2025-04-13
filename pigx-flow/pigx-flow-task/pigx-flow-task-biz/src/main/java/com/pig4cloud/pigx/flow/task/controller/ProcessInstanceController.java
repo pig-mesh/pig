@@ -31,7 +31,7 @@ public class ProcessInstanceController {
 	}
 
 	/**
-	 * 查询挖矿任务
+	 * 查询我的任务
 	 *
 	 * @param queryParamDto Query param DTO
 	 * @return {@link R }
