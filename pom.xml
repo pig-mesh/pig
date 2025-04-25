@@ -33,14 +33,13 @@
     </organization>
 
     <properties>
-        <spring-boot.version>3.4.3</spring-boot.version>
+        <spring-boot.version>3.4.5</spring-boot.version>
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <spring-boot-admin.version>3.4.5</spring-boot-admin.version>
-        <spring.authorization.version>1.4.2</spring.authorization.version>
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>4.9.9</git.commit.version>
@@ -120,6 +119,7 @@
         <module>pigx-flow</module>
         <module>pigx-visual</module>
         <module>pigx-app-server</module>
+        <module>pigx-knowledge</module>
     </modules>
 
     <dependencyManagement>
