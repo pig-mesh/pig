@@ -80,8 +80,12 @@ public enum SensitiveTypeEnum {
     /**
      * 中国大陆车牌，包含普通车辆、新能源车辆
      */
-    CAR_LICENSE((sensitive, input) -> DesensitizedUtil.carLicense(input));
+    CAR_LICENSE((sensitive, input) -> DesensitizedUtil.carLicense(input)),
 
+    /**
+     * 请求参数脱敏
+     */
+    QUERY_PARAM((sensitive, input) -> DesensitizedUtils.url(input));
 
     /**
      * 获取脱敏策略

@@ -17,9 +17,14 @@
 
 package com.pig4cloud.pigx.common.sensitive.util;
 
+import cn.hutool.core.net.url.UrlBuilder;
+import cn.hutool.core.net.url.UrlQuery;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 /**
  * 脱敏工具类
@@ -200,6 +205,26 @@ public class DesensitizedUtils {
             }
         }
         return jsonObject.toStringPretty();
+    }
+
+    /**
+     * url 参数脱敏
+     *
+     * @param url url
+     * @return url?xxxx=***&xxxx=***
+     */
+    public static String url(String url) {
+        UrlBuilder builder = UrlBuilder.of(url, StandardCharsets.UTF_8);
+        UrlQuery originalQuery = builder.getQuery();
+        UrlQuery maskedQuery = new UrlQuery();
+
+        // 遍历原始参数，构造新的脱敏参数
+        for (Map.Entry<CharSequence, CharSequence> entry : originalQuery.getQueryMap().entrySet()) {
+            maskedQuery.add(entry.getKey(), "***");
+        }
+
+        // 构造新的 URL
+        return builder.setQuery(maskedQuery).build();
     }
 
     public static String ipv4(String origin) {
