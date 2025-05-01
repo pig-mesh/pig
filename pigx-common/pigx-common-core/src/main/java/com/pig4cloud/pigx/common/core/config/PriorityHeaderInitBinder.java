@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequ
  * @date 2025/04/16
  */
 @ControllerAdvice
-public class PriorityHeaderConfiguration {
+public class PriorityHeaderInitBinder {
 
     /**
      * 初始化绑定器
