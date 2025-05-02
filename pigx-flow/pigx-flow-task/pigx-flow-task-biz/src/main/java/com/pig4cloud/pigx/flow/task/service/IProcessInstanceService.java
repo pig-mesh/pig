@@ -32,11 +32,12 @@ public interface IProcessInstanceService {
 	R queryMineEndTask(TaskQueryParamDto taskQueryParamDto);
 
 	/**
-	 * 流程结束
-	 * @param processsInstanceId
-	 * @return
+     * 结束流程实例
+     *
+     * @param processInstanceParamDto 包含流程实例ID的参数对象
+     * @return 返回结果，具体类型未定义
 	 */
-	R end(String processsInstanceId);
+    R end(ProcessInstanceParamDto processInstanceParamDto);
 
 	/**
 	 * 查询我发起的

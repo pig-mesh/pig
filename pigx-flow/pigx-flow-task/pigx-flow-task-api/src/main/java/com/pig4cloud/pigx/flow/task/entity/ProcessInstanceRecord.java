@@ -80,6 +80,12 @@ public class ProcessInstanceRecord {
 	@TableField("status")
 	private Integer status;
 
+    /**
+     * 完成原因
+     */
+    @TableField("finish_reason")
+    private String finishReason;
+
 	/**
 	 * 结束时间
 	 */

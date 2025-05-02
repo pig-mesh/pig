@@ -90,11 +90,12 @@ public interface IRemoteService {
 	R taskEndEvent(ProcessNodeRecordAssignUserParamDto processNodeRecordAssignUserParamDto);
 
 	/**
-	 * 实例结束
-	 * @param processInstanceId
-	 * @return
+     * 结束流程实例的方法
+     *
+     * @param processInstanceParamDto 包含流程实例参数的数据传输对象
+     * @return 返回流程实例结束的结果，具体返回类型未指定
 	 */
-	R endProcess(String processInstanceId);
+    R endProcess(ProcessInstanceParamDto processInstanceParamDto);
 
 	/**
 	 * 查询流程管理员

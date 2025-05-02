@@ -236,13 +236,14 @@ public class RemoteServiceImpl implements IRemoteService {
 	}
 
 	/**
-	 * 实例结束
-	 * @param processInstanceId
-	 * @return
+     * 结束流程实例的方法
+     *
+     * @param processInstanceParamDto 包含流程实例标识的参数对象
+     * @return 流程实例结束操作的响应结果
 	 */
 	@Override
-	public R endProcess(String processInstanceId) {
-		return processInstanceService.end(processInstanceId);
+    public R endProcess(ProcessInstanceParamDto processInstanceParamDto) {
+        return processInstanceService.end(processInstanceParamDto);
 	}
 
 	/**

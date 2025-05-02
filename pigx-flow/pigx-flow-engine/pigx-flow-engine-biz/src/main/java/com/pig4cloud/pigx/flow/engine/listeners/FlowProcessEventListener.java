@@ -165,6 +165,7 @@ public class FlowProcessEventListener implements FlowableEventListener {
 			// 构建流程结束参数并发送事件
 			ProcessInstanceParamDto processInstanceParamDto = new ProcessInstanceParamDto();
 			processInstanceParamDto.setProcessInstanceId(processInstanceId);
+            processInstanceParamDto.setParamMap(execution.getVariables());
 			remoteFlowTaskService.endProcessEvent(processInstanceParamDto);
 		}
 

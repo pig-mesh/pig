@@ -3,6 +3,7 @@ package com.pig4cloud.pigx.flow.task.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.Dict;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,8 +18,8 @@ import com.pig4cloud.pigx.flow.task.api.feign.RemoteFlowEngineService;
 import com.pig4cloud.pigx.flow.task.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.task.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.task.dto.*;
-import com.pig4cloud.pigx.flow.task.entity.Process;
 import com.pig4cloud.pigx.flow.task.entity.*;
+import com.pig4cloud.pigx.flow.task.entity.Process;
 import com.pig4cloud.pigx.flow.task.service.*;
 import com.pig4cloud.pigx.flow.task.utils.NodeFormatUtil;
 import com.pig4cloud.pigx.flow.task.vo.NodeFormatParamVo;
@@ -202,17 +203,24 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
     }
 
     /**
-     * 流程结束
+     * 结束流程实例
      *
-     * @param processsInstanceId
-     * @return
+     * @param processInstanceParamDto 流程实例参数数据传输对象
+     * @return 返回处理结果
      */
     @Override
-    public R end(String processsInstanceId) {
+    public R end(ProcessInstanceParamDto processInstanceParamDto) {
+
+        Optional<Object> objectOptional = processInstanceParamDto.getParamMap().keySet().stream()
+                .filter(key -> key.contains("approve_condition"))
+                .reduce((first, second) -> second)
+                .map(key -> MapUtil.getBool(processInstanceParamDto.getParamMap(), key, true));
+
         processInstanceRecordService.lambdaUpdate()
                 .set(ProcessInstanceRecord::getEndTime, new Date())
                 .set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
-                .eq(ProcessInstanceRecord::getProcessInstanceId, processsInstanceId)
+                .set(objectOptional.isPresent(), ProcessInstanceRecord::getFinishReason, objectOptional.get())
+                .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceParamDto.getProcessInstanceId())
                 .update(new ProcessInstanceRecord());
         return R.ok();
     }

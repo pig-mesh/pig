@@ -97,6 +97,7 @@ CREATE TABLE `process_instance_record` (
   `group_id` bigint DEFAULT NULL COMMENT '组id',
   `group_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组名称',
   `status` int DEFAULT '1' COMMENT '状态',
+  `finish_reason` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '结束原因',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   `parent_process_instance_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '上级流程实例id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
