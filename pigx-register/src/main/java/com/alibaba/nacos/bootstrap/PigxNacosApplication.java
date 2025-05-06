@@ -51,9 +51,9 @@ public class PigxNacosApplication {
     public static void main(String[] args) {
         // 修改这里的配置项，来指定Nacos Web Console的端口
         System.setProperty(ConfigConstants.NACOS_CONSOLE_PORT, "18080");
+        initEnv();
         String type = System.getProperty(Constants.NACOS_DEPLOYMENT_TYPE, Constants.NACOS_DEPLOYMENT_TYPE_MERGED);
         DeploymentType deploymentType = DeploymentType.getType(type);
-        System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
         EnvUtil.setDeploymentType(deploymentType);
         switch (deploymentType) {
             case MERGED:
@@ -118,5 +118,20 @@ public class PigxNacosApplication {
 
     private static Banner getBanner(String bannerFileName) {
         return new ResourceBanner(new ClassPathResource(bannerFileName));
+    }
+
+    /**
+     * 初始化运行环境方法。
+     * <p>
+     * 设置系统属性以配置运行环境，如独立模式、认证启用、日志基础目录和日志启用状态。
+     *
+     * @return 返回初始化是否成功，成功返回true。
+     */
+    private static boolean initEnv() {
+        System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
+        System.setProperty(ConfigConstants.AUTH_ENABLED, "true");
+        System.setProperty(ConfigConstants.LOG_BASEDIR, "logs");
+        System.setProperty(ConfigConstants.LOG_ENABLED, "false");
+        return true;
     }
 }

@@ -33,6 +33,8 @@ services:
     image: pigx-register
     ports:
       - 8848:8848
+      - 9848:9848
+      - 18080:18080
     networks:
       - spring_cloud_default
 

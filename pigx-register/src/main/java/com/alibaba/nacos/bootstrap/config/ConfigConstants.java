@@ -18,10 +18,10 @@
 package com.alibaba.nacos.bootstrap.config;
 
 /**
+ * 配置常量接口：用于覆盖Nacos默认配置
+ *
  * @author lengleng
- * @date 2019-10-31
- * <p>
- * 覆盖nacos 默认配置
+ * @date 2025/05/06
  */
 public interface ConfigConstants {
 
@@ -35,4 +35,18 @@ public interface ConfigConstants {
 	 */
 	String NACOS_CONSOLE_PORT = "nacos.console.port";
 
+	/**
+	 * 是否开启认证
+	 */
+	String AUTH_ENABLED = "nacos.core.auth.enabled";
+
+	/**
+	 * 日志目录
+	 */
+	String LOG_BASEDIR = "server.tomcat.basedir";
+
+	/**
+	 * access_log日志开关
+	 */
+	String LOG_ENABLED = "server.tomcat.accesslog.enabled";
 }
