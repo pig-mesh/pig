@@ -101,11 +101,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     }
 
     /**
-     * 读取文件
+     * 获取文件内容并响应给客户端。
      *
-     * @param bucket
-     * @param fileName
-     * @param response
+     * @param fileName 要获取的文件名称
+     * @param response 响应对象，用于将文件内容发送给客户端
      */
     @Override
     public void getFile(String fileName, HttpServletResponse response) {
