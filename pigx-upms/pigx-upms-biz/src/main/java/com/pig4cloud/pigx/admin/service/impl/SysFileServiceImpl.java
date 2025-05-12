@@ -22,10 +22,12 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
+import cn.hutool.http.HttpUtil;
 import com.amazonaws.services.s3.model.S3Object;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -109,6 +112,13 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     @Override
     public void getFile(String fileName, HttpServletResponse response) {
         TenantContextHolder.setTenantSkip();
+        // 增加历史数据兼容 /admin/sys-file/local?fileName=xxx.png
+        Map<String, String> stringMap = HttpUtil.decodeParamMap(fileName, Charset.defaultCharset());
+        String urlFileName = MapUtil.getStr(stringMap, "fileName");
+        if (StrUtil.isNotBlank(urlFileName)) {
+            fileName = urlFileName;
+        }
+
         SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
         try (S3Object s3Object = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
             response.setContentType("application/octet-stream; charset=UTF-8");
