@@ -75,7 +75,7 @@ public class GeneratorController {
 		byte[] data = outputStream.toByteArray();
 
 		response.reset();
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", tableIds));
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=code.zip");
 		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.write(response.getOutputStream(), false, data);
