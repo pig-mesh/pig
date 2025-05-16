@@ -30,6 +30,7 @@ services:
     ports:
       - 8848:8848
       - 9848:9848
+      - 8080:8080
     environment:
       MYSQL_HOST: pig-mysql
       REDIS_HOST: pig-redis
