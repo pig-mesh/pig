@@ -42,7 +42,6 @@ public class PigNacosApplication {
 	 */
 	private static String STANDALONE_MODE = "nacos.standalone";
 
-
 	public static void main(String[] args) {
 		System.setProperty(STANDALONE_MODE, "true");
 
@@ -50,24 +49,23 @@ public class PigNacosApplication {
 		DeploymentType deploymentType = DeploymentType.getType(type);
 		EnvUtil.setDeploymentType(deploymentType);
 
-
 		// Start Core Context
 		NacosStartUpManager.start(NacosStartUp.CORE_START_UP_PHASE);
 		ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(NacosServerBasicApplication.class)
-				.web(WebApplicationType.NONE)
-				.run(args);
+			.web(WebApplicationType.NONE)
+			.run(args);
 
 		// Start Server Web Context
 		NacosStartUpManager.start(NacosStartUp.WEB_START_UP_PHASE);
 		ConfigurableApplicationContext serverWebContext = new SpringApplicationBuilder(NacosServerWebApplication.class)
-				.parent(coreContext)
-				.run(args);
+			.parent(coreContext)
+			.run(args);
 
 		// Start Console Context
 		NacosStartUpManager.start(NacosStartUp.CONSOLE_START_UP_PHASE);
 		ConfigurableApplicationContext consoleContext = new SpringApplicationBuilder(NacosConsole.class)
-				.parent(coreContext)
-				.run(args);
+			.parent(coreContext)
+			.run(args);
 	}
 
 }
