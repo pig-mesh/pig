@@ -12,152 +12,77 @@
   limitations under the License.
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>com.pig4cloud</groupId>
-        <artifactId>pig</artifactId>
-        <version>${revision}</version>
-    </parent>
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pig4cloud</groupId>
+		<artifactId>pig</artifactId>
+		<version>${revision}</version>
+	</parent>
 
 
-    <artifactId>pig-register</artifactId>
-    <packaging>jar</packaging>
-    <name>pig-register</name>
-    <description>nacos 注册配置中心</description>
+	<artifactId>pig-register</artifactId>
+	<packaging>jar</packaging>
+	<name>pig-register</name>
+	<description>nacos 注册配置中心</description>
 
-    <properties>
-        <nacos.version>2.5.0</nacos.version>
-        <tomcat.version>9.0.98</tomcat.version>
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <spring-boot-admin.version>2.7.16</spring-boot-admin.version>
-    </properties>
+	<properties>
+		<nacos.version>3.0.0</nacos.version>
+	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-config</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>io.github.pig-mesh.nacos</groupId>
+			<artifactId>nacos-console</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.github.pig-mesh.nacos</groupId>
+			<artifactId>nacos-server</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+	</dependencies>
 
-        <dependency>
-            <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-naming</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-istio</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-default-plugin-all</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-prometheus</artifactId>
-            <version>${nacos.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-system</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
-            <version>${spring-boot-admin.version}</version>
-        </dependency>
-
-    </dependencies>
-
-
-    <!--依赖版本声明-->
-    <dependencyManagement>
-        <dependencies>
-            <!-- SpringBoot 依赖配置 -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--  覆盖nacos tomcat version 避免CVE-2024-24549-->
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-websocket</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-core</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat.embed</groupId>
-                <artifactId>tomcat-embed-el</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.tomcat</groupId>
-                <artifactId>tomcat-annotations-api</artifactId>
-                <version>${tomcat.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <excludes>
-                    <exclude>**/*.woff</exclude>
-                    <exclude>**/*.woff2</exclude>
-                    <exclude>**/*.ttf</exclude>
-                    <exclude>**/*.eot</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <includes>
-                    <include>**/*.woff</include>
-                    <include>**/*.woff2</include>
-                    <include>**/*.ttf</include>
-                    <include>**/*.eot</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/*.woff</exclude>
+					<exclude>**/*.woff2</exclude>
+					<exclude>**/*.ttf</exclude>
+					<exclude>**/*.eot</exclude>
+				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>**/*.woff</include>
+					<include>**/*.woff2</include>
+					<include>**/*.ttf</include>
+					<include>**/*.eot</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
 </project>

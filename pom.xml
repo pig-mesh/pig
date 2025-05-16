@@ -46,7 +46,6 @@
         <jaxb.version>4.0.5</jaxb.version>
         <knife4j.version>3.0.5</knife4j.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
-        <xxl-job.version>2.4.0</xxl-job.version>
         <docker.plugin.version>0.45.1</docker.plugin.version>
         <docker.host>http://192.168.0.100:2375</docker.host>
         <docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
