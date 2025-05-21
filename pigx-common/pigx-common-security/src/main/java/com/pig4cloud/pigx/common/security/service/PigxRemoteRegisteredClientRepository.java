@@ -76,7 +76,7 @@ public class PigxRemoteRegisteredClientRepository implements RegisteredClientRep
      */
     @Override
     public RegisteredClient findById(String id) {
-        throw new UnsupportedOperationException();
+        return this.findByClientId(id);
     }
 
     /**
