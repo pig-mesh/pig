@@ -6,6 +6,7 @@ import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @TenantTable
 @TableName("app_page")
+@FieldNameConstants
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "页面")
 public class AppPageEntity extends Model<AppPageEntity> {

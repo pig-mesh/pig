@@ -17,16 +17,20 @@
 package com.pig4cloud.pigx.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.app.api.entity.AppPageEntity;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
+import com.pig4cloud.pigx.app.api.enums.PageTypeEnums;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
+import com.pig4cloud.pigx.app.mapper.AppPageMapper;
 import com.pig4cloud.pigx.app.mapper.AppRoleMapper;
 import com.pig4cloud.pigx.app.service.AppRoleService;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -35,14 +39,20 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * app角色表
+ * APP角色服务实现类
+ * <p>
+ * 提供对APP角色相关的业务操作实现。
  *
- * @author aeizzz
- * @date 2022-12-07 09:52:03
+ * @author lengleng
+ * @date 2025/05/29
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> implements AppRoleService {
+
+	private final AppPageMapper appPageMapper;
+
+	private final AppRoleMapper appRoleMapper;
 
 	@Override
 	public List<AppRole> findRolesByUserId(Long userId) {
@@ -100,6 +110,17 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 		}
 		return R.ok();
 
+	}
+
+	/**
+	 * 获取列表菜单对象
+	 *
+	 * @return 列表菜单对象的实例
+	 */
+	@Override
+	public AppPageEntity listMenu() {
+		return appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery()
+				.eq(AppPageEntity::getPageType, PageTypeEnums.WORKBENCH.getPageType()));
 	}
 
 	private void insertExcelRole(AppRoleExcelVO excel) {

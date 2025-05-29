@@ -51,125 +51,146 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class AppRoleController {
 
-	private final AppRoleService appRoleService;
+    private final AppRoleService appRoleService;
 
-	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param appRole app角色表
-	 * @return
-	 */
-	@Operation(summary = "分页查询", description = "分页查询")
-	@GetMapping("/page")
-	public R getAppRolePage(Page page, AppRole appRole) {
-		return R.ok(appRoleService.page(page, Wrappers.<AppRole>lambdaQuery()
-			.like(StrUtil.isNotBlank(appRole.getRoleName()), AppRole::getRoleName, appRole.getRoleName())));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page    分页对象
+     * @param appRole app角色表
+     * @return
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    public R getAppRolePage(Page page, AppRole appRole) {
+        return R.ok(appRoleService.page(page, Wrappers.<AppRole>lambdaQuery()
+                .like(StrUtil.isNotBlank(appRole.getRoleName()), AppRole::getRoleName, appRole.getRoleName())));
+    }
 
-	/**
-	 * 查询全部角色
-	 * @return
-	 */
-	@Operation(summary = "查询全部", description = "查询全部")
-	@GetMapping("/list")
-	public R list() {
-		return R.ok(appRoleService.list(Wrappers.emptyWrapper()));
-	}
+    /**
+     * 查询全部角色
+     *
+     * @return
+     */
+    @Operation(summary = "查询全部", description = "查询全部")
+    @GetMapping("/list")
+    public R list() {
+        return R.ok(appRoleService.list(Wrappers.emptyWrapper()));
+    }
 
-	/**
-	 * 通过id查询app角色表
-	 * @param roleId id
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{roleId}")
-	public R getById(@PathVariable("roleId") Long roleId) {
-		return R.ok(appRoleService.getById(roleId));
-	}
+    /**
+     * 通过id查询app角色表
+     *
+     * @param roleId id
+     * @return R
+     */
+    @Operation(summary = "通过id查询", description = "通过id查询")
+    @GetMapping("/{roleId}")
+    public R getById(@PathVariable("roleId") Long roleId) {
+        return R.ok(appRoleService.getById(roleId));
+    }
 
-	/**
-	 * 通过roleName查询app角色表
-	 * @param roleName roleName
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/details/{roleName}")
-	public R getByUserName(@PathVariable("roleName") String roleName) {
-		return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleName, roleName)));
-	}
+    /**
+     * 通过roleName查询app角色表
+     *
+     * @param roleName roleName
+     * @return R
+     */
+    @Operation(summary = "通过id查询", description = "通过id查询")
+    @GetMapping("/details/{roleName}")
+    public R getByUserName(@PathVariable("roleName") String roleName) {
+        return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleName, roleName)));
+    }
 
-	/**
-	 * 通过roleCode查询app角色表
-	 * @param roleCode roleCode
-	 * @return R
-	 */
-	@Operation(summary = "通过roleCode查询", description = "通过roleCode查询")
-	@GetMapping("/detailsByCode/{roleCode}")
-	public R getByPhone(@PathVariable("roleCode") String roleCode) {
-		return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleCode, roleCode)));
-	}
+    /**
+     * 通过roleCode查询app角色表
+     *
+     * @param roleCode roleCode
+     * @return R
+     */
+    @Operation(summary = "通过roleCode查询", description = "通过roleCode查询")
+    @GetMapping("/detailsByCode/{roleCode}")
+    public R getByPhone(@PathVariable("roleCode") String roleCode) {
+        return R.ok(appRoleService.getOne(Wrappers.<AppRole>lambdaQuery().eq(AppRole::getRoleCode, roleCode)));
+    }
 
-	/**
-	 * 新增app角色表
-	 * @param appRole app角色表
-	 * @return R
-	 */
-	@Operation(summary = "新增app角色表", description = "新增app角色表")
-	@SysLog("新增app角色表")
-	@PostMapping
-	@HasPermission("app_approle_add")
-	public R save(@RequestBody AppRole appRole) {
-		return R.ok(appRoleService.save(appRole));
-	}
+    /**
+     * 新增app角色表
+     *
+     * @param appRole app角色表
+     * @return R
+     */
+    @Operation(summary = "新增app角色表", description = "新增app角色表")
+    @SysLog("新增app角色表")
+    @PostMapping
+    @HasPermission("app_approle_add")
+    public R save(@RequestBody AppRole appRole) {
+        return R.ok(appRoleService.save(appRole));
+    }
 
-	/**
-	 * 修改app角色表
-	 * @param appRole app角色表
-	 * @return R
-	 */
-	@Operation(summary = "修改app角色表", description = "修改app角色表")
-	@SysLog("修改app角色表")
-	@PutMapping
-	@HasPermission("app_approle_edit")
-	public R updateById(@RequestBody AppRole appRole) {
-		return R.ok(appRoleService.updateById(appRole));
-	}
+    /**
+     * 修改app角色表
+     *
+     * @param appRole app角色表
+     * @return R
+     */
+    @Operation(summary = "修改app角色表", description = "修改app角色表")
+    @SysLog("修改app角色表")
+    @PutMapping
+    @HasPermission("app_approle_edit")
+    public R updateById(@RequestBody AppRole appRole) {
+        return R.ok(appRoleService.updateById(appRole));
+    }
 
-	/**
-	 * 通过ids批量删除app角色表
-	 * @param ids roleIds
-	 * @return R
-	 */
-	@Operation(summary = "通过ids批量删除app角色表", description = "通过ids批量删除app角色表")
-	@SysLog("通过ids批量删除app角色表")
-	@DeleteMapping
-	@HasPermission("app_approle_del")
-	public R removeById(@RequestBody Long[] ids) {
-		return R.ok(appRoleService.deleteRoleByIds(ids));
-	}
+    /**
+     * 通过ids批量删除app角色表
+     *
+     * @param ids roleIds
+     * @return R
+     */
+    @Operation(summary = "通过ids批量删除app角色表", description = "通过ids批量删除app角色表")
+    @SysLog("通过ids批量删除app角色表")
+    @DeleteMapping
+    @HasPermission("app_approle_del")
+    public R removeById(@RequestBody Long[] ids) {
+        return R.ok(appRoleService.deleteRoleByIds(ids));
+    }
 
-	/**
-	 * 导出excel 表格
-	 * @param appRole 查询条件
-	 * @return excel 文件流
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	@HasPermission("app_approle_export")
-	public List<AppRole> export(AppRole appRole) {
-		return appRoleService.list(Wrappers.query(appRole));
-	}
+    /**
+     * 导出excel 表格
+     *
+     * @param appRole 查询条件
+     * @return excel 文件流
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    @HasPermission("app_approle_export")
+    public List<AppRole> export(AppRole appRole) {
+        return appRoleService.list(Wrappers.query(appRole));
+    }
 
-	/**
-	 * 导入角色
-	 * @param excelVOList 角色列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
-	 */
-	@PostMapping("/import")
-	@HasPermission("app_approle_export")
-	public R importRole(@RequestExcel List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
-		return appRoleService.importRole(excelVOList, bindingResult);
-	}
+    /**
+     * 导入角色
+     *
+     * @param excelVOList   角色列表
+     * @param bindingResult 错误信息列表
+     * @return ok fail
+     */
+    @PostMapping("/import")
+    @HasPermission("app_approle_export")
+    public R importRole(@RequestExcel List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
+        return appRoleService.importRole(excelVOList, bindingResult);
+    }
+
+    /**
+     * 获取工作台菜单列表
+     *
+     * @return 返回封装了菜单列表的结果对象
+     */
+    @GetMapping("/menu")
+    public R menu() {
+        return R.ok(appRoleService.listMenu());
+    }
+
 
 }

@@ -18,7 +18,12 @@ public enum PageTypeEnums {
     /**
      * 客服设置
      */
-    SERVICE(3, "客服设置");
+    SERVICE(3, "客服设置"),
+
+    /**
+     * 工作台属性
+     */
+    WORKBENCH(4, "工作台");
 
     private final Integer pageType;
 
