@@ -93,7 +93,7 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version><!--$NO-MVN-MAN-VER$-->
+            <version>${jaxb.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
