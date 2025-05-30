@@ -1,4 +1,3 @@
-com.pig4cloud.pig.common.core.config.TaskExecutorConfiguration
 com.pig4cloud.pig.common.core.config.JacksonConfiguration
 com.pig4cloud.pig.common.core.config.RedisTemplateConfiguration
 com.pig4cloud.pig.common.core.config.RestTemplateConfiguration
