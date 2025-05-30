@@ -28,22 +28,29 @@ import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.handler.ResponseStatusExceptionHandler;
 import reactor.core.publisher.Mono;
 
 /**
- * 网关异常通用处理器，只作用在webflux 环境下 , 优先级低于 {@link ResponseStatusExceptionHandler} 执行
+ * 网关异常通用处理器，作用于WebFlux环境，优先级低于ResponseStatusExceptionHandler
  *
- * @author 冷酱
- * @date 2020/5/26
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Slf4j
 @Order(-1)
 @RequiredArgsConstructor
 public class GlobalExceptionHandler implements ErrorWebExceptionHandler {
 
+	/**
+	 * 对象映射器，用于JSON序列化与反序列化
+	 */
 	private final ObjectMapper objectMapper;
 
+	/**
+	 * @param exchange 服务器网络交换对象
+	 * @param ex 抛出的异常
+	 * @return Mono<Void> 异步处理结果
+	 */
 	@Override
 	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
 		ServerHttpResponse response = exchange.getResponse();
