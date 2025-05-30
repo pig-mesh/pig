@@ -11,10 +11,10 @@ import java.io.Serial;
 import java.util.*;
 
 /**
- * @author lengleng
- * @date 2022/6/2
+ * OAuth2资源所有者基础认证令牌抽象类
  *
- * 自定义授权模式抽象
+ * @author lengleng
+ * @date 2025/05/30
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationToken extends AbstractAuthenticationToken {
 

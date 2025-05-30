@@ -8,10 +8,15 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020/10/4
+ * 安全认证配置属性类
+ *
  * <p>
- * 网关配置文件
+ * 用于配置网关安全相关属性
+ * </p>
+ *
+ * @author lengleng
+ * @date 2025/05/30
+ * @since 2020/10/4
  */
 @Data
 @Component

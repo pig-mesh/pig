@@ -29,10 +29,10 @@ import java.io.IOException;
 import java.util.Optional;
 
 /**
- * @author lbw
- * @date 2024-01-06
- * <p>
- * 登录前置处理器： 前端密码传输密文解密，验证码处理
+ * 验证码过滤器：用于处理登录请求中的验证码校验
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Slf4j
 @Component
@@ -41,6 +41,14 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	private final AuthSecurityConfigProperties authSecurityConfigProperties;
 
+	/**
+	 * 过滤器内部处理逻辑，用于验证码校验
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param filterChain 过滤器链
+	 * @throws ServletException Servlet异常
+	 * @throws IOException IO异常
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {

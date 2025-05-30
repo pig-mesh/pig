@@ -39,8 +39,10 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
+ * 密码解密过滤器：用于处理登录请求中的密码解密
+ *
  * @author lengleng
- * @date 2019 /2/1 密码解密工具类
+ * @date 2025/05/30
  */
 @Slf4j
 @Component
@@ -58,6 +60,14 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		SecureUtil.disableBouncyCastle();
 	}
 
+	/**
+	 * 过滤器内部处理逻辑，用于处理登录请求中的密码解密
+	 * @param request HTTP请求对象
+	 * @param response HTTP响应对象
+	 * @param chain 过滤器链
+	 * @throws ServletException 如果发生servlet相关异常
+	 * @throws IOException 如果发生I/O异常
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {

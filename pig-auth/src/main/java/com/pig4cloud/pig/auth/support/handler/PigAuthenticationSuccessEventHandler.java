@@ -46,8 +46,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 /**
+ * 处理认证成功事件的处理器
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/05/30
  */
 @Slf4j
 public class PigAuthenticationSuccessEventHandler implements AuthenticationSuccessHandler {
@@ -55,11 +57,10 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 	private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new PigCustomOAuth2AccessTokenResponseHttpMessageConverter();
 
 	/**
-	 * Called when a user has been successfully authenticated.
-	 * @param request the request which caused the successful authentication
-	 * @param response the response
-	 * @param authentication the <tt>Authentication</tt> object which was created during
-	 * the authentication process.
+	 * 用户认证成功时调用
+	 * @param request 触发认证成功的请求
+	 * @param response 响应对象
+	 * @param authentication 认证过程中创建的认证对象
 	 */
 	@SneakyThrows
 	@Override
@@ -88,6 +89,13 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 		sendAccessTokenResponse(request, response, authentication);
 	}
 
+	/**
+	 * 发送访问令牌响应
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param authentication 认证信息
+	 * @throws IOException 写入响应时可能抛出IO异常
+	 */
 	private void sendAccessTokenResponse(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException {
 

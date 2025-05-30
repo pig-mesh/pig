@@ -14,10 +14,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author jumuning
- * @date 2022-06-02
+ * OAuth2 资源所有者密码认证转换器
  *
- * 密码认证转换器
+ * @author lengleng
+ * @author jumuning
+ * @date 2025/05/30
  */
 public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 		extends OAuth2ResourceOwnerBaseAuthenticationConverter<OAuth2ResourceOwnerPasswordAuthenticationToken> {
@@ -31,6 +32,13 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 		return AuthorizationGrantType.PASSWORD.getValue().equals(grantType);
 	}
 
+	/**
+	 * 构建OAuth2资源所有者密码认证令牌
+	 * @param clientPrincipal 客户端主体认证信息
+	 * @param requestedScopes 请求的作用域集合
+	 * @param additionalParameters 附加参数映射
+	 * @return 构建完成的OAuth2资源所有者密码认证令牌
+	 */
 	@Override
 	public OAuth2ResourceOwnerPasswordAuthenticationToken buildToken(Authentication clientPrincipal,
 			Set requestedScopes, Map additionalParameters) {

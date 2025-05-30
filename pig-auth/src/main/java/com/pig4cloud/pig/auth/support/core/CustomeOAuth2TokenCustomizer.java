@@ -7,16 +7,16 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
 /**
- * token 输出增强
+ * OAuth2 Token 自定义增强实现类
  *
  * @author lengleng
- * @date 2022/6/3
+ * @date 2025/05/30
  */
 public class CustomeOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth2TokenClaimsContext> {
 
 	/**
-	 * Customize the OAuth 2.0 Token attributes.
-	 * @param context the context containing the OAuth 2.0 Token attributes
+	 * 自定义OAuth 2.0 Token属性
+	 * @param context 包含OAuth 2.0 Token属性的上下文
 	 */
 	@Override
 	public void customize(OAuth2TokenClaimsContext context) {

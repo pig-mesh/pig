@@ -32,7 +32,9 @@ public class ImageCodeEndpoint {
 	private final RedisTemplate redisTemplate;
 
 	/**
-	 * 创建图形验证码
+	 * 创建图形验证码并输出到响应流
+	 * @param randomStr 随机字符串，用于缓存验证码
+	 * @param response HTTP响应对象，用于输出验证码图片
 	 */
 	@SneakyThrows
 	@GetMapping("/image")
