@@ -47,15 +47,15 @@ docker compose up
 
 ### 核心依赖
 
-| 依赖                          | 版本        |
-|-----------------------------|-----------|
-| Spring Boot                 | 3.4     |
-| Spring Cloud                | 2024  |
+| 依赖                          | 版本   |
+|-----------------------------|------|
+| Spring Boot                 | 3.5  |
+| Spring Cloud                | 2025 |
 | Spring Cloud Alibaba        | 2023 |
-| Spring Authorization Server | 1.4      |
-| Mybatis Plus                | 3.5    |
-| Vue                         | 3.4       |
-| Element Plus                | 2.7       |
+| Spring Authorization Server | 1.5  |
+| Mybatis Plus                | 3.5  |
+| Vue                         | 3.4  |
+| Element Plus                | 2.7  |
 
 ### 模块说明
 
