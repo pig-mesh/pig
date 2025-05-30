@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 /**
+ * 远程字典服务接口
+ *
  * @author lengleng
- * @date 2020/5/12
- * <p>
- * 查询参数相关
+ * @date 2025/05/30
  */
 @FeignClient(contextId = "remoteDictService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteDictService {

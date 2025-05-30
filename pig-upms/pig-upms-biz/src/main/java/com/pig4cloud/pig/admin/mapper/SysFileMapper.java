@@ -22,10 +22,10 @@ import com.pig4cloud.pig.admin.api.entity.SysFile;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 文件管理
+ * 系统文件映射接口
  *
- * @author Luckly
- * @date 2019-06-18 17:18:42
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Mapper
 public interface SysFileMapper extends BaseMapper<SysFile> {

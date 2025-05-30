@@ -38,23 +38,23 @@ public interface SysLogService extends IService<SysLog> {
 
 	/**
 	 * 分页查询日志
-	 * @param page
-	 * @param sysLog
-	 * @return
+	 * @param page 分页参数
+	 * @param sysLog 日志查询条件
+	 * @return 分页结果
 	 */
 	Page getLogByPage(Page page, SysLogDTO sysLog);
 
 	/**
-	 * 插入日志
+	 * 保存日志
 	 * @param sysLog 日志对象
-	 * @return true/false
+	 * @return 保存成功返回true，否则返回false
 	 */
 	Boolean saveLog(SysLog sysLog);
 
 	/**
 	 * 查询日志列表
 	 * @param sysLog 查询条件
-	 * @return List<SysLog>
+	 * @return 日志列表
 	 */
 	List<SysLog> getList(SysLogDTO sysLog);
 

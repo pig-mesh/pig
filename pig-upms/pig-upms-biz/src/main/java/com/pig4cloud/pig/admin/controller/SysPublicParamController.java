@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 公共参数
+ * 公共参数控制器：提供公共参数的增删改查及同步功能
  *
- * @author Lucky
- * @date 2019-04-29
+ * @author lengleng
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -54,9 +54,9 @@ public class SysPublicParamController {
 	private final SysPublicParamService sysPublicParamService;
 
 	/**
-	 * 通过key查询公共参数值
-	 * @param publicKey
-	 * @return
+	 * 根据key查询公共参数值
+	 * @param publicKey 公共参数key
+	 * @return 公共参数值
 	 */
 	@Inner(value = false)
 	@Operation(description = "查询公共参数值", summary = "根据key查询公共参数值")
@@ -66,10 +66,10 @@ public class SysPublicParamController {
 	}
 
 	/**
-	 * 分页查询
+	 * 分页查询系统公共参数
 	 * @param page 分页对象
-	 * @param sysPublicParam 公共参数
-	 * @return
+	 * @param sysPublicParam 公共参数查询条件
+	 * @return 分页查询结果
 	 */
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
@@ -87,8 +87,8 @@ public class SysPublicParamController {
 
 	/**
 	 * 通过id查询公共参数
-	 * @param publicId id
-	 * @return R
+	 * @param publicId 公共参数id
+	 * @return 包含查询结果的响应对象
 	 */
 	@Operation(description = "通过id查询公共参数", summary = "通过id查询公共参数")
 	@GetMapping("/details/{publicId}")
@@ -96,6 +96,11 @@ public class SysPublicParamController {
 		return R.ok(sysPublicParamService.getById(publicId));
 	}
 
+	/**
+	 * 获取系统公共参数详情
+	 * @param param 系统公共参数查询对象
+	 * @return 包含查询结果的响应对象
+	 */
 	@GetMapping("/details")
 	public R getDetail(@ParameterObject SysPublicParam param) {
 		return R.ok(sysPublicParamService.getOne(Wrappers.query(param), false));
@@ -103,8 +108,8 @@ public class SysPublicParamController {
 
 	/**
 	 * 新增公共参数
-	 * @param sysPublicParam 公共参数
-	 * @return R
+	 * @param sysPublicParam 公共参数对象
+	 * @return 操作结果
 	 */
 	@Operation(description = "新增公共参数", summary = "新增公共参数")
 	@SysLog("新增公共参数")
@@ -116,8 +121,8 @@ public class SysPublicParamController {
 
 	/**
 	 * 修改公共参数
-	 * @param sysPublicParam 公共参数
-	 * @return R
+	 * @param sysPublicParam 公共参数对象
+	 * @return 操作结果
 	 */
 	@Operation(description = "修改公共参数", summary = "修改公共参数")
 	@SysLog("修改公共参数")
@@ -128,9 +133,9 @@ public class SysPublicParamController {
 	}
 
 	/**
-	 * 通过id删除公共参数
-	 * @param ids ids
-	 * @return R
+	 * 通过id数组删除公共参数
+	 * @param ids 要删除的公共参数id数组
+	 * @return 操作结果
 	 */
 	@Operation(description = "删除公共参数", summary = "删除公共参数")
 	@SysLog("删除公共参数")
@@ -152,8 +157,8 @@ public class SysPublicParamController {
 	}
 
 	/**
-	 * 同步参数
-	 * @return R
+	 * 同步参数到缓存
+	 * @return 操作结果
 	 */
 	@SysLog("同步参数")
 	@PutMapping("/sync")

@@ -37,10 +37,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * 岗位信息表
+ * 岗位信息表服务实现类
  *
- * @author fxz
- * @date 2022-03-26 12:50:43
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Service
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements SysPostService {
@@ -88,8 +88,8 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	}
 
 	/**
-	 * 导出excel 表格
-	 * @return
+	 * 获取岗位列表并转换为Excel导出对象
+	 * @return 岗位Excel导出对象列表
 	 */
 	@Override
 	public List<PostExcelVO> listPost() {
@@ -103,7 +103,8 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	}
 
 	/**
-	 * 插入excel Post
+	 * 插入Excel中的岗位数据
+	 * @param excel 包含岗位信息的Excel数据对象
 	 */
 	private void insertExcelPost(PostExcelVO excel) {
 		SysPost sysPost = new SysPost();

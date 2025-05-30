@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
- * @author lengleng
- * @date 2020/5/12
+ * 远程参数服务接口
  * <p>
- * 查询参数相关
+ * 通过Feign客户端调用UPMS服务获取参数配置
+ * </p>
+ *
+ * @author lengleng
+ * @date 2025/05/30
+ * @see FeignClient
  */
 @FeignClient(contextId = "remoteParamService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteParamService {

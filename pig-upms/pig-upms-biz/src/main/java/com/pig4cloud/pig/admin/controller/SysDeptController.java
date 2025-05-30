@@ -39,11 +39,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * <p>
- * 部门管理 前端控制器
- * </p>
+ * 部门管理前端控制器
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2018-01-20
  */
 @RestController
@@ -56,9 +55,9 @@ public class SysDeptController {
 	private final SysDeptService sysDeptService;
 
 	/**
-	 * 通过ID查询
-	 * @param id ID
-	 * @return SysDept
+	 * 通过ID查询部门信息
+	 * @param id 部门ID
+	 * @return 包含部门信息的响应对象
 	 */
 	@GetMapping("/{id}")
 	public R getById(@PathVariable Long id) {
@@ -66,7 +65,8 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 查询全部部门
+	 * 查询全部部门列表
+	 * @return 包含全部部门列表的响应结果
 	 */
 	@GetMapping("/list")
 	public R list() {
@@ -74,9 +74,9 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 返回树形菜单集合
+	 * 获取树形菜单
 	 * @param deptName 部门名称
-	 * @return 树形菜单
+	 * @return 包含树形菜单的响应结果
 	 */
 	@GetMapping(value = "/tree")
 	public R getTree(String deptName) {
@@ -84,9 +84,9 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 添加
-	 * @param sysDept 实体
-	 * @return success/false
+	 * 保存部门信息
+	 * @param sysDept 部门实体
+	 * @return 操作结果
 	 */
 	@SysLog("添加部门")
 	@PostMapping
@@ -96,9 +96,9 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 删除
-	 * @param id ID
-	 * @return success/false
+	 * 根据ID删除部门
+	 * @param id 部门ID
+	 * @return 操作结果，成功返回true，失败返回false
 	 */
 	@SysLog("删除部门")
 	@DeleteMapping("/{id}")
@@ -108,9 +108,9 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 编辑
-	 * @param sysDept 实体
-	 * @return success/false
+	 * 编辑部门信息
+	 * @param sysDept 部门实体对象
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("编辑部门")
 	@PutMapping
@@ -121,8 +121,9 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 查收子级列表
-	 * @return 返回子级
+	 * 获取部门子级列表
+	 * @param deptId 部门ID
+	 * @return 包含子级部门列表的响应结果
 	 */
 	@GetMapping(value = "/getDescendantList/{deptId}")
 	public R getDescendantList(@PathVariable Long deptId) {
@@ -130,8 +131,8 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 导出部门
-	 * @return
+	 * 导出部门数据
+	 * @return 部门数据列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
@@ -140,10 +141,10 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 导入部门
-	 * @param excelVOList
-	 * @param bindingResult
-	 * @return
+	 * 导入部门信息
+	 * @param excelVOList 部门Excel数据列表
+	 * @param bindingResult 数据校验结果
+	 * @return 导入结果
 	 */
 	@PostMapping("import")
 	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {

@@ -34,8 +34,12 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 /**
+ * 系统用户服务接口
+ * <p>
+ * 提供用户信息查询、分页查询、增删改查等操作
+ *
  * @author lengleng
- * @date 2017/10/31
+ * @date 2025/05/30
  */
 public interface SysUserService extends IService<SysUser> {
 
@@ -47,10 +51,10 @@ public interface SysUserService extends IService<SysUser> {
 	UserInfo findUserInfo(SysUser sysUser);
 
 	/**
-	 * 分页查询用户信息（含有角色信息）
+	 * 分页查询用户信息（包含角色信息）
 	 * @param page 分页对象
-	 * @param userDTO 参数列表
-	 * @return
+	 * @param userDTO 查询参数
+	 * @return 分页结果
 	 */
 	IPage getUsersWithRolePage(Page page, UserDTO userDTO);
 
@@ -70,8 +74,8 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 更新指定用户信息
-	 * @param userDto 用户信息
-	 * @return
+	 * @param userDto 用户信息DTO对象
+	 * @return 更新是否成功
 	 */
 	Boolean updateUser(UserDTO userDto);
 
@@ -113,22 +117,22 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 锁定用户
-	 * @param username
-	 * @return
+	 * @param username 用户名
+	 * @return 包含操作结果的R对象，true表示锁定成功
 	 */
 	R<Boolean> lockUser(String username);
 
 	/**
-	 * 修改密码
-	 * @param userDto 用户信息
-	 * @return
+	 * 修改用户密码
+	 * @param userDto 包含用户信息的DTO对象
+	 * @return 操作结果
 	 */
 	R changePassword(UserDTO userDto);
 
 	/**
 	 * 校验密码
-	 * @param password 密码明文
-	 * @return
+	 * @param password 待校验的密码明文
+	 * @return 校验结果
 	 */
 	R checkPassword(String password);
 

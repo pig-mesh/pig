@@ -37,10 +37,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * 手机登录相关业务实现类
+ *
  * @author lengleng
- * @date 2018/11/14
- * <p>
- * 手机登录相关业务实现
+ * @date 2025/05/30
  */
 @Slf4j
 @Service
@@ -52,9 +52,9 @@ public class SysMobileServiceImpl implements SysMobileService {
 	private final SysUserMapper userMapper;
 
 	/**
-	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
-	 * @param mobile mobile
-	 * @return code
+	 * 发送手机验证码
+	 * @param mobile 手机号码
+	 * @return 返回操作结果，包含验证码发送状态及验证码信息
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {

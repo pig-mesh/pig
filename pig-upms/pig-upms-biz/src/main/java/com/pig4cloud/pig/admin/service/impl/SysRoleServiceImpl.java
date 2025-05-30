@@ -47,9 +47,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 服务实现类
- * </p>
+ * 系统角色服务实现类
  *
  * @author lengleng
  * @since 2017-10-29
@@ -61,9 +59,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	private SysRoleMenuService roleMenuService;
 
 	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
+	 * 通过用户ID查询角色信息
+	 * @param userId 用户ID
+	 * @return 角色信息列表
 	 */
 	@Override
 	public List findRolesByUserId(Long userId) {
@@ -71,10 +69,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 根据角色ID 查询角色列表，注意缓存删除
+	 * 根据角色ID查询角色列表
 	 * @param roleIdList 角色ID列表
 	 * @param key 缓存key
-	 * @return
+	 * @return 角色列表
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
@@ -83,9 +81,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 通过角色ID，删除角色,并清空角色菜单缓存
-	 * @param ids
-	 * @return
+	 * 通过角色ID删除角色并清空角色菜单缓存
+	 * @param ids 角色ID数组
+	 * @return 删除是否成功
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -96,9 +94,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 根据角色菜单列表
-	 * @param roleVo 角色&菜单列表
-	 * @return
+	 * 更新角色菜单列表
+	 * @param roleVo 包含角色ID和菜单ID列表的角色对象
+	 * @return 更新是否成功
 	 */
 	@Override
 	public Boolean updateRoleMenus(RoleVO roleVo) {
@@ -148,8 +146,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 查询全部的角色
-	 * @return list
+	 * 查询全部角色列表并转换为Excel视图对象
+	 * @return 角色Excel视图对象列表
 	 */
 	@Override
 	public List<RoleExcelVO> listRole() {
@@ -163,7 +161,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 插入excel Role
+	 * 插入Excel中的角色数据
+	 * @param excel 包含角色信息的Excel数据对象
 	 */
 	private void insertExcelRole(RoleExcelVO excel) {
 		SysRole sysRole = new SysRole();

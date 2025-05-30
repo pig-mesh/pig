@@ -33,8 +33,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 /**
+ * 令牌管理控制器：提供令牌的分页查询和删除功能
+ *
  * @author lengleng
- * @date 2018/9/4 getTokenPage 管理
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -46,9 +48,9 @@ public class SysTokenController {
 	private final RemoteTokenService remoteTokenService;
 
 	/**
-	 * 分页token 信息
-	 * @param params 参数集
-	 * @return token集合
+	 * 获取分页token信息
+	 * @param params 请求参数集合
+	 * @return 包含token分页信息的响应结果
 	 */
 	@RequestMapping("/page")
 	public R getTokenPage(@RequestBody Map<String, Object> params) {
@@ -56,9 +58,9 @@ public class SysTokenController {
 	}
 
 	/**
-	 * 删除
-	 * @param tokens tokens
-	 * @return success/false
+	 * 根据token数组删除token
+	 * @param tokens 需要删除的token数组
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("删除用户token")
 	@DeleteMapping("/delete")

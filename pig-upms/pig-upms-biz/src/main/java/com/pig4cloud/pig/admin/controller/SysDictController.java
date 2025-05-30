@@ -46,11 +46,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 字典表 前端控制器
- * </p>
+ * 字典表前端控制器
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2019-03-19
  */
 @RestController
@@ -66,8 +65,8 @@ public class SysDictController {
 
 	/**
 	 * 通过ID查询字典信息
-	 * @param id ID
-	 * @return 字典信息
+	 * @param id 字典ID
+	 * @return 包含字典信息的响应对象
 	 */
 	@GetMapping("/details/{id}")
 	public R getById(@PathVariable Long id) {
@@ -75,9 +74,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 查询字典信息
-	 * @param query 查询信息
-	 * @return 字典信息
+	 * 查询字典详细信息
+	 * @param query 字典查询条件对象
+	 * @return 包含字典信息的响应结果
 	 */
 	@GetMapping("/details")
 	public R getDetails(@ParameterObject SysDict query) {
@@ -87,7 +86,8 @@ public class SysDictController {
 	/**
 	 * 分页查询字典信息
 	 * @param page 分页对象
-	 * @return 分页对象
+	 * @param sysDict 字典查询条件
+	 * @return 包含分页结果的响应对象
 	 */
 	@GetMapping("/page")
 	public R<IPage> getDictPage(@ParameterObject Page page, @ParameterObject SysDict sysDict) {
@@ -98,9 +98,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 添加字典
-	 * @param sysDict 字典信息
-	 * @return success、false
+	 * 保存字典信息
+	 * @param sysDict 字典信息对象
+	 * @return 操作结果，包含保存的字典信息
 	 */
 	@SysLog("添加字典")
 	@PostMapping
@@ -111,9 +111,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 删除字典，并且清除字典缓存
-	 * @param ids ID
-	 * @return R
+	 * 删除字典并清除字典缓存
+	 * @param ids 字典ID数组
+	 * @return 操作结果
 	 */
 	@SysLog("删除字典")
 	@DeleteMapping
@@ -124,9 +124,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 修改字典
+	 * 修改字典信息
 	 * @param sysDict 字典信息
-	 * @return success/false
+	 * @return 操作结果 success/false
 	 */
 	@PutMapping
 	@SysLog("修改字典")
@@ -136,9 +136,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 分页查询
-	 * @param name 名称或者字典项
-	 * @return
+	 * 分页查询字典列表
+	 * @param name 字典类型名称或描述
+	 * @return 包含字典列表的响应结果
 	 */
 	@GetMapping("/list")
 	public R getDictList(String name) {
@@ -149,10 +149,10 @@ public class SysDictController {
 	}
 
 	/**
-	 * 分页查询
+	 * 分页查询字典项
 	 * @param page 分页对象
-	 * @param sysDictItem 字典项
-	 * @return
+	 * @param sysDictItem 字典项查询条件
+	 * @return 分页查询结果
 	 */
 	@GetMapping("/item/page")
 	public R getSysDictItemPage(Page page, SysDictItem sysDictItem) {
@@ -160,9 +160,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 通过id查询字典项
-	 * @param id id
-	 * @return R
+	 * 通过id查询字典项详情
+	 * @param id 字典项id
+	 * @return 包含字典项详情的响应结果
 	 */
 	@GetMapping("/item/details/{id}")
 	public R getDictItemById(@PathVariable("id") Long id) {
@@ -170,9 +170,9 @@ public class SysDictController {
 	}
 
 	/**
-	 * 查询字典项详情
-	 * @param query 查询条件
-	 * @return R
+	 * 获取字典项详情
+	 * @param query 字典项查询条件
+	 * @return 包含字典项详情的响应结果
 	 */
 	@GetMapping("/item/details")
 	public R getDictItemDetails(SysDictItem query) {
@@ -181,8 +181,8 @@ public class SysDictController {
 
 	/**
 	 * 新增字典项
-	 * @param sysDictItem 字典项
-	 * @return R
+	 * @param sysDictItem 字典项对象
+	 * @return 操作结果
 	 */
 	@SysLog("新增字典项")
 	@PostMapping("/item")
@@ -193,8 +193,8 @@ public class SysDictController {
 
 	/**
 	 * 修改字典项
-	 * @param sysDictItem 字典项
-	 * @return R
+	 * @param sysDictItem 要修改的字典项对象
+	 * @return 操作结果
 	 */
 	@SysLog("修改字典项")
 	@PutMapping("/item")
@@ -204,8 +204,8 @@ public class SysDictController {
 
 	/**
 	 * 通过id删除字典项
-	 * @param id id
-	 * @return R
+	 * @param id 字典项id
+	 * @return 操作结果
 	 */
 	@SysLog("删除字典项")
 	@DeleteMapping("/item/{id}")
@@ -214,8 +214,8 @@ public class SysDictController {
 	}
 
 	/**
-	 * 同步缓存字典
-	 * @return R
+	 * 同步字典缓存
+	 * @return 操作结果
 	 */
 	@SysLog("同步字典")
 	@PutMapping("/sync")
@@ -223,6 +223,11 @@ public class SysDictController {
 		return sysDictService.syncDictCache();
 	}
 
+	/**
+	 * 导出字典项数据
+	 * @param sysDictItem 字典项查询条件
+	 * @return 符合条件的字典项列表
+	 */
 	@ResponseExcel
 	@GetMapping("/export")
 	public List<SysDictItem> export(SysDictItem sysDictItem) {

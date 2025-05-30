@@ -38,10 +38,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 字典表
+ * 系统字典服务实现类
  *
  * @author lengleng
- * @date 2019/03/19
+ * @date 2025/05/30
  */
 @Service
 @AllArgsConstructor
@@ -50,9 +50,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	private final SysDictItemMapper dictItemMapper;
 
 	/**
-	 * 根据ID 删除字典
-	 * @param ids 字典ID 列表
-	 * @return
+	 * 根据ID删除字典
+	 * @param ids 字典ID数组
+	 * @return 操作结果
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -72,9 +72,10 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	}
 
 	/**
-	 * 更新字典
-	 * @param dict 字典
-	 * @return
+	 * 更新字典数据
+	 * @param dict 字典对象
+	 * @return 操作结果
+	 * @see R 返回结果封装类
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictType")
@@ -89,8 +90,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	}
 
 	/**
-	 * 同步缓存 （清空缓存）
-	 * @return R
+	 * 同步字典缓存（清空缓存）
+	 * @return 操作结果
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)

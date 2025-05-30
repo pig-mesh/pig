@@ -50,10 +50,9 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 
 	/**
 	 * 分页查询用户信息（含角色）
-	 * @param page 分页
-	 * @param userDTO 查询参数
-	 * @param dataScope
-	 * @return list
+	 * @param page 分页参数
+	 * @param userDTO 用户查询条件
+	 * @return 分页用户信息列表
 	 */
 	IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO);
 
@@ -67,8 +66,7 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
 	/**
 	 * 查询用户列表
 	 * @param userDTO 查询条件
-	 * @param dataScope 数据权限声明
-	 * @return
+	 * @return 用户VO列表
 	 */
 	List<UserVO> selectVoList(@Param("query") UserDTO userDTO);
 

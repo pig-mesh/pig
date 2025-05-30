@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
+ * 远程日志服务接口
+ *
  * @author lengleng
- * @date 2018/6/28
+ * @date 2025/05/30
  */
 @FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteLogService {

@@ -31,28 +31,28 @@ public interface SysPublicParamService extends IService<SysPublicParam> {
 
 	/**
 	 * 通过key查询公共参数指定值
-	 * @param publicKey
-	 * @return
+	 * @param publicKey 公共参数key
+	 * @return 公共参数对应的值
 	 */
 	String getSysPublicParamKeyToValue(String publicKey);
 
 	/**
-	 * 更新参数
-	 * @param sysPublicParam
-	 * @return
+	 * 更新系统公共参数
+	 * @param sysPublicParam 系统公共参数对象
+	 * @return 操作结果
 	 */
 	R updateParam(SysPublicParam sysPublicParam);
 
 	/**
-	 * 删除参数
-	 * @param publicIds 参数列表
-	 * @return
+	 * 根据ID数组删除参数
+	 * @param publicIds 要删除的参数ID数组
+	 * @return 操作结果
 	 */
 	R removeParamByIds(Long[] publicIds);
 
 	/**
-	 * 同步缓存
-	 * @return R
+	 * 同步参数缓存
+	 * @return 同步操作结果
 	 */
 	R syncParamCache();
 

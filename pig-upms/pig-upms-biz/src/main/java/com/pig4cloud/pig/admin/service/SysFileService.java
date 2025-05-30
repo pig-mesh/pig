@@ -33,8 +33,8 @@ public interface SysFileService extends IService<SysFile> {
 
 	/**
 	 * 上传文件
-	 * @param file
-	 * @return
+	 * @param file 要上传的文件
+	 * @return 上传结果
 	 */
 	R uploadFile(MultipartFile file);
 
@@ -47,9 +47,9 @@ public interface SysFileService extends IService<SysFile> {
 	void getFile(String bucket, String fileName, HttpServletResponse response);
 
 	/**
-	 * 删除文件
-	 * @param id
-	 * @return
+	 * 根据文件ID删除文件
+	 * @param id 文件ID
+	 * @return 删除是否成功
 	 */
 	Boolean deleteFile(Long id);
 
