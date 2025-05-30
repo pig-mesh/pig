@@ -19,8 +19,10 @@ package com.pig4cloud.pig.common.core.exception;
 import lombok.NoArgsConstructor;
 
 /**
+ * 授权拒绝异常类
+ *
  * @author lengleng
- * @date 2018年06月22日16:22:03 403 授权拒绝
+ * @date 2018/06/22
  */
 @NoArgsConstructor
 public class PigDeniedException extends RuntimeException {
