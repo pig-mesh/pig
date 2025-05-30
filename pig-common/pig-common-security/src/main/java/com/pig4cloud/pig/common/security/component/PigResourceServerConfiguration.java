@@ -16,8 +16,6 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +24,9 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
@@ -34,7 +34,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
  * <p>
  * 资源服务器认证授权配置
  */
-@Slf4j
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
@@ -56,12 +55,19 @@ public class PigResourceServerConfiguration {
 	 */
 	@Bean
 	SecurityFilterChain resourceServer(HttpSecurity http) throws Exception {
+		/**
 		AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
 			.stream()
 			.map(AntPathRequestMatcher::new)
 			.toList()
 			.toArray(new AntPathRequestMatcher[] {});
-
+		**/
+        PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
+                .stream()
+                .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
+                .toList()
+                .toArray(new PathPatternRequestMatcher[]{});
+		
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
 			.permitAll()
 			.anyRequest()
