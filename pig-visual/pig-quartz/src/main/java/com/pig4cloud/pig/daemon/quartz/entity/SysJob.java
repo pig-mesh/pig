@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.entity;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -45,6 +46,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper=false)
 public class SysJob extends Model<SysJob> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

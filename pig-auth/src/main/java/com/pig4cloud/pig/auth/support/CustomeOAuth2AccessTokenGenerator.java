@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
 import java.time.Instant;
 import java.util.*;
 
@@ -103,6 +104,7 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 	private static final class OAuth2AccessTokenClaims extends OAuth2AccessToken implements ClaimAccessor {
 
+		@Serial
 		private static final long serialVersionUID = 1L;
 		
 		private final Map<String, Object> claims;

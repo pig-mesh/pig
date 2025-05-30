@@ -1,5 +1,6 @@
 package com.pig4cloud.pig.codegen.util.vo;
 
+import java.io.Serial;
 import java.util.List;
 
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class TemplateGroupDTO extends GenGroupEntity {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	/**
 	 * 模板id集合

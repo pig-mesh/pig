@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.entity;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -46,6 +47,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "定时任务日志")
 public class SysJobLog extends Model<SysJobLog> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

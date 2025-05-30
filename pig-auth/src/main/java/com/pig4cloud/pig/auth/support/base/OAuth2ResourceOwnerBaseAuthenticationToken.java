@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
@@ -17,6 +18,7 @@ import java.util.*;
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationToken extends AbstractAuthenticationToken {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	@Getter

@@ -3,12 +3,15 @@ package com.pig4cloud.pig.common.security.util;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 
+import java.io.Serial;
+
 /**
  * @author lengleng
  * @description OAuthClientException 异常信息
  */
 public class OAuthClientException extends OAuth2AuthenticationException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
