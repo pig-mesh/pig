@@ -1,7 +1,9 @@
 package com.pig4cloud.pig.common.log.event;
 
 import com.pig4cloud.pig.admin.api.entity.SysLog;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * spring event log
@@ -10,6 +12,7 @@ import lombok.Data;
  * @date 2023/8/11
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class SysLogEventSource extends SysLog {
 
 	/**

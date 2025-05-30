@@ -148,7 +148,6 @@ public class AuthorizationServerConfiguration {
 	 * 1. 密码模式 </br>
 	 * 2. 短信登录 </br>
 	 */
-	@SuppressWarnings("unchecked")
 	private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {
 		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 		OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);

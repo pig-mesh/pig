@@ -5,6 +5,8 @@ import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/register")
 @RequiredArgsConstructor
+@Tag(description = "register", name = "注册用户管理模块")
 @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
 public class SysRegisterController {
 

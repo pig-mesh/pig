@@ -28,6 +28,8 @@ import java.io.IOException;
 @Getter
 public class JacksonXssException extends IOException implements XssException {
 
+	private static final long serialVersionUID = 1L;
+	
 	private final String input;
 
 	public JacksonXssException(String input, String message) {

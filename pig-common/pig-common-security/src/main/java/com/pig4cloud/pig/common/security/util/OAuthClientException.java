@@ -9,6 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2Error;
  */
 public class OAuthClientException extends OAuth2AuthenticationException {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * Constructs a <code>ScopeException</code> with the specified message.
 	 * @param msg the detail message.

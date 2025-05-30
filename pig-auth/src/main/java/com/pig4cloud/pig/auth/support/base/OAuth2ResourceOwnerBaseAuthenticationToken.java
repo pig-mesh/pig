@@ -17,6 +17,8 @@ import java.util.*;
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationToken extends AbstractAuthenticationToken {
 
+	private static final long serialVersionUID = 1L;
+
 	@Getter
 	private final AuthorizationGrantType authorizationGrantType;
 

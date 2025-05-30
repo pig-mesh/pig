@@ -13,6 +13,8 @@ import java.util.Set;
  */
 public class OAuth2ResourceOwnerPasswordAuthenticationToken extends OAuth2ResourceOwnerBaseAuthenticationToken {
 
+	private static final long serialVersionUID = 1L;
+
 	public OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType authorizationGrantType,
 			Authentication clientPrincipal, Set<String> scopes, Map<String, Object> additionalParameters) {
 		super(authorizationGrantType, clientPrincipal, scopes, additionalParameters);

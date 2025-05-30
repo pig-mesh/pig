@@ -17,8 +17,10 @@
 
 package org.springframework.cloud.openfeign;
 
-import com.pig4cloud.pig.common.feign.PigFeignAutoConfiguration;
-import lombok.Getter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -31,15 +33,12 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.support.SpringFactoriesLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import lombok.Getter;
 
 /**
  * @author L.cm
@@ -156,10 +155,10 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
 	 * candidates.
 	 * @return the factory class
-	 */
+	 *//**
 	private Class<?> getSpringFactoriesLoaderFactoryClass() {
 		return PigFeignAutoConfiguration.class;
-	}
+	}**/
 
 	private void validate(Map<String, Object> attributes) {
 		AnnotationAttributes annotation = AnnotationAttributes.fromMap(attributes);
@@ -258,14 +257,14 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		throw new IllegalStateException(
 				"Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
 	}
-
+	/**
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
 		builder.addConstructorArgValue(name);
 		builder.addConstructorArgValue(configuration);
 		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
 				builder.getBeanDefinition());
-	}
+	}**/
 
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
 			Object configuration) {

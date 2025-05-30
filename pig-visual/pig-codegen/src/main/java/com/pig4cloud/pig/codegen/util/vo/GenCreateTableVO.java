@@ -32,8 +32,6 @@ import java.time.LocalDateTime;
 @Schema(description = "自动创建表管理")
 public class GenCreateTableVO {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * 主键ID
 	 */

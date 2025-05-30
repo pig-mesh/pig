@@ -108,9 +108,9 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	@Override
 	public Boolean removeByDsId(Long[] dsIds) {
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
-		this.baseMapper.selectBatchIds(CollUtil.toList(dsIds))
+		this.baseMapper.selectByIds(CollUtil.toList(dsIds))
 			.forEach(ds -> dynamicRoutingDataSource.removeDataSource(ds.getName()));
-		this.baseMapper.deleteBatchIds(CollUtil.toList(dsIds));
+		this.baseMapper.deleteByIds(CollUtil.toList(dsIds));
 		return Boolean.TRUE;
 	}
 

@@ -189,7 +189,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteUserByIds(Long[] ids) {
 		// 删除 spring cache
-		List<SysUser> userList = baseMapper.selectBatchIds(CollUtil.toList(ids));
+		List<SysUser> userList = baseMapper.selectByIds(CollUtil.toList(ids));
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
 		for (SysUser sysUser : userList) {
 			// 立即删除

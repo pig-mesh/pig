@@ -103,6 +103,8 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 	private static final class OAuth2AccessTokenClaims extends OAuth2AccessToken implements ClaimAccessor {
 
+		private static final long serialVersionUID = 1L;
+		
 		private final Map<String, Object> claims;
 
 		private OAuth2AccessTokenClaims(TokenType tokenType, String tokenValue, Instant issuedAt, Instant expiresAt,
