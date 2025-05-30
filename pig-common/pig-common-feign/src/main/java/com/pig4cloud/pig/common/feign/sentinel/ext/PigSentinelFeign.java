@@ -122,18 +122,13 @@ public final class PigSentinelFeign {
 			super.contract(new SentinelContractHolder(contract));
 			return super.internalBuild();
 		}
+
 		/**
-		private Object getFieldValue(Object instance, String fieldName) {
-			Field field = ReflectionUtils.findField(instance.getClass(), fieldName);
-			field.setAccessible(true);
-			try {
-				return field.get(instance);
-			}
-			catch (IllegalAccessException e) {
-				// ignore
-			}
-			return null;
-		}**/
+		 * private Object getFieldValue(Object instance, String fieldName) { Field field =
+		 * ReflectionUtils.findField(instance.getClass(), fieldName);
+		 * field.setAccessible(true); try { return field.get(instance); } catch
+		 * (IllegalAccessException e) { // ignore } return null; }
+		 **/
 
 		@Override
 		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

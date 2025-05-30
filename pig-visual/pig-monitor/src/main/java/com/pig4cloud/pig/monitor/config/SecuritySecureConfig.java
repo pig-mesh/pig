@@ -85,8 +85,10 @@ public class SecuritySecureConfig {
 			.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
 				.ignoringRequestMatchers(
-						PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, this.adminServer.path("/instances")), // <6>
-						PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.DELETE, this.adminServer.path("/instances/*")), // <6>
+						PathPatternRequestMatcher.withDefaults()
+							.matcher(HttpMethod.POST, this.adminServer.path("/instances")), // <6>
+						PathPatternRequestMatcher.withDefaults()
+							.matcher(HttpMethod.DELETE, this.adminServer.path("/instances/*")), // <6>
 						PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/**")) // <7>
 				));
 

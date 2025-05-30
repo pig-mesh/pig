@@ -155,10 +155,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
 	 * candidates.
 	 * @return the factory class
-	 *//**
-	private Class<?> getSpringFactoriesLoaderFactoryClass() {
-		return PigFeignAutoConfiguration.class;
-	}**/
+	 */
+	/**
+	 * private Class<?> getSpringFactoriesLoaderFactoryClass() { return
+	 * PigFeignAutoConfiguration.class; }
+	 **/
 
 	private void validate(Map<String, Object> attributes) {
 		AnnotationAttributes annotation = AnnotationAttributes.fromMap(attributes);
@@ -257,14 +258,16 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		throw new IllegalStateException(
 				"Either 'name' or 'value' must be provided in @" + FeignClient.class.getSimpleName());
 	}
+
 	/**
-	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object configuration) {
-		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
-		builder.addConstructorArgValue(name);
-		builder.addConstructorArgValue(configuration);
-		registry.registerBeanDefinition(name + "." + FeignClientSpecification.class.getSimpleName(),
-				builder.getBeanDefinition());
-	}**/
+	 * private void registerClientConfiguration(BeanDefinitionRegistry registry, Object
+	 * name, Object configuration) { BeanDefinitionBuilder builder =
+	 * BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
+	 * builder.addConstructorArgValue(name);
+	 * builder.addConstructorArgValue(configuration); registry.registerBeanDefinition(name
+	 * + "." + FeignClientSpecification.class.getSimpleName(),
+	 * builder.getBeanDefinition()); }
+	 **/
 
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
 			Object configuration) {

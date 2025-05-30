@@ -106,7 +106,7 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 
 		@Serial
 		private static final long serialVersionUID = 1L;
-		
+
 		private final Map<String, Object> claims;
 
 		private OAuth2AccessTokenClaims(TokenType tokenType, String tokenValue, Instant issuedAt, Instant expiresAt,

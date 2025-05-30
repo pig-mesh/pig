@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * @date 2023/8/11
  */
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class SysLogEventSource extends SysLog {
 
 	/**

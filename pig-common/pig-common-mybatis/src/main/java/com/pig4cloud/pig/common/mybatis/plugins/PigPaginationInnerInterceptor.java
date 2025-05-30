@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class PigPaginationInnerInterceptor extends PaginationInnerInterceptor {
 
 	/**

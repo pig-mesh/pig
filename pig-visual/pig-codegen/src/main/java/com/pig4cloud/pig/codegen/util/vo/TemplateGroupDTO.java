@@ -20,6 +20,7 @@ public class TemplateGroupDTO extends GenGroupEntity {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 模板id集合
 	 */

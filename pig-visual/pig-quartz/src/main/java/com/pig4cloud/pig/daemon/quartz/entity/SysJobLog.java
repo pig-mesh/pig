@@ -43,7 +43,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @Schema(description = "定时任务日志")
 public class SysJobLog extends Model<SysJobLog> {
 

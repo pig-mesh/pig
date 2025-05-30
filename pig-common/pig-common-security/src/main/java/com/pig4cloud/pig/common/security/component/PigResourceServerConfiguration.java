@@ -56,18 +56,16 @@ public class PigResourceServerConfiguration {
 	@Bean
 	SecurityFilterChain resourceServer(HttpSecurity http) throws Exception {
 		/**
-		AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
+		 * AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls() .stream()
+		 * .map(AntPathRequestMatcher::new) .toList() .toArray(new AntPathRequestMatcher[]
+		 * {});
+		 **/
+		PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
 			.stream()
-			.map(AntPathRequestMatcher::new)
+			.map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
 			.toList()
-			.toArray(new AntPathRequestMatcher[] {});
-		**/
-        PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
-                .stream()
-                .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
-                .toList()
-                .toArray(new PathPatternRequestMatcher[]{});
-		
+			.toArray(new PathPatternRequestMatcher[] {});
+
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
 			.permitAll()
 			.anyRequest()

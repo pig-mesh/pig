@@ -31,7 +31,7 @@ public class JacksonXssException extends IOException implements XssException {
 
 	@Serial
 	private static final long serialVersionUID = 1L;
-	
+
 	private final String input;
 
 	public JacksonXssException(String input, String message) {

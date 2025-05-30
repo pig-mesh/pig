@@ -78,12 +78,12 @@ public class PigResourceServerAutoConfiguration {
 	}
 
 	/**
-     * 支持自定义权限表达式
-     *
-     * @return {@link PrePostTemplateDefaults }
-     */
-    @Bean
-    AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
-        return new AnnotationTemplateExpressionDefaults();
-    }
+	 * 支持自定义权限表达式
+	 * @return {@link PrePostTemplateDefaults }
+	 */
+	@Bean
+	AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
+		return new AnnotationTemplateExpressionDefaults();
+	}
+
 }
