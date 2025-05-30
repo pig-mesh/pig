@@ -16,14 +16,14 @@
     <properties>
         <!-- 项目版本号 -->
         <revision>3.8.3</revision>
-        <spring-boot.version>3.4.5</spring-boot.version>
+        <spring-boot.version>3.5.0</spring-boot.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <git.commit.plugin>9.0.1</git.commit.plugin>
         <fastjson.version>1.2.83_noneautotype</fastjson.version>
-        <springdoc.version>2.8.6</springdoc.version>
-        <swagger.core.version>2.2.29</swagger.core.version>
+        <springdoc.version>2.8.8</springdoc.version>
+        <swagger.core.version>2.2.32</swagger.core.version>
         <mybatis-plus.version>3.5.12</mybatis-plus.version>
         <mysql.version>9.2.0</mysql.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>

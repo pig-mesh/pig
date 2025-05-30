@@ -24,12 +24,8 @@
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.pig4cloud</groupId>
     <artifactId>pig-common-datasource</artifactId>
-
     <packaging>jar</packaging>
-
     <description>pig 动态切换数据源</description>
 
     <dependencies>
