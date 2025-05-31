@@ -10,13 +10,18 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * openapi 配置类
+ * OpenAPI 配置类，用于动态注册 OpenAPI 相关 Bean 定义
  *
  * @author lengleng
- * @date 2023/1/1
+ * @date 2025/05/31
  */
 public class OpenAPIDefinitionImportSelector implements ImportBeanDefinitionRegistrar {
 
+	/**
+	 * 注册Bean定义，根据注解元数据配置OpenAPI相关Bean
+	 * @param metadata 注解元数据
+	 * @param registry Bean定义注册器
+	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 

@@ -38,17 +38,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * swagger配置
- *
+ * Swagger配置类，用于配置OpenAPI定义
  * <p>
- * 禁用方法1：使用注解@Profile({"dev","test"})
- * <p>
- * 表示在开发或测试环境开启，而在生产关闭。（推荐使用） 禁用方法2：使用注解@ConditionalOnProperty(name = "swagger.enable",
- * <p>
- * havingValue = "true") 然后在测试配置或者开发配置中添加swagger.enable=true即可开启，生产环境不填则默认关闭Swagger.
+ * 支持通过配置控制Swagger的启用状态，并提供OAuth2安全认证配置
  * </p>
  *
  * @author lengleng
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 @ConditionalOnProperty(name = "swagger.enabled", matchIfMissing = true)
@@ -57,8 +53,16 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 	@Setter
 	private String path;
 
+	/**
+	 * 应用上下文
+	 */
 	private ApplicationContext applicationContext;
 
+	/**
+	 * 创建并配置OAuth2安全方案
+	 * @param swaggerProperties Swagger配置属性
+	 * @return 配置好的SecurityScheme对象
+	 */
 	private SecurityScheme securityScheme(SwaggerProperties swaggerProperties) {
 		OAuthFlow clientCredential = new OAuthFlow();
 		clientCredential.setTokenUrl(swaggerProperties.getTokenUrl());
@@ -71,6 +75,10 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		return securityScheme;
 	}
 
+	/**
+	 * 初始化Swagger配置
+	 * @throws Exception 初始化过程中可能抛出的异常
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		SwaggerProperties swaggerProperties = applicationContext.getBean(SwaggerProperties.class);
@@ -85,6 +93,11 @@ public class OpenAPIDefinition extends OpenAPI implements InitializingBean, Appl
 		SpringDocUtils.getConfig().addSimpleTypesForParameterObject(Class.class);
 	}
 
+	/**
+	 * 设置应用上下文
+	 * @param applicationContext 应用上下文对象
+	 * @throws BeansException 如果设置上下文时发生错误
+	 */
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
