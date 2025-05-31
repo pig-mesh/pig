@@ -26,15 +26,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * 定时任务rest反射实现
+ * REST定时任务反射实现类
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @AllArgsConstructor
 @Component("restTaskInvok")
 public class RestTaskInvok implements ITaskInvok {
 
+	/**
+	 * 调用方法执行定时任务
+	 * @param sysJob 定时任务信息
+	 * @throws TaskException 任务执行失败时抛出异常
+	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		try {

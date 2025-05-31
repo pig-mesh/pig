@@ -28,7 +28,13 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
+ * 定时任务调用工厂类
+ * <p>
+ * 用于初始化并发布定时任务事件
+ *
+ * @author lengleng
  * @author 郑健楠
+ * @date 2025/05/31
  */
 @Slf4j
 @Aspect
@@ -38,6 +44,11 @@ public class PigQuartzInvokeFactory {
 
 	private final ApplicationEventPublisher publisher;
 
+	/**
+	 * 初始化并发布定时任务事件
+	 * @param sysJob 系统任务对象
+	 * @param trigger 任务触发器
+	 */
 	@SneakyThrows
 	void init(SysJob sysJob, Trigger trigger) {
 		publisher.publishEvent(new SysJobEvent(sysJob, trigger));

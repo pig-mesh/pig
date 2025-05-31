@@ -23,7 +23,11 @@ import lombok.Getter;
 import org.quartz.Trigger;
 
 /**
- * @author frwcloud 定时任务多线程事件
+ * 系统任务事件类，用于封装定时任务及其触发器
+ *
+ * @author frwcloud
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Getter
 @AllArgsConstructor

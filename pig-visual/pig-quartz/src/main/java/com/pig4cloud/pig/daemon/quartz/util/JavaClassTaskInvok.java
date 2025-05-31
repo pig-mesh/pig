@@ -28,14 +28,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * 定时任务java class反射实现
+ * 基于Java反射实现的定时任务调用类
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Component("javaClassTaskInvok")
 @Slf4j
 public class JavaClassTaskInvok implements ITaskInvok {
 
+	/**
+	 * 调用定时任务方法
+	 * @param sysJob 定时任务信息
+	 * @throws TaskException 执行任务过程中出现异常时抛出
+	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		Object obj;

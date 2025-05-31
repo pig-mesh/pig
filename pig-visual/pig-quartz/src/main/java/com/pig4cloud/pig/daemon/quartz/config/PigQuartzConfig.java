@@ -40,7 +40,11 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
+ * Quartz 定时任务配置类
+ *
+ * @author lengleng
  * @author 郑健楠
+ * @date 2025/05/31
  */
 @EnableAsync
 @Configuration
@@ -61,6 +65,15 @@ public class PigQuartzConfig {
 
 	private final ApplicationContext applicationContext;
 
+	/**
+	 * 构造函数，初始化PigQuartzConfig配置
+	 * @param properties Quartz配置属性
+	 * @param customizers SchedulerFactoryBean自定义器列表
+	 * @param jobDetails JobDetail数组
+	 * @param calendars 日历Map
+	 * @param triggers 触发器数组
+	 * @param applicationContext Spring应用上下文
+	 */
 	public PigQuartzConfig(QuartzProperties properties,
 			ObjectProvider<List<SchedulerFactoryBeanCustomizer>> customizers, ObjectProvider<JobDetail[]> jobDetails,
 			ObjectProvider<Map<String, Calendar>> calendars, ObjectProvider<Trigger[]> triggers,
@@ -73,6 +86,10 @@ public class PigQuartzConfig {
 		this.applicationContext = applicationContext;
 	}
 
+	/**
+	 * 创建并配置Quartz SchedulerFactoryBean
+	 * @return 配置完成的SchedulerFactoryBean实例
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public SchedulerFactoryBean quartzScheduler() {
@@ -99,12 +116,21 @@ public class PigQuartzConfig {
 		return schedulerFactoryBean;
 	}
 
+	/**
+	 * 将Map转换为Properties对象
+	 * @param source 源Map，键值对均为String类型
+	 * @return 转换后的Properties对象
+	 */
 	private Properties asProperties(Map<String, String> source) {
 		Properties properties = new Properties();
 		properties.putAll(source);
 		return properties;
 	}
 
+	/**
+	 * 自定义SchedulerFactoryBean
+	 * @param schedulerFactoryBean 需要自定义的调度器工厂bean
+	 */
 	private void customize(SchedulerFactoryBean schedulerFactoryBean) {
 		if (this.customizers != null) {
 

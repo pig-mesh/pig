@@ -46,17 +46,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * @author guoliang
- * @date 2024-3-26 11:19:18
- * <p>
- * 定时任务管理
+ * 定时任务管理控制器
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job")
 @Tag(description = "sys-job", name = "定时任务")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
-@Slf4j
 public class SysJobController {
 
 	private final SysJobService sysJobService;
@@ -142,8 +142,9 @@ public class SysJobController {
 
 	/**
 	 * 通过id删除定时任务
-	 * @param id id
-	 * @return R
+	 * @param id 定时任务唯一标识
+	 * @return 操作结果
+	 * @throws IllegalArgumentException 当任务未暂停时尝试删除会抛出异常
 	 */
 	@SysLog("删除定时任务")
 	@DeleteMapping("/{id}")
@@ -299,8 +300,10 @@ public class SysJobController {
 	}
 
 	/**
-	 * 唯一标识查询定时执行日志
-	 * @return
+	 * 分页查询定时执行日志
+	 * @param page 分页参数
+	 * @param sysJobLog 查询条件
+	 * @return 分页结果
 	 */
 	@GetMapping("/job-log")
 	@Operation(description = "唯一标识查询定时执行日志")
@@ -309,8 +312,10 @@ public class SysJobController {
 	}
 
 	/**
-	 * 检验任务名称和任务组联合是否唯一
-	 * @return
+	 * 校验任务名称和任务组组合是否唯一
+	 * @param jobName 任务名称
+	 * @param jobGroup 任务组
+	 * @return 校验结果，若已存在返回失败信息，否则返回成功
 	 */
 	@GetMapping("/is-valid-task-name")
 	@Operation(description = "检验任务名称和任务组联合是否唯一")
@@ -321,9 +326,9 @@ public class SysJobController {
 	}
 
 	/**
-	 * 导出任务
-	 * @param sysJob
-	 * @return
+	 * 导出任务数据
+	 * @param sysJob 查询条件对象
+	 * @return 符合条件的任务列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")

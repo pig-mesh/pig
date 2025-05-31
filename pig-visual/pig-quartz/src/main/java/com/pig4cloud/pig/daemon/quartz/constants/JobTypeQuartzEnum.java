@@ -21,10 +21,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author lengleng
- * @date 2019-03-14
- * <p>
  * 任务类型枚举
+ *
+ * @author lengleng
+ * @date 2019/03/14
  */
 @Getter
 @AllArgsConstructor

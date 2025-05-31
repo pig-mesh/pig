@@ -26,10 +26,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
- * 定时任务调度表
+ * 定时任务调度服务实现类
  *
- * @author frwcloud
- * @date 2019-01-27 10:04:42
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Service

@@ -25,9 +25,10 @@ import org.quartz.*;
 import org.springframework.stereotype.Component;
 
 /**
- * 定时任务的工具类
+ * 定时任务工具类，提供定时任务的增删改查及状态管理功能
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Component
@@ -35,17 +36,17 @@ public class TaskUtil {
 
 	/**
 	 * 获取定时任务的唯一key
-	 * @param sysjob
-	 * @return
+	 * @param sysjob 定时任务信息
+	 * @return 定时任务的唯一key
 	 */
 	public static JobKey getJobKey(SysJob sysjob) {
 		return JobKey.jobKey(sysjob.getJobName(), sysjob.getJobGroup());
 	}
 
 	/**
-	 * 获取定时任务触发器cron的唯一key
-	 * @param sysjob
-	 * @return
+	 * 获取定时任务触发器的唯一键
+	 * @param sysjob 定时任务信息
+	 * @return 定时任务触发器键
 	 */
 	public static TriggerKey getTriggerKey(SysJob sysjob) {
 		return TriggerKey.triggerKey(sysjob.getJobName(), sysjob.getJobGroup());
@@ -53,8 +54,8 @@ public class TaskUtil {
 
 	/**
 	 * 添加或更新定时任务
-	 * @param sysjob
-	 * @param scheduler
+	 * @param sysjob 任务信息
+	 * @param scheduler 调度器
 	 */
 	public void addOrUpateJob(SysJob sysjob, Scheduler scheduler) {
 		CronTrigger trigger = null;
@@ -105,6 +106,9 @@ public class TaskUtil {
 
 	/**
 	 * 立即执行一次任务
+	 * @param scheduler 调度器
+	 * @param sysJob 任务信息
+	 * @return 任务是否执行成功
 	 */
 	public static boolean runOnce(Scheduler scheduler, SysJob sysJob) {
 		try {
@@ -124,8 +128,8 @@ public class TaskUtil {
 
 	/**
 	 * 暂停定时任务
-	 * @param sysjob
-	 * @param scheduler
+	 * @param sysjob 任务信息
+	 * @param scheduler 任务调度器
 	 */
 	public void pauseJob(SysJob sysjob, Scheduler scheduler) {
 		try {
@@ -141,8 +145,8 @@ public class TaskUtil {
 
 	/**
 	 * 恢复定时任务
-	 * @param sysjob
-	 * @param scheduler
+	 * @param sysjob 任务信息
+	 * @param scheduler 任务调度器
 	 */
 	public void resumeJob(SysJob sysjob, Scheduler scheduler) {
 		try {
@@ -158,8 +162,8 @@ public class TaskUtil {
 
 	/**
 	 * 移除定时任务
-	 * @param sysjob
-	 * @param scheduler
+	 * @param sysjob 定时任务信息
+	 * @param scheduler 任务调度器
 	 */
 	public void removeJob(SysJob sysjob, Scheduler scheduler) {
 		try {
@@ -178,8 +182,9 @@ public class TaskUtil {
 	}
 
 	/**
-	 * 启动所有运行定时任务
-	 * @param scheduler
+	 * 启动所有运行中的定时任务
+	 * @param scheduler 调度器实例
+	 * @throws SchedulerException 当启动任务失败时抛出异常
 	 */
 	public void startJobs(Scheduler scheduler) {
 		try {
@@ -193,8 +198,9 @@ public class TaskUtil {
 	}
 
 	/**
-	 * 停止所有运行定时任务
-	 * @param scheduler
+	 * 暂停所有运行中的定时任务
+	 * @param scheduler 调度器实例
+	 * @throws Exception 暂停任务过程中可能抛出的异常
 	 */
 	public void pauseJobs(Scheduler scheduler) {
 		try {
@@ -208,10 +214,10 @@ public class TaskUtil {
 	}
 
 	/**
-	 * 获取错失执行策略方法
-	 * @param sysJob
-	 * @param cronScheduleBuilder
-	 * @return
+	 * 根据任务配置处理错失执行策略
+	 * @param sysJob 任务信息
+	 * @param cronScheduleBuilder 原始Cron调度构建器
+	 * @return 处理后的Cron调度构建器
 	 */
 	private CronScheduleBuilder handleCronScheduleMisfirePolicy(SysJob sysJob,
 			CronScheduleBuilder cronScheduleBuilder) {
@@ -233,9 +239,9 @@ public class TaskUtil {
 	}
 
 	/**
-	 * 判断cron表达式是否正确
-	 * @param cronExpression
-	 * @return
+	 * 校验cron表达式是否合法
+	 * @param cronExpression 待校验的cron表达式
+	 * @return true表示合法，false表示不合法
 	 */
 	public boolean isValidCron(String cronExpression) {
 		return CronExpression.isValidExpression(cronExpression);

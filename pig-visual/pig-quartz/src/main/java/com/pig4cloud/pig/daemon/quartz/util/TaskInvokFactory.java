@@ -7,18 +7,20 @@ import com.pig4cloud.pig.daemon.quartz.exception.TaskException;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author Hccake
+ * 任务调用工厂类：根据任务类型获取对应的任务调用器
+ *
+ * @author lengleng
  * @version 1.0
- * @date 2019/8/8 15:40 TaskInvok工厂类
+ * @date 2025/05/31
  */
 @Slf4j
 public class TaskInvokFactory {
 
 	/**
-	 * 根据对应jobType获取对应 invoker
-	 * @param jobType
-	 * @return
-	 * @throws TaskException
+	 * 根据任务类型获取对应的任务执行器
+	 * @param jobType 任务类型
+	 * @return 任务执行器实例
+	 * @throws TaskException 当任务类型为空或不支持时抛出异常
 	 */
 	public static ITaskInvok getInvoker(String jobType) throws TaskException {
 		if (StrUtil.isBlank(jobType)) {

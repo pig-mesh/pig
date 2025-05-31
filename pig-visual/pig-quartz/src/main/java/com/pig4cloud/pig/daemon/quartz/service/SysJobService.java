@@ -21,10 +21,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 
 /**
- * 定时任务调度表
+ * 定时任务调度服务接口
  *
- * @author frwcloud
- * @date 2019-01-27 10:04:42
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface SysJobService extends IService<SysJob> {
 

@@ -29,14 +29,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 定时任务可执行jar反射实现
+ * 定时任务可执行jar反射实现类
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Component("jarTaskInvok")
 public class JarTaskInvok implements ITaskInvok {
 
+	/**
+	 * 调用方法执行定时任务jar
+	 * @param sysJob 定时任务信息
+	 * @throws TaskException 执行任务时发生异常抛出
+	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		ProcessBuilder processBuilder = new ProcessBuilder();
