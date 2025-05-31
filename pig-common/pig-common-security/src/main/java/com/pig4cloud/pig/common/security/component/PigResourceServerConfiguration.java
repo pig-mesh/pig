@@ -29,22 +29,34 @@ import org.springframework.security.web.servlet.util.matcher.PathPatternRequestM
 import lombok.RequiredArgsConstructor;
 
 /**
- * @author lengleng
- * @date 2022-06-04
- * <p>
  * 资源服务器认证授权配置
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class PigResourceServerConfiguration {
 
+	/**
+	 * 资源认证异常处理入口点
+	 */
 	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
+	/**
+	 * 允许所有URL的配置属性
+	 */
 	private final PermitAllUrlProperties permitAllUrl;
 
+	/**
+	 * PigBearerToken提取器
+	 */
 	private final PigBearerTokenExtractor pigBearerTokenExtractor;
 
+	/**
+	 * 自定义不透明令牌解析器
+	 */
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
 	/**

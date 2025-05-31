@@ -31,10 +31,10 @@ import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
 
 /**
- * @author lengleng
- * @date 2022-06-04
+ * 服务间接口不鉴权处理切面
  *
- * 服务间接口不鉴权处理逻辑
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Aspect
@@ -43,6 +43,12 @@ public class PigSecurityInnerAspect implements Ordered {
 
 	private final HttpServletRequest request;
 
+	/**
+	 * 环绕通知，用于检查内部调用权限
+	 * @param point 切点对象
+	 * @param inner 内部调用注解
+	 * @throws AccessDeniedException 当无权限访问时抛出异常
+	 */
 	@SneakyThrows
 	@Before("@within(inner) || @annotation(inner)")
 	public void around(JoinPoint point, Inner inner) {

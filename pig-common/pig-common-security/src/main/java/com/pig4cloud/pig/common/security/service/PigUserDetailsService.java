@@ -21,8 +21,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * 用户详情服务接口，扩展了Spring Security的UserDetailsService和Ordered接口 提供用户详情加载、客户端支持校验及排序功能
+ *
  * @author lengleng
- * @date 2021/12/21
+ * @date 2025/05/31
  */
 public interface PigUserDetailsService extends UserDetailsService, Ordered {
 
@@ -44,9 +46,10 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 	}
 
 	/**
-	 * 构建userdetails
-	 * @param result 用户信息
-	 * @return UserDetails
+	 * 根据用户信息构建UserDetails对象
+	 * @param result 包含用户信息的R对象
+	 * @return 构建好的UserDetails对象
+	 * @throws UsernameNotFoundException 当用户信息不存在时抛出异常
 	 */
 	default UserDetails getUserDetails(R<UserInfo> result) {
 		UserInfo info = RetOps.of(result).getData().orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
@@ -72,9 +75,9 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 	}
 
 	/**
-	 * 通过用户实体查询
-	 * @param pigUser user
-	 * @return
+	 * 通过用户实体查询用户详情
+	 * @param pigUser 用户实体对象
+	 * @return 用户详情信息
 	 */
 	default UserDetails loadUserByUser(PigUser pigUser) {
 		return this.loadUserByUsername(pigUser.getUsername());

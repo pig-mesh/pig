@@ -1,8 +1,10 @@
 package com.pig4cloud.pig.common.security.util;
 
 /**
- * @author jumuning
- * @description OAuth2 异常信息
+ * OAuth2 异常信息常量接口
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface OAuth2ErrorCodesExpand {
 

@@ -27,8 +27,10 @@ import org.springframework.util.StringUtils;
 import java.util.Collection;
 
 /**
+ * 接口权限判断工具类
+ *
  * @author lengleng
- * @date 2019/2/1 接口权限判断工具
+ * @date 2025/05/31
  */
 public class PermissionService {
 

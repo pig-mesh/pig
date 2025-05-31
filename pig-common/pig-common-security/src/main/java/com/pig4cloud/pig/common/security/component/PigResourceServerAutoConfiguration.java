@@ -29,8 +29,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 资源服务器自动配置类
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PermitAllUrlProperties.class)

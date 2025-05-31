@@ -25,10 +25,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * 查询客户端相关信息实现
+ * 查询客户端相关信息实现类，支持Redis缓存
  *
  * @author lengleng
- * @date 2022/5/29
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 public class PigRemoteRegisteredClientRepository implements RegisteredClientRepository {
@@ -43,25 +43,27 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	 */
 	private final static int accessTokenValiditySeconds = 60 * 60 * 12;
 
+	/**
+	 * 远程客户端详情服务
+	 */
 	private final RemoteClientDetailsService clientDetailsService;
 
 	/**
-	 * Saves the registered client.
+	 * 保存注册的客户端
 	 *
 	 * <p>
-	 * IMPORTANT: Sensitive information should be encoded externally from the
-	 * implementation, e.g. {@link RegisteredClient#getClientSecret()}
-	 * @param registeredClient the {@link RegisteredClient}
+	 * 重要提示：敏感信息应在实现外部进行编码，例如 {@link RegisteredClient#getClientSecret()}
+	 * </p>
+	 * @param registeredClient 要保存的注册客户端
 	 */
 	@Override
 	public void save(RegisteredClient registeredClient) {
 	}
 
 	/**
-	 * Returns the registered client identified by the provided {@code id}, or
-	 * {@code null} if not found.
-	 * @param id the registration identifier
-	 * @return the {@link RegisteredClient} if found, otherwise {@code null}
+	 * 根据ID查找已注册的客户端
+	 * @param id 注册标识符
+	 * @return 找到的{@link RegisteredClient}，未找到则返回{@code null}
 	 */
 	@Override
 	public RegisteredClient findById(String id) {
@@ -69,16 +71,10 @@ public class PigRemoteRegisteredClientRepository implements RegisteredClientRepo
 	}
 
 	/**
-	 * Returns the registered client identified by the provided {@code clientId}, or
-	 * {@code null} if not found.
-	 * @param clientId the client identifier
-	 * @return the {@link RegisteredClient} if found, otherwise {@code null}
-	 */
-
-	/**
-	 * 重写原生方法支持redis缓存
-	 * @param clientId
-	 * @return
+	 * 根据客户端ID查询注册客户端信息，支持Redis缓存
+	 * @param clientId 客户端ID
+	 * @return 注册客户端信息
+	 * @throws OAuth2AuthorizationCodeRequestAuthenticationException 客户端查询异常时抛出
 	 */
 	@Override
 	@SneakyThrows

@@ -24,10 +24,12 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
- * @author lengleng
- * @date 2022-06-04
+ * 启用Pig资源服务器注解
  * <p>
- * 资源服务注解
+ * 通过导入相关配置类启用Pig资源服务器功能
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Documented
 @Inherited

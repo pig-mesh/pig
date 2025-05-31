@@ -27,15 +27,27 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
+ * 自定义不透明令牌内省器，用于处理OAuth2不透明令牌的验证和用户信息获取
+ *
  * @author lengleng
- * @date 2022/5/28
+ * @date 2025/05/31
  */
 @Slf4j
 @RequiredArgsConstructor
 public class PigCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
+	/**
+	 * OAuth2授权服务
+	 */
 	private final OAuth2AuthorizationService authorizationService;
 
+	/**
+	 * 根据token内省获取认证主体信息
+	 * @param token 访问令牌
+	 * @return OAuth2认证主体信息
+	 * @throws InvalidBearerTokenException 当token对应的授权信息不存在时抛出
+	 * @throws UsernameNotFoundException 当用户不存在时抛出
+	 */
 	@Override
 	public OAuth2AuthenticatedPrincipal introspect(String token) {
 		OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);

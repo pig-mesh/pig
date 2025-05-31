@@ -31,20 +31,24 @@ import java.util.List;
 /**
  * 安全工具类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @UtilityClass
 public class SecurityUtils {
 
 	/**
-	 * 获取Authentication
+	 * 获取当前安全上下文的认证信息
+	 * @return 当前认证信息对象
 	 */
 	public Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
 	}
 
 	/**
-	 * 获取用户
+	 * 获取当前认证用户
+	 * @param authentication 认证信息
+	 * @return 用户对象，如果认证主体不是PigUser类型则返回null
 	 */
 	public PigUser getUser(Authentication authentication) {
 		Object principal = authentication.getPrincipal();
@@ -55,7 +59,8 @@ public class SecurityUtils {
 	}
 
 	/**
-	 * 获取用户
+	 * 获取当前认证用户
+	 * @return 当前认证用户对象，未认证时返回null
 	 */
 	public PigUser getUser() {
 		Authentication authentication = getAuthentication();

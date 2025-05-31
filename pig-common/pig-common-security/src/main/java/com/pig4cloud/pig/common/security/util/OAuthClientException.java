@@ -6,8 +6,10 @@ import org.springframework.security.oauth2.core.OAuth2Error;
 import java.io.Serial;
 
 /**
+ * OAuth客户端异常类
+ *
  * @author lengleng
- * @description OAuthClientException 异常信息
+ * @date 2025/05/31
  */
 public class OAuthClientException extends OAuth2AuthenticationException {
 
@@ -15,17 +17,17 @@ public class OAuthClientException extends OAuth2AuthenticationException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a <code>ScopeException</code> with the specified message.
-	 * @param msg the detail message.
+	 * 使用指定消息构造OAuthClientException
+	 * @param msg 详细消息
 	 */
 	public OAuthClientException(String msg) {
 		super(new OAuth2Error(msg), msg);
 	}
 
 	/**
-	 * Constructs a {@code ScopeException} with the specified message and root cause.
-	 * @param msg the detail message.
-	 * @param cause root cause
+	 * 构造一个带有指定消息和根原因的OAuthClientException
+	 * @param msg 详细消息
+	 * @param cause 根原因
 	 */
 	public OAuthClientException(String msg, Throwable cause) {
 		super(new OAuth2Error(msg), cause);

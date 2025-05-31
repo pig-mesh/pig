@@ -27,14 +27,17 @@ import java.util.Locale;
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 /**
- * @author lengleng
- * @date 2022-06-04
- * <p>
- * 注入自定义错误处理,覆盖 org/springframework/security/messages 内置异常
+ * 创建并配置安全相关的消息源
+ *
+ * @return 配置好的ReloadableResourceBundleMessageSource实例
  */
 @ConditionalOnWebApplication(type = SERVLET)
 public class PigSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
+	/**
+	 * 创建并配置安全相关的消息源
+	 * @return 配置好的ReloadableResourceBundleMessageSource实例
+	 */
 	@Bean
 	public MessageSource securityMessageSource() {
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
