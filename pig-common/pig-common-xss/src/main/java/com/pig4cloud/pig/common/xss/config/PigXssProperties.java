@@ -25,9 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Xss配置类
+ * XSS 防护配置属性类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Getter
 @Setter

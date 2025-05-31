@@ -25,12 +25,21 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import java.io.IOException;
 
 /**
- * jackson xss 处理
+ * Jackson XSS 处理基类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 public abstract class XssCleanDeserializerBase extends JsonDeserializer<String> {
 
+	/**
+	 * 反序列化方法，用于处理JSON字符串的反序列化并进行XSS清洗
+	 * @param p JSON解析器
+	 * @param ctx 反序列化上下文
+	 * @return 经过XSS清洗后的字符串，如果输入为null则返回null
+	 * @throws IOException 当反序列化过程中发生I/O错误时抛出
+	 * @throws MismatchedInputException 当当前JSON令牌不是VALUE_STRING时抛出
+	 */
 	@Override
 	public String deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
 		JsonToken jsonToken = p.getCurrentToken();
@@ -49,10 +58,11 @@ public abstract class XssCleanDeserializerBase extends JsonDeserializer<String> 
 	}
 
 	/**
-	 * 清理 xss
-	 * @param name name
-	 * @param text text
-	 * @return String
+	 * 清理文本中的XSS攻击内容
+	 * @param name 文本名称标识
+	 * @param text 待清理的文本内容
+	 * @return 清理后的安全文本
+	 * @throws IOException 清理过程中发生IO异常时抛出
 	 */
 	public abstract String clean(String name, String text) throws IOException;
 

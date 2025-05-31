@@ -33,8 +33,19 @@ import org.springframework.web.servlet.AsyncHandlerInterceptor;
 @RequiredArgsConstructor
 public class XssCleanInterceptor implements AsyncHandlerInterceptor {
 
+	/**
+	 * XSS防护配置属性
+	 */
 	private final PigXssProperties xssProperties;
 
+	/**
+	 * 预处理XSS过滤
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param handler 处理器对象
+	 * @return 总是返回true
+	 * @throws Exception 处理过程中可能抛出的异常
+	 */
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -59,12 +70,26 @@ public class XssCleanInterceptor implements AsyncHandlerInterceptor {
 		return true;
 	}
 
+	/**
+	 * 请求完成后清理XSS过滤器持有的线程局部变量
+	 * @param request HTTP请求对象
+	 * @param response HTTP响应对象
+	 * @param handler 处理请求的处理器
+	 * @param ex 处理过程中抛出的异常
+	 */
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		XssHolder.remove();
 	}
 
+	/**
+	 * 在并发处理开始后清除XSSHolder中的内容
+	 * @param request HTTP请求对象
+	 * @param response HTTP响应对象
+	 * @param handler 处理器对象
+	 * @throws Exception 可能抛出的异常
+	 */
 	@Override
 	public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {

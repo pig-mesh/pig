@@ -35,9 +35,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 /**
- * jackson xss 配置
+ * Jackson XSS 自动配置类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @AutoConfiguration
 @RequiredArgsConstructor
@@ -49,24 +50,46 @@ public class PigXssAutoConfiguration implements WebMvcConfigurer {
 
 	private final com.pig4cloud.pig.common.xss.config.PigXssProperties xssProperties;
 
+	/**
+	 * 创建XSS清理器Bean
+	 * @param properties XSS配置属性
+	 * @return XSS清理器实例
+	 * @see DefaultXssCleaner
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public XssCleaner xssCleaner(com.pig4cloud.pig.common.xss.config.PigXssProperties properties) {
 		return new DefaultXssCleaner(properties);
 	}
 
+	/**
+	 * 创建FormXssClean实例
+	 * @param properties PigXss配置属性
+	 * @param xssCleaner XSS清理器
+	 * @return FormXssClean实例
+	 */
 	@Bean
 	public FormXssClean formXssClean(com.pig4cloud.pig.common.xss.config.PigXssProperties properties,
 			XssCleaner xssCleaner) {
 		return new FormXssClean(properties, xssCleaner);
 	}
 
+	/**
+	 * 创建Jackson2ObjectMapperBuilderCustomizer Bean，用于XSS防护
+	 * @param properties XSS配置属性
+	 * @param xssCleaner XSS清理器
+	 * @return 自定义的Jackson2ObjectMapperBuilder
+	 */
 	@Bean
 	public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(
 			com.pig4cloud.pig.common.xss.config.PigXssProperties properties, XssCleaner xssCleaner) {
 		return builder -> builder.deserializerByType(String.class, new JacksonXssClean(properties, xssCleaner));
 	}
 
+	/**
+	 * 添加XSS拦截器
+	 * @param registry 拦截器注册器
+	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		List<String> patterns = xssProperties.getPathPatterns();
