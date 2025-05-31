@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 模板
+ * 模板管理控制器
  *
- * @author PIG
- * @date 2023-02-21 17:15:44
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
@@ -54,10 +54,10 @@ public class GenTemplateController {
 	private final GenTemplateService genTemplateService;
 
 	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param genTemplate 模板
-	 * @return
+	 * 分页查询模板信息
+	 * @param page 分页参数对象
+	 * @param genTemplate 模板查询条件
+	 * @return 分页查询结果
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")

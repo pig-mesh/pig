@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * 代码生成默认配置类
  *
  * @author lengleng
- * @date 2024/7/15
+ * @date 2025/05/31
  */
 @Data
 @Configuration(proxyBeanMethods = false)

@@ -21,7 +21,7 @@ import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 数据源表
+ * 数据源表 Mapper 接口
  *
  * @author lengleng
  * @date 2019-03-31 16:00:20

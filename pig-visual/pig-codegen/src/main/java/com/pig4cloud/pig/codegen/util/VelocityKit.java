@@ -13,19 +13,19 @@ import java.util.Optional;
 import java.util.Properties;
 
 /**
- * 模板引擎工具类
+ * Velocity模板引擎工具类，提供模板渲染和字符串渲染功能
  *
  * @author lengleng
- * @date 2023/2/7
+ * @date 2025/05/31
  */
 @Service
 public class VelocityKit {
 
 	/**
 	 * Velocity 模板渲染方法
-	 * @param template 模板
+	 * @param template 模板路径
 	 * @param map 数据模型
-	 * @return 渲染结果
+	 * @return 渲染后的字符串结果
 	 */
 	public static String render(String template, Map<String, Object> map) {
 		// 设置velocity资源加载器
@@ -48,9 +48,9 @@ public class VelocityKit {
 
 	/**
 	 * 渲染文本
-	 * @param str
-	 * @param dataModel 数据
-	 * @return
+	 * @param str 待渲染的字符串
+	 * @param dataModel 数据模型
+	 * @return 渲染后的字符串
 	 */
 	public static String renderStr(String str, Map<String, Object> dataModel) {
 		// 设置velocity资源加载器

@@ -23,10 +23,10 @@ import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
 import org.springframework.stereotype.Service;
 
 /**
- * 模板分组关联表
+ * 模板分组关联表服务实现类
  *
- * @author PIG
- * @date 2023-02-22 09:25:15
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Service
 public class GenTemplateGroupServiceImpl extends ServiceImpl<GenTemplateGroupMapper, GenTemplateGroupEntity>

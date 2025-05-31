@@ -23,10 +23,10 @@ import com.pig4cloud.pig.codegen.entity.GenFieldType;
 import java.util.Set;
 
 /**
- * 列属性
+ * 列属性服务接口
  *
- * @author pigx code generator
- * @date 2023-02-06 20:16:01
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface GenFieldTypeService extends IService<GenFieldType> {
 

@@ -25,10 +25,10 @@ import org.apache.ibatis.annotations.Param;
 import java.util.Set;
 
 /**
- * 列属性
+ * 字段类型映射器接口：用于操作字段类型相关数据库操作
  *
- * @author pigx code generator
- * @date 2023-02-06 20:16:01
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Mapper
 public interface GenFieldTypeMapper extends BaseMapper<GenFieldType> {

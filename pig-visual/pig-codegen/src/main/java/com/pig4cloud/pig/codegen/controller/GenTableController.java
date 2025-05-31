@@ -36,20 +36,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 列属性
+ * 代码表管理控制器
  *
- * @author pigx code generator
- * @date 2023-02-06 20:34:55
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/table")
-@Tag(description = "table", name = "列属性管理")
+@Tag(description = "table", name = "代码表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTableController {
 
 	private final GenTableColumnService tableColumnService;
 
+	/**
+	 * 表服务
+	 */
 	private final GenTableService tableService;
 
 	/**
@@ -77,7 +80,8 @@ public class GenTableController {
 
 	/**
 	 * 查询数据源所有表
-	 * @param dsName 数据源
+	 * @param dsName 数据源名称
+	 * @return 包含表列表的响应结果
 	 */
 	@GetMapping("/list/{dsName}")
 	public R listTable(@PathVariable("dsName") String dsName) {

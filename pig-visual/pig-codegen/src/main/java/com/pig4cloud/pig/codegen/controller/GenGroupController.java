@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 模板分组
+ * 模板分组管理控制器
  *
- * @author PIG
- * @date 2023-02-21 20:01:53
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
@@ -54,10 +54,10 @@ public class GenGroupController {
 	private final GenGroupService genGroupService;
 
 	/**
-	 * 分页查询
+	 * 分页查询模板分组
 	 * @param page 分页对象
-	 * @param genGroup 模板分组
-	 * @return
+	 * @param genGroup 模板分组查询条件
+	 * @return 分页查询结果
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
@@ -136,7 +136,8 @@ public class GenGroupController {
 	}
 
 	/**
-	 * @return 响应信息主体
+	 * 查询列表
+	 * @return 包含列表数据的响应信息
 	 */
 	@GetMapping("/list")
 	@Operation(summary = "查询列表", description = "查询列表")

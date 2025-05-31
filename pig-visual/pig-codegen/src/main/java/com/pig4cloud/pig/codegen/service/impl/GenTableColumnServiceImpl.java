@@ -19,10 +19,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- * 表字段信息管理
+ * 表字段信息管理服务实现类
  *
  * @author lengleng
- * @date 2020/5/18
+ * @date 2025/05/31
  */
 @Service
 @RequiredArgsConstructor
@@ -78,7 +78,6 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	 * @param tableFieldList 表单字段列表
 	 */
 	@Override
-
 	public void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
 		AtomicInteger sort = new AtomicInteger();
 		this.updateBatchById(tableFieldList.stream()

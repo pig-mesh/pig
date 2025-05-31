@@ -21,10 +21,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 
 /**
- * 模板分组关联表
+ * 模板分组关联服务接口
  *
- * @author PIG
- * @date 2023-02-22 09:25:15
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface GenTemplateGroupService extends IService<GenTemplateGroupEntity> {
 

@@ -23,15 +23,25 @@ import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import java.util.List;
 
 /**
- * 列属性
+ * 代码生成表列服务接口
  *
- * @author pigx code generator
- * @date 2023-02-06 20:16:01
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
+	/**
+	 * 初始化字段列表
+	 * @param tableFieldList 表字段实体列表
+	 */
 	void initFieldList(List<GenTableColumnEntity> tableFieldList);
 
+	/**
+	 * 更新表字段信息
+	 * @param dsName 数据源名称
+	 * @param tableName 表名
+	 * @param tableFieldList 表字段列表
+	 */
 	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 }

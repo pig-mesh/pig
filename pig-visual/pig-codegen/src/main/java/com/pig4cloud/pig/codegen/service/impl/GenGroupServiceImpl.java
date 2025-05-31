@@ -35,10 +35,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 模板分组
+ * 模板分组服务实现类
  *
- * @author PIG
- * @date 2023-02-21 20:01:53
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Service
@@ -48,8 +48,8 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	private final GenTemplateGroupService genTemplateGroupService;
 
 	/**
-	 * 新增模板分组
-	 * @param genTemplateGroup
+	 * 保存模板分组信息
+	 * @param genTemplateGroup 模板分组DTO对象，包含分组信息及关联模板ID列表
 	 */
 	@Override
 	public void saveGenGroup(TemplateGroupDTO genTemplateGroup) {
@@ -69,8 +69,8 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	}
 
 	/**
-	 * 按照ids删除
-	 * @param ids groupIds
+	 * 按照分组ID数组删除分组及其关联模板
+	 * @param ids 分组ID数组
 	 */
 	@Override
 	public void delGroupAndTemplate(Long[] ids) {
@@ -82,9 +82,9 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	}
 
 	/**
-	 * 按照id查询
-	 * @param id
-	 * @return
+	 * 根据ID查询组信息
+	 * @param id 组ID
+	 * @return 组信息视图对象
 	 */
 	@Override
 	public GroupVO getGroupVoById(Long id) {
@@ -92,8 +92,8 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 	}
 
 	/**
-	 * 根据id更新
-	 * @param groupVo
+	 * 根据ID更新分组及其关联模板
+	 * @param groupVo 分组VO对象，包含分组ID和模板ID列表
 	 */
 	@Override
 	public void updateGroupAndTemplateById(GroupVO groupVo) {

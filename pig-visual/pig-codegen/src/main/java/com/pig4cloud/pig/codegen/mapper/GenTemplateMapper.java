@@ -24,18 +24,18 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 模板
+ * 代码生成模板Mapper接口
  *
- * @author PIG
- * @date 2023-02-21 17:15:44
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Mapper
 public interface GenTemplateMapper extends BaseMapper<GenTemplateEntity> {
 
 	/**
-	 * 根据groupId查询 模板
-	 * @param groupId
-	 * @return
+	 * 根据模板组ID查询模板列表
+	 * @param groupId 模板组ID
+	 * @return 模板实体列表
 	 */
 	List<GenTemplateEntity> listTemplateById(Long groupId);
 
