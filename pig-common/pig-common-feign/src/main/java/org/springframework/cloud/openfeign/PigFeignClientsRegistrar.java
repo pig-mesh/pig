@@ -17,10 +17,7 @@
 
 package org.springframework.cloud.openfeign;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+import lombok.Getter;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.config.BeanDefinitionHolder;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -38,13 +35,18 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
-import lombok.Getter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author L.cm
- * @date 2020/2/8
- * <p>
- * feign 自动配置功能 from mica
+ * Feign客户端注册器，用于自动配置Feign客户端
+ *
+ * @author lengleng
+ * @date 2025/05/31
+ * @see ImportBeanDefinitionRegistrar
+ * @see BeanClassLoaderAware
+ * @see EnvironmentAware
  */
 public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, BeanClassLoaderAware, EnvironmentAware {
 
@@ -56,16 +58,29 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	@Getter
 	private Environment environment;
 
+	/**
+	 * 注册Bean定义
+	 * @param metadata 注解元数据
+	 * @param registry Bean定义注册器
+	 */
 	@Override
 	public void registerBeanDefinitions(AnnotationMetadata metadata, BeanDefinitionRegistry registry) {
 		registerFeignClients(registry);
 	}
 
+	/**
+	 * 设置Bean类加载器
+	 * @param classLoader 要设置的类加载器
+	 */
 	@Override
 	public void setBeanClassLoader(ClassLoader classLoader) {
 		this.beanClassLoader = classLoader;
 	}
 
+	/**
+	 * 注册Feign客户端到Spring容器
+	 * @param registry Bean定义注册器，用于注册Bean定义
+	 */
 	private void registerFeignClients(BeanDefinitionRegistry registry) {
 		List<String> feignClients = new ArrayList<>();
 
@@ -152,15 +167,9 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	}
 
 	/**
-	 * Return the class used by {@link SpringFactoriesLoader} to load configuration
-	 * candidates.
-	 * @return the factory class
+	 * 验证Feign客户端配置属性
+	 * @param attributes 配置属性Map
 	 */
-	/**
-	 * private Class<?> getSpringFactoriesLoaderFactoryClass() { return
-	 * PigFeignAutoConfiguration.class; }
-	 **/
-
 	private void validate(Map<String, Object> attributes) {
 		AnnotationAttributes annotation = AnnotationAttributes.fromMap(attributes);
 		// This blows up if an aliased property is overspecified
@@ -168,6 +177,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		FeignClientsRegistrar.validateFallbackFactory(annotation.getClass("fallbackFactory"));
 	}
 
+	/**
+	 * 从属性Map中获取名称
+	 * @param attributes 属性Map
+	 * @return 解析后的名称
+	 */
 	private String getName(Map<String, Object> attributes) {
 		String name = (String) attributes.get("serviceId");
 		if (!StringUtils.hasText(name)) {
@@ -180,6 +194,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return FeignClientsRegistrar.getName(name);
 	}
 
+	/**
+	 * 获取上下文ID
+	 * @param attributes 属性Map
+	 * @return 解析后的上下文ID，如果contextId为空则返回名称
+	 */
 	private String getContextId(Map<String, Object> attributes) {
 		String contextId = (String) attributes.get("contextId");
 		if (!StringUtils.hasText(contextId)) {
@@ -190,6 +209,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return FeignClientsRegistrar.getName(contextId);
 	}
 
+	/**
+	 * 解析字符串中的占位符
+	 * @param value 待解析的字符串
+	 * @return 解析后的字符串，若输入为空则返回原值
+	 */
 	private String resolve(String value) {
 		if (StringUtils.hasText(value)) {
 			return this.environment.resolvePlaceholders(value);
@@ -197,6 +221,11 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return value;
 	}
 
+	/**
+	 * 获取URL地址
+	 * @param attributes 属性集合
+	 * @return 解析后的URL地址，微服务环境下返回null
+	 */
 	private String getUrl(Map<String, Object> attributes) {
 
 		// 如果是单体项目自动注入 & url 为空
@@ -219,11 +248,21 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return FeignClientsRegistrar.getUrl(url);
 	}
 
+	/**
+	 * 获取路径
+	 * @param attributes 属性Map，包含路径信息
+	 * @return 解析后的路径
+	 */
 	private String getPath(Map<String, Object> attributes) {
 		String path = resolve((String) attributes.get("path"));
 		return FeignClientsRegistrar.getPath(path);
 	}
 
+	/**
+	 * 从客户端信息中获取qualifier字段值
+	 * @param client 客户端信息映射表，可能为null
+	 * @return qualifier字段值，若无有效值则返回null
+	 */
 	@Nullable
 	private String getQualifier(@Nullable Map<String, Object> client) {
 		if (client == null) {
@@ -236,6 +275,12 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 		return null;
 	}
 
+	/**
+	 * 获取客户端名称，依次从contextId、value、name、serviceId字段中获取
+	 * @param client 客户端信息Map，可为null
+	 * @return 客户端名称，可能为null
+	 * @throws IllegalStateException 当无法从client中获取到有效名称时抛出
+	 */
 	@Nullable
 	private String getClientName(@Nullable Map<String, Object> client) {
 		if (client == null) {
@@ -260,15 +305,12 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 	}
 
 	/**
-	 * private void registerClientConfiguration(BeanDefinitionRegistry registry, Object
-	 * name, Object configuration) { BeanDefinitionBuilder builder =
-	 * BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
-	 * builder.addConstructorArgValue(name);
-	 * builder.addConstructorArgValue(configuration); registry.registerBeanDefinition(name
-	 * + "." + FeignClientSpecification.class.getSimpleName(),
-	 * builder.getBeanDefinition()); }
-	 **/
-
+	 * 注册客户端配置到BeanDefinitionRegistry
+	 * @param registry Bean定义注册器
+	 * @param name 客户端名称
+	 * @param className 类名
+	 * @param configuration 配置对象
+	 */
 	private void registerClientConfiguration(BeanDefinitionRegistry registry, Object name, Object className,
 			Object configuration) {
 		BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(FeignClientSpecification.class);
@@ -279,6 +321,10 @@ public class PigFeignClientsRegistrar implements ImportBeanDefinitionRegistrar, 
 				builder.getBeanDefinition());
 	}
 
+	/**
+	 * 设置环境变量
+	 * @param environment 要设置的环境变量对象
+	 */
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;

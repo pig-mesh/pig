@@ -28,12 +28,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 /**
- * sentinel统一降级限流策略
+ * Sentinel统一降级限流策略处理器
  * <p>
- * {@link com.alibaba.csp.sentinel.adapter.spring.webmvc.callback.DefaultBlockExceptionHandler}
+ * 实现BlockExceptionHandler接口，处理Sentinel限流降级异常
  *
  * @author lengleng
- * @date 2020-06-11
+ * @date 2025/05/31
  */
 @Slf4j
 @RequiredArgsConstructor

@@ -22,8 +22,10 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
+ * 启用Pig Feign客户端注解
+ *
  * @author lengleng
- * @date 2019/2/1
+ * @date 2025/05/31
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -32,21 +34,18 @@ import java.lang.annotation.*;
 public @interface EnablePigFeignClients {
 
 	/**
-	 * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation
-	 * declarations e.g.: {@code @ComponentScan("org.my.pkg")} instead of
-	 * {@code @ComponentScan(basePackages="org.my.pkg")}.
-	 * @return the array of 'basePackages'.
+	 * {@link #basePackages()}属性的别名。允许更简洁的注解声明
+	 * @return 'basePackages'数组
 	 */
 	String[] value() default {};
 
 	/**
-	 * Base packages to scan for annotated components.
+	 * 扫描注解组件的基础包路径
 	 * <p>
-	 * {@link #value()} is an alias for (and mutually exclusive with) this attribute.
+	 * 与{@link #value()}互为别名且互斥
 	 * <p>
-	 * Use {@link #basePackageClasses()} for a type-safe alternative to String-based
-	 * package names.
-	 * @return the array of 'basePackages'.
+	 * 对于基于字符串的包名，可使用{@link #basePackageClasses()}作为类型安全的替代方案
+	 * @return 基础包路径数组
 	 */
 	@AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
 	String[] basePackages() default { "com.pig4cloud.pig" };

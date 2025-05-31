@@ -16,10 +16,11 @@
 
 package com.pig4cloud.pig.common.feign.sentinel.ext;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.Map;
-
+import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
+import feign.Contract;
+import feign.Feign;
+import feign.InvocationHandlerFactory;
+import feign.Target;
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -29,18 +30,15 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.StringUtils;
 
-import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
-
-import feign.Contract;
-import feign.Feign;
-import feign.InvocationHandlerFactory;
-import feign.Target;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.Map;
 
 /**
- * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
+ * 支持自动降级注入的Feign构建器，重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
  *
  * @author lengleng
- * @date 2020/6/9
+ * @date 2025/05/31
  */
 public final class PigSentinelFeign {
 

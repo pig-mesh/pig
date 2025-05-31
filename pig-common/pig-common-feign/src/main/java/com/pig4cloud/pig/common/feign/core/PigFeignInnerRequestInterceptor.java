@@ -9,15 +9,16 @@ import org.springframework.core.Ordered;
 import java.lang.reflect.Method;
 
 /**
+ * PigFeign 内部请求拦截器，用于处理 Feign 请求的 Token 校验
+ *
  * @author lengleng
- * @date 2024/6/1
+ * @date 2025/05/31
  */
 public class PigFeignInnerRequestInterceptor implements RequestInterceptor, Ordered {
 
 	/**
-	 * Called for every request. Add data using methods on the supplied
-	 * {@link RequestTemplate}.
-	 * @param template
+	 * 为每个请求调用，使用提供的{@link RequestTemplate}方法添加数据
+	 * @param template 请求模板
 	 */
 	@Override
 	public void apply(RequestTemplate template) {

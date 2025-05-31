@@ -36,12 +36,13 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.List;
 
 /**
+ * 全局业务异常处理器，结合Sentinel处理系统异常
  * <p>
- * 全局异常处理器结合sentinel 全局异常处理器不能作用在 oauth server https://gitee.com/log4j/pig/issues/I1M2TJ
+ * 注意：全局异常处理器不能作用在OAuth Server
  * </p>
  *
  * @author lengleng
- * @date 2020-06-29
+ * @date 2025/05/31
  */
 @Slf4j
 @Order(10000)
