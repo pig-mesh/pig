@@ -22,10 +22,10 @@ import org.springframework.context.annotation.Import;
 import java.lang.annotation.*;
 
 /**
- * @author Lucky
- * @date 2019-05-18
- * <p>
- * 开启动态数据源
+ * 开启动态数据源注解
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)

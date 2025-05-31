@@ -21,10 +21,13 @@ import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * @author lengleng
- * @date 2020/2/6
+ * 基于方法最后一个参数的数据源处理器
  * <p>
- * 参数数据源解析 @DS("#last)
+ * 用于解析@DS("#last")注解，将数据源切换为方法最后一个参数
+ * </p>
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 public class LastParamDsProcessor extends DsProcessor {
 

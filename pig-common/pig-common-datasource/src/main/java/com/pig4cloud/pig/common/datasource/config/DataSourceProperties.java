@@ -20,9 +20,10 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 数据源配置属性类
+ *
  * @author lengleng
- * @date 2019-05-14
- * <p>
+ * @date 2025/05/31
  */
 @Data
 @ConfigurationProperties("spring.datasource")

@@ -29,10 +29,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * JDBC动态数据源提供者：从数据源中获取配置信息
+ *
  * @author lengleng
- * @date 2020/2/6
- * <p>
- * 从数据源中获取 配置信息
+ * @date 2025/05/31
  */
 public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvider {
 

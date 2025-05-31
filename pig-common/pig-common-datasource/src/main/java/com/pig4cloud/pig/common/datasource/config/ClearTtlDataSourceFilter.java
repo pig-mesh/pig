@@ -11,13 +11,21 @@ import org.springframework.web.filter.GenericFilterBean;
 import java.io.IOException;
 
 /**
+ * 清空上文的DS设置避免污染当前线程的过滤器
+ *
  * @author lengleng
- * @date 2020/12/11
- * <p>
- * 清空上文的DS 设置避免污染当前线程
+ * @date 2025/05/31
  */
 public class ClearTtlDataSourceFilter extends GenericFilterBean implements Ordered {
 
+	/**
+	 * 过滤器方法，用于清除动态数据源上下文
+	 * @param servletRequest 请求对象
+	 * @param servletResponse 响应对象
+	 * @param filterChain 过滤器链
+	 * @throws IOException IO异常
+	 * @throws ServletException Servlet异常
+	 */
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
