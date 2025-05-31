@@ -16,17 +16,18 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.util.Optional;
 
 /**
- * excel 自动装配类
+ * Excel 自动装配类
  *
  * @author lengleng
- * @date 2024/9/1
+ * @date 2025/05/31
  */
 @AutoConfiguration
 public class ExcelAutoConfiguration {
 
 	/**
-	 * 远程 dict API 服务
-	 * @return {@link RemoteDictApiService }
+	 * 创建远程字典API服务实例
+	 * @param restClientBuilderOptional RestClient构建器的可选对象
+	 * @return {@link RemoteDictApiService} 远程字典API服务实例
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -40,9 +41,9 @@ public class ExcelAutoConfiguration {
 	}
 
 	/**
-	 * dict 数据提供程序
-	 * @param remoteDictApiService 远程 dict API 服务
-	 * @return {@link DictDataProvider }
+	 * 创建字典数据提供程序
+	 * @param remoteDictApiService 远程字典API服务
+	 * @return 字典数据提供程序实例
 	 */
 	@Bean
 	@ConditionalOnMissingBean
@@ -51,8 +52,8 @@ public class ExcelAutoConfiguration {
 	}
 
 	/**
-	 * 获取Base URL
-	 * @return {@link String }
+	 * 获取基础URL
+	 * @return 根据当前架构模式组装的基础URL字符串
 	 */
 	private String getBaseUrl() {
 		// 根据当前架构模式，组装URL

@@ -11,10 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 远程 dict 数据提供程序
+ * 远程字典数据提供程序实现类
  *
  * @author lengleng
- * @date 2024/09/01
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 public class RemoteDictDataProvider implements DictDataProvider {
@@ -22,9 +22,9 @@ public class RemoteDictDataProvider implements DictDataProvider {
 	private final RemoteDictApiService remoteDictApiService;
 
 	/**
-	 * 获取 dict
-	 * @param type 类型
-	 * @return {@link DictEnum[] }
+	 * 根据类型获取字典枚举数组
+	 * @param type 字典类型
+	 * @return 字典枚举数组，无数据时返回空数组
 	 */
 	@Override
 	public DictEnum[] getDict(String type) {
