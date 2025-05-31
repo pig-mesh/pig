@@ -40,23 +40,30 @@ import java.net.URL;
 import java.util.*;
 
 /**
- * aws-s3 通用存储操作 支持所有兼容s3协议的云存储: {阿里云OSS，腾讯云COS，七牛云，京东云，minio 等}
+ * AWS S3通用存储操作模板类，支持所有兼容S3协议的云存储服务
  *
  * @author lengleng
  * @author 858695266
- * @date 2020/5/23 6:36 上午
+ * @date 2025/05/31
  * @since 1.0
  */
 @RequiredArgsConstructor
 public class OssTemplate implements InitializingBean, FileTemplate {
 
+	/**
+	 * 文件属性配置
+	 */
 	private final FileProperties properties;
 
+	/**
+	 * Amazon S3客户端实例
+	 */
 	private AmazonS3 amazonS3;
 
 	/**
 	 * 创建bucket
 	 * @param bucketName bucket名称
+	 * @throws Exception 创建bucket时可能抛出的异常
 	 */
 	@SneakyThrows
 	public void createBucket(String bucketName) {
@@ -218,6 +225,17 @@ public class OssTemplate implements InitializingBean, FileTemplate {
 		amazonS3.deleteObject(bucketName, objectName);
 	}
 
+	/**
+	 * 初始化AmazonS3客户端实例
+	 *
+	 * <p>
+	 * 在Spring Bean属性设置完成后调用，用于配置并创建AmazonS3客户端
+	 * </p>
+	 *
+	 * <p>
+	 * 配置包括：最大连接数、端点地址、区域、访问凭证、分块编码禁用、路径样式访问等
+	 * </p>
+	 */
 	@Override
 	public void afterPropertiesSet() {
 		ClientConfiguration clientConfiguration = new ClientConfiguration();

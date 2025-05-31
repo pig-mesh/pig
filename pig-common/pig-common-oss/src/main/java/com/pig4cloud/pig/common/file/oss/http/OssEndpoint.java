@@ -35,12 +35,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * aws 对外提供服务端点
+ * AWS 对象存储服务端点
  *
  * @author lengleng
  * @author 858695266
- * <p>
- * oss.info
+ * @date 2025/05/31
  */
 @RestController
 @AllArgsConstructor
@@ -51,7 +50,10 @@ public class OssEndpoint {
 	private final OssTemplate template;
 
 	/**
-	 * Bucket Endpoints
+	 * 创建指定名称的存储桶
+	 * @param bucketName 存储桶名称
+	 * @return 创建的存储桶对象
+	 * @throws Exception 创建过程中可能抛出的异常
 	 */
 	@SneakyThrows
 	@PostMapping("/bucket/{bucketName}")
@@ -62,18 +64,34 @@ public class OssEndpoint {
 
 	}
 
+	/**
+	 * 获取所有存储桶列表
+	 * @return 存储桶列表
+	 * @throws Exception 获取过程中可能抛出的异常
+	 */
 	@SneakyThrows
 	@GetMapping("/bucket")
 	public List<Bucket> getBuckets() {
 		return template.getAllBuckets();
 	}
 
+	/**
+	 * 根据桶名称获取桶信息
+	 * @param bucketName 桶名称
+	 * @return 对应的桶对象
+	 * @throws IllegalArgumentException 当桶不存在时抛出异常
+	 */
 	@SneakyThrows
 	@GetMapping("/bucket/{bucketName}")
 	public Bucket getBucket(@PathVariable String bucketName) {
 		return template.getBucket(bucketName).orElseThrow(() -> new IllegalArgumentException("Bucket Name not found!"));
 	}
 
+	/**
+	 * 删除指定名称的存储桶
+	 * @param bucketName 要删除的存储桶名称
+	 * @throws Exception 删除过程中可能抛出的异常
+	 */
 	@SneakyThrows
 	@DeleteMapping("/bucket/{bucketName}")
 	@ResponseStatus(HttpStatus.ACCEPTED)
@@ -82,7 +100,11 @@ public class OssEndpoint {
 	}
 
 	/**
-	 * Object Endpoints
+	 * 创建对象到指定存储桶
+	 * @param object 要上传的文件对象
+	 * @param bucketName 目标存储桶名称
+	 * @return 上传后的对象信息
+	 * @throws IOException 文件操作异常
 	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}")
@@ -95,6 +117,14 @@ public class OssEndpoint {
 
 	}
 
+	/**
+	 * 创建对象到指定存储桶
+	 * @param object 上传的文件对象
+	 * @param bucketName 存储桶名称
+	 * @param objectName 对象名称
+	 * @return 创建成功的对象信息
+	 * @throws Exception 当文件上传或获取对象信息失败时抛出异常
+	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}/{objectName}")
 	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
@@ -106,6 +136,13 @@ public class OssEndpoint {
 
 	}
 
+	/**
+	 * 根据对象名前缀过滤对象列表
+	 * @param bucketName 存储桶名称
+	 * @param objectName 对象名前缀
+	 * @return 匹配前缀的S3对象摘要列表
+	 * @throws Exception 操作执行过程中可能抛出的异常
+	 */
 	@SneakyThrows
 	@GetMapping("/object/{bucketName}/{objectName}")
 	public List<S3ObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
@@ -114,6 +151,13 @@ public class OssEndpoint {
 
 	}
 
+	/**
+	 * 获取对象信息及访问URL
+	 * @param bucketName 存储桶名称
+	 * @param objectName 对象名称
+	 * @param expires URL过期时间(秒)
+	 * @return 包含存储桶、对象、URL和过期时间的Map
+	 */
 	@SneakyThrows
 	@GetMapping("/object/{bucketName}/{objectName}/{expires}")
 	public Map<String, Object> getObject(@PathVariable String bucketName, @PathVariable String objectName,
@@ -127,6 +171,12 @@ public class OssEndpoint {
 		return responseBody;
 	}
 
+	/**
+	 * 删除指定存储桶中的对象
+	 * @param bucketName 存储桶名称
+	 * @param objectName 对象名称
+	 * @throws Exception 删除对象时可能抛出的异常
+	 */
 	@SneakyThrows
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@DeleteMapping("/object/{bucketName}/{objectName}/")
