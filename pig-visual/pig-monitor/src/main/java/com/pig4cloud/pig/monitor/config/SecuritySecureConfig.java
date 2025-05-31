@@ -16,8 +16,8 @@
 
 package com.pig4cloud.pig.monitor.config;
 
-import java.util.UUID;
-
+import de.codecentric.boot.admin.server.config.AdminServerProperties;
+import jakarta.servlet.DispatcherType;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,14 +36,13 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import de.codecentric.boot.admin.server.config.AdminServerProperties;
-import jakarta.servlet.DispatcherType;
+import java.util.UUID;
 
 /**
- * WebSecurityConfigurer
+ * 安全配置类：用于配置Spring Security相关设置
  *
- * @author lishangbu
- * @date 2019/2/1
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 public class SecuritySecureConfig {
@@ -52,11 +51,22 @@ public class SecuritySecureConfig {
 
 	private final SecurityProperties security;
 
+	/**
+	 * 构造函数，初始化安全管理配置
+	 * @param adminServer 管理服务器配置属性
+	 * @param security 安全配置属性
+	 */
 	public SecuritySecureConfig(AdminServerProperties adminServer, SecurityProperties security) {
 		this.adminServer = adminServer;
 		this.security = security;
 	}
 
+	/**
+	 * 配置Spring Security过滤器链
+	 * @param http HttpSecurity对象，用于配置安全策略
+	 * @return 配置好的SecurityFilterChain实例
+	 * @throws Exception 配置过程中可能抛出的异常
+	 */
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
@@ -98,7 +108,11 @@ public class SecuritySecureConfig {
 
 	}
 
-	// Required to provide UserDetailsService for "remember functionality"
+	/**
+	 * 创建内存用户详情服务
+	 * @param passwordEncoder 密码编码器
+	 * @return 包含配置用户的InMemoryUserDetailsManager实例
+	 */
 	@Bean
 	public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
 		UserDetails user = User.withUsername(security.getUser().getName())
@@ -108,6 +122,10 @@ public class SecuritySecureConfig {
 		return new InMemoryUserDetailsManager(user);
 	}
 
+	/**
+	 * 创建并返回一个BCrypt密码编码器实例
+	 * @return BCryptPasswordEncoder实例
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

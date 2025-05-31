@@ -10,14 +10,19 @@ import java.util.stream.Collectors;
 import static java.util.Collections.emptyMap;
 
 /**
- * 针对 nacos 2.x 服务注册处理
+ * Nacos 2.x 服务注册转换器，用于处理服务实例元数据转换
  *
  * @author lengleng
- * @date 2021/12/20
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 public class NacosServiceInstanceConverter extends DefaultServiceInstanceConverter {
 
+	/**
+	 * 获取服务实例的元数据
+	 * @param instance 服务实例
+	 * @return 过滤后的元数据映射，不包含空键或空值的条目
+	 */
 	@Override
 	protected Map<String, String> getMetadata(ServiceInstance instance) {
 		return (instance.getMetadata() != null) ? instance.getMetadata()

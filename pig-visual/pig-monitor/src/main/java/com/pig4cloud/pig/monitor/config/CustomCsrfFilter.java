@@ -12,13 +12,23 @@ import org.springframework.web.util.WebUtils;
 import java.io.IOException;
 
 /**
+ * 自定义CSRF过滤器，用于处理CSRF令牌相关逻辑
+ *
  * @author lengleng
- * @date 2023/9/5
+ * @date 2025/05/31
  */
 public class CustomCsrfFilter extends OncePerRequestFilter {
 
 	public static final String CSRF_COOKIE_NAME = "XSRF-TOKEN";
 
+	/**
+	 * 处理CSRF令牌的过滤器内部逻辑
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param filterChain 过滤器链
+	 * @throws ServletException 如果发生servlet相关异常
+	 * @throws IOException 如果发生I/O异常
+	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {

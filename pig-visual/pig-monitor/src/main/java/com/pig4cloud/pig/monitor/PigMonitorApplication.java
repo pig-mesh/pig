@@ -22,8 +22,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
+ * 监控中心应用启动类
+ *
  * @author lengleng
- * @date 2018年06月21日 监控中心
+ * @date 2018/06/21
  */
 @EnableAdminServer
 @EnableDiscoveryClient
