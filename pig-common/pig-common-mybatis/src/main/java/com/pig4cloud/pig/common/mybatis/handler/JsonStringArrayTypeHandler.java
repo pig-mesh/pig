@@ -15,23 +15,38 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Mybatis数组,符串互转
- * <p>
- * MappedJdbcTypes 数据库中的数据类型 MappedTypes java中的的数据类型
+ * MyBatis 字符串数组类型处理器，用于数据库VARCHAR类型与Java字符串数组的相互转换
  *
- * @author xuzihui
- * @date 2019-11-20
+ * @author lengleng
+ * @date 2025/05/31
+ * @see MappedTypes 指定处理的Java类型
+ * @see MappedJdbcTypes 指定处理的JDBC类型
  */
 @MappedTypes(value = { String[].class })
 @MappedJdbcTypes(value = JdbcType.VARCHAR)
 public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 
+	/**
+	 * 设置非空参数到PreparedStatement
+	 * @param ps PreparedStatement对象
+	 * @param i 参数位置
+	 * @param parameter 字符串数组参数
+	 * @param jdbcType JDBC类型
+	 * @throws SQLException 数据库操作异常
+	 */
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType)
 			throws SQLException {
 		ps.setString(i, ArrayUtil.join(parameter, StrUtil.COMMA));
 	}
 
+	/**
+	 * 从ResultSet中获取指定列名的字符串数组结果，允许为null
+	 * @param rs 结果集
+	 * @param columnName 列名
+	 * @return 转换后的字符串数组，可能为null
+	 * @throws SQLException 数据库访问错误时抛出
+	 */
 	@Override
 	@SneakyThrows
 	public String[] getNullableResult(ResultSet rs, String columnName) {
@@ -39,6 +54,13 @@ public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 		return Convert.toStrArray(reString);
 	}
 
+	/**
+	 * 从ResultSet中获取指定列的可空字符串数组结果
+	 * @param rs 结果集
+	 * @param columnIndex 列索引
+	 * @return 转换后的字符串数组，可能为null
+	 * @throws SQLException 数据库访问错误时抛出
+	 */
 	@Override
 	@SneakyThrows
 	public String[] getNullableResult(ResultSet rs, int columnIndex) {
@@ -46,6 +68,13 @@ public class JsonStringArrayTypeHandler extends BaseTypeHandler<String[]> {
 		return Convert.toStrArray(reString);
 	}
 
+	/**
+	 * 从CallableStatement中获取指定列的可空字符串结果并转换为字符串数组
+	 * @param cs CallableStatement对象
+	 * @param columnIndex 列索引
+	 * @return 转换后的字符串数组
+	 * @throws Exception 如果操作过程中发生错误
+	 */
 	@Override
 	@SneakyThrows
 	public String[] getNullableResult(CallableStatement cs, int columnIndex) {

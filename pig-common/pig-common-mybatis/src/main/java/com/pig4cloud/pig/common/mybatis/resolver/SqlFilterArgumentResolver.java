@@ -37,18 +37,18 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
+ * Mybatis Plus Order By SQL注入问题解决类
+ *
  * @author lengleng
  * @date 2019-06-24
- * <p>
- * 解决Mybatis Plus Order By SQL注入问题
  */
 @Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
 
 	/**
-	 * 判断Controller是否包含page 参数
-	 * @param parameter 参数
-	 * @return 是否过滤
+	 * 判断Controller方法参数是否为Page类型
+	 * @param parameter 方法参数
+	 * @return 如果参数类型是Page则返回true，否则返回false
 	 */
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
@@ -56,13 +56,13 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	}
 
 	/**
-	 * @param parameter 入参集合
-	 * @param mavContainer model 和 view
-	 * @param webRequest web相关
-	 * @param binderFactory 入参解析
-	 * @return 检查后新的page对象
-	 * <p>
-	 * page 只支持查询 GET .如需解析POST获取请求报文体处理
+	 * 解析分页参数并构建Page对象
+	 * @param parameter 方法参数信息
+	 * @param mavContainer 模型和视图容器
+	 * @param webRequest web请求对象
+	 * @param binderFactory 数据绑定工厂
+	 * @return 包含分页和排序信息的Page对象
+	 * @throws NumberFormatException 当分页参数转换失败时抛出
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,

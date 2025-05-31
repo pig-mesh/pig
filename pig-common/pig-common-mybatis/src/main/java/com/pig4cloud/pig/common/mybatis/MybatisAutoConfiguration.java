@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.mybatis;
 
-import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.pig4cloud.pig.common.mybatis.config.MybatisPlusMetaObjectHandler;
 import com.pig4cloud.pig.common.mybatis.plugins.PigPaginationInnerInterceptor;
@@ -29,17 +28,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 /**
- * @author lengleng
- * @date 2020-03-14
+ * MyBatis Plus 统一自动配置类
  * <p>
- * mybatis plus 统一配置
+ * 提供SQL过滤器、分页插件及审计字段自动填充等配置
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 public class MybatisAutoConfiguration implements WebMvcConfigurer {
 
 	/**
-	 * SQL 过滤器避免SQL 注入
-	 * @param argumentResolvers
+	 * 添加SQL过滤器参数解析器，避免SQL注入
+	 * @param argumentResolvers 方法参数解析器列表
 	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
@@ -47,7 +48,8 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * 分页插件, 对于单一数据库类型来说,都建议配置该值,避免每次分页都去抓取数据库类型
+	 * 创建并配置MybatisPlus分页拦截器
+	 * @return 配置好的MybatisPlus拦截器实例
 	 */
 	@Bean
 	public MybatisPlusInterceptor mybatisPlusInterceptor() {
@@ -57,8 +59,8 @@ public class MybatisAutoConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * 审计字段自动填充
-	 * @return {@link MetaObjectHandler}
+	 * 创建并返回MybatisPlusMetaObjectHandler实例，用于审计字段自动填充
+	 * @return MybatisPlusMetaObjectHandler实例
 	 */
 	@Bean
 	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {

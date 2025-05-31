@@ -15,13 +15,18 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
- * MybatisPlus 自动填充配置
+ * MybatisPlus 自动填充处理器，用于实体类字段的自动填充
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
+	/**
+	 * 插入时自动填充字段
+	 * @param metaObject 元对象，用于操作实体类属性
+	 */
 	@Override
 	public void insertFill(MetaObject metaObject) {
 		log.debug("mybatis plus start insert fill ....");
@@ -36,6 +41,10 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		fillValIfNullByName("delFlag", CommonConstants.STATUS_NORMAL, metaObject, true);
 	}
 
+	/**
+	 * 更新时自动填充字段
+	 * @param metaObject 元对象
+	 */
 	@Override
 	public void updateFill(MetaObject metaObject) {
 		log.debug("mybatis plus start update fill ....");

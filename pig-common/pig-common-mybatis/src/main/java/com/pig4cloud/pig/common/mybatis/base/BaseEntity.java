@@ -10,10 +10,10 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 抽象实体
+ * 基础实体抽象类，包含通用实体字段
  *
  * @author lengleng
- * @date 2021/8/9
+ * @date 2025/05/31
  */
 @Getter
 @Setter
