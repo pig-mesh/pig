@@ -6,10 +6,10 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * spring event log
+ * 系统日志事件源类，继承自SysLog
  *
  * @author lengleng
- * @date 2023/8/11
+ * @date 2025/05/31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

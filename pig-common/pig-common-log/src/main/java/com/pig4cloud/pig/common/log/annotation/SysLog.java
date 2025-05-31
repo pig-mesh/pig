@@ -19,8 +19,10 @@ package com.pig4cloud.pig.common.log.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 系统日志注解：用于标记需要记录操作日志的方法
+ *
  * @author lengleng
- * @date 2019/2/1 操作日志注解
+ * @date 2025/05/31
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

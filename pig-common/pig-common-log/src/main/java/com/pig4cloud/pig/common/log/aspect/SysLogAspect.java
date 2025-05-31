@@ -32,15 +32,23 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.expression.EvaluationContext;
 
 /**
- * 操作日志使用spring event异步入库
+ * 系统日志切面类，通过Spring AOP实现操作日志的异步记录
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Aspect
 @Slf4j
 @RequiredArgsConstructor
 public class SysLogAspect {
 
+	/**
+	 * 环绕通知方法，用于处理系统日志记录
+	 * @param point 连接点对象
+	 * @param sysLog 系统日志注解
+	 * @return 目标方法执行结果
+	 * @throws Throwable 目标方法执行可能抛出的异常
+	 */
 	@Around("@annotation(sysLog)")
 	@SneakyThrows
 	public Object around(ProceedingJoinPoint point, com.pig4cloud.pig.common.log.annotation.SysLog sysLog) {

@@ -46,11 +46,16 @@ import java.util.Objects;
 /**
  * 系统日志工具类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @UtilityClass
 public class SysLogUtils {
 
+	/**
+	 * 获取系统日志事件源
+	 * @return 系统日志事件源对象
+	 */
 	public SysLogEventSource getSysLog() {
 		HttpServletRequest request = ((ServletRequestAttributes) Objects
 			.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();

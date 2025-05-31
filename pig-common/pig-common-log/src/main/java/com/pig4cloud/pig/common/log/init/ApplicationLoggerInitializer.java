@@ -22,13 +22,18 @@ import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
+ * 应用日志初始化类：通过环境变量注入 logging.file 自动维护 Spring Boot Admin Logger Viewer
+ *
  * @author lengleng
- * @date 2019-06-25
- * <p>
- * 通过环境变量的形式注入 logging.file 自动维护 Spring Boot Admin Logger Viewer
+ * @date 2025/05/31
  */
 public class ApplicationLoggerInitializer implements EnvironmentPostProcessor, Ordered {
 
+	/**
+	 * 后处理环境配置，设置日志路径和相关系统属性
+	 * @param environment 可配置的环境对象
+	 * @param application Spring应用对象
+	 */
 	@Override
 	public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
 		String appName = environment.getProperty("spring.application.name");
