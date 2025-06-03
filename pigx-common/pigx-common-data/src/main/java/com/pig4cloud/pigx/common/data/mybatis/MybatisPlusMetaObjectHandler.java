@@ -3,7 +3,6 @@ package com.pig4cloud.pigx.common.data.mybatis;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -82,7 +81,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		// 匿名接口直接返回
 		if (authentication instanceof AnonymousAuthenticationToken) {
-			return null;
+			return authentication.getName();
 		}
 
 		if (Optional.ofNullable(authentication).isPresent()) {
