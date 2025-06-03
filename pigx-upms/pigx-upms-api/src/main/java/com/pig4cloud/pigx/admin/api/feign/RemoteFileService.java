@@ -2,6 +2,7 @@ package com.pig4cloud.pigx.admin.api.feign;
 
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.feign.annotation.NoToken;
 import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -37,4 +38,15 @@ public interface RemoteFileService {
      */
     @PostMapping(value = "/sys-file/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     R upload(@RequestPart("file") MultipartFile file);
+
+
+    /**
+     * 内部上传文件接口
+     *
+     * @param file 要上传的文件
+     * @return 上传结果
+     */
+    @NoToken
+    @PostMapping(value = "/sys-file/inner/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    R innerUpload(@RequestPart("file") MultipartFile file);
 }
