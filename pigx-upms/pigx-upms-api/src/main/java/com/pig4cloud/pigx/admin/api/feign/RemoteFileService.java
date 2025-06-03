@@ -43,10 +43,11 @@ public interface RemoteFileService {
     /**
      * 内部上传文件接口
      *
-     * @param file 要上传的文件
+     * @param file     要上传的文件
+     * @param fileName 文件名
      * @return 上传结果
      */
     @NoToken
     @PostMapping(value = "/sys-file/inner/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    R innerUpload(@RequestPart("file") MultipartFile file);
+    R innerUpload(@RequestPart("file") MultipartFile file, @RequestParam String fileName);
 }

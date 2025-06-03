@@ -77,15 +77,19 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     /**
      * 上传文件
      *
-     * @param file    文件流
-     * @param dir     文件夹
-     * @param groupId 分组ID
-     * @param type    类型
+     * @param file     文件流
+     * @param fileName
+     * @param dir      文件夹
+     * @param groupId  分组ID
+     * @param type     类型
      * @return
      */
     @Override
-    public R uploadFile(MultipartFile file, String dir, Long groupId, String type) {
-        String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+    public R uploadFile(MultipartFile file, String fileName, String dir, Long groupId, String type) {
+        // 如果客户端没有传入文件名，则使用UUID生成一个唯一的文件名
+        if (StrUtil.isBlank(fileName)) {
+            fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+        }
         Map<String, String> resultMap = new HashMap<>(4);
         resultMap.put("bucketName", properties.getBucketName());
         resultMap.put("fileName", fileName);
@@ -132,10 +136,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
     }
 
     /**
-     * 删除文件
+     * 根据ID删除文件
      *
-     * @param id
-     * @return
+     * @param id 文件ID
+     * @return 删除是否成功，文件不存在时返回false
      */
     @Override
     @SneakyThrows

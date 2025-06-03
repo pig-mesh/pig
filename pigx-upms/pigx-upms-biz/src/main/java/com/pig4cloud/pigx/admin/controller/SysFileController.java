@@ -109,22 +109,29 @@ public class SysFileController {
     @PostMapping(value = "/upload")
     public R upload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
                     @RequestParam(value = "groupId", required = false) Long groupId,
-                    @RequestParam(value = "type", required = false) String type) {
-        return sysFileService.uploadFile(file, dir, groupId, type);
+                    @RequestParam(value = "type", required = false) String type,
+                    @RequestParam(value = "fileName", required = false) String fileName) {
+        return sysFileService.uploadFile(file, fileName, dir, groupId, type);
     }
 
 
     /**
      * 内部文件上传接口
      *
+     * @param file     上传的文件
+     * @param dir      文件存储目录
+     * @param groupId  文件分组ID
+     * @param type     文件类型
+     * @param fileName 自定义文件名
      * @return 文件上传结果
      */
     @Inner
     @PostMapping(value = "/inner/upload")
     public R innerUpload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
                          @RequestParam(value = "groupId", required = false) Long groupId,
-                         @RequestParam(value = "type", required = false) String type) {
-        return sysFileService.uploadFile(file, dir, groupId, type);
+                         @RequestParam(value = "type", required = false) String type,
+                         @RequestParam(value = "fileName", required = false) String fileName) {
+        return sysFileService.uploadFile(file, fileName, dir, groupId, type);
     }
 
 

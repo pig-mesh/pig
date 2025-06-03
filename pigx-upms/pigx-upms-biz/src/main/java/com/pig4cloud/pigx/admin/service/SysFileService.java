@@ -38,13 +38,15 @@ public interface SysFileService extends IService<SysFile> {
 
 	/**
 	 * 上传文件
-	 * @param file 文件流
-	 * @param dir 文件夹
-	 * @param groupId 分组ID
-	 * @param type 类型
-	 * @return
+	 *
+	 * @param file     文件流
+	 * @param fileName 文件名
+	 * @param dir      存储目录
+	 * @param groupId  文件分组ID
+	 * @param type     文件类型
+	 * @return 上传结果
 	 */
-	R uploadFile(MultipartFile file, String dir, Long groupId, String type);
+	R uploadFile(MultipartFile file, String fileName, String dir, Long groupId, String type);
 
 	/**
 	 * 读取文件
@@ -54,9 +56,10 @@ public interface SysFileService extends IService<SysFile> {
 	void getFile(String fileName, HttpServletResponse response);
 
 	/**
-	 * 删除文件
-	 * @param id
-	 * @return
+	 * 根据文件ID删除文件
+	 *
+	 * @param id 文件ID
+	 * @return 删除是否成功
 	 */
 	Boolean deleteFile(Long id);
 
