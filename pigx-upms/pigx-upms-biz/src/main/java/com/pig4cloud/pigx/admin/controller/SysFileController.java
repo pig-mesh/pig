@@ -138,9 +138,8 @@ public class SysFileController {
     /**
      * 获取文件
      *
-     * @param fileName 文件空间/名称
-     * @param response
-     * @return
+     * @param fileName 文件名称，格式为文件空间/名称
+     * @param response HTTP响应对象
      */
     @Inner(false)
     @NoEncrypt
