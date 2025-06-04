@@ -12,7 +12,7 @@
         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">安全便捷的企业级认证服务</p>
     </div>
 
-    <form class="form-signin" action="${request.contextPath}/oauth2/form" method="post">
+    <form class="form-signin" action="<#if request??>${request.contextPath!}</#if>/oauth2/form" method="post">
         <input type="hidden" name="client_id" value="pig">
         <input type="hidden" name="grant_type" value="password">
         <div class="space-y-6">

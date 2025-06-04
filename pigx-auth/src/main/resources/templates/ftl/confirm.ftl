@@ -18,7 +18,8 @@
 		</div>
 	</div>
 
-	<form id='confirmationForm' name='confirmationForm' action="${request.contextPath}/oauth2/authorize" method='post'>
+	<form id='confirmationForm' name='confirmationForm'
+		  action="<#if request??>${request.contextPath!}</#if>/oauth2/authorize" method='post'>
 		<input type="hidden" name="client_id" value="${clientId}">
 		<input type="hidden" name="state" value="${state}">
 
