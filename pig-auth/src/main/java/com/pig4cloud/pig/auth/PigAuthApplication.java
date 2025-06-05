@@ -22,8 +22,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
+ * 认证授权中心应用启动类
+ *
  * @author lengleng
- * @date 2018年06月21日 认证授权中心
+ * @date 2025/05/30
  */
 @EnablePigFeignClients
 @EnableDiscoveryClient

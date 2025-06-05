@@ -24,16 +24,20 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 扩展用户信息类，继承自User并实现OAuth2AuthenticatedPrincipal接口
+ *
  * @author lengleng
- * @date 2019/2/1 扩展用户信息
+ * @date 2025/05/31
  */
 public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 
+	@Serial
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
 	/**
@@ -71,14 +75,18 @@ public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 	}
 
 	/**
-	 * Get the OAuth 2.0 token attributes
-	 * @return the OAuth 2.0 token attributes
+	 * 获取OAuth 2.0令牌属性
+	 * @return OAuth 2.0令牌属性Map
 	 */
 	@Override
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
 
+	/**
+	 * 获取用户名称
+	 * @return 用户名称
+	 */
 	@Override
 	public String getName() {
 		return this.getUsername();

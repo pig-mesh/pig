@@ -32,10 +32,10 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 /**
- * 字典项
+ * 字典项服务实现类
  *
  * @author lengleng
- * @date 2019/03/19
+ * @date 2025/05/30
  */
 @Service
 @AllArgsConstructor
@@ -46,7 +46,8 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 	/**
 	 * 删除字典项
 	 * @param id 字典项ID
-	 * @return
+	 * @return 操作结果
+	 * @see R
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
@@ -63,8 +64,9 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 
 	/**
 	 * 更新字典项
-	 * @param item 字典项
-	 * @return
+	 * @param item 需要更新的字典项
+	 * @return 操作结果，包含成功或失败信息
+	 * @see R
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#item.dictType")

@@ -36,10 +36,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 列属性
+ * 列属性管理控制器
  *
- * @author pigx code generator
- * @date 2023-02-06 20:16:01
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
@@ -51,10 +51,10 @@ public class GenFieldTypeController {
 	private final GenFieldTypeService fieldTypeService;
 
 	/**
-	 * 分页查询
+	 * 分页查询字段类型
 	 * @param page 分页对象
-	 * @param fieldType 列属性
-	 * @return
+	 * @param fieldType 字段类型查询条件
+	 * @return 分页查询结果
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
@@ -65,6 +65,11 @@ public class GenFieldTypeController {
 							fieldType.getColumnType())));
 	}
 
+	/**
+	 * 查询列表
+	 * @param fieldType 查询条件
+	 * @return 包含查询结果的响应对象
+	 */
 	@Operation(summary = "查询列表", description = "查询列表")
 	@GetMapping("/list")
 	public R list(GenFieldType fieldType) {
@@ -73,8 +78,8 @@ public class GenFieldTypeController {
 
 	/**
 	 * 通过id查询列属性
-	 * @param id id
-	 * @return R
+	 * @param id 列属性id
+	 * @return 包含查询结果的响应对象
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/details/{id}")
@@ -82,6 +87,11 @@ public class GenFieldTypeController {
 		return R.ok(fieldTypeService.getById(id));
 	}
 
+	/**
+	 * 根据查询条件获取字段类型详情
+	 * @param query 字段类型查询条件
+	 * @return 包含查询结果的响应对象
+	 */
 	@GetMapping("/details")
 	public R getDetails(GenFieldType query) {
 		return R.ok(fieldTypeService.getOne(Wrappers.query(query), false));
@@ -89,8 +99,8 @@ public class GenFieldTypeController {
 
 	/**
 	 * 新增列属性
-	 * @param fieldType 列属性
-	 * @return R
+	 * @param fieldType 列属性对象
+	 * @return 操作结果
 	 */
 	@Operation(summary = "新增列属性", description = "新增列属性")
 	@SysLog("新增列属性")
@@ -101,8 +111,8 @@ public class GenFieldTypeController {
 
 	/**
 	 * 修改列属性
-	 * @param fieldType 列属性
-	 * @return R
+	 * @param fieldType 列属性对象
+	 * @return 操作结果
 	 */
 	@Operation(summary = "修改列属性", description = "修改列属性")
 	@SysLog("修改列属性")
@@ -112,9 +122,9 @@ public class GenFieldTypeController {
 	}
 
 	/**
-	 * 通过id删除列属性
-	 * @param ids id
-	 * @return R
+	 * 通过id批量删除列属性
+	 * @param ids 要删除的列属性id数组
+	 * @return 操作结果
 	 */
 	@Operation(summary = "通过id删除列属性", description = "通过id删除列属性")
 	@SysLog("通过id删除列属性")
@@ -124,9 +134,9 @@ public class GenFieldTypeController {
 	}
 
 	/**
-	 * 导出excel 表格
+	 * 导出excel表格
 	 * @param fieldType 查询条件
-	 * @return excel 文件流
+	 * @return excel文件数据列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")

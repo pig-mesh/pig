@@ -20,10 +20,10 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 /**
+ * 日志类型枚举
+ *
  * @author lengleng
- * @date 2020/7/30
- * <p>
- * 日志类型
+ * @date 2025/05/31
  */
 @Getter
 @RequiredArgsConstructor

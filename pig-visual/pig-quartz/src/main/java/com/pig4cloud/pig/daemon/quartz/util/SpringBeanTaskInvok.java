@@ -30,14 +30,20 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * 定时任务spring bean反射实现
+ * 基于Spring Bean的定时任务反射执行器
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Component("springBeanTaskInvok")
 @Slf4j
 public class SpringBeanTaskInvok implements ITaskInvok {
 
+	/**
+	 * 调用定时任务方法
+	 * @param sysJob 定时任务信息
+	 * @throws TaskException 当任务执行失败或反射调用异常时抛出
+	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		Object target;

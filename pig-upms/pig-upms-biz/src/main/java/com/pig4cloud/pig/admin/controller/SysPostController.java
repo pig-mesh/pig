@@ -41,10 +41,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 岗位信息表
+ * 岗位信息表管理控制器
  *
- * @author fxz
- * @date 2022-03-26 12:50:43
+ * @author lengleng
+ * @date 2025/05/30
  */
 @RestController
 @RequiredArgsConstructor
@@ -57,7 +57,7 @@ public class SysPostController {
 
 	/**
 	 * 获取岗位列表
-	 * @return 岗位列表
+	 * @return 包含岗位列表的响应结果
 	 */
 	@GetMapping("/list")
 	public R<List<SysPost>> listPosts() {
@@ -65,10 +65,10 @@ public class SysPostController {
 	}
 
 	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param sysPost 岗位信息表
-	 * @return
+	 * 分页查询岗位信息
+	 * @param page 分页参数对象
+	 * @param sysPost 岗位查询条件对象
+	 * @return 分页查询结果
 	 */
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
@@ -79,9 +79,9 @@ public class SysPostController {
 	}
 
 	/**
-	 * 通过id查询岗位信息表
-	 * @param postId id
-	 * @return R
+	 * 通过id查询岗位信息
+	 * @param postId 岗位id
+	 * @return 包含岗位信息的响应结果
 	 */
 	@Operation(description = "通过id查询", summary = "通过id查询")
 	@GetMapping("/details/{postId}")
@@ -91,9 +91,9 @@ public class SysPostController {
 	}
 
 	/**
-	 * 查询岗位信息信息
+	 * 查询岗位详细信息
 	 * @param query 查询条件
-	 * @return R
+	 * @return 统一响应结果R，包含查询到的岗位信息
 	 */
 	@Operation(description = "查询角色信息", summary = "查询角色信息")
 	@GetMapping("/details")
@@ -103,9 +103,9 @@ public class SysPostController {
 	}
 
 	/**
-	 * 新增岗位信息表
-	 * @param sysPost 岗位信息表
-	 * @return R
+	 * 新增岗位信息
+	 * @param sysPost 岗位信息对象
+	 * @return 操作结果
 	 */
 	@Operation(description = "新增岗位信息表", summary = "新增岗位信息表")
 	@SysLog("新增岗位信息表")
@@ -116,9 +116,9 @@ public class SysPostController {
 	}
 
 	/**
-	 * 修改岗位信息表
-	 * @param sysPost 岗位信息表
-	 * @return R
+	 * 修改岗位信息
+	 * @param sysPost 岗位信息对象
+	 * @return 操作结果
 	 */
 	@Operation(description = "修改岗位信息表", summary = "修改岗位信息表")
 	@SysLog("修改岗位信息表")
@@ -129,9 +129,9 @@ public class SysPostController {
 	}
 
 	/**
-	 * 通过id删除岗位信息表
-	 * @param ids id 列表
-	 * @return R
+	 * 通过id批量删除岗位信息
+	 * @param ids 岗位id数组
+	 * @return 统一返回结果
 	 */
 	@Operation(description = "通过id删除岗位信息表", summary = "通过id删除岗位信息表")
 	@SysLog("通过id删除岗位信息表")
@@ -142,8 +142,8 @@ public class SysPostController {
 	}
 
 	/**
-	 * 导出excel 表格
-	 * @return excel 文件流
+	 * 导出岗位信息到Excel表格
+	 * @return 岗位信息Excel文件流
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
@@ -153,10 +153,10 @@ public class SysPostController {
 	}
 
 	/**
-	 * 导入岗位
-	 * @param excelVOList 岗位列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
+	 * 导入岗位信息
+	 * @param excelVOList 岗位Excel数据列表
+	 * @param bindingResult 数据校验结果
+	 * @return 导入结果
 	 */
 	@PostMapping("/import")
 	@HasPermission("sys_post_export")

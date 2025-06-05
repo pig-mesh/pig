@@ -16,8 +16,6 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,26 +24,39 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+
+import lombok.RequiredArgsConstructor;
 
 /**
- * @author lengleng
- * @date 2022-06-04
- * <p>
  * 资源服务器认证授权配置
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
-@Slf4j
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class PigResourceServerConfiguration {
 
+	/**
+	 * 资源认证异常处理入口点
+	 */
 	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
+	/**
+	 * 允许所有URL的配置属性
+	 */
 	private final PermitAllUrlProperties permitAllUrl;
 
+	/**
+	 * PigBearerToken提取器
+	 */
 	private final PigBearerTokenExtractor pigBearerTokenExtractor;
 
+	/**
+	 * 自定义不透明令牌解析器
+	 */
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
 	/**
@@ -56,11 +67,16 @@ public class PigResourceServerConfiguration {
 	 */
 	@Bean
 	SecurityFilterChain resourceServer(HttpSecurity http) throws Exception {
-		AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
+		/**
+		 * AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls() .stream()
+		 * .map(AntPathRequestMatcher::new) .toList() .toArray(new AntPathRequestMatcher[]
+		 * {});
+		 **/
+		PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
 			.stream()
-			.map(AntPathRequestMatcher::new)
+			.map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
 			.toList()
-			.toArray(new AntPathRequestMatcher[] {});
+			.toArray(new PathPatternRequestMatcher[] {});
 
 		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
 			.permitAll()

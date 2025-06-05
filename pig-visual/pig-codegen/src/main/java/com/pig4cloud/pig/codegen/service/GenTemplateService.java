@@ -22,22 +22,22 @@ import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * 模板
+ * 代码生成模板服务接口
  *
- * @author PIG
- * @date 2023-02-21 17:15:44
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface GenTemplateService extends IService<GenTemplateEntity> {
 
 	/**
-	 * 检查版本
-	 * @return {@link R }
+	 * 检查版本信息
+	 * @return 返回检查结果，包含版本信息
 	 */
 	R checkVersion();
 
 	/**
 	 * 在线更新
-	 * @return {@link R }
+	 * @return 更新结果
 	 */
 	R onlineUpdate();
 

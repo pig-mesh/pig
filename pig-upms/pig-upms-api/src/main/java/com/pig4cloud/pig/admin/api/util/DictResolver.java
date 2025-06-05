@@ -13,8 +13,10 @@ import lombok.experimental.UtilityClass;
 import java.util.List;
 
 /**
- * @author fxz
- * @date 2022/3/24 字典解析器
+ * 字典解析工具类：提供字典数据的查询和解析功能
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @UtilityClass
 public class DictResolver {

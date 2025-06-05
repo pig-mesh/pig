@@ -4,16 +4,18 @@ import feign.RequestInterceptor;
 import org.springframework.http.HttpHeaders;
 
 /**
- * @author lengleng
- * @date 2024/3/15
+ * Feign请求连接关闭拦截器
  * <p>
- * http connection close
+ * 用于设置HTTP连接为关闭状态
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 public class PigFeignRequestCloseInterceptor implements RequestInterceptor {
 
 	/**
-	 * set connection close
-	 * @param template
+	 * 设置连接关闭
+	 * @param template 请求模板
 	 */
 	@Override
 	public void apply(feign.RequestTemplate template) {

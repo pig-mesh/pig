@@ -7,15 +7,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.Assert;
 
+import java.io.Serial;
 import java.util.*;
 
 /**
- * @author lengleng
- * @date 2022/6/2
+ * OAuth2资源所有者基础认证令牌抽象类
  *
- * 自定义授权模式抽象
+ * @author lengleng
+ * @date 2025/05/30
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationToken extends AbstractAuthenticationToken {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	@Getter
 	private final AuthorizationGrantType authorizationGrantType;

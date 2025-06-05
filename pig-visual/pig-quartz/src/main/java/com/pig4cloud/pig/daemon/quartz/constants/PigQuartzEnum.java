@@ -21,10 +21,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author 郑健楠
- *
+ * 定时任务枚举类
  * <p>
- * 定时任务枚举
+ * 定义定时任务相关的枚举常量，包括错失执行策略、任务状态等
+ *
+ * @author lengleng
+ * @author 郑健楠
+ * @date 2025/05/31
  */
 @Getter
 @AllArgsConstructor

@@ -33,10 +33,12 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 /**
- * @author lengleng
- * @date 2020-03-11
+ * 资源服务器对外直接暴露URL配置类
  * <p>
- * 资源服务器对外直接暴露URL,如果设置contex-path 要特殊处理
+ * 用于配置不需要认证即可访问的URL路径，支持路径变量替换
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
@@ -50,6 +52,9 @@ public class PermitAllUrlProperties implements InitializingBean {
 	@Setter
 	private List<String> urls = new ArrayList<>();
 
+	/**
+	 * 初始化方法，在属性设置完成后执行 收集带有@Inner注解的Controller方法路径，并将路径中的变量替换为*
+	 */
 	@Override
 	public void afterPropertiesSet() {
 		urls.addAll(Arrays.asList(DEFAULT_IGNORE_URLS));

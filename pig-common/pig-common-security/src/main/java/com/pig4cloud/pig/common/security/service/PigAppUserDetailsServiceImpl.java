@@ -30,9 +30,10 @@ import org.springframework.cache.CacheManager;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * 用户详细信息
+ * 用户详细信息服务实现类，提供基于手机号的用户信息加载功能
  *
  * @author lengleng hccake
+ * @date 2025/05/31
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -43,9 +44,10 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 	private final CacheManager cacheManager;
 
 	/**
-	 * 手机号登录
-	 * @param phone 手机号
-	 * @return
+	 * 根据手机号加载用户信息
+	 * @param phone 用户手机号
+	 * @return 用户详细信息
+	 * @throws Exception 获取用户信息过程中可能抛出的异常
 	 */
 	@Override
 	@SneakyThrows
@@ -67,9 +69,9 @@ public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 	}
 
 	/**
-	 * check-token 使用
-	 * @param pigUser user
-	 * @return
+	 * 根据用户信息加载用户详情
+	 * @param pigUser 用户信息对象
+	 * @return 用户详情
 	 */
 	@Override
 	public UserDetails loadUserByUser(PigUser pigUser) {

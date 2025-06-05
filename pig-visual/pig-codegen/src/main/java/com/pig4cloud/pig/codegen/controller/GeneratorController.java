@@ -36,10 +36,10 @@ import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 代码生成器
+ * 代码生成器控制器
  *
  * @author lengleng
- * @date 2018-07-30
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
@@ -77,7 +77,10 @@ public class GeneratorController {
 	}
 
 	/**
-	 * 目标目录生成代码
+	 * 生成代码
+	 * @param tableIds 表ID列表，多个ID用逗号分隔
+	 * @return 操作结果
+	 * @throws Exception 生成代码过程中可能抛出的异常
 	 */
 	@ResponseBody
 	@GetMapping("/code")
@@ -93,7 +96,7 @@ public class GeneratorController {
 	/**
 	 * 预览代码
 	 * @param tableId 表ID
-	 * @return
+	 * @return 代码预览结果列表
 	 */
 	@SneakyThrows
 	@GetMapping("/preview")

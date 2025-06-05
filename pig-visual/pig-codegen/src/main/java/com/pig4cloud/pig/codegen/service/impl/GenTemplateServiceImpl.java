@@ -47,10 +47,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 模板
+ * 代码生成模板服务实现类
  *
- * @author PIG
- * @date 2023-02-21 11:08:43
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Service
@@ -65,8 +65,9 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
 	private final PigCodeGenDefaultProperties defaultProperties;
 
 	/**
-	 * 在线更新
-	 * @return {@link R }
+	 * 在线更新模板组
+	 * @return 更新结果，包含成功或失败信息
+	 * @throws Exception 事务执行过程中发生异常时抛出
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -95,7 +96,7 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
 
 	/**
 	 * 检查版本
-	 * @return {@link R }
+	 * @return 返回检查结果，包含版本是否存在信息
 	 */
 	public R checkVersion() {
 		// 关闭在线更新提示

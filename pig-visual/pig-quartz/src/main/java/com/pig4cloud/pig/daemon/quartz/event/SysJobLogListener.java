@@ -27,7 +27,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * @author frwcloud 异步监听定时任务日志事件
+ * 系统任务日志监听器：用于异步监听并处理定时任务日志事件
+ *
+ * @author frwcloud
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Service
@@ -36,6 +40,10 @@ public class SysJobLogListener {
 
 	private final SysJobLogService sysJobLogService;
 
+	/**
+	 * 异步保存系统任务日志
+	 * @param event 系统任务日志事件
+	 */
 	@Async
 	@Order
 	@EventListener(SysJobLogEvent.class)

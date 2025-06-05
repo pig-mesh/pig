@@ -39,9 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 日志表 前端控制器
- * </p>
+ * 系统日志前端控制器
  *
  * @author lengleng
  * @since 2017-11-20
@@ -56,10 +54,10 @@ public class SysLogController {
 	private final SysLogService sysLogService;
 
 	/**
-	 * 简单分页查询
-	 * @param page 分页对象
-	 * @param sysLog 系统日志
-	 * @return
+	 * 分页查询系统日志
+	 * @param page 分页参数对象
+	 * @param sysLog 系统日志查询条件
+	 * @return 包含分页结果的响应对象
 	 */
 	@GetMapping("/page")
 	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
@@ -68,8 +66,8 @@ public class SysLogController {
 
 	/**
 	 * 批量删除日志
-	 * @param ids ID
-	 * @return success/false
+	 * @param ids 要删除的日志ID数组
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@DeleteMapping
 	@HasPermission("sys_log_del")
@@ -78,9 +76,9 @@ public class SysLogController {
 	}
 
 	/**
-	 * 插入日志
+	 * 保存日志
 	 * @param sysLog 日志实体
-	 * @return success/false
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@Inner
 	@PostMapping("/save")
@@ -89,9 +87,9 @@ public class SysLogController {
 	}
 
 	/**
-	 * 导出excel 表格
-	 * @param sysLog 查询条件
-	 * @return
+	 * 导出系统日志到Excel表格
+	 * @param sysLog 系统日志查询条件DTO
+	 * @return 符合查询条件的系统日志列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")

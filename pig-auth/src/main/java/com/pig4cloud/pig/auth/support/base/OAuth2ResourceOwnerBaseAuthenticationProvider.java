@@ -30,10 +30,11 @@ import java.util.*;
 import java.util.function.Supplier;
 
 /**
- * @author jumuning
- * @description
+ * OAuth2资源所有者基础认证提供者抽象类，用于处理资源所有者密码凭证授权流程
  *
- * 处理自定义授权
+ * @param <T> OAuth2资源所有者基础认证令牌类型
+ * @author lengleng
+ * @date 2025/05/30
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OAuth2ResourceOwnerBaseAuthenticationToken>
 		implements AuthenticationProvider {
@@ -54,10 +55,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 	private Supplier<String> refreshTokenGenerator;
 
 	/**
-	 * Constructs an {@code OAuth2AuthorizationCodeAuthenticationProvider} using the
-	 * provided parameters.
-	 * @param authorizationService the authorization service
-	 * @param tokenGenerator the token generator
+	 * 构造一个基于资源所有者密码模式的OAuth2认证提供者
+	 * @param authenticationManager 认证管理器
+	 * @param authorizationService 授权服务
+	 * @param tokenGenerator token生成器
+	 * @throws IllegalArgumentException 当authorizationService或tokenGenerator为null时抛出
 	 * @since 0.2.3
 	 */
 	public OAuth2ResourceOwnerBaseAuthenticationProvider(AuthenticationManager authenticationManager,
@@ -73,12 +75,22 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		this.messages = new MessageSourceAccessor(SpringUtil.getBean("securityMessageSource"), Locale.CHINA);
 	}
 
+	/**
+	 * 设置刷新令牌生成器
+	 * @param refreshTokenGenerator 刷新令牌生成器，不能为null
+	 * @deprecated 该方法已废弃
+	 */
 	@Deprecated
 	public void setRefreshTokenGenerator(Supplier<String> refreshTokenGenerator) {
 		Assert.notNull(refreshTokenGenerator, "refreshTokenGenerator cannot be null");
 		this.refreshTokenGenerator = refreshTokenGenerator;
 	}
 
+	/**
+	 * 构建用户名密码认证令牌
+	 * @param reqParameters 请求参数映射
+	 * @return 用户名密码认证令牌
+	 */
 	public abstract UsernamePasswordAuthenticationToken buildToken(Map<String, Object> reqParameters);
 
 	/**
@@ -96,15 +108,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 	public abstract void checkClient(RegisteredClient registeredClient);
 
 	/**
-	 * Performs authentication with the same contract as
-	 * {@link AuthenticationManager#authenticate(Authentication)} .
-	 * @param authentication the authentication request object.
-	 * @return a fully authenticated object including credentials. May return
-	 * <code>null</code> if the <code>AuthenticationProvider</code> is unable to support
-	 * authentication of the passed <code>Authentication</code> object. In such a case,
-	 * the next <code>AuthenticationProvider</code> that supports the presented
-	 * <code>Authentication</code> class will be tried.
-	 * @throws AuthenticationException if authentication fails.
+	 * 执行认证操作，遵循与{@link AuthenticationManager#authenticate(Authentication)}相同的契约
+	 * @param authentication 认证请求对象
+	 * @return 包含凭证的完整认证对象，如果当前认证提供者无法处理传入的认证对象可能返回null
+	 * @throws AuthenticationException 认证失败时抛出
+	 * @throws OAuth2AuthenticationException 当scope无效或token生成失败时抛出
 	 */
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -268,6 +276,12 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
 		return new OAuth2AuthenticationException(OAuth2ErrorCodesExpand.UN_KNOW_LOGIN_ERROR);
 	}
 
+	/**
+	 * 获取已认证的客户端主体，否则抛出无效客户端异常
+	 * @param authentication 认证信息
+	 * @return 已认证的客户端主体
+	 * @throws OAuth2AuthenticationException 客户端未认证时抛出异常
+	 */
 	private OAuth2ClientAuthenticationToken getAuthenticatedClientElseThrowInvalidClient(
 			Authentication authentication) {
 

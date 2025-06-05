@@ -42,11 +42,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * <p>
- * 前端控制器
- * </p>
+ * 客户端管理模块前端控制器
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2018-05-15
  */
 @RestController
@@ -59,9 +58,9 @@ public class SysClientController {
 	private final SysOauthClientDetailsService clientDetailsService;
 
 	/**
-	 * 通过ID查询
-	 * @param clientId clientId
-	 * @return SysOauthClientDetails
+	 * 通过客户端ID查询客户端详情
+	 * @param clientId 客户端ID
+	 * @return 包含客户端详情的响应对象
 	 */
 	@GetMapping("/{clientId}")
 	public R getByClientId(@PathVariable String clientId) {
@@ -71,10 +70,10 @@ public class SysClientController {
 	}
 
 	/**
-	 * 简单分页查询
-	 * @param page 分页对象
-	 * @param sysOauthClientDetails 系统终端
-	 * @return
+	 * 分页查询系统终端信息
+	 * @param page 分页参数对象
+	 * @param sysOauthClientDetails 系统终端查询条件
+	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
 	public R getOauthClientDetailsPage(@ParameterObject Page page,
@@ -88,9 +87,9 @@ public class SysClientController {
 	}
 
 	/**
-	 * 添加
-	 * @param clientDetails 实体
-	 * @return success/false
+	 * 添加客户端终端
+	 * @param clientDetails 客户端详情实体
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("添加终端")
 	@PostMapping
@@ -100,9 +99,9 @@ public class SysClientController {
 	}
 
 	/**
-	 * 删除
-	 * @param ids ID 列表
-	 * @return success/false
+	 * 根据ID列表批量删除终端
+	 * @param ids 要删除的终端ID数组
+	 * @return 操作结果，成功返回success
 	 */
 	@SysLog("删除终端")
 	@DeleteMapping
@@ -113,9 +112,9 @@ public class SysClientController {
 	}
 
 	/**
-	 * 编辑
-	 * @param clientDetails 实体
-	 * @return success/false
+	 * 编辑终端信息
+	 * @param clientDetails 终端实体信息
+	 * @return 操作结果
 	 */
 	@SysLog("编辑终端")
 	@PutMapping
@@ -124,6 +123,11 @@ public class SysClientController {
 		return R.ok(clientDetailsService.updateClientById(clientDetails));
 	}
 
+	/**
+	 * 根据客户端ID获取客户端详情
+	 * @param clientId 客户端ID
+	 * @return 包含客户端详情的响应结果
+	 */
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public R getClientDetailsById(@PathVariable String clientId) {
@@ -133,7 +137,7 @@ public class SysClientController {
 
 	/**
 	 * 同步缓存字典
-	 * @return R
+	 * @return 操作结果
 	 */
 	@SysLog("同步终端")
 	@PutMapping("/sync")
@@ -142,8 +146,9 @@ public class SysClientController {
 	}
 
 	/**
-	 * 导出所有客户端
-	 * @return excel
+	 * 导出客户端信息到Excel
+	 * @param sysOauthClientDetails 客户端查询条件
+	 * @return 符合条件的客户端列表
 	 */
 	@ResponseExcel
 	@SysLog("导出excel")

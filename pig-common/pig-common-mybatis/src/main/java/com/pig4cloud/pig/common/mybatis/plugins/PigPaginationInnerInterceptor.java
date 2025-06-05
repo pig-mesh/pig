@@ -1,28 +1,33 @@
 package com.pig4cloud.pig.common.mybatis.plugins;
 
-import com.baomidou.mybatisplus.annotation.DbType;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.core.toolkit.ParameterUtils;
-import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.mapping.BoundSql;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.session.ResultHandler;
 import org.apache.ibatis.session.RowBounds;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.ParameterUtils;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.dialects.IDialect;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
 /**
- * 分页拦截器
+ * 分页拦截器实现类，用于处理分页查询逻辑
  * <p>
- * 重构分页插件, 当 size 小于 0 时, 直接设置为 0, 防止错误查询全表
+ * 当分页大小小于0时自动设置为0，防止全表查询
  *
- * @author seven
+ * @author lengleng
+ * @date 2025/05/31
  * @since 2021年10月11日
  */
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = false)
 public class PigPaginationInnerInterceptor extends PaginationInnerInterceptor {
 
 	/**
@@ -47,6 +52,15 @@ public class PigPaginationInnerInterceptor extends PaginationInnerInterceptor {
 		this.dialect = dialect;
 	}
 
+	/**
+	 * 在执行查询前处理分页参数
+	 * @param executor 执行器
+	 * @param ms 映射语句
+	 * @param parameter 参数对象
+	 * @param rowBounds 行边界
+	 * @param resultHandler 结果处理器
+	 * @param boundSql 绑定SQL
+	 */
 	@Override
 	public void beforeQuery(Executor executor, MappedStatement ms, Object parameter, RowBounds rowBounds,
 			ResultHandler resultHandler, BoundSql boundSql) {

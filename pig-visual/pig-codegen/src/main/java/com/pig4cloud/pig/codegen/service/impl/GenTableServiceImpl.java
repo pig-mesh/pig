@@ -55,10 +55,10 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 列属性
+ * 代码生成表服务实现类
  *
- * @author pigx code generator
- * @date 2023-02-06 20:34:55
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Service
 @RequiredArgsConstructor
@@ -166,6 +166,13 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		return genTable;
 	}
 
+	/**
+	 * 导入表结构并生成代码配置
+	 * @param dsName 数据源名称
+	 * @param tableName 表名
+	 * @return 生成的表配置信息
+	 * @Transactional 启用事务，遇到异常时回滚
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	protected GenTable tableImport(String dsName, String tableName) {
 		// 手动切换数据源

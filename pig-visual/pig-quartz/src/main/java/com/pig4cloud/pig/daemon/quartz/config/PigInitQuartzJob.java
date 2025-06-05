@@ -27,9 +27,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * 初始化加载定时任务配置类
+ *
+ * @author lengleng
  * @author 郑健楠
- * <p>
- * 初始化加载定时任务
+ * @date 2025/05/31
  */
 @Slf4j
 @Configuration
@@ -42,6 +44,10 @@ public class PigInitQuartzJob implements InitializingBean {
 
 	private final Scheduler scheduler;
 
+	/**
+	 * 在属性设置完成后执行，根据任务状态进行相应操作
+	 * @throws Exception 执行过程中可能抛出的异常
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		sysJobService.list().forEach(sysjob -> {

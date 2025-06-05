@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 /**
- * 用于测试REST风格调用的demo
+ * 用于测试REST风格调用的演示类
  *
- * @author lishangbu
- * @date 2019/3/25
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @RestController
@@ -22,7 +22,9 @@ import java.time.LocalDateTime;
 public class RestTaskDemo {
 
 	/**
-	 * 测试REST风格调用定时任务的演示方法
+	 * REST风格调用定时任务的演示方法
+	 * @param param 路径参数
+	 * @return 统一响应结果
 	 */
 	@Inner(value = false)
 	@GetMapping("/{param}")

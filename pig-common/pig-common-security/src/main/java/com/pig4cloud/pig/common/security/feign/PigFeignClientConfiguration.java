@@ -20,6 +20,12 @@ import feign.RequestInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
+/**
+ * Pig Feign 客户端配置类
+ *
+ * @author lengleng
+ * @date 2025/05/31
+ */
 public class PigFeignClientConfiguration {
 
 	/**

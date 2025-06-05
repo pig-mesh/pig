@@ -26,10 +26,10 @@ import org.anyline.metadata.Table;
 import java.util.List;
 
 /**
- * 列属性
+ * 代码生成表服务接口
  *
- * @author pigx code generator
- * @date 2023-02-06 20:34:55
+ * @author lengleng
+ * @date 2025/05/31
  */
 public interface GenTableService extends IService<GenTable> {
 

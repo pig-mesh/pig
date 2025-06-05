@@ -38,7 +38,10 @@ import org.springframework.scheduling.annotation.Async;
 import java.util.Objects;
 
 /**
- * @author lengleng 异步监听日志事件
+ * 系统日志监听器：异步处理系统日志事件
+ *
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -51,6 +54,10 @@ public class SysLogListener implements InitializingBean {
 
 	private final PigLogProperties logProperties;
 
+	/**
+	 * 异步保存系统日志
+	 * @param event 系统日志事件
+	 */
 	@SneakyThrows
 	@Async
 	@Order
@@ -80,6 +87,12 @@ public class SysLogListener implements InitializingBean {
 		objectMapper.registerModule(new PigJavaTimeModule());
 	}
 
+	/**
+	 * 属性过滤混合类：用于通过名称过滤属性
+	 *
+	 * @author lengleng
+	 * @date 2025/05/31
+	 */
 	@JsonFilter("filter properties by name")
 	class PropertyFilterMixIn {
 

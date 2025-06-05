@@ -21,10 +21,10 @@ import com.pig4cloud.pig.admin.api.entity.SysDictItem;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 字典项
+ * 系统字典项数据访问接口
  *
  * @author lengleng
- * @date 2019/03/19
+ * @date 2025/05/30
  */
 @Mapper
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {

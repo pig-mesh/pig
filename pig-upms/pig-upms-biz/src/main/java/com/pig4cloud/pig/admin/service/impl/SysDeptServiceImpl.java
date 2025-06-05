@@ -42,11 +42,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 部门管理 服务实现类
- * </p>
+ * 部门管理服务实现类
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2018-01-20
  */
 @Service
@@ -56,9 +55,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	private final SysDeptMapper deptMapper;
 
 	/**
-	 * 删除部门
-	 * @param id 部门 ID
-	 * @return 成功、失败
+	 * 根据部门ID删除部门（包含级联删除子部门）
+	 * @param id 要删除的部门ID
+	 * @return 删除操作是否成功，始终返回true
+	 * @throws Exception 事务执行过程中可能抛出的异常
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -72,9 +72,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	/**
-	 * 查询全部部门树
-	 * @param deptName
-	 * @return 树 部门名称
+	 * 查询部门树结构
+	 * @param deptName 部门名称(模糊查询)
+	 * @return 部门树结构列表，模糊查询时返回平铺列表
 	 */
 	@Override
 	public List<Tree<Long>> selectTree(String deptName) {
@@ -94,7 +94,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				treeNode.setWeight(dept.getSortOrder());
 				// 有权限不返回标识
 				Map<String, Object> extra = new HashMap<>(8);
-				extra.put("createTime", dept.getCreateTime());
+				extra.put(SysDept.Fields.createTime, dept.getCreateTime());
 				treeNode.setExtra(extra);
 				return treeNode;
 			})
@@ -114,8 +114,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	/**
-	 * 导出部门
-	 * @return
+	 * 导出部门列表为Excel视图对象列表
+	 * @return 部门Excel视图对象列表，包含部门名称、父部门名称和排序号
 	 */
 	@Override
 	public List<DeptExcelVo> listExcelVo() {
@@ -135,6 +135,12 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		return deptExcelVos;
 	}
 
+	/**
+	 * 导入部门信息
+	 * @param excelVOList 部门Excel数据列表
+	 * @param bindingResult 数据校验结果
+	 * @return 导入结果，包含错误信息或成功信息
+	 */
 	@Override
 	public R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
 		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
@@ -173,9 +179,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	/**
-	 * 查询所有子节点 （包含当前节点）
-	 * @param deptId 部门ID 目标部门ID
-	 * @return ID
+	 * 查询部门及其所有子部门
+	 * @param deptId 目标部门ID
+	 * @return 包含目标部门及其所有子部门的列表
 	 */
 	@Override
 	public List<SysDept> listDescendant(Long deptId) {
@@ -194,7 +200,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	}
 
 	/**
-	 * 递归查询所有子节点。
+	 * 递归查询所有子节点
 	 * @param allDeptList 所有部门列表
 	 * @param parentId 父部门ID
 	 * @param resDeptList 结果集合

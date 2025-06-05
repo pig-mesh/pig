@@ -56,10 +56,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.Arrays;
 
 /**
+ * 认证服务器配置类
+ *
  * @author lengleng
- * @date 2022/5/27
- * <p>
- * 认证服务器配置
+ * @date 2025/05/30
  */
 @Configuration
 @RequiredArgsConstructor
@@ -148,7 +148,6 @@ public class AuthorizationServerConfiguration {
 	 * 1. 密码模式 </br>
 	 * 2. 短信登录 </br>
 	 */
-	@SuppressWarnings("unchecked")
 	private void addCustomOAuth2GrantAuthenticationProvider(HttpSecurity http) {
 		AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 		OAuth2AuthorizationService authorizationService = http.getSharedObject(OAuth2AuthorizationService.class);

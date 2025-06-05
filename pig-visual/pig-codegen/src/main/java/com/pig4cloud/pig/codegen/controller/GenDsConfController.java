@@ -39,10 +39,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.sql.DataSource;
 
 /**
- * 数据源管理
+ * 数据源管理控制器
  *
  * @author lengleng
- * @date 2019-03-31 16:00:20
+ * @date 2025/05/31
  */
 @RestController
 @RequiredArgsConstructor
@@ -54,10 +54,10 @@ public class GenDsConfController {
 	private final Screw screw;
 
 	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param datasourceConf 数据源表
-	 * @return
+	 * 分页查询数据源配置
+	 * @param page 分页参数对象
+	 * @param datasourceConf 数据源配置查询条件
+	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
 	public R getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
@@ -68,8 +68,8 @@ public class GenDsConfController {
 	}
 
 	/**
-	 * 查询全部数据源
-	 * @return
+	 * 查询全部数据源列表
+	 * @return 包含全部数据源列表的响应结果
 	 */
 	@GetMapping("/list")
 	@Inner(value = false)
@@ -78,9 +78,9 @@ public class GenDsConfController {
 	}
 
 	/**
-	 * 通过id查询数据源表
-	 * @param id id
-	 * @return R
+	 * 根据ID查询数据源表
+	 * @param id 数据源ID
+	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/{id}")
 	public R getById(@PathVariable("id") Long id) {
@@ -89,8 +89,8 @@ public class GenDsConfController {
 
 	/**
 	 * 新增数据源表
-	 * @param datasourceConf 数据源表
-	 * @return R
+	 * @param datasourceConf 数据源配置信息
+	 * @return 操作结果
 	 */
 	@PostMapping
 	@XssCleanIgnore
@@ -100,8 +100,8 @@ public class GenDsConfController {
 
 	/**
 	 * 修改数据源表
-	 * @param conf 数据源表
-	 * @return R
+	 * @param conf 数据源表配置信息
+	 * @return 操作结果
 	 */
 	@PutMapping
 	@XssCleanIgnore
@@ -110,9 +110,9 @@ public class GenDsConfController {
 	}
 
 	/**
-	 * 通过id删除数据源表
-	 * @param ids id
-	 * @return R
+	 * 通过id数组删除数据源表
+	 * @param ids 要删除的数据源id数组
+	 * @return 包含操作结果的R对象
 	 */
 	@DeleteMapping
 	public R removeById(@RequestBody Long[] ids) {
@@ -120,8 +120,10 @@ public class GenDsConfController {
 	}
 
 	/**
-	 * 查询数据源对应的文档
+	 * 生成指定数据源的数据库文档并输出到响应流
 	 * @param dsName 数据源名称
+	 * @param response HTTP响应对象
+	 * @throws Exception 生成文档或IO操作过程中可能抛出的异常
 	 */
 	@SneakyThrows
 	@GetMapping("/doc")

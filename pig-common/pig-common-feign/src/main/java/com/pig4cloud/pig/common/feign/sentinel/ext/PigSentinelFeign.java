@@ -28,19 +28,17 @@ import org.springframework.cloud.openfeign.FeignClientFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
 /**
- * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
+ * 支持自动降级注入的Feign构建器，重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
  *
  * @author lengleng
- * @date 2020/6/9
+ * @date 2025/05/31
  */
 public final class PigSentinelFeign {
 
@@ -123,17 +121,12 @@ public final class PigSentinelFeign {
 			return super.internalBuild();
 		}
 
-		private Object getFieldValue(Object instance, String fieldName) {
-			Field field = ReflectionUtils.findField(instance.getClass(), fieldName);
-			field.setAccessible(true);
-			try {
-				return field.get(instance);
-			}
-			catch (IllegalAccessException e) {
-				// ignore
-			}
-			return null;
-		}
+		/**
+		 * private Object getFieldValue(Object instance, String fieldName) { Field field =
+		 * ReflectionUtils.findField(instance.getClass(), fieldName);
+		 * field.setAccessible(true); try { return field.get(instance); } catch
+		 * (IllegalAccessException e) { // ignore } return null; }
+		 **/
 
 		@Override
 		public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

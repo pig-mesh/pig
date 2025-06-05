@@ -14,12 +14,15 @@ import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
 import java.time.Instant;
 import java.util.*;
 
 /**
+ * 自定义OAuth2访问令牌生成器
+ *
  * @author lengleng
- * @date 2022/5/29
+ * @date 2025/05/30
  */
 public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
 
@@ -28,6 +31,13 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 	private final StringKeyGenerator accessTokenGenerator = new Base64StringKeyGenerator(
 			Base64.getUrlEncoder().withoutPadding(), 96);
 
+	/**
+	 * 生成OAuth2访问令牌
+	 * @param context OAuth2令牌上下文
+	 * @return 生成的访问令牌，如果令牌类型不是ACCESS_TOKEN或格式不是REFERENCE则返回null
+	 * @see OAuth2TokenContext
+	 * @see OAuth2AccessToken
+	 */
 	@Nullable
 	@Override
 	public OAuth2AccessToken generate(OAuth2TokenContext context) {
@@ -90,27 +100,48 @@ public class CustomeOAuth2AccessTokenGenerator implements OAuth2TokenGenerator<O
 	}
 
 	/**
-	 * Sets the {@link OAuth2TokenCustomizer} that customizes the
-	 * {@link OAuth2TokenClaimsContext#getClaims() claims} for the
-	 * {@link OAuth2AccessToken}.
-	 * @param accessTokenCustomizer the {@link OAuth2TokenCustomizer} that customizes the
-	 * claims for the {@code OAuth2AccessToken}
+	 * 设置用于定制{@link OAuth2AccessToken}的{@link OAuth2TokenClaimsContext#getClaims()}的{@link OAuth2TokenCustomizer}
+	 * @param accessTokenCustomizer
+	 * 用于定制{@code OAuth2AccessToken}声明的{@link OAuth2TokenCustomizer}
+	 * @throws IllegalArgumentException 当accessTokenCustomizer为null时抛出
 	 */
 	public void setAccessTokenCustomizer(OAuth2TokenCustomizer<OAuth2TokenClaimsContext> accessTokenCustomizer) {
 		Assert.notNull(accessTokenCustomizer, "accessTokenCustomizer cannot be null");
 		this.accessTokenCustomizer = accessTokenCustomizer;
 	}
 
+	/**
+	 * OAuth2访问令牌声明类，继承自OAuth2AccessToken并实现ClaimAccessor接口
+	 *
+	 * @author lengleng
+	 * @date 2025/05/30
+	 */
 	private static final class OAuth2AccessTokenClaims extends OAuth2AccessToken implements ClaimAccessor {
+
+		@Serial
+		private static final long serialVersionUID = 1L;
 
 		private final Map<String, Object> claims;
 
+		/**
+		 * 构造OAuth2访问令牌声明
+		 * @param tokenType 令牌类型
+		 * @param tokenValue 令牌值
+		 * @param issuedAt 颁发时间
+		 * @param expiresAt 过期时间
+		 * @param scopes 权限范围集合
+		 * @param claims 声明信息映射
+		 */
 		private OAuth2AccessTokenClaims(TokenType tokenType, String tokenValue, Instant issuedAt, Instant expiresAt,
 				Set<String> scopes, Map<String, Object> claims) {
 			super(tokenType, tokenValue, issuedAt, expiresAt, scopes);
 			this.claims = claims;
 		}
 
+		/**
+		 * 获取claims集合
+		 * @return claims键值对集合
+		 */
 		@Override
 		public Map<String, Object> getClaims() {
 			return this.claims;

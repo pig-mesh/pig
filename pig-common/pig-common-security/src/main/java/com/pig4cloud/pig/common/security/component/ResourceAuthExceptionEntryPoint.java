@@ -34,10 +34,10 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import java.io.PrintWriter;
 
 /**
+ * 资源认证异常处理入口点，用于处理客户端认证异常
+ *
  * @author lengleng
  * @date 2019/2/1
- *
- * 客户端异常处理 AuthenticationException 不同细化异常处理
  */
 @RequiredArgsConstructor
 public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
@@ -46,6 +46,13 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 
 	private final MessageSource messageSource;
 
+	/**
+	 * 处理认证失败的响应
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param authException 认证异常
+	 * @throws Exception 写入响应时可能抛出异常
+	 */
 	@Override
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,

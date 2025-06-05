@@ -29,23 +29,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 /**
- * @author lengleng
- * @date 2019-06-24
+ * WebMvc配置类：用于自定义Spring MVC配置
  * <p>
- * 注入自自定义SQL 过滤
+ * 包含GET请求参数时间类型转换和系统国际化配置
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @AutoConfiguration
 @ConditionalOnWebApplication(type = SERVLET)
 public class WebMvcConfiguration implements WebMvcConfigurer {
 
 	/**
-	 * 增加GET请求参数中时间类型转换 {@link com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule}
-	 * <ul>
-	 * <li>HH:mm:ss -> LocalTime</li>
-	 * <li>yyyy-MM-dd -> LocalDate</li>
-	 * <li>yyyy-MM-dd HH:mm:ss -> LocalDateTime</li>
-	 * </ul>
-	 * @param registry
+	 * 增加GET请求参数中时间类型转换
+	 * @param registry 格式化注册器
 	 */
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
@@ -57,8 +54,8 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 	}
 
 	/**
-	 * 系统国际化文件配置
-	 * @return MessageSource
+	 * 创建并配置国际化消息源
+	 * @return 可重载的资源包消息源
 	 */
 	@Bean
 	public MessageSource messageSource() {

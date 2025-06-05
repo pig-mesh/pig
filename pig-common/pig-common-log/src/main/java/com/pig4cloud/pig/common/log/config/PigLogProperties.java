@@ -26,7 +26,8 @@ import java.util.List;
 /**
  * 日志配置类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Getter
 @Setter

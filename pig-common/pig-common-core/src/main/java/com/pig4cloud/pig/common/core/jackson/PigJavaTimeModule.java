@@ -25,14 +25,19 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
- * java 8 时间默认序列化
+ * Java 8 时间默认序列化模块
  *
  * @author L.cm
  * @author lishanbu
+ * @author lengleng
+ * @date 2025/05/30
  */
 
 public class PigJavaTimeModule extends SimpleModule {
 
+	/**
+	 * PigJavaTimeModule构造函数，用于初始化时间序列化和反序列化规则
+	 */
 	public PigJavaTimeModule() {
 		super(PackageVersion.VERSION);
 

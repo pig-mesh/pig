@@ -34,23 +34,20 @@ import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.G
 import static org.springframework.cloud.gateway.support.ServerWebExchangeUtils.addOriginalRequestUrl;
 
 /**
+ * 全局拦截器，作用于所有微服务
+ * <p>
+ * 1. 清洗请求头中的from参数 2. 重写StripPrefix = 1，支持全局路由
+ *
  * @author lengleng
- * @date 2019/2/1
- * <p>
- * 全局拦截器，作用所有的微服务
- * <p>
- * 1. 对请求头中参数进行处理 from 参数进行清洗 2. 重写StripPrefix = 1,支持全局
- * <p>
- * 支持swagger添加X-Forwarded-Prefix header （F SR2 已经支持，不需要自己维护）
+ * @date 2025/05/30
  */
 public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 
 	/**
-	 * Process the Web request and (optionally) delegate to the next {@code WebFilter}
-	 * through the given {@link GatewayFilterChain}.
-	 * @param exchange the current server exchange
-	 * @param chain provides a way to delegate to the next filter
-	 * @return {@code Mono<Void>} to indicate when request processing is complete
+	 * 处理Web请求并（可选地）通过给定的网关过滤器链委托给下一个过滤器
+	 * @param exchange 当前服务器交换对象
+	 * @param chain 提供委托给下一个过滤器的方式
+	 * @return {@code Mono<Void>} 表示请求处理完成
 	 */
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

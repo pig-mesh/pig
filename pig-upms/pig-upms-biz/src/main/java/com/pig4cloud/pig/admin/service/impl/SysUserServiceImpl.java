@@ -61,8 +61,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
+ * 系统用户服务实现类
+ *
  * @author lengleng
- * @date 2017/10/31
+ * @date 2025/05/30
  */
 @Slf4j
 @Service
@@ -87,8 +89,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 	/**
 	 * 保存用户信息
-	 * @param userDto DTO 对象
-	 * @return success/fail
+	 * @param userDto 用户数据传输对象
+	 * @return 操作是否成功
+	 * @throws Exception 事务回滚时抛出异常
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -130,9 +133,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 通过查用户的全部信息
-	 * @param sysUser 用户
-	 * @return
+	 * 查询用户全部信息，包括角色和权限
+	 * @param sysUser 用户对象
+	 * @return 包含用户角色和权限的用户信息对象
 	 */
 	@Override
 	public UserInfo findUserInfo(SysUser sysUser) {
@@ -160,10 +163,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 分页查询用户信息（含有角色信息）
+	 * 分页查询用户信息（包含角色信息）
 	 * @param page 分页对象
-	 * @param userDTO 参数列表
-	 * @return
+	 * @param userDTO 查询参数
+	 * @return 包含用户和角色信息的分页结果
 	 */
 	@Override
 	public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
@@ -173,7 +176,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	/**
 	 * 通过ID查询用户信息
 	 * @param id 用户ID
-	 * @return 用户信息
+	 * @return 用户信息VO对象
 	 */
 	@Override
 	public UserVO selectUserVoById(Long id) {
@@ -181,15 +184,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 删除用户
-	 * @param ids 用户ID 列表
-	 * @return Boolean
+	 * 根据用户ID列表删除用户及相关缓存
+	 * @param ids 用户ID数组
+	 * @return 删除成功返回true
+	 * @throws Exception 事务回滚时抛出异常
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean deleteUserByIds(Long[] ids) {
 		// 删除 spring cache
-		List<SysUser> userList = baseMapper.selectBatchIds(CollUtil.toList(ids));
+		List<SysUser> userList = baseMapper.selectByIds(CollUtil.toList(ids));
 		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
 		for (SysUser sysUser : userList) {
 			// 立即删除
@@ -201,6 +205,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * 更新用户信息
+	 * @param userDto 用户数据传输对象
+	 * @return 操作结果，包含更新是否成功
+	 */
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R<Boolean> updateUserInfo(UserDTO userDto) {
@@ -214,6 +223,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return R.ok(this.updateById(sysUser));
 	}
 
+	/**
+	 * 更新用户信息
+	 * @param userDto 用户数据传输对象，包含需要更新的用户信息
+	 * @return 更新成功返回true
+	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
@@ -255,9 +269,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 查询全部的用户
-	 * @param userDTO 查询条件
-	 * @return list
+	 * 查询用户列表并转换为Excel导出格式
+	 * @param userDTO 用户查询条件
+	 * @return 用户Excel视图对象列表
 	 */
 	@Override
 	public List<UserExcelVO> listUser(UserDTO userDTO) {
@@ -282,10 +296,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * excel 导入用户, 插入正确的 错误的提示行号
-	 * @param excelVOList excel 列表数据
-	 * @param bindingResult 错误数据
-	 * @return ok fail
+	 * 导入用户数据
+	 * @param excelVOList Excel数据列表
+	 * @param bindingResult 校验结果
+	 * @return 导入结果，包含成功或失败信息
 	 */
 	@Override
 	public R importUser(List<UserExcelVO> excelVOList, BindingResult bindingResult) {
@@ -355,7 +369,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 插入excel User
+	 * 插入Excel导入的用户信息
+	 * @param excel Excel用户数据对象
+	 * @param deptOptional 部门信息Optional对象
+	 * @param roleCollList 角色列表
+	 * @param postCollList 岗位列表
 	 */
 	private void insertExcelUser(UserExcelVO excel, Optional<SysDept> deptOptional, List<SysRole> roleCollList,
 			List<SysPost> postCollList) {
@@ -380,9 +398,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 注册用户 赋予用户默认角色
-	 * @param userDto 用户信息
-	 * @return success/false
+	 * 注册用户并赋予默认角色
+	 * @param userDto 用户注册信息DTO
+	 * @return 注册结果，包含成功或失败状态
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -402,7 +420,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	/**
 	 * 锁定用户
 	 * @param username 用户名
-	 * @return
+	 * @return 操作结果，包含是否成功的信息
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#username")
@@ -416,6 +434,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return R.ok();
 	}
 
+	/**
+	 * 修改用户密码
+	 * @param userDto 用户信息传输对象，包含用户名、原密码和新密码
+	 * @return 操作结果，成功返回R.ok()，失败返回错误信息
+	 * @CacheEvict 清除用户详情缓存
+	 */
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R changePassword(UserDTO userDto) {
@@ -444,6 +468,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		return R.ok();
 	}
 
+	/**
+	 * 校验用户密码是否正确
+	 * @param password 待校验的密码
+	 * @return 校验结果，成功返回R.ok()，失败返回R.failed()
+	 */
 	@Override
 	public R checkPassword(String password) {
 		SysUser sysUser = baseMapper.selectById(SecurityUtils.getUser().getId());

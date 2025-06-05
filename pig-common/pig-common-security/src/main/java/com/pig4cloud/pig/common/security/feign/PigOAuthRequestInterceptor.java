@@ -27,6 +27,9 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class PigOAuthRequestInterceptor implements RequestInterceptor {
 
+	/**
+	 * 用于解析Bearer令牌的解析器
+	 */
 	private final BearerTokenResolver tokenResolver;
 
 	/**

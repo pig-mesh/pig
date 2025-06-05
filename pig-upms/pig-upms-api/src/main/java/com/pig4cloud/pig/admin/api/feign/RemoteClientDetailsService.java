@@ -28,8 +28,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 /**
+ * 远程客户端详情服务接口
+ *
  * @author lengleng
- * @date 2020/12/05
+ * @date 2025/05/30
  */
 @FeignClient(contextId = "remoteClientDetailsService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteClientDetailsService {

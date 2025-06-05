@@ -28,7 +28,11 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
- * @author frwcloud 异步监听定时任务事件
+ * 系统任务监听器：用于异步监听并处理定时任务事件
+ *
+ * @author frwcloud
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Service

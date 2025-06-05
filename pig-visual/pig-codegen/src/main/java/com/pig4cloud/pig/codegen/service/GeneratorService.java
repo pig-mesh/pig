@@ -22,8 +22,10 @@ import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 /**
+ * 代码生成服务接口
+ *
  * @author lengleng
- * @date 2018/7/29
+ * @date 2025/05/31
  */
 public interface GeneratorService {
 

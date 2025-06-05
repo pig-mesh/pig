@@ -38,10 +38,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * 字典表
+ * 系统字典服务实现类
  *
  * @author lengleng
- * @date 2019/03/19
+ * @date 2025/05/30
  */
 @Service
 @AllArgsConstructor
@@ -50,31 +50,32 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	private final SysDictItemMapper dictItemMapper;
 
 	/**
-	 * 根据ID 删除字典
-	 * @param ids 字典ID 列表
-	 * @return
+	 * 根据ID删除字典
+	 * @param ids 字典ID数组
+	 * @return 操作结果
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
 	public R removeDictByIds(Long[] ids) {
 
-		List<Long> dictIdList = baseMapper.selectBatchIds(CollUtil.toList(ids))
+		List<Long> dictIdList = baseMapper.selectByIds(CollUtil.toList(ids))
 			.stream()
 			.filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
 			.map(SysDict::getId)
 			.collect(Collectors.toList());
 
-		baseMapper.deleteBatchIds(dictIdList);
+		baseMapper.deleteByIds(dictIdList);
 
 		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList));
 		return R.ok();
 	}
 
 	/**
-	 * 更新字典
-	 * @param dict 字典
-	 * @return
+	 * 更新字典数据
+	 * @param dict 字典对象
+	 * @return 操作结果
+	 * @see R 返回结果封装类
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictType")
@@ -89,8 +90,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 	}
 
 	/**
-	 * 同步缓存 （清空缓存）
-	 * @return R
+	 * 同步字典缓存（清空缓存）
+	 * @return 操作结果
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)

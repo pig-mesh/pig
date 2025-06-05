@@ -29,8 +29,10 @@ import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
+ * 远程用户服务接口：提供用户信息查询功能
+ *
  * @author lengleng
- * @date 2018/6/22
+ * @date 2025/05/30
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteUserService {

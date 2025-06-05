@@ -25,14 +25,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * 动态查询
+ * 动态查询Mapper接口
  *
  * @author lengleng
- * @date 2022-07-09
+ * @date 2025/05/31
  */
 @Mapper
 public interface GenDynamicMapper {
 
+	/**
+	 * 动态SQL查询
+	 * @param sq SQL查询语句
+	 * @return 查询结果列表，每个结果以LinkedHashMap形式存储
+	 */
 	@InterceptorIgnore(tenantLine = "true")
 	List<LinkedHashMap<String, Object>> dynamicQuerySql(@Param("value") String sq);
 

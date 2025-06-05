@@ -16,18 +16,23 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authorization.method.PrePostTemplateDefaults;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.RequiredArgsConstructor;
+
 /**
+ * 资源服务器自动配置类
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 @EnableConfigurationProperties(PermitAllUrlProperties.class)
@@ -79,8 +84,8 @@ public class PigResourceServerAutoConfiguration {
 	 * @return {@link PrePostTemplateDefaults }
 	 */
 	@Bean
-	PrePostTemplateDefaults prePostTemplateDefaults() {
-		return new PrePostTemplateDefaults();
+	AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
+		return new AnnotationTemplateExpressionDefaults();
 	}
 
 }

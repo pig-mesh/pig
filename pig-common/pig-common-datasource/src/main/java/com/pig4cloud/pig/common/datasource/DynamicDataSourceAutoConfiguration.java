@@ -41,10 +41,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 动态数据源切换自动配置类
+ *
  * @author lengleng
- * @date 2020-02-06
- * <p>
- * 动态数据源切换配置
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)

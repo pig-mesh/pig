@@ -56,11 +56,10 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
- * <p>
- * 菜单权限表 服务实现类
- * </p>
+ * 菜单权限表服务实现类
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2017-10-29
  */
 @Service
@@ -70,12 +69,24 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
 	private final SysRoleMenuMapper sysRoleMenuMapper;
 
+	/**
+	 * 根据角色ID查询菜单列表
+	 * @param roleId 角色ID
+	 * @return 菜单列表，如果结果为空则不会被缓存
+	 * @see CacheConstants#MENU_DETAILS
+	 */
 	@Override
 	@Cacheable(value = CacheConstants.MENU_DETAILS, key = "#roleId", unless = "#result.isEmpty()")
 	public List<SysMenu> findMenuByRoleId(Long roleId) {
 		return baseMapper.listMenusByRoleId(roleId);
 	}
 
+	/**
+	 * 根据ID删除菜单
+	 * @param id 菜单ID
+	 * @return 删除结果
+	 * @throws Exception 事务回滚时抛出异常
+	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
@@ -91,6 +102,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return R.ok(this.removeById(id));
 	}
 
+	/**
+	 * 根据ID更新菜单信息
+	 * @param sysMenu 菜单实体对象
+	 * @return 更新是否成功
+	 */
 	@Override
 	@CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
 	public Boolean updateMenuById(SysMenu sysMenu) {
@@ -98,10 +114,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	}
 
 	/**
-	 * 构建树查询 1. 不是懒加载情况，查询全部 2. 是懒加载，根据parentId 查询 2.1 父节点为空，则查询ID -1
-	 * @param parentId 父节点ID
-	 * @param menuName 菜单名称
-	 * @return
+	 * 构建菜单树结构
+	 * @param parentId 父节点ID，为空时使用默认根节点
+	 * @param menuName 菜单名称，支持模糊查询
+	 * @param type 菜单类型
+	 * @return 菜单树结构列表，模糊查询时返回平铺列表
 	 */
 	@Override
 	public List<Tree<Long>> treeMenu(Long parentId, String menuName, String type) {
@@ -130,11 +147,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	}
 
 	/**
-	 * 查询菜单
-	 * @param all 全部菜单
-	 * @param type 类型
-	 * @param parentId 父节点ID
-	 * @return
+	 * 根据类型和父节点ID过滤菜单并构建树形结构
+	 * @param all 全部菜单集合
+	 * @param type 菜单类型
+	 * @param parentId 父节点ID，为空时使用根节点ID
+	 * @return 构建好的菜单树形结构列表
 	 */
 	@Override
 	public List<Tree<Long>> filterMenu(Set<SysMenu> all, String type, Long parentId) {
@@ -147,6 +164,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		return TreeUtil.build(collect, parent);
 	}
 
+	/**
+	 * 获取将SysMenu转换为TreeNode<Long>的函数
+	 * @return 转换函数，将SysMenu对象转换为TreeNode<Long>对象
+	 */
 	@NotNull
 	private Function<SysMenu, TreeNode<Long>> getNodeFunction() {
 		return menu -> {
@@ -157,10 +178,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			node.setWeight(menu.getSortOrder());
 			// 扩展属性
 			Map<String, Object> extra = new HashMap<>();
-			extra.put("path", menu.getPath());
-			extra.put("menuType", menu.getMenuType());
-			extra.put("permission", menu.getPermission());
-			extra.put("sortOrder", menu.getSortOrder());
+			extra.put(SysMenu.Fields.path, menu.getPath());
+			extra.put(SysMenu.Fields.menuType, menu.getMenuType());
+			extra.put(SysMenu.Fields.permission, menu.getPermission());
+			extra.put(SysMenu.Fields.sortOrder, menu.getSortOrder());
 
 			// 适配 vue3
 			Map<String, Object> meta = new HashMap<>();
@@ -170,9 +191,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 			meta.put("isKeepAlive", BooleanUtil.toBooleanObject(menu.getKeepAlive()));
 			meta.put("isAffix", false);
 			meta.put("isIframe", BooleanUtil.toBooleanObject(menu.getEmbedded()));
-			meta.put("icon", menu.getIcon());
+			meta.put(SysMenu.Fields.icon, menu.getIcon());
 			// 增加英文
-			meta.put("enName", menu.getEnName());
+			meta.put(SysMenu.Fields.enName, menu.getEnName());
 
 			extra.put("meta", meta);
 			node.setExtra(extra);

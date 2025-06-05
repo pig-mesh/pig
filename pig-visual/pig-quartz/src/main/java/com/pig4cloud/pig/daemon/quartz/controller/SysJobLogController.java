@@ -31,9 +31,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * 定时任务日志控制器
+ *
  * @author frwcloud
- * <p>
- * 定时任务执行日志表
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RestController
 @AllArgsConstructor
@@ -45,10 +47,10 @@ public class SysJobLogController {
 	private final SysJobLogService sysJobLogService;
 
 	/**
-	 * 分页查询
+	 * 分页查询定时任务日志
 	 * @param page 分页对象
-	 * @param sysJobLog 定时任务执行日志表
-	 * @return
+	 * @param sysJobLog 查询条件对象
+	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
 	@Operation(description = "分页定时任务日志查询")
@@ -56,6 +58,11 @@ public class SysJobLogController {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
 
+	/**
+	 * 批量删除日志
+	 * @param ids 要删除的日志ID数组
+	 * @return 操作结果
+	 */
 	@DeleteMapping
 	@Operation(description = "批量删除日志")
 	public R deleteLogs(@RequestBody Long[] ids) {

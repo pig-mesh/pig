@@ -35,9 +35,10 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * 定时任务反射工具类
+ * 定时任务反射工具类，用于执行和管理定时任务的反射调用
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @Component
@@ -48,6 +49,11 @@ public class TaskInvokUtil {
 
 	private final SysJobService sysJobService;
 
+	/**
+	 * 执行定时任务方法
+	 * @param sysJob 定时任务信息
+	 * @param trigger 触发器
+	 */
 	@SneakyThrows
 	public void invokMethod(SysJob sysJob, Trigger trigger) {
 

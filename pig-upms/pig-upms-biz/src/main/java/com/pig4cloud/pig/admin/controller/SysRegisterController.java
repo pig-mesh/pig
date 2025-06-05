@@ -5,6 +5,8 @@ import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,14 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 用户注册控制器：提供用户注册功能
+ *
  * @author lengleng
- * @date 2022/3/30
- * <p>
- * 客户端注册功能 register.user = false
+ * @date 2025/05/30
+ * @see RegisterUserDTO 注册用户信息传输对象
+ * @see R 通用返回结果封装
  */
 @RestController
 @RequestMapping("/register")
 @RequiredArgsConstructor
+@Tag(description = "register", name = "注册用户管理模块")
 @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
 public class SysRegisterController {
 
@@ -28,8 +33,8 @@ public class SysRegisterController {
 
 	/**
 	 * 注册用户
-	 * @param registerUserDTO 注册用户 DTO
-	 * @return {@link R }<{@link Boolean }>
+	 * @param registerUserDTO 注册用户信息DTO
+	 * @return 注册结果封装对象
 	 */
 	@Inner(value = false)
 	@SysLog("注册用户")

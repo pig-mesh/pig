@@ -24,9 +24,7 @@ import com.pig4cloud.pig.admin.api.entity.SysDept;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
  * 部门管理 Mapper 接口
- * </p>
  *
  * @author lengleng
  * @since 2018-01-20

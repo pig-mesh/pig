@@ -19,10 +19,10 @@ package com.pig4cloud.pig.common.security.annotation;
 import java.lang.annotation.*;
 
 /**
- * 服务调用不鉴权注解
+ * 内部注解：用于标记方法或类型是否需要AOP统一处理
  *
  * @author lengleng
- * @date 2020-06-14
+ * @date 2025/05/31
  */
 @Target({ ElementType.METHOD, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)

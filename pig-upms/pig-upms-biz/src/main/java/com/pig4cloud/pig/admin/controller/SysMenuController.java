@@ -37,8 +37,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 菜单管理控制器
+ *
  * @author lengleng
- * @date 2017/10/31
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -50,10 +52,10 @@ public class SysMenuController {
 	private final SysMenuService sysMenuService;
 
 	/**
-	 * 返回当前用户的树形菜单集合
-	 * @param type 类型
-	 * @param parentId 父节点ID
-	 * @return 当前用户的树形菜单
+	 * 获取当前用户的树形菜单集合
+	 * @param type 菜单类型
+	 * @param parentId 父菜单ID
+	 * @return 包含菜单数据的响应对象
 	 */
 	@GetMapping
 	public R getUserMenu(String type, Long parentId) {
@@ -64,10 +66,11 @@ public class SysMenuController {
 	}
 
 	/**
-	 * 返回树形菜单集合
+	 * 获取树形菜单集合
 	 * @param parentId 父节点ID
 	 * @param menuName 菜单名称
-	 * @return 树形菜单
+	 * @param type 菜单类型
+	 * @return 包含树形菜单的响应结果
 	 */
 	@GetMapping(value = "/tree")
 	public R getTree(Long parentId, String menuName, String type) {
@@ -75,9 +78,9 @@ public class SysMenuController {
 	}
 
 	/**
-	 * 返回角色的菜单集合
+	 * 根据角色ID获取菜单树
 	 * @param roleId 角色ID
-	 * @return 属性集合
+	 * @return 包含菜单ID列表的响应结果
 	 */
 	@GetMapping("/tree/{roleId}")
 	public R getRoleTree(@PathVariable Long roleId) {
@@ -88,7 +91,7 @@ public class SysMenuController {
 	/**
 	 * 通过ID查询菜单的详细信息
 	 * @param id 菜单ID
-	 * @return 菜单详细信息
+	 * @return 包含菜单详细信息的响应对象
 	 */
 	@GetMapping("/{id}")
 	public R getById(@PathVariable Long id) {
@@ -98,7 +101,7 @@ public class SysMenuController {
 	/**
 	 * 新增菜单
 	 * @param sysMenu 菜单信息
-	 * @return success/false
+	 * @return 操作结果
 	 */
 	@SysLog("新增菜单")
 	@PostMapping
@@ -109,9 +112,9 @@ public class SysMenuController {
 	}
 
 	/**
-	 * 删除菜单
-	 * @param id 菜单ID
-	 * @return success/false
+	 * 根据菜单ID删除菜单
+	 * @param id 要删除的菜单ID
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("删除菜单")
 	@DeleteMapping("/{id}")
@@ -121,9 +124,9 @@ public class SysMenuController {
 	}
 
 	/**
-	 * 更新菜单
-	 * @param sysMenu
-	 * @return
+	 * 更新菜单信息
+	 * @param sysMenu 菜单对象
+	 * @return 操作结果
 	 */
 	@SysLog("更新菜单")
 	@PutMapping

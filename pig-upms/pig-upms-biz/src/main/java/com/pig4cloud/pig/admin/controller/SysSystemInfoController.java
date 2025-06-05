@@ -15,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
+/**
+ * 系统监控控制器：提供系统监控相关接口
+ *
+ * @author lengleng
+ * @date 2025/05/30
+ */
 @RestController
 @RequestMapping("/system")
 @RequiredArgsConstructor
@@ -25,8 +31,8 @@ public class SysSystemInfoController {
 	private final RedisTemplate<String, String> redisTemplate;
 
 	/**
-	 * 缓存监控
-	 * @return R<Object>
+	 * 获取Redis缓存监控信息
+	 * @return 包含Redis信息、数据库大小和命令统计的响应结果
 	 */
 	@GetMapping("/cache")
 	public R cache() {

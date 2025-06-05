@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 判断是否有权限
+ * 权限注解：用于方法级别的权限控制
  *
  * @author lengleng
- * @date 2024/07/15
+ * @date 2025/05/31
  */
 @Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.RUNTIME)

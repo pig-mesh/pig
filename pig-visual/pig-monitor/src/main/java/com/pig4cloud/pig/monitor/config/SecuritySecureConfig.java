@@ -21,6 +21,7 @@ import jakarta.servlet.DispatcherType;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -33,18 +34,15 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 import java.util.UUID;
 
-import static org.springframework.http.HttpMethod.DELETE;
-import static org.springframework.http.HttpMethod.POST;
-
 /**
- * WebSecurityConfigurer
+ * 安全配置类：用于配置Spring Security相关设置
  *
- * @author lishangbu
- * @date 2019/2/1
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 public class SecuritySecureConfig {
@@ -53,11 +51,22 @@ public class SecuritySecureConfig {
 
 	private final SecurityProperties security;
 
+	/**
+	 * 构造函数，初始化安全管理配置
+	 * @param adminServer 管理服务器配置属性
+	 * @param security 安全配置属性
+	 */
 	public SecuritySecureConfig(AdminServerProperties adminServer, SecurityProperties security) {
 		this.adminServer = adminServer;
 		this.security = security;
 	}
 
+	/**
+	 * 配置Spring Security过滤器链
+	 * @param http HttpSecurity对象，用于配置安全策略
+	 * @return 配置好的SecurityFilterChain实例
+	 * @throws Exception 配置过程中可能抛出的异常
+	 */
 	@Bean
 	protected SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		SavedRequestAwareAuthenticationSuccessHandler successHandler = new SavedRequestAwareAuthenticationSuccessHandler();
@@ -65,13 +74,13 @@ public class SecuritySecureConfig {
 		successHandler.setDefaultTargetUrl(this.adminServer.path("/"));
 
 		http.authorizeHttpRequests((authorizeRequests) -> authorizeRequests //
-			.requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/assets/**")))
+			.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/assets/**")))
 			.permitAll()
-			.requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/actuator/info")))
+			.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/info")))
 			.permitAll()
-			.requestMatchers(new AntPathRequestMatcher(adminServer.path("/actuator/health")))
+			.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(adminServer.path("/actuator/health")))
 			.permitAll()
-			.requestMatchers(new AntPathRequestMatcher(this.adminServer.path("/login")))
+			.requestMatchers(PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/login")))
 			.permitAll()
 			.dispatcherTypeMatchers(DispatcherType.ASYNC)
 			.permitAll() // https://github.com/spring-projects/spring-security/issues/11027
@@ -86,9 +95,11 @@ public class SecuritySecureConfig {
 			.csrf((csrf) -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
 				.ignoringRequestMatchers(
-						new AntPathRequestMatcher(this.adminServer.path("/instances"), POST.toString()), // <6>
-						new AntPathRequestMatcher(this.adminServer.path("/instances/*"), DELETE.toString()), // <6>
-						new AntPathRequestMatcher(this.adminServer.path("/actuator/**")) // <7>
+						PathPatternRequestMatcher.withDefaults()
+							.matcher(HttpMethod.POST, this.adminServer.path("/instances")), // <6>
+						PathPatternRequestMatcher.withDefaults()
+							.matcher(HttpMethod.DELETE, this.adminServer.path("/instances/*")), // <6>
+						PathPatternRequestMatcher.withDefaults().matcher(this.adminServer.path("/actuator/**")) // <7>
 				));
 
 		http.rememberMe((rememberMe) -> rememberMe.key(UUID.randomUUID().toString()).tokenValiditySeconds(1209600));
@@ -97,7 +108,11 @@ public class SecuritySecureConfig {
 
 	}
 
-	// Required to provide UserDetailsService for "remember functionality"
+	/**
+	 * 创建内存用户详情服务
+	 * @param passwordEncoder 密码编码器
+	 * @return 包含配置用户的InMemoryUserDetailsManager实例
+	 */
 	@Bean
 	public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
 		UserDetails user = User.withUsername(security.getUser().getName())
@@ -107,6 +122,10 @@ public class SecuritySecureConfig {
 		return new InMemoryUserDetailsManager(user);
 	}
 
+	/**
+	 * 创建并返回一个BCrypt密码编码器实例
+	 * @return BCryptPasswordEncoder实例
+	 */
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();

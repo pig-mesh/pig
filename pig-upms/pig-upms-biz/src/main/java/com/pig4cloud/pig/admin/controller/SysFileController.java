@@ -41,10 +41,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- * 文件管理
+ * 文件管理控制器
  *
- * @author Luckly
- * @date 2019-06-18 17:18:42
+ * @author lengleng
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -56,10 +56,10 @@ public class SysFileController {
 	private final SysFileService sysFileService;
 
 	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param sysFile 文件管理
-	 * @return
+	 * 分页查询文件信息
+	 * @param page 分页参数对象
+	 * @param sysFile 文件查询条件对象
+	 * @return 分页查询结果
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
@@ -71,8 +71,8 @@ public class SysFileController {
 
 	/**
 	 * 通过id删除文件管理
-	 * @param ids id 列表
-	 * @return R
+	 * @param ids 要删除的文件id数组
+	 * @return 操作结果
 	 */
 	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
@@ -86,9 +86,9 @@ public class SysFileController {
 	}
 
 	/**
-	 * 上传文件 文件名采用uuid,避免原始文件名中带"-"符号导致下载的时候解析出现异常
-	 * @param file 资源
-	 * @return R(/ admin / bucketName / filename)
+	 * 上传文件
+	 * @param file 上传的文件资源
+	 * @return 包含文件路径的R对象，格式为(/admin/bucketName/filename)
 	 */
 	@PostMapping(value = "/upload")
 	public R upload(@RequestPart("file") MultipartFile file) {
@@ -96,11 +96,10 @@ public class SysFileController {
 	}
 
 	/**
-	 * 获取文件
+	 * 获取文件并写入响应流
 	 * @param bucket 桶名称
-	 * @param fileName 文件空间/名称
-	 * @param response
-	 * @return
+	 * @param fileName 文件路径/名称
+	 * @param response HTTP响应对象
 	 */
 	@Inner(false)
 	@GetMapping("/{bucket}/{fileName}")
@@ -109,9 +108,10 @@ public class SysFileController {
 	}
 
 	/**
-	 * 获取本地（resources）文件
+	 * 获取本地resources目录下的文件并写入响应流
 	 * @param fileName 文件名称
-	 * @param response 本地文件
+	 * @param response HTTP响应对象，用于输出文件内容
+	 * @throws IOException 文件操作异常
 	 */
 	@SneakyThrows
 	@GetMapping("/local/file/{fileName}")

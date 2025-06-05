@@ -27,14 +27,21 @@ import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
+ * Redis 配置类
+ *
  * @author lengleng
- * @date 2019/2/1 Redis 配置类
+ * @date 2025/05/30
  */
 @EnableCaching
 @AutoConfiguration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
 public class RedisTemplateConfiguration {
 
+	/**
+	 * 创建并配置RedisTemplate实例
+	 * @param factory Redis连接工厂
+	 * @return 配置好的RedisTemplate实例
+	 */
 	@Bean
 	@Primary
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
@@ -47,26 +54,51 @@ public class RedisTemplateConfiguration {
 		return redisTemplate;
 	}
 
+	/**
+	 * 创建并返回HashOperations实例
+	 * @param redisTemplate Redis模板
+	 * @return HashOperations实例
+	 */
 	@Bean
 	public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForHash();
 	}
 
+	/**
+	 * 创建并返回用于操作Redis String类型数据的ValueOperations实例
+	 * @param redisTemplate Redis模板，用于操作Redis
+	 * @return ValueOperations实例，提供对Redis String类型数据的操作
+	 */
 	@Bean
 	public ValueOperations<String, String> valueOperations(RedisTemplate<String, String> redisTemplate) {
 		return redisTemplate.opsForValue();
 	}
 
+	/**
+	 * 创建并返回ListOperations实例
+	 * @param redisTemplate Redis模板
+	 * @return ListOperations实例
+	 */
 	@Bean
 	public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForList();
 	}
 
+	/**
+	 * 创建并返回SetOperations实例
+	 * @param redisTemplate Redis模板
+	 * @return SetOperations实例
+	 */
 	@Bean
 	public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForSet();
 	}
 
+	/**
+	 * 创建并返回ZSetOperations实例
+	 * @param redisTemplate Redis模板对象
+	 * @return ZSetOperations实例
+	 */
 	@Bean
 	public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
 		return redisTemplate.opsForZSet();

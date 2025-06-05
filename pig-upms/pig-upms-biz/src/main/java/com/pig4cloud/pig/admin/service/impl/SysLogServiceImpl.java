@@ -35,25 +35,30 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * <p>
- * 日志表 服务实现类
- * </p>
+ * 系统日志服务实现类
  *
  * @author lengleng
+ * @date 2025/05/30
  * @since 2017-11-20
  */
 @Service
 public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> implements SysLogService {
 
+	/**
+	 * 分页查询系统日志
+	 * @param page 分页参数
+	 * @param sysLog 日志查询条件
+	 * @return 分页结果
+	 */
 	@Override
 	public Page getLogByPage(Page page, SysLogDTO sysLog) {
 		return baseMapper.selectPage(page, buildQuery(sysLog));
 	}
 
 	/**
-	 * 插入日志
+	 * 保存日志
 	 * @param sysLog 日志对象
-	 * @return true/false
+	 * @return 保存成功返回true
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -64,8 +69,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	/**
 	 * 查询日志列表
-	 * @param sysLog 查询条件
-	 * @return List<SysLog>
+	 * @param sysLog 查询条件DTO对象
+	 * @return 日志列表
 	 */
 	@Override
 	public List<SysLog> getList(SysLogDTO sysLog) {
@@ -74,8 +79,8 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 
 	/**
 	 * 构建查询条件
-	 * @param sysLog 前端条件
-	 * @return LambdaQueryWrapper
+	 * @param sysLog 前端查询条件DTO
+	 * @return 构建好的LambdaQueryWrapper对象
 	 */
 	private LambdaQueryWrapper buildQuery(SysLogDTO sysLog) {
 		LambdaQueryWrapper<SysLog> wrapper = Wrappers.lambdaQuery();

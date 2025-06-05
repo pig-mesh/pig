@@ -7,9 +7,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 网关配置
+ * 网关配置类
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Configuration(proxyBeanMethods = false)
 public class GatewayConfiguration {

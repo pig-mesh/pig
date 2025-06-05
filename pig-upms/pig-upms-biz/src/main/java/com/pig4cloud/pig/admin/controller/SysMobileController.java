@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * 手机管理模块控制器：提供手机验证码相关服务
+ *
  * @author lengleng
  * @date 2018/11/14
- * <p>
- * 手机验证码
  */
 @RestController
 @AllArgsConstructor
@@ -44,6 +44,11 @@ public class SysMobileController {
 
 	private final SysMobileService mobileService;
 
+	/**
+	 * 发送短信验证码
+	 * @param mobile 手机号码
+	 * @return 操作结果
+	 */
 	@Inner(value = false)
 	@GetMapping("/{mobile}")
 	public R sendSmsCode(@PathVariable String mobile) {

@@ -46,8 +46,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 角色管理控制器：提供角色相关的增删改查及权限管理功能
+ *
  * @author lengleng
- * @date 2020-02-10
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -60,8 +62,8 @@ public class SysRoleController {
 
 	/**
 	 * 通过ID查询角色信息
-	 * @param id ID
-	 * @return 角色信息
+	 * @param id 角色ID
+	 * @return 包含角色信息的响应对象
 	 */
 	@GetMapping("/details/{id}")
 	public R getById(@PathVariable Long id) {
@@ -69,9 +71,9 @@ public class SysRoleController {
 	}
 
 	/**
-	 * 查询角色信息
-	 * @param query 查询条件
-	 * @return 角色信息
+	 * 查询角色详细信息
+	 * @param query 角色查询条件对象
+	 * @return 包含角色信息的响应结果
 	 */
 	@GetMapping("/details")
 	public R getDetails(@ParameterObject SysRole query) {
@@ -81,7 +83,7 @@ public class SysRoleController {
 	/**
 	 * 添加角色
 	 * @param sysRole 角色信息
-	 * @return success、false
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("添加角色")
 	@PostMapping
@@ -92,9 +94,9 @@ public class SysRoleController {
 	}
 
 	/**
-	 * 修改角色
+	 * 修改角色信息
 	 * @param sysRole 角色信息
-	 * @return success/false
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("修改角色")
 	@PutMapping
@@ -105,9 +107,9 @@ public class SysRoleController {
 	}
 
 	/**
-	 * 删除角色
-	 * @param ids
-	 * @return
+	 * 根据ID数组删除角色
+	 * @param ids 角色ID数组
+	 * @return 操作结果
 	 */
 	@SysLog("删除角色")
 	@DeleteMapping
@@ -119,7 +121,7 @@ public class SysRoleController {
 
 	/**
 	 * 获取角色列表
-	 * @return 角色列表
+	 * @return 包含角色列表的响应结果
 	 */
 	@GetMapping("/list")
 	public R listRoles() {
@@ -129,8 +131,8 @@ public class SysRoleController {
 	/**
 	 * 分页查询角色信息
 	 * @param page 分页对象
-	 * @param role 查询条件
-	 * @return 分页对象
+	 * @param role 查询条件对象
+	 * @return 包含分页结果的响应对象
 	 */
 	@GetMapping("/page")
 	public R getRolePage(Page page, SysRole role) {
@@ -140,8 +142,8 @@ public class SysRoleController {
 
 	/**
 	 * 更新角色菜单
-	 * @param roleVo 角色对象
-	 * @return success、false
+	 * @param roleVo 角色VO对象
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("更新角色菜单")
 	@PutMapping("/menu")
@@ -151,9 +153,9 @@ public class SysRoleController {
 	}
 
 	/**
-	 * 通过角色ID 查询角色列表
-	 * @param roleIdList 角色ID
-	 * @return
+	 * 通过角色ID列表查询角色信息
+	 * @param roleIdList 角色ID列表
+	 * @return 包含查询结果的响应对象
 	 */
 	@PostMapping("/getRoleList")
 	public R getRoleList(@RequestBody List<Long> roleIdList) {
@@ -161,8 +163,8 @@ public class SysRoleController {
 	}
 
 	/**
-	 * 导出excel 表格
-	 * @return
+	 * 导出角色数据到Excel表格
+	 * @return 角色数据列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
@@ -173,9 +175,9 @@ public class SysRoleController {
 
 	/**
 	 * 导入角色
-	 * @param excelVOList 角色列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
+	 * @param excelVOList 角色Excel数据列表
+	 * @param bindingResult 数据校验结果
+	 * @return 导入结果
 	 */
 	@PostMapping("/import")
 	@HasPermission("sys_role_export")

@@ -33,9 +33,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * <p>
- * 服务实现类
- * </p>
+ * OAuth2客户端详情服务实现类
  *
  * @author lengleng
  * @since 2018-05-15
@@ -46,9 +44,9 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 		implements SysOauthClientDetailsService {
 
 	/**
-	 * 根据客户端信息
-	 * @param clientDetails
-	 * @return
+	 * 根据客户端信息更新客户端详情
+	 * @param clientDetails 客户端详情信息
+	 * @return 更新结果，成功返回true
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, key = "#clientDetails.clientId")
@@ -59,9 +57,9 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	}
 
 	/**
-	 * 添加客户端
-	 * @param clientDetails
-	 * @return
+	 * 保存客户端信息
+	 * @param clientDetails 客户端详细信息
+	 * @return 操作是否成功
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -72,8 +70,8 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 
 	/**
 	 * 插入或更新客户端对象
-	 * @param clientDetails
-	 * @return
+	 * @param clientDetails 客户端详情对象
+	 * @return 更新后的客户端详情对象
 	 */
 	private SysOauthClientDetails insertOrUpdate(SysOauthClientDetails clientDetails) {
 		// 更新数据库
@@ -82,16 +80,20 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	}
 
 	/**
-	 * 分页查询客户端信息
-	 * @param page
-	 * @param query
-	 * @return
+	 * 分页查询OAuth客户端详情
+	 * @param page 分页参数
+	 * @param query 查询条件
+	 * @return 分页查询结果
 	 */
 	@Override
 	public Page queryPage(Page page, SysOauthClientDetails query) {
 		return baseMapper.selectPage(page, Wrappers.query(query));
 	}
 
+	/**
+	 * 同步客户端缓存
+	 * @return 操作结果
+	 */
 	@Override
 	@CacheEvict(value = CacheConstants.CLIENT_DETAILS_KEY, allEntries = true)
 	public R syncClientCache() {

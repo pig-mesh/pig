@@ -7,10 +7,10 @@ import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import lombok.experimental.UtilityClass;
 
 /**
+ * 系统参数配置解析器工具类
+ *
  * @author lengleng
- * @date 2020/5/12
- * <p>
- * 系统参数配置解析器
+ * @date 2025/05/30
  */
 @UtilityClass
 public class ParamResolver {
@@ -35,6 +35,15 @@ public class ParamResolver {
 		return checkAndGet(key, String.class, defaultVal);
 	}
 
+	/**
+	 * 根据key获取远程参数值并转换为指定类型
+	 * @param key 参数key
+	 * @param clazz 目标类型
+	 * @param defaultVal 默认值(可选，最多一个)
+	 * @param <T> 泛型类型
+	 * @return 转换后的参数值，未找到且无默认值时返回null
+	 * @throws IllegalArgumentException 参数不合法时抛出异常
+	 */
 	private <T> T checkAndGet(String key, Class<T> clazz, T... defaultVal) {
 		// 校验入参是否合法
 		if (StrUtil.isBlank(key) || defaultVal.length > 1) {

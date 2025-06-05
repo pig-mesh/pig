@@ -49,8 +49,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 用户管理控制器
+ *
  * @author lengleng
- * @date 2018/12/16
+ * @date 2025/05/30
  */
 @RestController
 @AllArgsConstructor
@@ -62,8 +64,10 @@ public class SysUserController {
 	private final SysUserService userService;
 
 	/**
-	 * 获取指定用户全部信息
-	 * @return 用户信息
+	 * 查询用户信息
+	 * @param username 用户名(可选)
+	 * @param phone 手机号(可选)
+	 * @return 包含用户信息的R对象
 	 */
 	@Inner
 	@GetMapping(value = { "/info/query" })
@@ -79,8 +83,8 @@ public class SysUserController {
 	}
 
 	/**
-	 * 获取当前用户全部信息
-	 * @return 用户信息
+	 * 获取当前登录用户的全部信息
+	 * @return 包含用户信息的响应结果
 	 */
 	@GetMapping(value = { "/info" })
 	public R info() {
@@ -94,8 +98,8 @@ public class SysUserController {
 
 	/**
 	 * 通过ID查询用户信息
-	 * @param id ID
-	 * @return 用户信息
+	 * @param id 用户ID
+	 * @return 包含用户信息的响应对象
 	 */
 	@GetMapping("/details/{id}")
 	public R user(@PathVariable Long id) {
@@ -103,9 +107,9 @@ public class SysUserController {
 	}
 
 	/**
-	 * 查询用户信息
-	 * @param query 查询条件
-	 * @return 不为空返回用户名
+	 * 查询用户详细信息
+	 * @param query 用户查询条件对象
+	 * @return 包含查询结果的响应对象，用户不存在时返回null
 	 */
 	@Inner(value = false)
 	@GetMapping("/details")
@@ -116,8 +120,8 @@ public class SysUserController {
 
 	/**
 	 * 删除用户信息
-	 * @param ids ID
-	 * @return R
+	 * @param ids 用户ID数组
+	 * @return 操作结果
 	 */
 	@SysLog("删除用户信息")
 	@DeleteMapping
@@ -129,8 +133,8 @@ public class SysUserController {
 
 	/**
 	 * 添加用户
-	 * @param userDto 用户信息
-	 * @return success/false
+	 * @param userDto 用户信息DTO
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("添加用户")
 	@PostMapping
@@ -141,8 +145,9 @@ public class SysUserController {
 
 	/**
 	 * 更新用户信息
-	 * @param userDto 用户信息
-	 * @return R
+	 * @param userDto 用户信息DTO对象
+	 * @return 包含操作结果的R对象
+	 * @throws javax.validation.Valid 参数校验失败时抛出异常
 	 */
 	@SysLog("更新用户信息")
 	@PutMapping
@@ -164,8 +169,8 @@ public class SysUserController {
 
 	/**
 	 * 修改个人信息
-	 * @param userDto userDto
-	 * @return success/false
+	 * @param userDto 用户信息传输对象
+	 * @return 操作结果，成功返回success，失败返回false
 	 */
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
@@ -174,9 +179,9 @@ public class SysUserController {
 	}
 
 	/**
-	 * 导出excel 表格
-	 * @param userDTO 查询条件
-	 * @return
+	 * 导出用户数据到Excel表格
+	 * @param userDTO 用户查询条件
+	 * @return 用户数据列表
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
@@ -186,10 +191,10 @@ public class SysUserController {
 	}
 
 	/**
-	 * 导入用户
-	 * @param excelVOList 用户列表
-	 * @param bindingResult 错误信息列表
-	 * @return R
+	 * 导入用户信息
+	 * @param excelVOList 用户Excel数据列表
+	 * @param bindingResult 数据校验结果
+	 * @return 导入结果
 	 */
 	@PostMapping("/import")
 	@HasPermission("sys_user_export")
@@ -200,13 +205,18 @@ public class SysUserController {
 	/**
 	 * 锁定指定用户
 	 * @param username 用户名
-	 * @return R
+	 * @return 操作结果
 	 */
 	@PutMapping("/lock/{username}")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);
 	}
 
+	/**
+	 * 修改当前用户密码
+	 * @param userDto 用户数据传输对象，包含新密码等信息
+	 * @return 操作结果
+	 */
 	@PutMapping("/password")
 	public R password(@RequestBody UserDTO userDto) {
 		String username = SecurityUtils.getUser().getUsername();
@@ -214,6 +224,11 @@ public class SysUserController {
 		return userService.changePassword(userDto);
 	}
 
+	/**
+	 * 检查密码是否符合要求
+	 * @param password 待检查的密码
+	 * @return 检查结果
+	 */
 	@PostMapping("/check")
 	public R check(String password) {
 		return userService.checkPassword(password);

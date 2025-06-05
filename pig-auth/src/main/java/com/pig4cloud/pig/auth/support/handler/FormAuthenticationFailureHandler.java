@@ -29,19 +29,19 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import java.io.IOException;
 
 /**
- * @author lengleng
- * @date 2022-06-02
- * <p>
  * 表单登录失败处理逻辑
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Slf4j
 public class FormAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
 	/**
-	 * Called when an authentication attempt fails.
-	 * @param request the request during which the authentication attempt occurred.
-	 * @param response the response.
-	 * @param exception the exception which was thrown to reject the authentication
+	 * 当认证失败时调用
+	 * @param request 认证尝试发生的请求
+	 * @param response 响应对象
+	 * @param exception 拒绝认证时抛出的异常
 	 */
 	@Override
 	@SneakyThrows

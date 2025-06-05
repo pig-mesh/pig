@@ -37,9 +37,9 @@ import java.util.List;
 public interface SysRoleMapper extends BaseMapper<SysRole> {
 
 	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
+	 * 通过用户ID查询角色信息
+	 * @param userId 用户ID
+	 * @return 角色信息列表
 	 */
 	List<SysRole> listRolesByUserId(Long userId);
 

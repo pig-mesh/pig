@@ -26,9 +26,10 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * jackson xss 处理
+ * Jackson XSS 处理类，用于清理JSON数据中的XSS风险内容
  *
- * @author L.cm
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +39,13 @@ public class JacksonXssClean extends XssCleanDeserializerBase {
 
 	private final XssCleaner xssCleaner;
 
+	/**
+	 * 清理文本内容，根据XSS防护设置进行处理
+	 * @param name 属性名称
+	 * @param text 待清理的文本
+	 * @return 清理后的文本
+	 * @throws IOException 如果清理过程中发生IO异常
+	 */
 	@Override
 	public String clean(String name, String text) throws IOException {
 		if (XssHolder.isEnabled() && Objects.isNull(XssHolder.getXssCleanIgnore())) {

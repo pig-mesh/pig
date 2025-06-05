@@ -30,9 +30,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**
- * 用户详细信息
+ * 用户详情服务实现类，提供基于用户名加载用户详情功能
  *
- * @author lengleng hccake
+ * @author lengleng
+ * @author hccake
+ * @date 2025/05/31
  */
 @Slf4j
 @Primary
@@ -44,9 +46,10 @@ public class PigUserDetailsServiceImpl implements PigUserDetailsService {
 	private final CacheManager cacheManager;
 
 	/**
-	 * 用户名密码登录
+	 * 根据用户名加载用户详情
 	 * @param username 用户名
-	 * @return
+	 * @return 用户详情信息
+	 * @throws Exception 获取用户信息过程中可能抛出的异常
 	 */
 	@Override
 	@SneakyThrows

@@ -17,10 +17,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author jumuning
- * @date 2022-06-02
+ * OAuth2资源所有者基础认证转换器抽象类
  *
- * 自定义模式认证转换器
+ * @param <T> 继承自OAuth2ResourceOwnerBaseAuthenticationToken的泛型类型
+ * @author lengleng
+ * @date 2025/05/30
  */
 public abstract class OAuth2ResourceOwnerBaseAuthenticationConverter<T extends OAuth2ResourceOwnerBaseAuthenticationToken>
 		implements AuthenticationConverter {
@@ -42,14 +43,20 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationConverter<T extends O
 
 	/**
 	 * 构建具体类型的token
-	 * @param clientPrincipal
-	 * @param requestedScopes
-	 * @param additionalParameters
-	 * @return
+	 * @param clientPrincipal 客户端认证信息
+	 * @param requestedScopes 请求的作用域集合
+	 * @param additionalParameters 附加参数映射
+	 * @return 构建完成的token对象
 	 */
 	public abstract T buildToken(Authentication clientPrincipal, Set<String> requestedScopes,
 			Map<String, Object> additionalParameters);
 
+	/**
+	 * 将HttpServletRequest转换为Authentication对象
+	 * @param request HTTP请求对象
+	 * @return 认证信息对象
+	 * @throws OAuth2AuthenticationException 当请求参数不合法或客户端未认证时抛出异常
+	 */
 	@Override
 	public Authentication convert(HttpServletRequest request) {
 

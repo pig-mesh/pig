@@ -68,8 +68,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * OAuth2 令牌端点控制器，提供令牌相关操作
+ *
  * @author lengleng
- * @date 2019/2/1 删除token端点
+ * @date 2025/05/30
  */
 @Slf4j
 @RestController
@@ -91,9 +93,9 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 授权码模式：认证页面
-	 * @param modelAndView
+	 * @param modelAndView 视图模型对象
 	 * @param error 表单登录失败处理回调的错误信息
-	 * @return ModelAndView
+	 * @return 包含登录页面视图和错误信息的ModelAndView对象
 	 */
 	@GetMapping("/token/login")
 	public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
@@ -104,7 +106,12 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 授权码模式：确认页面
-	 * @return {@link ModelAndView }
+	 * @param principal 用户主体信息
+	 * @param modelAndView 模型和视图对象
+	 * @param clientId 客户端ID
+	 * @param scope 请求的权限范围
+	 * @param state 状态参数
+	 * @return 包含确认页面信息的ModelAndView对象
 	 */
 	@GetMapping("/oauth2/confirm_access")
 	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
@@ -126,8 +133,8 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 注销并删除令牌
-	 * @param authHeader auth 标头
-	 * @return {@link R }<{@link Boolean }>
+	 * @param authHeader 认证头信息，包含Bearer token
+	 * @return 返回操作结果，包含布尔值表示是否成功
 	 */
 	@DeleteMapping("/token/logout")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
@@ -140,10 +147,11 @@ public class PigTokenEndpoint {
 	}
 
 	/**
-	 * 检查令牌
-	 * @param token 令 牌
-	 * @param response 响应
-	 * @param request 请求
+	 * 检查令牌有效性
+	 * @param token 待验证的令牌
+	 * @param response HTTP响应对象
+	 * @param request HTTP请求对象
+	 * @throws InvalidBearerTokenException 令牌无效或缺失时抛出异常
 	 */
 	@SneakyThrows
 	@GetMapping("/token/check_token")
@@ -173,8 +181,8 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 删除令牌
-	 * @param token 令 牌
-	 * @return {@link R }<{@link Boolean }>
+	 * @param token 令牌
+	 * @return 删除结果
 	 */
 	@Inner
 	@DeleteMapping("/token/remove/{token}")
@@ -199,9 +207,9 @@ public class PigTokenEndpoint {
 	}
 
 	/**
-	 * 令牌列表
-	 * @param params 参数
-	 * @return {@link R }<{@link Page }>
+	 * 分页查询令牌列表
+	 * @param params 请求参数，包含分页参数current和size
+	 * @return 分页结果，包含令牌信息列表
 	 */
 	@Inner
 	@PostMapping("/token/page")

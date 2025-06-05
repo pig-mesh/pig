@@ -17,8 +17,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * SpringDoc配置类，实现InitializingBean接口 swagger 3.0 展示
+ * SpringDoc配置类，实现InitializingBean接口，用于Swagger 3.0文档展示
  *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
@@ -40,7 +42,10 @@ public class SpringDocConfiguration implements InitializingBean {
 }
 
 /**
- * Swagger文档注册器，继承自Subscriber<InstancesChangeEvent>
+ * Swagger文档注册器，用于处理服务实例变更事件并更新Swagger UI配置
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @RequiredArgsConstructor
 class SwaggerDocRegister extends Subscriber<InstancesChangeEvent> {
@@ -50,8 +55,8 @@ class SwaggerDocRegister extends Subscriber<InstancesChangeEvent> {
 	private final DiscoveryClient discoveryClient;
 
 	/**
-	 * 事件回调方法，处理InstancesChangeEvent事件
-	 * @param event 事件对象
+	 * 处理服务实例变更事件
+	 * @param event 服务实例变更事件对象
 	 */
 	@Override
 	public void onEvent(InstancesChangeEvent event) {

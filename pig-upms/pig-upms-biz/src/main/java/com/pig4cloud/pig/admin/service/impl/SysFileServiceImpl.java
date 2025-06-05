@@ -60,8 +60,9 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 上传文件
-	 * @param file
-	 * @return
+	 * @param file 要上传的文件
+	 * @return 包含文件信息的响应结果，失败时返回错误信息
+	 * @throws Exception 文件上传过程中可能出现的异常
 	 */
 	@Override
 	public R uploadFile(MultipartFile file) {
@@ -84,10 +85,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	}
 
 	/**
-	 * 读取文件
-	 * @param bucket
-	 * @param fileName
-	 * @param response
+	 * 从指定存储桶中获取文件并写入HTTP响应流
+	 * @param bucket 存储桶名称
+	 * @param fileName 文件名
+	 * @param response HTTP响应对象
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
@@ -102,9 +103,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	}
 
 	/**
-	 * 删除文件
-	 * @param id
-	 * @return
+	 * 根据ID删除文件
+	 * @param id 文件ID
+	 * @return 删除是否成功，文件不存在时返回false
+	 * @throws Exception 删除过程中可能抛出的异常
 	 */
 	@Override
 	@SneakyThrows
@@ -119,8 +121,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	}
 
 	/**
-	 * 文件管理数据记录,收集管理追踪文件
-	 * @param file 上传文件格式
+	 * 记录文件管理数据
+	 * @param file 上传文件
 	 * @param fileName 文件名
 	 */
 	private void fileLog(MultipartFile file, String fileName) {

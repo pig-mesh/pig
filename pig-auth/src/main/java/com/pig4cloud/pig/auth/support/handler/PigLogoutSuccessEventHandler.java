@@ -32,15 +32,19 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 import org.springframework.stereotype.Component;
 
 /**
- * @author zhangran
- * @date 2022-06-02
+ * 处理用户退出成功事件处理器
  *
- * 事件机制处理退出相关
+ * @author lengleng
+ * @date 2025/05/30
  */
 @Slf4j
 @Component
 public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutSuccessEvent> {
 
+	/**
+	 * 处理登出成功事件
+	 * @param event 登出成功事件
+	 */
 	@Override
 	public void onApplicationEvent(LogoutSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();

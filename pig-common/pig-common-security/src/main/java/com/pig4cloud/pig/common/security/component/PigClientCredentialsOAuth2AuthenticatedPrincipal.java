@@ -8,10 +8,10 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * @author lengleng
- * @date 2022/7/6
+ * 客户端模式凭证认证主体实现类
  *
- * credential 支持客户端模式的用户存储
+ * @author lengleng
+ * @date 2025/05/31
  */
 @RequiredArgsConstructor
 public class PigClientCredentialsOAuth2AuthenticatedPrincipal implements OAuth2AuthenticatedPrincipal {
@@ -22,16 +22,28 @@ public class PigClientCredentialsOAuth2AuthenticatedPrincipal implements OAuth2A
 
 	private final String name;
 
+	/**
+	 * 获取属性集合
+	 * @return 属性键值对集合
+	 */
 	@Override
 	public Map<String, Object> getAttributes() {
 		return this.attributes;
 	}
 
+	/**
+	 * 获取用户权限集合
+	 * @return 用户权限集合
+	 */
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return this.authorities;
 	}
 
+	/**
+	 * 获取名称
+	 * @return 当前对象的名称
+	 */
 	@Override
 	public String getName() {
 		return this.name;

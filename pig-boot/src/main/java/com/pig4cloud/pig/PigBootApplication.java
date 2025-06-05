@@ -22,7 +22,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author lengleng 单体版本启动器，只需要运行此模块则整个系统启动
+ * 单体版本启动器，运行此模块即可启动整个系统
+ *
+ * @author lengleng
+ * @date 2025/05/30
  */
 @EnablePigDoc(value = "admin", isMicro = false)
 @EnablePigResourceServer

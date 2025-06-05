@@ -17,10 +17,10 @@
 package com.pig4cloud.pig.common.datasource.support;
 
 /**
+ * 数据源相关常量定义
+ *
  * @author lengleng
  * @date 2019-04-01
- * <p>
- * 数据源相关常量
  */
 public interface DataSourceConstants {
 

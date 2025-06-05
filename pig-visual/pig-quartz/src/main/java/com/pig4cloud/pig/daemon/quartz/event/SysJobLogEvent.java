@@ -22,7 +22,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author frwcloud 定时任务日志多线程事件
+ * 定时任务日志多线程事件
+ *
+ * @author frwcloud
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Getter
 @AllArgsConstructor

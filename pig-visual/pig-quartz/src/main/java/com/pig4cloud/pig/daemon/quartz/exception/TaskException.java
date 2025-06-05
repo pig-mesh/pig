@@ -18,16 +18,24 @@
 package com.pig4cloud.pig.daemon.quartz.exception;
 
 /**
- * 定时任务异常
+ * 定时任务异常类
  *
- * @author 郑健楠
+ * @author lengleng
+ * @date 2025/05/31
  */
 public class TaskException extends Exception {
 
+	/**
+	 * 无参构造方法，创建一个TaskException实例
+	 */
 	public TaskException() {
 		super();
 	}
 
+	/**
+	 * 构造方法，使用指定消息创建TaskException实例
+	 * @param msg 异常信息
+	 */
 	public TaskException(String msg) {
 		super(msg);
 	}

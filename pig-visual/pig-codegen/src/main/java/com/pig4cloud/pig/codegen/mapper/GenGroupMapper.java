@@ -24,14 +24,19 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * 模板分组
+ * 模板分组 Mapper 接口
  *
- * @author PIG
- * @date 2023-02-21 20:01:53
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Mapper
 public interface GenGroupMapper extends BaseMapper<GenGroupEntity> {
 
+	/**
+	 * 根据ID获取分组VO对象
+	 * @param id 分组ID
+	 * @return 分组VO对象
+	 */
 	GroupVO getGroupVoById(@Param("id") Long id);
 
 }

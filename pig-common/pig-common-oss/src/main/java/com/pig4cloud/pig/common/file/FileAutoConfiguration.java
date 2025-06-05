@@ -24,10 +24,11 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Import;
 
 /**
- * aws 自动配置类
+ * AWS 自动配置类
  *
  * @author lengleng
  * @author 858695266
+ * @date 2025/05/31
  */
 @Import({ LocalFileAutoConfiguration.class, OssAutoConfiguration.class })
 @EnableConfigurationProperties({ FileProperties.class })

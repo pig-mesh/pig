@@ -15,9 +15,9 @@ import java.util.Locale;
 public class MsgUtils {
 
 	/**
-	 * 通过code 获取中文错误信息
-	 * @param code
-	 * @return
+	 * 根据错误码获取中文错误信息
+	 * @param code 错误码
+	 * @return 对应的中文错误信息
 	 */
 	public String getMessage(String code) {
 		MessageSource messageSource = SpringContextHolder.getBean("messageSource");
@@ -25,9 +25,10 @@ public class MsgUtils {
 	}
 
 	/**
-	 * 通过code 和参数获取中文错误信息
-	 * @param code
-	 * @return
+	 * 通过错误码和参数获取中文错误信息
+	 * @param code 错误码
+	 * @param objects 格式化参数
+	 * @return 格式化后的中文错误信息
 	 */
 	public String getMessage(String code, Object... objects) {
 		MessageSource messageSource = SpringContextHolder.getBean("messageSource");
@@ -35,9 +36,10 @@ public class MsgUtils {
 	}
 
 	/**
-	 * security 通过code 和参数获取中文错误信息
-	 * @param code
-	 * @return
+	 * 通过错误码和参数获取中文错误信息
+	 * @param code 错误码
+	 * @param objects 格式化参数
+	 * @return 格式化后的中文错误信息
 	 */
 	public String getSecurityMessage(String code, Object... objects) {
 		MessageSource messageSource = SpringContextHolder.getBean("securityMessageSource");

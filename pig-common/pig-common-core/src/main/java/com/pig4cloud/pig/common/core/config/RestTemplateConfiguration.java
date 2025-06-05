@@ -24,15 +24,17 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestTemplate;
 
 /**
+ * RestTemplate 自动配置类
+ *
  * @author lengleng
- * @date 2019/2/1 RestTemplate
+ * @date 2025/05/30
  */
 @AutoConfiguration
 public class RestTemplateConfiguration {
 
 	/**
-	 * 动态 REST 模板
-	 * @return {@link RestTemplate }
+	 * 创建动态REST模板
+	 * @return {@link RestTemplate} REST模板实例
 	 */
 	@Bean
 	@LoadBalanced
@@ -42,8 +44,8 @@ public class RestTemplateConfiguration {
 	}
 
 	/**
-	 * REST 客户端构建器（支持负载均衡）
-	 * @return {@link RestClient.Builder }
+	 * 创建支持负载均衡的REST客户端构建器
+	 * @return {@link RestClient.Builder} REST客户端构建器
 	 */
 	@Bean
 	@LoadBalanced

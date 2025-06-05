@@ -33,18 +33,23 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- * JacksonConfig
+ * Jackson配置类，用于自定义Jackson的ObjectMapper配置
  *
  * @author lengleng
  * @author L.cm
  * @author lishangbu
- * @date 2020-06-17
+ * @date 2025/05/30
  */
 @AutoConfiguration
 @ConditionalOnClass(ObjectMapper.class)
 @AutoConfigureBefore(JacksonAutoConfiguration.class)
 public class JacksonConfiguration {
 
+	/**
+	 * 自定义Jackson2ObjectMapperBuilder配置
+	 * @return Jackson2ObjectMapperBuilderCustomizer实例，包含以下配置： 1. 设置地区为中国 2. 设置系统默认时区 3.
+	 * 设置默认日期时间格式 4. 配置Long类型序列化为字符串 5. 注册自定义时间模块
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {

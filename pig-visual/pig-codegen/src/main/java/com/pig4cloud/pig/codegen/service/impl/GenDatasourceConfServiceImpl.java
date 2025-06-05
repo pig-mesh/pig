@@ -39,10 +39,14 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * 数据源表
+ * 数据源配置服务实现类
+ *
+ * <p>
+ * 提供数据源的增删改查及校验功能，支持数据源密码加密存储
+ * </p>
  *
  * @author lengleng
- * @date 2019-03-31 16:00:20
+ * @date 2025/05/31
  */
 @Slf4j
 @Service
@@ -55,9 +59,9 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	private final DataSourceCreator hikariDataSourceCreator;
 
 	/**
-	 * 保存数据源并且加密
-	 * @param conf
-	 * @return
+	 * 保存数据源配置并进行加密处理
+	 * @param conf 数据源配置信息
+	 * @return 保存成功返回true，失败返回false
 	 */
 	@Override
 	public Boolean saveDsByEnc(GenDatasourceConf conf) {
@@ -76,9 +80,9 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	}
 
 	/**
-	 * 更新数据源
-	 * @param conf 数据源信息
-	 * @return
+	 * 更新加密数据源
+	 * @param conf 数据源配置信息
+	 * @return 更新成功返回true，失败返回false
 	 */
 	@Override
 	public Boolean updateDsByEnc(GenDatasourceConf conf) {
@@ -101,22 +105,22 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	}
 
 	/**
-	 * 通过数据源名称删除
-	 * @param dsIds 数据源ID
-	 * @return
+	 * 通过数据源ID删除数据源
+	 * @param dsIds 数据源ID数组
+	 * @return 删除是否成功
 	 */
 	@Override
 	public Boolean removeByDsId(Long[] dsIds) {
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
-		this.baseMapper.selectBatchIds(CollUtil.toList(dsIds))
+		this.baseMapper.selectByIds(CollUtil.toList(dsIds))
 			.forEach(ds -> dynamicRoutingDataSource.removeDataSource(ds.getName()));
-		this.baseMapper.deleteBatchIds(CollUtil.toList(dsIds));
+		this.baseMapper.deleteByIds(CollUtil.toList(dsIds));
 		return Boolean.TRUE;
 	}
 
 	/**
 	 * 添加动态数据源
-	 * @param conf 数据源信息
+	 * @param conf 数据源配置信息
 	 */
 	@Override
 	public void addDynamicDataSource(GenDatasourceConf conf) {
@@ -133,8 +137,9 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 	/**
 	 * 校验数据源配置是否有效
-	 * @param conf 数据源信息
-	 * @return 有效/无效
+	 * @param conf 数据源配置信息
+	 * @return 数据源配置是否有效，true表示有效
+	 * @throws RuntimeException 数据库连接失败时抛出异常
 	 */
 	@Override
 	public Boolean checkDataSource(GenDatasourceConf conf) {

@@ -40,8 +40,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import java.io.IOException;
 
 /**
+ * 认证失败处理器：处理用户认证失败事件并记录日志
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/05/30
  */
 @Slf4j
 public class PigAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
@@ -49,11 +51,10 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 	private final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
 
 	/**
-	 * Called when an authentication attempt fails.
-	 * @param request the request during which the authentication attempt occurred.
-	 * @param response the response.
-	 * @param exception the exception which was thrown to reject the authentication
-	 * request.
+	 * 当认证失败时调用
+	 * @param request 认证请求
+	 * @param response 认证响应
+	 * @param exception 认证失败的异常
 	 */
 	@Override
 	@SneakyThrows
@@ -79,6 +80,13 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 		sendErrorResponse(request, response, exception);
 	}
 
+	/**
+	 * 发送错误响应
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param exception 认证异常
+	 * @throws IOException 写入响应时发生IO异常
+	 */
 	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException {
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);

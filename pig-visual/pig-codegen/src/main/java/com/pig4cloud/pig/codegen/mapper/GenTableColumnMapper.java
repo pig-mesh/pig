@@ -22,10 +22,10 @@ import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 列属性
+ * 代码生成表列属性Mapper接口
  *
- * @author pigx code generator
- * @date 2023-02-06 20:16:01
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Mapper
 public interface GenTableColumnMapper extends BaseMapper<GenTableColumnEntity> {

@@ -31,16 +31,23 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Scope;
 
 /**
- * sentinel 配置
+ * Sentinel Feign 自动配置类
  *
  * @author lengleng
- * @date 2020-02-12
+ * @date 2025/05/31
  */
 @Configuration(proxyBeanMethods = false)
 @Import(PigFeignClientsRegistrar.class)
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
+	/**
+	 * 创建Feign.Builder实例，支持Sentinel功能
+	 * @return Feign.Builder实例
+	 * @ConditionalOnMissingBean 当容器中不存在该类型bean时创建
+	 * @ConditionalOnProperty 当配置feign.sentinel.enabled为true时生效
+	 * @Scope 指定bean作用域为prototype
+	 */
 	@Bean
 	@Scope("prototype")
 	@ConditionalOnMissingBean
@@ -50,8 +57,8 @@ public class PigFeignAutoConfiguration {
 	}
 
 	/**
-	 * add http connection close header
-	 * @return
+	 * 创建并返回PigFeignRequestCloseInterceptor实例
+	 * @return PigFeignRequestCloseInterceptor实例
 	 */
 	@Bean
 	public PigFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
@@ -59,8 +66,8 @@ public class PigFeignAutoConfiguration {
 	}
 
 	/**
-	 * add inner request header
-	 * @return PigFeignInnerRequestInterceptor
+	 * 创建并返回PigFeignInnerRequestInterceptor实例
+	 * @return PigFeignInnerRequestInterceptor 内部请求拦截器实例
 	 */
 	@Bean
 	public PigFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {

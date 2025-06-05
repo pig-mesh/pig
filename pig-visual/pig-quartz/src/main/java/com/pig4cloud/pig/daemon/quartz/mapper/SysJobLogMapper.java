@@ -22,10 +22,10 @@ import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 定时任务执行日志表
+ * 定时任务执行日志表 Mapper 接口
  *
- * @author frwcloud
- * @date 2019-01-27 13:40:20
+ * @author lengleng
+ * @date 2025/05/31
  */
 @Mapper
 public interface SysJobLogMapper extends BaseMapper<SysJobLog> {

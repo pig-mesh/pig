@@ -10,15 +10,22 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import java.io.IOException;
 
 /**
+ * SSO 登出成功处理器，根据客户端传入的跳转地址进行重定向
+ *
  * @author lengleng
- * @date 2022-06-02
- * <p>
- * sso 退出功能 ，根据客户端传入跳转
+ * @date 2025/05/30
  */
 public class SsoLogoutSuccessHandler implements LogoutSuccessHandler {
 
 	private static final String REDIRECT_URL = "redirect_url";
 
+	/**
+	 * 登出成功处理逻辑
+	 * @param request HTTP请求
+	 * @param response HTTP响应
+	 * @param authentication 认证信息
+	 * @throws IOException 重定向失败时抛出IO异常
+	 */
 	@Override
 	public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
 			throws IOException {

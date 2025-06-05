@@ -16,19 +16,31 @@ import org.springframework.security.oauth2.core.http.converter.OAuth2AccessToken
 import java.util.Map;
 
 /**
- * 扩展原生的实现，支持 Long2String
+ * 扩展OAuth2AccessTokenResponseHttpMessageConverter，支持Long类型转String的Token响应转换
  *
  * @author lengleng
- * @date 2023/6/28
+ * @date 2025/05/31
  */
 public class PigCustomOAuth2AccessTokenResponseHttpMessageConverter
 		extends OAuth2AccessTokenResponseHttpMessageConverter {
 
+	/**
+	 * 字符串到对象的映射类型引用
+	 */
 	private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
 	};
 
+	/**
+	 * OAuth2访问令牌响应参数转换器，用于将OAuth2AccessTokenResponse转换为Map<String, Object>
+	 */
 	private Converter<OAuth2AccessTokenResponse, Map<String, Object>> accessTokenResponseParametersConverter = new DefaultOAuth2AccessTokenResponseMapConverter();
 
+	/**
+	 * 将OAuth2访问令牌响应写入HTTP输出消息
+	 * @param tokenResponse OAuth2访问令牌响应
+	 * @param outputMessage HTTP输出消息
+	 * @throws HttpMessageNotWritableException 写入响应时发生错误抛出异常
+	 */
 	@Override
 	protected void writeInternal(OAuth2AccessTokenResponse tokenResponse, HttpOutputMessage outputMessage)
 			throws HttpMessageNotWritableException {

@@ -8,17 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 字典接口, 基于 RestClient GetExchange 实现
+ * 远程字典API服务接口，基于RestClient GetExchange实现
  *
  * @author lengleng
- * @date 2024/9/7
+ * @date 2025/05/31
  */
 public interface RemoteDictApiService {
 
 	/**
-	 * 按类型获取 dict
-	 * @param type 类型
-	 * @return {@link R }<{@link List }<{@link Map }<{@link String }, {@link Object }>>>
+	 * 根据类型获取字典数据
+	 * @param type 字典类型
+	 * @return 包含字典数据的响应对象，字典数据以Map列表形式返回
 	 */
 	@GetExchange("/dict/remote/type/{type}")
 	R<List<Map<String, Object>>> getDictByType(@PathVariable String type);
