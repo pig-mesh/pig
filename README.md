@@ -4,6 +4,7 @@
  <img src="https://img.shields.io/badge/Spring%20Boot-3.5-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/badge/Vue-3.5-blue.svg" alt="Downloads">
  <img src="https://img.shields.io/github/license/pig-mesh/pig"/>
+ <img src="https://gitcode.com/pig-mesh/pig/star/badge.svg"/>
 </p>
 
 ## 系统说明
