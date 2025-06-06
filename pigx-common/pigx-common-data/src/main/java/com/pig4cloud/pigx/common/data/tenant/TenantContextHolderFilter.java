@@ -20,9 +20,12 @@ package com.pig4cloud.pigx.common.data.tenant;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.ContentType;
+import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.util.R;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
@@ -40,6 +43,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -94,6 +98,7 @@ public class TenantContextHolderFilter extends GenericFilterBean {
      * @param response 响应
      * @return boolean
      */
+    @SneakyThrows
     private boolean checkTenantStatus(HttpServletRequest request, HttpServletResponse response) {
         // 如果是获取租户列表请求跳过
         if (StrUtil.containsAnyIgnoreCase(request.getRequestURI(), "/tenant/list")) {
@@ -111,12 +116,22 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             return true;
         }
 
-        boolean exist = tenantList.stream().anyMatch(tenant -> NumberUtil.equals(tenant.getId(), TenantContextHolder.getTenantId()));
+        // 获取当前请求的租户ID
+        Long currentTenantId = TenantContextHolder.getTenantId();
+        // 检查租户是否存在且在有效期内
+        boolean exist = tenantList.stream()
+                .filter(tenant -> NumberUtil.equals(tenant.getId(), currentTenantId)) // 匹配租户ID
+                .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now())) // 检查开始时间：租户已生效
+                .anyMatch(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()));
+
         if (exist) {
             return true;
         }
 
-        response.setStatus(HttpStatus.UPGRADE_REQUIRED.value());
+        // 如果租户不存在或已失效，返回401状态码和错误信息
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setContentType(ContentType.JSON.getValue());
+        response.getWriter().print(JSONUtil.toJsonStr(R.failed(StrUtil.format("租户ID为{}的租户不存在或已过期失效", currentTenantId))));
         return false;
     }
 
