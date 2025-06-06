@@ -12,8 +12,10 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.util.Objects;
 
 /**
+ * SSE端点控制器：提供服务器发送事件(SSE)功能
+ *
  * @author lengleng
- * @date 2023/12/11
+ * @date 2025/06/06
  */
 @Slf4j
 @RestController
@@ -21,6 +23,12 @@ import java.util.Objects;
 @RequestMapping("/sse")
 public class SseEmitterEndpoint {
 
+    /**
+     * 创建并返回一个SSE事件发射器
+     *
+     * @return SSE事件发射器，用于服务器推送事件，若用户未认证则返回null
+     * @throws Exception 若发送初始消息失败时抛出异常
+     */
     @SneakyThrows
     @RequestMapping("/info")
     public SseEmitter info() {

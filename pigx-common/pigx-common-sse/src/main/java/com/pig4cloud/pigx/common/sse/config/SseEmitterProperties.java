@@ -15,8 +15,7 @@ public class SseEmitterProperties {
 	public static final String PREFIX = "pigx.sse";
 
 	/**
-	 * 路径: 无参: /ws 有参: PathVariable: 单参: /ws/{test} 多参: /ws/{test1}/{test2} query:
-	 * /ws?uid=1&name=test
+     * SSE信息路径
 	 */
 	private String path = "/sse/info";
 

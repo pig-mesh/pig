@@ -27,32 +27,61 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 @Configuration(proxyBeanMethods = false)
 public class RedisMessageDistributorConfiguration {
 
+    /**
+     * 创建Redis消息分发器Bean
+     *
+     * @param stringRedisTemplate Redis字符串模板
+     * @return Redis消息分发器实例
+     * @ConditionalOnMissingBean 当容器中不存在MessageDistributor类型的Bean时创建
+     */
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
-	public RedisMessageDistributor messageDistributor(StringRedisTemplate stringRedisTemplate) {
+    public RedisMessageDistributor sseMessageDistributor(StringRedisTemplate stringRedisTemplate) {
 		return new RedisMessageDistributor(stringRedisTemplate);
-	}
+    }
 
+    /**
+     * 创建RedisSseEmitterMessageListener实例
+     *
+     * @param stringRedisTemplate Redis字符串模板
+     * @return RedisSseEmitterMessageListener实例
+     * @see RedisSseEmitterMessageListener
+	 */
 	@Bean
 	@ConditionalOnBean(RedisMessageDistributor.class)
 	@ConditionalOnMissingBean
-	public RedisSseEmitterMessageListener redisWebsocketMessageListener(StringRedisTemplate stringRedisTemplate) {
+    public RedisSseEmitterMessageListener sseRedisWebsocketMessageListener(StringRedisTemplate stringRedisTemplate) {
 		return new RedisSseEmitterMessageListener(stringRedisTemplate);
-	}
+    }
 
+    /**
+     * 创建Redis消息监听容器
+     *
+     * @param connectionFactory Redis连接工厂
+     * @return Redis消息监听容器实例
+     * @see RedisMessageListenerContainer
+	 */
 	@Bean
 	@ConditionalOnBean(RedisMessageDistributor.class)
 	@ConditionalOnMissingBean
-	public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
+    public RedisMessageListenerContainer sseRedisMessageListenerContainer(RedisConnectionFactory connectionFactory) {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		return container;
-	}
+    }
 
+    /**
+     * SSE Redis消息监听器注册配置类
+     * <p>
+     * 用于配置Redis消息监听器，实现SSE消息分发
+     *
+     * @author lengleng
+     * @date 2025/06/06
+	 */
 	@Configuration(proxyBeanMethods = false)
 	@ConditionalOnMissingBean(MessageDistributor.class)
 	@RequiredArgsConstructor
-	static class RedisMessageListenerRegisterConfiguration {
+    static class SseRedisMessageListenerRegisterConfiguration {
 
 		private final RedisMessageListenerContainer redisMessageListenerContainer;
 

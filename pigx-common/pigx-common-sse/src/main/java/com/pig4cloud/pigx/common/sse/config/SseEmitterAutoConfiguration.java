@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(SseEmitterProperties.class)
 public class SseEmitterAutoConfiguration {
 
+    /**
+     * 创建并返回一个SseEmitterEndpoint实例
+     *
+     * @return SseEmitterEndpoint实例
+     * @ConditionalOnMissingBean 当容器中不存在该类型的bean时才会创建
+     */
 	@Bean
 	@ConditionalOnMissingBean
 	public SseEmitterEndpoint sseEmitterEndpoint() {

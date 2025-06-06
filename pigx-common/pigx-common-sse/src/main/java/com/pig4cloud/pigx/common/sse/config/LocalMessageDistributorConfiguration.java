@@ -23,7 +23,7 @@ public class LocalMessageDistributorConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(MessageDistributor.class)
-	public LocalMessageDistributor messageDistributor() {
+	public LocalMessageDistributor sseMessageDistributor() {
 		return new LocalMessageDistributor();
 	}
 

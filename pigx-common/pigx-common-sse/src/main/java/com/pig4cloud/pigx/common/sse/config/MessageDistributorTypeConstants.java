@@ -1,7 +1,10 @@
 package com.pig4cloud.pigx.common.sse.config;
 
 /**
+ * 消息分发器类型常量类
+ *
  * @author lengleng
+ * @date 2025/06/06
  */
 public final class MessageDistributorTypeConstants {
 
