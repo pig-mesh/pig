@@ -31,7 +31,7 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 /**
  * @author lengleng
@@ -55,13 +55,13 @@ public class PigxResourceServerConfiguration {
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        AntPathRequestMatcher[] requestMatchers = permitAllUrl.getIgnoreUrls()
+        PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getIgnoreUrls()
                 .stream()
-                .map(AntPathRequestMatcher::new)
+                .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
                 .toList()
-                .toArray(new AntPathRequestMatcher[]{});
+                .toArray(new PathPatternRequestMatcher[]{});
 
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(requestMatchers)
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
                         .permitAll()
                         .anyRequest()
                         .authenticated())
@@ -75,9 +75,9 @@ public class PigxResourceServerConfiguration {
     }
 
     /**
-     * 支持自定义权限表达式
+     * 创建并返回一个支持自定义权限表达式的默认模板实例
      *
-     * @return {@link PrePostTemplateDefaults }
+     * @return {@link PrePostTemplateDefaults} 权限表达式默认模板实例
      */
     @Bean
     AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {

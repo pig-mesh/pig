@@ -19,8 +19,9 @@ spring:
       config.enabled: false
       discovery.enabled: false
     gateway:
-      enabled: false
-      redis.enabled: false
+      server.webflux:
+        enabled: false
+        redis.enabled: false
     sentinel.enabled: false
     openfeign.okhttp.enabled: true
   freemarker: # freemarker 配置，授权码模式页面渲染使用
