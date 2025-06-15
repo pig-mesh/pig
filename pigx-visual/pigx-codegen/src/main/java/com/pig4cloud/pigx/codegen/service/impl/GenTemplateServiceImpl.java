@@ -188,7 +188,7 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
      * @return {@link String }
      */
     private String getCGTMFile(String fileName) {
-        HttpResponse response = HttpRequest.get(String.format("%s/CGTM/raw/master/%s", DefaultConstants.CGTM_URL, fileName))
+        HttpResponse response = HttpRequest.get(String.format("%s/CGTM/raw/%s/%s", DefaultConstants.CGTM_URL, defaultProperties.getBranch(), fileName))
                 .execute();
 
         if (response.getStatus() == HttpStatus.HTTP_OK || StrUtil.isNotBlank(response.body())) {

@@ -18,12 +18,17 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = PigxCodeGenDefaultProperties.PREFIX)
 public class PigxCodeGenDefaultProperties implements InitializingBean {
 
-	public static final String PREFIX = "codegen";
+	public static final String PREFIX = "pigx.codegen";
 
 	/**
 	 * 是否开启在线更新
 	 */
 	private boolean autoCheckVersion = true;
+
+	/**
+	 * 分支名称，默认为master
+	 */
+	private String branch = "master";
 
 	/**
 	 * 模板项目地址
