@@ -96,8 +96,8 @@
         </dependency>
         <!--滑块验证码-->
         <dependency>
-            <groupId>io.springboot.plugin</groupId>
-            <artifactId>spring-boot-starter-captcha</artifactId>
+            <groupId>io.github.pig-mesh.plugin</groupId>
+            <artifactId>captcha-spring-boot-starter</artifactId>
             <version>${captcha.version}</version>
         </dependency>
         <!--web 模块-->
