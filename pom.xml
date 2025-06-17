@@ -43,7 +43,7 @@
         <maven.compiler.version>3.11.0</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>4.9.9</git.commit.version>
-        <captcha.version>1.3.0</captcha.version>
+        <captcha.version>1.4.0</captcha.version>
         <captcha.image.version>2.2.3</captcha.image.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
         <flowable.version>7.0.0</flowable.version>
@@ -52,7 +52,6 @@
         <knife4j.version>3.0.5</knife4j.version>
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
-        <jaxb.version>2.3.5</jaxb.version>
         <jimu.version>1.8.1</jimu.version>
         <aws.version>1.12.261</aws.version>
         <xxl.job.version>3.0.0</xxl.job.version>
@@ -95,12 +94,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <!-- JAVA 17 -->
-        <dependency>
-            <groupId>com.sun.xml.bind</groupId>
-            <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version>
         </dependency>
         <!--测试依赖-->
         <dependency>
