@@ -29,7 +29,7 @@
 	<properties>
 		<!-- 项目版本号 -->
 		<revision>3.8.3</revision>
-		<spring-boot.version>3.5.2</spring-boot.version>
+		<spring-boot.version>3.5.3</spring-boot.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
