@@ -63,16 +63,10 @@ public class AppRole extends Model<AppRole> {
 	private String roleCode;
 
 	/**
-	 * 角色描述
+	 * roleDesc
 	 */
-	@Schema(description = "角色描述")
+	@Schema(description = "roleDesc")
 	private String roleDesc;
-
-	/**
-	 * 菜单ID列表
-	 */
-	@Schema(description = "菜单ID列表")
-	private String menuId;
 
 	/**
 	 * 创建人
