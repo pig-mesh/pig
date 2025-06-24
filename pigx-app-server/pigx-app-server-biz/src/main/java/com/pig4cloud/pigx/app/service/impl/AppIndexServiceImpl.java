@@ -1,18 +1,12 @@
 package com.pig4cloud.pigx.app.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.CharUtil;
-import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONArray;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.app.api.entity.AppArticleEntity;
 import com.pig4cloud.pigx.app.api.entity.AppPageEntity;
-import com.pig4cloud.pigx.app.api.entity.AppRole;
 import com.pig4cloud.pigx.app.api.entity.AppTabbarEntity;
 import com.pig4cloud.pigx.app.api.enums.PageTypeEnums;
+import com.pig4cloud.pigx.app.mapper.AppArticleMapper;
 import com.pig4cloud.pigx.app.mapper.AppPageMapper;
-import com.pig4cloud.pigx.app.mapper.AppRoleMapper;
 import com.pig4cloud.pigx.app.mapper.AppTabbarMapper;
 import com.pig4cloud.pigx.app.service.AppIndexService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * app 页面控制
@@ -34,9 +27,9 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AppIndexServiceImpl implements AppIndexService {
 
-    private final AppTabbarMapper appTabbarMapper;
+    private final AppArticleMapper appArticleMapper;
 
-    private final AppRoleMapper appRoleMapper;
+    private final AppTabbarMapper appTabbarMapper;
 
     private final AppPageMapper appPageMapper;
 
@@ -51,7 +44,10 @@ public class AppIndexServiceImpl implements AppIndexService {
                         .orderByDesc(AppPageEntity::getCreateTime),
                 false
         );
+        List<AppArticleEntity> articleList = appArticleMapper
+                .selectList(Wrappers.<AppArticleEntity>lambdaQuery().orderByDesc(AppArticleEntity::getSort));
         response.put("pages", appPageEntity);
+        response.put("article", articleList);
         return response;
     }
 
@@ -77,39 +73,8 @@ public class AppIndexServiceImpl implements AppIndexService {
      */
     @Override
     public AppPageEntity decorate(Integer pageType) {
-        AppPageEntity appPage = appPageMapper.selectOne(
-                Wrappers.<AppPageEntity>lambdaQuery()
-                        .eq(AppPageEntity::getPageType, pageType)
-                        .orderByDesc(AppPageEntity::getCreateTime),
-                false
-        );
-
-        // 如果是工作台页面类型
-        if (!Objects.equals(PageTypeEnums.WORKBENCH.getPageType(), pageType) || appPage == null) {
-            return appPage;
-        }
-
-        AppRole appRole = appRoleMapper.selectById(1); // 角色ID根据实际业务调整
-        List<String> menuIdList = StrUtil.split(appRole.getMenuId(), CharUtil.COMMA);
-
-        if (CollUtil.isEmpty(menuIdList)) {
-            return appPage;
-        }
-
-        JSONArray pageDataArray = JSONUtil.parseArray(appPage.getPageData());
-        for (Object groupObj : pageDataArray) {
-            JSONObject group = (JSONObject) groupObj;
-            JSONArray itemArray = group.getJSONObject("content").getJSONArray("data");
-
-            // 使用 removeIf 进行过滤
-            itemArray.removeIf(item -> {
-                String menuId = ((JSONObject) item).getStr(AppPageEntity.Fields.id);
-                return StrUtil.isNotBlank(menuId) && !menuIdList.contains(menuId);
-            });
-        }
-
-        appPage.setPageData(pageDataArray.toStringPretty());
-        return appPage;
+        return appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery().eq(AppPageEntity::getPageType, pageType)
+                .orderByDesc(AppPageEntity::getCreateTime), false);
     }
 
 }
