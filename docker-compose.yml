@@ -1,9 +1,7 @@
-# 使用说明 V5.2
+# 使用说明 V5.9
 # 1. 使用docker-compose  宿主机不需要配置host来发现
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
-
-version: '3'
 services:
   pigx-mysql:
     build:
