@@ -29,6 +29,9 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import static org.springframework.boot.context.logging.LoggingApplicationListener.CONFIG_PROPERTY;
+import static org.springframework.core.io.ResourceLoader.CLASSPATH_URL_PREFIX;
+
 /**
  * @author nacos
  * <p>
@@ -44,6 +47,7 @@ public class PigNacosApplication {
 
 	public static void main(String[] args) {
 		System.setProperty(STANDALONE_MODE, "true");
+		System.setProperty(CONFIG_PROPERTY, CLASSPATH_URL_PREFIX + "logback-spring.xml");
 
 		String type = System.getProperty(Constants.NACOS_DEPLOYMENT_TYPE, Constants.NACOS_DEPLOYMENT_TYPE_MERGED);
 		DeploymentType deploymentType = DeploymentType.getType(type);
