@@ -74,7 +74,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
             log.setRequestUri(pre.getUrl());
             log.setCreateBy(pre.getUser());
             return log;
-        }).collect(Collectors.toList());
+        }).toList();
         return this.saveBatch(sysLogs);
     }
 
@@ -142,7 +142,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
                 })
                 // 按createTime升序排序
                 .sorted(Comparator.comparing(map -> map.get(SysLog.Fields.createTime).toString()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

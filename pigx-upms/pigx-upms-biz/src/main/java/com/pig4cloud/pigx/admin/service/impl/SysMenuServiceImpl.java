@@ -52,7 +52,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -116,7 +115,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 				.orderByAsc(SysMenu::getSortOrder))
 			.stream()
 			.map(getNodeFunction())
-			.collect(Collectors.toList());
+                .toList();
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
 		if (StrUtil.isNotBlank(menuName)) {
@@ -125,7 +124,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 				tree.putAll(node.getExtra());
 				BeanUtils.copyProperties(node, tree);
 				return tree;
-			}).collect(Collectors.toList());
+            }).toList();
 		}
 
 		return TreeUtil.build(collect, parent);
@@ -144,7 +143,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).peek(item -> {
 			Optional<SysI18nEntity> first = list.stream().filter(it -> it.getZhCn().equals(item.getName())).findFirst();
 			first.ifPresent(sysI18nEntity -> item.setName(sysI18nEntity.getName()));
-		}).map(getNodeFunction()).collect(Collectors.toList());
+        }).map(getNodeFunction()).toList();
 
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);

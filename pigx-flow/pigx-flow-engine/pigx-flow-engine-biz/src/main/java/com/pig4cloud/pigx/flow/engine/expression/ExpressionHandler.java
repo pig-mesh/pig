@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 表达式解析
@@ -236,7 +235,7 @@ public class ExpressionHandler {
 		List<NodeUser> paramDeptList = objectMapper.readValue(param, new TypeReference<List<NodeUser>>() {
 		});
 		Long deptId = nodeUserDto.getId();
-		List<Long> deptIdList = paramDeptList.stream().map(NodeUser::getId).collect(Collectors.toList());
+        List<Long> deptIdList = paramDeptList.stream().map(NodeUser::getId).toList();
 
 		return inCompare(symbol, deptId, deptIdList);
 
@@ -292,12 +291,12 @@ public class ExpressionHandler {
 		List<Long> deptIdList = paramDeptList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.DEPT.getKey()))
 			.map(NodeUser::getId)
-			.collect(Collectors.toList());
+                .toList();
 
 		List<Long> userIdList = paramDeptList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.USER.getKey()))
 			.map(NodeUser::getId)
-			.collect(Collectors.toList());
+                .toList();
 
 		if (CollUtil.isNotEmpty(deptIdList)) {
 			R<List<SysUser>> r = remoteUserService.getUserIdListByDeptIdList(deptIdList);

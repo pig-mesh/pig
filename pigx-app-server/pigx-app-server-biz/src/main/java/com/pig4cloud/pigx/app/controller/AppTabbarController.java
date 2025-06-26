@@ -13,7 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 底部导航
@@ -45,8 +44,8 @@ public class AppTabbarController {
     @PutMapping
     public R update(@RequestBody List<AppTabbarEntity> tabbarEntityList) {
         // 删除不在新增范围的导航菜单
-        List<Long> idList = tabbarService.list().stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
-        List<Long> newIdList = tabbarEntityList.stream().map(AppTabbarEntity::getId).collect(Collectors.toList());
+        List<Long> idList = tabbarService.list().stream().map(AppTabbarEntity::getId).toList();
+        List<Long> newIdList = tabbarEntityList.stream().map(AppTabbarEntity::getId).toList();
 
         // 计算需要删除的 ID 列表
         List<Long> idsToRemove = CollUtil.subtractToList(idList, newIdList);

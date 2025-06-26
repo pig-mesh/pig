@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -45,7 +44,7 @@ public class AssignUserLeaderStrategyImpl implements AssignUserStrategy {
                 .map(nodeUser -> deptService.getAllDeptLeader(nodeUser.getId()))
                 .flatMap((Function<R<List<Long>>, Stream<Long>>) listR -> listR.getData() == null ? null
                         : listR.getData().stream())
-                .collect(Collectors.toList());
+                .toList();
     }
 
 }

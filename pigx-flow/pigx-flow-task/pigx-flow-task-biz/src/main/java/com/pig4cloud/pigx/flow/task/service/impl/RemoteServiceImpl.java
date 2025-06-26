@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -115,7 +114,7 @@ public class RemoteServiceImpl implements IRemoteService {
 		List<SysDept> allDept = deptService.getAllDept(null).getData();
 		List<SysDept> childrenDeptList = DataUtil.selectChildrenByDept(parentId, allDept);
 
-		List<Long> childrenDeptIdList = childrenDeptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> childrenDeptIdList = childrenDeptList.stream().map(SysDept::getDeptId).toList();
 		childrenDeptIdList.remove(parentId);
 
 		List<Long> remainIdList = CollUtil.removeAny(deptIdList, ArrayUtil.toArray(childrenDeptIdList, Long.class));
@@ -150,7 +149,7 @@ public class RemoteServiceImpl implements IRemoteService {
 		// 查询父级包括自己
 		List<SysDept> allDept = deptService.getAllDept(null).getData();
 		List<SysDept> parentDeptList = DataUtil.selectParentByDept(childId, allDept);
-		List<Long> parentDeptIdList = parentDeptList.stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> parentDeptIdList = parentDeptList.stream().map(SysDept::getDeptId).toList();
 		parentDeptIdList.remove(childId);
 		List<Long> remainIdList = CollUtil.removeAny(deptIdList, ArrayUtil.toArray(parentDeptIdList, Long.class));
 		return R.ok(remainIdList.isEmpty());

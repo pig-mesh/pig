@@ -6,7 +6,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class DataUtil {
 
@@ -42,7 +41,7 @@ public class DataUtil {
 
 		List<SysDept> collect = allDeptList.stream()
 			.filter(w -> w.getParentId() == deptId)
-			.collect(Collectors.toList());
+                .toList();
 		if (CollUtil.isEmpty(collect)) {
 			return list;
 		}
@@ -66,7 +65,7 @@ public class DataUtil {
 
 		List<SysMenu> collect = allMenuList.stream()
 			.filter(w -> w.getParentId() == menuId)
-			.collect(Collectors.toList());
+                .toList();
 		if (CollUtil.isEmpty(collect)) {
 			return list;
 		}

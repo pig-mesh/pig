@@ -45,7 +45,6 @@ import org.springframework.validation.BindingResult;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -161,7 +160,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 			RoleExcelVO roleExcelVO = new RoleExcelVO();
 			BeanUtil.copyProperties(role, roleExcelVO);
 			return roleExcelVO;
-		}).collect(Collectors.toList());
+        }).toList();
 	}
 
 	/**

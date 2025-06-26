@@ -279,12 +279,12 @@ public class NodeFormatUtil {
         List<Long> userIdList = nodeUserList.stream()
                 .filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.USER.getKey()))
                 .map(w -> Convert.toLong(w.getId()))
-                .collect(Collectors.toList());
+                .toList();
         // 部门id
         List<Long> deptIdList = nodeUserList.stream()
                 .filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.DEPT.getKey()))
                 .map(w -> Convert.toLong(w.getId()))
-                .collect(Collectors.toList());
+                .toList();
 
         if (CollUtil.isNotEmpty(deptIdList)) {
 

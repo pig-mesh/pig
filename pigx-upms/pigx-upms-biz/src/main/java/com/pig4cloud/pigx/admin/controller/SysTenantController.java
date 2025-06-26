@@ -45,7 +45,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 租户管理
@@ -147,7 +146,7 @@ public class SysTenantController {
 			.stream()
 			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
 			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
-			.collect(Collectors.toList());
+                .toList();
 		return R.ok(tenants);
 	}
 

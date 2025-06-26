@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * 表字段信息管理
@@ -83,7 +82,7 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 		AtomicInteger sort = new AtomicInteger();
 		this.updateBatchById(tableFieldList.stream()
 			.peek(field -> field.setSort(sort.getAndIncrement()))
-			.collect(Collectors.toList()));
+                .toList());
 	}
 
 }

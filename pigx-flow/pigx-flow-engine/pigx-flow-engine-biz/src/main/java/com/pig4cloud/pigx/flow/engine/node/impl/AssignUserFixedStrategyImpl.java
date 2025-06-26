@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 指定具体用户
@@ -46,12 +45,12 @@ public class AssignUserFixedStrategyImpl implements AssignUserStrategy {
 		List<Long> userIdList = userDtoList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.USER.getKey()))
 			.map(NodeUser::getId)
-			.collect(Collectors.toList());
+                .toList();
 		// 部门ID列表
 		List<Long> deptIdList = userDtoList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.DEPT.getKey()))
 			.map(NodeUser::getId)
-			.collect(Collectors.toList());
+                .toList();
 
 		if (CollUtil.isNotEmpty(deptIdList)) {
 			R<List<SysUser>> r = remoteUserService.getUserIdListByDeptIdList(deptIdList);

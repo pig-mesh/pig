@@ -40,7 +40,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -127,7 +126,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 			dto.setEncFlag(encFlag);
 			dto.setOnlineQuantity(onlineQuantity);
 			return dto;
-		}).collect(Collectors.toList());
+        }).toList();
 
 		// 构建dto page 对象
 		Page<SysOauthClientDetailsDTO> dtoPage = new Page<>(page.getCurrent(), page.getSize(), selectPage.getTotal());

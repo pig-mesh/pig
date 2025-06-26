@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -87,7 +86,7 @@ public class SysMenuController {
     @GetMapping("/tree/{roleId}")
     public R getRoleTree(@PathVariable Long roleId) {
         return R
-                .ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+                .ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).toList());
     }
 
     /**

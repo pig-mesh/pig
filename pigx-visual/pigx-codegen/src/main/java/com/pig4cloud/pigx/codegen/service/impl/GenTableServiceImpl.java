@@ -54,7 +54,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * 列属性
@@ -135,7 +134,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
                     long time2 = (o2.getUpdateTime() != null ? o2.getUpdateTime().getTime() :
                             (o2.getCreateTime() != null ? o2.getCreateTime().getTime() : 0));
                     return NumberUtil.compare(time2, time1);
-                }).collect(Collectors.toList());
+                }).toList();
 
         // 根据 page 进行分页
         List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);

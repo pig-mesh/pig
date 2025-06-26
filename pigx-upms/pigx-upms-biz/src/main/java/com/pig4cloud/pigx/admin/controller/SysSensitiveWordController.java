@@ -24,7 +24,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 敏感词
@@ -67,7 +66,7 @@ public class SysSensitiveWordController {
     @GetMapping("/remote/list/{type}")
     public R list(@PathVariable String type) {
         return R.ok(sysSensitiveWordService.list(Wrappers.<SysSensitiveWordEntity>lambdaQuery()
-                .eq(SysSensitiveWordEntity::getSensitiveType, type)).stream().map(SysSensitiveWordEntity::getSensitiveWord).collect(Collectors.toList()));
+                .eq(SysSensitiveWordEntity::getSensitiveType, type)).stream().map(SysSensitiveWordEntity::getSensitiveWord).toList());
     }
 
     /**

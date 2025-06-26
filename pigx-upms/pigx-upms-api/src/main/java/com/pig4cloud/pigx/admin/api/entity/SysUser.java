@@ -25,9 +25,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.javers.core.metamodel.annotation.DiffInclude;
 import org.javers.core.metamodel.annotation.PropertyName;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,8 +44,10 @@ import java.time.LocalDateTime;
 @Data
 @TenantTable
 @Schema(description = "用户")
+@EqualsAndHashCode(callSuper = true)
 public class SysUser extends Model<SysUser> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

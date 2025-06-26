@@ -45,7 +45,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -78,7 +77,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
-		List<Long> idList = this.listDescendant(id).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+        List<Long> idList = this.listDescendant(id).stream().map(SysDept::getDeptId).toList();
 
 		Optional.ofNullable(idList).filter(CollUtil::isNotEmpty).ifPresent(this::removeByIds);
 
@@ -122,7 +121,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				treeNode.setExtra(extra);
 				return treeNode;
 			})
-			.collect(Collectors.toList());
+                .toList();
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
 		if (StrUtil.isNotBlank(deptName)) {
@@ -131,7 +130,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				tree.putAll(node.getExtra());
 				BeanUtils.copyProperties(node, tree);
 				return tree;
-			}).collect(Collectors.toList());
+            }).toList();
 		}
 
 		return TreeUtil.build(collect, parentId == null ? 0 : parentId);
@@ -155,7 +154,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			deptExcelVo.setParentName(first.orElse("根部门"));
 			deptExcelVo.setSortOrder(item.getSortOrder());
 			return deptExcelVo;
-		}).collect(Collectors.toList());
+        }).toList();
 		return deptExcelVos;
 	}
 
@@ -338,7 +337,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				orgTreeVo.setAvatar(user.getAvatar());
 				return orgTreeVo;
 			})
-			.collect(Collectors.toList());
+                .toList();
 	}
 
 	/**

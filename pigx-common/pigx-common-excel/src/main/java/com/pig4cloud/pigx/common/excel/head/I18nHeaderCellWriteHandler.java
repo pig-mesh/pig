@@ -12,7 +12,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.util.PropertyPlaceholderHelper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 对表头进行国际化处理
@@ -52,7 +51,7 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 				// 国际化处理
 				List<String> i18nHeadNames = originHeadNameList.stream()
 					.map(headName -> propertyPlaceholderHelper.replacePlaceholders(headName, placeholderResolver))
-					.collect(Collectors.toList());
+                        .toList();
 				head.setHeadNameList(i18nHeadNames);
 			}
 		}

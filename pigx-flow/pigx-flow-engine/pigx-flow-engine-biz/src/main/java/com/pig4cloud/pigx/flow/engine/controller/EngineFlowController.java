@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 工作流控制器 负责流程模型的创建、启动、审批等功能
@@ -143,7 +142,7 @@ public class EngineFlowController {
                         .list()
                         .stream()
                         .map(Execution::getId)
-                        .collect(Collectors.toList());
+                        .toList();
                 // 更改活动状态为结束
                 runtimeService.createChangeActivityStateBuilder()
                         .moveExecutionsToSingleActivityId(executionIds, "end")
@@ -244,7 +243,7 @@ public class EngineFlowController {
             if (CollUtil.isNotEmpty(processInstanceList)) {
                 taskQuery.processInstanceIdIn(processInstanceList.stream()
                         .map(ProcessInstance::getProcessInstanceId)
-                        .collect(Collectors.toList()));
+                        .toList());
             }
         }
 

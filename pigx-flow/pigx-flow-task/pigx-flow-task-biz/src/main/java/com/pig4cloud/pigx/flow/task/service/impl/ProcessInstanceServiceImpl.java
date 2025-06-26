@@ -106,7 +106,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
         // 发起人
         // 发起人
-        List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).collect(Collectors.toList());
+        List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).toList();
         List<SysUser> startUserList = userService.getUserById(collect).getData();
 
         Page<TaskDto> pageResultDto = r.getData();
@@ -167,7 +167,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
                 .list();
 
         // 发起人
-        List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).collect(Collectors.toList());
+        List<Long> collect = processInstanceRecordList.stream().map(ProcessInstanceRecord::getUserId).toList();
         List<SysUser> startUserList = userService.getUserById(collect).getData();
 
         List<TaskDto> taskDtoList = new ArrayList<>();
@@ -273,7 +273,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
         if (CollUtil.isNotEmpty(records)) {
             // 发起人
-            List<Long> userIdList = records.stream().map(ProcessCopy::getStartUserId).collect(Collectors.toList());
+            List<Long> userIdList = records.stream().map(ProcessCopy::getStartUserId).toList();
             List<SysUser> startUserList = userService.getUserById(userIdList).getData();
 
             for (ProcessCopyVo record : processCopyVoList) {

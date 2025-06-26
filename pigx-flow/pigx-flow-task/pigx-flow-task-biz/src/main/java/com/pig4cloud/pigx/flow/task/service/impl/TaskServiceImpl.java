@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -246,7 +245,7 @@ public class TaskServiceImpl implements ITaskService {
                 .eq(ProcessInstanceRecord::getParentProcessInstanceId, processInstanceId)
                 .list();
 
-        List<String> collect = list.stream().map(w -> w.getProcessInstanceId()).collect(Collectors.toList());
+        List<String> collect = list.stream().map(w -> w.getProcessInstanceId()).toList();
 
         for (ProcessInstanceRecord processInstanceRecord : list) {
             List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(

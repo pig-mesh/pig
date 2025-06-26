@@ -49,7 +49,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 租户
@@ -190,7 +189,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             }).toList();
             roleMenuList.forEach(roleMenuMapper::insert);
             // 插入系统字典
-            dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
+            dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).toList());
             // 处理字典项最新关联的字典ID
             List<SysDictItem> itemList = dictList.stream()
                     .flatMap(dict -> dictItemList.stream()
@@ -199,13 +198,13 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
                                 item.setDictId(dict.getId());
                                 item.setId(null);
                             }))
-                    .collect(Collectors.toList());
+                    .toList();
 
             // 插入客户端
-            clientServices.saveBatch(clientDetailsList.stream().peek(d -> d.setId(null)).collect(Collectors.toList()));
+            clientServices.saveBatch(clientDetailsList.stream().peek(d -> d.setId(null)).toList());
             // 插入系统配置
             paramService
-                    .saveBatch(publicParamList.stream().peek(d -> d.setPublicId(null)).collect(Collectors.toList()));
+                    .saveBatch(publicParamList.stream().peek(d -> d.setPublicId(null)).toList());
             return dictItemService.saveBatch(itemList);
         }));
 

@@ -58,7 +58,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -142,11 +141,11 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
                 List<WxAccountTag> tagList = wxAccountTags.stream()
                         .filter(tag -> tag.getWxAccountAppid().endsWith(fans.getWxAccountAppid()) //
                                 && ArrayUtil.contains(fans.getTagIds(), tag.getTagId()))
-                        .collect(Collectors.toList());
+                        .toList();
                 vo.setTagList(tagList);
             }
             return vo;
-        }).collect(Collectors.toList());
+        }).toList();
 
         page.setRecords(voList);
         page.setTotal(fansPage.getTotal());
@@ -198,12 +197,12 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
         List<WxAccountFans> wxAccountFans = this.listByIds(CollUtil.toList(ids));
         WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
         WxMpUserBlacklistService blackListService = wxMpService.getBlackListService();
-        List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).collect(Collectors.toList());
+        List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).toList();
         blackListService.pullFromBlacklist(collect);
         // 更新数据
         List<WxAccountFans> fansList = wxAccountFans.stream().peek(item -> {
             item.setIsBlack(CommonConstants.SUCCESS);
-        }).collect(Collectors.toList());
+        }).toList();
         this.updateBatchById(fansList);
 
         return Boolean.TRUE;
@@ -215,12 +214,12 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
         List<WxAccountFans> wxAccountFans = this.listByIds(CollUtil.toList(ids));
         WxMpService wxMpService = WxMpInitConfigRunner.getMpServices().get(appId);
         WxMpUserBlacklistService blackListService = wxMpService.getBlackListService();
-        List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).collect(Collectors.toList());
+        List<String> collect = wxAccountFans.stream().map(WxAccountFans::getOpenid).toList();
         blackListService.pushToBlacklist(collect);
         // 更新数据
         List<WxAccountFans> fansList = wxAccountFans.stream().peek(item -> {
             item.setIsBlack(CommonConstants.FAIL);
-        }).collect(Collectors.toList());
+        }).toList();
         this.updateBatchById(fansList);
 
         return Boolean.TRUE;
@@ -263,7 +262,7 @@ public class WxAccountFansServiceImpl extends ServiceImpl<WxAccountFansMapper, W
             List<List<String>> openIdsList = CollUtil.split(wxMpUserList.getOpenids(), SIZE)
                     .stream()
                     .filter(CollUtil::isNotEmpty)
-                    .collect(Collectors.toList());
+                    .toList();
             // 处理每个分组. 调用查询用户信息
             for (List<String> openIdList : openIdsList) {
                 log.info("开始批量获取用户信息 {}", openIdList);

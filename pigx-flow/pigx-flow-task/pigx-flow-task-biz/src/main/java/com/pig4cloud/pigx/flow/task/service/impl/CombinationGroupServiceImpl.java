@@ -79,7 +79,7 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 			Map<Long, Boolean> existMap = new HashMap<>();
 
 			if (!processList.isEmpty()) {
-				List<Long> idList = processList.stream().map(Process::getId).collect(Collectors.toList());
+                List<Long> idList = processList.stream().map(Process::getId).toList();
 				// 查询发起人集合
 				List<ProcessStarter> processStarterList = processStarterService.lambdaQuery()
 					.in(ProcessStarter::getProcessId, idList)

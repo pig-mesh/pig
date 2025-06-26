@@ -28,8 +28,6 @@ import com.pig4cloud.pigx.pay.service.PayChannelService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.stream.Collectors;
-
 /**
  * 渠道
  *
@@ -69,7 +67,7 @@ public class PayChannelServiceImpl extends ServiceImpl<PayChannelMapper, PayChan
 
         // 对敏感信息进行脱敏
         selectedPage.setRecords(selectedPage.getRecords().stream().peek(channel -> channel
-                .setParam(DesensitizedUtils.json(channel.getParam(), true, "key"))).collect(Collectors.toList()));
+                .setParam(DesensitizedUtils.json(channel.getParam(), true, "key"))).toList());
 
         return selectedPage;
     }

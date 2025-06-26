@@ -64,7 +64,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -213,7 +212,7 @@ public class PigxTokenEndpoint {
         int current = MapUtil.getInt(params, CommonConstants.CURRENT);
         int size = MapUtil.getInt(params, CommonConstants.SIZE);
         Set<String> keys = redisTemplate.keys(key);
-        List<String> pages = keys.stream().skip((current - 1) * size).limit(size).collect(Collectors.toList());
+        List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
         Page<TokenVO> result = new Page(current, size);
 
         List<TokenVO> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
@@ -250,7 +249,7 @@ public class PigxTokenEndpoint {
                 return true;
             }
             return tokenVo.getUsername().contains(username);
-        }).collect(Collectors.toList());
+        }).toList();
         result.setRecords(tokenVoList);
         result.setTotal(keys.size());
         return R.ok(result);

@@ -32,7 +32,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -66,7 +65,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
 				.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
-				.collect(Collectors.toList());
+                    .toList();
 			if (CollUtil.isEmpty(versionInstanceList)) {
 				// 根据权重获取实例
 				return randomByWeight(instances);
@@ -78,7 +77,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		List<ServiceInstance> availableList = instances.stream()
 			.filter(instance -> reqVersion
 				.equalsIgnoreCase(MapUtil.getStr(instance.getMetadata(), CommonConstants.VERSION)))
-			.collect(Collectors.toList());
+                .toList();
 		if (CollUtil.isEmpty(availableList)) {
 			// 根据权重获取实例
 			return randomByWeight(instances);

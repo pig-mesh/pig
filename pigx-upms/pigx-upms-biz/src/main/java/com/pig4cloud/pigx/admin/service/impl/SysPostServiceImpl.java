@@ -35,7 +35,6 @@ import org.springframework.validation.BindingResult;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * 岗位信息表
@@ -101,7 +100,7 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 			PostExcelVO postExcelVO = new PostExcelVO();
 			BeanUtil.copyProperties(post, postExcelVO);
 			return postExcelVO;
-		}).collect(Collectors.toList());
+        }).toList();
 	}
 
 	/**

@@ -47,7 +47,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 互联平台实现
@@ -87,7 +86,7 @@ public class ConnectServiceImpl implements ConnectService {
 		List<SysDept> insertDept = queryChildDept(req, getDingAccessToken(), deptList);
 
 		// 去重
-		List<SysDept> syncDept = insertDept.stream().distinct().collect(Collectors.toList());
+        List<SysDept> syncDept = insertDept.stream().distinct().toList();
 
 		// 保存部门以及部门关系
 		if (CollectionUtils.isNotEmpty(syncDept)) {
@@ -316,7 +315,7 @@ public class ConnectServiceImpl implements ConnectService {
 				sysDept.setParentId(Convert.toLong(dept.get("parent_id")));
 				return sysDept;
 			})
-			.collect(Collectors.toList());
+                .toList();
 
 		// 递归查询下一级
 		if (CollectionUtils.isNotEmpty(depts)) {

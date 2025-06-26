@@ -20,7 +20,6 @@ import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 抄送任务处理器--java服务任务
@@ -48,12 +47,12 @@ public class CopyServiceTask implements JavaDelegate {
 		List<String> userIdList = userDtoList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.USER.getKey()))
 			.map(w -> Convert.toStr(w.getId()))
-			.collect(Collectors.toList());
+                .toList();
 		// 部门ID列表
 		List<String> deptIdList = userDtoList.stream()
 			.filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.DEPT.getKey()))
 			.map(w -> Convert.toStr(w.getId()))
-			.collect(Collectors.toList());
+                .toList();
 
 		if (CollUtil.isNotEmpty(deptIdList)) {
 

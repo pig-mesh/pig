@@ -20,7 +20,6 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @author lengleng
@@ -78,7 +77,7 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
 				.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
-				.collect(Collectors.toList());
+                    .toList();
 			if (CollUtil.isEmpty(versionInstanceList)) {
 				// 根据权重获取实例
 				return new DefaultResponse(randomByWeight(instances));
@@ -93,7 +92,7 @@ public class GrayRoundRobinLoadBalancer extends RoundRobinLoadBalancer {
 			Map<String, String> metadata = nacosInstance.getMetadata();
 			String targetVersion = MapUtil.getStr(metadata, CommonConstants.VERSION);
 			return reqVersion.equalsIgnoreCase(targetVersion);
-		}).collect(Collectors.toList());
+        }).toList();
 
 		// 存在 随机返回
 		if (CollUtil.isNotEmpty(serviceInstanceList)) {

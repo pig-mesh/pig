@@ -64,7 +64,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -159,7 +158,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         List<Long> roleIds = sysRoleService.findRolesByUserId(sysUser.getUserId())
                 .stream()
                 .map(SysRole::getRoleId)
-                .collect(Collectors.toList());
+                .toList();
         userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
 
         // 设置权限列表（menu.permission）
@@ -169,7 +168,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .stream()
                     .filter(menu -> StrUtil.isNotEmpty(menu.getPermission()))
                     .map(SysMenu::getPermission)
-                    .collect(Collectors.toList());
+                    .toList();
             permissions.addAll(permissionList);
         });
         userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
@@ -322,7 +321,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .collect(Collectors.joining(StrUtil.COMMA));
             excelVO.setPostNameList(postNameList);
             return excelVO;
-        }).collect(Collectors.toList());
+        }).toList();
         return userExcelVOList;
     }
 
@@ -367,7 +366,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             List<String> roleNameList = StrUtil.split(excel.getRoleNameList(), StrUtil.COMMA);
             List<SysRole> roleCollList = roleList.stream()
                     .filter(role -> roleNameList.stream().anyMatch(name -> role.getRoleName().equals(name)))
-                    .collect(Collectors.toList());
+                    .toList();
 
             if (roleCollList.size() != roleNameList.size()) {
                 errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
@@ -377,7 +376,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             List<String> postNameList = StrUtil.split(excel.getPostNameList(), StrUtil.COMMA);
             List<SysPost> postCollList = postList.stream()
                     .filter(post -> postNameList.stream().anyMatch(name -> post.getPostName().equals(name)))
-                    .collect(Collectors.toList());
+                    .toList();
 
             if (postCollList.size() != postNameList.size()) {
                 errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_POSTNAME_INEXISTENCE, excel.getPostNameList()));
@@ -417,10 +416,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 根据部门名称查询部门ID
         userDTO.setDeptId(deptOptional.get().getDeptId());
         // 插入岗位名称
-        List<Long> postIdList = postCollList.stream().map(SysPost::getPostId).collect(Collectors.toList());
+        List<Long> postIdList = postCollList.stream().map(SysPost::getPostId).toList();
         userDTO.setPost(postIdList);
         // 根据角色名称查询角色ID
-        List<Long> roleIdList = roleCollList.stream().map(SysRole::getRoleId).collect(Collectors.toList());
+        List<Long> roleIdList = roleCollList.stream().map(SysRole::getRoleId).toList();
         userDTO.setRole(roleIdList);
         // 插入用户
         this.saveUser(userDTO);
@@ -607,7 +606,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getRoleId, roleIdList))
                 .stream()
                 .map(SysUserRole::getUserId)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

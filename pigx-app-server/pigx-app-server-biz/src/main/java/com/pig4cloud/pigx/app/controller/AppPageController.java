@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * 页面管理
@@ -60,7 +59,7 @@ public class AppPageController {
 
         if (CollUtil.isNotEmpty(pageEntityList)) {
             // 删掉原来类型的页面数据
-            pageService.removeByIds(pageEntityList.stream().map(AppPageEntity::getId).collect(Collectors.toList()));
+            pageService.removeByIds(pageEntityList.stream().map(AppPageEntity::getId).toList());
         }
 
         page.setPageName(PageTypeEnums.getNameByType(page.getPageType()));

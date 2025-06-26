@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 来自角色
@@ -38,7 +37,7 @@ public class AssignUserRoleStrategyImpl implements AssignUserStrategy {
 	@Override
 	public List<Long> handle(Node node, NodeUser rootUser, Map<String, Object> variables) {
 		// 使用 lambda 表达式和方法引用从 NodeUser 列表中提取角色 ID
-		List<Long> roleIds = node.getNodeUserList().stream().map(NodeUser::getId).collect(Collectors.toList());
+        List<Long> roleIds = node.getNodeUserList().stream().map(NodeUser::getId).toList();
 		// 提取 Optional 结果中的数据
 		List<Long> data = RetOps.of(remoteUserService.getUserIdListByRoleIdList(roleIds))
 			.getData()

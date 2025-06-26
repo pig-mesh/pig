@@ -86,7 +86,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 /**
  * 站内信息
@@ -214,7 +213,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         if (messageEntity.getAllFlag().equals(YesNoEnum.YES.getCode())) {
             return SysMessageVO;
         }
-        List<Long> userIdList = relationMapper.selectList(Wrappers.<SysMessageRelationEntity>lambdaQuery().eq(SysMessageRelationEntity::getMsgId, id)).stream().map(SysMessageRelationEntity::getUserId).collect(Collectors.toList());
+        List<Long> userIdList = relationMapper.selectList(Wrappers.<SysMessageRelationEntity>lambdaQuery().eq(SysMessageRelationEntity::getMsgId, id)).stream().map(SysMessageRelationEntity::getUserId).toList();
 
         if (CollUtil.isNotEmpty(userIdList)) {
             List<OrgTreeVO> orgNodeUserVoList = userMapper.selectByIds(userIdList).stream().map(user -> {
@@ -223,7 +222,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                 nodeUserVo.setAvatar(user.getAvatar());
                 nodeUserVo.setName(user.getName());
                 return nodeUserVo;
-            }).collect(Collectors.toList());
+            }).toList();
 
             SysMessageVO.setUserList(orgNodeUserVoList);
         }

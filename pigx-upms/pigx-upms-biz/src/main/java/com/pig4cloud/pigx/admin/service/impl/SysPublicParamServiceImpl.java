@@ -36,7 +36,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * 公共参数配置
@@ -103,7 +102,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 			.stream()
 			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
 			.map(SysPublicParam::getPublicId)
-			.collect(Collectors.toList());
+                .toList();
 		return R.ok(this.removeBatchByIds(idList));
 	}
 
