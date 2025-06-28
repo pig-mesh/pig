@@ -37,17 +37,17 @@ import java.util.List;
 public interface SysLogService extends IService<SysLog> {
 
 	/**
-	 * 分页查询日志
-	 * @param page 分页参数
-	 * @param sysLog 日志查询条件
-	 * @return 分页结果
+	 * 分页查询系统日志
+	 * @param page 分页对象
+	 * @param sysLog 系统日志
+	 * @return 系统日志分页数据
 	 */
-	Page getLogByPage(Page page, SysLogDTO sysLog);
+	Page getLogPage(Page page, SysLogDTO sysLog);
 
 	/**
 	 * 保存日志
-	 * @param sysLog 日志对象
-	 * @return 保存成功返回true，否则返回false
+	 * @param sysLog 日志实体
+	 * @return Boolean
 	 */
 	Boolean saveLog(SysLog sysLog);
 
@@ -56,6 +56,6 @@ public interface SysLogService extends IService<SysLog> {
 	 * @param sysLog 查询条件
 	 * @return 日志列表
 	 */
-	List<SysLog> getList(SysLogDTO sysLog);
+	List<SysLog> listLogs(SysLogDTO sysLog);
 
 }

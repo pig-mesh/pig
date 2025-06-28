@@ -61,7 +61,7 @@ public class SysLogController {
 	 */
 	@GetMapping("/page")
 	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
-		return R.ok(sysLogService.getLogByPage(page, sysLog));
+		return R.ok(sysLogService.getLogPage(page, sysLog));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SysLogController {
 	 */
 	@Inner
 	@PostMapping("/save")
-	public R save(@Valid @RequestBody SysLog sysLog) {
+	public R saveLog(@Valid @RequestBody SysLog sysLog) {
 		return R.ok(sysLogService.saveLog(sysLog));
 	}
 
@@ -94,8 +94,8 @@ public class SysLogController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_log_export")
-	public List<SysLog> export(SysLogDTO sysLog) {
-		return sysLogService.getList(sysLog);
+	public List<SysLog> exportLogs(SysLogDTO sysLog) {
+		return sysLogService.listLogs(sysLog);
 	}
 
 }

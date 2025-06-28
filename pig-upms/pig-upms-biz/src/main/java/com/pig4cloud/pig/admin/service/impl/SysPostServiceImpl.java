@@ -92,14 +92,14 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	 * @return 岗位Excel导出对象列表
 	 */
 	@Override
-	public List<PostExcelVO> listPost() {
+	public List<PostExcelVO> listPosts() {
 		List<SysPost> postList = this.list(Wrappers.emptyWrapper());
 		// 转换成execl 对象输出
 		return postList.stream().map(post -> {
 			PostExcelVO postExcelVO = new PostExcelVO();
 			BeanUtil.copyProperties(post, postExcelVO);
 			return postExcelVO;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	/**

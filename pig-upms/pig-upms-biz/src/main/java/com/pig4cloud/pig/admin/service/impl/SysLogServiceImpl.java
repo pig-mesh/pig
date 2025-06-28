@@ -51,7 +51,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	 * @return 分页结果
 	 */
 	@Override
-	public Page getLogByPage(Page page, SysLogDTO sysLog) {
+	public Page getLogPage(Page page, SysLogDTO sysLog) {
 		return baseMapper.selectPage(page, buildQuery(sysLog));
 	}
 
@@ -73,7 +73,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	 * @return 日志列表
 	 */
 	@Override
-	public List<SysLog> getList(SysLogDTO sysLog) {
+	public List<SysLog> listLogs(SysLogDTO sysLog) {
 		return baseMapper.selectList(buildQuery(sysLog));
 	}
 

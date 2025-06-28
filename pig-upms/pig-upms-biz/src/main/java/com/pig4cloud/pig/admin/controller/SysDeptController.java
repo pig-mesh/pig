@@ -69,7 +69,7 @@ public class SysDeptController {
 	 * @return 包含全部部门列表的响应结果
 	 */
 	@GetMapping("/list")
-	public R list() {
+	public R listDepts() {
 		return R.ok(sysDeptService.list());
 	}
 
@@ -79,8 +79,8 @@ public class SysDeptController {
 	 * @return 包含树形菜单的响应结果
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(String deptName) {
-		return R.ok(sysDeptService.selectTree(deptName));
+	public R getDeptTree(String deptName) {
+		return R.ok(sysDeptService.getDeptTree(deptName));
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class SysDeptController {
 	@SysLog("添加部门")
 	@PostMapping
 	@HasPermission("sys_dept_add")
-	public R save(@Valid @RequestBody SysDept sysDept) {
+	public R saveDept(@Valid @RequestBody SysDept sysDept) {
 		return R.ok(sysDeptService.save(sysDept));
 	}
 
@@ -115,7 +115,7 @@ public class SysDeptController {
 	@SysLog("编辑部门")
 	@PutMapping
 	@HasPermission("sys_dept_edit")
-	public R update(@Valid @RequestBody SysDept sysDept) {
+	public R updateDept(@Valid @RequestBody SysDept sysDept) {
 		sysDept.setUpdateTime(LocalDateTime.now());
 		return R.ok(sysDeptService.updateById(sysDept));
 	}
@@ -127,7 +127,7 @@ public class SysDeptController {
 	 */
 	@GetMapping(value = "/getDescendantList/{deptId}")
 	public R getDescendantList(@PathVariable Long deptId) {
-		return R.ok(sysDeptService.listDescendant(deptId));
+		return R.ok(sysDeptService.listDescendants(deptId));
 	}
 
 	/**
@@ -136,8 +136,8 @@ public class SysDeptController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<DeptExcelVo> export() {
-		return sysDeptService.listExcelVo();
+	public List<DeptExcelVo> exportDepts() {
+		return sysDeptService.exportDepts();
 	}
 
 	/**

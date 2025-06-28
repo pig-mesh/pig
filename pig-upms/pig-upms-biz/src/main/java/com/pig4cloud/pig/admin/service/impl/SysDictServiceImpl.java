@@ -63,7 +63,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
 			.stream()
 			.filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
 			.map(SysDict::getId)
-			.collect(Collectors.toList());
+			.toList();
 
 		baseMapper.deleteByIds(dictIdList);
 

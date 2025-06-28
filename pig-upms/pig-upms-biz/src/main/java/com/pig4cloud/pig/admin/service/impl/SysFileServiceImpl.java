@@ -111,7 +111,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	@Override
 	@SneakyThrows
 	@Transactional(rollbackFor = Exception.class)
-	public Boolean deleteFile(Long id) {
+	public Boolean removeFile(Long id) {
 		SysFile file = this.getById(id);
 		if (Objects.isNull(file)) {
 			return Boolean.FALSE;

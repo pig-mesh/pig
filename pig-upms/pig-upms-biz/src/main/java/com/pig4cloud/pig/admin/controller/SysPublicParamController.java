@@ -62,7 +62,7 @@ public class SysPublicParamController {
 	@Operation(description = "查询公共参数值", summary = "根据key查询公共参数值")
 	@GetMapping("/publicValue/{publicKey}")
 	public R publicKey(@PathVariable("publicKey") String publicKey) {
-		return R.ok(sysPublicParamService.getSysPublicParamKeyToValue(publicKey));
+		return R.ok(sysPublicParamService.getParamValue(publicKey));
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class SysPublicParamController {
 	 */
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
-	public R getSysPublicParamPage(@ParameterObject Page page, @ParameterObject SysPublicParam sysPublicParam) {
+	public R getParamPage(@ParameterObject Page page, @ParameterObject SysPublicParam sysPublicParam) {
 		LambdaUpdateWrapper<SysPublicParam> wrapper = Wrappers.<SysPublicParam>lambdaUpdate()
 			.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
 					sysPublicParam.getPublicName())
@@ -115,7 +115,7 @@ public class SysPublicParamController {
 	@SysLog("新增公共参数")
 	@PostMapping
 	@HasPermission("sys_syspublicparam_add")
-	public R save(@RequestBody SysPublicParam sysPublicParam) {
+	public R saveParam(@RequestBody SysPublicParam sysPublicParam) {
 		return R.ok(sysPublicParamService.save(sysPublicParam));
 	}
 
@@ -128,7 +128,7 @@ public class SysPublicParamController {
 	@SysLog("修改公共参数")
 	@PutMapping
 	@HasPermission("sys_syspublicparam_edit")
-	public R updateById(@RequestBody SysPublicParam sysPublicParam) {
+	public R updateParam(@RequestBody SysPublicParam sysPublicParam) {
 		return sysPublicParamService.updateParam(sysPublicParam);
 	}
 
@@ -152,7 +152,7 @@ public class SysPublicParamController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_syspublicparam_edit")
-	public List<SysPublicParam> export() {
+	public List<SysPublicParam> exportParams() {
 		return sysPublicParamService.list();
 	}
 
@@ -163,7 +163,7 @@ public class SysPublicParamController {
 	@SysLog("同步参数")
 	@PutMapping("/sync")
 	@HasPermission("sys_syspublicparam_edit")
-	public R sync() {
+	public R syncParam() {
 		return sysPublicParamService.syncParamCache();
 	}
 

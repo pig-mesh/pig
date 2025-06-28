@@ -105,7 +105,7 @@ public class SysDictController {
 	@SysLog("添加字典")
 	@PostMapping
 	@PreAuthorize("@pms.hasPermission('sys_dict_add')")
-	public R save(@Valid @RequestBody SysDict sysDict) {
+	public R saveDict(@Valid @RequestBody SysDict sysDict) {
 		sysDictService.save(sysDict);
 		return R.ok(sysDict);
 	}
@@ -131,7 +131,7 @@ public class SysDictController {
 	@PutMapping
 	@SysLog("修改字典")
 	@PreAuthorize("@pms.hasPermission('sys_dict_edit')")
-	public R updateById(@Valid @RequestBody SysDict sysDict) {
+	public R updateDict(@Valid @RequestBody SysDict sysDict) {
 		return sysDictService.updateDict(sysDict);
 	}
 
@@ -141,7 +141,7 @@ public class SysDictController {
 	 * @return 包含字典列表的响应结果
 	 */
 	@GetMapping("/list")
-	public R getDictList(String name) {
+	public R listDicts(String name) {
 		return R.ok(sysDictService.list(Wrappers.<SysDict>lambdaQuery()
 			.like(StrUtil.isNotBlank(name), SysDict::getDictType, name)
 			.or()
@@ -155,7 +155,7 @@ public class SysDictController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/item/page")
-	public R getSysDictItemPage(Page page, SysDictItem sysDictItem) {
+	public R getDictItemPage(Page page, SysDictItem sysDictItem) {
 		return R.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
 	}
 
@@ -187,7 +187,7 @@ public class SysDictController {
 	@SysLog("新增字典项")
 	@PostMapping("/item")
 	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-	public R save(@RequestBody SysDictItem sysDictItem) {
+	public R saveDictItem(@RequestBody SysDictItem sysDictItem) {
 		return R.ok(sysDictItemService.save(sysDictItem));
 	}
 
@@ -198,7 +198,7 @@ public class SysDictController {
 	 */
 	@SysLog("修改字典项")
 	@PutMapping("/item")
-	public R updateById(@RequestBody SysDictItem sysDictItem) {
+	public R updateDictItem(@RequestBody SysDictItem sysDictItem) {
 		return sysDictItemService.updateDictItem(sysDictItem);
 	}
 
@@ -219,7 +219,7 @@ public class SysDictController {
 	 */
 	@SysLog("同步字典")
 	@PutMapping("/sync")
-	public R sync() {
+	public R syncDict() {
 		return sysDictService.syncDictCache();
 	}
 
@@ -230,7 +230,7 @@ public class SysDictController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<SysDictItem> export(SysDictItem sysDictItem) {
+	public List<SysDictItem> exportDictItems(SysDictItem sysDictItem) {
 		return sysDictItemService.list(Wrappers.query(sysDictItem));
 	}
 

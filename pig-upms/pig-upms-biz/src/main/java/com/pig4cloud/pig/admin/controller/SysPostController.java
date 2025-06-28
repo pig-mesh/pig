@@ -73,7 +73,7 @@ public class SysPostController {
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
 	@HasPermission("sys_post_view")
-	public R getSysPostPage(@ParameterObject Page page, @ParameterObject SysPost sysPost) {
+	public R getPostPage(@ParameterObject Page page, @ParameterObject SysPost sysPost) {
 		return R.ok(sysPostService.page(page, Wrappers.<SysPost>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
 	}
@@ -111,7 +111,7 @@ public class SysPostController {
 	@SysLog("新增岗位信息表")
 	@PostMapping
 	@HasPermission("sys_post_add")
-	public R save(@RequestBody SysPost sysPost) {
+	public R savePost(@RequestBody SysPost sysPost) {
 		return R.ok(sysPostService.save(sysPost));
 	}
 
@@ -124,7 +124,7 @@ public class SysPostController {
 	@SysLog("修改岗位信息表")
 	@PutMapping
 	@HasPermission("sys_post_edit")
-	public R updateById(@RequestBody SysPost sysPost) {
+	public R updatePost(@RequestBody SysPost sysPost) {
 		return R.ok(sysPostService.updateById(sysPost));
 	}
 
@@ -148,8 +148,8 @@ public class SysPostController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_post_export")
-	public List<PostExcelVO> export() {
-		return sysPostService.listPost();
+	public List<PostExcelVO> exportPosts() {
+		return sysPostService.listPosts();
 	}
 
 	/**

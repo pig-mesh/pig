@@ -86,7 +86,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 	 * @return 分页查询结果
 	 */
 	@Override
-	public Page queryPage(Page page, SysOauthClientDetails query) {
+	public Page getClientPage(Page page, SysOauthClientDetails query) {
 		return baseMapper.selectPage(page, Wrappers.query(query));
 	}
 

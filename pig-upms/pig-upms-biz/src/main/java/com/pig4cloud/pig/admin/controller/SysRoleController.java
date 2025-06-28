@@ -89,7 +89,7 @@ public class SysRoleController {
 	@PostMapping
 	@HasPermission("sys_role_add")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
-	public R save(@Valid @RequestBody SysRole sysRole) {
+	public R saveRole(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
 	}
 
@@ -102,7 +102,7 @@ public class SysRoleController {
 	@PutMapping
 	@HasPermission("sys_role_edit")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
-	public R update(@Valid @RequestBody SysRole sysRole) {
+	public R updateRole(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.updateById(sysRole));
 	}
 
@@ -159,7 +159,7 @@ public class SysRoleController {
 	 */
 	@PostMapping("/getRoleList")
 	public R getRoleList(@RequestBody List<Long> roleIdList) {
-		return R.ok(sysRoleService.findRolesByRoleIds(roleIdList, CollUtil.join(roleIdList, StrUtil.UNDERLINE)));
+		return R.ok(sysRoleService.listRolesByRoleIds(roleIdList, CollUtil.join(roleIdList, StrUtil.UNDERLINE)));
 	}
 
 	/**
@@ -169,8 +169,8 @@ public class SysRoleController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_role_export")
-	public List<RoleExcelVO> export() {
-		return sysRoleService.listRole();
+	public List<RoleExcelVO> exportRoles() {
+		return sysRoleService.listRoles();
 	}
 
 	/**

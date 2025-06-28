@@ -24,12 +24,10 @@ import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * <p>
- * Mapper 接口
- * </p>
+ * 系统OAuth客户端详情 Mapper接口
  *
  * @author lengleng
- * @since 2018-05-15
+ * @date 2025/06/27
  */
 @Mapper
 public interface SysOauthClientDetailsMapper extends BaseMapper<SysOauthClientDetails> {

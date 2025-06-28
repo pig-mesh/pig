@@ -79,7 +79,7 @@ public class SysUserController {
 		if (user == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
 		}
-		return R.ok(userService.findUserInfo(user));
+		return R.ok(userService.getUserInfo(user));
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class SysUserController {
 		if (user == null) {
 			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
 		}
-		return R.ok(userService.findUserInfo(user));
+		return R.ok(userService.getUserInfo(user));
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class SysUserController {
 	 */
 	@GetMapping("/details/{id}")
 	public R user(@PathVariable Long id) {
-		return R.ok(userService.selectUserVoById(id));
+		return R.ok(userService.getUserById(id));
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class SysUserController {
 	@HasPermission("sys_user_del")
 	@Operation(summary = "删除用户", description = "根据ID删除用户")
 	public R userDel(@RequestBody Long[] ids) {
-		return R.ok(userService.deleteUserByIds(ids));
+		return R.ok(userService.removeUserByIds(ids));
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class SysUserController {
 	@SysLog("添加用户")
 	@PostMapping
 	@HasPermission("sys_user_add")
-	public R user(@RequestBody UserDTO userDto) {
+	public R saveUser(@RequestBody UserDTO userDto) {
 		return R.ok(userService.saveUser(userDto));
 	}
 
@@ -147,7 +147,6 @@ public class SysUserController {
 	 * 更新用户信息
 	 * @param userDto 用户信息DTO对象
 	 * @return 包含操作结果的R对象
-	 * @throws javax.validation.Valid 参数校验失败时抛出异常
 	 */
 	@SysLog("更新用户信息")
 	@PutMapping
@@ -186,8 +185,8 @@ public class SysUserController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_user_export")
-	public List export(UserDTO userDTO) {
-		return userService.listUser(userDTO);
+	public List exportUsers(UserDTO userDTO) {
+		return userService.listUsers(userDTO);
 	}
 
 	/**
@@ -199,7 +198,7 @@ public class SysUserController {
 	@PostMapping("/import")
 	@HasPermission("sys_user_export")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
-		return userService.importUser(excelVOList, bindingResult);
+		return userService.importUsers(excelVOList, bindingResult);
 	}
 
 	/**

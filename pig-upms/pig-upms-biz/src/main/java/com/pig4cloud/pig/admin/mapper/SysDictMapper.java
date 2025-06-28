@@ -27,8 +27,7 @@ import org.apache.ibatis.annotations.Mapper;
  * 字典表 Mapper 接口
  *
  * @author lengleng
- * @date 2025/05/30
- * @since 2017-11-19
+ * @date 2025/06/27
  */
 @Mapper
 public interface SysDictMapper extends BaseMapper<SysDict> {

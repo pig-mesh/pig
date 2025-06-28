@@ -37,7 +37,7 @@ public interface SysPostService extends IService<SysPost> {
 	 * 获取岗位列表用于导出Excel
 	 * @return 岗位Excel数据列表
 	 */
-	List<PostExcelVO> listPost();
+	List<PostExcelVO> listPosts();
 
 	/**
 	 * 导入岗位信息

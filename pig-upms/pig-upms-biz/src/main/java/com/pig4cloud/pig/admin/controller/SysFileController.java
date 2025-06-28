@@ -40,6 +40,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+
 /**
  * 文件管理控制器
  *
@@ -63,7 +65,7 @@ public class SysFileController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
-	public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
+	public R getFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
 		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
 		return R.ok(sysFileService.page(page, wrapper));
@@ -80,7 +82,7 @@ public class SysFileController {
 	@HasPermission("sys_file_del")
 	public R removeById(@RequestBody Long[] ids) {
 		for (Long id : ids) {
-			sysFileService.deleteFile(id);
+			sysFileService.removeFile(id);
 		}
 		return R.ok();
 	}

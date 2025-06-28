@@ -73,8 +73,8 @@ public class SysMenuController {
 	 * @return 包含树形菜单的响应结果
 	 */
 	@GetMapping(value = "/tree")
-	public R getTree(Long parentId, String menuName, String type) {
-		return R.ok(sysMenuService.treeMenu(parentId, menuName, type));
+	public R getMenuTree(Long parentId, String menuName, String type) {
+		return R.ok(sysMenuService.getMenuTree(parentId, menuName, type));
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class SysMenuController {
 	@GetMapping("/tree/{roleId}")
 	public R getRoleTree(@PathVariable Long roleId) {
 		return R
-			.ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).collect(Collectors.toList()));
+			.ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).toList());
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class SysMenuController {
 	@SysLog("新增菜单")
 	@PostMapping
 	@HasPermission("sys_menu_add")
-	public R save(@Valid @RequestBody SysMenu sysMenu) {
+	public R saveMenu(@Valid @RequestBody SysMenu sysMenu) {
 		sysMenuService.save(sysMenu);
 		return R.ok(sysMenu);
 	}
@@ -131,7 +131,7 @@ public class SysMenuController {
 	@SysLog("更新菜单")
 	@PutMapping
 	@HasPermission("sys_menu_edit")
-	public R update(@Valid @RequestBody SysMenu sysMenu) {
+	public R updateMenu(@Valid @RequestBody SysMenu sysMenu) {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}
 

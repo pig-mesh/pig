@@ -55,7 +55,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.PARAMS_DETAILS, key = "#publicKey", unless = "#result == null ")
-	public String getSysPublicParamKeyToValue(String publicKey) {
+	public String getParamValue(String publicKey) {
 		SysPublicParam sysPublicParam = this.baseMapper
 			.selectOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, publicKey));
 
@@ -95,7 +95,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 			.stream()
 			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
 			.map(SysPublicParam::getPublicId)
-			.collect(Collectors.toList());
+			.toList();
 		return R.ok(this.removeBatchByIds(idList));
 	}
 

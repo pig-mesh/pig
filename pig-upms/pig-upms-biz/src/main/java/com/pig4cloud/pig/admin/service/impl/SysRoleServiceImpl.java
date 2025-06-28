@@ -64,7 +64,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return 角色信息列表
 	 */
 	@Override
-	public List findRolesByUserId(Long userId) {
+	public List listRolesByUserId(Long userId) {
 		return baseMapper.listRolesByUserId(userId);
 	}
 
@@ -76,7 +76,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
-	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
+	public List<SysRole> listRolesByRoleIds(List<Long> roleIdList, String key) {
 		return baseMapper.selectByIds(roleIdList);
 	}
 
@@ -150,14 +150,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	 * @return 角色Excel视图对象列表
 	 */
 	@Override
-	public List<RoleExcelVO> listRole() {
+	public List<RoleExcelVO> listRoles() {
 		List<SysRole> roleList = this.list(Wrappers.emptyWrapper());
 		// 转换成execl 对象输出
 		return roleList.stream().map(role -> {
 			RoleExcelVO roleExcelVO = new RoleExcelVO();
 			BeanUtil.copyProperties(role, roleExcelVO);
 			return roleExcelVO;
-		}).collect(Collectors.toList());
+		}).toList();
 	}
 
 	/**

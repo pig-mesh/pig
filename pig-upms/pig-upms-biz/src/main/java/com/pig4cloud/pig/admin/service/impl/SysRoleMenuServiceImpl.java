@@ -68,7 +68,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 			roleMenu.setRoleId(roleId);
 			roleMenu.setMenuId(Long.valueOf(menuId));
 			return roleMenu;
-		}).collect(Collectors.toList());
+		}).toList();
 
 		// 清空userinfo
 		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();

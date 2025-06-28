@@ -64,7 +64,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Transactional(rollbackFor = Exception.class)
 	public Boolean removeDeptById(Long id) {
 		// 级联删除部门
-		List<Long> idList = this.listDescendant(id).stream().map(SysDept::getDeptId).collect(Collectors.toList());
+		List<Long> idList = this.listDescendants(id).stream().map(SysDept::getDeptId).toList();
 
 		Optional.ofNullable(idList).filter(CollUtil::isNotEmpty).ifPresent(this::removeByIds);
 
@@ -77,7 +77,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 部门树结构列表，模糊查询时返回平铺列表
 	 */
 	@Override
-	public List<Tree<Long>> selectTree(String deptName) {
+	public List<Tree<Long>> getDeptTree(String deptName) {
 		// 查询全部部门
 		List<SysDept> deptAllList = deptMapper
 			.selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
@@ -98,7 +98,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				treeNode.setExtra(extra);
 				return treeNode;
 			})
-			.collect(Collectors.toList());
+			.toList();
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
 		if (StrUtil.isNotBlank(deptName)) {
@@ -107,7 +107,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				tree.putAll(node.getExtra());
 				BeanUtils.copyProperties(node, tree);
 				return tree;
-			}).collect(Collectors.toList());
+			}).toList();
 		}
 
 		return TreeUtil.build(collect, 0L);
@@ -118,7 +118,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 部门Excel视图对象列表，包含部门名称、父部门名称和排序号
 	 */
 	@Override
-	public List<DeptExcelVo> listExcelVo() {
+	public List<DeptExcelVo> exportDepts() {
 		List<SysDept> list = this.list();
 		List<DeptExcelVo> deptExcelVos = list.stream().map(item -> {
 			DeptExcelVo deptExcelVo = new DeptExcelVo();
@@ -131,7 +131,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			deptExcelVo.setParentName(first.orElse("根部门"));
 			deptExcelVo.setSortOrder(item.getSortOrder());
 			return deptExcelVo;
-		}).collect(Collectors.toList());
+		}).toList();
 		return deptExcelVos;
 	}
 
@@ -184,7 +184,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * @return 包含目标部门及其所有子部门的列表
 	 */
 	@Override
-	public List<SysDept> listDescendant(Long deptId) {
+	public List<SysDept> listDescendants(Long deptId) {
 		// 查询全部部门
 		List<SysDept> allDeptList = baseMapper.selectList(Wrappers.emptyWrapper());
 
@@ -195,7 +195,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		// 添加当前节点
 		resDeptList.addAll(allDeptList.stream()
 			.filter(sysDept -> deptId.equals(sysDept.getDeptId()))
-			.collect(Collectors.toList()));
+			.toList());
 		return resDeptList;
 	}
 

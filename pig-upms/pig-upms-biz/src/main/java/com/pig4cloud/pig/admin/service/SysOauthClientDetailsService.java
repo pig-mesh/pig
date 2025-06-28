@@ -25,10 +25,7 @@ import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * 系统OAuth客户端详情服务接口
- * <p>
- * 提供OAuth客户端详情的增删改查及缓存同步功能
- * </p>
+ * OAuth2客户端详情服务接口
  *
  * @author lengleng
  * @since 2018-05-15
@@ -36,29 +33,29 @@ import com.pig4cloud.pig.common.core.util.R;
 public interface SysOauthClientDetailsService extends IService<SysOauthClientDetails> {
 
 	/**
-	 * 根据客户端信息更新客户端
-	 * @param clientDetails 客户端详细信息
-	 * @return 更新是否成功
+	 * 根据客户端信息更新客户端详情
+	 * @param clientDetails 客户端详情信息
+	 * @return 更新结果，成功返回true
 	 */
 	Boolean updateClientById(SysOauthClientDetails clientDetails);
 
 	/**
 	 * 保存客户端信息
 	 * @param clientDetails 客户端详细信息
-	 * @return 保存成功返回true，否则返回false
+	 * @return 操作是否成功
 	 */
 	Boolean saveClient(SysOauthClientDetails clientDetails);
 
 	/**
-	 * 分页查询客户端信息
+	 * 分页查询OAuth客户端详情
 	 * @param page 分页参数
 	 * @param query 查询条件
-	 * @return 分页结果
+	 * @return 分页查询结果
 	 */
-	Page queryPage(Page page, SysOauthClientDetails query);
+	Page getClientPage(Page page, SysOauthClientDetails query);
 
 	/**
-	 * 同步客户端缓存（清空缓存）
+	 * 同步客户端缓存
 	 * @return 操作结果
 	 */
 	R syncClientCache();
