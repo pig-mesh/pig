@@ -38,7 +38,6 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 创建bucket
-	 *
 	 * @param bucketName bucket名称
 	 */
 	@Override
@@ -55,9 +54,9 @@ public class LocalFileTemplate implements FileTemplate {
 	@Override
 	public List<SimpleBucket> getAllBuckets() {
 		return Arrays.stream(FileUtil.ls(properties.getLocal().getBasePath()))
-				.filter(FileUtil::isDirectory)
-				.map(dir -> new SimpleBucket(dir.getName()))
-				.toList();
+			.filter(FileUtil::isDirectory)
+			.map(dir -> new SimpleBucket(dir.getName()))
+			.toList();
 	}
 
 	/**
@@ -71,10 +70,9 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 上传文件
-	 *
-	 * @param bucketName  bucket名称
-	 * @param objectName  文件名称
-	 * @param stream      文件流
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
+	 * @param stream 文件流
 	 * @param contextType 文件类型
 	 */
 	@Override
@@ -92,7 +90,6 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 获取文件
-	 *
 	 * @param bucketName bucket名称
 	 * @param objectName 文件名称
 	 * @return 文件输入流
@@ -106,7 +103,6 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 删除指定存储桶中的对象
-	 *
 	 * @param bucketName 存储桶名称
 	 * @param objectName 对象名称
 	 * @throws Exception 删除过程中可能抛出的异常
@@ -119,10 +115,9 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 上传文件到指定存储桶
-	 *
 	 * @param bucketName 存储桶名称
 	 * @param objectName 文件名称
-	 * @param stream     文件输入流
+	 * @param stream 文件输入流
 	 * @throws Exception 上传过程中可能发生的异常
 	 */
 	@Override
@@ -132,10 +127,9 @@ public class LocalFileTemplate implements FileTemplate {
 
 	/**
 	 * 根据文件前置查询文件
-	 *
 	 * @param bucketName bucket名称
-	 * @param prefix     前缀
-	 * @param recursive  是否递归查询
+	 * @param prefix 前缀
+	 * @param recursive 是否递归查询
 	 * @return 文件对象摘要列表
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects">AWS
 	 * API Documentation</a>
@@ -144,7 +138,10 @@ public class LocalFileTemplate implements FileTemplate {
 	public List<SimpleObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) {
 		String dir = properties.getLocal().getBasePath() + FileUtil.FILE_SEPARATOR + bucketName;
 
-		return Arrays.stream(FileUtil.ls(dir)).filter(file -> file.getName().startsWith(prefix)).map(file -> new SimpleObjectSummary(file.getName())).toList();
+		return Arrays.stream(FileUtil.ls(dir))
+			.filter(file -> file.getName().startsWith(prefix))
+			.map(file -> new SimpleObjectSummary(file.getName()))
+			.toList();
 	}
 
 }

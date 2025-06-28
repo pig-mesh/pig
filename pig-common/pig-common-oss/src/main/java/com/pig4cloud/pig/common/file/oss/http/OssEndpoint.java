@@ -112,7 +112,7 @@ public class OssEndpoint {
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
 		template.putObject(bucketName, name, inputStream, object.getSize(), object.getContentType());
-		
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("bucket", bucketName);
 		result.put("object", name);
@@ -136,7 +136,7 @@ public class OssEndpoint {
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
 		template.putObject(bucketName, objectName, inputStream, object.getSize(), object.getContentType());
-		
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("bucket", bucketName);
 		result.put("object", objectName);
