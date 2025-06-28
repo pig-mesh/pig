@@ -20,6 +20,7 @@
 package com.pig4cloud.pig.admin.api.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -124,16 +125,10 @@ public class UserVO implements Serializable {
 	private String avatar;
 
 	/**
-	 * 部门ID
-	 */
-	@Schema(description = "所属部门")
-	private Long deptId;
-
-	/**
 	 * 部门名称
 	 */
 	@Schema(description = "所属部门名称")
-	private String deptName;
+	private SysDept dept;
 
 	/**
 	 * 角色列表
