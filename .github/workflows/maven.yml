@@ -24,7 +24,30 @@ jobs:
           distribution: 'zulu'
 
       - name: mvn spring-javaformat:validate
+        id: validate
         run: mvn spring-javaformat:validate
+        continue-on-error: true
+
+      - name: Auto format code if validation fails
+        if: steps.validate.outcome == 'failure'
+        run: mvn spring-javaformat:apply
+
+      - name: Create Pull Request for formatting changes
+        if: steps.validate.outcome == 'failure'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Auto-format code with spring-javaformat'
+          title: 'Auto-format: Fix code formatting issues'
+          body: |
+            This PR was automatically created because the spring-javaformat validation failed.
+            
+            The following changes have been applied:
+            - Applied spring-javaformat:apply to fix formatting issues
+            
+            Please review and merge if the changes look correct.
+          branch: auto-format-${{ github.run_number }}
+          delete-branch: true
 
       - name: mvn clean install
         run: mvn clean install -Pboot
