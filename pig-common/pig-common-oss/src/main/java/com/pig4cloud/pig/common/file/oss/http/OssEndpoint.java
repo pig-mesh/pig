@@ -17,9 +17,6 @@
 
 package com.pig4cloud.pig.common.file.oss.http;
 
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.pig4cloud.pig.common.file.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
@@ -28,6 +25,8 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.services.s3.model.Bucket;
+import software.amazon.awssdk.services.s3.model.S3Object;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -103,18 +102,23 @@ public class OssEndpoint {
 	 * 创建对象到指定存储桶
 	 * @param object 要上传的文件对象
 	 * @param bucketName 目标存储桶名称
-	 * @return 上传后的对象信息
+	 * @return 上传后的对象信息响应
 	 * @throws IOException 文件操作异常
 	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}")
-	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
+	public Map<String, Object> createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
 		String name = object.getOriginalFilename();
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
 		template.putObject(bucketName, name, inputStream, object.getSize(), object.getContentType());
-		return template.getObjectInfo(bucketName, name);
-
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("bucket", bucketName);
+		result.put("object", name);
+		result.put("size", object.getSize());
+		result.put("contentType", object.getContentType());
+		return result;
 	}
 
 	/**
@@ -127,25 +131,30 @@ public class OssEndpoint {
 	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}/{objectName}")
-	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
+	public Map<String, Object> createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
 			@PathVariable String objectName) {
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
 		template.putObject(bucketName, objectName, inputStream, object.getSize(), object.getContentType());
-		return template.getObjectInfo(bucketName, objectName);
-
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("bucket", bucketName);
+		result.put("object", objectName);
+		result.put("size", object.getSize());
+		result.put("contentType", object.getContentType());
+		return result;
 	}
 
 	/**
 	 * 根据对象名前缀过滤对象列表
 	 * @param bucketName 存储桶名称
 	 * @param objectName 对象名前缀
-	 * @return 匹配前缀的S3对象摘要列表
+	 * @return 匹配前缀的S3对象列表
 	 * @throws Exception 操作执行过程中可能抛出的异常
 	 */
 	@SneakyThrows
 	@GetMapping("/object/{bucketName}/{objectName}")
-	public List<S3ObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
+	public List<S3Object> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
 
 		return template.getAllObjectsByPrefix(bucketName, objectName, true);
 

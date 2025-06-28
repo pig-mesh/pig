@@ -21,7 +21,6 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
-import com.amazonaws.services.s3.model.S3Object;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
 import com.pig4cloud.pig.admin.mapper.SysFileMapper;
@@ -92,10 +91,10 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	 */
 	@Override
 	public void getFile(String bucket, String fileName, HttpServletResponse response) {
-		try (S3Object s3Object = fileTemplate.getObject(bucket, fileName)) {
+		try (InputStream inputStream = (InputStream) fileTemplate.getObject(bucket, fileName)) {
 			response.setContentType("application/octet-stream; charset=UTF-8");
 			response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLUtil.encode(fileName));
-			IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
+			IoUtil.copy(inputStream, response.getOutputStream());
 		}
 		catch (Exception e) {
 			log.error("文件读取异常: {}", e.getLocalizedMessage());

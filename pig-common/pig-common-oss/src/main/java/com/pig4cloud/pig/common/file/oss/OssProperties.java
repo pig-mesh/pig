@@ -18,7 +18,6 @@
 package com.pig4cloud.pig.common.file.oss;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * aws 配置信息
@@ -32,7 +31,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * bucket 设置公共读权限
  */
 @Data
-@ConfigurationProperties(prefix = "oss")
 public class OssProperties {
 
 	/**
