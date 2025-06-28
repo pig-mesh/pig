@@ -74,7 +74,7 @@ public class GenTableController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
-	public R getTable(@PathVariable("id") Long id) {
+	public R getTableById(@PathVariable("id") Long id) {
 		return R.ok(tableService.getById(id));
 	}
 
@@ -84,7 +84,7 @@ public class GenTableController {
 	 * @return 包含表列表的响应结果
 	 */
 	@GetMapping("/list/{dsName}")
-	public R listTable(@PathVariable("dsName") String dsName) {
+	public R listTables(@PathVariable("dsName") String dsName) {
 		return R.ok(tableService.queryTableList(dsName));
 	}
 
@@ -104,7 +104,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/column/{dsName}/{tableName}")
-	public R getColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+	public R getTableColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
 		return R.ok(tableService.queryTableColumn(dsName, tableName));
 	}
 
@@ -114,7 +114,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/ddl/{dsName}/{tableName}")
-	public R getDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+	public R getTableDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
 		return R.ok(tableService.queryTableDdl(dsName, tableName));
 	}
 
@@ -143,7 +143,7 @@ public class GenTableController {
 	@Operation(summary = "修改列属性", description = "修改列属性")
 	@SysLog("修改列属性")
 	@PutMapping
-	public R updateById(@RequestBody GenTable table) {
+	public R updateTable(@RequestBody GenTable table) {
 		return R.ok(tableService.updateById(table));
 	}
 
@@ -167,7 +167,7 @@ public class GenTableController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<GenTable> export(GenTable table) {
+	public List<GenTable> exportTables(GenTable table) {
 		return tableService.list(Wrappers.query(table));
 	}
 

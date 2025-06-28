@@ -72,7 +72,7 @@ public class GenFieldTypeController {
 	 */
 	@Operation(summary = "查询列表", description = "查询列表")
 	@GetMapping("/list")
-	public R list(GenFieldType fieldType) {
+	public R listFieldTypes(GenFieldType fieldType) {
 		return R.ok(fieldTypeService.list(Wrappers.query(fieldType)));
 	}
 
@@ -83,7 +83,7 @@ public class GenFieldTypeController {
 	 */
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/details/{id}")
-	public R getById(@PathVariable("id") Long id) {
+	public R getFieldTypeById(@PathVariable("id") Long id) {
 		return R.ok(fieldTypeService.getById(id));
 	}
 
@@ -93,7 +93,7 @@ public class GenFieldTypeController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/details")
-	public R getDetails(GenFieldType query) {
+	public R getFieldTypeDetails(GenFieldType query) {
 		return R.ok(fieldTypeService.getOne(Wrappers.query(query), false));
 	}
 
@@ -105,7 +105,7 @@ public class GenFieldTypeController {
 	@Operation(summary = "新增列属性", description = "新增列属性")
 	@SysLog("新增列属性")
 	@PostMapping
-	public R save(@RequestBody GenFieldType fieldType) {
+	public R saveFieldType(@RequestBody GenFieldType fieldType) {
 		return R.ok(fieldTypeService.save(fieldType));
 	}
 
@@ -117,7 +117,7 @@ public class GenFieldTypeController {
 	@Operation(summary = "修改列属性", description = "修改列属性")
 	@SysLog("修改列属性")
 	@PutMapping
-	public R updateById(@RequestBody GenFieldType fieldType) {
+	public R updateFieldType(@RequestBody GenFieldType fieldType) {
 		return R.ok(fieldTypeService.updateById(fieldType));
 	}
 
@@ -129,7 +129,7 @@ public class GenFieldTypeController {
 	@Operation(summary = "通过id删除列属性", description = "通过id删除列属性")
 	@SysLog("通过id删除列属性")
 	@DeleteMapping
-	public R removeById(@RequestBody Long[] ids) {
+	public R removeFieldTypeByIds(@RequestBody Long[] ids) {
 		return R.ok(fieldTypeService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
@@ -140,7 +140,7 @@ public class GenFieldTypeController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	public List<GenFieldType> export(GenFieldType fieldType) {
+	public List<GenFieldType> exportFieldTypes(GenFieldType fieldType) {
 		return fieldTypeService.list(Wrappers.query(fieldType));
 	}
 

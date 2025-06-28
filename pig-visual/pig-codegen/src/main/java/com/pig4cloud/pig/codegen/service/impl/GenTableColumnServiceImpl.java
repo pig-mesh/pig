@@ -82,7 +82,7 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 		AtomicInteger sort = new AtomicInteger();
 		this.updateBatchById(tableFieldList.stream()
 			.peek(field -> field.setSort(sort.getAndIncrement()))
-			.collect(Collectors.toList()));
+			.toList());
 	}
 
 }

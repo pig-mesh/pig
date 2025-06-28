@@ -60,7 +60,7 @@ public class GenDsConfController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
-	public R getSysDatasourceConfPage(Page page, GenDatasourceConf datasourceConf) {
+	public R getDsConfPage(Page page, GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.page(page,
 				Wrappers.<GenDatasourceConf>lambdaQuery()
 					.like(StrUtil.isNotBlank(datasourceConf.getDsName()), GenDatasourceConf::getDsName,
@@ -73,7 +73,7 @@ public class GenDsConfController {
 	 */
 	@GetMapping("/list")
 	@Inner(value = false)
-	public R list() {
+	public R listDsConfs() {
 		return R.ok(datasourceConfService.list());
 	}
 
@@ -83,7 +83,7 @@ public class GenDsConfController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/{id}")
-	public R getById(@PathVariable("id") Long id) {
+	public R getDsConfById(@PathVariable("id") Long id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
 
@@ -94,7 +94,7 @@ public class GenDsConfController {
 	 */
 	@PostMapping
 	@XssCleanIgnore
-	public R save(@RequestBody GenDatasourceConf datasourceConf) {
+	public R saveDsConf(@RequestBody GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.saveDsByEnc(datasourceConf));
 	}
 
@@ -105,7 +105,7 @@ public class GenDsConfController {
 	 */
 	@PutMapping
 	@XssCleanIgnore
-	public R updateById(@RequestBody GenDatasourceConf conf) {
+	public R updateDsConf(@RequestBody GenDatasourceConf conf) {
 		return R.ok(datasourceConfService.updateDsByEnc(conf));
 	}
 
@@ -115,7 +115,7 @@ public class GenDsConfController {
 	 * @return 包含操作结果的R对象
 	 */
 	@DeleteMapping
-	public R removeById(@RequestBody Long[] ids) {
+	public R removeDsConfByIds(@RequestBody Long[] ids) {
 		return R.ok(datasourceConfService.removeByDsId(ids));
 	}
 

@@ -60,7 +60,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@HasPermission("codegen_templateGroup_view")
-	public R getgenTemplateGroupPage(Page page, GenTemplateGroupEntity genTemplateGroup) {
+	public R getTemplateGroupPage(Page page, GenTemplateGroupEntity genTemplateGroup) {
 		LambdaQueryWrapper<GenTemplateGroupEntity> wrapper = Wrappers.lambdaQuery();
 		return R.ok(genTemplateGroupService.page(page, wrapper));
 	}
@@ -73,7 +73,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{groupId}")
 	@HasPermission("codegen_templateGroup_view")
-	public R getById(@PathVariable("groupId") Long groupId) {
+	public R getTemplateGroupById(@PathVariable("groupId") Long groupId) {
 		return R.ok(genTemplateGroupService.getById(groupId));
 	}
 
@@ -86,7 +86,7 @@ public class GenTemplateGroupController {
 	@SysLog("新增模板分组关联表")
 	@PostMapping
 	@HasPermission("codegen_templateGroup_add")
-	public R save(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
+	public R saveTemplateGroup(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.save(genTemplateGroup));
 	}
 
@@ -99,7 +99,7 @@ public class GenTemplateGroupController {
 	@SysLog("修改模板分组关联表")
 	@PutMapping
 	@HasPermission("codegen_templateGroup_edit")
-	public R updateById(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
+	public R updateTemplateGroup(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.updateById(genTemplateGroup));
 	}
 
@@ -112,7 +112,7 @@ public class GenTemplateGroupController {
 	@SysLog("通过id删除模板分组关联表")
 	@DeleteMapping
 	@HasPermission("codegen_templateGroup_del")
-	public R removeById(@RequestBody Long[] ids) {
+	public R removeTemplateGroupByIds(@RequestBody Long[] ids) {
 		return R.ok(genTemplateGroupService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
@@ -124,7 +124,7 @@ public class GenTemplateGroupController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("codegen_templateGroup_export")
-	public List<GenTemplateGroupEntity> export(GenTemplateGroupEntity genTemplateGroup) {
+	public List<GenTemplateGroupEntity> exportTemplateGroups(GenTemplateGroupEntity genTemplateGroup) {
 		return genTemplateGroupService.list(Wrappers.query(genTemplateGroup));
 	}
 

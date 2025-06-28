@@ -268,15 +268,15 @@ public class GeneratorServiceImpl implements GeneratorService {
 		List<GenTableColumnEntity> formList = typeMap.get(false)
 			.stream()
 			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getFormItem()))
-			.collect(Collectors.toList());
+			.toList();
 		List<GenTableColumnEntity> gridList = typeMap.get(false)
 			.stream()
 			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getGridItem()))
-			.collect(Collectors.toList());
+			.toList();
 		List<GenTableColumnEntity> queryList = typeMap.get(false)
 			.stream()
 			.filter(columnEntity -> BooleanUtil.toBoolean(columnEntity.getQueryItem()))
-			.collect(Collectors.toList());
+			.toList();
 
 		if (CollUtil.isNotEmpty(primaryList)) {
 			dataModel.put("pk", primaryList.get(0));
