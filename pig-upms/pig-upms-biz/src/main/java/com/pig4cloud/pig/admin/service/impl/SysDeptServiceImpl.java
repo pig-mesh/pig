@@ -193,9 +193,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		recursiveDept(allDeptList, deptId, resDeptList);
 
 		// 添加当前节点
-		resDeptList.addAll(allDeptList.stream()
-			.filter(sysDept -> deptId.equals(sysDept.getDeptId()))
-			.toList());
+		resDeptList.addAll(allDeptList.stream().filter(sysDept -> deptId.equals(sysDept.getDeptId())).toList());
 		return resDeptList;
 	}
 

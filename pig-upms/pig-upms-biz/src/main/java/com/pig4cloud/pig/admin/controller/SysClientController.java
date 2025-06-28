@@ -76,8 +76,7 @@ public class SysClientController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
-	public R getClientPage(@ParameterObject Page page,
-			@ParameterObject SysOauthClientDetails sysOauthClientDetails) {
+	public R getClientPage(@ParameterObject Page page, @ParameterObject SysOauthClientDetails sysOauthClientDetails) {
 		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
 					sysOauthClientDetails.getClientId())

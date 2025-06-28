@@ -41,10 +41,8 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
-
 	/**
 	 * 根据用户DTO获取用户VO
-	 *
 	 * @param userDTO 用户查询条件DTO
 	 * @return 用户信息VO
 	 */

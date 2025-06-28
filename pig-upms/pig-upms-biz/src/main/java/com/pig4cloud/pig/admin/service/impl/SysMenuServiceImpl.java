@@ -155,10 +155,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 	 */
 	@Override
 	public List<Tree<Long>> filterMenu(Set<SysMenu> all, String type, Long parentId) {
-		List<TreeNode<Long>> collect = all.stream()
-			.filter(menuTypePredicate(type))
-			.map(getNodeFunction())
-			.toList();
+		List<TreeNode<Long>> collect = all.stream().filter(menuTypePredicate(type)).map(getNodeFunction()).toList();
 
 		Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 		return TreeUtil.build(collect, parent);

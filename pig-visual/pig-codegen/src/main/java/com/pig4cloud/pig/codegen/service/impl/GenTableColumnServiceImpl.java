@@ -80,9 +80,7 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	@Override
 	public void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
 		AtomicInteger sort = new AtomicInteger();
-		this.updateBatchById(tableFieldList.stream()
-			.peek(field -> field.setSort(sort.getAndIncrement()))
-			.toList());
+		this.updateBatchById(tableFieldList.stream().peek(field -> field.setSort(sort.getAndIncrement())).toList());
 	}
 
 }

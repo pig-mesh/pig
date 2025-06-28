@@ -45,7 +45,6 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 根据用户信息查询用户详情
-	 *
 	 * @param query 用户查询条件
 	 * @return 用户详细信息
 	 */

@@ -27,7 +27,6 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 是否支持此客户端校验
-	 *
 	 * @param clientId 目标客户端
 	 * @return true/false
 	 */
@@ -37,7 +36,6 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 排序值 默认取最大的
-	 *
 	 * @return 排序值
 	 */
 	default int getOrder() {
@@ -46,7 +44,6 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 
 	/**
 	 * 根据用户信息构建UserDetails对象
-	 *
 	 * @param result 包含用户信息的R对象
 	 * @return 构建好的UserDetails对象
 	 * @throws UsernameNotFoundException 当用户信息不存在时抛出异常
@@ -61,17 +58,16 @@ public interface PigUserDetailsService extends UserDetailsService, Ordered {
 		// 维护权限列表
 		dbAuthsSet.addAll(info.getPermissions());
 		Collection<GrantedAuthority> authorities = AuthorityUtils
-				.createAuthorityList(dbAuthsSet.toArray(new String[0]));
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
 		// 构造security用户
 		return new PigUser(info.getUserId(), info.getDept().getDeptId(), info.getUsername(),
-				SecurityConstants.BCRYPT + info.getPassword(), info.getPhone(), true, true
-				, true, StrUtil.equals(info.getLockFlag(), CommonConstants.STATUS_NORMAL), authorities);
+				SecurityConstants.BCRYPT + info.getPassword(), info.getPhone(), true, true, true,
+				StrUtil.equals(info.getLockFlag(), CommonConstants.STATUS_NORMAL), authorities);
 	}
 
 	/**
 	 * 通过用户实体查询用户详情
-	 *
 	 * @param pigUser 用户实体对象
 	 * @return 用户详情信息
 	 */

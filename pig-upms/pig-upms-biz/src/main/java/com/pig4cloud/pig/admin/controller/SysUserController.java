@@ -63,7 +63,6 @@ public class SysUserController {
 
 	/**
 	 * 查询用户信息
-	 *
 	 * @param userDTO 用户信息查询参数
 	 * @return 包含用户信息的R对象
 	 */
