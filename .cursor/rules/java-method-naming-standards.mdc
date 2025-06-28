@@ -1,0 +1,101 @@
+---
+description: Java Method Naming Standards
+globs: 
+alwaysApply: false
+---
+# Java Method Naming Standards (Alibaba Coding Guidelines)
+
+## Controller Layer Method Naming Conventions
+
+This project follows Alibaba Java coding standards for method naming in Controller, Service, and Mapper layers. The following conventions have been applied to all controller classes.
+
+### Core Naming Patterns
+
+#### **Query Operations**
+- **Single Object**: Use `get` prefix
+  - `getById(Long id)` - Get single entity by ID
+  - `getClientById(String clientId)` - Get specific client details
+  - `getDetails(QueryObject query)` - Get entity details by conditions
+
+- **Multiple Objects**: Use `list` prefix with plural form
+  - `listDepts()` - Get all departments
+  - `listRoles()` - Get all roles
+  - `listDicts(String name)` - Get dictionary list with conditions
+
+- **Paginated Queries**: Use `get` + EntityType + `Page`
+  - `getClientPage(Page page, ClientDetails query)` - Paginated client query
+  - `getUserPage(Page page, UserDTO userDTO)` - Paginated user query
+  - `getPostPage(Page page, SysPost sysPost)` - Paginated post query
+
+- **Tree Structure**: Use `get` + EntityType + `Tree`
+  - `getDeptTree(String deptName)` - Get department tree
+  - `getMenuTree(Long parentId, String menuName, String type)` - Get menu tree
+
+#### **Modification Operations**
+- **Insert**: Use `save` prefix
+  - `saveUser(UserDTO userDto)` - Create new user
+  - `saveRole(SysRole sysRole)` - Create new role
+  - `saveDept(SysDept sysDept)` - Create new department
+
+- **Update**: Use `update` prefix
+  - `updateUser(UserDTO userDto)` - Update user information
+  - `updateRole(SysRole sysRole)` - Update role information
+  - `updateDept(SysDept sysDept)` - Update department information
+
+- **Delete**: Use `remove` prefix
+  - `removeById(Long[] ids)` - Delete by ID array
+  - `removeBatchByIds(List<Long> ids)` - Batch delete by IDs
+
+#### **Special Operations**
+- **Export**: Use `export` + EntityType + `s` (plural)
+  - `exportUsers(UserDTO userDTO)` - Export user data to Excel
+  - `exportRoles()` - Export role data to Excel
+  - `exportDepts()` - Export department data to Excel
+
+- **Synchronization**: Use `sync` + EntityType
+  - `syncDict()` - Sync dictionary cache
+  - `syncClient()` - Sync client cache
+  - `syncParam()` - Sync parameter cache
+
+### Reference Implementation Files
+
+The following controller files have been optimized according to these standards:
+
+- [SysClientController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysClientController.java)
+- [SysDeptController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysDeptController.java)
+- [SysDictController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysDictController.java)
+- [SysMenuController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysMenuController.java)
+- [SysPostController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysPostController.java)
+- [SysPublicParamController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysPublicParamController.java)
+- [SysRoleController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysRoleController.java)
+- [SysUserController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysUserController.java)
+- [SysFileController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysFileController.java)
+- [SysLogController.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysLogController.java)
+
+### General Naming Rules
+
+1. **Method Names**: Use lowerCamelCase style
+2. **Avoid Generic Names**: Don't use generic methods like `add`, `update`, `list`, `export` without context
+3. **Be Descriptive**: Method names should clearly indicate the operation and entity type
+4. **Consistency**: Follow the same pattern across all controllers in the project
+5. **REST Conventions**: Align with HTTP method semantics (GET for queries, POST for creation, PUT for updates, DELETE for removal)
+
+### Service and Mapper Layer Guidelines
+
+- **Service Layer**: Follow the same naming conventions as controllers
+- **Mapper Layer**: Use conventional CRUD method names with clear entity prefixes
+- **Interface Naming**: Service interfaces end with `Service`, implementations with `ServiceImpl`
+- **Mapper Naming**: Mapper interfaces end with `Mapper`
+
+### Examples Before and After Optimization
+
+| Before (Generic) | After (Standardized) | Operation Type |
+|------------------|---------------------|----------------|
+| `add()` | `saveClient()` | Create |
+| `update()` | `updateDept()` | Update |
+| `list()` | `listRoles()` | Query Multiple |
+| `getTree()` | `getMenuTree()` | Query Tree |
+| `sync()` | `syncDict()` | Synchronization |
+| `export()` | `exportUsers()` | Export |
+
+This naming standard improves code readability, maintainability, and team collaboration by providing clear semantic meaning for each method.

@@ -1,0 +1,74 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Pig Project Architecture Guide
+
+## Project Overview
+The Pig project is a Spring Boot microservices architecture framework built on Spring Cloud, using Java 17 and supporting both microservice and monolithic deployment modes.
+
+**Current Version**: 3.8.4
+**Tech Stack**: Spring Boot 3.5.3, Spring Cloud 2025.0.0, Spring Cloud Alibaba 2023.0.3.3
+
+## Module Structure
+
+### Core Modules
+- **pig-register**: Nacos service registry ([pig-register/src/main/java/com/alibaba/nacos/bootstrap/PigNacosApplication.java](mdc:pig-register/src/main/java/com/alibaba/nacos/bootstrap/PigNacosApplication.java))
+- **pig-gateway**: API Gateway service ([pig-gateway/src/main/java/com/pig4cloud/pig/gateway/PigGatewayApplication.java](mdc:pig-gateway/src/main/java/com/pig4cloud/pig/gateway/PigGatewayApplication.java))
+- **pig-auth**: OAuth2 authentication service ([pig-auth/src/main/java/com/pig4cloud/pig/auth/PigAuthApplication.java](mdc:pig-auth/src/main/java/com/pig4cloud/pig/auth/PigAuthApplication.java))
+- **pig-upms**: User Permission Management System
+  - **pig-upms-api**: API definitions and Feign clients
+  - **pig-upms-biz**: Business logic implementation ([pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/PigAdminApplication.java](mdc:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/PigAdminApplication.java))
+
+### Common Modules (pig-common)
+- **pig-common-core**: Core utilities and configurations
+- **pig-common-security**: Security and OAuth2 configurations
+- **pig-common-feign**: Feign client configurations and interceptors
+- **pig-common-datasource**: Dynamic datasource support
+- **pig-common-mybatis**: MyBatis Plus configurations
+- **pig-common-log**: Centralized logging
+- **pig-common-oss**: Object Storage Service integration
+- **pig-common-swagger**: API documentation
+- **pig-common-excel**: Excel import/export utilities
+- **pig-common-xss**: XSS protection
+- **pig-common-seata**: Distributed transaction support
+- **pig-common-bom**: Bill of Materials for dependency management ([pig-common/pig-common-bom/pom.xml](mdc:pig-common/pig-common-bom/pom.xml))
+
+### Visual Modules (pig-visual)
+- **pig-monitor**: Spring Boot Admin monitoring ([pig-visual/pig-monitor/src/main/java/com/pig4cloud/pig/monitor/PigMonitorApplication.java](mdc:pig-visual/pig-monitor/src/main/java/com/pig4cloud/pig/monitor/PigMonitorApplication.java))
+- **pig-codegen**: Code generation service ([pig-visual/pig-codegen/src/main/java/com/pig4cloud/pig/codegen/PigCodeGenApplication.java](mdc:pig-visual/pig-codegen/src/main/java/com/pig4cloud/pig/codegen/PigCodeGenApplication.java))
+- **pig-quartz**: Scheduled task management ([pig-visual/pig-quartz/src/main/java/com/pig4cloud/pig/daemon/quartz/PigQuartzApplication.java](mdc:pig-visual/pig-quartz/src/main/java/com/pig4cloud/pig/daemon/quartz/PigQuartzApplication.java))
+
+### Boot Module
+- **pig-boot**: Monolithic deployment option ([pig-boot/src/main/java/com/pig4cloud/pig/PigBootApplication.java](mdc:pig-boot/src/main/java/com/pig4cloud/pig/PigBootApplication.java))
+
+## Deployment Modes
+
+### Microservice Mode (Default)
+- Activated by `cloud` profile
+- Uses Nacos for service discovery and configuration
+- Each module runs as independent service
+- API Gateway handles routing
+
+### Monolithic Mode
+- Activated by `boot` profile  
+- All modules bundled into single application
+- Suitable for small deployments or development
+
+## Key Configuration Files
+- **Root POM**: [pom.xml](mdc:pom.xml) - Main project configuration
+- **Docker Compose**: [docker-compose.yml](mdc:docker-compose.yml) - Container orchestration
+- **Database**: [db/pig.sql](mdc:db/pig.sql) - Database schema
+
+## Package Structure Convention
+All Java packages follow the pattern: `com.pig4cloud.pig.{module}.{layer}`
+
+**Common Layers**:
+- `controller` - REST endpoints
+- `service` - Business logic  
+- `mapper` - Data access
+- `entity` - Domain models
+- `dto` - Data transfer objects
+- `config` - Configuration classes
+- `support` - Helper utilities
