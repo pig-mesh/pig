@@ -19,16 +19,14 @@
 
 package com.pig4cloud.pig.admin.controller;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
+import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
-import com.pig4cloud.pig.common.core.exception.ErrorCodes;
-import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
@@ -65,21 +63,14 @@ public class SysUserController {
 
 	/**
 	 * 查询用户信息
-	 * @param username 用户名(可选)
-	 * @param phone 手机号(可选)
+	 *
+	 * @param userDTO 用户信息查询参数
 	 * @return 包含用户信息的R对象
 	 */
 	@Inner
 	@GetMapping(value = { "/info/query" })
-	public R info(@RequestParam(required = false) String username, @RequestParam(required = false) String phone) {
-		SysUser user = userService.getOne(Wrappers.<SysUser>query()
-			.lambda()
-			.eq(StrUtil.isNotBlank(username), SysUser::getUsername, username)
-			.eq(StrUtil.isNotBlank(phone), SysUser::getPhone, phone));
-		if (user == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
-		}
-		return R.ok(userService.getUserInfo(user));
+	public R info(UserDTO userDTO) {
+		return userService.getUserInfo(userDTO);
 	}
 
 	/**
@@ -89,11 +80,14 @@ public class SysUserController {
 	@GetMapping(value = { "/info" })
 	public R info() {
 		String username = SecurityUtils.getUser().getUsername();
-		SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
-		if (user == null) {
-			return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUsername(username);
+		// 获取用户信息，不返回数据库密码字段
+		R<UserInfo> userInfoR = userService.getUserInfo(userDTO);
+		if (userInfoR.getData() != null) {
+			userInfoR.getData().setPassword(null);
 		}
-		return R.ok(userService.getUserInfo(user));
+		return userInfoR;
 	}
 
 	/**

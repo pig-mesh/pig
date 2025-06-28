@@ -44,11 +44,12 @@ import java.util.List;
 public interface SysUserService extends IService<SysUser> {
 
 	/**
-	 * 查询用户信息
-	 * @param sysUser 用户
-	 * @return userInfo
+	 * 根据用户信息查询用户详情
+	 *
+	 * @param query 用户查询条件
+	 * @return 用户详细信息
 	 */
-	UserInfo getUserInfo(SysUser sysUser);
+	R<UserInfo> getUserInfo(UserDTO query);
 
 	/**
 	 * 分页查询用户信息（包含角色信息）
