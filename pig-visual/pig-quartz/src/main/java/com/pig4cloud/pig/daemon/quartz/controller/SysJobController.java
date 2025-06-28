@@ -75,7 +75,7 @@ public class SysJobController {
 	 */
 	@GetMapping("/page")
 	@Operation(description = "分页定时业务查询")
-	public R getSysJobPage(Page page, SysJob sysJob) {
+	public R getJobPage(Page page, SysJob sysJob) {
 		LambdaQueryWrapper<SysJob> wrapper = Wrappers.<SysJob>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName())
 			.like(StrUtil.isNotBlank(sysJob.getJobGroup()), SysJob::getJobGroup, sysJob.getJobGroup())
@@ -105,7 +105,7 @@ public class SysJobController {
 	@PostMapping
 	@HasPermission("job_sys_job_add")
 	@Operation(description = "新增定时任务")
-	public R save(@RequestBody SysJob sysJob) {
+	public R saveJob(@RequestBody SysJob sysJob) {
 		long count = sysJobService.count(
 				Wrappers.query(SysJob.builder().jobName(sysJob.getJobName()).jobGroup(sysJob.getJobGroup()).build()));
 
@@ -126,7 +126,7 @@ public class SysJobController {
 	@PutMapping
 	@HasPermission("job_sys_job_edit")
 	@Operation(description = "修改定时任务")
-	public R updateById(@RequestBody SysJob sysJob) {
+	public R updateJob(@RequestBody SysJob sysJob) {
 		sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
 		SysJob querySysJob = this.sysJobService.getById(sysJob.getJobId());
 		if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
@@ -307,7 +307,7 @@ public class SysJobController {
 	 */
 	@GetMapping("/job-log")
 	@Operation(description = "唯一标识查询定时执行日志")
-	public R getJobLog(Page page, SysJobLog sysJobLog) {
+	public R getJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
 
@@ -333,7 +333,7 @@ public class SysJobController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@Operation(description = "导出任务")
-	public List<SysJob> export(SysJob sysJob) {
+	public List<SysJob> exportJobs(SysJob sysJob) {
 		return sysJobService.list(Wrappers.query(sysJob));
 	}
 
