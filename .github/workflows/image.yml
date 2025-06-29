@@ -5,7 +5,7 @@ name: Docker 镜像 构建
 
 on:
   push:
-    branches: [ jdk17-dev ]
+    branches: [ master ]
 
 jobs:
   build:

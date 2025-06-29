@@ -5,9 +5,9 @@ name: maven 编译检查
 
 on:
   push:
-    branches: [ jdk17-dev,dev ]
+    branches: [ master,dev ]
   pull_request:
-    branches: [ jdk17-dev,dev ]
+    branches: [ master,dev ]
 
 jobs:
   build:
