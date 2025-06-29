@@ -30,7 +30,6 @@ public class SysSystemInfoController {
 
 	/**
 	 * 获取Redis缓存监控信息
-	 *
 	 * @return 包含Redis信息、数据库大小和命令统计的响应结果
 	 */
 	@GetMapping("/cache")

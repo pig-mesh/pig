@@ -42,12 +42,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	/**
 	 * 过滤器内部处理逻辑，用于验证码校验
-	 *
-	 * @param request     HTTP请求
-	 * @param response    HTTP响应
+	 * @param request HTTP请求
+	 * @param response HTTP响应
 	 * @param filterChain 过滤器链
 	 * @throws ServletException Servlet异常
-	 * @throws IOException      IO异常
+	 * @throws IOException IO异常
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -80,7 +79,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		try {
 			checkCode();
 			filterChain.doFilter(request, response);
-		} catch (ValidateCodeException validateCodeException) {
+		}
+		catch (ValidateCodeException validateCodeException) {
 			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
 		}
 	}

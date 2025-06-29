@@ -92,9 +92,8 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 授权码模式：认证页面
-	 *
 	 * @param modelAndView 视图模型对象
-	 * @param error        表单登录失败处理回调的错误信息
+	 * @param error 表单登录失败处理回调的错误信息
 	 * @return 包含登录页面视图和错误信息的ModelAndView对象
 	 */
 	@GetMapping("/token/login")
@@ -106,22 +105,21 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 授权码模式：确认页面
-	 *
-	 * @param principal    用户主体信息
+	 * @param principal 用户主体信息
 	 * @param modelAndView 模型和视图对象
-	 * @param clientId     客户端ID
-	 * @param scope        请求的权限范围
-	 * @param state        状态参数
+	 * @param clientId 客户端ID
+	 * @param scope 请求的权限范围
+	 * @param state 状态参数
 	 * @return 包含确认页面信息的ModelAndView对象
 	 */
 	@GetMapping("/oauth2/confirm_access")
 	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
-								@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-								@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-								@RequestParam(OAuth2ParameterNames.STATE) String state) {
+			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+			@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-				.getData()
-				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+			.getData()
+			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);
@@ -134,7 +132,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 注销并删除令牌
-	 *
 	 * @param authHeader 认证头信息，包含Bearer token
 	 * @return 返回操作结果，包含布尔值表示是否成功
 	 */
@@ -150,10 +147,9 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 检查令牌有效性
-	 *
-	 * @param token    待验证的令牌
+	 * @param token 待验证的令牌
 	 * @param response HTTP响应对象
-	 * @param request  HTTP请求对象
+	 * @param request HTTP请求对象
 	 * @throws InvalidBearerTokenException 令牌无效或缺失时抛出异常
 	 */
 	@SneakyThrows
@@ -184,7 +180,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 删除令牌
-	 *
 	 * @param token 令牌
 	 * @return 删除结果
 	 */
@@ -212,7 +207,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 分页查询令牌列表
-	 *
 	 * @param params 请求参数，包含分页参数current和size
 	 * @return 分页结果，包含令牌信息列表
 	 */
@@ -235,15 +229,15 @@ public class PigTokenEndpoint {
 
 		// 转换为TokenVo
 		List<TokenVo> tokenVoList = pagedAuthorizations.stream()
-				.filter(Objects::nonNull)
-				.map(this::convertToTokenVo)
-				.filter(tokenVo -> {
-					if (StrUtil.isBlank(username)) {
-						return true;
-					}
-					return StrUtil.startWithAnyIgnoreCase(tokenVo.getUsername(), username);
-				})
-				.toList();
+			.filter(Objects::nonNull)
+			.map(this::convertToTokenVo)
+			.filter(tokenVo -> {
+				if (StrUtil.isBlank(username)) {
+					return true;
+				}
+				return StrUtil.startWithAnyIgnoreCase(tokenVo.getUsername(), username);
+			})
+			.toList();
 
 		if (StrUtil.isNotBlank(username)) {
 			result.setTotal(tokenVoList.size());
@@ -255,7 +249,6 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 将OAuth2Authorization转换为TokenVo
-	 *
 	 * @param authorization OAuth2授权对象
 	 * @return TokenVo对象
 	 */
