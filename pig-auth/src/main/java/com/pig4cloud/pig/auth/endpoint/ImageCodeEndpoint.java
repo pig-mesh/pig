@@ -4,10 +4,10 @@ import cn.hutool.core.lang.Validator;
 import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.util.RedisUtils;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,8 +29,6 @@ public class ImageCodeEndpoint {
 
 	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-	private final RedisTemplate redisTemplate;
-
 	/**
 	 * 创建图形验证码并输出到响应流
 	 * @param randomStr 随机字符串，用于缓存验证码
@@ -46,8 +44,7 @@ public class ImageCodeEndpoint {
 		}
 
 		String result = captcha.text();
-		redisTemplate.opsForValue()
-			.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 		// 转换流信息写出
 		captcha.out(response.getOutputStream());
 	}

@@ -28,12 +28,12 @@ import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.RedisUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.sms4j.api.SmsBlend;
 import org.dromara.sms4j.api.entity.SmsResponse;
 import org.dromara.sms4j.core.factory.SmsFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
@@ -53,8 +53,6 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class SysMobileServiceImpl implements SysMobileService {
 
-	private final RedisTemplate redisTemplate;
-
 	private final SysUserMapper userMapper;
 
 	/**
@@ -72,7 +70,8 @@ public class SysMobileServiceImpl implements SysMobileService {
 			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
 		}
 
-		Object codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + mobile);
+		String cacheKey = CacheConstants.DEFAULT_CODE_KEY + mobile;
+		String codeObj = RedisUtils.get(cacheKey);
 
 		if (codeObj != null) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -81,8 +80,7 @@ public class SysMobileServiceImpl implements SysMobileService {
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.info("手机号生成验证码成功:{},{}", mobile, code);
-		redisTemplate.opsForValue()
-			.set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		RedisUtils.set(cacheKey, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
 		// 集成短信服务发送验证码
 		SmsBlend smsBlend = SmsFactory.getSmsBlend();

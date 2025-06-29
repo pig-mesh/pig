@@ -11,7 +11,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.core.util.RedisUtils;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -19,7 +19,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
@@ -43,11 +42,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	/**
 	 * 过滤器内部处理逻辑，用于验证码校验
-	 * @param request HTTP请求
-	 * @param response HTTP响应
+	 *
+	 * @param request     HTTP请求
+	 * @param response    HTTP响应
 	 * @param filterChain 过滤器链
 	 * @throws ServletException Servlet异常
-	 * @throws IOException IO异常
+	 * @throws IOException      IO异常
 	 */
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -80,8 +80,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		try {
 			checkCode();
 			filterChain.doFilter(request, response);
-		}
-		catch (ValidateCodeException validateCodeException) {
+		} catch (ValidateCodeException validateCodeException) {
 			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
 		}
 	}
@@ -106,29 +105,21 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		}
 
 		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		RedisTemplate<String, String> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
-		if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
+		if (!RedisUtils.hasKey(key)) {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		Object codeObj = redisTemplate.opsForValue().get(key);
+		String saveCode = RedisUtils.get(key);
 
-		if (codeObj == null) {
-			throw new ValidateCodeException("验证码不合法");
-		}
-
-		String saveCode = codeObj.toString();
 		if (StrUtil.isBlank(saveCode)) {
-			redisTemplate.delete(key);
+			RedisUtils.delete(key);
 			throw new ValidateCodeException("验证码不合法");
 		}
 
 		if (!StrUtil.equals(saveCode, code)) {
-			redisTemplate.delete(key);
+			RedisUtils.delete(key);
 			throw new ValidateCodeException("验证码不合法");
 		}
-
-		redisTemplate.delete(key);
 	}
 
 }

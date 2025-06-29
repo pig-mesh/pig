@@ -27,7 +27,9 @@ import com.pig4cloud.pig.admin.api.vo.TokenVo;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.RedisUtils;
 import com.pig4cloud.pig.common.core.util.RetOps;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
@@ -40,7 +42,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -64,8 +65,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * OAuth2 令牌端点控制器，提供令牌相关操作
@@ -87,14 +88,13 @@ public class PigTokenEndpoint {
 
 	private final RemoteClientDetailsService clientDetailsService;
 
-	private final RedisTemplate<String, Object> redisTemplate;
-
 	private final CacheManager cacheManager;
 
 	/**
 	 * 授权码模式：认证页面
+	 *
 	 * @param modelAndView 视图模型对象
-	 * @param error 表单登录失败处理回调的错误信息
+	 * @param error        表单登录失败处理回调的错误信息
 	 * @return 包含登录页面视图和错误信息的ModelAndView对象
 	 */
 	@GetMapping("/token/login")
@@ -106,21 +106,22 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 授权码模式：确认页面
-	 * @param principal 用户主体信息
+	 *
+	 * @param principal    用户主体信息
 	 * @param modelAndView 模型和视图对象
-	 * @param clientId 客户端ID
-	 * @param scope 请求的权限范围
-	 * @param state 状态参数
+	 * @param clientId     客户端ID
+	 * @param scope        请求的权限范围
+	 * @param state        状态参数
 	 * @return 包含确认页面信息的ModelAndView对象
 	 */
 	@GetMapping("/oauth2/confirm_access")
 	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
-			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-			@RequestParam(OAuth2ParameterNames.STATE) String state) {
+								@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+								@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+								@RequestParam(OAuth2ParameterNames.STATE) String state) {
 		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-			.getData()
-			.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+				.getData()
+				.orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		modelAndView.addObject("clientId", clientId);
@@ -133,6 +134,7 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 注销并删除令牌
+	 *
 	 * @param authHeader 认证头信息，包含Bearer token
 	 * @return 返回操作结果，包含布尔值表示是否成功
 	 */
@@ -148,9 +150,10 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 检查令牌有效性
-	 * @param token 待验证的令牌
+	 *
+	 * @param token    待验证的令牌
 	 * @param response HTTP响应对象
-	 * @param request HTTP请求对象
+	 * @param request  HTTP请求对象
 	 * @throws InvalidBearerTokenException 令牌无效或缺失时抛出异常
 	 */
 	@SneakyThrows
@@ -181,6 +184,7 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 删除令牌
+	 *
 	 * @param token 令牌
 	 * @return 删除结果
 	 */
@@ -208,6 +212,7 @@ public class PigTokenEndpoint {
 
 	/**
 	 * 分页查询令牌列表
+	 *
 	 * @param params 请求参数，包含分页参数current和size
 	 * @return 分页结果，包含令牌信息列表
 	 */
@@ -215,34 +220,61 @@ public class PigTokenEndpoint {
 	@PostMapping("/token/page")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
-		String key = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
+		String username = MapUtil.getStr(params, SecurityConstants.USERNAME);
+		String pattern = String.format("%s::*", CacheConstants.PROJECT_OAUTH_ACCESS);
 		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
 		int size = MapUtil.getInt(params, CommonConstants.SIZE);
-		Set<String> keys = redisTemplate.keys(key);
-		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
 		Page result = new Page(current, size);
 
-		List<TokenVo> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
-			OAuth2Authorization authorization = (OAuth2Authorization) obj;
-			TokenVo tokenVo = new TokenVo();
-			tokenVo.setClientId(authorization.getRegisteredClientId());
-			tokenVo.setId(authorization.getId());
-			tokenVo.setUsername(authorization.getPrincipalName());
-			OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-			tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
+		// 获取总数
+		List<String> allKeys = RedisUtils.scan(pattern);
+		result.setTotal(allKeys.size());
 
-			String expiresAt = TemporalAccessorUtil.format(accessToken.getToken().getExpiresAt(),
-					DatePattern.NORM_DATETIME_PATTERN);
-			tokenVo.setExpiresAt(expiresAt);
+		List<String> pageKeys = RedisUtils.findKeysForPage(pattern, current - 1, size);
+		List<OAuth2Authorization> pagedAuthorizations = RedisUtils.multiGet(pageKeys);
 
-			String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
-					DatePattern.NORM_DATETIME_PATTERN);
-			tokenVo.setIssuedAt(issuedAt);
-			return tokenVo;
-		}).toList();
+		// 转换为TokenVo
+		List<TokenVo> tokenVoList = pagedAuthorizations.stream()
+				.filter(Objects::nonNull)
+				.map(this::convertToTokenVo)
+				.filter(tokenVo -> {
+					if (StrUtil.isBlank(username)) {
+						return true;
+					}
+					return StrUtil.startWithAnyIgnoreCase(tokenVo.getUsername(), username);
+				})
+				.toList();
+
+		if (StrUtil.isNotBlank(username)) {
+			result.setTotal(tokenVoList.size());
+		}
+
 		result.setRecords(tokenVoList);
-		result.setTotal(keys.size());
 		return R.ok(result);
+	}
+
+	/**
+	 * 将OAuth2Authorization转换为TokenVo
+	 *
+	 * @param authorization OAuth2授权对象
+	 * @return TokenVo对象
+	 */
+	private TokenVo convertToTokenVo(OAuth2Authorization authorization) {
+		TokenVo tokenVo = new TokenVo();
+		tokenVo.setClientId(authorization.getRegisteredClientId());
+		tokenVo.setId(authorization.getId());
+		tokenVo.setUsername(authorization.getPrincipalName());
+		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
+		tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
+
+		String expiresAt = TemporalAccessorUtil.format(accessToken.getToken().getExpiresAt(),
+				DatePattern.NORM_DATETIME_PATTERN);
+		tokenVo.setExpiresAt(expiresAt);
+
+		String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
+				DatePattern.NORM_DATETIME_PATTERN);
+		tokenVo.setIssuedAt(issuedAt);
+		return tokenVo;
 	}
 
 }

@@ -69,6 +69,19 @@ public class RedisUtils {
 	}
 
 	/**
+	 * 查找匹配key (使用KEYS命令)
+	 * @param pattern key模式，支持通配符 * ? [] 等
+	 * @return 匹配的key列表
+	 * @apiNote 注意：KEYS命令会阻塞Redis服务器，生产环境建议使用scan方法
+	 */
+	public Set<String> keys(String pattern) {
+		RedisTemplate<String, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return Optional.ofNullable(redisTemplate)
+			.map(template -> template.keys(pattern))
+			.orElse(Collections.emptySet());
+	}
+
+	/**
 	 * 分页查询 key
 	 * @param patternKey key
 	 * @param page 页码
@@ -116,7 +129,7 @@ public class RedisUtils {
 	 * 删除缓存
 	 * @param keys 可以传一个值 或多个
 	 */
-	public void del(String... keys) {
+	public void delete(String... keys) {
 		RedisTemplate<Object, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
 		if (keys != null) {
 			Arrays.stream(keys).forEach(redisTemplate::delete);
@@ -230,6 +243,17 @@ public class RedisUtils {
 			return true;
 		});
 		return true;
+	}
+
+	/**
+	 * 执行 Redis 命令回调
+	 * @param callback Redis回调函数
+	 * @return 执行结果
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T execute(RedisCallback<T> callback) {
+		RedisTemplate<String, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+		return (T) redisTemplate.execute(callback);
 	}
 
 	// ================================Map=================================
