@@ -274,28 +274,28 @@ CREATE TABLE `gen_template_group` (
 -- Records of gen_template_group
 -- ----------------------------
 BEGIN;
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079920092708866);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079920327589889);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079920554082306);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079920784769026);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079920998678529);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079921220976642);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079921443274753);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079921673961473);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079921900453889);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079919874605057, 1934079922147917825);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079922437324801);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079922659622913);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079922873532418);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079923095830529);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079923313934337);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079923536232449);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079923766919169);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079923989217282);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079924215709698);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079924450590722);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079924681277442);
-INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1934079922223415298, 1934079924903575554);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079920092708866);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079920327589889);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079920554082306);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079920784769026);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079920998678529);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079921220976642);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079921443274753);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079921673961473);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079921900453889);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (1, 1934079922147917825);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079922437324801);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079922659622913);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079922873532418);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079923095830529);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079923313934337);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079923536232449);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079923766919169);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079923989217282);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079924215709698);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079924450590722);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079924681277442);
+INSERT INTO `gen_template_group` (`group_id`, `template_id`) VALUES (2, 1934079924903575554);
 COMMIT;
 
 -- ----------------------------
