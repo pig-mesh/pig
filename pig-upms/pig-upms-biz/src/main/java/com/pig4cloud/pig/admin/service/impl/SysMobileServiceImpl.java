@@ -59,14 +59,13 @@ public class SysMobileServiceImpl implements SysMobileService {
 
 	/**
 	 * 发送手机验证码
-	 *
 	 * @param mobile 手机号码
 	 * @return 返回操作结果，包含验证码发送状态及验证码信息
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {
 		List<SysUser> userList = userMapper
-				.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
+			.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", mobile);
@@ -83,7 +82,7 @@ public class SysMobileServiceImpl implements SysMobileService {
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.info("手机号生成验证码成功:{},{}", mobile, code);
 		redisTemplate.opsForValue()
-				.set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+			.set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
 
 		// 集成短信服务发送验证码
 		SmsBlend smsBlend = SmsFactory.getSmsBlend();
