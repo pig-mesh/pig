@@ -33,7 +33,6 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 保存OAuth2授权信息到Redis
-	 *
 	 * @param authorization 授权信息对象，不能为null
 	 * @throws IllegalArgumentException 当authorization为null时抛出异常
 	 */
@@ -48,32 +47,31 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 		if (isCode(authorization)) {
 			OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-					.getToken(OAuth2AuthorizationCode.class);
+				.getToken(OAuth2AuthorizationCode.class);
 			OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
 			long between = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
 					authorizationCodeToken.getExpiresAt());
-			RedisUtils.set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()),
-					authorization, between, TimeUnit.MINUTES);
+			RedisUtils.set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization,
+					between, TimeUnit.MINUTES);
 		}
 
 		if (isRefreshToken(authorization)) {
 			OAuth2RefreshToken refreshToken = authorization.getRefreshToken().getToken();
 			long between = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
-			RedisUtils.set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()),
-					authorization, between, TimeUnit.SECONDS);
+			RedisUtils.set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization,
+					between, TimeUnit.SECONDS);
 		}
 
 		if (isAccessToken(authorization)) {
 			OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
 			long between = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
-			RedisUtils.set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()),
-					authorization, between, TimeUnit.SECONDS);
+			RedisUtils.set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization,
+					between, TimeUnit.SECONDS);
 		}
 	}
 
 	/**
 	 * 移除OAuth2授权信息
-	 *
 	 * @param authorization 要移除的授权信息，不能为null
 	 * @throws IllegalArgumentException 当authorization为null时抛出
 	 */
@@ -89,7 +87,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 		if (isCode(authorization)) {
 			OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-					.getToken(OAuth2AuthorizationCode.class);
+				.getToken(OAuth2AuthorizationCode.class);
 			OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
 			keys.add(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()));
 		}
@@ -108,7 +106,6 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 根据ID查询OAuth2授权信息
-	 *
 	 * @param id 授权ID
 	 * @return 授权信息，可能为null
 	 * @throws UnsupportedOperationException 当前不支持此操作
@@ -121,8 +118,7 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 根据token和token类型查询OAuth2授权信息
-	 *
-	 * @param token     token值
+	 * @param token token值
 	 * @param tokenType token类型，不能为null
 	 * @return 授权信息对象，可能为null
 	 * @throws IllegalArgumentException 当token为空或tokenType为null时抛出
@@ -137,9 +133,8 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 构建key
-	 *
 	 * @param type 类型
-	 * @param id   ID
+	 * @param id ID
 	 * @return 拼接后的key字符串
 	 */
 	private String buildKey(String type, String id) {
@@ -148,7 +143,6 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 检查授权对象是否包含state属性
-	 *
 	 * @param authorization 授权对象
 	 * @return 如果包含state属性返回true，否则返回false
 	 */
@@ -158,19 +152,17 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 检查授权对象是否包含授权码
-	 *
 	 * @param authorization 授权对象
 	 * @return 如果包含授权码返回true，否则返回false
 	 */
 	private static boolean isCode(OAuth2Authorization authorization) {
 		OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode = authorization
-				.getToken(OAuth2AuthorizationCode.class);
+			.getToken(OAuth2AuthorizationCode.class);
 		return Objects.nonNull(authorizationCode);
 	}
 
 	/**
 	 * 判断授权是否包含刷新令牌
-	 *
 	 * @param authorization 授权信息
 	 * @return 如果包含刷新令牌返回true，否则返回false
 	 */
@@ -180,7 +172,6 @@ public class PigRedisOAuth2AuthorizationService implements OAuth2AuthorizationSe
 
 	/**
 	 * 判断授权对象是否包含访问令牌
-	 *
 	 * @param authorization 授权对象
 	 * @return 如果包含访问令牌返回true，否则返回false
 	 */
