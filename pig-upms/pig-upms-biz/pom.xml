@@ -79,10 +79,10 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- 阿里云短信下发 -->
+        <!-- 短信下发 -->
         <dependency>
-            <groupId>io.springboot.sms</groupId>
-            <artifactId>aliyun-sms-spring-boot-starter</artifactId>
+			<groupId>org.dromara.sms4j</groupId>
+			<artifactId>sms4j-spring-boot-starter</artifactId>
         </dependency>
         <!--xss 过滤-->
         <dependency>

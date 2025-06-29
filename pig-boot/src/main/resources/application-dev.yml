@@ -32,6 +32,7 @@ jasypt:
     algorithm: PBEWithMD5AndDES  # 加密算法
     iv-generator-classname: org.jasypt.iv.NoIvGenerator # 无向量生成器
 
-# swagger 配置
-swagger:
-  token-url: ${swagger.gateway}/admin/oauth2/token
+# 短信插件配置：https://www.yuque.com/vxixfq/pig/zw8udk
+sms:
+  is-print: false # 是否打印日志
+  config-type: yaml # 配置类型，yaml

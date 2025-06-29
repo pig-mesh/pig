@@ -98,4 +98,8 @@ public interface ErrorCodes {
 	 */
 	String SYS_APP_PHONE_UNREGISTERED = "sys.app.phone.unregistered";
 
+	/**
+	 * 未注册用户的短信混合系统配置键
+	 */
+	String SYS_SMS_BLEND_UNREGISTERED = "sys.app.sms.blend.unregistered";
 }

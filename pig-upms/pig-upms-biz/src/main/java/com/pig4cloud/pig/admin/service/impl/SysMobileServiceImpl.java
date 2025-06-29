@@ -30,10 +30,16 @@ import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.dromara.sms4j.api.SmsBlend;
+import org.dromara.sms4j.api.entity.SmsResponse;
+import org.dromara.sms4j.core.factory.SmsFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -53,13 +59,14 @@ public class SysMobileServiceImpl implements SysMobileService {
 
 	/**
 	 * 发送手机验证码
+	 *
 	 * @param mobile 手机号码
 	 * @return 返回操作结果，包含验证码发送状态及验证码信息
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {
 		List<SysUser> userList = userMapper
-			.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
+				.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile));
 
 		if (CollUtil.isEmpty(userList)) {
 			log.info("手机号未注册:{}", mobile);
@@ -74,10 +81,19 @@ public class SysMobileServiceImpl implements SysMobileService {
 		}
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
-		log.debug("手机号生成验证码成功:{},{}", mobile, code);
+		log.info("手机号生成验证码成功:{},{}", mobile, code);
 		redisTemplate.opsForValue()
-			.set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
-		return R.ok(Boolean.TRUE, code);
+				.set(CacheConstants.DEFAULT_CODE_KEY + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+
+		// 集成短信服务发送验证码
+		SmsBlend smsBlend = SmsFactory.getSmsBlend();
+		if (Objects.isNull(smsBlend)) {
+			return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_SMS_BLEND_UNREGISTERED));
+		}
+
+		SmsResponse smsResponse = smsBlend.sendMessage(mobile, new LinkedHashMap<>(Map.of("code", code)));
+		log.debug("调用短信服务发送验证码结果:{}", smsResponse);
+		return R.ok(Boolean.TRUE);
 	}
 
 }

@@ -30,7 +30,7 @@
         <seata.version>1.7.0</seata.version>
         <excel.version>3.4.2</excel.version>
         <asm.version>7.1</asm.version>
-        <sms.version>3.0.0</sms.version>
+        <sms.version>3.3.5</sms.version>
         <jaxb.version>2.3.5</jaxb.version>
         <shardingsphere.version>5.4.1</shardingsphere.version>
         <hutool.version>5.8.38</hutool.version>
@@ -153,12 +153,12 @@
                 <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
                 <version>${dynamic-ds.version}</version>
             </dependency>
-            <!--  阿里云短信下发 -->
-            <dependency>
-                <groupId>io.springboot.sms</groupId>
-                <artifactId>aliyun-sms-spring-boot-starter</artifactId>
-                <version>${sms.version}</version>
-            </dependency>
+            <!--  短信工具：https://sms4j.com -->
+			<dependency>
+				<groupId>org.dromara.sms4j</groupId>
+				<artifactId>sms4j-spring-boot-starter</artifactId>
+				<version>${sms.version}</version>
+			</dependency>
             <!--orm 相关-->
             <dependency>
                 <groupId>com.baomidou</groupId>
