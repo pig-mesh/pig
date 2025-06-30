@@ -17,9 +17,6 @@
 
 package com.pig4cloud.pigx.common.data.cache;
 
-import cn.hutool.core.util.ReflectUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pigx.common.core.jackson.PigxJavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -46,14 +43,8 @@ public class RedisTemplateConfiguration {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 		redisTemplate.setKeySerializer(RedisSerializer.string());
 		redisTemplate.setHashKeySerializer(RedisSerializer.string());
-
-		// 设置 redisTemplate 的序列化器为 json
-		RedisSerializer<Object> jsonRedisSerializer = RedisSerializer.json();
-		ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(jsonRedisSerializer, "mapper");
-		objectMapper.registerModules(new PigxJavaTimeModule());
-		redisTemplate.setValueSerializer(jsonRedisSerializer);
-		redisTemplate.setHashValueSerializer(jsonRedisSerializer);
-
+		redisTemplate.setValueSerializer(RedisSerializer.java());
+		redisTemplate.setHashValueSerializer(RedisSerializer.java());
 		redisTemplate.setConnectionFactory(redisConnectionFactory);
 		return redisTemplate;
 	}

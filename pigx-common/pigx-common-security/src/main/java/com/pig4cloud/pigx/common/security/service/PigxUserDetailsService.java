@@ -16,9 +16,7 @@
  */
 package com.pig4cloud.pigx.common.security.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
@@ -30,7 +28,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author lengleng
@@ -86,24 +87,23 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
      */
     default UserDetails convertUserDetails(UserInfo info) {
         Set<String> dbAuthsSet = new HashSet<>();
-        if (ArrayUtil.isNotEmpty(info.getRoles())) {
-            // 获取角色
-            Arrays.stream(info.getRoles()).forEach(roleId -> dbAuthsSet.add(SecurityConstants.ROLE + roleId));
-            // 获取资源
-            dbAuthsSet.addAll(Arrays.asList(info.getPermissions()));
 
-        }
-        Collection<? extends GrantedAuthority> authorities = AuthorityUtils
+        // 维护角色列表
+        info.getRoleList().forEach(role -> dbAuthsSet.add(SecurityConstants.ROLE + role.getRoleId()));
+
+        // 维护权限列表
+        dbAuthsSet.addAll(info.getPermissions());
+        Collection<GrantedAuthority> authorities = AuthorityUtils
                 .createAuthorityList(dbAuthsSet.toArray(new String[0]));
-        SysUser user = info.getSysUser();
+
 
         // 构造security用户
-        return new PigxUser(user.getUserId(), user.getUsername(), info.getDeptId(), user.getPhone(), user.getAvatar(),
-                user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
-                SecurityConstants.BCRYPT + user.getPassword()
+        return new PigxUser(info.getUserId(), info.getUsername(), info.getDeptList().get(0).getDeptId(), info.getPhone(), info.getAvatar(),
+                info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
+                SecurityConstants.BCRYPT + info.getPassword()
                 , true, true, UserTypeEnum.TOB.getStatus()
-                , !CommonConstants.STATUS_LOCK.equals(user.getPasswordExpireFlag()) // 密码过期判断
-                , !CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);
+                , !CommonConstants.STATUS_LOCK.equals(info.getPasswordExpireFlag()) // 密码过期判断
+                , !CommonConstants.STATUS_LOCK.equals(info.getLockFlag()), authorities);
     }
 
     /**
