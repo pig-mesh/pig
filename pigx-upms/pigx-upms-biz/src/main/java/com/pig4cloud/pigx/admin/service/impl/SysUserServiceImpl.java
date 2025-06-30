@@ -150,9 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             SysUserDept sysUserDept = new SysUserDept();
             sysUserDept.setUserId(sysUser.getUserId());
             sysUserDept.setDeptId(userDto.getDeptId());
-            sysUserDeptMapper.insertOrUpdate(List.of(sysUserDept), (batchSqlSession, sysUserDept1) -> sysUserDeptMapper.exists(Wrappers.<SysUserDept>lambdaQuery()
-                    .eq(SysUserDept::getDeptId, userDto.getDeptId())
-                    .eq(SysUserDept::getUserId, sysUserDept1.getUserId())));
+            sysUserDeptMapper.insert(sysUserDept);
         }
 
         // 插入用户租户关系表
