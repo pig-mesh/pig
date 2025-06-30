@@ -29,12 +29,11 @@ import com.pig4cloud.pigx.admin.api.vo.TokenVO;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
-import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.OAuthClientException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -48,7 +47,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
@@ -82,8 +80,6 @@ public class PigxTokenEndpoint {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final RemoteTenantService tenantService;
-
-    private final KeyStrResolver tenantKeyStrResolver;
 
     private final CacheManager cacheManager;
 
@@ -172,9 +168,10 @@ public class PigxTokenEndpoint {
     }
 
     /**
-     * 令牌管理调用
+     * 移除指定令牌
      *
-     * @param token token
+     * @param token 需要移除的令牌
+     * @return 操作结果，成功返回true
      */
     @Inner
     @DeleteMapping("/token/remove/{token}")
@@ -199,57 +196,52 @@ public class PigxTokenEndpoint {
     }
 
     /**
-     * 查询token
+     * 分页查询token列表
      *
-     * @param params 分页参数
-     * @return
+     * @param params 查询参数，包含分页参数(current,size)和可选用户名过滤条件(username)
+     * @return 分页结果，包含token列表和总数
      */
     @Inner
     @PostMapping("/token/page")
     public R<Page<TokenVO>> tokenList(@RequestBody Map<String, Object> params) {
-        // 根据分页参数获取对应数据
-        String key = String.format("%s::%s::*", tenantKeyStrResolver.key(), CacheConstants.PROJECT_OAUTH_ACCESS);
+        // 根据username参数获取对应数据
+        String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
+        String usernameKey = String.format("token::username::%s*::*::%s::*", username, TenantContextHolder.getTenantId());
+        String key = String.format("token::username::*::*::%s::*", TenantContextHolder.getTenantId());
         int current = MapUtil.getInt(params, CommonConstants.CURRENT);
         int size = MapUtil.getInt(params, CommonConstants.SIZE);
-        Set<String> keys = redisTemplate.keys(key);
+
+        // 根据是否有username参数选择不同的查询key
+        String searchKey = StrUtil.isNotBlank(username) ? usernameKey : key;
+        Set<String> keys = redisTemplate.keys(searchKey);
+
+        // 分页处理
         List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
         Page<TokenVO> result = new Page(current, size);
 
-        List<TokenVO> tokenVoList = redisTemplate.opsForValue().multiGet(pages).stream().map(obj -> {
-            OAuth2Authorization authorization = (OAuth2Authorization) obj;
+        List<TokenVO> tokenVoList = pages.stream().map(keyName -> {
+            // 从key名称解析信息: token::username::{username}::{tenantId}::{tokenId}
+            String[] keyParts = keyName.split("::");
+            if (keyParts.length < 6) {
+                return null;
+            }
+
             TokenVO tokenVo = new TokenVO();
-            tokenVo.setClientId(authorization.getRegisteredClientId());
-            tokenVo.setId(authorization.getId());
-            tokenVo.setUsername(authorization.getPrincipalName());
-            OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-            tokenVo.setAccessToken(accessToken.getToken().getTokenValue());
-
-            String expiresAt = TemporalAccessorUtil.format(accessToken.getToken().getExpiresAt(),
-                    DatePattern.NORM_DATETIME_PATTERN);
+            // 从key解析username
+            String keyUsername = keyParts[2];
+            tokenVo.setUsername(keyUsername);
+            tokenVo.setClientId(keyParts[3]);
+            tokenVo.setId(keyParts[5]);
+            tokenVo.setAccessToken(keyParts[5]);
+            // 获取TTL作为过期时间
+            Long ttl = redisTemplate.getExpire(keyName);
+            // TTL是秒数，转换为过期时间
+            long expiresAtMillis = System.currentTimeMillis() + (ttl * 1000);
+            String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis), DatePattern.NORM_DATETIME_PATTERN);
             tokenVo.setExpiresAt(expiresAt);
-
-            String issuedAt = TemporalAccessorUtil.format(accessToken.getToken().getIssuedAt(),
-                    DatePattern.NORM_DATETIME_PATTERN);
-            tokenVo.setIssuedAt(issuedAt);
-
-            Map<String, Object> attributes = authorization.getAttributes();
-            Authentication authentication = (Authentication) attributes.get(Principal.class.getName());
-
-            if (Objects.isNull(authentication)) {
-                return tokenVo;
-            }
-
-            PigxUser pigxUser = (PigxUser) authentication.getPrincipal();
-            tokenVo.setUserId(pigxUser.getId());
             return tokenVo;
-        }).filter(tokenVo -> {
-            // 根据用户名过滤
-            String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
-            if (StrUtil.isBlank(username)) {
-                return true;
-            }
-            return tokenVo.getUsername().contains(username);
-        }).toList();
+        }).filter(Objects::nonNull).toList();
+
         result.setRecords(tokenVoList);
         result.setTotal(keys.size());
         return R.ok(result);

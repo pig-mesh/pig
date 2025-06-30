@@ -58,11 +58,11 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
     private Supplier<String> refreshTokenGenerator;
 
     /**
-     * Constructs an {@code OAuth2AuthorizationCodeAuthenticationProvider} using the
-     * provided parameters.
+     * 构造一个基于资源所有者密码模式的OAuth2认证提供者
      *
-     * @param authorizationService the authorization service
-     * @param tokenGenerator       the token generator
+     * @param authenticationManager 认证管理器
+     * @param authorizationService  授权服务
+     * @param tokenGenerator        令牌生成器
      * @since 0.2.3
      */
     public OAuth2ResourceOwnerBaseAuthenticationProvider(AuthenticationManager authenticationManager,
@@ -87,32 +87,28 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
     public abstract UsernamePasswordAuthenticationToken buildToken(Map<String, Object> reqParameters);
 
     /**
-     * 当前provider是否支持此令牌类型
+     * 判断当前provider是否支持指定的令牌类型
      *
-     * @param authentication
-     * @return
+     * @param authentication 要检查的令牌类型
+     * @return 如果支持则返回true，否则返回false
      */
     @Override
     public abstract boolean supports(Class<?> authentication);
 
     /**
-     * 当前的请求客户端是否支持此模式
+     * 检查当前请求客户端是否支持此模式
      *
-     * @param registeredClient
+     * @param registeredClient 已注册的客户端
      */
     public abstract void checkClient(RegisteredClient registeredClient);
 
     /**
-     * Performs authentication with the same contract as
-     * {@link AuthenticationManager#authenticate(Authentication)} .
+     * 执行身份验证，与{@link AuthenticationManager#authenticate(Authentication)}具有相同契约
      *
-     * @param authentication the authentication request object.
-     * @return a fully authenticated object including credentials. May return
-     * <code>null</code> if the <code>AuthenticationProvider</code> is unable to support
-     * authentication of the passed <code>Authentication</code> object. In such a case,
-     * the next <code>AuthenticationProvider</code> that supports the presented
-     * <code>Authentication</code> class will be tried.
-     * @throws AuthenticationException if authentication fails.
+     * @param authentication 身份验证请求对象
+     * @return 包含凭据的完全认证对象，如果无法支持传入的认证对象则可能返回null
+     * @throws AuthenticationException       身份验证失败时抛出
+     * @throws OAuth2AuthenticationException 当scope无效或服务器错误时抛出
      */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -173,14 +169,15 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
     }
 
     /**
-     * 生成新的令牌
+     * 生成OAuth2访问令牌认证令牌
      *
-     * @param resouceOwnerBaseAuthentication
-     * @param clientPrincipal
-     * @param registeredClient
-     * @param authorizedScopes
-     * @param usernamePasswordAuthentication
-     * @return OAuth2AccessTokenAuthenticationToken
+     * @param resouceOwnerBaseAuthentication 资源所有者基础认证信息
+     * @param clientPrincipal                客户端认证主体
+     * @param registeredClient               已注册的客户端信息
+     * @param authorizedScopes               授权范围集合
+     * @param usernamePasswordAuthentication 用户名密码认证信息
+     * @return OAuth2访问令牌认证令牌
+     * @throws OAuth2AuthenticationException 令牌生成失败时抛出异常
      */
     @NotNull
     private OAuth2AccessTokenAuthenticationToken generatAuthenticationToken(T resouceOwnerBaseAuthentication,
