@@ -43,105 +43,148 @@ import java.util.function.Supplier;
 @UtilityClass
 public class TenantBroker {
 
-	@FunctionalInterface
-	public interface RunAs<T> {
+    /**
+     * 以指定租户身份执行操作
+     *
+     * @param tenant 租户ID
+     * @param func   需要执行的操作
+     * @throws TenantBrokerExceptionWrapper 执行过程中发生异常时抛出
+     */
+    public void runAs(Long tenant, RunAs<Long> func) {
+        final Long pre = TenantContextHolder.getTenantId();
+        try {
+            log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
+            TenantContextHolder.setTenantId(tenant);
+            func.run(tenant);
+        } catch (Exception e) {
+            throw new TenantBrokerExceptionWrapper(e.getMessage(), e);
+        } finally {
+            log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
+            TenantContextHolder.setTenantId(pre);
+        }
+    }
 
-		/**
-		 * 执行业务逻辑
-		 * @param tenantId
-		 * @throws Exception
-		 */
-		void run(T tenantId) throws Exception;
+    /**
+     * 以指定租户身份执行操作
+     *
+     * @param tenant 租户ID
+     * @param func   需要执行的操作函数
+     * @param <T>    操作返回的数据类型
+     * @return 操作函数的执行结果
+     * @throws TenantBrokerExceptionWrapper 执行过程中发生异常时抛出
+     */
+    public <T> T applyAs(Long tenant, ApplyAs<Long, T> func) {
+        final Long pre = TenantContextHolder.getTenantId();
+        try {
+            log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
+            TenantContextHolder.setTenantId(tenant);
+            return func.apply(tenant);
+        } catch (Exception e) {
+            throw new TenantBrokerExceptionWrapper(e.getMessage(), e);
+        } finally {
+            log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
+            TenantContextHolder.setTenantId(pre);
+        }
+    }
 
-	}
+    /**
+     * 以指定租户的身份执行操作
+     *
+     * @param supplier 租户ID提供者
+     * @param func     要执行的操作
+     */
+    public void runAs(Supplier<Long> supplier, RunAs<Long> func) {
+        runAs(supplier.get(), func);
+    }
 
-	@FunctionalInterface
-	public interface ApplyAs<T, R> {
+    /**
+     * 执行给定的NoneAs操作，临时跳过租户上下文
+     *
+     * @param noneAs 要执行的操作
+     * @param <T>    返回值的类型
+     * @return 操作执行结果
+     * @throws TenantBrokerExceptionWrapper 执行过程中\发生异常时抛出
+     */
+    public <T> T noneAs(NoneAs<T> noneAs) {
+        try {
+            TenantContextHolder.setTenantSkip();
+            return noneAs.run();
+        } catch (Exception e) {
+            throw new TenantBrokerExceptionWrapper(e.getMessage(), e);
+        } finally {
+            TenantContextHolder.unsetTenantSkip();
+        }
+    }
 
-		/**
-		 * 执行业务逻辑,返回一个值
-		 * @param tenantId
-		 * @return
-		 * @throws Exception
-		 */
-		R apply(T tenantId) throws Exception;
+    /**
+     * 以指定租户的身份执行操作
+     *
+     * @param supplier 租户ID提供者
+     * @param func     要执行的操作函数
+     * @param <T>      返回数据的类型
+     * @return 操作函数的执行结果
+     */
+    public <T> T applyAs(Supplier<Long> supplier, ApplyAs<Long, T> func) {
+        return applyAs(supplier.get(), func);
+    }
 
-	}
+    @FunctionalInterface
+    public interface RunAs<T> {
 
-	/**
-	 * 以某个租户的身份运行
-	 * @param tenant 租户ID
-	 * @param func
-	 */
-	public void runAs(Long tenant, RunAs<Long> func) {
-		final Long pre = TenantContextHolder.getTenantId();
-		try {
-			log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
-			TenantContextHolder.setTenantId(tenant);
-			func.run(tenant);
-		}
-		catch (Exception e) {
-			throw new TenantBrokerExceptionWrapper(e.getMessage(), e);
-		}
-		finally {
-			log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
-			TenantContextHolder.setTenantId(pre);
-		}
-	}
+        /**
+         * 执行业务逻辑
+         *
+         * @param tenantId 租户ID
+         * @throws Exception 执行过程中可能抛出的异常
+         */
+        void run(T tenantId) throws Exception;
 
-	/**
-	 * 以某个租户的身份运行
-	 * @param tenant 租户ID
-	 * @param func
-	 * @param <T> 返回数据类型
-	 * @return
-	 */
-	public <T> T applyAs(Long tenant, ApplyAs<Long, T> func) {
-		final Long pre = TenantContextHolder.getTenantId();
-		try {
-			log.trace("TenantBroker 切换租户{} -> {}", pre, tenant);
-			TenantContextHolder.setTenantId(tenant);
-			return func.apply(tenant);
-		}
-		catch (Exception e) {
-			throw new TenantBrokerExceptionWrapper(e.getMessage(), e);
-		}
-		finally {
-			log.trace("TenantBroker 还原租户{} <- {}", pre, tenant);
-			TenantContextHolder.setTenantId(pre);
-		}
-	}
+    }
 
-	/**
-	 * 以某个租户的身份运行
-	 * @param supplier
-	 * @param func
-	 */
-	public void runAs(Supplier<Long> supplier, RunAs<Long> func) {
-		runAs(supplier.get(), func);
-	}
 
-	/**
-	 * 以某个租户的身份运行
-	 * @param supplier
-	 * @param func
-	 * @param <T> 返回数据类型
-	 * @return
-	 */
-	public <T> T applyAs(Supplier<Long> supplier, ApplyAs<Long, T> func) {
-		return applyAs(supplier.get(), func);
-	}
+    @FunctionalInterface
+    public interface ApplyAs<T, R> {
 
-	public static class TenantBrokerExceptionWrapper extends RuntimeException {
+        /**
+         * 执行业务逻辑,返回一个值
+         *
+         * @param tenantId
+         * @return
+         * @throws Exception
+         */
+        R apply(T tenantId) throws Exception;
 
-		public TenantBrokerExceptionWrapper(String message, Throwable cause) {
-			super(message, cause);
-		}
+    }
 
-		public TenantBrokerExceptionWrapper(Throwable cause) {
-			super(cause);
-		}
+    /**
+     * 无参数函数式接口：用于定义无参数但有返回值的业务逻辑执行方法
+     *
+     * @author lengleng
+     * @date 2025/06/27
+     */
+    @FunctionalInterface
+    public interface NoneAs<R> {
 
-	}
+        /**
+         * 执行业务逻辑
+         *
+         * @return 业务执行结果
+         * @throws Exception 执行过程中发生异常时抛出
+         */
+        R run() throws Exception;
+
+    }
+
+    public static class TenantBrokerExceptionWrapper extends RuntimeException {
+
+        public TenantBrokerExceptionWrapper(String message, Throwable cause) {
+            super(message, cause);
+        }
+
+        public TenantBrokerExceptionWrapper(Throwable cause) {
+            super(cause);
+        }
+
+    }
 
 }

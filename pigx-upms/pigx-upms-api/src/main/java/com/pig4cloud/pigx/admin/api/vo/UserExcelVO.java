@@ -4,9 +4,9 @@ import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -75,7 +75,7 @@ public class UserExcelVO implements Serializable {
 	 */
 	@NotBlank(message = "部门名称不能为空")
 	@ExcelProperty("部门名称")
-	private String deptName;
+    private String deptNameList;
 
 	/**
 	 * 角色列表

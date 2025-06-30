@@ -49,6 +49,13 @@ public class TenantContextHolder {
 	}
 
 	/**
+	 * 清除当前线程的租户跳过标记
+	 */
+	public void unsetTenantSkip() {
+		THREAD_LOCAL_TENANT_SKIP_FLAG.remove();
+	}
+
+	/**
 	 * 获取TTL中的租户ID
 	 * @return
 	 */

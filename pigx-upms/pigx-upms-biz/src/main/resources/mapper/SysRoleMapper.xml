@@ -49,5 +49,6 @@
 		WHERE sys_role.role_id = sys_user_role.role_id
 		  AND sys_role.del_flag = '0'
 		  and sys_user_role.user_id = #{userId}
+        and sys_user_role.tenant_id = #{tenantId}
 	</select>
 </mapper>

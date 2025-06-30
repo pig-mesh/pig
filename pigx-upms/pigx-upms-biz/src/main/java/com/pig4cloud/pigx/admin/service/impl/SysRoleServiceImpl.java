@@ -35,6 +35,7 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
@@ -61,13 +62,14 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	private SysRoleMenuService roleMenuService;
 
 	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
+	 * 通过用户ID查询角色信息
+	 *
+	 * @param userId 用户ID
+	 * @return 角色信息列表
 	 */
 	@Override
 	public List findRolesByUserId(Long userId) {
-		return baseMapper.listRolesByUserId(userId);
+		return baseMapper.listRolesByUserId(userId, TenantContextHolder.getTenantId());
 	}
 
 	/**

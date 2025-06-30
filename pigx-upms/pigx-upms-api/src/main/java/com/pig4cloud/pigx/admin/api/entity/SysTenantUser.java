@@ -17,33 +17,39 @@
  *
  */
 
-package com.pig4cloud.pigx.admin.mapper;
+package com.pig4cloud.pigx.admin.api.entity;
 
-import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.pig4cloud.pigx.admin.api.entity.SysDept;
-import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-import java.util.List;
+import java.io.Serial;
 
 /**
- * 部门管理 Mapper 接口
+ * 租户用户信息实体类
  *
  * @author lengleng
  * @date 2025/06/27
  */
-@Mapper
-public interface SysDeptMapper extends PigxBaseMapper<SysDept> {
+@Data
+@Schema(description = "租户用户信息")
+@EqualsAndHashCode(callSuper = true)
+public class SysTenantUser extends Model<SysTenantUser> {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     /**
-     * 根据用户ID和租户ID查询部门列表
-     *
-     * @param userId   用户ID
-     * @param tenantId 租户ID
-     * @return 部门列表
+     * 用户ID
      */
-    @InterceptorIgnore(tenantLine = "true")
-    List<SysDept> listDeptsByUserId(@Param("userId") Long userId, @Param("tenantId") Long tenantId);
+    @Schema(description = "用户id")
+    private Long userId;
+
+    /**
+     * 租户ID
+     */
+    @Schema(description = "租户ID")
+    private Long tenantId;
 
 }

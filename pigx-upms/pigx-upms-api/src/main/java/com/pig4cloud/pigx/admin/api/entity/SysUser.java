@@ -146,11 +146,6 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	@Schema(description = "头像地址")
 	private String avatar;
 
-	/**
-	 * 部门ID
-	 */
-	@Schema(description = "用户所属部门id")
-	private Long deptId;
 
 	/**
 	 * 租户ID
@@ -219,5 +214,4 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	@PropertyName("邮箱")
 	@Schema(description = "邮箱")
 	private String email;
-
 }

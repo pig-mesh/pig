@@ -36,9 +36,7 @@ import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.UserVO;
-import com.pig4cloud.pigx.admin.mapper.SysUserMapper;
-import com.pig4cloud.pigx.admin.mapper.SysUserPostMapper;
-import com.pig4cloud.pigx.admin.mapper.SysUserRoleMapper;
+import com.pig4cloud.pigx.admin.mapper.*;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
@@ -49,6 +47,7 @@ import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -92,7 +91,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final SysUserPostMapper sysUserPostMapper;
 
+    private final SysUserDeptMapper sysUserDeptMapper;
+
+    private final SysTenantUserMapper sysTenantUserMapper;
+
     private final CacheManager cacheManager;
+    private final SysDeptMapper sysDeptMapper;
 
     private final StringRedisTemplate redisTemplate;
 
@@ -141,14 +145,30 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             userRole.setRoleId(roleId);
             return userRole;
         }).forEach(sysUserRoleMapper::insert);
+
+        // 插入用户部门信息
+        if (Objects.nonNull(userDto.getDeptId())) {
+            SysUserDept sysUserDept = new SysUserDept();
+            sysUserDept.setUserId(sysUser.getUserId());
+            sysUserDept.setDeptId(userDto.getDeptId());
+            sysUserDeptMapper.insertOrUpdate(List.of(sysUserDept), (batchSqlSession, sysUserDept1) -> sysUserDeptMapper.exists(Wrappers.<SysUserDept>lambdaQuery()
+                    .eq(SysUserDept::getDeptId, userDto.getDeptId())
+                    .eq(SysUserDept::getUserId, sysUserDept1.getUserId())));
+        }
+
+        // 插入用户租户关系表
+        SysTenantUser sysTenantUser = new SysTenantUser();
+        sysTenantUser.setUserId(sysUser.getUserId());
+        sysTenantUser.setTenantId(SecurityUtils.getUser().getTenantId());
+        sysTenantUserMapper.insert(sysTenantUser);
         return Boolean.TRUE;
     }
 
     /**
-     * 通过查用户的全部信息
+     * 查询用户全部信息，包括角色和权限
      *
-     * @param sysUser 用户
-     * @return
+     * @param sysUser 用户信息
+     * @return 包含用户角色和权限的用户信息对象
      */
     @Override
     public UserInfo findUserInfo(SysUser sysUser) {
@@ -184,6 +204,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
+        userDTO.setTenantId(SecurityUtils.getUser().getTenantId());
         return baseMapper.getUserVosPage(page, userDTO, DataScope.of());
     }
 
@@ -214,7 +235,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             cache.evict(sysUser.getUsername());
         }
 
+        // 删除用户角色
         sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getUserId, CollUtil.toList(ids)));
+        sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getUserId, CollUtil.toList(ids)));
+        sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, CollUtil.toList(ids)));
+        sysTenantUserMapper.delete(Wrappers.<SysTenantUser>lambdaQuery().in(SysTenantUser::getUserId, CollUtil.toList(ids))
+                .eq(SysTenantUser::getTenantId, SecurityUtils.getUser().getTenantId()));
         this.removeBatchByIds(CollUtil.toList(ids));
         return Boolean.TRUE;
     }
@@ -273,6 +299,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }).forEach(SysUserPost::insert);
         }
 
+        // 更新用户部门表
+        if (Objects.nonNull(userDto.getDeptId())) {
+            sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getUserId, userDto.getUserId()));
+            SysUserDept sysUserDept = new SysUserDept();
+            sysUserDept.setUserId(sysUser.getUserId());
+            sysUserDept.setDeptId(userDto.getDeptId());
+            sysUserDept.insert();
+        }
+
         return Boolean.TRUE;
     }
 
@@ -286,13 +321,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public List<SysUser> listAncestorUsers(String username) {
         SysUser sysUser = this.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
 
-        SysDept sysDept = sysDeptService.getById(sysUser.getDeptId());
-        if (sysDept == null) {
+        // 查询所属部门
+        List<SysDept> sysDeptList = sysDeptMapper.listDeptsByUserId(sysUser.getUserId(), sysUser.getTenantId());
+        if (CollUtil.isEmpty(sysDeptList)) {
             return null;
         }
 
-        Long parentId = sysDept.getParentId();
-        return this.list(Wrappers.<SysUser>query().lambda().eq(SysUser::getDeptId, parentId));
+        // 查询用户部门ID
+        List<Long> parentDeptList = sysDeptList.stream().map(SysDept::getParentId).toList();
+        List<Long> userIdList = sysUserDeptMapper.selectList(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getDeptId, parentDeptList))
+                .stream().map(SysUserDept::getUserId).toList();
+        return this.list(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIdList));
     }
 
     /**
@@ -305,21 +344,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<UserExcelVO> listUser(UserDTO userDTO, Long[] ids) {
         // 根据数据权限查询全部的用户信息
+        userDTO.setTenantId(SecurityUtils.getUser().getTenantId());
         List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, ids, DataScope.of());
         // 转换成execl 对象输出
         List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
             UserExcelVO excelVO = new UserExcelVO();
             BeanUtils.copyProperties(userVO, excelVO);
+            // 转换角色名称
             String roleNameList = userVO.getRoleList()
                     .stream()
                     .map(SysRole::getRoleName)
                     .collect(Collectors.joining(StrUtil.COMMA));
             excelVO.setRoleNameList(roleNameList);
+            // 转化岗位名称
             String postNameList = userVO.getPostList()
                     .stream()
                     .map(SysPost::getPostName)
                     .collect(Collectors.joining(StrUtil.COMMA));
             excelVO.setPostNameList(postNameList);
+            // 转化部门名称
+            String deptNameList = userVO.getDeptList().stream()
+                    .map(SysDept::getName)
+                    .collect(Collectors.joining(StrUtil.COMMA));
+            excelVO.setDeptNameList(deptNameList);
             return excelVO;
         }).toList();
         return userExcelVOList;
@@ -356,10 +403,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
             // 判断输入的部门名称列表是否合法
             Optional<SysDept> deptOptional = deptList.stream()
-                    .filter(dept -> excel.getDeptName().equals(dept.getName()))
+                    .filter(dept -> excel.getDeptNameList().equals(dept.getName()))
                     .findFirst();
             if (!deptOptional.isPresent()) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptName()));
+                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptNameList()));
             }
 
             // 判断输入的角色名称列表是否合法
@@ -423,6 +470,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         userDTO.setRole(roleIdList);
         // 插入用户
         this.saveUser(userDTO);
+        // 插入用户租户关系表
+        SysTenantUser sysTenantUser = new SysTenantUser();
+        sysTenantUser.setUserId(userDTO.getUserId());
+        sysTenantUser.setTenantId(SecurityUtils.getUser().getTenantId());
+        sysTenantUserMapper.insert(sysTenantUser);
     }
 
     /**
@@ -497,6 +549,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .set(SysUser::getPasswordModifyTime, LocalDateTime.now())
                 .eq(SysUser::getUserId, user.getUserId()));
         return R.ok();
+    }
+
+
+    /**
+     * 更新用户租户信息
+     *
+     * @param userDto 用户数据传输对象
+     * @return 更新结果
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
+    public R updateUserTenant(UserDTO userDto) {
+        return R.ok(TenantBroker.noneAs(() -> this.update(Wrappers.<SysUser>lambdaUpdate()
+                .set(SysUser::getTenantId, userDto.getTenantId())
+                .eq(SysUser::getUserId, userDto.getUserId()))));
     }
 
     @Override
@@ -588,7 +655,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             return R.failed("验证码错误");
         }
 
-        String username = lambdaQuery().select(SysUser::getUsername).eq(SysUser::getPhone, userDto.getPhone()).one().getUsername();
+        String username = lambdaQuery().select(SysUser::getUsername).
+                eq(SysUser::getPhone, userDto.getPhone()).one().getUsername();
 
         // 重置密码
         String password = ENCODER.encode(userDto.getNewpassword1());
@@ -617,7 +685,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public List<SysUser> listUserIdByDeptIds(List<Long> deptIdList) {
-        return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getDeptId, deptIdList));
+        List<Long> userList = sysUserDeptMapper.selectList(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getDeptId, deptIdList))
+                .stream().map(SysUserDept::getUserId).toList();
+        return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userList));
     }
 
 }

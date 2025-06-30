@@ -98,7 +98,7 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
         SysUser user = info.getSysUser();
 
         // 构造security用户
-        return new PigxUser(user.getUserId(), user.getUsername(), user.getDeptId(), user.getPhone(), user.getAvatar(),
+        return new PigxUser(user.getUserId(), user.getUsername(), info.getDeptId(), user.getPhone(), user.getAvatar(),
                 user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
                 SecurityConstants.BCRYPT + user.getPassword()
                 , true, true, UserTypeEnum.TOB.getStatus()

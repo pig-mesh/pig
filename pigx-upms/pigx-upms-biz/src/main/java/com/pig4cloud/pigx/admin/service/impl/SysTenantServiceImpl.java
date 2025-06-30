@@ -22,11 +22,13 @@ import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.pig4cloud.pigx.admin.api.constant.TenantStateEnum;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pigx.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pigx.admin.mapper.SysTenantMapper;
+import com.pig4cloud.pigx.admin.mapper.SysTenantUserMapper;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -34,6 +36,7 @@ import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -83,6 +86,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     private final SysDeptService deptService;
 
     private final SysDictService dictService;
+
+    private final SysTenantUserMapper tenantUserMapper;
 
     private final RedisTemplate redisTemplate;
 
@@ -153,7 +158,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             user.setUsername(tenantDefault.getTenantDefaultUsername());
             user.setPasswordModifyTime(LocalDateTime.now());
             user.setPassword(ENCODER.encode(tenantDefault.getTenantDefaultPassword()));
-            user.setDeptId(dept.getDeptId());
             userService.save(user);
 
             // 构造普通用户角色
@@ -303,6 +307,20 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             redisTemplate.delete(keys);
         }
         return Boolean.TRUE;
+    }
+
+    /**
+     * 获取用户所属租户列表
+     *
+     * @return 用户所属租户列表
+     */
+    @Override
+    public List<SysTenant> getUserTenant() {
+        MPJLambdaWrapper<SysTenant> wrapper = new MPJLambdaWrapper<SysTenant>()
+                .selectAll(SysTenant.class)
+                .leftJoin(SysTenantUser.class, SysTenantUser::getTenantId, SysTenant::getId)
+                .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId());
+        return baseMapper.selectJoinList(wrapper);
     }
 
     /**

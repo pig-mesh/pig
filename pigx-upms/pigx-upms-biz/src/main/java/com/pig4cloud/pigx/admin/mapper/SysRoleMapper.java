@@ -19,9 +19,11 @@
 
 package com.pig4cloud.pigx.admin.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -36,11 +38,14 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper extends PigxBaseMapper<SysRole> {
 
-	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
-	 */
-	List<SysRole> listRolesByUserId(Long userId);
+    /**
+     * 通过用户ID查询角色信息
+     *
+     * @param userId   用户ID
+     * @param tenantId 租户ID
+     * @return 角色信息列表
+     */
+    @InterceptorIgnore(tenantLine = "true")
+    List<SysRole> listRolesByUserId(@Param("userId") Long userId, @Param("tenantId") Long tenantId);
 
 }

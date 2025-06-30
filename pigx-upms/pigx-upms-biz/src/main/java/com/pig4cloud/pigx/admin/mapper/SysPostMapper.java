@@ -17,9 +17,11 @@
 
 package com.pig4cloud.pigx.admin.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -32,11 +34,14 @@ import java.util.List;
 @Mapper
 public interface SysPostMapper extends PigxBaseMapper<SysPost> {
 
-	/**
-	 * 通过用户ID，查询岗位信息
-	 * @param userId 用户id
-	 * @return 岗位信息
-	 */
-	List<SysPost> listPostsByUserId(Long userId);
+    /**
+     * 通过用户ID和租户ID查询岗位信息
+     *
+     * @param userId   用户ID
+     * @param tenantId 租户ID
+     * @return 岗位信息列表
+     */
+    @InterceptorIgnore(tenantLine = "true")
+    List<SysPost> listPostsByUserId(@Param("userId") Long userId, @Param("tenantId") Long tenantId);
 
 }

@@ -23,19 +23,29 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 
 /**
+ * 租户信息拦截配置类
+ *
  * @author lengleng
- * @date 2020/4/29
- * <p>
- * 租户信息拦截
+ * @date 2025/06/27
  */
 @Configuration
 public class PigxTenantConfiguration {
 
+	/**
+	 * 创建并返回PigxFeignTenantInterceptor实例
+	 *
+	 * @return RequestInterceptor实例
+	 */
 	@Bean
 	public RequestInterceptor pigxFeignTenantInterceptor() {
 		return new PigxFeignTenantInterceptor();
 	}
 
+	/**
+	 * 创建并返回一个租户请求拦截器实例
+	 *
+	 * @return 配置好的租户请求拦截器
+	 */
 	@Bean
 	public ClientHttpRequestInterceptor pigxTenantRequestInterceptor() {
 		return new TenantRequestInterceptor();

@@ -59,118 +59,143 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysTenantController {
 
-	private final SysTenantService sysTenantService;
+    private final SysTenantService sysTenantService;
 
-	private final SysMenuService sysMenuService;
+    private final SysMenuService sysMenuService;
 
-	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param sysTenant 租户
-	 * @return
-	 */
-	@GetMapping("/page")
-	public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenant sysTenant) {
-		return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page      分页对象
+     * @param sysTenant 租户
+     * @return
+     */
+    @GetMapping("/page")
+    public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenant sysTenant) {
+        return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
+                .like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
+    }
 
-	/**
-	 * 通过ID 查询租户信息
-	 * @param id ID
-	 * @return R
-	 */
-	@GetMapping("/details/{id}")
-	public R getById(@PathVariable Long id) {
-		return R.ok(sysTenantService.getById(id));
-	}
+    /**
+     * 通过ID 查询租户信息
+     *
+     * @param id ID
+     * @return R
+     */
+    @GetMapping("/details/{id}")
+    public R getById(@PathVariable Long id) {
+        return R.ok(sysTenantService.getById(id));
+    }
 
-	/**
-	 * 查询租户信息
-	 * @param query 查询条件
-	 * @return 租户信息
-	 */
-	@GetMapping("/details")
-	public R getDetails(@ParameterObject SysTenant query) {
-		return R.ok(sysTenantService.getOne(Wrappers.query(query), false));
-	}
+    /**
+     * 查询租户信息
+     *
+     * @param query 查询条件
+     * @return 租户信息
+     */
+    @GetMapping("/details")
+    public R getDetails(@ParameterObject SysTenant query) {
+        return R.ok(sysTenantService.getOne(Wrappers.query(query), false));
+    }
 
-	/**
-	 * 新增租户
-	 * @param sysTenant 租户
-	 * @return R
-	 */
-	@SysLog("新增租户")
-	@PostMapping
-	@HasPermission("sys_systenant_add")
-	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
-	public R save(@RequestBody SysTenant sysTenant) {
-		return R.ok(sysTenantService.saveTenant(sysTenant));
-	}
+    /**
+     * 新增租户
+     *
+     * @param sysTenant 租户
+     * @return R
+     */
+    @SysLog("新增租户")
+    @PostMapping
+    @HasPermission("sys_systenant_add")
+    @CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
+    public R save(@RequestBody SysTenant sysTenant) {
+        return R.ok(sysTenantService.saveTenant(sysTenant));
+    }
 
-	/**
-	 * 修改租户
-	 * @param sysTenant 租户
-	 * @return R
-	 */
-	@SysLog("修改租户")
-	@PutMapping
-	@HasPermission("sys_systenant_edit")
-	public R updateById(@RequestBody SysTenant sysTenant) {
-		return R.ok(sysTenantService.updateTenant(sysTenant));
-	}
+    /**
+     * 修改租户
+     *
+     * @param sysTenant 租户
+     * @return R
+     */
+    @SysLog("修改租户")
+    @PutMapping
+    @HasPermission("sys_systenant_edit")
+    public R updateById(@RequestBody SysTenant sysTenant) {
+        return R.ok(sysTenantService.updateTenant(sysTenant));
+    }
 
-	/**
-	 * 通过id删除租户
-	 * <p>
-	 * 为了保证安全,这里只删除租户表的数据，不删除基础表中的租户初始化数据。
-	 * @param ids id 列表
-	 * @return R
-	 */
-	@SysLog("删除租户")
-	@DeleteMapping
-	@HasPermission("sys_systenant_del")
-	@CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
-	public R removeById(@RequestBody Long[] ids) {
-		return R.ok(sysTenantService.removeBatchByIds(CollUtil.toList(ids)));
-	}
+    /**
+     * 通过id删除租户
+     * <p>
+     * 为了保证安全,这里只删除租户表的数据，不删除基础表中的租户初始化数据。
+     *
+     * @param ids id 列表
+     * @return R
+     */
+    @SysLog("删除租户")
+    @DeleteMapping
+    @HasPermission("sys_systenant_del")
+    @CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
+    public R removeById(@RequestBody Long[] ids) {
+        return R.ok(sysTenantService.removeBatchByIds(CollUtil.toList(ids)));
+    }
 
-	/**
-	 * 查询全部有效的租户
-	 * @return
-	 */
-	@Inner(value = false)
-	@GetMapping("/list")
-	public R list() {
-		List<SysTenant> tenants = sysTenantService.getNormalTenant()
-			.stream()
-			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+    /**
+     * 查询全部有效的租户列表
+     *
+     * @return 包含有效租户列表的响应结果
+     */
+    @Inner(value = false)
+    @GetMapping("/list")
+    public R list() {
+        List<SysTenant> tenants = sysTenantService.getNormalTenant()
+                .stream()
+                .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+                .filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
                 .toList();
-		return R.ok(tenants);
-	}
+        return R.ok(tenants);
+    }
 
-	/**
-	 * 导出excel 表格
-	 * @return
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	@HasPermission("sys_systenant_export")
-	public List<SysTenant> export(SysTenant sysTenant, Long[] ids) {
-		return sysTenantService
-			.list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, CollUtil.toList(ids)));
-	}
+    /**
+     * 导出租户信息到Excel
+     *
+     * @param sysTenant 租户查询条件
+     * @param ids       租户ID数组
+     * @return 符合条件的租户列表
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    @HasPermission("sys_systenant_export")
+    public List<SysTenant> export(SysTenant sysTenant, Long[] ids) {
+        return sysTenantService
+                .list(Wrappers.lambdaQuery(sysTenant).in(ArrayUtil.isNotEmpty(ids), SysTenant::getId, CollUtil.toList(ids)));
+    }
 
-	@GetMapping(value = "/tree/menu")
-	public R getTree() {
-		Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
-		List<Tree<Long>> trees = new ArrayList<>();
-		TenantBroker.runAs(defaultId, (id) -> {
-			trees.addAll(sysMenuService.treeMenu(null, null, null));
-		});
+    /**
+     * 获取租户菜单
+     *
+     * @return 包含菜单树结构的响应结果
+     */
+    @GetMapping(value = "/tree/menu")
+    public R getTree() {
+        Long defaultId = ParamResolver.getLong("TENANT_DEFAULT_ID", 1L);
+        List<Tree<Long>> trees = new ArrayList<>();
+        TenantBroker.runAs(defaultId, (id) -> {
+            trees.addAll(sysMenuService.treeMenu(null, null, null));
+        });
 
-		return R.ok(trees);
-	}
+        return R.ok(trees);
+    }
+
+    /**
+     * 获取用户租户信息
+     *
+     * @return 包含用户租户信息的响应结果
+     */
+    @GetMapping("/user-tenant")
+    public R getUserTenant() {
+        return R.ok(sysTenantService.getUserTenant());
+    }
 
 }

@@ -48,6 +48,7 @@
 		WHERE p.post_id = up.post_id
 		  AND p.del_flag = '0'
 		  and up.user_id = #{userId}
+        and up.tenant_id = #{tenantId}
 	</select>
 
 </mapper>

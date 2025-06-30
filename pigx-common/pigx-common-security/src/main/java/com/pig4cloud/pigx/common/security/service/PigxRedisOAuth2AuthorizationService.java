@@ -2,11 +2,11 @@ package com.pig4cloud.pigx.common.security.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
@@ -17,6 +17,7 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.util.Assert;
 
+import java.security.Principal;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,6 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
     private static final String AUTHORIZATION = "token";
 
     private final RedisTemplate<String, Object> redisTemplate;
-
-    private final KeyStrResolver tenantKeyStrResolver;
 
     private static boolean isState(OAuth2Authorization authorization) {
         return Objects.nonNull(authorization.getAttribute("state"));
@@ -97,10 +96,14 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
                     .set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, between,
                             TimeUnit.SECONDS);
 
-            // 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
-            String tokenUsername = String.format("%s::%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION,
-                    SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), accessToken.getTokenValue());
-            redisTemplate.opsForValue().set(tokenUsername, accessToken.getTokenValue(), between, TimeUnit.SECONDS);
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = authorization.getAttribute(Principal.class.getName());
+
+            if (Objects.nonNull(usernamePasswordAuthenticationToken) && usernamePasswordAuthenticationToken.getPrincipal() instanceof PigxUser pigxUser) {
+                // 扩展记录 access-token 、username 的关系 token::username::admin::tenantId::xxx
+                String tokenUsername = String.format("%s::%s::%s::%s::%s::%s", AUTHORIZATION,
+                        SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), authorization.getRegisteredClientId(), pigxUser.getTenantId(), accessToken.getTokenValue());
+                redisTemplate.opsForValue().set(tokenUsername, accessToken.getTokenValue(), between, TimeUnit.SECONDS);
+            }
         }
     }
 
@@ -131,8 +134,8 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
             keys.add(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()));
 
             // 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
-            String key = String.format("%s::%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION,
-                    SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), accessToken.getTokenValue());
+            String key = String.format("%s::%s::%s::%s::*::%s", AUTHORIZATION,
+                    SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), authorization.getRegisteredClientId(), accessToken.getTokenValue());
             keys.add(key);
         }
 
@@ -155,21 +158,20 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
     }
 
     private String buildKey(String type, String id) {
-        return String.format("%s::%s::%s::%s", tenantKeyStrResolver.key(), AUTHORIZATION, type, id);
+        return String.format("%s::%s::%s", AUTHORIZATION, type, id);
     }
 
     /**
-     * 扩展方法根据 username 查询是否存在存储的
+     * 根据用户名移除相关授权信息
      *
-     * @param authentication
-     * @return
+     * @param authentication 认证信息，包含用户名
      */
     public void removeByUsername(Authentication authentication) {
         // 根据 username查询对应access-token
         String authenticationName = authentication.getName();
 
         // 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
-        String tokenUsernameKey = String.format("%s::%s::%s::%s::*", tenantKeyStrResolver.key(), AUTHORIZATION,
+        String tokenUsernameKey = String.format("%s::%s::%s::*", AUTHORIZATION,
                 SecurityConstants.DETAILS_USERNAME, authenticationName);
         Set<String> keys = redisTemplate.keys(tokenUsernameKey);
         if (CollUtil.isEmpty(keys)) {

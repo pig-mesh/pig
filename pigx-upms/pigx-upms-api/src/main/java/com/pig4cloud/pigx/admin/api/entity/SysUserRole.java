@@ -20,9 +20,12 @@
 package com.pig4cloud.pigx.admin.api.entity;
 
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serial;
 
 /**
  * <p>
@@ -33,22 +36,31 @@ import lombok.EqualsAndHashCode;
  * @since 2017-10-29
  */
 @Data
+@TenantTable
 @Schema(description = "用户角色")
 @EqualsAndHashCode(callSuper = true)
 public class SysUserRole extends Model<SysUserRole> {
 
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 用户ID
-	 */
-	@Schema(description = "用户id")
-	private Long userId;
+    /**
+     * 用户ID
+     */
+    @Schema(description = "用户id")
+    private Long userId;
 
-	/**
-	 * 角色ID
-	 */
-	@Schema(description = "角色id")
-	private Long roleId;
+    /**
+     * 角色ID
+     */
+    @Schema(description = "角色id")
+    private Long roleId;
+
+
+    /**
+     * 租户ID
+     */
+    @Schema(description = "租户ID")
+    private Long tenantId;
 
 }

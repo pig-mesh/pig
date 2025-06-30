@@ -31,6 +31,7 @@ import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -50,8 +51,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
+ * 用户管理控制器：提供用户相关的REST接口
+ *
  * @author lengleng
- * @date 2018/12/16
+ * @date 2025/07/04
  */
 @RestController
 @AllArgsConstructor
@@ -70,11 +73,12 @@ public class SysUserController {
     @Inner
     @GetMapping("/info/{username}")
     public R info(@PathVariable String username) {
-        SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+        SysUser user = TenantBroker.noneAs(() -> userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username), false));
         if (user == null) {
             return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
         }
-        return R.ok(userService.findUserInfo(user));
+
+        return TenantBroker.applyAs(user.getTenantId(), tenantId -> R.ok(userService.findUserInfo(user)));
     }
 
     /**
@@ -85,15 +89,18 @@ public class SysUserController {
     @GetMapping(value = {"/info"})
     public R info() {
         String username = SecurityUtils.getUser().getUsername();
-        SysUser user = userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+        SysUser user = TenantBroker.noneAs(() -> userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username), false));
         if (user == null) {
             return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
         }
 
-        // UserInfo 是复用对象，不能通过设置 @jsonIgnore 来忽略密码字段
-        UserInfo userInfo = userService.findUserInfo(user);
-        userInfo.getSysUser().setPassword(null);
-        return R.ok(userInfo);
+
+        return TenantBroker.applyAs(user.getTenantId(), tenantId -> {
+            // UserInfo 是复用对象，不能通过设置 @jsonIgnore 来忽略密码字段
+            UserInfo userInfo = userService.findUserInfo(user);
+            userInfo.getSysUser().setPassword(null);
+            return R.ok(userInfo);
+        });
     }
 
     /**
@@ -191,11 +198,26 @@ public class SysUserController {
      * @return R 返回结果对象，包含修改密码操作的结果信息
      */
     @PutMapping("/personal/password")
-    public R updatePassword(@RequestBody UserDTO userDto) {
+    public R updateUserPassword(@RequestBody UserDTO userDto) {
         String username = SecurityUtils.getUser().getUsername();
         userDto.setUsername(username);
         return userService.changePassword(userDto);
     }
+
+    /**
+     * 更新用户租户信息
+     *
+     * @param userDto 用户数据传输对象，包含需要更新的用户信息
+     * @return 操作结果
+     */
+    @PutMapping("/personal/tenant")
+    public R updateUserTenant(@RequestBody UserDTO userDto) {
+        String username = SecurityUtils.getUser().getUsername();
+        userDto.setUsername(username);
+        userDto.setUserId(SecurityUtils.getUser().getId());
+        return userService.updateUserTenant(userDto);
+    }
+
 
     /**
      * @param username 用户名称

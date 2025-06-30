@@ -20,6 +20,7 @@
 package com.pig4cloud.pigx.admin.api.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysPost;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;
@@ -27,6 +28,7 @@ import com.pig4cloud.pigx.common.sensitive.core.SensitiveTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -39,163 +41,158 @@ import java.util.List;
 @Schema(description = "前端用户展示对象")
 public class UserVO implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    @Serial
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 主键ID
-	 */
-	@Schema(description = "主键")
-	private Long userId;
+    /**
+     * 主键ID
+     */
+    @Schema(description = "主键")
+    private Long userId;
 
-	/**
-	 * 用户名
-	 */
-	@Schema(description = "用户名")
-	private String username;
+    /**
+     * 用户名
+     */
+    @Schema(description = "用户名")
+    private String username;
 
-	/**
-	 * 密码
-	 */
-	@JsonIgnore
-	private String password;
+    /**
+     * 密码
+     */
+    @JsonIgnore
+    private String password;
 
-	/**
-	 * 随机盐
-	 */
-	@JsonIgnore
-	private String salt;
+    /**
+     * 随机盐
+     */
+    @JsonIgnore
+    private String salt;
 
-	/**
-	 * 微信openid
-	 */
-	@Schema(description = "微信open id")
-	private String wxOpenid;
+    /**
+     * 微信openid
+     */
+    @Schema(description = "微信open id")
+    private String wxOpenid;
 
-	/**
-	 * QQ openid
-	 */
-	@Schema(description = "qq open id")
-	private String qqOpenid;
+    /**
+     * QQ openid
+     */
+    @Schema(description = "qq open id")
+    private String qqOpenid;
 
-	/**
-	 * gitee openid
-	 */
-	@Schema(description = "gitee open id")
-	private String giteeOpenId;
+    /**
+     * gitee openid
+     */
+    @Schema(description = "gitee open id")
+    private String giteeOpenId;
 
-	/**
-	 * 开源中国 openid
-	 */
-	@Schema(description = "开源中国 open id")
-	private String oscOpenId;
+    /**
+     * 开源中国 openid
+     */
+    @Schema(description = "开源中国 open id")
+    private String oscOpenId;
 
-	/**
-	 * 企微微信 userid
-	 */
-	@Schema(description = "企微微信 userid")
-	private String wxCpUserid;
+    /**
+     * 企微微信 userid
+     */
+    @Schema(description = "企微微信 userid")
+    private String wxCpUserid;
 
-	/**
-	 * 钉钉 userid
-	 */
-	@Schema(description = "钉钉 userid")
-	private String wxDingUserid;
+    /**
+     * 钉钉 userid
+     */
+    @Schema(description = "钉钉 userid")
+    private String wxDingUserid;
 
-	/**
-	 * 创建时间
-	 */
-	@Schema(description = "创建时间")
-	private LocalDateTime createTime;
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
-	/**
-	 * 修改时间
-	 */
-	@Schema(description = "修改时间")
-	private LocalDateTime updateTime;
+    /**
+     * 修改时间
+     */
+    @Schema(description = "修改时间")
+    private LocalDateTime updateTime;
 
-	/**
-	 * 0-正常，1-删除
-	 */
-	@Schema(description = "删除标记,1:已删除,0:正常")
-	private String delFlag;
+    /**
+     * 0-正常，1-删除
+     */
+    @Schema(description = "删除标记,1:已删除,0:正常")
+    private String delFlag;
 
-	/**
-	 * 锁定标记
-	 */
-	@Schema(description = "锁定标记,0:正常,9:已锁定")
-	private String lockFlag;
+    /**
+     * 锁定标记
+     */
+    @Schema(description = "锁定标记,0:正常,9:已锁定")
+    private String lockFlag;
 
-	/**
-	 * 密码过期标记
-	 */
-	@Schema(description = "密码过期标记")
-	private String passwordExpireFlag;
+    /**
+     * 密码过期标记
+     */
+    @Schema(description = "密码过期标记")
+    private String passwordExpireFlag;
 
-	/**
-	 * 密码修改时间
-	 */
-	@Schema(description = "密码修改时间")
-	private LocalDateTime passwordModifyTime;
+    /**
+     * 密码修改时间
+     */
+    @Schema(description = "密码修改时间")
+    private LocalDateTime passwordModifyTime;
 
-	/**
-	 * 手机号
-	 */
-	@Sensitive(type = SensitiveTypeEnum.MOBILE_PHONE)
-	@Schema(description = "手机号")
-	private String phone;
+    /**
+     * 手机号
+     */
+    @Sensitive(type = SensitiveTypeEnum.MOBILE_PHONE)
+    @Schema(description = "手机号")
+    private String phone;
 
-	/**
-	 * 头像
-	 */
-	@Schema(description = "头像")
-	private String avatar;
+    /**
+     * 头像
+     */
+    @Schema(description = "头像")
+    private String avatar;
 
-	/**
-	 * 部门ID
-	 */
-	@Schema(description = "所属部门")
-	private Long deptId;
 
-	/**
-	 * 租户ID
-	 */
-	@Schema(description = "所属租户")
-	private Long tenantId;
+    /**
+     * 租户ID
+     */
+    @Schema(description = "所属租户")
+    private Long tenantId;
 
-	/**
-	 * 部门名称
-	 */
-	@Schema(description = "所属部门名称")
-	private String deptName;
 
-	/**
-	 * 角色列表
-	 */
-	@Schema(description = "拥有的角色列表")
-	private List<SysRole> roleList;
+    @Schema(description = "所属部门名称")
+    private List<SysDept> deptList;
 
-	/**
-	 * 岗位列表
-	 */
-	private List<SysPost> postList;
+    /**
+     * 角色列表
+     */
+    @Schema(description = "拥有的角色列表")
+    private List<SysRole> roleList;
 
-	/**
-	 * 昵称
-	 */
-	@Schema(description = "昵称")
-	private String nickname;
+    /**
+     * 岗位列表
+     */
+    @Schema(description = "拥有的岗位列表")
+    private List<SysPost> postList;
 
-	/**
-	 * 姓名
-	 */
-	@Schema(description = "姓名")
-	private String name;
+    /**
+     * 昵称
+     */
+    @Schema(description = "昵称")
+    private String nickname;
 
-	/**
-	 * 邮箱
-	 */
-	@Schema(description = "邮箱")
-	private String email;
+    /**
+     * 姓名
+     */
+    @Schema(description = "姓名")
+    private String name;
+
+    /**
+     * 邮箱
+     */
+    @Schema(description = "邮箱")
+    private String email;
 
 
 }

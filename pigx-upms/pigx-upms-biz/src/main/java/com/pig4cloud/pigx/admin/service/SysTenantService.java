@@ -31,23 +31,32 @@ import java.util.List;
 public interface SysTenantService extends IService<SysTenant> {
 
 	/**
-	 * 获取正常的租户
-	 * @return
+     * 获取正常的租户列表
+     *
+     * @return 正常的租户列表
 	 */
 	List<SysTenant> getNormalTenant();
 
 	/**
-	 * 保存租户
-	 * @param sysTenant
-	 * @return
+     * 保存租户信息
+     *
+     * @param sysTenant 租户信息对象
+     * @return 保存是否成功
 	 */
 	Boolean saveTenant(SysTenant sysTenant);
 
 	/**
-	 * 修改租户
-	 * @param sysTenant
-	 * @return
+     * 修改租户信息
+     *
+     * @param sysTenant 租户信息对象
+     * @return 修改是否成功
 	 */
 	Boolean updateTenant(SysTenant sysTenant);
 
+    /**
+     * 获取用户所属租户列表
+     *
+     * @return 用户所属租户列表
+     */
+    List<SysTenant> getUserTenant();
 }

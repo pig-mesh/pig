@@ -19,31 +19,18 @@
 
 package com.pig4cloud.pigx.admin.mapper;
 
-import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
-import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.entity.SysTenantUser;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 /**
- * 部门管理 Mapper 接口
+ * 系统租户用户映射接口
  *
  * @author lengleng
  * @date 2025/06/27
  */
 @Mapper
-public interface SysDeptMapper extends PigxBaseMapper<SysDept> {
-
-    /**
-     * 根据用户ID和租户ID查询部门列表
-     *
-     * @param userId   用户ID
-     * @param tenantId 租户ID
-     * @return 部门列表
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    List<SysDept> listDeptsByUserId(@Param("userId") Long userId, @Param("tenantId") Long tenantId);
+public interface SysTenantUserMapper extends PigxBaseMapper<SysTenantUser> {
 
 }

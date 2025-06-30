@@ -14,40 +14,20 @@
  * limitations under the License.
  */
 
-package com.pig4cloud.pigx.admin.api.entity;
+package com.pig4cloud.pigx.admin.mapper;
 
-import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.pig4cloud.pigx.common.core.util.TenantTable;
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.pig4cloud.pigx.admin.api.entity.SysUserDept;
+import org.apache.ibatis.annotations.Mapper;
 
-import java.io.Serial;
 
 /**
- * 用户岗位表实体类
+ * 系统用户部门关联Mapper接口
  *
  * @author lengleng
  * @date 2025/06/27
  */
-@Data
-@TenantTable
-@EqualsAndHashCode(callSuper = true)
-public class SysUserPost extends Model<SysUserPost> {
-
-    @Serial
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 用户ID
-	 */
-	@Schema(description = "用户id")
-	private Long userId;
-
-	/**
-	 * 岗位ID
-	 */
-	@Schema(description = "岗位id")
-	private Long postId;
+@Mapper
+public interface SysUserDeptMapper extends BaseMapper<SysUserDept> {
 
 }
