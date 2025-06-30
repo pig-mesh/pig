@@ -25,6 +25,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.log.event.SysLogEvent;
 import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
@@ -35,7 +36,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -48,7 +49,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lengleng
@@ -60,8 +60,6 @@ import java.util.concurrent.TimeUnit;
 public class PigxAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
 
 	private static final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
-
-	private final StringRedisTemplate redisTemplate;
 
 	private final ApplicationEventPublisher publisher;
 
@@ -135,11 +133,15 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 	private void recordLoginFailureTimes(String username) {
 		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES, username);
 		Long deltaTimes = ParamResolver.getLong("LOGIN_ERROR_TIMES", 5L);
-		Long times = redisTemplate.opsForValue().increment(key);
+
+		// 使用 RedisUtils 执行原生 Redis 命令进行递增操作
+		Long times = RedisUtils.execute((RedisCallback<Long>) connection ->
+				connection.incr(key.getBytes())
+		);
 
 		// 自动过期时间
 		Long deltaTime = ParamResolver.getLong("DELTA_TIME", 1L);
-		redisTemplate.expire(key, deltaTime, TimeUnit.HOURS);
+		RedisUtils.expire(key, deltaTime * 3600); // 转换为秒
 
 		if (deltaTimes <= times) {
 			userService.lockUser(username);

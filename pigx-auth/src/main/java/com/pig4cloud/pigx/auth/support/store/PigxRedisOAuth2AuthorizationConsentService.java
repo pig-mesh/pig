@@ -1,17 +1,15 @@
-package com.pig4cloud.pigx.common.security.service;
+package com.pig4cloud.pigx.auth.support.store;
 
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsent;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationConsentService;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.concurrent.TimeUnit;
-
+@Service
 @RequiredArgsConstructor
 public class PigxRedisOAuth2AuthorizationConsentService implements OAuth2AuthorizationConsentService {
-
-	private final RedisTemplate<String, Object> redisTemplate;
 
 	private final static Long TIMEOUT = 10L;
 
@@ -19,23 +17,21 @@ public class PigxRedisOAuth2AuthorizationConsentService implements OAuth2Authori
 	public void save(OAuth2AuthorizationConsent authorizationConsent) {
 		Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
 
-		redisTemplate.opsForValue()
-			.set(buildKey(authorizationConsent), authorizationConsent, TIMEOUT, TimeUnit.MINUTES);
+        RedisUtils.set(buildKey(authorizationConsent), authorizationConsent, TIMEOUT * 60);
 
 	}
 
 	@Override
 	public void remove(OAuth2AuthorizationConsent authorizationConsent) {
 		Assert.notNull(authorizationConsent, "authorizationConsent cannot be null");
-		redisTemplate.delete(buildKey(authorizationConsent));
+        RedisUtils.delete(buildKey(authorizationConsent));
 	}
 
 	@Override
 	public OAuth2AuthorizationConsent findById(String registeredClientId, String principalName) {
 		Assert.hasText(registeredClientId, "registeredClientId cannot be empty");
 		Assert.hasText(principalName, "principalName cannot be empty");
-		return (OAuth2AuthorizationConsent) redisTemplate.opsForValue()
-			.get(buildKey(registeredClientId, principalName));
+        return RedisUtils.get(buildKey(registeredClientId, principalName));
 	}
 
 	private static String buildKey(String registeredClientId, String principalName) {

@@ -28,10 +28,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
-import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -73,12 +70,9 @@ public class SysUserController {
     @Inner
     @GetMapping("/info/{username}")
     public R info(@PathVariable String username) {
-        SysUser user = TenantBroker.noneAs(() -> userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username), false));
-        if (user == null) {
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, username));
-        }
-
-        return TenantBroker.applyAs(user.getTenantId(), tenantId -> R.ok(userService.findUserInfo(user)));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(username);
+        return userService.getUserInfo(userDTO);
     }
 
     /**
@@ -89,18 +83,14 @@ public class SysUserController {
     @GetMapping(value = {"/info"})
     public R info() {
         String username = SecurityUtils.getUser().getUsername();
-        SysUser user = TenantBroker.noneAs(() -> userService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username), false));
-        if (user == null) {
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_QUERY_ERROR));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(username);
+        // 获取用户信息，不返回数据库密码字段
+        R<UserInfo> userInfoR = userService.getUserInfo(userDTO);
+        if (userInfoR.getData() != null) {
+            userInfoR.getData().setPassword(null);
         }
-
-
-        return TenantBroker.applyAs(user.getTenantId(), tenantId -> {
-            // UserInfo 是复用对象，不能通过设置 @jsonIgnore 来忽略密码字段
-            UserInfo userInfo = userService.findUserInfo(user);
-            userInfo.getSysUser().setPassword(null);
-            return R.ok(userInfo);
-        });
+        return userInfoR;
     }
 
     /**

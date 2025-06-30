@@ -1,10 +1,7 @@
 package com.pig4cloud.pigx.auth.endpoint;
 
 import com.anji.captcha.service.CaptchaCacheService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.StringRedisTemplate;
-
-import java.util.concurrent.TimeUnit;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 
 /**
  * @author lengleng
@@ -16,27 +13,24 @@ public class CaptchaCacheServiceProvider implements CaptchaCacheService {
 
 	private static final String REDIS = "redis";
 
-	@Autowired
-	private StringRedisTemplate stringRedisTemplate;
-
 	@Override
 	public void set(String key, String value, long expiresInSeconds) {
-		stringRedisTemplate.opsForValue().set(key, value, expiresInSeconds, TimeUnit.SECONDS);
+        RedisUtils.set(key, value, expiresInSeconds);
 	}
 
 	@Override
 	public boolean exists(String key) {
-		return stringRedisTemplate.hasKey(key);
+        return RedisUtils.hasKey(key);
 	}
 
 	@Override
 	public void delete(String key) {
-		stringRedisTemplate.delete(key);
+        RedisUtils.delete(key);
 	}
 
 	@Override
 	public String get(String key) {
-		return stringRedisTemplate.opsForValue().get(key);
+        return RedisUtils.get(key);
 	}
 
 	@Override

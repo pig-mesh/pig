@@ -42,10 +42,10 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 查询用户信息
      *
-     * @param sysUser 用户
-     * @return userInfo
+     * @param userDTO 用户数据传输对象
+     * @return 用户信息对象
      */
-    UserInfo findUserInfo(SysUser sysUser);
+    R<UserInfo> getUserInfo(UserDTO userDTO);
 
     /**
      * 分页查询用户信息（含有角色信息）

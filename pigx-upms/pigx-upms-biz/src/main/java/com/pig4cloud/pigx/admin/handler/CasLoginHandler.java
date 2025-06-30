@@ -18,13 +18,13 @@
 package com.pig4cloud.pigx.admin.handler;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
-import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -65,19 +65,24 @@ public class CasLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-	 * username 获取用户信息
-	 * @param username
-	 * @return
+     * 根据用户名获取用户信息
+     *
+     * @param username 用户名
+     * @return 用户信息对象，如果用户不存在则返回null
 	 */
 	@Override
 	public UserInfo info(String username) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getUsername, username));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(username);
 
-		if (user == null) {
+        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+
+        if (userInfoR.getData() == null) {
 			log.info("CAS 不存在用户:{}", username);
 			return null;
 		}
-		return sysUserService.findUserInfo(user);
+
+        return userInfoR.getData();
 	}
 
 }

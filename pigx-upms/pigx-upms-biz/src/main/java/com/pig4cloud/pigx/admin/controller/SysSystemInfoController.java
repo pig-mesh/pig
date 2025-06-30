@@ -1,13 +1,13 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,18 +22,16 @@ import java.util.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysSystemInfoController {
 
-	private final RedisTemplate<String, String> redisTemplate;
-
 	/**
 	 * 缓存监控
 	 * @return R<Object>
 	 */
 	@GetMapping("/cache")
 	public R cache() {
-		Properties info = (Properties) redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::info);
-		Properties commandStats = (Properties) redisTemplate
-			.execute((RedisCallback<Object>) connection -> connection.serverCommands().info("commandstats"));
-		Object dbSize = redisTemplate.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
+        Properties info = RedisUtils.execute((RedisCallback<Properties>) RedisServerCommands::info);
+        Properties commandStats = RedisUtils.execute((RedisCallback<Properties>)
+                connection -> connection.serverCommands().info("commandstats"));
+        Object dbSize = RedisUtils.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
 		if (commandStats == null) {
 			return R.failed("获取异常");

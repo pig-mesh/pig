@@ -20,7 +20,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
@@ -83,8 +82,6 @@ public class WxMpInitConfigRunner {
 
 	private final ScanHandler scanHandler;
 
-	private final RedisTemplate redisTemplate;
-
 	@Async
 	@Order
 	@EventListener({ ApplicationReadyEvent.class })
@@ -105,7 +102,7 @@ public class WxMpInitConfigRunner {
 		// @formatter:on
 
 		mpServices = accountList.stream().map(a -> {
-			WxMpInRedisConfigStorage configStorage = new WxMpInRedisConfigStorage(redisTemplate);
+            WxMpInRedisConfigStorage configStorage = new WxMpInRedisConfigStorage();
 			configStorage.setAppId(a.getAppid());
 			configStorage.setSecret(a.getAppsecret());
 			configStorage.setToken(a.getToken());

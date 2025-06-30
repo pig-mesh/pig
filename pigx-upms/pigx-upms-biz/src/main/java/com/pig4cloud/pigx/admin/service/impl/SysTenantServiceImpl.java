@@ -33,6 +33,7 @@ import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
@@ -43,7 +44,6 @@ import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -54,12 +54,12 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 /**
- * 租户
+ * 租户服务实现类
  * <p>
- * mybatis-plus 3.4.3.3 特殊处理 https://github.com/baomidou/mybatis-plus/pull/3592
+ * 提供租户相关的业务逻辑实现，包括租户的增删改查及初始化操作
  *
  * @author lengleng
- * @date 2019-05-15 15:55:41
+ * @date 2025/06/30
  */
 @Service
 @AllArgsConstructor
@@ -88,8 +88,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     private final SysDictService dictService;
 
     private final SysTenantUserMapper tenantUserMapper;
-
-    private final RedisTemplate redisTemplate;
 
     /**
      * 获取正常状态租户
@@ -302,9 +300,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         }
 
         // 清空指定租户的菜单权限缓存
-        Set keys = redisTemplate.keys(String.format("%s:%s::*", tenantDTO.getId(), CacheConstants.MENU_DETAILS));
+        Set<String> keys = RedisUtils.keys(String.format("%s:%s::*", tenantDTO.getId(), CacheConstants.MENU_DETAILS));
         if (CollUtil.isNotEmpty(keys)) {
-            redisTemplate.delete(keys);
+            RedisUtils.delete(keys.toArray(new String[0]));
         }
         return Boolean.TRUE;
     }

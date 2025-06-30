@@ -31,8 +31,9 @@ public class ConnectController {
 	private final SysDeptService deptService;
 
 	/**
-	 * 同步钉钉用户
-	 * @return
+     * 同步钉钉用户信息
+     *
+     * @return 操作结果
 	 */
 	@PostMapping("/sync/ding/user")
 	@HasPermission("sys_connect_sync")
@@ -44,8 +45,10 @@ public class ConnectController {
 	}
 
 	/**
-	 * 同步钉钉部门
-	 * @return
+     * 同步钉钉部门信息
+     *
+     * @return 同步操作结果
+     * @see R
 	 */
 	@PostMapping("/sync/ding/dept")
 	@HasPermission("sys_connect_sync")
@@ -54,8 +57,9 @@ public class ConnectController {
 	}
 
 	/**
-	 * 同步企微用户
-	 * @return
+     * 同步企业微信用户信息
+     *
+     * @return 同步操作结果
 	 */
 	@PostMapping("/sync/cp/user")
 	@HasPermission("sys_connect_sync")
@@ -64,8 +68,9 @@ public class ConnectController {
 	}
 
 	/**
-	 * 同步企微部门
-	 * @return
+     * 同步企业微信部门信息
+     *
+     * @return 包含同步结果的响应对象
 	 */
 	@PostMapping("/sync/cp/dept")
 	@HasPermission("sys_connect_sync")

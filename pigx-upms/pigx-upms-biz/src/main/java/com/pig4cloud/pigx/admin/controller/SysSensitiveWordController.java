@@ -10,6 +10,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysSensitiveWordEntity;
 import com.pig4cloud.pigx.admin.service.SysSensitiveWordService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
@@ -19,7 +20,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,8 +40,6 @@ import java.util.List;
 public class SysSensitiveWordController {
 
     private final SysSensitiveWordService sysSensitiveWordService;
-
-    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 分页查询
@@ -107,7 +106,10 @@ public class SysSensitiveWordController {
     @HasPermission("admin_sysSensitiveWord_edit")
     public R updateById(@RequestBody SysSensitiveWordEntity sysSensitiveWord) {
         sysSensitiveWordService.updateById(sysSensitiveWord);
-        redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
+        RedisUtils.execute((RedisCallback<Void>) connection -> {
+            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+            return null;
+        });
         return R.ok();
     }
 
@@ -137,7 +139,10 @@ public class SysSensitiveWordController {
     @HasPermission("admin_sysSensitiveWord_del")
     public R removeById(@RequestBody Long[] ids) {
         sysSensitiveWordService.removeBatchByIds(CollUtil.toList(ids));
-        redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
+        RedisUtils.execute((RedisCallback<Void>) connection -> {
+            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+            return null;
+        });
         return R.ok();
     }
 
@@ -165,7 +170,10 @@ public class SysSensitiveWordController {
     @GetMapping("/refresh")
     @HasPermission("admin_sysSensitiveWord_del")
     public R refresh() {
-        redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
+        RedisUtils.execute((RedisCallback<Void>) connection -> {
+            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+            return null;
+        });
         return R.ok();
     }
 }

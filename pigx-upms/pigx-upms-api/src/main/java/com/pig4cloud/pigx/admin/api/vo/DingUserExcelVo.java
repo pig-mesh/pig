@@ -3,11 +3,17 @@ package com.pig4cloud.pigx.admin.api.vo;
 import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
-import jakarta.validation.constraints.NotBlank;
 import java.io.Serializable;
 
+/**
+ * 钉钉用户Excel导入导出VO
+ *
+ * @author lengleng
+ * @date 2025/06/30
+ */
 @Data
 public class DingUserExcelVo implements Serializable {
 

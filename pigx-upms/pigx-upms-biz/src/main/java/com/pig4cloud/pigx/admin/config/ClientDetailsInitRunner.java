@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pigx.admin.service.SysTenantService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,6 @@ import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.scheduling.annotation.Async;
@@ -36,8 +36,6 @@ public class ClientDetailsInitRunner implements InitializingBean {
 	private final RedisMessageListenerContainer listenerContainer;
 
 	private final SysTenantService tenantService;
-
-	private final StringRedisTemplate redisTemplate;
 
 	/**
 	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
@@ -65,7 +63,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 					// 3. 拼接key 1:client_config_flag:clinetId
 					String key = String.format("%s:%s:%s", tenantId, CacheConstants.CLIENT_FLAG, client.getClientId());
 					// 4. hashkey clientId 保存客户端信息
-					redisTemplate.opsForValue().set(key, client.getAdditionalInformation());
+                    RedisUtils.set(key, client.getAdditionalInformation());
 				});
 			});
 		});

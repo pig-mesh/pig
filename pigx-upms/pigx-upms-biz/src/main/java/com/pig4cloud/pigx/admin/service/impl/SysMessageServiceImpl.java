@@ -42,6 +42,7 @@ import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import com.pig4cloud.pigx.common.log.util.JacksonSensitiveFieldUtil;
@@ -76,7 +77,6 @@ import org.dromara.sms4j.unisms.config.UniConfig;
 import org.dromara.sms4j.yunpian.config.YunpianConfig;
 import org.dromara.sms4j.zhutong.config.ZhutongConfig;
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,7 +85,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+
 
 /**
  * 站内信息
@@ -108,8 +108,6 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     private final SysSystemConfigMapper sysSystemConfigMapper;
 
     private final SysMessageRelationMapper relationMapper;
-
-    private final StringRedisTemplate redisTemplate;
 
     private final SysUserMapper userMapper;
 
@@ -259,7 +257,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
             return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
         }
 
-        String codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
+        String codeObj = RedisUtils.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
 
         if (StrUtil.isNotBlank(codeObj)) {
             log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -268,7 +266,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
         String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
         log.info("手机号生成验证码成功:{},{}", mobile, code);
-        redisTemplate.opsForValue().set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code, SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+        RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code, SecurityConstants.CODE_TIME);
 
         // 发送
         return this.sendSms(MessageSmsDTO.builder().mobile(mobile).biz(SmsBizCodeEnum.SMS_NORMAL_CODE.getCode()).param(code).build());

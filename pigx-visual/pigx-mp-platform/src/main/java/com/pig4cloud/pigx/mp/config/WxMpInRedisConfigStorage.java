@@ -16,11 +16,9 @@
 
 package com.pig4cloud.pigx.mp.config;
 
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import me.chanjar.weixin.common.enums.TicketType;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
-import org.springframework.data.redis.core.RedisTemplate;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lengleng
@@ -36,16 +34,13 @@ public class WxMpInRedisConfigStorage extends WxMpDefaultConfigImpl {
 
 	private final static String CARDAPI_TICKET_KEY = "wechat:cardapi_ticket_";
 
-	private final RedisTemplate<String, String> redisTemplate;
-
 	private String accessTokenKey;
 
 	private String jsapiTicketKey;
 
 	private String cardapiTicketKey;
 
-	public WxMpInRedisConfigStorage(RedisTemplate redisTemplate) {
-		this.redisTemplate = redisTemplate;
+    public WxMpInRedisConfigStorage() {
 	}
 
 	/**
@@ -62,52 +57,52 @@ public class WxMpInRedisConfigStorage extends WxMpDefaultConfigImpl {
 
 	@Override
 	public String getAccessToken() {
-		return redisTemplate.opsForValue().get(this.accessTokenKey);
+        return RedisUtils.get(this.accessTokenKey);
 	}
 
 	@Override
 	public boolean isAccessTokenExpired() {
-		return redisTemplate.getExpire(accessTokenKey) < 2L;
+        return RedisUtils.getExpire(accessTokenKey) < 2L;
 	}
 
 	@Override
 	public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
-		redisTemplate.opsForValue().set(accessTokenKey, accessToken, expiresInSeconds - 200, TimeUnit.SECONDS);
+        RedisUtils.set(accessTokenKey, accessToken, expiresInSeconds - 200);
 	}
 
 	@Override
 	public void expireAccessToken() {
-		redisTemplate.expire(this.accessTokenKey, 0, TimeUnit.SECONDS);
+        RedisUtils.expire(this.accessTokenKey, 0);
 	}
 
 	@Override
 	public String getJsapiTicket() {
-		return redisTemplate.opsForValue().get(this.jsapiTicketKey);
+        return RedisUtils.get(this.jsapiTicketKey);
 	}
 
 	@Override
 	public String getCardApiTicket() {
-		return redisTemplate.opsForValue().get(cardapiTicketKey);
+        return RedisUtils.get(cardapiTicketKey);
 	}
 
 	@Override
 	public String getTicket(TicketType type) {
-		return redisTemplate.opsForValue().get(getTicketRedisKey(type));
+        return RedisUtils.get(getTicketRedisKey(type));
 	}
 
 	@Override
 	public boolean isTicketExpired(TicketType type) {
-		return redisTemplate.getExpire(this.getTicketRedisKey(type)) < 2;
+        return RedisUtils.getExpire(this.getTicketRedisKey(type)) < 2;
 	}
 
 	@Override
 	public synchronized void updateTicket(TicketType type, String jsapiTicket, int expiresInSeconds) {
-		redisTemplate.opsForValue().set(getTicketRedisKey(type), jsapiTicket, expiresInSeconds - 200, TimeUnit.SECONDS);
+        RedisUtils.set(getTicketRedisKey(type), jsapiTicket, expiresInSeconds - 200);
 	}
 
 	@Override
 	public void expireTicket(TicketType type) {
-		redisTemplate.expire(getTicketRedisKey(type), 0, TimeUnit.SECONDS);
+        RedisUtils.expire(getTicketRedisKey(type), 0);
 	}
 
 	private String getTicketRedisKey(TicketType type) {

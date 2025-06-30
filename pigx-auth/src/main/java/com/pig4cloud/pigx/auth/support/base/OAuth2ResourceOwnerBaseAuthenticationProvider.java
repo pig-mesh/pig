@@ -2,8 +2,8 @@ package com.pig4cloud.pigx.auth.support.base;
 
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.extra.spring.SpringUtil;
+import com.pig4cloud.pigx.auth.support.store.PigxRedisOAuth2AuthorizationService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
-import com.pig4cloud.pigx.common.security.service.PigxRedisOAuth2AuthorizationService;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
 import com.pig4cloud.pigx.common.security.util.ScopeException;
 import lombok.extern.slf4j.Slf4j;

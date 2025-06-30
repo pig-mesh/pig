@@ -25,6 +25,7 @@
         <result column="password_expire_flag" property="passwordExpireFlag"/>
         <result column="password_modify_time" property="passwordModifyTime"/>
         <result column="del_flag" property="delFlag"/>
+        <result column="tenant_id" property="tenantId"/>
         <collection property="deptList" ofType="com.pig4cloud.pigx.admin.api.entity.SysDept"
                     select="com.pig4cloud.pigx.admin.mapper.SysDeptMapper.listDeptsByUserId"
                     column="{userId=user_id, tenantId=tenant_id}">
@@ -65,12 +66,35 @@
         u.update_time
     </sql>
 
-    <select id="getUserVoByUsername" resultMap="baseResultMap">
+    <select id="getUserVo" resultMap="baseResultMap">
         SELECT
         <include refid="userColumns"/>
-        FROM
-        sys_user u
-        WHERE u.username = #{username}  and u.del_flag = '0'
+        FROM sys_user u
+        WHERE u.del_flag = '0'
+        <if test="query.username != null and query.username != ''">
+            AND u.username = #{query.username}
+        </if>
+        <if test="query.oscId != null and query.oscId != ''">
+            AND u.osc_id = #{query.oscId}
+        </if>
+        <if test="query.phone != null and query.phone != ''">
+            AND u.phone = #{query.phone}
+        </if>
+        <if test="query.wxCpUserid != null and query.wxCpUserid != ''">
+            AND u.wx_cp_userid = #{query.wxCpUserid}
+        </if>
+        <if test="query.wxDingUserid != null and query.wxDingUserid != ''">
+            AND u.wx_ding_userid = #{query.wxDingUserid}
+        </if>
+        <if test="query.giteeLogin != null and query.giteeLogin != ''">
+            AND u.gitee_login = #{query.giteeLogin}
+        </if>
+        <if test="query.wxOpenid != null and query.wxOpenid != ''">
+            AND u.wx_openid = #{query.wxOpenid}
+        </if>
+        <if test="query.miniOpenid != null and query.miniOpenid != ''">
+            AND u.mini_openid = #{query.miniOpenid}
+        </if>
     </select>
 
     <select id="getUserVoById" resultMap="baseResultMap">

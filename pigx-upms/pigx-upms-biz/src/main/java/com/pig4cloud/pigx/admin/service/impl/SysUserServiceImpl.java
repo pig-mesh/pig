@@ -20,7 +20,6 @@
 package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -165,34 +164,32 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     /**
-     * 查询用户全部信息，包括角色和权限
+     * 根据用户信息查询用户全部信息，包括角色和权限
      *
-     * @param sysUser 用户信息
+     * @param userDTO 用户信息DTO
      * @return 包含用户角色和权限的用户信息对象
      */
     @Override
-    public UserInfo findUserInfo(SysUser sysUser) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setSysUser(sysUser);
+    public R<UserInfo> getUserInfo(UserDTO userDTO) {
+        UserVO dbUser = baseMapper.getUserVo(userDTO);
+
+        if (dbUser == null) {
+            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, userDTO.getUsername()));
+        }
+
         // 设置角色列表 （ID）
-        List<Long> roleIds = sysRoleService.findRolesByUserId(sysUser.getUserId())
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(dbUser, userInfo);
+        // 设置权限列表（menu.permission）
+        List<String> permissions = dbUser.getRoleList()
                 .stream()
                 .map(SysRole::getRoleId)
+                .flatMap(roleId -> sysMenuService.findMenuByRoleId(roleId).stream())
+                .filter(menu -> StrUtil.isNotEmpty(menu.getPermission()))
+                .map(SysMenu::getPermission)
                 .toList();
-        userInfo.setRoles(ArrayUtil.toArray(roleIds, Long.class));
-
-        // 设置权限列表（menu.permission）
-        Set<String> permissions = new HashSet<>();
-        roleIds.forEach(roleId -> {
-            List<String> permissionList = sysMenuService.findMenuByRoleId(roleId)
-                    .stream()
-                    .filter(menu -> StrUtil.isNotEmpty(menu.getPermission()))
-                    .map(SysMenu::getPermission)
-                    .toList();
-            permissions.addAll(permissionList);
-        });
-        userInfo.setPermissions(ArrayUtil.toArray(permissions, String.class));
-        return userInfo;
+        userInfo.setPermissions(permissions);
+        return R.ok(userInfo);
     }
 
     /**

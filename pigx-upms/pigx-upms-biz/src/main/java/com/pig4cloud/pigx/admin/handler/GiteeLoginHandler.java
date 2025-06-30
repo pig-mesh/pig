@@ -22,7 +22,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
@@ -30,6 +30,7 @@ import com.pig4cloud.pigx.admin.mapper.SysSocialDetailsMapper;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -80,20 +81,25 @@ public class GiteeLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-	 * identify 获取用户信息
-	 * @param identify identify
-	 * @return
+     * 根据标识获取用户信息
+     *
+     * @param identify 用户标识
+     * @return 用户信息，未找到时返回null
 	 */
 	@Override
 	public UserInfo info(String identify) {
 
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getGiteeLogin, identify));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setGiteeLogin(identify);
 
-		if (user == null) {
-			log.info("码云未绑定:{}", identify);
+        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+
+        if (userInfoR.getData() == null) {
+            log.info("微信 不存在用户:{}", identify);
 			return null;
 		}
-		return sysUserService.findUserInfo(user);
+
+        return userInfoR.getData();
 	}
 
 	/**

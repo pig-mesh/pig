@@ -5,7 +5,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 短信发送

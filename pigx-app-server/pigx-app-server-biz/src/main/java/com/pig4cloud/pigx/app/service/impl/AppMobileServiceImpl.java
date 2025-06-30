@@ -27,12 +27,10 @@ import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lengleng
@@ -45,8 +43,6 @@ import java.util.concurrent.TimeUnit;
 @AllArgsConstructor
 public class AppMobileServiceImpl implements AppMobileService {
 
-	private final StringRedisTemplate redisTemplate;
-
 	/**
 	 * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
 	 * @param mobile mobile
@@ -54,8 +50,7 @@ public class AppMobileServiceImpl implements AppMobileService {
 	 */
 	@Override
 	public R<Boolean> sendSmsCode(String mobile) {
-		String codeObj = redisTemplate.opsForValue()
-			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile);
+		String codeObj = RedisUtils.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile);
 
 		if (StrUtil.isNotBlank(codeObj)) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -64,9 +59,7 @@ public class AppMobileServiceImpl implements AppMobileService {
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.debug("手机号生成验证码成功:{},{}", mobile, code);
-		redisTemplate.opsForValue()
-			.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile, code,
-					SecurityConstants.CODE_TIME, TimeUnit.SECONDS);
+		RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.APPSMS.getType() + StringPool.AT + mobile, code, SecurityConstants.CODE_TIME);
 		return R.ok(Boolean.TRUE);
 	}
 

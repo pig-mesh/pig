@@ -17,10 +17,11 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
 import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -47,19 +48,24 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-	 * 通过mobile 获取用户信息
-	 * @param identify
-	 * @return
+     * 通过手机号获取用户信息
+     *
+     * @param identify 手机号标识
+     * @return 用户信息，未找到时返回null
 	 */
 	@Override
 	public UserInfo info(String identify) {
-		SysUser user = sysUserService.getOne(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, identify));
+        UserDTO userDTO = new UserDTO();
+        userDTO.setPhone(identify);
 
-		if (user == null) {
-			log.info("手机号未注册:{}", identify);
+        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+
+        if (userInfoR.getData() == null) {
+            log.info("手机号 不存在用户:{}", identify);
 			return null;
 		}
-		return sysUserService.findUserInfo(user);
+
+        return userInfoR.getData();
 	}
 
 	/**

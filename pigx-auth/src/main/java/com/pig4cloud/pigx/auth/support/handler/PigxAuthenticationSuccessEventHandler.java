@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.log.event.SysLogEvent;
 import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
 import com.pig4cloud.pigx.common.log.util.SysLogUtils;
@@ -32,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.Authentication;
@@ -61,8 +61,6 @@ import java.util.Map;
 public class PigxAuthenticationSuccessEventHandler implements AuthenticationSuccessHandler {
 
 	private static final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
-
-	private final StringRedisTemplate redisTemplate;
 
 	private final ApplicationEventPublisher publisher;
 
@@ -132,7 +130,7 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 	private void clearLoginFailureTimes(Map<String, Object> map) {
 		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES,
 				MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
-		redisTemplate.delete(key);
+		RedisUtils.delete(key);
 	}
 
 	private void sendAccessTokenResponse(HttpServletResponse response, Authentication authentication)

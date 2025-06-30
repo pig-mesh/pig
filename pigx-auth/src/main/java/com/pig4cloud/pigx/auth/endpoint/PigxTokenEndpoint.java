@@ -32,6 +32,7 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.security.util.OAuth2ErrorCodesExpand;
@@ -42,7 +43,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.CacheManager;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServletServerHttpResponse;
@@ -76,8 +76,6 @@ public class PigxTokenEndpoint {
     private final OAuth2AuthorizationService authorizationService;
 
     private final RemoteClientDetailsService clientDetailsService;
-
-    private final RedisTemplate<String, Object> redisTemplate;
 
     private final RemoteTenantService tenantService;
 
@@ -213,7 +211,7 @@ public class PigxTokenEndpoint {
 
         // 根据是否有username参数选择不同的查询key
         String searchKey = StrUtil.isNotBlank(username) ? usernameKey : key;
-        Set<String> keys = redisTemplate.keys(searchKey);
+        Set<String> keys = RedisUtils.keys(searchKey);
 
         // 分页处理
         List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
@@ -234,7 +232,7 @@ public class PigxTokenEndpoint {
             tokenVo.setId(keyParts[5]);
             tokenVo.setAccessToken(keyParts[5]);
             // 获取TTL作为过期时间
-            Long ttl = redisTemplate.getExpire(keyName);
+            Long ttl = RedisUtils.getExpire(keyName);
             // TTL是秒数，转换为过期时间
             long expiresAtMillis = System.currentTimeMillis() + (ttl * 1000);
             String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis), DatePattern.NORM_DATETIME_PATTERN);

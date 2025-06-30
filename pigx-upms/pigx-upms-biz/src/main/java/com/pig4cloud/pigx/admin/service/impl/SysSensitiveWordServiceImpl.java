@@ -9,8 +9,9 @@ import com.pig4cloud.pigx.admin.api.entity.SysSensitiveWordEntity;
 import com.pig4cloud.pigx.admin.mapper.SysSensitiveWordMapper;
 import com.pig4cloud.pigx.admin.service.SysSensitiveWordService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
+import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +25,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMapper, SysSensitiveWordEntity> implements SysSensitiveWordService {
-
-    private final RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 查询敏感词
@@ -59,7 +58,10 @@ public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMap
             });
         }
 
-        redisTemplate.convertAndSend(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC, "刷新敏感词缓存");
+        RedisUtils.execute((RedisCallback<Void>) connection -> {
+            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+            return null;
+        });
         return Boolean.TRUE;
     }
 }
