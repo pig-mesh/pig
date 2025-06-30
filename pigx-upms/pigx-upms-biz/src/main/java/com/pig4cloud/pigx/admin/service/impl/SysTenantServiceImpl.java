@@ -21,14 +21,15 @@ import cn.hutool.core.util.CharUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.pig4cloud.pigx.admin.api.constant.TenantStateEnum;
+import com.pig4cloud.pigx.admin.api.dto.SysTenantUserDTO;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.config.ClientDetailsInitRunner;
-import com.pig4cloud.pigx.admin.mapper.SysRoleMenuMapper;
-import com.pig4cloud.pigx.admin.mapper.SysTenantMapper;
-import com.pig4cloud.pigx.admin.mapper.SysTenantUserMapper;
+import com.pig4cloud.pigx.admin.mapper.*;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -87,7 +88,14 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
     private final SysDictService dictService;
 
-    private final SysTenantUserMapper tenantUserMapper;
+    private final SysUserMapper sysUserMapper;
+    private final SysTenantUserMapper sysTenantUserMapper;
+    private final SysUserPostMapper sysUserPostMapper;
+    private final SysUserRoleMapper sysUserRoleMapper;
+    private final SysUserDeptMapper sysUserDeptMapper;
+    private final SysRoleMapper sysRoleMapper;
+    private final SysDeptMapper sysDeptMapper;
+    private final SysPostMapper sysPostMapper;
 
     /**
      * 获取正常状态租户
@@ -319,6 +327,149 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
                 .leftJoin(SysTenantUser.class, SysTenantUser::getTenantId, SysTenant::getId)
                 .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId());
         return baseMapper.selectJoinList(wrapper);
+    }
+
+    /**
+     * 获取用户租户分页信息
+     *
+     * @param page    分页参数
+     * @param userDTO 用户信息
+     * @return 用户租户分页结果
+     */
+    @Override
+    public Page getUserTenantPage(Page page, UserDTO userDTO) {
+        MPJLambdaWrapper<SysUser> wrapper = new MPJLambdaWrapper<SysUser>()
+                .selectAll(SysUser.class)
+                .innerJoin(SysTenantUser.class, SysTenantUser::getUserId, SysUser::getUserId)
+                .like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())
+                .like(StrUtil.isNotBlank(userDTO.getPhone()), SysUser::getPhone, userDTO.getPhone())
+                .like(StrUtil.isNotBlank(userDTO.getEmail()), SysUser::getEmail, userDTO.getEmail())
+                .eq(Objects.nonNull(userDTO.getTenantId()), SysTenantUser::getTenantId, userDTO.getTenantId());
+        return TenantBroker.noneAs(() -> sysUserMapper.selectJoinPage(page, wrapper));
+    }
+
+    /**
+     * 移除租户用户
+     *
+     * @param tenantUserDTO 租户用户信息
+     * @return 是否移除成功
+     */
+    @Override
+    public Boolean removeTenantUser(SysTenantUserDTO tenantUserDTO) {
+        ArrayList<Long> userIdList = CollUtil.toList(tenantUserDTO.getUserIds());
+
+        // 删除租户用户关系
+        sysTenantUserMapper.delete(Wrappers.<SysTenantUser>lambdaQuery()
+                .eq(SysTenantUser::getTenantId, tenantUserDTO.getTenantId())
+                .in(SysTenantUser::getUserId, userIdList)
+        );
+
+        TenantBroker.runAs(tenantUserDTO.getTenantId(), (tenantId -> {
+            // 删除用户岗位
+            sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery()
+                    .in(SysUserPost::getUserId, userIdList));
+            // 删除用户角色
+            sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery()
+                    .in(SysUserRole::getUserId, userIdList));
+            // 删除用户部门
+            sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery()
+                    .in(SysUserDept::getUserId, userIdList));
+        }));
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 根据用户信息查询租户用户列表
+     *
+     * @param userDTO 用户信息传输对象
+     * @return 租户用户列表
+     */
+    @Override
+    public List<SysUser> listTenantUser(UserDTO userDTO) {
+        return TenantBroker.noneAs(() -> sysUserMapper
+                .selectList(Wrappers.<SysUser>lambdaQuery().like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())));
+    }
+
+    /**
+     * 保存租户用户信息
+     *
+     * @param tenantUserDTO 租户用户信息DTO
+     * @return 保存是否成功
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Boolean saveTenantUser(SysTenantUserDTO tenantUserDTO) {
+        TenantBroker.runAs(tenantUserDTO.getTenantId(), (tenantId -> {
+            for (Long userId : tenantUserDTO.getUserIds()) {
+                List<SysTenantUser> sysTenantUsers = sysTenantUserMapper.selectList(Wrappers.<SysTenantUser>lambdaQuery()
+                        .eq(SysTenantUser::getTenantId, tenantId)
+                        .eq(SysTenantUser::getUserId, userId));
+                if (CollUtil.isEmpty(sysTenantUsers)) {
+                    // 插入租户用户关系
+                    SysTenantUser sysTenantUser = new SysTenantUser();
+                    sysTenantUser.setUserId(userId);
+                    sysTenantUser.setTenantId(tenantId);
+                    sysTenantUserMapper.insert(sysTenantUser);
+                }
+
+
+                List<SysUserRole> userRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery()
+                        .eq(SysUserRole::getUserId, userId)
+                        .eq(SysUserRole::getRoleId, tenantUserDTO.getRoleId()));
+                if (CollUtil.isEmpty(userRoleList)) {
+                    // 插入用户角色关系
+                    SysUserRole sysUserRole = new SysUserRole();
+                    sysUserRole.setUserId(userId);
+                    sysUserRole.setRoleId(tenantUserDTO.getRoleId());
+                    sysUserRoleMapper.insert(sysUserRole);
+                }
+
+
+                List<SysUserDept> userDeptList = sysUserDeptMapper.selectList(Wrappers.<SysUserDept>lambdaQuery()
+                        .eq(SysUserDept::getUserId, userId)
+                        .eq(SysUserDept::getDeptId, tenantUserDTO.getDeptId()));
+
+                if (CollUtil.isEmpty(userDeptList)) {
+                    // 插入用户部门关系
+                    SysUserDept sysUserDept = new SysUserDept();
+                    sysUserDept.setUserId(userId);
+                    sysUserDept.setDeptId(tenantUserDTO.getDeptId());
+                    sysUserDeptMapper.insert(sysUserDept);
+                }
+
+                List<SysUserPost> userPostList = sysUserPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery()
+                        .eq(SysUserPost::getUserId, userId)
+                        .eq(SysUserPost::getPostId, tenantUserDTO.getPostId()));
+
+                if (CollUtil.isEmpty(userPostList)) {
+                    // 插入用户岗位关系
+                    SysUserPost sysUserPost = new SysUserPost();
+                    sysUserPost.setUserId(userId);
+                    sysUserPost.setPostId(tenantUserDTO.getPostId());
+                    sysUserPostMapper.insert(sysUserPost);
+                }
+            }
+        }));
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 获取租户角色列表
+     *
+     * @param userDTO 用户信息
+     * @return 租户角色列表
+     */
+    @Override
+    public Map<String, Object> listTenantOrg(UserDTO userDTO) {
+        return TenantBroker.applyAs(userDTO.getTenantId(), tenantId -> {
+            // 过滤有权限配置的菜单
+            List<SysRole> sysRoles = sysRoleMapper.selectList(Wrappers.lambdaQuery()).stream()
+                    .filter(role -> roleMenuMapper.exists(Wrappers.<SysRoleMenu>lambdaQuery()
+                            .eq(SysRoleMenu::getRoleId, role.getRoleId()))).toList();
+            List<SysDept> sysDepts = sysDeptMapper.selectList(Wrappers.lambdaQuery());
+            List<SysPost> sysPosts = sysPostMapper.selectList(Wrappers.lambdaQuery());
+            return Map.of("sysRoles", sysRoles, "sysDepts", sysDepts, "sysPosts", sysPosts);
+        });
     }
 
     /**

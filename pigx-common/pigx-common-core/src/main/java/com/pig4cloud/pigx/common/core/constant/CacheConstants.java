@@ -28,7 +28,7 @@ public interface CacheConstants {
     /**
      * 用户信息缓存
      */
-    String USER_DETAILS = "user_details";
+    String USER_DETAILS = GLOBALLY + "user_details";
 
     /**
      * 移动端用户信息缓存

@@ -16,6 +16,7 @@
  */
 package com.pig4cloud.pigx.common.security.service;
 
+import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
@@ -98,7 +99,11 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 
 
         // 构造security用户
-        return new PigxUser(info.getUserId(), info.getUsername(), info.getDeptList().get(0).getDeptId(), info.getPhone(), info.getAvatar(),
+        Long deptId = null;
+        if (CollUtil.isNotEmpty(info.getDeptList())) {
+            deptId = CollUtil.getFirst(info.getDeptList()).getDeptId();
+        }
+        return new PigxUser(info.getUserId(), info.getUsername(), deptId, info.getPhone(), info.getAvatar(),
                 info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
                 SecurityConstants.BCRYPT + info.getPassword()
                 , true, true, UserTypeEnum.TOB.getStatus()

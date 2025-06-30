@@ -17,10 +17,15 @@
 
 package com.pig4cloud.pigx.admin.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.admin.api.dto.SysTenantUserDTO;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
+import com.pig4cloud.pigx.admin.api.entity.SysUser;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 租户管理
@@ -59,4 +64,45 @@ public interface SysTenantService extends IService<SysTenant> {
      * @return 用户所属租户列表
      */
     List<SysTenant> getUserTenant();
+
+	/**
+	 * 获取用户租户分页信息
+	 *
+	 * @param page    分页参数
+	 * @param userDTO 用户信息
+	 * @return 用户租户分页结果
+	 */
+	Page getUserTenantPage(Page page, UserDTO userDTO);
+
+	/**
+	 * 移除租户用户
+	 *
+	 * @param tenantUserDTO 租户用户信息
+	 * @return 是否移除成功
+	 */
+	Boolean removeTenantUser(SysTenantUserDTO tenantUserDTO);
+
+	/**
+	 * 根据用户信息查询租户用户列表
+	 *
+	 * @param userDTO 用户信息传输对象
+	 * @return 租户用户列表
+	 */
+	List<SysUser> listTenantUser(UserDTO userDTO);
+
+	/**
+	 * 保存租户用户信息
+	 *
+	 * @param tenantUserDTO 租户用户信息DTO
+	 * @return 保存是否成功
+	 */
+	Boolean saveTenantUser(SysTenantUserDTO tenantUserDTO);
+
+	/**
+	 * 获取租户角色列表
+	 *
+	 * @param userDTO 用户信息
+	 * @return 租户角色列表
+	 */
+	Map<String, Object> listTenantOrg(UserDTO userDTO);
 }

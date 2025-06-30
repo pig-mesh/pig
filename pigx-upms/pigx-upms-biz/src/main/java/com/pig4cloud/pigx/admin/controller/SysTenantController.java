@@ -23,6 +23,8 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.dto.SysTenantUserDTO;
+import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.service.SysMenuService;
 import com.pig4cloud.pigx.admin.service.SysTenantService;
@@ -196,6 +198,62 @@ public class SysTenantController {
     @GetMapping("/user-tenant")
     public R getUserTenant() {
         return R.ok(sysTenantService.getUserTenant());
+    }
+
+    @PostMapping("/user-tenant")
+    @HasPermission("sys_systenant_del")
+    public R addUserTenant(@RequestBody SysTenantUserDTO tenantUserDTO) {
+        return R.ok(sysTenantService.saveTenantUser(tenantUserDTO));
+    }
+
+    /**
+     * 获取用户租户分页信息
+     *
+     * @param page    分页参数
+     * @param userDTO 用户查询参数
+     * @return 租户分页结果
+     */
+    @GetMapping("/user-tenant/page")
+    @HasPermission("sys_systenant_del")
+    public R getUserTenantPage(@ParameterObject Page page, @ParameterObject UserDTO userDTO) {
+        return R.ok(sysTenantService.getUserTenantPage(page, userDTO));
+    }
+
+    /**
+     * 根据租户用户信息删除用户租户关系
+     *
+     * @param tenantUserDTO 租户用户信息DTO
+     * @return 操作结果
+     */
+    @SysLog("删除租户>用户关系")
+    @DeleteMapping("/remove-users")
+    @HasPermission("sys_systenant_del")
+    public R removeUserTenantById(@RequestBody SysTenantUserDTO tenantUserDTO) {
+        return R.ok(sysTenantService.removeTenantUser(tenantUserDTO));
+    }
+
+    /**
+     * 根据条件查询租户用户列表
+     *
+     * @param userDTO 用户查询条件
+     * @return 包含查询结果的响应对象
+     */
+    @GetMapping("/list-users")
+    @HasPermission("sys_systenant_del")
+    public R listTenantUser(@ParameterObject UserDTO userDTO) {
+        return R.ok(sysTenantService.listTenantUser(userDTO));
+    }
+
+    /**
+     * 获取租户角色列表
+     *
+     * @param userDTO 用户信息参数对象
+     * @return 包含租户角色列表的响应结果
+     */
+    @GetMapping("/list-org")
+    @HasPermission("sys_systenant_del")
+    public R listTenantOrg(@ParameterObject UserDTO userDTO) {
+        return R.ok(sysTenantService.listTenantOrg(userDTO));
     }
 
 }

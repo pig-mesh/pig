@@ -133,13 +133,12 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		String saveCode = codeObj;
-		if (StrUtil.isBlank(saveCode)) {
+		if (StrUtil.isBlank(codeObj)) {
 			RedisUtils.delete(key);
 			throw new ValidateCodeException("验证码不合法");
 		}
 
-		if (!StrUtil.equals(saveCode, code)) {
+		if (!StrUtil.equals(codeObj, code)) {
 			RedisUtils.delete(key);
 			throw new ValidateCodeException("验证码不合法");
 		}
