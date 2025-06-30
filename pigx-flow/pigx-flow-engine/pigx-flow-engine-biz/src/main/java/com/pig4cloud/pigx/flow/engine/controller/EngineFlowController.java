@@ -11,6 +11,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.flow.engine.utils.ModelUtil;
 import com.pig4cloud.pigx.flow.task.dto.*;
 import com.pig4cloud.pigx.flow.task.entity.Process;
@@ -83,7 +84,8 @@ public class EngineFlowController {
             log.debug("部署时的模型文件：{}", filename);
             FileUtil.writeBytes(bpmnBytess, filename);
         }
-        repositoryService.createDeployment().addBpmnModel(StrUtil.format("{}.bpmn20.xml", "pig"), bpmnModel).deploy();
+        repositoryService.createDeployment().addBpmnModel(StrUtil.format("{}.bpmn20.xml", "pig"), bpmnModel)
+                .tenantId(TenantContextHolder.getTenantId().toString()).deploy();
 
         return R.ok(flowId);
     }
@@ -97,8 +99,8 @@ public class EngineFlowController {
     @PostMapping("/start")
     public R start(@RequestBody ProcessInstanceParamDto processInstanceParamDto) {
         Authentication.setAuthenticatedUserId(processInstanceParamDto.getStartUserId());
-        ProcessInstance processInstance = runtimeService.startProcessInstanceByKey(processInstanceParamDto.getFlowId(),
-                processInstanceParamDto.getParamMap());
+        ProcessInstance processInstance = runtimeService.startProcessInstanceByKeyAndTenantId(processInstanceParamDto.getFlowId(),
+                processInstanceParamDto.getParamMap(), TenantContextHolder.getTenantId().toString());
 
         String processInstanceId = processInstance.getProcessInstanceId();
         return R.ok(processInstanceId);
@@ -134,6 +136,7 @@ public class EngineFlowController {
             // 查询流程实例
             ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
                     .processInstanceId(processInstanceId)
+                    .processInstanceTenantId(TenantContextHolder.getTenantId().toString())
                     .singleResult();
             if (Optional.ofNullable(processInstance).isPresent()) {
                 // 查询执行实例
@@ -239,6 +242,7 @@ public class EngineFlowController {
         if (StrUtil.isNotBlank(taskQueryParamDto.getProcessName())) {
             List<ProcessInstance> processInstanceList = runtimeService.createProcessInstanceQuery()
                     .processDefinitionName(taskQueryParamDto.getProcessName())
+                    .processInstanceTenantId(TenantContextHolder.getTenantId().toString())
                     .list();
             if (CollUtil.isNotEmpty(processInstanceList)) {
                 taskQuery.processInstanceIdIn(processInstanceList.stream()
