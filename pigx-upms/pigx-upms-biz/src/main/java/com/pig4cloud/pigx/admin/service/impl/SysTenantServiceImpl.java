@@ -51,7 +51,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -159,12 +158,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             dept.setName(tenantDefault.getTenantDefaultDeptname());
             dept.setParentId(0L);
             deptService.save(dept);
-            // 构造初始化用户
-            SysUser user = new SysUser();
-            user.setUsername(tenantDefault.getTenantDefaultUsername());
-            user.setPasswordModifyTime(LocalDateTime.now());
-            user.setPassword(ENCODER.encode(tenantDefault.getTenantDefaultPassword()));
-            userService.save(user);
 
             // 构造普通用户角色
             SysRole roleDefault = new SysRole();
@@ -179,11 +172,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             role.setRoleName(tenantDefault.getTenantDefaultRolename());
             role.setDsType(DataScopeTypeEnum.ALL.getType());
             roleService.save(role);
-            // 用户角色关系
-            SysUserRole userRole = new SysUserRole();
-            userRole.setUserId(user.getUserId());
-            userRole.setRoleId(role.getRoleId());
-            userRoleService.save(userRole);
             // 插入新的菜单
             saveTenantMenu(menuList, CommonConstants.MENU_TREE_ROOT_ID, CommonConstants.MENU_TREE_ROOT_ID);
 

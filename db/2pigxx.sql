@@ -1418,4 +1418,20 @@ BEGIN;
 INSERT INTO `sys_user_dept` (`user_id`, `dept_id`, `tenant_id`) VALUES (1, 1, 1);
 COMMIT;
 
+-- ----------------------------
+-- Table structure for sys_tenant_user
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_tenant_user`;
+CREATE TABLE `sys_tenant_user` (
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  PRIMARY KEY (`tenant_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='租户用户表';
+
+-- ----------------------------
+-- Records of sys_tenant_user
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_tenant_user` (`tenant_id`, `user_id`) VALUES (1, 1);
+COMMIT;
 SET FOREIGN_KEY_CHECKS = 1;

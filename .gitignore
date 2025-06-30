@@ -64,4 +64,4 @@ application-preview.yml
 node_modules
 
 ### test
-docker-compose-test.yml
+*-aitest*
