@@ -58,6 +58,10 @@ Servers
 .metadata
 upload
 gen_code
+application-preview.yml
 
 ### node ###
 node_modules
+
+### test
+docker-compose-test.yml

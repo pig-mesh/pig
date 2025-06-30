@@ -1270,7 +1270,6 @@ CREATE TABLE `sys_user` (
   `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '昵称',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
   `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱地址',
-  `dept_id` bigint(20) DEFAULT NULL COMMENT '所属部门ID',
   `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
   `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -1297,7 +1296,7 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$c/Ae0pRjJtMZg3BnvVpO.eIK6WYWVbKTzqgdy3afR7w.vd.xi3Mgy', '', '13054729089', '/admin/sys-file/local/2a14ae08150e483c93e12ac8934173e2.png', '管理员666777', '管理员', 'sw@mail.pigxl.vip', 4, ' ', 'admin', '2018-04-20 07:15:18', '2023-04-03 14:00:06', '0', '0', NULL, '0', NULL, 'oBxPy5E-v82xWGsfzZVzkD3wEX64', NULL, 'log4j', NULL, NULL,NULL,1);
+INSERT INTO `sys_user` VALUES (1, 'admin', '$2a$10$c/Ae0pRjJtMZg3BnvVpO.eIK6WYWVbKTzqgdy3afR7w.vd.xi3Mgy', '', '13054729089', '/admin/sys-file/local/2a14ae08150e483c93e12ac8934173e2.png', '管理员666777', '管理员', 'sw@mail.pigxl.vip', ' ', 'admin', '2018-04-20 07:15:18', '2023-04-03 14:00:06', '0', '0', NULL, '0', NULL, 'oBxPy5E-v82xWGsfzZVzkD3wEX64', NULL, 'log4j', NULL, NULL,NULL,1);
 COMMIT;
 
 -- ----------------------------
@@ -1307,6 +1306,7 @@ DROP TABLE IF EXISTS `sys_user_post`;
 CREATE TABLE `sys_user_post` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `post_id` bigint(20) NOT NULL COMMENT '岗位ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
   PRIMARY KEY (`user_id`,`post_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='用户与岗位关联表';
 
@@ -1314,7 +1314,7 @@ CREATE TABLE `sys_user_post` (
 -- Records of sys_user_post
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_post` VALUES (1, 1);
+INSERT INTO `sys_user_post` VALUES (1, 1,1);
 COMMIT;
 
 -- ----------------------------
@@ -1324,6 +1324,7 @@ DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role` (
   `user_id` bigint(20) NOT NULL COMMENT '用户ID',
   `role_id` bigint(20) NOT NULL COMMENT '角色ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
   PRIMARY KEY (`user_id`,`role_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户角色表';
 
@@ -1331,7 +1332,7 @@ CREATE TABLE `sys_user_role` (
 -- Records of sys_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user_role` VALUES (1, 1);
+INSERT INTO `sys_user_role` VALUES (1, 1, 1);
 COMMIT;
 
 
@@ -1397,5 +1398,24 @@ CREATE TABLE `sys_system_config` (
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='系统配置';
+
+
+-- ----------------------------
+-- Table structure for sys_user_dept
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_user_dept`;
+CREATE TABLE `sys_user_dept` (
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  `dept_id` bigint NOT NULL COMMENT '角色ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  PRIMARY KEY (`user_id`,`dept_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户部门表';
+
+-- ----------------------------
+-- Records of sys_user_dept
+-- ----------------------------
+BEGIN;
+INSERT INTO `sys_user_dept` (`user_id`, `dept_id`, `tenant_id`) VALUES (1, 1, 1);
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
