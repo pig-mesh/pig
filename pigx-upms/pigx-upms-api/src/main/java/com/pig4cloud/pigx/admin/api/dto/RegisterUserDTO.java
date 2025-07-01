@@ -30,4 +30,9 @@ public class RegisterUserDTO {
      * 电话
      */
     private String phone;
+
+    /**
+     * 租户ID
+     */
+    private Long tenantId;
 }

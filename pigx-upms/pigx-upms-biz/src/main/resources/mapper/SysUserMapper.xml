@@ -111,9 +111,9 @@
         <include refid="userColumns"/>
         FROM
         sys_user u
-        INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+        LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
         WHERE
-        ud.tenant_id = #{query.tenantId}
+        ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL
         AND u.del_flag = '0'
         <!-- 用户名模糊查询 -->
             <if test="query.username != null and query.username != ''">
@@ -138,9 +138,9 @@
         <include refid="userColumns"/>
         FROM
         sys_user u
-        INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+        LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
         WHERE
-        ud.tenant_id = #{query.tenantId}
+        ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL
         AND u.del_flag = '0'
         <!-- 用户名模糊查询 -->
             <if test="query.username != null and query.username != ''">

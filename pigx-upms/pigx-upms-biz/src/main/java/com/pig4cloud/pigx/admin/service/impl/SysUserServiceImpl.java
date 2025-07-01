@@ -156,7 +156,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 插入用户租户关系表
         SysTenantUser sysTenantUser = new SysTenantUser();
         sysTenantUser.setUserId(sysUser.getUserId());
-        sysTenantUser.setTenantId(SecurityUtils.getUser().getTenantId());
+        sysTenantUser.setTenantId(Objects.nonNull(SecurityUtils.getUser())
+                ? SecurityUtils.getUser().getTenantId() : userDto.getTenantId());
         sysTenantUserMapper.insert(sysTenantUser);
         return Boolean.TRUE;
     }
