@@ -200,6 +200,12 @@ public class SysTenantController {
         return R.ok(sysTenantService.getUserTenant());
     }
 
+    /**
+     * 新增用户租户关联关系
+     *
+     * @param tenantUserDTO 用户租户关联信息DTO
+     * @return 操作结果
+     */
     @PostMapping("/user-tenant")
     @HasPermission("sys_systenant_del")
     public R addUserTenant(@RequestBody SysTenantUserDTO tenantUserDTO) {

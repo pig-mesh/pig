@@ -429,7 +429,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
                         .eq(SysUserPost::getUserId, userId)
                         .eq(SysUserPost::getPostId, tenantUserDTO.getPostId()));
 
-                if (CollUtil.isEmpty(userPostList)) {
+                if (CollUtil.isEmpty(userPostList) && Objects.nonNull(tenantUserDTO.getPostId())) {
                     // 插入用户岗位关系
                     SysUserPost sysUserPost = new SysUserPost();
                     sysUserPost.setUserId(userId);
