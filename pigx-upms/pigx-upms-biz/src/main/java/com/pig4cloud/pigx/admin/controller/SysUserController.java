@@ -29,6 +29,7 @@ import com.pig4cloud.pigx.admin.api.vo.UserExcelVO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -113,7 +114,8 @@ public class SysUserController {
     @Inner(value = false)
     @GetMapping("/details")
     public R getDetails(@ParameterObject SysUser query) {
-        SysUser sysUser = userService.getOne(Wrappers.query(query), false);
+        // 根据用户名、手机号 查询不区分租户
+        SysUser sysUser = TenantBroker.noneAs(() -> userService.getOne(Wrappers.query(query), false));
         return R.ok(sysUser == null ? null : CommonConstants.SUCCESS);
     }
 

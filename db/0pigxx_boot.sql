@@ -1302,9 +1302,8 @@ CREATE TABLE `sys_user` (
   `wx_ding_userid` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '钉钉唯一ID',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户ID',
   PRIMARY KEY (`user_id`) USING BTREE,
-  KEY `user_wx_openid` (`wx_openid`) USING BTREE,
-  KEY `user_qq_openid` (`qq_openid`) USING BTREE,
-  KEY `user_idx1_username` (`username`) USING BTREE
+  UNIQUE KEY `user_unique_phone` (`phone`) USING BTREE,
+  UNIQUE KEY `user_unique_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户表';
 
 -- ----------------------------
