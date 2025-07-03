@@ -23,7 +23,9 @@ import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -34,10 +36,12 @@ import java.time.LocalDateTime;
  */
 @Data
 @TenantTable
+@FieldNameConstants
 @Schema(description = "文件")
 @EqualsAndHashCode(callSuper = true)
 public class SysFile extends Model<SysFile> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

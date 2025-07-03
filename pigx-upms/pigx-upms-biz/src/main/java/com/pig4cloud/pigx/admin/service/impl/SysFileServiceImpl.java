@@ -118,16 +118,21 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         TenantContextHolder.setTenantSkip();
         // 增加历史数据兼容 /admin/sys-file/local?fileName=xxx.png
         Map<String, String> stringMap = HttpUtil.decodeParamMap(fileName, Charset.defaultCharset());
-        String urlFileName = MapUtil.getStr(stringMap, "fileName");
+        String urlFileName = MapUtil.getStr(stringMap, SysFile.Fields.fileName);
         if (StrUtil.isNotBlank(urlFileName)) {
             fileName = urlFileName;
         }
 
         SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName), false);
+        if (Objects.isNull(sysFile)) {
+            log.warn("文件不存在: {}", fileName);
+            return;
+        }
+
         try (S3Object s3Object = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
             response.setContentType("application/octet-stream; charset=UTF-8");
             // 文件唯一hash
-            response.addHeader("Hash", sysFile.getHash());
+            response.addHeader(SysFile.Fields.hash, sysFile.getHash());
             response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLUtil.encode(sysFile.getOriginal()));
             IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
         } catch (Exception e) {
