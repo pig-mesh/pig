@@ -52,7 +52,7 @@
         <knife4j.version>3.0.5</knife4j.version>
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
-        <jimu.version>1.8.1</jimu.version>
+        <jimu.version>2.0.0</jimu.version>
         <aws.version>1.12.261</aws.version>
         <xxl.job.version>3.0.0</xxl.job.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>

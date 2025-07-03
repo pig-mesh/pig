@@ -12,7 +12,9 @@
     <packaging>jar</packaging>
 
     <description>积木报表系统</description>
-
+    <properties>
+        <tinyPinyin.version>2.0.3.RELEASE</tinyPinyin.version>
+    </properties>
     <dependencies>
         <!--注册中心客户端-->
         <dependency>
@@ -64,7 +66,17 @@
                     <artifactId>html2image</artifactId>
                     <groupId>gui.ava</groupId>
                 </exclusion>
+                <!--  中央仓库下载不下来，排除掉换个库-->
+                <exclusion>
+                    <artifactId>tinypinyin</artifactId>
+                    <groupId>com.github.promeg</groupId>
+                </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.github.biezhi</groupId>
+            <artifactId>TinyPinyin</artifactId>
+            <version>${tinyPinyin.version}</version>
         </dependency>
         <!-- druid 连接池 -->
         <dependency>
