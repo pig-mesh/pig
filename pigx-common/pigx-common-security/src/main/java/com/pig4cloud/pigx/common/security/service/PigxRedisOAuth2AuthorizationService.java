@@ -1,10 +1,10 @@
-package com.pig4cloud.pigx.auth.support.store;
+package com.pig4cloud.pigx.common.security.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.data.cache.RedisUtils;
-import com.pig4cloud.pigx.common.security.service.PigxUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.lang.Nullable;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +15,6 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationCode;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
-import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.security.Principal;
@@ -24,20 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
- * 基于Redis实现的OAuth2授权服务类，提供授权信息的存储、查询和删除功能
- *
  * @author lengleng
- * @date 2025/06/30
+ * @date 2022/5/27
  */
-@Service
 @RequiredArgsConstructor
 public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationService {
 
     private final static Long TIMEOUT = 10L;
 
     private static final String AUTHORIZATION = "token";
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private static boolean isState(OAuth2Authorization authorization) {
         return Objects.nonNull(authorization.getAttribute("state"));
@@ -63,7 +62,9 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
 
         if (isState(authorization)) {
             String token = authorization.getAttribute("state");
-            RedisUtils.set(buildKey(OAuth2ParameterNames.STATE, token), authorization, TIMEOUT * 60);
+            redisTemplate.setValueSerializer(RedisSerializer.java());
+            redisTemplate.opsForValue()
+                    .set(buildKey(OAuth2ParameterNames.STATE, token), authorization, TIMEOUT, TimeUnit.MINUTES);
         }
 
         if (isCode(authorization)) {
@@ -72,20 +73,28 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
             OAuth2AuthorizationCode authorizationCodeToken = authorizationCode.getToken();
             long between = ChronoUnit.MINUTES.between(authorizationCodeToken.getIssuedAt(),
                     authorizationCodeToken.getExpiresAt());
-            RedisUtils.set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization,
-                    (int) (between * 60));
+            redisTemplate.setValueSerializer(RedisSerializer.java());
+            redisTemplate.opsForValue()
+                    .set(buildKey(OAuth2ParameterNames.CODE, authorizationCodeToken.getTokenValue()), authorization,
+                            between, TimeUnit.MINUTES);
         }
 
         if (isRefreshToken(authorization)) {
             OAuth2RefreshToken refreshToken = authorization.getRefreshToken().getToken();
             long between = ChronoUnit.SECONDS.between(refreshToken.getIssuedAt(), refreshToken.getExpiresAt());
-            RedisUtils.set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization, (int) between);
+            redisTemplate.setValueSerializer(RedisSerializer.java());
+            redisTemplate.opsForValue()
+                    .set(buildKey(OAuth2ParameterNames.REFRESH_TOKEN, refreshToken.getTokenValue()), authorization, between,
+                            TimeUnit.SECONDS);
         }
 
         if (isAccessToken(authorization)) {
             OAuth2AccessToken accessToken = authorization.getAccessToken().getToken();
             long between = ChronoUnit.SECONDS.between(accessToken.getIssuedAt(), accessToken.getExpiresAt());
-            RedisUtils.set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, (int) between);
+            redisTemplate.setValueSerializer(RedisSerializer.java());
+            redisTemplate.opsForValue()
+                    .set(buildKey(OAuth2ParameterNames.ACCESS_TOKEN, accessToken.getTokenValue()), authorization, between,
+                            TimeUnit.SECONDS);
 
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = authorization.getAttribute(Principal.class.getName());
 
@@ -93,7 +102,7 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
                 // 扩展记录 access-token 、username 的关系 token::username::admin::tenantId::xxx
                 String tokenUsername = String.format("%s::%s::%s::%s::%s::%s", AUTHORIZATION,
                         SecurityConstants.DETAILS_USERNAME, authorization.getPrincipalName(), authorization.getRegisteredClientId(), pigxUser.getTenantId(), accessToken.getTokenValue());
-                RedisUtils.set(tokenUsername, accessToken.getTokenValue(), (int) between);
+                redisTemplate.opsForValue().set(tokenUsername, accessToken.getTokenValue(), between, TimeUnit.SECONDS);
             }
         }
     }
@@ -130,7 +139,7 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
             keys.add(key);
         }
 
-        RedisUtils.delete(keys.toArray(new String[0]));
+        redisTemplate.delete(keys);
     }
 
     @Override
@@ -143,7 +152,9 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
     @Nullable
     public OAuth2Authorization findByToken(String token, @Nullable OAuth2TokenType tokenType) {
         Assert.hasText(token, "token cannot be empty");
-        return RedisUtils.get(buildKey(Objects.requireNonNullElse(tokenType, OAuth2TokenType.ACCESS_TOKEN).getValue(), token));
+        redisTemplate.setValueSerializer(RedisSerializer.java());
+        return (OAuth2Authorization) redisTemplate.opsForValue()
+                .get(buildKey(Objects.requireNonNullElse(tokenType, OAuth2TokenType.ACCESS_TOKEN).getValue(), token));
     }
 
     private String buildKey(String type, String id) {
@@ -162,16 +173,16 @@ public class PigxRedisOAuth2AuthorizationService implements OAuth2AuthorizationS
         // 扩展记录 access-token 、username 的关系 1::token::username::admin::xxx
         String tokenUsernameKey = String.format("%s::%s::%s::*", AUTHORIZATION,
                 SecurityConstants.DETAILS_USERNAME, authenticationName);
-        Set<String> keys = RedisUtils.keys(tokenUsernameKey);
+        Set<String> keys = redisTemplate.keys(tokenUsernameKey);
         if (CollUtil.isEmpty(keys)) {
             return;
         }
 
-        List<String> tokenList = RedisUtils.multiGet(keys.stream().toList());
+        List<Object> tokenList = redisTemplate.opsForValue().multiGet(keys);
 
-        for (String token : tokenList) {
+        for (Object token : tokenList) {
             // 根据token 查询存储的 OAuth2Authorization
-            OAuth2Authorization authorization = this.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+            OAuth2Authorization authorization = this.findByToken((String) token, OAuth2TokenType.ACCESS_TOKEN);
             // 根据 OAuth2Authorization 删除相关令牌
             this.remove(authorization);
         }
