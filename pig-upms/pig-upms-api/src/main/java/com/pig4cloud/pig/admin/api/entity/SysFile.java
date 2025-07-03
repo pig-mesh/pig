@@ -22,20 +22,24 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
- * 文件管理
+ * 文件管理实体类
  *
- * @author Luckly
- * @date 2019-06-18 17:18:42
+ * @author lengleng
+ * @date 2025/07/03
  */
 @Data
+@FieldNameConstants
 @Schema(description = "文件")
 @EqualsAndHashCode(callSuper = true)
 public class SysFile extends Model<SysFile> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

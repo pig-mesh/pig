@@ -67,8 +67,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	public R uploadFile(MultipartFile file) {
 		String fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
 		Map<String, String> resultMap = new HashMap<>(4);
-		resultMap.put("bucketName", properties.getBucketName());
-		resultMap.put("fileName", fileName);
+		resultMap.put(SysFile.Fields.bucketName, properties.getBucketName());
+		resultMap.put(SysFile.Fields.fileName, fileName);
 		resultMap.put("url", String.format("/admin/sys-file/%s/%s", properties.getBucketName(), fileName));
 
 		try (InputStream inputStream = file.getInputStream()) {
