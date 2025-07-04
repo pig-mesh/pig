@@ -36,7 +36,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -131,11 +130,11 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 	 * @param username username
 	 */
 	private void recordLoginFailureTimes(String username) {
-		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES, username);
+		String key = String.format("%s%s:%s", CacheConstants.GLOBALLY, CacheConstants.LOGIN_ERROR_TIMES, username);
 		Long deltaTimes = ParamResolver.getLong("LOGIN_ERROR_TIMES", 5L);
 
 		// 使用 RedisUtils 执行原生 Redis 命令进行递增操作
-		Long times = RedisUtils.execute((RedisCallback<Long>) connection ->
+		Long times = RedisUtils.execute(connection ->
 				connection.incr(key.getBytes())
 		);
 

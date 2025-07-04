@@ -51,6 +51,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -313,8 +314,14 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         MPJLambdaWrapper<SysTenant> wrapper = new MPJLambdaWrapper<SysTenant>()
                 .selectAll(SysTenant.class)
                 .leftJoin(SysTenantUser.class, SysTenantUser::getTenantId, SysTenant::getId)
-                .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId());
-        return baseMapper.selectJoinList(wrapper);
+                .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
+                .eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode());
+
+        return baseMapper.selectJoinList(wrapper)
+                .stream()
+                .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+                .filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+                .toList();
     }
 
     /**

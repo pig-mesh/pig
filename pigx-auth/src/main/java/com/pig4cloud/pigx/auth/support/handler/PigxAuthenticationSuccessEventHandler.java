@@ -128,7 +128,7 @@ public class PigxAuthenticationSuccessEventHandler implements AuthenticationSucc
 	 * @param map
 	 */
 	private void clearLoginFailureTimes(Map<String, Object> map) {
-		String key = String.format("%s:%s:%s", tenantKeyStrResolver.key(), CacheConstants.LOGIN_ERROR_TIMES,
+		String key = String.format("%s%s:%s", CacheConstants.GLOBALLY, CacheConstants.LOGIN_ERROR_TIMES,
 				MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
 		RedisUtils.delete(key);
 	}

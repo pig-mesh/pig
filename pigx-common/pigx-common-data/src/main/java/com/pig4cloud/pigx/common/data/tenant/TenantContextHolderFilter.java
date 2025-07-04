@@ -20,9 +20,9 @@ package com.pig4cloud.pigx.common.data.tenant;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.http.ContentType;
 import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
+import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -45,6 +45,7 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author lengleng
@@ -57,6 +58,8 @@ import java.util.List;
 public class TenantContextHolderFilter extends GenericFilterBean {
 
     private final static String UNDEFINED_STR = "undefined";
+
+    private final RemoteTenantService remoteTenantService;
 
     private final CacheManager cacheManager;
 
@@ -105,15 +108,20 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             return true;
         }
 
+        List<SysTenant> tenantList = null;
+
         // 判断租户状态
         Cache cache = cacheManager.getCache(CacheConstants.TENANT_DETAILS);
-        if (cache == null) {
-            return true;
+
+        if (Objects.nonNull(cache) && Objects.nonNull(cache.get(SimpleKey.EMPTY, List.class))) {
+            tenantList = cache.get(SimpleKey.EMPTY, List.class);
+        } else {
+            R<List<SysTenant>> tenantListR = remoteTenantService.list();
+            tenantList = tenantListR.getData();
         }
 
-        List<SysTenant> tenantList = cache.get(SimpleKey.EMPTY, List.class);
         if (CollUtil.isEmpty(tenantList)) {
-            return true;
+            return false;
         }
 
         // 获取当前请求的租户ID
@@ -128,9 +136,9 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             return true;
         }
 
-        // 如果租户不存在或已失效，返回401状态码和错误信息
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        response.setContentType(ContentType.JSON.getValue());
+        // 如果租户不存在或已失效，返回426状态码和错误信息
+        response.setStatus(HttpStatus.UPGRADE_REQUIRED.value());
+        response.setContentType("application/json;charset=UTF-8");
         response.getWriter().print(JSONUtil.toJsonStr(R.failed(StrUtil.format("租户ID为{}的租户不存在或已过期失效", currentTenantId))));
         return false;
     }
