@@ -270,6 +270,20 @@ public class RedisUtils {
         return (T) redisTemplate.execute(callback);
     }
 
+    /**
+     * 递增操作
+     *
+     * @param key 键
+     * @param val 增加的值
+     * @return 递增后的值
+     */
+    public Long increment(String key, long val) {
+        RedisTemplate<String, Object> redisTemplate = SpringContextHolder.getBean(RedisTemplate.class);
+        return Optional.ofNullable(redisTemplate)
+                .map(template -> template.opsForValue().increment(key, val))
+                .orElse(null);
+    }
+
     // ================================Map=================================
 
     /**
