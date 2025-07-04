@@ -81,7 +81,7 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		// 匿名接口直接返回
 		if (authentication instanceof AnonymousAuthenticationToken) {
-			return authentication.getName();
+			return null;
 		}
 
 		if (Optional.ofNullable(authentication).isPresent()) {
