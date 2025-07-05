@@ -36,6 +36,7 @@ import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -138,9 +139,8 @@ public class SysTenantController {
     @SysLog("删除租户")
     @DeleteMapping
     @HasPermission("sys_systenant_del")
-    @CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
     public R removeById(@RequestBody Long[] ids) {
-        return R.ok(sysTenantService.removeBatchByIds(CollUtil.toList(ids)));
+        return R.ok(sysTenantService.removeTenant(ids));
     }
 
     /**
@@ -260,6 +260,20 @@ public class SysTenantController {
     @HasPermission("sys_systenant_del")
     public R listTenantOrg(@ParameterObject UserDTO userDTO) {
         return R.ok(sysTenantService.listTenantOrg(userDTO));
+    }
+
+    /**
+     * 更新用户租户信息
+     *
+     * @param userDto 用户数据传输对象，包含需要更新的用户信息
+     * @return 操作结果
+     */
+    @PutMapping("/personal/update")
+    public R updateUserTenant(@RequestBody UserDTO userDto) {
+        String username = SecurityUtils.getUser().getUsername();
+        userDto.setUsername(username);
+        userDto.setUserId(SecurityUtils.getUser().getId());
+        return sysTenantService.updateUserTenant(userDto);
     }
 
 }

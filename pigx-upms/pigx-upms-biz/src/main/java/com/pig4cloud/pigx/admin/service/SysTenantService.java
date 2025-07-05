@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.admin.api.dto.SysTenantUserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
+import com.pig4cloud.pigx.common.core.util.R;
 
 import java.util.List;
 import java.util.Map;
@@ -105,4 +106,25 @@ public interface SysTenantService extends IService<SysTenant> {
 	 * @return 租户角色列表
 	 */
 	Map<String, Object> listTenantOrg(UserDTO userDTO);
+
+	/**
+	 * 移除租户
+	 *
+	 * @param ids 租户ID列表
+	 * @return 是否移除成功
+	 */
+	Boolean removeTenant(Long[] ids);
+
+	/**
+	 * 更新用户租户信息
+	 *
+	 * @param userDto 用户数据传输对象
+	 * @return 更新结果
+	 */
+	R updateUserTenant(UserDTO userDto);
+
+	/**
+	 * 检查或更新租户信息
+	 */
+	Long getOrUpdateTenant();
 }

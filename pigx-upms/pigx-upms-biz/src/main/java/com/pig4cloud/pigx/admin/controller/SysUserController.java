@@ -196,20 +196,6 @@ public class SysUserController {
         return userService.changePassword(userDto);
     }
 
-    /**
-     * 更新用户租户信息
-     *
-     * @param userDto 用户数据传输对象，包含需要更新的用户信息
-     * @return 操作结果
-     */
-    @PutMapping("/personal/tenant")
-    public R updateUserTenant(@RequestBody UserDTO userDto) {
-        String username = SecurityUtils.getUser().getUsername();
-        userDto.setUsername(username);
-        userDto.setUserId(SecurityUtils.getUser().getId());
-        return userService.updateUserTenant(userDto);
-    }
-
 
     /**
      * @param username 用户名称

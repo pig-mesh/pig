@@ -46,7 +46,6 @@ import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
-import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -86,6 +85,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     private final SysDeptService sysDeptService;
 
+    private final SysTenantService sysTenantService;
+
     private final SysUserRoleMapper sysUserRoleMapper;
 
     private final SysUserPostMapper sysUserPostMapper;
@@ -95,6 +96,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final SysTenantUserMapper sysTenantUserMapper;
 
     private final CacheManager cacheManager;
+
     private final SysDeptMapper sysDeptMapper;
 
     private final StringRedisTemplate redisTemplate;
@@ -184,10 +186,19 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .stream()
                 .map(SysRole::getRoleId)
                 .flatMap(roleId -> sysMenuService.findMenuByRoleId(roleId).stream())
-                .filter(menu -> StrUtil.isNotEmpty(menu.getPermission()))
                 .map(SysMenu::getPermission)
+                .filter(StrUtil::isNotEmpty)
                 .toList();
         userInfo.setPermissions(permissions);
+
+        // 如果是登录成功以后查询租户信息并进行校验
+        if (Objects.nonNull(SecurityUtils.getUser())) {
+            Long updateTenantId = sysTenantService.getOrUpdateTenant();
+            if (Objects.nonNull(updateTenantId)) {
+                userInfo.setTenantId(updateTenantId);
+            }
+        }
+
         return R.ok(userInfo);
     }
 
@@ -342,8 +353,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 根据数据权限查询全部的用户信息
         userDTO.setTenantId(SecurityUtils.getUser().getTenantId());
         List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, ids, DataScope.of());
-        // 转换成execl 对象输出
-        List<UserExcelVO> userExcelVOList = voList.stream().map(userVO -> {
+        return voList.stream().map(userVO -> {
             UserExcelVO excelVO = new UserExcelVO();
             BeanUtils.copyProperties(userVO, excelVO);
             // 转换角色名称
@@ -365,7 +375,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             excelVO.setDeptNameList(deptNameList);
             return excelVO;
         }).toList();
-        return userExcelVOList;
     }
 
     /**
@@ -508,7 +517,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * 锁定用户
      *
      * @param username 用户名
-     * @return
+     * @return 操作结果，包含是否成功
      */
     @Override
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#username")
@@ -522,6 +531,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return R.ok();
     }
 
+    /**
+     * 修改用户密码
+     *
+     * @param userDto 用户数据传输对象，包含原密码和新密码
+     * @return 操作结果
+     * @CacheEvict 清除用户详情缓存
+     */
     @Override
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
     public R changePassword(UserDTO userDto) {
@@ -549,19 +565,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 
     /**
-     * 更新用户租户信息
+     * 解绑用户第三方登录账号
      *
-     * @param userDto 用户数据传输对象
-     * @return 更新结果
+     * @param type 登录类型，参见LoginTypeEnum枚举
+     * @return 操作结果，成功返回R.ok()，失败返回R.failed()
      */
-    @Override
-    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-    public R updateUserTenant(UserDTO userDto) {
-        return R.ok(TenantBroker.noneAs(() -> this.update(Wrappers.<SysUser>lambdaUpdate()
-                .set(SysUser::getTenantId, userDto.getTenantId())
-                .eq(SysUser::getUserId, userDto.getUserId()))));
-    }
-
     @Override
     public R unbinding(String type) {
         PigxUser user = SecurityUtils.getUser();
@@ -596,6 +604,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return R.ok();
     }
 
+    /**
+     * 检查用户密码是否正确
+     *
+     * @param username 用户名
+     * @param password 待验证的密码
+     * @return 验证结果，成功返回R.ok()，失败返回R.failed()
+     */
     @Override
     public R checkPassword(String username, String password) {
         SysUser condition = new SysUser();
@@ -613,8 +628,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     /**
      * 重置用户密码
      *
-     * @param userDto 用户信息
-     * @return
+     * @param userDto 用户信息DTO，包含用户名、原密码和新密码等信息
+     * @return 返回操作结果，成功返回true，失败返回错误信息
      */
     @Override
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
@@ -640,14 +655,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return R.ok();
     }
 
+    /**
+     * 忘记用户密码
+     *
+     * @param userDto 用户信息DTO
+     * @param code    验证码
+     * @return 操作结果，成功返回true
+     */
     @Override
     public R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code) {
-        if (StrUtil.isBlank(userDto.getPhone())){
+        if (StrUtil.isBlank(userDto.getPhone())) {
             return R.failed("非法参数");
         }
 
         String codeObj = redisTemplate.opsForValue().get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-        if (!StrUtil.equals(codeObj, code)){
+        if (!StrUtil.equals(codeObj, code)) {
             return R.failed("验证码错误");
         }
 

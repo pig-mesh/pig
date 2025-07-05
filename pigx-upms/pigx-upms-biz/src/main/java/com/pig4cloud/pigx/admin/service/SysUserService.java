@@ -196,11 +196,4 @@ public interface SysUserService extends IService<SysUser> {
      */
     R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code);
 
-    /**
-     * 更新用户租户信息
-     *
-     * @param userDto 用户数据传输对象
-     * @return 更新结果
-     */
-    R updateUserTenant(UserDTO userDto);
 }

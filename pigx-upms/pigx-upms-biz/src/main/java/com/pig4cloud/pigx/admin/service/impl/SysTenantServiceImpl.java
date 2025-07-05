@@ -33,20 +33,21 @@ import com.pig4cloud.pigx.admin.mapper.*;
 import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeTypeEnum;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
+import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -66,19 +67,13 @@ import java.util.*;
 @AllArgsConstructor
 public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant> implements SysTenantService {
 
-    private static final PasswordEncoder ENCODER = new BCryptPasswordEncoder();
-
     private final SysOauthClientDetailsService clientServices;
-
-    private final SysUserRoleService userRoleService;
 
     private final SysRoleMenuMapper roleMenuMapper;
 
     private final SysDictItemService dictItemService;
 
     private final SysPublicParamService paramService;
-
-    private final SysUserService userService;
 
     private final SysRoleService roleService;
 
@@ -96,6 +91,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     private final SysRoleMapper sysRoleMapper;
     private final SysDeptMapper sysDeptMapper;
     private final SysPostMapper sysPostMapper;
+    private final CacheManager cacheManager;
 
     /**
      * 获取正常状态租户
@@ -468,6 +464,34 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     }
 
     /**
+     * 移除租户
+     *
+     * @param ids 租户ID列表
+     * @return 是否移除成功
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.TENANT_DETAILS, allEntries = true)
+    public Boolean removeTenant(Long[] ids) {
+        baseMapper.deleteByIds(CollUtil.toList(ids));
+        sysTenantUserMapper.delete(Wrappers.<SysTenantUser>lambdaQuery().in(SysTenantUser::getTenantId, CollUtil.toList(ids)));
+        return Boolean.TRUE;
+    }
+
+    /**
+     * 更新用户租户信息
+     *
+     * @param userDto 用户数据传输对象
+     * @return 更新结果
+     */
+    @Override
+    @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
+    public R updateUserTenant(UserDTO userDto) {
+        return R.ok(TenantBroker.noneAs(() -> sysUserMapper.update(Wrappers.<SysUser>lambdaUpdate()
+                .set(SysUser::getTenantId, userDto.getTenantId())
+                .eq(SysUser::getUserId, userDto.getUserId()))));
+    }
+
+    /**
      * 保存新的租户菜单，维护成新的菜单
      *
      * @param menuList       菜单列表
@@ -486,6 +510,41 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
         });
     }
 
+    /**
+     * 获取或更新当前用户的租户信息
+     *
+     * @return 更新后的租户ID，如果无需更新则返回null
+     */
+    @Override
+    public Long getOrUpdateTenant() {
+        PigxUser loginUser = SecurityUtils.getUser();
+        boolean match = this.getNormalTenant()
+                .stream()
+                .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+                .filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+                .anyMatch(tenant -> tenant.getId().equals(loginUser.getTenantId()));
+
+        if (!match) {
+            SysTenantUser tenantUser = sysTenantUserMapper.selectOne(Wrappers.<SysTenantUser>lambdaQuery()
+                    .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
+                    .ne(SysTenantUser::getTenantId, loginUser.getTenantId()), false);
+            // 如果当前用户没有租户信息，则不进行任何操作
+            if (Objects.isNull(tenantUser)) {
+                return null;
+            }
+
+            // 切换至状态正常的租户
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUserId(loginUser.getId());
+            userDTO.setTenantId(tenantUser.getTenantId());
+            userDTO.setUsername(loginUser.getUsername());
+            updateUserTenant(userDTO);
+            cacheManager.getCache(CacheConstants.USER_DETAILS).evict(loginUser.getUsername());
+            return tenantUser.getTenantId();
+        }
+
+        return null;
+    }
 }
 
 /**
