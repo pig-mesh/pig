@@ -134,9 +134,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		Long deltaTimes = ParamResolver.getLong("LOGIN_ERROR_TIMES", 5L);
 
 		// 使用 RedisUtils 执行原生 Redis 命令进行递增操作
-		Long times = RedisUtils.execute(connection ->
-				connection.incr(key.getBytes())
-		);
+		Long times = RedisUtils.increment(key, 1L);// 增加登录失败次数
 
 		// 自动过期时间
 		Long deltaTime = ParamResolver.getLong("DELTA_TIME", 1L);
