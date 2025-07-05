@@ -38,7 +38,6 @@ import java.util.List;
 @FeignClient(contextId = "remoteRouteConfService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteRouteConfService {
 
-
     /**
      * 获取路由详细信息
      *
@@ -46,7 +45,6 @@ public interface RemoteRouteConfService {
      */
     @GetMapping("/route")
     R<List<SysRouteConf>> getRouteDetails();
-
 
     /**
      * 保存 sys route conf
@@ -56,4 +54,5 @@ public interface RemoteRouteConfService {
      */
     @PostMapping("/route/save")
     R<SysRouteConf> saveSysRouteConf(@RequestBody SysRouteConf SysRouteConf);
+
 }

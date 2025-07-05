@@ -39,9 +39,9 @@ public interface SysRouteConfService extends IService<SysRouteConf> {
 
 	/**
 	 * 保存路由
-	 *
 	 * @param routeConf 路由配置
 	 * @return {@link SysRouteConf }
 	 */
 	SysRouteConf saveRoute(SysRouteConf routeConf);
+
 }

@@ -49,7 +49,6 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 
 	/**
      * 通过手机号获取用户信息
-     *
      * @param identify 手机号标识
      * @return 用户信息，未找到时返回null
 	 */

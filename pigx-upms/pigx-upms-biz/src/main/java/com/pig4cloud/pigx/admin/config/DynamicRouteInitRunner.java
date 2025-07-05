@@ -56,62 +56,62 @@ import java.util.Map;
 @ConditionalOnDiscoveryEnabled
 public class DynamicRouteInitRunner implements InitializingBean {
 
-    private final RedisTemplate<String, String> redisTemplate;
+	private final RedisTemplate<String, String> redisTemplate;
 
-    private final SysRouteConfService routeConfService;
+	private final SysRouteConfService routeConfService;
 
-    private final RedisMessageListenerContainer listenerContainer;
+	private final RedisMessageListenerContainer listenerContainer;
 
-    /**
-     * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
-     */
-    @Async
-    @Order
-    @EventListener({WebServerInitializedEvent.class})
-    public void WebServerInit() {
-        this.initRoute();
-    }
+	/**
+	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
+	 */
+	@Async
+	@Order
+	@EventListener({WebServerInitializedEvent.class})
+	public void WebServerInit() {
+		this.initRoute();
+	}
 
-    @Async
-    @Order
-    @TransactionalEventListener({DynamicRouteInitEvent.class})
-    public void initRoute() {
-        redisTemplate.delete(CacheConstants.ROUTE_KEY);
-        log.info("开始初始化网关路由");
+	@Async
+	@Order
+	@TransactionalEventListener({DynamicRouteInitEvent.class})
+	public void initRoute() {
+		redisTemplate.delete(CacheConstants.ROUTE_KEY);
+		log.info("开始初始化网关路由");
 
-        routeConfService.list().forEach(route -> {
-            RouteDefinitionVo vo = new RouteDefinitionVo();
-            vo.setRouteName(route.getRouteName());
-            vo.setId(route.getRouteId());
-            vo.setUri(URI.create(route.getUri()));
-            vo.setOrder(route.getSortOrder());
+		routeConfService.list().forEach(route -> {
+			RouteDefinitionVo vo = new RouteDefinitionVo();
+			vo.setRouteName(route.getRouteName());
+			vo.setId(route.getRouteId());
+			vo.setUri(URI.create(route.getUri()));
+			vo.setOrder(route.getSortOrder());
 
-            JSONArray filterObj = JSONUtil.parseArray(route.getFilters());
-            vo.setFilters(filterObj.toList(FilterDefinition.class));
-            JSONArray predicateObj = JSONUtil.parseArray(route.getPredicates());
-            vo.setPredicates(predicateObj.toList(PredicateDefinition.class));
-            vo.setMetadata(JSONUtil.toBean(route.getMetadata(), Map.class));
-            log.info("加载路由ID：{},{}", route.getRouteId(), vo);
+			JSONArray filterObj = JSONUtil.parseArray(route.getFilters());
+			vo.setFilters(filterObj.toList(FilterDefinition.class));
+			JSONArray predicateObj = JSONUtil.parseArray(route.getPredicates());
+			vo.setPredicates(predicateObj.toList(PredicateDefinition.class));
+			vo.setMetadata(JSONUtil.toBean(route.getMetadata(), Map.class));
+			log.info("加载路由ID：{},{}", route.getRouteId(), vo);
 
-            redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
-            HashOperations<String, String, RouteDefinitionVo> stringStringValueOperations = redisTemplate.opsForHash();
-            stringStringValueOperations.put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);
-        });
+			redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
+			HashOperations<String, String, RouteDefinitionVo> stringStringValueOperations = redisTemplate.opsForHash();
+			stringStringValueOperations.put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);
+		});
 
-        // 通知网关重置路由
-        redisTemplate.convertAndSend(CacheConstants.ROUTE_JVM_RELOAD_TOPIC, "路由信息,网关缓存更新");
-        log.debug("初始化网关路由结束 ");
-    }
+		// 通知网关重置路由
+		redisTemplate.convertAndSend(CacheConstants.ROUTE_JVM_RELOAD_TOPIC, "路由信息,网关缓存更新");
+		log.debug("初始化网关路由结束 ");
+	}
 
-    /**
-     * redis 监听配置,监听 upms_redis_route_reload_topic,重新加载Redis
-     */
-    @Override
-    public void afterPropertiesSet() {
-        listenerContainer.addMessageListener((message, bytes) -> {
-            log.warn("接收到重新Redis 重新加载路由事件");
-            initRoute();
-        }, new ChannelTopic(CacheConstants.ROUTE_REDIS_RELOAD_TOPIC));
-    }
+	/**
+	 * redis 监听配置,监听 upms_redis_route_reload_topic,重新加载Redis
+	 */
+	@Override
+	public void afterPropertiesSet() {
+		listenerContainer.addMessageListener((message, bytes) -> {
+			log.warn("接收到重新Redis 重新加载路由事件");
+			initRoute();
+		}, new ChannelTopic(CacheConstants.ROUTE_REDIS_RELOAD_TOPIC));
+	}
 
 }

@@ -69,24 +69,23 @@ public class WeChatLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-     * 根据微信openId获取用户信息
-     *
-     * @param openId 微信openId
-     * @return 用户信息，未找到时返回null
+	 * 根据微信openId获取用户信息
+	 * @param openId 微信openId
+	 * @return 用户信息，未找到时返回null
 	 */
 	@Override
 	public UserInfo info(String openId) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setWxOpenid(openId);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setWxOpenid(openId);
 
-        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-        if (userInfoR.getData() == null) {
-            log.info("微信 不存在用户:{}", openId);
+		if (userInfoR.getData() == null) {
+			log.info("微信 不存在用户:{}", openId);
 			return null;
 		}
 
-        return userInfoR.getData();
+		return userInfoR.getData();
 	}
 
 	/**

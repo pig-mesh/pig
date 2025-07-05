@@ -57,7 +57,6 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 
 	/**
 	 * 绑定社交账号
-	 *
 	 * @param type type
 	 * @param code code
 	 * @return
@@ -77,7 +76,6 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 
 	/**
 	 * 根据入参查询用户信息
-	 *
 	 * @param inStr TYPE@code
 	 * @return
 	 */
@@ -91,7 +89,6 @@ public class SysSocialDetailsServiceImpl extends ServiceImpl<SysSocialDetailsMap
 
 	/**
 	 * 查询当前租户下的三方应用信息 ，脱敏 appSecret
-	 *
 	 * @return List<SysSocialDetails>
 	 */
 	@Override

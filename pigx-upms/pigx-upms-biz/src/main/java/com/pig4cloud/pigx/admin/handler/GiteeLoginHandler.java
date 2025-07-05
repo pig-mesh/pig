@@ -81,25 +81,24 @@ public class GiteeLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-     * 根据标识获取用户信息
-     *
-     * @param identify 用户标识
-     * @return 用户信息，未找到时返回null
+	 * 根据标识获取用户信息
+	 * @param identify 用户标识
+	 * @return 用户信息，未找到时返回null
 	 */
 	@Override
 	public UserInfo info(String identify) {
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setGiteeLogin(identify);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setGiteeLogin(identify);
 
-        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-        if (userInfoR.getData() == null) {
-            log.info("微信 不存在用户:{}", identify);
+		if (userInfoR.getData() == null) {
+			log.info("微信 不存在用户:{}", identify);
 			return null;
 		}
 
-        return userInfoR.getData();
+		return userInfoR.getData();
 	}
 
 	/**

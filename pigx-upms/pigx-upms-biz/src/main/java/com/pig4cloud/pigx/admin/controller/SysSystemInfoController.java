@@ -29,8 +29,8 @@ public class SysSystemInfoController {
 	@GetMapping("/cache")
 	public R cache() {
         Properties info = RedisUtils.execute((RedisCallback<Properties>) RedisServerCommands::info);
-        Properties commandStats = RedisUtils.execute((RedisCallback<Properties>)
-                connection -> connection.serverCommands().info("commandstats"));
+        Properties commandStats = RedisUtils
+                .execute((RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
         Object dbSize = RedisUtils.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
 		if (commandStats == null) {

@@ -115,7 +115,7 @@ public class DingTalkLoginHandler extends AbstractLoginHandler {
     public Boolean bind(SysUser user, String identify) {
         user.setWxDingUserid(identify);
         sysUserService.updateById(user);
-        return true;
-    }
+		return true;
+	}
 
 }

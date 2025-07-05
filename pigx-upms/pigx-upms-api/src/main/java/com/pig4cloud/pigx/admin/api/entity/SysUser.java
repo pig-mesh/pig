@@ -124,13 +124,11 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	@Schema(description = "密码过期标记")
 	private String passwordExpireFlag;
 
-
 	/**
 	 * 密码修改时间
 	 */
 	@Schema(description = "密码修改时间")
 	private LocalDateTime passwordModifyTime;
-
 
 	/**
 	 * 手机号
@@ -145,7 +143,6 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	 */
 	@Schema(description = "头像地址")
 	private String avatar;
-
 
 	/**
 	 * 租户ID
@@ -214,4 +211,5 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	@PropertyName("邮箱")
 	@Schema(description = "邮箱")
 	private String email;
+
 }

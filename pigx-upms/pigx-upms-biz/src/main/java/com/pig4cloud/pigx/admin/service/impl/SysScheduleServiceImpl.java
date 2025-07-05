@@ -56,8 +56,10 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 	public IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule) {
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(StrUtil.isNotBlank(sysSchedule.getTitle()), SysScheduleEntity::getTitle, sysSchedule.getTitle());
-		wrapper.like(StrUtil.isNotBlank(sysSchedule.getScheduleType()), SysScheduleEntity::getScheduleType, sysSchedule.getScheduleType());
-		wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate, sysSchedule.getScheduleDate());
+        wrapper.like(StrUtil.isNotBlank(sysSchedule.getScheduleType()), SysScheduleEntity::getScheduleType,
+                sysSchedule.getScheduleType());
+        wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate,
+                sysSchedule.getScheduleDate());
 		DataScope dataScope = new DataScope();
 		dataScope.setUsername(SecurityUtils.getUser().getUsername());
 		return baseMapper.selectPageByScope(page, wrapper, dataScope);

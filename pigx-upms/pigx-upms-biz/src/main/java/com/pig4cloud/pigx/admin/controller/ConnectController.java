@@ -32,7 +32,6 @@ public class ConnectController {
 
 	/**
      * 同步钉钉用户信息
-     *
      * @return 操作结果
 	 */
 	@PostMapping("/sync/ding/user")
@@ -46,7 +45,6 @@ public class ConnectController {
 
 	/**
      * 同步钉钉部门信息
-     *
      * @return 同步操作结果
      * @see R
 	 */
@@ -58,7 +56,6 @@ public class ConnectController {
 
 	/**
      * 同步企业微信用户信息
-     *
      * @return 同步操作结果
 	 */
 	@PostMapping("/sync/cp/user")
@@ -69,7 +66,6 @@ public class ConnectController {
 
 	/**
      * 同步企业微信部门信息
-     *
      * @return 包含同步结果的响应对象
 	 */
 	@PostMapping("/sync/cp/dept")

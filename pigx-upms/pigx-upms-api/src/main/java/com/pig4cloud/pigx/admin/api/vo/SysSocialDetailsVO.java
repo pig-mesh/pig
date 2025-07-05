@@ -29,4 +29,5 @@ public class SysSocialDetailsVO {
      */
     @Schema(description = "扩展字段")
     private String ext;
+
 }

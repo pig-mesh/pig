@@ -25,4 +25,5 @@ public interface SysAreaService extends IService<SysAreaEntity> {
      * @return Page
      */
     Page selectPage(Page page, SysAreaEntity sysArea);
+
 }

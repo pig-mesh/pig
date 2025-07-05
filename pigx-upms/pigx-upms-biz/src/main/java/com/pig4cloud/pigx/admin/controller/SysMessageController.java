@@ -125,8 +125,8 @@ public class SysMessageController {
     @GetMapping("/export")
     @HasPermission("sys_message_export")
     public List<SysMessageEntity> export(SysMessageEntity sysMessage, Long[] ids) {
-        return sysMessageService
-                .list(Wrappers.lambdaQuery(sysMessage).in(ArrayUtil.isNotEmpty(ids), SysMessageEntity::getId, CollUtil.toList(ids)));
+        return sysMessageService.list(Wrappers.lambdaQuery(sysMessage)
+                .in(ArrayUtil.isNotEmpty(ids), SysMessageEntity::getId, CollUtil.toList(ids)));
     }
 
     /**
@@ -183,7 +183,6 @@ public class SysMessageController {
 
     /**
      * 发送短信验证码
-     *
      * @param mobile 手机号
      * @return {@link R }
      */
@@ -195,7 +194,6 @@ public class SysMessageController {
 
     /**
      * 发送短信
-     *
      * @param messageSmsDTO 消息 短信 DTO
      * @return {@link R }
      */
@@ -206,7 +204,6 @@ public class SysMessageController {
 
     /**
      * 发送邮件
-     *
      * @param messageEmailDTO 留言内容 电子邮件 DTO
      * @return {@link R }
      */
@@ -217,17 +214,17 @@ public class SysMessageController {
 
     /**
      * 发送 webhook
-     *
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */
     @PostMapping("/send/hook")
     public R sendWebhook(@Valid @RequestBody MessageHookDTO messageHookDTO) {
-        return sysMessageService.sendHook(messageHookDTO);
-    }
+		return sysMessageService.sendHook(messageHookDTO);
+	}
 
-    @GetMapping("/list/hook")
-    public R listHookBizCode(MessageHookDTO messageHookDTO) {
-        return sysMessageService.listHookBizCode(messageHookDTO);
-    }
+	@GetMapping("/list/hook")
+	public R listHookBizCode(MessageHookDTO messageHookDTO) {
+		return sysMessageService.listHookBizCode(messageHookDTO);
+	}
+
 }

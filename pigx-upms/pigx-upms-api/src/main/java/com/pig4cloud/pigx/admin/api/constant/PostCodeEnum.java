@@ -10,31 +10,33 @@ package com.pig4cloud.pigx.admin.api.constant;
  */
 
 public enum PostCodeEnum {
-    /**
-     * 部门负责人
-     */
-    TEAM_LEADER("TEAM_LEADER", "部门负责人");
 
-    /**
-     * 编码
-     */
-    private final String code;
+	/**
+	 * 部门负责人
+	 */
+	TEAM_LEADER("TEAM_LEADER", "部门负责人");
 
-    /**
-     * 描述
-     */
-    private final String description;
+	/**
+	 * 编码
+	 */
+	private final String code;
 
-    PostCodeEnum(String code, String description) {
-        this.code = code;
-        this.description = description;
-    }
+	/**
+	 * 描述
+	 */
+	private final String description;
 
-    public String getCode() {
-        return code;
-    }
+	PostCodeEnum(String code, String description) {
+		this.code = code;
+		this.description = description;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getCode() {
+		return code;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 }

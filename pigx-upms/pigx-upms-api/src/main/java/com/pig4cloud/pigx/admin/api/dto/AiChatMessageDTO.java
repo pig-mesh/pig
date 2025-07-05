@@ -20,4 +20,5 @@ public class AiChatMessageDTO {
      * 网络搜索
      */
     private boolean webSearch;
+
 }

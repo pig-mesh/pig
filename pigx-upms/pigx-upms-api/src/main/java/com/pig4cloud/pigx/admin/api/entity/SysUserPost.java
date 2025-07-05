@@ -35,7 +35,7 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 public class SysUserPost extends Model<SysUserPost> {
 
-    @Serial
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -50,10 +50,10 @@ public class SysUserPost extends Model<SysUserPost> {
 	@Schema(description = "岗位id")
 	private Long postId;
 
-
 	/**
 	 * 租户ID
 	 */
 	@Schema(description = "租户ID")
 	private Long tenantId;
+
 }

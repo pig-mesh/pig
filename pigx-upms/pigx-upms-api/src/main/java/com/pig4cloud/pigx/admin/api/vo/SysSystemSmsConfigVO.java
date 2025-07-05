@@ -54,9 +54,9 @@ public class SysSystemSmsConfigVO {
      */
     private int retryInterval = 5;
 
-
     /**
      * 最大发送数量，默认integer上限
      */
     private int maximum = Integer.MAX_VALUE;
+
 }

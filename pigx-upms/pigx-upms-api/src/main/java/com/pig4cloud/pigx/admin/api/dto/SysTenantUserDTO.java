@@ -11,28 +11,29 @@ import lombok.Data;
 @Data
 public class SysTenantUserDTO {
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
+	/**
+	 * 租户ID
+	 */
+	private Long tenantId;
 
-    /**
-     * 用户ID数组
-     */
-    private Long[] userIds;
+	/**
+	 * 用户ID数组
+	 */
+	private Long[] userIds;
 
-    /**
-     * 角色ID
-     */
-    private Long roleId;
+	/**
+	 * 角色ID
+	 */
+	private Long roleId;
 
-    /**
-     * 帖子ID
-     */
-    private Long postId;
+	/**
+	 * 帖子ID
+	 */
+	private Long postId;
 
-    /**
-     * 部门ID
-     */
-    private Long deptId;
+	/**
+	 * 部门ID
+	 */
+	private Long deptId;
+
 }

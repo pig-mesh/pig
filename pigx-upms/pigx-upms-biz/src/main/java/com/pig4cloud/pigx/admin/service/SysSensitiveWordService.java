@@ -9,6 +9,7 @@ public interface SysSensitiveWordService extends IService<SysSensitiveWordEntity
 
     /**
      * 查询敏感词
+     *
      * @param sysSensitiveWord 敏感词
      * @return 敏感词列表
      */
@@ -16,8 +17,10 @@ public interface SysSensitiveWordService extends IService<SysSensitiveWordEntity
 
     /**
      * 保存敏感词
+     *
      * @param sysSensitiveWord
      * @return
      */
     Boolean saveSensitive(SysSensitiveWordEntity sysSensitiveWord);
+
 }

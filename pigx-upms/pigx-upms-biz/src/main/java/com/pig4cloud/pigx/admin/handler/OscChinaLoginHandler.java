@@ -122,7 +122,7 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
     public Boolean bind(SysUser user, String identify) {
         user.setOscId(identify);
         sysUserService.updateById(user);
-        return true;
-    }
+		return true;
+	}
 
 }

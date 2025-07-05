@@ -37,7 +37,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(contextId = "remoteMessageService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteMessageService {
 
-
     /**
      * 发送短消息
      *
@@ -64,4 +63,5 @@ public interface RemoteMessageService {
      */
     @PostMapping("/sysMessage/send/hook")
     R sendHook(@RequestBody MessageHookDTO hookDTO);
+
 }

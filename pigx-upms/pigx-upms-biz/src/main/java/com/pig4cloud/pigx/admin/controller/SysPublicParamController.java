@@ -162,8 +162,8 @@ public class SysPublicParamController {
 	@GetMapping("/export")
 	@HasPermission("sys_syspublicparam_edit")
 	public List<SysPublicParam> export(SysPublicParam param, Long[] ids) {
-		return sysPublicParamService
-			.list(Wrappers.lambdaQuery(param).in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, CollUtil.toList(ids)));
+        return sysPublicParamService.list(Wrappers.lambdaQuery(param)
+                .in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, CollUtil.toList(ids)));
 	}
 
 	/**

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 public enum SystemConfigTypeEnum {
+
     /**
      * 存储
      */
@@ -27,7 +28,6 @@ public enum SystemConfigTypeEnum {
      * 邮件
      */
     EMAIL("email"),
-
 
     /**
      * webhook
@@ -48,7 +48,6 @@ public enum SystemConfigTypeEnum {
     WETALK("wetalk");
 
     @Getter
-    private final String value;
-
+	private final String value;
 
 }

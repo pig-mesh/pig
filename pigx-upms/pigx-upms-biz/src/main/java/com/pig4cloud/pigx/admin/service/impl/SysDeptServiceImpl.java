@@ -73,7 +73,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 删除部门
-	 *
 	 * @param id 部门 ID
 	 * @return 成功、失败
 	 */
@@ -90,7 +89,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 查询全部部门树
-	 *
 	 * @param deptName
 	 * @param parentId
 	 * @return 树 部门名称
@@ -99,33 +97,33 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	public List<Tree<Long>> selectTree(String deptName, Long parentId) {
 		// 查询全部部门
 		List<SysDept> deptAllList = deptMapper
-				.selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
+                .selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
 		// 查询数据权限内部门
 		List<Long> deptOwnIdList = deptMapper
-				.selectListByScope(
-						Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
-						DataScope.of())
-				.stream()
-				.map(SysDept::getDeptId)
-				.toList();
+                .selectListByScope(
+                        Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
+                        DataScope.of())
+                .stream()
+                .map(SysDept::getDeptId)
+                .toList();
 
 		// 权限内部门
 		List<TreeNode<Long>> collect = deptAllList.stream()
-				.filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
-				.sorted(Comparator.comparingInt(SysDept::getSortOrder))
-				.map(dept -> {
-					TreeNode<Long> treeNode = new TreeNode<>();
-					treeNode.setId(dept.getDeptId());
-					treeNode.setParentId(dept.getParentId());
-					treeNode.setName(dept.getName());
-					treeNode.setWeight(dept.getSortOrder());
-					// 有权限不返回标识
-					Map<String, Object> extra = new HashMap<>(8);
-					extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
-					extra.put("createTime", dept.getCreateTime());
-					treeNode.setExtra(extra);
-					return treeNode;
-				})
+                .filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
+                .sorted(Comparator.comparingInt(SysDept::getSortOrder))
+                .map(dept -> {
+                    TreeNode<Long> treeNode = new TreeNode<>();
+                    treeNode.setId(dept.getDeptId());
+                    treeNode.setParentId(dept.getParentId());
+                    treeNode.setName(dept.getName());
+                    treeNode.setWeight(dept.getSortOrder());
+                    // 有权限不返回标识
+                    Map<String, Object> extra = new HashMap<>(8);
+                    extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
+                    extra.put("createTime", dept.getCreateTime());
+                    treeNode.setExtra(extra);
+                    return treeNode;
+                })
                 .toList();
 
 		// 模糊查询 不组装树结构 直接返回 表格方便编辑
@@ -143,7 +141,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 导出部门
-	 *
 	 * @return
 	 */
 	@Override
@@ -153,10 +150,10 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			DeptExcelVO deptExcelVo = new DeptExcelVO();
 			deptExcelVo.setName(item.getName());
 			Optional<String> first = this.list()
-					.stream()
-					.filter(it -> item.getParentId().equals(it.getDeptId()))
-					.map(SysDept::getName)
-					.findFirst();
+                    .stream()
+                    .filter(it -> item.getParentId().equals(it.getDeptId()))
+                    .map(SysDept::getName)
+                    .findFirst();
 			deptExcelVo.setParentName(first.orElse("根部门"));
 			deptExcelVo.setSortOrder(item.getSortOrder());
 			return deptExcelVo;
@@ -189,7 +186,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 				sysDept.setParentId(one.getDeptId());
 				sysDept.setSortOrder(item.getSortOrder());
 				baseMapper.insert(sysDept);
-			} else {
+            } else {
 				// 数据不合法情况
 				errorMessageList.add(new ErrorMessage(item.getLineNum(), errorMsg));
 			}
@@ -202,7 +199,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 查询所有子节点 （包含当前节点）
-	 *
 	 * @param deptId 部门ID 目标部门ID
 	 * @return ID
 	 */
@@ -224,37 +220,36 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	 * 获取部门负责人
 	 * <p>
 	 * 1. 根据dept 查询用户 2. 筛选用户列表中 post
-	 *
 	 * @param deptId deptId
 	 * @return user id list
 	 */
 	@Override
 	public List<Long> listDeptLeader(Long deptId) {
 
-		List<SysUserDept> userDeptList = userDeptMapper.selectList(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getDeptId, deptId));
+        List<SysUserDept> userDeptList = userDeptMapper
+                .selectList(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getDeptId, deptId));
 		if (CollUtil.isEmpty(userDeptList)) {
 			return null;
 		}
 
 		SysPost deptLeader = postMapper
-				.selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, PostCodeEnum.TEAM_LEADER.getCode()));
+                .selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, PostCodeEnum.TEAM_LEADER.getCode()));
 		if (deptLeader == null) {
 			return null;
 		}
 
 		List<Long> userIdList = userDeptList.stream().map(SysUserDept::getUserId).toList();
 		return userPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, userIdList))
-				.stream()
-				.filter(post -> Objects.equals(post.getPostId(), deptLeader.getPostId()))
-				.map(SysUserPost::getUserId)
-				.toList();
+                .stream()
+                .filter(post -> Objects.equals(post.getPostId(), deptLeader.getPostId()))
+                .map(SysUserPost::getUserId)
+                .toList();
 	}
 
 	/**
 	 * 根据父部门ID和类型获取组织树
-	 *
 	 * @param parentDeptId 父部门ID
-	 * @param type         类型
+     * @param type 类型
 	 * @return 组织树信息
 	 */
 	public Map<String, Object> listOrgTree(Long parentDeptId, String type) {
@@ -275,15 +270,15 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			});
 
 			return Dict.create()
-					.set("roleList", orgs)
-					.set("childDepartments", orgs)
-					.set("employees", new ArrayList<>());
+                    .set("roleList", orgs)
+                    .set("childDepartments", orgs)
+                    .set("employees", new ArrayList<>());
 		}
 
 		Dict dict = Dict.create()
-				.set("titleDepartments", new ArrayList<>())
-				.set("roleList", new ArrayList<>())
-				.set("employees", new ArrayList<>());
+                .set("titleDepartments", new ArrayList<>())
+                .set("roleList", new ArrayList<>())
+                .set("employees", new ArrayList<>());
 
 		List<SysDept> deptList = this.list(
 				Wrappers.<SysDept>lambdaQuery().eq(Objects.nonNull(parentDeptId), SysDept::getParentId, parentDeptId));
@@ -306,8 +301,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 			MPJLambdaWrapper<SysUser> userQuery = new MPJLambdaWrapper<>();
 			userQuery.selectAll(SysUser.class)
-					.leftJoin(SysUserDept.class, SysUserDept::getUserId, SysUser::getUserId)
-					.eq(SysUserDept::getDeptId, parentDeptId);
+                    .leftJoin(SysUserDept.class, SysUserDept::getUserId, SysUser::getUserId)
+                    .eq(SysUserDept::getDeptId, parentDeptId);
 
 			List<SysUser> userList = userMapper.selectJoinList(userQuery);
 
@@ -334,30 +329,28 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
 	/**
 	 * 模糊搜索用户
-	 *
 	 * @param username 用户名/拼音/首字母
 	 * @return 匹配到的用户
 	 */
 	public List<OrgTreeVO> getOrgTreeUser(String username) {
 		return userMapper.selectList(Wrappers.<SysUser>lambdaQuery().like(SysUser::getUsername, username))
-				.stream()
-				.map(user -> {
-					OrgTreeVO orgTreeVo = new OrgTreeVO();
-					orgTreeVo.setId(user.getUserId());
-					orgTreeVo.setName(user.getUsername());
-					orgTreeVo.setType(OrgTypeEnum.USER.getType());
-					orgTreeVo.setSelected(false);
-					orgTreeVo.setAvatar(user.getAvatar());
-					return orgTreeVo;
-				})
+                .stream()
+                .map(user -> {
+                    OrgTreeVO orgTreeVo = new OrgTreeVO();
+                    orgTreeVo.setId(user.getUserId());
+                    orgTreeVo.setName(user.getUsername());
+                    orgTreeVo.setType(OrgTypeEnum.USER.getType());
+                    orgTreeVo.setSelected(false);
+                    orgTreeVo.setAvatar(user.getAvatar());
+                    return orgTreeVo;
+                })
                 .toList();
 	}
 
 	/**
 	 * 递归查询所有子节点。
-	 *
 	 * @param allDeptList 所有部门列表
-	 * @param parentId    父部门ID
+     * @param parentId 父部门ID
 	 * @param resDeptList 结果集合
 	 */
 	private void recursiveDept(List<SysDept> allDeptList, Long parentId, List<SysDept> resDeptList) {

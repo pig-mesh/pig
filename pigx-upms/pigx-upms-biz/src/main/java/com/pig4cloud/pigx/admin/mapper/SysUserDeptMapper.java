@@ -20,7 +20,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pigx.admin.api.entity.SysUserDept;
 import org.apache.ibatis.annotations.Mapper;
 
-
 /**
  * 系统用户部门关联Mapper接口
  *

@@ -20,56 +20,56 @@ import java.util.Map;
 @FieldNameConstants
 public class MessageEmailDTO {
 
-    /**
-     * 邮件列表
-     */
-    @NotNull
-    private List<String> mailAddress = new ArrayList<>();
+	/**
+	 * 邮件列表
+	 */
+	@NotNull
+	private List<String> mailAddress = new ArrayList<>();
 
-    /**
-     * 标题
-     */
-    @NotBlank
-    private String title;
+	/**
+	 * 标题
+	 */
+	@NotBlank
+	private String title;
 
-    /**
-     * body
-     */
-    private String body;
+	/**
+	 * body
+	 */
+	private String body;
 
-    /**
-     * [HTML全文]
-     */
-    private String html;
+	/**
+	 * [HTML全文]
+	 */
+	private String html;
 
-    /**
-     * HTML 值
-     */
-    private Map<String, String> htmlValues = new HashMap<>();
+	/**
+	 * HTML 值
+	 */
+	private Map<String, String> htmlValues = new HashMap<>();
 
-    /**
-     * CC 列表
-     */
-    private List<String> ccList = new ArrayList<>();
+	/**
+	 * CC 列表
+	 */
+	private List<String> ccList = new ArrayList<>();
 
-    /**
-     * 密件抄送列表
-     */
-    private List<String> bccList = new ArrayList<>();
+	/**
+	 * 密件抄送列表
+	 */
+	private List<String> bccList = new ArrayList<>();
 
-    /**
-     * 附件文件 (fileName)
-     */
-    private List<String> attachmentList = new ArrayList<>();
+	/**
+	 * 附件文件 (fileName)
+	 */
+	private List<String> attachmentList = new ArrayList<>();
 
-    /**
-     * ZIP 名称
-     */
-    private String zipName;
+	/**
+	 * ZIP 名称
+	 */
+	private String zipName;
 
-    /**
-     * 业务代码
-     */
-    private String bizCode;
+	/**
+	 * 业务代码
+	 */
+	private String bizCode;
 
 }

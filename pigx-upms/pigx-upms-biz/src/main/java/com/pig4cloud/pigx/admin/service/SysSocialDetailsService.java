@@ -48,4 +48,5 @@ public interface SysSocialDetailsService extends IService<SysSocialDetails> {
 	UserInfo getUserInfo(String inStr);
 
     List<SysSocialDetailsVO> selectList();
+
 }

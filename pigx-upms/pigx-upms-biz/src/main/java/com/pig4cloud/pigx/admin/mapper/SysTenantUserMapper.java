@@ -23,7 +23,6 @@ import com.pig4cloud.pigx.admin.api.entity.SysTenantUser;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
-
 /**
  * 系统租户用户映射接口
  *

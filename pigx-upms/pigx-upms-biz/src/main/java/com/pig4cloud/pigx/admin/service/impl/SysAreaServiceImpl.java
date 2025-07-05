@@ -29,6 +29,7 @@ import java.util.Optional;
  */
 @Service
 public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity> implements SysAreaService {
+
     /**
      * 查询行政区划树
      *
@@ -38,13 +39,13 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
     @Override
     public List<Tree<Long>> selectTree(SysAreaEntity sysArea) {
         List<SysAreaEntity> entityList = baseMapper.selectList(Wrappers.lambdaQuery(sysArea)
-                        .eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode())
+                .eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode())
                 .orderByDesc(SysAreaEntity::getAreaSort));
 
         List<TreeNode<Long>> nodeList = CollUtil.newArrayList();
         for (SysAreaEntity sysAreaEntity : entityList) {
-            TreeNode<Long> treeNode = new TreeNode<>(sysAreaEntity.getAdcode(), sysAreaEntity.getPid()
-                    , sysAreaEntity.getName(), -Optional.ofNullable(sysAreaEntity.getAreaSort()).orElse(0L));
+            TreeNode<Long> treeNode = new TreeNode<>(sysAreaEntity.getAdcode(), sysAreaEntity.getPid(),
+                    sysAreaEntity.getName(), -Optional.ofNullable(sysAreaEntity.getAreaSort()).orElse(0L));
 
             HashMap<String, Object> extraMap = MapUtil.of(SysAreaEntity.Fields.adcode, sysAreaEntity.getAdcode());
             extraMap.put(SysAreaEntity.Fields.hot, sysAreaEntity.getHot());
@@ -70,5 +71,6 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
         wrapper.orderByAsc(SysAreaEntity::getAreaType);
         wrapper.orderByDesc(SysAreaEntity::getAreaSort);
         return baseMapper.selectPage(page, wrapper);
-    }
+	}
+
 }

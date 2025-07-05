@@ -51,12 +51,13 @@ public class SysSensitiveWordController {
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
     @HasPermission("admin_sysSensitiveWord_view")
-    public R getSysSensitiveWordPage(@ParameterObject Page page, @ParameterObject SysSensitiveWordEntity sysSensitiveWord) {
+    public R getSysSensitiveWordPage(@ParameterObject Page page,
+                                     @ParameterObject SysSensitiveWordEntity sysSensitiveWord) {
         LambdaQueryWrapper<SysSensitiveWordEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(sysSensitiveWord.getSensitiveWord())
-                , SysSensitiveWordEntity::getSensitiveWord, sysSensitiveWord.getSensitiveWord());
-        wrapper.eq(StrUtil.isNotBlank(sysSensitiveWord.getSensitiveType())
-                , SysSensitiveWordEntity::getSensitiveType, sysSensitiveWord.getSensitiveType());
+        wrapper.like(StrUtil.isNotBlank(sysSensitiveWord.getSensitiveWord()), SysSensitiveWordEntity::getSensitiveWord,
+                sysSensitiveWord.getSensitiveWord());
+        wrapper.eq(StrUtil.isNotBlank(sysSensitiveWord.getSensitiveType()), SysSensitiveWordEntity::getSensitiveType,
+                sysSensitiveWord.getSensitiveType());
         return R.ok(sysSensitiveWordService.page(page, wrapper));
     }
 
@@ -64,8 +65,11 @@ public class SysSensitiveWordController {
     @Operation(summary = "查询所有敏感词", description = "查询所有敏感词")
     @GetMapping("/remote/list/{type}")
     public R list(@PathVariable String type) {
-        return R.ok(sysSensitiveWordService.list(Wrappers.<SysSensitiveWordEntity>lambdaQuery()
-                .eq(SysSensitiveWordEntity::getSensitiveType, type)).stream().map(SysSensitiveWordEntity::getSensitiveWord).toList());
+        return R.ok(sysSensitiveWordService
+                .list(Wrappers.<SysSensitiveWordEntity>lambdaQuery().eq(SysSensitiveWordEntity::getSensitiveType, type))
+                .stream()
+                .map(SysSensitiveWordEntity::getSensitiveWord)
+                .toList());
     }
 
     /**
@@ -146,7 +150,6 @@ public class SysSensitiveWordController {
         return R.ok();
     }
 
-
     /**
      * 导出excel 表格
      *
@@ -158,7 +161,8 @@ public class SysSensitiveWordController {
     @GetMapping("/export")
     @HasPermission("admin_sysSensitiveWord_export")
     public List<SysSensitiveWordEntity> export(SysSensitiveWordEntity sysSensitiveWord, Long[] ids) {
-        return sysSensitiveWordService.list(Wrappers.lambdaQuery(sysSensitiveWord).in(ArrayUtil.isNotEmpty(ids), SysSensitiveWordEntity::getSensitiveId, CollUtil.toList(ids)));
+        return sysSensitiveWordService.list(Wrappers.lambdaQuery(sysSensitiveWord)
+                .in(ArrayUtil.isNotEmpty(ids), SysSensitiveWordEntity::getSensitiveId, CollUtil.toList(ids)));
     }
 
     /**
@@ -171,9 +175,10 @@ public class SysSensitiveWordController {
     @HasPermission("admin_sysSensitiveWord_del")
     public R refresh() {
         RedisUtils.execute((RedisCallback<Void>) connection -> {
-            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
-            return null;
-        });
-        return R.ok();
-    }
+			connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+			return null;
+		});
+		return R.ok();
+	}
+
 }

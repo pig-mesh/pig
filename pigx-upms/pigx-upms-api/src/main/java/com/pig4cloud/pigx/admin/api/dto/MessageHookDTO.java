@@ -16,7 +16,6 @@ import java.util.List;
 @FieldNameConstants
 public class MessageHookDTO {
 
-
     /**
      * 业务代码
      */
@@ -27,18 +26,15 @@ public class MessageHookDTO {
      */
     private List<String> phoneList = new ArrayList<>();
 
-
     /**
      * 通知全部
      */
     private boolean noticeAll;
 
-
     /**
      * 消息类型
      */
     private String messageType;
-
 
     /**
      * 留言内容
@@ -57,7 +53,7 @@ public class MessageHookDTO {
 
     /**
      * 图片链接
-     */
-    private String picUrl;
+	 */
+	private String picUrl;
 
 }

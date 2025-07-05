@@ -40,22 +40,22 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class UserInfo extends UserVO implements Serializable {
 
-    /**
-     * 密码
-     */
-    @JsonIgnore(value = false)
-    private String password;
+	/**
+	 * 密码
+	 */
+	@JsonIgnore(value = false)
+	private String password;
 
-    /**
-     * 随机盐
-     */
-    @JsonIgnore(value = false)
-    private String salt;
+	/**
+	 * 随机盐
+	 */
+	@JsonIgnore(value = false)
+	private String salt;
 
-    /**
-     * 权限标识集合
-     */
-    @Schema(description = "权限标识集合")
-    private List<String> permissions = new ArrayList<>();
+	/**
+	 * 权限标识集合
+	 */
+	@Schema(description = "权限标识集合")
+	private List<String> permissions = new ArrayList<>();
 
 }

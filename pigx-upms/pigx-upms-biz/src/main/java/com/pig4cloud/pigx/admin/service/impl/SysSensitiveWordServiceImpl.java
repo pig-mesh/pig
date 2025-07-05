@@ -24,7 +24,8 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMapper, SysSensitiveWordEntity> implements SysSensitiveWordService {
+public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMapper, SysSensitiveWordEntity>
+        implements SysSensitiveWordService {
 
     /**
      * 查询敏感词
@@ -46,8 +47,9 @@ public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMap
      */
     @Override
     public Boolean saveSensitive(SysSensitiveWordEntity sysSensitiveWord) {
-        List<SysSensitiveWordEntity> wordEntityList = baseMapper.selectList(Wrappers.<SysSensitiveWordEntity>lambdaQuery().
-                eq(SysSensitiveWordEntity::getSensitiveWord, sysSensitiveWord.getSensitiveWord()));
+        List<SysSensitiveWordEntity> wordEntityList = baseMapper
+                .selectList(Wrappers.<SysSensitiveWordEntity>lambdaQuery()
+                        .eq(SysSensitiveWordEntity::getSensitiveWord, sysSensitiveWord.getSensitiveWord()));
 
         if (CollUtil.isEmpty(wordEntityList)) {
             save(sysSensitiveWord);
@@ -61,7 +63,8 @@ public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMap
         RedisUtils.execute((RedisCallback<Void>) connection -> {
             connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
             return null;
-        });
-        return Boolean.TRUE;
-    }
+		});
+		return Boolean.TRUE;
+	}
+
 }

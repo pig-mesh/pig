@@ -46,9 +46,7 @@ public class DataUtil {
 
 		optionalDept.ifPresent(list::add);
 
-		List<SysDept> collect = allDeptList.stream()
-			.filter(w -> w.getParentId() == deptId)
-                .toList();
+        List<SysDept> collect = allDeptList.stream().filter(w -> w.getParentId() == deptId).toList();
 
 		if (CollUtil.isEmpty(collect)) {
 			return list;
@@ -72,9 +70,7 @@ public class DataUtil {
 		List<SysMenu> list = new ArrayList<>();
 		list.add(allMenuList.stream().filter(w -> w.getMenuId() == menuId).findFirst().get());
 
-		List<SysMenu> collect = allMenuList.stream()
-			.filter(w -> w.getParentId() == menuId)
-                .toList();
+        List<SysMenu> collect = allMenuList.stream().filter(w -> w.getParentId() == menuId).toList();
 		if (CollUtil.isEmpty(collect)) {
 			return list;
 		}

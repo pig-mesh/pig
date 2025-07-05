@@ -117,6 +117,6 @@ public class SysRouteConf extends Model<SysRouteConf> {
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
     @Schema(description = "删除标记,1:已删除,0:正常")
-    private String delFlag;
+	private String delFlag;
 
 }

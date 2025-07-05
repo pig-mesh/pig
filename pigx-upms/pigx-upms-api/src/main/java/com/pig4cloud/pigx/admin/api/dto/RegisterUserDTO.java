@@ -11,28 +11,29 @@ import lombok.Data;
 @Data
 public class RegisterUserDTO {
 
-    /**
-     * 用户名
-     */
-    private String username;
+	/**
+	 * 用户名
+	 */
+	private String username;
 
-    /**
-     * 密码
-     */
-    private String password;
+	/**
+	 * 密码
+	 */
+	private String password;
 
-    /**
-     * 新密码1
-     */
-    private String newpassword1;
+	/**
+	 * 新密码1
+	 */
+	private String newpassword1;
 
-    /**
-     * 电话
-     */
-    private String phone;
+	/**
+	 * 电话
+	 */
+	private String phone;
 
-    /**
-     * 租户ID
-     */
-    private Long tenantId;
+	/**
+	 * 租户ID
+	 */
+	private Long tenantId;
+
 }

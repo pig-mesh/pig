@@ -1,7 +1,6 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
-import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -60,5 +59,6 @@ public class SysRegisterController {
     @PostMapping("/forget/{code}")
     public R<Boolean> forgetUserPassword(@RequestBody RegisterUserDTO userDto, @PathVariable String code) {
         return userService.forgetUserPassword(userDto, code);
-    }
+	}
+
 }

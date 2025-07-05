@@ -167,8 +167,7 @@ public class SysDictController {
                 .like(StrUtil.isNotBlank(name), SysDict::getDictType, name)
                 .or()
                 .like(StrUtil.isNotBlank(name), SysDict::getDescription, name)
-                .orderByDesc(SysDict::getCreateTime)
-        ));
+                .orderByDesc(SysDict::getCreateTime)));
     }
 
     /**
@@ -185,7 +184,6 @@ public class SysDictController {
 
     /**
      * 通过id查询字典项
-     *
      * @param id id
      * @return R
      */
@@ -196,7 +194,6 @@ public class SysDictController {
 
     /**
      * 查询字典项详情
-     *
      * @param query 查询条件
      * @return R
      */
@@ -220,7 +217,6 @@ public class SysDictController {
 
     /**
      * 修改字典项
-     *
      * @param sysDictItem 字典项
      * @return R
      */
@@ -232,7 +228,6 @@ public class SysDictController {
 
     /**
      * 通过id删除字典项
-     *
      * @param id id
      * @return R
      */
@@ -251,12 +246,12 @@ public class SysDictController {
     @PutMapping("/sync")
     public R sync() {
         return sysDictService.syncDictCache();
-    }
+	}
 
-    @ResponseExcel
-    @GetMapping("/export")
-    public List<SysDictItem> export(SysDictItem sysDictItem) {
-        return sysDictItemService.list(Wrappers.query(sysDictItem));
-    }
+	@ResponseExcel
+	@GetMapping("/export")
+	public List<SysDictItem> export(SysDictItem sysDictItem) {
+		return sysDictItemService.list(Wrappers.query(sysDictItem));
+	}
 
 }

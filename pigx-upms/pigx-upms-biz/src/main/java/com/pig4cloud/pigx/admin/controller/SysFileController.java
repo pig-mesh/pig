@@ -114,7 +114,6 @@ public class SysFileController {
         return sysFileService.uploadFile(file, fileName, dir, groupId, type);
     }
 
-
     /**
      * 内部文件上传接口
      *
@@ -127,13 +126,13 @@ public class SysFileController {
      */
     @Inner
     @PostMapping(value = "/inner/upload")
-    public R innerUpload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
+    public R innerUpload(@RequestPart("file") MultipartFile file,
+                         @RequestParam(value = "dir", required = false) String dir,
                          @RequestParam(value = "groupId", required = false) Long groupId,
                          @RequestParam(value = "type", required = false) String type,
                          @RequestParam(value = "fileName", required = false) String fileName) {
         return sysFileService.uploadFile(file, fileName, dir, groupId, type);
     }
-
 
     /**
      * 获取文件
@@ -165,7 +164,6 @@ public class SysFileController {
 
     /**
      * 查询文件组列表
-     *
      * @param fileGroup SysFileGroup对象，用于筛选条件
      * @return 包含文件组列表的R对象
      */
@@ -176,7 +174,6 @@ public class SysFileController {
 
     /**
      * 添加文件组
-     *
      * @param fileGroup SysFileGroup对象，要添加的文件组信息
      * @return 包含添加结果的R对象
      */
@@ -198,7 +195,6 @@ public class SysFileController {
 
     /**
      * 删除文件组
-     *
      * @param id 待删除文件组的ID
      * @return 包含删除结果的R对象
      */
@@ -209,13 +205,12 @@ public class SysFileController {
 
     /**
      * 移动文件组
-     *
      * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
      * @return 包含移动结果的R对象
-     */
-    @PutMapping("/group/move")
-    public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
-        return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
-    }
+	 */
+	@PutMapping("/group/move")
+	public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
+		return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
+	}
 
 }

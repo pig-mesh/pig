@@ -33,7 +33,8 @@ import java.util.Objects;
  * @date 2024/07/18
  */
 @Service
-public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMapper, SysSystemConfigEntity> implements SysSystemConfigService {
+public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMapper, SysSystemConfigEntity>
+        implements SysSystemConfigService {
 
     private final SysMessageServiceImpl sysMessageServiceImpl;
 
@@ -69,9 +70,10 @@ public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMappe
     @Override
     public R pageSystemConfig(Page page, SysSystemConfigEntity sysSystemConfig) {
         LambdaQueryWrapper<SysSystemConfigEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(StrUtil.isNotBlank(sysSystemConfig.getConfigType()), SysSystemConfigEntity::getConfigType, sysSystemConfig.getConfigType());
-        wrapper.like(StrUtil.isNotBlank(sysSystemConfig.getConfigName())
-                , SysSystemConfigEntity::getConfigName, sysSystemConfig.getConfigName());
+        wrapper.eq(StrUtil.isNotBlank(sysSystemConfig.getConfigType()), SysSystemConfigEntity::getConfigType,
+                sysSystemConfig.getConfigType());
+        wrapper.like(StrUtil.isNotBlank(sysSystemConfig.getConfigName()), SysSystemConfigEntity::getConfigName,
+                sysSystemConfig.getConfigName());
         Page<SysSystemConfigEntity> pageResult = baseMapper.selectPage(page, wrapper);
         pageResult.getRecords().forEach(systemConfig -> {
             if (StrUtil.isNotBlank(systemConfig.getConfigValue())) {
@@ -111,8 +113,9 @@ public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMappe
             Field configsField = ReflectUtil.getField(OaFactory.class, "CONFIGS");
             configsField.setAccessible(true);
             Map<String, OaSender> configs = (Map<String, OaSender>) configsField.get(null);
-            configs.clear();
-        }
-        return R.ok();
-    }
+			configs.clear();
+		}
+		return R.ok();
+	}
+
 }

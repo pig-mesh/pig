@@ -131,10 +131,12 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
         return sysLogList.stream()
                 // 按照日期进行分组
                 .collect(Collectors.groupingBy(log -> DateUtil.format(log.getCreateTime(), DatePattern.NORM_DATE_PATTERN)))
-                .entrySet().stream()
+                .entrySet()
+                .stream()
                 // 将每个日期对应的日志按日志类型分组，并计算每种类型的日志数量
                 .map(entry -> {
-                    Map<String, Object> map = entry.getValue().stream()
+                    Map<String, Object> map = entry.getValue()
+                            .stream()
                             .collect(Collectors.groupingBy(SysLog::getLogType,
                                     Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
                     map.put(SysLog.Fields.createTime, entry.getKey());
@@ -142,7 +144,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
                 })
                 // 按createTime升序排序
                 .sorted(Comparator.comparing(map -> map.get(SysLog.Fields.createTime).toString()))
-                .toList();
-    }
+			.toList();
+	}
 
 }

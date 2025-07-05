@@ -62,7 +62,6 @@ public interface SysUserMapper extends PigxBaseMapper<SysUser> {
 
     /**
      * 通过ID查询用户信息
-     *
      * @param id 用户ID
      * @return 用户信息VO对象
      */

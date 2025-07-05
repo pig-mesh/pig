@@ -22,7 +22,6 @@ import java.time.LocalDateTime;
 @Schema(description = "行政区划表")
 public class SysAreaEntity extends Model<SysAreaEntity> {
 
-
     /**
      * 主键ID
      */
@@ -123,6 +122,7 @@ public class SysAreaEntity extends Model<SysAreaEntity> {
      */
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
-    @Schema(description = "删除标记")
-    private String delFlag;
+	@Schema(description = "删除标记")
+	private String delFlag;
+
 }

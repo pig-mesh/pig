@@ -66,7 +66,6 @@ public class CasLoginHandler extends AbstractLoginHandler {
 
 	/**
      * 根据用户名获取用户信息
-     *
      * @param username 用户名
      * @return 用户信息对象，如果用户不存在则返回null
 	 */

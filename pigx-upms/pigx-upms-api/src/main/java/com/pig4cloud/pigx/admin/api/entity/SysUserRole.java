@@ -41,26 +41,25 @@ import java.io.Serial;
 @EqualsAndHashCode(callSuper = true)
 public class SysUserRole extends Model<SysUserRole> {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户ID
-     */
-    @Schema(description = "用户id")
-    private Long userId;
+	/**
+	 * 用户ID
+	 */
+	@Schema(description = "用户id")
+	private Long userId;
 
-    /**
-     * 角色ID
-     */
-    @Schema(description = "角色id")
-    private Long roleId;
+	/**
+	 * 角色ID
+	 */
+	@Schema(description = "角色id")
+	private Long roleId;
 
-
-    /**
-     * 租户ID
-     */
-    @Schema(description = "租户ID")
-    private Long tenantId;
+	/**
+	 * 租户ID
+	 */
+	@Schema(description = "租户ID")
+	private Long tenantId;
 
 }

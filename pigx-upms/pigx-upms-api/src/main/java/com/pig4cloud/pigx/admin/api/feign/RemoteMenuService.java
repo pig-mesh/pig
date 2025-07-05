@@ -39,23 +39,22 @@ import java.util.List;
 @FeignClient(contextId = "remoteMenuService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteMenuService {
 
+	/**
+	 * 获取菜单详细信息
+	 *
+	 * @param sysMenu SYS菜单
+	 * @return {@link R }<{@link List }<{@link SysMenu }>>
+	 */
+	@GetMapping("/menu/details")
+	R<List<SysMenu>> getMenuDetails(@SpringQueryMap SysMenu sysMenu);
 
-    /**
-     * 获取菜单详细信息
-     *
-     * @param sysMenu SYS菜单
-     * @return {@link R }<{@link List }<{@link SysMenu }>>
-     */
-    @GetMapping("/menu/details")
-    R<List<SysMenu>> getMenuDetails(@SpringQueryMap SysMenu sysMenu);
+	/**
+	 * 保存菜单
+	 *
+	 * @param sysMenu SYS菜单
+	 * @return {@link R }<{@link Boolean }>
+	 */
+	@PostMapping("/menu")
+	R<SysMenu> saveMenu(@RequestBody SysMenu sysMenu);
 
-
-    /**
-     * 保存菜单
-     *
-     * @param sysMenu SYS菜单
-     * @return {@link R }<{@link Boolean }>
-     */
-    @PostMapping("/menu")
-    R<SysMenu> saveMenu(@RequestBody SysMenu sysMenu);
 }

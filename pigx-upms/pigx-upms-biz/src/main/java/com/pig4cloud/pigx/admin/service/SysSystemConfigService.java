@@ -37,4 +37,5 @@ public interface SysSystemConfigService extends IService<SysSystemConfigEntity> 
      * @return {@link R }
      */
     R updateSystemConfig(SysSystemConfigEntity sysSystemConfig);
+
 }

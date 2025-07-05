@@ -154,7 +154,7 @@ public class SysMenu extends Model<SysMenu> {
      */
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
-    @Schema(description = "删除标记,1:已删除,0:正常")
-    private String delFlag;
+	@Schema(description = "删除标记,1:已删除,0:正常")
+	private String delFlag;
 
 }

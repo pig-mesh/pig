@@ -120,7 +120,7 @@ public class SysScheduleEntity extends Model<SysScheduleEntity> {
      */
     @TableLogic
     @Schema(description = "删除标记")
-    @TableField(fill = FieldFill.INSERT)
-    private String delFlag;
+	@TableField(fill = FieldFill.INSERT)
+	private String delFlag;
 
 }

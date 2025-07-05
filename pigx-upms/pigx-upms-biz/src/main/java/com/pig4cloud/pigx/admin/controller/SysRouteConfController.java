@@ -82,5 +82,6 @@ public class SysRouteConfController {
     @HasPermission("sys_route_manage")
     public R saveRoute(@RequestBody SysRouteConf routeConf) {
         return R.ok(sysRouteConfService.saveRoute(routeConf));
-    }
+	}
+
 }

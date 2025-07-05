@@ -25,26 +25,26 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AiChatController {
 
-    private final Optional<DeepSeekClient> deepSeekClientOptional;
+	private final Optional<DeepSeekClient> deepSeekClientOptional;
 
+	/**
+	 * 聊天
+	 *
+	 * @param message 消息
+	 * @return {@link Flux }<{@link ChatCompletionResponse }>
+	 */
+	@PostMapping("/chat")
+	public Flux<ChatCompletionResponse> chat(@RequestBody AiChatMessageDTO message) {
 
-    /**
-     * 聊天
-     *
-     * @param message 消息
-     * @return {@link Flux }<{@link ChatCompletionResponse }>
-     */
-    @PostMapping("/chat")
-    public Flux<ChatCompletionResponse> chat(@RequestBody AiChatMessageDTO message) {
+		if (deepSeekClientOptional.isEmpty()) {
+			log.warn("DeepSeek 大模型聊天未开启，请检查配置");
+			return Flux.empty();
+		}
 
-        if (deepSeekClientOptional.isEmpty()) {
-            log.warn("DeepSeek 大模型聊天未开启，请检查配置");
-            return Flux.empty();
-        }
+		if (message.isWebSearch()) {
+			return deepSeekClientOptional.get().chatSearchCompletion(message.getMessage());
+		}
+		return deepSeekClientOptional.get().chatFluxCompletion(message.getMessage());
+	}
 
-        if (message.isWebSearch()) {
-            return deepSeekClientOptional.get().chatSearchCompletion(message.getMessage());
-        }
-        return deepSeekClientOptional.get().chatFluxCompletion(message.getMessage());
-    }
 }

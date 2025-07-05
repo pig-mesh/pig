@@ -45,16 +45,16 @@ public class SysSystemConfigController {
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
     @HasPermission("sys_message_view")
-    public R getSysSystemConfigPage(@ParameterObject Page page, @ParameterObject SysSystemConfigEntity sysSystemConfig) {
+    public R getSysSystemConfigPage(@ParameterObject Page page,
+                                    @ParameterObject SysSystemConfigEntity sysSystemConfig) {
         return sysSystemConfigService.pageSystemConfig(page, sysSystemConfig);
     }
-
 
     /**
      * 通过条件查询系统配置
      *
      * @param sysSystemConfig 查询条件
-     * @return R  对象列表
+     * @return R 对象列表
      */
     @Operation(summary = "通过条件查询", description = "通过条件查询对象")
     @GetMapping("/details")
@@ -105,7 +105,6 @@ public class SysSystemConfigController {
         return R.ok(sysSystemConfigService.removeBatchByIds(CollUtil.toList(ids)));
     }
 
-
     /**
      * 导出excel 表格
      *
@@ -117,6 +116,8 @@ public class SysSystemConfigController {
     @GetMapping("/export")
     @HasPermission("sys_message_export")
     public List<SysSystemConfigEntity> export(SysSystemConfigEntity sysSystemConfig, Long[] ids) {
-        return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig).in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, CollUtil.toList(ids)));
-    }
+        return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig)
+			.in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, CollUtil.toList(ids)));
+	}
+
 }

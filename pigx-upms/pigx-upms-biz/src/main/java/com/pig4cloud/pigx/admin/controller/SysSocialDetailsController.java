@@ -71,7 +71,7 @@ public class SysSocialDetailsController {
 	 */
 	@Inner(value = false)
 	@GetMapping("/getLoginAppList")
-	public R getLoginAppList(){
+    public R getLoginAppList() {
 		return R.ok(sysSocialDetailsService.selectList());
 	}
 
@@ -155,8 +155,8 @@ public class SysSocialDetailsController {
 	 */
 	@GetMapping("/export")
 	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails, Long[] ids) {
-		return sysSocialDetailsService
-			.list(Wrappers.lambdaQuery(sysSocialDetails).in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, CollUtil.toList(ids)));
+        return sysSocialDetailsService.list(Wrappers.lambdaQuery(sysSocialDetails)
+                .in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, CollUtil.toList(ids)));
 	}
 
 }

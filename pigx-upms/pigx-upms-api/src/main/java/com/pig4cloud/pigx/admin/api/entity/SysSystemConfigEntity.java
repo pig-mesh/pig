@@ -24,83 +24,83 @@ import java.time.LocalDateTime;
 @Schema(description = "系统配置")
 public class SysSystemConfigEntity extends Model<SysSystemConfigEntity> {
 
-
 	/**
-	* 主键
-	*/
+     * 主键
+     */
     @TableId(type = IdType.ASSIGN_ID)
-    @Schema(description="主键")
+    @Schema(description = "主键")
     private Long id;
 
 	/**
-	* 配置类型
-	*/
-    @Schema(description="配置类型")
+     * 配置类型
+     */
+    @Schema(description = "配置类型")
     private String configType;
 
 	/**
-	* 配置名称
-	*/
-    @Schema(description="配置名称")
+     * 配置名称
+     */
+    @Schema(description = "配置名称")
     private String configName;
 
 	/**
-	* 配置标识
-	*/
-    @Schema(description="配置标识")
+     * 配置标识
+     */
+    @Schema(description = "配置标识")
     private String configKey;
 
 	/**
-	* 配置值
-	*/
-    @Schema(description="配置值")
+     * 配置值
+     */
+    @Schema(description = "配置值")
     private String configValue;
 
 	/**
-	* 开启状态
-	*/
-    @Schema(description="开启状态")
+     * 开启状态
+     */
+    @Schema(description = "开启状态")
     private String configStatus;
 
 	/**
-	* 创建人
-	*/
+     * 创建人
+     */
 	@TableField(fill = FieldFill.INSERT)
-    @Schema(description="创建人")
+    @Schema(description = "创建人")
     private String createBy;
 
 	/**
-	* 创建时间
-	*/
+     * 创建时间
+     */
 	@TableField(fill = FieldFill.INSERT)
-    @Schema(description="创建时间")
+    @Schema(description = "创建时间")
     private LocalDateTime createTime;
 
 	/**
-	* 修改人
-	*/
+     * 修改人
+     */
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    @Schema(description="修改人")
+    @Schema(description = "修改人")
     private String updateBy;
 
 	/**
-	* 修改时间
-	*/
+     * 修改时间
+     */
 	@TableField(fill = FieldFill.INSERT_UPDATE)
-    @Schema(description="修改时间")
+    @Schema(description = "修改时间")
     private LocalDateTime updateTime;
 
 	/**
-	* 删除标记
-	*/
+     * 删除标记
+     */
     @TableLogic
 	@TableField(fill = FieldFill.INSERT)
-    @Schema(description="删除标记")
+    @Schema(description = "删除标记")
     private String delFlag;
 
 	/**
-	* 租户ID
-	*/
-    @Schema(description="租户ID")
+     * 租户ID
+     */
+    @Schema(description = "租户ID")
     private Long tenantId;
+
 }

@@ -153,13 +153,11 @@ public class UserVO implements Serializable {
     @Schema(description = "头像")
     private String avatar;
 
-
     /**
      * 租户ID
      */
     @Schema(description = "所属租户")
     private Long tenantId;
-
 
     @Schema(description = "所属部门名称")
     private List<SysDept> deptList;
@@ -186,13 +184,12 @@ public class UserVO implements Serializable {
      * 姓名
      */
     @Schema(description = "姓名")
-    private String name;
+	private String name;
 
-    /**
-     * 邮箱
-     */
-    @Schema(description = "邮箱")
-    private String email;
-
+	/**
+	 * 邮箱
+	 */
+	@Schema(description = "邮箱")
+	private String email;
 
 }

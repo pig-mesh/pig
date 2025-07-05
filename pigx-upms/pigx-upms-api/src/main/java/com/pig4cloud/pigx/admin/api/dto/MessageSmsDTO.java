@@ -50,14 +50,19 @@ public class MessageSmsDTO {
      */
     private String supplier;
 
-
     /**
      * 模板 ID
      */
     private String templateId;
 
+    // 静态方法用于创建Builder实例
+    public static Builder builder() {
+		return new Builder();
+	}
+
     // Builder类
     public static class Builder {
+
         private MessageSmsDTO dto;
 
         public Builder() {
@@ -90,10 +95,7 @@ public class MessageSmsDTO {
         public MessageSmsDTO build() {
             return dto;
         }
+
     }
 
-    // 静态方法用于创建Builder实例
-    public static Builder builder() {
-        return new Builder();
-    }
 }

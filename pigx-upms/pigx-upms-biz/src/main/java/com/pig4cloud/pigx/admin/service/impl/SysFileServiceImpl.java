@@ -123,7 +123,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             fileName = urlFileName;
         }
 
-        SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName), false);
+        SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName),
+                false);
         if (Objects.isNull(sysFile)) {
             log.warn("文件不存在: {}", fileName);
             return;
@@ -133,7 +134,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             response.setContentType("application/octet-stream; charset=UTF-8");
             // 文件唯一hash
             response.addHeader(SysFile.Fields.hash, sysFile.getHash());
-            response.addHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + URLUtil.encode(sysFile.getOriginal()));
+            response.addHeader(HttpHeaders.CONTENT_DISPOSITION,
+                    "attachment; filename=" + URLUtil.encode(sysFile.getOriginal()));
             IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
         } catch (Exception e) {
             log.error("文件读取异常: {}", e.getLocalizedMessage());
@@ -227,7 +229,8 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         file.setGroupId(fileGroupDTO.getGroupId());
 
         // 根据IDS更新对应的SysFile记录
-        baseMapper.update(file, Wrappers.<SysFile>lambdaQuery().in(SysFile::getId, CollUtil.toList(fileGroupDTO.getIds())));
+        baseMapper.update(file,
+                Wrappers.<SysFile>lambdaQuery().in(SysFile::getId, CollUtil.toList(fileGroupDTO.getIds())));
         return Boolean.TRUE;
     }
 
@@ -259,12 +262,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         sysFile.setOriginal(originalFilename);
         sysFile.setFileSize(file.getSize());
         sysFile.setBucketName(properties.getBucketName());
-        sysFile.setType(type);
-        sysFile.setGroupId(groupId);
+		sysFile.setType(type);
+		sysFile.setGroupId(groupId);
 
-        sysFile.setHash(SecureUtil.md5(file.getInputStream()));
-        // 调用save方法保存SysFile对象
-        this.save(sysFile);
-    }
+		sysFile.setHash(SecureUtil.md5(file.getInputStream()));
+		// 调用save方法保存SysFile对象
+		this.save(sysFile);
+	}
 
 }

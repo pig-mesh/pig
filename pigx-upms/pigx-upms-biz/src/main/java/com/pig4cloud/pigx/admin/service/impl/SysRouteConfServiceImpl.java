@@ -141,6 +141,6 @@ public class SysRouteConfServiceImpl extends ServiceImpl<SysRouteConfMapper, Sys
         baseMapper.insert(routeConf);
         this.applicationEventPublisher.publishEvent(new DynamicRouteInitEvent(this));
         return routeConf;
-    }
+	}
 
 }

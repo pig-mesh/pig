@@ -20,4 +20,5 @@ public enum SmsBizCodeEnum {
     private final String code;
 
     private final String desc;
+
 }

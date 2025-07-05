@@ -46,72 +46,72 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class MiniAppLoginHandler extends AbstractLoginHandler {
 
-    private final SysUserService sysUserService;
+	private final SysUserService sysUserService;
 
-    private final SysSocialDetailsMapper sysSocialDetailsMapper;
+	private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
-    /**
-     * 小程序登录传入code
-     * <p>
-     * 通过code 调用qq 获取唯一标识
-     *
-     * @param code
-     * @return
-     */
-    @Override
-    public String identify(String code) {
-        SysSocialDetails condition = new SysSocialDetails();
-        condition.setType(LoginTypeEnum.MINI_APP.getType());
-        SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+	/**
+	 * 小程序登录传入code
+	 * <p>
+	 * 通过code 调用qq 获取唯一标识
+	 *
+	 * @param code
+	 * @return
+	 */
+	@Override
+	public String identify(String code) {
+		SysSocialDetails condition = new SysSocialDetails();
+		condition.setType(LoginTypeEnum.MINI_APP.getType());
+		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-        String url = String.format(SecurityConstants.MINI_APP_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
-                socialDetails.getAppSecret(), code);
-        String result = HttpUtil.get(url);
-        log.debug("微信小程序响应报文:{}", result);
-        JSONObject resultJsonObj = JSONUtil.parseObj(result);
+		String url = String.format(SecurityConstants.MINI_APP_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+				socialDetails.getAppSecret(), code);
+		String result = HttpUtil.get(url);
+		log.debug("微信小程序响应报文:{}", result);
+		JSONObject resultJsonObj = JSONUtil.parseObj(result);
 
-        if (resultJsonObj.containsKey("errcode")) {
-            log.error("微信小程序登录失败:{}", result);
-            throw new CheckedException("微信小程序登录失败");
-        }
+		if (resultJsonObj.containsKey("errcode")) {
+			log.error("微信小程序登录失败:{}", result);
+			throw new CheckedException("微信小程序登录失败");
+		}
 
-        Object obj = resultJsonObj.get("openid");
-        return obj.toString();
-    }
+		Object obj = resultJsonObj.get("openid");
+		return obj.toString();
+	}
 
-    /**
-     * 根据openId获取用户信息
-     *
-     * @param openId 用户openId
-     * @return 用户信息对象，未找到时返回null
-     */
-    @Override
-    public UserInfo info(String openId) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setMiniOpenid(openId);
+	/**
+	 * 根据openId获取用户信息
+	 *
+	 * @param openId 用户openId
+	 * @return 用户信息对象，未找到时返回null
+	 */
+	@Override
+	public UserInfo info(String openId) {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setMiniOpenid(openId);
 
-        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-        if (userInfoR.getData() == null) {
-            log.info("小程序不存在用户:{}", openId);
-            return null;
-        }
+		if (userInfoR.getData() == null) {
+			log.info("小程序不存在用户:{}", openId);
+			return null;
+		}
 
-        return userInfoR.getData();
-    }
+		return userInfoR.getData();
+	}
 
-    /**
-     * 绑定逻辑
-     *
-     * @param user     用户实体
-     * @param identify 渠道返回唯一标识
-     * @return
-     */
-    @Override
-    public Boolean bind(SysUser user, String identify) {
-        user.setMiniOpenid(identify);
-        sysUserService.updateById(user);
-        return true;
-    }
+	/**
+	 * 绑定逻辑
+	 *
+	 * @param user     用户实体
+	 * @param identify 渠道返回唯一标识
+	 * @return
+	 */
+	@Override
+	public Boolean bind(SysUser user, String identify) {
+		user.setMiniOpenid(identify);
+		sysUserService.updateById(user);
+		return true;
+	}
 
 }
