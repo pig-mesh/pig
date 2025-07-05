@@ -19,8 +19,8 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.ExcelIgnore;
+import cn.idev.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import com.pig4cloud.pigx.common.sensitive.annotation.Sensitive;

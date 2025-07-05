@@ -33,15 +33,15 @@
     <description>pigx excel 操作</description>
 
     <properties>
-        <easyexcel.version>4.0.2</easyexcel.version>
+        <fastexcel.version>1.2.0</fastexcel.version>
     </properties>
 
     <dependencies>
         <!-- easyexcel:https://github.com/alibaba/easyexcel -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>easyexcel</artifactId>
-            <version>${easyexcel.version}</version>
+            <groupId>cn.idev.excel</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>${fastexcel.version}</version>
         </dependency>
         <!-- 导入校验注解-->
         <dependency>

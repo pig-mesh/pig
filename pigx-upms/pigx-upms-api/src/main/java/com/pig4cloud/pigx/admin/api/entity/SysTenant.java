@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.admin.api.entity;
 
-import com.alibaba.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;

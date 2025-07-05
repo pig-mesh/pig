@@ -17,9 +17,9 @@
 
 package com.pig4cloud.pigx.app.api.vo;
 
-import com.alibaba.excel.annotation.ExcelIgnore;
-import com.alibaba.excel.annotation.ExcelProperty;
-import com.alibaba.excel.annotation.write.style.ColumnWidth;
+import cn.idev.excel.annotation.ExcelIgnore;
+import cn.idev.excel.annotation.ExcelProperty;
+import cn.idev.excel.annotation.write.style.ColumnWidth;
 import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
