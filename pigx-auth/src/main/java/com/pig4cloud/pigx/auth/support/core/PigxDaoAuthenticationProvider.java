@@ -179,7 +179,7 @@ public class PigxDaoAuthenticationProvider extends AbstractUserDetailsAuthentica
     }
 
     public void setUserDetailsPasswordService(UserDetailsPasswordService userDetailsPasswordService) {
-        this.userDetailsPasswordService = userDetailsPasswordService;
-    }
+		this.userDetailsPasswordService = userDetailsPasswordService;
+	}
 
 }

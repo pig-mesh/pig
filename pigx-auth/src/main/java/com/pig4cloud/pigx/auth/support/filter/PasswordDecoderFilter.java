@@ -56,6 +56,7 @@ import java.util.Map;
 public class PasswordDecoderFilter extends OncePerRequestFilter {
 
 	private static final String PASSWORD = "password";
+
 	private static final String KEY_ALGORITHM = "AES";
 
 	static {
@@ -104,14 +105,13 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 
 			// 解密密码
 			String decryptPassword = aes.decryptStr(values[0]);
-			parameterMap.put(k, new String[]{decryptPassword});
+            parameterMap.put(k, new String[]{decryptPassword});
 		});
 		chain.doFilter(requestWrapper, response);
 	}
 
 	/**
 	 * 根据请求的clientId 查询客户端配置是否是加密传输
-	 *
 	 * @param request 请求上下文
 	 * @return true 加密传输 、 false 原文传输
 	 */

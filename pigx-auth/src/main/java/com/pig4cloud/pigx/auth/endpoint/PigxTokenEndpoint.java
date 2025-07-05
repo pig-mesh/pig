@@ -137,7 +137,6 @@ public class PigxTokenEndpoint {
         return removeToken(tokenValue);
     }
 
-
     /**
      * 校验token
      *
@@ -204,7 +203,8 @@ public class PigxTokenEndpoint {
     public R<Page<TokenVO>> tokenList(@RequestBody Map<String, Object> params) {
         // 根据username参数获取对应数据
         String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
-        String usernameKey = String.format("token::username::%s*::*::%s::*", username, TenantContextHolder.getTenantId());
+        String usernameKey = String.format("token::username::%s*::*::%s::*", username,
+                TenantContextHolder.getTenantId());
         String key = String.format("token::username::*::*::%s::*", TenantContextHolder.getTenantId());
         int current = MapUtil.getInt(params, CommonConstants.CURRENT);
         int size = MapUtil.getInt(params, CommonConstants.SIZE);
@@ -235,7 +235,8 @@ public class PigxTokenEndpoint {
             Long ttl = RedisUtils.getExpire(keyName);
             // TTL是秒数，转换为过期时间
             long expiresAtMillis = System.currentTimeMillis() + (ttl * 1000);
-            String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis), DatePattern.NORM_DATETIME_PATTERN);
+            String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis),
+                    DatePattern.NORM_DATETIME_PATTERN);
             tokenVo.setExpiresAt(expiresAt);
             return tokenVo;
         }).filter(Objects::nonNull).toList();
@@ -249,7 +250,7 @@ public class PigxTokenEndpoint {
     @GetMapping("/token/query-token")
     public R queryToken(String token) {
         OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-        return R.ok(authorization);
-    }
+		return R.ok(authorization);
+	}
 
 }

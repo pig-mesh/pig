@@ -86,7 +86,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		try {
 			checkCode();
 			filterChain.doFilter(request, response);
-		} catch (ValidateCodeException validateCodeException) {
+        } catch (ValidateCodeException validateCodeException) {
 			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
 		}
 	}
@@ -148,7 +148,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 	/**
 	 * 是否需要校验客户端，根据client 查询客户端配置
-	 *
 	 * @param request 请求
 	 * @return true 需要校验， false 不需要校验
 	 */

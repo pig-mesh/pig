@@ -79,6 +79,6 @@ public class ImageCodeEndpoint {
 
         CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
         return R.ok(captchaService.check(vo));
-    }
+	}
 
 }
