@@ -220,7 +220,7 @@ CREATE TABLE `app_user` (
 -- Records of app_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `app_user` VALUES (1, 'appuser', '$2a$10$XQu3TmORLqDWayFspQN.U.LigJ5TWPTdXPIn/6SxGHKED3PVpuMH6', NULL, '13054729089', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'appuser', '2022-12-07 02:59:38', '2023-03-09 15:14:44', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
+INSERT INTO `app_user` VALUES (1, 'appuser', '$2a$10$XQu3TmORLqDWayFspQN.U.LigJ5TWPTdXPIn/6SxGHKED3PVpuMH6', NULL, '17338122125', NULL, 'aeizzz', '刘洪磊', 'aeizzz@foxmail.com', '', 'appuser', '2022-12-07 02:59:38', '2023-03-09 15:14:44', '0', 1, NULL, '0', 'oBxPy5EnbDiN-gGEaovCpp_IkrkQ');
 COMMIT;
 
 -- ----------------------------
