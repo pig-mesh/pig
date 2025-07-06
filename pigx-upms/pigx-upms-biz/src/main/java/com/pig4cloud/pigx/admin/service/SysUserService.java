@@ -41,7 +41,6 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 查询用户信息
-	 *
 	 * @param userDTO 用户数据传输对象
 	 * @return 用户信息对象
 	 */
@@ -49,8 +48,7 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 分页查询用户信息（含有角色信息）
-	 *
-	 * @param page    分页对象
+	 * @param page 分页对象
 	 * @param userDTO 参数列表
 	 * @return
 	 */
@@ -65,7 +63,6 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 更新当前用户基本信息
-	 *
 	 * @param userDto 用户信息
 	 * @return Boolean
 	 */
@@ -73,8 +70,8 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 更新指定用户信息
-	 * @param userDto 用户信息
-	 * @return
+	 * @param userDto 用户信息DTO对象
+	 * @return 更新操作是否成功
 	 */
 	Boolean updateUser(UserDTO userDto);
 
@@ -109,8 +106,7 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * excel 导入用户
-	 *
-	 * @param excelVOList   excel 列表数据
+	 * @param excelVOList excel 列表数据
 	 * @param bindingResult 错误数据
 	 * @return ok fail
 	 */
@@ -131,15 +127,14 @@ public interface SysUserService extends IService<SysUser> {
 	R<Boolean> lockUser(String username);
 
 	/**
-	 * 修改密码
-	 * @param userDto 用户信息
-	 * @return
+	 * 修改用户密码
+	 * @param userDto 包含用户信息的DTO对象
+	 * @return 操作结果
 	 */
 	R changePassword(UserDTO userDto);
 
 	/**
 	 * 解绑社交登录
-	 *
 	 * @param type 社交登录类型
 	 * @return R
 	 */
@@ -169,16 +164,16 @@ public interface SysUserService extends IService<SysUser> {
 
 	/**
 	 * 重置用户密码
-	 * @param userDto 用户信息
-	 * @return
+	 * @param userDto 用户信息DTO
+	 * @return 操作结果，包含是否成功的布尔值
 	 */
 	R<Boolean> resetUserPassword(RegisterUserDTO userDto);
 
 	/**
 	 * 找回用户密码
-	 * @param userDto 用户信息
+	 * @param userDto 用户信息DTO
 	 * @param code 验证码
-	 * @return
+	 * @return 操作结果，包含是否成功的布尔值
 	 */
 	R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code);
 
