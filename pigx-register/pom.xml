@@ -27,7 +27,7 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>3.0.0</nacos.version>
+        <nacos.version>3.0.2.OEM</nacos.version>
     </properties>
 
     <dependencies>
@@ -45,6 +45,13 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
