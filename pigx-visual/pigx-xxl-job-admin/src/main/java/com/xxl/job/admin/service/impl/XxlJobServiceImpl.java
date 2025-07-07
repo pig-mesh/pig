@@ -28,26 +28,20 @@ import java.util.*;
 
 /**
  * core job action for xxl-job
- *
  * @author xuxueli 2016-5-28 15:30:33
  */
 @Service
 public class XxlJobServiceImpl implements XxlJobService {
-
 	private static Logger logger = LoggerFactory.getLogger(XxlJobServiceImpl.class);
 
 	@Resource
 	private XxlJobGroupDao xxlJobGroupDao;
-
 	@Resource
 	private XxlJobInfoDao xxlJobInfoDao;
-
 	@Resource
 	public XxlJobLogDao xxlJobLogDao;
-
 	@Resource
 	private XxlJobLogGlueDao xxlJobLogGlueDao;
-
 	@Resource
 	private XxlJobLogReportDao xxlJobLogReportDao;
 
@@ -60,7 +54,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 				author);
 		int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, triggerStatus, jobDesc, executorHandler,
 				author);
-
+		
 		// package result
 		Map<String, Object> maps = new HashMap<String, Object>();
 		maps.put("recordsTotal", list_count); // 总记录数
@@ -185,6 +179,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 		jobInfo.setAddTime(new Date());
 		jobInfo.setUpdateTime(new Date());
 		jobInfo.setGlueUpdatetime(new Date());
+		// remove the whitespace
+		jobInfo.setExecutorHandler(jobInfo.getExecutorHandler().trim());
 		xxlJobInfoDao.save(jobInfo);
 		if (jobInfo.getId() < 1) {
 			return new ReturnT<String>(ReturnT.FAIL_CODE,
@@ -349,7 +345,8 @@ public class XxlJobServiceImpl implements XxlJobService {
 		exists_jobInfo.setScheduleConf(jobInfo.getScheduleConf());
 		exists_jobInfo.setMisfireStrategy(jobInfo.getMisfireStrategy());
 		exists_jobInfo.setExecutorRouteStrategy(jobInfo.getExecutorRouteStrategy());
-		exists_jobInfo.setExecutorHandler(jobInfo.getExecutorHandler());
+		// remove the whitespace
+		exists_jobInfo.setExecutorHandler(jobInfo.getExecutorHandler().trim());
 		exists_jobInfo.setExecutorParam(jobInfo.getExecutorParam());
 		exists_jobInfo.setExecutorBlockStrategy(jobInfo.getExecutorBlockStrategy());
 		exists_jobInfo.setExecutorTimeout(jobInfo.getExecutorTimeout());
@@ -359,6 +356,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 		exists_jobInfo.setUpdateTime(new Date());
 		xxlJobInfoDao.update(exists_jobInfo);
+
 
 		return ReturnT.SUCCESS;
 	}
@@ -378,7 +376,11 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 	@Override
 	public ReturnT<String> start(int id) {
+		// load and valid
 		XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+		if (xxlJobInfo == null) {
+			return new ReturnT<String>(ReturnT.FAIL.getCode(), I18nUtil.getString("jobinfo_glue_jobid_unvalid"));
+		}
 
 		// valid
 		ScheduleTypeEnum scheduleTypeEnum = ScheduleTypeEnum.match(xxlJobInfo.getScheduleType(), ScheduleTypeEnum.NONE);
@@ -414,8 +416,13 @@ public class XxlJobServiceImpl implements XxlJobService {
 
 	@Override
 	public ReturnT<String> stop(int id) {
+		// load and valid
 		XxlJobInfo xxlJobInfo = xxlJobInfoDao.loadById(id);
+		if (xxlJobInfo == null) {
+			return new ReturnT<String>(ReturnT.FAIL.getCode(), I18nUtil.getString("jobinfo_glue_jobid_unvalid"));
+		}
 
+		// stop
 		xxlJobInfo.setTriggerStatus(0);
 		xxlJobInfo.setTriggerLastTime(0);
 		xxlJobInfo.setTriggerNextTime(0);
@@ -424,6 +431,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 		xxlJobInfoDao.update(xxlJobInfo);
 		return ReturnT.SUCCESS;
 	}
+
 
 	@Override
 	public ReturnT<String> trigger(XxlJobUser loginUser, int jobId, String executorParam, String addressList) {

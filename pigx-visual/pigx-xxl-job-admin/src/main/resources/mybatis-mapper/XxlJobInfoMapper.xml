@@ -188,8 +188,8 @@
 			executor_handler = #{executorHandler},
 			executor_param = #{executorParam},
 			executor_block_strategy = #{executorBlockStrategy},
-			executor_timeout = ${executorTimeout},
-			executor_fail_retry_count = ${executorFailRetryCount},
+        executor_timeout = #{executorTimeout},
+        executor_fail_retry_count = #{executorFailRetryCount},
 			glue_type = #{glueType},
 			glue_source = #{glueSource},
 			glue_remark = #{glueRemark},
@@ -232,11 +232,12 @@
 		UPDATE xxl_job_info
 		SET
 			trigger_last_time = #{triggerLastTime},
-		trigger_next_time = #{triggerNextTime}
-		<if test="triggerStatus gte 0">
-			, trigger_status = #{triggerStatus}
-		</if>
+        trigger_next_time = #{triggerNextTime}
+        <if test="triggerStatus gte 0">
+            , trigger_status = #{triggerStatus}
+        </if>
 		WHERE id = #{id}
+        AND trigger_status = 1
 	</update>
 
 </mapper>

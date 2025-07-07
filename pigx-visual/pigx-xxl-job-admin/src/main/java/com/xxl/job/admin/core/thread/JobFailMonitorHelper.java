@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
  * @author xuxueli 2015-9-1 18:05:56
  */
 public class JobFailMonitorHelper {
-
 	private static Logger logger = LoggerFactory.getLogger(JobFailMonitorHelper.class);
 
 	private static JobFailMonitorHelper instance = new JobFailMonitorHelper();
@@ -29,7 +28,6 @@ public class JobFailMonitorHelper {
 	// ---------------------- monitor ----------------------
 
 	private Thread monitorThread;
-
 	private volatile boolean toStop = false;
 
 	public void start() {

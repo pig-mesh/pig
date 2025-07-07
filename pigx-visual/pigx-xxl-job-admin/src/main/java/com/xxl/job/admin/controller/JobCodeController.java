@@ -21,7 +21,6 @@ import java.util.List;
 
 /**
  * job code controller
- *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
@@ -30,7 +29,6 @@ public class JobCodeController {
 
 	@Resource
 	private XxlJobInfoDao xxlJobInfoDao;
-
 	@Resource
 	private XxlJobLogGlueDao xxlJobLogGlueDao;
 

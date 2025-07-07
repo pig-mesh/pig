@@ -12,11 +12,9 @@ public class XxlJobInfo {
 	private int id; // 主键ID
 
 	private int jobGroup; // 执行器主键ID
-
 	private String jobDesc;
 
 	private Date addTime;
-
 	private Date updateTime;
 
 	private String author; // 负责人
@@ -56,6 +54,7 @@ public class XxlJobInfo {
 	private long triggerLastTime; // 上次调度时间
 
 	private long triggerNextTime; // 下次调度时间
+
 
 	public int getId() {
 		return id;
@@ -248,5 +247,4 @@ public class XxlJobInfo {
 	public void setTriggerNextTime(long triggerNextTime) {
 		this.triggerNextTime = triggerNextTime;
 	}
-
 }

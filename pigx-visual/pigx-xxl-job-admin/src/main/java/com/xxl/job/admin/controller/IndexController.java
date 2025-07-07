@@ -1,8 +1,8 @@
 package com.xxl.job.admin.controller;
 
 import com.xxl.job.admin.controller.annotation.PermissionLimit;
-import com.xxl.job.admin.service.impl.LoginService;
 import com.xxl.job.admin.service.XxlJobService;
+import com.xxl.job.admin.service.impl.LoginService;
 import com.xxl.job.core.biz.model.ReturnT;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,6 @@ import java.util.Map;
 
 /**
  * index controller
- *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
@@ -29,9 +28,9 @@ public class IndexController {
 
 	@Resource
 	private XxlJobService xxlJobService;
-
 	@Resource
 	private LoginService loginService;
+
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -49,7 +48,7 @@ public class IndexController {
 		ReturnT<Map<String, Object>> chartInfo = xxlJobService.chartInfo(startDate, endDate);
 		return chartInfo;
 	}
-
+	
 	@RequestMapping("/toLogin")
 	@PermissionLimit(limit = false)
 	public ModelAndView toLogin(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {

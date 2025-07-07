@@ -419,7 +419,7 @@ public class JobScheduleHelper {
 																 * FIX_DELAY ==
 																 * scheduleTypeEnum
 																 */) {
-			return new Date(fromTime.getTime() + Integer.valueOf(jobInfo.getScheduleConf()) * 1000);
+			return new Date(fromTime.getTime() + Long.parseLong(jobInfo.getScheduleConf()) * 1000L);
 		}
 		return null;
 	}

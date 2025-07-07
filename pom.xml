@@ -54,7 +54,7 @@
         <ttl.version>2.12.6</ttl.version>
         <jimu.version>2.0.0</jimu.version>
         <aws.version>1.12.261</aws.version>
-        <xxl.job.version>3.0.0</xxl.job.version>
+        <xxl.job.version>3.1.1</xxl.job.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
         <docker.host>http://127.0.0.1:2375</docker.host>
         <docker.namespace>pigcloudx</docker.namespace>

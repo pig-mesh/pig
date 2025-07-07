@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * job log
- *
  * @author xuxueli 2019-11-22
  */
 @Mapper

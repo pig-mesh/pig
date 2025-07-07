@@ -17,13 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 /**
  * job group controller
- *
  * @author xuxueli 2016-10-02 20:52:56
  */
 @Controller
@@ -32,10 +29,8 @@ public class JobGroupController {
 
 	@Resource
 	public XxlJobInfoDao xxlJobInfoDao;
-
 	@Resource
 	public XxlJobGroupDao xxlJobGroupDao;
-
 	@Resource
 	private XxlJobRegistryDao xxlJobRegistryDao;
 
@@ -163,10 +158,7 @@ public class JobGroupController {
 
 	private List<String> findRegistryByAppName(String appnameParam) {
 		HashMap<String, List<String>> appAddressMap = new HashMap<String, List<String>>();
-		Instant now = Instant.now();
-		Instant expiredInstant = now.minus(RegistryConfig.DEAD_TIMEOUT, ChronoUnit.SECONDS); // 假设 timeout 单位是秒
-		Date expiredTime = Date.from(expiredInstant);
-		List<XxlJobRegistry> list = xxlJobRegistryDao.findAll(expiredTime);
+		List<XxlJobRegistry> list = xxlJobRegistryDao.findAll(RegistryConfig.DEAD_TIMEOUT, new Date());
 		if (list != null) {
 			for (XxlJobRegistry item : list) {
 				if (RegistryConfig.RegistType.EXECUTOR.name().equals(item.getRegistryGroup())) {

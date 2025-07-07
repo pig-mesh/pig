@@ -36,21 +36,17 @@ import java.util.Map;
 
 /**
  * index controller
- *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
 @RequestMapping("/joblog")
 public class JobLogController {
-
 	private static Logger logger = LoggerFactory.getLogger(JobLogController.class);
 
 	@Resource
 	private XxlJobGroupDao xxlJobGroupDao;
-
 	@Resource
 	public XxlJobInfoDao xxlJobInfoDao;
-
 	@Resource
 	public XxlJobLogDao xxlJobLogDao;
 
@@ -104,7 +100,7 @@ public class JobLogController {
 		// valid permission
 		PermissionInterceptor.validJobGroupPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
 																			// jobGroup
-
+		
 		// parse param
 		Date triggerTimeStart = null;
 		Date triggerTimeEnd = null;
@@ -121,7 +117,7 @@ public class JobLogController {
 				logStatus);
 		int list_count = xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd,
 				logStatus);
-
+		
 		// package result
 		Map<String, Object> maps = new HashMap<String, Object>();
 		maps.put("recordsTotal", list_count); // 总记录数
@@ -131,15 +127,18 @@ public class JobLogController {
 	}
 
 	@RequestMapping("/logDetailPage")
-	public String logDetailPage(@RequestParam("id") int id, Model model) {
+	public String logDetailPage(HttpServletRequest request, @RequestParam("id") int id, Model model) {
 
 		// base check
-		ReturnT<String> logStatue = ReturnT.SUCCESS;
 		XxlJobLog jobLog = xxlJobLogDao.load(id);
 		if (jobLog == null) {
 			throw new RuntimeException(I18nUtil.getString("joblog_logid_unvalid"));
 		}
 
+		// valid permission
+		PermissionInterceptor.validJobGroupPermission(request, jobLog.getJobGroup());
+
+		// data
 		model.addAttribute("triggerCode", jobLog.getTriggerCode());
 		model.addAttribute("handleCode", jobLog.getHandleCode());
 		model.addAttribute("logId", jobLog.getId());
@@ -173,8 +172,7 @@ public class JobLogController {
 
 			// fix xss
 			if (logResult.getContent() != null && StringUtils.hasText(logResult.getContent().getLogContent())) {
-				String newLogContent = logResult.getContent().getLogContent();
-				newLogContent = HtmlUtils.htmlEscape(newLogContent, "UTF-8");
+				String newLogContent = filter(logResult.getContent().getLogContent());
 				logResult.getContent().setLogContent(newLogContent);
 			}
 
@@ -184,6 +182,37 @@ public class JobLogController {
 			logger.error(e.getMessage(), e);
 			return new ReturnT<LogResult>(ReturnT.FAIL_CODE, e.getMessage());
 		}
+	}
+
+	/**
+	 * filter xss tag
+	 * @param originData
+	 * @return
+	 */
+	private String filter(String originData) {
+
+		// exclude tag
+		Map<String, String> excludeTagMap = new HashMap<String, String>();
+		excludeTagMap.put("<br>", "###TAG_BR###");
+		excludeTagMap.put("<b>", "###TAG_BOLD###");
+		excludeTagMap.put("</b>", "###TAG_BOLD_END###");
+
+		// replace
+		for (String key : excludeTagMap.keySet()) {
+			String value = excludeTagMap.get(key);
+			originData = originData.replaceAll(key, value);
+		}
+
+		// htmlEscape
+		originData = HtmlUtils.htmlEscape(originData, "UTF-8");
+
+		// replace back
+		for (String key : excludeTagMap.keySet()) {
+			String value = excludeTagMap.get(key);
+			originData = originData.replaceAll(value, key);
+		}
+
+		return originData;
 	}
 
 	@RequestMapping("/logKill")
