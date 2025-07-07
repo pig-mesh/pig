@@ -15,6 +15,7 @@ import java.util.concurrent.*;
 
 /**
  * job registry instance
+ *
  * @author xuxueli 2016-10-02 19:10:24
  */
 public class JobRegistryHelper {
@@ -22,8 +23,11 @@ public class JobRegistryHelper {
 	private static Logger logger = LoggerFactory.getLogger(JobRegistryHelper.class);
 
 	private static JobRegistryHelper instance = new JobRegistryHelper();
+
 	private ThreadPoolExecutor registryOrRemoveThreadPool = null;
+
 	private Thread registryMonitorThread;
+
 	private volatile boolean toStop = false;
 
 	public static JobRegistryHelper getInstance() {
@@ -220,6 +224,5 @@ public class JobRegistryHelper {
 	private void freshGroupRegistryInfo(RegistryParam registryParam) {
 		// Under consideration, prevent affecting core tables
 	}
-
 
 }

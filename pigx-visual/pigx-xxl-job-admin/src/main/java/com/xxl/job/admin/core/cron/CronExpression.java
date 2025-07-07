@@ -1641,6 +1641,7 @@ public final class CronExpression implements Serializable, Cloneable {
 	public Object clone() {
 		return new CronExpression(this);
 	}
+
 }
 
 class ValueSet {
@@ -1648,4 +1649,5 @@ class ValueSet {
 	public int value;
 
 	public int pos;
+
 }

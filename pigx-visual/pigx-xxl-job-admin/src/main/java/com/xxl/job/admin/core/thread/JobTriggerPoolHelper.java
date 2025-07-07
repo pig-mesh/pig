@@ -57,7 +57,6 @@ public class JobTriggerPoolHelper {
 				});
 	}
 
-
 	public void stop() {
 		// triggerPool.shutdown();
 		fastTriggerPool.shutdownNow();

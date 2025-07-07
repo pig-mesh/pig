@@ -3,12 +3,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xxl.job.admin.dao.XxlJobRegistryDao">
 
-    <resultMap id="XxlJobRegistry" type="com.xxl.job.admin.core.model.XxlJobRegistry" >
-		<result column="id" property="id" />
+	<resultMap id="XxlJobRegistry" type="com.xxl.job.admin.core.model.XxlJobRegistry">
+		<result column="id" property="id"/>
         <result column="registry_group" property="registryGroup"/>
         <result column="registry_key" property="registryKey"/>
         <result column="registry_value" property="registryValue"/>
-		<result column="update_time" property="updateTime" />
+		<result column="update_time" property="updateTime"/>
 	</resultMap>
 
 	<sql id="Base_Column_List">
@@ -19,22 +19,23 @@
 		t.update_time
 	</sql>
 
-	<select id="findDead" parameterType="java.util.HashMap" resultType="java.lang.Integer" >
+	<select id="findDead" parameterType="java.util.HashMap" resultType="java.lang.Integer">
 		SELECT t.id
 		FROM xxl_job_registry AS t
         WHERE t.update_time <![CDATA[ < ]]> DATE_ADD(#{nowTime},INTERVAL -#{timeout} SECOND)
 	</select>
 
-    <delete id="removeDead" parameterType="java.lang.Integer" >
+	<delete id="removeDead" parameterType="java.lang.Integer">
 		DELETE FROM xxl_job_registry
 		WHERE id in
-		<foreach collection="ids" item="item" open="(" close=")" separator="," >
+		<foreach collection="ids" item="item" open="(" close=")" separator=",">
 			#{item}
 		</foreach>
 	</delete>
 
 	<select id="findAll" parameterType="java.util.HashMap" resultMap="XxlJobRegistry">
-		SELECT <include refid="Base_Column_List" />
+		SELECT
+		<include refid="Base_Column_List"/>
 		FROM xxl_job_registry AS t
         WHERE t.update_time <![CDATA[ > ]]> DATE_ADD(#{nowTime},INTERVAL -#{timeout} SECOND)
 	</select>
@@ -61,7 +62,7 @@
     </insert>
     -->
 
-	<delete id="registryDelete" >
+	<delete id="registryDelete">
 		DELETE FROM xxl_job_registry
 		WHERE registry_group = #{registryGroup}
         AND registry_key = #{registryKey}

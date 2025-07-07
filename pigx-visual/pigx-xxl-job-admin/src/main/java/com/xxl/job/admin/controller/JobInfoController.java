@@ -33,15 +33,18 @@ import java.util.Map;
 
 /**
  * index controller
+ *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
 @RequestMapping("/jobinfo")
 public class JobInfoController {
+
 	private static Logger logger = LoggerFactory.getLogger(JobInfoController.class);
 
 	@Resource
 	private XxlJobGroupDao xxlJobGroupDao;
+
 	@Resource
 	private XxlJobService xxlJobService;
 
@@ -78,7 +81,7 @@ public class JobInfoController {
 			@RequestParam("jobGroup") int jobGroup, @RequestParam("triggerStatus") int triggerStatus,
 			@RequestParam("jobDesc") String jobDesc, @RequestParam("executorHandler") String executorHandler,
 			@RequestParam("author") String author) {
-		
+
 		return xxlJobService.pageList(start, length, jobGroup, triggerStatus, jobDesc, executorHandler, author);
 	}
 

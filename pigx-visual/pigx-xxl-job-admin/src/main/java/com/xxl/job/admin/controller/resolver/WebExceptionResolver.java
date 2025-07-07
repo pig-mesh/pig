@@ -22,6 +22,7 @@ import java.io.IOException;
  */
 @Component
 public class WebExceptionResolver implements HandlerExceptionResolver {
+
 	private static transient Logger logger = LoggerFactory.getLogger(WebExceptionResolver.class);
 
 	@Override

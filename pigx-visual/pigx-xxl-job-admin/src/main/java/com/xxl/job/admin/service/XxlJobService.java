@@ -1,6 +1,5 @@
 package com.xxl.job.admin.service;
 
-
 import com.xxl.job.admin.core.model.XxlJobInfo;
 import com.xxl.job.admin.core.model.XxlJobUser;
 import com.xxl.job.core.biz.model.ReturnT;

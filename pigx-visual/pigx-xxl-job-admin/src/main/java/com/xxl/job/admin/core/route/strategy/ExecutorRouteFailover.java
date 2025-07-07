@@ -49,4 +49,5 @@ public class ExecutorRouteFailover extends ExecutorRouter {
 		return new ReturnT<String>(ReturnT.FAIL_CODE, beatResultSB.toString());
 
 	}
+
 }

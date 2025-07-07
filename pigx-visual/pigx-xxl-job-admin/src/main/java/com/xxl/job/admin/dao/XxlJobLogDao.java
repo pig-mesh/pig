@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * job log
+ *
  * @author xuxueli 2016-1-12 18:03:06
  */
 @Mapper
@@ -25,7 +26,7 @@ public interface XxlJobLogDao {
 			@Param("jobGroup") int jobGroup, @Param("jobId") int jobId,
 			@Param("triggerTimeStart") Date triggerTimeStart, @Param("triggerTimeEnd") Date triggerTimeEnd,
 			@Param("logStatus") int logStatus);
-	
+
 	public XxlJobLog load(@Param("id") long id);
 
 	public long save(XxlJobLog xxlJobLog);
@@ -41,6 +42,7 @@ public interface XxlJobLogDao {
 	public List<Long> findClearLogIds(@Param("jobGroup") int jobGroup, @Param("jobId") int jobId,
 			@Param("clearBeforeTime") Date clearBeforeTime, @Param("clearBeforeNum") int clearBeforeNum,
 			@Param("pagesize") int pagesize);
+
 	public int clearLog(@Param("logIds") List<Long> logIds);
 
 	public List<Long> findFailJobLogIds(@Param("pagesize") int pagesize);

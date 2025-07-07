@@ -36,17 +36,21 @@ import java.util.Map;
 
 /**
  * index controller
+ *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
 @RequestMapping("/joblog")
 public class JobLogController {
+
 	private static Logger logger = LoggerFactory.getLogger(JobLogController.class);
 
 	@Resource
 	private XxlJobGroupDao xxlJobGroupDao;
+
 	@Resource
 	public XxlJobInfoDao xxlJobInfoDao;
+
 	@Resource
 	public XxlJobLogDao xxlJobLogDao;
 
@@ -100,7 +104,7 @@ public class JobLogController {
 		// valid permission
 		PermissionInterceptor.validJobGroupPermission(request, jobGroup); // 仅管理员支持查询全部；普通用户仅支持查询有权限的
 																			// jobGroup
-		
+
 		// parse param
 		Date triggerTimeStart = null;
 		Date triggerTimeEnd = null;
@@ -117,7 +121,7 @@ public class JobLogController {
 				logStatus);
 		int list_count = xxlJobLogDao.pageListCount(start, length, jobGroup, jobId, triggerTimeStart, triggerTimeEnd,
 				logStatus);
-		
+
 		// package result
 		Map<String, Object> maps = new HashMap<String, Object>();
 		maps.put("recordsTotal", list_count); // 总记录数

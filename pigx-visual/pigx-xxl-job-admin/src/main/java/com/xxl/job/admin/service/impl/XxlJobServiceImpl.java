@@ -28,20 +28,26 @@ import java.util.*;
 
 /**
  * core job action for xxl-job
+ *
  * @author xuxueli 2016-5-28 15:30:33
  */
 @Service
 public class XxlJobServiceImpl implements XxlJobService {
+
 	private static Logger logger = LoggerFactory.getLogger(XxlJobServiceImpl.class);
 
 	@Resource
 	private XxlJobGroupDao xxlJobGroupDao;
+
 	@Resource
 	private XxlJobInfoDao xxlJobInfoDao;
+
 	@Resource
 	public XxlJobLogDao xxlJobLogDao;
+
 	@Resource
 	private XxlJobLogGlueDao xxlJobLogGlueDao;
+
 	@Resource
 	private XxlJobLogReportDao xxlJobLogReportDao;
 
@@ -54,7 +60,7 @@ public class XxlJobServiceImpl implements XxlJobService {
 				author);
 		int list_count = xxlJobInfoDao.pageListCount(start, length, jobGroup, triggerStatus, jobDesc, executorHandler,
 				author);
-		
+
 		// package result
 		Map<String, Object> maps = new HashMap<String, Object>();
 		maps.put("recordsTotal", list_count); // 总记录数
@@ -357,7 +363,6 @@ public class XxlJobServiceImpl implements XxlJobService {
 		exists_jobInfo.setUpdateTime(new Date());
 		xxlJobInfoDao.update(exists_jobInfo);
 
-
 		return ReturnT.SUCCESS;
 	}
 
@@ -431,7 +436,6 @@ public class XxlJobServiceImpl implements XxlJobService {
 		xxlJobInfoDao.update(xxlJobInfo);
 		return ReturnT.SUCCESS;
 	}
-
 
 	@Override
 	public ReturnT<String> trigger(XxlJobUser loginUser, int jobId, String executorParam, String addressList) {

@@ -21,6 +21,7 @@ import java.util.*;
 
 /**
  * job group controller
+ *
  * @author xuxueli 2016-10-02 20:52:56
  */
 @Controller
@@ -29,8 +30,10 @@ public class JobGroupController {
 
 	@Resource
 	public XxlJobInfoDao xxlJobInfoDao;
+
 	@Resource
 	public XxlJobGroupDao xxlJobGroupDao;
+
 	@Resource
 	private XxlJobRegistryDao xxlJobRegistryDao;
 

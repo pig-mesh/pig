@@ -20,6 +20,7 @@ import java.util.concurrent.*;
  * @author xuxueli 2015-9-1 18:05:56
  */
 public class JobCompleteHelper {
+
 	private static Logger logger = LoggerFactory.getLogger(JobCompleteHelper.class);
 
 	private static JobCompleteHelper instance = new JobCompleteHelper();
@@ -31,7 +32,9 @@ public class JobCompleteHelper {
 	// ---------------------- monitor ----------------------
 
 	private ThreadPoolExecutor callbackThreadPool = null;
+
 	private Thread monitorThread;
+
 	private volatile boolean toStop = false;
 
 	public void start() {
@@ -51,7 +54,6 @@ public class JobCompleteHelper {
 								">>>>>>>>>>> xxl-job, callback too fast, match threadpool rejected handler(run now).");
 					}
 				});
-
 
 		// for monitor
 		monitorThread = new Thread(new Runnable() {
@@ -135,7 +137,6 @@ public class JobCompleteHelper {
 		}
 	}
 
-
 	// ---------------------- helper ----------------------
 
 	public ReturnT<String> callback(List<HandleCallbackParam> callbackParamList) {
@@ -188,6 +189,5 @@ public class JobCompleteHelper {
 
 		return ReturnT.SUCCESS;
 	}
-
 
 }

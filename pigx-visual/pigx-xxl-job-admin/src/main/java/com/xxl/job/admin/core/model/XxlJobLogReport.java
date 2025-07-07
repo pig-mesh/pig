@@ -53,4 +53,5 @@ public class XxlJobLogReport {
 	public void setFailCount(int failCount) {
 		this.failCount = failCount;
 	}
+
 }

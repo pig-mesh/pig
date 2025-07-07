@@ -21,6 +21,7 @@ import java.util.Map;
 
 /**
  * index controller
+ *
  * @author xuxueli 2015-12-19 16:13:16
  */
 @Controller
@@ -28,9 +29,9 @@ public class IndexController {
 
 	@Resource
 	private XxlJobService xxlJobService;
+
 	@Resource
 	private LoginService loginService;
-
 
 	@RequestMapping("/")
 	public String index(Model model) {
@@ -48,7 +49,7 @@ public class IndexController {
 		ReturnT<Map<String, Object>> chartInfo = xxlJobService.chartInfo(startDate, endDate);
 		return chartInfo;
 	}
-	
+
 	@RequestMapping("/toLogin")
 	@PermissionLimit(limit = false)
 	public ModelAndView toLogin(HttpServletRequest request, HttpServletResponse response, ModelAndView modelAndView) {
