@@ -348,7 +348,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	public List<UserExcelVO> listUser(UserDTO userDTO, Long[] ids) {
 		// 根据数据权限查询全部的用户信息
 		userDTO.setTenantId(SecurityUtils.getUser().getTenantId());
-		List<UserVO> voList = baseMapper.selectVoListByScope(userDTO, ids, DataScope.of());
+		List<UserVO> voList = baseMapper.getUserVoListByScope(userDTO, ids, DataScope.of());
 		return voList.stream().map(userVO -> {
 			UserExcelVO excelVO = new UserExcelVO();
 			BeanUtils.copyProperties(userVO, excelVO);

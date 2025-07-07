@@ -41,40 +41,37 @@ import java.util.List;
 @Mapper
 public interface SysUserMapper extends PigxBaseMapper<SysUser> {
 
-    /**
-     * 通过用户DTO查询用户信息（包含角色信息）
-     *
-     * @param userDTO 用户查询DTO
-     * @return 包含角色信息的用户VO
-     */
-    @InterceptorIgnore(tenantLine = "true")
-    UserVO getUserVo(@Param("query") UserDTO userDTO);
+	/**
+	 * 通过用户DTO查询用户信息（包含角色信息）
+	 * @param userDTO 用户查询DTO
+	 * @return 包含角色信息的用户VO
+	 */
+	@InterceptorIgnore(tenantLine = "true")
+	UserVO getUserVo(@Param("query") UserDTO userDTO);
 
-    /**
-     * 分页查询用户信息（含角色）
-     *
-     * @param page      分页对象
-     * @param userDTO   用户查询参数
-     * @param dataScope 数据权限范围
-     * @return 分页用户信息列表
-     */
-    IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO, DataScope dataScope);
+	/**
+	 * 分页查询用户信息（含角色）
+	 * @param page 分页对象
+	 * @param userDTO 用户查询参数
+	 * @param dataScope 数据权限范围
+	 * @return 分页用户信息列表
+	 */
+	IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO, DataScope dataScope);
 
-    /**
-     * 通过ID查询用户信息
-     * @param id 用户ID
-     * @return 用户信息VO对象
-     */
-    UserVO getUserVoById(Long id);
+	/**
+	 * 通过ID查询用户信息
+	 * @param id 用户ID
+	 * @return 用户信息VO对象
+	 */
+	UserVO getUserVoById(Long id);
 
-    /**
-     * 根据数据权限查询用户列表
-     *
-     * @param userDTO   查询条件
-     * @param ids       用户ID数组
-     * @param dataScope 数据权限声明
-     * @return 用户VO列表
-     */
-    List<UserVO> selectVoListByScope(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids, DataScope dataScope);
+	/**
+	 * 根据数据权限查询用户列表
+	 * @param userDTO 查询条件
+	 * @param ids 用户ID数组
+	 * @param dataScope 数据权限声明
+	 * @return 用户VO列表
+	 */
+	List<UserVO> getUserVoListByScope(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids, DataScope dataScope);
 
 }
