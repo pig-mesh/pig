@@ -108,7 +108,8 @@
 
     <select id="getUserVosPage" resultMap="baseResultMap">
         SELECT
-        <include refid="userColumns"/>
+        <include refid="userColumns"/>,
+        ud.dept_id
         FROM
         sys_user u
         LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
@@ -116,26 +117,27 @@
         ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL
         AND u.del_flag = '0'
         <!-- 用户名模糊查询 -->
-            <if test="query.username != null and query.username != ''">
-                <bind name="usernameLike" value="'%' + query.username + '%'"/>
-                AND u.username LIKE #{usernameLike}
-            </if>
+        <if test="query.username != null and query.username != ''">
+            <bind name="usernameLike" value="'%' + query.username + '%'"/>
+            AND u.username LIKE #{usernameLike}
+        </if>
         <!-- 部门精确查询 -->
-            <if test="query.deptId != null and query.deptId != ''">
-                AND ud.dept_id = #{query.deptId}
-            </if>
+        <if test="query.deptId != null and query.deptId != ''">
+            AND ud.dept_id = #{query.deptId}
+        </if>
         <!-- 手机号模糊查询 -->
-            <if test="query.phone != null and query.phone != ''">
-                <bind name="phoneLike" value="'%' + query.phone + '%'"/>
-                AND u.phone LIKE #{phoneLike}
-            </if>
+        <if test="query.phone != null and query.phone != ''">
+            <bind name="phoneLike" value="'%' + query.phone + '%'"/>
+            AND u.phone LIKE #{phoneLike}
+        </if>
         ORDER BY
         u.create_time DESC
     </select>
 
     <select id="selectVoListByScope" resultMap="baseResultMap">
         SELECT
-        <include refid="userColumns"/>
+        <include refid="userColumns"/>,
+        ud.dept_id
         FROM
         sys_user u
         LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
@@ -143,21 +145,21 @@
         ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL
         AND u.del_flag = '0'
         <!-- 用户名模糊查询 -->
-            <if test="query.username != null and query.username != ''">
-                <bind name="usernameLike" value="'%' + query.username + '%'"/>
-                AND u.username LIKE #{usernameLike}
-            </if>
+        <if test="query.username != null and query.username != ''">
+            <bind name="usernameLike" value="'%' + query.username + '%'"/>
+            AND u.username LIKE #{usernameLike}
+        </if>
         <!-- 部门精确查询 -->
-            <if test="query.deptId != null and query.deptId != ''">
-                AND ud.dept_id = #{query.deptId}
-            </if>
+        <if test="query.deptId != null and query.deptId != ''">
+            AND ud.dept_id = #{query.deptId}
+        </if>
         <!-- 用户ID范围查询 -->
-            <if test="ids != null and ids.length > 0">
-                AND u.user_id IN
-                <foreach collection="ids" item="id" open="(" separator="," close=")">
-                    #{id}
-                </foreach>
-            </if>
+        <if test="ids != null and ids.length > 0">
+            AND u.user_id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
         ORDER BY
         u.create_time DESC
     </select>
