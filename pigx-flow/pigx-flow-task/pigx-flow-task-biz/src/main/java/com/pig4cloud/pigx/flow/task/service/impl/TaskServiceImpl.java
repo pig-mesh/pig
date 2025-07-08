@@ -24,6 +24,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,229 +34,236 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class TaskServiceImpl implements ITaskService {
 
-    private final RemoteFlowEngineService flowEngineService;
+	private final RemoteFlowEngineService flowEngineService;
 
-    private final IProcessService processService;
+	private final IProcessService processService;
 
-    private final IProcessCopyService processCopyService;
+	private final IProcessCopyService processCopyService;
 
-    private final IProcessNodeDataService nodeDataService;
+	private final IProcessNodeDataService nodeDataService;
 
-    private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
+	private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
 
-    private final IProcessInstanceRecordService processInstanceRecordService;
+	private final IProcessInstanceRecordService processInstanceRecordService;
 
-    private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-    /**
-     * 查询首页数据看板
-     * @return
-     */
-    @Override
-    public R queryTaskData() {
-        R<IndexPageStatistics> indexPageStatisticsR = flowEngineService
-                .querySimpleData(SecurityUtils.getUser().getId());
+	/**
+	 * 查询首页数据看板
+	 * @return
+	 */
+	@Override
+	public R queryTaskData() {
+		R<IndexPageStatistics> indexPageStatisticsR = flowEngineService
+			.querySimpleData(SecurityUtils.getUser().getId());
 
-        // 获取抄送任务
-        Long copyCount = processCopyService.lambdaQuery()
-                .eq(ProcessCopy::getUserId, SecurityUtils.getUser().getId())
-                .count();
-        indexPageStatisticsR.getData().setCopyNum(copyCount);
-        return indexPageStatisticsR;
-    }
+		// 获取抄送任务
+		Long copyCount = processCopyService.lambdaQuery()
+			.eq(ProcessCopy::getUserId, SecurityUtils.getUser().getId())
+			.count();
+		indexPageStatisticsR.getData().setCopyNum(copyCount);
+		return indexPageStatisticsR;
+	}
 
-    /**
-     * 查询任务
-     * @param taskId
-     * @param view
-     * @return
-     */
-    @SneakyThrows
-    @Override
-    public R queryTask(String taskId, boolean view) {
+	/**
+	 * 查询任务
+	 * @param taskId
+	 * @param view
+	 * @return
+	 */
+	@SneakyThrows
+	@Override
+	public R queryTask(String taskId, boolean view) {
 
-        long userId = SecurityUtils.getUser().getId();
+		long userId = SecurityUtils.getUser().getId();
 
-        R<TaskResultDto> r = flowEngineService.queryTask(taskId, userId);
+		R<TaskResultDto> r = flowEngineService.queryTask(taskId, userId);
 
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        TaskResultDto taskResultDto = r.getData();
+		TaskResultDto taskResultDto = r.getData();
 
-        // 变量
-        Map<String, Object> paramMap = taskResultDto.getVariableAll();
-        // 是否是当前活动任务
-        Boolean currentTask = taskResultDto.getCurrentTask();
-        if (!currentTask) {
-            ProcessNodeRecordAssignUser processNodeRecordAssignUser = processNodeRecordAssignUserService.lambdaQuery()
-                    .eq(ProcessNodeRecordAssignUser::getTaskId, taskId)
-                    .eq(ProcessNodeRecordAssignUser::getUserId, userId)
-                    .eq(ProcessNodeRecordAssignUser::getStatus, NodeStatusEnum.YJS.getCode())
-                    .last("limit 1")
-                    .orderByDesc(ProcessNodeRecordAssignUser::getEndTime)
-                    .one();
+		// 变量
+		Map<String, Object> paramMap = taskResultDto.getVariableAll();
+		// 是否是当前活动任务
+		Boolean currentTask = taskResultDto.getCurrentTask();
+		if (!currentTask) {
+			ProcessNodeRecordAssignUser processNodeRecordAssignUser = processNodeRecordAssignUserService.lambdaQuery()
+				.eq(ProcessNodeRecordAssignUser::getTaskId, taskId)
+				.eq(ProcessNodeRecordAssignUser::getUserId, userId)
+				.eq(ProcessNodeRecordAssignUser::getStatus, NodeStatusEnum.YJS.getCode())
+				.last("limit 1")
+				.orderByDesc(ProcessNodeRecordAssignUser::getEndTime)
+				.one();
 
-            if (processNodeRecordAssignUser != null) {
-                String data = processNodeRecordAssignUser.getData();
-                if (StrUtil.isNotBlank(data)) {
-                    Map<String, Object> collect = objectMapper.readValue(data, new TypeReference<>() {
-                    });
-                    paramMap.putAll(collect);
+			if (processNodeRecordAssignUser != null) {
+				String data = processNodeRecordAssignUser.getData();
+				if (StrUtil.isNotBlank(data)) {
+					Map<String, Object> collect = objectMapper.readValue(data, new TypeReference<>() {
+					});
+					paramMap.putAll(collect);
 
-                }
-            }
+				}
+			}
 
-        }
+		}
 
-        // 当前节点数据
-        Node node = nodeDataService.getNodeData(taskResultDto.getFlowId(), taskResultDto.getNodeId()).getData();
-        Map<String, String> formPerms = node.getFormPerms();
+		// 当前节点数据
+		Node node = nodeDataService.getNodeData(taskResultDto.getFlowId(), taskResultDto.getNodeId()).getData();
+		Map<String, String> formPerms = node.getFormPerms();
 
-        Process oaForms = processService.getByFlowId(taskResultDto.getFlowId());
-        if (oaForms == null) {
-            return R.failed("流程不存在");
-        }
+		Process oaForms = processService.getByFlowId(taskResultDto.getFlowId());
+		if (oaForms == null) {
+			return R.failed("流程不存在");
+		}
 
-        Dict set = Dict.create()
-                .set("processInstanceId", taskResultDto.getProcessInstanceId())
-                .set("node", taskResultDto.getTaskNode())
-                .set("process", oaForms.getProcess())
-                .set("delegateAgain", taskResultDto.getDelegate())
-                .set("delegationTask", StrUtil.equals(taskResultDto.getDelegationState(), "PENDING"))
-                .set("formItems", oaForms.getFormItems())
-                .set("formData", paramMap)
-                .set("formPerms", formPerms);
+		Dict set = Dict.create()
+			.set("processInstanceId", taskResultDto.getProcessInstanceId())
+			.set("node", taskResultDto.getTaskNode())
+			.set("process", oaForms.getProcess())
+			.set("delegateAgain", taskResultDto.getDelegate())
+			.set("delegationTask", StrUtil.equals(taskResultDto.getDelegationState(), "PENDING"))
+			.set("formItems", oaForms.getFormItems())
+			.set("formData", paramMap)
+			.set("formPerms", formPerms);
 
-        return R.ok(set);
-    }
+		return R.ok(set);
+	}
 
-    /**
-     * 完成任务
-     * @param taskParamDto
-     * @return
-     */
-    @Override
-    public R completeTask(TaskParamDto taskParamDto) {
-        long userId = SecurityUtils.getUser().getId();
-        taskParamDto.setUserId(String.valueOf(userId));
+	/**
+	 * 完成任务
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Override
+	public R completeTask(TaskParamDto taskParamDto) {
+		long userId = SecurityUtils.getUser().getId();
+		taskParamDto.setUserId(String.valueOf(userId));
 
-        R r = flowEngineService.completeTask(taskParamDto);
+		R r = flowEngineService.completeTask(taskParamDto);
 
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 前加签
-     * @param taskParamDto
-     * @return
-     */
-    @Transactional
-    @Override
-    public R delegateTask(TaskParamDto taskParamDto) {
+	/**
+	 * 前加签
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Transactional
+	@Override
+	public R delegateTask(TaskParamDto taskParamDto) {
 
-        taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
+		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
 
-        R r = flowEngineService.delegateTask(taskParamDto);
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+		R r = flowEngineService.delegateTask(taskParamDto);
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 加签完成任务
-     * @param taskParamDto
-     * @return
-     */
-    @Override
-    public R resolveTask(TaskParamDto taskParamDto) {
-        R r = flowEngineService.resolveTask(taskParamDto);
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+	/**
+	 * 加签完成任务
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Override
+	public R resolveTask(TaskParamDto taskParamDto) {
+		R r = flowEngineService.resolveTask(taskParamDto);
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 设置执行人
-     * @param taskParamDto
-     * @return
-     */
-    @Override
-    public R setAssignee(TaskParamDto taskParamDto) {
+	/**
+	 * 设置执行人
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Override
+	public R setAssignee(TaskParamDto taskParamDto) {
 		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
 		R r = flowEngineService.transferTask(taskParamDto);
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    /**
-     * 结束流程
-     * @param taskParamDto
-     * @return
-     */
-    @Override
-    public R stopProcessInstance(TaskParamDto taskParamDto) {
+	/**
+	 * 结束流程
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Override
+	public R stopProcessInstance(TaskParamDto taskParamDto) {
 
-        String processInstanceId = taskParamDto.getProcessInstanceId();
+		String processInstanceId = taskParamDto.getProcessInstanceId();
 
-        List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(processInstanceId);
-        CollUtil.reverse(allStopProcessInstanceIdList);
-        allStopProcessInstanceIdList.add(processInstanceId);
+		List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(processInstanceId);
+		CollUtil.reverse(allStopProcessInstanceIdList);
+		allStopProcessInstanceIdList.add(processInstanceId);
 
-        taskParamDto.setProcessInstanceIdList(allStopProcessInstanceIdList);
-        taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
-        R r = flowEngineService.stopProcessInstance(taskParamDto);
+		taskParamDto.setProcessInstanceIdList(allStopProcessInstanceIdList);
+		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
+		R r = flowEngineService.stopProcessInstance(taskParamDto);
 
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		// 停止流程实例后，更新流程实例记录状态
+		processInstanceRecordService.lambdaUpdate()
+			.set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
+			.set(ProcessInstanceRecord::getFinishReason, "9")
+			.set(ProcessInstanceRecord::getEndTime, new Date())
+			.eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+			.update(new ProcessInstanceRecord());
+		return R.ok();
+	}
 
-    /**
-     * 退回
-     * @param taskParamDto
-     * @return
-     */
-    @Override
-    public R back(TaskParamDto taskParamDto) {
-        taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
-        R r = flowEngineService.back(taskParamDto);
-        if (!r.isOk()) {
-            return R.failed(r.getMsg());
-        }
+	/**
+	 * 退回
+	 * @param taskParamDto
+	 * @return
+	 */
+	@Override
+	public R back(TaskParamDto taskParamDto) {
+		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
+		R r = flowEngineService.back(taskParamDto);
+		if (!r.isOk()) {
+			return R.failed(r.getMsg());
+		}
 
-        return R.ok();
-    }
+		return R.ok();
+	}
 
-    private List<String> getAllStopProcessInstanceIdList(String processInstanceId) {
-        List<ProcessInstanceRecord> list = processInstanceRecordService.lambdaQuery()
-                .eq(ProcessInstanceRecord::getParentProcessInstanceId, processInstanceId)
-                .list();
+	private List<String> getAllStopProcessInstanceIdList(String processInstanceId) {
+		List<ProcessInstanceRecord> list = processInstanceRecordService.lambdaQuery()
+			.eq(ProcessInstanceRecord::getParentProcessInstanceId, processInstanceId)
+			.list();
 
-        List<String> collect = list.stream().map(w -> w.getProcessInstanceId()).toList();
+		List<String> collect = new ArrayList<>(list.stream().map(ProcessInstanceRecord::getProcessInstanceId).toList());
 
-        for (ProcessInstanceRecord processInstanceRecord : list) {
-            List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(
-                    processInstanceRecord.getProcessInstanceId());
+		for (ProcessInstanceRecord processInstanceRecord : list) {
+			List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(
+					processInstanceRecord.getProcessInstanceId());
 
-            collect.addAll(allStopProcessInstanceIdList);
+			collect.addAll(allStopProcessInstanceIdList);
 
-        }
-        return collect;
-    }
+		}
+		return collect;
+	}
 
 }
