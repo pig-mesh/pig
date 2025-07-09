@@ -7,6 +7,7 @@ body:
       label: PIG版本（提问先右上角 Star ♥️）
       options:
         - "不处理PIGX或其他魔改版本"
+        - "3.9"
         - "3.8"
         - "3.7"
     validations:
