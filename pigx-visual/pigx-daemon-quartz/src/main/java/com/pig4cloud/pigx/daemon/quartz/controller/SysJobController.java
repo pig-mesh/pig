@@ -56,279 +56,270 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobController {
 
-    private final SysJobService sysJobService;
+	private final SysJobService sysJobService;
 
-    private final SysJobLogService sysJobLogService;
+	private final SysJobLogService sysJobLogService;
 
-    private final TaskUtil taskUtil;
+	private final TaskUtil taskUtil;
 
-    private final Scheduler scheduler;
+	private final Scheduler scheduler;
 
-    /**
-     * 定时任务分页查询
-     *
-     * @param page   分页对象
-     * @param sysJob 定时任务调度表
-     * @return
-     */
-    @GetMapping("/page")
-    @Operation(description = "分页定时业务查询")
-    public R getSysJobPage(Page page, SysJob sysJob) {
-        LambdaQueryWrapper<SysJob> wrapper = Wrappers.<SysJob>lambdaQuery()
-                .like(StrUtil.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName())
-                .like(StrUtil.isNotBlank(sysJob.getJobGroup()), SysJob::getJobGroup, sysJob.getJobGroup())
-                .eq(StrUtil.isNotBlank(sysJob.getJobStatus()), SysJob::getJobStatus, sysJob.getJobGroup())
-                .eq(StrUtil.isNotBlank(sysJob.getJobExecuteStatus()), SysJob::getJobExecuteStatus,
-                        sysJob.getJobExecuteStatus());
-        return R.ok(sysJobService.page(page, wrapper));
-    }
+	/**
+	 * 定时任务分页查询
+	 * @param page 分页对象
+	 * @param sysJob 定时任务调度表
+	 * @return
+	 */
+	@GetMapping("/page")
+	@Operation(description = "分页定时业务查询")
+	public R getSysJobPage(Page page, SysJob sysJob) {
+		LambdaQueryWrapper<SysJob> wrapper = Wrappers.<SysJob>lambdaQuery()
+			.like(StrUtil.isNotBlank(sysJob.getJobName()), SysJob::getJobName, sysJob.getJobName())
+			.like(StrUtil.isNotBlank(sysJob.getJobGroup()), SysJob::getJobGroup, sysJob.getJobGroup())
+			.eq(StrUtil.isNotBlank(sysJob.getJobStatus()), SysJob::getJobStatus, sysJob.getJobStatus())
+			.eq(StrUtil.isNotBlank(sysJob.getJobExecuteStatus()), SysJob::getJobExecuteStatus,
+					sysJob.getJobExecuteStatus());
+		return R.ok(sysJobService.page(page, wrapper));
+	}
 
-    /**
-     * 校验任务
-     *
-     * @param field  字段
-     * @param sysJob sys 作业
-     * @return {@link R }
-     */
-    @GetMapping("/validate")
-    @Operation(description = "检查定时任务")
-    public R validate(String field, SysJob sysJob) {
-        return sysJobService.checkJob(field, sysJob);
-    }
+	/**
+	 * 校验任务
+	 * @param field 字段
+	 * @param sysJob sys 作业
+	 * @return {@link R }
+	 */
+	@GetMapping("/validate")
+	@Operation(description = "检查定时任务")
+	public R validate(String field, SysJob sysJob) {
+		return sysJobService.checkJob(field, sysJob);
+	}
 
-    /**
-     * 通过id查询定时任务
-     *
-     * @param id id
-     * @return R
-     */
-    @GetMapping("/{id}")
-    @Operation(description = "唯一标识查询定时任务")
-    public R getById(@PathVariable("id") Long id) {
-        return R.ok(sysJobService.getById(id));
-    }
+	/**
+	 * 通过id查询定时任务
+	 * @param id id
+	 * @return R
+	 */
+	@GetMapping("/{id}")
+	@Operation(description = "唯一标识查询定时任务")
+	public R getById(@PathVariable("id") Long id) {
+		return R.ok(sysJobService.getById(id));
+	}
 
-    /**
-     * 新增定时任务
-     *
-     * @param sysJob 定时任务调度表
-     * @return R
-     */
-    @SysLog("新增定时任务")
-    @PostMapping
-    @HasPermission("job_sys_job_add")
-    @Operation(description = "新增定时任务")
-    public R save(@RequestBody SysJob sysJob) {
-        // 初始化任务
-        taskUtil.addOrUpateJob(sysJob, scheduler);
-        sysJob.setJobStatus(PigxQuartzEnum.JOB_STATUS_RELEASE.getType());
-        sysJob.setCreateBy(SecurityUtils.getUser().getUsername());
-        return R.ok(sysJobService.save(sysJob));
-    }
+	/**
+	 * 新增定时任务
+	 * @param sysJob 定时任务调度表
+	 * @return R
+	 */
+	@SysLog("新增定时任务")
+	@PostMapping
+	@HasPermission("job_sys_job_add")
+	@Operation(description = "新增定时任务")
+	public R save(@RequestBody SysJob sysJob) {
+		// 初始化任务
+		taskUtil.addOrUpateJob(sysJob, scheduler);
+		sysJob.setJobStatus(PigxQuartzEnum.JOB_STATUS_RELEASE.getType());
+		sysJob.setCreateBy(SecurityUtils.getUser().getUsername());
+		return R.ok(sysJobService.save(sysJob));
+	}
 
-    /**
-     * 修改定时任务
-     *
-     * @param sysJob 定时任务调度表
-     * @return R
-     */
-    @SysLog("修改定时任务")
-    @PutMapping
-    @HasPermission("job_sys_job_edit")
-    @Operation(description = "修改定时任务")
-    public R updateById(@RequestBody SysJob sysJob) {
-        sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
-        SysJob querySysJob = this.sysJobService.getById(sysJob.getJobId());
-        if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
-            this.taskUtil.addOrUpateJob(sysJob, scheduler);
-            sysJobService.updateById(sysJob);
-        } else if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(querySysJob.getJobStatus())) {
-            sysJobService.updateById(sysJob);
-        }
-        return R.ok();
-    }
+	/**
+	 * 修改定时任务
+	 * @param sysJob 定时任务调度表
+	 * @return R
+	 */
+	@SysLog("修改定时任务")
+	@PutMapping
+	@HasPermission("job_sys_job_edit")
+	@Operation(description = "修改定时任务")
+	public R updateById(@RequestBody SysJob sysJob) {
+		sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
+		SysJob querySysJob = this.sysJobService.getById(sysJob.getJobId());
+		if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
+			this.taskUtil.addOrUpateJob(sysJob, scheduler);
+			sysJobService.updateById(sysJob);
+		}
+		else if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(querySysJob.getJobStatus())) {
+			sysJobService.updateById(sysJob);
+		}
+		return R.ok();
+	}
 
-    /**
-     * 通过id删除定时任务
-     *
-     * @param id id
-     * @return R
-     */
-    @SysLog("删除定时任务")
-    @DeleteMapping("/{id}")
-    @HasPermission("job_sys_job_del")
-    @Operation(description = "唯一标识查询定时任务，暂停任务才能删除")
-    public R removeById(@PathVariable Long id) {
-        SysJob querySysJob = this.sysJobService.getById(id);
-        if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
-            this.taskUtil.removeJob(querySysJob, scheduler);
-            this.sysJobService.removeById(id);
-        } else if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(querySysJob.getJobStatus())) {
-            this.sysJobService.removeById(id);
-        }
-        return R.ok();
-    }
+	/**
+	 * 通过id删除定时任务
+	 * @param id id
+	 * @return R
+	 */
+	@SysLog("删除定时任务")
+	@DeleteMapping("/{id}")
+	@HasPermission("job_sys_job_del")
+	@Operation(description = "唯一标识查询定时任务，暂停任务才能删除")
+	public R removeById(@PathVariable Long id) {
+		SysJob querySysJob = this.sysJobService.getById(id);
+		if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
+			this.taskUtil.removeJob(querySysJob, scheduler);
+			this.sysJobService.removeById(id);
+		}
+		else if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(querySysJob.getJobStatus())) {
+			this.sysJobService.removeById(id);
+		}
+		return R.ok();
+	}
 
-    /**
-     * 暂停全部定时任务
-     *
-     * @return
-     */
-    @SysLog("暂停全部定时任务")
-    @PostMapping("/shutdown-jobs")
-    @HasPermission("job_sys_job_shutdown_job")
-    @Operation(description = "暂停全部定时任务")
-    public R shutdownJobs() {
-        taskUtil.pauseJobs(scheduler);
-        long count = this.sysJobService.count(
-                new LambdaQueryWrapper<SysJob>().eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
-        if (count <= 0) {
-            return R.ok("无正在运行定时任务");
-        } else {
-            // 更新定时任务状态条件，运行状态2更新为暂停状态2
-            this.sysJobService.update(
-                    SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()).build(),
-                    new UpdateWrapper<SysJob>().lambda()
-                            .eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
-            return R.ok("暂停成功");
-        }
-    }
+	/**
+	 * 暂停全部定时任务
+	 * @return
+	 */
+	@SysLog("暂停全部定时任务")
+	@PostMapping("/shutdown-jobs")
+	@HasPermission("job_sys_job_shutdown_job")
+	@Operation(description = "暂停全部定时任务")
+	public R shutdownJobs() {
+		taskUtil.pauseJobs(scheduler);
+		long count = this.sysJobService.count(
+				new LambdaQueryWrapper<SysJob>().eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
+		if (count <= 0) {
+			return R.ok("无正在运行定时任务");
+		}
+		else {
+			// 更新定时任务状态条件，运行状态2更新为暂停状态2
+			this.sysJobService.update(
+					SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()).build(),
+					new UpdateWrapper<SysJob>().lambda()
+						.eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_RUNNING.getType()));
+			return R.ok("暂停成功");
+		}
+	}
 
-    /**
-     * 启动全部定时任务
-     *
-     * @return
-     */
-    @SysLog("启动全部定时任务")
-    @PostMapping("/start-jobs")
-    @HasPermission("job_sys_job_start_job")
-    @Operation(description = "启动全部定时任务")
-    public R startJobs() {
-        // 更新定时任务状态条件，暂停状态3更新为运行状态2
-        this.sysJobService.update(SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build(),
-                new UpdateWrapper<SysJob>().lambda()
-                        .eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()));
-        taskUtil.startJobs(scheduler);
-        return R.ok();
-    }
+	/**
+	 * 启动全部定时任务
+	 * @return
+	 */
+	@SysLog("启动全部定时任务")
+	@PostMapping("/start-jobs")
+	@HasPermission("job_sys_job_start_job")
+	@Operation(description = "启动全部定时任务")
+	public R startJobs() {
+		// 更新定时任务状态条件，暂停状态3更新为运行状态2
+		this.sysJobService.update(SysJob.builder().jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build(),
+				new UpdateWrapper<SysJob>().lambda()
+					.eq(SysJob::getJobStatus, PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType()));
+		taskUtil.startJobs(scheduler);
+		return R.ok();
+	}
 
-    /**
-     * 刷新全部定时任务
-     *
-     * @return
-     */
-    @SysLog("刷新全部定时任务")
-    @PostMapping("/refresh-jobs")
-    @HasPermission("job_sys_job_refresh_job")
-    @Operation(description = "刷新全部定时任务")
-    public R refreshJobs() {
-        sysJobService.list().forEach((sysjob) -> {
-            if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())
-                    || PigxQuartzEnum.JOB_STATUS_DEL.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.removeJob(sysjob, scheduler);
-            } else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())
-                    || PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.addOrUpateJob(sysjob, scheduler);
-            } else {
-                taskUtil.removeJob(sysjob, scheduler);
-            }
-        });
-        return R.ok();
-    }
+	/**
+	 * 刷新全部定时任务
+	 * @return
+	 */
+	@SysLog("刷新全部定时任务")
+	@PostMapping("/refresh-jobs")
+	@HasPermission("job_sys_job_refresh_job")
+	@Operation(description = "刷新全部定时任务")
+	public R refreshJobs() {
+		sysJobService.list().forEach((sysjob) -> {
+			if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())
+					|| PigxQuartzEnum.JOB_STATUS_DEL.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+			else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())
+					|| PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.addOrUpateJob(sysjob, scheduler);
+			}
+			else {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+		});
+		return R.ok();
+	}
 
-    /**
-     * 启动定时任务
-     *
-     * @param jobId
-     * @return
-     */
-    @SysLog("启动定时任务")
-    @PostMapping("/start-job/{id}")
-    @HasPermission("job_sys_job_start_job")
-    @Operation(description = "启动定时任务")
-    public R startJob(@PathVariable("id") Long jobId) {
-        SysJob querySysJob = this.sysJobService.getById(jobId);
-        if (querySysJob != null && PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getType().equals(querySysJob.getJobStatus())) {
-            taskUtil.addOrUpateJob(querySysJob, scheduler);
-        } else {
-            taskUtil.resumeJob(querySysJob, scheduler);
-        }
-        // 更新定时任务状态条件，暂停状态3更新为运行状态2
-        this.sysJobService
-                .updateById(SysJob.builder().jobId(jobId).jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build());
-        return R.ok();
-    }
+	/**
+	 * 启动定时任务
+	 * @param jobId
+	 * @return
+	 */
+	@SysLog("启动定时任务")
+	@PostMapping("/start-job/{id}")
+	@HasPermission("job_sys_job_start_job")
+	@Operation(description = "启动定时任务")
+	public R startJob(@PathVariable("id") Long jobId) {
+		SysJob querySysJob = this.sysJobService.getById(jobId);
+		if (querySysJob != null && PigxQuartzEnum.JOB_LOG_STATUS_FAIL.getType().equals(querySysJob.getJobStatus())) {
+			taskUtil.addOrUpateJob(querySysJob, scheduler);
+		}
+		else {
+			taskUtil.resumeJob(querySysJob, scheduler);
+		}
+		// 更新定时任务状态条件，暂停状态3更新为运行状态2
+		this.sysJobService
+			.updateById(SysJob.builder().jobId(jobId).jobStatus(PigxQuartzEnum.JOB_STATUS_RUNNING.getType()).build());
+		return R.ok();
+	}
 
-    /**
-     * 启动定时任务
-     *
-     * @param jobId
-     * @return
-     */
-    @SysLog("立刻执行定时任务")
-    @PostMapping("/run-job/{id}")
-    @HasPermission("job_sys_job_run_job")
-    @Operation(description = "立刻执行定时任务")
-    public R runJob(@PathVariable("id") Long jobId) {
-        SysJob querySysJob = this.sysJobService.getById(jobId);
-        return TaskUtil.runOnce(scheduler, querySysJob) ? R.ok() : R.failed();
-    }
+	/**
+	 * 启动定时任务
+	 * @param jobId
+	 * @return
+	 */
+	@SysLog("立刻执行定时任务")
+	@PostMapping("/run-job/{id}")
+	@HasPermission("job_sys_job_run_job")
+	@Operation(description = "立刻执行定时任务")
+	public R runJob(@PathVariable("id") Long jobId) {
+		SysJob querySysJob = this.sysJobService.getById(jobId);
+		return TaskUtil.runOnce(scheduler, querySysJob) ? R.ok() : R.failed();
+	}
 
-    /**
-     * 暂停定时任务
-     *
-     * @return
-     */
-    @SysLog("暂停定时任务")
-    @PostMapping("/shutdown-job/{id}")
-    @HasPermission("job_sys_job_shutdown_job")
-    @Operation(description = "暂停定时任务")
-    public R shutdownJob(@PathVariable("id") Long id) {
-        SysJob querySysJob = this.sysJobService.getById(id);
-        // 更新定时任务状态条件，运行状态2更新为暂停状态3
-        this.sysJobService.updateById(SysJob.builder()
-                .jobId(querySysJob.getJobId())
-                .jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType())
-                .build());
-        taskUtil.pauseJob(querySysJob, scheduler);
-        return R.ok();
-    }
+	/**
+	 * 暂停定时任务
+	 * @return
+	 */
+	@SysLog("暂停定时任务")
+	@PostMapping("/shutdown-job/{id}")
+	@HasPermission("job_sys_job_shutdown_job")
+	@Operation(description = "暂停定时任务")
+	public R shutdownJob(@PathVariable("id") Long id) {
+		SysJob querySysJob = this.sysJobService.getById(id);
+		// 更新定时任务状态条件，运行状态2更新为暂停状态3
+		this.sysJobService.updateById(SysJob.builder()
+			.jobId(querySysJob.getJobId())
+			.jobStatus(PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType())
+			.build());
+		taskUtil.pauseJob(querySysJob, scheduler);
+		return R.ok();
+	}
 
-    /**
-     * 唯一标识查询定时执行日志
-     *
-     * @return
-     */
-    @GetMapping("/job-log")
-    @Operation(description = "唯一标识查询定时执行日志")
-    public R getJobLog(Page page, SysJobLog sysJobLog) {
-        return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
-    }
+	/**
+	 * 唯一标识查询定时执行日志
+	 * @return
+	 */
+	@GetMapping("/job-log")
+	@Operation(description = "唯一标识查询定时执行日志")
+	public R getJobLog(Page page, SysJobLog sysJobLog) {
+		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
+	}
 
-    /**
-     * 检验任务名称和任务组联合是否唯一
-     *
-     * @return
-     */
-    @GetMapping("/is-valid-task-name")
-    @Operation(description = "检验任务名称和任务组联合是否唯一")
-    public R isValidTaskName(@RequestParam String jobName, @RequestParam String jobGroup) {
-        return this.sysJobService
-                .count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0
-                ? R.failed("任务重复，请检查此组内是否已包含同名任务") : R.ok();
-    }
+	/**
+	 * 检验任务名称和任务组联合是否唯一
+	 * @return
+	 */
+	@GetMapping("/is-valid-task-name")
+	@Operation(description = "检验任务名称和任务组联合是否唯一")
+	public R isValidTaskName(@RequestParam String jobName, @RequestParam String jobGroup) {
+		return this.sysJobService
+			.count(Wrappers.query(SysJob.builder().jobName(jobName).jobGroup(jobGroup).build())) > 0
+					? R.failed("任务重复，请检查此组内是否已包含同名任务") : R.ok();
+	}
 
-    /**
-     * 导出任务
-     *
-     * @param sysJob
-     * @return
-     */
-    @ResponseExcel
-    @GetMapping("/export")
-    @Operation(description = "导出任务")
-    public List<SysJob> export(SysJob sysJob) {
-        return sysJobService.list(Wrappers.query(sysJob));
-    }
+	/**
+	 * 导出任务
+	 * @param sysJob
+	 * @return
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@Operation(description = "导出任务")
+	public List<SysJob> export(SysJob sysJob) {
+		return sysJobService.list(Wrappers.query(sysJob));
+	}
 
 }

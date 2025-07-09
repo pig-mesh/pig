@@ -65,7 +65,6 @@ public class SysUserController {
 
 	/**
 	 * 获取指定用户全部信息
-	 *
 	 * @return 用户信息
 	 */
 	@Inner
@@ -78,10 +77,9 @@ public class SysUserController {
 
 	/**
 	 * 获取当前用户全部信息
-	 *
 	 * @return 用户信息
 	 */
-	@GetMapping(value = {"/info"})
+	@GetMapping(value = { "/info" })
 	public R info() {
 		String username = SecurityUtils.getUser().getUsername();
 		UserDTO userDTO = new UserDTO();
@@ -96,7 +94,6 @@ public class SysUserController {
 
 	/**
 	 * 通过ID查询用户信息
-	 *
 	 * @param id ID
 	 * @return 用户信息
 	 */
@@ -107,7 +104,6 @@ public class SysUserController {
 
 	/**
 	 * 查询用户信息
-	 *
 	 * @param query 查询条件
 	 * @return 不为空返回用户名
 	 */
@@ -121,7 +117,6 @@ public class SysUserController {
 
 	/**
 	 * 删除用户信息
-	 *
 	 * @param ids ID
 	 * @return R
 	 */
@@ -135,7 +130,6 @@ public class SysUserController {
 
 	/**
 	 * 添加用户
-	 *
 	 * @param userDto 用户信息
 	 * @return success/false
 	 */
@@ -148,8 +142,7 @@ public class SysUserController {
 
 	/**
 	 * 分页查询用户
-	 *
-	 * @param page    参数集
+	 * @param page 参数集
 	 * @param userDTO 查询参数列表
 	 * @return 用户集合
 	 */
@@ -160,7 +153,6 @@ public class SysUserController {
 
 	/**
 	 * 管理员更新用户信息
-	 *
 	 * @param userDto 用户信息
 	 * @return R
 	 */
@@ -173,7 +165,6 @@ public class SysUserController {
 
 	/**
 	 * 修改个人信息 （当前用户）
-	 *
 	 * @param userDto userDto
 	 * @return success/false
 	 */
@@ -185,7 +176,6 @@ public class SysUserController {
 
 	/**
 	 * 修改个人密码 （当前用户）
-	 *
 	 * @param userDto 用户DTO对象，包含需要修改密码的用户信息
 	 * @return R 返回结果对象，包含修改密码操作的结果信息
 	 */
@@ -219,8 +209,7 @@ public class SysUserController {
 
 	/**
 	 * 导入用户
-	 *
-	 * @param excelVOList   用户列表
+	 * @param excelVOList 用户列表
 	 * @param bindingResult 错误信息列表
 	 * @return R
 	 */
@@ -232,7 +221,6 @@ public class SysUserController {
 
 	/**
 	 * 锁定指定用户
-	 *
 	 * @param username 用户名
 	 * @return R
 	 */
@@ -244,7 +232,6 @@ public class SysUserController {
 
 	/**
 	 * 解绑定接口
-	 *
 	 * @param type 需要解绑定的类型
 	 * @return R 返回结果对象，包含解绑定操作的结果信息
 	 */
@@ -255,7 +242,6 @@ public class SysUserController {
 
 	/**
 	 * 校验密码接口
-	 *
 	 * @param password 需要校验的密码
 	 * @return R 返回结果对象，包含校验密码操作的结果信息
 	 */
@@ -293,7 +279,8 @@ public class SysUserController {
 	 */
 	@GetMapping("/getUserListByUserName")
 	public R<List<SysUser>> getUserListByUserName(String username) {
-		return R.ok(userService.list(Wrappers.<SysUser>lambdaQuery().like(SysUser::getUsername, username)));
+		return R.ok(TenantBroker
+			.noneAs(() -> userService.list(Wrappers.<SysUser>lambdaQuery().like(SysUser::getUsername, username))));
 	}
 
 	/**
@@ -303,7 +290,8 @@ public class SysUserController {
 	 */
 	@GetMapping("/list")
 	public R<List<SysUser>> getUserListByIds(@RequestParam("userIds") List<Long> userIds) {
-		return R.ok(userService.list(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds)));
+		return R.ok(TenantBroker
+			.noneAs(() -> userService.list(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds))));
 	}
 
 }
