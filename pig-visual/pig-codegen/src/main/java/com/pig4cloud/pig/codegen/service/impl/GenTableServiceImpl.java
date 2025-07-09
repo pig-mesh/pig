@@ -161,7 +161,8 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 		genTable.setFieldList(fieldList);
 
 		// 查询模板分组信息
-		List<GenGroupEntity> groupEntities = genGroupService.list();
+		List<GenGroupEntity> groupEntities = genGroupService
+			.list(Wrappers.<GenGroupEntity>lambdaQuery().orderByDesc(GenGroupEntity::getCreateTime));
 		genTable.setGroupList(groupEntities);
 		return genTable;
 	}
