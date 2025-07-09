@@ -28,7 +28,7 @@ public class PigxCodeGenDefaultProperties implements InitializingBean {
 	/**
 	 * 分支名称，默认为master
 	 */
-	private String branch = "master";
+	private String branch = "next";
 
 	/**
 	 * 模板项目地址
@@ -86,12 +86,12 @@ public class PigxCodeGenDefaultProperties implements InitializingBean {
 	private String syncRoute = "0";
 
 	/**
-     * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
-     *
-     * @throws Exception 例外
-     */
+	 * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
+	 * @throws Exception 例外
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ConfigTable.KEEP_ADAPTER = 0;
 	}
+
 }
