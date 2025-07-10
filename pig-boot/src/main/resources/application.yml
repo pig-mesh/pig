@@ -45,6 +45,10 @@ security:
         - /actuator/**
 
 #--------------如下配置尽量不要变动-------------
+# swagger 配置
+swagger:
+  token-url: ${swagger.gateway}/admin/oauth2/token
+
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml # mapper文件位置
