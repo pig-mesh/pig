@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.common.datasource.enums;
+package com.pig4cloud.pig.common.datasource.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -6,10 +6,10 @@ import lombok.Getter;
 import java.util.Arrays;
 
 /**
+ * JDBC URL 枚举
+ *
  * @author lengleng
  * @date 2020/12/11
- * <p>
- * jdbc-url
  */
 @Getter
 @AllArgsConstructor

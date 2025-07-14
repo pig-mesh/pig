@@ -20,10 +20,10 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * 数据源配置属性类
+ * 数据源配置属性
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2025/07/14
  */
 @Data
 @ConfigurationProperties("spring.datasource")
@@ -52,6 +52,6 @@ public class DataSourceProperties {
 	/**
 	 * 查询数据源的SQL
 	 */
-	private String queryDsSql = "select * from gen_datasource_conf where del_flag = 0";
+	private String queryDsSql = "select * from gen_datasource_conf where del_flag = '0'";
 
 }

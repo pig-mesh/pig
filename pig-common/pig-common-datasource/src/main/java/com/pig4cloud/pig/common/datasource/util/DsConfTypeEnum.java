@@ -1,13 +1,13 @@
-package com.pig4cloud.pig.common.datasource.enums;
+package com.pig4cloud.pig.common.datasource.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 数据源配置类型
+ *
  * @author lengleng
  * @date 2020/12/11
- * <p>
- * 数据源配置类型
  */
 @Getter
 @AllArgsConstructor

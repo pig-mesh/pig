@@ -1,17 +1,18 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 
 package com.pig4cloud.pig.common.datasource;
@@ -24,10 +25,8 @@ import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
-import com.pig4cloud.pig.common.datasource.config.ClearTtlDataSourceFilter;
-import com.pig4cloud.pig.common.datasource.config.DataSourceProperties;
-import com.pig4cloud.pig.common.datasource.config.JdbcDynamicDataSourceProvider;
-import com.pig4cloud.pig.common.datasource.config.LastParamDsProcessor;
+import com.pig4cloud.pig.common.datasource.config.*;
+import lombok.RequiredArgsConstructor;
 import org.jasypt.encryption.StringEncryptor;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
@@ -41,27 +40,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 动态数据源切换自动配置类
+ * 动态数据源切换配置
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2020-02-06
  */
-@Configuration(proxyBeanMethods = false)
+@Configuration
+@RequiredArgsConstructor
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
 
 	/**
-	 * 动态数据源提供者
+	 * 获取动态数据源提供者
 	 * @param defaultDataSourceCreator 默认数据源创建器
 	 * @param stringEncryptor 字符串加密器
-	 * @param properties 数据源配置属性
+	 * @param properties 数据源属性
 	 * @return 动态数据源提供者
 	 */
 	@Bean
 	public DynamicDataSourceProvider dynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
 			StringEncryptor stringEncryptor, DataSourceProperties properties) {
 		return new JdbcDynamicDataSourceProvider(defaultDataSourceCreator, stringEncryptor, properties);
+	}
+
+	/**
+	 * 主数据源提供程序
+	 * @param defaultDataSourceCreator 默认数据源创建者
+	 * @param properties 性能
+	 * @return {@link DynamicDataSourceProvider }
+	 */
+	@Bean
+	public DynamicDataSourceProvider masterDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			DataSourceProperties properties) {
+		return new MasterDataSourceProvider(defaultDataSourceCreator, properties);
+	}
+
+	/**
+	 * 获取默认数据源创建器
+	 * @param druidDataSourceCreator Druid数据源创建器
+	 * @return 默认数据源创建器
+	 */
+	@Bean
+	public DefaultDataSourceCreator defaultDataSourceCreator(HikariDataSourceCreator druidDataSourceCreator) {
+		DefaultDataSourceCreator defaultDataSourceCreator = new DefaultDataSourceCreator();
+		List<DataSourceCreator> creators = new ArrayList<>();
+		creators.add(druidDataSourceCreator);
+		defaultDataSourceCreator.setCreators(creators);
+		return defaultDataSourceCreator;
 	}
 
 	/**
@@ -82,22 +108,8 @@ public class DynamicDataSourceAutoConfiguration {
 	}
 
 	/**
-	 * 默认数据源创建器
-	 * @param hikariDataSourceCreator Hikari数据源创建器
-	 * @return 默认数据源创建器
-	 */
-	@Bean
-	public DefaultDataSourceCreator defaultDataSourceCreator(HikariDataSourceCreator hikariDataSourceCreator) {
-		DefaultDataSourceCreator defaultDataSourceCreator = new DefaultDataSourceCreator();
-		List<DataSourceCreator> creators = new ArrayList<>();
-		creators.add(hikariDataSourceCreator);
-		defaultDataSourceCreator.setCreators(creators);
-		return defaultDataSourceCreator;
-	}
-
-	/**
-	 * 清除Ttl数据源过滤器
-	 * @return 清除Ttl数据源过滤器
+	 * 获取清除TTL数据源过滤器
+	 * @return 清除TTL数据源过滤器
 	 */
 	@Bean
 	public ClearTtlDataSourceFilter clearTtlDsFilter() {
