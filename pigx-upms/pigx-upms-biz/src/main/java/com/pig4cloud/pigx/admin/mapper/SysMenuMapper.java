@@ -19,6 +19,7 @@
 
 package com.pig4cloud.pigx.admin.mapper;
 
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.common.data.datascope.PigxBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,17 +38,11 @@ import java.util.List;
 public interface SysMenuMapper extends PigxBaseMapper<SysMenu> {
 
 	/**
-	 * 通过角色编号查询菜单
+	 * 通过角色编号查询菜单列表
 	 * @param roleId 角色ID
-	 * @return
+	 * @return 菜单列表
 	 */
+	@InterceptorIgnore(tenantLine = "true")
 	List<SysMenu> listMenusByRoleId(Long roleId);
-
-	/**
-	 * 通过角色ID查询权限
-	 * @param roleIds Ids
-	 * @return
-	 */
-	List<String> listPermissionsByRoleIds(String roleIds);
 
 }
