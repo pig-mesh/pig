@@ -63,14 +63,4 @@
 		  AND sys_role_menu.role_id = #{roleId}
 		ORDER BY sys_menu.sort_order DESC
 	</select>
-
-	<!--通过角色ID 查询权限-->
-	<select id="listPermissionsByRoleIds" resultType="java.lang.String">
-		SELECT m.permission
-		FROM sys_menu m,
-			 sys_role_menu rm
-		WHERE m.menu_id = rm.menu_id
-		  AND m.del_flag = '0'
-		  AND rm.role_id IN (#{roleIds})
-	</select>
 </mapper>
