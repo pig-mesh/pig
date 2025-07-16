@@ -47,6 +47,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
+import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -391,7 +392,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		// 执行数据插入操作 组装 UserDto
 		for (UserExcelVO excel : excelVOList) {
 			// 个性化校验逻辑
-			List<SysUser> userList = this.list();
+			List<SysUser> userList = TenantBroker.noneAs(this::list);
 
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
@@ -402,11 +403,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
+			// 校验手机号是否存在
+			boolean exsitPhone = userList.stream().anyMatch(sysUser -> excel.getPhone().equals(sysUser.getPhone()));
+			if (exsitPhone) {
+				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, excel.getPhone()));
+			}
+
 			// 判断输入的部门名称列表是否合法
 			Optional<SysDept> deptOptional = deptList.stream()
 				.filter(dept -> excel.getDeptNameList().equals(dept.getName()))
 				.findFirst();
-			if (!deptOptional.isPresent()) {
+			if (deptOptional.isEmpty()) {
 				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptNameList()));
 			}
 
@@ -488,15 +495,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Transactional(rollbackFor = Exception.class)
 	public R<Boolean> registerUser(RegisterUserDTO userDto) {
 		// 判断用户名是否存在
-		boolean usernameExists = this
-			.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername()));
+		boolean usernameExists = TenantBroker
+			.noneAs(() -> this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername())));
 		if (usernameExists) {
 			String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
 			return R.failed(message);
 		}
 
 		// 判断手机号是否存在
-		boolean phoneExists = this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, userDto.getPhone()));
+		boolean phoneExists = TenantBroker
+			.noneAs(() -> this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, userDto.getPhone())));
 		if (phoneExists) {
 			String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, userDto.getPhone());
 			return R.failed(message);
@@ -626,7 +634,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-	public R<Boolean> resetUserPassword(RegisterUserDTO userDto) {
+	public R resetUserPassword(RegisterUserDTO userDto) {
 		// 校验密码
 		R checkedPassword = checkPassword(userDto.getUsername(), userDto.getPassword());
 		if (!checkedPassword.isOk()) {
@@ -666,19 +674,23 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return R.failed("验证码错误");
 		}
 
-		String username = lambdaQuery().select(SysUser::getUsername)
-			.eq(SysUser::getPhone, userDto.getPhone())
-			.one()
-			.getUsername();
+		TenantBroker.noneAs(() -> {
+			String username = lambdaQuery().select(SysUser::getUsername)
+				.eq(SysUser::getPhone, userDto.getPhone())
+				.one()
+				.getUsername();
 
-		// 重置密码
-		String password = ENCODER.encode(userDto.getNewpassword1());
-		this.update(Wrappers.<SysUser>lambdaUpdate()
-			.set(SysUser::getPassword, password)
-			.set(SysUser::getPasswordModifyTime, LocalDateTime.now())
-			.set(SysUser::getPasswordExpireFlag, CommonConstants.STATUS_NORMAL)
-			.eq(SysUser::getPhone, userDto.getPhone()));
-		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(username);
+			// 重置密码
+			String password = ENCODER.encode(userDto.getNewpassword1());
+			this.update(Wrappers.<SysUser>lambdaUpdate()
+				.set(SysUser::getPassword, password)
+				.set(SysUser::getPasswordModifyTime, LocalDateTime.now())
+				.set(SysUser::getPasswordExpireFlag, CommonConstants.STATUS_NORMAL)
+				.eq(SysUser::getPhone, userDto.getPhone()));
+			cacheManager.getCache(CacheConstants.USER_DETAILS).evict(username);
+			return username;
+		});
+
 		return R.ok();
 	}
 

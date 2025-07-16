@@ -105,14 +105,13 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	 * 获取正常状态租户
 	 * <p>
 	 * 1. 状态正常 2. 开始时间小于等于当前时间 3. 结束时间大于等于当前时间
-	 *
 	 * @return
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.TENANT_DETAILS)
 	public List<SysTenant> getNormalTenant() {
 		return baseMapper
-				.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode()));
+			.selectList(Wrappers.<SysTenant>lambdaQuery().eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode()));
 	}
 
 	/**
@@ -120,7 +119,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	 * <p>
 	 * 1. 保存租户 2. 初始化权限相关表 - sys_user - sys_role - sys_menu - sys_user_role -
 	 * sys_role_menu - sys_dict - sys_dict_item - sys_client_details - sys_public_params
-	 *
 	 * @param sysTenant 租户实体
 	 * @return
 	 */
@@ -147,7 +145,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			dictItemList.addAll(
 					dictItemService.list(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList)));
 			List<SysMenu> newMenuList = menuService.list(Wrappers.<SysMenu>lambdaQuery()
-					.in(SysMenu::getMenuId, StrUtil.split(sysTenant.getMenuId(), CharUtil.COMMA)));
+				.in(SysMenu::getMenuId, StrUtil.split(sysTenant.getMenuId(), CharUtil.COMMA)));
 			// 查询当前租户菜单
 			menuList.addAll(newMenuList);
 			// 查询客户端配置
@@ -195,13 +193,13 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 			dictService.saveBatch(dictList.stream().peek(d -> d.setId(null)).toList());
 			// 处理字典项最新关联的字典ID
 			List<SysDictItem> itemList = dictList.stream()
-					.flatMap(dict -> dictItemList.stream()
-							.filter(item -> item.getDictType().equals(dict.getDictType()))
-							.peek(item -> {
-								item.setDictId(dict.getId());
-								item.setId(null);
-							}))
-					.toList();
+				.flatMap(dict -> dictItemList.stream()
+					.filter(item -> item.getDictType().equals(dict.getDictType()))
+					.peek(item -> {
+						item.setDictId(dict.getId());
+						item.setId(null);
+					}))
+				.toList();
 
 			// 插入客户端
 			clientServices.saveBatch(clientDetailsList.stream().peek(d -> d.setId(null)).toList());
@@ -217,7 +215,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 修改租户
-	 *
 	 * @param tenantDTO 新旧套餐数据
 	 * @return true/false
 	 */
@@ -248,31 +245,31 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		Collection<String> disjunctionList = CollUtil.disjunction(newMenuIdList, oldMenuIdList);
 		// 1. 如果旧套餐包含差集元素则删除
 		CollUtil.intersection(oldMenuIdList, disjunctionList)
-				.forEach(menuId -> TenantBroker.runAs(tenantDTO.getId(), (tenantId -> {
-					// 查询租户菜单元信息
-					SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
+			.forEach(menuId -> TenantBroker.runAs(tenantDTO.getId(), (tenantId -> {
+				// 查询租户菜单元信息
+				SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
 
-					// 根据path 或者 permisson 删除目标租户菜单
-					menuService.remove(Wrappers.<SysMenu>lambdaQuery()
-							.eq(StrUtil.isNotBlank(menu.getPath()), SysMenu::getPath, menu.getPath())
-							.or()
-							.eq(StrUtil.isNotBlank(menu.getPermission()), SysMenu::getPermission, menu.getPermission()));
-				})));
+				// 根据path 或者 permisson 删除目标租户菜单
+				menuService.remove(Wrappers.<SysMenu>lambdaQuery()
+					.eq(StrUtil.isNotBlank(menu.getPath()), SysMenu::getPath, menu.getPath())
+					.or()
+					.eq(StrUtil.isNotBlank(menu.getPermission()), SysMenu::getPermission, menu.getPermission()));
+			})));
 
 		// 2. 如果旧套餐不包含差集元素则新增
 		List<SysMenu> newTenantMenuIdList = CollUtil.subtract(disjunctionList, oldMenuIdList)
-				.stream()
-				.map(menuId -> TenantBroker.applyAs(tenantDTO.getId(), (tenantId -> {
-					// 查询租户菜单元信息
-					SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
+			.stream()
+			.map(menuId -> TenantBroker.applyAs(tenantDTO.getId(), (tenantId -> {
+				// 查询租户菜单元信息
+				SysMenu menu = CollUtil.findOneByField(sysMenuList, SysMenu.Fields.menuId, Long.parseLong(menuId));
 
-					// 新增租户菜单，但未维护上下级关系
-					SysMenu newMenu = new SysMenu();
-					BeanUtils.copyProperties(menu, newMenu, SysMenu.Fields.menuId);
-					menuService.save(newMenu);
-					return newMenu;
-				})))
-				.toList();
+				// 新增租户菜单，但未维护上下级关系
+				SysMenu newMenu = new SysMenu();
+				BeanUtils.copyProperties(menu, newMenu, SysMenu.Fields.menuId);
+				menuService.save(newMenu);
+				return newMenu;
+			})))
+			.toList();
 
 		// 3. 更新新增菜单上下级关系
 		for (SysMenu tenantMenu : newTenantMenuIdList) {
@@ -288,10 +285,10 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 				// 根据path 或者 permisson 查询目标父菜单
 				SysMenu tenantParentMenu = menuService.getOne(Wrappers.<SysMenu>lambdaQuery()
-								.eq(StrUtil.isNotBlank(parentMenu.getPath()), SysMenu::getPath, parentMenu.getPath())
-								.or()
-								.eq(StrUtil.isNotBlank(parentMenu.getPermission()), SysMenu::getPermission,
-										parentMenu.getPermission()),
+					.eq(StrUtil.isNotBlank(parentMenu.getPath()), SysMenu::getPath, parentMenu.getPath())
+					.or()
+					.eq(StrUtil.isNotBlank(parentMenu.getPermission()), SysMenu::getPermission,
+							parentMenu.getPermission()),
 						false);
 
 				tenantMenu.setParentId(tenantParentMenu.getMenuId());
@@ -309,44 +306,41 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 获取用户所属租户列表
-	 *
 	 * @return 用户所属租户列表
 	 */
 	@Override
 	public List<SysTenant> getUserTenant() {
 		MPJLambdaWrapper<SysTenant> wrapper = new MPJLambdaWrapper<SysTenant>().selectAll(SysTenant.class)
-				.leftJoin(SysTenantUser.class, SysTenantUser::getTenantId, SysTenant::getId)
-				.eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
-				.eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode());
+			.leftJoin(SysTenantUser.class, SysTenantUser::getTenantId, SysTenant::getId)
+			.eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
+			.eq(SysTenant::getStatus, TenantStateEnum.NORMAL.getCode());
 
 		return baseMapper.selectJoinList(wrapper)
-				.stream()
-				.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-				.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
-				.toList();
+			.stream()
+			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+			.toList();
 	}
 
 	/**
 	 * 获取用户租户分页信息
-	 *
-	 * @param page    分页参数
+	 * @param page 分页参数
 	 * @param userDTO 用户信息
 	 * @return 用户租户分页结果
 	 */
 	@Override
 	public Page getUserTenantPage(Page page, UserDTO userDTO) {
 		MPJLambdaWrapper<SysUser> wrapper = new MPJLambdaWrapper<SysUser>().selectAll(SysUser.class)
-				.innerJoin(SysTenantUser.class, SysTenantUser::getUserId, SysUser::getUserId)
-				.like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())
-				.like(StrUtil.isNotBlank(userDTO.getPhone()), SysUser::getPhone, userDTO.getPhone())
-				.like(StrUtil.isNotBlank(userDTO.getEmail()), SysUser::getEmail, userDTO.getEmail())
-				.eq(Objects.nonNull(userDTO.getTenantId()), SysTenantUser::getTenantId, userDTO.getTenantId());
+			.innerJoin(SysTenantUser.class, SysTenantUser::getUserId, SysUser::getUserId)
+			.like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())
+			.like(StrUtil.isNotBlank(userDTO.getPhone()), SysUser::getPhone, userDTO.getPhone())
+			.like(StrUtil.isNotBlank(userDTO.getEmail()), SysUser::getEmail, userDTO.getEmail())
+			.eq(Objects.nonNull(userDTO.getTenantId()), SysTenantUser::getTenantId, userDTO.getTenantId());
 		return TenantBroker.noneAs(() -> sysUserMapper.selectJoinPage(page, wrapper));
 	}
 
 	/**
 	 * 移除租户用户
-	 *
 	 * @param tenantUserDTO 租户用户信息
 	 * @return 是否移除成功
 	 */
@@ -356,8 +350,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 		// 删除租户用户关系
 		sysTenantUserMapper.delete(Wrappers.<SysTenantUser>lambdaQuery()
-				.eq(SysTenantUser::getTenantId, tenantUserDTO.getTenantId())
-				.in(SysTenantUser::getUserId, userIdList));
+			.eq(SysTenantUser::getTenantId, tenantUserDTO.getTenantId())
+			.in(SysTenantUser::getUserId, userIdList));
 
 		TenantBroker.runAs(tenantUserDTO.getTenantId(), (tenantId -> {
 			// 删除用户岗位
@@ -372,19 +366,18 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 根据用户信息查询租户用户列表
-	 *
 	 * @param userDTO 用户信息传输对象
 	 * @return 租户用户列表
 	 */
 	@Override
 	public List<SysUser> listTenantUser(UserDTO userDTO) {
 		return TenantBroker.noneAs(() -> sysUserMapper.selectList(Wrappers.<SysUser>lambdaQuery()
-				.like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())));
+			.ne(SysUser::getTenantId, userDTO.getTenantId())
+			.like(StrUtil.isNotBlank(userDTO.getUsername()), SysUser::getUsername, userDTO.getUsername())));
 	}
 
 	/**
 	 * 保存租户用户信息
-	 *
 	 * @param tenantUserDTO 租户用户信息DTO
 	 * @return 保存是否成功
 	 */
@@ -394,9 +387,9 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		TenantBroker.runAs(tenantUserDTO.getTenantId(), (tenantId -> {
 			for (Long userId : tenantUserDTO.getUserIds()) {
 				List<SysTenantUser> sysTenantUsers = sysTenantUserMapper
-						.selectList(Wrappers.<SysTenantUser>lambdaQuery()
-								.eq(SysTenantUser::getTenantId, tenantId)
-								.eq(SysTenantUser::getUserId, userId));
+					.selectList(Wrappers.<SysTenantUser>lambdaQuery()
+						.eq(SysTenantUser::getTenantId, tenantId)
+						.eq(SysTenantUser::getUserId, userId));
 				if (CollUtil.isEmpty(sysTenantUsers)) {
 					// 插入租户用户关系
 					SysTenantUser sysTenantUser = new SysTenantUser();
@@ -406,8 +399,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 				}
 
 				List<SysUserRole> userRoleList = sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery()
-						.eq(SysUserRole::getUserId, userId)
-						.eq(SysUserRole::getRoleId, tenantUserDTO.getRoleId()));
+					.eq(SysUserRole::getUserId, userId)
+					.eq(SysUserRole::getRoleId, tenantUserDTO.getRoleId()));
 				if (CollUtil.isEmpty(userRoleList)) {
 					// 插入用户角色关系
 					SysUserRole sysUserRole = new SysUserRole();
@@ -417,8 +410,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 				}
 
 				List<SysUserDept> userDeptList = sysUserDeptMapper.selectList(Wrappers.<SysUserDept>lambdaQuery()
-						.eq(SysUserDept::getUserId, userId)
-						.eq(SysUserDept::getDeptId, tenantUserDTO.getDeptId()));
+					.eq(SysUserDept::getUserId, userId)
+					.eq(SysUserDept::getDeptId, tenantUserDTO.getDeptId()));
 
 				if (CollUtil.isEmpty(userDeptList)) {
 					// 插入用户部门关系
@@ -429,8 +422,8 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 				}
 
 				List<SysUserPost> userPostList = sysUserPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery()
-						.eq(SysUserPost::getUserId, userId)
-						.eq(SysUserPost::getPostId, tenantUserDTO.getPostId()));
+					.eq(SysUserPost::getUserId, userId)
+					.eq(SysUserPost::getPostId, tenantUserDTO.getPostId()));
 
 				if (CollUtil.isEmpty(userPostList) && Objects.nonNull(tenantUserDTO.getPostId())) {
 					// 插入用户岗位关系
@@ -446,7 +439,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 获取租户角色列表
-	 *
 	 * @param userDTO 用户信息
 	 * @return 租户角色列表
 	 */
@@ -455,10 +447,10 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 		return TenantBroker.applyAs(userDTO.getTenantId(), tenantId -> {
 			// 过滤有权限配置的菜单
 			List<SysRole> sysRoles = sysRoleMapper.selectList(Wrappers.lambdaQuery())
-					.stream()
-					.filter(role -> roleMenuMapper
-							.exists(Wrappers.<SysRoleMenu>lambdaQuery().eq(SysRoleMenu::getRoleId, role.getRoleId())))
-					.toList();
+				.stream()
+				.filter(role -> roleMenuMapper
+					.exists(Wrappers.<SysRoleMenu>lambdaQuery().eq(SysRoleMenu::getRoleId, role.getRoleId())))
+				.toList();
 			List<SysDept> sysDepts = sysDeptMapper.selectList(Wrappers.lambdaQuery());
 			List<SysPost> sysPosts = sysPostMapper.selectList(Wrappers.lambdaQuery());
 			return Map.of("sysRoles", sysRoles, "sysDepts", sysDepts, "sysPosts", sysPosts);
@@ -467,7 +459,6 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 移除租户
-	 *
 	 * @param ids 租户ID列表
 	 * @return 是否移除成功
 	 */
@@ -476,13 +467,12 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	public Boolean removeTenant(Long[] ids) {
 		baseMapper.deleteByIds(CollUtil.toList(ids));
 		sysTenantUserMapper
-				.delete(Wrappers.<SysTenantUser>lambdaQuery().in(SysTenantUser::getTenantId, CollUtil.toList(ids)));
+			.delete(Wrappers.<SysTenantUser>lambdaQuery().in(SysTenantUser::getTenantId, CollUtil.toList(ids)));
 		return Boolean.TRUE;
 	}
 
 	/**
 	 * 更新用户租户信息
-	 *
 	 * @param userDto 用户数据传输对象
 	 * @return 更新结果
 	 */
@@ -490,14 +480,13 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
 	public R updateUserTenant(UserDTO userDto) {
 		return R.ok(TenantBroker.noneAs(() -> sysUserMapper.update(Wrappers.<SysUser>lambdaUpdate()
-				.set(SysUser::getTenantId, userDto.getTenantId())
-				.eq(SysUser::getUserId, userDto.getUserId()))));
+			.set(SysUser::getTenantId, userDto.getTenantId())
+			.eq(SysUser::getUserId, userDto.getUserId()))));
 	}
 
 	/**
 	 * 保存新的租户菜单，维护成新的菜单
-	 *
-	 * @param menuList       菜单列表
+	 * @param menuList 菜单列表
 	 * @param originParentId 原始上级
 	 * @param targetParentId 目标上级
 	 */
@@ -515,22 +504,21 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
 
 	/**
 	 * 获取或更新当前用户的租户信息
-	 *
 	 * @return 更新后的租户ID，如果无需更新则返回null
 	 */
 	@Override
 	public Long getOrUpdateTenant() {
 		PigxUser loginUser = SecurityUtils.getUser();
 		boolean match = this.getNormalTenant()
-				.stream()
-				.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-				.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
-				.anyMatch(tenant -> tenant.getId().equals(loginUser.getTenantId()));
+			.stream()
+			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+			.anyMatch(tenant -> tenant.getId().equals(loginUser.getTenantId()));
 
 		if (!match) {
 			SysTenantUser tenantUser = sysTenantUserMapper.selectOne(Wrappers.<SysTenantUser>lambdaQuery()
-					.eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
-					.ne(SysTenantUser::getTenantId, loginUser.getTenantId()), false);
+				.eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
+				.ne(SysTenantUser::getTenantId, loginUser.getTenantId()), false);
 			// 如果当前用户没有租户信息，则不进行任何操作
 			if (Objects.isNull(tenantUser)) {
 				return null;
@@ -576,10 +564,10 @@ class TenantDefaultConfig {
 	@SneakyThrows
 	public TenantDefaultConfig() {
 		List<String> args = Arrays.stream(ReflectUtil.getFields(this.getClass()))
-				.map(Field::getName)
-				.map(StrUtil::toUnderlineCase)
-				.map(String::toUpperCase)
-				.toList();
+			.map(Field::getName)
+			.map(StrUtil::toUnderlineCase)
+			.map(String::toUpperCase)
+			.toList();
 		Map<String, Object> paramsMap = ParamResolver.getMap(args.toArray(new String[] {}));
 		for (Field field : ReflectUtil.getFields(this.getClass())) {
 			String key = StrUtil.toUnderlineCase(field.getName()).toUpperCase();
