@@ -93,6 +93,11 @@
                 <artifactId>pig-common-excel</artifactId>
                 <version>${revision}</version>
             </dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-websocket</artifactId>
+				<version>${revision}</version>
+			</dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-upms-api</artifactId>
