@@ -1,6 +1,9 @@
 package com.pig4cloud.pig.common.websocket.distribute;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.util.List;
@@ -15,6 +18,9 @@ import java.util.List;
  * @version 1.0
  */
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Accessors(chain = true)
 public class MessageDO {
 
