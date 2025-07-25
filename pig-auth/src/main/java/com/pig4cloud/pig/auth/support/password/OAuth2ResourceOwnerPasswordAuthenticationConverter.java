@@ -13,6 +13,8 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 import java.util.Set;
 
+import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
+
 /**
  * OAuth2 资源所有者密码认证转换器
  *
@@ -29,7 +31,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	 */
 	@Override
 	public boolean support(String grantType) {
-		return AuthorizationGrantType.PASSWORD.getValue().equals(grantType);
+		return PASSWORD.equals(grantType);
 	}
 
 	/**
@@ -42,7 +44,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	@Override
 	public OAuth2ResourceOwnerPasswordAuthenticationToken buildToken(Authentication clientPrincipal,
 			Set requestedScopes, Map additionalParameters) {
-		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(new AuthorizationGrantType(PASSWORD), clientPrincipal,
 				requestedScopes, additionalParameters);
 	}
 

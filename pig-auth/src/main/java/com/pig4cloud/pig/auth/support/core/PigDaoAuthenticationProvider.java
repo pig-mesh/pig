@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.web.authentication.www.BasicAuthenticationConverter;
 import org.springframework.util.Assert;
@@ -28,6 +27,8 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
+
+import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
 
 /**
  * 基于DAO的认证提供者实现，用于处理用户名密码认证
@@ -75,7 +76,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 
 		// 只有密码模式需要校验密码
 		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (!StrUtil.equals(AuthorizationGrantType.PASSWORD.getValue(), grantType)) {
+		if (!StrUtil.equals(PASSWORD, grantType)) {
 			return;
 		}
 

@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 
 import java.util.Map;
 
+import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
+
 /**
  * OAuth2 资源所有者密码认证提供者
  *
@@ -74,7 +76,7 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 	@Override
 	public void checkClient(RegisteredClient registeredClient) {
 		assert registeredClient != null;
-		if (!registeredClient.getAuthorizationGrantTypes().contains(AuthorizationGrantType.PASSWORD)) {
+		if (!registeredClient.getAuthorizationGrantTypes().contains(new AuthorizationGrantType(PASSWORD))) {
 			throw new OAuth2AuthenticationException(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT);
 		}
 	}
