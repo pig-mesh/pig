@@ -40,85 +40,77 @@ import java.util.Set;
  */
 public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 
-    /**
-     * Notfound 用户错误代码
-     */
-    String NOTFOUND_USER_ERROR_CODE = "UserDetailsService.notFound";
+	/**
+	 * Notfound 用户错误代码
+	 */
+	String NOTFOUND_USER_ERROR_CODE = "UserDetailsService.notFound";
 
+	/**
+	 * 是否支持此客户端校验
+	 * @param clientId 请求客户端
+	 * @param grantType 授权类型
+	 * @return true/false
+	 */
+	default boolean support(String clientId, String grantType) {
+		return true;
+	}
 
-    /**
-     * 是否支持此客户端校验
-     *
-     * @param clientId  请求客户端
-     * @param grantType 授权类型
-     * @return true/false
-     */
-    default boolean support(String clientId, String grantType) {
-        return true;
-    }
+	/**
+	 * 排序值 默认取最大的
+	 * @return 排序值
+	 */
+	default int getOrder() {
+		return 0;
+	}
 
-    /**
-     * 排序值 默认取最大的
-     *
-     * @return 排序值
-     */
-    default int getOrder() {
-        return 0;
-    }
-
-    /**
-     * 获取用户详细信息
-     *
-     * @param userInfoOptional 用户信息：可选
-     * @return {@link UserDetails }
-     */
-    default UserDetails getUserDetails(Optional<UserInfo> userInfoOptional) {
-        // @formatter:off
+	/**
+	 * 获取用户详细信息
+	 * @param userInfoOptional 用户信息：可选
+	 * @return {@link UserDetails }
+	 */
+	default UserDetails getUserDetails(Optional<UserInfo> userInfoOptional) {
+		// @formatter:off
 		return  userInfoOptional
 				.map(this::convertUserDetails)
 				.orElseThrow(() -> new UsernameNotFoundException(MsgUtils.getSecurityMessage(NOTFOUND_USER_ERROR_CODE)));
 		// @formatter:on
-    }
+	}
 
-    /**
-     * UserInfo 转 UserDetails
-     *
-     * @param info
-     * @return 返回UserDetails对象
-     */
-    default UserDetails convertUserDetails(UserInfo info) {
-        Set<String> dbAuthsSet = new HashSet<>();
+	/**
+	 * UserInfo 转 UserDetails
+	 * @param info
+	 * @return 返回UserDetails对象
+	 */
+	default UserDetails convertUserDetails(UserInfo info) {
+		Set<String> dbAuthsSet = new HashSet<>();
 
-        // 维护角色列表
-        info.getRoleList().forEach(role -> dbAuthsSet.add(SecurityConstants.ROLE + role.getRoleId()));
+		// 维护角色列表
+		info.getRoleList().forEach(role -> dbAuthsSet.add(SecurityConstants.ROLE + role.getRoleId()));
 
-        // 维护权限列表
-        dbAuthsSet.addAll(info.getPermissions());
-        Collection<GrantedAuthority> authorities = AuthorityUtils
-                .createAuthorityList(dbAuthsSet.toArray(new String[0]));
+		// 维护权限列表
+		dbAuthsSet.addAll(info.getPermissions());
+		Collection<GrantedAuthority> authorities = AuthorityUtils
+			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
+		// 构造security用户
+		Long deptId = null;
+		if (CollUtil.isNotEmpty(info.getDeptList())) {
+			deptId = CollUtil.getFirst(info.getDeptList()).getDeptId();
+		}
+		return new PigxUser(info.getUserId(), info.getUsername(), deptId, info.getPhone(), info.getAvatar(),
+				info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
+				SecurityConstants.BCRYPT + info.getPassword(), true, true, UserTypeEnum.TOB.getStatus(),
+				!CommonConstants.STATUS_LOCK.equals(info.getPasswordExpireFlag()) // 密码过期判断
+				, info.getPasswordModifyTime(), !CommonConstants.STATUS_LOCK.equals(info.getLockFlag()), authorities);
+	}
 
-        // 构造security用户
-        Long deptId = null;
-        if (CollUtil.isNotEmpty(info.getDeptList())) {
-            deptId = CollUtil.getFirst(info.getDeptList()).getDeptId();
-        }
-        return new PigxUser(info.getUserId(), info.getUsername(), deptId, info.getPhone(), info.getAvatar(),
-                info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
-                SecurityConstants.BCRYPT + info.getPassword()
-                , true, true, UserTypeEnum.TOB.getStatus()
-                , !CommonConstants.STATUS_LOCK.equals(info.getPasswordExpireFlag()) // 密码过期判断
-                , !CommonConstants.STATUS_LOCK.equals(info.getLockFlag()), authorities);
-    }
-
-    /**
-     * 通过用户实体查询
-     *
-     * @param pigxUser user
-     * @return
-     */
-    default UserDetails loadUserByUser(PigxUser pigxUser) {
-        return this.loadUserByUsername(pigxUser.getUsername());
-    }
+	/**
+	 * 通过用户实体查询
+	 * @param pigxUser user
+	 * @return
+	 */
+	default UserDetails loadUserByUser(PigxUser pigxUser) {
+		return this.loadUserByUsername(pigxUser.getUsername());
+	}
 
 }

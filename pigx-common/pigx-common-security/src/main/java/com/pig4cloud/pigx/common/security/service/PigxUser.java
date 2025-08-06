@@ -26,6 +26,8 @@ import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 
+import java.io.Serial;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,7 @@ import java.util.Map;
  */
 public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 
+	@Serial
 	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
 	/**
@@ -91,8 +94,13 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 	@Getter
 	private String email;
 
+	/** 用户类型 */
 	@Getter
 	private String userType;
+
+	/** 密码修改时间 */
+	@Getter
+	private LocalDateTime passwordModifyTime;
 
 	/**
 	 * Construct the <code>User</code> with the details required by
@@ -125,6 +133,7 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 			@JsonProperty("enabled") boolean enabled, @JsonProperty("accountNonExpired") boolean accountNonExpired,
 			@JsonProperty("userType") String userType,
 			@JsonProperty("credentialsNonExpired") boolean credentialsNonExpired,
+			@JsonProperty("passwordModifyTime") LocalDateTime passwordModifyTime,
 			@JsonProperty("accountNonLocked") boolean accountNonLocked,
 			@JsonProperty("authorities") Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
@@ -137,6 +146,7 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 		this.name = name;
 		this.email = email;
 		this.userType = userType;
+		this.passwordModifyTime = passwordModifyTime;
 	}
 
 	@Override

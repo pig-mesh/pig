@@ -6,10 +6,10 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
+ * 安全认证配置属性类
+ *
  * @author lengleng
- * @date 2020/10/4
- * <p>
- * 网关配置文件
+ * @date 2025/08/06
  */
 @Data
 @Component
@@ -26,5 +26,8 @@ public class AuthSecurityConfigProperties {
      * 网关解密登录前端密码 秘钥
      */
     private String encodeKey;
+
+	/** 是否开启密码超期强制修改密码 */
+	private boolean expirePassword = false;
 
 }
