@@ -28,7 +28,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<nacos.version>3.0.0</nacos.version>
+		<nacos.version>3.0.2.OEM</nacos.version>
 	</properties>
 
 	<dependencies>
