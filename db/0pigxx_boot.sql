@@ -35,9 +35,9 @@ CREATE TABLE `sys_area` (
   `area_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '0:未生效，1:生效',
   `area_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0:国家,1:省,2:城市,3:区县',
   `hot` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '0:非热门，1:热门',
-  `city_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '城市编码',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `city_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '城市编码',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
@@ -89,7 +89,7 @@ CREATE TABLE `sys_audit_log` (
   `before_val` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '变更前值',
   `after_val` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '变更后值',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
-  `create_time` datetime NOT NULL COMMENT '操作时间',
+  `create_time` datetime COMMENT '操作时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '删除标记',
   `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`)
@@ -109,8 +109,8 @@ CREATE TABLE `sys_dept` (
   `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '部门名称',
   `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
@@ -147,8 +147,8 @@ CREATE TABLE `sys_dict` (
   `id` bigint(20) NOT NULL COMMENT '编号',
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注信息',
@@ -206,8 +206,8 @@ CREATE TABLE `sys_dict_item` (
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典项描述',
   `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序（升序）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注信息',
@@ -334,8 +334,8 @@ CREATE TABLE `sys_file` (
   `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
   `hash` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件hash',
   `file_size` bigint(20) DEFAULT NULL COMMENT '文件大小',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '上传时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
@@ -367,9 +367,9 @@ CREATE TABLE `sys_i18n` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'name',
   `zh_cn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '中文',
   `en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '英文',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`)
@@ -464,8 +464,8 @@ CREATE TABLE `sys_log` (
   `log_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '日志类型',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志标题',
   `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '服务ID',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remote_addr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '远程地址',
@@ -518,10 +518,10 @@ CREATE TABLE `sys_menu` (
   `sort_order` int(11) DEFAULT '1' COMMENT '排序值，越小越靠前',
   `keep_alive` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否缓存，0否，1是',
   `embedded` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否内嵌，0否，1是',
-  `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '菜单类型，0目录，1菜单，2按钮',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+  `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '菜单类型，0:菜单 1:按钮',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志，0未删除，1已删除',
   `tenant_id` bigint(20) unsigned DEFAULT NULL COMMENT '租户ID',
@@ -734,6 +734,12 @@ INSERT INTO `sys_menu` VALUES (7505,'导入导出','app_appArticleCategory_expor
 INSERT INTO `sys_menu` VALUES (7600,'文章发布',NULL,'/biz/app/appArticle/form',NULL,7000,'iconfont icon-refresh','0',4,'0','0','0','admin','2023-06-07 17:05:32','admin','2023-11-01 17:29:52','0',1);
 INSERT INTO `sys_menu` VALUES (7700,'界面设置','','/biz/app/page/index',NULL,7000,'iconfont icon-diannao1','1',8,'0',NULL,'0','',NULL,'admin','2023-11-01 17:29:55','0',1);
 INSERT INTO `sys_menu` VALUES (7701,'底部导航',NULL,'/biz/app/tabbar/index',NULL,7000,'iconfont icon-dibudaohang','1',9,'0','0','0','admin','2023-06-14 14:36:08','admin','2025-01-26 22:27:17','0',1);
+INSERT INTO `sys_menu` VALUES (7800,'通讯录',NULL,'/biz/app/appContacts/index',NULL,7000,'iconfont icon-tongxunlu','1',9,'0',NULL,'0','admin','2025-05-29 17:30:31','admin','2025-05-29 17:42:08','0',1);
+INSERT INTO `sys_menu` VALUES (7801,'查看','app_appContacts_view',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (7802,'新增','app_appContacts_add',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (7803,'编辑','app_appContacts_edit',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (7804,'删除','app_appContacts_del',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (7805,'导入导出','app_appContacts_export',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
 INSERT INTO `sys_menu` VALUES (9000,'开发平台',NULL,'/gen',NULL,-1,'iconfont icon-DevOps','1',9,'0','0','0','','2019-08-12 09:35:16','admin','2025-01-26 22:38:09','0',1);
 INSERT INTO `sys_menu` VALUES (9005,'数据源管理',NULL,'/gen/datasource/index',NULL,9000,'iconfont icon-shujuyuanguanli','1',0,'0',NULL,'0','','2019-08-12 09:42:11','admin','2025-01-26 22:26:51','0',1);
 INSERT INTO `sys_menu` VALUES (9006,'表单设计',NULL,'/gen/design/index',NULL,9000,'iconfont icon-AIshiyanshi','0',2,'0','0','0','','2019-08-16 10:08:56','admin','2023-02-23 14:06:50','0',1);
@@ -781,8 +787,8 @@ CREATE TABLE `sys_oauth_client_details` (
   `additional_information` varchar(4096) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '附加信息',
   `autoapprove` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '自动授权',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户ID',
@@ -815,9 +821,9 @@ CREATE TABLE `sys_post` (
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '岗位描述',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否删除  -1：已删除  0：正常',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '更新人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '更新人',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`post_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='岗位信息表';
@@ -840,9 +846,9 @@ CREATE TABLE `sys_public_param` (
   `public_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '值',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '状态，0禁用，1启用',
   `validate_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '校验码',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `public_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '类型，0未知，1系统，2业务',
   `system_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '系统标识，0非系统，1系统',
@@ -877,9 +883,9 @@ CREATE TABLE `sys_role` (
   `role_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色描述',
   `ds_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '2' COMMENT '数据权限类型，0全部，1自定义，2本部门及以下，3本部门，4仅本人',
   `ds_scope` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据权限范围',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
@@ -1111,6 +1117,12 @@ INSERT INTO `sys_role_menu` VALUES (1, 7505);
 INSERT INTO `sys_role_menu` VALUES (1, 7600);
 INSERT INTO `sys_role_menu` VALUES (1, 7700);
 INSERT INTO `sys_role_menu` VALUES (1, 7701);
+INSERT INTO `sys_role_menu` VALUES (1, 7800);
+INSERT INTO `sys_role_menu` VALUES (1, 7801);
+INSERT INTO `sys_role_menu` VALUES (1, 7802);
+INSERT INTO `sys_role_menu` VALUES (1, 7803);
+INSERT INTO `sys_role_menu` VALUES (1, 7804);
+INSERT INTO `sys_role_menu` VALUES (1, 7805);
 INSERT INTO `sys_role_menu` VALUES (1, 9000);
 INSERT INTO `sys_role_menu` VALUES (1, 9005);
 INSERT INTO `sys_role_menu` VALUES (1, 9006);
@@ -1153,8 +1165,8 @@ CREATE TABLE `sys_route_conf` (
   `uri` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `sort_order` int(11) DEFAULT '0' COMMENT '排序',
   `metadata` json DEFAULT NULL COMMENT '路由元信息',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '0',
@@ -1195,9 +1207,9 @@ CREATE TABLE `sys_schedule` (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '内容',
   `schedule_time` time DEFAULT NULL COMMENT '时间',
   `schedule_date` date DEFAULT NULL COMMENT '日期',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
   `tenant_id` bigint(20) unsigned DEFAULT NULL COMMENT '租户ID',
@@ -1222,8 +1234,8 @@ CREATE TABLE `sys_social_details` (
   `app_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
   `redirect_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '回调地址',
   `ext` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
@@ -1255,10 +1267,10 @@ CREATE TABLE `sys_tenant` (
   `end_time` datetime DEFAULT NULL COMMENT '租户结束时间',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '租户状态，0正常，1停用',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `menu_id` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '租户菜单ID',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='租户表';
@@ -1285,8 +1297,8 @@ CREATE TABLE `sys_user` (
   `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '昵称',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
   `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱地址',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `lock_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '锁定标记，0未锁定，9已锁定',
@@ -1421,7 +1433,7 @@ CREATE TABLE `sys_message_relation` (
   `read_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '已读（0否，1是）',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '删除时间',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户',
@@ -1452,8 +1464,8 @@ CREATE TABLE `process` (
   `process` json NOT NULL COMMENT '流程设置内容',
   `remark` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `sort` int NOT NULL,
-  `is_hidden` tinyint(1) NOT NULL COMMENT '0 正常 1=隐藏',
-  `is_stop` tinyint(1) NOT NULL COMMENT '0 正常 1=停用 ',
+  `is_hidden` char(1) NOT NULL COMMENT '0 正常 1=隐藏',
+  `is_stop` char(1) NOT NULL COMMENT '0 正常 1=停用 ',
   `admin_id` bigint DEFAULT NULL COMMENT '流程管理员',
   `unique_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '唯一性id',
   `admin_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '管理员',
@@ -1472,8 +1484,8 @@ DROP TABLE IF EXISTS `process_copy`;
 CREATE TABLE `process_copy` (
   `id` bigint NOT NULL COMMENT '用户id',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `start_time` datetime NOT NULL COMMENT ' 流程发起时间',
   `node_time` datetime NOT NULL COMMENT '当前节点时间',
   `start_user_id` bigint NOT NULL COMMENT '发起人',
@@ -1545,8 +1557,8 @@ DROP TABLE IF EXISTS `process_node_data`;
 CREATE TABLE `process_node_data` (
   `id` bigint NOT NULL COMMENT '用户id',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
   `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表单数据',
   `node_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -1563,8 +1575,8 @@ DROP TABLE IF EXISTS `process_node_record`;
 CREATE TABLE `process_node_record` (
   `id` bigint NOT NULL COMMENT '用户id',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
   `process_instance_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程实例id',
   `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '表单数据',
@@ -1588,13 +1600,13 @@ DROP TABLE IF EXISTS `process_node_record_assign_user`;
 CREATE TABLE `process_node_record_assign_user` (
   `id` bigint NOT NULL COMMENT '用户id',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `flow_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程id',
   `process_instance_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程实例id',
   `data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '表单数据',
   `node_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `user_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 用户id',
+  `user_id` bigint NOT NULL COMMENT ' 用户id',
   `status` int NOT NULL COMMENT '节点状态',
   `start_time` datetime NOT NULL COMMENT '开始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
@@ -1617,8 +1629,8 @@ DROP TABLE IF EXISTS `process_starter`;
 CREATE TABLE `process_starter` (
   `id` bigint NOT NULL COMMENT '用户id',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `type_id` bigint NOT NULL COMMENT '用户id或者部门id',
   `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 类型 user dept',
   `process_id` bigint NOT NULL COMMENT '流程id',
@@ -1891,9 +1903,9 @@ CREATE TABLE `sys_job` (
                            `job_status` char(1) CHARACTER SET utf8mb4 DEFAULT '0' COMMENT '状态（1、未发布;2、运行中;3、暂停;4、删除;）',
                            `job_execute_status` char(1) CHARACTER SET utf8mb4 DEFAULT '0' COMMENT '状态（0正常 1异常）',
                            `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '创建者',
-                           `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                            `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-                           `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                           `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
                            `start_time` timestamp NULL DEFAULT NULL COMMENT '初次执行时间',
                            `previous_time` timestamp NULL DEFAULT NULL COMMENT '上次执行时间',
                            `next_time` timestamp NULL DEFAULT NULL COMMENT '下次执行时间',
@@ -1928,7 +1940,7 @@ CREATE TABLE `sys_job_log` (
                                `job_log_status` char(1) CHARACTER SET utf8  DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
                                `execute_time` varchar(30) CHARACTER SET utf8  DEFAULT NULL COMMENT '执行时间',
                                `exception_info` varchar(2000) CHARACTER SET utf8  DEFAULT '' COMMENT '异常信息',
-                               `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                `tenant_id` bigint NOT NULL DEFAULT '1' COMMENT '租户id',
                                PRIMARY KEY (`job_log_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='定时任务执行日志表';
@@ -2007,10 +2019,10 @@ DROP TABLE IF EXISTS `wx_account_tag`;
 CREATE TABLE `wx_account_tag` (
   `id` bigint(20) NOT NULL COMMENT '主键ID',
   `tag` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标签名称',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '修改人',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '修改时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '修改人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '修改时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
   `tenant_id` bigint(20) NOT NULL COMMENT '租户ID',
   `wx_account_id` bigint(20) NOT NULL COMMENT '微信公众号ID',
@@ -2149,8 +2161,8 @@ CREATE TABLE `pay_channel` (
   `param` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '参数',
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   `app_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用ID',
   PRIMARY KEY (`id`) USING BTREE
@@ -2175,8 +2187,8 @@ CREATE TABLE `pay_goods_order` (
   `status` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '订单状态：订单生成(0)、支付成功(1)、处理完成(2)、处理失败(-1)',
   `pay_order_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单ID',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`goods_order_id`) USING BTREE,
   UNIQUE KEY `IDX_PayOrderId` (`pay_order_id`) USING BTREE
@@ -2200,7 +2212,7 @@ CREATE TABLE `pay_notify_record` (
   `order_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '订单号',
   `http_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'http状态',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE
@@ -2244,8 +2256,8 @@ CREATE TABLE `pay_refund_order` (
   `expire_time` datetime DEFAULT NULL COMMENT '订单失效时间',
   `refund_succ_time` datetime DEFAULT NULL COMMENT '订单退款成功时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`refund_order_id`) USING BTREE,
   UNIQUE KEY `IDX_MchId_MchOrderNo` (`mch_id`,`mch_refund_no`) USING BTREE
@@ -2283,8 +2295,8 @@ CREATE TABLE `pay_trade_order` (
   `last_notify_time` bigint(20) DEFAULT NULL COMMENT '最后一次通知时间',
   `expire_time` bigint(20) DEFAULT NULL COMMENT '订单失效时间',
   `pay_succ_time` datetime DEFAULT NULL COMMENT '订单支付成功时间',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`order_id`) USING BTREE
@@ -2418,8 +2430,8 @@ CREATE TABLE `gen_group` (
   `group_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '分组名称',
   `group_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '分组描述',
   `tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改人',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
@@ -2455,6 +2467,8 @@ CREATE TABLE `gen_table` (
   `child_table_name` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '子表名称',
   `main_field` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '主表关联键',
   `child_field` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '子表关联键',
+  `parent_field` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父表关联键',
+  `name_field` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名称字段',
   `generator_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '生成方式  0：zip压缩包   1：自定义目录',
   `backend_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '后端生成路径',
   `frontend_path` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '前端生成路径',
@@ -2525,8 +2539,8 @@ CREATE TABLE `gen_template` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
   `tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模板';
 
@@ -2602,14 +2616,14 @@ COMMIT;
 DROP TABLE IF EXISTS `gen_create_table`;
 CREATE TABLE `gen_create_table` (
   `id` bigint NOT NULL COMMENT '主键ID',
-  `table_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '表名称',
+  `table_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '表名称',
   `ds_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '数据源',
-  `comments` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '表注释',
+  `comments` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '表注释',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL,
-  `column_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字段信息',
+  `column_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '字段信息',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE
@@ -2632,7 +2646,7 @@ CREATE TABLE `app_article` (
   `sort` int unsigned NOT NULL DEFAULT '50' COMMENT '排序',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-  `create_by` varchar(32) COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建人',
+  `create_by` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '删除时间',
     `tenant_id` bigint(20) DEFAULT NULL,
@@ -2678,8 +2692,8 @@ CREATE TABLE `app_article_collect` (
   `id` bigint unsigned NOT NULL COMMENT '主键',
   `user_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `article_id` bigint unsigned NOT NULL DEFAULT '0' COMMENT '文章ID',
-  `create_time` datetime NOT NULL COMMENT '创建时间',
-  `update_time` datetime NOT NULL COMMENT '更新时间',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否删除',
   `create_by` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
   `update_by` varchar(32) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
@@ -2689,6 +2703,30 @@ CREATE TABLE `app_article_collect` (
 
 -- ----------------------------
 -- Records of app_article_collect
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for app_contacts
+-- ----------------------------
+DROP TABLE IF EXISTS `app_contacts`;
+CREATE TABLE `app_contacts` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `contact_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '联系人',
+  `contact_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '手机号',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='通讯录表';
+
+-- ----------------------------
+-- Records of app_contacts
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -2758,12 +2796,13 @@ CREATE TABLE `app_role` (
   `role_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `role_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `role_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
   `tenant_id` bigint(20) DEFAULT NULL,
+  `menu_id` varchar(20) NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`) USING BTREE,
   KEY `role_idx1_role_code` (`role_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='app角色表';
@@ -2772,7 +2811,7 @@ CREATE TABLE `app_role` (
 -- Records of app_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `app_role` VALUES (1, 'app用户', 'APP_USER', 'app用户角色', '', '', '2022-12-07 06:34:18', '2023-03-09 06:34:42', '0', 1);
+INSERT INTO `app_role` VALUES (1, 'app用户', 'APP_USER', 'app用户角色', '', '', '2022-12-07 06:34:18', '2023-03-09 06:34:42', '0', 1,'');
 COMMIT;
 
 -- ----------------------------
@@ -2787,8 +2826,8 @@ CREATE TABLE `app_social_details` (
   `app_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥', -- 应用密钥
   `redirect_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '重定向URL', -- 重定向URL
   `ext` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段', -- 拓展字段
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '创建人', -- 创建人
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人', -- 修改人
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人', -- 创建人
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人', -- 修改人
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间', -- 创建时间
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间', -- 更新时间
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志', -- 删除标志
@@ -2818,7 +2857,7 @@ CREATE TABLE `app_user` (
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段:姓名',
   `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段:邮箱',
   `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
@@ -2852,5 +2891,674 @@ CREATE TABLE `app_user_role` (
 BEGIN;
 INSERT INTO `app_user_role` VALUES (1, 1);
 COMMIT;
+
+INSERT INTO `sys_menu` VALUES (9700,'AI大模型',NULL,'/knowledge',NULL,-1,'iconfont icon-zhishi','1',5,'0',NULL,'0','admin','2024-03-14 13:48:31','admin','2025-03-28 12:39:07','0',1);
+INSERT INTO `sys_menu` VALUES (9710,'文档管理','','/knowledge/aiDocument/index',NULL,9822,'iconfont icon-wendangguanli','1',4,'0',NULL,'0','',NULL,'admin','2025-03-28 12:54:18','0',1);
+INSERT INTO `sys_menu` VALUES (9711,'知识文档查看','knowledge_aiDocument_view',NULL,NULL,9710,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9712,'知识文档新增','knowledge_aiDocument_add',NULL,NULL,9710,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9713,'知识文档修改','knowledge_aiDocument_edit',NULL,NULL,9710,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9714,'知识文档删除','knowledge_aiDocument_del',NULL,NULL,9710,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9715,'导入导出','knowledge_aiDocument_export',NULL,NULL,9710,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9720,'AI 知识库','','/knowledge/aiDataset/index',NULL,9822,'iconfont icon-zhishiku','1',3,'0',NULL,'0','',NULL,'admin','2025-03-28 12:54:07','0',1);
+INSERT INTO `sys_menu` VALUES (9721,'知识库查看','knowledge_aiDataset_view',NULL,NULL,9720,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9722,'知识库新增','knowledge_aiDataset_add',NULL,NULL,9720,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9723,'知识库修改','knowledge_aiDataset_edit',NULL,NULL,9720,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9724,'知识库删除','knowledge_aiDataset_del',NULL,NULL,9720,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9725,'导入导出','knowledge_aiDataset_export',NULL,NULL,9720,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9730,'切片管理','','/knowledge/aiSlice/index',NULL,9822,'iconfont icon-qiepianguanli','1',5,'0',NULL,'0','',NULL,'admin','2025-03-28 12:54:34','0',1);
+INSERT INTO `sys_menu` VALUES (9731,'知识切片查看','knowledge_aiSlice_view',NULL,NULL,9730,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9732,'知识切片新增','knowledge_aiSlice_add',NULL,NULL,9730,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9733,'知识切片修改','knowledge_aiSlice_edit',NULL,NULL,9730,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9734,'知识切片删除','knowledge_aiSlice_del',NULL,NULL,9730,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9735,'导入导出','knowledge_aiSlice_export',NULL,NULL,9730,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9740,'提示词管理','','/knowledge/aiPrompt/index',NULL,9818,'iconfont icon-tishici','1',6,'0',NULL,'0','',NULL,'admin','2025-03-28 12:49:51','0',1);
+INSERT INTO `sys_menu` VALUES (9741,'提示词查看','knowledge_aiPrompt_view',NULL,NULL,9740,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9742,'提示词新增','knowledge_aiPrompt_add',NULL,NULL,9740,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9743,'提示词修改','knowledge_aiPrompt_edit',NULL,NULL,9740,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9744,'提示词删除','knowledge_aiPrompt_del',NULL,NULL,9740,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9745,'导入导出','knowledge_aiPrompt_export',NULL,NULL,9740,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9750,'账单管理','','/knowledge/aiBill/index',NULL,9818,'iconfont icon-zhangdanguanli','1',0,'0',NULL,'0','',NULL,'admin','2025-03-28 12:48:56','0',1);
+INSERT INTO `sys_menu` VALUES (9751,'账单查看','knowledge_aiBill_view',NULL,NULL,9750,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9752,'账单新增','knowledge_aiBill_add',NULL,NULL,9750,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9753,'账单修改','knowledge_aiBill_edit',NULL,NULL,9750,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9754,'账单删除','knowledge_aiBill_del',NULL,NULL,9750,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9755,'导入导出','knowledge_aiBill_export',NULL,NULL,9750,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9760,'AI 助手',NULL,'/knowledge/aiChat/index',NULL,9700,'iconfont icon-aizhushou','1',0,'0','0','0','admin','2024-03-20 14:51:13','admin','2025-03-28 13:00:16','0',1);
+INSERT INTO `sys_menu` VALUES (9770,'数据标注','','/knowledge/aiChatRecord/index',NULL,9818,'iconfont icon-shujuzhongxin-shujubiaozhu','1',7,'0',NULL,'0','',NULL,'admin','2025-03-28 12:49:59','0',1);
+INSERT INTO `sys_menu` VALUES (9771,'查看','knowledge_aiChatRecord_view',NULL,NULL,9770,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9772,'新增','knowledge_aiChatRecord_add',NULL,NULL,9770,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9773,'修改','knowledge_aiChatRecord_edit',NULL,NULL,9770,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9774,'删除','knowledge_aiChatRecord_del',NULL,NULL,9770,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9775,'导入导出','knowledge_aiChatRecord_export',NULL,NULL,9770,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9776,'OCR配置页面',NULL,'/knowledge/ocr/KonvaPage',NULL,9819,'iconfont icon-yunxiazai_o','0',999,'0','0','0','admin','2024-09-09 17:28:01','admin','2025-03-28 12:51:38','0',1);
+INSERT INTO `sys_menu` VALUES (9777,'AI 慧眼',NULL,'/knowledge/ocr/index',NULL,9819,'iconfont icon-OCRshibie','1',999,'0',NULL,'0','admin','2024-09-10 00:49:09','admin','2025-03-28 12:51:46','0',1);
+INSERT INTO `sys_menu` VALUES (9778,'查看','knowledge_ocr_view',NULL,NULL,9777,NULL,'1',1,'0',NULL,'1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9779,'新增','knowledge_ocr_add',NULL,NULL,9777,NULL,'1',1,'0',NULL,'1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9780,'编辑','knowledge_ocr_edit',NULL,NULL,9777,NULL,'1',1,'0',NULL,'1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9781,'删除','knowledge_ocr_del',NULL,NULL,9777,NULL,'1',1,'0',NULL,'1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9782,'模型配置',NULL,'/knowledge/aiModel/index',NULL,9818,'iconfont icon-zhuantikumoxingpeizhi','1',1,'0',NULL,'0','admin','2024-09-27 23:37:54','admin','2025-03-28 12:49:07','0',1);
+INSERT INTO `sys_menu` VALUES (9783,'查看','knowledge_aiModel_view',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9784,'新增','knowledge_aiModel_add',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9785,'编辑','knowledge_aiModel_edit',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9786,'删除','knowledge_aiModel_del',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9787,'导入导出','knowledge_aiModel_export',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9788,'向量配置',NULL,'/knowledge/aiEmbedStore/index',NULL,9818,'iconfont icon-xiangliang','1',2,'0',NULL,'0','admin','2024-09-27 23:37:54','admin','2025-03-28 12:49:37','0',1);
+INSERT INTO `sys_menu` VALUES (9789,'查看','knowledge_aiEmbedStore_view',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9790,'新增','knowledge_aiEmbedStore_add',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9791,'编辑','knowledge_aiEmbedStore_edit',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9792,'删除','knowledge_aiEmbedStore_del',NULL,NULL,9782,NULL,'1',1,'0',NULL,'1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9793,'AI 编排',NULL,'/knowledge/aiFlow/manage/index',NULL,9823,'iconfont icon-tenant','1',999,'0','0','0','admin','2025-03-02 17:59:12','admin','2025-03-28 12:59:24','0',1);
+INSERT INTO `sys_menu` VALUES (9794,'查看','knowledge_aiFlow_view',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:32','admin','2025-03-03 10:58:48','0',1);
+INSERT INTO `sys_menu` VALUES (9795,'新增','knowledge_aiFlow_add',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:43',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9796,'编辑','knowledge_aiFlow_edit',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9797,'删除','knowledge_aiFlow_del',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:50:08',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9800,'AI MCP',NULL,'/knowledge/aiMcpConfig/index',NULL,9700,'iconfont icon-mcp','1',3,'0',NULL,'0','admin','2025-03-22 13:36:32','admin','2025-03-31 10:41:22','0',1);
+INSERT INTO `sys_menu` VALUES (9801,'查看','knowledge_aiMcpConfig_view',NULL,NULL,9800,NULL,'1',1,'0',NULL,'1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9802,'新增','knowledge_aiMcpConfig_add',NULL,NULL,9800,NULL,'1',1,'0',NULL,'1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9803,'编辑','knowledge_aiMcpConfig_edit',NULL,NULL,9800,NULL,'1',1,'0',NULL,'1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9804,'删除','knowledge_aiMcpConfig_del',NULL,NULL,9800,NULL,'1',1,'0',NULL,'1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9805,'导入导出','knowledge_aiMcpConfig_export',NULL,NULL,9800,NULL,'1',1,'0',NULL,'1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9806,'AI 数据集',NULL,'/knowledge/aiData/index',NULL,9820,'iconfont icon-chanliangfenxi','1',2,'0',NULL,'0','admin','2025-03-26 21:47:46','admin','2025-03-28 13:25:26','0',1);
+INSERT INTO `sys_menu` VALUES (9807,'查看','knowledge_aiData_view',NULL,NULL,9806,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9808,'新增','knowledge_aiData_add',NULL,NULL,9806,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9809,'编辑','knowledge_aiData_edit',NULL,NULL,9806,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9810,'删除','knowledge_aiData_del',NULL,NULL,9806,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9811,'导入导出','knowledge_aiData_export',NULL,NULL,9806,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9812,'AI  数据表',NULL,'/knowledge/aiDataTable/index',NULL,9820,'iconfont icon-SQLshujuji','1',1,'0',NULL,'0','admin','2025-03-26 21:48:16','admin','2025-03-28 13:17:59','0',1);
+INSERT INTO `sys_menu` VALUES (9813,'查看','knowledge_aiDataTable_view',NULL,NULL,9812,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9814,'新增','knowledge_aiDataTable_add',NULL,NULL,9812,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9815,'编辑','knowledge_aiDataTable_edit',NULL,NULL,9812,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9816,'删除','knowledge_aiDataTable_del',NULL,NULL,9812,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9817,'导入导出','knowledge_aiDataTable_export',NULL,NULL,9812,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9818,'AI 配置',NULL,'/knowledge/config',NULL,9700,'iconfont icon-UI-AIpeizhi','1',1,'0',NULL,'0','admin','2025-03-28 12:40:21','admin','2025-03-28 13:09:04','0',1);
+INSERT INTO `sys_menu` VALUES (9819,'AI 视觉',NULL,'/knowledge/vision',NULL,9700,'iconfont icon-Television','1',5,'0',NULL,'0','admin','2025-03-28 12:41:54','admin','2025-03-28 13:09:31','0',1);
+INSERT INTO `sys_menu` VALUES (9820,'AI 问数',NULL,'/knowledge/data',NULL,9700,'iconfont icon-keshihuazhanshi','1',3,'0','0','0','admin','2025-03-28 12:43:11','admin','2025-03-28 13:14:04','0',1);
+INSERT INTO `sys_menu` VALUES (9821,'AI 联动',NULL,'/knowledge/aiChat/base/-6','/knowledge/aiChat/base',9700,'iconfont icon-liandong','1',4,'0','0','0','admin','2025-03-28 12:43:49','admin','2025-03-29 09:55:21','0',1);
+INSERT INTO `sys_menu` VALUES (9822,'AI 问答',NULL,'/knowledge/rag',NULL,9700,'iconfont icon-icon_icon_tiwen_s','1',2,'0','0','0','admin','2025-03-28 12:53:51','admin','2025-03-28 13:17:36','0',1);
+INSERT INTO `sys_menu` VALUES (9823,'AI 智能体',NULL,'/knowledge/agent',NULL,9700,'iconfont icon-zhinengti','1',999,'0',NULL,'0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9824,'AI 智绘',NULL,'/knowledge/aiChat/image',NULL,9819,'iconfont icon-tupian','1',0,'0',NULL,'0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9825,'AI 思图',NULL,'/knowledge/aiChat/base/-4','/knowledge/aiChat/base',9819,'iconfont icon-chanliangfenxi','1',1,'0','0','0','admin','2025-03-29 09:44:12','admin','2025-03-29 09:46:22','0',1);
+INSERT INTO `sys_menu` VALUES (9826,'AI 海报',NULL,'/knowledge/aiPoster/index',NULL,9819,'iconfont icon-haibao-1','1',1,'0','0','0','admin','2025-03-29 09:44:12','admin','2025-03-29 09:46:22','0',1);
+INSERT INTO `sys_menu` VALUES (9827,'AI 视频',NULL,'/knowledge/aiChat/video',NULL,9819,'iconfont icon-shipinbofang','1',0,'0',NULL,'0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9828,'AI 音频',NULL,'/knowledge/aiChat/voice',NULL,9819,'iconfont icon-yinpin','1',0,'0',NULL,'0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9829,'AI 报告配置',NULL,'/knowledge/aiReport/KonvaPage',NULL,9700,'iconfont icon-yunxiazai_o','0',4,'0','0','0','admin','2024-09-09 17:28:01','admin','2025-03-28 12:51:38','0',1);
+INSERT INTO `sys_menu` VALUES (9830,'AI 报告',NULL,'/knowledge/aiReport/index',NULL,9700,'iconfont icon-xitongrizhi','1',4,'0',NULL,'0','admin','2025-03-28 12:41:54','admin','2025-03-28 13:09:31','0',1);
+INSERT INTO `sys_menu` VALUES (9831,'查看','knowledge_aiReportConf_view',NULL,NULL,9830,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9832,'新增','knowledge_aiReportConf_add',NULL,NULL,9830,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9833,'编辑','knowledge_aiReportConf_edit',NULL,NULL,9830,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9834,'删除','knowledge_aiReportConf_del',NULL,NULL,9830,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9835,'导入导出','knowledge_aiReportConf_export',NULL,NULL,9830,NULL,'1',1,'0',NULL,'1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+
+
+INSERT INTO `sys_role_menu` VALUES (1, 9700);
+INSERT INTO `sys_role_menu` VALUES (1, 9710);
+INSERT INTO `sys_role_menu` VALUES (1, 9711);
+INSERT INTO `sys_role_menu` VALUES (1, 9712);
+INSERT INTO `sys_role_menu` VALUES (1, 9713);
+INSERT INTO `sys_role_menu` VALUES (1, 9714);
+INSERT INTO `sys_role_menu` VALUES (1, 9715);
+INSERT INTO `sys_role_menu` VALUES (1, 9720);
+INSERT INTO `sys_role_menu` VALUES (1, 9721);
+INSERT INTO `sys_role_menu` VALUES (1, 9722);
+INSERT INTO `sys_role_menu` VALUES (1, 9723);
+INSERT INTO `sys_role_menu` VALUES (1, 9724);
+INSERT INTO `sys_role_menu` VALUES (1, 9725);
+INSERT INTO `sys_role_menu` VALUES (1, 9730);
+INSERT INTO `sys_role_menu` VALUES (1, 9731);
+INSERT INTO `sys_role_menu` VALUES (1, 9732);
+INSERT INTO `sys_role_menu` VALUES (1, 9733);
+INSERT INTO `sys_role_menu` VALUES (1, 9734);
+INSERT INTO `sys_role_menu` VALUES (1, 9735);
+INSERT INTO `sys_role_menu` VALUES (1, 9740);
+INSERT INTO `sys_role_menu` VALUES (1, 9741);
+INSERT INTO `sys_role_menu` VALUES (1, 9742);
+INSERT INTO `sys_role_menu` VALUES (1, 9743);
+INSERT INTO `sys_role_menu` VALUES (1, 9744);
+INSERT INTO `sys_role_menu` VALUES (1, 9745);
+INSERT INTO `sys_role_menu` VALUES (1, 9750);
+INSERT INTO `sys_role_menu` VALUES (1, 9751);
+INSERT INTO `sys_role_menu` VALUES (1, 9752);
+INSERT INTO `sys_role_menu` VALUES (1, 9753);
+INSERT INTO `sys_role_menu` VALUES (1, 9754);
+INSERT INTO `sys_role_menu` VALUES (1, 9755);
+INSERT INTO `sys_role_menu` VALUES (1, 9760);
+INSERT INTO `sys_role_menu` VALUES (1, 9770);
+INSERT INTO `sys_role_menu` VALUES (1, 9771);
+INSERT INTO `sys_role_menu` VALUES (1, 9772);
+INSERT INTO `sys_role_menu` VALUES (1, 9773);
+INSERT INTO `sys_role_menu` VALUES (1, 9774);
+INSERT INTO `sys_role_menu` VALUES (1, 9775);
+INSERT INTO `sys_role_menu` VALUES (1, 9776);
+INSERT INTO `sys_role_menu` VALUES (1, 9777);
+INSERT INTO `sys_role_menu` VALUES (1, 9778);
+INSERT INTO `sys_role_menu` VALUES (1, 9779);
+INSERT INTO `sys_role_menu` VALUES (1, 9780);
+INSERT INTO `sys_role_menu` VALUES (1, 9781);
+INSERT INTO `sys_role_menu` VALUES (1, 9782);
+INSERT INTO `sys_role_menu` VALUES (1, 9783);
+INSERT INTO `sys_role_menu` VALUES (1, 9784);
+INSERT INTO `sys_role_menu` VALUES (1, 9785);
+INSERT INTO `sys_role_menu` VALUES (1, 9786);
+INSERT INTO `sys_role_menu` VALUES (1, 9787);
+INSERT INTO `sys_role_menu` VALUES (1, 9788);
+INSERT INTO `sys_role_menu` VALUES (1, 9789);
+INSERT INTO `sys_role_menu` VALUES (1, 9790);
+INSERT INTO `sys_role_menu` VALUES (1, 9791);
+INSERT INTO `sys_role_menu` VALUES (1, 9792);
+INSERT INTO `sys_role_menu` VALUES (1, 9793);
+INSERT INTO `sys_role_menu` VALUES (1, 9794);
+INSERT INTO `sys_role_menu` VALUES (1, 9795);
+INSERT INTO `sys_role_menu` VALUES (1, 9796);
+INSERT INTO `sys_role_menu` VALUES (1, 9797);
+INSERT INTO `sys_role_menu` VALUES (1, 9800);
+INSERT INTO `sys_role_menu` VALUES (1, 9801);
+INSERT INTO `sys_role_menu` VALUES (1, 9802);
+INSERT INTO `sys_role_menu` VALUES (1, 9803);
+INSERT INTO `sys_role_menu` VALUES (1, 9804);
+INSERT INTO `sys_role_menu` VALUES (1, 9805);
+INSERT INTO `sys_role_menu` VALUES (1, 9806);
+INSERT INTO `sys_role_menu` VALUES (1, 9807);
+INSERT INTO `sys_role_menu` VALUES (1, 9808);
+INSERT INTO `sys_role_menu` VALUES (1, 9809);
+INSERT INTO `sys_role_menu` VALUES (1, 9810);
+INSERT INTO `sys_role_menu` VALUES (1, 9811);
+INSERT INTO `sys_role_menu` VALUES (1, 9812);
+INSERT INTO `sys_role_menu` VALUES (1, 9813);
+INSERT INTO `sys_role_menu` VALUES (1, 9814);
+INSERT INTO `sys_role_menu` VALUES (1, 9815);
+INSERT INTO `sys_role_menu` VALUES (1, 9816);
+INSERT INTO `sys_role_menu` VALUES (1, 9817);
+INSERT INTO `sys_role_menu` VALUES (1, 9818);
+INSERT INTO `sys_role_menu` VALUES (1, 9819);
+INSERT INTO `sys_role_menu` VALUES (1, 9820);
+INSERT INTO `sys_role_menu` VALUES (1, 9821);
+INSERT INTO `sys_role_menu` VALUES (1, 9822);
+INSERT INTO `sys_role_menu` VALUES (1, 9823);
+INSERT INTO `sys_role_menu` VALUES (1, 9824);
+INSERT INTO `sys_role_menu` VALUES (1, 9825);
+INSERT INTO `sys_role_menu` VALUES (1, 9826);
+INSERT INTO `sys_role_menu` VALUES (1, 9827);
+INSERT INTO `sys_role_menu` VALUES (1, 9828);
+INSERT INTO `sys_role_menu` VALUES (1, 9829);
+INSERT INTO `sys_role_menu` VALUES (1, 9830);
+INSERT INTO `sys_role_menu` VALUES (1, 9831);
+INSERT INTO `sys_role_menu` VALUES (1, 9832);
+INSERT INTO `sys_role_menu` VALUES (1, 9833);
+INSERT INTO `sys_role_menu` VALUES (1, 9834);
+INSERT INTO `sys_role_menu` VALUES (1, 9835);
+
+INSERT INTO `sys_dict` VALUES (129, 'source_type', '文件来源', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (130, 'slice_status', '切片状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (131, 'summary_status', '总结状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (132, 'llm_use_status', '调用状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (133, 'embed_store_type', '向量库类型', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+
+INSERT INTO `sys_dict_item` VALUES (195, 129, '1', '上传', 'source_type', '上传', 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (196, 129, '2', '录入', 'source_type', '录入', 2, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (197, 129, '3', 'Q&A', 'source_type', 'Q&A', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (198, 129, '4', '网页', 'source_type', 'URL', 4, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (199, 130, '0', '未切片', 'slice_status', '未切片', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (200, 130, '1', '已切片', 'slice_status', '已切片', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (201, 130, '2', '切片中', 'slice_status', '切片中', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (202, 130, '9', '失败', 'slice_status', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (203, 131, '0', '未总结', 'summary_status', '未总结', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (204, 131, '1', '已总结', 'summary_status', '已总结', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (205, 131, '9', '失败', 'summary_status', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (206, 132, '0', '未调用', 'llm_use_status', '未调用', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (207, 132, '1', '已调用', 'llm_use_status', '已调用', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (208, 132, '2', '触发敏感词', 'llm_use_status', '触发敏感词', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (209, 132, '9', '失败', 'llm_use_status', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (210, 133, 'qdrant', 'qdrant', 'embed_store_type', 'qdrant', 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (211, 133, 'chroma', 'chroma', 'embed_store_type', 'chroma', 2, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (212, 133, 'milvus', 'milvus', 'embed_store_type', 'milvus', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (213, 133, 'neo4j', 'neo4j', 'embed_store_type', 'neo4j', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (214, 133, 'pgvector', 'pgvector', 'embed_store_type', 'pgvector', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (215, 130, '3', 'AI解析中', 'slice_status', '解析中', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+
+-- ----------------------------
+-- Table structure for ai_model
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_model`;
+CREATE TABLE `ai_model` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `model_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型: CHAT、Embedding、Image',
+  `model_name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型名称',
+  `provider` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '供应商',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '别名',
+  `response_limit` int DEFAULT NULL COMMENT '响应长度',
+  `temperature` double DEFAULT NULL COMMENT '温度',
+  `top_p` double DEFAULT NULL,
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `base_url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `secret_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `endpoint` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `default_model` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '默认模型',
+  `azure_deployment_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'azure模型参数',
+  `gemini_project` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'gemini模型参数',
+  `gemini_location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'gemini模型参数',
+  `image_size` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片大小',
+  `image_quality` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片质量',
+  `image_style` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片风格',
+  `dimensions` int DEFAULT NULL COMMENT '向量维数',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `ext_data` longtext COLLATE utf8mb4_bin COMMENT '扩展字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='模型配置表';
+
+
+DROP TABLE IF EXISTS `ai_bill`;
+CREATE TABLE `ai_bill` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
+  `message_key` bigint DEFAULT NULL COMMENT 'message key',
+  `prompt_tokens` bigint DEFAULT NULL COMMENT '提示令牌数量',
+  `completion_tokens` bigint DEFAULT NULL COMMENT '补全令牌数量',
+  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型名称',
+  `reqid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求ID',
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'IP地址',
+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+  `token_id` bigint DEFAULT NULL COMMENT '令牌ID',
+  `tokens` bigint DEFAULT NULL COMMENT '令牌数量',
+  `token_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '令牌类型 0 系统  1 用户',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='账单';
+
+-- ----------------------------
+-- Table structure for ai_chat_record
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_chat_record`;
+CREATE TABLE `ai_chat_record` (
+  `record_id` bigint NOT NULL COMMENT '主键',
+  `username` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户标识',
+  `model_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型名称',
+  `question_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '问题',
+  `answer_text` text COLLATE utf8mb4_general_ci COMMENT '答案',
+  `dataset_id` bigint DEFAULT NULL COMMENT '所属知识库',
+  `document_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联文档IDs',
+  `suitability` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '匹配度',
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '客户端IP',
+  `user_agent` text COLLATE utf8mb4_general_ci COMMENT '浏览器标识',
+  `conversation_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '会话ID',
+  `websearch_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '网络搜索',
+  `standard_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标注',
+  `qdrant_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '向量ID',
+  `inner_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内部调用',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '删除标记',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `llm_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '大模型交互结果',
+  `ext_details` text COLLATE utf8mb4_general_ci COMMENT '详细信息',
+  PRIMARY KEY (`record_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='聊天记录';
+
+-- ----------------------------
+-- Table structure for ai_dataset
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_dataset`;
+CREATE TABLE `ai_dataset` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '头像',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+  `collection_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '集合名称',
+  `store_id` bigint DEFAULT NULL COMMENT '存储ID',
+  `units` bigint DEFAULT NULL COMMENT '知识数量',
+  `file_size` bigint DEFAULT NULL COMMENT '大小',
+  `multi_round` int DEFAULT NULL COMMENT '多轮会话',
+  `top_k` int DEFAULT NULL COMMENT '匹配条数',
+  `score` int DEFAULT NULL COMMENT '匹配率',
+  `sort_order` int DEFAULT NULL COMMENT '排序值',
+  `fragment_size` int DEFAULT NULL COMMENT '切片数量',
+  `empty_llm_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '空查询',
+  `empty_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '未匹配提示',
+  `sensitive_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '敏感词汇',
+  `sensitive_msg` text COLLATE utf8mb4_bin COMMENT '敏感词命中消息',
+  `welcome_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '欢迎语',
+  `public_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否对外',
+  `public_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '访问密码',
+  `embedding_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '嵌入模型',
+  `summary_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '摘要模型',
+  `reranker_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '排序模型',
+  `pre_summary` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '预总结',
+  `pre_compress` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '预压缩',
+  `ai_ocr_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否使用AI OCR',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `footer` text COLLATE utf8mb4_bin COMMENT '底部信息',
+  `standard_flag` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标记数据',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识库';
+
+DROP TABLE IF EXISTS `ai_embed_store`;
+CREATE TABLE `ai_embed_store` (
+  `store_id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名称',
+  `store_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类型',
+  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '链接端点',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Host',
+  `port` int DEFAULT NULL COMMENT '端口',
+  `use_tls` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否使用安全模式',
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密钥',
+  `ext_data` longtext COLLATE utf8mb4_general_ci COMMENT '扩展参数',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='向量库配置';
+-- ----------------------------
+-- Table structure for ai_document
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_document`;
+CREATE TABLE `ai_document` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `dataset_id` bigint DEFAULT NULL COMMENT '知识库ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件类型',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件链接',
+  `file_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MD5hash',
+  `source_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件来源',
+  `slice_count` bigint DEFAULT NULL COMMENT '切片数量',
+  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
+  `file_size` bigint DEFAULT NULL COMMENT '文件大小',
+  `file_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+  `slice_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+  `graph_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图状态',
+  `slice_fail_reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要失败原因',
+  `summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要',
+  `summary_fail_reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要失败原因',
+  `summary_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '总结状态',
+  `document_config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文档配置元信息',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识文档';
+
+-- ----------------------------
+-- Table structure for ai_prompt
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_prompt`;
+CREATE TABLE `ai_prompt` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `act` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标题',
+  `prompt` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '提示词',
+  `prompt_sort` bigint DEFAULT NULL COMMENT '列表排序',
+  `prompt_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+  `user_id` bigint DEFAULT NULL COMMENT '所属人',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='提示词';
+
+-- ----------------------------
+-- Table structure for ai_slice
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_slice`;
+CREATE TABLE `ai_slice` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `document_id` bigint DEFAULT NULL COMMENT '文档ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `units` bigint DEFAULT NULL COMMENT '知识数量',
+  `file_size` bigint DEFAULT NULL COMMENT '大小',
+  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
+  `char_count` bigint DEFAULT NULL COMMENT '字符数量',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '内容',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `slice_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '训练状态',
+  `qdrant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '向量ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识切片';
+
+DROP TABLE IF EXISTS `ai_ocr_conf`;
+CREATE TABLE `ai_ocr_conf` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `ocr_title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+  `ocr_prompt` longtext COLLATE utf8mb4_general_ci COMMENT '描述提示词',
+  `image_resource` longtext COLLATE utf8mb4_general_ci COMMENT '资源base64',
+  `ocr_marked` longtext COLLATE utf8mb4_general_ci COMMENT '标注结果',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_by` datetime DEFAULT NULL,
+  `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI OCR';
+
+DROP TABLE IF EXISTS `ai_flow`;
+CREATE TABLE `ai_flow` (
+  `id` bigint NOT NULL COMMENT '流程主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程描述',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程类型',
+  `dsl` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '流程设计DSL',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程图标',
+  `api_enabled` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否启用api',
+  `enabled` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '其否启用',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '状态',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否已删除',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '最终结果',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='大模型流程表';
+
+-- ----------------------------
+-- Table structure for ai_flow_log
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_flow_log`;
+CREATE TABLE `ai_flow_log` (
+  `id` bigint NOT NULL COMMENT '流程日志主键',
+  `flow_id` bigint NOT NULL COMMENT '流程主键',
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程类型',
+  `input_params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '输入参数',
+  `output_params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '输出参数',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '最终结果',
+  `executed` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '执行状态',
+  `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '错误信息',
+  `run_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '运行时间',
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api key',
+  `total_tokens` bigint DEFAULT NULL COMMENT 'api tokens',
+  `create_user` bigint DEFAULT NULL COMMENT '创建人',
+  `create_dept` bigint DEFAULT NULL COMMENT '创建部门',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` int DEFAULT '1' COMMENT '状态',
+  `is_deleted` int DEFAULT '0' COMMENT '是否已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='大模型流程日志表';
+
+
+DROP TABLE IF EXISTS `ai_data`;
+CREATE TABLE `ai_data` (
+  `data_id` bigint NOT NULL COMMENT '主键ID',
+  `dataset_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '数据集名称',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '数据集描述',
+  `dataset_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据集类型 (1-明细表, 2-多指标周期表, 3-键值对表, 4-其他)',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `table_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '关联数据表',
+  `learning_status` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '学习状态（0-未学习, 1-已学习）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`data_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 数据集管理表';
+
+-- ----------------------------
+-- Table structure for ai_data_field
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_data_field`;
+CREATE TABLE `ai_data_field` (
+  `field_id` bigint NOT NULL COMMENT '主键ID',
+  `table_id` bigint NOT NULL COMMENT '关联数据表',
+  `field_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字段名称',
+  `field_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '字段备注',
+  `virtual_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '虚拟注释',
+  `field_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字段类型',
+  `db_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据库类型',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `modify_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '修正状态 ',
+  `modify_time` datetime DEFAULT NULL COMMENT '修正时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`field_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 字段管理表';
+
+-- ----------------------------
+-- Table structure for ai_data_tablec
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_data_table`;
+CREATE TABLE `ai_data_table` (
+  `table_id` bigint NOT NULL COMMENT '主键ID',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `ds_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源类型',
+  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
+  `table_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '物理表注释',
+  `virtual_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '虚拟表注释',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`table_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI  数据表管理表';
+
+-- ----------------------------
+-- Table structure for ai_mcp_config
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_mcp_config`;
+CREATE TABLE `ai_mcp_config` (
+  `mcp_id` bigint NOT NULL COMMENT '主键ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务器名称',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '描述',
+  `mcp_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型 (SSE: Server-Sent Events, STDIO: Standard Input/Output)',
+  `command` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '命令',
+  `sse_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'SSE URL',
+  `parameters` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '参数',
+  `environment_variables` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '环境变量',
+  `mcp_enabled` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否启用（1：启用，0：禁用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`mcp_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP配置表';
+
+DROP TABLE IF EXISTS `ai_poster`;
+CREATE TABLE `ai_poster` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `template_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
+  `template_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板代码',
+  `template_css` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '模板CSS',
+  `template_style` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '模板风格',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI海报模板表';
+
+-- ----------------------------
+-- Records of ai_poster
+-- ----------------------------
+BEGIN;
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1, '红色党政风', '<div class=\"container\">\n      <div class=\"emblem-decor\"></div>\n      <div class=\"date\">二〇二五年七月一日</div>\n      <h1 class=\"title\">新时代为民服务</h1>\n      <p class=\"subtitle\">践行初心使命 提升服务效能</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          全心全意为人民服务是我们一切工作的根本宗旨，要始终把人民放在心中最高位置。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>深化简政放权，推进\"最多跑一次\"改革</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>完善基层服务体系，打通服务群众\"最后一公里\"</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>强化数字赋能，建设智慧服务平台</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>健全监督机制，确保权力在阳光下运行</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://obj.lemonc.cc/files/2025/04/09/145324.png\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫码进入便民服务直通车</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>重要通知：</strong> 本年度将全面推进服务型建设，欢迎广大群众监督并提出宝贵意见建议，共同推动服务工作提质增效。\n      </div>\n  </div>', '<style>\n      /* 党政风格 */\n      .container {\n          font-family: \'SimSun\', \'Noto Serif SC\', serif;\n          --party-bg: #fff9f9;\n          --party-text: #4a4a4a;\n          --party-accent: #c12c2c;\n          --party-secondary: #f0e6e6;\n          --party-pale: #fdf0f0;\n          --party-gray: #8c8c8c;\n          background-color: var(--party-bg);\n          color: var(--party-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.8;\n          border: 1px solid var(--party-secondary);\n          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);\n      }\n\n      .container .emblem-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          background-color: var(--party-accent);\n          border-radius: 50%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          color: white;\n          font-weight: bold;\n          font-size: 14px;\n          text-align: center;\n          line-height: 1.2;\n      }\n\n      .container .emblem-decor::before {\n          content: \"为民\\A服务\";\n          white-space: pre;\n      }\n\n      .container .date {\n          font-size: 16px;\n          font-weight: 400;\n          color: var(--party-accent);\n          margin-bottom: 30px;\n          text-align: center;\n          letter-spacing: 5px;\n      }\n\n      .container .title {\n          font-size: 36px;\n          font-weight: 700;\n          margin-bottom: 16px;\n          color: var(--party-accent);\n          text-align: center;\n          letter-spacing: 10px;\n          text-shadow: 1px 1px 2px rgba(0,0,0,0.1);\n      }\n\n      .container .subtitle {\n          font-size: 20px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--party-accent);\n          text-align: center;\n          letter-spacing: 2px;\n      }\n\n      .container .divider {\n          height: 3px;\n          width: 120px;\n          background: linear-gradient(90deg, transparent, var(--party-accent), transparent);\n          margin: 30px auto;\n          position: relative;\n      }\n\n      .container .divider::before,\n      .container .divider::after {\n          content: \"★\";\n          position: absolute;\n          top: -12px;\n          color: var(--party-accent);\n          font-size: 16px;\n      }\n\n      .container .divider::before {\n          left: -20px;\n      }\n\n      .container .divider::after {\n          right: -20px;\n      }\n\n      .container .quote {\n          font-size: 20px;\n          line-height: 1.8;\n          padding: 25px 30px;\n          margin: 30px 0;\n          background-color: var(--party-pale);\n          border: 1px solid var(--party-secondary);\n          color: var(--party-accent);\n          text-align: center;\n          font-weight: 500;\n      }\n\n      .container .points {\n          margin: 40px 0;\n          padding: 0 20px;\n      }\n\n      .container .point {\n          margin-bottom: 28px;\n          display: flex;\n          align-items: center;\n      }\n\n      .container .point-number {\n          min-width: 36px;\n          height: 36px;\n          border-radius: 50%;\n          background-color: var(--party-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 16px;\n          margin-right: 20px;\n          font-weight: bold;\n      }\n\n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          background-color: var(--party-pale);\n          padding: 25px;\n          border: 1px dashed var(--party-accent);\n          flex-direction: column;\n          text-align: center;\n      }\n\n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-bottom: 15px;\n          border: 1px solid var(--party-accent);\n          padding: 5px;\n      }\n\n      .container .qr-text {\n          font-size: 18px;\n          color: var(--party-accent);\n          font-weight: 500;\n      }\n\n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 16px;\n          padding: 20px;\n          background-color: var(--party-secondary);\n          color: var(--party-text);\n          border-left: 5px solid var(--party-accent);\n          line-height: 1.6;\n      }\n  </style>', '采用党政风格设计，体现庄重典雅与为民服务的特质。使用浅红色背景，配以党政标准色调如正红、米白和浅灰。排版应规整大气，使用传统中文排版元素，与普通政务风格相比更具文化底蕴。字体选择宋体或仿宋等衬线字体，字重适中确保正式感。装饰元素应体现传统文化特色，使用五角星、红色圆形徽章等元素。内容区块采用对称布局，参考党政刊物和红色宣传品的版式设计。整体设计应呈现出庄重、温暖且富有文化底蕴的特质，平衡权威性与亲和力，体现\"以人民为中心\"的服务理念。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (2, '淡雅政务风', '<div class=\"container\">\n      <div class=\"badge-decor\"></div>\n      <div class=\"date\">2025年5月15日</div>\n      <h1 class=\"title\">政务服务优化</h1>\n      <p class=\"subtitle\">推动便民利企服务高质量发展</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          坚持以人民为中心的发展思想，持续深化\"放管服\"改革，打造高效、透明、便民的政务服务体系。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">一</span>\n              <span>推进\"一网通办\"，实现政务服务事项全程网上办理</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">二</span>\n              <span>优化审批流程，压缩办理时限，提升服务效率</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">三</span>\n              <span>加强政务公开，保障群众知情权、参与权、监督权</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">四</span>\n              <span>完善投诉反馈机制，及时解决群众反映的问题</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://obj.lemonc.cc/files/2025/04/09/145324.png\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，进入政务服务网上大厅</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>政务公告：</strong> 本年度将继续推进政务服务标准化规范化便利化建设，欢迎广大市民群众监督并提出宝贵意见。\n      </div>\n  </div>', '<style>\n      /* 政务风格 */\n      .container {\n          font-family: \'Microsoft YaHei\', \'Noto Sans SC\', sans-serif;\n          --gov-bg: #f5f7fa;\n          --gov-text: #333333;\n          --gov-accent: #1a56a7;\n          --gov-secondary: #d9e3f2;\n          --gov-pale: #e8edf5;\n          --gov-gray: #666666;\n          background-color: var(--gov-bg);\n          color: var(--gov-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.6;\n          border: 1px solid var(--gov-secondary);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n      }\n\n      .container .badge-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          background-color: var(--gov-accent);\n          border-radius: 50%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          color: white;\n          font-weight: bold;\n          font-size: 12px;\n          text-align: center;\n          line-height: 1.2;\n      }\n\n      .container .badge-decor::before {\n          content: \"政务\\A服务\";\n          white-space: pre;\n      }\n\n      .container .date {\n          font-size: 14px;\n          font-weight: 400;\n          color: var(--gov-gray);\n          margin-bottom: 30px;\n      }\n\n      .container .title {\n          font-size: 32px;\n          font-weight: 600;\n          margin-bottom: 16px;\n          color: var(--gov-accent);\n          text-align: center;\n      }\n\n      .container .subtitle {\n          font-size: 18px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--gov-gray);\n          text-align: center;\n      }\n\n      .container .divider {\n          height: 3px;\n          width: 100px;\n          background-color: var(--gov-accent);\n          margin: 30px auto;\n          position: relative;\n      }\n\n      .container .divider::before,\n      .container .divider::after {\n          content: \"\";\n          position: absolute;\n          top: -3px;\n          width: 6px;\n          height: 9px;\n          background-color: var(--gov-accent);\n      }\n\n      .container .divider::before {\n          left: -10px;\n      }\n\n      .container .divider::after {\n          right: -10px;\n      }\n\n      .container .quote {\n          font-size: 18px;\n          line-height: 1.8;\n          padding: 25px;\n          margin: 30px 0;\n          background-color: var(--gov-pale);\n          border-left: 4px solid var(--gov-accent);\n          color: var(--gov-text);\n      }\n\n      .container .points {\n          margin: 40px 0;\n      }\n\n      .container .point {\n          margin-bottom: 24px;\n          display: flex;\n          align-items: flex-start;\n      }\n\n      .container .point-number {\n          min-width: 30px;\n          height: 30px;\n          border-radius: 50%;\n          background-color: var(--gov-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 16px;\n          margin-right: 15px;\n          font-weight: bold;\n      }\n\n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: var(--gov-pale);\n          padding: 20px;\n          border: 1px solid var(--gov-secondary);\n      }\n\n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n      }\n\n      .container .qr-text {\n          font-size: 16px;\n          color: var(--gov-gray);\n      }\n\n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: var(--gov-secondary);\n          color: var(--gov-text);\n          border-left: 4px solid var(--gov-accent);\n      }\n  </style>', '采用政务风格设计，体现政府文件的权威性与亲民服务的平衡。使用浅灰背景，配以政务标准色调如深蓝、浅灰和米白。排版应规整有序，使用大量留白保持清晰可读性，但与公文不同，应加入适度亲和元素。字体选择标准无衬线字体如微软雅黑或思源黑体，字重适中确保易读性。装饰元素应精简但体现正式感，可使用传统政务元素如徽章、双分隔线和编号圆点。内容区块采用清晰分隔，参考政府公报和政务公开栏目的版式设计。整体设计应呈现出庄重、清晰且亲民的政务特质，平衡权威性与服务性，参考国务院公报和省级政府门户网站的视觉规范。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (3, '新表现主义风格', '<div class=\"container\">\n      <div class=\"content\">\n          <div class=\"date\">2025年03月28日</div>\n          <h1 class=\"title\">黑胶复兴</h1>\n          <p class=\"subtitle\">模拟声音的回归，旧时代技术在数字世界中的意外胜利</p>\n          \n          <div class=\"quote-container\">\n              <blockquote class=\"quote\">\n                  在完美无瑕的数字音频中，我们失去了音乐的灵魂；而在黑胶唱片的噼啪声中，我们重新找到了它。\n              </blockquote>\n          </div>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <span class=\"point-number\">1</span>\n                  <div class=\"point-text\">触觉体验：黑胶唱片提供了一种物理仪式感，从挑选唱片到放上唱盘的每一步都是体验的一部分</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">2</span>\n                  <div class=\"point-text\">温暖声学：模拟录制的非线性特性创造出数字完美主义无法复制的声音质感</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">3</span>\n                  <div class=\"point-text\">艺术载体：12英寸唱片封面成为视觉艺术的重要媒介，许多经典专辑因其封面设计而被铭记</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">4</span>\n                  <div class=\"point-text\">慢听革命：黑胶体验鼓励人们完整聆听一张专辑，抵抗流媒体时代的碎片化消费</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫码探索珍稀黑胶唱片收藏</div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <strong>编辑笔记：</strong>黑胶唱片的复兴超越了单纯的怀旧，它代表了人们对实体音乐体验的渴望与反抗。在数字极简主义主导的今天，这种\"不完美\"的媒介正在成为艺术真实性的象征。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新表现主义风格 */\n      .container {\n          font-family: \'Comic Sans MS\', \'Noto Sans SC\', cursive, sans-serif;\n          --neo-exp-bg: #f8f4e0;\n          --neo-exp-primary: #d62828;\n          --neo-exp-secondary: #003049;\n          --neo-exp-accent: #fcbf49;\n          --neo-exp-text: #252422;\n          background-color: var(--neo-exp-bg);\n          color: var(--neo-exp-text);\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: -10%;\n          right: -10%;\n          width: 60%;\n          height: 70%;\n          background-color: var(--neo-exp-accent);\n          opacity: 0.4;\n          transform: rotate(15deg);\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          bottom: -5%;\n          left: -5%;\n          width: 35%;\n          height: 45%;\n          background-color: var(--neo-exp-primary);\n          opacity: 0.3;\n          transform: rotate(-10deg);\n          z-index: 0;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .date {\n          font-family: \'Courier New\', monospace;\n          font-weight: bold;\n          font-size: 16px;\n          margin-bottom: 20px;\n          transform: rotate(-2deg);\n          display: inline-block;\n          padding: 5px 15px;\n          background-color: var(--neo-exp-secondary);\n          color: var(--neo-exp-bg);\n      }\n      \n      .container .title {\n          font-size: 68px;\n          line-height: 0.9;\n          font-weight: 900;\n          margin-bottom: 25px;\n          color: var(--neo-exp-primary);\n          transform: skew(-5deg);\n          text-shadow: 3px 3px 0 var(--neo-exp-secondary);\n          letter-spacing: -2px;\n      }\n      \n      .container .subtitle {\n          font-size: 22px;\n          font-weight: 600;\n          line-height: 1.2;\n          margin-bottom: 30px;\n          padding-left: 20px;\n          border-left: 8px solid var(--neo-exp-accent);\n          position: relative;\n          z-index: 2;\n      }\n      \n      .container .quote-container {\n          margin: 40px 0;\n          position: relative;\n      }\n      \n      .container .quote {\n          font-size: 26px;\n          line-height: 1.3;\n          font-weight: 700;\n          font-style: italic;\n          padding: 20px;\n          background-color: rgba(252, 191, 73, 0.2);\n          border: 2px solid var(--neo-exp-primary);\n          transform: rotate(1deg);\n      }\n      \n      .container .quote::before {\n          content: \'\"\';\n          font-size: 80px;\n          position: absolute;\n          left: -15px;\n          top: -20px;\n          color: var(--neo-exp-primary);\n          opacity: 0.6;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding: 10px;\n          background-color: rgba(255, 255, 255, 0.6);\n          border: 1px solid var(--neo-exp-text);\n          position: relative;\n          transform: rotate(-1deg);\n      }\n      \n      .container .point:nth-child(even) {\n          transform: rotate(1deg);\n          background-color: rgba(214, 40, 40, 0.1);\n      }\n      \n      .container .point-text {\n          font-size: 18px;\n          line-height: 1.5;\n          position: relative;\n          z-index: 1;\n          padding-left: 40px;\n      }\n      \n      .container .point-number {\n          position: absolute;\n          left: 5px;\n          top: 50%;\n          transform: translateY(-50%);\n          font-size: 28px;\n          font-weight: 900;\n          color: var(--neo-exp-primary);\n      }\n      \n      .container .qr-section {\n          margin-top: 30px;\n          display: flex;\n          align-items: center;\n          justify-content: space-between;\n          padding: 15px;\n          background-color: rgba(0, 48, 73, 0.1);\n          transform: rotate(-1deg);\n          border: 3px solid var(--neo-exp-secondary);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          border: 5px solid var(--neo-exp-primary);\n          transform: rotate(3deg);\n      }\n      \n      .container .qr-text {\n          width: 60%;\n          font-size: 16px;\n          font-weight: bold;\n          line-height: 1.4;\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          padding: 15px;\n          background-color: var(--neo-exp-bg);\n          border: 2px dashed var(--neo-exp-secondary);\n          font-style: italic;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .editor-note::before {\n          content: \"✶✶✶\";\n          position: absolute;\n          top: -15px;\n          left: 20px;\n          background-color: var(--neo-exp-bg);\n          padding: 0 10px;\n          color: var(--neo-exp-primary);\n          font-weight: bold;\n      }\n  </style>', '采用新表现主义风格设计，体现80年代艺术运动的原始能量和情感表达。色彩应强烈且不协调，使用原始、未经调和的色彩组合，可包含泼溅和涂抹效果。排版应富有表现力且不规则，使用手写或笔刷字体，文字可被部分遮挡或融入背景。线条必须粗犷且富有动感，展现明显的笔触和手工感。图像应被重新诠释，可添加涂鸦、划痕或重绘效果。装饰元素应看似随意但富有象征性，如原始符号、面具图案或抽象人物。整体设计应呈现出强烈的情感张力和原始能量，仿佛一幅由情感驱动的表现主义画作，参考Jean-Michel Basquiat和Georg Baselitz的作品风格。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (4, '波普艺术风格', '<div class=\"container\">\n      <div class=\"halftone-bg\"></div>\n      <div class=\"star\"></div>\n      <div class=\"star\"></div>\n      <div class=\"content\">\n          <div class=\"date\">2025年6月15日</div>\n          <div class=\"title-container\">\n              <div class=\"boom\">VIRAL!</div>\n              <h1 class=\"title\">网红经济</h1>\n              <div class=\"title-bg\">网红经济</div>\n          </div>\n          <p class=\"subtitle\">社交媒体如何彻底改变了我们的消费方式、审美标准与名人文化</p>\n          <div class=\"quote-bubble\">\n              <p class=\"quote\">\"在这个时代，每个人都有15分钟的成名机会，但网红们用算法延长了这个时间到无限！\"</p>\n          </div>\n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-number\">1</div>\n                  <div class=\"point-content\">信任营销：相比传统广告，76%的消费者更相信真实人物的产品推荐</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">2</div>\n                  <div class=\"point-content\">微网红崛起：专注小众领域的内容创作者正获得比大网红更高的互动率</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">3</div>\n                  <div class=\"point-content\">真实性危机：完美人设背后，创作者身份与现实生活的严重割裂导致心理健康问题</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">4</div>\n                  <div class=\"point-content\">算法控制：平台推荐机制决定了谁能出名，创作者如何迎合算法成为成功关键</div>\n              </div>\n          </div>\n          <div class=\"qr-section\">\n              <div class=\"qr-container\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              </div>\n              <div class=\"qr-text\">扫码关注我们的爆款网红推荐</div>\n          </div>\n          <div class=\"editor-note\">\n              网红经济不仅创造了全新的职业，更重塑了整个市场营销生态。当每个人都能成为媒体时，影响力成为新的货币，而真实性则成为最稀缺的资源。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 波普艺术风格 */\n      @import url(\'https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;700&display=swap\');\n      \n      .container {\n          font-family: \'Poppins\', sans-serif;\n          --pop-red: #ff214f;\n          --pop-yellow: #ffde03;\n          --pop-blue: #0066ff;\n          --pop-bg: #ffffff;\n          --pop-black: #000000;\n          background-color: var(--pop-bg);\n          color: var(--pop-black);\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          border: 10px solid var(--pop-black);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-image: radial-gradient(var(--pop-black) 1px, transparent 1px);\n          background-size: 10px 10px;\n          opacity: 0.05;\n          z-index: 0;\n          pointer-events: none;\n      }\n      \n      .container .halftone-bg {\n          position: absolute;\n          top: -50px;\n          right: -50px;\n          width: 200px;\n          height: 200px;\n          background-color: var(--pop-yellow);\n          border-radius: 50%;\n          z-index: 0;\n      }\n      \n      .container .halftone-bg::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-image: radial-gradient(var(--pop-black) 2px, transparent 2px);\n          background-size: 8px 8px;\n          border-radius: 50%;\n          opacity: 0.2;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .date {\n          font-family: \'Bangers\', cursive;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          display: inline-block;\n          padding: 5px 15px;\n          font-size: 18px;\n          transform: rotate(-3deg);\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n          margin-bottom: 30px;\n          letter-spacing: 1px;\n      }\n      \n      .container .date::after {\n          content: \"!\";\n          font-size: 24px;\n          position: absolute;\n          top: -5px;\n          right: 5px;\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 30px;\n      }\n      \n      .container .title {\n          font-family: \'Bangers\', cursive;\n          font-size: 60px;\n          line-height: 1;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          color: var(--pop-black);\n          -webkit-text-stroke: 2px var(--pop-black);\n          text-shadow: 4px 4px 0 var(--pop-blue);\n          margin: 0;\n          transform: rotate(-2deg);\n      }\n      \n      .container .title-bg {\n          position: absolute;\n          top: 5px;\n          left: 5px;\n          font-family: \'Bangers\', cursive;\n          font-size: 60px;\n          line-height: 1;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          color: var(--pop-yellow);\n          -webkit-text-stroke: 2px var(--pop-black);\n          z-index: -1;\n      }\n      \n      .container .boom {\n          position: absolute;\n          top: -30px;\n          right: 0;\n          background-color: var(--pop-yellow);\n          color: var(--pop-black);\n          font-family: \'Bangers\', cursive;\n          font-size: 24px;\n          padding: 10px 20px;\n          transform: rotate(15deg);\n          border: 3px solid var(--pop-black);\n          border-radius: 50%;\n          box-shadow: 3px 3px 0 var(--pop-black);\n      }\n      \n      .container .boom::before {\n          content: \"\";\n          position: absolute;\n          top: 100%;\n          left: 20px;\n          border-width: 10px;\n          border-style: solid;\n          border-color: var(--pop-black) transparent transparent var(--pop-black);\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 700;\n          background-color: var(--pop-blue);\n          color: var(--pop-bg);\n          padding: 10px 15px;\n          margin-bottom: 30px;\n          box-shadow: 5px 5px 0 var(--pop-black);\n          line-height: 1.4;\n      }\n      \n      .container .quote-bubble {\n          position: relative;\n          background-color: var(--pop-bg);\n          border: 3px solid var(--pop-black);\n          border-radius: 30px;\n          padding: 20px;\n          margin: 30px 0;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .quote-bubble::after {\n          content: \"\";\n          position: absolute;\n          bottom: -20px;\n          left: 30px;\n          width: 30px;\n          height: 30px;\n          background-color: var(--pop-bg);\n          border-right: 3px solid var(--pop-black);\n          border-bottom: 3px solid var(--pop-black);\n          transform: rotate(45deg);\n          clip-path: polygon(0 0, 100% 100%, 0 100%);\n      }\n      \n      .container .quote {\n          font-family: \'Bangers\', cursive;\n          font-size: 22px;\n          line-height: 1.3;\n          letter-spacing: 1px;\n      }\n      \n      .container .points {\n          display: grid;\n          grid-template-columns: 1fr 1fr;\n          gap: 20px;\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          background-color: var(--pop-yellow);\n          border: 3px solid var(--pop-black);\n          padding: 15px;\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .point:nth-child(even) {\n          background-color: var(--pop-blue);\n          color: var(--pop-bg);\n      }\n      \n      .container .point-number {\n          position: absolute;\n          top: -20px;\n          left: -10px;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          font-family: \'Bangers\', cursive;\n          font-size: 24px;\n          width: 36px;\n          height: 36px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          border: 3px solid var(--pop-black);\n          border-radius: 50%;\n          z-index: 2;\n      }\n      \n      .container .point-content {\n          font-weight: 700;\n          line-height: 1.4;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          background-color: var(--pop-red);\n          padding: 20px;\n          border: 3px solid var(--pop-black);\n          display: flex;\n          align-items: center;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .qr-container {\n          position: relative;\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          background-color: var(--pop-bg);\n          border: 3px solid var(--pop-black);\n      }\n      \n      .container .qr-code {\n          width: 90px;\n          height: 90px;\n          margin-right: 20px;\n          border: 1px solid var(--tech-accent);\n          padding: 5px;\n          position: relative;\n          animation: pulse 2s infinite;\n      }\n      \n      .container .qr-text {\n          font-family: \'Bangers\', cursive;\n          font-size: 20px;\n          color: var(--pop-bg);\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          background-color: var(--pop-yellow);\n          border: 3px solid var(--pop-black);\n          padding: 15px;\n          font-weight: 700;\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .editor-note::before {\n          content: \"EDITOR\'S NOTE!\";\n          position: absolute;\n          top: -15px;\n          left: 20px;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          font-family: \'Bangers\', cursive;\n          font-size: 14px;\n          padding: 3px 10px;\n          border: 2px solid var(--pop-black);\n      }\n      \n      .container .star {\n          position: absolute;\n          width: 40px;\n          height: 40px;\n          background-color: var(--pop-red);\n          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);\n          z-index: 0;\n      }\n      \n      .container .star:nth-child(1) {\n          top: 20%;\n          left: 10%;\n          transform: rotate(15deg);\n          background-color: var(--pop-blue);\n      }\n      \n      .container .star:nth-child(2) {\n          top: 70%;\n          right: 15%;\n          transform: rotate(-10deg);\n      }\n  </style>', '采用波普艺术风格设计，重现60年代艺术运动的大胆美学。必须使用亮丽原色（红、黄、蓝）和黑色轮廓线，色彩应平面且不含渐变。排版应大胆且戏剧化，使用漫画风格字体和夸张的感叹词，文字可放置在对话气泡中。图像处理是关键，应使用半调网点(Halftone)效果模拟印刷，将图像简化为点阵和色块。装饰元素应包含漫画风格的线条、爆炸形状和拟声词。可使用重复图案和网格排列增强视觉冲击。整体设计应呈现出鲜明、直接且充满流行文化引用的视觉效果，仿佛一页来自60年代漫画或安迪·沃霍尔的艺术作品，参考Roy Lichtenstein的绘画和经典漫画书的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (5, '极简主义风格', '<div class=\"container\">\n      <div class=\"date\">2025.05.18</div>\n      <h1 class=\"title\">摄影的艺术</h1>\n      <p class=\"subtitle\">光影与构图的永恒魅力</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"摄影不仅是捕捉瞬间，而是创造永恒。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>摄影是光影的艺术，掌握光线是创作好照片的关键</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>构图是视觉语言，通过空间关系传达情感与故事</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>数码技术改变了摄影工具，但不改变摄影的本质</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>真正的摄影眼光将在视觉饱和的时代成为宝贵能力</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n         <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，获取更多摄影技巧</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 在图像泛滥的数字时代，摄影的形式在变，但作为记录与表达的方式，其艺术本质不变。\n      </div>\n  </div>', '<style>\n      /* 极简主义风格 */\n      .container {\n          font-family: \'Helvetica Neue\', \'Noto Sans\', sans-serif;\n          --container-bg: #f8f8f8;\n          --container-text: #222222;\n          --container-accent: #333333;\n          --container-border: #e0e0e0;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.5;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 1px;\n          color: #888888;\n          margin-bottom: 30px;\n      }\n      \n      .container .title {\n          font-size: 32px;\n          font-weight: 300;\n          margin-bottom: 16px;\n          letter-spacing: -0.5px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: #555555;\n      }\n      \n      .container .divider {\n          height: 1px;\n          width: 40px;\n          background-color: var(--container-border);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          font-weight: 300;\n          padding: 20px 0;\n          border-left: none;\n          border-top: 1px solid var(--container-border);\n          border-bottom: 1px solid var(--container-border);\n          margin: 30px 0;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: #888888;\n          font-size: 14px;\n          font-weight: 400;\n          margin-right: 15px;\n          min-width: 20px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n          border: none;\n      }\n      \n      .container .qr-text {\n          font-size: 12px;\n          color: #888888;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 13px;\n          color: #555555;\n          padding: 20px 0;\n          border-top: 1px solid var(--container-border);\n      }\n  </style>', '采用极简主义风格设计，遵循\"少即是多\"的理念。使用大量留白创造呼吸空间，仅保留最必要的元素。配色方案限制在2-3种中性色，主要为白色背景配以黑色或深灰色文字。排版应精确到像素级别，使用精心设计的网格系统和黄金比例。字体选择无衬线字体如Helvetica或Noto Sans，字重变化作为主要层次手段。装饰元素几乎为零，仅使用极细的分隔线和微妙的阴影。整体设计应呈现出克制、优雅且永恒的美学，让内容本身成为焦点。参考Dieter Rams的设计原则和日本无印良品(MUJI)的产品美学。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (6, '优雅复古\n', '<div class=\"container\">\n      <div class=\"border\"></div>\n      <div class=\"corner corner-tl\"></div>\n      <div class=\"corner corner-tr\"></div>\n      <div class=\"corner corner-bl\"></div>\n      <div class=\"corner corner-br\"></div>\n      <div class=\"date\">Le 15 Avril, 2025</div>\n      <h1 class=\"title\">古典音乐的复兴</h1>\n      <p class=\"subtitle\">在数字时代，巴赫、莫扎特与贝多芬的永恒旋律重获新生</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          古典音乐不是过去的遗物，而是人类灵魂深处永恒的共鸣，跨越时空与文化的界限。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>古典音乐与现代聆听：流媒体平台革命性地改变了年轻一代接触古典音乐的方式</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>数字化保存：高保真技术让历史录音重获新生，填补音乐史的空白</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>跨界融合：古典元素在电影、游戏与流行音乐中的创新应用</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>音乐教育的变革：虚拟现实和交互式应用为古典音乐普及带来新机遇</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，聆听精选古典音乐集</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 在这个快节奏的数字时代，古典音乐以其深度与复杂性，为我们提供了一种珍贵的沉浸式体验，让我们能够暂时脱离浮躁，回归内心的宁静。\n      </div>\n  </div>', '<style>\n      /* 优雅复古风格 */\n      .container {\n          font-family: \'Noto Serif SC\', \'Baskerville\', serif;\n          --container-bg: #f8f3e6;\n          --container-text: #3a2a1d;\n          --container-accent: #8b4513;\n          --container-secondary: #a52a2a;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          padding: 40px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: url(\"data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23a18f7d\' fill-opacity=\'0.05\' fill-rule=\'evenodd\'/%3E%3C/svg%3E\");\n          opacity: 0.5;\n          pointer-events: none;\n      }\n      \n      .container .border {\n          position: absolute;\n          top: 15px;\n          left: 15px;\n          right: 15px;\n          bottom: 15px;\n          border: 1px solid rgba(139, 69, 19, 0.3);\n          pointer-events: none;\n      }\n      \n      .container .corner {\n          position: absolute;\n          width: 30px;\n          height: 30px;\n          border-color: var(--container-accent);\n          border-style: solid;\n          border-width: 0;\n      }\n      \n      .container .corner-tl {\n          top: 15px;\n          left: 15px;\n          border-top-width: 1px;\n          border-left-width: 1px;\n      }\n      \n      .container .corner-tr {\n          top: 15px;\n          right: 15px;\n          border-top-width: 1px;\n          border-right-width: 1px;\n      }\n      \n      .container .corner-bl {\n          bottom: 15px;\n          left: 15px;\n          border-bottom-width: 1px;\n          border-left-width: 1px;\n      }\n      \n      .container .corner-br {\n          bottom: 15px;\n          right: 15px;\n          border-bottom-width: 1px;\n          border-right-width: 1px;\n      }\n      \n      .container .date {\n          font-family: \'Baskerville\', \'Libre Baskerville\', serif;\n          font-size: 14px;\n          font-style: italic;\n          text-align: center;\n          color: var(--container-accent);\n          margin-bottom: 20px;\n          letter-spacing: 1px;\n      }\n      \n      .container .title {\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          font-size: 36px;\n          font-weight: 700;\n          text-align: center;\n          margin-bottom: 10px;\n          color: var(--container-accent);\n          line-height: 1.2;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-style: italic;\n          text-align: center;\n          margin-bottom: 30px;\n          line-height: 1.6;\n      }\n      \n      .container .divider {\n          text-align: center;\n          margin: 20px 0;\n      }\n      \n      .container .divider::before {\n          content: \"❧\";\n          font-size: 24px;\n          color: var(--container-accent);\n      }\n      \n      .container .quote {\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          font-size: 18px;\n          line-height: 1.6;\n          font-style: italic;\n          text-align: center;\n          margin: 30px 40px;\n          color: var(--container-secondary);\n      }\n      \n      .container .quote::before,\n      .container .quote::after {\n          content: \"\"\";\n          font-size: 40px;\n          line-height: 0;\n          vertical-align: -15px;\n      }\n      \n      .container .quote::after {\n          content: \"\"\";\n      }\n      \n      .container .points {\n          margin: 30px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.6;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-marker {\n          font-family: \'Playfair Display\', serif;\n          color: var(--container-accent);\n          font-size: 18px;\n          margin-right: 15px;\n          flex-shrink: 0;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          padding: 20px 0;\n          border-top: 1px solid rgba(139, 69, 19, 0.3);\n          border-bottom: 1px solid rgba(139, 69, 19, 0.3);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          filter: sepia(20%);\n          border: 1px solid var(--container-accent);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          font-style: italic;\n          color: var(--container-accent);\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          font-size: 14px;\n          font-style: italic;\n          line-height: 1.6;\n          padding: 15px 20px;\n          background-color: rgba(139, 69, 19, 0.05);\n          border-top: 1px solid rgba(139, 69, 19, 0.2);\n      }\n  </style>', '采用优雅复古风格设计，重现20世纪初期印刷品的精致美学。使用米色或淡黄色纸张质感背景，配以深棕、暗红等老式印刷色。字体必须使用衬线字体如Baskerville或Noto Serif，标题可使用装饰性字体。排版应对称且庄重，遵循传统书籍设计原则。装饰元素包括精致的花纹边框、古典分隔线和角落装饰，可添加轻微做旧效果如纸张纹理和微妙污点。图像应用复古滤镜处理，呈现褪色照片效果。整体设计应散发出典雅、成熟且历经时间考验的气质，参考The New Yorker和老式法国时尚杂志的设计语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (7, '大胆现代', '<div class=\"container\">\n  <div class=\"date\">15 JULY 2025</div>\n  <h1 class=\"title\">城市<span>重构</span></h1>\n  <p class=\"subtitle\">新型建筑正在重塑城市景观，打造更具可持续性与人文关怀的未来生活空间</p>\n  <div class=\"divider\"></div>\n  <blockquote class=\"quote\">\n      \"未来的城市不仅是由玻璃、钢铁和混凝土构成的，更应该是由社区、生态和创新精神塑造的有机体。\"\n  </blockquote>\n  <div class=\"points\">\n      <div class=\"point\">\n          <span class=\"point-number\">01</span>\n          <span>垂直森林：建筑外立面融合大量植被，每栋建筑成为碳吸收器和生物多样性中心</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">02</span>\n          <span>模块化设计：可重配置的建筑系统使空间根据需求灵活变化，减少资源浪费</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">03</span>\n          <span>智能材料：自修复混凝土和光伏玻璃等材料革命性地改变建筑能耗与寿命</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">04</span>\n          <span>社区导向：建筑设计重新聚焦于创造有意义的公共空间，促进人际互动</span>\n      </div>\n  </div>\n  <div class=\"qr-section\">\n     <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n      <div class=\"qr-text\">扫描二维码，探索全球创新建筑案例</div>\n  </div>\n  <div class=\"editor-note\">\n      <strong>EDITOR\'S NOTE:</strong> 现代建筑正走向一个关键转折点，从单纯追求形式美学转向整合生态系统、人文关怀与技术创新的综合解决方案。\n  </div>\n</div>', '<style>\n      /* 大胆现代风格 */\n      .container {\n          /* 主题风格 */\n          font-family: \'Noto Sans SC\', sans-serif;\n          --container-bg: #121212;\n          --container-text: #ffffff;\n          --container-accent: #ff2e63;\n          --container-secondary: #00fff5;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          font-family: \'Noto Sans SC\', sans-serif;\n          padding: 40px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          right: 0;\n          width: 150px;\n          height: 150px;\n          background-color: var(--container-accent);\n          opacity: 0.2;\n          border-radius: 0 0 0 100%;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-size: 14px;\n          font-weight: 700;\n          letter-spacing: 2px;\n          color: var(--container-secondary);\n          margin-bottom: 30px;\n          position: relative;\n      }\n      \n      .container .title {\n          font-size: 60px;\n          font-weight: 800;\n          line-height: 1;\n          margin-bottom: 20px;\n          text-transform: uppercase;\n          letter-spacing: -1px;\n          position: relative;\n      }\n      \n      .container .title span {\n          color: var(--container-accent);\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          line-height: 1.4;\n          position: relative;\n      }\n      \n      .container .divider {\n          height: 4px;\n          width: 100px;\n          background-color: var(--container-accent);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 24px;\n          line-height: 1.3;\n          font-weight: 700;\n          padding: 20px;\n          border-left: 4px solid var(--container-secondary);\n          margin: 30px 0;\n          background-color: rgba(255,255,255,0.05);\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.5;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: var(--container-accent);\n          font-size: 24px;\n          font-weight: 800;\n          margin-right: 15px;\n          line-height: 1;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(255,255,255,0.05);\n          padding: 20px;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 2px solid var(--container-accent);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--container-secondary);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: rgba(0,255,245,0.1);\n          border-left: 4px solid var(--container-secondary);\n      }\n  </style>', '采用大胆现代风格设计，打破传统排版规则，创造强烈视觉冲击。使用鲜艳对比色如荧光粉、电子蓝、亮黄等，背景可使用深色或鲜艳色块。排版应不对称且动态，标题文字极大（至少60px），可使用极粗字重或压缩字体，甚至允许文字重叠和溢出。图形元素应用几何形状，边缘锐利，可添加不规则裁切效果。层次感通过大小、颜色和位置的极端对比创造。整体设计应充满张力和活力，像一张视觉宣言，参考Wired杂志和Pentagram设计工作室的作品。添加微妙动效如悬停放大或颜色变换，增强现代感。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (8, '日式极简\n', '<div class=\"container\">\n      <div class=\"container\">\n          <div class=\"date\">2025年5月17日</div>\n          <div class=\"title-container\">\n              <div class=\"ink-mark\"></div>\n              <h1 class=\"title\">茶道之美</h1>\n          </div>\n          <p class=\"subtitle\">一碗茶，一方宇宙，茶道中蕴含的东方生活美学与哲思</p>\n          <blockquote class=\"quote\">\n              茶道不只是饮茶仪式，更是对和、敬、清、寂四大原则的生活实践。\n          </blockquote>\n          <div class=\"points\">\n              <div class=\"point\">\n                  待客之心：茶室中每一个动作，每一处设计都体现对客人的至高敬意\n              </div>\n              <div class=\"point\">\n                  四季感知：茶道仪式随季节变化而调整，体现与自然和谐共处的理念\n              </div>\n              <div class=\"point\">\n                  珍视瞬间：茶道秉持\"一期一会\"精神，视每次相聚为人生独特相遇\n              </div>\n              <div class=\"point\">\n                  留白之美：茶室布置的极简与留白，是对内心平静的物理表达\n              </div>\n          </div>\n          <div class=\"qr-section\">\n             <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫描二维码，探索更多日本传统美学</div>\n          </div>\n          <div class=\"editor-note\">\n              <strong>編集者注：</strong> 在这个快节奏的现代社会，茶道所蕴含的慢生活哲学，为我们提供了一种回归本真、寻找内心平静的方式。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 日式极简风格 */\n      .container {\n          font-family: \'Noto Sans JP\', \'Noto Sans SC\', sans-serif;\n          --jp-bg: #f7f7f5;\n          --jp-text: #333333;\n          --jp-accent: #111111;\n          --jp-light: #d7d7d7;\n          background-color: var(--jp-bg);\n          color: var(--jp-text);\n          padding: 60px 40px;\n          position: relative;\n          display: flex;\n          flex-direction: column;\n          height: 100%;\n      }\n      \n      .container .container {\n          display: flex;\n          flex-direction: column;\n          height: 100%;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 300;\n          letter-spacing: 2px;\n          color: var(--jp-text);\n          opacity: 0.7;\n          writing-mode: vertical-rl;\n          text-orientation: mixed;\n          position: absolute;\n          top: 40px;\n          right: 40px;\n          height: 120px;\n      }\n      \n      .container .title-container {\n          display: flex;\n          margin-bottom: 80px;\n      }\n      \n      .container .ink-mark {\n          width: 30px;\n          height: 30px;\n          margin-right: 20px;\n          background-color: var(--jp-accent);\n          opacity: 0.8;\n          border-radius: 50%;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container .ink-mark::after {\n          content: \"\";\n          position: absolute;\n          top: 15%;\n          left: 20%;\n          width: 60%;\n          height: 60%;\n          background-color: var(--jp-bg);\n          border-radius: 50%;\n      }\n      \n      .container .title {\n          font-size: 28px;\n          font-weight: 300;\n          line-height: 1.4;\n          letter-spacing: 3px;\n          flex-grow: 1;\n      }\n      \n      .container .subtitle {\n          font-size: 14px;\n          font-weight: 300;\n          margin: 0 0 60px 50px;\n          line-height: 1.8;\n          max-width: 280px;\n      }\n      \n      .container .line {\n          width: 1px;\n          height: 50px;\n          background-color: var(--jp-accent);\n          margin: 20px 0 20px 25px;\n          opacity: 0.5;\n      }\n      \n      .container .quote {\n          font-size: 16px;\n          line-height: 1.8;\n          font-weight: 300;\n          margin: 20px 0 20px 50px;\n          padding-left: 20px;\n          border-left: 1px solid var(--jp-light);\n          max-width: 280px;\n      }\n      \n      .container .points {\n          margin: 60px 0 0 50px;\n          max-width: 280px;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.8;\n          font-size: 14px;\n          font-weight: 300;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point::before {\n          content: \"—\";\n          margin-right: 15px;\n          color: var(--jp-accent);\n      }\n      \n      .container .qr-section {\n          margin: auto 0 0 50px;\n          display: flex;\n          align-items: center;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n          filter: grayscale(100%);\n      }\n      \n      .container .qr-text {\n          font-size: 12px;\n          letter-spacing: 1px;\n          opacity: 0.7;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 12px;\n          margin-left: 50px;\n          max-width: 280px;\n          line-height: 1.8;\n          font-weight: 300;\n      }\n  </style>', '采用日式极简风格设计，体现\"侘寂\"(Wabi-Sabi)美学——接受不完美、无常与不完整的哲学。使用极度克制的色彩，主要为白、灰、黑和淡墨色。留白(Ma)是核心元素，至少70%的设计应为空白，创造宁静感。排版应非对称且垂直，可使用垂直书写模式，体现日本传统排版。字体应极度简约，笔画轻盈。装饰元素几乎为零，但可添加一处墨迹、简单印章或单一线条作为点睛之笔。整体设计应呈现出深度宁静、精致且富有禅意的视觉体验，仿佛一页来自京都寺院的书页，参考原研哉的MUJI设计理念和日本传统水墨画的留白美学', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (9, '赛博朋克风格', '<div class=\"container\">\n      <div class=\"circuit\"></div>\n      <div class=\"date\">03.09.2025 :: RENDER_LOG</div>\n      <h1 class=\"title\">\n          <div class=\"glitch-box\">\n              <div class=\"glitch-text\" data-text=\"沉浸式艺术\">沉浸式艺术</div>\n          </div>\n      </h1>\n      <p class=\"subtitle\">数字技术正在重塑艺术创作与体验的边界，建立物理与虚拟世界之间的无缝连接</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"当代艺术已不再局限于观看，而是成为一种全身心参与的多感官体验；技术不只是工具，更是创作的共同体。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>生成式艺术：AI算法已从辅助工具发展为独立创作者，挑战我们对原创性与创造力的理解</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>物理-数字混合：增强现实技术使艺术装置可以同时存在于物理空间和数字领域，创造多层次叙事</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>神经反馈：新一代沉浸式作品可读取观众脑电波，实时调整内容以优化情感体验</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>非永久性艺术：数字作品的短暂性和动态性正挑战艺术保存的传统理念，强调体验而非收藏</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n         <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫码进入虚拟展览，体验最前沿沉浸式艺术作品</div>\n      </div>\n      <div class=\"editor-note\">\n          数字艺术生态正在迅速演变，技术与创意的融合不仅创造了前所未有的表达形式，也重新定义了艺术与观众、艺术与社会的关系。在这个新兴领域，体验已成为作品的核心。\n      </div>\n  </div>', '<style>\n      /* 赛博朋克风格 */\n      .container {\n          --cyber-bg: #0a0e17;\n          --cyber-text: #e0e0e0;\n          --cyber-accent1: #ff2a6d;\n          --cyber-accent2: #05d9e8;\n          --cyber-accent3: #7bff00;\n          --cyber-dark: #1a1a2e;\n          background-color: var(--cyber-bg);\n          color: var(--cyber-text);\n          font-family: \'Courier New\', monospace;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          border: 1px solid var(--cyber-accent2);\n      }\n      \n      @keyframes scanline {\n          0% {\n              transform: translateY(-100%);\n          }\n          100% {\n              transform: translateY(100%);\n          }\n      }\n      \n      @keyframes flicker {\n          0% { opacity: 1; }\n          3% { opacity: 0.8; }\n          6% { opacity: 1; }\n          7% { opacity: 0.9; }\n          8% { opacity: 1; }\n          9% { opacity: 0.9; }\n          10% { opacity: 1; }\n          100% { opacity: 1; }\n      }\n      \n      @keyframes glitch {\n          0% { transform: translate(0); }\n          20% { transform: translate(-2px, 2px); }\n          40% { transform: translate(-2px, -2px); }\n          60% { transform: translate(2px, 2px); }\n          80% { transform: translate(2px, -2px); }\n          100% { transform: translate(0); }\n      }\n      \n      @keyframes rgbOffset {\n          0% {text-shadow: -1px 0 var(--cyber-accent1), 1px 0 var(--cyber-accent2);}\n          50% {text-shadow: 1px 0 var(--cyber-accent1), -1px 0 var(--cyber-accent2);}\n          100% {text-shadow: -1px 0 var(--cyber-accent1), 1px 0 var(--cyber-accent2);}\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background: \n              radial-gradient(circle at 20% 35%, rgba(5, 217, 232, 0.15) 0%, transparent 40%),\n              radial-gradient(circle at 75% 65%, rgba(255, 42, 109, 0.15) 0%, transparent 40%);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.03));\n          background-size: 100% 2px, 3px 100%;\n          pointer-events: none;\n          z-index: 2;\n          animation: scanline 8s linear infinite;\n          opacity: 0.2;\n      }\n      \n      .container .circuit {\n          position: absolute;\n          bottom: 0;\n          right: 0;\n          width: 180px;\n          height: 180px;\n          background-image: url(\"data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' stroke=\'%2305d9e8\' stroke-width=\'1\'%3E%3Cpath d=\'M10 10 L90 10 M10 50 L90 50 M10 90 L90 90 M50 10 L50 90 M10 10 L50 50 M50 50 L90 10 M10 90 L50 50 M50 50 L90 90\'/%3E%3C/g%3E%3C/svg%3E\");\n          opacity: 0.2;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-family: \'Courier New\', monospace;\n          font-size: 14px;\n          color: var(--cyber-accent2);\n          margin-bottom: 20px;\n          text-transform: uppercase;\n          letter-spacing: 2px;\n          position: relative;\n          z-index: 1;\n          animation: flicker 10s infinite;\n      }\n      \n      .container .date::before {\n          content: \"> \";\n          color: var(--cyber-accent3);\n      }\n      \n      .container .title {\n          font-size: 56px;\n          font-weight: bold;\n          line-height: 1;\n          text-transform: uppercase;\n          margin-bottom: 20px;\n          color: var(--cyber-text);\n          position: relative;\n          z-index: 1;\n          animation: rgbOffset 2s infinite;\n      }\n      \n      .container .glitch-box {\n          position: relative;\n          display: inline-block;\n      }\n      \n      .container .glitch-text {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .glitch-text::before,\n      .container .glitch-text::after {\n          content: attr(data-text);\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          opacity: 0.8;\n      }\n      \n      .container .glitch-text::before {\n          color: var(--cyber-accent1);\n          z-index: -1;\n          animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;\n          animation-delay: 0.1s;\n      }\n      \n      .container .glitch-text::after {\n          color: var(--cyber-accent2);\n          z-index: -2;\n          animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;\n          animation-delay: 0.2s;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          margin-bottom: 30px;\n          position: relative;\n          z-index: 1;\n          padding: 10px;\n          background-color: rgba(10, 14, 23, 0.7);\n          border-left: 3px solid var(--cyber-accent1);\n      }\n      \n      .container .divider {\n          height: 1px;\n          width: 100%;\n          background: linear-gradient(to right, transparent, var(--cyber-accent2), transparent);\n          margin: 30px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .divider::before {\n          content: \"// DATA STREAM //\";\n          position: absolute;\n          top: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--cyber-bg);\n          padding: 0 15px;\n          color: var(--cyber-accent2);\n          font-size: 12px;\n      }\n      \n      .container .quote {\n          font-size: 20px;\n          line-height: 1.4;\n          margin: 30px 0;\n          padding: 20px;\n          background-color: rgba(5, 217, 232, 0.05);\n          border-left: none;\n          border: 1px solid var(--cyber-accent2);\n          position: relative;\n          z-index: 1;\n          text-shadow: 0 0 5px var(--cyber-accent2);\n          box-shadow: 0 0 10px rgba(5, 217, 232, 0.2);\n      }\n      \n      .container .quote::before {\n          content: \"//\";\n          color: var(--cyber-accent1);\n          font-size: 30px;\n          position: absolute;\n          top: 10px;\n          left: 10px;\n          opacity: 0.5;\n      }\n      \n      .container .points {\n          margin: 30px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.5;\n          display: flex;\n          align-items: flex-start;\n          background-color: rgba(10, 14, 23, 0.7);\n          padding: 15px;\n          border-bottom: 1px solid var(--cyber-accent1);\n          transition: all 0.3s ease;\n      }\n      \n      .container .point:hover {\n          background-color: rgba(255, 42, 109, 0.1);\n          transform: translateX(5px);\n      }\n      \n      .container .point-number {\n          font-family: \'Courier New\', monospace;\n          color: var(--cyber-accent3);\n          font-size: 18px;\n          font-weight: bold;\n          margin-right: 15px;\n          background-color: rgba(123, 255, 0, 0.1);\n          padding: 5px 10px;\n          border: 1px solid var(--cyber-accent3);\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(10, 14, 23, 0.8);\n          padding: 20px;\n          border: 1px solid var(--cyber-accent1);\n          position: relative;\n          z-index: 1;\n          box-shadow: 0 0 15px rgba(255, 42, 109, 0.2);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 2px solid var(--cyber-accent2);\n          filter: contrast(120%) brightness(120%) drop-shadow(0 0 5px var(--cyber-accent2));\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          text-transform: uppercase;\n          color: var(--cyber-accent1);\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 15px;\n          background-color: rgba(10, 14, 23, 0.7);\n          border-top: 1px solid var(--cyber-accent3);\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .editor-note::before {\n          content: \">> SYSTEM MESSAGE\";\n          display: block;\n          color: var(--cyber-accent3);\n          margin-bottom: 10px;\n          font-weight: bold;\n      }\n  </style>', '采用赛博朋克风格设计，体现\"高科技，低生活\"的反乌托邦美学。背景必须为深色（黑色或深蓝），配以霓虹色彩如荧光粉、电子蓝和酸性绿，创造夜间都市氛围。排版应模拟故障效果，使用像素化字体或未来感等宽字体，添加字符错位、扫描线和数字噪点。装饰元素必须包含科技界面、数据流、电路板图案和全息投影效果。必须添加故障艺术(Glitch Art)效果如RGB分离、数据损坏和画面撕裂。图像应高对比且添加霓虹光效，模拟雨夜霓虹灯反射。整体设计应呈现出未来主义与复古科技的混搭，营造一种数字化衰败的氛围，参考《银翼杀手》、《神经漫游者》和《赛博朋克2077》的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (10, '瑞士国际主义风格的解构版', '<div class=\"container\">\n      <div class=\"reference-points\">\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n      </div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"date\">17.08.2025</div>\n      <div class=\"title-container\">\n          <h1 class=\"title\">字体革命</h1>\n          <div class=\"title-shadow\">字体革命</div>\n      </div>\n      <p class=\"subtitle\">在数字时代，字体设计如何突破传统边界，重新定义可读性与表现力的平衡</p>\n      <div class=\"divider\"></div>\n      <div class=\"quote-container\">\n          <div class=\"quote-line\"></div>\n          <blockquote class=\"quote\">\n              \"字体不仅是内容的载体，更是信息本身的一部分；它以无声的方式塑造我们的阅读体验与情感反应。\"\n          </blockquote>\n      </div>\n      <div class=\"points\">\n          <div class=\"point\">\n              <div class=\"point-number\">01</div>\n              <div class=\"point-content\">可变字体技术：单一字体文件可实现无限权重变化，为设计师提供前所未有的精细控制</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">02</div>\n              <div class=\"point-content\">屏幕优化：新一代数字字体通过亚像素渲染技术，解决了高分辨率显示器上的清晰度挑战</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">03</div>\n              <div class=\"point-content\">多语言兼容：字体设计正在拥抱全球化，单一字体系统可支持多达十几种文字系统</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">04</div>\n              <div class=\"point-content\">表情符号演变：从简单图标到复杂表情系统，它们已成为现代字体设计中不可或缺的部分</div>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描探索当代最具创新性的字体设计</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记:</strong> 字体设计正处于历史性转折点，数字工具与多屏阅读体验正推动这门古老艺术形式进入全新时代。设计师不再只关注形式美学，更需思考跨平台、跨文化的视觉语言建构。\n      </div>\n  </div>', '<style>\n      /* 瑞士国际主义风格的解构版 */\n      .container {\n          --swiss-bg: #ffffff;\n          --swiss-text: #000000;\n          --swiss-grid: #cccccc;\n          --swiss-accent: #ff0000;\n          --swiss-secondary: #0066ff;\n          background-color: var(--swiss-bg);\n          color: var(--swiss-text);\n          font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n          padding: 25px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: \n              linear-gradient(to right, transparent 98%, var(--swiss-grid) 98%, var(--swiss-grid) 100%),\n              linear-gradient(to bottom, transparent 98%, var(--swiss-grid) 98%, var(--swiss-grid) 100%);\n          background-size: 20px 20px;\n          opacity: 0.3;\n          z-index: 0;\n      }\n      \n      .container .reference-points {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .reference-point {\n          position: absolute;\n          width: 5px;\n          height: 5px;\n          background-color: var(--swiss-accent);\n          border-radius: 50%;\n          opacity: 0.5;\n      }\n      \n      .container .reference-point:nth-child(1) {\n          top: 15%;\n          left: 20%;\n      }\n      \n      .container .reference-point:nth-child(2) {\n          top: 40%;\n          left: 85%;\n      }\n      \n      .container .reference-point:nth-child(3) {\n          top: 75%;\n          left: 35%;\n      }\n      \n      .container .reference-point:nth-child(4) {\n          top: 25%;\n          left: 65%;\n      }\n      \n      .container .reference-point:nth-child(5) {\n          top: 85%;\n          left: 75%;\n      }\n      \n      .container .grid-line {\n          position: absolute;\n          background-color: var(--swiss-grid);\n          opacity: 0.3;\n          z-index: 0;\n      }\n      \n      .container .grid-line:nth-child(1) {\n          top: 30%;\n          left: 0;\n          width: 100%;\n          height: 1px;\n      }\n      \n      .container .grid-line:nth-child(2) {\n          top: 0;\n          left: 30%;\n          width: 1px;\n          height: 100%;\n      }\n      \n      .container .grid-line:nth-child(3) {\n          top: 65%;\n          left: 0;\n          width: 100%;\n          height: 1px;\n      }\n      \n      .container .grid-line:nth-child(4) {\n          top: 0;\n          left: 70%;\n          width: 1px;\n          height: 100%;\n      }\n      \n      .container .date {\n          font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n          font-size: 14px;\n          font-weight: 300;\n          letter-spacing: 2px;\n          text-transform: uppercase;\n          margin-bottom: 20px;\n          transform: translateX(-10px);\n          position: relative;\n          z-index: 1;\n          color: var(--swiss-accent);\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 40px;\n          z-index: 1;\n      }\n      \n      .container .title {\n          font-size: 72px;\n          font-weight: 900;\n          line-height: 0.9;\n          text-transform: uppercase;\n          transform: scale(1, 0.9) translateX(20px);\n          letter-spacing: -3px;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .title-shadow {\n          position: absolute;\n          top: 5px;\n          left: -5px;\n          font-size: 72px;\n          font-weight: 900;\n          line-height: 0.9;\n          text-transform: uppercase;\n          transform: scale(1, 0.9);\n          letter-spacing: -3px;\n          color: var(--swiss-accent);\n          opacity: 0.2;\n          z-index: 0;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          position: relative;\n          z-index: 1;\n          margin-bottom: 30px;\n          transform: translateX(50px);\n          max-width: 80%;\n      }\n      \n      .container .divider {\n          height: 3px;\n          width: 50%;\n          background-color: var(--swiss-text);\n          margin: 30px 0 30px 25%;\n          position: relative;\n          z-index: 1;\n          transform: skewX(-15deg);\n      }\n      \n      .container .quote-container {\n          position: relative;\n          margin: 40px 0;\n          padding-left: 50px;\n          z-index: 1;\n      }\n      \n      .container .quote-line {\n          position: absolute;\n          top: 0;\n          left: 15px;\n          width: 3px;\n          height: 100%;\n          background-color: var(--swiss-accent);\n      }\n      \n      .container .quote {\n          font-size: 24px;\n          font-weight: 300;\n          line-height: 1.4;\n          margin-left: 20px;\n          position: relative;\n          z-index: 1;\n          font-style: italic;\n      }\n      \n      .container .points {\n          display: grid;\n          grid-template-columns: 1fr 1fr;\n          gap: 30px;\n          margin: 40px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .point {\n          position: relative;\n          padding: 15px;\n      }\n      \n      .container .point:nth-child(1) {\n          transform: translateY(-15px);\n      }\n      \n      .container .point:nth-child(2) {\n          transform: translateY(15px);\n      }\n      \n      .container .point:nth-child(3) {\n          transform: translateX(20px);\n      }\n      \n      .container .point:nth-child(4) {\n          transform: translateX(-20px);\n      }\n      \n      .container .point-number {\n          font-size: 32px;\n          font-weight: 900;\n          margin-bottom: 10px;\n          color: var(--swiss-accent);\n          transform: scale(1.2, 1);\n          display: inline-block;\n      }\n      \n      .container .point-content {\n          font-size: 14px;\n          line-height: 1.4;\n          font-weight: 400;\n      }\n      \n      .container .point:nth-child(even) .point-content {\n          font-weight: 700;\n      }\n      \n      .container .qr-section {\n          display: flex;\n          align-items: center;\n          margin-top: 40px;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 5px solid var(--swiss-text);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          transform: translateX(15px);\n      }\n      \n      .container .editor-note {\n          margin-top: 50px;\n          font-size: 14px;\n          position: relative;\n          z-index: 1;\n          padding-top: 15px;\n          border-top: 1px solid var(--swiss-text);\n          font-style: italic;\n          transform: translateX(40px);\n          max-width: 90%;\n      }\n  </style>', '采用瑞士国际主义风格的解构版设计，在严格网格系统的基础上进行有意识的破坏和重组。排版应基于经典瑞士网格，但故意打破和扭曲，文字可越过栏格、重叠或被切割。色彩应保持瑞士风格的克制，主要使用黑白，但可添加一两种鲜艳原色作为点缀。字体必须使用无衬线几何字体如Helvetica或Akzidenz-Grotesk，但可通过极端的字重、间距和大小变化创造张力。图像应高对比且可被解构或重组。装饰元素几乎为零，但可使用解构的网格线和参考点。整体设计应呈现出理性与叛逆并存的视觉效果，像是经典瑞士设计被有意识地挑战和重新诠释，参考Wolfgang Weingart和April Greiman的实验性作品。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (11, '新未来主义', '<div class=\"container\">\n      <div class=\"curve-element curve-element-1\"></div>\n      <div class=\"curve-element curve-element-2\"></div>\n      \n      <div class=\"content\">\n          <div class=\"date\">2025.09.21</div>\n          \n          <div class=\"title-container\">\n              <h1 class=\"title\">星际探索</h1>\n              <p class=\"subtitle\">当代太空技术正在重新定义人类的边界，开启多行星文明的新篇章</p>\n          </div>\n          \n          <div class=\"highlight-box\">\n              <blockquote class=\"quote\">\n                  宇宙不仅比我们想象的更奇异，甚至比我们能够想象的还要奇异。探索太空不只是关于发现新世界，更是重新认识我们自己。\n              </blockquote>\n          </div>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-number\">01</div>\n                  <div class=\"point-text\">可重复使用火箭：航天发射成本降低90%，开启太空旅行的商业化时代</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">02</div>\n                  <div class=\"point-text\">月球基地建设：国际联合计划已进入实质性阶段，首个永久前哨将于2030年建成</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">03</div>\n                  <div class=\"point-text\">深空通信网络：量子纠缠技术突破将实现与火星探测器的即时通信</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">04</div>\n                  <div class=\"point-text\">小行星采矿：近地轨道资源开发预计将在2035年实现商业化，创造万亿级市场</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n              <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫描观看最新太空任务实时数据与高清图像</div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <strong>编辑注释：</strong>太空探索已从政府主导的国家项目转变为公私合作的产业生态。这一转变不仅加速了技术创新，也正在为地球资源、能源与环境危机提供潜在解决方案。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新未来主义风格 */\n      .container {\n          font-family: \'Roboto\', \'Noto Sans SC\', sans-serif;\n          --neo-fut-bg: #f7f7f7;\n          --neo-fut-text: #2d2d2d;\n          --neo-fut-primary: #e5e5e5;\n          --neo-fut-secondary: #b3b3b3;\n          --neo-fut-accent: #0066ff;\n          --neo-fut-metal: linear-gradient(145deg, #e6e6e6, #cccccc);\n          background: var(--neo-fut-bg);\n          color: var(--neo-fut-text);\n          padding: 35px;\n          border-radius: 15px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          height: 120px;\n          background: linear-gradient(110deg, rgba(230, 230, 230, 0.8), rgba(200, 200, 200, 0.4));\n          clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);\n          z-index: 0;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .curve-element {\n          position: absolute;\n          width: 200px;\n          height: 200px;\n          border-radius: 50%;\n          background: linear-gradient(145deg, #f0f0f0, #e0e0e0);\n          filter: blur(30px);\n          opacity: 0.6;\n          z-index: -1;\n      }\n      \n      .container .curve-element-1 {\n          top: -100px;\n          right: -50px;\n      }\n      \n      .container .curve-element-2 {\n          bottom: -80px;\n          left: -70px;\n          width: 300px;\n          height: 300px;\n          opacity: 0.3;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 500;\n          letter-spacing: 2px;\n          text-transform: uppercase;\n          color: var(--neo-fut-secondary);\n          margin-bottom: 25px;\n          padding-left: 5px;\n      }\n      \n      .container .title-container {\n          margin-bottom: 30px;\n          position: relative;\n      }\n      \n      .container .title {\n          font-size: 42px;\n          font-weight: 300;\n          line-height: 1.1;\n          letter-spacing: -1px;\n          margin-bottom: 10px;\n          background: linear-gradient(135deg, var(--neo-fut-text), #6e6e6e);\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n          border-bottom: 1px solid var(--neo-fut-secondary);\n          padding-bottom: 15px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          line-height: 1.5;\n          color: var(--neo-fut-secondary);\n          max-width: 85%;\n      }\n      \n      .container .highlight-box {\n          background: var(--neo-fut-metal);\n          border-radius: 12px;\n          padding: 25px;\n          margin: 35px 0;\n          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03), \n                      inset 0 -2px 0 rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          font-weight: 300;\n          font-style: italic;\n          color: var(--neo-fut-text);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          font-size: 60px;\n          position: absolute;\n          left: -25px;\n          top: -20px;\n          color: var(--neo-fut-accent);\n          opacity: 0.2;\n          font-family: Georgia, serif;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          display: flex;\n          align-items: flex-start;\n          margin-bottom: 25px;\n          position: relative;\n      }\n      \n      .container .point-number {\n          font-size: 14px;\n          font-weight: 600;\n          color: var(--neo-fut-accent);\n          width: 28px;\n          height: 28px;\n          border-radius: 50%;\n          background: rgba(0, 102, 255, 0.1);\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          margin-right: 15px;\n          flex-shrink: 0;\n      }\n      \n      .container .point-text {\n          font-size: 15px;\n          line-height: 1.6;\n          padding-top: 3px;\n      }\n      \n      .container .qr-section {\n          display: flex;\n          align-items: center;\n          margin: 40px 0 15px;\n          background: var(--neo-fut-primary);\n          border-radius: 12px;\n          padding: 20px;\n          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          background: white;\n          padding: 10px;\n          border-radius: 8px;\n          margin-right: 20px;\n          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          line-height: 1.5;\n          color: var(--neo-fut-text);\n      }\n      \n      .container .editor-note {\n          margin-top: 35px;\n          font-size: 13px;\n          line-height: 1.5;\n          color: var(--neo-fut-secondary);\n          padding: 15px;\n          border-left: 2px solid var(--neo-fut-accent);\n          background: rgba(0, 102, 255, 0.03);\n          border-radius: 0 6px 6px 0;\n      }\n  </style>', '采用新未来主义风格设计，体现当代建筑和产品设计中的前沿美学。形态应强调流线型曲线和有机几何形状，避免直角和静态形式。色彩应使用金属色调如银色、钛白和铬黄，配以一两种高饱和度的强调色。材质表现是关键，应模拟高科技材料如拉丝金属、碳纤维和磨砂玻璃。排版应动态且流畅，使用现代无衬线字体，可沿曲线排列或呈放射状。装饰元素应包含参数化生成的图案、流体动力学形态和仿生学结构。整体设计应呈现出高度发达的技术美学和动态感，仿佛来自近未来的高端产品，参考扎哈·哈迪德的建筑、特斯拉Cybertruck和Apple产品的设计语言', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (12, '超现实主义数字拼贴风格', '<div class=\"container\">\n      <div class=\"floating-objects\">\n          <div class=\"floating-eye\"></div>\n      </div>\n      <div class=\"date\">RÉALITÉ • 17 JUIN 2025</div>\n      <div class=\"title-container\">\n          <h1 class=\"title\">数字身份的迷宫</h1>\n          <p class=\"subtitle\">在社交媒体的万花筒中，我们的自我变成了一系列精心策划的数字碎片</p>\n      </div>\n      <div class=\"quote-container\">\n          <blockquote class=\"quote\">\n              \"我们创造了数字化的第二自我，它既是我们的延伸，又是我们的囚笼；既是真实的表达，又是精心构建的幻象。\"\n          </blockquote>\n      </div>\n      <div class=\"points\">\n          <div class=\"point\">\n              <div class=\"point-content\">数字拼贴：现代人的身份已成为多平台角色的复合体，每个平台展现不同的自我片段</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">算法回音室：我们所见的内容塑造着我们的认知，而我们的行为又强化着算法的预测</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">真实与表演的融合：在持续的公开展示中，表演逐渐成为真实，界限被永久模糊</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">集体孤独：我们从未如此紧密连接，却同时经历着新形式的社交隔离与疏离</div>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描进入一场关于数字身份的沉浸式体验</div>\n      </div>\n      <div class=\"editor-note\">\n          <span class=\"note-title\">ÉDITORIAL:</span>\n          社交媒体已不仅是我们使用的工具，更成为塑造我们思维与互动方式的环境。理解这种新现实的超现实性质，是我们在数字时代保持真实与连接的关键。\n      </div>\n  </div>', '<style>\n      /* 超现实主义数字拼贴风格 */\n      .container {\n          --surreal-primary: #2a1a4a;\n          --surreal-secondary: #ff6b6b;\n          --surreal-accent: #64e8de;\n          --surreal-text: #f0f0f0;\n          --surreal-dream: #9d4edd;\n          \n          background: linear-gradient(135deg, var(--surreal-primary), #1a0b2e);\n          color: var(--surreal-text);\n          font-family: \'Cormorant Garamond\', \'Noto Serif SC\', serif;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 10px 30px rgba(0,0,0,0.3);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          width: 200px;\n          height: 200px;\n          border-radius: 50%;\n          background: radial-gradient(circle, var(--surreal-accent), transparent 70%);\n          opacity: 0.2;\n          top: -50px;\n          right: -50px;\n          filter: blur(20px);\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          width: 150px;\n          height: 150px;\n          background: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M50,5 L95,50 L50,95 L5,50 Z\" fill=\"none\" stroke=\"%239d4edd\" stroke-width=\"2\"/></svg>\');\n          background-size: contain;\n          bottom: 20px;\n          left: 20px;\n          opacity: 0.15;\n          transform: rotate(15deg);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .floating-objects {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          pointer-events: none;\n          z-index: 1;\n      }\n      \n      .container .floating-eye {\n          position: absolute;\n          top: 30%;\n          right: 15%;\n          width: 60px;\n          height: 40px;\n          border-radius: 50%;\n          background: white;\n          box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);\n      }\n      \n      .container .floating-eye::after {\n          content: \"\";\n          position: absolute;\n          top: 50%;\n          left: 50%;\n          transform: translate(-50%, -50%);\n          width: 25px;\n          height: 25px;\n          border-radius: 50%;\n          background: var(--surreal-primary);\n      }\n      \n      .container .date {\n          font-family: \'Cinzel\', serif;\n          font-size: 16px;\n          letter-spacing: 3px;\n          color: var(--surreal-accent);\n          margin-bottom: 20px;\n          position: relative;\n          z-index: 2;\n          text-shadow: 0 0 5px rgba(100, 232, 222, 0.5);\n          transform: skew(-5deg);\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 40px;\n          z-index: 2;\n      }\n      \n      .container .title {\n          font-size: 52px;\n          font-weight: 700;\n          margin-bottom: 10px;\n          line-height: 1.1;\n          background: linear-gradient(90deg, var(--surreal-text), var(--surreal-accent));\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n          text-shadow: 0 0 10px rgba(157, 78, 221, 0.3);\n          transform: perspective(500px) rotateX(5deg);\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          font-style: italic;\n          color: var(--surreal-secondary);\n          max-width: 90%;\n          line-height: 1.4;\n          position: relative;\n      }\n      \n      .container .quote-container {\n          position: relative;\n          margin: 50px 0;\n          padding: 20px;\n          background: rgba(42, 26, 74, 0.6);\n          backdrop-filter: blur(5px);\n          border-radius: 10px;\n          border-top: 1px solid rgba(157, 78, 221, 0.5);\n          border-left: 1px solid rgba(157, 78, 221, 0.5);\n          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);\n          z-index: 2;\n          transform: perspective(500px) rotateY(-3deg);\n      }\n      \n      .container .quote {\n          font-size: 22px;\n          line-height: 1.4;\n          font-style: italic;\n          color: var(--surreal-text);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          font-size: 80px;\n          position: absolute;\n          top: -40px;\n          left: -15px;\n          color: var(--surreal-dream);\n          opacity: 0.3;\n      }\n      \n      .container .points {\n          position: relative;\n          z-index: 2;\n          margin: 40px 0;\n          counter-reset: point;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding-left: 50px;\n          position: relative;\n          transform: perspective(500px) translateZ(0);\n          transition: transform 0.3s ease;\n      }\n      \n      .container .point:hover {\n          transform: perspective(500px) translateZ(10px);\n      }\n      \n      .container .point::before {\n          counter-increment: point;\n          content: counter(point, decimal-leading-zero);\n          position: absolute;\n          left: 0;\n          font-family: \'Cinzel\', serif;\n          font-size: 24px;\n          color: var(--surreal-secondary);\n          line-height: 1;\n          opacity: 0.9;\n      }\n      \n      .container .point-content {\n          line-height: 1.5;\n          position: relative;\n      }\n      \n      .container .qr-section {\n          position: relative;\n          z-index: 2;\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background: rgba(42, 26, 74, 0.4);\n          backdrop-filter: blur(5px);\n          padding: 20px;\n          border-radius: 10px;\n          transform: perspective(500px) rotateX(-3deg);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          position: relative;\n          filter: drop-shadow(0 0 8px rgba(157, 78, 221, 0.5));\n          transition: transform 0.3s ease;\n      }\n      \n      .container .qr-code:hover {\n          transform: scale(1.05);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--surreal-accent);\n          font-family: \'Cinzel\', serif;\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          position: relative;\n          z-index: 2;\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background: rgba(255, 107, 107, 0.1);\n          border-radius: 10px;\n          border-right: 3px solid var(--surreal-secondary);\n          font-style: italic;\n      }\n      \n      .container .note-title {\n          color: var(--surreal-secondary);\n          font-weight: bold;\n          display: block;\n          margin-bottom: 5px;\n      }\n      \n      @keyframes float {\n          0% { transform: translateY(0) rotate(0deg); }\n          50% { transform: translateY(-10px) rotate(5deg); }\n          100% { transform: translateY(0) rotate(0deg); }\n      }\n  </style>', '采用超现实主义数字拼贴风格设计，创造梦境般的视觉叙事。图像处理是核心，应组合不相关元素创造意外联系，如古典雕塑与现代电子产品、自然元素与几何形状。比例应故意失调，创造视觉张力。色彩可使用梦幻般的组合，如暖日落色调或冷月光色调，添加轻微的色偏。排版应融入拼贴中，文字可环绕物体、穿过图像或成为构图的一部分。装饰元素应包含超现实符号如悬浮物体、不可能的建筑、变形的人物或动物。可添加微妙的阴影和光效增强立体感。整体设计应呈现出一种介于现实与梦境之间的视觉体验，引发观者的想象和潜意识联想，参考René Magritte的绘画和现代数字艺术家如Justin Peters的作品。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (13, '新巴洛克数字风格', '<div class=\"container\">\n      <div class=\"ornate-border\"></div>\n      <div class=\"corner-decoration corner-top-left\"></div>\n      <div class=\"corner-decoration corner-top-right\"></div>\n      <div class=\"corner-decoration corner-bottom-left\"></div>\n      <div class=\"corner-decoration corner-bottom-right\"></div>\n      \n      <div class=\"content\">\n          <div class=\"date\">LE XVII AOÛT • ANNO DOMINI MMXXIV</div>\n          <div class=\"title-decoration\">✧ ✦ ✧</div>\n          <h1 class=\"title\">交响盛宴</h1>\n          <p class=\"subtitle\">古典音乐的永恒华彩，在当代世界中绽放出永不褪色的光辉</p>\n          \n          <div class=\"divider\"></div>\n          \n          <blockquote class=\"quote\">\n              \"交响乐不仅是音符的组合，更是人类情感的建筑；每一个乐章如同巴洛克宫殿的厅堂，宏伟、精致且充满戏剧性。\"\n          </blockquote>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-content\"><span class=\"drop-cap\">管</span>弦乐团正在经历数字化复兴，通过沉浸式技术与全息投影，为古典音乐带来革命性的聆听体验</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">巴洛克音乐的复杂对位法与华丽装饰音，成为当代作曲家重新探索的灵感源泉，影响着电影配乐与游戏音乐</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">年轻指挥家正在打破传统界限，将古典作品与现代元素融合，吸引新一代观众走进音乐厅</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">高分辨率音频技术使巴赫、亨德尔与维瓦尔第的作品呈现出前所未有的细节与层次，重现巴洛克音乐的精髓</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n              <div class=\"qr-frame\">\n                  <div class=\"qr-decoration\">HARMONIA MUNDI</div>\n                 <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n                  <div class=\"qr-text\">扫描聆听精选巴洛克音乐杰作</div>\n              </div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <span class=\"note-title\">MAESTRO\'S NOTE:</span>\n              古典音乐的魅力在于它超越了时间的限制。几个世纪前的作品至今仍能唤起深刻的共鸣，提醒我们艺术的永恒价值。在这个快节奏的数字时代，交响乐团提供了一种珍贵的共同体验，让我们暂时脱离碎片化的现代生活。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新巴洛克数字风格 */\n      .container {\n          --baroque-gold: #d4af37;\n          --baroque-red: #800020;\n          --baroque-blue: #1e3163;\n          --baroque-black: #121212;\n          --baroque-cream: #f8f0e3;\n          \n          background: linear-gradient(to bottom, var(--baroque-black) 0%, #2c2112 100%);\n          color: var(--baroque-cream);\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);\n          border: 1px solid rgba(212, 175, 55, 0.3);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M20,20 C40,10 60,10 80,20 C90,40 90,60 80,80 C60,90 40,90 20,80 C10,60 10,40 20,20 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"0.5\" opacity=\"0.2\"/></svg>\');\n          background-size: 150px 150px;\n          opacity: 0.1;\n          pointer-events: none;\n      }\n      \n      .container .ornate-border {\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          border: 20px solid transparent;\n          border-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M0,0 L100,0 L100,100 L0,100 Z M10,10 L10,90 L90,90 L90,10 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/><path d=\"M0,0 C30,20 70,20 100,0 M0,100 C30,80 70,80 100,100 M0,0 C20,30 20,70 0,100 M100,0 C80,30 80,70 100,100\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/></svg>\') 20 stretch;\n          opacity: 0.7;\n          pointer-events: none;\n          z-index: 10;\n      }\n      \n      .container .corner-decoration {\n          position: absolute;\n          width: 100px;\n          height: 100px;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M0,0 C30,10 70,10 100,0 C90,30 90,70 100,100 C70,90 30,90 0,100 C10,70 10,30 0,0 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/><circle cx=\"50\" cy=\"50\" r=\"15\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          pointer-events: none;\n          opacity: 0.5;\n          z-index: 3;\n      }\n      \n      .container .corner-top-left {\n          top: 0;\n          left: 0;\n      }\n      \n      .container .corner-top-right {\n          top: 0;\n          right: 0;\n          transform: rotate(90deg);\n      }\n      \n      .container .corner-bottom-left {\n          bottom: 0;\n          left: 0;\n          transform: rotate(270deg);\n      }\n      \n      .container .corner-bottom-right {\n          bottom: 0;\n          right: 0;\n          transform: rotate(180deg);\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 2;\n          padding: 20px;\n          border: 1px solid rgba(212, 175, 55, 0.3);\n          background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(44, 33, 18, 0.9));\n          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);\n      }\n      \n      .container .date {\n          font-family: \'Cormorant Garamond\', serif;\n          font-size: 16px;\n          letter-spacing: 2px;\n          color: var(--baroque-gold);\n          margin-bottom: 20px;\n          text-align: center;\n          font-style: italic;\n          text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);\n      }\n      \n      .container .title-decoration {\n          text-align: center;\n          margin-bottom: 10px;\n          color: var(--baroque-gold);\n          font-size: 24px;\n          letter-spacing: 3px;\n      }\n      \n      .container .title {\n          font-size: 48px;\n          font-weight: 700;\n          text-align: center;\n          margin-bottom: 10px;\n          line-height: 1.2;\n          color: var(--baroque-gold);\n          text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);\n          position: relative;\n      }\n      \n      .container .title::after {\n          content: \"\";\n          display: block;\n          width: 150px;\n          height: 10px;\n          margin: 15px auto;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"10\" viewBox=\"0 0 150 10\"><path d=\"M0,5 C30,0 60,10 75,5 C90,0 120,10 150,5\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          background-repeat: no-repeat;\n          background-position: center;\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          text-align: center;\n          font-style: italic;\n          color: var(--baroque-cream);\n          max-width: 80%;\n          margin: 0 auto 30px;\n          line-height: 1.4;\n      }\n      \n      .container .divider {\n          width: 100%;\n          height: 20px;\n          margin: 30px 0;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"20\" viewBox=\"0 0 300 20\"><path d=\"M0,10 C50,0 100,20 150,10 C200,0 250,20 300,10\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/><circle cx=\"150\" cy=\"10\" r=\"5\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          background-repeat: no-repeat;\n          background-position: center;\n      }\n      \n      .container .quote {\n          position: relative;\n          margin: 40px 0;\n          padding: 30px 40px;\n          font-size: 22px;\n          line-height: 1.6;\n          font-style: italic;\n          color: var(--baroque-cream);\n          text-align: center;\n          background: linear-gradient(135deg, rgba(128, 0, 32, 0.2), rgba(30, 49, 99, 0.2));\n          border-left: 3px solid var(--baroque-gold);\n          border-right: 3px solid var(--baroque-gold);\n      }\n      \n      .container .quote::before,\n      .container .quote::after {\n          content: \"\"\";\n          font-size: 100px;\n          position: absolute;\n          color: var(--baroque-gold);\n          opacity: 0.2;\n          font-family: \"Times New Roman\", serif;\n      }\n      \n      .container .quote::before {\n          top: -20px;\n          left: 10px;\n      }\n      \n      .container .quote::after {\n          content: \"\"\";\n          bottom: -70px;\n          right: 10px;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding-left: 40px;\n          position: relative;\n      }\n      \n      .container .point::before {\n          content: \"❧\";\n          position: absolute;\n          left: 0;\n          font-size: 24px;\n          color: var(--baroque-gold);\n      }\n      \n      .container .point-content {\n          line-height: 1.6;\n          font-size: 16px;\n      }\n      \n      .container .qr-section {\n          margin: 40px 0 20px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .qr-frame {\n          position: relative;\n          padding: 15px;\n          border: 1px solid var(--baroque-gold);\n          background: rgba(18, 18, 18, 0.6);\n          box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);\n      }\n      \n      .container .qr-frame::before {\n          content: \"\";\n          position: absolute;\n          top: 5px;\n          left: 5px;\n          right: 5px;\n          bottom: 5px;\n          border: 1px solid rgba(212, 175, 55, 0.5);\n          pointer-events: none;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          display: block;\n          filter: sepia(20%);\n      }\n      \n      .container .qr-decoration {\n          position: absolute;\n          top: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--baroque-black);\n          padding: 0 10px;\n          color: var(--baroque-gold);\n          font-style: italic;\n          font-size: 14px;\n          white-space: nowrap;\n      }\n      \n      .container .qr-text {\n          position: absolute;\n          bottom: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--baroque-black);\n          padding: 0 10px;\n          color: var(--baroque-gold);\n          font-style: italic;\n          font-size: 14px;\n          white-space: nowrap;\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          padding: 20px;\n          font-size: 15px;\n          line-height: 1.6;\n          font-style: italic;\n          background: linear-gradient(135deg, rgba(30, 49, 99, 0.2), rgba(128, 0, 32, 0.2));\n          border-top: 1px solid rgba(212, 175, 55, 0.3);\n          border-bottom: 1px solid rgba(212, 175, 55, 0.3);\n      }\n      \n      .container .note-title {\n          display: block;\n          color: var(--baroque-gold);\n          font-weight: bold;\n          margin-bottom: 10px;\n          letter-spacing: 1px;\n      }\n      \n      .container .drop-cap {\n          float: left;\n          font-size: 60px;\n          line-height: 40px;\n          padding-right: 8px;\n          padding-top: 4px;\n          color: var(--baroque-gold);\n          font-family: \'Playfair Display\', serif;\n          text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);\n      }\n  </style>', '采用新巴洛克数字风格设计，将17世纪的华丽美学重新诠释为数字形式。装饰是核心元素，应使用极其丰富的数字化巴洛克花纹、卷轴和浮雕效果，每个角落都应有精致细节。色彩应奢华且戏剧性，主要使用金色、深红、皇家蓝和黑色，可添加金属光泽和渐变效果。排版应华丽且层次丰富，使用装饰性强的衬线字体，可添加花体字母和装饰性首字母。图像应添加华丽框架和装饰性边缘。光影效果是关键，应创造强烈的明暗对比，模拟巴洛克绘画的戏剧性光效。整体设计应呈现出极度奢华、复杂且充满戏剧性的视觉体验，仿佛数字时代的凡尔赛宫，参考巴洛克艺术大师如鲁本斯的作品和现代奢侈品牌的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (15, '斯堪的纳维亚风格', '<div class=\"container\">\n      <div class=\"triangle-decor\"></div>\n      <div class=\"date\">Juni 20, 2025</div>\n      <h1 class=\"title\">可持续设计</h1>\n      <p class=\"subtitle\">如何通过设计创造更环保的未来</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          优秀的设计不只是看起来美观，更应该对地球和人类的未来负责。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">1</span>\n              <span>可循环材料：选择可生物降解或可完全回收的材料是可持续设计的基础</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">2</span>\n              <span>长久耐用：设计应超越短暂流行，创造能经受时间考验的产品</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">3</span>\n              <span>节能生产：优化制造流程，减少能源消耗和碳排放</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">4</span>\n              <span>全生命周期：考虑产品从原材料到废弃处理的完整环境影响</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，了解更多可持续设计案例</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑手记：</strong> 在资源有限的世界里，可持续设计不再是选择而是必需。北欧设计一直引领这一理念，将简约美学与环保责任完美结合。\n      </div>\n  </div>', '<style>\n      /* 斯堪的纳维亚风格 */\n      .container {\n          font-family: \'Futura\', \'Noto Sans SC\', sans-serif;\n          --scandi-bg: #ffffff;\n          --scandi-text: #333333;\n          --scandi-accent: #6a8d73;\n          --scandi-secondary: #f0dbc4;\n          --scandi-pale: #f7f7f7;\n          --scandi-gray: #a5a5a5;\n          background-color: var(--scandi-bg);\n          color: var(--scandi-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.5;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 20px;\n          left: 20px;\n          right: 20px;\n          bottom: 20px;\n          border: 1px solid var(--scandi-secondary);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 2px;\n          color: var(--scandi-gray);\n          margin-bottom: 30px;\n          text-transform: uppercase;\n      }\n      \n      .container .title {\n          font-size: 36px;\n          font-weight: 500;\n          margin-bottom: 16px;\n          color: var(--scandi-text);\n          letter-spacing: -0.5px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--scandi-gray);\n      }\n      \n      .container .divider {\n          height: 2px;\n          width: 50px;\n          background-color: var(--scandi-accent);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 20px;\n          line-height: 1.6;\n          padding: 30px;\n          margin: 30px 0;\n          background-color: var(--scandi-pale);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          position: absolute;\n          top: 0;\n          left: 10px;\n          font-size: 60px;\n          color: var(--scandi-accent);\n          opacity: 0.3;\n          line-height: 1;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 24px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          min-width: 24px;\n          height: 24px;\n          border-radius: 50%;\n          background-color: var(--scandi-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 12px;\n          margin-right: 15px;\n          margin-top: 2px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: var(--scandi-pale);\n          padding: 30px;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--scandi-gray);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: var(--scandi-secondary);\n          color: var(--scandi-text);\n          position: relative;\n      }\n      \n      .container .triangle-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          opacity: 0.1;\n      }\n      \n      .container .triangle-decor::before {\n          content: \"\";\n          position: absolute;\n          width: 0;\n          height: 0;\n          border-left: 30px solid transparent;\n          border-right: 30px solid transparent;\n          border-bottom: 60px solid var(--scandi-accent);\n      }\n  </style>', '采用斯堪的纳维亚风格设计，体现北欧设计的简约与功能美学。使用纯白背景，配以特定的北欧色调如淡蓝、浅灰、原木色和淡粉。排版应极度克制且有序，使用大量留白，但与极简主义不同，应加入温暖质感。字体选择无衬线几何字体如Futura或Circular，字重轻盈。装饰元素应极少但精心选择，可使用简单几何图案如三角形和线条，参考马勒维奇的构成主义。图像应明亮、简洁且自然。整体设计应呈现出清爽、实用且温暖的北欧特质，平衡美学与功能性，参考Kinfolk杂志和丹麦设计品牌HAY的产品美学。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (16, '未来科技风格', '<div class=\"container\">\n      <div class=\"date\">2025.03.21</div>\n      <h1 class=\"title\">深空探索</h1>\n      <p class=\"subtitle\">人类文明跨越星际的下一步</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"我们在地球上的存在只是宇宙意识的短暂火花，深空探索是延续这火花的唯一希望。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">001</span>\n              <span>量子引擎突破光速限制的理论基础已初步验证，星际旅行不再是科幻</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">002</span>\n              <span>近星系人工智能探测网络已部署，预计5年内发回首批系外行星详细数据</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">003</span>\n              <span>深空辐射防护技术解决了长期太空旅行的最大生物学障碍</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">004</span>\n              <span>月球永久基地将成为人类迈向火星与更远星系的跳板</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描接入星际探索实时数据网络</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 本报道基于最新深空探索计划发布的官方数据。部分预测基于当前技术发展曲线，实际进展可能因政治或资金因素有所调整。\n      </div>\n  </div>', '<style>\n      /* 未来科技风格 */\n      .container {\n          font-family: \'Space Mono\', \'Noto Sans SC\', monospace;\n          --tech-bg: #0a0f18;\n          --tech-text: #e2e8f0;\n          --tech-accent: #0df2ff;\n          --tech-secondary: #ff00a5;\n          --tech-dark: #141c2b;\n          --tech-grid: rgba(13, 242, 255, 0.1);\n          background-color: var(--tech-bg);\n          background-image: \n              radial-gradient(circle at 15% 30%, rgba(13, 242, 255, 0.1) 0%, transparent 25%),\n              linear-gradient(to bottom, transparent 0%, rgba(13, 242, 255, 0.05) 100%);\n          color: var(--tech-text);\n          padding: 35px;\n          position: relative;\n          overflow: hidden;\n          line-height: 1.5;\n          animation: powerOn 1s ease-out forwards;\n      }\n      \n      @keyframes powerOn {\n          0% { opacity: 0; filter: blur(10px); }\n          50% { opacity: 0.5; filter: blur(5px); }\n          60% { opacity: 0.6; filter: blur(0); }\n          65% { opacity: 0.8; }\n          70% { opacity: 0.4; }\n          75% { opacity: 0.9; }\n          80% { opacity: 0.7; }\n          100% { opacity: 1; filter: blur(0); }\n      }\n      \n      @keyframes scanLine {\n          0% { transform: translateY(-100%); }\n          100% { transform: translateY(100%); }\n      }\n      \n      @keyframes blink {\n          0%, 100% { opacity: 1; }\n          50% { opacity: 0.3; }\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: \n              linear-gradient(90deg, var(--tech-grid) 1px, transparent 1px),\n              linear-gradient(0deg, var(--tech-grid) 1px, transparent 1px);\n          background-size: 20px 20px;\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          height: 100%;\n          background: linear-gradient(transparent 0%, rgba(13, 242, 255, 0.2) 50%, transparent 100%);\n          pointer-events: none;\n          z-index: 2;\n          opacity: 0.1;\n          height: 2px;\n          animation: scanLine 3s linear infinite;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 2px;\n          color: var(--tech-accent);\n          margin-bottom: 30px;\n          display: flex;\n          align-items: center;\n          text-transform: uppercase;\n      }\n      \n      .container .date::before {\n          content: \"//\";\n          margin-right: 8px;\n      }\n      \n      .container .date::after {\n          content: \"\";\n          display: inline-block;\n          width: 8px;\n          height: 8px;\n          background-color: var(--tech-accent);\n          margin-left: 8px;\n          animation: blink 2s infinite;\n      }\n      \n      .container .title {\n          font-size: 36px;\n          font-weight: 700;\n          margin-bottom: 16px;\n          color: white;\n          text-transform: uppercase;\n          position: relative;\n          display: inline-block;\n      }\n      \n      .container .title::after {\n          content: \">\";\n          color: var(--tech-accent);\n          margin-left: 8px;\n          animation: blink 1s infinite;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--tech-text);\n          opacity: 0.8;\n          padding-left: 20px;\n          border-left: 2px solid var(--tech-secondary);\n      }\n      \n      .container .divider {\n          height: 2px;\n          width: 100%;\n          background: linear-gradient(90deg, var(--tech-bg), var(--tech-accent), var(--tech-bg));\n          margin: 30px 0;\n          position: relative;\n      }\n      \n      .container .divider::before {\n          content: \"\";\n          position: absolute;\n          width: 10px;\n          height: 10px;\n          background-color: var(--tech-accent);\n          top: -4px;\n          left: calc(50% - 5px);\n          transform: rotate(45deg);\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          padding: 20px;\n          margin: 30px 0;\n          background-color: rgba(20, 28, 43, 0.8);\n          border-left: 2px solid var(--tech-accent);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"SYS//QUOTE\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .points {\n          margin: 40px 0;\n          background-color: rgba(20, 28, 43, 0.5);\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .points::before {\n          content: \"DATA//ANALYSIS\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: var(--tech-secondary);\n          font-size: 14px;\n          font-weight: 700;\n          margin-right: 15px;\n          background-color: rgba(255, 0, 165, 0.1);\n          padding: 2px 8px;\n          border-radius: 4px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(20, 28, 43, 0.5);\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .qr-section::before {\n          content: \"SCAN//CONNECT\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .qr-code {\n          width: 90px;\n          height: 90px;\n          margin-right: 20px;\n          border: 1px solid var(--tech-accent);\n          padding: 5px;\n          position: relative;\n          animation: pulse 2s infinite;\n      }\n      \n      @keyframes pulse {\n          0% { box-shadow: 0 0 0 0 rgba(13, 242, 255, 0.4); }\n          70% { box-shadow: 0 0 0 10px rgba(13, 242, 255, 0); }\n          100% { box-shadow: 0 0 0 0 rgba(13, 242, 255, 0); }\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--tech-text);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: rgba(20, 28, 43, 0.5);\n          border-left: 2px solid var(--tech-secondary);\n          position: relative;\n      }\n      \n      .container .editor-note::before {\n          content: \"NOTE//ADMIN\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-secondary);\n      }\n  </style>', '采用未来科技风格设计，呈现高度发达的数字界面美学。背景必须使用深蓝或纯黑，配以霓虹蓝、电子紫等高饱和度荧光色。排版应模拟高科技显示界面，使用等宽字体如Space Mono，添加数据可视化元素如图表、网格和代码片段。装饰元素包括科技感线条、HUD界面框架和全息投影效果。必须添加动态元素如扫描线、数据流动效果和微妙闪烁。可使用半透明叠加层和模糊效果创造深度。整体设计应呈现出未来感、高科技和信息密集的视觉体验，仿佛来自几十年后的界面，参考《银翼杀手2049》和《攻壳机动队》的视觉设计。', '1', '2025-04-04 14:42:37', '1', '2025-04-04 14:42:40', '0');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_material_log
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_material_log`;
+CREATE TABLE `ai_material_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `material_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '资源类型',
+  `prompt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '提示词',
+  `model_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型',
+  `original_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '原生链接',
+  `local_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '本地链接',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `material_status` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI资源记录';
+
+-- ----------------------------
+-- Table structure for ai_report_conf
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_report_conf`;
+CREATE TABLE `ai_report_conf` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `report_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+  `report_prompt` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '描述提示词',
+  `report_resource` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '资源base64',
+  `report_marked` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '报告字段',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_by` datetime DEFAULT NULL,
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 报告';
+
+-- ----------------------------
+-- Table structure for ai_dataset_user
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_dataset_user`;
+CREATE TABLE `ai_dataset_user` (
+  `dataset_id` bigint NOT NULL COMMENT '知识库ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  PRIMARY KEY (`dataset_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='知识库用户权限';
 
 SET FOREIGN_KEY_CHECKS = 1;
