@@ -1,0 +1,408 @@
+package com.pig4cloud.pigx.flow.service.impl;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.lang.Dict;
+import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
+import com.pig4cloud.pigx.flow.constant.NodeStatusEnum;
+import com.pig4cloud.pigx.flow.dto.IndexPageStatistics;
+import com.pig4cloud.pigx.flow.dto.Node;
+import com.pig4cloud.pigx.flow.dto.TaskParamDto;
+import com.pig4cloud.pigx.flow.dto.TaskResultDto;
+import com.pig4cloud.pigx.flow.entity.Process;
+import com.pig4cloud.pigx.flow.entity.ProcessCopy;
+import com.pig4cloud.pigx.flow.entity.ProcessInstanceRecord;
+import com.pig4cloud.pigx.flow.entity.ProcessNodeRecordAssignUser;
+import com.pig4cloud.pigx.flow.service.*;
+import com.pig4cloud.pigx.flow.support.utils.NodeUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import org.flowable.engine.HistoryService;
+import org.flowable.engine.RuntimeService;
+import org.flowable.engine.TaskService;
+import org.flowable.engine.history.HistoricActivityInstanceQuery;
+import org.flowable.engine.runtime.Execution;
+import org.flowable.engine.runtime.ProcessInstance;
+import org.flowable.task.api.DelegationState;
+import org.flowable.task.api.Task;
+import org.flowable.task.api.TaskQuery;
+import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.variable.api.history.HistoricVariableInstance;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.*;
+
+/**
+ * 任务服务实现类
+ * <p>
+ * 该类是流程任务操作的核心服务，负责处理用户与流程任务的交互，主要功能包括： 1. 任务查询（待办任务详情、任务表单权限等） 2. 任务操作（完成、委托、转办、退回等） 3.
+ * 任务统计（首页数据看板） 4. 流程控制（终止流程、加签等高级操作）
+ * 
+ * 该服务整合了流程引擎的任务API，为前端提供统一的任务操作接口
+ * </p>
+ * 
+ * @author pigx code generator
+ * @date 2023-10-01
+ */
+@Service
+@Slf4j
+@RequiredArgsConstructor
+public class TaskServiceImpl implements ITaskService {
+
+	private final IProcessService processService;
+
+	private final IProcessCopyService processCopyService;
+
+	private final IProcessNodeDataService nodeDataService;
+
+	private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
+
+	private final IProcessInstanceRecordService processInstanceRecordService;
+
+	private final IFlowableEngineService flowableEngineService;
+
+	private final TaskService taskService;
+
+	private final HistoryService historyService;
+
+	private final RuntimeService runtimeService;
+
+	private final ObjectMapper objectMapper;
+
+	/**
+	 * 查询首页数据看板
+	 * <p>
+	 * 获取当前用户的任务统计数据，包括： 1. 待办任务数量 2. 已办任务数量 3. 我发起的流程数量 4. 抄送给我的数量
+	 * </p>
+	 * @return R 包含IndexPageStatistics对象，含有各项统计数据
+	 */
+	@Override
+	public R queryTaskData() {
+
+		TaskQuery taskQuery = taskService.createTaskQuery();
+
+		// 待办数量
+		long pendingNum = taskQuery.taskAssignee(String.valueOf(SecurityUtils.getUser().getId()))
+			.taskTenantId(TenantContextHolder.getTenantId().toString())
+			.count();
+		// 已完成任务
+		HistoricActivityInstanceQuery historicActivityInstanceQuery = historyService
+			.createHistoricActivityInstanceQuery();
+
+		long completedNum = historicActivityInstanceQuery.taskAssignee(String.valueOf(SecurityUtils.getUser().getId()))
+			.tenantIdIn(List.of(TenantContextHolder.getTenantId().toString()))
+			.finished()
+			.count();
+
+		IndexPageStatistics indexPageStatistics = IndexPageStatistics.builder()
+			.pendingNum(pendingNum)
+			.completedNum(completedNum)
+			.build();
+
+		// 获取抄送任务
+		Long copyCount = processCopyService.lambdaQuery()
+			.eq(ProcessCopy::getUserId, SecurityUtils.getUser().getId())
+			.count();
+		indexPageStatistics.setCopyNum(copyCount);
+		return R.ok(indexPageStatistics);
+	}
+
+	/**
+	 * 查询任务
+	 * <p>
+	 * 查询指定任务的详细信息，包括： 1. 任务的基本信息（节点名称、执行人等） 2. 流程表单定义和表单数据 3. 当前节点的表单权限配置 4.
+	 * 任务是否可委托、是否是委托任务等状态
+	 * 
+	 * 对于已完成的任务，会从历史记录中获取任务数据
+	 * </p>
+	 * @param taskId 任务ID
+	 * @param view 是否是查看模式（true:只查看，false:可操作）
+	 * @return R 包含任务详情的Dict对象
+	 * @throws Exception 当解析JSON数据失败时抛出异常
+	 */
+	@SneakyThrows
+	@Override
+	public R queryTask(String taskId, boolean view) {
+
+		long userId = SecurityUtils.getUser().getId();
+
+		Optional<Task> task = Optional.ofNullable(taskService.createTaskQuery()
+			.taskId(taskId)
+			.taskTenantId(TenantContextHolder.getTenantId().toString())
+			.taskAssignee(String.valueOf(userId))
+			.singleResult());
+		TaskResultDto taskResultDto = new TaskResultDto();
+
+		if (task.isPresent()) {
+			String processDefinitionId = task.get().getProcessDefinitionId();
+			String taskDefinitionKey = task.get().getTaskDefinitionKey();
+			DelegationState delegationState = task.get().getDelegationState();
+			String processInstanceId = task.get().getProcessInstanceId();
+			Object delegateVariable = taskService.getVariableLocal(taskId, "delegate");
+
+			String flowId = NodeUtil.getFlowId(processDefinitionId);
+			Map<String, Object> variables = taskService.getVariables(taskId);
+			Map<String, Object> variableAll = new HashMap<>(variables);
+
+			taskResultDto.setFlowId(flowId);
+			taskResultDto.setNodeId(taskDefinitionKey);
+			taskResultDto.setCurrentTask(true);
+			taskResultDto.setDelegate(Convert.toBool(delegateVariable, false));
+			taskResultDto.setVariableAll(variableAll);
+			taskResultDto.setProcessInstanceId(processInstanceId);
+			taskResultDto.setDelegationState(delegationState == null ? null : delegationState.toString());
+		}
+		else {
+			Optional<HistoricTaskInstance> historicTaskInstance = Optional
+				.ofNullable(historyService.createHistoricTaskInstanceQuery()
+					.taskId(taskId)
+					.taskAssignee(String.valueOf(userId))
+					.singleResult());
+
+			String processDefinitionId = historicTaskInstance.get().getProcessDefinitionId();
+			String taskDefinitionKey = historicTaskInstance.get().getTaskDefinitionKey();
+			String processInstanceId = historicTaskInstance.get().getProcessInstanceId();
+
+			String flowId = NodeUtil.getFlowId(processDefinitionId);
+
+			List<HistoricVariableInstance> variableInstanceList = historyService.createHistoricVariableInstanceQuery()
+				.processInstanceId(processInstanceId)
+				.list();
+			Map<String, Object> variableAll = new HashMap<>();
+
+			if (CollUtil.isNotEmpty(variableInstanceList)) {
+				variableInstanceList.forEach(historicVariableInstance -> variableAll
+					.put(historicVariableInstance.getVariableName(), historicVariableInstance.getValue()));
+			}
+
+			taskResultDto.setFlowId(flowId);
+			taskResultDto.setNodeId(taskDefinitionKey);
+			taskResultDto.setCurrentTask(false);
+			taskResultDto.setVariableAll(variableAll);
+			taskResultDto.setProcessInstanceId(processInstanceId);
+
+		}
+
+		// 变量
+		Map<String, Object> paramMap = taskResultDto.getVariableAll();
+		// 是否是当前活动任务
+		Boolean currentTask = taskResultDto.getCurrentTask();
+		if (!currentTask) {
+			ProcessNodeRecordAssignUser processNodeRecordAssignUser = processNodeRecordAssignUserService.lambdaQuery()
+				.eq(ProcessNodeRecordAssignUser::getTaskId, taskId)
+				.eq(ProcessNodeRecordAssignUser::getUserId, userId)
+				.eq(ProcessNodeRecordAssignUser::getStatus, NodeStatusEnum.YJS.getCode())
+				.last("limit 1")
+				.orderByDesc(ProcessNodeRecordAssignUser::getEndTime)
+				.one();
+
+			if (processNodeRecordAssignUser != null) {
+				String data = processNodeRecordAssignUser.getData();
+				if (StrUtil.isNotBlank(data)) {
+					Map<String, Object> collect = objectMapper.readValue(data, new TypeReference<>() {
+					});
+					paramMap.putAll(collect);
+
+				}
+			}
+
+		}
+
+		// 当前节点数据
+		Node node = nodeDataService.getNodeData(taskResultDto.getFlowId(), taskResultDto.getNodeId()).getData();
+		Map<String, String> formPerms = node.getFormPerms();
+
+		Process oaForms = processService.getByFlowId(taskResultDto.getFlowId());
+		if (oaForms == null) {
+			return R.failed("流程不存在");
+		}
+
+		Dict set = Dict.create()
+			.set("processInstanceId", taskResultDto.getProcessInstanceId())
+			.set("node", taskResultDto.getTaskNode())
+			.set("process", oaForms.getProcess())
+			.set("delegateAgain", taskResultDto.getDelegate())
+			.set("delegationTask", StrUtil.equals(taskResultDto.getDelegationState(), "PENDING"))
+			.set("formItems", oaForms.getFormItems())
+			.set("formData", paramMap)
+			.set("formConfig", oaForms.getFormConfig())
+			.set("formPerms", formPerms);
+
+		return R.ok(set);
+	}
+
+	/**
+	 * 完成任务
+	 * <p>
+	 * 执行任务的完成操作，将任务标记为已完成并流转到下一个节点。 该方法会将当前用户ID设置到任务参数中，确保任务由正确的用户完成
+	 * </p>
+	 * @param taskParamDto 任务参数，包含任务ID、审批意见、流程变量等
+	 * @return R 操作结果
+	 */
+	@Override
+	public R completeTask(TaskParamDto taskParamDto) {
+		long userId = SecurityUtils.getUser().getId();
+		taskParamDto.setUserId(String.valueOf(userId));
+
+		Map<String, Object> taskLocalParamMap = taskParamDto.getTaskLocalParamMap();
+		if (CollUtil.isNotEmpty(taskLocalParamMap)) {
+			taskService.setVariablesLocal(taskParamDto.getTaskId(), taskLocalParamMap);
+		}
+
+		taskService.complete(taskParamDto.getTaskId(), taskParamDto.getParamMap());
+
+		return R.ok();
+	}
+
+	/**
+	 * 前加签
+	 * <p>
+	 * 将任务委托给其他用户处理，委托后任务会分配给被委托人， 被委托人完成后任务会返回给原委托人
+	 * </p>
+	 * @param taskParamDto 任务参数，包含任务ID、被委托人ID列表等
+	 * @return R 操作结果
+	 */
+	@Transactional
+	@Override
+	public R delegateTask(TaskParamDto taskParamDto) {
+		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
+		return flowableEngineService.delegateTask(taskParamDto);
+	}
+
+	/**
+	 * 加签完成任务
+	 * <p>
+	 * 被委托人完成委托任务后，通过此方法将任务返回给原委托人。 这是委托流程的第二步，用于结束委托状态
+	 * </p>
+	 * @param taskParamDto 任务参数，包含任务ID、审批意见等
+	 * @return R 操作结果
+	 */
+	@Override
+	public R resolveTask(TaskParamDto taskParamDto) {
+		return flowableEngineService.resolveTask(taskParamDto);
+	}
+
+	/**
+	 * 设置执行人
+	 * <p>
+	 * 转办任务给其他用户，与委托不同，转办后任务直接由新执行人处理， 不会返回给原执行人
+	 * </p>
+	 * @param taskParamDto 任务参数，包含任务ID、新执行人ID等
+	 * @return R 操作结果
+	 */
+	@Override
+	public R setAssignee(TaskParamDto taskParamDto) {
+		Map<String, Object> taskLocalParamMap = taskParamDto.getTaskLocalParamMap();
+		if (CollUtil.isNotEmpty(taskLocalParamMap)) {
+			taskService.setVariablesLocal(taskParamDto.getTaskId(), taskLocalParamMap);
+		}
+
+		// 设置任务的 owner 为当前任务的 assignee
+		Task task = taskService.createTaskQuery()
+			.taskId(taskParamDto.getTaskId())
+			.includeTaskLocalVariables()
+			.singleResult();
+		taskService.setOwner(taskParamDto.getTaskId(), task.getAssignee());
+
+		// 设置任务的 assignee 为目标用户 (转办用户)
+		for (Long targetUserId : taskParamDto.getTargetUserIdList()) {
+			taskService.setAssignee(taskParamDto.getTaskId(), targetUserId.toString());
+		}
+		return R.ok();
+	}
+
+	/**
+	 * 结束流程
+	 * <p>
+	 * 强制终止流程实例的执行。该方法会： 1. 递归查找并终止所有子流程实例 2. 更新流程实例记录状态为已结束 3.
+	 * 设置结束原因为强制终止（finishReason=9）
+	 * 
+	 * 通常用于流程异常或需要强制结束的场景
+	 * </p>
+	 * @param taskParamDto 任务参数，包含流程实例ID
+	 * @return R 操作结果
+	 */
+	@Override
+	public R stopProcessInstance(TaskParamDto taskParamDto) {
+		String reqProcessInstanceId = taskParamDto.getProcessInstanceId();
+		List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(reqProcessInstanceId);
+		CollUtil.reverse(allStopProcessInstanceIdList);
+		allStopProcessInstanceIdList.add(reqProcessInstanceId);
+		allStopProcessInstanceIdList.forEach(processInstanceId -> {
+			// 查询流程实例
+			ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+				.processInstanceId(processInstanceId)
+				.processInstanceTenantId(TenantContextHolder.getTenantId().toString())
+				.singleResult();
+			if (Optional.ofNullable(processInstance).isPresent()) {
+				// 查询执行实例
+				List<String> executionIds = runtimeService.createExecutionQuery()
+					.parentId(processInstanceId)
+					.list()
+					.stream()
+					.map(Execution::getId)
+					.toList();
+				// 更改活动状态为结束
+				runtimeService.createChangeActivityStateBuilder()
+					.moveExecutionsToSingleActivityId(executionIds, "end")
+					.changeState();
+			}
+		});
+
+		// 停止流程实例后，更新流程实例记录状态
+		processInstanceRecordService.lambdaUpdate()
+			.set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
+			.set(ProcessInstanceRecord::getFinishReason, "9")
+			.set(ProcessInstanceRecord::getEndTime, new Date())
+			.eq(ProcessInstanceRecord::getProcessInstanceId, reqProcessInstanceId)
+			.update(new ProcessInstanceRecord());
+		return R.ok();
+	}
+
+	/**
+	 * 退回
+	 * <p>
+	 * 将任务退回到指定的历史节点重新处理。 常用于审批不通过需要重新修改的场景
+	 * </p>
+	 * @param taskParamDto 任务参数，包含任务ID、目标节点ID、退回原因等
+	 * @return R 操作结果
+	 */
+	@Override
+	public R back(TaskParamDto taskParamDto) {
+		taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
+		return flowableEngineService.back(taskParamDto);
+	}
+
+	/**
+	 * 递归获取所有需要停止的子流程实例ID列表
+	 * <p>
+	 * 当一个流程包含子流程时，终止主流程需要同时终止所有子流程。 该方法递归查找指定流程的所有子流程实例ID
+	 * </p>
+	 * @param processInstanceId 父流程实例ID
+	 * @return 所有子流程实例ID列表
+	 */
+	private List<String> getAllStopProcessInstanceIdList(String processInstanceId) {
+		List<ProcessInstanceRecord> list = processInstanceRecordService.lambdaQuery()
+			.eq(ProcessInstanceRecord::getParentProcessInstanceId, processInstanceId)
+			.list();
+
+		List<String> collect = new ArrayList<>(list.stream().map(ProcessInstanceRecord::getProcessInstanceId).toList());
+
+		for (ProcessInstanceRecord processInstanceRecord : list) {
+			List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(
+					processInstanceRecord.getProcessInstanceId());
+
+			collect.addAll(allStopProcessInstanceIdList);
+
+		}
+		return collect;
+	}
+
+}
