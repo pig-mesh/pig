@@ -17,6 +17,7 @@ CREATE TABLE `process` (
   `logo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图标配置',
   `settings` json DEFAULT NULL COMMENT '设置项',
   `group_id` bigint NOT NULL COMMENT '分组ID',
+  `form_config` json NOT NULL COMMENT '表单设置信息',
   `form_items` json NOT NULL COMMENT '表单设置内容',
   `process` json NOT NULL COMMENT '流程设置内容',
   `remark` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
@@ -195,5 +196,28 @@ CREATE TABLE `process_starter` (
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程发起人';
+
+-- ----------------------------
+-- Table structure for bmp_oa_leave
+-- ----------------------------
+DROP TABLE IF EXISTS `bmp_oa_leave`;
+CREATE TABLE `bmp_oa_leave` (
+  `id` bigint NOT NULL COMMENT '请假表单主键',
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人',
+  `leave_type` int NOT NULL COMMENT '请假类型',
+  `leave_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请假原因',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `leave_day` int NOT NULL COMMENT '请假天数',
+  `leave_status` int DEFAULT NULL COMMENT '请假结果',
+  `process_instance_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '流程实例的编号',
+  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `del_flag` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='请假表单';
 
 SET FOREIGN_KEY_CHECKS = 1;

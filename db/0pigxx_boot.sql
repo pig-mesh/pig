@@ -704,6 +704,12 @@ INSERT INTO `sys_menu` VALUES (6005,'待办任务',NULL,'/flow/task/pending',NUL
 INSERT INTO `sys_menu` VALUES (6006,'我的已办',NULL,'/flow/task/completed',NULL,6004,'iconfont icon-document-record','1',3,'0','0','0','admin','2023-03-02 23:23:13','admin','2023-11-01 17:36:57','0',1);
 INSERT INTO `sys_menu` VALUES (6007,'我的发起',NULL,'/flow/task/started',NULL,6004,'iconfont icon-wodefaqi','1',1,'0',NULL,'0','','2023-07-27 13:14:51','admin','2023-11-01 17:36:59','0',1);
 INSERT INTO `sys_menu` VALUES (6008,'抄送给我',NULL,'/flow/task/cc',NULL,6004,'iconfont icon-chaosonggeiwo','1',2,'0',NULL,'0','','2023-07-27 13:14:56','admin','2023-11-01 17:37:01','0',1);
+INSERT INTO `sys_menu` VALUES (6010,'业务表单',NULL,'/flow/oaLeave/index',NULL,6000,'iconfont icon-qingjiashenqing','1',4,'0',NULL,'0','','2023-07-27 13:14:56','admin','2023-11-01 17:37:01','0',1);
+INSERT INTO `sys_menu` VALUES (6011,'查看','flow_bpmOaLeave_view',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
+INSERT INTO `sys_menu` VALUES (6012,'新增','flow_bpmOaLeave_add',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
+INSERT INTO `sys_menu` VALUES (6013,'编辑','flow_bpmOaLeave_edit',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
+INSERT INTO `sys_menu` VALUES (6014,'删除','flow_bpmOaLeave_del',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
+INSERT INTO `sys_menu` VALUES (6015,'导出','flow_bpmOaLeave_export',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
 INSERT INTO `sys_menu` VALUES (7000,'APP管理',NULL,'/app',NULL,9900,'iconfont icon-menhukehuduan','1',2,'0','0','0','admin',NULL,'admin','2023-11-27 14:52:31','0',1);
 INSERT INTO `sys_menu` VALUES (7100,'客户管理',NULL,'/biz/app/appuser/index',NULL,7000,'iconfont icon-gerenzhongxin','1',1,'1',NULL,'0','admin',NULL,'admin','2023-11-01 17:29:36','0',1);
 INSERT INTO `sys_menu` VALUES (7101,'新增用户','app_appuser_add',NULL,NULL,7100,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
@@ -1087,6 +1093,12 @@ INSERT INTO `sys_role_menu` VALUES (1, 6005);
 INSERT INTO `sys_role_menu` VALUES (1, 6006);
 INSERT INTO `sys_role_menu` VALUES (1, 6007);
 INSERT INTO `sys_role_menu` VALUES (1, 6008);
+INSERT INTO `sys_role_menu` VALUES (1, 6010);
+INSERT INTO `sys_role_menu` VALUES (1, 6011);
+INSERT INTO `sys_role_menu` VALUES (1, 6012);
+INSERT INTO `sys_role_menu` VALUES (1, 6013);
+INSERT INTO `sys_role_menu` VALUES (1, 6014);
+INSERT INTO `sys_role_menu` VALUES (1, 6015);
 INSERT INTO `sys_role_menu` VALUES (1, 7000);
 INSERT INTO `sys_role_menu` VALUES (1, 7100);
 INSERT INTO `sys_role_menu` VALUES (1, 7101);
@@ -1460,6 +1472,7 @@ CREATE TABLE `process` (
   `logo` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '图标配置',
   `settings` json DEFAULT NULL COMMENT '设置项',
   `group_id` bigint NOT NULL COMMENT '分组ID',
+  `form_config` json NOT NULL COMMENT '表单设置信息',
   `form_items` json NOT NULL COMMENT '表单设置内容',
   `process` json NOT NULL COMMENT '流程设置内容',
   `remark` varchar(125) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
@@ -1621,6 +1634,28 @@ CREATE TABLE `process_node_record_assign_user` (
   KEY `idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点记录-执行人';
 
+-- ----------------------------
+-- Table structure for bmp_oa_leave
+-- ----------------------------
+DROP TABLE IF EXISTS `bmp_oa_leave`;
+CREATE TABLE `bmp_oa_leave` (
+  `id` bigint NOT NULL COMMENT '请假表单主键',
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人',
+  `leave_type` int NOT NULL COMMENT '请假类型',
+  `leave_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请假原因',
+  `start_time` datetime NOT NULL COMMENT '开始时间',
+  `end_time` datetime NOT NULL COMMENT '结束时间',
+  `leave_day` int NOT NULL COMMENT '请假天数',
+  `leave_status` int DEFAULT NULL COMMENT '请假结果',
+  `process_instance_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '流程实例的编号',
+  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+  `del_flag` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='请假表单';
 
 -- ----------------------------
 -- Table structure for process_starter

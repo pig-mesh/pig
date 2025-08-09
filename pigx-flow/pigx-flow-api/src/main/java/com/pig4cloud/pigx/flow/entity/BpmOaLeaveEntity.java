@@ -1,26 +1,21 @@
 package com.pig4cloud.pigx.flow.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.pig4cloud.pigx.common.core.util.TenantTable;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
 
 /**
- * 请假表单
+ * 请假表单示例实体类
  *
- * @author pigx
- * @date 2025-08-08 09:32:41
  */
 @Data
 @TenantTable
 @TableName("bpm_oa_leave")
-@EqualsAndHashCode(callSuper = true)
 @Schema(description = "请假表单")
-public class BpmOaLeaveEntity extends Model<BpmOaLeaveEntity> {
+public class BpmOaLeaveEntity {
 
 	/**
 	 * 请假表单主键
