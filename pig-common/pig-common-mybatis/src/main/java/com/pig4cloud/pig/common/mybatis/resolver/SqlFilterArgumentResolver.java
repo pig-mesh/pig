@@ -18,6 +18,7 @@
 
 package com.pig4cloud.pig.common.mybatis.resolver;
 
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
@@ -77,11 +78,11 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		Page<?> page = new Page<>();
 		if (StrUtil.isNotBlank(current)) {
-			page.setCurrent(Long.parseLong(current));
+			page.setCurrent(Convert.toLong(current, 0L));
 		}
 
 		if (StrUtil.isNotBlank(size)) {
-			page.setSize(Long.parseLong(size));
+			page.setSize(Convert.toLong(size, 10L));
 		}
 
 		List<OrderItem> orderItemList = new ArrayList<>();
