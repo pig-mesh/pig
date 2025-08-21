@@ -16,8 +16,11 @@
  */
 package com.pig4cloud.pig.codegen.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
@@ -27,12 +30,10 @@ import com.pig4cloud.pig.codegen.service.GenGroupService;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
 import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import lombok.AllArgsConstructor;
 
 /**
  * 模板分组服务实现类
@@ -40,7 +41,6 @@ import java.util.List;
  * @author lengleng
  * @date 2025/05/31
  */
-@Slf4j
 @Service
 @AllArgsConstructor
 public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEntity> implements GenGroupService {

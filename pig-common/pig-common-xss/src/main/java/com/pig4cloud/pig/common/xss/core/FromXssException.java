@@ -16,6 +16,8 @@
 
 package com.pig4cloud.pig.common.xss.core;
 
+import java.io.Serial;
+
 import lombok.Getter;
 
 /**
@@ -28,6 +30,9 @@ import lombok.Getter;
  */
 @Getter
 public class FromXssException extends IllegalStateException implements XssException {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	private final String input;
 

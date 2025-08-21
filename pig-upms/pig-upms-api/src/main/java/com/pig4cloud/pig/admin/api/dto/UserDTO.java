@@ -19,12 +19,14 @@
 
 package com.pig4cloud.pig.admin.api.dto;
 
+import java.io.Serial;
+import java.util.List;
+
 import com.pig4cloud.pig.admin.api.entity.SysUser;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * @author lengleng
@@ -34,6 +36,9 @@ import java.util.List;
 @Schema(description = "系统用户传输对象")
 @EqualsAndHashCode(callSuper = true)
 public class UserDTO extends SysUser {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 角色ID

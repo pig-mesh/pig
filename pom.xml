@@ -28,31 +28,31 @@
 
 	<properties>
 		<!-- 项目版本号 -->
-		<revision>3.9.0</revision>
-		<spring-boot.version>3.5.4</spring-boot.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<revision>3.9.1</revision>
+		<spring-boot.version>3.5.5</spring-boot.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-		<spring-boot-admin.version>3.5.0</spring-boot-admin.version>
-		<screw.version>0.0.3</screw.version>
-		<captcha.version>2.2.5</captcha.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<spring-boot-admin.version>3.5.2</spring-boot-admin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
 		<aws.version>2.29.45</aws.version>
+		<screw.version>0.0.3</screw.version>
+		<jasypt.version>3.0.5</jasypt.version>
+		<knife4j.version>3.0.5</knife4j.version>
+		<captcha.version>2.2.5</captcha.version>
 		<velocity.version>2.4</velocity.version>
+		<git.commit.plugin>9.0.1</git.commit.plugin>
+		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
-		<jasypt.version>3.0.5</jasypt.version>
-		<jaxb.version>4.0.5</jaxb.version>
-		<knife4j.version>3.0.5</knife4j.version>
-		<swagger.fox.version>3.0.0</swagger.fox.version>
-		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<docker.host>http://192.168.0.100:2375</docker.host>
-		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<docker.namespace>pig4cloud</docker.namespace>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
-		<git.commit.plugin>9.0.1</git.commit.plugin>
+		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+		<commons-lang3.version>3.18.0</commons-lang3.version>
 		<spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
@@ -93,7 +93,6 @@
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
-			<version>${jaxb.version}</version>
 		</dependency>
 		<!--测试依赖-->
 		<dependency>
@@ -137,6 +136,12 @@
 				<version>${spring-cloud.version}</version>
 				<type>pom</type>
 				<scope>import</scope>
+			</dependency>
+			<!-- commons-lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
 			</dependency>
 			<!-- spring cloud alibaba 依赖 -->
 			<dependency>

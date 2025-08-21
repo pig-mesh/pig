@@ -18,23 +18,23 @@
 
 package com.pig4cloud.pig.common.mybatis.resolver;
 
-import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
+import cn.hutool.core.util.StrUtil;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Mybatis Plus Order By SQL注入问题解决类
@@ -42,7 +42,6 @@ import java.util.stream.Collectors;
  * @author lengleng
  * @date 2019-06-24
  */
-@Slf4j
 public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver {
 
 	/**

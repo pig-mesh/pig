@@ -19,29 +19,29 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import cn.hutool.core.util.StrUtil;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import lombok.AllArgsConstructor;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import cn.hutool.core.util.StrUtil;
+import lombok.AllArgsConstructor;
 
 /**
  * 角色菜单表服务实现类
  *
  * @author lengleng
  * @date 2025/05/30
- * @since 2017-10-29
  */
 @Service
 @AllArgsConstructor

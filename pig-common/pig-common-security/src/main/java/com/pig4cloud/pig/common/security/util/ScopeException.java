@@ -1,5 +1,7 @@
 package com.pig4cloud.pig.common.security.util;
 
+import java.io.Serial;
+
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 
@@ -7,10 +9,12 @@ import org.springframework.security.oauth2.core.OAuth2Error;
  * ScopeException 异常类，用于处理OAuth2认证过程中的作用域异常
  *
  * @author lengleng
- * @author jumuning
  * @date 2025/05/31
  */
 public class ScopeException extends OAuth2AuthenticationException {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 使用指定消息构造ScopeException

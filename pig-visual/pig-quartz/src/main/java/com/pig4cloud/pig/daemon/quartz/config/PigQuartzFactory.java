@@ -17,14 +17,15 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
-import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
+
+import lombok.SneakyThrows;
 
 /**
  * 动态任务工厂：用于执行动态任务调度
@@ -33,7 +34,6 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author 郑健楠
  * @date 2025/05/31
  */
-@Slf4j
 @DisallowConcurrentExecution
 public class PigQuartzFactory implements Job {
 

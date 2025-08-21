@@ -16,6 +16,13 @@
 
 package com.alibaba.nacos.bootstrap;
 
+import static org.springframework.boot.context.logging.LoggingApplicationListener.CONFIG_PROPERTY;
+import static org.springframework.core.io.ResourceLoader.CLASSPATH_URL_PREFIX;
+
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+
 import com.alibaba.nacos.NacosServerBasicApplication;
 import com.alibaba.nacos.NacosServerWebApplication;
 import com.alibaba.nacos.console.NacosConsole;
@@ -24,20 +31,12 @@ import com.alibaba.nacos.core.listener.startup.NacosStartUpManager;
 import com.alibaba.nacos.sys.env.Constants;
 import com.alibaba.nacos.sys.env.DeploymentType;
 import com.alibaba.nacos.sys.env.EnvUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.WebApplicationType;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import static org.springframework.boot.context.logging.LoggingApplicationListener.CONFIG_PROPERTY;
-import static org.springframework.core.io.ResourceLoader.CLASSPATH_URL_PREFIX;
 
 /**
  * @author nacos
  * <p>
  * nacos console 源码运行，方便开发 生产从官网下载zip最新版集群配置运行
  */
-@Slf4j
 public class PigNacosApplication {
 
 	/**

@@ -16,15 +16,9 @@
 
 package com.pig4cloud.pig.common.core.util;
 
-import cn.hutool.core.codec.Base64;
-import com.pig4cloud.pig.common.core.exception.CheckedException;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
-import lombok.SneakyThrows;
-import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,21 +26,27 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Optional;
+import com.pig4cloud.pig.common.core.exception.CheckedException;
+
+import cn.hutool.core.codec.Base64;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
+import lombok.SneakyThrows;
+import lombok.experimental.UtilityClass;
 
 /**
  * Miscellaneous utilities for web applications.
  *
  * @author L.cm
  */
-@Slf4j
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	private final String BASIC_ = "Basic ";
 
-	private final String UNKNOWN = "unknown";
+	// private final String UNKNOWN = "unknown";
 
 	/**
 	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
