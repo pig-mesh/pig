@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Data
 public class DeptExcelVo implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 导入时候回显行号
 	 */

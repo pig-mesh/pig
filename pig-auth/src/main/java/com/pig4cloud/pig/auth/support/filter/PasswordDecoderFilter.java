@@ -16,35 +16,36 @@
 
 package com.pig4cloud.pig.auth.support.filter;
 
+import java.io.IOException;
+import java.util.Map;
+
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.servlet.RepeatBodyRequestWrapper;
+
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
-import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.servlet.RepeatBodyRequestWrapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * @author lengleng
  * @date 2019 /2/1 密码解密工具类
  */
-@Slf4j
 @RequiredArgsConstructor
 @Configuration(proxyBeanMethods = false)
 public class PasswordDecoderFilter extends OncePerRequestFilter implements Ordered {

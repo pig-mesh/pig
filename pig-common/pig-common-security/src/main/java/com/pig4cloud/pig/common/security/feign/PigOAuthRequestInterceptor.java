@@ -1,18 +1,18 @@
 package com.pig4cloud.pig.common.security.feign;
 
+import java.util.Collection;
+
+import org.springframework.http.HttpHeaders;
+
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.util.WebUtils;
+
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.util.WebUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-
-import java.util.Collection;
 
 /**
  * oauth2 feign token传递
@@ -22,7 +22,6 @@ import java.util.Collection;
  * @author lengleng
  * @date 2022/5/29
  */
-@Slf4j
 @RequiredArgsConstructor
 public class PigOAuthRequestInterceptor implements RequestInterceptor {
 
@@ -46,7 +45,7 @@ public class PigOAuthRequestInterceptor implements RequestInterceptor {
 		if (!WebUtils.getRequest().isPresent()) {
 			return;
 		}
-		HttpServletRequest request = WebUtils.getRequest().get();
+		// HttpServletRequest request = WebUtils.getRequest().get();
 		// 避免请求参数的 query token 无法传递
 
 		SaTokenInfo tokenInfo = StpUtil.getTokenInfo();

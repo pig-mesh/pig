@@ -29,35 +29,33 @@
     <properties>
         <!-- 项目版本号 -->
         <revision>3.8.2</revision>
-        <spring-boot.version>3.4.1</spring-boot.version>
-        <spring-cloud.version>2024.0.0</spring-cloud.version>
-        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>3.3.5</spring-boot-admin.version>
-        <sa-token.version>1.39.0</sa-token.version>
-        <screw.version>0.0.3</screw.version>
-        <captcha.version>2.2.4</captcha.version>
         <aws.version>1.12.675</aws.version>
-        <velocity.version>2.4</velocity.version>
-        <velocity.tool.version>3.1</velocity.tool.version>
-        <configuration.version>1.10</configuration.version>
+        <screw.version>0.0.3</screw.version>
         <jasypt.version>3.0.5</jasypt.version>
+        <velocity.version>2.4</velocity.version>
+        <captcha.version>2.2.4</captcha.version>
         <jaxb.version>4.0.5</jaxb.version>
-        <knife4j.version>3.0.5</knife4j.version>
-        <swagger.fox.version>3.0.0</swagger.fox.version>
         <xxl-job.version>2.4.0</xxl-job.version>
-        <docker.plugin.version>0.45.1</docker.plugin.version>
-        <docker.host>http://192.168.0.100:2375</docker.host>
-        <docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
-        <docker.namespace>pig4cloud</docker.namespace>
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
         <git.commit.plugin>9.0.1</git.commit.plugin>
-        <spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
+        <docker.namespace>pig4cloud</docker.namespace>
+        <spring-boot.version>3.5.5</spring-boot.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <velocity.tool.version>3.1</velocity.tool.version>
+        <configuration.version>1.10</configuration.version>
+        <docker.host>http://192.168.0.100:2375</docker.host>
+        <docker.plugin.version>0.45.1</docker.plugin.version>
+		<commons-lang3.version>3.18.0</commons-lang3.version>
+        <spring-cloud.version>2025.0.0</spring-cloud.version>
+        <spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
+        <spring-boot-admin.version>3.5.2</spring-boot-admin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-        <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+        <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
     </properties>
 
     <!-- 以下依赖 全局所有的模块都会引入  -->
@@ -95,7 +93,7 @@
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb.version}</version><!--$NO-MVN-MAN-VER$-->
         </dependency>
         <!--测试依赖-->
         <dependency>
@@ -148,6 +146,25 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+			<!-- commons-lang3 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+             <!--web 模块-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <!--排除tomcat依赖-->
+                    <exclusion>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                        <groupId>org.springframework.boot</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -184,7 +201,7 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${docker.plugin.version}</version>
                     <configuration>
-                        <skip>${docker.s}</skip>
+						<skip>${docker.s}</skip>
                         <!-- Docker Remote Api-->
                         <dockerHost>${docker.host}</dockerHost>
                         <!-- Docker 镜像私服-->

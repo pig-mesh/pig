@@ -19,11 +19,13 @@
 
 package com.pig4cloud.pig.admin.api.dto;
 
+import java.io.Serial;
+import java.io.Serializable;
+
 import com.pig4cloud.pig.admin.api.entity.SysUser;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * @author lengleng
@@ -32,6 +34,9 @@ import java.io.Serializable;
 @Data
 @Schema(description = "用户信息")
 public class UserInfo implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 用户基本信息

@@ -79,7 +79,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
 	public List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key) {
-		return baseMapper.selectBatchIds(roleIdList);
+		return baseMapper.selectByIds(roleIdList);
 	}
 
 	/**

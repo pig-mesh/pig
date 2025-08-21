@@ -19,6 +19,7 @@ package com.pig4cloud.pig.common.xss.core;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.io.Serial;
 
 /**
  * xss jackson 异常
@@ -27,6 +28,9 @@ import java.io.IOException;
  */
 @Getter
 public class JacksonXssException extends IOException implements XssException {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	private final String input;
 

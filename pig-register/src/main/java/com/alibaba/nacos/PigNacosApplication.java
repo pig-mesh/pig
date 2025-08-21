@@ -16,18 +16,17 @@
 
 package com.alibaba.nacos;
 
-import com.alibaba.nacos.console.config.ConfigConstants;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
+
+import com.alibaba.nacos.console.config.ConfigConstants;
 
 /**
  * @author nacos
  * <p>
  * nacos console 源码运行，方便开发 生产从官网下载zip最新版集群配置运行
  */
-@Slf4j
 @EnableScheduling
 @SpringBootApplication
 public class PigNacosApplication {

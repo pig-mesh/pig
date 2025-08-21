@@ -20,6 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -32,6 +33,7 @@ import java.time.LocalDateTime;
 @Schema(description = "自动创建表管理")
 public class GenCreateTableVO {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

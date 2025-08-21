@@ -1,4 +1,4 @@
-package com.pig4cloud.pig.auth.support.handle;
+package com.pig4cloud.pig.auth.support.handler;
 
 import cn.dev33.satoken.oauth2.function.SaOAuth2NotLoginViewFunction;
 import com.pig4cloud.pig.common.core.util.WebUtils;
@@ -20,7 +20,7 @@ import java.util.Map;
  */
 @Service
 @RequiredArgsConstructor
-public class NoLoginViewHandle implements SaOAuth2NotLoginViewFunction {
+public class NoLoginViewHandler implements SaOAuth2NotLoginViewFunction {
 
 	private final FreeMarkerConfigurer freeMarker;
 

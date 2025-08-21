@@ -17,20 +17,20 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
-import com.pig4cloud.pig.daemon.quartz.event.SysJobEvent;
-import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.quartz.Trigger;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
+import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
+import com.pig4cloud.pig.daemon.quartz.event.SysJobEvent;
+
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+
 /**
  * @author 郑健楠
  */
-@Slf4j
 @Aspect
 @Service
 @AllArgsConstructor

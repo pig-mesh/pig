@@ -21,6 +21,7 @@ import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
 import com.fasterxml.jackson.datatype.jsr310.deser.*;
 import com.fasterxml.jackson.datatype.jsr310.ser.*;
 
+import java.io.Serial;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
@@ -32,6 +33,9 @@ import java.time.format.DateTimeFormatter;
  */
 
 public class PigJavaTimeModule extends SimpleModule {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	public PigJavaTimeModule() {
 		super(PackageVersion.VERSION);

@@ -16,8 +16,11 @@
  */
 package com.pig4cloud.pig.codegen.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.collection.CollUtil;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
@@ -27,12 +30,10 @@ import com.pig4cloud.pig.codegen.service.GenGroupService;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
 import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.collection.CollUtil;
+import lombok.AllArgsConstructor;
 
 /**
  * 模板分组
@@ -40,7 +41,6 @@ import java.util.List;
  * @author PIG
  * @date 2023-02-21 20:01:53
  */
-@Slf4j
 @Service
 @AllArgsConstructor
 public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEntity> implements GenGroupService {
@@ -77,8 +77,8 @@ public class GenGroupServiceImpl extends ServiceImpl<GenGroupMapper, GenGroupEnt
 		// 删除分组
 		this.removeBatchByIds(CollUtil.toList(ids));
 		// 删除关系
-		genTemplateGroupService
-			.remove(Wrappers.<GenTemplateGroupEntity>lambdaQuery().in(GenTemplateGroupEntity::getGroupId, ids));
+		genTemplateGroupService.remove(Wrappers.<GenTemplateGroupEntity>lambdaQuery()
+			.in(GenTemplateGroupEntity::getGroupId, CollUtil.toList(ids)));
 	}
 
 	/**

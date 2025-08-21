@@ -16,7 +16,14 @@
 
 package com.pig4cloud.pig.common.log.event;
 
-import cn.hutool.core.util.StrUtil;
+import java.util.Objects;
+
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.event.EventListener;
+import org.springframework.core.annotation.Order;
+import org.springframework.scheduling.annotation.Async;
+
 import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -26,21 +33,16 @@ import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule;
 import com.pig4cloud.pig.common.log.config.PigLogProperties;
+
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.event.EventListener;
-import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
-
-import java.util.Objects;
 
 /**
- * @author lengleng 异步监听日志事件
+ * 异步监听日志事件
+ *
+ * @author lengleng
  */
-@Slf4j
 @RequiredArgsConstructor
 public class SysLogListener implements InitializingBean {
 

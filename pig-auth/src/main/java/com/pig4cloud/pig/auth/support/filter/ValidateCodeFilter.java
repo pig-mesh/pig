@@ -1,5 +1,21 @@
 package com.pig4cloud.pig.auth.support.filter;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
+import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
+import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.core.util.WebUtils;
+
 /**
  * 登录前处理器
  *
@@ -10,26 +26,11 @@ package com.pig4cloud.pig.auth.support.filter;
 import cn.dev33.satoken.oauth2.consts.SaOAuth2Consts;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.auth.config.AuthSecurityConfigProperties;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
-import com.pig4cloud.pig.common.core.util.WebUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.Optional;
 
 /**
  * @author lbw
@@ -37,7 +38,6 @@ import java.util.Optional;
  * <p>
  * 登录前置处理器： 前端密码传输密文解密，验证码处理
  */
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter {

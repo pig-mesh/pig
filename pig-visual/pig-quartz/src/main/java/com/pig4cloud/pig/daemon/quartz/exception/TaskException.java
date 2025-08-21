@@ -24,6 +24,8 @@ package com.pig4cloud.pig.daemon.quartz.exception;
  */
 public class TaskException extends Exception {
 
+	private static final long serialVersionUID = 1L;
+
 	public TaskException() {
 		super();
 	}

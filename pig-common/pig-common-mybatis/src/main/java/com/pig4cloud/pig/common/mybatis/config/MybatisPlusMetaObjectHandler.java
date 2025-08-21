@@ -73,7 +73,6 @@ public class MybatisPlusMetaObjectHandler implements MetaObjectHandler {
 
 	/**
 	 * 获取用户名
-	 *
 	 * @return {@link String }
 	 */
 	private String getUserName() {

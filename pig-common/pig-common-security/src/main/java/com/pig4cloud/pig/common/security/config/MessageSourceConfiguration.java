@@ -14,16 +14,15 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 @Configuration(proxyBeanMethods = false)
 public class MessageSourceConfiguration {
 
-    /**
-     * 安全异常消息源
-     *
-     * @return {@link MessageSource }
-     */
-    @Bean
-    public MessageSource securityMessageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename("classpath:i18n/errors/messages");
-        return messageSource;
-    }
+	/**
+	 * 安全异常消息源
+	 * @return {@link MessageSource }
+	 */
+	@Bean
+	public MessageSource securityMessageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.setBasename("classpath:i18n/errors/messages");
+		return messageSource;
+	}
 
 }

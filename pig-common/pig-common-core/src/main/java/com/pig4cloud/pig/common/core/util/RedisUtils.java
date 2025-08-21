@@ -58,7 +58,7 @@ public class RedisUtils {
 		return Optional.ofNullable(redisTemplate).map(template -> {
 			RedisConnectionFactory factory = template.getConnectionFactory();
 			RedisConnection rc = Objects.requireNonNull(factory).getConnection();
-			Cursor<byte[]> cursor = rc.scan(options);
+			Cursor<byte[]> cursor = rc.keyCommands().scan(options);
 			List<String> result = new ArrayList<>();
 			while (cursor.hasNext()) {
 				result.add(new String(cursor.next()));
@@ -80,7 +80,7 @@ public class RedisUtils {
 		ScanOptions options = ScanOptions.scanOptions().match(patternKey).build();
 		RedisConnectionFactory factory = redisTemplate.getConnectionFactory();
 		RedisConnection rc = Objects.requireNonNull(factory).getConnection();
-		Cursor<byte[]> cursor = rc.scan(options);
+		Cursor<byte[]> cursor = rc.keyCommands().scan(options);
 		List<String> result = new ArrayList<>(size);
 		int tmpIndex = 0;
 		int fromIndex = page * size;

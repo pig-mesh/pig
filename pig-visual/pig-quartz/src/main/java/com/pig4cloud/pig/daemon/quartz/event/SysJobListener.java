@@ -17,20 +17,20 @@
 
 package com.pig4cloud.pig.daemon.quartz.event;
 
-import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
-import com.pig4cloud.pig.daemon.quartz.util.TaskInvokUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.quartz.Trigger;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
+import com.pig4cloud.pig.daemon.quartz.util.TaskInvokUtil;
+
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author frwcloud 异步监听定时任务事件
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysJobListener {

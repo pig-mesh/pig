@@ -1,20 +1,21 @@
 package com.pig4cloud.pig.auth.support;
 
-import cn.dev33.satoken.oauth2.data.loader.SaOAuth2DataLoader;
-import cn.dev33.satoken.oauth2.data.model.loader.SaClientModel;
-import cn.hutool.core.util.StrUtil;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import cn.dev33.satoken.oauth2.data.loader.SaOAuth2DataLoader;
+import cn.dev33.satoken.oauth2.data.model.loader.SaClientModel;
+import cn.hutool.core.util.StrUtil;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 加载 OAuth2 客户端相关数据
@@ -22,7 +23,6 @@ import java.util.Objects;
  * @author lengleng
  * @date 2024/11/11
  */
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SaOAuth2ClientDataLoaderImpl implements SaOAuth2DataLoader {

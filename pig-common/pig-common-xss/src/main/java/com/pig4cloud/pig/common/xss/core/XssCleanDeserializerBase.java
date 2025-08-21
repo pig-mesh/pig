@@ -45,7 +45,7 @@ public abstract class XssCleanDeserializerBase extends JsonDeserializer<String> 
 		}
 
 		// xss 配置
-		return this.clean(p.getCurrentName(), text);
+		return this.clean(p.getParsingContext().getCurrentName(), text);
 	}
 
 	/**

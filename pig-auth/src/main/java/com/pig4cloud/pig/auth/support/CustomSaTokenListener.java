@@ -1,28 +1,28 @@
 package com.pig4cloud.pig.auth.support;
 
-/**
- * @author lengleng
- * @date 2024/7/23
- */
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
 
-import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.listener.SaTokenListener;
-import cn.dev33.satoken.stp.SaLoginModel;
-import cn.hutool.extra.servlet.JakartaServletUtil;
-import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
+
+import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.listener.SaTokenListener;
+import cn.dev33.satoken.stp.parameter.SaLoginParameter;
+import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.stereotype.Component;
 
 /**
  * 用户行为监听
+ *
+ * @author weimeilayer@gmail.com ✨
+ * @date 💓💕 2024年3月5日 🐬🐇 💓💕
  */
 @Slf4j
 @Component
@@ -39,7 +39,7 @@ public class CustomSaTokenListener implements SaTokenListener {
 	 * @param loginModel 登录参数
 	 */
 	@Override
-	public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginModel loginModel) {
+	public void doLogin(String loginType, Object loginId, String tokenValue, SaLoginParameter loginModel) {
 		log.info("用户登录成功, loginType: {}, loginId: {}, tokenValue: {}, loginModel: {}", loginType, loginId, tokenValue,
 				loginModel);
 
@@ -163,7 +163,7 @@ public class CustomSaTokenListener implements SaTokenListener {
 	 * @param timeout 续期时间
 	 */
 	@Override
-	public void doRenewTimeout(String tokenValue, Object loginId, long timeout) {
+	public void doRenewTimeout(String loginType, Object loginId, String tokenValue, long timeout) {
 
 	}
 

@@ -83,7 +83,7 @@ public class SysPublicParamServiceImpl extends ServiceImpl<SysPublicParamMapper,
 	@Override
 	@CacheEvict(value = CacheConstants.PARAMS_DETAILS, allEntries = true)
 	public R removeParamByIds(Long[] publicIds) {
-		List<Long> idList = this.baseMapper.selectBatchIds(CollUtil.toList(publicIds))
+		List<Long> idList = this.baseMapper.selectByIds(CollUtil.toList(publicIds))
 			.stream()
 			.filter(p -> !p.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置的跳过不能删除
 			.map(SysPublicParam::getPublicId)

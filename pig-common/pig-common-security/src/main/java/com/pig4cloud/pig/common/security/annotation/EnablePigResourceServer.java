@@ -33,10 +33,10 @@ import java.lang.annotation.*;
  */
 @Documented
 @Inherited
-@Target({ElementType.TYPE})
+@Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Import({ResourceServerConfiguration.class, SaPermissionImpl.class, PermissionAspect.class, PermitAllUrlProperties.class,
-        PigFeignClientConfiguration.class})
+@Import({ ResourceServerConfiguration.class, SaPermissionImpl.class, PermissionAspect.class,
+		PermitAllUrlProperties.class, PigFeignClientConfiguration.class })
 public @interface EnablePigResourceServer {
 
 }

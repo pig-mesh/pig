@@ -16,11 +16,10 @@
 
 package com.pig4cloud.pig.common.feign.sentinel.ext;
 
-import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
-import feign.Contract;
-import feign.Feign;
-import feign.InvocationHandlerFactory;
-import feign.Target;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.util.Map;
+
 import org.springframework.beans.BeansException;
 import org.springframework.cloud.openfeign.FallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -28,13 +27,14 @@ import org.springframework.cloud.openfeign.FeignClientFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.annotation.AnnotationUtils;
-import org.springframework.util.ReflectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.util.Map;
+import com.alibaba.cloud.sentinel.feign.SentinelContractHolder;
+
+import feign.Contract;
+import feign.Feign;
+import feign.InvocationHandlerFactory;
+import feign.Target;
 
 /**
  * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
@@ -121,18 +121,6 @@ public final class PigSentinelFeign {
 
 			super.contract(new SentinelContractHolder(contract));
 			return super.internalBuild();
-		}
-
-		private Object getFieldValue(Object instance, String fieldName) {
-			Field field = ReflectionUtils.findField(instance.getClass(), fieldName);
-			field.setAccessible(true);
-			try {
-				return field.get(instance);
-			}
-			catch (IllegalAccessException e) {
-				// ignore
-			}
-			return null;
 		}
 
 		@Override

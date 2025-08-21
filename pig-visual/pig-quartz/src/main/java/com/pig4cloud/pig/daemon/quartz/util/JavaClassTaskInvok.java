@@ -45,13 +45,13 @@ public class JavaClassTaskInvok implements ITaskInvok {
 		try {
 			if (StrUtil.isNotEmpty(sysJob.getMethodParamsValue())) {
 				clazz = Class.forName(sysJob.getClassName());
-				obj = clazz.newInstance();
+				obj = clazz.getDeclaredConstructor().newInstance();
 				method = clazz.getDeclaredMethod(sysJob.getMethodName(), String.class);
 				returnValue = method.invoke(obj, sysJob.getMethodParamsValue());
 			}
 			else {
 				clazz = Class.forName(sysJob.getClassName());
-				obj = clazz.newInstance();
+				obj = clazz.getDeclaredConstructor().newInstance();
 				method = clazz.getDeclaredMethod(sysJob.getMethodName());
 				returnValue = method.invoke(obj);
 			}

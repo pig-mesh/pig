@@ -16,6 +16,32 @@
 
 package com.pig4cloud.pig.auth.endpoint;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.auth.support.handler.NoLoginViewHandler;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.WebUtils;
+import com.pig4cloud.pig.common.security.annotation.Inner;
+
 import cn.dev33.satoken.SaManager;
 import cn.dev33.satoken.dao.SaTokenDao;
 import cn.dev33.satoken.oauth2.SaOAuth2Manager;
@@ -29,29 +55,10 @@ import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.pig4cloud.pig.auth.support.handle.NoLoginViewHandle;
-import com.pig4cloud.pig.common.core.constant.CommonConstants;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.WebUtils;
-import com.pig4cloud.pig.common.security.annotation.Inner;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * pig 令牌终端节点
@@ -59,7 +66,6 @@ import java.util.Objects;
  * @author lengleng
  * @date 2024/11/10
  */
-@Slf4j
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
@@ -67,7 +73,7 @@ public class PigTokenEndpoint {
 
 	private final StringRedisTemplate stringRedisTemplate;
 
-	private final NoLoginViewHandle noLoginViewHandle;
+	private final NoLoginViewHandler noLoginViewHandle;
 
 	/**
 	 * 密码模式、刷新模型、客户端模式获取 token
@@ -222,7 +228,7 @@ public class PigTokenEndpoint {
 		SaOAuth2Dao saOAuth2Dao = SaOAuth2Manager.getDao();
 		if (StrUtil.isNotBlank(username)) {
 			// 获取用户的所有 token
-			String accessTokenSaveKey = saOAuth2Dao.splicingAccessTokenIndexKey("*", username);
+			String accessTokenSaveKey = saOAuth2Dao.splicingAccessTokenRSDValue("*", username);
 			List<String> keyList = saTokenDao.searchData(accessTokenSaveKey, StrUtil.EMPTY, current, size, false);
 
 			List<Map<String, String>> accessTokenModels = keyList.stream()
