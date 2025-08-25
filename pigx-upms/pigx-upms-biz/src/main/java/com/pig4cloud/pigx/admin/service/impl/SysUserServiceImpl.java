@@ -479,11 +479,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		userDTO.setRole(roleIdList);
 		// 插入用户
 		this.saveUser(userDTO);
-		// 插入用户租户关系表
-		SysTenantUser sysTenantUser = new SysTenantUser();
-		sysTenantUser.setUserId(userDTO.getUserId());
-		sysTenantUser.setTenantId(SecurityUtils.getUser().getTenantId());
-		sysTenantUserMapper.insert(sysTenantUser);
 	}
 
 	/**
