@@ -92,6 +92,7 @@ public class SysClientController {
 	 * @return
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_client_view")
 	public R getOauthClientDetailsPage(@ParameterObject Page page,
 			@ParameterObject SysOauthClientDetails sysOauthClientDetails) {
 		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()

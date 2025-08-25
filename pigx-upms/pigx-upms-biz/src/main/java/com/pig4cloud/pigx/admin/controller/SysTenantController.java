@@ -68,42 +68,41 @@ public class SysTenantController {
 
 	/**
 	 * 分页查询
-	 *
-	 * @param page      分页对象
+	 * @param page 分页对象
 	 * @param sysTenant 租户
 	 * @return
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_systenant_view")
 	public R getSysTenantPage(@ParameterObject Page page, @ParameterObject SysTenant sysTenant) {
 		return R.ok(sysTenantService.page(page, Wrappers.<SysTenant>lambdaQuery()
-				.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
+			.like(StrUtil.isNotBlank(sysTenant.getName()), SysTenant::getName, sysTenant.getName())));
 	}
 
 	/**
 	 * 通过ID 查询租户信息
-	 *
 	 * @param id ID
 	 * @return R
 	 */
 	@GetMapping("/details/{id}")
+	@HasPermission("sys_systenant_view")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysTenantService.getById(id));
 	}
 
 	/**
 	 * 查询租户信息
-	 *
 	 * @param query 查询条件
 	 * @return 租户信息
 	 */
 	@GetMapping("/details")
+	@HasPermission("sys_systenant_view")
 	public R getDetails(@ParameterObject SysTenant query) {
 		return R.ok(sysTenantService.getOne(Wrappers.query(query), false));
 	}
 
 	/**
 	 * 新增租户
-	 *
 	 * @param sysTenant 租户
 	 * @return R
 	 */
@@ -117,7 +116,6 @@ public class SysTenantController {
 
 	/**
 	 * 修改租户
-	 *
 	 * @param sysTenant 租户
 	 * @return R
 	 */
@@ -132,7 +130,6 @@ public class SysTenantController {
 	 * 通过id删除租户
 	 * <p>
 	 * 为了保证安全,这里只删除租户表的数据，不删除基础表中的租户初始化数据。
-	 *
 	 * @param ids id 列表
 	 * @return R
 	 */
@@ -145,25 +142,23 @@ public class SysTenantController {
 
 	/**
 	 * 查询全部有效的租户列表
-	 *
 	 * @return 包含有效租户列表的响应结果
 	 */
 	@Inner(value = false)
 	@GetMapping("/list")
 	public R list() {
 		List<SysTenant> tenants = sysTenantService.getNormalTenant()
-				.stream()
-				.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-				.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
-				.toList();
+			.stream()
+			.filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
+			.filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+			.toList();
 		return R.ok(tenants);
 	}
 
 	/**
 	 * 导出租户信息到Excel
-	 *
 	 * @param sysTenant 租户查询条件
-	 * @param ids       租户ID数组
+	 * @param ids 租户ID数组
 	 * @return 符合条件的租户列表
 	 */
 	@ResponseExcel
@@ -176,7 +171,6 @@ public class SysTenantController {
 
 	/**
 	 * 获取租户菜单
-	 *
 	 * @return 包含菜单树结构的响应结果
 	 */
 	@GetMapping(value = "/tree/menu")
@@ -192,7 +186,6 @@ public class SysTenantController {
 
 	/**
 	 * 获取用户租户信息
-	 *
 	 * @return 包含用户租户信息的响应结果
 	 */
 	@GetMapping("/user-tenant")
@@ -202,7 +195,6 @@ public class SysTenantController {
 
 	/**
 	 * 新增用户租户关联关系
-	 *
 	 * @param tenantUserDTO 用户租户关联信息DTO
 	 * @return 操作结果
 	 */
@@ -214,8 +206,7 @@ public class SysTenantController {
 
 	/**
 	 * 获取用户租户分页信息
-	 *
-	 * @param page    分页参数
+	 * @param page 分页参数
 	 * @param userDTO 用户查询参数
 	 * @return 租户分页结果
 	 */
@@ -261,7 +252,6 @@ public class SysTenantController {
 
 	/**
 	 * 更新用户租户信息
-	 *
 	 * @param userDto 用户数据传输对象，包含需要更新的用户信息
 	 * @return 操作结果
 	 */

@@ -69,6 +69,7 @@ public class SysFileController {
      */
     @Operation(summary = "分页查询", description = "分页查询")
     @GetMapping("/page")
+    @HasPermission("sys_file_view")
     public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
         LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
                 .eq(StrUtil.isNotBlank(sysFile.getType()), SysFile::getType, sysFile.getType())

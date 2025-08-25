@@ -87,6 +87,7 @@ public class SysPublicParamController {
 	 */
 	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
+	@HasPermission("sys_syspublicparam_view")
 	public R getSysPublicParamPage(@ParameterObject Page page, @ParameterObject SysPublicParam sysPublicParam) {
 		LambdaUpdateWrapper<SysPublicParam> wrapper = Wrappers.<SysPublicParam>lambdaUpdate()
 			.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
@@ -162,8 +163,8 @@ public class SysPublicParamController {
 	@GetMapping("/export")
 	@HasPermission("sys_syspublicparam_edit")
 	public List<SysPublicParam> export(SysPublicParam param, Long[] ids) {
-        return sysPublicParamService.list(Wrappers.lambdaQuery(param)
-                .in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, CollUtil.toList(ids)));
+		return sysPublicParamService.list(Wrappers.lambdaQuery(param)
+			.in(ArrayUtil.isNotEmpty(ids), SysPublicParam::getPublicId, CollUtil.toList(ids)));
 	}
 
 	/**

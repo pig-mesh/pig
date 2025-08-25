@@ -92,6 +92,7 @@ public class SysDictController {
      * @return 分页对象
      */
     @GetMapping("/page")
+    @HasPermission("sys_dict_view")
     public R<IPage> getDictPage(@ParameterObject Page page, @ParameterObject SysDict sysDict) {
         return R.ok(sysDictService.page(page,
                 Wrappers.<SysDict>lambdaQuery()

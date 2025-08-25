@@ -147,6 +147,7 @@ public class SysUserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_user_view")
 	public R getUserPage(@ParameterObject Page page, @ParameterObject UserDTO userDTO) {
 		return R.ok(userService.getUsersWithRolePage(page, userDTO));
 	}

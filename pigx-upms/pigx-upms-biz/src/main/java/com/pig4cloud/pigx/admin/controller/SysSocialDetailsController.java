@@ -61,6 +61,7 @@ public class SysSocialDetailsController {
 	 * @return
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_social_details_view")
 	public R getSocialDetailsPage(@ParameterObject Page page, @ParameterObject SysSocialDetails sysSocialDetails) {
 		return R.ok(sysSocialDetailsService.page(page, Wrappers.query(sysSocialDetails)));
 	}

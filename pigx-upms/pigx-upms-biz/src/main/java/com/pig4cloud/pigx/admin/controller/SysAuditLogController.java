@@ -61,6 +61,7 @@ public class SysAuditLogController {
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
+	@HasPermission("sys_audit_view")
 	public R getsysAuditLogPage(@ParameterObject Page page, @ParameterObject SysAuditLog sysAuditLog) {
 		return R.ok(sysAuditLogService.getAuditsByScope(page, sysAuditLog));
 	}

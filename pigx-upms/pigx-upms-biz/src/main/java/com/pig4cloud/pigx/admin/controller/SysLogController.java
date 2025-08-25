@@ -65,6 +65,7 @@ public class SysLogController {
 	 * @return
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_log_view")
 	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
 		return R.ok(sysLogService.getLogByPage(page, sysLog));
 	}
