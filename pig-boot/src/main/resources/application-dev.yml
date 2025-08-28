@@ -3,24 +3,7 @@ spring:
     type: redis # 缓存类型 Redis
   data:
     redis:
-      # Redis数据库索引（默认为11）
-      database: 11
-      # Redis服务器地址
-      host: 127.0.0.1
-      # Redis服务器连接端口
-      port: 6379
-      # Redis服务器连接密码（默认为空）
-      password:
-      # 连接池最大连接数（使用负值表示没有限制）
-      # 连接超时时间（毫秒）
-      timeout: 100000
-      connectTimeout: 20000
-      lettuce:
-        pool:
-          maxActive: 8
-          maxIdle: 100
-          minIdle: 10
-          maxWait: -1
+      host: 127.0.0.1  # Redis地址
   # 数据库相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
