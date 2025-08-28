@@ -1,5 +1,7 @@
 package com.pig4cloud.pig.common.log.event;
 
+import java.io.Serial;
+
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 
 import lombok.Data;
@@ -14,6 +16,9 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class SysLogEventSource extends SysLog {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 参数重写成object

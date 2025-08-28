@@ -16,12 +16,14 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import cn.hutool.core.util.ReUtil;
-import cn.hutool.extra.spring.SpringUtil;
-import com.pig4cloud.pig.common.security.annotation.Inner;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.regex.Pattern;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -29,8 +31,12 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.util.*;
-import java.util.regex.Pattern;
+import com.pig4cloud.pig.common.security.annotation.Inner;
+
+import cn.hutool.core.util.ReUtil;
+import cn.hutool.extra.spring.SpringUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 资源服务器对外直接暴露URL配置类
@@ -40,7 +46,6 @@ import java.util.regex.Pattern;
  * @author lengleng
  * @date 2025/05/31
  */
-@Slf4j
 @ConfigurationProperties(prefix = "security.oauth2.ignore")
 public class PermitAllUrlProperties implements InitializingBean {
 

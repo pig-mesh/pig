@@ -16,18 +16,19 @@
 
 package com.pig4cloud.pig.common.security.service;
 
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.feign.RemoteUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.R;
+
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
-import org.springframework.security.core.userdetails.UserDetails;
 
 /**
  * 用户详细信息服务实现类，提供基于手机号的用户信息加载功能
@@ -35,7 +36,6 @@ import org.springframework.security.core.userdetails.UserDetails;
  * @author lengleng hccake
  * @date 2025/05/31
  */
-@Slf4j
 @RequiredArgsConstructor
 public class PigAppUserDetailsServiceImpl implements PigUserDetailsService {
 

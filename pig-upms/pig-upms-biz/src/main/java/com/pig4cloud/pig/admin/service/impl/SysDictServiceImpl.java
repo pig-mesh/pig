@@ -16,7 +16,12 @@
  */
 package com.pig4cloud.pig.admin.service.impl;
 
-import cn.hutool.core.collection.CollUtil;
+import java.util.List;
+
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysDict;
@@ -29,13 +34,9 @@ import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ErrorCodes;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
-import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import cn.hutool.core.collection.CollUtil;
+import lombok.AllArgsConstructor;
 
 /**
  * 系统字典服务实现类

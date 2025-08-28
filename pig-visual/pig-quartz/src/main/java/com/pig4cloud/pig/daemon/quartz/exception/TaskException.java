@@ -17,6 +17,8 @@
 
 package com.pig4cloud.pig.daemon.quartz.exception;
 
+import java.io.Serial;
+
 /**
  * 定时任务异常类
  *
@@ -24,6 +26,9 @@ package com.pig4cloud.pig.daemon.quartz.exception;
  * @date 2025/05/31
  */
 public class TaskException extends Exception {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 无参构造方法，创建一个TaskException实例

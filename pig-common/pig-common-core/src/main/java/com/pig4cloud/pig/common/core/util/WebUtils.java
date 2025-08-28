@@ -24,7 +24,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,13 +39,10 @@ import java.util.Optional;
  *
  * @author L.cm
  */
-@Slf4j
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	private final String BASIC_ = "Basic ";
-
-	private final String UNKNOWN = "unknown";
 
 	/**
 	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解

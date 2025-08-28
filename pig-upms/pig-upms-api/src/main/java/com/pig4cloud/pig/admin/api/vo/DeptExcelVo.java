@@ -6,6 +6,7 @@ import com.pig4cloud.plugin.excel.annotation.ExcelLine;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,6 +14,9 @@ import java.io.Serializable;
  */
 @Data
 public class DeptExcelVo implements Serializable {
+
+	@Serial
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 导入时候回显行号
