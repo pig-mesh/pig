@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
@@ -107,8 +108,9 @@ public class PayGoodsOrderController {
 			String wxUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s"
 					+ "&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s";
 
-			String redirectUri = String.format("%s/admin/goods/wx?amount=%s&TENANT-ID=%s", channel.getNotifyUrl(),
-					goods.getAmount(), TenantContextHolder.getTenantId());
+			String redirectUri = String.format("%s/api/%s/goods/wx?amount=%s&TENANT-ID=%s",
+					WebUtils.isMicro() ? "pay" : "admin", channel.getNotifyUrl(), goods.getAmount(),
+					TenantContextHolder.getTenantId());
 
 			response.sendRedirect(
 					String.format(wxUrl, channel.getAppId(), URLUtil.encode(redirectUri), channel.getAppId()));

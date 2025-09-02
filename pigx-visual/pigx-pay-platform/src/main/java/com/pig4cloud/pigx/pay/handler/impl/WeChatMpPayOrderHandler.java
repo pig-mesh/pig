@@ -129,7 +129,8 @@ public class WeChatMpPayOrderHandler extends AbstractPayOrderHandler {
 			.out_trade_no(String.valueOf(tradeOrder.getOrderId()))
 			.total_fee(goodsOrder.getAmount())
 			.spbill_create_ip(ip)
-				.notify_url(String.format("%s/api/%s/notify/wx/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), WebUtils.isMicro() ? "pay" : "admin"))
+			.notify_url(String.format("%s/api/%s/notify/wx/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(),
+					WebUtils.isMicro() ? "pay" : "admin"))
 			.trade_type(TradeType.JSAPI.getTradeType())
 			.openid(goodsOrder.getUserId())
 			.build()
