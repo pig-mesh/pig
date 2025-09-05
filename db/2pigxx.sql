@@ -921,6 +921,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 1101);
 INSERT INTO `sys_role_menu` VALUES (1, 1102);
 INSERT INTO `sys_role_menu` VALUES (1, 1103);
 INSERT INTO `sys_role_menu` VALUES (1, 1104);
+INSERT INTO `sys_role_menu` VALUES (1, 1105);
 INSERT INTO `sys_role_menu` VALUES (1, 1200);
 INSERT INTO `sys_role_menu` VALUES (1, 1201);
 INSERT INTO `sys_role_menu` VALUES (1, 1202);
