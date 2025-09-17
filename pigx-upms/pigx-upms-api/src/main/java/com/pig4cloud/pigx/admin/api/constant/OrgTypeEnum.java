@@ -8,7 +8,7 @@ package com.pig4cloud.pigx.admin.api.constant;
  */
 public enum OrgTypeEnum {
 
-	USER("user", "用户"), ROLE("role", "角色"), DEPT("dept", "部门");
+	USER("user", "用户"), ROLE("role", "角色"), DEPT("dept", "部门"), POST("post", "岗位");
 
 	private String type;
 

@@ -110,7 +110,7 @@ public class PigxTocDefaultUserDetailsServiceImpl implements PigxUserDetailsServ
 		AppUser user = info.getAppUser();
 		// 构造security用户
 
-		return new PigxUser(user.getUserId(), user.getUsername(), null, user.getPhone(), user.getAvatar(),
+		return new PigxUser(user.getUserId(), user.getUsername(), null, null, null, user.getPhone(), user.getAvatar(),
 				user.getNickname(), user.getName(), user.getEmail(), user.getTenantId(),
 				SecurityConstants.BCRYPT + user.getPassword(), true, true, UserTypeEnum.TOC.getStatus(), true, null,
 				!CommonConstants.STATUS_LOCK.equals(user.getLockFlag()), authorities);

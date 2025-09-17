@@ -30,6 +30,7 @@ import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -52,11 +53,19 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 	@Getter
 	private Long id;
 
+	/** 角色ID列表 */
+	@Getter
+	private List<Long> roleIds;
+
 	/**
 	 * 部门ID
 	 */
 	@Getter
-	private Long deptId;
+	private List<Long> deptIds;
+
+	/** 岗位ID列表 */
+	@Getter
+	private List<Long> postIds;
 
 	/**
 	 * 手机号
@@ -106,7 +115,7 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 	 * Construct the <code>User</code> with the details required by
 	 * {@link DaoAuthenticationProvider}.
 	 * @param id 用户ID
-	 * @param deptId 部门ID
+	 * @param deptIds 部门ID
 	 * @param tenantId 租户ID
 	 * @param nickname 昵称
 	 * @param name 姓名
@@ -126,7 +135,8 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 	 */
 	@JsonCreator
 	public PigxUser(@JsonProperty("id") Long id, @JsonProperty("username") String username,
-			@JsonProperty("deptId") Long deptId, @JsonProperty("phone") String phone,
+			@JsonProperty("roleIds") List<Long> roleIds, @JsonProperty("deptIds") List<Long> deptIds,
+			@JsonProperty("postIds") List<Long> postIds, @JsonProperty("phone") String phone,
 			@JsonProperty("avatar") String avatar, @JsonProperty("nickname") String nickname,
 			@JsonProperty("name") String name, @JsonProperty("email") String email,
 			@JsonProperty("tenantId") Long tenantId, @JsonProperty("password") String password,
@@ -138,7 +148,9 @@ public class PigxUser extends User implements OAuth2AuthenticatedPrincipal {
 			@JsonProperty("authorities") Collection<? extends GrantedAuthority> authorities) {
 		super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
 		this.id = id;
-		this.deptId = deptId;
+		this.roleIds = roleIds;
+		this.deptIds = deptIds;
+		this.postIds = postIds;
 		this.phone = phone;
 		this.avatar = avatar;
 		this.tenantId = tenantId;

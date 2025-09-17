@@ -16,8 +16,10 @@
  */
 package com.pig4cloud.pigx.common.security.service;
 
-import cn.hutool.core.collection.CollUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
+import com.pig4cloud.pigx.admin.api.entity.SysDept;
+import com.pig4cloud.pigx.admin.api.entity.SysPost;
+import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
@@ -92,12 +94,10 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
 		Collection<GrantedAuthority> authorities = AuthorityUtils
 			.createAuthorityList(dbAuthsSet.toArray(new String[0]));
 
-		// 构造security用户
-		Long deptId = null;
-		if (CollUtil.isNotEmpty(info.getDeptList())) {
-			deptId = CollUtil.getFirst(info.getDeptList()).getDeptId();
-		}
-		return new PigxUser(info.getUserId(), info.getUsername(), deptId, info.getPhone(), info.getAvatar(),
+		return new PigxUser(info.getUserId(), info.getUsername(),
+				info.getRoleList().stream().map(SysRole::getRoleId).toList(),
+				info.getDeptList().stream().map(SysDept::getDeptId).toList(),
+				info.getPostList().stream().map(SysPost::getPostId).toList(), info.getPhone(), info.getAvatar(),
 				info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
 				SecurityConstants.BCRYPT + info.getPassword(), true, true, UserTypeEnum.TOB.getStatus(),
 				!CommonConstants.STATUS_LOCK.equals(info.getPasswordExpireFlag()) // 密码过期判断
