@@ -1,5 +1,16 @@
 package com.pig4cloud.pig.common.security.config;
 
+import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.filter.SaServletFilter;
+import cn.dev33.satoken.interceptor.SaInterceptor;
+import cn.dev33.satoken.oauth2.data.model.AccessTokenModel;
+import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
+import cn.dev33.satoken.router.SaRouter;
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.json.JSONUtil;
+import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.core.util.WebUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
@@ -8,20 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.WebUtils;
-
-import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.filter.SaServletFilter;
-import cn.dev33.satoken.interceptor.SaInterceptor;
-import cn.dev33.satoken.oauth2.data.model.AccessTokenModel;
-import cn.dev33.satoken.oauth2.template.SaOAuth2Util;
-import cn.dev33.satoken.router.SaRouter;
-import cn.dev33.satoken.stp.StpUtil;
-import cn.dev33.satoken.stp.parameter.SaLoginParameter;
-import cn.hutool.json.JSONUtil;
-import lombok.RequiredArgsConstructor;
 
 /**
  * Resource Server 配置
@@ -60,9 +57,9 @@ public class ResourceServerConfiguration implements WebMvcConfigurer {
 
 				// 登录
 				String loginId = accessTokenModel.loginId.toString();
-				SaLoginParameter saLoginModel = new SaLoginParameter();
 
-				StpUtil.login(loginId, saLoginModel);
+				// 如果已经登录，则不重复登录
+				StpUtil.getSessionByLoginId(loginId,true);
 			});
 		}).setError(e -> {
 			// 校验令牌失败 424 (主要是和401区分)
