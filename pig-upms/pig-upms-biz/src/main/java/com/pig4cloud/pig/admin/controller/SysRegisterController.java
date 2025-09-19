@@ -6,6 +6,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author lengleng
  * @date 2025/05/30
- * @see RegisterUserDTO 注册用户信息传输对象
- * @see R 通用返回结果封装
  */
 @RestController
 @RequestMapping("/register")
@@ -39,6 +38,7 @@ public class SysRegisterController {
 	@Inner(value = false)
 	@SysLog("注册用户")
 	@PostMapping("/user")
+	@Operation(summary = "注册用户", description = "注册用户")
 	public R<Boolean> registerUser(@RequestBody RegisterUserDTO registerUserDTO) {
 		return userService.registerUser(registerUserDTO);
 	}

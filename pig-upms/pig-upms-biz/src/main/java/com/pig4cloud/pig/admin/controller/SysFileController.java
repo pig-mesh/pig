@@ -51,7 +51,7 @@ import java.io.IOException;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-file")
-@Tag(description = "sys-file", name = "文件管理")
+@Tag(description = "sys-file", name = "文件管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysFileController {
 
@@ -63,8 +63,8 @@ public class SysFileController {
 	 * @param sysFile 文件查询条件对象
 	 * @return 分页查询结果
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
+	@Operation(summary = "分页查询", description = "分页查询")
 	public R getFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
 		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
@@ -76,10 +76,10 @@ public class SysFileController {
 	 * @param ids 要删除的文件id数组
 	 * @return 操作结果
 	 */
-	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	@SysLog("删除文件管理")
 	@DeleteMapping
 	@HasPermission("sys_file_del")
+	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
 	public R removeById(@RequestBody Long[] ids) {
 		for (Long id : ids) {
 			sysFileService.removeFile(id);
@@ -93,6 +93,7 @@ public class SysFileController {
 	 * @return 包含文件路径的R对象，格式为(/admin/bucketName/filename)
 	 */
 	@PostMapping(value = "/upload")
+	@Operation(summary = "上传文件", description = "上传文件")
 	public R upload(@RequestPart("file") MultipartFile file) {
 		return sysFileService.uploadFile(file);
 	}
@@ -105,6 +106,7 @@ public class SysFileController {
 	 */
 	@Inner(false)
 	@GetMapping("/{bucket}/{fileName}")
+	@Operation(summary = "获取文件并写入响应流", description = "获取文件并写入响应流")
 	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
 		sysFileService.getFile(bucket, fileName, response);
 	}
@@ -117,6 +119,7 @@ public class SysFileController {
 	 */
 	@SneakyThrows
 	@GetMapping("/local/file/{fileName}")
+	@Operation(summary = "获取本地resources目录下的文件并写入响应流", description = "获取本地resources目录下的文件并写入响应流")
 	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
 		ClassPathResource resource = new ClassPathResource("file/" + fileName);
 		response.setContentType("application/octet-stream; charset=UTF-8");

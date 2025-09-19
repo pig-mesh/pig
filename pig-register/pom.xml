@@ -21,16 +21,13 @@
 		<version>${revision}</version>
 	</parent>
 
-
 	<artifactId>pig-register</artifactId>
 	<packaging>jar</packaging>
 	<name>pig-register</name>
 	<description>nacos 注册配置中心</description>
-
 	<properties>
 		<nacos.version>3.0.2.OEM</nacos.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>io.github.pig-mesh.nacos</groupId>

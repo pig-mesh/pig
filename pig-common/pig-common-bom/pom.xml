@@ -1,240 +1,263 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+	<groupId>com.pig4cloud</groupId>
+	<artifactId>pig-common-bom</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
 
-    <groupId>com.pig4cloud</groupId>
-    <artifactId>pig-common-bom</artifactId>
-    <version>${revision}</version>
-    <packaging>pom</packaging>
+	<name>pig-common-bom</name>
+	<url>pig cloud parent</url>
+	<description>pig cloud parent</description>
 
-    <name>pig-common-bom</name>
-    <url>pig cloud parent</url>
-    <description>pig cloud parent</description>
+	<properties>
+		<!-- 项目版本号 -->
+		<revision>3.9.2</revision>
+		<asm.version>7.1</asm.version>
+		<sms.version>3.3.5</sms.version>
+		<screw.version>0.0.3</screw.version>
+		<aws.version>2.29.45</aws.version>
+		<mysql.version>9.2.0</mysql.version>
+		<seata.version>1.7.0</seata.version>
+		<excel.version>3.4.2</excel.version>
+		<hutool.version>5.8.40</hutool.version>
+		<velocity.version>2.4</velocity.version>
+		<captcha.version>2.2.5</captcha.version>
+		<knife4j.version>4.5.0</knife4j.version>
+		<sentinel.version>1.8.4</sentinel.version>
+		<git.commit.plugin>9.0.1</git.commit.plugin>
+		<springdoc.version>2.8.13</springdoc.version>
+		<common.io.version>2.18.0</common.io.version>
+		<dynamic-ds.version>4.3.1</dynamic-ds.version>
+		<swagger.fox.version>3.0.0</swagger.fox.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<velocity.tool.version>3.1</velocity.tool.version>
+		<configuration.version>1.10</configuration.version>
+		<swagger.core.version>2.2.37</swagger.core.version>
+		<mybatis-plus.version>3.5.14</mybatis-plus.version>
+		<shardingsphere.version>5.4.1</shardingsphere.version>
+		<fastjson.version>1.2.83_noneautotype</fastjson.version>
+		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
+		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
-    <properties>
-        <!-- 项目版本号 -->
-        <revision>3.9.1</revision>
-        <spring-boot.version>3.5.5</spring-boot.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-        <git.commit.plugin>9.0.1</git.commit.plugin>
-        <fastjson.version>1.2.83_noneautotype</fastjson.version>
-        <springdoc.version>2.8.8</springdoc.version>
-        <swagger.core.version>2.2.36</swagger.core.version>
-        <mybatis-plus.version>3.5.12</mybatis-plus.version>
-        <mysql.version>9.2.0</mysql.version>
-        <dynamic-ds.version>4.3.1</dynamic-ds.version>
-        <seata.version>1.7.0</seata.version>
-        <excel.version>3.4.2</excel.version>
-        <asm.version>7.1</asm.version>
-        <sms.version>3.3.5</sms.version>
-        <shardingsphere.version>5.4.1</shardingsphere.version>
-        <hutool.version>5.8.40</hutool.version>
-        <sentinel.version>1.8.4</sentinel.version>
-        <common.io.version>2.18.0</common.io.version>
-        <spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
-        <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-    </properties>
-
-    <!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号-->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-core</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-datasource</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-log</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-mybatis</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-oss</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-security</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-feign</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-swagger</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-xss</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-common-excel</artifactId>
-                <version>${revision}</version>
-            </dependency>
+	<!-- 定义全局jar版本,模块使用需要再次引入但不用写版本号 -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-core</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-datasource</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-log</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-mybatis</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-oss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-security</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-feign</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-swagger</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-xss</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-excel</artifactId>
+				<version>${revision}</version>
+			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
 				<artifactId>pig-common-websocket</artifactId>
 				<version>${revision}</version>
 			</dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pig-upms-api</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>${mysql.version}</version>
-            </dependency>
-            <!--springdoc -->
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springdoc</groupId>
-                <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
-                <version>${springdoc.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.swagger.core.v3</groupId>
-                <artifactId>swagger-annotations-jakarta</artifactId>
-                <version>${swagger.core.version}</version>
-            </dependency>
-            <!--fastjson 版本-->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
-            <!-- excel 导入导出 -->
-            <dependency>
-                <groupId>com.pig4cloud.excel</groupId>
-                <artifactId>excel-spring-boot-starter</artifactId>
-                <version>${excel.version}</version>
-            </dependency>
-            <!-- commons.io 覆盖easyexcel-->
-            <dependency>
-                <artifactId>commons-io</artifactId>
-                <groupId>commons-io</groupId>
-                <version>${common.io.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.apache.shardingsphere</groupId>
-                <artifactId>shardingsphere-jdbc-core</artifactId>
-                <version>${shardingsphere.version}</version>
-            </dependency>
-            <!-- 多数据源依赖 -->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
-                <version>${dynamic-ds.version}</version>
-            </dependency>
-            <!--  短信工具：https://sms4j.com -->
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-upms-api</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.mysql</groupId>
+				<artifactId>mysql-connector-j</artifactId>
+				<version>${mysql.version}</version>
+			</dependency>
+			<!--springdoc -->
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springdoc</groupId>
+				<artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+				<version>${springdoc.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.swagger.core.v3</groupId>
+				<artifactId>swagger-annotations-jakarta</artifactId>
+				<version>${swagger.core.version}</version>
+			</dependency>
+			<!--fastjson 版本 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			<!--代码生成模板引擎 -->
+			<dependency>
+				<groupId>org.apache.velocity</groupId>
+				<artifactId>velocity-engine-core</artifactId>
+				<version>${velocity.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.velocity.tools</groupId>
+				<artifactId>velocity-tools-generic</artifactId>
+				<version>${velocity.tool.version}</version>
+			</dependency>
+			<!-- 调用验证码核心模块 -->
+			<dependency>
+				<groupId>com.pig4cloud.plugin</groupId>
+				<artifactId>captcha-core</artifactId>
+				<version>${captcha.version}</version>
+			</dependency>
+			<!-- excel 导入导出 -->
+			<dependency>
+				<groupId>com.pig4cloud.excel</groupId>
+				<artifactId>excel-spring-boot-starter</artifactId>
+				<version>${excel.version}</version>
+			</dependency>
+			<!-- commons.io 覆盖easyexcel -->
+			<dependency>
+				<artifactId>commons-io</artifactId>
+				<groupId>commons-io</groupId>
+				<version>${common.io.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.shardingsphere</groupId>
+				<artifactId>shardingsphere-jdbc-core</artifactId>
+				<version>${shardingsphere.version}</version>
+			</dependency>
+			<!-- 多数据源依赖 -->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+				<version>${dynamic-ds.version}</version>
+			</dependency>
+			<!-- 短信工具：https://sms4j.com -->
 			<dependency>
 				<groupId>org.dromara.sms4j</groupId>
 				<artifactId>sms4j-spring-boot-starter</artifactId>
 				<version>${sms.version}</version>
 			</dependency>
-            <!--orm 相关-->
-            <dependency>
-                <groupId>com.baomidou</groupId>
-                <artifactId>mybatis-plus-bom</artifactId>
-                <version>${mybatis-plus.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--hutool bom 工具类-->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-bom</artifactId>
-                <version>${hutool.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--web 模块-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+			<!-- knife4j -->
+			<dependency>
+				<groupId>com.github.xiaoymin</groupId>
+				<artifactId>knife4j-openapi3-ui</artifactId>
+				<version>${knife4j.version}</version>
+			</dependency>
+			<!-- s3 -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>s3</artifactId>
+				<version>${aws.version}</version>
+			</dependency>
+			<!--orm 相关 -->
+			<dependency>
+				<groupId>com.baomidou</groupId>
+				<artifactId>mybatis-plus-bom</artifactId>
+				<version>${mybatis-plus.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!-- hutool bom 工具类 -->
+			<dependency>
+				<groupId>cn.hutool</groupId>
+				<artifactId>hutool-bom</artifactId>
+				<version>${hutool.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
-    <build>
-        <plugins>
-            <!--打包jar 与git commit 关联插件-->
-            <plugin>
-                <groupId>io.github.git-commit-id</groupId>
-                <artifactId>git-commit-id-maven-plugin</artifactId>
-                <version>${git.commit.plugin}</version>
-            </plugin>
-            <!--代码格式插件，默认使用spring 规则-->
-            <plugin>
-                <groupId>io.spring.javaformat</groupId>
-                <artifactId>spring-javaformat-maven-plugin</artifactId>
-                <version>${spring.checkstyle.plugin}</version>
-            </plugin>
-            <!-- 统一 revision 版本 -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>flatten-maven-plugin</artifactId>
-                <version>${flatten-maven-plugin.version}</version>
-                <configuration>
-                    <flattenMode>resolveCiFriendliesOnly</flattenMode>
-                    <updatePomFile>true</updatePomFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>flatten</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>flatten</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>flatten.clean</id>
-                        <phase>clean</phase>
-                        <goals>
-                            <goal>clean</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+	<build>
+		<plugins>
+			<!--打包jar 与git commit 关联插件 -->
+			<plugin>
+				<groupId>io.github.git-commit-id</groupId>
+				<artifactId>git-commit-id-maven-plugin</artifactId>
+				<version>${git.commit.plugin}</version>
+			</plugin>
+			<!--代码格式插件，默认使用spring 规则 -->
+			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${spring.checkstyle.plugin}</version>
+			</plugin>
+			<!-- 统一 revision 版本 -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>${flatten-maven-plugin.version}</version>
+				<configuration>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+					<updatePomFile>true</updatePomFile>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

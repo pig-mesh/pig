@@ -18,44 +18,34 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
 	<name>${project.artifactId}</name>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
-
 	<properties>
 		<!-- 项目版本号 -->
-		<revision>3.9.1</revision>
-		<spring-boot.version>3.5.5</spring-boot.version>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<spring-boot-admin.version>3.5.3</spring-boot-admin.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
-		<aws.version>2.29.45</aws.version>
-		<screw.version>0.0.3</screw.version>
+		<revision>3.9.2</revision>
 		<jasypt.version>3.0.5</jasypt.version>
-		<knife4j.version>3.0.5</knife4j.version>
-		<captcha.version>2.2.5</captcha.version>
-		<velocity.version>2.4</velocity.version>
-		<git.commit.plugin>9.0.1</git.commit.plugin>
-		<swagger.fox.version>3.0.0</swagger.fox.version>
-		<velocity.tool.version>3.1</velocity.tool.version>
-		<configuration.version>1.10</configuration.version>
-		<docker.host>http://192.168.0.100:2375</docker.host>
-		<docker.plugin.version>0.45.1</docker.plugin.version>
-		<docker.namespace>pig4cloud</docker.namespace>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
-		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+		<git.commit.plugin>9.0.1</git.commit.plugin>
+		<docker.namespace>pig4cloud</docker.namespace>
+		<spring-boot.version>3.5.6</spring-boot.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<docker.host>http://192.168.0.100:2375</docker.host>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<commons-lang3.version>3.18.0</commons-lang3.version>
-		<spring.checkstyle.plugin>0.0.43</spring.checkstyle.plugin>
+		<docker.plugin.version>0.45.1</docker.plugin.version>
+		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
+		<spring-boot-admin.version>3.5.5</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
@@ -151,6 +141,19 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!--web 模块-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <!--排除tomcat依赖-->
+                    <exclusion>
+                        <artifactId>spring-boot-starter-tomcat</artifactId>
+                        <groupId>org.springframework.boot</groupId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
 			<!-- 排除 spring cloud alibaba 令人头疼的日志封装-->
 			<dependency>
 				<groupId>com.alibaba.cloud</groupId>

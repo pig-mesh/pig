@@ -44,7 +44,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/fieldtype")
-@Tag(description = "fieldtype", name = "列属性管理")
+@Tag(description = "fieldtype", name = "列属性管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenFieldTypeController {
 
@@ -56,8 +56,8 @@ public class GenFieldTypeController {
 	 * @param fieldType 字段类型查询条件
 	 * @return 分页查询结果
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
+	@Operation(summary = "分页查询", description = "分页查询")
 	public R getFieldTypePage(Page page, GenFieldType fieldType) {
 		return R.ok(fieldTypeService.page(page,
 				Wrappers.<GenFieldType>lambdaQuery()
@@ -70,8 +70,8 @@ public class GenFieldTypeController {
 	 * @param fieldType 查询条件
 	 * @return 包含查询结果的响应对象
 	 */
-	@Operation(summary = "查询列表", description = "查询列表")
 	@GetMapping("/list")
+	@Operation(summary = "查询列表", description = "查询列表")
 	public R listFieldTypes(GenFieldType fieldType) {
 		return R.ok(fieldTypeService.list(Wrappers.query(fieldType)));
 	}
@@ -81,8 +81,8 @@ public class GenFieldTypeController {
 	 * @param id 列属性id
 	 * @return 包含查询结果的响应对象
 	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/details/{id}")
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	public R getFieldTypeById(@PathVariable("id") Long id) {
 		return R.ok(fieldTypeService.getById(id));
 	}
@@ -93,6 +93,7 @@ public class GenFieldTypeController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/details")
+	@Operation(summary = "根据查询条件获取字段类型详情", description = "根据查询条件获取字段类型详情")
 	public R getFieldTypeDetails(GenFieldType query) {
 		return R.ok(fieldTypeService.getOne(Wrappers.query(query), false));
 	}
@@ -102,9 +103,9 @@ public class GenFieldTypeController {
 	 * @param fieldType 列属性对象
 	 * @return 操作结果
 	 */
-	@Operation(summary = "新增列属性", description = "新增列属性")
-	@SysLog("新增列属性")
 	@PostMapping
+	@SysLog("新增列属性")
+	@Operation(summary = "新增列属性", description = "新增列属性")
 	public R saveFieldType(@RequestBody GenFieldType fieldType) {
 		return R.ok(fieldTypeService.save(fieldType));
 	}
@@ -114,9 +115,9 @@ public class GenFieldTypeController {
 	 * @param fieldType 列属性对象
 	 * @return 操作结果
 	 */
-	@Operation(summary = "修改列属性", description = "修改列属性")
-	@SysLog("修改列属性")
 	@PutMapping
+	@SysLog("修改列属性")
+	@Operation(summary = "修改列属性", description = "修改列属性")
 	public R updateFieldType(@RequestBody GenFieldType fieldType) {
 		return R.ok(fieldTypeService.updateById(fieldType));
 	}
@@ -126,9 +127,9 @@ public class GenFieldTypeController {
 	 * @param ids 要删除的列属性id数组
 	 * @return 操作结果
 	 */
-	@Operation(summary = "通过id删除列属性", description = "通过id删除列属性")
-	@SysLog("通过id删除列属性")
 	@DeleteMapping
+	@SysLog("通过id删除列属性")
+	@Operation(summary = "通过id删除列属性", description = "通过id删除列属性")
 	public R removeFieldTypeByIds(@RequestBody Long[] ids) {
 		return R.ok(fieldTypeService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -140,6 +141,7 @@ public class GenFieldTypeController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
+	@Operation(summary = "导出excel表格", description = "导出excel表格")
 	public List<GenFieldType> exportFieldTypes(GenFieldType fieldType) {
 		return fieldTypeService.list(Wrappers.query(fieldType));
 	}
