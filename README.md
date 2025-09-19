@@ -14,8 +14,9 @@
 
 #### 分支说明
 
-- jdk17: java17/21 + springboot 3.4 + springcloud 2024
-- master: java8 + springboot 2.7 + springcloud 2021
+- dev: java17/21 + springboot 3.5 + springcloud 2025
+- master: java17/21 + springboot 3.5 + springcloud 2025
+- java8_eof: java8 + springboot 2.7 + springcloud 2021
 
 #### 文档视频
 
@@ -37,15 +38,15 @@
 
 ### 核心依赖
 
-| 依赖                          | 版本         |
-|-----------------------------|------------|
-| Spring Boot                 | 3.3.5      |
-| Spring Cloud                | 2023.0.3   |
-| Spring Cloud Alibaba        | 2023.0.1.2 |
-| Spring Authorization Server | 1.3.3      |
-| Mybatis Plus                | 3.5.9      |
-| Vue                         | 3.4        |
-| Element Plus                | 2.7        |
+| 依赖                   | 版本         |
+|----------------------|------------|
+| Spring Boot          | 3.5.6      |
+| Spring Cloud         | 2025.0.0   |
+| Spring Cloud Alibaba | 2023.0.3.3 |
+| sa-token             | 1.44.0     |
+| Mybatis Plus         | 3.5.14     |
+| Vue                  | 3.4        |
+| Element Plus         | 2.7        |
 
 ### 模块说明
 

@@ -69,7 +69,6 @@
         <dependency>
             <groupId>com.pig4cloud.plugin</groupId>
             <artifactId>captcha-core</artifactId>
-            <version>${captcha.version}</version>
         </dependency>
         <!-- 加解密依赖 -->
         <dependency>

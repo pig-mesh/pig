@@ -21,7 +21,6 @@
         <version>${revision}</version>
     </parent>
 
-
     <artifactId>pig-register</artifactId>
     <packaging>jar</packaging>
     <name>pig-register</name>

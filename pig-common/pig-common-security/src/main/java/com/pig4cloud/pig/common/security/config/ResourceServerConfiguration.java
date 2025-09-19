@@ -59,7 +59,7 @@ public class ResourceServerConfiguration implements WebMvcConfigurer {
 				String loginId = accessTokenModel.loginId.toString();
 
 				// 如果已经登录，则不重复登录
-				StpUtil.getSessionByLoginId(loginId,true);
+				StpUtil.getSessionByLoginId(loginId, true);
 			});
 		}).setError(e -> {
 			// 校验令牌失败 424 (主要是和401区分)

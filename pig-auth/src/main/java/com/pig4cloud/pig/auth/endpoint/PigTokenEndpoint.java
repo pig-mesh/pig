@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -69,6 +70,7 @@ import lombok.SneakyThrows;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
+@Tag(description = "oauth2", name = "令牌终端管理模块")
 public class PigTokenEndpoint {
 
 	private final StringRedisTemplate stringRedisTemplate;

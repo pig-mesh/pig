@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Validator;
 import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -22,6 +23,7 @@ import java.util.concurrent.TimeUnit;
  */
 @RestController
 @RequestMapping("/code")
+@Tag(description = "code", name = "验证码相关管理模块")
 @RequiredArgsConstructor
 public class ImageCodeEndpoint {
 

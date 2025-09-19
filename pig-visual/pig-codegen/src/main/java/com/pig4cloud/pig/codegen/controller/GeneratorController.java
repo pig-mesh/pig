@@ -21,6 +21,7 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
 import com.pig4cloud.pig.common.core.util.R;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -44,6 +45,7 @@ import java.util.zip.ZipOutputStream;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/generator")
+@Tag(description = "generator", name = "代码生成器管理模块")
 public class GeneratorController {
 
 	private final GeneratorService generatorService;

@@ -28,31 +28,24 @@
 
     <properties>
         <!-- 项目版本号 -->
-        <revision>3.8.2</revision>
-        <aws.version>1.12.675</aws.version>
-        <screw.version>0.0.3</screw.version>
-        <jasypt.version>3.0.5</jasypt.version>
-        <velocity.version>2.4</velocity.version>
-        <captcha.version>2.2.4</captcha.version>
+        <revision>3.8.3</revision>
         <jaxb.version>4.0.5</jaxb.version>
-        <xxl-job.version>2.4.0</xxl-job.version>
+        <jasypt.version>3.0.5</jasypt.version>
         <docker.username>username</docker.username>
         <docker.password>password</docker.password>
         <git.commit.plugin>9.0.1</git.commit.plugin>
         <docker.namespace>pig4cloud</docker.namespace>
-        <spring-boot.version>3.5.5</spring-boot.version>
+        <spring-boot.version>3.5.6</spring-boot.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <velocity.tool.version>3.1</velocity.tool.version>
-        <configuration.version>1.10</configuration.version>
         <docker.host>http://192.168.0.100:2375</docker.host>
         <docker.plugin.version>0.45.1</docker.plugin.version>
 		<commons-lang3.version>3.18.0</commons-lang3.version>
         <spring-cloud.version>2025.0.0</spring-cloud.version>
         <spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
-        <spring-boot-admin.version>3.5.2</spring-boot-admin.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-boot-admin.version>3.5.5</spring-boot-admin.version>
         <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
         <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
         <spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
@@ -94,12 +87,6 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>${jaxb.version}</version><!--$NO-MVN-MAN-VER$-->
-        </dependency>
-        <!--测试依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -201,7 +188,6 @@
                     <artifactId>docker-maven-plugin</artifactId>
                     <version>${docker.plugin.version}</version>
                     <configuration>
-						<skip>${docker.s}</skip>
                         <!-- Docker Remote Api-->
                         <dockerHost>${docker.host}</dockerHost>
                         <!-- Docker 镜像私服-->

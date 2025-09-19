@@ -30,6 +30,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,6 +48,7 @@ import javax.sql.DataSource;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dsconf")
+@Tag(description = "dsconf", name = "数据源管理模块")
 public class GenDsConfController {
 
 	private final GenDatasourceConfService datasourceConfService;

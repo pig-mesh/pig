@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -47,7 +48,7 @@ public class SysSystemInfoController {
 		commandStats.stringPropertyNames().forEach(key -> {
 			Map<String, String> data = new HashMap<>(2);
 			String property = commandStats.getProperty(key);
-			data.put("name", StringUtils.removeStart(key, "cmdstat_"));
+			data.put("name", Strings.CS.removeStart(key, "cmdstat_"));
 			data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
 			pieList.add(data);
 		});

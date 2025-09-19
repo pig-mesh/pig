@@ -18,7 +18,6 @@
         <dependency>
             <groupId>com.amazonaws</groupId>
             <artifactId>aws-java-sdk-s3</artifactId>
-            <version>${aws.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
