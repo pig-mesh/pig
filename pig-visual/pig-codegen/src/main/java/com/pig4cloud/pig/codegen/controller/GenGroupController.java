@@ -47,7 +47,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/group")
-@Tag(description = "group", name = "模板分组管理")
+@Tag(description = "group", name = "模板分组管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenGroupController {
 
@@ -59,9 +59,9 @@ public class GenGroupController {
 	 * @param genGroup 模板分组查询条件
 	 * @return 分页查询结果
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@HasPermission("codegen_group_view")
+	@Operation(summary = "分页查询模板分组", description = "分页查询模板分组")
 	public R getGroupPage(Page page, GenGroupEntity genGroup) {
 		LambdaQueryWrapper<GenGroupEntity> wrapper = Wrappers.<GenGroupEntity>lambdaQuery()
 			.like(genGroup.getId() != null, GenGroupEntity::getId, genGroup.getId())
@@ -74,9 +74,9 @@ public class GenGroupController {
 	 * @param id id
 	 * @return R
 	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
 	@HasPermission("codegen_group_view")
+	@Operation(summary = "通过id查询模板分组", description = "通过id查询模板分组")
 	public R getGroupById(@PathVariable("id") Long id) {
 		return R.ok(genGroupService.getGroupVoById(id));
 	}
@@ -86,10 +86,10 @@ public class GenGroupController {
 	 * @param genTemplateGroup 模板分组
 	 * @return R
 	 */
-	@Operation(summary = "新增模板分组", description = "新增模板分组")
-	@SysLog("新增模板分组")
 	@PostMapping
+	@SysLog("新增模板分组")
 	@HasPermission("codegen_group_add")
+	@Operation(summary = "新增模板分组", description = "新增模板分组")
 	public R saveGroup(@RequestBody TemplateGroupDTO genTemplateGroup) {
 		genGroupService.saveGenGroup(genTemplateGroup);
 		return R.ok();
@@ -100,10 +100,10 @@ public class GenGroupController {
 	 * @param groupVo 模板分组
 	 * @return R
 	 */
-	@Operation(summary = "修改模板分组", description = "修改模板分组")
-	@SysLog("修改模板分组")
 	@PutMapping
+	@SysLog("修改模板分组")
 	@HasPermission("codegen_group_edit")
+	@Operation(summary = "修改模板分组", description = "修改模板分组")
 	public R updateGroup(@RequestBody GroupVO groupVo) {
 		genGroupService.updateGroupAndTemplateById(groupVo);
 		return R.ok();
@@ -114,10 +114,10 @@ public class GenGroupController {
 	 * @param ids id列表
 	 * @return R
 	 */
-	@Operation(summary = "通过id删除模板分组", description = "通过id删除模板分组")
-	@SysLog("通过id删除模板分组")
 	@DeleteMapping
+	@SysLog("通过id删除模板分组")
 	@HasPermission("codegen_group_del")
+	@Operation(summary = "通过id删除模板分组", description = "通过id删除模板分组")
 	public R removeGroupByIds(@RequestBody Long[] ids) {
 		genGroupService.delGroupAndTemplate(ids);
 		return R.ok();
@@ -131,6 +131,7 @@ public class GenGroupController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("codegen_group_export")
+	@Operation(summary = "导出模板分组", description = "导出模板分组")
 	public List<GenGroupEntity> exportGroups(GenGroupEntity genGroup) {
 		return genGroupService.list(Wrappers.query(genGroup));
 	}

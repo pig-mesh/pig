@@ -5,6 +5,8 @@ import com.pig4cloud.captcha.ArithmeticCaptcha;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.RedisUtils;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/code")
 @RequiredArgsConstructor
+@Tag(description = "code", name = "验证码控制器管理模块")
 public class ImageCodeEndpoint {
 
 	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
@@ -36,6 +39,7 @@ public class ImageCodeEndpoint {
 	 */
 	@SneakyThrows
 	@GetMapping("/image")
+	@Operation(summary = "创建图形验证码并输出到响应流", description = "创建图形验证码并输出到响应流")
 	public void image(String randomStr, HttpServletResponse response) {
 		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 

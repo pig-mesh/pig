@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job-log")
-@Tag(description = "sys-job-log", name = "定时任务日志")
+@Tag(description = "sys-job-log", name = "定时任务日志管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobLogController {
 
@@ -53,7 +53,7 @@ public class SysJobLogController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
-	@Operation(description = "分页定时任务日志查询")
+	@Operation(summary = "分页定时任务日志查询", description = "分页定时任务日志查询")
 	public R getJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
@@ -64,7 +64,7 @@ public class SysJobLogController {
 	 * @return 操作结果
 	 */
 	@DeleteMapping
-	@Operation(description = "批量删除日志")
+	@Operation(summary = "批量删除日志", description = "批量删除日志")
 	public R removeBatchByIds(@RequestBody Long[] ids) {
 		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}

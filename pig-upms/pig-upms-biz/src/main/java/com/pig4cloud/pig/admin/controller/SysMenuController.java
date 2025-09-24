@@ -22,6 +22,7 @@ package com.pig4cloud.pig.admin.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +67,7 @@ public class SysMenuController {
 	 * @return 包含菜单数据的响应对象
 	 */
 	@GetMapping
+	@Operation(summary = "获取当前用户的树形菜单集合", description = "获取当前用户的树形菜单集合")
 	public R getUserMenu(String type, Long parentId) {
 		// 获取符合条件的菜单
 		Set<SysMenu> all = new HashSet<>();
@@ -81,6 +83,7 @@ public class SysMenuController {
 	 * @return 包含树形菜单的响应结果
 	 */
 	@GetMapping(value = "/tree")
+	@Operation(summary = "获取树形菜单集合", description = "获取树形菜单集合")
 	public R getMenuTree(Long parentId, String menuName, String type) {
 		return R.ok(sysMenuService.getMenuTree(parentId, menuName, type));
 	}
@@ -91,6 +94,7 @@ public class SysMenuController {
 	 * @return 包含菜单ID列表的响应结果
 	 */
 	@GetMapping("/tree/{roleId}")
+	@Operation(summary = "根据角色ID获取菜单树", description = "根据角色ID获取菜单树")
 	public R getRoleTree(@PathVariable Long roleId) {
 		return R.ok(sysMenuService.findMenuByRoleId(roleId).stream().map(SysMenu::getMenuId).toList());
 	}
@@ -101,6 +105,7 @@ public class SysMenuController {
 	 * @return 包含菜单详细信息的响应对象
 	 */
 	@GetMapping("/{id}")
+	@Operation(summary = "通过ID查询菜单的详细信息", description = "通过ID查询菜单的详细信息")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysMenuService.getById(id));
 	}
@@ -113,6 +118,7 @@ public class SysMenuController {
 	@SysLog("新增菜单")
 	@PostMapping
 	@HasPermission("sys_menu_add")
+	@Operation(summary = "新增菜单", description = "新增菜单")
 	public R saveMenu(@Valid @RequestBody SysMenu sysMenu) {
 		sysMenuService.save(sysMenu);
 		return R.ok(sysMenu);
@@ -123,21 +129,23 @@ public class SysMenuController {
 	 * @param id 要删除的菜单ID
 	 * @return 操作结果，成功返回success，失败返回false
 	 */
-	@SysLog("删除菜单")
+	@SysLog("根据菜单ID删除菜单")
 	@DeleteMapping("/{id}")
 	@HasPermission("sys_menu_del")
+	@Operation(summary = "根据菜单ID删除菜单", description = "根据菜单ID删除菜单")
 	public R removeById(@PathVariable Long id) {
 		return sysMenuService.removeMenuById(id);
 	}
 
 	/**
-	 * 更新菜单信息
+	 * 更新菜单
 	 * @param sysMenu 菜单对象
 	 * @return 操作结果
 	 */
 	@SysLog("更新菜单")
 	@PutMapping
 	@HasPermission("sys_menu_edit")
+	@Operation(summary = "更新菜单", description = "更新菜单")
 	public R updateMenu(@Valid @RequestBody SysMenu sysMenu) {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}

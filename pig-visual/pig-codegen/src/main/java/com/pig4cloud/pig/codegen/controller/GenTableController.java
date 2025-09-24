@@ -44,7 +44,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/table")
-@Tag(description = "table", name = "代码表管理")
+@Tag(description = "table", name = "代码表管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTableController {
 
@@ -61,8 +61,8 @@ public class GenTableController {
 	 * @param table 列属性
 	 * @return
 	 */
-	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
+	@Operation(summary = "分页查询", description = "分页查询")
 	public R getTablePage(Page page, GenTable table) {
 		return R.ok(tableService.queryTablePage(page, table));
 	}
@@ -72,8 +72,8 @@ public class GenTableController {
 	 * @param id id
 	 * @return R
 	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{id}")
+	@Operation(summary = "通过id查询", description = "通过id查询")
 	public R getTableById(@PathVariable("id") Long id) {
 		return R.ok(tableService.getById(id));
 	}
@@ -84,6 +84,7 @@ public class GenTableController {
 	 * @return 包含表列表的响应结果
 	 */
 	@GetMapping("/list/{dsName}")
+	@Operation(summary = "查询数据源所有表", description = "查询数据源所有表")
 	public R listTables(@PathVariable("dsName") String dsName) {
 		return R.ok(tableService.queryTableList(dsName));
 	}
@@ -94,6 +95,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/{dsName}/{tableName}")
+	@Operation(summary = "获取表信息", description = "获取表信息")
 	public R<GenTable> getTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
 		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
 	}
@@ -104,6 +106,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/column/{dsName}/{tableName}")
+	@Operation(summary = "查询表Column的DDL语句", description = "查询表Column的DDL语句")
 	public R getTableColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
 		return R.ok(tableService.queryTableColumn(dsName, tableName));
 	}
@@ -114,6 +117,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/ddl/{dsName}/{tableName}")
+	@Operation(summary = "查询表DDL语句", description = "查询表DDL语句")
 	public R getTableDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
 		return R.ok(tableService.queryTableDdl(dsName, tableName));
 	}
@@ -124,6 +128,7 @@ public class GenTableController {
 	 * @param tableName 表名称
 	 */
 	@GetMapping("/sync/{dsName}/{tableName}")
+	@Operation(summary = "同步表信息", description = "同步表信息")
 	public R<GenTable> syncTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
 		// 表配置删除
 		tableService.remove(
@@ -140,9 +145,9 @@ public class GenTableController {
 	 * @param table 列属性
 	 * @return R
 	 */
-	@Operation(summary = "修改列属性", description = "修改列属性")
-	@SysLog("修改列属性")
 	@PutMapping
+	@SysLog("修改列属性")
+	@Operation(summary = "修改列属性", description = "修改列属性")
 	public R updateTable(@RequestBody GenTable table) {
 		return R.ok(tableService.updateById(table));
 	}
@@ -154,6 +159,7 @@ public class GenTableController {
 	 * @param tableFieldList 字段列表
 	 */
 	@PutMapping("/field/{dsName}/{tableName}")
+	@Operation(summary = "修改表字段数据", description = "修改表字段数据")
 	public R<String> updateTableField(@PathVariable("dsName") String dsName, @PathVariable String tableName,
 			@RequestBody List<GenTableColumnEntity> tableFieldList) {
 		tableColumnService.updateTableField(dsName, tableName, tableFieldList);
@@ -167,6 +173,7 @@ public class GenTableController {
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
+	@Operation(summary = "导出字段数据", description = "导出字段数据")
 	public List<GenTable> exportTables(GenTable table) {
 		return tableService.list(Wrappers.query(table));
 	}

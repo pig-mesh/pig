@@ -21,14 +21,12 @@ import com.pig4cloud.pig.admin.api.feign.RemoteTokenService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -52,7 +50,8 @@ public class SysTokenController {
 	 * @param params 请求参数集合
 	 * @return 包含token分页信息的响应结果
 	 */
-	@RequestMapping("/page")
+	@GetMapping("/page")
+	@Operation(summary = "获取分页token信息", description = "获取分页token信息")
 	public R getTokenPage(@RequestBody Map<String, Object> params) {
 		return remoteTokenService.getTokenPage(params);
 	}
@@ -65,6 +64,7 @@ public class SysTokenController {
 	@SysLog("删除用户token")
 	@DeleteMapping("/delete")
 	@HasPermission("sys_token_del")
+	@Operation(summary = "删除用户token", description = "删除用户token")
 	public R removeById(@RequestBody String[] tokens) {
 		for (String token : tokens) {
 			remoteTokenService.removeTokenById(token);

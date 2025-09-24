@@ -3,7 +3,8 @@ spring:
     type: redis # 缓存类型 Redis
   data:
     redis:
-      host: 127.0.0.1  # Redis地址
+      database: 5
+      host: 127.0.0.1
   # 数据库相关配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -31,6 +31,7 @@ import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -63,6 +64,7 @@ public class SysClientController {
 	 * @return 包含客户端详情的响应对象
 	 */
 	@GetMapping("/{clientId}")
+	@Operation(summary = "通过客户端ID查询客户端详情", description = "通过客户端ID查询客户端详情")
 	public R getByClientId(@PathVariable String clientId) {
 		SysOauthClientDetails details = clientDetailsService
 			.getOne(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
@@ -76,6 +78,7 @@ public class SysClientController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
+	@Operation(summary = "分页查询系统终端信息", description = "分页查询系统终端信息")
 	public R getClientPage(@ParameterObject Page page, @ParameterObject SysOauthClientDetails sysOauthClientDetails) {
 		LambdaQueryWrapper<SysOauthClientDetails> wrapper = Wrappers.<SysOauthClientDetails>lambdaQuery()
 			.like(StrUtil.isNotBlank(sysOauthClientDetails.getClientId()), SysOauthClientDetails::getClientId,
@@ -93,6 +96,7 @@ public class SysClientController {
 	@SysLog("添加终端")
 	@PostMapping
 	@HasPermission("sys_client_add")
+	@Operation(summary = "添加客户端终端", description = "添加客户端终端")
 	public R saveClient(@Valid @RequestBody SysOauthClientDetails clientDetails) {
 		return R.ok(clientDetailsService.saveClient(clientDetails));
 	}
@@ -105,6 +109,7 @@ public class SysClientController {
 	@SysLog("删除终端")
 	@DeleteMapping
 	@HasPermission("sys_client_del")
+	@Operation(summary = "根据ID列表批量删除终端", description = "根据ID列表批量删除终端")
 	public R removeById(@RequestBody Long[] ids) {
 		clientDetailsService.removeBatchByIds(CollUtil.toList(ids));
 		return R.ok();
@@ -118,6 +123,7 @@ public class SysClientController {
 	@SysLog("编辑终端")
 	@PutMapping
 	@HasPermission("sys_client_edit")
+	@Operation(summary = "编辑终端信息", description = "编辑终端信息")
 	public R updateClient(@Valid @RequestBody SysOauthClientDetails clientDetails) {
 		return R.ok(clientDetailsService.updateClientById(clientDetails));
 	}
@@ -129,6 +135,7 @@ public class SysClientController {
 	 */
 	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
+	@Operation(summary = "根据客户端ID获取客户端详情", description = "根据客户端ID获取客户端详情")
 	public R getClientDetailsById(@PathVariable String clientId) {
 		return R.ok(clientDetailsService.getOne(
 				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
@@ -140,6 +147,7 @@ public class SysClientController {
 	 */
 	@SysLog("同步终端")
 	@PutMapping("/sync")
+	@Operation(summary = "同步缓存字典", description = "同步缓存字典")
 	public R syncClient() {
 		return clientDetailsService.syncClientCache();
 	}
@@ -152,6 +160,7 @@ public class SysClientController {
 	@ResponseExcel
 	@SysLog("导出excel")
 	@GetMapping("/export")
+	@Operation(summary = "导出客户端信息到Excel", description = "导出客户端信息到Excel")
 	public List<SysOauthClientDetails> exportClients(SysOauthClientDetails sysOauthClientDetails) {
 		return clientDetailsService.list(Wrappers.query(sysOauthClientDetails));
 	}

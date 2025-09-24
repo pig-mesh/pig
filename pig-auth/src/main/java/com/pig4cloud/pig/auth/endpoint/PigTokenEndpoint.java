@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.cache.CacheManager;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -86,6 +88,7 @@ import lombok.SneakyThrows;
 @RestController
 @RequestMapping
 @RequiredArgsConstructor
+@Tag(description = "oauth", name = "OAuth2 令牌端点控制器管理模块")
 public class PigTokenEndpoint {
 
 	private final HttpMessageConverter<OAuth2AccessTokenResponse> accessTokenHttpResponseConverter = new OAuth2AccessTokenResponseHttpMessageConverter();
@@ -105,6 +108,7 @@ public class PigTokenEndpoint {
 	 * @return 包含登录页面视图和错误信息的ModelAndView对象
 	 */
 	@GetMapping("/token/login")
+	@Operation(summary = "授权码模式：认证页面", description = "授权码模式：认证页面")
 	public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
 		modelAndView.setViewName("ftl/login");
 		modelAndView.addObject("error", error);
@@ -121,6 +125,7 @@ public class PigTokenEndpoint {
 	 * @return 包含确认页面信息的ModelAndView对象
 	 */
 	@GetMapping("/oauth2/confirm_access")
+	@Operation(summary = "授权码模式：确认页面", description = "授权码模式：确认页面")
 	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
 			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
@@ -144,6 +149,7 @@ public class PigTokenEndpoint {
 	 * @return 返回操作结果，包含布尔值表示是否成功
 	 */
 	@DeleteMapping("/token/logout")
+	@Operation(summary = "注销并删除令牌", description = "注销并删除令牌")
 	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
 		if (StrUtil.isBlank(authHeader)) {
 			return R.ok();
@@ -162,6 +168,7 @@ public class PigTokenEndpoint {
 	 */
 	@SneakyThrows
 	@GetMapping("/token/check_token")
+	@Operation(summary = "检查令牌有效性", description = "检查令牌有效性")
 	public void checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
@@ -193,6 +200,7 @@ public class PigTokenEndpoint {
 	 */
 	@Inner
 	@DeleteMapping("/token/remove/{token}")
+	@Operation(summary = "删除令牌", description = "删除令牌")
 	public R<Boolean> removeToken(@PathVariable("token") String token) {
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 		if (authorization == null) {
@@ -220,6 +228,7 @@ public class PigTokenEndpoint {
 	 */
 	@Inner
 	@PostMapping("/token/page")
+	@Operation(summary = "分页查询令牌列表", description = "分页查询令牌列表")
 	public R<Page> tokenList(@RequestBody Map<String, Object> params) {
 		// 根据分页参数获取对应数据
 		String username = MapUtil.getStr(params, SecurityConstants.USERNAME);

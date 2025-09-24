@@ -91,12 +91,10 @@
         <dependency>
             <groupId>org.apache.velocity</groupId>
             <artifactId>velocity-engine-core</artifactId>
-            <version>${velocity.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.velocity.tools</groupId>
             <artifactId>velocity-tools-generic</artifactId>
-            <version>${velocity.tool.version}</version>
         </dependency>
         <!--生成文档-->
         <dependency>

@@ -2,10 +2,12 @@ package com.pig4cloud.pig.admin.controller;
 
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.RedisUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +26,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/system")
 @RequiredArgsConstructor
-@Tag(description = "system", name = "系统监控")
+@Tag(description = "system", name = "系统监控管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysSystemInfoController {
 
@@ -33,6 +35,7 @@ public class SysSystemInfoController {
 	 * @return 包含Redis信息、数据库大小和命令统计的响应结果
 	 */
 	@GetMapping("/cache")
+	@Operation(summary = "获取Redis缓存监控信息", description = "获取Redis缓存监控信息")
 	public R cache() {
 		Properties info = RedisUtils.execute(RedisServerCommands::info);
 		Properties commandStats = RedisUtils.execute(connection -> connection.serverCommands().info("commandstats"));
@@ -50,7 +53,7 @@ public class SysSystemInfoController {
 		commandStats.stringPropertyNames().forEach(key -> {
 			Map<String, String> data = new HashMap<>(2);
 			String property = commandStats.getProperty(key);
-			data.put("name", StringUtils.removeStart(key, "cmdstat_"));
+			data.put("name", Strings.CS.removeStart(key, "cmdstat_"));
 			data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
 			pieList.add(data);
 		});

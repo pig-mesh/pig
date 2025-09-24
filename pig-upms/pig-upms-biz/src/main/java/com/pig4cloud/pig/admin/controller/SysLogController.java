@@ -28,6 +28,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -60,6 +61,7 @@ public class SysLogController {
 	 * @return 包含分页结果的响应对象
 	 */
 	@GetMapping("/page")
+	@Operation(summary = "分页查询系统日志", description = "分页查询系统日志")
 	public R getLogPage(@ParameterObject Page page, @ParameterObject SysLogDTO sysLog) {
 		return R.ok(sysLogService.getLogPage(page, sysLog));
 	}
@@ -71,6 +73,7 @@ public class SysLogController {
 	 */
 	@DeleteMapping
 	@HasPermission("sys_log_del")
+	@Operation(summary = "批量删除日志", description = "批量删除日志")
 	public R removeByIds(@RequestBody Long[] ids) {
 		return R.ok(sysLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
@@ -82,6 +85,7 @@ public class SysLogController {
 	 */
 	@Inner
 	@PostMapping("/save")
+	@Operation(summary = "保存日志", description = "保存日志")
 	public R saveLog(@Valid @RequestBody SysLog sysLog) {
 		return R.ok(sysLogService.saveLog(sysLog));
 	}
@@ -94,6 +98,7 @@ public class SysLogController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_log_export")
+	@Operation(summary = "导出系统日志到Excel表格", description = "导出系统日志到Excel表格")
 	public List<SysLog> exportLogs(SysLogDTO sysLog) {
 		return sysLogService.listLogs(sysLog);
 	}

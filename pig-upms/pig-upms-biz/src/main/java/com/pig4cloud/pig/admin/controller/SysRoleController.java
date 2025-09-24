@@ -33,6 +33,7 @@ import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -66,6 +67,7 @@ public class SysRoleController {
 	 * @return 包含角色信息的响应对象
 	 */
 	@GetMapping("/details/{id}")
+	@Operation(summary = "通过ID查询角色信息", description = "通过ID查询角色信息")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysRoleService.getById(id));
 	}
@@ -76,6 +78,7 @@ public class SysRoleController {
 	 * @return 包含角色信息的响应结果
 	 */
 	@GetMapping("/details")
+	@Operation(summary = "查询角色详细信息", description = "查询角色详细信息")
 	public R getDetails(@ParameterObject SysRole query) {
 		return R.ok(sysRoleService.getOne(Wrappers.query(query), false));
 	}
@@ -88,6 +91,7 @@ public class SysRoleController {
 	@SysLog("添加角色")
 	@PostMapping
 	@HasPermission("sys_role_add")
+	@Operation(summary = "添加角色", description = "添加角色")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R saveRole(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.save(sysRole));
@@ -98,9 +102,10 @@ public class SysRoleController {
 	 * @param sysRole 角色信息
 	 * @return 操作结果，成功返回success，失败返回false
 	 */
-	@SysLog("修改角色")
+	@SysLog("修改角色信息")
 	@PutMapping
 	@HasPermission("sys_role_edit")
+	@Operation(summary = "修改角色信息", description = "修改角色信息")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R updateRole(@Valid @RequestBody SysRole sysRole) {
 		return R.ok(sysRoleService.updateById(sysRole));
@@ -114,6 +119,7 @@ public class SysRoleController {
 	@SysLog("删除角色")
 	@DeleteMapping
 	@HasPermission("sys_role_del")
+	@Operation(summary = "根据ID数组删除角色", description = "根据ID数组删除角色")
 	@CacheEvict(value = CacheConstants.ROLE_DETAILS, allEntries = true)
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysRoleService.removeRoleByIds(ids));
@@ -124,6 +130,7 @@ public class SysRoleController {
 	 * @return 包含角色列表的响应结果
 	 */
 	@GetMapping("/list")
+	@Operation(summary = "获取角色列表", description = "获取角色列表")
 	public R listRoles() {
 		return R.ok(sysRoleService.list(Wrappers.emptyWrapper()));
 	}
@@ -135,6 +142,7 @@ public class SysRoleController {
 	 * @return 包含分页结果的响应对象
 	 */
 	@GetMapping("/page")
+	@Operation(summary = "分页查询角色信息", description = "分页查询角色信息")
 	public R getRolePage(Page page, SysRole role) {
 		return R.ok(sysRoleService.page(page, Wrappers.<SysRole>lambdaQuery()
 			.like(StrUtil.isNotBlank(role.getRoleName()), SysRole::getRoleName, role.getRoleName())));
@@ -148,6 +156,7 @@ public class SysRoleController {
 	@SysLog("更新角色菜单")
 	@PutMapping("/menu")
 	@HasPermission("sys_role_perm")
+	@Operation(summary = "更新角色菜单", description = "更新角色菜单")
 	public R saveRoleMenus(@RequestBody RoleVO roleVo) {
 		return R.ok(sysRoleService.updateRoleMenus(roleVo));
 	}
@@ -158,6 +167,7 @@ public class SysRoleController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@PostMapping("/getRoleList")
+	@Operation(summary = "通过角色ID列表查询角色信息", description = "通过角色ID列表查询角色信息")
 	public R getRoleList(@RequestBody List<Long> roleIdList) {
 		return R.ok(sysRoleService.listRolesByRoleIds(roleIdList, CollUtil.join(roleIdList, StrUtil.UNDERLINE)));
 	}
@@ -169,6 +179,7 @@ public class SysRoleController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_role_export")
+	@Operation(summary = "导出角色数据到Excel表格", description = "导出角色数据到Excel表格")
 	public List<RoleExcelVO> exportRoles() {
 		return sysRoleService.listRoles();
 	}
@@ -181,6 +192,7 @@ public class SysRoleController {
 	 */
 	@PostMapping("/import")
 	@HasPermission("sys_role_export")
+	@Operation(summary = "导入角色数据", description = "导入角色数据")
 	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysRoleService.importRole(excelVOList, bindingResult);
 	}

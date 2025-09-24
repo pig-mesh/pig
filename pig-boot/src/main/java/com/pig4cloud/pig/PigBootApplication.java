@@ -27,9 +27,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author lengleng
  * @date 2025/05/30
  */
-@EnablePigDoc(value = "admin", isMicro = false)
-@EnablePigResourceServer
 @SpringBootApplication
+@EnablePigResourceServer
+@EnablePigDoc(value = "admin", isMicro = false)
 public class PigBootApplication {
 
 	public static void main(String[] args) {

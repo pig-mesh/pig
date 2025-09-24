@@ -47,7 +47,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/param")
-@Tag(description = "param", name = "公共参数配置")
+@Tag(description = "param", name = "公共参数配置管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysPublicParamController {
 
@@ -71,8 +71,8 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数查询条件
 	 * @return 分页查询结果
 	 */
-	@Operation(description = "分页查询", summary = "分页查询")
 	@GetMapping("/page")
+	@Operation(description = "分页查询", summary = "分页查询")
 	public R getParamPage(@ParameterObject Page page, @ParameterObject SysPublicParam sysPublicParam) {
 		LambdaUpdateWrapper<SysPublicParam> wrapper = Wrappers.<SysPublicParam>lambdaUpdate()
 			.like(StrUtil.isNotBlank(sysPublicParam.getPublicName()), SysPublicParam::getPublicName,
@@ -102,6 +102,7 @@ public class SysPublicParamController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/details")
+	@Operation(description = "获取系统公共参数详情", summary = "获取系统公共参数详情")
 	public R getDetail(@ParameterObject SysPublicParam param) {
 		return R.ok(sysPublicParamService.getOne(Wrappers.query(param), false));
 	}
@@ -111,9 +112,9 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数对象
 	 * @return 操作结果
 	 */
-	@Operation(description = "新增公共参数", summary = "新增公共参数")
-	@SysLog("新增公共参数")
 	@PostMapping
+	@SysLog("新增公共参数")
+	@Operation(description = "新增公共参数", summary = "新增公共参数")
 	@HasPermission("sys_syspublicparam_add")
 	public R saveParam(@RequestBody SysPublicParam sysPublicParam) {
 		return R.ok(sysPublicParamService.save(sysPublicParam));
@@ -124,10 +125,10 @@ public class SysPublicParamController {
 	 * @param sysPublicParam 公共参数对象
 	 * @return 操作结果
 	 */
-	@Operation(description = "修改公共参数", summary = "修改公共参数")
-	@SysLog("修改公共参数")
 	@PutMapping
+	@SysLog("修改公共参数")
 	@HasPermission("sys_syspublicparam_edit")
+	@Operation(description = "修改公共参数", summary = "修改公共参数")
 	public R updateParam(@RequestBody SysPublicParam sysPublicParam) {
 		return sysPublicParamService.updateParam(sysPublicParam);
 	}
@@ -137,10 +138,10 @@ public class SysPublicParamController {
 	 * @param ids 要删除的公共参数id数组
 	 * @return 操作结果
 	 */
-	@Operation(description = "删除公共参数", summary = "删除公共参数")
-	@SysLog("删除公共参数")
 	@DeleteMapping
+	@SysLog("删除公共参数")
 	@HasPermission("sys_syspublicparam_del")
+	@Operation(description = "删除公共参数", summary = "删除公共参数")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysPublicParamService.removeParamByIds(ids));
 	}
@@ -152,6 +153,7 @@ public class SysPublicParamController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_syspublicparam_edit")
+	@Operation(description = "导出公共参数", summary = "导出公共参数")
 	public List<SysPublicParam> exportParams() {
 		return sysPublicParamService.list();
 	}
@@ -163,6 +165,7 @@ public class SysPublicParamController {
 	@SysLog("同步参数")
 	@PutMapping("/sync")
 	@HasPermission("sys_syspublicparam_edit")
+	@Operation(description = "同步参数到缓存", summary = "同步参数到缓存")
 	public R syncParam() {
 		return sysPublicParamService.syncParamCache();
 	}

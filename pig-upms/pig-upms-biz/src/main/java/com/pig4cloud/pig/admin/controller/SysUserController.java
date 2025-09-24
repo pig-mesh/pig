@@ -68,6 +68,7 @@ public class SysUserController {
 	 */
 	@Inner
 	@GetMapping(value = { "/info/query" })
+	@Operation(summary = "查询用户信息", description = "查询用户信息")
 	public R info(UserDTO userDTO) {
 		return userService.getUserInfo(userDTO);
 	}
@@ -77,6 +78,7 @@ public class SysUserController {
 	 * @return 包含用户信息的响应结果
 	 */
 	@GetMapping(value = { "/info" })
+	@Operation(summary = "获取当前登录用户的全部信息", description = "获取当前登录用户的全部信息")
 	public R info() {
 		String username = SecurityUtils.getUser().getUsername();
 		UserDTO userDTO = new UserDTO();
@@ -95,6 +97,7 @@ public class SysUserController {
 	 * @return 包含用户信息的响应对象
 	 */
 	@GetMapping("/details/{id}")
+	@Operation(summary = "通过ID查询用户信息", description = "通过ID查询用户信息")
 	public R user(@PathVariable Long id) {
 		return R.ok(userService.getUserById(id));
 	}
@@ -106,6 +109,7 @@ public class SysUserController {
 	 */
 	@Inner(value = false)
 	@GetMapping("/details")
+	@Operation(summary = "查询用户详细信息", description = "查询用户详细信息")
 	public R getDetails(@ParameterObject SysUser query) {
 		SysUser sysUser = userService.getOne(Wrappers.query(query), false);
 		return R.ok(sysUser == null ? null : CommonConstants.SUCCESS);
@@ -119,7 +123,7 @@ public class SysUserController {
 	@SysLog("删除用户信息")
 	@DeleteMapping
 	@HasPermission("sys_user_del")
-	@Operation(summary = "删除用户", description = "根据ID删除用户")
+	@Operation(summary = "根据ID删除用户", description = "根据ID删除用户")
 	public R userDel(@RequestBody Long[] ids) {
 		return R.ok(userService.removeUserByIds(ids));
 	}
@@ -132,6 +136,7 @@ public class SysUserController {
 	@SysLog("添加用户")
 	@PostMapping
 	@HasPermission("sys_user_add")
+	@Operation(summary = "添加用户", description = "添加用户")
 	public R saveUser(@RequestBody UserDTO userDto) {
 		return R.ok(userService.saveUser(userDto));
 	}
@@ -144,6 +149,7 @@ public class SysUserController {
 	@SysLog("更新用户信息")
 	@PutMapping
 	@HasPermission("sys_user_edit")
+	@Operation(summary = "更新用户信息", description = "更新用户信息")
 	public R updateUser(@Valid @RequestBody UserDTO userDto) {
 		return R.ok(userService.updateUser(userDto));
 	}
@@ -155,6 +161,7 @@ public class SysUserController {
 	 * @return 用户集合
 	 */
 	@GetMapping("/page")
+	@Operation(summary = "分页查询用户", description = "分页查询用户")
 	public R getUserPage(@ParameterObject Page page, @ParameterObject UserDTO userDTO) {
 		return R.ok(userService.getUsersWithRolePage(page, userDTO));
 	}
@@ -166,6 +173,7 @@ public class SysUserController {
 	 */
 	@SysLog("修改个人信息")
 	@PutMapping("/edit")
+	@Operation(summary = "修改个人信息", description = "修改个人信息")
 	public R updateUserInfo(@Valid @RequestBody UserDTO userDto) {
 		return userService.updateUserInfo(userDto);
 	}
@@ -178,6 +186,7 @@ public class SysUserController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("sys_user_export")
+	@Operation(summary = "导出用户数据到Excel表格", description = "导出用户数据到Excel表格")
 	public List exportUsers(UserDTO userDTO) {
 		return userService.listUsers(userDTO);
 	}
@@ -190,6 +199,7 @@ public class SysUserController {
 	 */
 	@PostMapping("/import")
 	@HasPermission("sys_user_export")
+	@Operation(summary = "导入用户信息", description = "导入用户信息")
 	public R importUser(@RequestExcel List<UserExcelVO> excelVOList, BindingResult bindingResult) {
 		return userService.importUsers(excelVOList, bindingResult);
 	}
@@ -200,6 +210,7 @@ public class SysUserController {
 	 * @return 操作结果
 	 */
 	@PutMapping("/lock/{username}")
+	@Operation(summary = "锁定指定用户", description = "锁定指定用户")
 	public R lockUser(@PathVariable String username) {
 		return userService.lockUser(username);
 	}
@@ -210,6 +221,7 @@ public class SysUserController {
 	 * @return 操作结果
 	 */
 	@PutMapping("/password")
+	@Operation(summary = "修改当前用户密码", description = "修改当前用户密码")
 	public R password(@RequestBody UserDTO userDto) {
 		String username = SecurityUtils.getUser().getUsername();
 		userDto.setUsername(username);
@@ -222,6 +234,7 @@ public class SysUserController {
 	 * @return 检查结果
 	 */
 	@PostMapping("/check")
+	@Operation(summary = "检查密码是否符合要求", description = "检查密码是否符合要求")
 	public R check(String password) {
 		return userService.checkPassword(password);
 	}

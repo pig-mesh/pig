@@ -20,6 +20,7 @@ package com.pig4cloud.pig.admin.controller;
 import com.pig4cloud.pig.admin.service.SysMobileService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.security.annotation.Inner;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -51,6 +52,7 @@ public class SysMobileController {
 	 */
 	@Inner(value = false)
 	@GetMapping("/{mobile}")
+	@Operation(summary = "发送短信验证码", description = "发送短信验证码")
 	public R sendSmsCode(@PathVariable String mobile) {
 		return mobileService.sendSmsCode(mobile);
 	}

@@ -45,7 +45,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/templateGroup")
-@Tag(description = "templateGroup", name = "模板分组关联表管理")
+@Tag(description = "templateGroup", name = "模板分组关联表管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTemplateGroupController {
 
@@ -124,6 +124,7 @@ public class GenTemplateGroupController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("codegen_templateGroup_export")
+	@Operation(summary = "导出excel模板分组", description = "导出excel模板分组")
 	public List<GenTemplateGroupEntity> exportTemplateGroups(GenTemplateGroupEntity genTemplateGroup) {
 		return genTemplateGroupService.list(Wrappers.query(genTemplateGroup));
 	}

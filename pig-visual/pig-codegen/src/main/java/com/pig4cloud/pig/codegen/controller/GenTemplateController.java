@@ -47,7 +47,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/template")
-@Tag(description = "template", name = "模板管理")
+@Tag(description = "template", name = "模板管理模块")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTemplateController {
 
@@ -143,6 +143,7 @@ public class GenTemplateController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("codegen_template_export")
+	@Operation(summary = "导出模板", description = "导出模板")
 	public List<GenTemplateEntity> exportTemplates(GenTemplateEntity genTemplate) {
 		return genTemplateService.list(Wrappers.query(genTemplate));
 	}

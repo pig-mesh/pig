@@ -30,6 +30,8 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,6 +49,7 @@ import javax.sql.DataSource;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/dsconf")
+@Tag(description = "dsconf", name = "数据源管理模块")
 public class GenDsConfController {
 
 	private final GenDatasourceConfService datasourceConfService;
@@ -60,6 +63,7 @@ public class GenDsConfController {
 	 * @return 分页查询结果
 	 */
 	@GetMapping("/page")
+	@Operation(summary = "分页查询数据源配置", description = "分页查询数据源配置")
 	public R getDsConfPage(Page page, GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.page(page,
 				Wrappers.<GenDatasourceConf>lambdaQuery()
@@ -71,8 +75,9 @@ public class GenDsConfController {
 	 * 查询全部数据源列表
 	 * @return 包含全部数据源列表的响应结果
 	 */
-	@GetMapping("/list")
 	@Inner(value = false)
+	@GetMapping("/list")
+	@Operation(summary = "查询全部数据源列表", description = "查询全部数据源列表")
 	public R listDsConfs() {
 		return R.ok(datasourceConfService.list());
 	}
@@ -83,6 +88,7 @@ public class GenDsConfController {
 	 * @return 包含查询结果的响应对象
 	 */
 	@GetMapping("/{id}")
+	@Operation(summary = "根据ID查询数据源表", description = "根据ID查询数据源表")
 	public R getDsConfById(@PathVariable("id") Long id) {
 		return R.ok(datasourceConfService.getById(id));
 	}
@@ -94,6 +100,7 @@ public class GenDsConfController {
 	 */
 	@PostMapping
 	@XssCleanIgnore
+	@Operation(summary = "新增数据源表", description = "新增数据源表")
 	public R saveDsConf(@RequestBody GenDatasourceConf datasourceConf) {
 		return R.ok(datasourceConfService.saveDsByEnc(datasourceConf));
 	}
@@ -105,6 +112,7 @@ public class GenDsConfController {
 	 */
 	@PutMapping
 	@XssCleanIgnore
+	@Operation(summary = "修改数据源表", description = "修改数据源表")
 	public R updateDsConf(@RequestBody GenDatasourceConf conf) {
 		return R.ok(datasourceConfService.updateDsByEnc(conf));
 	}
@@ -115,6 +123,7 @@ public class GenDsConfController {
 	 * @return 包含操作结果的R对象
 	 */
 	@DeleteMapping
+	@Operation(summary = "通过id数组删除数据源表", description = "通过id数组删除数据源表")
 	public R removeDsConfByIds(@RequestBody Long[] ids) {
 		return R.ok(datasourceConfService.removeByDsId(ids));
 	}
@@ -127,6 +136,7 @@ public class GenDsConfController {
 	 */
 	@SneakyThrows
 	@GetMapping("/doc")
+	@Operation(summary = "生成指定数据源的数据库文档并输出到响应流", description = "生成指定数据源的数据库文档并输出到响应流")
 	public void generatorDoc(String dsName, HttpServletResponse response) {
 		// 设置指定的数据源
 		DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
