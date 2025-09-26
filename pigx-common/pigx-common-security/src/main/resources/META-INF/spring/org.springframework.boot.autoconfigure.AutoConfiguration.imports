@@ -5,5 +5,6 @@ com.pig4cloud.pigx.common.security.service.PigxTocMobileUserDetailsServiceImpl
 com.pig4cloud.pigx.common.security.service.PigxRedisOAuth2AuthorizationService
 com.pig4cloud.pigx.common.security.service.PigxRedisOAuth2AuthorizationConsentService
 com.pig4cloud.pigx.common.security.component.PigxSecurityInnerAspect
+com.pig4cloud.pigx.common.security.component.PigxInnerHeaderRemoveFilter
 com.pig4cloud.pigx.common.security.component.PigxSecurityMessageSourceConfiguration
 com.pig4cloud.pigx.common.security.service.PigxRemoteRegisteredClientRepository

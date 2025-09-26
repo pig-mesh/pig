@@ -43,6 +43,10 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
         </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
+        </dependency>
         <!--安全模块-->
         <dependency>
             <groupId>org.springframework.security</groupId>
