@@ -4,18 +4,18 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx</artifactId>
-        <version>5.9.0</version>
-	</parent>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx</artifactId>
+        <version>5.10.0</version>
+    </parent>
 
-	<artifactId>pigx-app-server</artifactId>
-	<packaging>pom</packaging>
+    <artifactId>pigx-app-server</artifactId>
+    <packaging>pom</packaging>
 
-	<!--项目子模块-->
-	<modules>
-		<module>pigx-app-server-api</module>
-		<module>pigx-app-server-biz</module>
-	</modules>
+    <!--项目子模块-->
+    <modules>
+        <module>pigx-app-server-api</module>
+        <module>pigx-app-server-biz</module>
+    </modules>
 </project>

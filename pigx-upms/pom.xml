@@ -19,21 +19,21 @@
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>com.pig4cloud</groupId>
-		<artifactId>pigx</artifactId>
-        <version>5.9.0</version>
-	</parent>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.pig4cloud</groupId>
+        <artifactId>pigx</artifactId>
+        <version>5.10.0</version>
+    </parent>
 
-	<artifactId>pigx-upms</artifactId>
+    <artifactId>pigx-upms</artifactId>
 
-	<description>pigx 通用用户权限管理聚合模块</description>
-	<packaging>pom</packaging>
+    <description>pigx 通用用户权限管理聚合模块</description>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>pigx-upms-api</module>
-		<module>pigx-upms-biz</module>
-	</modules>
+    <modules>
+        <module>pigx-upms-api</module>
+        <module>pigx-upms-biz</module>
+    </modules>
 </project>

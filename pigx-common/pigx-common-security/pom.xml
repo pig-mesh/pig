@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.9.0</version>
+        <version>5.10.0</version>
     </parent>
 
     <artifactId>pigx-common-security</artifactId>
@@ -77,10 +77,10 @@
             <artifactId>pigx-upms-api</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>com.pig4cloud</groupId>
-			<artifactId>pigx-app-server-api</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-app-server-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
