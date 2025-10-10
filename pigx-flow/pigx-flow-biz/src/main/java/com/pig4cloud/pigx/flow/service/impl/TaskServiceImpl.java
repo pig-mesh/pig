@@ -256,6 +256,12 @@ public class TaskServiceImpl implements ITaskService {
 			taskService.setVariablesLocal(taskParamDto.getTaskId(), taskLocalParamMap);
 		}
 
+		if (CollUtil.isNotEmpty(taskParamDto.getFormData())) {
+			// 获取当前任务
+			Task task = taskService.createTaskQuery().taskId(taskParamDto.getTaskId()).singleResult();
+			runtimeService.setVariables(task.getExecutionId(), taskParamDto.getFormData());
+		}
+
 		taskService.complete(taskParamDto.getTaskId(), taskParamDto.getParamMap());
 
 		return R.ok();
@@ -314,6 +320,11 @@ public class TaskServiceImpl implements ITaskService {
 		// 设置任务的 assignee 为目标用户 (转办用户)
 		for (Long targetUserId : taskParamDto.getTargetUserIdList()) {
 			taskService.setAssignee(taskParamDto.getTaskId(), targetUserId.toString());
+		}
+
+		// 更新表单
+		if (CollUtil.isNotEmpty(taskParamDto.getFormData())) {
+			runtimeService.setVariables(task.getExecutionId(), taskParamDto.getFormData());
 		}
 		return R.ok();
 	}

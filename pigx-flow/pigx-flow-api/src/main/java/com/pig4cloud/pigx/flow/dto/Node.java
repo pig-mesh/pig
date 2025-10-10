@@ -141,4 +141,13 @@ public class Node {
 	 */
 	private Refuse refuse;
 
+	/** 条件类型 */
+	private Integer conditionType;
+
+	/** 表达式文本 */
+	private String expressionText;
+
+	/** 规则名称 */
+	private String ruleName;
+
 }

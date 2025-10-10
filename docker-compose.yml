@@ -1,4 +1,4 @@
-# 使用说明 V5.9
+# 使用说明 V5.10
 # 1. 使用docker-compose  宿主机不需要配置host来发现
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
@@ -65,21 +65,12 @@ services:
     networks:
       - spring_cloud_default
 
-  pigx-flow-task:
+  pigx-flow-biz:
     build:
-      context: ./pigx-flow/pigx-flow-task/pigx-flow-task-biz
+      context: ./pigx-flow/pigx-flow-biz
     restart: always
-    container_name: pigx-flow-task
-    image: pigx-flow-task
-    networks:
-      - spring_cloud_default
-
-  pigx-flow-engine:
-    build:
-      context: ./pigx-flow/pigx-flow-engine/pigx-flow-engine-biz
-    restart: always
-    container_name: pigx-flow-engine
-    image: pigx-flow-engine
+    container_name: pigx-flow-biz
+    image: pigx-flow-biz
     networks:
       - spring_cloud_default
 
@@ -172,5 +163,5 @@ services:
 
 networks:
   spring_cloud_default:
-    name:  spring_cloud_default
+    name: spring_cloud_default
     driver: bridge

@@ -10,6 +10,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,6 @@ import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
 import org.flowable.engine.RepositoryService;
 import org.flowable.engine.repository.Deployment;
-import org.flowable.engine.repository.ProcessDefinition;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -195,15 +195,6 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		}
 
 		Process oldProcess = this.getByFlowId(flowId);
-		if (Objects.nonNull(oldProcess) && StrUtil.isNotBlank(oldProcess.getUniqueId())) {
-			// 挂起原有流程定义
-			String oldDeploymentId = oldProcess.getUniqueId();
-
-			ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery()
-				.deploymentId(oldDeploymentId)
-				.singleResult();
-			repositoryService.suspendProcessDefinitionById(processDefinition.getId(), true, null);
-		}
 
 		Deployment deployment = repositoryService.createDeployment()
 			.addBpmnModel(StrUtil.format("{}.bpmn20.xml", "pig"), bpmnModel)
@@ -268,10 +259,11 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		p.setRangeShow(stringBuilder.toString());
 		this.saveOrUpdate(p);
 
-		// 保存范围
+		// 删除原有发起范围
+		processStarterService
+			.remove(Wrappers.<ProcessStarter>lambdaQuery().eq(ProcessStarter::getProcessId, p.getId()));
 		for (NodeUser nodeUserDto : nodeUserList) {
 			ProcessStarter processStarter = new ProcessStarter();
-
 			processStarter.setProcessId(p.getId());
 			processStarter.setTypeId(nodeUserDto.getId());
 			processStarter.setType(nodeUserDto.getType());
