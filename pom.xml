@@ -46,6 +46,7 @@
 		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
 		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
+		<lombok.version>1.18.42</lombok.version>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
@@ -77,6 +78,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- JAVA 17 -->
@@ -262,6 +264,14 @@
 					<source>${maven.compiler.source}</source>
 					<encoding>UTF-8</encoding>
 					<parameters>true</parameters>
+					<!-- 支持 JDK 25 编译 -->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>${lombok.version}</version>
+						</path>
+					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<!--打包jar 与git commit 关联插件-->
