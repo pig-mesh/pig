@@ -22,13 +22,11 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -51,115 +49,110 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PigxDefaultDataScopeHandle implements DataScopeHandle {
 
-	private final RemoteDataScopeService dataScopeService;
+    private final RemoteDataScopeService dataScopeService;
 
-	@Override
-	public Boolean calcScope(DataScope dataScope) {
-		// 对于TOC客户端，不进行数据权限校验
-		PigxUser user = SecurityUtils.getUser();
-		if (UserTypeEnum.TOC.getStatus().equals(user.getUserType())) {
-			return true;
-		}
+    @Override
+    public Boolean calcScope(DataScope dataScope) {
+        // 对于TOC客户端，不进行数据权限校验
+        PigxUser user = SecurityUtils.getUser();
+        if (UserTypeEnum.TOC.getStatus().equals(user.getUserType())) {
+            return true;
+        }
 
-		// 业务代码里的规则，覆盖计算规则
-		if (StrUtil.isNotBlank(dataScope.getUsername()) || CollUtil.isNotEmpty(dataScope.getDeptList())) {
-			return false;
-		}
+        // 业务代码里的规则，覆盖计算规则
+        if (StrUtil.isNotBlank(dataScope.getUsername()) || CollUtil.isNotEmpty(dataScope.getDeptList())) {
+            return false;
+        }
 
-		// 获取用户角色ID列表
-		List<String> roleIdList = user.getAuthorities()
-			.stream()
-			.map(GrantedAuthority::getAuthority)
-			.filter(authority -> authority.startsWith(SecurityConstants.ROLE))
-			.map(authority -> authority.split(StrUtil.UNDERLINE)[1])
-			.toList();
-		if (CollUtil.isEmpty(roleIdList)) {
-			return false;
-		}
+        // 获取用户角色ID列表
+        List<Long> roleIdList = user.getRoleIds();
+        if (CollUtil.isEmpty(roleIdList)) {
+            return false;
+        }
 
-		// 获取角色列表
-		List<SysRole> roleList = RetOps.of(dataScopeService.getRoleList(roleIdList))
-			.getData()
-			.orElseGet(Collections::emptyList);
-		if (CollUtil.isEmpty(roleList)) {
-			return false;
-		}
+        // 获取角色列表
+        List<SysRole> roleList = RetOps.of(dataScopeService.getRoleList(roleIdList))
+                .getData()
+                .orElseGet(Collections::emptyList);
+        if (CollUtil.isEmpty(roleList)) {
+            return false;
+        }
 
-		// 处理数据权限
-		return processDataScope(user, dataScope, roleList);
-	}
+        // 处理数据权限
+        return processDataScope(user, dataScope, roleList);
+    }
 
-	/**
-	 * 处理数据权限
-	 */
-	private boolean processDataScope(PigxUser user, DataScope dataScope, List<SysRole> roleList) {
-		List<Long> deptList = dataScope.getDeptList();
+    /**
+     * 处理数据权限
+     */
+    private boolean processDataScope(PigxUser user, DataScope dataScope, List<SysRole> roleList) {
+        List<Long> deptList = dataScope.getDeptList();
 
-		for (SysRole role : roleList) {
-			Integer dsType = role.getDsType();
+        for (SysRole role : roleList) {
+            Integer dsType = role.getDsType();
 
-			// 处理不同数据权限类型
-			switch (Objects.requireNonNull(DataScopeTypeEnum.getByType(dsType))) {
-				case ALL:
-					return true;
-				case CUSTOM:
-					handleCustomScope(role, deptList);
-					break;
-				case OWN_CHILD_LEVEL:
-					handleOwnChildLevelScope(user, deptList);
-					break;
-				case OWN_LEVEL:
-					handleOwnLevelScope(user, deptList);
-					break;
-				case SELF_LEVEL:
-					handleSelfLevelScope(user, dataScope);
-					break;
-				default:
-					break;
-			}
-		}
+            // 处理不同数据权限类型
+            switch (Objects.requireNonNull(DataScopeTypeEnum.getByType(dsType))) {
+                case ALL:
+                    return true;
+                case CUSTOM:
+                    handleCustomScope(role, deptList);
+                    break;
+                case OWN_CHILD_LEVEL:
+                    handleOwnChildLevelScope(user, deptList);
+                    break;
+                case OWN_LEVEL:
+                    handleOwnLevelScope(user, deptList);
+                    break;
+                case SELF_LEVEL:
+                    handleSelfLevelScope(user, dataScope);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * 处理自定义数据权限
-	 */
-	private void handleCustomScope(SysRole role, List<Long> deptList) {
-		if (StrUtil.isNotBlank(role.getDsScope())) {
-			deptList.addAll(Arrays.stream(role.getDsScope().split(StrUtil.COMMA)).map(Long::parseLong).toList());
-		}
-	}
+    /**
+     * 处理自定义数据权限
+     */
+    private void handleCustomScope(SysRole role, List<Long> deptList) {
+        if (StrUtil.isNotBlank(role.getDsScope())) {
+            deptList.addAll(Arrays.stream(role.getDsScope().split(StrUtil.COMMA)).map(Long::parseLong).toList());
+        }
+    }
 
-	/**
-	 * 处理本级及下级数据权限
-	 */
-	private void handleOwnChildLevelScope(PigxUser user, List<Long> deptList) {
+    /**
+     * 处理本级及下级数据权限
+     */
+    private void handleOwnChildLevelScope(PigxUser user, List<Long> deptList) {
 
-		for (Long deptId : user.getDeptIds()) {
-			List<Long> descendantDeptIds = RetOps.of(dataScopeService.getDescendantList(deptId))
-				.getData()
-				.orElseGet(Collections::emptyList)
-				.stream()
-				.map(SysDept::getDeptId)
-				.toList();
-			deptList.addAll(descendantDeptIds);
-		}
+        for (Long deptId : user.getDeptIds()) {
+            List<Long> descendantDeptIds = RetOps.of(dataScopeService.getDescendantList(deptId))
+                    .getData()
+                    .orElseGet(Collections::emptyList)
+                    .stream()
+                    .map(SysDept::getDeptId)
+                    .toList();
+            deptList.addAll(descendantDeptIds);
+        }
 
-	}
+    }
 
-	/**
-	 * 处理本级数据权限
-	 */
-	private void handleOwnLevelScope(PigxUser user, List<Long> deptList) {
-		deptList.addAll(user.getDeptIds());
-	}
+    /**
+     * 处理本级数据权限
+     */
+    private void handleOwnLevelScope(PigxUser user, List<Long> deptList) {
+        deptList.addAll(user.getDeptIds());
+    }
 
-	/**
-	 * 处理个人数据权限
-	 */
-	private void handleSelfLevelScope(PigxUser user, DataScope dataScope) {
-		dataScope.setUsername(user.getUsername());
-	}
+    /**
+     * 处理个人数据权限
+     */
+    private void handleSelfLevelScope(PigxUser user, DataScope dataScope) {
+        dataScope.setUsername(user.getUsername());
+    }
 
 }
