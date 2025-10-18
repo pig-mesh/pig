@@ -114,7 +114,9 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 		String clientId = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.CLIENT_ID);
 
 		if (StrUtil.isBlank(clientId)) {
-			clientId = basicConvert.convert(request).getName();
+			clientId = Optional.ofNullable(basicConvert.convert(request))
+					.map(UsernamePasswordAuthenticationToken::getName)
+					.orElse(null);
 		}
 
 		Map<String, PigUserDetailsService> userDetailsServiceMap = SpringUtil
