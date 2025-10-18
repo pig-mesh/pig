@@ -52,7 +52,7 @@ docker compose up
 |-----------------------------|--------|
 | Spring Boot                 | 3.5.6  |
 | Spring Cloud                | 2025   |
-| Spring Cloud Alibaba        | 2023   |
+| Spring Cloud Alibaba        | 2025   |
 | Spring Authorization Server | 1.5.2  |
 | Mybatis Plus                | 3.5.14 |
 | Vue                         | 3.5    |
