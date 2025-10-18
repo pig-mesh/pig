@@ -45,7 +45,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-		<spring-cloud-alibaba.version>2023.0.3.3</spring-cloud-alibaba.version>
+		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
