@@ -3,12 +3,6 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>group.springframework</groupId>
-        <artifactId>spring-cloud-dependencies-parent</artifactId>
-        <version>2024.0.0</version>
-        <relativePath/>
-    </parent>
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pigx-common-bom</artifactId>
@@ -22,7 +16,7 @@
         <mybatis-plus-join.version>1.5.4</mybatis-plus-join.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
         <druid.version>1.2.23</druid.version>
-        <hutool.version>5.8.40</hutool.version>
+        <hutool.version>5.8.41</hutool.version>
         <mysql.connector.version>8.3.0</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>12.10.0.jre8</sqlserver.version>
@@ -56,7 +50,7 @@
         <sms4j.version>3.3.4</sms4j.version>
         <deepseek.version>1.4.7</deepseek.version>
         <jakarta.mail.version>2.0.1</jakarta.mail.version>
-        <dashscope.version>2.16.5</dashscope.version>
+        <dashscope.version>2.20.1</dashscope.version>
         <velocity.version>2.3</velocity.version>
         <common.io.version>2.16.1</common.io.version>
         <velocity.tool.version>3.1</velocity.tool.version>
@@ -195,6 +189,16 @@
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pigx-common-milvus</artifactId>
+                <version>${pigx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pigx-common-mcp</artifactId>
+                <version>${pigx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pigx-common-neo4j</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
             <!--  chat ai -->
@@ -542,15 +546,10 @@
         </dependencies>
     </dependencyManagement>
 
-    <!--  增加云效nexus示例仓库 （演示使用，可自行删除）  -->
     <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>https://packages.aliyun.com/maven/repository/2161442-release-DcBZC1/</url>
-        </repository>
         <snapshotRepository>
             <id>rdc-snapshots</id>
-            <url>https://packages.aliyun.com/maven/repository/2161442-snapshot-FzKqZK/</url>
+            <url>https://packages.aliyun.com/61a630ff97fb514e99e0db31/maven/repo-jaloh</url>
         </snapshotRepository>
     </distributionManagement>
 </project>
