@@ -23,7 +23,7 @@
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<excel.version>3.4.2</excel.version>
-		<hutool.version>5.8.40</hutool.version>
+		<hutool.version>5.8.41</hutool.version>
 		<velocity.version>2.4</velocity.version>
 		<captcha.version>2.2.5</captcha.version>
 		<knife4j.version>4.5.0</knife4j.version>
