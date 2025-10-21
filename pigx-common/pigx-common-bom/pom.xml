@@ -15,6 +15,7 @@
         <mybatis-plus.version>3.5.14</mybatis-plus.version>
         <mybatis-plus-join.version>1.5.4</mybatis-plus-join.version>
         <dynamic-ds.version>4.3.1</dynamic-ds.version>
+        <nacos.client.version>3.1.0</nacos.client.version>
         <druid.version>1.2.23</druid.version>
         <hutool.version>5.8.41</hutool.version>
         <mysql.connector.version>8.3.0</mysql.connector.version>
@@ -471,6 +472,12 @@
                 <groupId>org.apache.velocity.tools</groupId>
                 <artifactId>velocity-tools-generic</artifactId>
                 <version>${velocity.tool.version}</version>
+            </dependency>
+            <!--Nacos fix: https://gitee.com/log4j/pig/issues/ID2OA3-->
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>${nacos.client.version}</version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
