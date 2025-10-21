@@ -20,6 +20,7 @@
 		<sms.version>3.3.5</sms.version>
 		<screw.version>0.0.3</screw.version>
 		<aws.version>2.29.45</aws.version>
+		<nacos.client.version>3.1.0</nacos.client.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<excel.version>3.4.2</excel.version>
@@ -198,6 +199,12 @@
 				<groupId>software.amazon.awssdk</groupId>
 				<artifactId>s3</artifactId>
 				<version>${aws.version}</version>
+			</dependency>
+			<!--Nacos fix: https://gitee.com/log4j/pig/issues/ID2OA3-->
+			<dependency>
+				<groupId>com.alibaba.nacos</groupId>
+				<artifactId>nacos-client</artifactId>
+				<version>${nacos.client.version}</version>
 			</dependency>
 			<!--orm 相关 -->
 			<dependency>
