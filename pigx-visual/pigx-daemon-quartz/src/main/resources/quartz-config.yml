@@ -1,6 +1,7 @@
 # 如下配置为使用数据库存储定时任务，属性不经常修改，所以不放在 application.yml 中统一管理
 spring:
   quartz:
+    security.enabled: true  # 启用quartz安全验证
     properties:
       org:
         quartz:

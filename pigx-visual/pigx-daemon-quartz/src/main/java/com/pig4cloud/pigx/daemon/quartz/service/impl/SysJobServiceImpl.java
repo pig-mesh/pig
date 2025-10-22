@@ -27,6 +27,7 @@ import com.pig4cloud.pigx.daemon.quartz.constants.JobTypeQuartzEnum;
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pigx.daemon.quartz.mapper.SysJobMapper;
 import com.pig4cloud.pigx.daemon.quartz.service.SysJobService;
+import com.pig4cloud.pigx.daemon.quartz.util.JobSecurityValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
@@ -46,6 +47,8 @@ import java.util.Objects;
 @AllArgsConstructor
 public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> implements SysJobService {
 
+    private final JobSecurityValidator jobSecurityValidator;
+
     /**
      * 检查任务配置
      *
@@ -55,6 +58,25 @@ public class SysJobServiceImpl extends ServiceImpl<SysJobMapper, SysJob> impleme
      */
     @Override
     public R checkJob(String field, SysJob sysJob) {
+        // Security validation for reflection-based job types
+        // 对基于反射的任务类型进行安全验证
+        if (JobTypeQuartzEnum.SPRING_BEAN.getType().equals(sysJob.getJobType()) ||
+            JobTypeQuartzEnum.JAVA.getType().equals(sysJob.getJobType())) {
+
+            // Comprehensive security check
+            // 全面的安全检查
+            String securityError = jobSecurityValidator.validateJobConfig(
+                    sysJob.getClassName(),
+                    sysJob.getMethodName(),
+                    sysJob.getMethodParamsValue()
+            );
+
+            if (securityError != null) {
+                log.error("Security validation failed for job: {}, error: {}", sysJob.getJobName(), securityError);
+                return R.ok(securityError);
+            }
+        }
+
         // 如果是 spring bean 类型任务
         if (JobTypeQuartzEnum.SPRING_BEAN.getType().equals(sysJob.getJobType())) {
 
