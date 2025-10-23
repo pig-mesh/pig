@@ -51,6 +51,7 @@ public class SysTokenController {
 	 * @return 包含token分页信息的响应结果
 	 */
 	@GetMapping("/page")
+	@HasPermission("sys_token_del")
 	@Operation(summary = "获取分页token信息", description = "获取分页token信息")
 	public R getTokenPage(@RequestBody Map<String, Object> params) {
 		return remoteTokenService.getTokenPage(params);
