@@ -32,7 +32,7 @@
 		<docker.password>password</docker.password>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
-		<spring-boot.version>3.5.6</spring-boot.version>
+		<spring-boot.version>3.5.7</spring-boot.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
@@ -264,14 +264,6 @@
 					<source>${maven.compiler.source}</source>
 					<encoding>UTF-8</encoding>
 					<parameters>true</parameters>
-					<!-- 支持 JDK 25 编译 -->
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<!--打包jar 与git commit 关联插件-->
