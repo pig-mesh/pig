@@ -24,8 +24,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * JavaClassTaskInvok 安全测试类
- * 验证RCE漏洞已被修复
+ * JavaClassTaskInvok 安全测试类 验证RCE漏洞已被修复
  *
  * @author lengleng
  * @date 2025/10/22
