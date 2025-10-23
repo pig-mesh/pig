@@ -110,9 +110,8 @@ public class ClassNameValidator {
 		}
 
 		// 检查方法名是否包含危险特征
-		Set<String> dangerousMethods = new HashSet<>(
-				Arrays.asList("exec", "eval", "execute", "invoke", "newInstance", "forName", "getRuntime",
-						"loadClass", "defineClass", "getMethod", "getDeclaredMethod"));
+		Set<String> dangerousMethods = new HashSet<>(Arrays.asList("exec", "eval", "execute", "invoke", "newInstance",
+				"forName", "getRuntime", "loadClass", "defineClass", "getMethod", "getDeclaredMethod"));
 
 		if (dangerousMethods.contains(methodName)) {
 			log.warn("方法名 [{}] 在危险方法黑名单中，拒绝执行", methodName);
