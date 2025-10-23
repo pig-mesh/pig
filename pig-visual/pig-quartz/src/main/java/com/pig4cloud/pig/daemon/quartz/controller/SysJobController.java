@@ -112,6 +112,21 @@ public class SysJobController {
 		if (count > 0) {
 			return R.failed("任务重复，请检查此组内是否已包含同名任务");
 		}
+
+		// 安全验证：对于Java类类型的任务，验证类名和方法名
+		if ("1".equals(sysJob.getJobType())) {
+			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator
+				.isValidClassName(sysJob.getClassName())) {
+				log.warn("新增定时任务失败，类名验证不通过：{}", sysJob.getClassName());
+				return R.failed("类名验证失败，该类在黑名单中或包含危险特征，拒绝创建");
+			}
+			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator
+				.isValidMethodName(sysJob.getMethodName())) {
+				log.warn("新增定时任务失败，方法名验证不通过：{}", sysJob.getMethodName());
+				return R.failed("方法名验证失败，该方法在黑名单中或包含危险特征，拒绝创建");
+			}
+		}
+
 		sysJob.setJobStatus(PigQuartzEnum.JOB_STATUS_RELEASE.getType());
 		sysJob.setCreateBy(SecurityUtils.getUser().getUsername());
 		return R.ok(sysJobService.save(sysJob));
@@ -127,6 +142,20 @@ public class SysJobController {
 	@HasPermission("job_sys_job_edit")
 	@Operation(summary = "修改定时任务", description = "修改定时任务")
 	public R updateJob(@RequestBody SysJob sysJob) {
+		// 安全验证：对于Java类类型的任务，验证类名和方法名
+		if ("1".equals(sysJob.getJobType())) {
+			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator
+				.isValidClassName(sysJob.getClassName())) {
+				log.warn("修改定时任务失败，类名验证不通过：{}", sysJob.getClassName());
+				return R.failed("类名验证失败，该类在黑名单中或包含危险特征，拒绝修改");
+			}
+			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator
+				.isValidMethodName(sysJob.getMethodName())) {
+				log.warn("修改定时任务失败，方法名验证不通过：{}", sysJob.getMethodName());
+				return R.failed("方法名验证失败，该方法在黑名单中或包含危险特征，拒绝修改");
+			}
+		}
+
 		sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
 		SysJob querySysJob = this.sysJobService.getById(sysJob.getJobId());
 		if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {

@@ -44,6 +44,17 @@ public class JavaClassTaskInvok implements ITaskInvok {
 	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
+		// 安全验证：检查类名和方法名是否合法
+		if (!ClassNameValidator.isValidClassName(sysJob.getClassName())) {
+			log.error("定时任务类名验证失败，类名包含危险特征或在黑名单中：{}", sysJob.getClassName());
+			throw new TaskException("定时任务类名验证失败，拒绝执行危险类：" + sysJob.getClassName());
+		}
+
+		if (!ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
+			log.error("定时任务方法名验证失败，方法名包含危险特征：{}", sysJob.getMethodName());
+			throw new TaskException("定时任务方法名验证失败，拒绝执行危险方法：" + sysJob.getMethodName());
+		}
+
 		Object obj;
 		Class clazz;
 		Method method;
