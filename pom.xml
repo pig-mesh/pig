@@ -33,8 +33,8 @@
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
 		<spring-boot.version>3.5.7</spring-boot.version>
-		<maven.compiler.source>25</maven.compiler.source>
-		<maven.compiler.target>25</maven.compiler.target>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<commons-lang3.version>3.18.0</commons-lang3.version>
