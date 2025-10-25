@@ -37,7 +37,7 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<commons-lang3.version>3.18.0</commons-lang3.version>
+		<commons-lang3.version>3.19.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<spring-boot-admin.version>3.5.5</spring-boot-admin.version>
