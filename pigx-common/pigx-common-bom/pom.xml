@@ -32,7 +32,7 @@
         <javax.version>4.0.1</javax.version>
         <jsoup.version>1.15.3</jsoup.version>
         <aviator.version>5.4.3</aviator.version>
-        <flowable.version>7.0.0</flowable.version>
+        <flowable.version>7.2.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.4.2</xxl.job.version>
