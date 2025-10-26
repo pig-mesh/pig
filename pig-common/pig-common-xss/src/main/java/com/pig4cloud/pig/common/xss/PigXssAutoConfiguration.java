@@ -16,10 +16,8 @@
 
 package com.pig4cloud.pig.common.xss;
 
-import com.pig4cloud.pig.common.xss.core.DefaultXssCleaner;
-import com.pig4cloud.pig.common.xss.core.FormXssClean;
-import com.pig4cloud.pig.common.xss.core.JacksonXssClean;
-import com.pig4cloud.pig.common.xss.core.XssCleaner;
+import com.pig4cloud.pig.common.xss.config.PigXssProperties;
+import com.pig4cloud.pig.common.xss.core.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -42,13 +40,12 @@ import java.util.List;
  */
 @AutoConfiguration
 @RequiredArgsConstructor
-@EnableConfigurationProperties(com.pig4cloud.pig.common.xss.config.PigXssProperties.class)
-@ConditionalOnProperty(prefix = com.pig4cloud.pig.common.xss.config.PigXssProperties.PREFIX, name = "enabled",
-		havingValue = "true", matchIfMissing = true)
+@EnableConfigurationProperties(PigXssProperties.class)
+@ConditionalOnProperty(prefix = PigXssProperties.PREFIX, name = "enabled", havingValue = "true", matchIfMissing = true)
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class PigXssAutoConfiguration implements WebMvcConfigurer {
 
-	private final com.pig4cloud.pig.common.xss.config.PigXssProperties xssProperties;
+	private final PigXssProperties xssProperties;
 
 	/**
 	 * 创建XSS清理器Bean
@@ -58,7 +55,7 @@ public class PigXssAutoConfiguration implements WebMvcConfigurer {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public XssCleaner xssCleaner(com.pig4cloud.pig.common.xss.config.PigXssProperties properties) {
+	public XssCleaner xssCleaner(PigXssProperties properties) {
 		return new DefaultXssCleaner(properties);
 	}
 
@@ -69,8 +66,7 @@ public class PigXssAutoConfiguration implements WebMvcConfigurer {
 	 * @return FormXssClean实例
 	 */
 	@Bean
-	public FormXssClean formXssClean(com.pig4cloud.pig.common.xss.config.PigXssProperties properties,
-			XssCleaner xssCleaner) {
+	public FormXssClean formXssClean(PigXssProperties properties, XssCleaner xssCleaner) {
 		return new FormXssClean(properties, xssCleaner);
 	}
 
@@ -81,8 +77,8 @@ public class PigXssAutoConfiguration implements WebMvcConfigurer {
 	 * @return 自定义的Jackson2ObjectMapperBuilder
 	 */
 	@Bean
-	public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(
-			com.pig4cloud.pig.common.xss.config.PigXssProperties properties, XssCleaner xssCleaner) {
+	public Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(PigXssProperties properties,
+			XssCleaner xssCleaner) {
 		return builder -> builder.deserializerByType(String.class, new JacksonXssClean(properties, xssCleaner));
 	}
 
@@ -96,8 +92,7 @@ public class PigXssAutoConfiguration implements WebMvcConfigurer {
 		if (patterns.isEmpty()) {
 			patterns.add("/**");
 		}
-		com.pig4cloud.pig.common.xss.core.XssCleanInterceptor interceptor = new com.pig4cloud.pig.common.xss.core.XssCleanInterceptor(
-				xssProperties);
+		XssCleanInterceptor interceptor = new XssCleanInterceptor(xssProperties);
 		registry.addInterceptor(interceptor)
 			.addPathPatterns(patterns)
 			.excludePathPatterns(xssProperties.getPathExcludePatterns())
