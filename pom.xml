@@ -27,13 +27,13 @@
 	<properties>
 		<!-- 项目版本号 -->
 		<revision>3.9.2</revision>
+		<java.version>17</java.version>
 		<jasypt.version>3.0.5</jasypt.version>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
 		<spring-boot.version>3.5.7</spring-boot.version>
-		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
@@ -142,18 +142,18 @@
 				<scope>import</scope>
 			</dependency>
 			<!--web 模块-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+				<exclusions>
+					<!--排除tomcat依赖-->
+					<exclusion>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
+						<groupId>org.springframework.boot</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 			<!-- 排除 spring cloud alibaba 令人头疼的日志封装-->
 			<dependency>
 				<groupId>com.alibaba.cloud</groupId>
@@ -258,8 +258,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<target>${maven.compiler.target}</target>
-					<source>${maven.compiler.source}</source>
+					<release>${java.version}</release>
 					<encoding>UTF-8</encoding>
 					<parameters>true</parameters>
 					<!-- 支持 JDK 25 编译 -->
