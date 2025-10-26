@@ -60,12 +60,7 @@
         </dependency>
         <dependency>
             <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-flow-engine-biz</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-flow-task-biz</artifactId>
+            <artifactId>pigx-flow-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
