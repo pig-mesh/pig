@@ -28,24 +28,24 @@
 		<!-- 项目版本号 -->
 		<revision>3.9.2</revision>
 		<java.version>17</java.version>
+		<spring-boot.version>3.5.7</spring-boot.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 		<jasypt.version>3.0.5</jasypt.version>
-		<docker.username>username</docker.username>
-		<docker.password>password</docker.password>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
-		<spring-boot.version>3.5.7</spring-boot.version>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
 		<commons-lang3.version>3.19.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<spring-boot-admin.version>3.5.5</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<docker.username>username</docker.username>
+		<docker.password>password</docker.password>
 		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
