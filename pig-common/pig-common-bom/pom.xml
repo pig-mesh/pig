@@ -18,11 +18,11 @@
 		<revision>3.9.2</revision>
 		<asm.version>7.1</asm.version>
 		<sms.version>3.3.5</sms.version>
-		<screw.version>0.0.3</screw.version>
 		<aws.version>2.29.45</aws.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<excel.version>3.4.2</excel.version>
+		<screw.version>0.0.3</screw.version>
 		<hutool.version>5.8.41</hutool.version>
 		<velocity.version>2.4</velocity.version>
 		<captcha.version>2.2.5</captcha.version>
@@ -182,11 +182,6 @@
 				<groupId>com.baomidou</groupId>
 				<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
 				<version>${dynamic-ds.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-gateway-server</artifactId>
-				<version>${gateway.version}</version>
 			</dependency>
 			<!-- 短信工具：https://sms4j.com -->
 			<dependency>
