@@ -194,6 +194,12 @@
 				<artifactId>sms4j-spring-boot-starter</artifactId>
 				<version>${sms.version}</version>
 			</dependency>
+			<!-- 网关 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-gateway-server</artifactId>
+				<version>${gateway.version}</version>
+			</dependency>
 			<!-- knife4j -->
 			<dependency>
 				<groupId>com.github.xiaoymin</groupId>
