@@ -27,7 +27,8 @@
 		<velocity.version>2.4</velocity.version>
 		<captcha.version>2.2.4</captcha.version>
 		<xxl-job.version>2.4.0</xxl-job.version>
-		<hutool.version>5.8.40</hutool.version>
+		<hutool.version>5.8.41</hutool.version>
+		<gateway.version>4.3.2</gateway.version>
 		<knife4j.version>4.5.0</knife4j.version>
 		<sentinel.version>1.8.4</sentinel.version>
 		<sa-token.version>1.44.0</sa-token.version>
@@ -39,7 +40,7 @@
 		<maven.compiler.target>17</maven.compiler.target>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
-		<swagger.core.version>2.2.37</swagger.core.version>
+		<swagger.core.version>2.2.39</swagger.core.version>
 		<mybatis-plus.version>3.5.14</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
