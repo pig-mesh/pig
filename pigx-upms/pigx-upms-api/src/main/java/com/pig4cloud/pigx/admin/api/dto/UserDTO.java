@@ -48,6 +48,12 @@ public class UserDTO extends SysUser {
 	private Long deptId;
 
 	/**
+	 * 部门id集合（支持多部门）
+	 */
+	@Schema(description = "部门id集合")
+	private List<Long> deptIds;
+
+	/**
 	 * 岗位ID
 	 */
 	private List<Long> post;

@@ -151,6 +151,12 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	private Long tenantId;
 
 	/**
+	 * 主部门ID
+	 */
+	@Schema(description = "用户主部门id")
+	private Long deptId;
+
+	/**
 	 * 微信openid
 	 */
 	@Schema(description = "微信openid")

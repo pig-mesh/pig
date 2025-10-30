@@ -160,6 +160,12 @@ public class UserVO implements Serializable {
 	@Schema(description = "所属租户")
 	private Long tenantId;
 
+	/**
+	 * 主部门ID
+	 */
+	@Schema(description = "主部门id")
+	private Long deptId;
+
 	@Schema(description = "所属部门名称")
 	private List<SysDept> deptList = new ArrayList<>();
 
