@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
@@ -41,47 +42,54 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class CasLoginHandler extends AbstractLoginHandler {
 
-	private final SysSocialDetailsMapper sysSocialDetailsMapper;
+    private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
-	private final SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
-	/**
-	 * cas 回到的ticket
-	 * <p>
-	 * 通过ticket 调用CAS获取唯一标识
-	 * @param ticket
-	 * @return
-	 */
-	@Override
-	@SneakyThrows
-	public String identify(String ticket) {
-		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.CAS.getType());
-		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
-		// remark 字段填写 CAS 服务器的URL
-		Cas30ProxyTicketValidator cas30ProxyTicketValidator = new Cas30ProxyTicketValidator(socialDetails.getRemark());
-		Assertion validate = cas30ProxyTicketValidator.validate(ticket, socialDetails.getRedirectUrl());
-		return validate.getPrincipal().getName();
-	}
+    /**
+     * cas 回到的ticket
+     * <p>
+     * 通过ticket 调用CAS获取唯一标识
+     *
+     * @param ticket
+     * @return
+     */
+    @Override
+    @SneakyThrows
+    public String identify(String ticket) {
+        SysSocialDetails condition = new SysSocialDetails();
+        condition.setType(LoginTypeEnum.CAS.getType());
+        SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+        // remark 字段填写 CAS 服务器的URL
+        Cas30ProxyTicketValidator cas30ProxyTicketValidator = new Cas30ProxyTicketValidator(socialDetails.getRemark());
+        Assertion validate = cas30ProxyTicketValidator.validate(ticket, socialDetails.getRedirectUrl());
+        return validate.getPrincipal().getName();
+    }
 
-	/**
+    /**
      * 根据用户名获取用户信息
+     *
      * @param username 用户名
      * @return 用户信息对象，如果用户不存在则返回null
-	 */
-	@Override
-	public UserInfo info(String username) {
+     */
+    @Override
+    public UserInfo info(String username) {
+        if (StrUtil.isBlank(username)) {
+            log.warn("CAS用户名为空，无法获取用户信息");
+            return null;
+        }
+
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(username);
 
         R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
         if (userInfoR.getData() == null) {
-			log.info("CAS 不存在用户:{}", username);
-			return null;
-		}
+            log.info("CAS 不存在用户:{}", username);
+            return null;
+        }
 
         return userInfoR.getData();
-	}
+    }
 
 }

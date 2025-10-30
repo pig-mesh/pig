@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -42,63 +43,70 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class WeChatLoginHandler extends AbstractLoginHandler {
 
-	private final SysUserService sysUserService;
+    private final SysUserService sysUserService;
 
-	private final SysSocialDetailsMapper sysSocialDetailsMapper;
+    private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
-	/**
-	 * 微信登录传入code
-	 * <p>
-	 * 通过code 调用qq 获取唯一标识
-	 * @param code
-	 * @return
-	 */
-	@Override
-	public String identify(String code) {
-		SysSocialDetails condition = new SysSocialDetails();
-		condition.setType(LoginTypeEnum.WECHAT.getType());
-		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+    /**
+     * 微信登录传入code
+     * <p>
+     * 通过code 调用qq 获取唯一标识
+     *
+     * @param code
+     * @return
+     */
+    @Override
+    public String identify(String code) {
+        SysSocialDetails condition = new SysSocialDetails();
+        condition.setType(LoginTypeEnum.WECHAT.getType());
+        SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-		String url = String.format(SecurityConstants.WX_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
-				socialDetails.getAppSecret(), code);
-		String result = HttpUtil.get(url);
-		log.debug("微信响应报文:{}", result);
+        String url = String.format(SecurityConstants.WX_AUTHORIZATION_CODE_URL, socialDetails.getAppId(),
+                socialDetails.getAppSecret(), code);
+        String result = HttpUtil.get(url);
+        log.debug("微信响应报文:{}", result);
 
-		Object obj = JSONUtil.parseObj(result).get("openid");
-		return obj.toString();
-	}
+        return JSONUtil.parseObj(result).getStr("openid");
+    }
 
-	/**
-	 * 根据微信openId获取用户信息
-	 * @param openId 微信openId
-	 * @return 用户信息，未找到时返回null
-	 */
-	@Override
-	public UserInfo info(String openId) {
-		UserDTO userDTO = new UserDTO();
-		userDTO.setWxOpenid(openId);
+    /**
+     * 根据微信openId获取用户信息
+     *
+     * @param openId 微信openId
+     * @return 用户信息，未找到时返回null
+     */
+    @Override
+    public UserInfo info(String openId) {
+        if (StrUtil.isBlank(openId)) {
+            log.warn("微信openId为空，无法获取用户信息");
+            return null;
+        }
 
-		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setWxOpenid(openId);
 
-		if (userInfoR.getData() == null) {
-			log.info("微信 不存在用户:{}", openId);
-			return null;
-		}
+        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-		return userInfoR.getData();
-	}
+        if (userInfoR.getData() == null) {
+            log.info("微信 不存在用户:{}", openId);
+            return null;
+        }
 
-	/**
-	 * 绑定逻辑
-	 * @param user 用户实体
-	 * @param identify 渠道返回唯一标识
-	 * @return
-	 */
-	@Override
-	public Boolean bind(SysUser user, String identify) {
-		user.setWxOpenid(identify);
-		sysUserService.updateById(user);
-		return true;
-	}
+        return userInfoR.getData();
+    }
+
+    /**
+     * 绑定逻辑
+     *
+     * @param user     用户实体
+     * @param identify 渠道返回唯一标识
+     * @return
+     */
+    @Override
+    public Boolean bind(SysUser user, String identify) {
+        user.setWxOpenid(identify);
+        sysUserService.updateById(user);
+        return true;
+    }
 
 }

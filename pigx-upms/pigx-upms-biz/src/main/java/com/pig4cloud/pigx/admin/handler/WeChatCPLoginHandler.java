@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -82,6 +83,11 @@ public class WeChatCPLoginHandler extends AbstractLoginHandler {
 	 */
 	@Override
 	public UserInfo info(String openId) {
+		if (StrUtil.isBlank(openId)) {
+			log.warn("企业微信userid为空，无法获取用户信息");
+			return null;
+		}
+
 		UserDTO userDTO = new UserDTO();
 		userDTO.setWxCpUserid(openId);
 

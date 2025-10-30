@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
@@ -91,6 +92,11 @@ public class DingTalkLoginHandler extends AbstractLoginHandler {
      */
     @Override
     public UserInfo info(String openId) {
+        if (StrUtil.isBlank(openId)) {
+            log.warn("钉钉openId为空，无法获取用户信息");
+            return null;
+        }
+
         UserDTO userDTO = new UserDTO();
         userDTO.setWxDingUserid(openId);
 

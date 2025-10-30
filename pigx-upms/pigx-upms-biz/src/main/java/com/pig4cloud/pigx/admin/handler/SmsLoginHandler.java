@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysUser;
@@ -48,23 +49,28 @@ public class SmsLoginHandler extends AbstractLoginHandler {
 	}
 
 	/**
-     * 通过手机号获取用户信息
-     * @param identify 手机号标识
-     * @return 用户信息，未找到时返回null
+	 * 通过手机号获取用户信息
+	 * @param identify 手机号标识
+	 * @return 用户信息，未找到时返回null
 	 */
 	@Override
 	public UserInfo info(String identify) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setPhone(identify);
-
-        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
-
-        if (userInfoR.getData() == null) {
-            log.info("手机号 不存在用户:{}", identify);
+		if (StrUtil.isBlank(identify)) {
+			log.warn("手机号为空，无法获取用户信息");
 			return null;
 		}
 
-        return userInfoR.getData();
+		UserDTO userDTO = new UserDTO();
+		userDTO.setPhone(identify);
+
+		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+
+		if (userInfoR.getData() == null) {
+			log.info("手机号 不存在用户:{}", identify);
+			return null;
+		}
+
+		return userInfoR.getData();
 	}
 
 	/**
