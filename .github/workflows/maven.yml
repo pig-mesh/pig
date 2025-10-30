@@ -23,12 +23,12 @@ jobs:
 
       - name: mvn spring-javaformat:validate
         id: validate
-        run: mvn spring-javaformat:validate -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn spring-javaformat:validate -Dmaven.compiler.release=${{ matrix.java-version }}
         continue-on-error: true
 
       - name: Auto format code if validation fails
         if: steps.validate.outcome == 'failure'
-        run: mvn spring-javaformat:apply -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn spring-javaformat:apply -Dmaven.compiler.release=${{ matrix.java-version }}
 
       - name: Create Pull Request for formatting changes
         if: steps.validate.outcome == 'failure'
@@ -48,10 +48,10 @@ jobs:
           delete-branch: true
 
       - name: mvn clean install
-        run: mvn clean install -Pboot -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn clean install -Pboot -Dmaven.compiler.release=${{ matrix.java-version }}
 
       - name: mvn clean install
-        run: mvn clean install -Dmaven.compiler.source=${{ matrix.java-version }} -Dmaven.compiler.target=${{ matrix.java-version }}
+        run: mvn clean install -Dmaven.compiler.release=${{ matrix.java-version }}
 
       - name:  failure
         if: failure() && github.repository == 'pig-mesh/pig'
