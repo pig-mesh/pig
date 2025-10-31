@@ -27,26 +27,25 @@
 	<properties>
 		<!-- 项目版本号 -->
 		<revision>3.9.2</revision>
+		<java.version>17</java.version>
+		<spring-boot.version>3.5.7</spring-boot.version>
+		<spring-cloud.version>2025.0.0</spring-cloud.version>
+		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 		<jasypt.version>3.0.5</jasypt.version>
-		<docker.username>username</docker.username>
-		<docker.password>password</docker.password>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
-		<spring-boot.version>3.5.6</spring-boot.version>
-		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<commons-lang3.version>3.18.0</commons-lang3.version>
+		<commons-lang3.version>3.19.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<spring-boot-admin.version>3.5.5</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<docker.username>username</docker.username>
+		<docker.password>password</docker.password>
 		<docker.registry>registry.cn-shanghai.aliyuncs.com</docker.registry>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-		<lombok.version>1.18.42</lombok.version>
-		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 	</properties>
 
 	<!-- 以下依赖 全局所有的模块都会引入  -->
@@ -78,7 +77,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>${lombok.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- JAVA 17 -->
@@ -144,29 +142,23 @@
 				<scope>import</scope>
 			</dependency>
 			<!--web 模块-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-web</artifactId>
+				<version>${spring-boot.version}</version>
+				<exclusions>
+					<!--排除tomcat依赖-->
+					<exclusion>
+						<artifactId>spring-boot-starter-tomcat</artifactId>
+						<groupId>org.springframework.boot</groupId>
+					</exclusion>
+				</exclusions>
+			</dependency>
 			<!-- 排除 spring cloud alibaba 令人头疼的日志封装-->
 			<dependency>
 				<groupId>com.alibaba.cloud</groupId>
 				<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 				<version>${spring-cloud-alibaba.version}</version>
-				<exclusions>
-					<exclusion>
-						<artifactId>logback-adapter</artifactId>
-						<groupId>com.alibaba.nacos</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -260,18 +252,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
-					<target>${maven.compiler.target}</target>
-					<source>${maven.compiler.source}</source>
+					<release>${java.version}</release>
 					<encoding>UTF-8</encoding>
 					<parameters>true</parameters>
-					<!-- 支持 JDK 25 编译 -->
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 			<!--打包jar 与git commit 关联插件-->
@@ -333,6 +316,30 @@
 			<modules>
 				<module>pig-boot</module>
 			</modules>
+		</profile>
+		<!-- 自动激活，针对 lombok 注解增强-->
+		<profile>
+			<id>jdk25-annotation-processor</id>
+			<activation>
+				<jdk>[25,)</jdk>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-compiler-plugin</artifactId>
+						<configuration>
+							<!-- 支持 JDK 25+ 编译 -->
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 	</profiles>
 </project>

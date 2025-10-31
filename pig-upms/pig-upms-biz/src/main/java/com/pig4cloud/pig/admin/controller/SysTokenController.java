@@ -50,7 +50,7 @@ public class SysTokenController {
 	 * @param params 请求参数集合
 	 * @return 包含token分页信息的响应结果
 	 */
-	@GetMapping("/page")
+	@PostMapping("/page")
 	@HasPermission("sys_token_del")
 	@Operation(summary = "获取分页token信息", description = "获取分页token信息")
 	public R getTokenPage(@RequestBody Map<String, Object> params) {

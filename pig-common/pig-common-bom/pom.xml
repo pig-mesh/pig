@@ -18,16 +18,16 @@
 		<revision>3.9.2</revision>
 		<asm.version>7.1</asm.version>
 		<sms.version>3.3.5</sms.version>
-		<screw.version>0.0.3</screw.version>
 		<aws.version>2.29.45</aws.version>
-		<nacos.client.version>3.1.0</nacos.client.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<excel.version>3.4.2</excel.version>
+		<screw.version>0.0.3</screw.version>
 		<hutool.version>5.8.41</hutool.version>
 		<velocity.version>2.4</velocity.version>
 		<captcha.version>2.2.5</captcha.version>
 		<knife4j.version>4.5.0</knife4j.version>
+		<gateway.version>4.3.2</gateway.version>
 		<sentinel.version>1.8.4</sentinel.version>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<springdoc.version>2.8.13</springdoc.version>
@@ -36,9 +36,10 @@
 		<swagger.fox.version>3.0.0</swagger.fox.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
+		<nacos.client.version>3.1.0</nacos.client.version>
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
-		<swagger.core.version>2.2.37</swagger.core.version>
+		<swagger.core.version>2.2.39</swagger.core.version>
 		<mybatis-plus.version>3.5.14</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
@@ -187,6 +188,12 @@
 				<groupId>org.dromara.sms4j</groupId>
 				<artifactId>sms4j-spring-boot-starter</artifactId>
 				<version>${sms.version}</version>
+			</dependency>
+			<!-- 网关 -->
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-gateway-server</artifactId>
+				<version>${gateway.version}</version>
 			</dependency>
 			<!-- knife4j -->
 			<dependency>
