@@ -46,7 +46,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * <li>GenericJackson2JsonRedisSerializer：自动处理JSON序列化，包含类型信息</li>
  * </ul>
  * <p>
- * 如果需要在Redis客户端中直接查看可读数据，建议将ValueSerializer改为JSON格式。 但需注意：修改序列化方式后，旧数据将无法正常反序列化。
+ * 如果需要在Redis客户端中直接查看可读数据，建议将ValueSerializer改为JSON格式。但需注意：修改序列化方式后，旧数据将无法正常反序列化。
  *
  * @author lengleng
  * @date 2025/05/30
