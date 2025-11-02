@@ -35,8 +35,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  * <ul>
  * <li>优点：支持所有实现了Serializable接口的Java对象，无需额外配置</li>
  * <li>缺点：存储的数据为二进制格式，在Redis客户端中查看时会显示为乱码</li>
- * <li>示例：字符串"13"在Redis中显示为 "\xac\xed\x00\x05t\x00\x0213"</li>
- * <li>说明：\xac\xed 是Java序列化的魔数标识，后续字节包含类型和数据信息</li>
+ * <li>示例：字符串"13"在Redis中显示为 "\\xac\\xed\\x00\\x05t\\x00\\x0213"</li>
+ * <li>说明：\\xac\\xed 是Java序列化的魔数标识，后续字节包含类型和数据信息</li>
  * </ul>
  * <p>
  * <b>其他可选的序列化方式：</b>
