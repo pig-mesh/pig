@@ -28,6 +28,25 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * Redis 配置类
+ * <p>
+ * 该配置类用于配置Redis序列化策略。默认使用JDK序列化机制来存储Value值。
+ * <p>
+ * <b>关于JDK序列化（RedisSerializer.java()）：</b>
+ * <ul>
+ * <li>优点：支持所有实现了Serializable接口的Java对象，无需额外配置</li>
+ * <li>缺点：存储的数据为二进制格式，在Redis客户端中查看时会显示为乱码</li>
+ * <li>示例：字符串"13"在Redis中显示为 "\xac\xed\x00\x05t\x00\x0213"</li>
+ * <li>说明：\xac\xed 是Java序列化的魔数标识，后续字节包含类型和数据信息</li>
+ * </ul>
+ * <p>
+ * <b>其他可选的序列化方式：</b>
+ * <ul>
+ * <li>RedisSerializer.string()：适用于纯字符串，Redis中显示为可读文本</li>
+ * <li>RedisSerializer.json()：使用JSON格式，可读性好，但需要类型信息</li>
+ * <li>GenericJackson2JsonRedisSerializer：自动处理JSON序列化，包含类型信息</li>
+ * </ul>
+ * <p>
+ * 如果需要在Redis客户端中直接查看可读数据，建议将ValueSerializer改为JSON格式。 但需注意：修改序列化方式后，旧数据将无法正常反序列化。
  *
  * @author lengleng
  * @date 2025/05/30
@@ -39,6 +58,14 @@ public class RedisTemplateConfiguration {
 
 	/**
 	 * 创建并配置RedisTemplate实例
+	 * <p>
+	 * 当前配置说明：
+	 * <ul>
+	 * <li>Key序列化：使用String序列化，确保Redis中的Key为可读字符串</li>
+	 * <li>Value序列化：使用JDK序列化，支持所有Java对象但Redis中显示为二进制格式</li>
+	 * <li>HashKey序列化：使用String序列化</li>
+	 * <li>HashValue序列化：使用JDK序列化</li>
+	 * </ul>
 	 * @param factory Redis连接工厂
 	 * @return 配置好的RedisTemplate实例
 	 */
@@ -46,8 +73,11 @@ public class RedisTemplateConfiguration {
 	@Primary
 	public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
 		RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+		// Key使用String序列化，确保在Redis中显示为可读文本
 		redisTemplate.setKeySerializer(RedisSerializer.string());
 		redisTemplate.setHashKeySerializer(RedisSerializer.string());
+		// Value使用JDK序列化，支持所有Java对象，但在Redis中显示为二进制格式（乱码）
+		// 如需要可读性，可改为：RedisSerializer.json() 或 new GenericJackson2JsonRedisSerializer()
 		redisTemplate.setValueSerializer(RedisSerializer.java());
 		redisTemplate.setHashValueSerializer(RedisSerializer.java());
 		redisTemplate.setConnectionFactory(factory);
