@@ -26,11 +26,13 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
+import com.pig4cloud.pig.daemon.quartz.constants.JobTypeQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobService;
+import com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator;
 import com.pig4cloud.pig.daemon.quartz.util.TaskUtil;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
@@ -114,12 +116,12 @@ public class SysJobController {
 		}
 
 		// 安全验证：对于Java类类型的任务，验证类名和方法名
-		if ("1".equals(sysJob.getJobType())) {
-			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator.isValidClassName(sysJob.getClassName())) {
+		if (JobTypeQuartzEnum.JAVA.getType().equals(sysJob.getJobType())) {
+			if (!ClassNameValidator.isValidClassName(sysJob.getClassName())) {
 				log.warn("新增定时任务失败，类名验证不通过：{}", sysJob.getClassName());
 				return R.failed("类名验证失败，该类在黑名单中或包含危险特征，拒绝创建");
 			}
-			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
+			if (!ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
 				log.warn("新增定时任务失败，方法名验证不通过：{}", sysJob.getMethodName());
 				return R.failed("方法名验证失败，该方法在黑名单中或包含危险特征，拒绝创建");
 			}
@@ -141,12 +143,12 @@ public class SysJobController {
 	@Operation(summary = "修改定时任务", description = "修改定时任务")
 	public R updateJob(@RequestBody SysJob sysJob) {
 		// 安全验证：对于Java类类型的任务，验证类名和方法名
-		if ("1".equals(sysJob.getJobType())) {
-			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator.isValidClassName(sysJob.getClassName())) {
+		if (JobTypeQuartzEnum.JAVA.getType().equals(sysJob.getJobType())) {
+			if (!ClassNameValidator.isValidClassName(sysJob.getClassName())) {
 				log.warn("修改定时任务失败，类名验证不通过：{}", sysJob.getClassName());
-				return R.failed("类名验证失败，该类在黑名单中或包含危险特征，拒绝修改");
+				return R.failed("类名验证失败，该类在黑名名单中或包含危险特征，拒绝修改");
 			}
-			if (!com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
+			if (!ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
 				log.warn("修改定时任务失败，方法名验证不通过：{}", sysJob.getMethodName());
 				return R.failed("方法名验证失败，该方法在黑名单中或包含危险特征，拒绝修改");
 			}
