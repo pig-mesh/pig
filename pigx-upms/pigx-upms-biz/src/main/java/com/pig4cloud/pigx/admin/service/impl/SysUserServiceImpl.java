@@ -267,12 +267,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public R<Boolean> updateUserInfo(UserDTO userDto) {
         Long userId = SecurityUtils.getUser().getId();
         SysUser sysUser = new SysUser();
-        sysUser.setPhone(userDto.getPhone());
         sysUser.setUserId(userId);
         sysUser.setAvatar(userDto.getAvatar());
         sysUser.setNickname(userDto.getNickname());
         sysUser.setName(userDto.getName());
         sysUser.setEmail(userDto.getEmail());
+
+        // 校验手机号
+        if (StrUtil.isNotBlank(userDto.getPhone())) {
+            Object codeObj = RedisUtils.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType()
+                    + StringPool.AT + userDto.getPhone());
+            if (!StrUtil.equals(userDto.getCode(), codeObj.toString())) {
+                return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_ERROR));
+            }
+        }
+
         return R.ok(this.updateById(sysUser));
     }
 

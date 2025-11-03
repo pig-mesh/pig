@@ -182,18 +182,31 @@ public class SysMessageController {
     }
 
     /**
-     * 发送短信验证码
-     * @param mobile 手机号
+     * 发送短信（验证码）
+     *
+     * @param mobile 手机号 （需要注册，对外提供，安全性第一）
      * @return {@link R }
      */
     @Inner(value = false)
     @GetMapping("/send/smsCode")
     public R sendSmsCode(@RequestParam String mobile) {
-        return sysMessageService.sendSmsCode(mobile);
+        return sysMessageService.sendSmsCode(mobile, true);
+    }
+
+    /**
+     * 发送内部短信验证码
+     *
+     * @param mobile 手机号码 (系统内不一定存在)
+     * @return 发送结果
+     */
+    @GetMapping("/send/smsInnerCode")
+    public R sendSmsInnerCode(@RequestParam String mobile) {
+        return sysMessageService.sendSmsCode(mobile, false);
     }
 
     /**
      * 发送短信
+     *
      * @param messageSmsDTO 消息 短信 DTO
      * @return {@link R }
      */
@@ -204,6 +217,7 @@ public class SysMessageController {
 
     /**
      * 发送邮件
+     *
      * @param messageEmailDTO 留言内容 电子邮件 DTO
      * @return {@link R }
      */
@@ -214,6 +228,7 @@ public class SysMessageController {
 
     /**
      * 发送 webhook
+     *
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */

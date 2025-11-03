@@ -35,33 +35,39 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class UserDTO extends SysUser {
 
-	/**
-	 * 角色ID
-	 */
-	@Schema(description = "角色id集合")
-	private List<Long> role;
+    /**
+     * 角色ID
+     */
+    @Schema(description = "角色id集合")
+    private List<Long> role;
 
-	/**
-	 * 部门id
-	 */
-	@Schema(description = "部门id")
-	private Long deptId;
+    /**
+     * 部门id
+     */
+    @Schema(description = "部门id")
+    private Long deptId;
 
-	/**
-	 * 部门id集合（支持多部门）
-	 */
-	@Schema(description = "部门id集合")
-	private List<Long> deptIds;
+    /**
+     * 部门id集合（支持多部门）
+     */
+    @Schema(description = "部门id集合")
+    private List<Long> deptIds;
 
-	/**
-	 * 岗位ID
-	 */
-	private List<Long> post;
+    /**
+     * 岗位ID
+     */
+    private List<Long> post;
 
-	/**
-	 * 新密码
-	 */
-	@Schema(description = "新密码")
-	private String newpassword1;
+    /**
+     * 新密码
+     */
+    @Schema(description = "新密码")
+    private String newpassword1;
+
+    /**
+     * 验证码
+     */
+    @Schema(description = "验证码")
+    private String code;
 
 }
