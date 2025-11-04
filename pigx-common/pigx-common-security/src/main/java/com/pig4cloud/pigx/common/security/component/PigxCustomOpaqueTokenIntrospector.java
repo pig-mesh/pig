@@ -33,52 +33,67 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
 
-	private final OAuth2AuthorizationService authorizationService;
+    private final OAuth2AuthorizationService authorizationService;
 
-	@Override
-	public OAuth2AuthenticatedPrincipal introspect(String token) {
-		OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-		if (Objects.isNull(oldAuthorization)) {
-			throw new InvalidBearerTokenException(token);
-		}
+    @Override
+    public OAuth2AuthenticatedPrincipal introspect(String token) {
+        OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+        if (Objects.isNull(oldAuthorization)) {
+            throw new InvalidBearerTokenException(token);
+        }
 
-		// 客户端模式默认返回
-		if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
-			return new PigxClientCredentialsOAuth2AuthenticatedPrincipal(
-					Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()),
-					AuthorityUtils.NO_AUTHORITIES, oldAuthorization.getPrincipalName());
-		}
+        // 客户端模式默认返回
+        if (AuthorizationGrantType.CLIENT_CREDENTIALS.equals(oldAuthorization.getAuthorizationGrantType())) {
+            return new PigxClientCredentialsOAuth2AuthenticatedPrincipal(
+                    Objects.requireNonNull(oldAuthorization.getAccessToken().getClaims()),
+                    AuthorityUtils.NO_AUTHORITIES, oldAuthorization.getPrincipalName());
+        }
 
-		Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
-			.getBeansOfType(PigxUserDetailsService.class);
+        Map<String, PigxUserDetailsService> userDetailsServiceMap = SpringContextHolder
+                .getBeansOfType(PigxUserDetailsService.class);
 
-		Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values()
-			.stream()
-			.filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
-					oldAuthorization.getAuthorizationGrantType().getValue()))
-			.max(Comparator.comparingInt(Ordered::getOrder));
+        Optional<PigxUserDetailsService> optional = userDetailsServiceMap.values()
+                .stream()
+                .filter(service -> service.support(Objects.requireNonNull(oldAuthorization).getRegisteredClientId(),
+                        oldAuthorization.getAuthorizationGrantType().getValue()))
+                .max(Comparator.comparingInt(Ordered::getOrder));
 
-		UserDetails userDetails = null;
-		try {
-			Object principal = Objects.requireNonNull(oldAuthorization).getAttributes().get(Principal.class.getName());
-			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) principal;
-			Object tokenPrincipal = usernamePasswordAuthenticationToken.getPrincipal();
-			userDetails = optional.get().loadUserByUser((PigxUser) tokenPrincipal);
-		}
-		catch (UsernameNotFoundException notFoundException) {
-			log.warn("用户不不存在 {}", notFoundException.getLocalizedMessage());
-			throw notFoundException;
-		}
-		catch (Exception ex) {
-			log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
-		}
+        UserDetails userDetails = null;
+        try {
+            Object principal = Objects.requireNonNull(oldAuthorization).getAttributes().get(Principal.class.getName());
+            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = (UsernamePasswordAuthenticationToken) principal;
+            Object tokenPrincipal = usernamePasswordAuthenticationToken.getPrincipal();
+            userDetails = optional.get().loadUserByUser((PigxUser) tokenPrincipal);
+        } catch (UsernameNotFoundException notFoundException) {
+            log.warn("用户不不存在 {}", notFoundException.getLocalizedMessage());
+            throw notFoundException;
+        } catch (Exception ex) {
+            log.error("资源服务器 introspect Token error {}", ex.getLocalizedMessage());
+        }
 
-		// 注入客户端信息，方便上下文中获取
-		PigxUser pigxUser = (PigxUser) userDetails;
-		Objects.requireNonNull(pigxUser)
-			.getAttributes()
-			.put(SecurityConstants.CLIENT_ID, oldAuthorization.getRegisteredClientId());
-		return pigxUser;
-	}
+        // 检查用户账号状态
+        if (Objects.nonNull(userDetails)) {
+            boolean isLocked = !userDetails.isAccountNonLocked();
+            boolean isExpired = !userDetails.isAccountNonExpired();
+
+            if (isLocked) {
+                log.warn("用户账号 {} 已被锁定，拒绝访问", userDetails.getUsername());
+                throw new InvalidBearerTokenException(token);
+            }
+
+            if (isExpired) {
+                log.warn("用户账号 {} 已过期，拒绝访问", userDetails.getUsername());
+                throw new InvalidBearerTokenException(token);
+            }
+        }
+
+        // 注入客户端信息，方便上下文中获取
+        PigxUser pigxUser = (PigxUser) userDetails;
+
+        Objects.requireNonNull(pigxUser)
+                .getAttributes()
+                .put(SecurityConstants.CLIENT_ID, oldAuthorization.getRegisteredClientId());
+        return pigxUser;
+    }
 
 }
