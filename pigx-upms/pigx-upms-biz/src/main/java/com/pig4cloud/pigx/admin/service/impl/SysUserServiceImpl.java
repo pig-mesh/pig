@@ -347,6 +347,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             });
         }
 
+        // 同时清理用户失败次数的缓存
+        String key = String.format("%s%s:%s", CacheConstants.GLOBALLY
+                , CacheConstants.LOGIN_ERROR_TIMES, userDto.getUsername());
+        RedisUtils.delete(key);
+
         return Boolean.TRUE;
     }
 
