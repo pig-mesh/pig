@@ -30,6 +30,5 @@
         AND sys_dept.del_flag = '0'
         and sys_user_dept.user_id = #{userId}
         and sys_user_dept.tenant_id = #{tenantId}
-        ORDER BY sys_user_dept.is_primary DESC
     </select>
 </mapper>
