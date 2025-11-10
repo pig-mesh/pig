@@ -4,7 +4,6 @@ import cn.hutool.core.lang.Validator;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
-import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
@@ -59,9 +58,9 @@ public class ImageCodeEndpoint {
      */
     @SneakyThrows
     @GetMapping("/create")
-    public R behavior() {
+    public R behavior(String captchaType) {
         CaptchaVO vo = new CaptchaVO();
-        vo.setCaptchaType(CommonConstants.IMAGE_CODE_TYPE);
+        vo.setCaptchaType(captchaType);
         CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
         return R.ok(captchaService.get(vo));
     }
@@ -75,7 +74,7 @@ public class ImageCodeEndpoint {
         CaptchaVO vo = new CaptchaVO();
         vo.setPointJson(request.getParameter("pointJson"));
         vo.setToken(request.getParameter("token"));
-        vo.setCaptchaType(CommonConstants.IMAGE_CODE_TYPE);
+        vo.setCaptchaType(request.getParameter("captchaType"));
 
         CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
         return R.ok(captchaService.check(vo));
