@@ -25,6 +25,8 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,6 +62,11 @@ public class PigResourceServerConfiguration {
 	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
 	/**
+	 * CORS跨域资源共享配置属性
+	 */
+	private final PigBootCorsProperties pigBootCorsProperties;
+
+	/**
 	 * 资源服务器安全配置
 	 * @param http http
 	 * @return {@link SecurityFilterChain }
@@ -89,7 +96,35 @@ public class PigResourceServerConfiguration {
 			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
 			.csrf(AbstractHttpConfigurer::disable);
 
+		// 配置 CORS 跨域资源共享
+		if (Boolean.TRUE.equals(pigBootCorsProperties.getEnabled())) {
+			http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+		}
+
 		return http.build();
+	}
+
+	/**
+	 * 配置 CORS 跨域资源共享
+	 * @return UrlBasedCorsConfigurationSource CORS配置源
+	 */
+	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+		// 从配置文件读取允许的源模式
+		pigBootCorsProperties.getAllowedOriginPatterns().forEach(corsConfiguration::addAllowedOriginPattern);
+		// 从配置文件读取允许的请求头
+		pigBootCorsProperties.getAllowedHeaders().forEach(corsConfiguration::addAllowedHeader);
+		// 从配置文件读取允许的HTTP方法
+		pigBootCorsProperties.getAllowedMethods().forEach(corsConfiguration::addAllowedMethod);
+		// 从配置文件读取是否允许携带凭证
+		corsConfiguration.setAllowCredentials(pigBootCorsProperties.getAllowCredentials());
+
+		// 注册CORS配置到指定路径
+		source.registerCorsConfiguration(pigBootCorsProperties.getPathPattern(), corsConfiguration);
+
+		return source;
 	}
 
 }

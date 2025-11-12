@@ -29,6 +29,7 @@ import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthen
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
 import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.security.component.PigBootCorsProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,6 +53,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.DelegatingAuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
@@ -70,6 +73,8 @@ public class AuthorizationServerConfiguration {
 	private final PasswordDecoderFilter passwordDecoderFilter;
 
 	private final ValidateCodeFilter validateCodeFilter;
+
+	private final PigBootCorsProperties pigBootCorsProperties;
 
 	/**
 	 * Authorization Server 配置，仅对 /oauth2/** 的请求有效
@@ -107,6 +112,12 @@ public class AuthorizationServerConfiguration {
 
 		// 设置授权码模式登录页面
 		http.with(new FormIdentityLoginConfigurer(), Customizer.withDefaults());
+
+		// 配置 CORS 跨域资源共享
+		if (Boolean.TRUE.equals(pigBootCorsProperties.getEnabled())) {
+			http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+		}
+
 		DefaultSecurityFilterChain securityFilterChain = http.build();
 
 		// 注入自定义授权模式实现
@@ -164,6 +175,29 @@ public class AuthorizationServerConfiguration {
 		http.authenticationProvider(resourceOwnerPasswordAuthenticationProvider);
 		// 处理 OAuth2ResourceOwnerSmsAuthenticationToken
 		http.authenticationProvider(resourceOwnerSmsAuthenticationProvider);
+	}
+
+	/**
+	 * 配置 CORS 跨域资源共享
+	 * @return UrlBasedCorsConfigurationSource CORS配置源
+	 */
+	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		CorsConfiguration corsConfiguration = new CorsConfiguration();
+
+		// 从配置文件读取允许的源模式
+		pigBootCorsProperties.getAllowedOriginPatterns().forEach(corsConfiguration::addAllowedOriginPattern);
+		// 从配置文件读取允许的请求头
+		pigBootCorsProperties.getAllowedHeaders().forEach(corsConfiguration::addAllowedHeader);
+		// 从配置文件读取允许的HTTP方法
+		pigBootCorsProperties.getAllowedMethods().forEach(corsConfiguration::addAllowedMethod);
+		// 从配置文件读取是否允许携带凭证
+		corsConfiguration.setAllowCredentials(pigBootCorsProperties.getAllowCredentials());
+
+		// 注册CORS配置到指定路径
+		source.registerCorsConfiguration(pigBootCorsProperties.getPathPattern(), corsConfiguration);
+
+		return source;
 	}
 
 }

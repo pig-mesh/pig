@@ -4,4 +4,5 @@ com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationService
 com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationConsentService
 com.pig4cloud.pig.common.security.component.PigSecurityInnerAspect
 com.pig4cloud.pig.common.security.component.PigSecurityMessageSourceConfiguration
+com.pig4cloud.pig.common.security.component.PigBootCorsProperties
 com.pig4cloud.pig.common.security.service.PigRemoteRegisteredClientRepository
