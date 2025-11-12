@@ -26,7 +26,7 @@
 	<name>pig-register</name>
 	<description>nacos 注册配置中心</description>
 	<properties>
-		<nacos.version>3.1.0</nacos.version>
+		<nacos.version>3.1.0-bugfix</nacos.version>
 	</properties>
 	<dependencies>
 		<dependency>
