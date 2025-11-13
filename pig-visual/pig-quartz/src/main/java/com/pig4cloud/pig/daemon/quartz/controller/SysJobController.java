@@ -146,7 +146,7 @@ public class SysJobController {
 		if (JobTypeQuartzEnum.JAVA.getType().equals(sysJob.getJobType())) {
 			if (!ClassNameValidator.isValidClassName(sysJob.getClassName())) {
 				log.warn("修改定时任务失败，类名验证不通过：{}", sysJob.getClassName());
-				return R.failed("类名验证失败，该类在黑名名单中或包含危险特征，拒绝修改");
+				return R.failed("类名验证失败，该类在黑名单中或包含危险特征，拒绝修改");
 			}
 			if (!ClassNameValidator.isValidMethodName(sysJob.getMethodName())) {
 				log.warn("修改定时任务失败，方法名验证不通过：{}", sysJob.getMethodName());
