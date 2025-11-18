@@ -591,7 +591,7 @@ INSERT INTO `sys_menu` VALUES (2210,'参数管理',NULL,'/admin/param/index',NUL
 INSERT INTO `sys_menu` VALUES (2211,'参数新增','sys_syspublicparam_add',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:17:36',' ','2020-03-24 08:57:11','0',1);
 INSERT INTO `sys_menu` VALUES (2212,'参数删除','sys_syspublicparam_del',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:17:55',' ','2020-03-24 08:57:12','0',1);
 INSERT INTO `sys_menu` VALUES (2213,'参数编辑','sys_syspublicparam_edit',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:18:14',' ','2020-03-24 08:57:13','0',1);
-INSERT INTO `sys_menu` VALUES (2214,'参数查看','sys_syspublicparam_edit',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:18:14',' ','2020-03-24 08:57:13','0',1);
+INSERT INTO `sys_menu` VALUES (2214,'参数查看','sys_syspublicparam_view',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:18:14',' ','2020-03-24 08:57:13','0',1);
 INSERT INTO `sys_menu` VALUES (2300,'代码生成',NULL,'/gen/table/index',NULL,9000,'iconfont icon-daimashengcheng','1',2,'0','0','0','','2018-01-20 13:17:19','admin','2023-02-20 13:54:35','0',1);
 INSERT INTO `sys_menu` VALUES (2400,'终端管理',NULL,'/admin/client/index',NULL,2000,'iconfont icon-shouji','1',9,'1',NULL,'0','','2018-01-20 13:17:19','admin','2023-02-16 15:25:28','0',1);
 INSERT INTO `sys_menu` VALUES (2401,'客户端新增','sys_client_add',NULL,NULL,2400,'1','1',1,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2021-05-25 03:12:55','0',1);
