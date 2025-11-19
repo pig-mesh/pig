@@ -1,8 +1,8 @@
 package com.pig4cloud.pigx.auth.support.core;
 
 import com.pig4cloud.pigx.auth.support.handler.FormAuthenticationFailureHandler;
-import com.pig4cloud.pigx.auth.support.handler.SsoLogoutSuccessHandler;
 import com.pig4cloud.pigx.auth.support.handler.TenantSavedRequestAwareAuthenticationSuccessHandler;
+import com.pig4cloud.pigx.common.security.handler.SsoLogoutSuccessHandler;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 
