@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.common.sentinel.parser;
 
 
+import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.alibaba.csp.sentinel.adapter.spring.webmvc_v6x.callback.RequestOriginParser;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -25,23 +26,18 @@ import jakarta.servlet.http.HttpServletRequest;
  * @author lengleng
  * @date 2019-10-11
  * <p>
- * sentinel 请求头解析判断
+ * sentinel 请求来源解析，基于客户端 IP 地址
  */
 public class PigxHeaderRequestOriginParser implements RequestOriginParser {
 
 	/**
-	 * 请求头获取allow
-	 */
-	private static final String ALLOW = "Allow";
-
-	/**
 	 * Parse the origin from given HTTP request.
 	 * @param request HTTP request
-	 * @return parsed origin
+	 * @return parsed origin (client IP address)
 	 */
 	@Override
 	public String parseOrigin(HttpServletRequest request) {
-		return request.getHeader(ALLOW);
+		return JakartaServletUtil.getClientIP(request);
 	}
 
 }
