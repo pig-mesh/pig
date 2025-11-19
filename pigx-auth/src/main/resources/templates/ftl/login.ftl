@@ -22,7 +22,7 @@
                     <select class="w-full text-sm px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:border-purple-400 dark:focus:border-purple-500 dark:text-gray-300 transition-colors"
                             name="TENANT-ID">
                         <#list tenantList as tenant>
-                            <option value="${tenant.id}">${tenant.name}</option>
+                            <option value="${tenant.id?c}">${tenant.name?html}</option>
                         </#list>
                     </select>
                 </#if>
@@ -40,7 +40,7 @@
 
             <#if error??>
                 <div class="relative text-center">
-                    <span class="text-red-600 dark:text-red-400">${error}</span>
+                    <span class="text-red-600 dark:text-red-400">${error?html}</span>
                 </div>
             </#if>
 

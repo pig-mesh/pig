@@ -91,6 +91,7 @@ public class PigxTokenEndpoint {
     @GetMapping("/token/login")
     public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
         modelAndView.setViewName("ftl/login");
+        // Note: XSS prevention is handled by FreeMarker template using ?html directive
         modelAndView.addObject("error", error);
 
         R<List<SysTenant>> tenantList = tenantService.list();
@@ -113,6 +114,7 @@ public class PigxTokenEndpoint {
                 .orElseThrow(() -> new OAuthClientException("clientId 不合法"));
 
         Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
+        // Note: XSS prevention is handled by FreeMarker template using ?html directive
         modelAndView.addObject("clientId", clientId);
         modelAndView.addObject("state", state);
         modelAndView.addObject("scopeList", authorizedScopes);
