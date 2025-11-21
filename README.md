@@ -50,7 +50,7 @@ docker compose up
 
 | 依赖                         | 版本     |
 |-----------------------------|--------|
-| Spring Boot                 | 3.5.7  |
+| Spring Boot                 | 3.5.8  |
 | Spring Cloud                | 2025   |
 | Spring Cloud Alibaba        | 2025   |
 | Spring Authorization Server | 1.5.2  |
