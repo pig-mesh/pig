@@ -54,7 +54,7 @@ docker compose up
 | Spring Cloud                | 2025   |
 | Spring Cloud Alibaba        | 2025   |
 | Spring Authorization Server | 1.5.2  |
-| Mybatis Plus                | 3.5.14 |
+| Mybatis Plus                | 3.5.15 |
 | Vue                         | 3.5    |
 | Element Plus                | 2.7    |
 
