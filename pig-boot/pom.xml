@@ -37,17 +37,17 @@
 			<version>${revision}</version>
 		</dependency>
 		<!--可选：代码生成模块 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-codegen</artifactId>
 			<version>${revision}</version>
-		</dependency>
+		</dependency> -->
 		<!--可选：定时任务模块 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-quartz</artifactId>
 			<version>${revision}</version>
-		</dependency>
+		</dependency> -->
 		<!--安全模块 -->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
@@ -71,11 +71,6 @@
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
 			<artifactId>pig-common-swagger</artifactId>
-		</dependency>
-		<!--undertow容器 -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-undertow</artifactId>
 		</dependency>
 	</dependencies>
 

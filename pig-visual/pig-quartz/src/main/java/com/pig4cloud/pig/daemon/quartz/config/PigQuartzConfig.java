@@ -17,7 +17,10 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import com.pig4cloud.pig.common.core.factory.YamlPropertySourceFactory;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.quartz.Calendar;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
@@ -25,9 +28,9 @@ import org.quartz.Trigger;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.quartz.autoconfigure.QuartzProperties;
+import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,9 +38,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import com.pig4cloud.pig.common.core.factory.YamlPropertySourceFactory;
 
 /**
  * Quartz 定时任务配置类

@@ -63,12 +63,13 @@ public class PigNacosApplication {
 		ConfigurableApplicationContext serverWebContext = new SpringApplicationBuilder(NacosServerWebApplication.class)
 			.parent(coreContext)
 			.run(args);
-
+		System.out.println(serverWebContext);
 		// Start Console Context
 		NacosStartUpManager.start(NacosStartUp.CONSOLE_START_UP_PHASE);
 		ConfigurableApplicationContext consoleContext = new SpringApplicationBuilder(NacosConsole.class)
 			.parent(coreContext)
 			.run(args);
+		System.out.println(consoleContext);
 	}
 
 }

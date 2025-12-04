@@ -176,7 +176,6 @@ public class PigTokenEndpoint {
 			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
 			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
 					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.TOKEN_MISSING));
-			return;
 		}
 		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
@@ -184,7 +183,6 @@ public class PigTokenEndpoint {
 		if (authorization == null || authorization.getAccessToken() == null) {
 			this.authenticationFailureHandler.onAuthenticationFailure(request, response,
 					new InvalidBearerTokenException(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN));
-			return;
 		}
 
 		Map<String, Object> claims = authorization.getAccessToken().getClaims();

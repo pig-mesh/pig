@@ -23,9 +23,8 @@ import org.springframework.security.core.annotation.AnnotationTemplateExpression
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import lombok.RequiredArgsConstructor;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * 资源服务器自动配置类
@@ -80,7 +79,7 @@ public class PigResourceServerAutoConfiguration {
 
 	/**
 	 * 支持自定义权限表达式
-	 * @return {@link PrePostTemplateDefaults }
+	 * @return PrePostTemplateDefaults
 	 */
 	@Bean
 	AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {

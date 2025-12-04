@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 

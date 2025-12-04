@@ -1,14 +1,19 @@
 package com.pig4cloud.pig.auth.support.base;
 
-import lombok.Getter;
-import org.springframework.lang.Nullable;
+import java.io.Serial;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
-import java.util.*;
+import jakarta.annotation.Nullable;
+import lombok.Getter;
 
 /**
  * OAuth2资源所有者基础认证令牌抽象类

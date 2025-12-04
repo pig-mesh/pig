@@ -1,15 +1,16 @@
 package com.pig4cloud.pig.common.core.factory;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.env.PropertiesPropertySource;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;
 import org.springframework.core.io.support.PropertySourceFactory;
-import org.springframework.lang.Nullable;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Properties;
+import jakarta.annotation.Nullable;
 
 /**
  * YAML属性源工厂类：用于读取自定义YAML文件并转换为属性源

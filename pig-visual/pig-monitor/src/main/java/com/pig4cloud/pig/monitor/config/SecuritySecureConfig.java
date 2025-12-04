@@ -16,9 +16,9 @@
 
 package com.pig4cloud.pig.monitor.config;
 
-import de.codecentric.boot.admin.server.config.AdminServerProperties;
-import jakarta.servlet.DispatcherType;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import java.util.UUID;
+
+import org.springframework.boot.security.autoconfigure.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -36,7 +36,8 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
-import java.util.UUID;
+import de.codecentric.boot.admin.server.config.AdminServerProperties;
+import jakarta.servlet.DispatcherType;
 
 /**
  * 安全配置类：用于配置Spring Security相关设置

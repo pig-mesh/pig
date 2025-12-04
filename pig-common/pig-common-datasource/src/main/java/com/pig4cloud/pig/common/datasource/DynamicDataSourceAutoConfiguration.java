@@ -17,6 +17,16 @@
 
 package com.pig4cloud.pig.common.datasource;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jasypt.encryption.StringEncryptor;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.expression.BeanFactoryResolver;
+
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.hikaricp.HikariDataSourceCreator;
@@ -25,19 +35,13 @@ import com.baomidou.dynamic.datasource.processor.DsJakartaSessionProcessor;
 import com.baomidou.dynamic.datasource.processor.DsProcessor;
 import com.baomidou.dynamic.datasource.processor.DsSpelExpressionProcessor;
 import com.baomidou.dynamic.datasource.provider.DynamicDataSourceProvider;
-import com.pig4cloud.pig.common.datasource.config.*;
-import lombok.RequiredArgsConstructor;
-import org.jasypt.encryption.StringEncryptor;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.expression.BeanFactoryResolver;
+import com.pig4cloud.pig.common.datasource.config.ClearTtlDataSourceFilter;
+import com.pig4cloud.pig.common.datasource.config.DataSourceProperties;
+import com.pig4cloud.pig.common.datasource.config.JdbcDynamicDataSourceProvider;
+import com.pig4cloud.pig.common.datasource.config.LastParamDsProcessor;
+import com.pig4cloud.pig.common.datasource.config.MasterDataSourceProvider;
 
-import java.util.ArrayList;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 动态数据源切换配置
@@ -47,7 +51,6 @@ import java.util.List;
  */
 @Configuration
 @RequiredArgsConstructor
-@AutoConfigureAfter(DataSourceAutoConfiguration.class)
 @EnableConfigurationProperties(DataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
 

@@ -1,6 +1,9 @@
 package com.pig4cloud.pig.auth.support.password;
 
-import com.pig4cloud.pig.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationProvider;
+import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
+
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,22 +12,18 @@ import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.OAuth2Token;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 
-import java.util.Map;
-
-import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
+import com.pig4cloud.pig.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationProvider;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 
 /**
  * OAuth2 资源所有者密码认证提供者
  *
  * @author lengleng
- * @author jumuning
  * @date 2025/05/30
- * @since 0.2.3
  */
 public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 		extends OAuth2ResourceOwnerBaseAuthenticationProvider<OAuth2ResourceOwnerPasswordAuthenticationToken> {
@@ -51,8 +50,8 @@ public class OAuth2ResourceOwnerPasswordAuthenticationProvider
 	 */
 	@Override
 	public UsernamePasswordAuthenticationToken buildToken(Map<String, Object> reqParameters) {
-		String username = (String) reqParameters.get(OAuth2ParameterNames.USERNAME);
-		String password = (String) reqParameters.get(OAuth2ParameterNames.PASSWORD);
+		String username = (String) reqParameters.get(CommonConstants.USERNAME);
+		String password = (String) reqParameters.get(CommonConstants.PASSWORD);
 		return new UsernamePasswordAuthenticationToken(username, password);
 	}
 

@@ -88,6 +88,16 @@ public interface CommonConstants {
 	String SIZE = "size";
 
 	/**
+	 * 用户名
+	 */
+	String USERNAME = "username";
+
+	/**
+	 * 密码
+	 */
+	String PASSWORD = "password";
+
+	/**
 	 * 请求开始时间
 	 */
 	String REQUEST_START_TIME = "REQUEST-START-TIME";

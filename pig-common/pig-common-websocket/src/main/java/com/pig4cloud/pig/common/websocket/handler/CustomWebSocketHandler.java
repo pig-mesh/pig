@@ -1,16 +1,16 @@
 package com.pig4cloud.pig.common.websocket.handler;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.json.JsonReadFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pig.common.websocket.holder.JsonMessageHandlerHolder;
-import com.pig4cloud.pig.common.websocket.message.AbstractJsonWebSocketMessage;
-import com.pig4cloud.pig.common.websocket.message.JsonWebSocketMessage;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+
+import com.pig4cloud.pig.common.websocket.holder.JsonMessageHandlerHolder;
+import com.pig4cloud.pig.common.websocket.message.AbstractJsonWebSocketMessage;
+import com.pig4cloud.pig.common.websocket.message.JsonWebSocketMessage;
+
+import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * 自定义 WebSocket 处理器
@@ -25,12 +25,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @Slf4j
 public class CustomWebSocketHandler extends TextWebSocketHandler {
 
-	private static final ObjectMapper MAPPER = new ObjectMapper();
-
-	static {
-		// 有特殊需要转义字符, 不报错
-		MAPPER.enable(JsonReadFeature.ALLOW_UNESCAPED_CONTROL_CHARS.mappedFeature());
-	}
+	private static final ObjectMapper mapper = new ObjectMapper();
 
 	private PlanTextMessageHandler planTextMessageHandler;
 
@@ -59,7 +54,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 	 * @throws JsonProcessingException 如果 JSON 消息处理失败。
 	 */
 	@Override
-	public void handleTextMessage(WebSocketSession session, TextMessage message) throws JsonProcessingException {
+	public void handleTextMessage(WebSocketSession session, TextMessage message) throws RuntimeException {
 		// 空消息不处理
 		if (message.getPayloadLength() == 0) {
 			return;
@@ -67,7 +62,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 
 		// 消息类型必有一属性type，先解析，获取该属性
 		String payload = message.getPayload();
-		JsonNode jsonNode = MAPPER.readTree(payload);
+		JsonNode jsonNode = mapper.readTree(payload);
 		JsonNode typeNode = jsonNode.get(AbstractJsonWebSocketMessage.TYPE_FIELD);
 
 		if (typeNode == null) {
@@ -79,7 +74,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 			}
 		}
 		else {
-			String messageType = typeNode.asText();
+			String messageType = typeNode.asString();
 			// 获得对应的消息处理器
 			JsonMessageHandler jsonMessageHandler = JsonMessageHandlerHolder.getHandler(messageType);
 			if (jsonMessageHandler == null) {
@@ -88,7 +83,7 @@ public class CustomWebSocketHandler extends TextWebSocketHandler {
 			}
 			// 消息处理
 			Class<? extends JsonWebSocketMessage> messageClass = jsonMessageHandler.getMessageClass();
-			JsonWebSocketMessage websocketMessageJson = MAPPER.treeToValue(jsonNode, messageClass);
+			JsonWebSocketMessage websocketMessageJson = mapper.treeToValue(jsonNode, messageClass);
 			jsonMessageHandler.handle(session, websocketMessageJson);
 		}
 	}

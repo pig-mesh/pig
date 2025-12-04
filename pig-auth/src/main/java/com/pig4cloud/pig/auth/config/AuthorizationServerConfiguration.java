@@ -16,21 +16,8 @@
 
 package com.pig4cloud.pig.auth.config;
 
-import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
-import com.pig4cloud.pig.auth.support.core.CustomeOAuth2TokenCustomizer;
-import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
-import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
-import com.pig4cloud.pig.auth.support.filter.PasswordDecoderFilter;
-import com.pig4cloud.pig.auth.support.filter.ValidateCodeFilter;
-import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
-import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
-import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
-import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
-import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
-import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
-import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.security.component.PigBootCorsProperties;
-import lombok.RequiredArgsConstructor;
+import java.util.Arrays;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -38,8 +25,8 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
@@ -56,7 +43,22 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import com.pig4cloud.pig.auth.support.CustomeOAuth2AccessTokenGenerator;
+import com.pig4cloud.pig.auth.support.core.CustomeOAuth2TokenCustomizer;
+import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
+import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.filter.PasswordDecoderFilter;
+import com.pig4cloud.pig.auth.support.filter.ValidateCodeFilter;
+import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
+import com.pig4cloud.pig.auth.support.handler.PigAuthenticationSuccessEventHandler;
+import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationConverter;
+import com.pig4cloud.pig.auth.support.password.OAuth2ResourceOwnerPasswordAuthenticationProvider;
+import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationConverter;
+import com.pig4cloud.pig.auth.support.sms.OAuth2ResourceOwnerSmsAuthenticationProvider;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
+import com.pig4cloud.pig.common.security.component.PigBootCorsProperties;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * 认证服务器配置类

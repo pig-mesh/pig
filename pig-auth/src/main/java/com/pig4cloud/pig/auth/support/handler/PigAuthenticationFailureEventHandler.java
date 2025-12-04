@@ -16,7 +16,14 @@
 
 package com.pig4cloud.pig.auth.support.handler;
 
-import cn.hutool.core.util.StrUtil;
+import java.io.IOException;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+
 import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
@@ -24,20 +31,13 @@ import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
+
+import cn.hutool.core.util.StrUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-
-import java.io.IOException;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * 认证失败处理器：处理用户认证失败事件并记录日志
@@ -47,8 +47,6 @@ import java.io.IOException;
  */
 @Slf4j
 public class PigAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
-
-	private final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
 
 	/**
 	 * 当认证失败时调用
@@ -60,7 +58,7 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 	@SneakyThrows
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) {
-		String username = request.getParameter(OAuth2ParameterNames.USERNAME);
+		String username = request.getParameter(CommonConstants.USERNAME);
 
 		log.info("用户：{} 登录失败，异常：{}", username, exception.getLocalizedMessage());
 		SysLog logVo = SysLogUtils.getSysLog();
@@ -89,12 +87,11 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 	 */
 	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException {
-		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
-		httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+		// 直接设置响应状态码
+		response.setStatus(HttpStatus.UNAUTHORIZED.value());
+		OAuth2AuthenticationException authorizationException = (OAuth2AuthenticationException) exception;
 		String errorMessage;
-
 		if (exception instanceof OAuth2AuthenticationException) {
-			OAuth2AuthenticationException authorizationException = (OAuth2AuthenticationException) exception;
 			errorMessage = StrUtil.isBlank(authorizationException.getError().getDescription())
 					? authorizationException.getError().getErrorCode()
 					: authorizationException.getError().getDescription();
@@ -103,7 +100,14 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 			errorMessage = exception.getLocalizedMessage();
 		}
 
-		this.errorHttpResponseConverter.write(R.failed(errorMessage), MediaType.APPLICATION_JSON, httpResponse);
+		// 构建JSON响应
+		R<?> result = (authorizationException.getError().getErrorCode() != null)
+				? R.failed(authorizationException.getError().getErrorCode(), errorMessage) : R.failed(errorMessage);
+
+		// 设置响应内容类型
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+		String jsonResponse = new ObjectMapper().writeValueAsString(result);
+		response.getWriter().write(jsonResponse);
 	}
 
 }

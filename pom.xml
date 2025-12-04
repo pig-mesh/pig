@@ -28,15 +28,15 @@
 		<!-- 项目版本号 -->
 		<revision>3.9.2</revision>
 		<java.version>17</java.version>
-		<spring-boot.version>3.5.8</spring-boot.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
+		<spring-boot.version>4.0.0</spring-boot.version>
+		<spring-cloud.version>2025.1.0</spring-cloud.version>
+		<spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
 		<jasypt.version>3.0.5</jasypt.version>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
 		<maven.compiler.target>17</maven.compiler.target>
 		<docker.host>http://192.168.0.100:2375</docker.host>
-		<commons-lang3.version>3.19.0</commons-lang3.version>
+		<commons-lang3.version>3.20.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<spring-boot-admin.version>3.5.6</spring-boot-admin.version>
@@ -84,12 +84,6 @@
 			<groupId>com.sun.xml.bind</groupId>
 			<artifactId>jaxb-impl</artifactId>
 		</dependency>
-		<!--测试依赖-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 	</dependencies>
 
 	<modules>
@@ -99,6 +93,7 @@
 		<module>pig-upms</module>
 		<module>pig-common</module>
 		<module>pig-visual</module>
+		<module>pig-boot</module>
 	</modules>
 
 	<dependencyManagement>
@@ -146,13 +141,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-web</artifactId>
 				<version>${spring-boot.version}</version>
-				<exclusions>
-					<!--排除tomcat依赖-->
-					<exclusion>
-						<artifactId>spring-boot-starter-tomcat</artifactId>
-						<groupId>org.springframework.boot</groupId>
-					</exclusion>
-				</exclusions>
 			</dependency>
 			<!-- 排除 spring cloud alibaba 令人头疼的日志封装-->
 			<dependency>

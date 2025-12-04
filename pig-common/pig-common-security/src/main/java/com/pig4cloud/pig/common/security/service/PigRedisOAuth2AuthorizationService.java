@@ -1,8 +1,11 @@
 package com.pig4cloud.pig.common.security.service;
 
-import com.pig4cloud.pig.common.core.util.RedisUtils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.lang.Nullable;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2RefreshToken;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
@@ -12,11 +15,10 @@ import org.springframework.security.oauth2.server.authorization.OAuth2Authorizat
 import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.util.Assert;
 
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import com.pig4cloud.pig.common.core.util.RedisUtils;
+
+import jakarta.annotation.Nullable;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 基于Redis实现的OAuth2授权服务类

@@ -16,7 +16,6 @@
 
 package com.pig4cloud.pig.common.security.component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +29,7 @@ import org.springframework.security.authentication.InsufficientAuthenticationExc
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.PrintWriter;
 

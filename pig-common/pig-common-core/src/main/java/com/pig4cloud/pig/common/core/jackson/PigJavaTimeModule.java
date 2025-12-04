@@ -15,15 +15,27 @@
  */
 package com.pig4cloud.pig.common.core.jackson;
 
-import cn.hutool.core.date.DatePattern;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.datatype.jsr310.PackageVersion;
-import com.fasterxml.jackson.datatype.jsr310.deser.*;
-import com.fasterxml.jackson.datatype.jsr310.ser.*;
-
 import java.io.Serial;
-import java.time.*;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+
+import cn.hutool.core.date.DatePattern;
+import tools.jackson.core.json.PackageVersion;
+import tools.jackson.databind.ext.javatime.deser.DurationDeserializer;
+import tools.jackson.databind.ext.javatime.deser.InstantDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalDateDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer;
+import tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer;
+import tools.jackson.databind.ext.javatime.ser.DurationSerializer;
+import tools.jackson.databind.ext.javatime.ser.InstantSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalDateTimeSerializer;
+import tools.jackson.databind.ext.javatime.ser.LocalTimeSerializer;
+import tools.jackson.databind.module.SimpleModule;
 
 /**
  * Java 8 时间默认序列化模块

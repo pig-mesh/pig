@@ -16,18 +16,18 @@
 
 package com.pig4cloud.pig.common.security.service;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.SpringSecurityCoreVersion;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
-
 import java.io.Serial;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+
+import lombok.Getter;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 /**
  * 扩展用户信息类，继承自User并实现OAuth2AuthenticatedPrincipal接口
@@ -38,7 +38,7 @@ import java.util.Map;
 public class PigUser extends User implements OAuth2AuthenticatedPrincipal {
 
 	@Serial
-	private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
+	private static final long serialVersionUID = 620L;
 
 	/**
 	 * 扩展属性，方便存放oauth 上下文相关信息

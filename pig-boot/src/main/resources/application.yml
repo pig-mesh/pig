@@ -12,6 +12,8 @@ spring:
       max-file-size: 100MB # 单个文件最大
       max-request-size: 100MB # 接收的最大请求大小
   cloud:
+    sentinel:
+      enabled: false
     nacos:  # 单机版本关闭nacos 服务发现和配置管理的能力
       config:
         enabled: false

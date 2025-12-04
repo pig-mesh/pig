@@ -18,12 +18,16 @@ package com.pig4cloud.pig.common.core.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
@@ -34,7 +38,8 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 @EnableCaching
 @AutoConfiguration
-@AutoConfigureBefore(RedisAutoConfiguration.class)
+@AutoConfigureBefore(name = { "org.redisson.spring.starter.RedissonAutoConfigurationV2",
+		"org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration" })
 public class RedisTemplateConfiguration {
 
 	/**
