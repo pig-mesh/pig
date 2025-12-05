@@ -21,9 +21,9 @@
 		<aws.version>2.29.45</aws.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
-		<excel.version>3.4.2</excel.version>
+		<excel.version>3.4.3</excel.version>
 		<screw.version>0.0.3</screw.version>
-		<hutool.version>5.8.41</hutool.version>
+		<hutool.version>5.8.42</hutool.version>
 		<velocity.version>2.4</velocity.version>
 		<captcha.version>2.2.5</captcha.version>
 		<knife4j.version>4.5.0</knife4j.version>
@@ -40,7 +40,7 @@
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
 		<swagger.core.version>2.2.39</swagger.core.version>
-		<mybatis-plus.version>3.5.14</mybatis-plus.version>
+		<mybatis-plus.version>3.5.15</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
