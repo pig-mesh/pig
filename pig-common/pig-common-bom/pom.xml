@@ -21,7 +21,7 @@
 		<aws.version>2.29.45</aws.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
-		<excel.version>3.4.2</excel.version>
+		<excel.version>3.4.3</excel.version>
 		<screw.version>0.0.3</screw.version>
 		<hutool.version>5.8.42</hutool.version>
 		<velocity.version>2.4</velocity.version>
