@@ -24,6 +24,7 @@ import com.pig4cloud.pigx.flow.dto.NodeUser;
 import com.pig4cloud.pigx.flow.entity.Process;
 import com.pig4cloud.pigx.flow.entity.ProcessStarter;
 import com.pig4cloud.pigx.flow.mapper.ProcessMapper;
+import com.pig4cloud.pigx.flow.service.IProcessInstanceStatusEventService;
 import com.pig4cloud.pigx.flow.service.IProcessService;
 import com.pig4cloud.pigx.flow.service.IProcessStarterService;
 import com.pig4cloud.pigx.flow.support.utils.ModelUtil;
@@ -42,6 +43,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 流程定义服务实现类
@@ -65,6 +67,8 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 	private final ObjectMapper objectMapper;
 
 	private final Sequence flowSequence;
+
+	private final Optional<List<IProcessInstanceStatusEventService>> processInstanceStatusEventServicesOptional;
 
 	/**
 	 * 获取流程详细信息
@@ -293,6 +297,37 @@ public class ProcessServiceImpl extends ServiceImpl<ProcessMapper, Process> impl
 		process.setGroupId(groupId);
 		this.updateByFlowId(process);
 		return R.ok();
+	}
+
+	/**
+	 * 验证流程ID是否在所有IProcessInstanceStatusEventService实现类中存在
+	 * <p>
+	 * 遍历所有实现了IProcessInstanceStatusEventService接口的服务类，检查输入的flowId
+	 * 是否与任意一个服务的getFlowId()返回值匹配。如果匹配则返回true，否则返回false。
+	 * </p>
+	 *
+	 * @param flowId 流程定义ID
+	 * @return 验证结果：true表示存在，false表示不存在
+	 */
+	@Override
+	public R<Boolean> validateFlowId(String flowId) {
+		// 如果flowId为空，直接返回false
+		if (StrUtil.isBlank(flowId)) {
+			return R.ok(false);
+		}
+
+		// 如果没有IProcessInstanceStatusEventService实现类，返回false
+		if (processInstanceStatusEventServicesOptional.isEmpty()) {
+			log.warn("未找到任何IProcessInstanceStatusEventService实现类");
+			return R.ok(false);
+		}
+
+		// 遍历所有实现类，检查flowId是否存在
+		List<IProcessInstanceStatusEventService> serviceList = processInstanceStatusEventServicesOptional.get();
+		boolean exists = serviceList.stream()
+			.anyMatch(service -> flowId.equals(service.getFlowId()));
+
+		return R.ok(exists);
 	}
 
 }

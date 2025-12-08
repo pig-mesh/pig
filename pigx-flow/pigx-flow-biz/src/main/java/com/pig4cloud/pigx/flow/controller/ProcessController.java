@@ -66,7 +66,7 @@ public class ProcessController {
 	 * - delete: 删除流程（逻辑删除，可恢复）
 	 * - 修改分组：传入groupId参数可将流程移动到其他分组
 	 * </p>
-	 * 
+	 *
 	 * @param flowId 流程定义ID
 	 * @param type 操作类型（stop/using/delete）
 	 * @param groupId 流程分组ID（可选，用于修改流程所属分组）
@@ -76,6 +76,22 @@ public class ProcessController {
 	public R update(@PathVariable String flowId, @RequestParam String type,
 			@RequestParam(required = false) Long groupId) {
 		return processService.update(flowId, type, groupId);
+	}
+
+	/**
+	 * 验证流程ID是否在所有IProcessInstanceStatusEventService实现类中存在
+	 * <p>
+	 * 用于前端表单验证，检查用户输入的流程ID是否已在系统中注册。
+	 * 流程ID必须在某个IProcessInstanceStatusEventService实现类的getFlowId()方法中返回，
+	 * 才能被认为是有效的流程ID。
+	 * </p>
+	 *
+	 * @param flowId 流程定义ID
+	 * @return 验证结果：true表示流程ID存在，false表示不存在
+	 */
+	@GetMapping("validateFlowId")
+	public R<Boolean> validateFlowId(@RequestParam String flowId) {
+		return processService.validateFlowId(flowId);
 	}
 
 }
