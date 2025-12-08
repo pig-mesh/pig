@@ -25,6 +25,18 @@ public interface ITaskService {
 	R queryTask(String taskId, boolean view);
 
 	/**
+	 * 查询任务详情（支持选择表单数据源）
+	 * <p>
+	 * 获取任务的详细信息，包括： - 任务基本信息（名称、创建时间、执行人等） - 所属流程信息 - 表单数据和权限 - 历史审批记录
+	 * </p>
+	 * @param taskId 任务ID
+	 * @param view 是否为查看模式（true=只查看，false=处理模式）
+	 * @param useMainFormData 是否使用主表单数据（true=从process_instance_record.form_data读取最新数据，false=从节点快照读取）
+	 * @return 任务详情信息
+	 */
+	R queryTask(String taskId, boolean view, boolean useMainFormData);
+
+	/**
 	 * 完成任务
 	 * <p>
 	 * 处理当前任务并使流程继续执行。根据不同的处理结果： - 同意：任务通过，流程按照定义继续执行 - 拒绝：根据拒绝策略结束流程或跳转到指定节点

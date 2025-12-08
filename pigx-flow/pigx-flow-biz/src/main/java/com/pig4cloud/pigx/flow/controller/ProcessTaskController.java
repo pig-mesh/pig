@@ -48,13 +48,15 @@ public class ProcessTaskController {
 	 * </p>
 	 * @param taskId 任务ID
 	 * @param view 是否为查看模式：true-仅查看，false-可编辑处理
+	 * @param useMainFormData 是否使用主表单数据（true=从process_instance_record.form_data读取最新数据，false=从节点快照读取，默认true）
 	 * @return R 统一响应对象，包含任务的完整信息和可操作项
 	 */
 	@SneakyThrows
 	@GetMapping("queryTask")
-	public R queryTask(String taskId, boolean view) {
+	public R queryTask(String taskId, boolean view,
+			@RequestParam(defaultValue = "true") boolean useMainFormData) {
 
-		return taskService.queryTask(taskId, view);
+		return taskService.queryTask(taskId, view, useMainFormData);
 
 	}
 
