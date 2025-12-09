@@ -10,6 +10,7 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.constant.NodeStatusEnum;
+import com.pig4cloud.pigx.flow.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.dto.IndexPageStatistics;
 import com.pig4cloud.pigx.flow.dto.Node;
 import com.pig4cloud.pigx.flow.dto.TaskParamDto;
@@ -481,6 +482,79 @@ public class TaskServiceImpl implements ITaskService {
     public R back(TaskParamDto taskParamDto) {
         taskParamDto.setUserId(SecurityUtils.getUser().getId().toString());
         return flowableEngineService.back(taskParamDto);
+    }
+
+    /**
+     * 重新提交任务（驳回到发起人后）
+     * <p>
+     * 当流程被驳回到发起人时，发起人使用此方法重新编辑表单并提交。
+     * 该方法会：
+     * 1. 验证任务存在且属于当前用户
+     * 2. 验证任务是 root 节点任务
+     * 3. 更新表单数据
+     * 4. 清理 rejectToStarter 流程变量
+     * 5. 完成任务，流程继续到下一个审批节点
+     * </p>
+     *
+     * @param taskParamDto 任务参数，包含taskId和更新后的formData
+     * @return R 操作结果
+     */
+    @Override
+    @SneakyThrows
+    @Transactional(rollbackFor = Exception.class)
+    public R resubmitTask(TaskParamDto taskParamDto) {
+        long userId = SecurityUtils.getUser().getId();
+
+        // 1. 获取任务并验证
+        Task task = taskService.createTaskQuery()
+            .taskId(taskParamDto.getTaskId())
+            .taskTenantId(TenantContextHolder.getTenantId().toString())
+            .taskAssignee(String.valueOf(userId))
+            .singleResult();
+
+        if (task == null) {
+            return R.failed("任务不存在或无权限操作");
+        }
+
+        // 2. 验证是 root 任务（发起人节点）
+        if (!StrUtil.equals(task.getTaskDefinitionKey(), "root")) {
+            return R.failed("非重新提交任务，无法操作");
+        }
+
+        String processInstanceId = task.getProcessInstanceId();
+
+        // 3. 更新表单数据
+        if (CollUtil.isNotEmpty(taskParamDto.getFormData())) {
+            runtimeService.setVariables(task.getExecutionId(), taskParamDto.getFormData());
+
+            // 同步更新到 ProcessInstanceRecord
+            ProcessInstanceRecord processInstanceRecord = processInstanceRecordService.lambdaQuery()
+                .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                .one();
+
+            if (processInstanceRecord != null) {
+                Map<String, Object> existingFormData = new HashMap<>();
+                if (StrUtil.isNotBlank(processInstanceRecord.getFormData())) {
+                    existingFormData = objectMapper.readValue(processInstanceRecord.getFormData(),
+                        new TypeReference<Map<String, Object>>() {});
+                }
+                existingFormData.putAll(taskParamDto.getFormData());
+                String updatedFormData = objectMapper.writeValueAsString(existingFormData);
+
+                processInstanceRecordService.lambdaUpdate()
+                    .set(ProcessInstanceRecord::getFormData, updatedFormData)
+                    .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                    .update();
+            }
+        }
+
+        // 4. 清理 rejectToStarter 变量
+        runtimeService.removeVariable(processInstanceId, "rejectToStarter");
+
+        // 5. 完成任务，流程继续
+        taskService.complete(taskParamDto.getTaskId());
+
+        return R.ok("重新提交成功");
     }
 
     /**

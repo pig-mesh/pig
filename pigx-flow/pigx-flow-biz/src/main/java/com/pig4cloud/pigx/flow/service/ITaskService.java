@@ -106,4 +106,18 @@ public interface ITaskService {
 	 */
 	R queryTaskData();
 
+	/**
+	 * 重新提交任务（驳回到发起人后）
+	 * <p>
+	 * 当流程被驳回到发起人时，发起人使用此方法重新编辑表单并提交。
+	 * 与普通completeTask不同：
+	 * 1. 不需要填写审批意见
+	 * 2. 会清理 rejectToStarter 流程变量
+	 * 3. 完成后流程继续到下一个审批节点
+	 * </p>
+	 * @param taskParamDto 任务参数，包含taskId和更新后的formData
+	 * @return 操作结果
+	 */
+	R resubmitTask(TaskParamDto taskParamDto);
+
 }

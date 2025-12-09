@@ -159,4 +159,23 @@ public class ProcessTaskController {
 		return taskService.back(taskParamDto);
 	}
 
+	/**
+	 * 重新提交任务（驳回到发起人后）
+	 * <p>
+	 * 当流程被驳回到发起人后，发起人可使用此接口重新编辑表单并提交。
+	 * 与completeTask不同：
+	 * 1. 不需要填写审批意见
+	 * 2. 会自动清理驳回标识
+	 * 3. 提交后流程继续到下一个审批节点
+	 * </p>
+	 * @param taskParamDto 重新提交参数，包含：
+	 *                     - taskId: 发起人节点的任务ID
+	 *                     - formData: 更新后的表单数据
+	 * @return R 统一响应对象，操作成功返回提交结果
+	 */
+	@PostMapping("resubmitTask")
+	public R resubmitTask(@RequestBody TaskParamDto taskParamDto) {
+		return taskService.resubmitTask(taskParamDto);
+	}
+
 }

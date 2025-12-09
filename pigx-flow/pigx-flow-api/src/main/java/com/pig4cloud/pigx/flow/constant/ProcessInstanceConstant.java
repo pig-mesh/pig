@@ -51,6 +51,16 @@ public class ProcessInstanceConstant {
 	public static final String USER_TASK_REFUSE_TYPE_TO_NODE = "TO_NODE";
 
 	/**
+	 * 拒绝处理策略：驳回到发起人 审批人拒绝后，流程跳转回发起人节点，发起人可重新编辑提交
+	 */
+	public static final String USER_TASK_REFUSE_TYPE_TO_START = "TO_START";
+
+	/**
+	 * 流程变量：驳回到发起人标识 用于标记流程实例是否处于驳回待重新提交状态
+	 */
+	public static final String REJECT_TO_STARTER_VAR = "rejectToStarter";
+
+	/**
 	 * 多人审批模式：会签 所有审批人都必须同意才能通过，任何一人拒绝则不通过
 	 */
 	public static final int MULTIPLE_MODE_AL_SAME = 1;

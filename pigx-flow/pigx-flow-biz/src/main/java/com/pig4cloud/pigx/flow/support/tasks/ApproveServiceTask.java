@@ -105,6 +105,11 @@ public class ApproveServiceTask implements JavaDelegate {
 				// 根据拒绝设置重定向到特定节点
 				stateChangeBuilder.moveActivityIdTo(currentActivityId, refuseConfig.getNodeId()).changeState();
 			}
+			else if (StrUtil.equals(rejectionHandler, "TO_START")) {
+				// 驳回到发起人：设置驳回标识变量，跳转到 root 节点
+				runtimeService.setVariable(processInstanceId, "rejectToStarter", true);
+				stateChangeBuilder.moveActivityIdTo(currentActivityId, "root").changeState();
+			}
 			else {
 				// 默认行为：重定向到结束节点
 				stateChangeBuilder.moveActivityIdTo(currentActivityId, "end").changeState();
