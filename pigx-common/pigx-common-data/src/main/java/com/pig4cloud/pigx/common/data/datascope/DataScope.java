@@ -72,6 +72,16 @@ public class DataScope extends HashMap {
 	private DataScopeFuncEnum func = DataScopeFuncEnum.ALL;
 
 	/**
+	 * 逻辑组合模式,默认OR（向后兼容）
+	 * 当同时有本人权限(username)和部门权限(deptList)时的逻辑组合方式
+	 * <ul>
+	 * <li>OR: 满足任一条件即可(默认)</li>
+	 * <li>AND: 需同时满足所有条件</li>
+	 * </ul>
+	 */
+	private DataScopeLogicEnum logicMode = DataScopeLogicEnum.OR;
+
+	/**
 	 * of 获取实例
 	 */
 	public static DataScope of() {
@@ -90,6 +100,16 @@ public class DataScope extends HashMap {
 
 	public DataScope func(DataScopeFuncEnum func) {
 		this.func = func;
+		return this;
+	}
+
+	/**
+	 * 设置逻辑组合模式
+	 * @param logicMode ��辑模式(AND/OR)
+	 * @return DataScope
+	 */
+	public DataScope logic(DataScopeLogicEnum logicMode) {
+		this.logicMode = logicMode;
 		return this;
 	}
 

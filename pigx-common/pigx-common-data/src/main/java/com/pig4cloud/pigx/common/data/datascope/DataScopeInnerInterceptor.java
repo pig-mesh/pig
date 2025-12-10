@@ -63,8 +63,13 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
         // 2.如果为本人权限 + 部门权限控制
         else if (StrUtil.isNotBlank(dataScope.getUsername()) && CollUtil.isNotEmpty(deptIds)) {
             String join = CollectionUtil.join(deptIds, ",");
-            originalSql = String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s = '%s' OR temp_data_scope.%s IN (%s)",
-                    dataScope.getFunc().getType(), originalSql, dataScope.getScopeUserName(), dataScope.getUsername(), dataScope.getScopeDeptName(), join);
+            // 使用配置的组合模式(AND/OR),默认OR保持向后兼容
+            String logicKeyword = dataScope.getLogicMode() != null ? dataScope.getLogicMode().getKeyword()
+                    : DataScopeLogicEnum.OR.getKeyword();
+            originalSql = String.format(
+                    "SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s = '%s' %s temp_data_scope.%s IN (%s)",
+                    dataScope.getFunc().getType(), originalSql, dataScope.getScopeUserName(), dataScope.getUsername(),
+                    logicKeyword, dataScope.getScopeDeptName(), join);
         }
         // 3. 如果为本人
         else if (StrUtil.isNotBlank(dataScope.getUsername())) {
