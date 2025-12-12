@@ -9,6 +9,14 @@ import org.springframework.security.oauth2.core.OAuth2Error;
  */
 public class OAuthClientException extends OAuth2AuthenticationException {
 
+	public OAuthClientException(String errorCode, String description) {
+		super(new OAuth2Error(errorCode, description, null), description);
+	}
+
+	public OAuthClientException(String errorCode, String description, Throwable cause) {
+		super(new OAuth2Error(errorCode, description, null), cause);
+	}
+
 	/**
 	 * Constructs a <code>ScopeException</code> with the specified message.
 	 * @param msg the detail message.

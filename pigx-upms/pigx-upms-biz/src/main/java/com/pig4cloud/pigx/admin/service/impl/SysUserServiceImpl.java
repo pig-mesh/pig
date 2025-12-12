@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pigx.admin.api.constant.UserStateEnum;
 import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
@@ -41,7 +42,6 @@ import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
@@ -184,7 +184,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         UserVO dbUser = baseMapper.getUserVo(userDTO);
 
         if (dbUser == null) {
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERINFO_EMPTY, userDTO.getUsername()));
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_USERINFO_EMPTY, userDTO.getUsername()));
         }
 
         // 设置角色列表 （ID）
@@ -278,7 +278,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             Object codeObj = RedisUtils.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType()
                     + StringPool.AT + userDto.getPhone());
             if (!StrUtil.equals(userDto.getCode(), codeObj.toString())) {
-                return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_ERROR));
+                return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
             }
         }
 
@@ -444,13 +444,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
 
             if (exsitUserName) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
+                errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
             }
 
             // 校验手机号是否存在
             boolean exsitPhone = userList.stream().anyMatch(sysUser -> excel.getPhone().equals(sysUser.getPhone()));
             if (exsitPhone) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, excel.getPhone()));
+                errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PHONE_EXISTING, excel.getPhone()));
             }
 
             // 判断输入的部门名称列表是否合法
@@ -458,7 +458,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .filter(dept -> excel.getDeptNameList().equals(dept.getName()))
                     .findFirst();
             if (deptOptional.isEmpty()) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptNameList()));
+                errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_DEPT_DEPTNAME_INEXISTENCE, excel.getDeptNameList()));
             }
 
             // 判断输入的角色名称列表是否合法
@@ -468,7 +468,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .toList();
 
             if (roleCollList.size() != roleNameList.size()) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
+                errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_ROLE_ROLENAME_INEXISTENCE, excel.getRoleNameList()));
             }
 
             // 判断输入的部门名称列表是否合法
@@ -478,7 +478,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                     .toList();
 
             if (postCollList.size() != postNameList.size()) {
-                errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_POST_POSTNAME_INEXISTENCE, excel.getPostNameList()));
+                errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_POST_POSTNAME_INEXISTENCE, excel.getPostNameList()));
             }
 
             // 数据合法情况
@@ -494,7 +494,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (CollUtil.isNotEmpty(errorMessageList)) {
             return R.failed(errorMessageList);
         }
-        return R.ok(null, MsgUtils.getMessage(ErrorCodes.SYS_USER_IMPORT_SUCCEED));
+        return R.ok(null, MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_IMPORT_SUCCEED));
     }
 
     /**
@@ -537,7 +537,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         boolean usernameExists = TenantBroker
                 .noneAs(() -> this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername())));
         if (usernameExists) {
-            String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
+            String message = MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_USERNAME_EXISTING, userDto.getUsername());
             return R.failed(message);
         }
 
@@ -545,7 +545,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         boolean phoneExists = TenantBroker
                 .noneAs(() -> this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, userDto.getPhone())));
         if (phoneExists) {
-            String message = MsgUtils.getMessage(ErrorCodes.SYS_USER_PHONE_EXISTING, userDto.getPhone());
+            String message = MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PHONE_EXISTING, userDto.getPhone());
             return R.failed(message);
         }
 
@@ -585,16 +585,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public R changePassword(UserDTO userDto) {
         SysUser user = baseMapper.selectById(SecurityUtils.getUser().getId());
         if (StrUtil.isEmpty(userDto.getPassword())) {
-            return R.failed("原密码不能为空");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_OLD_PASSWORD_EMPTY));
         }
 
         if (!ENCODER.matches(userDto.getPassword(), user.getPassword())) {
             log.info("原密码错误，修改个人信息失败:{}", userDto.getUsername());
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_UPDATE_PASSWORDERROR));
         }
 
         if (StrUtil.isEmpty(userDto.getNewpassword1())) {
-            return R.failed("新密码不能为空");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_NEW_PASSWORD_EMPTY));
         }
         String password = ENCODER.encode(userDto.getNewpassword1());
 
@@ -639,7 +639,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
 
         if (Objects.isNull(wrapper)) {
-            return R.failed("解绑账号类型不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_UNBIND_TYPE_NOT_FOUND));
         }
         this.update(wrapper);
         return R.ok();
@@ -660,7 +660,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         if (!ENCODER.matches(password, sysUser.getPassword())) {
             log.info("原密码错误");
-            return R.failed("密码输入错误");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PASSWORD_MISMATCH));
         } else {
             return R.ok();
         }
@@ -683,7 +683,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 新密码校验
         if (StrUtil.equals(userDto.getPassword(), userDto.getNewpassword1())) {
-            return R.failed("新旧密码不能相同");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PASSWORD_SAME));
         }
 
         // 重置密码
@@ -706,13 +706,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public R<Boolean> forgetUserPassword(RegisterUserDTO userDto, String code) {
         if (StrUtil.isBlank(userDto.getPhone())) {
-            return R.failed("非法参数");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
         }
 
         String codeObj = RedisUtils
                 .get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
         if (!StrUtil.equals(codeObj, code)) {
-            return R.failed("验证码错误");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
         }
 
         TenantBroker.noneAs(() -> {
@@ -812,7 +812,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 2. 清除用户缓存，触发权限重新计算
         cacheManager.getCache(CacheConstants.USER_DETAILS).evict(username);
 
-        return R.ok(true, "部门切换成功");
+        return R.ok(true, MsgUtils.getMessage(UpmsErrorCodes.SYS_DEPT_SWITCH_SUCCEED));
     }
 
 }

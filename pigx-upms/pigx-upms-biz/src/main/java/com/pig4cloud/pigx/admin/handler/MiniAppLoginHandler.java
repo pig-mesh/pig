@@ -22,6 +22,7 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.dto.UserInfo;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
@@ -31,6 +32,7 @@ import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.CheckedException;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -73,7 +75,7 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 
         if (resultJsonObj.containsKey("errcode")) {
             log.error("微信小程序登录失败:{}", result);
-            throw new CheckedException("微信小程序登录失败");
+            throw new CheckedException(MsgUtils.getMessage(UpmsErrorCodes.SYS_MINIAPP_LOGIN_FAILED));
         }
 
         return resultJsonObj.getStr("openid");

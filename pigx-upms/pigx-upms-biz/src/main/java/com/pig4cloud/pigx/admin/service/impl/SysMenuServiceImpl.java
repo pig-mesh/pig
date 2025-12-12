@@ -27,6 +27,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pigx.admin.api.entity.SysI18nEntity;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
@@ -38,7 +39,6 @@ import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.MenuTypeEnum;
 import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
@@ -85,7 +85,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 1. 检查菜单是否存在
         SysMenu menu = this.getById(id);
         if (menu == null) {
-            return R.failed("菜单不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_NOT_FOUND));
         }
 
         // 2. 递归收集当前菜单及所有子孙菜单的ID
@@ -103,7 +103,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     /**
      * 递归收集菜单ID及其所有子孙菜单ID
-     * @param menuId 菜单ID
+     *
+     * @param menuId  菜单ID
      * @param menuIds 收集结果列表
      */
     private void collectMenuIds(Long menuId, List<Long> menuIds) {
@@ -232,10 +233,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 查询菜单是否存在且为菜单类型（非按钮）
         SysMenu menu = this.getById(menuId);
         if (menu == null) {
-            return R.failed("菜单不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_NOT_FOUND));
         }
         if (MenuTypeEnum.BUTTON.getType().equals(menu.getMenuType())) {
-            return R.failed("按钮类型不能设置为首页");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_BUTTON_CANNOT_HOME));
         }
 
         // Toggle 模式：如果已是首页则取消，否则设置为首页
@@ -243,13 +244,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             // 已是首页，取消首页设置
             menu.setIsHomePage(YesNoEnum.NO.getCode());
             this.updateById(menu);
-            return R.ok(Boolean.TRUE, "取消首页成功");
+            return R.ok(Boolean.TRUE, MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_HOME_CANCEL_SUCCEED));
         } else {
             // 不是首页，先将所有菜单的首页标记重置为0，再设置当前菜单为首页
             this.update(Wrappers.<SysMenu>lambdaUpdate().set(SysMenu::getIsHomePage, YesNoEnum.NO.getCode()));
             menu.setIsHomePage(YesNoEnum.YES.getCode());
             this.updateById(menu);
-            return R.ok(Boolean.TRUE, "设置首页成功");
+            return R.ok(Boolean.TRUE, MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_HOME_SET_SUCCEED));
         }
     }
 

@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.pig4cloud.pigx.admin.api.constant.SmsBizCodeEnum;
 import com.pig4cloud.pigx.admin.api.constant.SystemConfigTypeEnum;
+import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pigx.admin.api.dto.MessageEmailDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageHookDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageSmsDTO;
@@ -39,7 +40,6 @@ import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.core.exception.CheckedException;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
@@ -284,7 +284,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
         if (registered && CollUtil.isEmpty(userList)) {
             log.info("手机号未注册:{}", mobile);
-            return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
+            return R.ok(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
         }
 
         String codeObj = RedisUtils
@@ -292,7 +292,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
         if (StrUtil.isNotBlank(codeObj)) {
             log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
-            return R.ok(Boolean.FALSE, MsgUtils.getMessage(ErrorCodes.SYS_APP_SMS_OFTEN));
+            return R.ok(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_OFTEN));
         }
 
         String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
@@ -324,7 +324,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                         .eq(SysSystemConfigEntity::getConfigStatus, YesNoEnum.YES.getCode())
                         .eq(SysSystemConfigEntity::getConfigKey, messageSmsDTO.getBizCode()));
         if (CollUtil.isEmpty(configEntityList)) {
-            return R.failed("发送失败，短信通道配置不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MESSAGE_SMS_CHANNEL_MISSING));
         }
 
         SysSystemConfigEntity configEntity = configEntityList.get(0);
@@ -338,7 +338,8 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                             .toLowerCase()
                             .contains(configMap.getStr(MessageSmsDTO.Fields.supplier)))
                     .findFirst()
-                    .orElseThrow(() -> new CheckedException("发送失败，短信通道配置不存在"));
+                    .orElseThrow(() -> new CheckedException(
+                            MsgUtils.getMessage(UpmsErrorCodes.SYS_MESSAGE_SMS_CHANNEL_MISSING)));
             BaseConfig baseConfig = (BaseConfig) JSONUtil.toBean(configEntity.getConfigValue(), targetClass);
 
             // 如果渠道扩展参数不为空则增加特性化参数
@@ -388,7 +389,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                         .eq(SysSystemConfigEntity::getConfigStatus, YesNoEnum.YES.getCode())
                         .eq(SysSystemConfigEntity::getConfigKey, messageHookDTO.getBizCode()));
         if (CollUtil.isEmpty(configEntityList)) {
-            return R.failed("发送失败，短信通道配置不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MESSAGE_SMS_CHANNEL_MISSING));
         }
 
         SysSystemConfigEntity configEntity = configEntityList.get(0);
@@ -465,7 +466,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                         .eq(SysSystemConfigEntity::getConfigStatus, YesNoEnum.YES.getCode())
                         .eq(SysSystemConfigEntity::getConfigKey, messageEmailDTO.getBizCode()));
         if (CollUtil.isEmpty(configEntityList)) {
-            return R.failed("发送失败，通道配置不存在");
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MESSAGE_CHANNEL_MISSING));
         }
         SysSystemConfigEntity configEntity = configEntityList.get(0);
         JSONObject configMap = JSONUtil.parseObj(configEntity.getConfigValue());

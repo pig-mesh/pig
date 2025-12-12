@@ -12,11 +12,13 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.anji.captcha.model.vo.CaptchaVO;
 import com.anji.captcha.service.CaptchaService;
+import com.pig4cloud.pigx.auth.support.core.AuthErrorCodes;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.CaptchaFlagTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.ValidateCodeException;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
@@ -99,7 +101,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         String code = request.getParameter("code");
 
         if (StrUtil.isBlank(code)) {
-            throw new ValidateCodeException("验证码不能为空");
+            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
         }
 
         String randomStr = request.getParameter("randomStr");
@@ -117,30 +119,30 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             vo.setCaptchaVerification(code);
             vo.setCaptchaType(randomStr);
             if (!captchaService.verification(vo).isSuccess()) {
-                throw new ValidateCodeException("验证码不能为空");
+                throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
             }
             return;
         }
 
         String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
         if (!RedisUtils.hasKey(key)) {
-            throw new ValidateCodeException("验证码不合法");
+            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
         }
 
         String codeObj = RedisUtils.get(key);
 
         if (codeObj == null) {
-            throw new ValidateCodeException("验证码不合法");
+            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
         }
 
         if (StrUtil.isBlank(codeObj)) {
             RedisUtils.delete(key);
-            throw new ValidateCodeException("验证码不合法");
+            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
         }
 
         if (!StrUtil.equals(codeObj, code)) {
             RedisUtils.delete(key);
-            throw new ValidateCodeException("验证码不合法");
+            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
         }
 
         RedisUtils.delete(key);

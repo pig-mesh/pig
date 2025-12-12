@@ -18,6 +18,7 @@ import com.dingtalk.api.response.OapiGettokenResponse;
 import com.dingtalk.api.response.OapiUserListidResponse;
 import com.dingtalk.api.response.OapiV2DepartmentListsubResponse;
 import com.dingtalk.api.response.OapiV2UserGetResponse;
+import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pigx.admin.api.dto.UserDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysSocialDetails;
@@ -28,7 +29,6 @@ import com.pig4cloud.pigx.admin.service.SysDeptService;
 import com.pig4cloud.pigx.admin.service.SysUserService;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
@@ -213,7 +213,7 @@ public class ConnectServiceImpl implements ConnectService {
             departList = wxCpService.getDepartmentService().list(null);
         } catch (WxErrorException e) {
             log.error("获取企业微信部门列表失败", e);
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_CONNECT_CP_DEPT_SYNC_ERROR));
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_CONNECT_CP_DEPT_SYNC_ERROR));
         }
 
         if (CollUtil.isEmpty(departList)) {
@@ -251,7 +251,7 @@ public class ConnectServiceImpl implements ConnectService {
             cpUserList = wxCpService.getUserService().listByDepartment(1L, true, 0);
         } catch (WxErrorException e) {
             log.error("获取企业微信用户列表失败", e);
-            return R.failed(MsgUtils.getMessage(ErrorCodes.SYS_CONNECT_CP_USER_SYNC_ERROR));
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_CONNECT_CP_USER_SYNC_ERROR));
         }
 
         if (CollUtil.isEmpty(cpUserList)) {

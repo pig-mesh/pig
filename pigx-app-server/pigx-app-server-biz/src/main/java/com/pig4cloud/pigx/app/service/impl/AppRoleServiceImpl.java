@@ -17,16 +17,20 @@
 package com.pig4cloud.pigx.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pigx.app.api.entity.AppPageEntity;
 import com.pig4cloud.pigx.app.api.entity.AppRole;
+import com.pig4cloud.pigx.app.api.enums.AppErrorCodes;
+import com.pig4cloud.pigx.app.api.enums.PageTypeEnums;
 import com.pig4cloud.pigx.app.api.vo.AppRoleExcelVO;
+import com.pig4cloud.pigx.app.mapper.AppPageMapper;
 import com.pig4cloud.pigx.app.mapper.AppRoleMapper;
 import com.pig4cloud.pigx.app.service.AppRoleService;
-import com.pig4cloud.pigx.common.core.exception.ErrorCodes;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -35,79 +39,97 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * app角色表
+ * APP角色服务实现类
+ * <p>
+ * 提供对APP角色相关的业务操作实现。
  *
- * @author aeizzz
- * @date 2022-12-07 09:52:03
+ * @author lengleng
+ * @date 2025/05/29
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> implements AppRoleService {
 
-	@Override
-	public List<AppRole> findRolesByUserId(Long userId) {
-		return baseMapper.listRolesByUserId(userId);
-	}
+    private final AppPageMapper appPageMapper;
 
-	/**
-	 * 删除用户的同时，把role_menu关系删除
-	 * @param ids roleIds
-	 */
-	@Override
-	public Boolean deleteRoleByIds(Long[] ids) {
-		this.removeBatchByIds(CollUtil.toList(ids));
-		return Boolean.TRUE;
-	}
+    private final AppRoleMapper appRoleMapper;
 
-	/**
-	 * 导入角色
-	 * @param excelVOList
-	 * @param bindingResult
-	 * @return
-	 */
-	@Override
-	public R importRole(List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
-		// 通用校验获取失败的数据
-		List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
+    @Override
+    public List<AppRole> findRolesByUserId(Long userId) {
+        return baseMapper.listRolesByUserId(userId);
+    }
 
-		// 个性化校验逻辑
-		List<AppRole> roleList = this.list();
+    /**
+     * 删除用户的同时，把role_menu关系删除
+     *
+     * @param ids roleIds
+     */
+    @Override
+    public Boolean deleteRoleByIds(Long[] ids) {
+        this.removeBatchByIds(CollUtil.toList(ids));
+        return Boolean.TRUE;
+    }
 
-		// 执行数据插入操作 组装 RoleDto
-		for (AppRoleExcelVO excel : excelVOList) {
-			Set<String> errorMsg = new HashSet<>();
-			// 检验角色名称或者角色编码是否存在
-			boolean existRole = roleList.stream()
-				.anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
-						|| excel.getRoleCode().equals(appRole.getRoleCode()));
+    /**
+     * 导入角色
+     *
+     * @param excelVOList
+     * @param bindingResult
+     * @return
+     */
+    @Override
+    public R importRole(List<AppRoleExcelVO> excelVOList, BindingResult bindingResult) {
+        // 通用校验获取失败的数据
+        List<ErrorMessage> errorMessageList = (List<ErrorMessage>) bindingResult.getTarget();
 
-			if (existRole) {
-				errorMsg.add(MsgUtils.getMessage(ErrorCodes.SYS_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),
-						excel.getRoleCode()));
-			}
+        // 个性化校验逻辑
+        List<AppRole> roleList = this.list();
 
-			// 数据合法情况
-			if (CollUtil.isEmpty(errorMsg)) {
-				insertExcelRole(excel);
-			}
-			else {
-				// 数据不合法情况
-				errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
-			}
-		}
-		if (CollUtil.isNotEmpty(errorMessageList)) {
-			return R.failed(errorMessageList);
-		}
-		return R.ok();
+        // 执行数据插入操作 组装 RoleDto
+        for (AppRoleExcelVO excel : excelVOList) {
+            Set<String> errorMsg = new HashSet<>();
+            // 检验角色名称或者角色编码是否存在
+            boolean existRole = roleList.stream()
+                    .anyMatch(appRole -> excel.getRoleName().equals(appRole.getRoleName())
+                            || excel.getRoleCode().equals(appRole.getRoleCode()));
 
-	}
+            if (existRole) {
+                errorMsg.add(MsgUtils.getMessage(AppErrorCodes.APP_ROLE_NAMEORCODE_EXISTING, excel.getRoleName(),
+                        excel.getRoleCode()));
+            }
 
-	private void insertExcelRole(AppRoleExcelVO excel) {
-		AppRole appRole = new AppRole();
-		appRole.setRoleName(excel.getRoleName());
-		appRole.setRoleDesc(excel.getRoleDesc());
-		appRole.setRoleCode(excel.getRoleCode());
-		this.save(appRole);
-	}
+            // 数据合法情况
+            if (CollUtil.isEmpty(errorMsg)) {
+                insertExcelRole(excel);
+            } else {
+                // 数据不合法情况
+                errorMessageList.add(new ErrorMessage(excel.getLineNum(), errorMsg));
+            }
+        }
+        if (CollUtil.isNotEmpty(errorMessageList)) {
+            return R.failed(errorMessageList);
+        }
+        return R.ok();
+
+    }
+
+    /**
+     * 获取列表菜单对象
+     *
+     * @return 列表菜单对象的实例
+     */
+    @Override
+    public AppPageEntity listMenu() {
+        return appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery()
+                .eq(AppPageEntity::getPageType, PageTypeEnums.WORKBENCH.getPageType()));
+    }
+
+    private void insertExcelRole(AppRoleExcelVO excel) {
+        AppRole appRole = new AppRole();
+        appRole.setRoleName(excel.getRoleName());
+        appRole.setRoleDesc(excel.getRoleDesc());
+        appRole.setRoleCode(excel.getRoleCode());
+        this.save(appRole);
+    }
 
 }
