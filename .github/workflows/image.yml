@@ -31,7 +31,7 @@ jobs:
         run: |
           docker compose build
           registry="registry.cn-hangzhou.aliyuncs.com/pigx/"
-          for service in $(docker-compose config --services); do
+          for service in $(docker compose config --services); do
             if [ "$service" != "pig-redis" ]; then
               docker tag ${service}:latest ${registry}${service}:latest
               docker push ${registry}${service}:latest
