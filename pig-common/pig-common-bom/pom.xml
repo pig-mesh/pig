@@ -43,6 +43,8 @@
 		<mybatis-plus.version>3.5.15</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
+		<!-- FIX Quartz https://github.com/spring-projects/spring-boot/issues/48012 -->
+		<quartz.version>2.5.2</quartz.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -142,6 +144,12 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>fastjson</artifactId>
 				<version>${fastjson.version}</version>
+			</dependency>
+			<!-- fix springboot 3.5.8 bug，后续版本注意移除-->
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>${quartz.version}</version>
 			</dependency>
 			<!--代码生成模板引擎 -->
 			<dependency>
