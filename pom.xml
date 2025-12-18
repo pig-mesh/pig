@@ -28,7 +28,7 @@
 		<!-- 项目版本号 -->
 		<revision>3.9.2</revision>
 		<java.version>17</java.version>
-		<spring-boot.version>3.5.8</spring-boot.version>
+		<spring-boot.version>3.5.9</spring-boot.version>
 		<spring-cloud.version>2025.0.1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
 		<jasypt.version>3.0.5</jasypt.version>
