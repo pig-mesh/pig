@@ -12,9 +12,9 @@
 
     <properties>
         <pigx.version>5.11.0</pigx.version>
-        <mybatis-plus.version>3.5.14</mybatis-plus.version>
-        <mybatis-plus-join.version>1.5.4</mybatis-plus-join.version>
-        <dynamic-ds.version>4.3.1</dynamic-ds.version>
+        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <mybatis-plus-join.version>1.5.5</mybatis-plus-join.version>
+        <dynamic-ds.version>4.5.0</dynamic-ds.version>
         <nacos.client.version>3.1.0</nacos.client.version>
         <druid.version>1.2.23</druid.version>
         <hutool.version>5.8.42</hutool.version>
@@ -26,6 +26,8 @@
         <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>2.8.5</springdoc.version>
         <swagger.core.version>2.2.28</swagger.core.version>
+        <!-- FIX Quartz https://github.com/spring-projects/spring-boot/issues/48012 -->
+        <quartz.version>2.5.2</quartz.version>
         <mp.weixin.version>4.7.8-20251028.120007</mp.weixin.version>
         <ijpay.version>2.9.12.1-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
@@ -478,6 +480,12 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.client.version}</version>
+            </dependency>
+            <!-- fix springboot 3.5.8 bug，后续版本注意移除-->
+            <dependency>
+                <groupId>org.quartz-scheduler</groupId>
+                <artifactId>quartz</artifactId>
+                <version>${quartz.version}</version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
