@@ -32,7 +32,7 @@
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<springdoc.version>3.0.0</springdoc.version>
 		<common.io.version>2.18.0</common.io.version>
-		<dynamic-ds.version>4.3.1</dynamic-ds.version>
+		<dynamic-ds.version>4.5.0</dynamic-ds.version>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<nacos.client.version>3.1.0</nacos.client.version>
@@ -179,7 +179,7 @@
 			<!-- 多数据源依赖 -->
 			<dependency>
 				<groupId>com.baomidou</groupId>
-				<artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+				<artifactId>dynamic-datasource-spring-boot4-starter</artifactId>
 				<version>${dynamic-ds.version}</version>
 			</dependency>
 			<!-- 短信工具：https://sms4j.com -->
