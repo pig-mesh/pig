@@ -37,11 +37,11 @@
 			<version>${revision}</version>
 		</dependency>
 		<!--可选：代码生成模块 -->
-<!--		<dependency>-->
-<!--			<groupId>com.pig4cloud</groupId>-->
-<!--			<artifactId>pig-codegen</artifactId>-->
-<!--			<version>${revision}</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.pig4cloud</groupId>
+			<artifactId>pig-codegen</artifactId>
+			<version>${revision}</version>
+		</dependency>
 		<!--可选：定时任务模块 -->
 		<dependency>
 			<groupId>com.pig4cloud</groupId>
