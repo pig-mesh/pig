@@ -100,7 +100,7 @@ public class YungouosMergePayOrderHandler extends AbstractPayOrderHandler {
         return MergePay.nativePay(String.valueOf(tradeOrder.getOrderId()), money, channel.getChannelMchId(),
                 tradeOrder.getBody(), "1", TenantContextHolder.getTenantId().toString(),
                 String.format("%s/api/%s/notify/merge/callbak", ChannelPayApiConfigKit.get().getNotifyUrl(), WebUtils.isMicro() ? "pay" : "admin"),
-                ChannelPayApiConfigKit.get().getReturnUrl(), "", "", "", null, key);
+                ChannelPayApiConfigKit.get().getReturnUrl(), "", "", "0", "pay", null, key);
     }
 
     /**
