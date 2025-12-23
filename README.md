@@ -56,7 +56,7 @@ docker compose up
 | Spring Authorization Server | 1.5.2  |
 | Mybatis Plus                | 3.5.15 |
 | Vue                         | 3.5    |
-| Element Plus                | 2.7    |
+| Element Plus                | 2.8    |
 
 ### 模块说明
 
