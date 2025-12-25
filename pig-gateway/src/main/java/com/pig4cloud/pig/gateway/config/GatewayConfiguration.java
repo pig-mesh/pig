@@ -1,10 +1,10 @@
 package com.pig4cloud.pig.gateway.config;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.gateway.filter.PigRequestGlobalFilter;
 import com.pig4cloud.pig.gateway.handler.GlobalExceptionHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * 网关配置类
