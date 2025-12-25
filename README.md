@@ -31,7 +31,7 @@
 
 - Spring Boot: 4.0.0
 - Spring Cloud: 2025.1.0
-- Spring Cloud Alibaba: 2025.0.0.0-preview (待适配)
+- Spring Cloud Alibaba: 2025.1.0.0-SNAPSHOT (待适配)
 - JDK: 17+
 - Maven: 3.6+
 
@@ -48,8 +48,7 @@
 
 ⚠️ **重要提示**：
 1. 本分支为 Spring Boot 4.0 适配分支，功能尚在完善中
-2. 目前仅支持单体模式，微服务相关模块暂不可用
-3. 部分依赖库仍在等待官方适配 Spring Boot 4.0
+2部分依赖库仍在等待官方适配 Spring Boot 4.0 
 
 ## 相关链接
 
