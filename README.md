@@ -9,9 +9,9 @@
 
 ## 系统说明
 
-- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **企业快速开发平台**， 同时支持微服务架构和单体架构
-- 提供对 Spring Authorization Server 生产级实践，支持多种安全授权模式
-- 提供对常见容器化方案支持 Kubernetes、Rancher2 、Kubesphere、EDAS、SAE 支持
+- 基于 Spring Cloud 、Spring Boot、 OAuth2 的 RBAC **企业级快速开发平台**， 同时支持微服务架构和单体架构
+- 提供 Spring Authorization Server 的生产级实践方案，支持多种安全授权模式
+- 提供对常见容器化方案支持 Kubernetes、Rancher2 、KubeSphere、EDAS、SAE 支持
 
 #### 使用文档
 
