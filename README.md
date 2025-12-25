@@ -7,7 +7,7 @@
 ### 当前状态
 
 - ✅ 支持单体模式运行
-- ⚠️ 微服务模式暂不可用
+- ⚠️ 微服务模式可运行（需要配置maven快照）
 
 ### 适配进度
 
@@ -15,8 +15,17 @@
 - Spring Boot 4.0
 
 #### 待适配（2025-12-08）
-- ❌ Spring Cloud Alibaba - 暂未适配
-- ❌ dynamic-datasource-spring-boot-starter - 暂未适配
+- ⚠️ Spring Cloud Alibaba - 快照
+
+```xml
+<!--maven/settings.xml-->
+<server>
+  <id>github</id>
+  <username>lltx</username>
+  <password>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</password>
+</server>
+```
+- ❌ SpringBootAdmin - 暂未适配
 
 ## 技术栈
 

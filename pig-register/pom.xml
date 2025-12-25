@@ -22,7 +22,7 @@
 	<description>nacos 注册配置中心</description>
 	<properties>
 		<nacos.version>3.1.0-bugfix</nacos.version>
-		<spring-boot.version>3.5.8</spring-boot.version>
+		<spring-boot.version>3.5.9</spring-boot.version>
 	</properties>
 	<dependencies>
 		<dependency>

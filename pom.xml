@@ -20,7 +20,6 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.pig4cloud</groupId>
 	<artifactId>pig</artifactId>
-	<name>${project.artifactId}</name>
 	<version>${revision}</version>
 	<packaging>pom</packaging>
 	<url>https://www.pig4cloud.com</url>
@@ -30,7 +29,7 @@
 		<java.version>17</java.version>
 		<spring-boot.version>4.0.1</spring-boot.version>
 		<spring-cloud.version>2025.1.0</spring-cloud.version>
-		<spring-cloud-alibaba.version>2025.0.0.0-preview</spring-cloud-alibaba.version>
+		<spring-cloud-alibaba.version>2025.1.0.0-SNAPSHOT</spring-cloud-alibaba.version>
 		<jasypt.version>3.0.5</jasypt.version>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
 		<docker.namespace>pig4cloud</docker.namespace>
@@ -39,7 +38,7 @@
 		<commons-lang3.version>3.20.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
-		<spring-boot-admin.version>3.5.6</spring-boot-admin.version>
+		<spring-boot-admin.version>4.0.0-M1</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
@@ -330,4 +329,17 @@
 			</build>
 		</profile>
 	</profiles>
+
+	<repositories>
+		<repository>
+			<id>github</id>
+			<url>https://maven.pkg.github.com/alibaba/spring-cloud-alibaba</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>

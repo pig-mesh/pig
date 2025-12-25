@@ -9,8 +9,8 @@
 	the specific language governing permissions and ~ limitations under the License. -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+		 xmlns="http://maven.apache.org/POM/4.0.0"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.pig4cloud</groupId>
@@ -64,15 +64,15 @@
 			<artifactId>mysql-connector-j</artifactId>
 		</dependency>
 		<!--注册中心客户端 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-		</dependency> -->
+		</dependency>
 		<!--配置中心客户端 -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-		</dependency> -->
+		</dependency>
 		<!-- 短信下发 -->
 		<dependency>
 			<groupId>org.dromara.sms4j</groupId>
