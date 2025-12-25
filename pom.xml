@@ -38,7 +38,7 @@
 		<commons-lang3.version>3.20.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
-		<spring-boot-admin.version>4.0.0-M1</spring-boot-admin.version>
+		<spring-boot-admin.version>3.5.6</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
