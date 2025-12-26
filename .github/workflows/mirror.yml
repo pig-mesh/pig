@@ -2,9 +2,9 @@ name: 同步代码
 
 on:
   push:
-    branches: [ master,dev ]
+    branches: [ master,dev,boot4 ]
   pull_request:
-    branches: [ master,dev ]
+    branches: [ master,dev,boot4 ]
 
 jobs:
   gitee:
