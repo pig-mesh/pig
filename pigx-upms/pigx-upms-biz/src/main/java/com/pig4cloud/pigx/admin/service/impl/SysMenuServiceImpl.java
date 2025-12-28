@@ -186,7 +186,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             extra.put("menuType", menu.getMenuType());
             extra.put("permission", menu.getPermission());
             extra.put("sortOrder", menu.getSortOrder());
-            extra.put("isHomePage", menu.getIsHomePage());
 
             // 适配 vue3
             Map<String, Object> meta = new HashMap<>();
@@ -218,62 +217,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             // 其他查询 左侧 + 顶部
             return !MenuTypeEnum.BUTTON.getType().equals(vo.getMenuType());
         };
-    }
-
-    /**
-     * 设置首页菜单
-     *
-     * @param menuId 菜单ID
-     * @return 是否成功
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
-    public R<Boolean> setHomePage(Long menuId) {
-        // 查询菜单是否存在且为菜单类型（非按钮）
-        SysMenu menu = this.getById(menuId);
-        if (menu == null) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_NOT_FOUND));
-        }
-        if (MenuTypeEnum.BUTTON.getType().equals(menu.getMenuType())) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_BUTTON_CANNOT_HOME));
-        }
-
-        // Toggle 模式：如果已是首页则取消，否则设置为首页
-        if (YesNoEnum.YES.getCode().equals(menu.getIsHomePage())) {
-            // 已是首页，取消首页设置
-            menu.setIsHomePage(YesNoEnum.NO.getCode());
-            this.updateById(menu);
-            return R.ok(Boolean.TRUE, MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_HOME_CANCEL_SUCCEED));
-        } else {
-            // 不是首页，先将所有菜单的首页标记重置为0，再设置当前菜单为首页
-            this.update(Wrappers.<SysMenu>lambdaUpdate().set(SysMenu::getIsHomePage, YesNoEnum.NO.getCode()));
-            menu.setIsHomePage(YesNoEnum.YES.getCode());
-            this.updateById(menu);
-            return R.ok(Boolean.TRUE, MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_HOME_SET_SUCCEED));
-        }
-    }
-
-    /**
-     * 获取首页菜单
-     * 根据当前用户的角色ID查询其有权限访问的首页菜单
-     *
-     * @return 首页菜单
-     */
-    @Override
-    public SysMenu getHomePage() {
-        // 获取当前用户的角色ID列表
-        List<Long> roleIds = SecurityUtils.getRoleIds();
-        if (CollUtil.isEmpty(roleIds)) {
-            return null;
-        }
-
-        // 获取用户所有角色对应的菜单（直接调用mapper避免self-invocation导致缓存失效）
-        Set<SysMenu> userMenus = new HashSet<>();
-        roleIds.forEach(roleId -> userMenus.addAll(baseMapper.listMenusByRoleId(roleId)));
-
-        // 在用户有权限的菜单中查找首页菜单
-        return userMenus.stream().filter(menu -> YesNoEnum.YES.getCode().equals(menu.getIsHomePage())).findFirst().orElse(null);
     }
 
 }

@@ -113,17 +113,6 @@ public class AppRoleServiceImpl extends ServiceImpl<AppRoleMapper, AppRole> impl
 
     }
 
-    /**
-     * 获取列表菜单对象
-     *
-     * @return 列表菜单对象的实例
-     */
-    @Override
-    public AppPageEntity listMenu() {
-        return appPageMapper.selectOne(Wrappers.<AppPageEntity>lambdaQuery()
-                .eq(AppPageEntity::getPageType, PageTypeEnums.WORKBENCH.getPageType()));
-    }
-
     private void insertExcelRole(AppRoleExcelVO excel) {
         AppRole appRole = new AppRole();
         appRole.setRoleName(excel.getRoleName());
