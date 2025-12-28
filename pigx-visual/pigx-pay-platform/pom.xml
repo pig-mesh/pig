@@ -153,9 +153,6 @@
                                 <goals>
                                     <goal>repackage</goal>
                                 </goals>
-                                <configuration>
-                                    <loaderImplementation>CLASSIC</loaderImplementation>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
