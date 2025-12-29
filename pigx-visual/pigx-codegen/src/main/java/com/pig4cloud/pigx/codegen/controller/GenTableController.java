@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.codegen.controller;
 
+import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenTable;
@@ -179,6 +180,8 @@ public class GenTableController {
     @ResponseExcel
     @GetMapping("/export")
     public List<GenTable> export(GenTable table) {
+        // 切换至对应数据源
+        DynamicDataSourceContextHolder.push(table.getDsName());
         return tableService.list(Wrappers.query(table));
     }
 
