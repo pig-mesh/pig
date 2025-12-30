@@ -1295,7 +1295,7 @@ CREATE TABLE `sys_tenant` (
 -- Records of sys_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_tenant` VALUES (1, '北京分公司', '1', '', NULL, NULL, NULL, NULL, NULL, '2019-05-15 00:00:00', '2099-12-31 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2023-07-30 14:52:57', 1642752536722997250);
+INSERT INTO `sys_tenant` VALUES (1, 'PIGX ADMIN', '1', '', NULL, NULL, NULL, NULL, NULL, '2019-05-15 00:00:00', '2099-12-31 00:00:00', '0', '0', '', 'admin', '2019-05-15 15:44:57', '2023-07-30 14:52:57', 1642752536722997250);
 COMMIT;
 
 

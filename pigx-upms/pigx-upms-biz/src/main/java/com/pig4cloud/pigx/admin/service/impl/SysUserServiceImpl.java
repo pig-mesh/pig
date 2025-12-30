@@ -202,9 +202,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         // 如果是登录成功以后查询租户信息并进行校验
         if (Objects.nonNull(SecurityUtils.getUser())) {
-            Long updateTenantId = sysTenantService.getOrUpdateTenant();
-            if (Objects.nonNull(updateTenantId)) {
-                userInfo.setTenantId(updateTenantId);
+            SysTenant updateTenant = sysTenantService.getOrUpdateTenant();
+            if (Objects.nonNull(updateTenant)) {
+                userInfo.setTenantId(updateTenant.getId());
+                userInfo.setTenantName(updateTenant.getName());
             }
         }
 
