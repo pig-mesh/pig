@@ -533,6 +533,16 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<Boolean> registerUser(RegisterUserDTO userDto) {
+        // 校验短信验证码
+        if (StrUtil.isBlank(userDto.getCode())) {
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
+        }
+        String codeObj = RedisUtils
+                .get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
+        if (!StrUtil.equals(codeObj, userDto.getCode())) {
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
+        }
+
         // 判断用户名是否存在
         boolean usernameExists = TenantBroker
                 .noneAs(() -> this.exists(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, userDto.getUsername())));

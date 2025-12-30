@@ -42,7 +42,9 @@ import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
+import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
@@ -279,12 +281,27 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
      */
     @Override
     public R<Boolean> sendSmsCode(String mobile, boolean registered) {
+        // IP 限制校验，单位时间内同一IP发送次数限制
+        String clientIp = WebUtils.getIP();
+        String ipLimitKey = CacheConstants.DEFAULT_CODE_KEY + "IP_LIMIT:" + clientIp;
+        if (StrUtil.isNotBlank(clientIp)) {
+            Long maxTimes = ParamResolver.getLong("SMS_IP_LIMIT_TIMES", 5L);
+            Long ipSendTimes = RedisUtils.increment(ipLimitKey, 1L);
+            // 设置过期时间
+            RedisUtils.expire(ipLimitKey, SecurityConstants.CODE_TIME);
+
+            if (ipSendTimes > maxTimes) {
+                log.info("IP发送验证码过于频繁:{}, 已发送{}次", clientIp, ipSendTimes);
+                return R.failed(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_OFTEN));
+            }
+        }
+
         List<SysUser> userList = TenantBroker
                 .noneAs(() -> userMapper.selectList(Wrappers.<SysUser>query().lambda().eq(SysUser::getPhone, mobile)));
 
         if (registered && CollUtil.isEmpty(userList)) {
             log.info("手机号未注册:{}", mobile);
-            return R.ok(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
+            return R.failed(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_PHONE_UNREGISTERED, mobile));
         }
 
         String codeObj = RedisUtils
@@ -292,7 +309,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
         if (StrUtil.isNotBlank(codeObj)) {
             log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
-            return R.ok(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_OFTEN));
+            return R.failed(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_OFTEN));
         }
 
         String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
