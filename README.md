@@ -16,15 +16,6 @@
 
 #### 待适配（2025-12-08）
 - ⚠️ Spring Cloud Alibaba - 快照
-
-```xml
-<!--maven/settings.xml-->
-<server>
-  <id>github</id>
-  <username>lltx</username>
-  <password>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</password>
-</server>
-```
 - ❌ SpringBootAdmin - 暂未适配
 
 ## 技术栈

@@ -6,7 +6,7 @@ on:
       releaseversion:
         description: 'Release version'
         required: true
-        default: '3.8.0'
+        default: '3.9.0'
 
 jobs:
   publish-github-release:
