@@ -30,7 +30,7 @@
 		<gateway.version>4.3.2</gateway.version>
 		<sentinel.version>1.8.4</sentinel.version>
 		<git.commit.plugin>9.0.1</git.commit.plugin>
-		<springdoc.version>2.8.13</springdoc.version>
+		<springdoc.version>2.8.14</springdoc.version>
 		<common.io.version>2.18.0</common.io.version>
 		<dynamic-ds.version>4.5.0</dynamic-ds.version>
 		<swagger.fox.version>3.0.0</swagger.fox.version>
