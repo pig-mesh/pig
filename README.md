@@ -1,5 +1,7 @@
 # PIG - Spring Boot 4.0 分支
 
+> 📖 详细文档请查看：[Spring Boot 4.0 适配文档](https://docs.pig4cloud.com/open#/springboot4?v=4)
+
 ## 项目说明
 
 本分支基于 **Spring Boot 4.0** 进行开发，当前处于适配阶段。
