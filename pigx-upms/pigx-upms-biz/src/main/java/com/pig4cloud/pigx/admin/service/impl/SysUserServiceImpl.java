@@ -664,17 +664,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return 验证结果，成功返回R.ok()，失败返回R.failed()
      */
     @Override
-    public R checkPassword(String username, String password) {
-        SysUser condition = new SysUser();
-        condition.setUsername(username);
-        SysUser sysUser = this.getOne(new QueryWrapper<>(condition));
-
-        if (!ENCODER.matches(password, sysUser.getPassword())) {
-            log.info("原密码错误");
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PASSWORD_MISMATCH));
-        } else {
-            return R.ok();
-        }
+    public R<Boolean> checkPassword(String username, String password) {
+        SysUser sysUser = this.getOne(Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, username));
+        boolean matches = ENCODER.matches(password, sysUser.getPassword());
+        return matches ? R.ok(true) : R.ok(false, MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PASSWORD_MISMATCH));
     }
 
     /**
