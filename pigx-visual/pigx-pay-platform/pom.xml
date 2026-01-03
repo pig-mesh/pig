@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.10.0</version>
+        <version>5.11.0</version>
     </parent>
 
     <artifactId>pigx-pay-platform</artifactId>
@@ -14,7 +14,7 @@
 
     <description>支付系统</description>
     <properties>
-        <yungouos.version>2.0.37</yungouos.version>
+        <yungouos.version>2.0.39</yungouos.version>
     </properties>
 
     <dependencies>
@@ -113,6 +113,13 @@
             <groupId>com.yungouos.pay</groupId>
             <artifactId>yungouos-pay-sdk</artifactId>
             <version>${yungouos.version}</version>
+            <exclusions>
+                <!-- 屏蔽hutool 避免和系统引入的冲突 -->
+                <exclusion>
+                    <artifactId>hutool-all</artifactId>
+                    <groupId>cn.hutool</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--web 模块-->
         <dependency>
@@ -146,9 +153,6 @@
                                 <goals>
                                     <goal>repackage</goal>
                                 </goals>
-                                <configuration>
-                                    <loaderImplementation>CLASSIC</loaderImplementation>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

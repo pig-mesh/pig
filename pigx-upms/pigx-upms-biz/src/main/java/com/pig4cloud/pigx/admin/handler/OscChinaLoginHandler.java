@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pigx.admin.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
@@ -86,8 +87,7 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
 
         JSONObject userInfo = JSONUtil.parseObj(resp);
         // 开源中国唯一标识
-        String id = userInfo.getStr("id");
-        return id;
+        return userInfo.getStr("id");
     }
 
     /**
@@ -98,6 +98,11 @@ public class OscChinaLoginHandler extends AbstractLoginHandler {
      */
     @Override
     public UserInfo info(String identify) {
+        if (StrUtil.isBlank(identify)) {
+            log.warn("开源中国标识为空，无法获取用户信息");
+            return null;
+        }
+
         UserDTO userDTO = new UserDTO();
         userDTO.setOscId(identify);
 

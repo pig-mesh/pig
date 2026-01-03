@@ -10,7 +10,7 @@
                     <#else>
 						<a href="https://pig4cloud.com"
 						   class="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium transition-colors">
-                            ${principalName}
+                            ${principalName?html}
 						</a>
                     </#if>
 				</div>
@@ -20,8 +20,8 @@
 
 	<form id='confirmationForm' name='confirmationForm'
 		  action="<#if request??>${request.contextPath!}</#if>/oauth2/authorize" method='post'>
-		<input type="hidden" name="client_id" value="${clientId}">
-		<input type="hidden" name="state" value="${state}">
+		<input type="hidden" name="client_id" value="${clientId?html}">
+		<input type="hidden" name="state" value="${state?html}">
 
 		<div class="space-y-6">
 			<div class="mb-4">
@@ -29,9 +29,9 @@
 				<div class="space-y-3 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 transition-all">
                     <#list scopeList as scope>
 						<div class="flex items-center">
-							<input type="checkbox" checked="checked" name="scope" value="${scope}"
+							<input type="checkbox" checked="checked" name="scope" value="${scope?html}"
 							       class="h-4 w-4 text-purple-600 focus:ring-purple-500 dark:focus:ring-purple-400 border-gray-300 dark:border-gray-600 rounded transition-colors">
-							<label class="ml-3 text-gray-600 dark:text-gray-400 transition-colors">${scope}</label>
+							<label class="ml-3 text-gray-600 dark:text-gray-400 transition-colors">${scope?html}</label>
 						</div>
                     </#list>
 				</div>

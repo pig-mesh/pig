@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -159,6 +159,12 @@ public class UserVO implements Serializable {
 	 */
 	@Schema(description = "所属租户")
 	private Long tenantId;
+
+	/**
+	 * 主部门ID
+	 */
+	@Schema(description = "主部门id")
+	private Long deptId;
 
 	@Schema(description = "所属部门名称")
 	private List<SysDept> deptList = new ArrayList<>();

@@ -26,6 +26,7 @@
         <result column="password_modify_time" property="passwordModifyTime"/>
         <result column="del_flag" property="delFlag"/>
         <result column="tenant_id" property="tenantId"/>
+        <result column="dept_id" property="deptId"/>
         <collection property="deptList" ofType="com.pig4cloud.pigx.admin.api.entity.SysDept"
                     select="com.pig4cloud.pigx.admin.mapper.SysDeptMapper.listDeptsByUserId"
                     column="{userId=user_id, tenantId=tenant_id}">
@@ -61,6 +62,7 @@
         u.password_expire_flag,
         u.password_modify_time,
         u.tenant_id,
+        u.dept_id,
         u.create_by,
         u.create_time,
         u.update_time
@@ -109,26 +111,23 @@
 
     <select id="getUserVosPage" resultMap="baseResultMap">
         SELECT
-        <include refid="userColumns"/>,
-        ud.dept_id
+        <include refid="userColumns"/>
         FROM
         sys_user u
-        LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
-        AND ud.tenant_id = #{query.tenantId}
+        <!-- 如果传递了部门ID，需要关联 sys_user_dept 查询该部门的所有用户 -->
+        <if test="query.deptId != null and query.deptId != ''">
+            INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+            AND ud.dept_id = #{query.deptId}
+            AND ud.tenant_id = #{query.tenantId}
+        </if>
         WHERE
         u.del_flag = '0'
         AND u.tenant_id = #{query.tenantId}
-        AND (ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL)
 
         <!-- 用户名模糊查询 -->
         <if test="query.username != null and query.username != ''">
             <bind name="usernameLike" value="'%' + query.username + '%'"/>
             AND u.username LIKE #{usernameLike}
-        </if>
-
-        <!-- 部门精确查询 -->
-        <if test="query.deptId != null and query.deptId != ''">
-            AND ud.dept_id = #{query.deptId}
         </if>
 
         <!-- 手机号模糊查询 -->
@@ -142,22 +141,22 @@
 
     <select id="getUserVoListByScope" resultMap="baseResultMap">
         SELECT
-        <include refid="userColumns"/>,
-        ud.dept_id
+        <include refid="userColumns"/>
         FROM
         sys_user u
-        LEFT JOIN sys_user_dept ud ON u.user_id = ud.user_id
+        <!-- 如果传递了部门ID，需要关联 sys_user_dept 查询该部门的所有用户 -->
+        <if test="query.deptId != null and query.deptId != ''">
+            INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+            AND ud.dept_id = #{query.deptId}
+            AND ud.tenant_id = #{query.tenantId}
+        </if>
         WHERE
         u.del_flag = '0'
-        AND (ud.tenant_id = #{query.tenantId} OR ud.tenant_id IS NULL)
+        AND u.tenant_id = #{query.tenantId}
         <!-- 用户名模糊查询 -->
         <if test="query.username != null and query.username != ''">
             <bind name="usernameLike" value="'%' + query.username + '%'"/>
             AND u.username LIKE #{usernameLike}
-        </if>
-        <!-- 部门精确查询 -->
-        <if test="query.deptId != null and query.deptId != ''">
-            AND ud.dept_id = #{query.deptId}
         </if>
         <!-- 手机号模糊查询 -->
         <if test="query.phone != null and query.phone != ''">

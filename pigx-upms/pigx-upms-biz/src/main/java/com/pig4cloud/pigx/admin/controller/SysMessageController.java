@@ -183,17 +183,20 @@ public class SysMessageController {
 
     /**
      * 发送短信验证码
-     * @param mobile 手机号
-     * @return {@link R }
+     *
+     * @param mobile     手机号
+     * @param registered 是否已注册，默认true
+     * @return 发送结果
      */
     @Inner(value = false)
     @GetMapping("/send/smsCode")
-    public R sendSmsCode(@RequestParam String mobile) {
-        return sysMessageService.sendSmsCode(mobile);
+    public R sendSmsCode(@RequestParam String mobile, @RequestParam(required = false, defaultValue = "true") boolean registered) {
+        return sysMessageService.sendSmsCode(mobile, registered);
     }
 
     /**
      * 发送短信
+     *
      * @param messageSmsDTO 消息 短信 DTO
      * @return {@link R }
      */
@@ -204,6 +207,7 @@ public class SysMessageController {
 
     /**
      * 发送邮件
+     *
      * @param messageEmailDTO 留言内容 电子邮件 DTO
      * @return {@link R }
      */
@@ -214,17 +218,18 @@ public class SysMessageController {
 
     /**
      * 发送 webhook
+     *
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */
     @PostMapping("/send/hook")
     public R sendWebhook(@Valid @RequestBody MessageHookDTO messageHookDTO) {
-		return sysMessageService.sendHook(messageHookDTO);
-	}
+        return sysMessageService.sendHook(messageHookDTO);
+    }
 
-	@GetMapping("/list/hook")
-	public R listHookBizCode(MessageHookDTO messageHookDTO) {
-		return sysMessageService.listHookBizCode(messageHookDTO);
-	}
+    @GetMapping("/list/hook")
+    public R listHookBizCode(MessageHookDTO messageHookDTO) {
+        return sysMessageService.listHookBizCode(messageHookDTO);
+    }
 
 }

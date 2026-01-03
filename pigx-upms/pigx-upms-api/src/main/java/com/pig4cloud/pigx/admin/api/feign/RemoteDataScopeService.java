@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,20 +38,22 @@ import java.util.List;
 @FeignClient(contextId = "remoteDataScopeService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteDataScopeService {
 
-	/**
-	 * 通过角色ID 查询角色列表
-	 * @param roleIdList 角色ID
-	 * @return
-	 */
-	@PostMapping("/role/getRoleList")
-	R<List<SysRole>> getRoleList(@RequestBody List<Long> roleIdList);
+    /**
+     * 通过角色ID 查询角色列表
+     *
+     * @param roleIdList 角色ID
+     * @return
+     */
+    @PostMapping("/role/getRoleList")
+    R<List<SysRole>> getRoleList(@RequestBody List<String> roleIdList);
 
-	/**
-	 * 获取子级部门
-	 * @param deptId 部门ID
-	 * @return
-	 */
-	@GetMapping("/dept/getDescendantList/{deptId}")
-	R<List<SysDept>> getDescendantList(@PathVariable("deptId") Long deptId);
+    /**
+     * 获取子级部门
+     *
+     * @param deptId 部门ID
+     * @return
+     */
+    @GetMapping("/dept/getDescendantList/{deptId}")
+    R<List<SysDept>> getDescendantList(@PathVariable("deptId") Long deptId);
 
 }

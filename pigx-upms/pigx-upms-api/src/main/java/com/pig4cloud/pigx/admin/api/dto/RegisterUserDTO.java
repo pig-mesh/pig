@@ -36,4 +36,9 @@ public class RegisterUserDTO {
 	 */
 	private Long tenantId;
 
+	/**
+	 * 短信验证码
+	 */
+	private String code;
+
 }

@@ -32,6 +32,8 @@ import org.springframework.security.core.annotation.AnnotationTemplateExpression
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author lengleng
@@ -52,6 +54,8 @@ public class PigxResourceServerConfiguration {
     @Lazy
     private final PermitAllUrlProperties permitAllUrl;
 
+    private final PigxBootCorsProperties corsProperties;
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -71,6 +75,20 @@ public class PigxResourceServerConfiguration {
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
                 .csrf(AbstractHttpConfigurer::disable);
 
+        // 仅支持单体版本：根据配置启用CORS跨域支持（仅在security.cors.enabled=true时生效）
+        if (Boolean.TRUE.equals(corsProperties.getEnabled())) {
+            http.cors(cors -> cors.configurationSource(request -> {
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                CorsConfiguration corsConfiguration = new CorsConfiguration();
+                corsProperties.getAllowedOriginPatterns().forEach(corsConfiguration::addAllowedOriginPattern);
+                corsProperties.getAllowedHeaders().forEach(corsConfiguration::addAllowedHeader);
+                corsProperties.getAllowedMethods().forEach(corsConfiguration::addAllowedMethod);
+                corsConfiguration.setAllowCredentials(corsProperties.getAllowCredentials());
+                source.registerCorsConfiguration(corsProperties.getPathPattern(), corsConfiguration);
+                return corsConfiguration;
+            }));
+        }
+
         return http.build();
     }
 
@@ -83,4 +101,5 @@ public class PigxResourceServerConfiguration {
     AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
         return new AnnotationTemplateExpressionDefaults();
     }
+
 }

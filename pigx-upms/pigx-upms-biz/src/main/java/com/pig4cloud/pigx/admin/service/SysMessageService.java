@@ -37,6 +37,7 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 读取信息
+     *
      * @param id id
      * @return true/false
      */
@@ -44,6 +45,7 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 获取信息
+     *
      * @param id id
      * @return messageVO
      */
@@ -61,13 +63,16 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 发送手机验证码
-     * @param mobile mobile
-     * @return code
+     *
+     * @param mobile     手机号码
+     * @param registered 是否已注册
+     * @return 发送结果
      */
-    R<Boolean> sendSmsCode(String mobile);
+    R<Boolean> sendSmsCode(String mobile, boolean registered);
 
     /**
      * 发送短信
+     *
      * @param messageSmsDTO 消息 短信 DTO
      * @return {@link R }
      */
@@ -75,6 +80,7 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 发送邮件
+     *
      * @param messageEmailDTO 留言内容 电子邮件 DTO
      * @return {@link R }
      */
@@ -82,6 +88,7 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 发送钩子消息
+     *
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */
@@ -89,6 +96,7 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 
     /**
      * 列出 Hook 业务代码
+     *
      * @param messageHookDTO 消息钩子 DTO
 	 * @return {@link R }
 	 */

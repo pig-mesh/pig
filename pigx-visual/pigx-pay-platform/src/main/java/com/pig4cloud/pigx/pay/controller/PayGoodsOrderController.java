@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -53,6 +53,8 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -74,170 +76,179 @@ import java.util.Objects;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class PayGoodsOrderController {
 
-	private final PayGoodsOrderService payGoodsOrderService;
+    private final PayGoodsOrderService payGoodsOrderService;
 
-	private final PayChannelService channelService;
+    private final PayChannelService channelService;
 
-	private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-	/**
-	 * 商品订单
-	 * @param goods 商品
-	 * @param response
-	 *
-	 * AliPayApiConfigKit.setAppId WxPayApiConfigKit.setAppId shezhi
-	 *
-	 */
-	@SneakyThrows
-	@Inner(false)
-	@GetMapping("/buy")
-	@Operation(summary = "购买商品", description = "购买商品")
-	public void buy(PayGoodsOrder goods, HttpServletRequest request, HttpServletResponse response) {
-		String ua = request.getHeader(HttpHeaders.USER_AGENT);
-		log.info("当前扫码方式 UA:{}", ua);
+    /**
+     * 商品订单
+     *
+     * @param goods    商品
+     * @param response AliPayApiConfigKit.setAppId WxPayApiConfigKit.setAppId shezhi
+     *
+     */
+    @SneakyThrows
+    @Inner(false)
+    @GetMapping("/buy")
+    @Operation(summary = "购买商品", description = "购买商品")
+    public void buy(PayGoodsOrder goods, HttpServletRequest request, HttpServletResponse response) {
+        String ua = request.getHeader(HttpHeaders.USER_AGENT);
+        log.info("当前扫码方式 UA:{}", ua);
 
-		if (ua.contains(PayConstants.MICRO_MESSENGER)) {
-			PayChannel channel = channelService.getOne(
-					Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP),
-					false);
+        if (ua.contains(PayConstants.MICRO_MESSENGER)) {
+            PayChannel channel = channelService.getOne(
+                    Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP),
+                    false);
 
-			if (channel == null) {
-				throw new IllegalArgumentException("公众号支付配置不存在");
-			}
+            if (channel == null) {
+                throw new IllegalArgumentException("公众号支付配置不存在");
+            }
 
-			String wxUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s"
-					+ "&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s";
+            String wxUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=%s"
+                    + "&redirect_uri=%s&response_type=code&scope=snsapi_base&state=%s";
 
-			String redirectUri = String.format("%s/api/%s/goods/wx?amount=%s&TENANT-ID=%s", channel.getNotifyUrl(),
-					WebUtils.isMicro() ? "pay" : "admin", goods.getAmount(), TenantContextHolder.getTenantId());
+            String redirectUri = String.format("%s/api/%s/goods/wx?amount=%s&TENANT-ID=%s", channel.getNotifyUrl(),
+                    WebUtils.isMicro() ? "pay" : "admin", goods.getAmount(), TenantContextHolder.getTenantId());
 
-			response.sendRedirect(
-					String.format(wxUrl, channel.getAppId(), URLUtil.encode(redirectUri), channel.getAppId()));
-		}
+            response.sendRedirect(
+                    String.format(wxUrl, channel.getAppId(), URLUtil.encode(redirectUri), channel.getAppId()));
+        }
 
-		if (ua.contains(PayConstants.ALIPAY)) {
-			payGoodsOrderService.buy(goods, false);
-		}
+        if (ua.contains(PayConstants.ALIPAY)) {
+            payGoodsOrderService.buy(goods, false);
+        }
 
-	}
+    }
 
-	@SneakyThrows
-	@Inner(false)
-	@GetMapping("/merge/buy")
-	@Operation(summary = "聚合支付购买商品", description = "聚合支付购买商品")
-	public void mergeBuy(PayGoodsOrder goods, HttpServletResponse response) {
-		Map<String, Object> result = payGoodsOrderService.buy(goods, true);
-		response.setContentType(ContentType.JSON.getValue());
-		response.getWriter().print(objectMapper.writeValueAsString(result));
-	}
+    @SneakyThrows
+    @Inner(false)
+    @GetMapping("/merge/buy")
+    @Operation(summary = "聚合支付购买商品", description = "聚合支付购买商品")
+    public void mergeBuy(PayGoodsOrder goods, HttpServletResponse response) {
+        Map<String, Object> result = payGoodsOrderService.buy(goods, true);
+        response.setContentType(ContentType.JSON.getValue());
+        // Add security headers to prevent XSS
+        response.setContentType(MediaType.TEXT_PLAIN_VALUE);
+        response.setHeader(com.google.common.net.HttpHeaders.X_CONTENT_TYPE_OPTIONS, ContentTypeOptionsServerHttpHeadersWriter.NOSNIFF);
+        response.getWriter().print(objectMapper.writeValueAsString(result));
+    }
 
-	/**
-	 * oauth
-	 * @param goods 商品信息
-	 * @param code 回调code
-	 * @param modelAndView
-	 * @return
-	 * @throws WxErrorException
-	 */
-	@Inner(false)
-	@SneakyThrows
-	@GetMapping("/wx")
-	@Operation(summary = "商品信息", description = "回调code")
-	public ModelAndView wx(PayGoodsOrder goods, String code, ModelAndView modelAndView) {
-		PayChannel channel = channelService.getOne(
-				Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP), false);
+    /**
+     * oauth
+     *
+     * @param goods        商品信息
+     * @param code         回调code
+     * @param modelAndView
+     * @return
+     * @throws WxErrorException
+     */
+    @Inner(false)
+    @SneakyThrows
+    @GetMapping("/wx")
+    @Operation(summary = "商品信息", description = "回调code")
+    public ModelAndView wx(PayGoodsOrder goods, String code, ModelAndView modelAndView) {
+        PayChannel channel = channelService.getOne(
+                Wrappers.<PayChannel>lambdaQuery().eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP), false);
 
-		if (channel == null) {
-			throw new IllegalArgumentException("公众号支付配置不存在");
-		}
+        if (channel == null) {
+            throw new IllegalArgumentException("公众号支付配置不存在");
+        }
 
-		JSONObject params = JSONUtil.parseObj(channel.getParam());
-		WxMpService wxMpService = new WxMpServiceImpl();
-		WxMpDefaultConfigImpl storage = new WxMpDefaultConfigImpl();
-		storage.setAppId(channel.getAppId());
-		storage.setSecret(params.getStr("secret"));
-		wxMpService.setWxMpConfigStorage(storage);
+        JSONObject params = JSONUtil.parseObj(channel.getParam());
+        WxMpService wxMpService = new WxMpServiceImpl();
+        WxMpDefaultConfigImpl storage = new WxMpDefaultConfigImpl();
+        storage.setAppId(channel.getAppId());
+        storage.setSecret(params.getStr("secret"));
+        wxMpService.setWxMpConfigStorage(storage);
 
-		WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
-		goods.setUserId(accessToken.getOpenId());
-		goods.setAmount(goods.getAmount());
-		modelAndView.setViewName("pay");
-		modelAndView.addAllObjects(payGoodsOrderService.buy(goods, false));
-		return modelAndView;
-	}
+        WxOAuth2AccessToken accessToken = wxMpService.getOAuth2Service().getAccessToken(code);
+        goods.setUserId(accessToken.getOpenId());
+        goods.setAmount(goods.getAmount());
+        modelAndView.setViewName("pay");
+        modelAndView.addAllObjects(payGoodsOrderService.buy(goods, false));
+        return modelAndView;
+    }
 
-	/**
-	 * 分页查询
-	 * @param page 分页对象
-	 * @param payGoodsOrder 商品订单表
-	 * @return
-	 */
-	@Operation(summary = "分页查询", description = "分页查询")
-	@GetMapping("/page")
-	public R getpayGoodsOrderPage(Page page, PayGoodsOrder payGoodsOrder) {
-		LambdaQueryWrapper<PayGoodsOrder> wrapper = Wrappers.lambdaQuery();
-		wrapper.eq(StrUtil.isNotBlank(payGoodsOrder.getStatus()), PayGoodsOrder::getStatus, payGoodsOrder.getStatus());
-		wrapper.like(Objects.nonNull(payGoodsOrder.getPayOrderId()), PayGoodsOrder::getPayOrderId,
-				payGoodsOrder.getPayOrderId());
-		return R.ok(payGoodsOrderService.page(page, wrapper));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page          分页对象
+     * @param payGoodsOrder 商品订单表
+     * @return
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    public R getpayGoodsOrderPage(Page page, PayGoodsOrder payGoodsOrder) {
+        LambdaQueryWrapper<PayGoodsOrder> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(StrUtil.isNotBlank(payGoodsOrder.getStatus()), PayGoodsOrder::getStatus, payGoodsOrder.getStatus());
+        wrapper.like(Objects.nonNull(payGoodsOrder.getPayOrderId()), PayGoodsOrder::getPayOrderId,
+                payGoodsOrder.getPayOrderId());
+        return R.ok(payGoodsOrderService.page(page, wrapper));
+    }
 
-	/**
-	 * 通过id查询商品订单表
-	 * @param goodsOrderId id
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{goodsOrderId}")
-	public R getById(@PathVariable("goodsOrderId") Long goodsOrderId) {
-		return R.ok(payGoodsOrderService.getById(goodsOrderId));
-	}
+    /**
+     * 通过id查询商品订单表
+     *
+     * @param goodsOrderId id
+     * @return R
+     */
+    @Operation(summary = "通过id查询", description = "通过id查询")
+    @GetMapping("/{goodsOrderId}")
+    public R getById(@PathVariable("goodsOrderId") Long goodsOrderId) {
+        return R.ok(payGoodsOrderService.getById(goodsOrderId));
+    }
 
-	/**
-	 * 新增商品订单表
-	 * @param payGoodsOrder 商品订单表
-	 * @return R
-	 */
-	@Operation(summary = "新增商品订单表", description = "新增商品订单表")
-	@SysLog("新增商品订单表")
-	@PostMapping
-	public R save(@RequestBody PayGoodsOrder payGoodsOrder) {
-		return R.ok(payGoodsOrderService.save(payGoodsOrder));
-	}
+    /**
+     * 新增商品订单表
+     *
+     * @param payGoodsOrder 商品订单表
+     * @return R
+     */
+    @Operation(summary = "新增商品订单表", description = "新增商品订单表")
+    @SysLog("新增商品订单表")
+    @PostMapping
+    public R save(@RequestBody PayGoodsOrder payGoodsOrder) {
+        return R.ok(payGoodsOrderService.save(payGoodsOrder));
+    }
 
-	/**
-	 * 修改商品订单表
-	 * @param payGoodsOrder 商品订单表
-	 * @return R
-	 */
-	@Operation(summary = "修改商品订单表", description = "修改商品订单表")
-	@SysLog("修改商品订单表")
-	@PutMapping
-	public R updateById(@RequestBody PayGoodsOrder payGoodsOrder) {
-		return R.ok(payGoodsOrderService.updateById(payGoodsOrder));
-	}
+    /**
+     * 修改商品订单表
+     *
+     * @param payGoodsOrder 商品订单表
+     * @return R
+     */
+    @Operation(summary = "修改商品订单表", description = "修改商品订单表")
+    @SysLog("修改商品订单表")
+    @PutMapping
+    public R updateById(@RequestBody PayGoodsOrder payGoodsOrder) {
+        return R.ok(payGoodsOrderService.updateById(payGoodsOrder));
+    }
 
-	/**
-	 * 通过id删除商品订单表
-	 * @param ids goodsOrderId列表
-	 * @return R
-	 */
-	@Operation(summary = "通过id删除商品订单表", description = "通过id删除商品订单表")
-	@SysLog("通过id删除商品订单表")
-	@DeleteMapping
-	public R removeById(@RequestBody Long[] ids) {
-		return R.ok(payGoodsOrderService.removeBatchByIds(CollUtil.toList(ids)));
-	}
+    /**
+     * 通过id删除商品订单表
+     *
+     * @param ids goodsOrderId列表
+     * @return R
+     */
+    @Operation(summary = "通过id删除商品订单表", description = "通过id删除商品订单表")
+    @SysLog("通过id删除商品订单表")
+    @DeleteMapping
+    public R removeById(@RequestBody Long[] ids) {
+        return R.ok(payGoodsOrderService.removeBatchByIds(CollUtil.toList(ids)));
+    }
 
-	/**
-	 * 导出excel 表格
-	 * @param payGoodsOrder 查询条件
-	 * @return excel 文件流
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	public List<PayGoodsOrder> export(PayGoodsOrder payGoodsOrder) {
-		return payGoodsOrderService.list(Wrappers.query(payGoodsOrder));
-	}
+    /**
+     * 导出excel 表格
+     *
+     * @param payGoodsOrder 查询条件
+     * @return excel 文件流
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<PayGoodsOrder> export(PayGoodsOrder payGoodsOrder) {
+        return payGoodsOrderService.list(Wrappers.query(payGoodsOrder));
+    }
 
 }

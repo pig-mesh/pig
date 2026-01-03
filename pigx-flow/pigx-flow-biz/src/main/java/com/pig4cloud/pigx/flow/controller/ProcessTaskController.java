@@ -48,13 +48,15 @@ public class ProcessTaskController {
 	 * </p>
 	 * @param taskId 任务ID
 	 * @param view 是否为查看模式：true-仅查看，false-可编辑处理
+	 * @param useMainFormData 是否使用主表单数据（true=从process_instance_record.form_data读取最新数据，false=从节点快照读取，默认true）
 	 * @return R 统一响应对象，包含任务的完整信息和可操作项
 	 */
 	@SneakyThrows
 	@GetMapping("queryTask")
-	public R queryTask(String taskId, boolean view) {
+	public R queryTask(String taskId, boolean view,
+			@RequestParam(defaultValue = "true") boolean useMainFormData) {
 
-		return taskService.queryTask(taskId, view);
+		return taskService.queryTask(taskId, view, useMainFormData);
 
 	}
 
@@ -155,6 +157,25 @@ public class ProcessTaskController {
 	@PostMapping("back")
 	public R back(@RequestBody TaskParamDto taskParamDto) {
 		return taskService.back(taskParamDto);
+	}
+
+	/**
+	 * 重新提交任务（驳回到发起人后）
+	 * <p>
+	 * 当流程被驳回到发起人后，发起人可使用此接口重新编辑表单并提交。
+	 * 与completeTask不同：
+	 * 1. 不需要填写审批意见
+	 * 2. 会自动清理驳回标识
+	 * 3. 提交后流程继续到下一个审批节点
+	 * </p>
+	 * @param taskParamDto 重新提交参数，包含：
+	 *                     - taskId: 发起人节点的任务ID
+	 *                     - formData: 更新后的表单数据
+	 * @return R 统一响应对象，操作成功返回提交结果
+	 */
+	@PostMapping("resubmitTask")
+	public R resubmitTask(@RequestBody TaskParamDto taskParamDto) {
+		return taskService.resubmitTask(taskParamDto);
 	}
 
 }

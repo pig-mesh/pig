@@ -13,6 +13,7 @@ import com.pig4cloud.pigx.flow.service.IProcessNodeDataService;
 import com.pig4cloud.pigx.flow.support.expression.condition.NodeExpressionStrategyFactory;
 import com.pig4cloud.pigx.flow.support.listeners.ApprovalCreateListener;
 import com.pig4cloud.pigx.flow.support.listeners.FlowProcessEventListener;
+import com.pig4cloud.pigx.flow.support.listeners.RootTaskCreateListener;
 import com.pig4cloud.pigx.flow.support.tasks.ApproveServiceTask;
 import com.pig4cloud.pigx.flow.support.tasks.CopyServiceTask;
 import lombok.extern.slf4j.Slf4j;
@@ -352,21 +353,52 @@ public class ModelUtil {
 	/**
 	 * 构建开始节点
 	 * <p>
-	 * 创建BPMN流程的开始事件节点。
-	 * 每个流程必须有且只有一个开始节点。
+	 * 创建BPMN流程的开始事件节点和发起人任务节点。
+	 * 流程结构：StartEvent(start) → UserTask(root) → 第一个审批节点
+	 * </p>
+	 * <p>
+	 * 发起人任务节点的作用：
+	 * <ul>
+	 *   <li>正常发起流程时，通过RootTaskCreateListener自动完成，流程继续到下一个节点</li>
+	 *   <li>驳回到发起人时，任务保留给发起人，发起人可以在待办任务中编辑并重新提交</li>
+	 * </ul>
+	 * </p>
 	 *
 	 * @param node 前端传输的开始节点数据
-	 * @return 包含开始事件的流程元素列表
+	 * @return 包含开始事件和发起人任务的流程元素列表
 	 */
 	private static List<FlowElement> buildStartNode(Node node) {
 
 		List<FlowElement> flowElementList = new ArrayList<>();
 
+		// 1. 创建真正的开始事件（ID 为 start）
 		StartEvent startEvent = new StartEvent();
-		startEvent.setId(node.getId());
-		startEvent.setName(node.getName());
-
+		startEvent.setId("start");
+		startEvent.setName("开始");
 		flowElementList.add(startEvent);
+
+		// 2. 创建发起人任务节点（ID 保持为 root）
+		// 配置任务监听器，用于处理驳回场景
+		FlowableListener createListener = new FlowableListener();
+		createListener.setImplementation(RootTaskCreateListener.class.getCanonicalName());
+		createListener.setImplementationType("class");
+		createListener.setEvent("create");
+
+		UserTask rootTask = new UserTask();
+		rootTask.setId(node.getId()); // 保持 "root" 作为 ID
+		rootTask.setName(node.getName());
+		// 动态获取发起人作为执行人
+		rootTask.setAssignee("${rootTaskHandler.resolveAssignee(execution)}");
+
+		List<FlowableListener> taskListeners = new ArrayList<>();
+		taskListeners.add(createListener);
+		rootTask.setTaskListeners(taskListeners);
+
+		flowElementList.add(rootTask);
+
+		// 3. 更新节点的 head/tail 信息
+		node.setHeadId("start"); // 头部是 StartEvent
+		node.setTailId(node.getId()); // 尾部是 root UserTask
 
 		return flowElementList;
 	}
@@ -655,7 +687,11 @@ public class ModelUtil {
 	/**
 	 * 创建节点内部连接线
 	 * <p>
-	 * 创建节点内部的连接线，例如审批节点与其后续服务任务之间的连接。
+	 * 创建节点内部的连接线，例如：
+	 * <ul>
+	 *   <li>开始节点：start → root（StartEvent到发起人UserTask）</li>
+	 *   <li>审批节点：审批任务 → 服务任务</li>
+	 * </ul>
 	 *
 	 * @param node   节点数据
 	 * @param flowId 流程定义ID
@@ -673,6 +709,13 @@ public class ModelUtil {
 			return sequenceFlowList;
 		}
 
+		// 开始节点：创建 start → root 的连线
+		if (node.getType() == NodeTypeEnum.ROOT.getValue().intValue()) {
+			SequenceFlow sequenceFlow = buildSingleSequenceFlow("start", nodeId, null, "start->root");
+			sequenceFlowList.add(sequenceFlow);
+		}
+
+		// 审批节点：创建审批任务到服务任务的连线
 		if (node.getType() == NodeTypeEnum.APPROVAL.getValue().intValue()) {
 
 			String gatewayId = StrUtil.format("approve_service_task_{}", nodeId);

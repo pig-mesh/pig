@@ -26,9 +26,11 @@ import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.admin.api.vo.TokenVO;
+import com.pig4cloud.pigx.auth.support.core.AuthErrorCodes;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.RetOps;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
@@ -48,6 +50,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.authentication.event.LogoutSuccessEvent;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.security.oauth2.server.authorization.OAuth2Authorization;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
@@ -91,6 +94,7 @@ public class PigxTokenEndpoint {
     @GetMapping("/token/login")
     public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
         modelAndView.setViewName("ftl/login");
+        // Note: XSS prevention is handled by FreeMarker template using ?html directive
         modelAndView.addObject("error", error);
 
         R<List<SysTenant>> tenantList = tenantService.list();
@@ -110,9 +114,11 @@ public class PigxTokenEndpoint {
                                 @RequestParam(OAuth2ParameterNames.STATE) String state) {
         SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
                 .getData()
-                .orElseThrow(() -> new OAuthClientException("clientId 不合法"));
+                .orElseThrow(() -> new OAuthClientException(OAuth2ErrorCodes.INVALID_CLIENT,
+                        MsgUtils.getMessage(AuthErrorCodes.AUTH_CLIENT_INVALID)));
 
         Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
+        // Note: XSS prevention is handled by FreeMarker template using ?html directive
         modelAndView.addObject("clientId", clientId);
         modelAndView.addObject("state", state);
         modelAndView.addObject("scopeList", authorizedScopes);

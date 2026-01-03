@@ -22,8 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.Locale;
-
 import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET;
 
 /**
@@ -35,12 +33,14 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @ConditionalOnWebApplication(type = SERVLET)
 public class PigxSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
-	@Bean
-	public MessageSource securityMessageSource() {
-		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-		messageSource.addBasenames("classpath:errors/messages");
-		messageSource.setDefaultLocale(Locale.CHINA);
-		return messageSource;
-	}
+    @Bean
+    public MessageSource securityMessageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.addBasenames("classpath:errors/messages");
+        //messageSource.setDefaultLocale(Locale.CHINA);  没有国际化的需求可以关闭
+        messageSource.setDefaultEncoding("UTF-8");
+        messageSource.setCacheSeconds(3600);
+        return messageSource;
+    }
 
 }

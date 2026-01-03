@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -149,6 +149,12 @@ public class SysUser extends Model<SysUser> implements Serializable {
 	 */
 	@Schema(description = "用户所属租户id")
 	private Long tenantId;
+
+	/**
+	 * 主部门ID
+	 */
+	@Schema(description = "用户主部门id")
+	private Long deptId;
 
 	/**
 	 * 微信openid

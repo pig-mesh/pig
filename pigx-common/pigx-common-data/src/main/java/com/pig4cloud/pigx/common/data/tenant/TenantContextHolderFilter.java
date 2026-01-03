@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -48,13 +48,15 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * 租户上下文过滤器：处理租户ID的提取、验证和上下文设置
+ *
  * @author lengleng
- * @date 2018/9/13
+ * @date 2025/12/30
  */
 @Slf4j
+@Order(-104) // OrderedRequestContextFilter 之后执行
 @Component
 @RequiredArgsConstructor
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class TenantContextHolderFilter extends GenericFilterBean {
 
     private final static String UNDEFINED_STR = "undefined";

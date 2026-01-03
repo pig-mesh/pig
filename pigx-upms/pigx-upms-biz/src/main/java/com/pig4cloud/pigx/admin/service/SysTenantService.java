@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -114,8 +114,11 @@ public interface SysTenantService extends IService<SysTenant> {
 	R updateUserTenant(UserDTO userDto);
 
 	/**
-	 * 检查或更新租户信息
+	 * 获取或更新当前用户的租户信息
+	 * <p>
+	 * 如果当前租户已过期或无效，则自动切换到用户的其他有效租户
+	 * @return 当前有效的租户对象，如果无有效租户则返回null
 	 */
-	Long getOrUpdateTenant();
+	SysTenant getOrUpdateTenant();
 
 }

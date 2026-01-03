@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.10.0</version>
+        <version>5.11.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,6 +16,10 @@
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-extra</artifactId>
         </dependency>
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

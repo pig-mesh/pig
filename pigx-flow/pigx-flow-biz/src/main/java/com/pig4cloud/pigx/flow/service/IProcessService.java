@@ -61,12 +61,20 @@ public interface IProcessService extends IService<Process> {
 
 	/**
 	 * 更新流程状态或分组
-	 * 
+	 *
 	 * @param flowId 流程定义ID
 	 * @param type 操作类型：stop（停用）、using（启用）、delete（删除）
 	 * @param groupId 流程分组ID（可选，用于修改流程分组）
 	 * @return 操作结果
 	 */
 	R update(String flowId, String type, Long groupId);
+
+	/**
+	 * 验证流程ID是否在所有IProcessInstanceStatusEventService实现类中存在
+	 *
+	 * @param flowId 流程定义ID
+	 * @return 验证结果：true表示存在，false表示不存在
+	 */
+	R<Boolean> validateFlowId(String flowId);
 
 }

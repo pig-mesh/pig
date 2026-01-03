@@ -41,13 +41,13 @@ public class SysUserDept extends Model<SysUserDept> {
     /**
      * 用户ID
      */
-    @Schema(description = "用户id")
+    @Schema(description = "用户ID")
     private Long userId;
 
     /**
-     * 岗位ID
+     * 部门ID
      */
-    @Schema(description = "岗位id")
+    @Schema(description = "部门ID")
     private Long deptId;
 
 }

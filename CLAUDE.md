@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Overview
 
 PigX is a proprietary enterprise-grade microservices platform built on Spring Cloud Alibaba, focusing on AI knowledge
-management, document processing, and intelligent Q&A capabilities. The current version is 5.10.0.
+management, document processing, and intelligent Q&A capabilities. The current version is 5.11.0.
 
 **Important**: This is NOT an open-source project. All rights reserved by the author. Commercial use requires proper
 licensing.
@@ -13,8 +13,8 @@ licensing.
 ## Technology Stack
 
 - **Java Version**: Java 17
-- **Spring Boot**: 3.5.6
-- **Spring Cloud**: 2025.0.0
+- **Spring Boot**: 3.5.9
+- **Spring Cloud**: 2025.0.1
 - **Spring Cloud Alibaba**: 2023.0.3.3
 - **AI/ML Libraries**:
     - LangChain4j: 1.6.0

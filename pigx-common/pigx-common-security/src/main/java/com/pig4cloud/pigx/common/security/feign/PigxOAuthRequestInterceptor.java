@@ -7,15 +7,15 @@ import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.security.util.NonWebTokenContextHolder;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * oauth2 feign token传递
@@ -48,19 +48,23 @@ public class PigxOAuthRequestInterceptor implements RequestInterceptor {
             return;
         }
 
-        // 非web 请求直接跳过
-        String token = "";
-        if (WebUtils.getRequest() == null) {
-            token = NonWebTokenContextHolder.getToken();
-        } else {
-            HttpServletRequest request = WebUtils.getRequest();
-            // 避免请求参数的 query token 无法传递
+        String token = null;
+        HttpServletRequest request = WebUtils.getRequest();
+
+        // 优先尝试从 Web 请求中解析 token
+        if (Objects.nonNull(request)) {
             token = tokenResolver.resolve(request);
+        }
+
+        // 如果 request 中没有 token，从 NonWebTokenContextHolder 获取（适配消息队列等非 Web 场景）
+        if (StrUtil.isBlank(token)) {
+            token = NonWebTokenContextHolder.getToken();
         }
 
         if (StrUtil.isBlank(token)) {
             return;
         }
+
         template.header(HttpHeaders.AUTHORIZATION,
                 String.format("%s %s", OAuth2AccessToken.TokenType.BEARER.getValue(), token));
 

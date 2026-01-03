@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~
-  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~      Copyright (c) 2018-2026, lengleng All rights reserved.
   ~
   ~  Redistribution and use in source and binary forms, with or without
   ~  modification, are permitted provided that the following conditions are met:
@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.10.0</version>
+        <version>5.11.0</version>
     </parent>
 
     <artifactId>pigx-common-excel</artifactId>
