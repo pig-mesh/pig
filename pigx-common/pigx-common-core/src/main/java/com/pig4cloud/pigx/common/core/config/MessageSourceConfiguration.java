@@ -54,6 +54,7 @@ public class MessageSourceConfiguration {
         messageSource.setBasename("i18n/messages");
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(3600);
+        messageSource.setDefaultLocale(Locale.CHINA);
         return messageSource;
     }
 
