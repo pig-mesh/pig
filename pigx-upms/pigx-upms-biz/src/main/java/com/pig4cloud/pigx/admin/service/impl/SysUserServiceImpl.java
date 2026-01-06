@@ -41,9 +41,11 @@ import com.pig4cloud.pigx.admin.service.*;
 import com.pig4cloud.pigx.common.audit.annotation.Audit;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.datascope.DataScope;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
@@ -534,14 +536,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public R<Boolean> registerUser(RegisterUserDTO userDto) {
-        // 校验短信验证码
-        if (StrUtil.isBlank(userDto.getCode())) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
-        }
-        String codeObj = RedisUtils
-                .get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-        if (!StrUtil.equals(codeObj, userDto.getCode())) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
+        String feignHeader = WebUtils.getRequest().getHeader(SecurityConstants.FROM);
+        // 外部注册校验短信验证码,对 AI 的内部注册跳过验证码处理
+        if (!SecurityConstants.FROM_IN.equals(feignHeader)){
+            if (StrUtil.isBlank(userDto.getCode())) {
+                return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
+            }
+            String codeObj = RedisUtils
+                    .get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
+            if (!StrUtil.equals(codeObj, userDto.getCode())) {
+                return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
+            }
         }
 
         // 判断用户名是否存在
