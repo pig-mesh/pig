@@ -38,9 +38,18 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
      */
     @Override
     public List<Tree<Long>> selectTree(SysAreaEntity sysArea) {
-        List<SysAreaEntity> entityList = baseMapper.selectList(Wrappers.lambdaQuery(sysArea)
-                .eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode())
-                .orderByDesc(SysAreaEntity::getAreaSort));
+        // 构建查询条件
+        LambdaQueryWrapper<SysAreaEntity> wrapper = Wrappers.lambdaQuery();
+
+        // 添加 areaType 过滤：小于等于指定级别
+        wrapper.le(StrUtil.isNotBlank(sysArea.getAreaType()), SysAreaEntity::getAreaType, sysArea.getAreaType());
+
+        // 保留原有条件
+        wrapper.eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode())
+                .orderByDesc(SysAreaEntity::getAreaSort);
+
+        // 执行查询
+        List<SysAreaEntity> entityList = baseMapper.selectList(wrapper);
 
         List<TreeNode<Long>> nodeList = CollUtil.newArrayList();
         for (SysAreaEntity sysAreaEntity : entityList) {
