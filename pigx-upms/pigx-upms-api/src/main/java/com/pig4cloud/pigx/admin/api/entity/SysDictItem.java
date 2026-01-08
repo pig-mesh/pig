@@ -79,6 +79,12 @@ public class SysDictItem extends Model<SysDictItem> {
 	private String description;
 
 	/**
+	 * 标签类型（primary, success, info, warning, danger）
+	 */
+	@Schema(description = "标签类型")
+	private String listClass;
+
+	/**
 	 * 排序（升序）
 	 */
 	@Schema(description = "排序值，默认升序")
