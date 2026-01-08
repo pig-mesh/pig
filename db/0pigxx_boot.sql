@@ -224,101 +224,101 @@ CREATE TABLE `sys_dict_item` (
 -- Records of sys_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict_item` VALUES (1, 1, '9', '异常', 'log_type', '日志异常', 1, ' ', ' ', '2019-03-19 11:08:59', '2019-03-25 12:49:13', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (2, 1, '0', '正常', 'log_type', '日志正常', 0, ' ', ' ', '2019-03-19 11:09:17', '2019-03-25 12:49:18', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (3, 2, 'WX', '微信', 'social_type', '微信登录', 0, ' ', ' ', '2019-03-19 11:10:02', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (4, 2, 'QQ', 'QQ', 'social_type', 'QQ登录', 1, ' ', ' ', '2019-03-19 11:10:14', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (5, 3, '1', 'java类', 'job_type', 'java类', 1, ' ', ' ', '2019-03-19 11:22:37', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (6, 3, '2', 'spring bean', 'job_type', 'spring bean容器实例', 2, ' ', ' ', '2019-03-19 11:23:05', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (7, 3, '9', '其他', 'job_type', '其他类型', 9, ' ', ' ', '2019-03-19 11:23:31', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (8, 3, '3', 'Rest 调用', 'job_type', 'Rest 调用', 3, ' ', ' ', '2019-03-19 11:23:57', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (9, 3, '4', 'jar', 'job_type', 'jar类型', 4, ' ', ' ', '2019-03-19 11:24:20', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (10, 4, '1', '未发布', 'job_status', '未发布', 1, ' ', ' ', '2019-03-19 11:25:18', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (11, 4, '2', '运行中', 'job_status', '运行中', 2, ' ', ' ', '2019-03-19 11:25:31', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (12, 4, '3', '暂停', 'job_status', '暂停', 3, ' ', ' ', '2019-03-19 11:25:42', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (13, 5, '0', '正常', 'job_execute_status', '正常', 0, ' ', ' ', '2019-03-19 11:26:27', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (14, 5, '1', '异常', 'job_execute_status', '异常', 1, ' ', ' ', '2019-03-19 11:26:41', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (15, 6, '1', '错失周期立即执行', 'misfire_policy', '错失周期立即执行', 1, ' ', ' ', '2019-03-19 11:27:45', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (16, 6, '2', '错失周期执行一次', 'misfire_policy', '错失周期执行一次', 2, ' ', ' ', '2019-03-19 11:27:57', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (17, 6, '3', '下周期执行', 'misfire_policy', '下周期执行', 3, ' ', ' ', '2019-03-19 11:28:08', '2019-03-25 12:49:36', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (18, 7, '1', '男', 'gender', '微信-男', 0, ' ', ' ', '2019-03-27 13:45:13', '2019-03-27 13:45:13', '微信-男', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (19, 7, '2', '女', 'gender', '女-微信', 1, ' ', ' ', '2019-03-27 13:45:34', '2019-03-27 13:45:34', '女-微信', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (20, 7, '0', '未知', 'gender', '性别未知', 3, ' ', ' ', '2019-03-27 13:45:57', '2019-03-27 13:45:57', '性别未知', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (21, 8, '0', '未关注', 'subscribe', '公众号-未关注', 0, ' ', ' ', '2019-03-27 13:49:07', '2019-03-27 13:49:07', '公众号-未关注', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (22, 8, '1', '已关注', 'subscribe', '公众号-已关注', 1, ' ', ' ', '2019-03-27 13:49:26', '2019-03-27 13:49:26', '公众号-已关注', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (23, 9, '0', '未回复', 'response_type', '微信消息-未回复', 0, ' ', ' ', '2019-03-28 21:29:47', '2019-03-28 21:29:47', '微信消息-未回复', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (24, 9, '1', '已回复', 'response_type', '微信消息-已回复', 1, ' ', ' ', '2019-03-28 21:30:08', '2019-03-28 21:30:08', '微信消息-已回复', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (25, 10, '1', '检索', 'param_type', '检索', 0, ' ', ' ', '2019-04-29 18:22:17', '2019-04-29 18:22:17', '检索', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (26, 10, '2', '原文', 'param_type', '原文', 0, ' ', ' ', '2019-04-29 18:22:27', '2019-04-29 18:22:27', '原文', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (27, 10, '3', '报表', 'param_type', '报表', 0, ' ', ' ', '2019-04-29 18:22:36', '2019-04-29 18:22:36', '报表', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (28, 10, '4', '安全', 'param_type', '安全', 0, ' ', ' ', '2019-04-29 18:22:46', '2019-04-29 18:22:46', '安全', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (29, 10, '5', '文档', 'param_type', '文档', 0, ' ', ' ', '2019-04-29 18:22:56', '2019-04-29 18:22:56', '文档', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (30, 10, '6', '消息', 'param_type', '消息', 0, ' ', ' ', '2019-04-29 18:23:05', '2019-04-29 18:23:05', '消息', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (31, 10, '9', '其他', 'param_type', '其他', 0, ' ', ' ', '2019-04-29 18:23:16', '2019-04-29 18:23:16', '其他', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (32, 10, '0', '默认', 'param_type', '默认', 0, ' ', ' ', '2019-04-29 18:23:30', '2019-04-29 18:23:30', '默认', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (33, 11, '0', '正常', 'status_type', '状态正常', 0, ' ', ' ', '2019-05-15 16:31:34', '2019-05-16 22:30:46', '状态正常', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (34, 11, '9', '冻结', 'status_type', '状态冻结', 1, ' ', ' ', '2019-05-15 16:31:56', '2019-05-16 22:30:50', '状态冻结', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (35, 12, '1', '系统类', 'dict_type', '系统类字典', 0, ' ', ' ', '2019-05-16 14:20:40', '2019-05-16 14:20:40', '不能修改删除', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (36, 12, '0', '业务类', 'dict_type', '业务类字典', 0, ' ', ' ', '2019-05-16 14:20:59', '2019-05-16 14:20:59', '可以修改', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (37, 2, 'GITEE', '码云', 'social_type', '码云', 2, ' ', ' ', '2019-06-28 09:59:12', '2019-06-28 09:59:12', '码云', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (38, 2, 'OSC', '开源中国', 'social_type', '开源中国登录', 2, ' ', ' ', '2019-06-28 10:04:32', '2019-06-28 10:04:32', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (39, 14, 'password', '密码模式', 'grant_types', '支持oauth密码模式', 0, ' ', ' ', '2019-08-13 07:35:28', '2019-08-13 07:35:28', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (40, 14, 'authorization_code', '授权码模式', 'grant_types', 'oauth2 授权码模式', 1, ' ', ' ', '2019-08-13 07:36:07', '2019-08-13 07:36:07', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (41, 14, 'client_credentials', '客户端模式', 'grant_types', 'oauth2 客户端模式', 2, ' ', ' ', '2019-08-13 07:36:30', '2019-08-13 07:36:30', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (42, 14, 'refresh_token', '刷新模式', 'grant_types', 'oauth2 刷新token', 3, ' ', ' ', '2019-08-13 07:36:54', '2019-08-13 07:36:54', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (43, 14, 'implicit', '简化模式', 'grant_types', 'oauth2 简化模式', 4, ' ', ' ', '2019-08-13 07:39:32', '2019-08-13 07:39:32', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (44, 15, '0', 'Avue', 'style_type', 'Avue风格', 0, ' ', ' ', '2020-02-07 03:52:52', '2020-02-07 03:52:52', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (45, 15, '1', 'element', 'style_type', 'element-ui', 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (46, 16, '0', '关', 'captcha_flag_types', '不校验验证码', 0, ' ', ' ', '2020-11-18 06:53:58', '2020-11-18 06:53:58', '不校验验证码 -0', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (47, 16, '1', '开', 'captcha_flag_types', '校验验证码', 1, ' ', ' ', '2020-11-18 06:54:15', '2020-11-18 06:54:15', '不校验验证码-1', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (48, 17, '0', '否', 'enc_flag_types', '不加密', 0, ' ', ' ', '2020-11-18 06:55:31', '2020-11-18 06:55:31', '不加密-0', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (49, 17, '1', '是', 'enc_flag_types', '加密', 1, ' ', ' ', '2020-11-18 06:55:51', '2020-11-18 06:55:51', '加密-1', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (50, 13, 'MERGE_PAY', '聚合支付', 'channel_type', '聚合支付', 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (51, 2, 'CAS', 'CAS登录', 'social_type', 'CAS 单点登录系统', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (52, 2, 'DINGTALK', '钉钉', 'social_type', '钉钉', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (53, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (54, 15, '2', 'APP', 'style_type', 'uview风格', 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (55, 13, 'ALIPAY_WAP', '支付宝支付', 'channel_type', '支付宝支付', 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (56, 13, 'WEIXIN_MP', '微信支付', 'channel_type', '微信支付', 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (57, 14, 'mobile', 'mobile', 'grant_types', '移动端登录', 5, 'admin', ' ', '2023-01-29 17:21:42', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (58, 18, '0', '有效', 'lock_flag', '有效', 0, 'admin', ' ', '2023-02-01 16:56:00', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (59, 18, '9', '禁用', 'lock_flag', '禁用', 1, 'admin', ' ', '2023-02-01 16:56:09', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (60, 15, '4', 'vue3', 'style_type', 'element-plus', 4, 'admin', ' ', '2023-02-06 13:52:43', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (61, 19, '0', '主机', 'ds_config_type', '主机', 0, 'admin', ' ', '2023-02-06 18:37:23', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (62, 19, '1', 'JDBC', 'ds_config_type', 'jdbc', 2, 'admin', ' ', '2023-02-06 18:37:34', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (63, 20, 'false', '否', 'common_status', '否', 1, 'admin', ' ', '2023-02-09 11:02:39', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (64, 20, 'true', '是', 'common_status', '是', 2, 'admin', ' ', '2023-02-09 11:02:52', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (65, 21, 'MINI', '小程序', 'app_social_type', '小程序登录', 0, 'admin', ' ', '2023-02-10 11:11:41', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (66, 22, '0', '否', 'yes_no_type', '0', 0, 'admin', ' ', '2023-02-20 23:35:23', NULL, '0', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (67, 22, '1', '是', 'yes_no_type', '1', 0, 'admin', ' ', '2023-02-20 23:35:37', NULL, '1', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (69, 23, 'text', '文本', 'repType', '文本', 0, 'admin', ' ', '2023-02-24 15:08:45', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (70, 23, 'image', '图片', 'repType', '图片', 0, 'admin', ' ', '2023-02-24 15:08:56', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (71, 23, 'voice', '语音', 'repType', '语音', 0, 'admin', ' ', '2023-02-24 15:09:08', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (72, 23, 'video', '视频', 'repType', '视频', 0, 'admin', ' ', '2023-02-24 15:09:18', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (73, 23, 'shortvideo', '小视频', 'repType', '小视频', 0, 'admin', ' ', '2023-02-24 15:09:29', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (74, 23, 'location', '地理位置', 'repType', '地理位置', 0, 'admin', ' ', '2023-02-24 15:09:41', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (75, 23, 'link', '链接消息', 'repType', '链接消息', 0, 'admin', ' ', '2023-02-24 15:09:49', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (76, 23, 'event', '事件推送', 'repType', '事件推送', 0, 'admin', ' ', '2023-02-24 15:09:57', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (77, 24, '0', '未提交', 'leave_status', '未提交', 0, 'admin', ' ', '2023-03-02 22:50:45', NULL, '未提交', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (78, 24, '1', '审批中', 'leave_status', '审批中', 0, 'admin', ' ', '2023-03-02 22:50:57', NULL, '审批中', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (79, 24, '2', '完成', 'leave_status', '完成', 0, 'admin', ' ', '2023-03-02 22:51:06', NULL, '完成', '0', 1);
-INSERT INTO `sys_dict_item` VALUES (80, 24, '9', '驳回', 'leave_status', '驳回', 0, 'admin', ' ', '2023-03-02 22:51:20', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (81, 25, 'record', '日程记录', 'schedule_type', '日程记录', 0, 'admin', ' ', '2023-03-06 14:50:01', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (82, 25, 'plan', '计划', 'schedule_type', '计划类型', 0, 'admin', ' ', '2023-03-06 14:50:29', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (83, 26, '0', '计划中', 'schedule_status', '日程状态', 0, 'admin', ' ', '2023-03-06 14:53:18', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (84, 26, '1', '已开始', 'schedule_status', '已开始', 0, 'admin', ' ', '2023-03-06 14:53:33', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (85, 26, '3', '已结束', 'schedule_status', '已结束', 0, 'admin', ' ', '2023-03-06 14:53:41', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (86, 27, 'mysql', 'mysql', 'ds_type', 'mysql', 0, 'admin', ' ', '2023-03-12 09:58:11', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (87, 27, 'pg', 'pg', 'ds_type', 'pg', 1, 'admin', ' ', '2023-03-12 09:58:20', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (88, 27, 'oracle', 'oracle', 'ds_type', 'oracle', 2, 'admin', ' ', '2023-03-12 09:58:29', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (89, 27, 'mssql', 'mssql', 'ds_type', 'mssql', 3, 'admin', ' ', '2023-03-12 09:58:42', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (90, 27, 'db2', 'db2', 'ds_type', 'db2', 4, 'admin', ' ', '2023-03-12 09:58:53', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (91, 27, 'dm', '达梦', 'ds_type', '达梦', 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (92, 27, 'highgo', '瀚高', 'ds_type', '瀚高数据库', 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (93, 28, '0', '公告', 'message_type', '主页公告显示', 0, 'admin', ' ', '2023-10-27 10:30:14', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (94, 28, '1', '站内信', 'message_type', '右上角显示', 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (95, 29, '0', '黑名单', 'sensitive_type', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (96, 29, '1', '白名单', 'sensitive_type', '失败', 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (1, 1, '9', '异常', 'log_type', '日志异常', NULL, 1, ' ', ' ', '2019-03-19 11:08:59', '2019-03-25 12:49:13', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (2, 1, '0', '正常', 'log_type', '日志正常', NULL, 0, ' ', ' ', '2019-03-19 11:09:17', '2019-03-25 12:49:18', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (3, 2, 'WX', '微信', 'social_type', '微信登录', NULL, 0, ' ', ' ', '2019-03-19 11:10:02', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (4, 2, 'QQ', 'QQ', 'social_type', 'QQ登录', NULL, 1, ' ', ' ', '2019-03-19 11:10:14', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (5, 3, '1', 'java类', 'job_type', 'java类', NULL, 1, ' ', ' ', '2019-03-19 11:22:37', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (6, 3, '2', 'spring bean', 'job_type', 'spring bean容器实例', NULL, 2, ' ', ' ', '2019-03-19 11:23:05', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (7, 3, '9', '其他', 'job_type', '其他类型', NULL, 9, ' ', ' ', '2019-03-19 11:23:31', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (8, 3, '3', 'Rest 调用', 'job_type', 'Rest 调用', NULL, 3, ' ', ' ', '2019-03-19 11:23:57', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (9, 3, '4', 'jar', 'job_type', 'jar类型', NULL, 4, ' ', ' ', '2019-03-19 11:24:20', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (10, 4, '1', '未发布', 'job_status', '未发布', NULL, 1, ' ', ' ', '2019-03-19 11:25:18', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (11, 4, '2', '运行中', 'job_status', '运行中', NULL, 2, ' ', ' ', '2019-03-19 11:25:31', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (12, 4, '3', '暂停', 'job_status', '暂停', NULL, 3, ' ', ' ', '2019-03-19 11:25:42', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (13, 5, '0', '正常', 'job_execute_status', '正常', NULL, 0, ' ', ' ', '2019-03-19 11:26:27', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (14, 5, '1', '异常', 'job_execute_status', '异常', NULL, 1, ' ', ' ', '2019-03-19 11:26:41', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (15, 6, '1', '错失周期立即执行', 'misfire_policy', '错失周期立即执行', NULL, 1, ' ', ' ', '2019-03-19 11:27:45', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (16, 6, '2', '错失周期执行一次', 'misfire_policy', '错失周期执行一次', NULL, 2, ' ', ' ', '2019-03-19 11:27:57', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (17, 6, '3', '下周期执行', 'misfire_policy', '下周期执行', NULL, 3, ' ', ' ', '2019-03-19 11:28:08', '2019-03-25 12:49:36', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (18, 7, '1', '男', 'gender', '微信-男', NULL, 0, ' ', ' ', '2019-03-27 13:45:13', '2019-03-27 13:45:13', '微信-男', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (19, 7, '2', '女', 'gender', '女-微信', NULL, 1, ' ', ' ', '2019-03-27 13:45:34', '2019-03-27 13:45:34', '女-微信', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (20, 7, '0', '未知', 'gender', '性别未知', NULL, 3, ' ', ' ', '2019-03-27 13:45:57', '2019-03-27 13:45:57', '性别未知', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (21, 8, '0', '未关注', 'subscribe', '公众号-未关注', NULL, 0, ' ', ' ', '2019-03-27 13:49:07', '2019-03-27 13:49:07', '公众号-未关注', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (22, 8, '1', '已关注', 'subscribe', '公众号-已关注', NULL, 1, ' ', ' ', '2019-03-27 13:49:26', '2019-03-27 13:49:26', '公众号-已关注', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (23, 9, '0', '未回复', 'response_type', '微信消息-未回复', NULL, 0, ' ', ' ', '2019-03-28 21:29:47', '2019-03-28 21:29:47', '微信消息-未回复', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (24, 9, '1', '已回复', 'response_type', '微信消息-已回复', NULL, 1, ' ', ' ', '2019-03-28 21:30:08', '2019-03-28 21:30:08', '微信消息-已回复', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (25, 10, '1', '检索', 'param_type', '检索', NULL, 0, ' ', ' ', '2019-04-29 18:22:17', '2019-04-29 18:22:17', '检索', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (26, 10, '2', '原文', 'param_type', '原文', NULL, 0, ' ', ' ', '2019-04-29 18:22:27', '2019-04-29 18:22:27', '原文', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (27, 10, '3', '报表', 'param_type', '报表', NULL, 0, ' ', ' ', '2019-04-29 18:22:36', '2019-04-29 18:22:36', '报表', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (28, 10, '4', '安全', 'param_type', '安全', NULL, 0, ' ', ' ', '2019-04-29 18:22:46', '2019-04-29 18:22:46', '安全', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (29, 10, '5', '文档', 'param_type', '文档', NULL, 0, ' ', ' ', '2019-04-29 18:22:56', '2019-04-29 18:22:56', '文档', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (30, 10, '6', '消息', 'param_type', '消息', NULL, 0, ' ', ' ', '2019-04-29 18:23:05', '2019-04-29 18:23:05', '消息', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (31, 10, '9', '其他', 'param_type', '其他', NULL, 0, ' ', ' ', '2019-04-29 18:23:16', '2019-04-29 18:23:16', '其他', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (32, 10, '0', '默认', 'param_type', '默认', NULL, 0, ' ', ' ', '2019-04-29 18:23:30', '2019-04-29 18:23:30', '默认', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (33, 11, '0', '正常', 'status_type', '状态正常', NULL, 0, ' ', ' ', '2019-05-15 16:31:34', '2019-05-16 22:30:46', '状态正常', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (34, 11, '9', '冻结', 'status_type', '状态冻结', NULL, 1, ' ', ' ', '2019-05-15 16:31:56', '2019-05-16 22:30:50', '状态冻结', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (35, 12, '1', '系统类', 'dict_type', '系统类字典', NULL, 0, ' ', ' ', '2019-05-16 14:20:40', '2019-05-16 14:20:40', '不能修改删除', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (36, 12, '0', '业务类', 'dict_type', '业务类字典', NULL, 0, ' ', ' ', '2019-05-16 14:20:59', '2019-05-16 14:20:59', '可以修改', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (37, 2, 'GITEE', '码云', 'social_type', '码云', NULL, 2, ' ', ' ', '2019-06-28 09:59:12', '2019-06-28 09:59:12', '码云', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (38, 2, 'OSC', '开源中国', 'social_type', '开源中国登录', NULL, 2, ' ', ' ', '2019-06-28 10:04:32', '2019-06-28 10:04:32', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (39, 14, 'password', '密码模式', 'grant_types', '支持oauth密码模式', NULL, 0, ' ', ' ', '2019-08-13 07:35:28', '2019-08-13 07:35:28', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (40, 14, 'authorization_code', '授权码模式', 'grant_types', 'oauth2 授权码模式', NULL, 1, ' ', ' ', '2019-08-13 07:36:07', '2019-08-13 07:36:07', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (41, 14, 'client_credentials', '客户端模式', 'grant_types', 'oauth2 客户端模式', NULL, 2, ' ', ' ', '2019-08-13 07:36:30', '2019-08-13 07:36:30', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (42, 14, 'refresh_token', '刷新模式', 'grant_types', 'oauth2 刷新token', NULL, 3, ' ', ' ', '2019-08-13 07:36:54', '2019-08-13 07:36:54', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (43, 14, 'implicit', '简化模式', 'grant_types', 'oauth2 简化模式', NULL, 4, ' ', ' ', '2019-08-13 07:39:32', '2019-08-13 07:39:32', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (44, 15, '0', 'Avue', 'style_type', 'Avue风格', NULL, 0, ' ', ' ', '2020-02-07 03:52:52', '2020-02-07 03:52:52', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (45, 15, '1', 'element', 'style_type', 'element-ui', NULL, 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (46, 16, '0', '关', 'captcha_flag_types', '不校验验证码', NULL, 0, ' ', ' ', '2020-11-18 06:53:58', '2020-11-18 06:53:58', '不校验验证码 -0', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (47, 16, '1', '开', 'captcha_flag_types', '校验验证码', NULL, 1, ' ', ' ', '2020-11-18 06:54:15', '2020-11-18 06:54:15', '不校验验证码-1', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (48, 17, '0', '否', 'enc_flag_types', '不加密', NULL, 0, ' ', ' ', '2020-11-18 06:55:31', '2020-11-18 06:55:31', '不加密-0', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (49, 17, '1', '是', 'enc_flag_types', '加密', NULL, 1, ' ', ' ', '2020-11-18 06:55:51', '2020-11-18 06:55:51', '加密-1', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (50, 13, 'MERGE_PAY', '聚合支付', 'channel_type', '聚合支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (51, 2, 'CAS', 'CAS登录', 'social_type', 'CAS 单点登录系统', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (52, 2, 'DINGTALK', '钉钉', 'social_type', '钉钉', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (53, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (54, 15, '2', 'APP', 'style_type', 'uview风格', NULL, 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (55, 13, 'ALIPAY_WAP', '支付宝支付', 'channel_type', '支付宝支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (56, 13, 'WEIXIN_MP', '微信支付', 'channel_type', '微信支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (57, 14, 'mobile', 'mobile', 'grant_types', '移动端登录', NULL, 5, 'admin', ' ', '2023-01-29 17:21:42', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (58, 18, '0', '有效', 'lock_flag', '有效', NULL, 0, 'admin', ' ', '2023-02-01 16:56:00', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (59, 18, '9', '禁用', 'lock_flag', '禁用', NULL, 1, 'admin', ' ', '2023-02-01 16:56:09', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (60, 15, '4', 'vue3', 'style_type', 'element-plus', NULL, 4, 'admin', ' ', '2023-02-06 13:52:43', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (61, 19, '0', '主机', 'ds_config_type', '主机', NULL, 0, 'admin', ' ', '2023-02-06 18:37:23', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (62, 19, '1', 'JDBC', 'ds_config_type', 'jdbc', NULL, 2, 'admin', ' ', '2023-02-06 18:37:34', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (63, 20, 'false', '否', 'common_status', '否', NULL, 1, 'admin', ' ', '2023-02-09 11:02:39', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (64, 20, 'true', '是', 'common_status', '是', NULL, 2, 'admin', ' ', '2023-02-09 11:02:52', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (65, 21, 'MINI', '小程序', 'app_social_type', '小程序登录', NULL, 0, 'admin', ' ', '2023-02-10 11:11:41', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (66, 22, '0', '否', 'yes_no_type', '0', NULL, 0, 'admin', ' ', '2023-02-20 23:35:23', NULL, '0', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (67, 22, '1', '是', 'yes_no_type', '1', NULL, 0, 'admin', ' ', '2023-02-20 23:35:37', NULL, '1', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (69, 23, 'text', '文本', 'repType', '文本', NULL, 0, 'admin', ' ', '2023-02-24 15:08:45', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (70, 23, 'image', '图片', 'repType', '图片', NULL, 0, 'admin', ' ', '2023-02-24 15:08:56', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (71, 23, 'voice', '语音', 'repType', '语音', NULL, 0, 'admin', ' ', '2023-02-24 15:09:08', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (72, 23, 'video', '视频', 'repType', '视频', NULL, 0, 'admin', ' ', '2023-02-24 15:09:18', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (73, 23, 'shortvideo', '小视频', 'repType', '小视频', NULL, 0, 'admin', ' ', '2023-02-24 15:09:29', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (74, 23, 'location', '地理位置', 'repType', '地理位置', NULL, 0, 'admin', ' ', '2023-02-24 15:09:41', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (75, 23, 'link', '链接消息', 'repType', '链接消息', NULL, 0, 'admin', ' ', '2023-02-24 15:09:49', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (76, 23, 'event', '事件推送', 'repType', '事件推送', NULL, 0, 'admin', ' ', '2023-02-24 15:09:57', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (77, 24, '0', '未提交', 'leave_status', '未提交', NULL, 0, 'admin', ' ', '2023-03-02 22:50:45', NULL, '未提交', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (78, 24, '1', '审批中', 'leave_status', '审批中', NULL, 0, 'admin', ' ', '2023-03-02 22:50:57', NULL, '审批中', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (79, 24, '2', '完成', 'leave_status', '完成', NULL, 0, 'admin', ' ', '2023-03-02 22:51:06', NULL, '完成', '0', 1);
+INSERT INTO `sys_dict_item` VALUES (80, 24, '9', '驳回', 'leave_status', '驳回', NULL, 0, 'admin', ' ', '2023-03-02 22:51:20', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (81, 25, 'record', '日程记录', 'schedule_type', '日程记录', NULL, 0, 'admin', ' ', '2023-03-06 14:50:01', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (82, 25, 'plan', '计划', 'schedule_type', '计划类型', NULL, 0, 'admin', ' ', '2023-03-06 14:50:29', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (83, 26, '0', '计划中', 'schedule_status', '日程状态', NULL, 0, 'admin', ' ', '2023-03-06 14:53:18', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (84, 26, '1', '已开始', 'schedule_status', '已开始', NULL, 0, 'admin', ' ', '2023-03-06 14:53:33', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (85, 26, '3', '已结束', 'schedule_status', '已结束', NULL, 0, 'admin', ' ', '2023-03-06 14:53:41', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (86, 27, 'mysql', 'mysql', 'ds_type', 'mysql', NULL, 0, 'admin', ' ', '2023-03-12 09:58:11', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (87, 27, 'pg', 'pg', 'ds_type', 'pg', NULL, 1, 'admin', ' ', '2023-03-12 09:58:20', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (88, 27, 'oracle', 'oracle', 'ds_type', 'oracle', NULL, 2, 'admin', ' ', '2023-03-12 09:58:29', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (89, 27, 'mssql', 'mssql', 'ds_type', 'mssql', NULL, 3, 'admin', ' ', '2023-03-12 09:58:42', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (90, 27, 'db2', 'db2', 'ds_type', 'db2', NULL, 4, 'admin', ' ', '2023-03-12 09:58:53', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (91, 27, 'dm', '达梦', 'ds_type', '达梦', NULL, 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (92, 27, 'highgo', '瀚高', 'ds_type', '瀚高数据库', NULL, 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (93, 28, '0', '公告', 'message_type', '主页公告显示', NULL, 0, 'admin', ' ', '2023-10-27 10:30:14', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (94, 28, '1', '站内信', 'message_type', '右上角显示', NULL, 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (95, 29, '0', '黑名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (96, 29, '1', '白名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -510,7 +510,7 @@ DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单名称',
-  `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限标识',
+  `permission` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限标识',
   `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路由路径',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组件',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父菜单ID',
@@ -784,6 +784,12 @@ INSERT INTO `sys_menu` VALUES (9911,'路由管理',NULL,'/tools/route/index',NUL
 INSERT INTO `sys_menu` VALUES (9912,'大屏看板',NULL,'/tools/data/report',NULL,9910,'iconfont icon-shuju','1',5,'0','0','0','admin','2023-11-01 17:19:38','admin','2023-11-27 14:53:38','0',1);
 INSERT INTO `sys_menu` VALUES (9913,'数据报表',NULL,'/tools/data/jimu',NULL,9910,'iconfont icon-shujubaobiao','1',6,'0','0','0','admin','2023-11-01 17:20:06','admin','2023-11-27 14:53:43','0',1);
 INSERT INTO `sys_menu` VALUES (9914,'路由配置','sys_route_manage',NULL,NULL,9911,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9915,'AI 数据源',NULL,'/admin/aiDatasource/index',NULL,9000,'iconfont icon-shujuyuan','1',4,'0',NULL,'0','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
+INSERT INTO `sys_menu` VALUES (9916,'查看','knowledge_aiDatasource_view',NULL,NULL,9915,NULL,'1',0,'0',NULL,'1','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
+INSERT INTO `sys_menu` VALUES (9917,'新增','knowledge_aiDatasource_add',NULL,NULL,9915,NULL,'1',1,'0',NULL,'1','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
+INSERT INTO `sys_menu` VALUES (9918,'编辑','knowledge_aiDatasource_edit',NULL,NULL,9915,NULL,'1',2,'0',NULL,'1','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
+INSERT INTO `sys_menu` VALUES (9919,'删除','knowledge_aiDatasource_del',NULL,NULL,9915,NULL,'1',3,'0',NULL,'1','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
+INSERT INTO `sys_menu` VALUES (9920,'导入导出','knowledge_aiDatasource_export',NULL,NULL,9915,NULL,'1',4,'0',NULL,'1','admin','2025-04-10 10:30:00','admin','2025-04-10 10:30:00','0',1);
 COMMIT;
 
 -- ----------------------------
@@ -1183,6 +1189,12 @@ INSERT INTO `sys_role_menu` VALUES (1, 9911);
 INSERT INTO `sys_role_menu` VALUES (1, 9912);
 INSERT INTO `sys_role_menu` VALUES (1, 9913);
 INSERT INTO `sys_role_menu` VALUES (1, 9914);
+INSERT INTO `sys_role_menu` VALUES (1, 9915);
+INSERT INTO `sys_role_menu` VALUES (1, 9916);
+INSERT INTO `sys_role_menu` VALUES (1, 9917);
+INSERT INTO `sys_role_menu` VALUES (1, 9918);
+INSERT INTO `sys_role_menu` VALUES (1, 9919);
+INSERT INTO `sys_role_menu` VALUES (1, 9920);
 COMMIT;
 
 -- ----------------------------
@@ -1508,33 +1520,9 @@ CREATE TABLE `process` (
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `idx_form_id` (`flow_id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `process_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程定义数据';
 
--- ----------------------------
--- Table structure for bmp_oa_leave
--- ----------------------------
-DROP TABLE IF EXISTS `bmp_oa_leave`;
-CREATE TABLE `bmp_oa_leave` (
-  `id` bigint NOT NULL COMMENT '请假表单主键',
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '申请人',
-  `leave_type` int NOT NULL COMMENT '请假类型',
-  `leave_reason` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '请假原因',
-  `start_time` datetime NOT NULL COMMENT '开始时间',
-  `end_time` datetime NOT NULL COMMENT '结束时间',
-  `leave_day` int NOT NULL COMMENT '请假天数',
-  `leave_status` int DEFAULT NULL COMMENT '请假结果',
-  `process_instance_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '流程实例的编号',
-  `create_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '创建者',
-  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
-  `update_by` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT '' COMMENT '更新者',
-  `update_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
-  `del_flag` char(1) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='请假表单';
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
 -- Table structure for process_copy
@@ -1559,7 +1547,7 @@ CREATE TABLE `process_copy` (
   `user_id` bigint NOT NULL COMMENT '抄送人id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `copy_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程抄送数据';
 
 
@@ -1576,7 +1564,7 @@ CREATE TABLE `process_group` (
   `sort` int NOT NULL DEFAULT '0' COMMENT '排序',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `group_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程分组';
 
 
@@ -1604,8 +1592,8 @@ CREATE TABLE `process_instance_record` (
   `parent_process_instance_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '上级流程实例id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE,
-  KEY `idx_dep_id` (`user_id`) USING BTREE
+  KEY `record_idx_id` (`id`) USING BTREE,
+  KEY `record_idx_dep_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=366 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程记录';
 
 
@@ -1623,7 +1611,7 @@ CREATE TABLE `process_node_data` (
   `node_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `data_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点数据';
 
 
@@ -1648,7 +1636,7 @@ CREATE TABLE `process_node_record` (
   `execution_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '执行id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `node_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1435 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点记录';
 
 
@@ -1677,8 +1665,26 @@ CREATE TABLE `process_node_record_assign_user` (
   `local_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '表单本地数据',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `user_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点记录-执行人';
+
+
+-- ----------------------------
+-- Table structure for process_starter
+-- ----------------------------
+DROP TABLE IF EXISTS `process_starter`;
+CREATE TABLE `process_starter` (
+  `id` bigint NOT NULL COMMENT '用户id',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
+  `create_time` datetime COMMENT '创建时间',
+  `update_time` datetime COMMENT '更新时间',
+  `type_id` bigint NOT NULL COMMENT '用户id或者部门id',
+  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 类型 user dept',
+  `process_id` bigint NOT NULL COMMENT '流程id',
+  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `starter_idx_id` (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程发起人';
 
 -- ----------------------------
 -- Table structure for bmp_oa_leave
@@ -1702,28 +1708,6 @@ CREATE TABLE `bmp_oa_leave` (
   `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='请假表单';
-
--- ----------------------------
--- Table structure for process_starter
--- ----------------------------
-DROP TABLE IF EXISTS `process_starter`;
-CREATE TABLE `process_starter` (
-  `id` bigint NOT NULL COMMENT '用户id',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime COMMENT '创建时间',
-  `update_time` datetime COMMENT '更新时间',
-  `type_id` bigint NOT NULL COMMENT '用户id或者部门id',
-  `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT ' 类型 user dept',
-  `process_id` bigint NOT NULL COMMENT '流程id',
-  `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程发起人';
-
-SET FOREIGN_KEY_CHECKS = 1;
-
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
 -- Table structure for qrtz_blob_triggers
@@ -2560,7 +2544,7 @@ CREATE TABLE `gen_table` (
   `baseclass_id` bigint DEFAULT NULL COMMENT '基类ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `table_name` (`table_name`,`ds_name`) USING BTREE
+  UNIQUE KEY `table_name_idx` (`table_name`,`ds_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='代码生成表';
 
 -- ----------------------------
@@ -2885,7 +2869,7 @@ CREATE TABLE `app_role` (
   `tenant_id` bigint(20) DEFAULT NULL,
   `menu_id` varchar(20) NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`) USING BTREE,
-  KEY `role_idx1_role_code` (`role_code`) USING BTREE
+  KEY `app_role_code_index` (`role_code`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='app角色表';
 
 -- ----------------------------
@@ -2973,3 +2957,1306 @@ BEGIN;
 INSERT INTO `app_user_role` VALUES (1, 1);
 COMMIT;
 
+INSERT INTO `sys_menu` VALUES (9700,'AI大模型',NULL,'/knowledge',NULL,-1,'iconfont icon-zhishi','1',5,'0','0','0','admin','2024-03-14 13:48:31','admin','2025-03-28 12:39:07','0',1);
+INSERT INTO `sys_menu` VALUES (9710,'文档管理','','/knowledge/aiDocument/index',NULL,9822,'iconfont icon-wendangguanli','1',4,'0','0','0','',NULL,'admin','2025-03-28 12:54:18','0',1);
+INSERT INTO `sys_menu` VALUES (9711,'知识文档查看','knowledge_aiDocument_view',NULL,NULL,9710,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9712,'知识文档新增','knowledge_aiDocument_add',NULL,NULL,9710,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9713,'知识文档修改','knowledge_aiDocument_edit',NULL,NULL,9710,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9714,'知识文档删除','knowledge_aiDocument_del',NULL,NULL,9710,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9715,'导入导出','knowledge_aiDocument_export',NULL,NULL,9710,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9720,'AI 知识库','','/knowledge/aiDataset/index',NULL,9822,'iconfont icon-zhishiku','1',3,'0','0','0','',NULL,'admin','2025-03-28 12:54:07','0',1);
+INSERT INTO `sys_menu` VALUES (9721,'知识库查看','knowledge_aiDataset_view',NULL,NULL,9720,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9722,'知识库新增','knowledge_aiDataset_add',NULL,NULL,9720,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9723,'知识库修改','knowledge_aiDataset_edit',NULL,NULL,9720,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9724,'知识库删除','knowledge_aiDataset_del',NULL,NULL,9720,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9725,'导入导出','knowledge_aiDataset_export',NULL,NULL,9720,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9730,'切片管理','','/knowledge/aiSlice/index',NULL,9822,'iconfont icon-qiepianguanli','1',5,'0','0','0','',NULL,'admin','2025-03-28 12:54:34','0',1);
+INSERT INTO `sys_menu` VALUES (9731,'知识切片查看','knowledge_aiSlice_view',NULL,NULL,9730,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9732,'知识切片新增','knowledge_aiSlice_add',NULL,NULL,9730,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9733,'知识切片修改','knowledge_aiSlice_edit',NULL,NULL,9730,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9734,'知识切片删除','knowledge_aiSlice_del',NULL,NULL,9730,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9735,'导入导出','knowledge_aiSlice_export',NULL,NULL,9730,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9740,'提示词管理','','/knowledge/aiPromptTemplate/index',NULL,9818,'iconfont icon-tishici','1',6,'0','0','0','',NULL,'admin','2025-03-28 12:49:51','0',1);
+INSERT INTO `sys_menu` VALUES (9741,'提示词查看','knowledge_aiPrompt_view',NULL,NULL,9740,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9742,'提示词新增','knowledge_aiPrompt_add',NULL,NULL,9740,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9743,'提示词修改','knowledge_aiPrompt_edit',NULL,NULL,9740,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9744,'提示词删除','knowledge_aiPrompt_del',NULL,NULL,9740,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9745,'导入导出','knowledge_aiPrompt_export',NULL,NULL,9740,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9750,'账单管理','','/knowledge/aiBill/index',NULL,9818,'iconfont icon-zhangdanguanli','1',0,'0','0','0','',NULL,'admin','2025-03-28 12:48:56','0',1);
+INSERT INTO `sys_menu` VALUES (9751,'账单查看','knowledge_aiBill_view',NULL,NULL,9750,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9752,'账单新增','knowledge_aiBill_add',NULL,NULL,9750,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9753,'账单修改','knowledge_aiBill_edit',NULL,NULL,9750,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9754,'账单删除','knowledge_aiBill_del',NULL,NULL,9750,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9755,'导入导出','knowledge_aiBill_export',NULL,NULL,9750,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9760,'AI 助手',NULL,'/knowledge/aiChat/index',NULL,9700,'iconfont icon-aizhushou','1',0,'0','0','0','admin','2024-03-20 14:51:13','admin','2025-03-28 13:00:16','0',1);
+INSERT INTO `sys_menu` VALUES (9770,'数据标注','','/knowledge/aiChatRecord/index',NULL,9818,'iconfont icon-shujuzhongxin-shujubiaozhu','1',7,'0','0','0','',NULL,'admin','2025-03-28 12:49:59','0',1);
+INSERT INTO `sys_menu` VALUES (9771,'查看','knowledge_aiChatRecord_view',NULL,NULL,9770,'1','1',0,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9772,'新增','knowledge_aiChatRecord_add',NULL,NULL,9770,'1','1',1,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9773,'修改','knowledge_aiChatRecord_edit',NULL,NULL,9770,'1','1',2,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9774,'删除','knowledge_aiChatRecord_del',NULL,NULL,9770,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9775,'导入导出','knowledge_aiChatRecord_export',NULL,NULL,9770,'1','1',3,'0','0','1',' ',NULL,' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9776,'OCR配置页面',NULL,'/knowledge/ocr/KonvaPage',NULL,9819,'iconfont icon-yunxiazai_o','0',999,'0','0','0','admin','2024-09-09 17:28:01','admin','2025-03-28 12:51:38','0',1);
+INSERT INTO `sys_menu` VALUES (9777,'AI 慧眼',NULL,'/knowledge/ocr/index',NULL,9819,'iconfont icon-OCRshibie','1',999,'0','0','0','admin','2024-09-10 00:49:09','admin','2025-03-28 12:51:46','0',1);
+INSERT INTO `sys_menu` VALUES (9778,'查看','knowledge_ocr_view',NULL,NULL,9777,NULL,'1',1,'0','0','1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9779,'新增','knowledge_ocr_add',NULL,NULL,9777,NULL,'1',1,'0','0','1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9780,'编辑','knowledge_ocr_edit',NULL,NULL,9777,NULL,'1',1,'0','0','1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9781,'删除','knowledge_ocr_del',NULL,NULL,9777,NULL,'1',1,'0','0','1','admin','2024-09-10 00:49:09',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9782,'模型配置',NULL,'/knowledge/aiModel/index',NULL,9818,'iconfont icon-zhuantikumoxingpeizhi','1',1,'0','0','0','admin','2024-09-27 23:37:54','admin','2025-03-28 12:49:07','0',1);
+INSERT INTO `sys_menu` VALUES (9783,'查看','knowledge_aiModel_view',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9784,'新增','knowledge_aiModel_add',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9785,'编辑','knowledge_aiModel_edit',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9786,'删除','knowledge_aiModel_del',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9787,'导入导出','knowledge_aiModel_export',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9788,'向量配置',NULL,'/knowledge/aiEmbedStore/index',NULL,9818,'iconfont icon-xiangliang','1',2,'0','0','0','admin','2024-09-27 23:37:54','admin','2025-03-28 12:49:37','0',1);
+INSERT INTO `sys_menu` VALUES (9789,'查看','knowledge_aiEmbedStore_view',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9790,'新增','knowledge_aiEmbedStore_add',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9791,'编辑','knowledge_aiEmbedStore_edit',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9792,'删除','knowledge_aiEmbedStore_del',NULL,NULL,9782,NULL,'1',1,'0','0','1','admin','2024-09-27 23:37:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9793,'AI 智能体',NULL,'/knowledge/aiFlow/index',NULL,9700,'iconfont icon-tenant','1',999,'0','0','0','admin','2025-03-02 17:59:12','admin','2025-03-28 12:59:24','0',1);
+INSERT INTO `sys_menu` VALUES (9794,'查看','knowledge_aiFlow_view',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:32','admin','2025-03-03 10:58:48','0',1);
+INSERT INTO `sys_menu` VALUES (9795,'新增','knowledge_aiFlow_add',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:43',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9796,'编辑','knowledge_aiFlow_edit',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:49:54',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9797,'删除','knowledge_aiFlow_del',NULL,NULL,9793,NULL,'1',0,'0','0','1','admin','2025-03-03 10:50:08',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9800,'AI MCP',NULL,'/knowledge/aiMcpConfig/index',NULL,9700,'iconfont icon-mcp','1',3,'0','0','0','admin','2025-03-22 13:36:32','admin','2025-03-31 10:41:22','0',1);
+INSERT INTO `sys_menu` VALUES (9801,'查看','knowledge_aiMcpConfig_view',NULL,NULL,9800,NULL,'1',1,'0','0','1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9802,'新增','knowledge_aiMcpConfig_add',NULL,NULL,9800,NULL,'1',1,'0','0','1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9803,'编辑','knowledge_aiMcpConfig_edit',NULL,NULL,9800,NULL,'1',1,'0','0','1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9804,'删除','knowledge_aiMcpConfig_del',NULL,NULL,9800,NULL,'1',1,'0','0','1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9805,'导入导出','knowledge_aiMcpConfig_export',NULL,NULL,9800,NULL,'1',1,'0','0','1','admin','2025-03-22 13:36:32',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9806,'AI 数据集',NULL,'/knowledge/aiData/index',NULL,9820,'iconfont icon-chanliangfenxi','1',3,'0','0','0','admin','2025-03-26 21:47:46','admin','2025-03-28 13:25:26','0',1);
+INSERT INTO `sys_menu` VALUES (9807,'查看','knowledge_aiData_view',NULL,NULL,9806,NULL,'1',1,'0','0','1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9808,'新增','knowledge_aiData_add',NULL,NULL,9806,NULL,'1',1,'0','0','1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9809,'编辑','knowledge_aiData_edit',NULL,NULL,9806,NULL,'1',1,'0','0','1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9810,'删除','knowledge_aiData_del',NULL,NULL,9806,NULL,'1',1,'0','0','1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9811,'导入导出','knowledge_aiData_export',NULL,NULL,9806,NULL,'1',1,'0','0','1','admin','2025-03-26 21:47:46',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9812,'AI 数据表',NULL,'/knowledge/aiDataTable/index',NULL,9820,'iconfont icon-SQLshujuji','1',2,'0','0','0','admin','2025-03-26 21:48:16','admin','2025-03-28 13:17:59','0',1);
+INSERT INTO `sys_menu` VALUES (9813,'查看','knowledge_aiDataTable_view',NULL,NULL,9812,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9814,'新增','knowledge_aiDataTable_add',NULL,NULL,9812,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9815,'编辑','knowledge_aiDataTable_edit',NULL,NULL,9812,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9816,'删除','knowledge_aiDataTable_del',NULL,NULL,9812,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9817,'导入导出','knowledge_aiDataTable_export',NULL,NULL,9812,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9818,'AI 配置',NULL,'/knowledge/config',NULL,9700,'iconfont icon-UI-AIpeizhi','1',1,'0','0','0','admin','2025-03-28 12:40:21','admin','2025-03-28 13:09:04','0',1);
+INSERT INTO `sys_menu` VALUES (9819,'AI 视觉',NULL,'/knowledge/vision',NULL,9700,'iconfont icon-Television','1',5,'0','0','0','admin','2025-03-28 12:41:54','admin','2025-03-28 13:09:31','0',1);
+INSERT INTO `sys_menu` VALUES (9820,'AI 问数',NULL,'/knowledge/data',NULL,9700,'iconfont icon-tubiao','1',3,'0','0','0','admin','2025-03-28 12:43:11','admin','2025-03-28 13:14:04','0',1);
+INSERT INTO `sys_menu` VALUES (9821,'AI 联动',NULL,'/knowledge/aiChat/base/-6','/knowledge/aiChat/base',9700,'iconfont icon-liandong','1',4,'0','0','0','admin','2025-03-28 12:43:49','admin','2025-03-29 09:55:21','0',1);
+INSERT INTO `sys_menu` VALUES (9822,'AI 问答',NULL,'/knowledge/rag',NULL,9700,'iconfont icon-icon_icon_tiwen_s','1',2,'0','0','0','admin','2025-03-28 12:53:51','admin','2025-03-28 13:17:36','0',1);
+INSERT INTO `sys_menu` VALUES (9824,'AI 智绘',NULL,'/knowledge/aiChat/image',NULL,9819,'iconfont icon-tupian','1',0,'0','0','0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9825,'AI 思图',NULL,'/knowledge/aiChat/base/-4','/knowledge/aiChat/base',9819,'iconfont icon-chanliangfenxi','1',1,'0','0','0','admin','2025-03-29 09:44:12','admin','2025-03-29 09:46:22','0',1);
+INSERT INTO `sys_menu` VALUES (9826,'AI 海报',NULL,'/knowledge/aiPoster/index',NULL,9819,'iconfont icon-haibao-1','1',1,'0','0','0','admin','2025-03-29 09:44:12','admin','2025-03-29 09:46:22','0',1);
+INSERT INTO `sys_menu` VALUES (9827,'AI 视频',NULL,'/knowledge/aiChat/video',NULL,9819,'iconfont icon-shipinbofang','1',0,'0','0','0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9828,'AI 音频',NULL,'/knowledge/aiChat/voice',NULL,9819,'iconfont icon-yinpin','1',0,'0','0','0','admin','2025-03-28 12:58:40','admin','2025-03-28 13:12:13','0',1);
+INSERT INTO `sys_menu` VALUES (9829,'AI 报告配置',NULL,'/knowledge/aiReport/KonvaPage',NULL,9700,'iconfont icon-yunxiazai_o','0',4,'0','0','0','admin','2024-09-09 17:28:01','admin','2025-03-28 12:51:38','0',1);
+INSERT INTO `sys_menu` VALUES (9830,'AI 报告',NULL,'/knowledge/aiReport/index',NULL,9700,'iconfont icon-xitongrizhi','1',4,'0','0','0','admin','2025-03-28 12:41:54','admin','2025-03-28 13:09:31','0',1);
+INSERT INTO `sys_menu` VALUES (9831,'查看','knowledge_aiReportConf_view',NULL,NULL,9830,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9832,'新增','knowledge_aiReportConf_add',NULL,NULL,9830,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9833,'编辑','knowledge_aiReportConf_edit',NULL,NULL,9830,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9834,'删除','knowledge_aiReportConf_del',NULL,NULL,9830,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9835,'导入导出','knowledge_aiReportConf_export',NULL,NULL,9830,NULL,'1',1,'0','0','1','admin','2025-03-26 21:48:16',' ',NULL,'0',1);
+INSERT INTO `sys_menu` VALUES (9836, 'AI 公文', null, '/knowledge/aiWritter/templates', null, 9700, 'fa fa-pencil', '1', 4,'0', '0', '0', 'admin', '2025-08-23 10:30:51', 'admin', '2025-08-23 23:10:18', '0', 1);
+INSERT INTO `sys_menu` VALUES (9837, '新增', 'aiDocumentTemplate_add', null, null, 9836, null, '1', 1,'0', '0', '1', 'admin', '2025-08-22 15:30:39', 'admin', '2025-08-22 15:48:32', '0', 1);
+INSERT INTO `sys_menu` VALUES (9838, '删除', 'aiDocumentTemplate_del', null, null, 9836, null, '1', 1,'0', '0', '1', 'admin', '2025-08-22 15:30:39', 'admin', '2025-08-22 15:48:27', '0', 1);
+INSERT INTO `sys_menu` VALUES (9839, '查看', 'aiDocumentTemplate_view', null, null, 9836, null, '1', 0,'0', '0', '1', 'admin', '2025-08-22 15:36:13', 'admin', '2025-08-22 15:48:11', '0', 1);
+INSERT INTO `sys_menu` VALUES (9840, '编辑', 'aiDocumentTemplate_edit', null, null, 9836, null, '1', 0,'0', '0', '1', 'admin', '2025-08-22 15:36:28', 'admin', '2025-08-22 15:48:22', '0', 1);
+INSERT INTO `sys_menu` VALUES (9841, '安全检测', null, '/knowledge/aiSecurity/index', null, 9819, 'iconfont icon-anquanjiance', '1', 998,'0', '0', '0', 'admin', '2025-08-23 10:30:51', 'admin', '2025-08-23 23:10:18', '0', 1);
+INSERT INTO `sys_menu` VALUES (9842, 'AI 数据源', null, '/knowledge/aiDatasource/index', null, 9820, 'iconfont icon-peizhishujuyuan1', '1', 1,'0', '0', '0', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9843, '查看', 'knowledge_aiDatasource_view', null, null, 9842, null, '1', 0,'0', '0', '1', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9844, '新增', 'knowledge_aiDatasource_add', null, null, 9842, null, '1', 1,'0', '0', '1', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9845, '编辑', 'knowledge_aiDatasource_edit', null, null, 9842, null, '1', 2,'0', '0', '1', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9846, '删除', 'knowledge_aiDatasource_del', null, null, 9842, null, '1', 3,'0', '0', '1', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9847, '导入导出', 'knowledge_aiDatasource_export', null, null, 9842, null, '1', 4,'0', '0','1', 'admin', '2025-04-10 10:30:00', 'admin', '2025-04-10 10:30:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9848,'数据统计','','/knowledge/aiChatRecord/dashboard/index',NULL,9818,'iconfont icon-anquanjiance','1',7,'0','0','0','admin','2025-04-10 10:30:00','admin','2025-03-28 12:49:59','0',1);
+
+-- ----------------------------
+-- AI 存储管理菜单
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES (9850, 'AI 存储', null, '/knowledge/aiStorage/index', null, 9700, 'iconfont icon-yunpan', '1', 6,'0', '0', '0', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+
+-- 文件管理菜单及权限
+INSERT INTO `sys_menu` VALUES (9852, '文件查看', 'knowledge_aiStorageFile_view', null, null, 9850, null, '1', 0,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9853, '文件新增', 'knowledge_aiStorageFile_add', null, null, 9850, null, '1', 1,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9854, '文件编辑', 'knowledge_aiStorageFile_edit', null, null, 9850, null, '1', 2,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9855, '文件删除', 'knowledge_aiStorageFile_del', null, null, 9850, null, '1', 3,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+
+INSERT INTO `sys_menu` VALUES (9861, '分组查看', 'knowledge_aiStorageGroup_view', null, null, 9850, null, '1', 0,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9862, '分组新增', 'knowledge_aiStorageGroup_add', null, null, 9850, null, '1', 1,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9863, '分组编辑', 'knowledge_aiStorageGroup_edit', null, null, 9850, null, '1', 2,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9864, '分组删除', 'knowledge_aiStorageGroup_del', null, null, 9850, null, '1', 3,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+
+INSERT INTO `sys_menu` VALUES (9871, '标签查看', 'knowledge_aiStorageTag_view', null, null, 9850, null, '1', 0,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9872, '标签新增', 'knowledge_aiStorageTag_add', null, null, 9850, null, '1', 1,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9873, '标签编辑', 'knowledge_aiStorageTag_edit', null, null, 9850, null, '1', 2,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9874, '标签删除', 'knowledge_aiStorageTag_del', null, null, 9850, null, '1', 3,'0', '0', '1', 'admin', '2025-10-09 10:00:00', 'admin', '2025-10-09 10:00:00', '0', 1);
+
+-- ----------------------------
+-- AI 术语管理菜单
+-- ----------------------------
+INSERT INTO `sys_menu` VALUES (9880, 'AI 术语', null, '/knowledge/aiTerminology/index', null, 9820, 'iconfont icon-huashuku', '1', 4,'0', '0', '0', 'admin', '2025-10-09 12:00:00', 'admin', '2025-10-09 12:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9881, '术语查看', 'knowledge_aiTerminology_view', null, null, 9880, null, '1', 0,'0', '0', '1', 'admin', '2025-10-09 12:00:00', 'admin', '2025-10-09 12:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9882, '术语新增', 'knowledge_aiTerminology_add', null, null, 9880, null, '1', 1,'0', '0', '1', 'admin', '2025-10-09 12:00:00', 'admin', '2025-10-09 12:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9883, '术语编辑', 'knowledge_aiTerminology_edit', null, null, 9880, null, '1', 2,'0', '0', '1', 'admin', '2025-10-09 12:00:00', 'admin', '2025-10-09 12:00:00', '0', 1);
+INSERT INTO `sys_menu` VALUES (9884, '术语删除', 'knowledge_aiTerminology_del', null, null, 9880, null, '1', 3,'0', '0', '1', 'admin', '2025-10-09 12:00:00', 'admin', '2025-10-09 12:00:00', '0', 1);
+
+-- AI 审校菜单及权限
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19800, 'AI 审校', NULL, '/knowledge/aiProofreading/', NULL, -1, 'iconfont icon-ico_yuyueguanli_jiedaiyuyue', '1', 6, '0', '0', '0', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19810, '文档审校', NULL, '/knowledge/aiProofreading/index', NULL, 19800, 'iconfont icon-xitongrizhi', '1', 0, '0', '0', '0', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19820, '审校历史', NULL, '/knowledge/aiProofreading/history', NULL, 19800, 'iconfont icon-ico_yuyueguanli_jiedaiyuyue', '1', 1, '0', '0', '0', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19821, '审校历史查看', 'knowledge_proofreadJob_view', NULL, NULL, 19820, NULL, '1', 0, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19822, '审校历史新增', 'knowledge_proofreadJob_add', NULL, NULL, 19820, NULL, '1', 1, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19823, '审校历史修改', 'knowledge_proofreadJob_edit', NULL, NULL, 19820, NULL, '1', 2, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19824, '审校历史删除', 'knowledge_proofreadJob_del', NULL, NULL, 19820, NULL, '1', 3, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19825, '审校历史导出', 'knowledge_proofreadJob_export', NULL, NULL, 19820, NULL, '1', 4, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19830, '审校词库', NULL, '/knowledge/aiProofreading/customDict', NULL, 19800, 'iconfont icon-cidian', '1', 2, '0', '0', '0', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19840, '校对规则', NULL, '/knowledge/aiProofreading/dimension/index', NULL, 19800, 'iconfont icon-yunpan', '1', 3, '0', NULL, '0', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19841, '校对维度查看', 'knowledge_dimension_view', NULL, NULL, 19840, NULL, '1', 0, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19842, '校对维度新增', 'knowledge_dimension_add', NULL, NULL, 19840, NULL, '1', 1, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19843, '校对维度修改', 'knowledge_dimension_edit', NULL, NULL, 19840, NULL, '1', 2, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19844, '校对维度删除', 'knowledge_dimension_del', NULL, NULL, 19840, NULL, '1', 3, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19845, '校对维度导出', 'knowledge_dimension_export', NULL, NULL, 19840, NULL, '1', 4, '0', NULL, '1', '0', 1);
+INSERT INTO `sys_menu` (`menu_id`, `name`, `permission`, `path`, `component`, `parent_id`, `icon`, `visible`, `sort_order`, `keep_alive`, `embedded`, `menu_type`, `del_flag`, `tenant_id`) VALUES (19846, '校对维度导入', 'knowledge_dimension_import', NULL, NULL, 19840, NULL, '1', 5, '0', NULL, '1', '0', 1);
+
+INSERT INTO `sys_role_menu` VALUES (1, 9700);
+INSERT INTO `sys_role_menu` VALUES (1, 9710);
+INSERT INTO `sys_role_menu` VALUES (1, 9711);
+INSERT INTO `sys_role_menu` VALUES (1, 9712);
+INSERT INTO `sys_role_menu` VALUES (1, 9713);
+INSERT INTO `sys_role_menu` VALUES (1, 9714);
+INSERT INTO `sys_role_menu` VALUES (1, 9715);
+INSERT INTO `sys_role_menu` VALUES (1, 9720);
+INSERT INTO `sys_role_menu` VALUES (1, 9721);
+INSERT INTO `sys_role_menu` VALUES (1, 9722);
+INSERT INTO `sys_role_menu` VALUES (1, 9723);
+INSERT INTO `sys_role_menu` VALUES (1, 9724);
+INSERT INTO `sys_role_menu` VALUES (1, 9725);
+INSERT INTO `sys_role_menu` VALUES (1, 9730);
+INSERT INTO `sys_role_menu` VALUES (1, 9731);
+INSERT INTO `sys_role_menu` VALUES (1, 9732);
+INSERT INTO `sys_role_menu` VALUES (1, 9733);
+INSERT INTO `sys_role_menu` VALUES (1, 9734);
+INSERT INTO `sys_role_menu` VALUES (1, 9735);
+INSERT INTO `sys_role_menu` VALUES (1, 9740);
+INSERT INTO `sys_role_menu` VALUES (1, 9741);
+INSERT INTO `sys_role_menu` VALUES (1, 9742);
+INSERT INTO `sys_role_menu` VALUES (1, 9743);
+INSERT INTO `sys_role_menu` VALUES (1, 9744);
+INSERT INTO `sys_role_menu` VALUES (1, 9745);
+INSERT INTO `sys_role_menu` VALUES (1, 9750);
+INSERT INTO `sys_role_menu` VALUES (1, 9751);
+INSERT INTO `sys_role_menu` VALUES (1, 9752);
+INSERT INTO `sys_role_menu` VALUES (1, 9753);
+INSERT INTO `sys_role_menu` VALUES (1, 9754);
+INSERT INTO `sys_role_menu` VALUES (1, 9755);
+INSERT INTO `sys_role_menu` VALUES (1, 9760);
+INSERT INTO `sys_role_menu` VALUES (1, 9770);
+INSERT INTO `sys_role_menu` VALUES (1, 9771);
+INSERT INTO `sys_role_menu` VALUES (1, 9772);
+INSERT INTO `sys_role_menu` VALUES (1, 9773);
+INSERT INTO `sys_role_menu` VALUES (1, 9774);
+INSERT INTO `sys_role_menu` VALUES (1, 9775);
+INSERT INTO `sys_role_menu` VALUES (1, 9776);
+INSERT INTO `sys_role_menu` VALUES (1, 9777);
+INSERT INTO `sys_role_menu` VALUES (1, 9778);
+INSERT INTO `sys_role_menu` VALUES (1, 9779);
+INSERT INTO `sys_role_menu` VALUES (1, 9780);
+INSERT INTO `sys_role_menu` VALUES (1, 9781);
+INSERT INTO `sys_role_menu` VALUES (1, 9782);
+INSERT INTO `sys_role_menu` VALUES (1, 9783);
+INSERT INTO `sys_role_menu` VALUES (1, 9784);
+INSERT INTO `sys_role_menu` VALUES (1, 9785);
+INSERT INTO `sys_role_menu` VALUES (1, 9786);
+INSERT INTO `sys_role_menu` VALUES (1, 9787);
+INSERT INTO `sys_role_menu` VALUES (1, 9788);
+INSERT INTO `sys_role_menu` VALUES (1, 9789);
+INSERT INTO `sys_role_menu` VALUES (1, 9790);
+INSERT INTO `sys_role_menu` VALUES (1, 9791);
+INSERT INTO `sys_role_menu` VALUES (1, 9792);
+INSERT INTO `sys_role_menu` VALUES (1, 9793);
+INSERT INTO `sys_role_menu` VALUES (1, 9794);
+INSERT INTO `sys_role_menu` VALUES (1, 9795);
+INSERT INTO `sys_role_menu` VALUES (1, 9796);
+INSERT INTO `sys_role_menu` VALUES (1, 9797);
+INSERT INTO `sys_role_menu` VALUES (1, 9800);
+INSERT INTO `sys_role_menu` VALUES (1, 9801);
+INSERT INTO `sys_role_menu` VALUES (1, 9802);
+INSERT INTO `sys_role_menu` VALUES (1, 9803);
+INSERT INTO `sys_role_menu` VALUES (1, 9804);
+INSERT INTO `sys_role_menu` VALUES (1, 9805);
+INSERT INTO `sys_role_menu` VALUES (1, 9806);
+INSERT INTO `sys_role_menu` VALUES (1, 9807);
+INSERT INTO `sys_role_menu` VALUES (1, 9808);
+INSERT INTO `sys_role_menu` VALUES (1, 9809);
+INSERT INTO `sys_role_menu` VALUES (1, 9810);
+INSERT INTO `sys_role_menu` VALUES (1, 9811);
+INSERT INTO `sys_role_menu` VALUES (1, 9812);
+INSERT INTO `sys_role_menu` VALUES (1, 9813);
+INSERT INTO `sys_role_menu` VALUES (1, 9814);
+INSERT INTO `sys_role_menu` VALUES (1, 9815);
+INSERT INTO `sys_role_menu` VALUES (1, 9816);
+INSERT INTO `sys_role_menu` VALUES (1, 9817);
+INSERT INTO `sys_role_menu` VALUES (1, 9818);
+INSERT INTO `sys_role_menu` VALUES (1, 9819);
+INSERT INTO `sys_role_menu` VALUES (1, 9820);
+INSERT INTO `sys_role_menu` VALUES (1, 9821);
+INSERT INTO `sys_role_menu` VALUES (1, 9822);
+INSERT INTO `sys_role_menu` VALUES (1, 9824);
+INSERT INTO `sys_role_menu` VALUES (1, 9825);
+INSERT INTO `sys_role_menu` VALUES (1, 9826);
+INSERT INTO `sys_role_menu` VALUES (1, 9827);
+INSERT INTO `sys_role_menu` VALUES (1, 9828);
+INSERT INTO `sys_role_menu` VALUES (1, 9829);
+INSERT INTO `sys_role_menu` VALUES (1, 9830);
+INSERT INTO `sys_role_menu` VALUES (1, 9831);
+INSERT INTO `sys_role_menu` VALUES (1, 9832);
+INSERT INTO `sys_role_menu` VALUES (1, 9833);
+INSERT INTO `sys_role_menu` VALUES (1, 9834);
+INSERT INTO `sys_role_menu` VALUES (1, 9835);
+INSERT INTO `sys_role_menu` VALUES (1, 9836);
+INSERT INTO `sys_role_menu` VALUES (1, 9837);
+INSERT INTO `sys_role_menu` VALUES (1, 9838);
+INSERT INTO `sys_role_menu` VALUES (1, 9839);
+INSERT INTO `sys_role_menu` VALUES (1, 9840);
+INSERT INTO `sys_role_menu` VALUES (1, 9841);
+INSERT INTO `sys_role_menu` VALUES (1, 9842);
+INSERT INTO `sys_role_menu` VALUES (1, 9843);
+INSERT INTO `sys_role_menu` VALUES (1, 9844);
+INSERT INTO `sys_role_menu` VALUES (1, 9845);
+INSERT INTO `sys_role_menu` VALUES (1, 9846);
+INSERT INTO `sys_role_menu` VALUES (1, 9847);
+INSERT INTO `sys_role_menu` VALUES (1, 9848);
+
+-- AI 存储管理角色权限关联
+INSERT INTO `sys_role_menu` VALUES (1, 9850);
+INSERT INTO `sys_role_menu` VALUES (1, 9851);
+INSERT INTO `sys_role_menu` VALUES (1, 9852);
+INSERT INTO `sys_role_menu` VALUES (1, 9853);
+INSERT INTO `sys_role_menu` VALUES (1, 9854);
+INSERT INTO `sys_role_menu` VALUES (1, 9855);
+INSERT INTO `sys_role_menu` VALUES (1, 9856);
+INSERT INTO `sys_role_menu` VALUES (1, 9860);
+INSERT INTO `sys_role_menu` VALUES (1, 9861);
+INSERT INTO `sys_role_menu` VALUES (1, 9862);
+INSERT INTO `sys_role_menu` VALUES (1, 9863);
+INSERT INTO `sys_role_menu` VALUES (1, 9864);
+INSERT INTO `sys_role_menu` VALUES (1, 9870);
+INSERT INTO `sys_role_menu` VALUES (1, 9871);
+INSERT INTO `sys_role_menu` VALUES (1, 9872);
+INSERT INTO `sys_role_menu` VALUES (1, 9873);
+INSERT INTO `sys_role_menu` VALUES (1, 9874);
+
+-- AI 术语管理角色权限关联
+INSERT INTO `sys_role_menu` VALUES (1, 9880);
+INSERT INTO `sys_role_menu` VALUES (1, 9881);
+INSERT INTO `sys_role_menu` VALUES (1, 9882);
+INSERT INTO `sys_role_menu` VALUES (1, 9883);
+INSERT INTO `sys_role_menu` VALUES (1, 9884);
+
+-- AI 审校
+INSERT INTO `sys_role_menu` VALUES (1, 19800);
+INSERT INTO `sys_role_menu` VALUES (1, 19810);
+INSERT INTO `sys_role_menu` VALUES (1, 19820);
+INSERT INTO `sys_role_menu` VALUES (1, 19821);
+INSERT INTO `sys_role_menu` VALUES (1, 19822);
+INSERT INTO `sys_role_menu` VALUES (1, 19823);
+INSERT INTO `sys_role_menu` VALUES (1, 19824);
+INSERT INTO `sys_role_menu` VALUES (1, 19825);
+INSERT INTO `sys_role_menu` VALUES (1, 19830);
+INSERT INTO `sys_role_menu` VALUES (1, 19840);
+INSERT INTO `sys_role_menu` VALUES (1, 19841);
+INSERT INTO `sys_role_menu` VALUES (1, 19842);
+INSERT INTO `sys_role_menu` VALUES (1, 19843);
+INSERT INTO `sys_role_menu` VALUES (1, 19844);
+INSERT INTO `sys_role_menu` VALUES (1, 19845);
+INSERT INTO `sys_role_menu` VALUES (1, 19846);
+
+INSERT INTO `sys_dict` VALUES (129, 'source_type', '文件来源', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (130, 'slice_status', '切片状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (131, 'summary_status', '总结状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (132, 'llm_use_status', '调用状态', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+INSERT INTO `sys_dict` VALUES (133, 'embed_store_type', '向量库类型', 'admin', ' ', '2023-10-27 10:29:48', NULL, NULL, '1', '0', 1);
+
+INSERT INTO `sys_dict_item` VALUES (195, 129, '1', '上传', 'source_type', '上传', NULL, 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (196, 129, '2', '录入', 'source_type', '录入', NULL, 2, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (197, 129, '3', 'Q&A', 'source_type', 'Q&A', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (198, 129, '4', '网页', 'source_type', 'URL', NULL, 4, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (199, 130, '0', '未切片', 'slice_status', '未切片', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (200, 130, '1', '已切片', 'slice_status', '已切片', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (201, 130, '2', '切片中', 'slice_status', '切片中', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (202, 130, '9', '失败', 'slice_status', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (203, 131, '0', '未总结', 'summary_status', '未总结', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (204, 131, '1', '已总结', 'summary_status', '已总结', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (205, 131, '9', '失败', 'summary_status', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (206, 132, '0', '未调用', 'llm_use_status', '未调用', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (207, 132, '1', '已调用', 'llm_use_status', '已调用', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (208, 132, '2', '触发敏感词', 'llm_use_status', '触发敏感词', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (209, 132, '9', '失败', 'llm_use_status', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (210, 133, 'qdrant', 'qdrant', 'embed_store_type', 'qdrant', NULL, 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (211, 133, 'chroma', 'chroma', 'embed_store_type', 'chroma', NULL, 2, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (212, 133, 'milvus', 'milvus', 'embed_store_type', 'milvus', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (213, 133, 'neo4j', 'neo4j', 'embed_store_type', 'neo4j', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (214, 133, 'pgvector', 'pgvector', 'embed_store_type', 'pgvector', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (215, 130, '3', 'AI解析中', 'slice_status', '解析中', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (216, 130, '4', 'AI异步解析中', 'slice_status', 'AI异步解析中', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+
+-- ----------------------------
+-- Table structure for ai_model
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_model`;
+CREATE TABLE `ai_model` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `model_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '类型: CHAT、Embedding、Image',
+  `model_name` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型名称',
+  `provider` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '供应商',
+  `name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '别名',
+  `response_limit` int DEFAULT NULL COMMENT '响应长度',
+  `temperature` double DEFAULT NULL COMMENT '温度',
+  `top_p` double DEFAULT NULL,
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `base_url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `secret_key` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
+  `endpoint` varchar(100) COLLATE utf8mb4_bin DEFAULT NULL,
+  `default_model` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '默认模型',
+  `azure_deployment_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'azure模型参数',
+  `gemini_project` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'gemini模型参数',
+  `gemini_location` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'gemini模型参数',
+  `image_size` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片大小',
+  `image_quality` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片质量',
+  `image_style` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图片风格',
+  `dimensions` int DEFAULT NULL COMMENT '向量维数',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `ext_data` longtext COLLATE utf8mb4_bin COMMENT '扩展字段',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='模型配置表';
+
+DROP TABLE IF EXISTS `ai_bill`;
+CREATE TABLE `ai_bill` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `user_id` bigint DEFAULT NULL COMMENT '用户ID',
+  `message_key` bigint DEFAULT NULL COMMENT 'message key',
+  `prompt_tokens` bigint DEFAULT NULL COMMENT '提示令牌数量',
+  `completion_tokens` bigint DEFAULT NULL COMMENT '补全令牌数量',
+  `model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '模型名称',
+  `reqid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '请求ID',
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'IP地址',
+  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '备注',
+  `token_id` bigint DEFAULT NULL COMMENT '令牌ID',
+  `tokens` bigint DEFAULT NULL COMMENT '令牌数量',
+  `token_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '令牌类型 0 系统  1 用户',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `use_time` bigint DEFAULT NULL COMMENT '使用时间,单位毫秒',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='账单';
+
+-- ----------------------------
+-- Table structure for ai_chat_record
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_chat_record`;
+CREATE TABLE `ai_chat_record` (
+  `record_id` bigint NOT NULL COMMENT '主键',
+  `username` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户标识',
+  `model_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型名称',
+  `question_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '问题',
+  `answer_text` text COLLATE utf8mb4_general_ci COMMENT '答案',
+  `dataset_id` bigint DEFAULT NULL COMMENT '所属知识库',
+  `document_ids` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联文档IDs',
+  `suitability` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '匹配度',
+  `ip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '客户端IP',
+  `user_agent` text COLLATE utf8mb4_general_ci COMMENT '浏览器标识',
+  `conversation_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '会话ID',
+  `websearch_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '网络搜索',
+  `standard_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标注',
+  `qdrant_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '向量ID',
+  `inner_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内部调用',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '删除标记',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `llm_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '大模型交互结果',
+  `ext_details` text COLLATE utf8mb4_general_ci COMMENT '详细信息',
+  `use_time` bigint DEFAULT NULL COMMENT '使用时间,单位毫秒',
+  PRIMARY KEY (`record_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='聊天记录';
+
+-- ----------------------------
+-- Table structure for ai_dataset
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_dataset`;
+CREATE TABLE `ai_dataset` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `avatar_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '头像',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '描述',
+  `collection_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '集合名称',
+  `store_id` bigint DEFAULT NULL COMMENT '存储ID',
+  `units` bigint DEFAULT NULL COMMENT '知识数量',
+  `file_size` bigint DEFAULT NULL COMMENT '大小',
+  `multi_round` int DEFAULT NULL COMMENT '多轮会话',
+  `top_k` int DEFAULT NULL COMMENT '匹配条数',
+  `score` int DEFAULT NULL COMMENT '匹配率',
+  `sort_order` int DEFAULT NULL COMMENT '排序值',
+  `fragment_size` int DEFAULT NULL COMMENT '切片数量',
+  `empty_llm_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '空查询',
+  `empty_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '未匹配提示',
+  `sensitive_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '敏感词汇',
+  `sensitive_msg` text COLLATE utf8mb4_bin COMMENT '敏感词命中消息',
+  `welcome_msg` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '欢迎语',
+  `public_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否对外',
+  `public_password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '访问密码',
+  `embedding_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '嵌入模型',
+  `summary_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '摘要模型',
+  `reranker_model` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '排序模型',
+  `pre_summary` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '预总结',
+  `pre_compress` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '预压缩',
+  `ai_ocr_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '是否使用AI OCR',
+  `knowledge_mode` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '知识模式',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `footer` text COLLATE utf8mb4_bin COMMENT '底部信息',
+  `standard_flag` char(1) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '标记数据',
+  `ai_tag_flag` char(1) COLLATE utf8mb4_bin DEFAULT '1' COMMENT 'AI标签开关（0-关闭 1-开启）',
+  `tags` text COLLATE utf8mb4_bin COMMENT '知识库标签（逗号分隔）',
+  `similar_question_flag` char(1) COLLATE utf8mb4_bin DEFAULT '1' COMMENT '相似问题开关（0-关闭 1-开启）',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识库';
+
+DROP TABLE IF EXISTS `ai_embed_store`;
+CREATE TABLE `ai_embed_store` (
+  `store_id` bigint NOT NULL COMMENT '主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '名称',
+  `store_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '类型',
+  `uri` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '链接端点',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Host',
+  `port` int DEFAULT NULL COMMENT '端口',
+  `use_tls` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否使用安全模式',
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密钥',
+  `ext_data` longtext COLLATE utf8mb4_general_ci COMMENT '扩展参数',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`store_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='向量库配置';
+-- ----------------------------
+-- Table structure for ai_document
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_document`;
+CREATE TABLE `ai_document` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `dataset_id` bigint DEFAULT NULL COMMENT '知识库ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `file_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件类型',
+  `file_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件链接',
+  `file_hash` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT 'MD5hash',
+  `source_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '文件来源',
+  `slice_count` bigint DEFAULT NULL COMMENT '切片数量',
+  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
+  `file_size` bigint DEFAULT NULL COMMENT '文件大小',
+  `file_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+  `slice_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '状态',
+  `graph_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '图状态',
+  `slice_fail_reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要失败原因',
+  `summary` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要',
+  `summary_fail_reason` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '总结摘要失败原因',
+  `summary_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '总结状态',
+  `document_config` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文档配置元信息',
+  `tags` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '文档标签（逗号分隔）',
+  `process_stage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '处理进度',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识文档';
+
+-- ----------------------------
+-- Table structure for ai_slice
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_slice`;
+CREATE TABLE `ai_slice` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `document_id` bigint DEFAULT NULL COMMENT '文档ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '名称',
+  `units` bigint DEFAULT NULL COMMENT '知识数量',
+  `file_size` bigint DEFAULT NULL COMMENT '大小',
+  `hit_count` bigint DEFAULT NULL COMMENT '命中次数',
+  `char_count` bigint DEFAULT NULL COMMENT '字符数量',
+  `content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '内容',
+  `images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin COMMENT '关联图片链接',
+  `group_id` bigint DEFAULT NULL COMMENT '所属分组ID',
+  `answer_text` text COLLATE utf8mb4_general_ci COMMENT '答案',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '修改人',
+  `slice_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '训练状态',
+  `qdrant_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '向量ID',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin COMMENT='知识切片';
+
+DROP TABLE IF EXISTS `ai_ocr_conf`;
+CREATE TABLE `ai_ocr_conf` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `ocr_title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+  `ocr_prompt` longtext COLLATE utf8mb4_general_ci COMMENT '描述提示词',
+  `image_resource` longtext COLLATE utf8mb4_general_ci COMMENT '资源base64',
+  `ocr_marked` longtext COLLATE utf8mb4_general_ci COMMENT '标注结果',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_by` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_by` datetime DEFAULT NULL,
+  `del_flag` char(1) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI OCR';
+
+DROP TABLE IF EXISTS `ai_flow`;
+CREATE TABLE `ai_flow` (
+  `id` bigint NOT NULL COMMENT '流程主键',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程描述',
+  `type` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程类型',
+  `dsl` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '流程设计DSL',
+  `icon` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '流程图标',
+  `api_enabled` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否启用api',
+  `enabled` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '其否启用',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '状态',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否已删除',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '最终结果',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='大模型流程表';
+
+-- ----------------------------
+-- Table structure for ai_flow_log
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_flow_log`;
+CREATE TABLE `ai_flow_log` (
+  `id` bigint NOT NULL COMMENT '流程日志主键',
+  `flow_id` bigint NOT NULL COMMENT '流程主键',
+  `type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '流程类型',
+  `input_params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '输入参数',
+  `output_params` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '输出参数',
+  `result` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '最终结果',
+  `executed` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '执行状态',
+  `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '错误信息',
+  `run_time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '运行时间',
+  `api_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api key',
+  `total_tokens` bigint DEFAULT NULL COMMENT 'api tokens',
+  `create_user` bigint DEFAULT NULL COMMENT '创建人',
+  `create_dept` bigint DEFAULT NULL COMMENT '创建部门',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_user` bigint DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `status` int DEFAULT '1' COMMENT '状态',
+  `is_deleted` int DEFAULT '0' COMMENT '是否已删除',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='大模型流程日志表';
+
+
+DROP TABLE IF EXISTS `ai_data`;
+CREATE TABLE `ai_data` (
+  `data_id` bigint NOT NULL COMMENT '主键ID',
+  `dataset_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '数据集名称',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '数据集描述',
+  `dataset_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据集类型 (1-明细表, 2-多指标周期表, 3-键值对表, 4-其他)',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `table_name` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '关联数据表',
+  `terminology_ids` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '关联术语',
+  `learning_status` char(1) COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '学习状态（0-未学习, 1-已学习）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`data_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 数据集管理表';
+
+-- ----------------------------
+-- Table structure for ai_data_field
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_data_field`;
+CREATE TABLE `ai_data_field` (
+  `field_id` bigint NOT NULL COMMENT '主键ID',
+  `table_id` bigint NOT NULL COMMENT '关联数据表',
+  `field_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字段名称',
+  `field_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '字段备注',
+  `virtual_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '虚拟注释',
+  `field_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字段类型',
+  `db_type` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据库类型',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `modify_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '修正状态 ',
+  `modify_time` datetime DEFAULT NULL COMMENT '修正时间',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`field_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 字段管理表';
+
+-- ----------------------------
+-- Table structure for ai_data_tablec
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_data_table`;
+CREATE TABLE `ai_data_table` (
+  `table_id` bigint NOT NULL COMMENT '主键ID',
+  `ds_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源名称',
+  `ds_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '关联数据源类型',
+  `table_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表名称',
+  `table_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '物理表注释',
+  `virtual_comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '虚拟表注释',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记 (0-正常, 1-删除)',
+  PRIMARY KEY (`table_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 数据表管理表';
+
+-- ----------------------------
+-- Table structure for ai_mcp_config
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_mcp_config`;
+CREATE TABLE `ai_mcp_config` (
+  `mcp_id` bigint NOT NULL COMMENT '主键ID',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务器名称',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '描述',
+  `mcp_type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类型 (SSE: Server-Sent Events, STDIO: Standard Input/Output)',
+  `command` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '命令',
+  `sse_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'SSE URL',
+  `parameters` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '参数',
+  `environment_variables` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '环境变量',
+  `mcp_enabled` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '是否启用（1：启用，0：禁用）',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '创建人',
+  `create_time` datetime COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`mcp_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='MCP配置表';
+
+DROP TABLE IF EXISTS `ai_poster`;
+CREATE TABLE `ai_poster` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `template_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
+  `template_code` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板代码',
+  `template_css` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '模板CSS',
+  `template_style` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '模板风格',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI海报模板表';
+
+-- ----------------------------
+-- Records of ai_poster
+-- ----------------------------
+BEGIN;
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (1, '红色党政风', '<div class=\"container\">\n      <div class=\"emblem-decor\"></div>\n      <div class=\"date\">二〇二五年七月一日</div>\n      <h1 class=\"title\">新时代为民服务</h1>\n      <p class=\"subtitle\">践行初心使命 提升服务效能</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          全心全意为人民服务是我们一切工作的根本宗旨，要始终把人民放在心中最高位置。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>深化简政放权，推进\"最多跑一次\"改革</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>完善基层服务体系，打通服务群众\"最后一公里\"</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>强化数字赋能，建设智慧服务平台</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>健全监督机制，确保权力在阳光下运行</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://obj.lemonc.cc/files/2025/04/09/145324.png\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫码进入便民服务直通车</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>重要通知：</strong> 本年度将全面推进服务型建设，欢迎广大群众监督并提出宝贵意见建议，共同推动服务工作提质增效。\n      </div>\n  </div>', '<style>\n      /* 党政风格 */\n      .container {\n          font-family: \'SimSun\', \'Noto Serif SC\', serif;\n          --party-bg: #fff9f9;\n          --party-text: #4a4a4a;\n          --party-accent: #c12c2c;\n          --party-secondary: #f0e6e6;\n          --party-pale: #fdf0f0;\n          --party-gray: #8c8c8c;\n          background-color: var(--party-bg);\n          color: var(--party-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.8;\n          border: 1px solid var(--party-secondary);\n          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);\n      }\n\n      .container .emblem-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          background-color: var(--party-accent);\n          border-radius: 50%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          color: white;\n          font-weight: bold;\n          font-size: 14px;\n          text-align: center;\n          line-height: 1.2;\n      }\n\n      .container .emblem-decor::before {\n          content: \"为民\\A服务\";\n          white-space: pre;\n      }\n\n      .container .date {\n          font-size: 16px;\n          font-weight: 400;\n          color: var(--party-accent);\n          margin-bottom: 30px;\n          text-align: center;\n          letter-spacing: 5px;\n      }\n\n      .container .title {\n          font-size: 36px;\n          font-weight: 700;\n          margin-bottom: 16px;\n          color: var(--party-accent);\n          text-align: center;\n          letter-spacing: 10px;\n          text-shadow: 1px 1px 2px rgba(0,0,0,0.1);\n      }\n\n      .container .subtitle {\n          font-size: 20px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--party-accent);\n          text-align: center;\n          letter-spacing: 2px;\n      }\n\n      .container .divider {\n          height: 3px;\n          width: 120px;\n          background: linear-gradient(90deg, transparent, var(--party-accent), transparent);\n          margin: 30px auto;\n          position: relative;\n      }\n\n      .container .divider::before,\n      .container .divider::after {\n          content: \"★\";\n          position: absolute;\n          top: -12px;\n          color: var(--party-accent);\n          font-size: 16px;\n      }\n\n      .container .divider::before {\n          left: -20px;\n      }\n\n      .container .divider::after {\n          right: -20px;\n      }\n\n      .container .quote {\n          font-size: 20px;\n          line-height: 1.8;\n          padding: 25px 30px;\n          margin: 30px 0;\n          background-color: var(--party-pale);\n          border: 1px solid var(--party-secondary);\n          color: var(--party-accent);\n          text-align: center;\n          font-weight: 500;\n      }\n\n      .container .points {\n          margin: 40px 0;\n          padding: 0 20px;\n      }\n\n      .container .point {\n          margin-bottom: 28px;\n          display: flex;\n          align-items: center;\n      }\n\n      .container .point-number {\n          min-width: 36px;\n          height: 36px;\n          border-radius: 50%;\n          background-color: var(--party-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 16px;\n          margin-right: 20px;\n          font-weight: bold;\n      }\n\n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          background-color: var(--party-pale);\n          padding: 25px;\n          border: 1px dashed var(--party-accent);\n          flex-direction: column;\n          text-align: center;\n      }\n\n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-bottom: 15px;\n          border: 1px solid var(--party-accent);\n          padding: 5px;\n      }\n\n      .container .qr-text {\n          font-size: 18px;\n          color: var(--party-accent);\n          font-weight: 500;\n      }\n\n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 16px;\n          padding: 20px;\n          background-color: var(--party-secondary);\n          color: var(--party-text);\n          border-left: 5px solid var(--party-accent);\n          line-height: 1.6;\n      }\n  </style>', '采用党政风格设计，体现庄重典雅与为民服务的特质。使用浅红色背景，配以党政标准色调如正红、米白和浅灰。排版应规整大气，使用传统中文排版元素，与普通政务风格相比更具文化底蕴。字体选择宋体或仿宋等衬线字体，字重适中确保正式感。装饰元素应体现传统文化特色，使用五角星、红色圆形徽章等元素。内容区块采用对称布局，参考党政刊物和红色宣传品的版式设计。整体设计应呈现出庄重、温暖且富有文化底蕴的特质，平衡权威性与亲和力，体现\"以人民为中心\"的服务理念。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (2, '淡雅政务风', '<div class=\"container\">\n      <div class=\"badge-decor\"></div>\n      <div class=\"date\">2025年5月15日</div>\n      <h1 class=\"title\">政务服务优化</h1>\n      <p class=\"subtitle\">推动便民利企服务高质量发展</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          坚持以人民为中心的发展思想，持续深化\"放管服\"改革，打造高效、透明、便民的政务服务体系。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">一</span>\n              <span>推进\"一网通办\"，实现政务服务事项全程网上办理</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">二</span>\n              <span>优化审批流程，压缩办理时限，提升服务效率</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">三</span>\n              <span>加强政务公开，保障群众知情权、参与权、监督权</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">四</span>\n              <span>完善投诉反馈机制，及时解决群众反映的问题</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://obj.lemonc.cc/files/2025/04/09/145324.png\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，进入政务服务网上大厅</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>政务公告：</strong> 本年度将继续推进政务服务标准化规范化便利化建设，欢迎广大市民群众监督并提出宝贵意见。\n      </div>\n  </div>', '<style>\n      /* 政务风格 */\n      .container {\n          font-family: \'Microsoft YaHei\', \'Noto Sans SC\', sans-serif;\n          --gov-bg: #f5f7fa;\n          --gov-text: #333333;\n          --gov-accent: #1a56a7;\n          --gov-secondary: #d9e3f2;\n          --gov-pale: #e8edf5;\n          --gov-gray: #666666;\n          background-color: var(--gov-bg);\n          color: var(--gov-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.6;\n          border: 1px solid var(--gov-secondary);\n          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);\n      }\n\n      .container .badge-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          background-color: var(--gov-accent);\n          border-radius: 50%;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          color: white;\n          font-weight: bold;\n          font-size: 12px;\n          text-align: center;\n          line-height: 1.2;\n      }\n\n      .container .badge-decor::before {\n          content: \"政务\\A服务\";\n          white-space: pre;\n      }\n\n      .container .date {\n          font-size: 14px;\n          font-weight: 400;\n          color: var(--gov-gray);\n          margin-bottom: 30px;\n      }\n\n      .container .title {\n          font-size: 32px;\n          font-weight: 600;\n          margin-bottom: 16px;\n          color: var(--gov-accent);\n          text-align: center;\n      }\n\n      .container .subtitle {\n          font-size: 18px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--gov-gray);\n          text-align: center;\n      }\n\n      .container .divider {\n          height: 3px;\n          width: 100px;\n          background-color: var(--gov-accent);\n          margin: 30px auto;\n          position: relative;\n      }\n\n      .container .divider::before,\n      .container .divider::after {\n          content: \"\";\n          position: absolute;\n          top: -3px;\n          width: 6px;\n          height: 9px;\n          background-color: var(--gov-accent);\n      }\n\n      .container .divider::before {\n          left: -10px;\n      }\n\n      .container .divider::after {\n          right: -10px;\n      }\n\n      .container .quote {\n          font-size: 18px;\n          line-height: 1.8;\n          padding: 25px;\n          margin: 30px 0;\n          background-color: var(--gov-pale);\n          border-left: 4px solid var(--gov-accent);\n          color: var(--gov-text);\n      }\n\n      .container .points {\n          margin: 40px 0;\n      }\n\n      .container .point {\n          margin-bottom: 24px;\n          display: flex;\n          align-items: flex-start;\n      }\n\n      .container .point-number {\n          min-width: 30px;\n          height: 30px;\n          border-radius: 50%;\n          background-color: var(--gov-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 16px;\n          margin-right: 15px;\n          font-weight: bold;\n      }\n\n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: var(--gov-pale);\n          padding: 20px;\n          border: 1px solid var(--gov-secondary);\n      }\n\n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n      }\n\n      .container .qr-text {\n          font-size: 16px;\n          color: var(--gov-gray);\n      }\n\n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: var(--gov-secondary);\n          color: var(--gov-text);\n          border-left: 4px solid var(--gov-accent);\n      }\n  </style>', '采用政务风格设计，体现政府文件的权威性与亲民服务的平衡。使用浅灰背景，配以政务标准色调如深蓝、浅灰和米白。排版应规整有序，使用大量留白保持清晰可读性，但与公文不同，应加入适度亲和元素。字体选择标准无衬线字体如微软雅黑或思源黑体，字重适中确保易读性。装饰元素应精简但体现正式感，可使用传统政务元素如徽章、双分隔线和编号圆点。内容区块采用清晰分隔，参考政府公报和政务公开栏目的版式设计。整体设计应呈现出庄重、清晰且亲民的政务特质，平衡权威性与服务性，参考国务院公报和省级政府门户网站的视觉规范。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (3, '新表现主义风格', '<div class=\"container\">\n      <div class=\"content\">\n          <div class=\"date\">2025年03月28日</div>\n          <h1 class=\"title\">黑胶复兴</h1>\n          <p class=\"subtitle\">模拟声音的回归，旧时代技术在数字世界中的意外胜利</p>\n          \n          <div class=\"quote-container\">\n              <blockquote class=\"quote\">\n                  在完美无瑕的数字音频中，我们失去了音乐的灵魂；而在黑胶唱片的噼啪声中，我们重新找到了它。\n              </blockquote>\n          </div>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <span class=\"point-number\">1</span>\n                  <div class=\"point-text\">触觉体验：黑胶唱片提供了一种物理仪式感，从挑选唱片到放上唱盘的每一步都是体验的一部分</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">2</span>\n                  <div class=\"point-text\">温暖声学：模拟录制的非线性特性创造出数字完美主义无法复制的声音质感</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">3</span>\n                  <div class=\"point-text\">艺术载体：12英寸唱片封面成为视觉艺术的重要媒介，许多经典专辑因其封面设计而被铭记</div>\n              </div>\n              <div class=\"point\">\n                  <span class=\"point-number\">4</span>\n                  <div class=\"point-text\">慢听革命：黑胶体验鼓励人们完整聆听一张专辑，抵抗流媒体时代的碎片化消费</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫码探索珍稀黑胶唱片收藏</div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <strong>编辑笔记：</strong>黑胶唱片的复兴超越了单纯的怀旧，它代表了人们对实体音乐体验的渴望与反抗。在数字极简主义主导的今天，这种\"不完美\"的媒介正在成为艺术真实性的象征。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新表现主义风格 */\n      .container {\n          font-family: \'Comic Sans MS\', \'Noto Sans SC\', cursive, sans-serif;\n          --neo-exp-bg: #f8f4e0;\n          --neo-exp-primary: #d62828;\n          --neo-exp-secondary: #003049;\n          --neo-exp-accent: #fcbf49;\n          --neo-exp-text: #252422;\n          background-color: var(--neo-exp-bg);\n          color: var(--neo-exp-text);\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: -10%;\n          right: -10%;\n          width: 60%;\n          height: 70%;\n          background-color: var(--neo-exp-accent);\n          opacity: 0.4;\n          transform: rotate(15deg);\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          bottom: -5%;\n          left: -5%;\n          width: 35%;\n          height: 45%;\n          background-color: var(--neo-exp-primary);\n          opacity: 0.3;\n          transform: rotate(-10deg);\n          z-index: 0;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .date {\n          font-family: \'Courier New\', monospace;\n          font-weight: bold;\n          font-size: 16px;\n          margin-bottom: 20px;\n          transform: rotate(-2deg);\n          display: inline-block;\n          padding: 5px 15px;\n          background-color: var(--neo-exp-secondary);\n          color: var(--neo-exp-bg);\n      }\n      \n      .container .title {\n          font-size: 68px;\n          line-height: 0.9;\n          font-weight: 900;\n          margin-bottom: 25px;\n          color: var(--neo-exp-primary);\n          transform: skew(-5deg);\n          text-shadow: 3px 3px 0 var(--neo-exp-secondary);\n          letter-spacing: -2px;\n      }\n      \n      .container .subtitle {\n          font-size: 22px;\n          font-weight: 600;\n          line-height: 1.2;\n          margin-bottom: 30px;\n          padding-left: 20px;\n          border-left: 8px solid var(--neo-exp-accent);\n          position: relative;\n          z-index: 2;\n      }\n      \n      .container .quote-container {\n          margin: 40px 0;\n          position: relative;\n      }\n      \n      .container .quote {\n          font-size: 26px;\n          line-height: 1.3;\n          font-weight: 700;\n          font-style: italic;\n          padding: 20px;\n          background-color: rgba(252, 191, 73, 0.2);\n          border: 2px solid var(--neo-exp-primary);\n          transform: rotate(1deg);\n      }\n      \n      .container .quote::before {\n          content: \'\"\';\n          font-size: 80px;\n          position: absolute;\n          left: -15px;\n          top: -20px;\n          color: var(--neo-exp-primary);\n          opacity: 0.6;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding: 10px;\n          background-color: rgba(255, 255, 255, 0.6);\n          border: 1px solid var(--neo-exp-text);\n          position: relative;\n          transform: rotate(-1deg);\n      }\n      \n      .container .point:nth-child(even) {\n          transform: rotate(1deg);\n          background-color: rgba(214, 40, 40, 0.1);\n      }\n      \n      .container .point-text {\n          font-size: 18px;\n          line-height: 1.5;\n          position: relative;\n          z-index: 1;\n          padding-left: 40px;\n      }\n      \n      .container .point-number {\n          position: absolute;\n          left: 5px;\n          top: 50%;\n          transform: translateY(-50%);\n          font-size: 28px;\n          font-weight: 900;\n          color: var(--neo-exp-primary);\n      }\n      \n      .container .qr-section {\n          margin-top: 30px;\n          display: flex;\n          align-items: center;\n          justify-content: space-between;\n          padding: 15px;\n          background-color: rgba(0, 48, 73, 0.1);\n          transform: rotate(-1deg);\n          border: 3px solid var(--neo-exp-secondary);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          border: 5px solid var(--neo-exp-primary);\n          transform: rotate(3deg);\n      }\n      \n      .container .qr-text {\n          width: 60%;\n          font-size: 16px;\n          font-weight: bold;\n          line-height: 1.4;\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          padding: 15px;\n          background-color: var(--neo-exp-bg);\n          border: 2px dashed var(--neo-exp-secondary);\n          font-style: italic;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .editor-note::before {\n          content: \"✶✶✶\";\n          position: absolute;\n          top: -15px;\n          left: 20px;\n          background-color: var(--neo-exp-bg);\n          padding: 0 10px;\n          color: var(--neo-exp-primary);\n          font-weight: bold;\n      }\n  </style>', '采用新表现主义风格设计，体现80年代艺术运动的原始能量和情感表达。色彩应强烈且不协调，使用原始、未经调和的色彩组合，可包含泼溅和涂抹效果。排版应富有表现力且不规则，使用手写或笔刷字体，文字可被部分遮挡或融入背景。线条必须粗犷且富有动感，展现明显的笔触和手工感。图像应被重新诠释，可添加涂鸦、划痕或重绘效果。装饰元素应看似随意但富有象征性，如原始符号、面具图案或抽象人物。整体设计应呈现出强烈的情感张力和原始能量，仿佛一幅由情感驱动的表现主义画作，参考Jean-Michel Basquiat和Georg Baselitz的作品风格。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (4, '波普艺术风格', '<div class=\"container\">\n      <div class=\"halftone-bg\"></div>\n      <div class=\"star\"></div>\n      <div class=\"star\"></div>\n      <div class=\"content\">\n          <div class=\"date\">2025年6月15日</div>\n          <div class=\"title-container\">\n              <div class=\"boom\">VIRAL!</div>\n              <h1 class=\"title\">网红经济</h1>\n              <div class=\"title-bg\">网红经济</div>\n          </div>\n          <p class=\"subtitle\">社交媒体如何彻底改变了我们的消费方式、审美标准与名人文化</p>\n          <div class=\"quote-bubble\">\n              <p class=\"quote\">\"在这个时代，每个人都有15分钟的成名机会，但网红们用算法延长了这个时间到无限！\"</p>\n          </div>\n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-number\">1</div>\n                  <div class=\"point-content\">信任营销：相比传统广告，76%的消费者更相信真实人物的产品推荐</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">2</div>\n                  <div class=\"point-content\">微网红崛起：专注小众领域的内容创作者正获得比大网红更高的互动率</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">3</div>\n                  <div class=\"point-content\">真实性危机：完美人设背后，创作者身份与现实生活的严重割裂导致心理健康问题</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">4</div>\n                  <div class=\"point-content\">算法控制：平台推荐机制决定了谁能出名，创作者如何迎合算法成为成功关键</div>\n              </div>\n          </div>\n          <div class=\"qr-section\">\n              <div class=\"qr-container\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              </div>\n              <div class=\"qr-text\">扫码关注我们的爆款网红推荐</div>\n          </div>\n          <div class=\"editor-note\">\n              网红经济不仅创造了全新的职业，更重塑了整个市场营销生态。当每个人都能成为媒体时，影响力成为新的货币，而真实性则成为最稀缺的资源。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 波普艺术风格 */\n      @import url(\'https://fonts.googleapis.com/css2?family=Bangers&family=Poppins:wght@400;700&display=swap\');\n      \n      .container {\n          font-family: \'Poppins\', sans-serif;\n          --pop-red: #ff214f;\n          --pop-yellow: #ffde03;\n          --pop-blue: #0066ff;\n          --pop-bg: #ffffff;\n          --pop-black: #000000;\n          background-color: var(--pop-bg);\n          color: var(--pop-black);\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          border: 10px solid var(--pop-black);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-image: radial-gradient(var(--pop-black) 1px, transparent 1px);\n          background-size: 10px 10px;\n          opacity: 0.05;\n          z-index: 0;\n          pointer-events: none;\n      }\n      \n      .container .halftone-bg {\n          position: absolute;\n          top: -50px;\n          right: -50px;\n          width: 200px;\n          height: 200px;\n          background-color: var(--pop-yellow);\n          border-radius: 50%;\n          z-index: 0;\n      }\n      \n      .container .halftone-bg::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          background-image: radial-gradient(var(--pop-black) 2px, transparent 2px);\n          background-size: 8px 8px;\n          border-radius: 50%;\n          opacity: 0.2;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .date {\n          font-family: \'Bangers\', cursive;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          display: inline-block;\n          padding: 5px 15px;\n          font-size: 18px;\n          transform: rotate(-3deg);\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n          margin-bottom: 30px;\n          letter-spacing: 1px;\n      }\n      \n      .container .date::after {\n          content: \"!\";\n          font-size: 24px;\n          position: absolute;\n          top: -5px;\n          right: 5px;\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 30px;\n      }\n      \n      .container .title {\n          font-family: \'Bangers\', cursive;\n          font-size: 60px;\n          line-height: 1;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          color: var(--pop-black);\n          -webkit-text-stroke: 2px var(--pop-black);\n          text-shadow: 4px 4px 0 var(--pop-blue);\n          margin: 0;\n          transform: rotate(-2deg);\n      }\n      \n      .container .title-bg {\n          position: absolute;\n          top: 5px;\n          left: 5px;\n          font-family: \'Bangers\', cursive;\n          font-size: 60px;\n          line-height: 1;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          color: var(--pop-yellow);\n          -webkit-text-stroke: 2px var(--pop-black);\n          z-index: -1;\n      }\n      \n      .container .boom {\n          position: absolute;\n          top: -30px;\n          right: 0;\n          background-color: var(--pop-yellow);\n          color: var(--pop-black);\n          font-family: \'Bangers\', cursive;\n          font-size: 24px;\n          padding: 10px 20px;\n          transform: rotate(15deg);\n          border: 3px solid var(--pop-black);\n          border-radius: 50%;\n          box-shadow: 3px 3px 0 var(--pop-black);\n      }\n      \n      .container .boom::before {\n          content: \"\";\n          position: absolute;\n          top: 100%;\n          left: 20px;\n          border-width: 10px;\n          border-style: solid;\n          border-color: var(--pop-black) transparent transparent var(--pop-black);\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 700;\n          background-color: var(--pop-blue);\n          color: var(--pop-bg);\n          padding: 10px 15px;\n          margin-bottom: 30px;\n          box-shadow: 5px 5px 0 var(--pop-black);\n          line-height: 1.4;\n      }\n      \n      .container .quote-bubble {\n          position: relative;\n          background-color: var(--pop-bg);\n          border: 3px solid var(--pop-black);\n          border-radius: 30px;\n          padding: 20px;\n          margin: 30px 0;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .quote-bubble::after {\n          content: \"\";\n          position: absolute;\n          bottom: -20px;\n          left: 30px;\n          width: 30px;\n          height: 30px;\n          background-color: var(--pop-bg);\n          border-right: 3px solid var(--pop-black);\n          border-bottom: 3px solid var(--pop-black);\n          transform: rotate(45deg);\n          clip-path: polygon(0 0, 100% 100%, 0 100%);\n      }\n      \n      .container .quote {\n          font-family: \'Bangers\', cursive;\n          font-size: 22px;\n          line-height: 1.3;\n          letter-spacing: 1px;\n      }\n      \n      .container .points {\n          display: grid;\n          grid-template-columns: 1fr 1fr;\n          gap: 20px;\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          background-color: var(--pop-yellow);\n          border: 3px solid var(--pop-black);\n          padding: 15px;\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .point:nth-child(even) {\n          background-color: var(--pop-blue);\n          color: var(--pop-bg);\n      }\n      \n      .container .point-number {\n          position: absolute;\n          top: -20px;\n          left: -10px;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          font-family: \'Bangers\', cursive;\n          font-size: 24px;\n          width: 36px;\n          height: 36px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          border: 3px solid var(--pop-black);\n          border-radius: 50%;\n          z-index: 2;\n      }\n      \n      .container .point-content {\n          font-weight: 700;\n          line-height: 1.4;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          background-color: var(--pop-red);\n          padding: 20px;\n          border: 3px solid var(--pop-black);\n          display: flex;\n          align-items: center;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .qr-container {\n          position: relative;\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          background-color: var(--pop-bg);\n          border: 3px solid var(--pop-black);\n      }\n      \n      .container .qr-code {\n          width: 90px;\n          height: 90px;\n          margin-right: 20px;\n          border: 1px solid var(--tech-accent);\n          padding: 5px;\n          position: relative;\n          animation: pulse 2s infinite;\n      }\n      \n      .container .qr-text {\n          font-family: \'Bangers\', cursive;\n          font-size: 20px;\n          color: var(--pop-bg);\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          background-color: var(--pop-yellow);\n          border: 3px solid var(--pop-black);\n          padding: 15px;\n          font-weight: 700;\n          position: relative;\n          box-shadow: 5px 5px 0 var(--pop-black);\n      }\n      \n      .container .editor-note::before {\n          content: \"EDITOR\'S NOTE!\";\n          position: absolute;\n          top: -15px;\n          left: 20px;\n          background-color: var(--pop-red);\n          color: var(--pop-bg);\n          font-family: \'Bangers\', cursive;\n          font-size: 14px;\n          padding: 3px 10px;\n          border: 2px solid var(--pop-black);\n      }\n      \n      .container .star {\n          position: absolute;\n          width: 40px;\n          height: 40px;\n          background-color: var(--pop-red);\n          clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);\n          z-index: 0;\n      }\n      \n      .container .star:nth-child(1) {\n          top: 20%;\n          left: 10%;\n          transform: rotate(15deg);\n          background-color: var(--pop-blue);\n      }\n      \n      .container .star:nth-child(2) {\n          top: 70%;\n          right: 15%;\n          transform: rotate(-10deg);\n      }\n  </style>', '采用波普艺术风格设计，重现60年代艺术运动的大胆美学。必须使用亮丽原色（红、黄、蓝）和黑色轮廓线，色彩应平面且不含渐变。排版应大胆且戏剧化，使用漫画风格字体和夸张的感叹词，文字可放置在对话气泡中。图像处理是关键，应使用半调网点(Halftone)效果模拟印刷，将图像简化为点阵和色块。装饰元素应包含漫画风格的线条、爆炸形状和拟声词。可使用重复图案和网格排列增强视觉冲击。整体设计应呈现出鲜明、直接且充满流行文化引用的视觉效果，仿佛一页来自60年代漫画或安迪·沃霍尔的艺术作品，参考Roy Lichtenstein的绘画和经典漫画书的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (5, '极简主义风格', '<div class=\"container\">\n      <div class=\"date\">2025.05.18</div>\n      <h1 class=\"title\">摄影的艺术</h1>\n      <p class=\"subtitle\">光影与构图的永恒魅力</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"摄影不仅是捕捉瞬间，而是创造永恒。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>摄影是光影的艺术，掌握光线是创作好照片的关键</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>构图是视觉语言，通过空间关系传达情感与故事</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>数码技术改变了摄影工具，但不改变摄影的本质</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>真正的摄影眼光将在视觉饱和的时代成为宝贵能力</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n         <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，获取更多摄影技巧</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 在图像泛滥的数字时代，摄影的形式在变，但作为记录与表达的方式，其艺术本质不变。\n      </div>\n  </div>', '<style>\n      /* 极简主义风格 */\n      .container {\n          font-family: \'Helvetica Neue\', \'Noto Sans\', sans-serif;\n          --container-bg: #f8f8f8;\n          --container-text: #222222;\n          --container-accent: #333333;\n          --container-border: #e0e0e0;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.5;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 1px;\n          color: #888888;\n          margin-bottom: 30px;\n      }\n      \n      .container .title {\n          font-size: 32px;\n          font-weight: 300;\n          margin-bottom: 16px;\n          letter-spacing: -0.5px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: #555555;\n      }\n      \n      .container .divider {\n          height: 1px;\n          width: 40px;\n          background-color: var(--container-border);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          font-weight: 300;\n          padding: 20px 0;\n          border-left: none;\n          border-top: 1px solid var(--container-border);\n          border-bottom: 1px solid var(--container-border);\n          margin: 30px 0;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: #888888;\n          font-size: 14px;\n          font-weight: 400;\n          margin-right: 15px;\n          min-width: 20px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n          border: none;\n      }\n      \n      .container .qr-text {\n          font-size: 12px;\n          color: #888888;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 13px;\n          color: #555555;\n          padding: 20px 0;\n          border-top: 1px solid var(--container-border);\n      }\n  </style>', '采用极简主义风格设计，遵循\"少即是多\"的理念。使用大量留白创造呼吸空间，仅保留最必要的元素。配色方案限制在2-3种中性色，主要为白色背景配以黑色或深灰色文字。排版应精确到像素级别，使用精心设计的网格系统和黄金比例。字体选择无衬线字体如Helvetica或Noto Sans，字重变化作为主要层次手段。装饰元素几乎为零，仅使用极细的分隔线和微妙的阴影。整体设计应呈现出克制、优雅且永恒的美学，让内容本身成为焦点。参考Dieter Rams的设计原则和日本无印良品(MUJI)的产品美学。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (6, '优雅复古\n', '<div class=\"container\">\n      <div class=\"border\"></div>\n      <div class=\"corner corner-tl\"></div>\n      <div class=\"corner corner-tr\"></div>\n      <div class=\"corner corner-bl\"></div>\n      <div class=\"corner corner-br\"></div>\n      <div class=\"date\">Le 15 Avril, 2025</div>\n      <h1 class=\"title\">古典音乐的复兴</h1>\n      <p class=\"subtitle\">在数字时代，巴赫、莫扎特与贝多芬的永恒旋律重获新生</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          古典音乐不是过去的遗物，而是人类灵魂深处永恒的共鸣，跨越时空与文化的界限。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>古典音乐与现代聆听：流媒体平台革命性地改变了年轻一代接触古典音乐的方式</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>数字化保存：高保真技术让历史录音重获新生，填补音乐史的空白</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>跨界融合：古典元素在电影、游戏与流行音乐中的创新应用</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-marker\">※</span>\n              <span>音乐教育的变革：虚拟现实和交互式应用为古典音乐普及带来新机遇</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，聆听精选古典音乐集</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 在这个快节奏的数字时代，古典音乐以其深度与复杂性，为我们提供了一种珍贵的沉浸式体验，让我们能够暂时脱离浮躁，回归内心的宁静。\n      </div>\n  </div>', '<style>\n      /* 优雅复古风格 */\n      .container {\n          font-family: \'Noto Serif SC\', \'Baskerville\', serif;\n          --container-bg: #f8f3e6;\n          --container-text: #3a2a1d;\n          --container-accent: #8b4513;\n          --container-secondary: #a52a2a;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          padding: 40px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: url(\"data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z\' fill=\'%23a18f7d\' fill-opacity=\'0.05\' fill-rule=\'evenodd\'/%3E%3C/svg%3E\");\n          opacity: 0.5;\n          pointer-events: none;\n      }\n      \n      .container .border {\n          position: absolute;\n          top: 15px;\n          left: 15px;\n          right: 15px;\n          bottom: 15px;\n          border: 1px solid rgba(139, 69, 19, 0.3);\n          pointer-events: none;\n      }\n      \n      .container .corner {\n          position: absolute;\n          width: 30px;\n          height: 30px;\n          border-color: var(--container-accent);\n          border-style: solid;\n          border-width: 0;\n      }\n      \n      .container .corner-tl {\n          top: 15px;\n          left: 15px;\n          border-top-width: 1px;\n          border-left-width: 1px;\n      }\n      \n      .container .corner-tr {\n          top: 15px;\n          right: 15px;\n          border-top-width: 1px;\n          border-right-width: 1px;\n      }\n      \n      .container .corner-bl {\n          bottom: 15px;\n          left: 15px;\n          border-bottom-width: 1px;\n          border-left-width: 1px;\n      }\n      \n      .container .corner-br {\n          bottom: 15px;\n          right: 15px;\n          border-bottom-width: 1px;\n          border-right-width: 1px;\n      }\n      \n      .container .date {\n          font-family: \'Baskerville\', \'Libre Baskerville\', serif;\n          font-size: 14px;\n          font-style: italic;\n          text-align: center;\n          color: var(--container-accent);\n          margin-bottom: 20px;\n          letter-spacing: 1px;\n      }\n      \n      .container .title {\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          font-size: 36px;\n          font-weight: 700;\n          text-align: center;\n          margin-bottom: 10px;\n          color: var(--container-accent);\n          line-height: 1.2;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-style: italic;\n          text-align: center;\n          margin-bottom: 30px;\n          line-height: 1.6;\n      }\n      \n      .container .divider {\n          text-align: center;\n          margin: 20px 0;\n      }\n      \n      .container .divider::before {\n          content: \"❧\";\n          font-size: 24px;\n          color: var(--container-accent);\n      }\n      \n      .container .quote {\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          font-size: 18px;\n          line-height: 1.6;\n          font-style: italic;\n          text-align: center;\n          margin: 30px 40px;\n          color: var(--container-secondary);\n      }\n      \n      .container .quote::before,\n      .container .quote::after {\n          content: \"\"\";\n          font-size: 40px;\n          line-height: 0;\n          vertical-align: -15px;\n      }\n      \n      .container .quote::after {\n          content: \"\"\";\n      }\n      \n      .container .points {\n          margin: 30px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.6;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-marker {\n          font-family: \'Playfair Display\', serif;\n          color: var(--container-accent);\n          font-size: 18px;\n          margin-right: 15px;\n          flex-shrink: 0;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          padding: 20px 0;\n          border-top: 1px solid rgba(139, 69, 19, 0.3);\n          border-bottom: 1px solid rgba(139, 69, 19, 0.3);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          filter: sepia(20%);\n          border: 1px solid var(--container-accent);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          font-style: italic;\n          color: var(--container-accent);\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          font-size: 14px;\n          font-style: italic;\n          line-height: 1.6;\n          padding: 15px 20px;\n          background-color: rgba(139, 69, 19, 0.05);\n          border-top: 1px solid rgba(139, 69, 19, 0.2);\n      }\n  </style>', '采用优雅复古风格设计，重现20世纪初期印刷品的精致美学。使用米色或淡黄色纸张质感背景，配以深棕、暗红等老式印刷色。字体必须使用衬线字体如Baskerville或Noto Serif，标题可使用装饰性字体。排版应对称且庄重，遵循传统书籍设计原则。装饰元素包括精致的花纹边框、古典分隔线和角落装饰，可添加轻微做旧效果如纸张纹理和微妙污点。图像应用复古滤镜处理，呈现褪色照片效果。整体设计应散发出典雅、成熟且历经时间考验的气质，参考The New Yorker和老式法国时尚杂志的设计语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (7, '大胆现代', '<div class=\"container\">\n  <div class=\"date\">15 JULY 2025</div>\n  <h1 class=\"title\">城市<span>重构</span></h1>\n  <p class=\"subtitle\">新型建筑正在重塑城市景观，打造更具可持续性与人文关怀的未来生活空间</p>\n  <div class=\"divider\"></div>\n  <blockquote class=\"quote\">\n      \"未来的城市不仅是由玻璃、钢铁和混凝土构成的，更应该是由社区、生态和创新精神塑造的有机体。\"\n  </blockquote>\n  <div class=\"points\">\n      <div class=\"point\">\n          <span class=\"point-number\">01</span>\n          <span>垂直森林：建筑外立面融合大量植被，每栋建筑成为碳吸收器和生物多样性中心</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">02</span>\n          <span>模块化设计：可重配置的建筑系统使空间根据需求灵活变化，减少资源浪费</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">03</span>\n          <span>智能材料：自修复混凝土和光伏玻璃等材料革命性地改变建筑能耗与寿命</span>\n      </div>\n      <div class=\"point\">\n          <span class=\"point-number\">04</span>\n          <span>社区导向：建筑设计重新聚焦于创造有意义的公共空间，促进人际互动</span>\n      </div>\n  </div>\n  <div class=\"qr-section\">\n     <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n      <div class=\"qr-text\">扫描二维码，探索全球创新建筑案例</div>\n  </div>\n  <div class=\"editor-note\">\n      <strong>EDITOR\'S NOTE:</strong> 现代建筑正走向一个关键转折点，从单纯追求形式美学转向整合生态系统、人文关怀与技术创新的综合解决方案。\n  </div>\n</div>', '<style>\n      /* 大胆现代风格 */\n      .container {\n          /* 主题风格 */\n          font-family: \'Noto Sans SC\', sans-serif;\n          --container-bg: #121212;\n          --container-text: #ffffff;\n          --container-accent: #ff2e63;\n          --container-secondary: #00fff5;\n          background-color: var(--container-bg);\n          color: var(--container-text);\n          font-family: \'Noto Sans SC\', sans-serif;\n          padding: 40px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          right: 0;\n          width: 150px;\n          height: 150px;\n          background-color: var(--container-accent);\n          opacity: 0.2;\n          border-radius: 0 0 0 100%;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-size: 14px;\n          font-weight: 700;\n          letter-spacing: 2px;\n          color: var(--container-secondary);\n          margin-bottom: 30px;\n          position: relative;\n      }\n      \n      .container .title {\n          font-size: 60px;\n          font-weight: 800;\n          line-height: 1;\n          margin-bottom: 20px;\n          text-transform: uppercase;\n          letter-spacing: -1px;\n          position: relative;\n      }\n      \n      .container .title span {\n          color: var(--container-accent);\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          line-height: 1.4;\n          position: relative;\n      }\n      \n      .container .divider {\n          height: 4px;\n          width: 100px;\n          background-color: var(--container-accent);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 24px;\n          line-height: 1.3;\n          font-weight: 700;\n          padding: 20px;\n          border-left: 4px solid var(--container-secondary);\n          margin: 30px 0;\n          background-color: rgba(255,255,255,0.05);\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.5;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: var(--container-accent);\n          font-size: 24px;\n          font-weight: 800;\n          margin-right: 15px;\n          line-height: 1;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(255,255,255,0.05);\n          padding: 20px;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 2px solid var(--container-accent);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--container-secondary);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: rgba(0,255,245,0.1);\n          border-left: 4px solid var(--container-secondary);\n      }\n  </style>', '采用大胆现代风格设计，打破传统排版规则，创造强烈视觉冲击。使用鲜艳对比色如荧光粉、电子蓝、亮黄等，背景可使用深色或鲜艳色块。排版应不对称且动态，标题文字极大（至少60px），可使用极粗字重或压缩字体，甚至允许文字重叠和溢出。图形元素应用几何形状，边缘锐利，可添加不规则裁切效果。层次感通过大小、颜色和位置的极端对比创造。整体设计应充满张力和活力，像一张视觉宣言，参考Wired杂志和Pentagram设计工作室的作品。添加微妙动效如悬停放大或颜色变换，增强现代感。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (8, '日式极简\n', '<div class=\"container\">\n      <div class=\"container\">\n          <div class=\"date\">2025年5月17日</div>\n          <div class=\"title-container\">\n              <div class=\"ink-mark\"></div>\n              <h1 class=\"title\">茶道之美</h1>\n          </div>\n          <p class=\"subtitle\">一碗茶，一方宇宙，茶道中蕴含的东方生活美学与哲思</p>\n          <blockquote class=\"quote\">\n              茶道不只是饮茶仪式，更是对和、敬、清、寂四大原则的生活实践。\n          </blockquote>\n          <div class=\"points\">\n              <div class=\"point\">\n                  待客之心：茶室中每一个动作，每一处设计都体现对客人的至高敬意\n              </div>\n              <div class=\"point\">\n                  四季感知：茶道仪式随季节变化而调整，体现与自然和谐共处的理念\n              </div>\n              <div class=\"point\">\n                  珍视瞬间：茶道秉持\"一期一会\"精神，视每次相聚为人生独特相遇\n              </div>\n              <div class=\"point\">\n                  留白之美：茶室布置的极简与留白，是对内心平静的物理表达\n              </div>\n          </div>\n          <div class=\"qr-section\">\n             <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫描二维码，探索更多日本传统美学</div>\n          </div>\n          <div class=\"editor-note\">\n              <strong>編集者注：</strong> 在这个快节奏的现代社会，茶道所蕴含的慢生活哲学，为我们提供了一种回归本真、寻找内心平静的方式。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 日式极简风格 */\n      .container {\n          font-family: \'Noto Sans JP\', \'Noto Sans SC\', sans-serif;\n          --jp-bg: #f7f7f5;\n          --jp-text: #333333;\n          --jp-accent: #111111;\n          --jp-light: #d7d7d7;\n          background-color: var(--jp-bg);\n          color: var(--jp-text);\n          padding: 60px 40px;\n          position: relative;\n          display: flex;\n          flex-direction: column;\n          height: 100%;\n      }\n      \n      .container .container {\n          display: flex;\n          flex-direction: column;\n          height: 100%;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 300;\n          letter-spacing: 2px;\n          color: var(--jp-text);\n          opacity: 0.7;\n          writing-mode: vertical-rl;\n          text-orientation: mixed;\n          position: absolute;\n          top: 40px;\n          right: 40px;\n          height: 120px;\n      }\n      \n      .container .title-container {\n          display: flex;\n          margin-bottom: 80px;\n      }\n      \n      .container .ink-mark {\n          width: 30px;\n          height: 30px;\n          margin-right: 20px;\n          background-color: var(--jp-accent);\n          opacity: 0.8;\n          border-radius: 50%;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container .ink-mark::after {\n          content: \"\";\n          position: absolute;\n          top: 15%;\n          left: 20%;\n          width: 60%;\n          height: 60%;\n          background-color: var(--jp-bg);\n          border-radius: 50%;\n      }\n      \n      .container .title {\n          font-size: 28px;\n          font-weight: 300;\n          line-height: 1.4;\n          letter-spacing: 3px;\n          flex-grow: 1;\n      }\n      \n      .container .subtitle {\n          font-size: 14px;\n          font-weight: 300;\n          margin: 0 0 60px 50px;\n          line-height: 1.8;\n          max-width: 280px;\n      }\n      \n      .container .line {\n          width: 1px;\n          height: 50px;\n          background-color: var(--jp-accent);\n          margin: 20px 0 20px 25px;\n          opacity: 0.5;\n      }\n      \n      .container .quote {\n          font-size: 16px;\n          line-height: 1.8;\n          font-weight: 300;\n          margin: 20px 0 20px 50px;\n          padding-left: 20px;\n          border-left: 1px solid var(--jp-light);\n          max-width: 280px;\n      }\n      \n      .container .points {\n          margin: 60px 0 0 50px;\n          max-width: 280px;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.8;\n          font-size: 14px;\n          font-weight: 300;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point::before {\n          content: \"—\";\n          margin-right: 15px;\n          color: var(--jp-accent);\n      }\n      \n      .container .qr-section {\n          margin: auto 0 0 50px;\n          display: flex;\n          align-items: center;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n          filter: grayscale(100%);\n      }\n      \n      .container .qr-text {\n          font-size: 12px;\n          letter-spacing: 1px;\n          opacity: 0.7;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 12px;\n          margin-left: 50px;\n          max-width: 280px;\n          line-height: 1.8;\n          font-weight: 300;\n      }\n  </style>', '采用日式极简风格设计，体现\"侘寂\"(Wabi-Sabi)美学——接受不完美、无常与不完整的哲学。使用极度克制的色彩，主要为白、灰、黑和淡墨色。留白(Ma)是核心元素，至少70%的设计应为空白，创造宁静感。排版应非对称且垂直，可使用垂直书写模式，体现日本传统排版。字体应极度简约，笔画轻盈。装饰元素几乎为零，但可添加一处墨迹、简单印章或单一线条作为点睛之笔。整体设计应呈现出深度宁静、精致且富有禅意的视觉体验，仿佛一页来自京都寺院的书页，参考原研哉的MUJI设计理念和日本传统水墨画的留白美学', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (9, '赛博朋克风格', '<div class=\"container\">\n      <div class=\"circuit\"></div>\n      <div class=\"date\">03.09.2025 :: RENDER_LOG</div>\n      <h1 class=\"title\">\n          <div class=\"glitch-box\">\n              <div class=\"glitch-text\" data-text=\"沉浸式艺术\">沉浸式艺术</div>\n          </div>\n      </h1>\n      <p class=\"subtitle\">数字技术正在重塑艺术创作与体验的边界，建立物理与虚拟世界之间的无缝连接</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"当代艺术已不再局限于观看，而是成为一种全身心参与的多感官体验；技术不只是工具，更是创作的共同体。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">01</span>\n              <span>生成式艺术：AI算法已从辅助工具发展为独立创作者，挑战我们对原创性与创造力的理解</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">02</span>\n              <span>物理-数字混合：增强现实技术使艺术装置可以同时存在于物理空间和数字领域，创造多层次叙事</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">03</span>\n              <span>神经反馈：新一代沉浸式作品可读取观众脑电波，实时调整内容以优化情感体验</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">04</span>\n              <span>非永久性艺术：数字作品的短暂性和动态性正挑战艺术保存的传统理念，强调体验而非收藏</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n         <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫码进入虚拟展览，体验最前沿沉浸式艺术作品</div>\n      </div>\n      <div class=\"editor-note\">\n          数字艺术生态正在迅速演变，技术与创意的融合不仅创造了前所未有的表达形式，也重新定义了艺术与观众、艺术与社会的关系。在这个新兴领域，体验已成为作品的核心。\n      </div>\n  </div>', '<style>\n      /* 赛博朋克风格 */\n      .container {\n          --cyber-bg: #0a0e17;\n          --cyber-text: #e0e0e0;\n          --cyber-accent1: #ff2a6d;\n          --cyber-accent2: #05d9e8;\n          --cyber-accent3: #7bff00;\n          --cyber-dark: #1a1a2e;\n          background-color: var(--cyber-bg);\n          color: var(--cyber-text);\n          font-family: \'Courier New\', monospace;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          border: 1px solid var(--cyber-accent2);\n      }\n      \n      @keyframes scanline {\n          0% {\n              transform: translateY(-100%);\n          }\n          100% {\n              transform: translateY(100%);\n          }\n      }\n      \n      @keyframes flicker {\n          0% { opacity: 1; }\n          3% { opacity: 0.8; }\n          6% { opacity: 1; }\n          7% { opacity: 0.9; }\n          8% { opacity: 1; }\n          9% { opacity: 0.9; }\n          10% { opacity: 1; }\n          100% { opacity: 1; }\n      }\n      \n      @keyframes glitch {\n          0% { transform: translate(0); }\n          20% { transform: translate(-2px, 2px); }\n          40% { transform: translate(-2px, -2px); }\n          60% { transform: translate(2px, 2px); }\n          80% { transform: translate(2px, -2px); }\n          100% { transform: translate(0); }\n      }\n      \n      @keyframes rgbOffset {\n          0% {text-shadow: -1px 0 var(--cyber-accent1), 1px 0 var(--cyber-accent2);}\n          50% {text-shadow: 1px 0 var(--cyber-accent1), -1px 0 var(--cyber-accent2);}\n          100% {text-shadow: -1px 0 var(--cyber-accent1), 1px 0 var(--cyber-accent2);}\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background: \n              radial-gradient(circle at 20% 35%, rgba(5, 217, 232, 0.15) 0%, transparent 40%),\n              radial-gradient(circle at 75% 65%, rgba(255, 42, 109, 0.15) 0%, transparent 40%);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.03));\n          background-size: 100% 2px, 3px 100%;\n          pointer-events: none;\n          z-index: 2;\n          animation: scanline 8s linear infinite;\n          opacity: 0.2;\n      }\n      \n      .container .circuit {\n          position: absolute;\n          bottom: 0;\n          right: 0;\n          width: 180px;\n          height: 180px;\n          background-image: url(\"data:image/svg+xml,%3Csvg width=\'100\' height=\'100\' viewBox=\'0 0 100 100\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' stroke=\'%2305d9e8\' stroke-width=\'1\'%3E%3Cpath d=\'M10 10 L90 10 M10 50 L90 50 M10 90 L90 90 M50 10 L50 90 M10 10 L50 50 M50 50 L90 10 M10 90 L50 50 M50 50 L90 90\'/%3E%3C/g%3E%3C/svg%3E\");\n          opacity: 0.2;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-family: \'Courier New\', monospace;\n          font-size: 14px;\n          color: var(--cyber-accent2);\n          margin-bottom: 20px;\n          text-transform: uppercase;\n          letter-spacing: 2px;\n          position: relative;\n          z-index: 1;\n          animation: flicker 10s infinite;\n      }\n      \n      .container .date::before {\n          content: \"> \";\n          color: var(--cyber-accent3);\n      }\n      \n      .container .title {\n          font-size: 56px;\n          font-weight: bold;\n          line-height: 1;\n          text-transform: uppercase;\n          margin-bottom: 20px;\n          color: var(--cyber-text);\n          position: relative;\n          z-index: 1;\n          animation: rgbOffset 2s infinite;\n      }\n      \n      .container .glitch-box {\n          position: relative;\n          display: inline-block;\n      }\n      \n      .container .glitch-text {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .glitch-text::before,\n      .container .glitch-text::after {\n          content: attr(data-text);\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          opacity: 0.8;\n      }\n      \n      .container .glitch-text::before {\n          color: var(--cyber-accent1);\n          z-index: -1;\n          animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;\n          animation-delay: 0.1s;\n      }\n      \n      .container .glitch-text::after {\n          color: var(--cyber-accent2);\n          z-index: -2;\n          animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;\n          animation-delay: 0.2s;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          margin-bottom: 30px;\n          position: relative;\n          z-index: 1;\n          padding: 10px;\n          background-color: rgba(10, 14, 23, 0.7);\n          border-left: 3px solid var(--cyber-accent1);\n      }\n      \n      .container .divider {\n          height: 1px;\n          width: 100%;\n          background: linear-gradient(to right, transparent, var(--cyber-accent2), transparent);\n          margin: 30px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .divider::before {\n          content: \"// DATA STREAM //\";\n          position: absolute;\n          top: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--cyber-bg);\n          padding: 0 15px;\n          color: var(--cyber-accent2);\n          font-size: 12px;\n      }\n      \n      .container .quote {\n          font-size: 20px;\n          line-height: 1.4;\n          margin: 30px 0;\n          padding: 20px;\n          background-color: rgba(5, 217, 232, 0.05);\n          border-left: none;\n          border: 1px solid var(--cyber-accent2);\n          position: relative;\n          z-index: 1;\n          text-shadow: 0 0 5px var(--cyber-accent2);\n          box-shadow: 0 0 10px rgba(5, 217, 232, 0.2);\n      }\n      \n      .container .quote::before {\n          content: \"//\";\n          color: var(--cyber-accent1);\n          font-size: 30px;\n          position: absolute;\n          top: 10px;\n          left: 10px;\n          opacity: 0.5;\n      }\n      \n      .container .points {\n          margin: 30px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          line-height: 1.5;\n          display: flex;\n          align-items: flex-start;\n          background-color: rgba(10, 14, 23, 0.7);\n          padding: 15px;\n          border-bottom: 1px solid var(--cyber-accent1);\n          transition: all 0.3s ease;\n      }\n      \n      .container .point:hover {\n          background-color: rgba(255, 42, 109, 0.1);\n          transform: translateX(5px);\n      }\n      \n      .container .point-number {\n          font-family: \'Courier New\', monospace;\n          color: var(--cyber-accent3);\n          font-size: 18px;\n          font-weight: bold;\n          margin-right: 15px;\n          background-color: rgba(123, 255, 0, 0.1);\n          padding: 5px 10px;\n          border: 1px solid var(--cyber-accent3);\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(10, 14, 23, 0.8);\n          padding: 20px;\n          border: 1px solid var(--cyber-accent1);\n          position: relative;\n          z-index: 1;\n          box-shadow: 0 0 15px rgba(255, 42, 109, 0.2);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 2px solid var(--cyber-accent2);\n          filter: contrast(120%) brightness(120%) drop-shadow(0 0 5px var(--cyber-accent2));\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          text-transform: uppercase;\n          color: var(--cyber-accent1);\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 15px;\n          background-color: rgba(10, 14, 23, 0.7);\n          border-top: 1px solid var(--cyber-accent3);\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .editor-note::before {\n          content: \">> SYSTEM MESSAGE\";\n          display: block;\n          color: var(--cyber-accent3);\n          margin-bottom: 10px;\n          font-weight: bold;\n      }\n  </style>', '采用赛博朋克风格设计，体现\"高科技，低生活\"的反乌托邦美学。背景必须为深色（黑色或深蓝），配以霓虹色彩如荧光粉、电子蓝和酸性绿，创造夜间都市氛围。排版应模拟故障效果，使用像素化字体或未来感等宽字体，添加字符错位、扫描线和数字噪点。装饰元素必须包含科技界面、数据流、电路板图案和全息投影效果。必须添加故障艺术(Glitch Art)效果如RGB分离、数据损坏和画面撕裂。图像应高对比且添加霓虹光效，模拟雨夜霓虹灯反射。整体设计应呈现出未来主义与复古科技的混搭，营造一种数字化衰败的氛围，参考《银翼杀手》、《神经漫游者》和《赛博朋克2077》的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (10, '瑞士国际主义风格的解构版', '<div class=\"container\">\n      <div class=\"reference-points\">\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n          <div class=\"reference-point\"></div>\n      </div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"grid-line\"></div>\n      <div class=\"date\">17.08.2025</div>\n      <div class=\"title-container\">\n          <h1 class=\"title\">字体革命</h1>\n          <div class=\"title-shadow\">字体革命</div>\n      </div>\n      <p class=\"subtitle\">在数字时代，字体设计如何突破传统边界，重新定义可读性与表现力的平衡</p>\n      <div class=\"divider\"></div>\n      <div class=\"quote-container\">\n          <div class=\"quote-line\"></div>\n          <blockquote class=\"quote\">\n              \"字体不仅是内容的载体，更是信息本身的一部分；它以无声的方式塑造我们的阅读体验与情感反应。\"\n          </blockquote>\n      </div>\n      <div class=\"points\">\n          <div class=\"point\">\n              <div class=\"point-number\">01</div>\n              <div class=\"point-content\">可变字体技术：单一字体文件可实现无限权重变化，为设计师提供前所未有的精细控制</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">02</div>\n              <div class=\"point-content\">屏幕优化：新一代数字字体通过亚像素渲染技术，解决了高分辨率显示器上的清晰度挑战</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">03</div>\n              <div class=\"point-content\">多语言兼容：字体设计正在拥抱全球化，单一字体系统可支持多达十几种文字系统</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-number\">04</div>\n              <div class=\"point-content\">表情符号演变：从简单图标到复杂表情系统，它们已成为现代字体设计中不可或缺的部分</div>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描探索当代最具创新性的字体设计</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记:</strong> 字体设计正处于历史性转折点，数字工具与多屏阅读体验正推动这门古老艺术形式进入全新时代。设计师不再只关注形式美学，更需思考跨平台、跨文化的视觉语言建构。\n      </div>\n  </div>', '<style>\n      /* 瑞士国际主义风格的解构版 */\n      .container {\n          --swiss-bg: #ffffff;\n          --swiss-text: #000000;\n          --swiss-grid: #cccccc;\n          --swiss-accent: #ff0000;\n          --swiss-secondary: #0066ff;\n          background-color: var(--swiss-bg);\n          color: var(--swiss-text);\n          font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n          padding: 25px;\n          position: relative;\n          overflow: hidden;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: \n              linear-gradient(to right, transparent 98%, var(--swiss-grid) 98%, var(--swiss-grid) 100%),\n              linear-gradient(to bottom, transparent 98%, var(--swiss-grid) 98%, var(--swiss-grid) 100%);\n          background-size: 20px 20px;\n          opacity: 0.3;\n          z-index: 0;\n      }\n      \n      .container .reference-points {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .reference-point {\n          position: absolute;\n          width: 5px;\n          height: 5px;\n          background-color: var(--swiss-accent);\n          border-radius: 50%;\n          opacity: 0.5;\n      }\n      \n      .container .reference-point:nth-child(1) {\n          top: 15%;\n          left: 20%;\n      }\n      \n      .container .reference-point:nth-child(2) {\n          top: 40%;\n          left: 85%;\n      }\n      \n      .container .reference-point:nth-child(3) {\n          top: 75%;\n          left: 35%;\n      }\n      \n      .container .reference-point:nth-child(4) {\n          top: 25%;\n          left: 65%;\n      }\n      \n      .container .reference-point:nth-child(5) {\n          top: 85%;\n          left: 75%;\n      }\n      \n      .container .grid-line {\n          position: absolute;\n          background-color: var(--swiss-grid);\n          opacity: 0.3;\n          z-index: 0;\n      }\n      \n      .container .grid-line:nth-child(1) {\n          top: 30%;\n          left: 0;\n          width: 100%;\n          height: 1px;\n      }\n      \n      .container .grid-line:nth-child(2) {\n          top: 0;\n          left: 30%;\n          width: 1px;\n          height: 100%;\n      }\n      \n      .container .grid-line:nth-child(3) {\n          top: 65%;\n          left: 0;\n          width: 100%;\n          height: 1px;\n      }\n      \n      .container .grid-line:nth-child(4) {\n          top: 0;\n          left: 70%;\n          width: 1px;\n          height: 100%;\n      }\n      \n      .container .date {\n          font-family: \'Helvetica Neue\', Helvetica, Arial, sans-serif;\n          font-size: 14px;\n          font-weight: 300;\n          letter-spacing: 2px;\n          text-transform: uppercase;\n          margin-bottom: 20px;\n          transform: translateX(-10px);\n          position: relative;\n          z-index: 1;\n          color: var(--swiss-accent);\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 40px;\n          z-index: 1;\n      }\n      \n      .container .title {\n          font-size: 72px;\n          font-weight: 900;\n          line-height: 0.9;\n          text-transform: uppercase;\n          transform: scale(1, 0.9) translateX(20px);\n          letter-spacing: -3px;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .title-shadow {\n          position: absolute;\n          top: 5px;\n          left: -5px;\n          font-size: 72px;\n          font-weight: 900;\n          line-height: 0.9;\n          text-transform: uppercase;\n          transform: scale(1, 0.9);\n          letter-spacing: -3px;\n          color: var(--swiss-accent);\n          opacity: 0.2;\n          z-index: 0;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          position: relative;\n          z-index: 1;\n          margin-bottom: 30px;\n          transform: translateX(50px);\n          max-width: 80%;\n      }\n      \n      .container .divider {\n          height: 3px;\n          width: 50%;\n          background-color: var(--swiss-text);\n          margin: 30px 0 30px 25%;\n          position: relative;\n          z-index: 1;\n          transform: skewX(-15deg);\n      }\n      \n      .container .quote-container {\n          position: relative;\n          margin: 40px 0;\n          padding-left: 50px;\n          z-index: 1;\n      }\n      \n      .container .quote-line {\n          position: absolute;\n          top: 0;\n          left: 15px;\n          width: 3px;\n          height: 100%;\n          background-color: var(--swiss-accent);\n      }\n      \n      .container .quote {\n          font-size: 24px;\n          font-weight: 300;\n          line-height: 1.4;\n          margin-left: 20px;\n          position: relative;\n          z-index: 1;\n          font-style: italic;\n      }\n      \n      .container .points {\n          display: grid;\n          grid-template-columns: 1fr 1fr;\n          gap: 30px;\n          margin: 40px 0;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .point {\n          position: relative;\n          padding: 15px;\n      }\n      \n      .container .point:nth-child(1) {\n          transform: translateY(-15px);\n      }\n      \n      .container .point:nth-child(2) {\n          transform: translateY(15px);\n      }\n      \n      .container .point:nth-child(3) {\n          transform: translateX(20px);\n      }\n      \n      .container .point:nth-child(4) {\n          transform: translateX(-20px);\n      }\n      \n      .container .point-number {\n          font-size: 32px;\n          font-weight: 900;\n          margin-bottom: 10px;\n          color: var(--swiss-accent);\n          transform: scale(1.2, 1);\n          display: inline-block;\n      }\n      \n      .container .point-content {\n          font-size: 14px;\n          line-height: 1.4;\n          font-weight: 400;\n      }\n      \n      .container .point:nth-child(even) .point-content {\n          font-weight: 700;\n      }\n      \n      .container .qr-section {\n          display: flex;\n          align-items: center;\n          margin-top: 40px;\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          border: 5px solid var(--swiss-text);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          text-transform: uppercase;\n          letter-spacing: 1px;\n          transform: translateX(15px);\n      }\n      \n      .container .editor-note {\n          margin-top: 50px;\n          font-size: 14px;\n          position: relative;\n          z-index: 1;\n          padding-top: 15px;\n          border-top: 1px solid var(--swiss-text);\n          font-style: italic;\n          transform: translateX(40px);\n          max-width: 90%;\n      }\n  </style>', '采用瑞士国际主义风格的解构版设计，在严格网格系统的基础上进行有意识的破坏和重组。排版应基于经典瑞士网格，但故意打破和扭曲，文字可越过栏格、重叠或被切割。色彩应保持瑞士风格的克制，主要使用黑白，但可添加一两种鲜艳原色作为点缀。字体必须使用无衬线几何字体如Helvetica或Akzidenz-Grotesk，但可通过极端的字重、间距和大小变化创造张力。图像应高对比且可被解构或重组。装饰元素几乎为零，但可使用解构的网格线和参考点。整体设计应呈现出理性与叛逆并存的视觉效果，像是经典瑞士设计被有意识地挑战和重新诠释，参考Wolfgang Weingart和April Greiman的实验性作品。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (11, '新未来主义', '<div class=\"container\">\n      <div class=\"curve-element curve-element-1\"></div>\n      <div class=\"curve-element curve-element-2\"></div>\n      \n      <div class=\"content\">\n          <div class=\"date\">2025.09.21</div>\n          \n          <div class=\"title-container\">\n              <h1 class=\"title\">星际探索</h1>\n              <p class=\"subtitle\">当代太空技术正在重新定义人类的边界，开启多行星文明的新篇章</p>\n          </div>\n          \n          <div class=\"highlight-box\">\n              <blockquote class=\"quote\">\n                  宇宙不仅比我们想象的更奇异，甚至比我们能够想象的还要奇异。探索太空不只是关于发现新世界，更是重新认识我们自己。\n              </blockquote>\n          </div>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-number\">01</div>\n                  <div class=\"point-text\">可重复使用火箭：航天发射成本降低90%，开启太空旅行的商业化时代</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">02</div>\n                  <div class=\"point-text\">月球基地建设：国际联合计划已进入实质性阶段，首个永久前哨将于2030年建成</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">03</div>\n                  <div class=\"point-text\">深空通信网络：量子纠缠技术突破将实现与火星探测器的即时通信</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-number\">04</div>\n                  <div class=\"point-text\">小行星采矿：近地轨道资源开发预计将在2035年实现商业化，创造万亿级市场</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n              <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n              <div class=\"qr-text\">扫描观看最新太空任务实时数据与高清图像</div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <strong>编辑注释：</strong>太空探索已从政府主导的国家项目转变为公私合作的产业生态。这一转变不仅加速了技术创新，也正在为地球资源、能源与环境危机提供潜在解决方案。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新未来主义风格 */\n      .container {\n          font-family: \'Roboto\', \'Noto Sans SC\', sans-serif;\n          --neo-fut-bg: #f7f7f7;\n          --neo-fut-text: #2d2d2d;\n          --neo-fut-primary: #e5e5e5;\n          --neo-fut-secondary: #b3b3b3;\n          --neo-fut-accent: #0066ff;\n          --neo-fut-metal: linear-gradient(145deg, #e6e6e6, #cccccc);\n          background: var(--neo-fut-bg);\n          color: var(--neo-fut-text);\n          padding: 35px;\n          border-radius: 15px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          height: 120px;\n          background: linear-gradient(110deg, rgba(230, 230, 230, 0.8), rgba(200, 200, 200, 0.4));\n          clip-path: polygon(0 0, 100% 0, 100% 70%, 0 100%);\n          z-index: 0;\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 1;\n      }\n      \n      .container .curve-element {\n          position: absolute;\n          width: 200px;\n          height: 200px;\n          border-radius: 50%;\n          background: linear-gradient(145deg, #f0f0f0, #e0e0e0);\n          filter: blur(30px);\n          opacity: 0.6;\n          z-index: -1;\n      }\n      \n      .container .curve-element-1 {\n          top: -100px;\n          right: -50px;\n      }\n      \n      .container .curve-element-2 {\n          bottom: -80px;\n          left: -70px;\n          width: 300px;\n          height: 300px;\n          opacity: 0.3;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 500;\n          letter-spacing: 2px;\n          text-transform: uppercase;\n          color: var(--neo-fut-secondary);\n          margin-bottom: 25px;\n          padding-left: 5px;\n      }\n      \n      .container .title-container {\n          margin-bottom: 30px;\n          position: relative;\n      }\n      \n      .container .title {\n          font-size: 42px;\n          font-weight: 300;\n          line-height: 1.1;\n          letter-spacing: -1px;\n          margin-bottom: 10px;\n          background: linear-gradient(135deg, var(--neo-fut-text), #6e6e6e);\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n          border-bottom: 1px solid var(--neo-fut-secondary);\n          padding-bottom: 15px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          line-height: 1.5;\n          color: var(--neo-fut-secondary);\n          max-width: 85%;\n      }\n      \n      .container .highlight-box {\n          background: var(--neo-fut-metal);\n          border-radius: 12px;\n          padding: 25px;\n          margin: 35px 0;\n          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03), \n                      inset 0 -2px 0 rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          font-weight: 300;\n          font-style: italic;\n          color: var(--neo-fut-text);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          font-size: 60px;\n          position: absolute;\n          left: -25px;\n          top: -20px;\n          color: var(--neo-fut-accent);\n          opacity: 0.2;\n          font-family: Georgia, serif;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          display: flex;\n          align-items: flex-start;\n          margin-bottom: 25px;\n          position: relative;\n      }\n      \n      .container .point-number {\n          font-size: 14px;\n          font-weight: 600;\n          color: var(--neo-fut-accent);\n          width: 28px;\n          height: 28px;\n          border-radius: 50%;\n          background: rgba(0, 102, 255, 0.1);\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          margin-right: 15px;\n          flex-shrink: 0;\n      }\n      \n      .container .point-text {\n          font-size: 15px;\n          line-height: 1.6;\n          padding-top: 3px;\n      }\n      \n      .container .qr-section {\n          display: flex;\n          align-items: center;\n          margin: 40px 0 15px;\n          background: var(--neo-fut-primary);\n          border-radius: 12px;\n          padding: 20px;\n          box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          background: white;\n          padding: 10px;\n          border-radius: 8px;\n          margin-right: 20px;\n          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          line-height: 1.5;\n          color: var(--neo-fut-text);\n      }\n      \n      .container .editor-note {\n          margin-top: 35px;\n          font-size: 13px;\n          line-height: 1.5;\n          color: var(--neo-fut-secondary);\n          padding: 15px;\n          border-left: 2px solid var(--neo-fut-accent);\n          background: rgba(0, 102, 255, 0.03);\n          border-radius: 0 6px 6px 0;\n      }\n  </style>', '采用新未来主义风格设计，体现当代建筑和产品设计中的前沿美学。形态应强调流线型曲线和有机几何形状，避免直角和静态形式。色彩应使用金属色调如银色、钛白和铬黄，配以一两种高饱和度的强调色。材质表现是关键，应模拟高科技材料如拉丝金属、碳纤维和磨砂玻璃。排版应动态且流畅，使用现代无衬线字体，可沿曲线排列或呈放射状。装饰元素应包含参数化生成的图案、流体动力学形态和仿生学结构。整体设计应呈现出高度发达的技术美学和动态感，仿佛来自近未来的高端产品，参考扎哈·哈迪德的建筑、特斯拉Cybertruck和Apple产品的设计语言', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (12, '超现实主义数字拼贴风格', '<div class=\"container\">\n      <div class=\"floating-objects\">\n          <div class=\"floating-eye\"></div>\n      </div>\n      <div class=\"date\">RÉALITÉ • 17 JUIN 2025</div>\n      <div class=\"title-container\">\n          <h1 class=\"title\">数字身份的迷宫</h1>\n          <p class=\"subtitle\">在社交媒体的万花筒中，我们的自我变成了一系列精心策划的数字碎片</p>\n      </div>\n      <div class=\"quote-container\">\n          <blockquote class=\"quote\">\n              \"我们创造了数字化的第二自我，它既是我们的延伸，又是我们的囚笼；既是真实的表达，又是精心构建的幻象。\"\n          </blockquote>\n      </div>\n      <div class=\"points\">\n          <div class=\"point\">\n              <div class=\"point-content\">数字拼贴：现代人的身份已成为多平台角色的复合体，每个平台展现不同的自我片段</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">算法回音室：我们所见的内容塑造着我们的认知，而我们的行为又强化着算法的预测</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">真实与表演的融合：在持续的公开展示中，表演逐渐成为真实，界限被永久模糊</div>\n          </div>\n          <div class=\"point\">\n              <div class=\"point-content\">集体孤独：我们从未如此紧密连接，却同时经历着新形式的社交隔离与疏离</div>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描进入一场关于数字身份的沉浸式体验</div>\n      </div>\n      <div class=\"editor-note\">\n          <span class=\"note-title\">ÉDITORIAL:</span>\n          社交媒体已不仅是我们使用的工具，更成为塑造我们思维与互动方式的环境。理解这种新现实的超现实性质，是我们在数字时代保持真实与连接的关键。\n      </div>\n  </div>', '<style>\n      /* 超现实主义数字拼贴风格 */\n      .container {\n          --surreal-primary: #2a1a4a;\n          --surreal-secondary: #ff6b6b;\n          --surreal-accent: #64e8de;\n          --surreal-text: #f0f0f0;\n          --surreal-dream: #9d4edd;\n          \n          background: linear-gradient(135deg, var(--surreal-primary), #1a0b2e);\n          color: var(--surreal-text);\n          font-family: \'Cormorant Garamond\', \'Noto Serif SC\', serif;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 10px 30px rgba(0,0,0,0.3);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          width: 200px;\n          height: 200px;\n          border-radius: 50%;\n          background: radial-gradient(circle, var(--surreal-accent), transparent 70%);\n          opacity: 0.2;\n          top: -50px;\n          right: -50px;\n          filter: blur(20px);\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          width: 150px;\n          height: 150px;\n          background: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M50,5 L95,50 L50,95 L5,50 Z\" fill=\"none\" stroke=\"%239d4edd\" stroke-width=\"2\"/></svg>\');\n          background-size: contain;\n          bottom: 20px;\n          left: 20px;\n          opacity: 0.15;\n          transform: rotate(15deg);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .floating-objects {\n          position: absolute;\n          top: 0;\n          left: 0;\n          width: 100%;\n          height: 100%;\n          pointer-events: none;\n          z-index: 1;\n      }\n      \n      .container .floating-eye {\n          position: absolute;\n          top: 30%;\n          right: 15%;\n          width: 60px;\n          height: 40px;\n          border-radius: 50%;\n          background: white;\n          box-shadow: 0 0 20px rgba(157, 78, 221, 0.5);\n      }\n      \n      .container .floating-eye::after {\n          content: \"\";\n          position: absolute;\n          top: 50%;\n          left: 50%;\n          transform: translate(-50%, -50%);\n          width: 25px;\n          height: 25px;\n          border-radius: 50%;\n          background: var(--surreal-primary);\n      }\n      \n      .container .date {\n          font-family: \'Cinzel\', serif;\n          font-size: 16px;\n          letter-spacing: 3px;\n          color: var(--surreal-accent);\n          margin-bottom: 20px;\n          position: relative;\n          z-index: 2;\n          text-shadow: 0 0 5px rgba(100, 232, 222, 0.5);\n          transform: skew(-5deg);\n      }\n      \n      .container .title-container {\n          position: relative;\n          margin-bottom: 40px;\n          z-index: 2;\n      }\n      \n      .container .title {\n          font-size: 52px;\n          font-weight: 700;\n          margin-bottom: 10px;\n          line-height: 1.1;\n          background: linear-gradient(90deg, var(--surreal-text), var(--surreal-accent));\n          -webkit-background-clip: text;\n          -webkit-text-fill-color: transparent;\n          text-shadow: 0 0 10px rgba(157, 78, 221, 0.3);\n          transform: perspective(500px) rotateX(5deg);\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          font-style: italic;\n          color: var(--surreal-secondary);\n          max-width: 90%;\n          line-height: 1.4;\n          position: relative;\n      }\n      \n      .container .quote-container {\n          position: relative;\n          margin: 50px 0;\n          padding: 20px;\n          background: rgba(42, 26, 74, 0.6);\n          backdrop-filter: blur(5px);\n          border-radius: 10px;\n          border-top: 1px solid rgba(157, 78, 221, 0.5);\n          border-left: 1px solid rgba(157, 78, 221, 0.5);\n          box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2);\n          z-index: 2;\n          transform: perspective(500px) rotateY(-3deg);\n      }\n      \n      .container .quote {\n          font-size: 22px;\n          line-height: 1.4;\n          font-style: italic;\n          color: var(--surreal-text);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          font-size: 80px;\n          position: absolute;\n          top: -40px;\n          left: -15px;\n          color: var(--surreal-dream);\n          opacity: 0.3;\n      }\n      \n      .container .points {\n          position: relative;\n          z-index: 2;\n          margin: 40px 0;\n          counter-reset: point;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding-left: 50px;\n          position: relative;\n          transform: perspective(500px) translateZ(0);\n          transition: transform 0.3s ease;\n      }\n      \n      .container .point:hover {\n          transform: perspective(500px) translateZ(10px);\n      }\n      \n      .container .point::before {\n          counter-increment: point;\n          content: counter(point, decimal-leading-zero);\n          position: absolute;\n          left: 0;\n          font-family: \'Cinzel\', serif;\n          font-size: 24px;\n          color: var(--surreal-secondary);\n          line-height: 1;\n          opacity: 0.9;\n      }\n      \n      .container .point-content {\n          line-height: 1.5;\n          position: relative;\n      }\n      \n      .container .qr-section {\n          position: relative;\n          z-index: 2;\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background: rgba(42, 26, 74, 0.4);\n          backdrop-filter: blur(5px);\n          padding: 20px;\n          border-radius: 10px;\n          transform: perspective(500px) rotateX(-3deg);\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          margin-right: 20px;\n          position: relative;\n          filter: drop-shadow(0 0 8px rgba(157, 78, 221, 0.5));\n          transition: transform 0.3s ease;\n      }\n      \n      .container .qr-code:hover {\n          transform: scale(1.05);\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--surreal-accent);\n          font-family: \'Cinzel\', serif;\n          letter-spacing: 1px;\n      }\n      \n      .container .editor-note {\n          position: relative;\n          z-index: 2;\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background: rgba(255, 107, 107, 0.1);\n          border-radius: 10px;\n          border-right: 3px solid var(--surreal-secondary);\n          font-style: italic;\n      }\n      \n      .container .note-title {\n          color: var(--surreal-secondary);\n          font-weight: bold;\n          display: block;\n          margin-bottom: 5px;\n      }\n      \n      @keyframes float {\n          0% { transform: translateY(0) rotate(0deg); }\n          50% { transform: translateY(-10px) rotate(5deg); }\n          100% { transform: translateY(0) rotate(0deg); }\n      }\n  </style>', '采用超现实主义数字拼贴风格设计，创造梦境般的视觉叙事。图像处理是核心，应组合不相关元素创造意外联系，如古典雕塑与现代电子产品、自然元素与几何形状。比例应故意失调，创造视觉张力。色彩可使用梦幻般的组合，如暖日落色调或冷月光色调，添加轻微的色偏。排版应融入拼贴中，文字可环绕物体、穿过图像或成为构图的一部分。装饰元素应包含超现实符号如悬浮物体、不可能的建筑、变形的人物或动物。可添加微妙的阴影和光效增强立体感。整体设计应呈现出一种介于现实与梦境之间的视觉体验，引发观者的想象和潜意识联想，参考René Magritte的绘画和现代数字艺术家如Justin Peters的作品。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (13, '新巴洛克数字风格', '<div class=\"container\">\n      <div class=\"ornate-border\"></div>\n      <div class=\"corner-decoration corner-top-left\"></div>\n      <div class=\"corner-decoration corner-top-right\"></div>\n      <div class=\"corner-decoration corner-bottom-left\"></div>\n      <div class=\"corner-decoration corner-bottom-right\"></div>\n      \n      <div class=\"content\">\n          <div class=\"date\">LE XVII AOÛT • ANNO DOMINI MMXXIV</div>\n          <div class=\"title-decoration\">✧ ✦ ✧</div>\n          <h1 class=\"title\">交响盛宴</h1>\n          <p class=\"subtitle\">古典音乐的永恒华彩，在当代世界中绽放出永不褪色的光辉</p>\n          \n          <div class=\"divider\"></div>\n          \n          <blockquote class=\"quote\">\n              \"交响乐不仅是音符的组合，更是人类情感的建筑；每一个乐章如同巴洛克宫殿的厅堂，宏伟、精致且充满戏剧性。\"\n          </blockquote>\n          \n          <div class=\"points\">\n              <div class=\"point\">\n                  <div class=\"point-content\"><span class=\"drop-cap\">管</span>弦乐团正在经历数字化复兴，通过沉浸式技术与全息投影，为古典音乐带来革命性的聆听体验</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">巴洛克音乐的复杂对位法与华丽装饰音，成为当代作曲家重新探索的灵感源泉，影响着电影配乐与游戏音乐</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">年轻指挥家正在打破传统界限，将古典作品与现代元素融合，吸引新一代观众走进音乐厅</div>\n              </div>\n              <div class=\"point\">\n                  <div class=\"point-content\">高分辨率音频技术使巴赫、亨德尔与维瓦尔第的作品呈现出前所未有的细节与层次，重现巴洛克音乐的精髓</div>\n              </div>\n          </div>\n          \n          <div class=\"qr-section\">\n              <div class=\"qr-frame\">\n                  <div class=\"qr-decoration\">HARMONIA MUNDI</div>\n                 <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n                  <div class=\"qr-text\">扫描聆听精选巴洛克音乐杰作</div>\n              </div>\n          </div>\n          \n          <div class=\"editor-note\">\n              <span class=\"note-title\">MAESTRO\'S NOTE:</span>\n              古典音乐的魅力在于它超越了时间的限制。几个世纪前的作品至今仍能唤起深刻的共鸣，提醒我们艺术的永恒价值。在这个快节奏的数字时代，交响乐团提供了一种珍贵的共同体验，让我们暂时脱离碎片化的现代生活。\n          </div>\n      </div>\n  </div>', '<style>\n      /* 新巴洛克数字风格 */\n      .container {\n          --baroque-gold: #d4af37;\n          --baroque-red: #800020;\n          --baroque-blue: #1e3163;\n          --baroque-black: #121212;\n          --baroque-cream: #f8f0e3;\n          \n          background: linear-gradient(to bottom, var(--baroque-black) 0%, #2c2112 100%);\n          color: var(--baroque-cream);\n          font-family: \'Playfair Display\', \'Noto Serif SC\', serif;\n          padding: 30px;\n          position: relative;\n          overflow: hidden;\n          box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);\n          border: 1px solid rgba(212, 175, 55, 0.3);\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M20,20 C40,10 60,10 80,20 C90,40 90,60 80,80 C60,90 40,90 20,80 C10,60 10,40 20,20 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"0.5\" opacity=\"0.2\"/></svg>\');\n          background-size: 150px 150px;\n          opacity: 0.1;\n          pointer-events: none;\n      }\n      \n      .container .ornate-border {\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          border: 20px solid transparent;\n          border-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M0,0 L100,0 L100,100 L0,100 Z M10,10 L10,90 L90,90 L90,10 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/><path d=\"M0,0 C30,20 70,20 100,0 M0,100 C30,80 70,80 100,100 M0,0 C20,30 20,70 0,100 M100,0 C80,30 80,70 100,100\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/></svg>\') 20 stretch;\n          opacity: 0.7;\n          pointer-events: none;\n          z-index: 10;\n      }\n      \n      .container .corner-decoration {\n          position: absolute;\n          width: 100px;\n          height: 100px;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><path d=\"M0,0 C30,10 70,10 100,0 C90,30 90,70 100,100 C70,90 30,90 0,100 C10,70 10,30 0,0 Z\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"50\" r=\"30\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/><circle cx=\"50\" cy=\"50\" r=\"15\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          pointer-events: none;\n          opacity: 0.5;\n          z-index: 3;\n      }\n      \n      .container .corner-top-left {\n          top: 0;\n          left: 0;\n      }\n      \n      .container .corner-top-right {\n          top: 0;\n          right: 0;\n          transform: rotate(90deg);\n      }\n      \n      .container .corner-bottom-left {\n          bottom: 0;\n          left: 0;\n          transform: rotate(270deg);\n      }\n      \n      .container .corner-bottom-right {\n          bottom: 0;\n          right: 0;\n          transform: rotate(180deg);\n      }\n      \n      .container .content {\n          position: relative;\n          z-index: 2;\n          padding: 20px;\n          border: 1px solid rgba(212, 175, 55, 0.3);\n          background: linear-gradient(135deg, rgba(18, 18, 18, 0.9), rgba(44, 33, 18, 0.9));\n          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);\n      }\n      \n      .container .date {\n          font-family: \'Cormorant Garamond\', serif;\n          font-size: 16px;\n          letter-spacing: 2px;\n          color: var(--baroque-gold);\n          margin-bottom: 20px;\n          text-align: center;\n          font-style: italic;\n          text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);\n      }\n      \n      .container .title-decoration {\n          text-align: center;\n          margin-bottom: 10px;\n          color: var(--baroque-gold);\n          font-size: 24px;\n          letter-spacing: 3px;\n      }\n      \n      .container .title {\n          font-size: 48px;\n          font-weight: 700;\n          text-align: center;\n          margin-bottom: 10px;\n          line-height: 1.2;\n          color: var(--baroque-gold);\n          text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);\n          position: relative;\n      }\n      \n      .container .title::after {\n          content: \"\";\n          display: block;\n          width: 150px;\n          height: 10px;\n          margin: 15px auto;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"150\" height=\"10\" viewBox=\"0 0 150 10\"><path d=\"M0,5 C30,0 60,10 75,5 C90,0 120,10 150,5\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          background-repeat: no-repeat;\n          background-position: center;\n      }\n      \n      .container .subtitle {\n          font-size: 18px;\n          text-align: center;\n          font-style: italic;\n          color: var(--baroque-cream);\n          max-width: 80%;\n          margin: 0 auto 30px;\n          line-height: 1.4;\n      }\n      \n      .container .divider {\n          width: 100%;\n          height: 20px;\n          margin: 30px 0;\n          background-image: url(\'data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"300\" height=\"20\" viewBox=\"0 0 300 20\"><path d=\"M0,10 C50,0 100,20 150,10 C200,0 250,20 300,10\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/><circle cx=\"150\" cy=\"10\" r=\"5\" fill=\"none\" stroke=\"%23d4af37\" stroke-width=\"1\"/></svg>\');\n          background-size: contain;\n          background-repeat: no-repeat;\n          background-position: center;\n      }\n      \n      .container .quote {\n          position: relative;\n          margin: 40px 0;\n          padding: 30px 40px;\n          font-size: 22px;\n          line-height: 1.6;\n          font-style: italic;\n          color: var(--baroque-cream);\n          text-align: center;\n          background: linear-gradient(135deg, rgba(128, 0, 32, 0.2), rgba(30, 49, 99, 0.2));\n          border-left: 3px solid var(--baroque-gold);\n          border-right: 3px solid var(--baroque-gold);\n      }\n      \n      .container .quote::before,\n      .container .quote::after {\n          content: \"\"\";\n          font-size: 100px;\n          position: absolute;\n          color: var(--baroque-gold);\n          opacity: 0.2;\n          font-family: \"Times New Roman\", serif;\n      }\n      \n      .container .quote::before {\n          top: -20px;\n          left: 10px;\n      }\n      \n      .container .quote::after {\n          content: \"\"\";\n          bottom: -70px;\n          right: 10px;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 25px;\n          padding-left: 40px;\n          position: relative;\n      }\n      \n      .container .point::before {\n          content: \"❧\";\n          position: absolute;\n          left: 0;\n          font-size: 24px;\n          color: var(--baroque-gold);\n      }\n      \n      .container .point-content {\n          line-height: 1.6;\n          font-size: 16px;\n      }\n      \n      .container .qr-section {\n          margin: 40px 0 20px;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .qr-frame {\n          position: relative;\n          padding: 15px;\n          border: 1px solid var(--baroque-gold);\n          background: rgba(18, 18, 18, 0.6);\n          box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);\n      }\n      \n      .container .qr-frame::before {\n          content: \"\";\n          position: absolute;\n          top: 5px;\n          left: 5px;\n          right: 5px;\n          bottom: 5px;\n          border: 1px solid rgba(212, 175, 55, 0.5);\n          pointer-events: none;\n      }\n      \n      .container .qr-code {\n          width: 100px;\n          height: 100px;\n          display: block;\n          filter: sepia(20%);\n      }\n      \n      .container .qr-decoration {\n          position: absolute;\n          top: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--baroque-black);\n          padding: 0 10px;\n          color: var(--baroque-gold);\n          font-style: italic;\n          font-size: 14px;\n          white-space: nowrap;\n      }\n      \n      .container .qr-text {\n          position: absolute;\n          bottom: -10px;\n          left: 50%;\n          transform: translateX(-50%);\n          background-color: var(--baroque-black);\n          padding: 0 10px;\n          color: var(--baroque-gold);\n          font-style: italic;\n          font-size: 14px;\n          white-space: nowrap;\n      }\n      \n      .container .editor-note {\n          margin-top: 30px;\n          padding: 20px;\n          font-size: 15px;\n          line-height: 1.6;\n          font-style: italic;\n          background: linear-gradient(135deg, rgba(30, 49, 99, 0.2), rgba(128, 0, 32, 0.2));\n          border-top: 1px solid rgba(212, 175, 55, 0.3);\n          border-bottom: 1px solid rgba(212, 175, 55, 0.3);\n      }\n      \n      .container .note-title {\n          display: block;\n          color: var(--baroque-gold);\n          font-weight: bold;\n          margin-bottom: 10px;\n          letter-spacing: 1px;\n      }\n      \n      .container .drop-cap {\n          float: left;\n          font-size: 60px;\n          line-height: 40px;\n          padding-right: 8px;\n          padding-top: 4px;\n          color: var(--baroque-gold);\n          font-family: \'Playfair Display\', serif;\n          text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);\n      }\n  </style>', '采用新巴洛克数字风格设计，将17世纪的华丽美学重新诠释为数字形式。装饰是核心元素，应使用极其丰富的数字化巴洛克花纹、卷轴和浮雕效果，每个角落都应有精致细节。色彩应奢华且戏剧性，主要使用金色、深红、皇家蓝和黑色，可添加金属光泽和渐变效果。排版应华丽且层次丰富，使用装饰性强的衬线字体，可添加花体字母和装饰性首字母。图像应添加华丽框架和装饰性边缘。光影效果是关键，应创造强烈的明暗对比，模拟巴洛克绘画的戏剧性光效。整体设计应呈现出极度奢华、复杂且充满戏剧性的视觉体验，仿佛数字时代的凡尔赛宫，参考巴洛克艺术大师如鲁本斯的作品和现代奢侈品牌的视觉语言。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (15, '斯堪的纳维亚风格', '<div class=\"container\">\n      <div class=\"triangle-decor\"></div>\n      <div class=\"date\">Juni 20, 2025</div>\n      <h1 class=\"title\">可持续设计</h1>\n      <p class=\"subtitle\">如何通过设计创造更环保的未来</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          优秀的设计不只是看起来美观，更应该对地球和人类的未来负责。\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">1</span>\n              <span>可循环材料：选择可生物降解或可完全回收的材料是可持续设计的基础</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">2</span>\n              <span>长久耐用：设计应超越短暂流行，创造能经受时间考验的产品</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">3</span>\n              <span>节能生产：优化制造流程，减少能源消耗和碳排放</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">4</span>\n              <span>全生命周期：考虑产品从原材料到废弃处理的完整环境影响</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描二维码，了解更多可持续设计案例</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑手记：</strong> 在资源有限的世界里，可持续设计不再是选择而是必需。北欧设计一直引领这一理念，将简约美学与环保责任完美结合。\n      </div>\n  </div>', '<style>\n      /* 斯堪的纳维亚风格 */\n      .container {\n          font-family: \'Futura\', \'Noto Sans SC\', sans-serif;\n          --scandi-bg: #ffffff;\n          --scandi-text: #333333;\n          --scandi-accent: #6a8d73;\n          --scandi-secondary: #f0dbc4;\n          --scandi-pale: #f7f7f7;\n          --scandi-gray: #a5a5a5;\n          background-color: var(--scandi-bg);\n          color: var(--scandi-text);\n          padding: 40px;\n          position: relative;\n          line-height: 1.5;\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 20px;\n          left: 20px;\n          right: 20px;\n          bottom: 20px;\n          border: 1px solid var(--scandi-secondary);\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 2px;\n          color: var(--scandi-gray);\n          margin-bottom: 30px;\n          text-transform: uppercase;\n      }\n      \n      .container .title {\n          font-size: 36px;\n          font-weight: 500;\n          margin-bottom: 16px;\n          color: var(--scandi-text);\n          letter-spacing: -0.5px;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--scandi-gray);\n      }\n      \n      .container .divider {\n          height: 2px;\n          width: 50px;\n          background-color: var(--scandi-accent);\n          margin: 30px 0;\n      }\n      \n      .container .quote {\n          font-size: 20px;\n          line-height: 1.6;\n          padding: 30px;\n          margin: 30px 0;\n          background-color: var(--scandi-pale);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"\"\";\n          position: absolute;\n          top: 0;\n          left: 10px;\n          font-size: 60px;\n          color: var(--scandi-accent);\n          opacity: 0.3;\n          line-height: 1;\n      }\n      \n      .container .points {\n          margin: 40px 0;\n      }\n      \n      .container .point {\n          margin-bottom: 24px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          min-width: 24px;\n          height: 24px;\n          border-radius: 50%;\n          background-color: var(--scandi-accent);\n          color: white;\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          font-size: 12px;\n          margin-right: 15px;\n          margin-top: 2px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: var(--scandi-pale);\n          padding: 30px;\n      }\n      \n      .container .qr-code {\n          width: 80px;\n          height: 80px;\n          margin-right: 20px;\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--scandi-gray);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: var(--scandi-secondary);\n          color: var(--scandi-text);\n          position: relative;\n      }\n      \n      .container .triangle-decor {\n          position: absolute;\n          top: 20px;\n          right: 20px;\n          width: 60px;\n          height: 60px;\n          opacity: 0.1;\n      }\n      \n      .container .triangle-decor::before {\n          content: \"\";\n          position: absolute;\n          width: 0;\n          height: 0;\n          border-left: 30px solid transparent;\n          border-right: 30px solid transparent;\n          border-bottom: 60px solid var(--scandi-accent);\n      }\n  </style>', '采用斯堪的纳维亚风格设计，体现北欧设计的简约与功能美学。使用纯白背景，配以特定的北欧色调如淡蓝、浅灰、原木色和淡粉。排版应极度克制且有序，使用大量留白，但与极简主义不同，应加入温暖质感。字体选择无衬线几何字体如Futura或Circular，字重轻盈。装饰元素应极少但精心选择，可使用简单几何图案如三角形和线条，参考马勒维奇的构成主义。图像应明亮、简洁且自然。整体设计应呈现出清爽、实用且温暖的北欧特质，平衡美学与功能性，参考Kinfolk杂志和丹麦设计品牌HAY的产品美学。', NULL, NULL, NULL, NULL, '0');
+INSERT INTO `ai_poster` (`id`, `template_name`, `template_code`, `template_css`, `template_style`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (16, '未来科技风格', '<div class=\"container\">\n      <div class=\"date\">2025.03.21</div>\n      <h1 class=\"title\">深空探索</h1>\n      <p class=\"subtitle\">人类文明跨越星际的下一步</p>\n      <div class=\"divider\"></div>\n      <blockquote class=\"quote\">\n          \"我们在地球上的存在只是宇宙意识的短暂火花，深空探索是延续这火花的唯一希望。\"\n      </blockquote>\n      <div class=\"points\">\n          <div class=\"point\">\n              <span class=\"point-number\">001</span>\n              <span>量子引擎突破光速限制的理论基础已初步验证，星际旅行不再是科幻</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">002</span>\n              <span>近星系人工智能探测网络已部署，预计5年内发回首批系外行星详细数据</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">003</span>\n              <span>深空辐射防护技术解决了长期太空旅行的最大生物学障碍</span>\n          </div>\n          <div class=\"point\">\n              <span class=\"point-number\">004</span>\n              <span>月球永久基地将成为人类迈向火星与更远星系的跳板</span>\n          </div>\n      </div>\n      <div class=\"qr-section\">\n          <img class=\"qr-code\" src=\"https://sourl.cn/3YudHU\" alt=\"QR Code\">\n          <div class=\"qr-text\">扫描接入星际探索实时数据网络</div>\n      </div>\n      <div class=\"editor-note\">\n          <strong>编辑笔记：</strong> 本报道基于最新深空探索计划发布的官方数据。部分预测基于当前技术发展曲线，实际进展可能因政治或资金因素有所调整。\n      </div>\n  </div>', '<style>\n      /* 未来科技风格 */\n      .container {\n          font-family: \'Space Mono\', \'Noto Sans SC\', monospace;\n          --tech-bg: #0a0f18;\n          --tech-text: #e2e8f0;\n          --tech-accent: #0df2ff;\n          --tech-secondary: #ff00a5;\n          --tech-dark: #141c2b;\n          --tech-grid: rgba(13, 242, 255, 0.1);\n          background-color: var(--tech-bg);\n          background-image: \n              radial-gradient(circle at 15% 30%, rgba(13, 242, 255, 0.1) 0%, transparent 25%),\n              linear-gradient(to bottom, transparent 0%, rgba(13, 242, 255, 0.05) 100%);\n          color: var(--tech-text);\n          padding: 35px;\n          position: relative;\n          overflow: hidden;\n          line-height: 1.5;\n          animation: powerOn 1s ease-out forwards;\n      }\n      \n      @keyframes powerOn {\n          0% { opacity: 0; filter: blur(10px); }\n          50% { opacity: 0.5; filter: blur(5px); }\n          60% { opacity: 0.6; filter: blur(0); }\n          65% { opacity: 0.8; }\n          70% { opacity: 0.4; }\n          75% { opacity: 0.9; }\n          80% { opacity: 0.7; }\n          100% { opacity: 1; filter: blur(0); }\n      }\n      \n      @keyframes scanLine {\n          0% { transform: translateY(-100%); }\n          100% { transform: translateY(100%); }\n      }\n      \n      @keyframes blink {\n          0%, 100% { opacity: 1; }\n          50% { opacity: 0.3; }\n      }\n      \n      .container::before {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          bottom: 0;\n          background-image: \n              linear-gradient(90deg, var(--tech-grid) 1px, transparent 1px),\n              linear-gradient(0deg, var(--tech-grid) 1px, transparent 1px);\n          background-size: 20px 20px;\n          pointer-events: none;\n          z-index: 0;\n      }\n      \n      .container::after {\n          content: \"\";\n          position: absolute;\n          top: 0;\n          left: 0;\n          right: 0;\n          height: 100%;\n          background: linear-gradient(transparent 0%, rgba(13, 242, 255, 0.2) 50%, transparent 100%);\n          pointer-events: none;\n          z-index: 2;\n          opacity: 0.1;\n          height: 2px;\n          animation: scanLine 3s linear infinite;\n      }\n      \n      .container .date {\n          font-size: 12px;\n          font-weight: 400;\n          letter-spacing: 2px;\n          color: var(--tech-accent);\n          margin-bottom: 30px;\n          display: flex;\n          align-items: center;\n          text-transform: uppercase;\n      }\n      \n      .container .date::before {\n          content: \"//\";\n          margin-right: 8px;\n      }\n      \n      .container .date::after {\n          content: \"\";\n          display: inline-block;\n          width: 8px;\n          height: 8px;\n          background-color: var(--tech-accent);\n          margin-left: 8px;\n          animation: blink 2s infinite;\n      }\n      \n      .container .title {\n          font-size: 36px;\n          font-weight: 700;\n          margin-bottom: 16px;\n          color: white;\n          text-transform: uppercase;\n          position: relative;\n          display: inline-block;\n      }\n      \n      .container .title::after {\n          content: \">\";\n          color: var(--tech-accent);\n          margin-left: 8px;\n          animation: blink 1s infinite;\n      }\n      \n      .container .subtitle {\n          font-size: 16px;\n          font-weight: 400;\n          margin-bottom: 40px;\n          color: var(--tech-text);\n          opacity: 0.8;\n          padding-left: 20px;\n          border-left: 2px solid var(--tech-secondary);\n      }\n      \n      .container .divider {\n          height: 2px;\n          width: 100%;\n          background: linear-gradient(90deg, var(--tech-bg), var(--tech-accent), var(--tech-bg));\n          margin: 30px 0;\n          position: relative;\n      }\n      \n      .container .divider::before {\n          content: \"\";\n          position: absolute;\n          width: 10px;\n          height: 10px;\n          background-color: var(--tech-accent);\n          top: -4px;\n          left: calc(50% - 5px);\n          transform: rotate(45deg);\n      }\n      \n      .container .quote {\n          font-size: 18px;\n          line-height: 1.6;\n          padding: 20px;\n          margin: 30px 0;\n          background-color: rgba(20, 28, 43, 0.8);\n          border-left: 2px solid var(--tech-accent);\n          position: relative;\n      }\n      \n      .container .quote::before {\n          content: \"SYS//QUOTE\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .points {\n          margin: 40px 0;\n          background-color: rgba(20, 28, 43, 0.5);\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .points::before {\n          content: \"DATA//ANALYSIS\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .point {\n          margin-bottom: 20px;\n          display: flex;\n          align-items: flex-start;\n      }\n      \n      .container .point-number {\n          color: var(--tech-secondary);\n          font-size: 14px;\n          font-weight: 700;\n          margin-right: 15px;\n          background-color: rgba(255, 0, 165, 0.1);\n          padding: 2px 8px;\n          border-radius: 4px;\n      }\n      \n      .container .qr-section {\n          margin-top: 40px;\n          display: flex;\n          align-items: center;\n          background-color: rgba(20, 28, 43, 0.5);\n          padding: 20px;\n          position: relative;\n      }\n      \n      .container .qr-section::before {\n          content: \"SCAN//CONNECT\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-accent);\n      }\n      \n      .container .qr-code {\n          width: 90px;\n          height: 90px;\n          margin-right: 20px;\n          border: 1px solid var(--tech-accent);\n          padding: 5px;\n          position: relative;\n          animation: pulse 2s infinite;\n      }\n      \n      @keyframes pulse {\n          0% { box-shadow: 0 0 0 0 rgba(13, 242, 255, 0.4); }\n          70% { box-shadow: 0 0 0 10px rgba(13, 242, 255, 0); }\n          100% { box-shadow: 0 0 0 0 rgba(13, 242, 255, 0); }\n      }\n      \n      .container .qr-text {\n          font-size: 14px;\n          color: var(--tech-text);\n      }\n      \n      .container .editor-note {\n          margin-top: 40px;\n          font-size: 14px;\n          padding: 20px;\n          background-color: rgba(20, 28, 43, 0.5);\n          border-left: 2px solid var(--tech-secondary);\n          position: relative;\n      }\n      \n      .container .editor-note::before {\n          content: \"NOTE//ADMIN\";\n          position: absolute;\n          top: -10px;\n          left: 20px;\n          font-size: 12px;\n          background-color: var(--tech-bg);\n          padding: 0 10px;\n          color: var(--tech-secondary);\n      }\n  </style>', '采用未来科技风格设计，呈现高度发达的数字界面美学。背景必须使用深蓝或纯黑，配以霓虹蓝、电子紫等高饱和度荧光色。排版应模拟高科技显示界面，使用等宽字体如Space Mono，添加数据可视化元素如图表、网格和代码片段。装饰元素包括科技感线条、HUD界面框架和全息投影效果。必须添加动态元素如扫描线、数据流动效果和微妙闪烁。可使用半透明叠加层和模糊效果创造深度。整体设计应呈现出未来感、高科技和信息密集的视觉体验，仿佛来自几十年后的界面，参考《银翼杀手2049》和《攻壳机动队》的视觉设计。', '1', '2025-04-04 14:42:37', '1', '2025-04-04 14:42:40', '0');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_material_log
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_material_log`;
+CREATE TABLE `ai_material_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `material_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '资源类型',
+  `prompt` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '提示词',
+  `model_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '模型',
+  `original_url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '原生链接',
+  `local_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '本地链接',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `material_status` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '资源状态',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI资源记录';
+
+-- ----------------------------
+-- Table structure for ai_report_conf
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_report_conf`;
+CREATE TABLE `ai_report_conf` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `report_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+  `report_prompt` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '描述提示词',
+  `report_resource` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '资源base64',
+  `report_marked` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '报告字段',
+  `create_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `update_by` datetime DEFAULT NULL,
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI 报告';
+
+-- ----------------------------
+-- Table structure for ai_dataset_user
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_dataset_user`;
+CREATE TABLE `ai_dataset_user` (
+  `dataset_id` bigint NOT NULL COMMENT '知识库ID',
+  `user_id` bigint NOT NULL COMMENT '用户ID',
+  PRIMARY KEY (`dataset_id`,`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='知识库用户权限';
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for ai_document_template
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_document_template`;
+CREATE TABLE `ai_document_template` (
+    `id` bigint auto_increment primary key,
+    `name` varchar(100) null comment '模板名称',
+    `content` longtext null comment '模板内容',
+    `json` longtext null comment 'json配置',
+    `create_time` datetime DEFAULT NULL,
+    `update_time` datetime DEFAULT NULL,
+    `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+    `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI公文模板';
+
+DROP TABLE IF EXISTS `ai_datasource`;
+CREATE TABLE `ai_datasource` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据源名称',
+  `url` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '连接URL',
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户名',
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '密码',
+  `ds_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据源类型',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='数据源表';
+
+-- ----------------------------
+-- Table structure for ai_storage_group
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_storage_group`;
+CREATE TABLE `ai_storage_group` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `group_name` varchar(100) NOT NULL COMMENT '分组名称',
+  `parent_id` bigint DEFAULT 0 COMMENT '父分组ID',
+  `icon` varchar(255) DEFAULT NULL COMMENT '分组图标',
+  `sort_order` int DEFAULT 0 COMMENT '排序',
+  `description` text COMMENT '分组描述',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记(0-正常,1-删除)',
+  `tenant_id` bigint DEFAULT 0 COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `idx_storage_group_parent_id` (`parent_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI存储分组表';
+
+-- ----------------------------
+-- Table structure for ai_storage_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_storage_tag`;
+CREATE TABLE `ai_storage_tag` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `tag_name` varchar(100) NOT NULL COMMENT '标签名称',
+  `tag_type` varchar(20) DEFAULT 'custom' COMMENT '标签类型(ai/custom)',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记(0-正常,1-删除)',
+  `tenant_id` bigint DEFAULT 0 COMMENT '租户ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件标签表';
+
+-- ----------------------------
+-- Table structure for ai_storage_file
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_storage_file`;
+CREATE TABLE `ai_storage_file` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `file_name` varchar(255) NOT NULL COMMENT '文件名称',
+  `file_type` varchar(50) NOT NULL COMMENT '文件类型(image/video/document/audio)',
+  `file_size` bigint NOT NULL COMMENT '文件大小(字节)',
+  `file_url` varchar(500) NOT NULL COMMENT '文件URL',
+  `thumbnail_url` varchar(500) DEFAULT NULL COMMENT '缩略图URL',
+  `group_id` bigint DEFAULT NULL COMMENT '所属分组ID',
+  `storage_path` varchar(500) DEFAULT NULL COMMENT '存储路径',
+  `md5` varchar(64) DEFAULT NULL COMMENT '文件MD5值',
+  `width` int DEFAULT NULL COMMENT '宽度(图片/视频)',
+  `height` int DEFAULT NULL COMMENT '高度(图片/视频)',
+  `duration` int DEFAULT NULL COMMENT '时长(视频/音频,秒)',
+  `ext_info` text COMMENT '扩展信息(EXIF等)',
+  `ai_tags` text COMMENT 'AI识别标签',
+  `ai_content` text COMMENT 'AI识别内容',
+  `ai_analyzed` char(1) DEFAULT '0' COMMENT 'AI是否已分析(0-否,1-是)',
+  `view_count` int DEFAULT 0 COMMENT '查看次数',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记(0-正常,1-删除)',
+  `tenant_id` bigint DEFAULT 0 COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `idx_storage_file_file_type` (`file_type`),
+  KEY `idx_storage_file_group_id` (`group_id`),
+  KEY `idx_storage_file_md5` (`md5`),
+  FULLTEXT KEY `idx_storage_file_ai_content` (`ai_content`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI存储文件表';
+
+-- ----------------------------
+-- Table structure for ai_storage_file_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_storage_file_tag`;
+CREATE TABLE `ai_storage_file_tag` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `file_id` bigint NOT NULL COMMENT '文件ID',
+  `tag_id` bigint NOT NULL COMMENT '标签ID',
+  `confidence` decimal(5,2) DEFAULT NULL COMMENT '置信度(AI标签)',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记(0-正常,1-删除)',
+  `tenant_id` bigint DEFAULT 0 COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_file_tag` (`file_id`,`tag_id`,`del_flag`),
+  KEY `idx_file_tag_tag_id` (`tag_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='文件标签关联表';
+
+-- ----------------------------
+-- Table structure for ai_terminology
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_terminology`;
+CREATE TABLE `ai_terminology` (
+  `term_id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `pid` bigint DEFAULT NULL COMMENT '所属术语',
+  `word` varchar(255) DEFAULT NULL COMMENT '词语',
+  `description` text COMMENT '描述',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '修改人',
+  `create_time` datetime(6) DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+  `update_time` datetime(6) DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`term_id`),
+  KEY `idx_terminology_pid` (`pid`),
+  KEY `idx_terminology_word` (`word`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI术语和同义词';
+
+
+-- ----------------------------
+-- Table structure for ai_proofread_check_dimension
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_check_dimension`;
+CREATE TABLE `ai_proofread_check_dimension` (
+  `id` bigint NOT NULL,
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '维度唯一编码，如 TYPO, PUNCTUATION, IDEOLOGY_LEADER_ORDER',
+  `name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '中文名称，如：错别字、领导人排序',
+  `category` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '所属大类，如 BASIC_QUALITY / IDEOLOGY / SAFETY',
+  `parent_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '父级维度编码，比如 语法错误 的父级是 BASIC_GRAMMAR',
+  `dimension_level` int NOT NULL DEFAULT '1' COMMENT '层级，1=一级（基础质量），2=二级（错别字）等',
+  `description` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '该检查项的说明，给后台管理和日志用',
+  `default_enabled` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否默认启用',
+  `sort_order` int NOT NULL DEFAULT '0' COMMENT '排序',
+  `dimension_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '1=启用 0=停用',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_ai_proofread_check_dimension_code` (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对检查维度';
+
+-- ----------------------------
+-- Records of ai_proofread_check_dimension
+-- ----------------------------
+BEGIN;
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'DEEP_CORRECTION', '深度纠错', 'DEEP_CORRECTION', NULL, 1, '深度纠错专项，包括标点符号、基础质量、政治表述等专项纠错能力。', 1, 1, '1', '0', NULL, '2025-12-15 13:33:39', NULL, 'admin', 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (2, 'BASIC_QUALITY', '基础质量', 'BASIC_QUALITY', NULL, 1, '对稿件中的错别字、语法/句法错误、常识错误和生僻字进行识别和提示。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (3, 'IDEOLOGY', '意识形态', 'IDEOLOGY', NULL, 1, '对稿件中存在的意识形态相关内容进行识别和提示。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (4, 'SAFETY_COMPLIANCE', '安全合规', 'SAFETY_COMPLIANCE', NULL, 1, '对稿件中存在的违规负面信息、涉政信息、个人隐私信息进行识别和提示。', 1, 4, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (5, 'DEEP_PUNCTUATION', '标点符号纠错', 'DEEP_CORRECTION', 'DEEP_CORRECTION', 2, '识别标点使用问题，避免歧义，提升文本准确性。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (6, 'DEEP_BASIC_QUALITY', '基础质量纠错', 'DEEP_CORRECTION', 'DEEP_CORRECTION', 2, '识别错别字及误用词语，规范表达，提升文本质量。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (7, 'DEEP_POLITICAL_EXPRESSION', '政治表述校对', 'DEEP_CORRECTION', 'IDEOLOGY', 2, '校对政治表述问题，包括表述不规范、顺序错误等。', 1, 0, '1', '0', NULL, '2025-12-15 13:33:19', NULL, 'admin', 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (8, 'BASIC_TYPO', '错别字', 'BASIC_QUALITY', 'BASIC_QUALITY', 2, '识别稿件中的错别字问题。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (9, 'BASIC_GRAMMAR', '语法/句法错误', 'BASIC_QUALITY', 'BASIC_QUALITY', 2, '识别稿件中的语法和句法错误。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (10, 'BASIC_COMMON_SENSE', '常识错误', 'BASIC_QUALITY', 'BASIC_QUALITY', 2, '识别稿件中的常识性错误。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (11, 'BASIC_TYPO_PHONETIC_SHAPE', '音/形相似错误', 'BASIC_QUALITY', 'BASIC_TYPO', 3, '因为汉字的发音或形状相似而导致的错别字。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (12, 'BASIC_TYPO_PUNCTUATION', '标点符号错误', 'BASIC_QUALITY', 'BASIC_TYPO', 3, '标点符号使用不正确或位置不当，导致句子意思不明确或语法错误。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (13, 'BASIC_TYPO_DE_DI_DE', '“的、地、得”使用错误', 'BASIC_QUALITY', 'BASIC_TYPO', 3, '“的、地、得”三者使用不当或混淆所产生的错误。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (14, 'BASIC_GRAMMAR_WORDING', '用词不当/语法错误', 'BASIC_QUALITY', 'BASIC_GRAMMAR', 3, '包括拼写错误、用词不当、语法结构错误等。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (15, 'BASIC_GRAMMAR_COLLOCATION', '搭配不当错误', 'BASIC_QUALITY', 'BASIC_GRAMMAR', 3, '词语之间搭配不当导致语法、语义或逻辑上的错误。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (16, 'BASIC_GRAMMAR_SENTENCE', '常见句法错误', 'BASIC_QUALITY', 'BASIC_GRAMMAR', 3, '如主谓不一致、语序错误、代词使用不当等句子结构问题。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (17, 'BASIC_COMMON_SENSE_PLACE', '常见地名错误', 'BASIC_QUALITY', 'BASIC_COMMON_SENSE', 3, '常见地名出现了名称错误或书写不规范。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (18, 'BASIC_COMMON_SENSE_REPEAT_SENTENCE', '句子重复错误', 'BASIC_QUALITY', 'BASIC_COMMON_SENSE', 3, '同一句子在文章或段落中重复出现的错误。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (19, 'IDEOLOGY_LEADERS', '领导干部相关', 'IDEOLOGY', 'IDEOLOGY', 2, '与领导干部及其相关表述规范有关的内容。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (20, 'IDEOLOGY_FALLEN_OFFICIAL', '落马官员', 'IDEOLOGY', 'IDEOLOGY', 2, '与已被立案调查、审查或起诉的落马官员相关的内容。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (21, 'IDEOLOGY_EXPRESSION', '表述错误/表述建议', 'IDEOLOGY', 'IDEOLOGY', 2, '涉及意识形态相关表述是否准确、规范及其优化建议。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (22, 'IDEOLOGY_LEADER_ORDER', '领导人排序', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '检测稿件中的领导人名字顺序是否规范、合理。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (23, 'IDEOLOGY_LEADER_POSITION_ORDER', '领导人职务排序', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '检测稿件中同一领导人的多个职务顺序是否正确。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (24, 'IDEOLOGY_LEADER_TITLE_INCONSISTENT', '领导人称谓不一致', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '检测稿件中同一领导人称谓前后是否存在不一致情况。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (25, 'IDEOLOGY_LEADER_TITLE_ERROR', '领导人职称错误', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '对某个领导人的职称信息描述或称呼错误。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (26, 'IDEOLOGY_LEADER_NEGATIVE', '领导人负面内容', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '关于领导人的不准确、诋毁等负面内容。', 1, 4, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (27, 'IDEOLOGY_LEADER_THOUGHT', '领导人思想表述', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '与领导人思想表述相关的内容是否符合规范表述。', 1, 5, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (28, 'IDEOLOGY_LEADER_NAME_RELATED', '领导干部名称相关', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '检测与核心领导人、省部级以上干部名称相关的内容。', 1, 6, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (29, 'IDEOLOGY_HKMO_TAIWAN_CHIEF_EXEC', '港澳台特首', 'IDEOLOGY', 'IDEOLOGY_LEADERS', 3, '与香港、澳门、台湾特首相关的信息表述。', 1, 7, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (30, 'IDEOLOGY_FALLEN_OFFICIAL_CASE', '落马官员', 'IDEOLOGY', 'IDEOLOGY_FALLEN_OFFICIAL', 3, '被政府或有关部门立案调查、审查或起诉的涉嫌违法犯罪的省部级官员相关内容。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (31, 'IDEOLOGY_EXPR_COMMON_ERROR', '常见表述错误', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '在阐述某一思想或观点时出现的不准确表述问题。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (32, 'IDEOLOGY_EXPR_AUTHORITY_SUGGEST', '权威表述建议', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对某一思想或观点的表达方式提出权威、规范的改进建议。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (33, 'IDEOLOGY_EXPR_HKMO_TAIWAN_SOVEREIGN', '港澳台领土/主权表述建议', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对稿件中与港澳台领土/主权相关内容的表述给出规范性建议。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (34, 'IDEOLOGY_EXPR_ETHNIC_RELIGION', '民族宗教表述建议', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对稿件中与民族、宗教相关内容的表述给出规范性建议。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (35, 'IDEOLOGY_EXPR_TAG', '意识形态内容标记', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对文中涉及意识形态相关内容进行标记和提示。', 1, 4, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (36, 'IDEOLOGY_EXPR_INTL_RELATIONS', '国际关系表述建议', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对稿件中与国际关系相关内容的表述提出改进或规范建议。', 1, 5, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (37, 'IDEOLOGY_EXPR_CPC_THEORY', '共产党思想理论', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '涉及共产党思想理论相关的内容识别与表述规范。', 1, 6, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (38, 'IDEOLOGY_EXPR_ORG_NAME', '机构检测', 'IDEOLOGY', 'IDEOLOGY_EXPRESSION', 3, '对机构名称进行检测，判断是否规范、准确。', 1, 7, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (39, 'SAFETY_RISK', '合规风险信息', 'SAFETY_COMPLIANCE', 'SAFETY_COMPLIANCE', 2, '与违规负面信息、劣迹人物、敏感内容相关的风险信息。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (40, 'SAFETY_POLITICAL', '涉政信息', 'SAFETY_COMPLIANCE', 'SAFETY_COMPLIANCE', 2, '涉国内外时事、公共政策、社会事件等相关信息。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (41, 'SAFETY_PRIVACY', '个人隐私信息', 'SAFETY_COMPLIANCE', 'SAFETY_COMPLIANCE', 2, '涉及个人隐私数据泄露的相关信息。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (42, 'SAFETY_RISK_BAD_ARTIST', '劣迹艺人', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '有不良行为、有争议或涉及犯罪的艺人相关内容。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (43, 'SAFETY_RISK_NEGATIVE_PERSON', '负面人物', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '包括但不限于罪犯、暴力分子、极端分子等负面人物。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (44, 'SAFETY_RISK_SENSITIVE_INFO', '敏感信息', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '能够引起不良情感或道德争议的敏感事件、敏感话题等内容。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (45, 'SAFETY_RISK_TERROR', '暴恐', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '包含暴力、恐怖、恐吓等性质事件相关的内容。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (46, 'SAFETY_RISK_PORN', '色情低俗', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '包含色情或低俗内容的部分。', 1, 4, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (47, 'SAFETY_RISK_NEGATIVE_VALUES', '负面价值观', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '传播消极、极端、错误价值观的内容。', 1, 5, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (48, 'SAFETY_RISK_CULT', '邪教', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '涉及邪教组织或传播邪教思想的内容。', 1, 6, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (49, 'SAFETY_RISK_RELIGION', '宗教', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '与宗教相关内容，需要识别其合规性与敏感性。', 1, 7, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (50, 'SAFETY_RISK_ABUSE', '攻击谩骂', 'SAFETY_COMPLIANCE', 'SAFETY_RISK', 3, '侮辱、恶意攻击、诽谤等不良内容。', 1, 8, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (51, 'SAFETY_POLITICAL_FOREIGN_LEADER', '国外领导人', 'SAFETY_COMPLIANCE', 'SAFETY_POLITICAL', 3, '与国外政治领导人（总统、首相等）相关的信息。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (52, 'SAFETY_POLITICAL_HERO_MARTYR', '英雄烈士', 'SAFETY_COMPLIANCE', 'SAFETY_POLITICAL', 3, '与英雄人物、烈士等相关的信息。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (53, 'SAFETY_POLITICAL_QINGLANG', '清朗指数', 'SAFETY_COMPLIANCE', 'SAFETY_POLITICAL', 3, '涉国内外时事、公共政策、社会事件等相关信息的清朗度与风险提示。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (54, 'SAFETY_PRIVACY_PHONE', '电话号码', 'SAFETY_COMPLIANCE', 'SAFETY_PRIVACY', 3, '检测稿件中是否存在暴露电话号码的内容。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (55, 'SAFETY_PRIVACY_BANKCARD', '银行卡号', 'SAFETY_COMPLIANCE', 'SAFETY_PRIVACY', 3, '检测稿件中是否存在暴露银行卡号的内容。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (56, 'SAFETY_PRIVACY_IDCARD', '身份证号', 'SAFETY_COMPLIANCE', 'SAFETY_PRIVACY', 3, '检测稿件中是否存在暴露身份证号的内容。', 1, 2, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (57, 'SAFETY_PRIVACY_EMAIL', '电子邮件', 'SAFETY_COMPLIANCE', 'SAFETY_PRIVACY', 3, '检测稿件中是否存在暴露电子邮件地址的内容。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (58, 'CUSTOM', '自定义词库', 'CUSTOM', NULL, 1, '检测自定义词库中的词汇是否出现', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (59, 'CUSTOM_SENSITIVE_WORD', '敏感词', 'CUSTOM_SENSITIVE_WORD', 'CUSTOM', 2, '检测是否存在自定义敏感词', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (60, 'CUSTOM_LEADER', '自定义领导人相关', 'CUSTOM_LEADER', 'CUSTOM', 2, '检测是否存在自定义的领导人信息', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (61, 'BASIC_DATA_VALIDATION', '数据校验', 'BASIC_QUALITY', 'BASIC_QUALITY', 2, '检测文本中的测试数据、无效字符和格式错误问题。', 1, 3, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (62, 'BASIC_DATA_TEST_CHAR', '测试数据/无效字符', 'BASIC_QUALITY', 'BASIC_DATA_VALIDATION', 3, '识别文本中混入的测试数据、占位符、无意义字符（如aaa、xxx、测试、TODO等）。', 1, 0, '1', '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_check_dimension` (`id`, `code`, `name`, `category`, `parent_code`, `dimension_level`, `description`, `default_enabled`, `sort_order`, `dimension_status`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (63, 'BASIC_DATA_FORMAT', '格式校验', 'BASIC_QUALITY', 'BASIC_DATA_VALIDATION', 3, '检测邮箱、电话、网址等常见格式是否规范正确。', 1, 1, '1', '0', NULL, NULL, NULL, NULL, 1);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_proofread_check_file_content
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_check_file_content`;
+CREATE TABLE `ai_proofread_check_file_content` (
+  `id` bigint NOT NULL,
+  `md_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'markdown格式内容',
+  `html_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT 'html内容',
+  `job_id` bigint DEFAULT NULL,
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `ai_proofread_check_file_content_job_id_index` (`job_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对文件内容';
+
+-- ----------------------------
+-- Table structure for ai_proofread_check_job
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_check_job`;
+CREATE TABLE `ai_proofread_check_job` (
+  `id` bigint NOT NULL,
+  `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件名称(用作任务名称)',
+  `job_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '状态(1进行中，2已完成，3任务错误)',
+  `process_info` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '当前进度',
+  `finish_time` datetime DEFAULT NULL COMMENT '完成时间',
+  `error` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '错误信息',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `ai_proofread_check_job_status_create_by_index` (`job_status`,`create_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对任务';
+
+
+-- ----------------------------
+-- Table structure for ai_proofread_check_job_result
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_check_job_result`;
+CREATE TABLE `ai_proofread_check_job_result` (
+  `id` bigint NOT NULL,
+  `category` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '问题所属大类',
+  `issue_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '问题子类型',
+  `issue_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '原文',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '对问题的描述与原因分析',
+  `suggestion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '给出的修改或处理建议',
+  `change_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改为',
+  `job_id` bigint DEFAULT NULL COMMENT '校对任务id',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `ai_proofread_check_job_result_job_id_index` (`job_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对结果';
+
+-- ----------------------------
+-- Table structure for ai_proofread_check_leader
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_check_leader`;
+CREATE TABLE `ai_proofread_check_leader` (
+  `id` bigint NOT NULL,
+  `name` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
+  `leader_position` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '职务(多个用逗号间隔)',
+  `leader_sort` int DEFAULT NULL COMMENT '排序(越大越靠前)',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建者',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `ai_proofread_check_leader_create_by_index` (`create_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对-领导人相关';
+
+-- ----------------------------
+-- Records of ai_proofread_check_leader
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_proofread_prompt_block
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_proofread_prompt_block`;
+CREATE TABLE `ai_proofread_prompt_block` (
+  `id` bigint NOT NULL,
+  `dimension_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '关联 check_dimension.code',
+  `prompt_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '该维度对应的提示词片段',
+  `block_status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '1=启用 0=停用',
+  `block_version` int NOT NULL DEFAULT 1 COMMENT '方便将来更新提示词版本',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '更新人',
+  `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI校对提示块';
+
+-- ----------------------------
+-- Records of ai_proofread_prompt_block
+-- ----------------------------
+BEGIN;
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (1, 'DEEP_PUNCTUATION', '- 标点符号纠错：识别标点缺失、误用、位置错误导致歧义的问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (2, 'DEEP_BASIC_QUALITY', '- 基础质量纠错：识别错别字、误用词语、表达不规范等质量问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (3, 'DEEP_POLITICAL_EXPRESSION', '- 政治表述校对：识别政治相关表述的不规范、顺序错误和用语错误。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (4, 'BASIC_TYPO_PHONETIC_SHAPE', '- 音形相似：识别因发音或字形相似导致的汉字误写。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (5, 'BASIC_TYPO_PUNCTUATION', '- 标点错误：识别标点符号使用不当、位置不当或缺失的问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (6, 'BASIC_TYPO_DE_DI_DE', '- 的/地/得 使用错误：识别这三类助词混淆或误用的情况。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (7, 'BASIC_GRAMMAR_WORDING', '- 用词不当/语法错误：识别拼写错误、语法结构错误、用词错误等问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (8, 'BASIC_GRAMMAR_COLLOCATION', '- 搭配不当：识别词语搭配不合理造成的语义或逻辑问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (9, 'BASIC_GRAMMAR_SENTENCE', '- 句法错误：识别主谓不一致、语序错误、代词指代不清等句子结构问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (10, 'BASIC_COMMON_SENSE_PLACE', '- 常见地名错误：识别地名使用错误、名称不规范等问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (11, 'BASIC_COMMON_SENSE_REPEAT_SENTENCE', '- 句子重复错误：识别同一句子在段落或全文中重复出现的问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (12, 'IDEOLOGY_LEADER_ORDER', '- 领导人排序：检测领导人姓名出现顺序是否规范、符合政治表述要求。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (13, 'IDEOLOGY_LEADER_POSITION_ORDER', '- 职务排序：检测同一领导人的多个职务书写顺序是否正确。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (14, 'IDEOLOGY_LEADER_TITLE_INCONSISTENT', '- 领导人称谓不一致：检测同一领导人称谓前后是否一致。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (15, 'IDEOLOGY_LEADER_TITLE_ERROR', '- 领导人职称错误：检测领导人职务、职位是否存在描述错误。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (16, 'IDEOLOGY_LEADER_NEGATIVE', '- 领导人负面内容：识别涉及领导人的不准确、贬损或负面描述。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (17, 'IDEOLOGY_LEADER_THOUGHT', '- 领导人思想表述：检测是否符合规范的思想理论表述方式。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (18, 'IDEOLOGY_LEADER_NAME_RELATED', '- 领导人姓名相关：检测涉及核心领导人、省部级以上干部的姓名与使用规范。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (19, 'IDEOLOGY_HKMO_TAIWAN_CHIEF_EXEC', '- 港澳台特首：识别与港澳台行政长官相关的内容是否表述规范。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (20, 'IDEOLOGY_FALLEN_OFFICIAL_CASE', '- 落马官员：识别涉及被立案调查、审查或起诉的省部级官员的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (21, 'IDEOLOGY_EXPR_COMMON_ERROR', '- 常见表述错误：识别思想表达不准确、逻辑混乱或用语错误的问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (22, 'IDEOLOGY_EXPR_AUTHORITY_SUGGEST', '- 权威表述建议：为思想观点类表述提供更加规范、专业的建议。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (23, 'IDEOLOGY_EXPR_HKMO_TAIWAN_SOVEREIGN', '- 港澳台主权/领土表述：识别相关内容是否存在不当、需规范的表述。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (24, 'IDEOLOGY_EXPR_ETHNIC_RELIGION', '- 民族宗教表述：识别民族、宗教内容表述不当的问题并给出规范建议。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (25, 'IDEOLOGY_EXPR_TAG', '- 意识形态内容标记：识别文中涉及意识形态的关键内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (26, 'IDEOLOGY_EXPR_INTL_RELATIONS', '- 国际关系表述建议：识别涉外交往、国际关系内容的表述规范性问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (27, 'IDEOLOGY_EXPR_CPC_THEORY', '- 共产党思想理论：识别相关表述是否准确、规范。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (28, 'IDEOLOGY_EXPR_ORG_NAME', '- 机构名称检测：识别机构名称是否使用准确、规范。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (29, 'SAFETY_RISK_BAD_ARTIST', '- 劣迹艺人：识别涉及有不良行为或涉案艺人的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (30, 'SAFETY_RISK_NEGATIVE_PERSON', '- 负面人物：识别与犯罪、暴力、极端人员等相关的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (31, 'SAFETY_RISK_SENSITIVE_INFO', '- 敏感信息：识别可能引发社会情绪波动或争议的敏感事件内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (32, 'SAFETY_RISK_TERROR', '- 暴恐内容：识别涉及暴力、恐怖、恐吓等内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (33, 'SAFETY_RISK_PORN', '- 色情低俗：识别色情、低俗或性暗示内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (34, 'SAFETY_RISK_NEGATIVE_VALUES', '- 负面价值观：识别极端、消极、有害价值观的表达。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (35, 'SAFETY_RISK_CULT', '- 邪教：识别涉及邪教组织、邪教思想的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (36, 'SAFETY_RISK_RELIGION', '- 宗教：识别宗教相关内容可能存在的敏感风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (37, 'SAFETY_RISK_ABUSE', '- 攻击谩骂：识别侮辱、诽谤、攻击性语言。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (38, 'SAFETY_POLITICAL_FOREIGN_LEADER', '- 国外领导人：识别涉及外国总统、首相等政治人物的内容风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (39, 'SAFETY_POLITICAL_HERO_MARTYR', '- 英雄烈士：识别涉及烈士、英雄人物等敏感内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (40, 'SAFETY_POLITICAL_QINGLANG', '- 清朗指数：识别国内外事件、政策、公共议题中的潜在风险点。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (41, 'SAFETY_PRIVACY_PHONE', '- 电话号码：识别文中暴露电话号码的隐私风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (42, 'SAFETY_PRIVACY_BANKCARD', '- 银行卡号：识别银行卡号泄露的隐私风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (43, 'SAFETY_PRIVACY_IDCARD', '- 身份证号：识别身份证号码泄露的隐私风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (44, 'SAFETY_PRIVACY_EMAIL', '- 电子邮件：识别电子邮箱地址泄露的隐私风险。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (46, 'BASIC_TYPO', '- 识别稿件中的错别字问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (47, 'BASIC_GRAMMAR', '- 识别稿件中的语法和句法错误。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (48, 'BASIC_COMMON_SENSE', '- 识别稿件中的常识性错误。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (49, 'IDEOLOGY_LEADERS', '- 与领导干部及其相关表述规范有关的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (50, 'IDEOLOGY_FALLEN_OFFICIAL', '- 与已被立案调查、审查或起诉的落马官员相关的内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (51, 'IDEOLOGY_EXPRESSION', '- 涉及意识形态相关表述是否准确、规范及其优化建议。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (52, 'SAFETY_RISK', '- 与违规负面信息、劣迹人物、敏感内容相关的风险信息。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (53, 'SAFETY_POLITICAL', '- 涉国内外时事、公共政策、社会事件等相关信息。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (54, 'SAFETY_PRIVACY', '- 涉及个人隐私数据泄露的相关信息。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (55, 'BASIC_DATA_VALIDATION', '- 数据校验：检测文本中的测试数据、无效字符和格式错误问题。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (56, 'BASIC_DATA_TEST_CHAR', '- 测试数据/无效字符：识别文本中混入的测试数据、占位符、无意义字符串（如连续重复字母aaa/xxx/zzz、测试、TODO、TBD、占位符等），这些通常是开发或编辑过程中遗留的临时内容。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `ai_proofread_prompt_block` (`id`, `dimension_code`, `prompt_content`, `block_status`, `block_version`, `del_flag`, `create_time`, `update_time`, `create_by`, `update_by`, `tenant_id`) VALUES (57, 'BASIC_DATA_FORMAT', '- 格式校验：检测邮箱（如缺少@符号）、电话号码（位数不对）、网址（格式不完整）、日期（格式错误）等常见格式是否规范正确。', '1', 1, '0', NULL, NULL, NULL, NULL, 1);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_prompt_history
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_prompt_history`;
+CREATE TABLE `ai_prompt_history` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `template_id` bigint NOT NULL COMMENT '模板ID（关联ai_prompt_template.id）',
+  `history_code` varchar(100) NOT NULL COMMENT '提示词编码',
+  `history_content` text NOT NULL COMMENT '历史版本内容',
+  `history_version` int NOT NULL COMMENT '版本号',
+  `change_type` varchar(20) NOT NULL COMMENT '变更类型（CREATE/UPDATE/ROLLBACK）',
+  `change_description` varchar(500) DEFAULT NULL COMMENT '变更说明',
+  `del_flag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `create_by` varchar(64) DEFAULT NULL COMMENT '变更人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '变更时间',
+  `update_by` varchar(255) DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  KEY `idx_template_id` (`template_id`),
+  KEY `idx_code_tenant_version` (`history_code`,`tenant_id`,`history_version`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='提示词版本历史表';
+
+-- ----------------------------
+-- Records of ai_prompt_history
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for ai_prompt_template
+-- ----------------------------
+DROP TABLE IF EXISTS `ai_prompt_template`;
+CREATE TABLE `ai_prompt_template` (
+  `id` bigint NOT NULL,
+  `template_code` varchar(64) COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板编码',
+  `template_name` varchar(128) COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板名称',
+  `template_content` text COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板内容',
+  `template_version` int NOT NULL DEFAULT '1' COMMENT '当前版本号',
+  `template_status` char(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '1' COMMENT '状态（0-禁用 1-启用）',
+  `system_flag` varchar(1) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '是否是系统内置（0-否 1-是）',
+  `category` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '分类（RAG/SQL/OCR/MCP/OTHER）',
+  `template_type` varchar(20) COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'FREEMARKER' COMMENT '模板引擎类型（FREEMARKER/STRING_TEMPLATE）',
+  `description` varchar(500) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述说明',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
+  `create_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_by` varchar(64) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `tenant_id` bigint NOT NULL DEFAULT '1' COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_ai_prompt_template_code` (`template_code`),
+  UNIQUE KEY `uk_code_tenant_delflag` (`template_code`,`tenant_id`,`del_flag`),
+  KEY `idx_tenant_id` (`tenant_id`),
+  KEY `idx_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='AI提示词模板';
+
+-- ----------------------------
+-- Records of ai_prompt_template
+-- ----------------------------
+BEGIN;
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (1, 'knowledge-system.st', '知识库系统提示词', '/no_think 作为资深的专业顾问，我能深入了解用户需求，结合语境或参考资料提供准确的答案，禁止提供不准确、不完整或不恰当的信息。\n已知信息中的任何图片、链接都应直接返回\n当前时间:{systemTime}', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '知识库对话的系统提示词，定义AI顾问角色', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (2, 'knowledge-user.st', '知识库用户提示词', '## 用户问题\n{userMessage}\n## 已知信息\n{contents}\n## 回答要求\n- 使用与问题相同的语言回答,回答必须基于以上已知信息，并确保准确性和相关性,\n- 已知信息中的任何图片、链接都应直接原样返回在回答中。\n- 如无法回答，请回复：{emptyDesc}。\n- 回答必须使用 Markdown 语法返回，包括但不限于标题、列表、粗体、斜体等。\n- 请根据以上要求提供准确、全面且格式优化的答案。', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '知识库RAG用户提示词模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (3, 'knowledge-rag-compress.st', 'RAG查询压缩', 'Based on the  new user query and prior conversation, reformulate this query into a clear, concise, and self-contained format suitable for information retrieval.Here is the context:\n## User new query\n{query}\n## prior conversation\n{chatMemory}\nNote: It is crucial to provide the reformulated query only. Do not prepend the query with any other information', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '根据对话历史压缩重构用户查询', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (4, 'knowledge-rag-qa.st', 'RAG问答格式', '## {question}\n{answer}', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', 'RAG问答对格式模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (5, 'knowledge-rag-summary.st', 'RAG文档摘要', '/no_think Read the provided article carefully and analyze it to create a summary that meets the specified requirements.\n\n## Analysis Requirements:\n1. Limit the summary length to **within 100 words**, striving to be both concise and comprehensive.\n2. Extract the **core information** and **main points** of the article, ensuring no key content is missed.\n3. Summarize the main points in **concise and clear language**, avoiding redundant expressions.\n4. Maintain an **objective and neutral tone**, without adding personal opinions or interpretations.\n\n# Output Format\n\nThe summary should be a well-structured paragraph, clearly outlining the main ideas while adhering to the specified word limit.\n\n# Examples\n\n**Input:**\n{summary}\n\n**Output:**\n[Insert a concise and comprehensive summary of the article here, ensuring it is within 100 words and maintains an objective tone.]\n\n(Real examples should reflect the nuances and details of the article while being succinct.)\n\n# Notes\n\nEnsure that all critical points are covered while maintaining clarity and neutrality in the summary. Avoid any speculation or subjective language in the analysis.', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '文档摘要生成提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (6, 'knowledge-func-limit.st', '知识库功能限制', '.', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '知识库功能调用限制提示', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (7, 'knowledge-func-metadata.st', '知识库元数据', '## Metadata (Return as-is)\nThe system-provided parameter values need to be returned exactly as they are: current messageKey: {messageKey}, current dateTime: {systemTime}', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '知识库功能调用元数据模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (8, 'knowledge-func-select.st', '知识库功能选择', '根据用户输入的描述，从下边的列表中选择一个最符合的功能编码，如不符合则返回空字符串不需要有默认值', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '从功能列表中选择匹配功能的提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (9, 'similar-questions-system.st', '相似问题系统提示词', '你是一个专业的问题改写专家。你的任务是生成语义相似但表达不同的问题变体。\n\n【核心原则】\n1. 语义一致性：生成的问题必须与原问题表达相同或高度相关的意图\n2. 表达多样性：使用不同的句式、词汇、角度进行改写\n3. 长度控制：问题长度控制在10-40个字符\n4. 可回答性：确保生成的问题能被有效回答\n\n【输出要求】\n- 严格按JSON格式输出，不要包含任何其他内容\n- 不要输出markdown代码块\n- 格式：\\{\"questions\": [\"问题1\", \"问题2\", \"问题3\"]\\}', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '相似问题推荐系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-17 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (10, 'similar-questions-user.st', '相似问题用户提示词', '【用户原问题】\n{userQuery}\n\n【相关知识内容】\n{context}\n\n【任务】\n基于上述知识内容，生成3个用户可能感兴趣的延伸问题。\n\n【要求】\n- 问题必须能从给定的知识内容中找到答案\n- 不能超出知识范围\n- 问题长度10-40字', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '相似问题推荐用户提示词(RAG场景)', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-17 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (11, 'similar-questions-database-user.st', '数据库相似问题用户提示词', '【用户原问题】\n{userQuery}\n\n【数据表结构】\n{tableSchema}\n\n【任务】\n基于上述表结构，生成3个用户可能感兴趣的数据查询问题。\n\n【要求】\n- 问题范围不能超出数据表结构\n- 问题应具有实际查询价值\n- 问题长度10-40字', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '基于数据库表结构的相似问题推荐', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-17 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (12, 'chat2db-user.st', 'Chat2DB用户提示词', '### 用户问题\n{userInput}\n### 表结构信息\n{tableSchema}\n### 已知信息(术语同义词)\n{terminologies}\n### 输出限制\n1. 字段限定：只能使用数据库表结构中已定义的字段，禁止使用未被指定的额外列。\n2. SQL 查询结果字段应使用 AS 关键字附加字段注释，以提高可读性。\n3. 如果表结构中包含 del_flag ，那么过滤条件del_flag为0\n4. 如果表结构中包含 tenant_id ，那么过滤条件tenant_id为{tenantId}\n5. 查询结果仅显示前十条记录。', 1, 1, '1', 'SQL', 'STRING_TEMPLATE', 'Chat2DB自然语言转SQL用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (13, 'chat2db-result.st', 'Chat2DB结果展示', '# Present the results in Markdown table format. Do not output any other content\n{result}', 1, 1, '1', 'SQL', 'STRING_TEMPLATE', 'Chat2DB查询结果Markdown展示', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (14, 'chat2db-result-chart.st', 'Chat2DB图表配置', '/no_think 你是专注于处理和可视化数据的工程师，根据用户提供的数据和需求，生成有效的 {chartType} 图表 JSON 配置。\n\n### Skill:\n1. 深入理解 json schema 数据结构及字段含义。\n2. 根据用户需求调整 {chartType} 的 xAxis.data 和 series.data 字段的数据\n## Question:\n{result}\n\n## json schema\n{jsonSchema}', 1, 1, '1', 'SQL', 'STRING_TEMPLATE', 'Chat2DB图表JSON配置生成', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (15, 'Chat2SqlFunctionCalling.st', 'Chat2SQL函数调用', 'The function is to generate executable SQL based on the input in natural language combined with the input table column structure', 1, 1, '1', 'SQL', 'STRING_TEMPLATE', 'Chat2SQL函数调用描述', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (16, 'chat2db-table-schema.ftl', 'Chat2DB表结构模板', '<#list tables as table>\n    ### 数据库类型: ${table.dbType!}\n    ### 表名：**${table.tableName}**\n    注释：${table.tableComment!}\n    ### 数据列：\n    | 名称 | 数据类型 | 注释 |\n    |------|------|------|\n    <#list table.fields as field>\n        |${field.fieldName} | ${field.fieldType} | ${field.fieldComment!} |\n    </#list>\n</#list>', 1, 1, '1', 'SQL', 'FREEMARKER', 'Chat2DB表结构信息Freemarker模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:22:05', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (17, 'chat2db-terminologies.ftl', 'Chat2DB术语同义词', '<#list terminologies as terminology>\n    <terminology>\n        <words>\n            <word>${terminology.word}</word>\n            <#list terminology.synonymsList as synonyms>\n                <word>${synonyms}</word>\n            </#list>\n        </words>\n        <description>${terminology.description}</description>\n    </terminology>\n</#list>', 1, 1, '1', 'SQL', 'FREEMARKER', 'Chat2DB术语同义词Freemarker模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:22:09', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (18, 'ocr-common.st', 'OCR通用识别', '请对给定的图片进行 OCR 识别，提取出其中的所有文字内容，不需要额外任何总结和推理操作。\n- 在输出文字时，请确保去掉图片中的敏感词，以避免触发内容审查机制。\n- 输出结果应仅包含提取的文字，不需要附加任何其他信息或说明。\n# 输出格式\n请以纯文本的形式输出识别到的文字内容。', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR通用文字识别提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (19, 'ocr-image.st', 'OCR图片转文本', 'Convert the following image to text.\nReturn only the markdown with no explanation text. Do not include deliminators like \'\'\'markdown.\nYou must include all information on the page. Do not exclude headers, footers, or subtext.', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR图片转Markdown文本', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (20, 'ocr-image-json.st', 'OCR图片JSON提取', 'You are a specialized Natural Language Understanding (NLU) assistant. Your primary function is to extract structured information from natural language input and convert it into well-formatted JSON output.', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR图片结构化JSON提取系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (21, 'ocr-image-user-json.st', 'OCR图片JSON用户提示词', '请严格按照以下JSON schema格式返回分析结果：{jsonSchema}', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR图片JSON输出用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (22, 'ocr-system-json.st', 'OCR系统JSON提示词', '您应该始终遵循指令并输出一个有效的JSON对象。请根据指令使用指定的JSON对象结构。', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR JSON输出系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (23, 'ocr-user-json.st', 'OCR用户JSON提示词', 'user input: {userInput}\n\nYou must strictly follow the format defined by the following json schema to output the json object answer:\n{jsonSchema}', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', 'OCR用户输入JSON输出提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (24, 'ocr-image-security-system.st', 'OCR安全分析系统提示词', '你是一个专业的工作场所安全分析专家。请仔细分析图像中的安全风险并提供详细的JSON格式分析结果。', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', '工作场所安全分析系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (25, 'ocr-image-security-user.st', 'OCR安全分析用户提示词', '请分析提供的图像中的工作场所中的\"个人防护用品\"、\"四口五临边\" 防护安全风险。识别风险程度最高的{securityLevel}个安全风险，评估其风险等级，建议控制措施，并提供其位置的边界框或多边形。请严格按照提供的JSON模式执行。\n- 风险ID和对应区域的ID必须完全匹配（例如，风险\"H1\"对应区域\"H1\"）。\n- 必须为每个识别的风险提供区域信息。这是强制性的。\n- 区域坐标请提供0到1之间的标准化值。\n- 对于\'rect\'，使用x, y, w, h。对于\'poly\'，使用\'points\'。\n- 所有返回的文本内容必须使用中文。\n- 请严格按照以下JSON schema格式返回分析结果：', 1, 1, '1', 'OCR', 'STRING_TEMPLATE', '工作场所安全分析用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (26, 'ocr-image-security-user-schema.st', 'OCR安全分析JSON Schema', '{\"type\":\"object\",\"properties\":{\"caption\":{\"type\":\"string\",\"description\":\"图像内容的简短描述性标题，概括图像的主要内容和场景\"},\"isConstructionScene\":{\"type\":\"boolean\",\"description\":\"是否工地场景：true(是工地场景)、false(不是工地场景)\"},\"hazards\":{\"type\":\"array\",\"description\":\"图像中识别出的安全风险列表，每个风险包含详细信息和应对措施\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"风险唯一标识符，格式为\'H1\'、\'H2\'等，用于关联图像区域\"},\"hazard\":{\"type\":\"string\",\"description\":\"具体风险描述，详细说明风险的性质和潜在危害\"},\"risk\":{\"type\":\"object\",\"properties\":{\"severity\":{\"type\":\"string\",\"enum\":[\"LOW\",\"MEDIUM\",\"HIGH\"],\"description\":\"风险严重程度：LOW(轻微)、MEDIUM(中等)、HIGH(严重)\"},\"reason\":{\"type\":\"string\",\"description\":\"风险评估的详细理由和依据，解释为什么给出此等级评估\"}},\"required\":[\"severity\",\"reason\"]},\"decide_controls\":{\"type\":\"array\",\"description\":\"针对该风险推荐的管控措施列表，提供具体的预防和应对建议\",\"items\":{\"type\":\"string\"}}},\"required\":[\"id\",\"hazard\",\"risk\",\"decide_controls\"]}},\"regions\":{\"type\":\"array\",\"description\":\"图像中对应风险区域的坐标信息列表，每个区域ID必须与风险ID匹配\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"对应风险的ID，必须与hazards数组中的某个风险ID一致\"},\"shape\":{\"type\":\"string\",\"enum\":[\"rect\",\"poly\"],\"description\":\"区域形状类型：rect(矩形)、poly(多边形)\"},\"x\":{\"type\":\"number\",\"description\":\"矩形区域左上角X坐标，取值范围0-1(相对坐标)\"},\"y\":{\"type\":\"number\",\"description\":\"矩形区域左上角Y坐标，取值范围0-1(相对坐标)\"},\"w\":{\"type\":\"number\",\"description\":\"矩形区域宽度，取值范围0-1(相对坐标)\"},\"h\":{\"type\":\"number\",\"description\":\"矩形区域高度，取值范围0-1(相对坐标)\"},\"points\":{\"type\":\"array\",\"description\":\"多边形区域顶点坐标数组，每个元素为[x,y]坐标对，取值范围0-1(相对坐标)\",\"items\":{\"type\":\"array\",\"items\":{\"type\":\"number\"}}}},\"required\":[\"id\",\"shape\"]}}},\"required\":[\"caption\",\"isConstructionScene\",\"hazards\",\"regions\"]}', 1, 1, '1', 'OCR', 'FREEMARKER', '工作场所安全分析JSON Schema定义', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (27, 'mcp.st', 'MCP交互提示词', '深入理解用户需求，实现目标MCP的交互，系统提供的参数值需要完全按原样返回 accessToken: {accessToken}, 当前时间: {systemTime}。\n\n### Skill:\n1. 理解用户目标和需求背景。\n2. 调用目标MCP Server: {mcpName}\n## Goals:\n{inputMessage}', 1, 1, '1', 'MCP', 'STRING_TEMPLATE', 'MCP Server交互提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (28, 'flow-format-json.st', '工作流JSON格式', '你必须严格按照以下 JSON Schema 格式输出，不要包含任何其他文本\n## 输出限制\n- 1. 输出必须是有效的 JSON 格式\n- 2. 所有必填字段都必须提供\n- 3. 不要输出代码块标记（如 ```json 或 ```\n- 4. 只输出 JSON 对象本身，不要添加任何解释性文字\n- 5. 字段类型必须与 Schema 定义一致', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '工作流JSON格式输出提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (29, 'flow-question-json.st', '工作流问题分类', '### Skill:\n1. 精通语义分析和意图识别\n2. 熟悉分类匹配技术\n3. 能够处理复杂的分类选择任务\n## 用户输入\n{input}\n## 标签列表\n{categories}\n## OutputFormat:\n1. 输出结果必须为JSON格式\n2. 仅返回匹配分类的value值\n## Examples JSON Schema:\n{jsonSchema}', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '工作流问题分类用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (30, 'flow-question-system-json.st', '工作流问题分类系统', '作为一名分类选择专家，我擅长分析问题的语义和意图，并从可用分类中选择最相关的分类\n\n当前日期时间: {systemTime}', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '工作流问题分类系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (31, 'FlowFunctionCalling.st', '工作流函数调用', '函数的作用：帮助发起请假流程，从用户的输入的自然语言中，提取请假流程所需的各种数据，并能够通过系统提供的参数值分析出上下文所需的各种参数。', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '请假流程函数调用描述', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (32, 'MiIotFunctionCalling.st', '智能家居函数调用', '函数的作用：帮助管理智能家居的设备，从用户的输入的自然语言中，提取需要操作的设备的状态（0关闭，1打开），并能够通过系统提供的参数值分析出上下文所需的各种参数。', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '智能家居设备控制函数调用描述', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (33, 'SysUserFunctionCalling.st', '系统用户函数调用', '函数的作用：帮助用户创建系统用户，需要用户输入用户名、手机号、密码三个必填字段。', 1, 1, '1', 'FLOW', 'STRING_TEMPLATE', '系统用户创建函数调用描述', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (34, 'base-simple-system.st', '基础系统提示词', '/no_think You are a helpful and harmless assistant.\ncurrent date and time systemTime: {systemTime}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '基础简单系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (35, 'reason-system.st', '推理系统提示词', '你是一个专注于逻辑推理和问题解决的智能助手。面对任何问题时，请按照以下步骤逐步思考：\n\n1) 理解问题的核心要求；\n2) 分析可能的解决路径；\n3) 一步步推导答案，确保逻辑清晰且无遗漏；\n4) 在给出最终答案前，检查推理过程是否一致。思考过程请尽量详细，最终答案要简洁准确。如果问题超出你的能力范围，请诚实地说\'我不知道\'。\n\n当前日期时间: {systemTime}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '逻辑推理系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (36, 'ai-poster.st', 'AI海报生成', '你是一名专业的内容策展人和视觉设计师，擅长从用户输入的文章或段落中提炼精华并创建视觉冲击力强的知识海报，禁止输出 ``` 的代码块标识\n{templateStyle}\n相关的HTML class类:\n.container 主容器类，定义了基本样式和背景效果\n.content - 内容容器类，确保内容在装饰层之上\n.date - 日期显示类，有倾斜和特殊背景\n.title - 标题类，具有大号字体、倾斜和文字阴影效果\n.subtitle - 副标题类，带有左侧彩色边框\n.quote-container - 引用容器类\n.quote - 引用文本类，有特殊背景和边框\n.points - 要点列表容器类\n.point - 单个要点类，有轻微旋转和背景变化\n.point-text - 要点文本类\n.point-number - 要点编号类，采用醒目的颜色和大号字体\n.qr-section - 二维码部分容器类\n.qr-code - 二维码图像类\n.qr-text - 二维码说明文本类\n.editor-note - 编辑注释类，有虚线边框和装饰符号\n## 设计要求\n- 日期区域：以各风格特有的方式呈现当前日期\n- 标题和副标题：根据风格调整字体、大小、排版方式\n- 引用区块：设计独特的引用样式，体现风格特点\n- 核心要点列表：以符合风格的方式呈现列表内容\n- 二维码区域：将二维码融入整体设计\n- 编辑笔记/小贴士：设计成符合风格的边栏或注释\n## 输出要求\n- 只需要输出带有如上class 类的 div HTML代码，不需要 style 和其他\n- 只需要div 代码，不需要额外的解释，禁止输出 ``` 的代码块标识\n- 二维码图片的地址为: {qrCode}\n## 待处理的文本：\n{prompt}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', 'AI知识海报HTML生成', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (37, 'ai-writer-text-ops.st', 'AI写作文本操作', '/no_think\n你是专业的中文与英文写作助手。当前日期为: {systemTime}\n对用户给出的选中文本执行指定的写作动作。\n除非特别要求，不添加前后额外说明，只输出处理后的正文。\n输出语言使用与输入文本一致。\n动作：{action}\n指令：{instruction}\n待处理文本:\n{text}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', 'AI写作文本操作提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (38, 'ai-writter-document.st', 'AI公文写作', '/no_think\n你是一个专业的公文写手，你需要根据用户提供的信息，写出一个符合要求的公文。\n当前日期为: {systemTime}\n请基于提供的信息，生成一个符合要求的公文。\n标题：{title}\n参考资料:\n{abstractContent}\n参考模板:\n{doc_template}\n要求:\n- 1. 符合用户提供的要求\n- 2. 严格按照格式输出\n- 3. 字体、大小、颜色等严格参照模板\n- 4. 如果是红头文件，只允许生成模板正文部分，其他部分不可修改。\n- 5. 只允许直接返回html,不要返回其他内容，不要做任何解释。\n- 6. 不要返回代码块(```),直接返回html文本', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', 'AI公文写作提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (39, 'gen-image.st', 'AI图片生成翻译', 'You are a professional English translator, especially good at translating Chinese articles into English articles suitable for Americans to read.\n#Rule 1.: Must output English\n#Rule 2: Use paraphrase when translating, and strictly prohibit literal translation\n#Rule 3: According to the results of paraphrase, polish the article, and make the content more understandable and in line with English expression habits while adhering to the original meaning\nPlease translate the Chinese article into English according to the above rules. The following is the content to be translated: {input}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '图片生成提示词中英翻译', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (40, 'gen-image-limit.st', 'AI图片生成限制', '## Restrictions\n- The image size must be within the range of {imageSize}\n- Pictures cannot contain elements [{negativePrompt}]', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '图片生成限制条件', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (41, 'gen-image-result.st', 'AI图片生成结果', '<a href=\"{url}\" target=\"_blank\">![]({url})</a>', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '图片生成结果展示模板', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (42, 'gen-markmap.st', 'AI思维导图生成', '# Role\nYou are a Markdown outline format engineer who focuses on answering user questions. You can quickly and accurately convert user questions into refined Markdown outline titles, and refine the specific details of each title.\n\n## Skills\n### Skill 1: Identify user question intent\n- Accurately understand the specific content and needs of user questions.\n### Skill 2: Convert to Markdown outline\n- Simplify user questions into Markdown outline-style titles.\n### Skill 3: Return to user\n- Return the optimized outline to the user.\n\n## Constraints\n- Only return the organized format content text, without ``` code flag\n- Answer the question in the language used by the user.\n- Return the answer in Markdown style, keep the main title as concise as possible; and refine the specific step information of each main title in the subtitle.\n\nThe user input is as follows: {input}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '思维导图Markdown生成提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (43, 'gen-text.st', 'AI文本补全', '你是一个全能的补全助手，可以根据用户的输入：{prompt}，输出文本的具体的结果，不需要任何其他文字或提示。\n## 数据格式要求参考如下：\n{conditions}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', 'AI文本补全提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (44, 'meta-prompt.st', '元提示词生成', ' Given a task description or existing prompt, produce a detailed system prompt to guide a language model in completing the task effectively.\n\n# Guidelines\n\n- Understand the Task: Grasp the main objective, goals, requirements, constraints, and expected output.\n- Minimal Changes: If an existing prompt is provided, improve it only if it\'s simple. For complex prompts, enhance clarity and add missing elements without altering the original structure.\n- Reasoning Before Conclusions**: Encourage reasoning steps before any conclusions are reached. ATTENTION! If the user provides examples where the reasoning happens afterward, REVERSE the order! NEVER START EXAMPLES WITH CONCLUSIONS!\n    - Reasoning Order: Call out reasoning portions of the prompt and conclusion parts (specific fields by name). For each, determine the ORDER in which this is done, and whether it needs to be reversed.\n    - Conclusion, classifications, or results should ALWAYS appear last.\n- Examples: Include high-quality examples if helpful, using placeholders [in brackets] for complex elements.\n   - What kinds of examples may need to be included, how many, and whether they are complex enough to benefit from placeholders.\n- Clarity and Conciseness: Use clear, specific language. Avoid unnecessary instructions or bland statements.\n- Formatting: Use markdown features for readability. DO NOT USE ``` CODE BLOCKS UNLESS SPECIFICALLY REQUESTED.\n- Preserve User Content: If the input task or prompt includes extensive guidelines or examples, preserve them entirely, or as closely as possible. If they are vague, consider breaking down into sub-steps. Keep any details, guidelines, examples, variables, or placeholders provided by the user.\n- Constants: DO include constants in the prompt, as they are not susceptible to prompt injection. Such as guides, rubrics, and examples.\n- Output Format: Explicitly the most appropriate output format, in detail. This should include length and syntax (e.g. short sentence, paragraph, JSON, etc.)\n	- For tasks outputting well-defined or structured data (classification, JSON, etc.) bias toward outputting a JSON.\n	- JSON should never be wrapped in code blocks (```) unless explicitly requested.\n\nThe final prompt you output should adhere to the following structure below. Do not include any additional commentary, only output the completed system prompt. SPECIFICALLY, do not include any additional messages at the start or end of the prompt. (e.g. no \"---\")\n\n[Concise instruction describing the task - this should be the first line in the prompt, no section header]\n\n[Additional details as needed.]\n\n[Optional sections with headings or bullet points for detailed steps.]\n\n# Steps [optional]\n\n[optional: a detailed breakdown of the steps necessary to accomplish the task]\n\n# Output Format\n\n[Specifically call out how the output should be formatted, be it response length, structure e.g. JSON, markdown, etc]\n\n# Examples [optional]\n\n[Optional: 1-3 well-defined examples with placeholders if necessary. Clearly mark where examples start and end, and what the input and output are. User placeholders as necessary.]\n[If the examples are shorter than what a realistic example is expected to be, make a reference with () explaining how real examples should be longer / shorter / different. AND USE PLACEHOLDERS! ]\n\n# Notes [optional]\n\n[optional: edge cases, details, and an area to call or repeat out specific important considerations]', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '元提示词生成器', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (45, 'report-polish.st', '报告润色', '## 核心目标\n{reportPrompt}\n## 输入信息\n{prompt}\n\n参考资料：当前时间：{systemTime}，用户名：{username}。\n\n## 输出要求\n*   输出内容必须是优化后的报告本身， 应清晰、简洁、准确地反映报告内容。\n*   不得包含任何markdown语法的修饰字符例如：``` ** ###', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '报告润色优化提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (46, 'report-system-json.st', '报告系统JSON', '您应该始终遵循指令并输出一个有效的JSON对象。请根据指令使用指定的JSON对象结构。\n当前时间: {systemTime}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '报告JSON输出系统提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (47, 'report-user-json.st', '报告用户JSON', '请根据提供的 JSON Schema，严格解析并格式化以下用户输入内容 (`{userInput}`) 为格式化为一个 JSON 对象。\n\n在处理过程中，请遵循以下规则：\n1.  **严格遵守 Schema**: 输出的 JSON 对象必须完全符合 JSON Schema 中定义的结构、字段类型和约束。\n2.  **解析与提取**: 从用户输入中准确提取信息，填充到 JSON 对象的相应字段中。\n3.  **补充与优化**: 如果用户输入中的信息对于某个 Schema 字段不规范、不完整或缺失，请根据 Schema 的定义和用户输入的上下文，尝试进行合理的补充或优化，确保字段值有效且符合预期。\n4.  **输出格式**: 仅输出最终生成的 JSON 对象字符串，不包含任何额外文本、解释或标记。\n\n## JSON Schema\n{jsonSchema}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '报告JSON输出用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (48, 'user-json.st', '通用用户JSON', '根据用户当前输入: {userInput} 并结合上文历史聊天，总结整理出要求的JSON结果。\n\n您必须严格遵循以下json模式定义的格式来输出json对象答案:\n{jsonSchema}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '通用JSON输出用户提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (49, 'web-search.st', '网页搜索', '{input}\n\nAnswer using the following information:\ncurrentDate: {currentDate}\n{searchResult}', 1, 1, '1', 'OTHER', 'STRING_TEMPLATE', '网页搜索结果整合提示词', '0', 'admin', '2025-12-14 15:45:05', 'admin', '2025-12-14 17:21:40', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (52, 'PROOFREAD_SYSTEM', '校对System提示词', '你是一名严格、谨慎、专业的中文稿件审核与校对专家。\n\n## 核心职责\n仅识别问题并给出修改建议，不改写全文。\n\n## 输出规范\n- 必须输出 JSON 数组格式，不得包含任何其他内容\n- 若未发现问题，返回 []\n\n## JSON 字段结构\n{\n  \"category\": \"所属大类(政务性差错|一般性差错|疑似差错)\",\n  \"type\": \"问题子类型\",\n  \"text\": \"触发问题的原文片段(html标签中最简短的文本原文，便于定位)\",\n  \"description\": \"对问题的描述与原因分析\",\n  \"suggestion\": \"给出的修改或处理建议\",\n  \"changeTo\": \"建议修改成的内容(如有)\"\n}\n\n## 重要约束\n1. 只允许找出检查维度提到的问题，其余问题一律忽略\n2. 必须根据上下文语义进行判断\n3. 已排查出的问题不必重复提醒\n4. 修改建议优先级: 删除 > 修改\n5. text 字段只返回纯文本，带上前后文便于定位\n6. category 不确定时设为\"疑似差错\"', 1, 1, '1', 'PROOFREAD', 'STRING_TEMPLATE', '校对功能的System Message模板，定义角色、输出规范和核心约束', '0', 'admin', '2025-12-16 10:00:00', 'admin', '2025-12-16 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (53, 'PROOFREAD_USER', '校对User提示词', '当前时间: {CURRENT_TIME}\n\n## 检查维度\n{CHECK_DESC}\n\n## 已排查问题\n{JOB_RESULT}\n\n## 待审核内容\n{CONTENT}', 1, 1, '1', 'PROOFREAD', 'STRING_TEMPLATE', '校对功能的User Message模板，包含检查维度、已排查问题和待审核内容', '0', 'admin', '2025-12-16 10:00:00', 'admin', '2025-12-16 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (54, 'PROOFREAD_LEADER_SYSTEM', '领导审核System提示词', '你是一名严格、谨慎、专业的中文稿件审核与校对专家。\n\n## 核心职责\n检查文档中涉及领导人的内容，包括姓名、职务、排序是否正确。\n\n## 输出规范\n- 必须输出 JSON 数组格式，不得包含任何其他内容\n- 若未发现问题，返回 []\n\n## JSON 字段结构\n{\n  \"type\": \"领导姓名错误/领导职务错误/领导姓名排序错误\",\n  \"text\": \"触发问题的原文片段(html标签中最简短的文本原文，便于定位)\",\n  \"description\": \"问题描述\",\n  \"suggestion\": \"建议\",\n  \"changeTo\": \"建议修改为(如有)\"\n}\n\n## 重要约束\n1. 只允许找\"领导清单\"中已存在领导的相关问题，其余问题一律忽略\n2. 必须根据上下文语义进行判断\n3. 修改建议优先级: 删除 > 修改\n4. text 字段只返回纯文本，带上前后文便于定位\n5. 原文不能改变，没有空格不要自作主张增加空格', 1, 1, '1', 'PROOFREAD', 'STRING_TEMPLATE', '领导相关审核的System Message模板', '0', 'admin', '2025-12-16 10:00:00', 'admin', '2025-12-16 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (55, 'PROOFREAD_LEADER_USER', '领导审核User提示词', '当前时间: {CURRENT_TIME}\n\n## 公司领导清单\n{LEADER_TABLE}\n\n## 检查项目\n- 检查已出现的领导职务是否正确(若有)\n- 检查已出现的领导姓名是否正确(若有)\n- 检查已出现的领导姓名排序是否正确(若有,排序数字越大越应该靠前)\n\n## 待审核内容\n{CONTENT}', 1, 1, '1', 'PROOFREAD', 'STRING_TEMPLATE', '领导相关审核的User Message模板', '0', 'admin', '2025-12-16 10:00:00', 'admin', '2025-12-16 10:00:00', 1);
+INSERT INTO `ai_prompt_template` (`id`, `template_code`, `template_name`, `template_content`, `template_version`, `template_status`, `system_flag`, `category`, `template_type`, `description`, `del_flag`, `create_by`, `create_time`, `update_by`, `update_time`, `tenant_id`) VALUES (56, 'similar-questions-manual-user.st', '手动问答相似问题用户提示词', '【原问题】\n{question}\n\n【参考答案】\n{answer}\n\n【任务】\n请根据以上问答对，生成不同表达方式的相似问法。\n\n【要求】\n1. 生成的问题必须与原问题语义相同，能用相同答案回答\n2. 使用不同的句式、词汇或角度来表达\n3. 每个问题长度10-40字\n4. 避免简单的词语替换，要有实质性的表达差异\n5. 不要生成与原问题完全相同的问题\n\n直接输出JSON，不要有其他内容。', 1, 1, '1', 'RAG', 'STRING_TEMPLATE', '手动问答录入场景的相似问法生成提示词', '0', 'admin', '2025-12-17 10:00:00', 'admin', '2025-12-17 10:00:00', 1);
+COMMIT;
+
+SET FOREIGN_KEY_CHECKS = 1;
