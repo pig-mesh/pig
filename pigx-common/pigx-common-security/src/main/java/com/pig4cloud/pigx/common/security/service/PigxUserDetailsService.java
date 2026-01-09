@@ -31,10 +31,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lengleng
@@ -106,7 +103,7 @@ public interface PigxUserDetailsService extends UserDetailsService, Ordered {
                 info.getNickname(), info.getName(), info.getEmail(), info.getTenantId(),
                 SecurityConstants.BCRYPT + info.getPassword(), true, true, UserTypeEnum.TOB.getStatus(),
                 !CommonConstants.STATUS_LOCK.equals(info.getPasswordExpireFlag()) // 密码过期判断
-                , info.getPasswordModifyTime(), !CommonConstants.STATUS_LOCK.equals(info.getLockFlag()), authorities);
+                , Objects.isNull(info.getPasswordModifyTime()) ? info.getCreateTime() : info.getPasswordModifyTime(), !CommonConstants.STATUS_LOCK.equals(info.getLockFlag()), authorities);
     }
 
     /**
