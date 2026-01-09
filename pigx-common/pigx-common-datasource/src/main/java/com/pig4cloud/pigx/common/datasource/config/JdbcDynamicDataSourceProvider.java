@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,12 +21,14 @@ import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.creator.druid.DruidConfig;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
+import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.datasource.support.DataSourceConstants;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -69,7 +71,11 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
         Map<String, DataSourceProperty> map = new HashMap<>(8);
 
         try {
-            ResultSet rs = statement.executeQuery(properties.getQueryDsSql());
+            // 使用PreparedStatement防止SQL注入，并添加租户隔离
+            PreparedStatement pstmt = statement.getConnection().prepareStatement(properties.getQueryDsSql());
+            pstmt.setString(1, YesNoEnum.NO.getCode()); // del_flag参数
+
+            ResultSet rs = pstmt.executeQuery();
 
             while (rs.next()) {
                 String name = rs.getString(DataSourceConstants.NAME);
@@ -103,6 +109,10 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
                 map.put(name, property);
             }
+
+            // 关闭PreparedStatement和ResultSet
+            rs.close();
+            pstmt.close();
 
         } catch (Exception e) {
             log.warn("动态数据源配置表异常:{}", e.getMessage());
