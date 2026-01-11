@@ -39,17 +39,24 @@ public class DingUserExcelVo implements Serializable {
 	private String name;
 
 	/**
-	 * 部门名称
+	 * 部门路径
+	 * 格式: "公司/部门A/子部门B" (用"/"表示层级关系)
+	 * 支持多部门: "部门1;部门2" (用英文分号分隔,第一个为主部门)
 	 */
 	@NotBlank(message = "部门不能为空")
 	@ExcelProperty("部门")
-	private String deptName;
+	private String deptPath;
 
+	/**
+	 * 邮箱
+	 */
 	@ExcelProperty("邮箱")
 	private String email;
 
 	/**
 	 * 锁定标记
+	 * 0: 正常(激活)
+	 * 9: 锁定(未激活)
 	 */
 	@ExcelProperty("激活状态,0:是,9:否")
 	private String lockFlag;
