@@ -40,7 +40,7 @@
 		<velocity.tool.version>3.1</velocity.tool.version>
 		<configuration.version>1.10</configuration.version>
 		<swagger.core.version>2.2.39</swagger.core.version>
-		<mybatis-plus.version>3.5.15</mybatis-plus.version>
+		<mybatis-plus.version>3.5.16</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
