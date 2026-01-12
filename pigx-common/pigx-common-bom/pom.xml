@@ -11,8 +11,8 @@
     <description>pigx 公共版本控制，在此pom定义的依赖，全局业务微服务不需要指定版本。</description>
 
     <properties>
-        <pigx.version>5.11.0</pigx.version>
-        <mybatis-plus.version>3.5.15</mybatis-plus.version>
+        <pigx.version>5.11.1</pigx.version>
+        <mybatis-plus.version>3.5.16</mybatis-plus.version>
         <mybatis-plus-join.version>1.5.5</mybatis-plus-join.version>
         <dynamic-ds.version>4.5.0</dynamic-ds.version>
         <nacos.client.version>3.1.0</nacos.client.version>
@@ -26,15 +26,13 @@
         <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>2.8.5</springdoc.version>
         <swagger.core.version>2.2.28</swagger.core.version>
-        <!-- FIX Quartz https://github.com/spring-projects/spring-boot/issues/48012 -->
-        <quartz.version>2.5.2</quartz.version>
         <mp.weixin.version>4.7.8-20251028.120007</mp.weixin.version>
         <ijpay.version>2.9.12.1-17</ijpay.version>
         <groovy.version>3.0.3</groovy.version>
         <javax.version>4.0.1</javax.version>
         <jsoup.version>1.15.3</jsoup.version>
         <aviator.version>5.4.3</aviator.version>
-        <flowable.version>7.2.0</flowable.version>
+        <flowable.version>7.0.0</flowable.version>
         <security.oauth.version>2.5.2.RELEASE</security.oauth.version>
         <fastjson.version>1.2.83</fastjson.version>
         <xxl.job.version>2.4.2</xxl.job.version>
@@ -480,12 +478,6 @@
                 <groupId>com.alibaba.nacos</groupId>
                 <artifactId>nacos-client</artifactId>
                 <version>${nacos.client.version}</version>
-            </dependency>
-            <!-- fix springboot 3.5.8 bug，后续版本注意移除-->
-            <dependency>
-                <groupId>org.quartz-scheduler</groupId>
-                <artifactId>quartz</artifactId>
-                <version>${quartz.version}</version>
             </dependency>
             <!--  指定 log4j 版本-->
             <dependency>
