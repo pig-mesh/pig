@@ -23,7 +23,7 @@ public interface CacheConstants {
     /**
      * 菜单信息缓存
      */
-    String MENU_DETAILS = "menu_details";
+    String MENU_DETAILS = GLOBALLY + "menu_details";
 
     /**
      * 用户信息缓存
@@ -49,11 +49,6 @@ public interface CacheConstants {
      * oauth 客户端信息
      */
     String CLIENT_DETAILS_KEY = "pigx_oauth:client:details";
-
-    /**
-     * spring boot admin 事件key
-     */
-    String EVENT_KEY = GLOBALLY + "event_key";
 
     /**
      * 路由存放
@@ -86,11 +81,6 @@ public interface CacheConstants {
     String MP_REDIS_RELOAD_TOPIC = "mp_redis_reload_topic";
 
     /**
-     * 支付 reload 事件
-     */
-    String PAY_REDIS_RELOAD_TOPIC = "pay_redis_reload_topic";
-
-    /**
      * 参数缓存
      */
     String PARAMS_DETAILS = "params_details";
@@ -114,10 +104,5 @@ public interface CacheConstants {
      * 登录错误次数
      */
     String LOGIN_ERROR_TIMES = "login_error_times";
-
-    /**
-     * oauth 缓存前缀
-     */
-    String PROJECT_OAUTH_ACCESS = "token::access_token";
 
 }
