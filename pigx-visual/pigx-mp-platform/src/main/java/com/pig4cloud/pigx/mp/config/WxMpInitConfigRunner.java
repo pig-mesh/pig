@@ -113,7 +113,7 @@ public class WxMpInitConfigRunner {
 			routers.put(a.getAppid(), this.newRouter(service));
 			tenants.put(a.getAppid(), a.getTenantId());
 			return service;
-		}).collect(Collectors.toMap(s -> s.getWxMpConfigStorage().getAppId(), a -> a));
+		}).collect(Collectors.toMap(s -> s.getWxMpConfigStorage().getAppId(), a -> a, (existing, replace) -> existing));
 	}
 
 	private WxMpMessageRouter newRouter(WxMpService wxMpService) {
