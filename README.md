@@ -22,7 +22,7 @@
 
 ## 技术栈
 
-- Spring Boot: 4.0.0
+- Spring Boot: 4.0.2
 - Spring Cloud: 2025.1.0
 - Spring Cloud Alibaba: 2025.1.0.0-SNAPSHOT (待适配)
 - JDK: 17+
