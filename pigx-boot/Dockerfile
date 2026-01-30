@@ -2,6 +2,9 @@ FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/java:21-anolis
 
 WORKDIR /pigx-boot
 
+# 安装中文字体（解决词云中文显示问题）
+RUN yum install -y wqy-microhei-fonts && yum clean all
+
 ARG JAR_FILE=target/pigx-boot.jar
 
 COPY ${JAR_FILE} app.jar
