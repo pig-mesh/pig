@@ -21,6 +21,7 @@ package com.pig4cloud.pigx.admin.api.feign;
 
 import com.pig4cloud.pigx.admin.api.dto.MessageEmailDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageHookDTO;
+import com.pig4cloud.pigx.admin.api.dto.MessageNoticeDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageSmsDTO;
 import com.pig4cloud.pigx.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pigx.common.core.util.R;
@@ -63,5 +64,14 @@ public interface RemoteMessageService {
      */
     @PostMapping("/sysMessage/send/hook")
     R sendHook(@RequestBody MessageHookDTO hookDTO);
+
+    /**
+     * 发送站内消息/公告
+     *
+     * @param noticeDTO 站内消息 DTO
+     * @return {@link R }
+     */
+    @PostMapping("/sysMessage/send/notice")
+    R sendNotice(@RequestBody MessageNoticeDTO noticeDTO);
 
 }

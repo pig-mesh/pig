@@ -24,10 +24,7 @@ import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.pig4cloud.pigx.admin.api.constant.SmsBizCodeEnum;
 import com.pig4cloud.pigx.admin.api.constant.SystemConfigTypeEnum;
 import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
-import com.pig4cloud.pigx.admin.api.dto.MessageEmailDTO;
-import com.pig4cloud.pigx.admin.api.dto.MessageHookDTO;
-import com.pig4cloud.pigx.admin.api.dto.MessageSmsDTO;
-import com.pig4cloud.pigx.admin.api.dto.SysLogDTO;
+import com.pig4cloud.pigx.admin.api.dto.*;
 import com.pig4cloud.pigx.admin.api.entity.*;
 import com.pig4cloud.pigx.admin.api.feign.RemoteLogService;
 import com.pig4cloud.pigx.admin.api.vo.OrgTreeVO;
@@ -149,9 +146,11 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
         if (Objects.isNull(sysMessage.getId())) {
             baseMapper.insert(messageEntity);
+            sysMessage.setId(messageEntity.getId());
         } else {
             baseMapper.updateById(sysMessage);
         }
+
 
         // 删除原有用户
         relationMapper.delete(Wrappers.<SysMessageRelationEntity>lambdaQuery()
@@ -547,6 +546,42 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                         .eq(SysSystemConfigEntity::getConfigType, messageHookDTO.getMessageType())
                         .eq(SysSystemConfigEntity::getConfigStatus, YesNoEnum.YES.getCode()));
         return R.ok(configEntityList);
+    }
+
+    /**
+     * 发送站内消息/公告
+     *
+     * @param noticeDTO 站内消息 DTO
+     * @return {@link R }
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R sendNotice(MessageNoticeDTO noticeDTO) {
+        // 构建消息VO
+        SysMessageVO messageVO = new SysMessageVO();
+        messageVO.setCategory(noticeDTO.getCategory());
+        messageVO.setTitle(noticeDTO.getTitle());
+        messageVO.setContent(noticeDTO.getContent());
+        messageVO.setAllFlag(noticeDTO.getAllFlag());
+        messageVO.setSort(noticeDTO.getSort());
+
+        // 设置接收用户列表
+        if (CollUtil.isNotEmpty(noticeDTO.getUserIds())) {
+            List<OrgTreeVO> userList = noticeDTO.getUserIds().stream().map(userId -> {
+                OrgTreeVO orgTreeVO = new OrgTreeVO();
+                orgTreeVO.setId(userId);
+                return orgTreeVO;
+            }).toList();
+            messageVO.setUserList(userList);
+        }
+
+        // 保存消息
+        saveOrUpdateMessage(messageVO);
+
+        // 立即发送消息
+        sendMessage(messageVO.getId());
+
+        return R.ok(messageVO.getId());
     }
 
 }

@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.dto.MessageEmailDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageHookDTO;
+import com.pig4cloud.pigx.admin.api.dto.MessageNoticeDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageSmsDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysMessageEntity;
 import com.pig4cloud.pigx.admin.api.vo.SysMessageVO;
@@ -200,7 +201,10 @@ public class SysMessageController {
      * @param messageSmsDTO 消息 短信 DTO
      * @return {@link R }
      */
+    @Operation(summary = "发送短信", description = "发送短信")
+    @SysLog("发送短信")
     @PostMapping("/send/sms")
+    @HasPermission("sys_message_add")
     public R sendSms(@Valid @RequestBody MessageSmsDTO messageSmsDTO) {
         return sysMessageService.sendSms(messageSmsDTO);
     }
@@ -211,7 +215,10 @@ public class SysMessageController {
      * @param messageEmailDTO 留言内容 电子邮件 DTO
      * @return {@link R }
      */
+    @Operation(summary = "发送邮件", description = "发送邮件")
+    @SysLog("发送邮件")
     @PostMapping("/send/email")
+    @HasPermission("sys_message_add")
     public R sendEmail(@Valid @RequestBody MessageEmailDTO messageEmailDTO) {
         return sysMessageService.sendEmail(messageEmailDTO);
     }
@@ -222,7 +229,10 @@ public class SysMessageController {
      * @param messageHookDTO 消息挂钩 DTO
      * @return {@link R }
      */
+    @Operation(summary = "发送 webhook", description = "发送 webhook")
+    @SysLog("发送 webhook")
     @PostMapping("/send/hook")
+    @HasPermission("sys_message_add")
     public R sendWebhook(@Valid @RequestBody MessageHookDTO messageHookDTO) {
         return sysMessageService.sendHook(messageHookDTO);
     }
@@ -230,6 +240,20 @@ public class SysMessageController {
     @GetMapping("/list/hook")
     public R listHookBizCode(MessageHookDTO messageHookDTO) {
         return sysMessageService.listHookBizCode(messageHookDTO);
+    }
+
+    /**
+     * 发送站内消息/公告
+     *
+     * @param noticeDTO 站内消息 DTO
+     * @return {@link R }
+     */
+    @Operation(summary = "发送站内消息/公告", description = "发送站内消息/公告")
+    @SysLog("发送站内消息/公告")
+    @PostMapping("/send/notice")
+    @HasPermission("sys_message_add")
+    public R sendNotice(@Valid @RequestBody MessageNoticeDTO noticeDTO) {
+        return sysMessageService.sendNotice(noticeDTO);
     }
 
 }

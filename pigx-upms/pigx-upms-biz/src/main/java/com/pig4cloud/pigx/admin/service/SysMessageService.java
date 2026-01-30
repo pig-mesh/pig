@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.admin.api.dto.MessageEmailDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageHookDTO;
+import com.pig4cloud.pigx.admin.api.dto.MessageNoticeDTO;
 import com.pig4cloud.pigx.admin.api.dto.MessageSmsDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysMessageEntity;
 import com.pig4cloud.pigx.admin.api.vo.SysMessageVO;
@@ -101,5 +102,13 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 	 * @return {@link R }
 	 */
 	R listHookBizCode(MessageHookDTO messageHookDTO);
+
+    /**
+     * 发送站内消息/公告
+     *
+     * @param noticeDTO 站内消息 DTO
+     * @return {@link R }
+     */
+    R sendNotice(MessageNoticeDTO noticeDTO);
 
 }
