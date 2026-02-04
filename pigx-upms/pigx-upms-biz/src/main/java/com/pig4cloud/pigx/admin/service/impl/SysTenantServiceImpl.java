@@ -357,6 +357,7 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
      * @return 是否移除成功
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public Boolean removeTenantUser(SysTenantUserDTO tenantUserDTO) {
         ArrayList<Long> userIdList = CollUtil.toList(tenantUserDTO.getUserIds());
 
@@ -373,6 +374,30 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
             // 删除用户部门
             sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getUserId, userIdList));
         }));
+
+        // 检查用户当前租户是否为被移除的租户，若是则自动切换到其他租户
+        TenantBroker.noneAs(() -> {
+            for (Long userId : userIdList) {
+                SysUser sysUser = sysUserMapper.selectById(userId);
+                if (Objects.nonNull(sysUser) && tenantUserDTO.getTenantId().equals(sysUser.getTenantId())) {
+                    // 查询用户的其他租户
+                    SysTenantUser otherTenantUser = sysTenantUserMapper.selectOne(
+                            Wrappers.<SysTenantUser>lambdaQuery()
+                                    .eq(SysTenantUser::getUserId, userId)
+                                    .ne(SysTenantUser::getTenantId, tenantUserDTO.getTenantId()),
+                            false);
+                    if (otherTenantUser != null) {
+                        // 切换到其他租户
+                        sysUserMapper.update(Wrappers.<SysUser>lambdaUpdate()
+                                .set(SysUser::getTenantId, otherTenantUser.getTenantId())
+                                .eq(SysUser::getUserId, userId));
+                        // 清除用户缓存
+                        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(sysUser.getUsername());
+                    }
+                }
+            }
+            return null;
+        });
         return Boolean.TRUE;
     }
 
