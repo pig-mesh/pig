@@ -24,7 +24,7 @@
 
 - Spring Boot: 4.0.2
 - Spring Cloud: 2025.1.0
-- Spring Cloud Alibaba: 2025.1.0.0-SNAPSHOT (待适配)
+- Spring Cloud Alibaba: 2025.1.0.0
 - JDK: 17+
 - Maven: 3.6+
 
