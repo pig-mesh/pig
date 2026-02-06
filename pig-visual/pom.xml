@@ -32,6 +32,6 @@
     <modules>
         <module>pig-codegen</module>
         <module>pig-quartz</module>
-		<!--<module>pig-monitor</module>-->
+		<module>pig-monitor</module>
     </modules>
 </project>

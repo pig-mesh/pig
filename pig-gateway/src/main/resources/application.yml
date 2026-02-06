@@ -10,9 +10,6 @@ spring:
       password: @nacos.password@
       discovery:
         server-addr: ${NACOS_HOST:127.0.0.1}:${NACOS_PORT:8848}
-        watch:
-          enabled: true
-        watch-delay: 1000
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
   config:
