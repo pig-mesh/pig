@@ -18,18 +18,62 @@
 package com.pig4cloud.pigx.common.core.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * 通用Web配置类：提供RestTemplate的Bean配置
+ * 通用Web配置类：提供RestTemplate和异步任务执行器的Bean配置
  *
  * @author lengleng
  * @date 2025/05/01
  */
 @Configuration
-public class WebCommonConfiguration {
+@EnableConfigurationProperties(TaskExecutionProperties.class)
+public class WebCommonConfiguration implements WebMvcConfigurer {
+
+    private final TaskExecutionProperties taskExecutionProperties;
+
+    public WebCommonConfiguration(TaskExecutionProperties taskExecutionProperties) {
+        this.taskExecutionProperties = taskExecutionProperties;
+    }
+
+    /**
+     * 异步任务执行器，用于处理Spring MVC异步请求
+     * <p>
+     * 配置项通过 spring.task.execution.* 进行配置
+     * </p>
+     *
+     * @return AsyncTaskExecutor实例
+     */
+    @Bean
+    public AsyncTaskExecutor applicationTaskExecutor() {
+        TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        executor.setCorePoolSize(pool.getCoreSize());
+        executor.setMaxPoolSize(pool.getMaxSize());
+        executor.setQueueCapacity(pool.getQueueCapacity());
+        executor.setKeepAliveSeconds((int) pool.getKeepAlive().toSeconds());
+        executor.setThreadNamePrefix(taskExecutionProperties.getThreadNamePrefix());
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+        executor.setWaitForTasksToCompleteOnShutdown(true);
+        executor.setAwaitTerminationSeconds(60);
+        executor.initialize();
+        return executor;
+    }
+
+    @Override
+    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+        configurer.setTaskExecutor(applicationTaskExecutor());
+    }
 
     /**
      * 创建并配置RestTemplate的Bean方法
