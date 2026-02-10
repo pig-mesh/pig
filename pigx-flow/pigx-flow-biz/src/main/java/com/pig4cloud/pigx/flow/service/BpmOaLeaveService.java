@@ -2,7 +2,14 @@ package com.pig4cloud.pigx.flow.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.flow.entity.BpmOaLeaveEntity;
+import com.pig4cloud.pigx.flow.event.IProcessInstanceStatusEventService;
 
+/**
+ * 请假申请服务接口
+ *
+ * @author lengleng
+ * @date 2026-02-10
+ */
 public interface BpmOaLeaveService extends IService<BpmOaLeaveEntity>, IProcessInstanceStatusEventService {
 
 	/**

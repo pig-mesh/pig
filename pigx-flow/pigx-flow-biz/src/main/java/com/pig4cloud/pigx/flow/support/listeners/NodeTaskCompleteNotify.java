@@ -10,16 +10,13 @@ import com.pig4cloud.pigx.common.security.util.NonWebTokenContextHolder;
 import com.pig4cloud.pigx.flow.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.dto.ProcessNodeRecordAssignUserParamDto;
 import com.pig4cloud.pigx.flow.entity.ProcessInstanceRecord;
+import com.pig4cloud.pigx.flow.event.FlowStatusEventPublisher;
 import com.pig4cloud.pigx.flow.mapper.ProcessInstanceRecordMapper;
-import com.pig4cloud.pigx.flow.service.IProcessInstanceStatusEventService;
 import com.pig4cloud.pigx.flow.service.IProcessNodeDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
 
 /**
  * 节点任务完成通知服务
@@ -29,7 +26,7 @@ import java.util.Optional;
  * </p>
  *
  * @author lengleng
- * @date 2024/7/9
+ * @date 2026-02-10
  */
 @Slf4j
 @Service
@@ -40,7 +37,7 @@ public class NodeTaskCompleteNotify {
 
 	private final ProcessInstanceRecordMapper processInstanceRecordMapper;
 
-	private final Optional<List<IProcessInstanceStatusEventService>> processInstanceStatusEventServicesOptional;
+	private final FlowStatusEventPublisher flowStatusEventPublisher;
 
 	/**
 	 * 异步发送任务完成通知
@@ -76,33 +73,28 @@ public class NodeTaskCompleteNotify {
 	}
 
 	/**
-	 * 异步发送流程通知
-	 * @param token 认证令牌
-	 * @param instanceRecordParamDto 流程节点记录参数DTO
-	 * @throws IllegalArgumentException 参数为空时抛出异常
+	 * 异步发送流程实例状态变更通知
+	 * <p>
+	 * 当流程实例状态发生变更时，查询最新的流程实例记录状态，
+	 * 并通过Redis发布流程状态变更事件，供订阅方消费处理。
+	 * </p>
+	 * @param token 安全令牌，用于在异步线程中传递认证信息
+	 * @param instanceRecordParamDto 流程实例参数，包含流程实例ID等信息
 	 */
 	public void sendFlowNotify(String token, ProcessInstanceParamDto instanceRecordParamDto) {
 		// 在异步线程中设置认证令牌
 		NonWebTokenContextHolder.setToken(token);
-		if (processInstanceStatusEventServicesOptional.isEmpty()) {
-			return;
-		}
 
-		for (IProcessInstanceStatusEventService iProcessInstanceStatusEventService : processInstanceStatusEventServicesOptional
-			.get()) {
+		// 查询最新状态
+		ProcessInstanceRecord processInstanceRecord = processInstanceRecordMapper
+			.selectOne(Wrappers.<ProcessInstanceRecord>lambdaQuery()
+				.eq(ProcessInstanceRecord::getProcessInstanceId, instanceRecordParamDto.getProcessInstanceId()));
 
-			if (iProcessInstanceStatusEventService.getFlowId().equals(instanceRecordParamDto.getFlowId())) {
-				// 处理状态事件
-				ProcessInstanceRecord processInstanceRecord = processInstanceRecordMapper.selectOne(Wrappers
-					.<ProcessInstanceRecord>lambdaQuery()
-					.eq(ProcessInstanceRecord::getProcessInstanceId, instanceRecordParamDto.getProcessInstanceId()));
+		instanceRecordParamDto.setStatus(processInstanceRecord.getStatus());
+		instanceRecordParamDto.setFinishReason(processInstanceRecord.getFinishReason());
 
-				instanceRecordParamDto.setStatus(processInstanceRecord.getStatus());
-				instanceRecordParamDto.setFinishReason(processInstanceRecord.getFinishReason());
-				iProcessInstanceStatusEventService.handleStatusEvent(instanceRecordParamDto);
-			}
-
-		}
+		// 发布到 Redis
+		flowStatusEventPublisher.publish(instanceRecordParamDto);
 	}
 
 }

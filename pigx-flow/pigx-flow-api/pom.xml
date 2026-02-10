@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-flow</artifactId>
-        <version>5.11.0</version>
+        <version>5.12.0</version>
     </parent>
 
     <artifactId>pigx-flow-api</artifactId>
@@ -33,9 +33,11 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-excel</artifactId>
         </dependency>
+        <!-- Redis 支持，用于流程状态事件 Pub/Sub -->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>

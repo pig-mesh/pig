@@ -63,5 +63,9 @@ application-preview.yml
 ### node ###
 node_modules
 
+### claude code ###
+.claude
+docs
+
 ### test
-*-aitest*
+aitest
