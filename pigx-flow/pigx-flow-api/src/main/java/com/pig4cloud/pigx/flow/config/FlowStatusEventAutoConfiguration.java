@@ -40,7 +40,9 @@ public class FlowStatusEventAutoConfiguration {
 	@ConditionalOnMissingBean
 	@ConditionalOnBean(IProcessInstanceStatusEventService.class)
 	public FlowStatusEventListener flowStatusEventListener(List<IProcessInstanceStatusEventService> eventServices,
-			StringRedisTemplate redisTemplate) {
+			StringRedisTemplate redisTemplate, FlowStatusEventPublisher publisher) {
+		// 启动时注册所有本地 flowId 到 Redis
+		eventServices.forEach(service -> publisher.registerFlowId(service.getFlowId()));
 		return new FlowStatusEventListener(eventServices, redisTemplate);
 	}
 

@@ -1,17 +1,21 @@
 package com.pig4cloud.pigx.flow.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.Dict;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.api.feign.RemoteFlowApiFlowService;
+import com.pig4cloud.pigx.flow.constant.NodeUserTypeEnum;
 import com.pig4cloud.pigx.flow.dto.ProcessInstanceParamDto;
 import com.pig4cloud.pigx.flow.entity.BpmOaLeaveEntity;
 import com.pig4cloud.pigx.flow.mapper.BpmOaLeaveMapper;
 import com.pig4cloud.pigx.flow.service.BpmOaLeaveService;
-import com.pig4cloud.pigx.flow.support.utils.FlowableUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * 请假表单
@@ -63,8 +67,13 @@ public class BpmOaLeaveServiceImpl extends ServiceImpl<BpmOaLeaveMapper, BpmOaLe
         // 发起哪个流程 （LEAVE）
         processInstanceParamDto.setFlowId(this.getFlowId());
         // 设置流程审批人/发起人信息
-        processInstanceParamDto.setParamMap(FlowableUtils.getFlowParamMap(bpmOaLeave));
-
+        Map<String, Object> flowParamMap = bpmOaLeave.getFlowParamMap();
+        Dict rootUser = Dict.create()
+                .set("id", SecurityUtils.getUser().getId())
+                .set("name", SecurityUtils.getUser().getUsername())
+                .set("type", NodeUserTypeEnum.USER.getKey());
+        flowParamMap.put("root", CollUtil.newArrayList(rootUser));
+        processInstanceParamDto.setParamMap(flowParamMap);
         R<String> stringR = flowApiFlowService.startProcessInstance(processInstanceParamDto);
         bpmOaLeave.setProcessInstanceId(stringR.getData());
         baseMapper.updateById(bpmOaLeave);
