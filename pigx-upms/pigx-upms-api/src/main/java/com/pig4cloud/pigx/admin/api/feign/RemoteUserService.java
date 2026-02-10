@@ -32,7 +32,7 @@ import java.util.List;
 
 /**
  * @author lengleng
- * @date 2018/6/22
+ * @date 2026-02-10
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteUserService {
@@ -102,6 +102,15 @@ public interface RemoteUserService {
      */
     @GetMapping("/user/getUserIdListByDeptIdList")
     R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
+
+    /**
+     * 根据岗位ID列表获取用户ID列表
+     *
+     * @param postIdList 岗位ID列表
+     * @return 用户ID列表
+     */
+    @GetMapping("/user/getUserIdListByPostIdList")
+    R<List<Long>> getUserIdListByPostIdList(@RequestParam("postIdList") List<Long> postIdList);
 
     /**
      * 通过用户名查询用户列表

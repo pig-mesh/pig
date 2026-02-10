@@ -36,7 +36,7 @@ import java.util.List;
 
 /**
  * @author lengleng
- * @date 2017/10/31
+ * @date 2026-02-10
  */
 public interface SysUserService extends IService<SysUser> {
 
@@ -179,6 +179,14 @@ public interface SysUserService extends IService<SysUser> {
      * @return List<Long> 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
      */
     List<SysUser> listUserIdByDeptIds(List<Long> deptIdList);
+
+    /**
+     * 根据岗位ID列表获取用户ID列表
+     *
+     * @param postIdList 岗位ID列表
+     * @return List<Long> 用户ID列表
+     */
+    List<Long> listUserIdByPostIds(List<Long> postIdList);
 
     /**
      * 重置用户密码

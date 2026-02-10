@@ -21,7 +21,6 @@ package com.pig4cloud.pigx.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -71,7 +70,7 @@ import java.util.stream.Collectors;
 
 /**
  * @author lengleng
- * @date 2017/10/31
+ * @date 2026-02-10
  */
 @Slf4j
 @Service
@@ -744,6 +743,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return R.ok();
     }
 
+    /**
+     * 根据角色ID列表获取用户ID列表
+     *
+     * @param roleIdList 角色ID列表
+     * @return 用户ID列表
+     */
     @Override
     public List<Long> listUserIdByRoleIds(List<Long> roleIdList) {
         return sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getRoleId, roleIdList))
@@ -766,6 +771,20 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
                 .map(SysUserDept::getUserId)
                 .toList();
         return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userList));
+    }
+
+    /**
+     * 根据岗位ID列表获取用户ID列表
+     *
+     * @param postIdList 岗位ID列表
+     * @return 用户ID列表
+     */
+    @Override
+    public List<Long> listUserIdByPostIds(List<Long> postIdList) {
+        return sysUserPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getPostId, postIdList))
+                .stream()
+                .map(SysUserPost::getUserId)
+                .toList();
     }
 
     /**

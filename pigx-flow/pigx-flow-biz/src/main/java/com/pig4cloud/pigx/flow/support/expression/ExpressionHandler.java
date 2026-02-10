@@ -35,6 +35,7 @@ import java.util.List;
  * 使用Aviator表达式引擎进行动态表达式计算，支持在流程定义中配置灵活的条件判断逻辑
  *
  * @author pigx
+ * @date 2026-02-10
  */
 @Slf4j
 @Component("expressionHandler")
@@ -376,6 +377,117 @@ public class ExpressionHandler {
 		return inCompare(symbol, Convert.toLong(nodeUserDto.getId()), userIdList);
 	}
 
+	/**
+	 * 角色比较
+	 * <p>
+	 * 检查流程变量中的用户是否拥有指定的角色（属于或不属于指定角色列表）。
+	 * 通过角色ID列表查询出拥有这些角色的所有用户ID，再判断当前用户是否在其中。
+	 * @param key 表单key，对应流程变量的键名
+	 * @param param 角色列表参数（JSON格式）
+	 * @param symbol 比较符号（in/==：属于，notin/!=：不属于）
+	 * @param execution 流程执行上下文
+	 * @return 比较结果
+	 */
+	@SneakyThrows
+	public boolean roleCompare(String key, String param, String symbol, DelegateExecution execution) {
+		param = EscapeUtil.unescape(param);
+
+		Object value = execution.getVariable(key);
+
+		String jsonString = objectMapper.writeValueAsString(value);
+		log.debug("表单值：key={} value={} symbol={}", key, jsonString, symbol);
+		log.debug("条件  参数：{}", param);
+
+		if (value == null) {
+			return false;
+		}
+
+		// 表单值（发起人或表单中的用户）
+		List<NodeUser> nodeUserDtoList = objectMapper.readValue(jsonString, new TypeReference<>() {
+		});
+
+		if (CollUtil.isEmpty(nodeUserDtoList) || nodeUserDtoList.size() != 1) {
+			return false;
+		}
+
+		NodeUser nodeUserDto = nodeUserDtoList.get(0);
+
+		// 参数 - 解析角色列表
+		List<NodeUser> paramRoleList = objectMapper.readValue(param, new TypeReference<List<NodeUser>>() {
+		});
+
+		List<Long> roleIdList = paramRoleList.stream().map(NodeUser::getId).toList();
+
+		// 根据角色ID列表查询拥有这些角色的所有用户ID
+		List<Long> userIdList = new java.util.ArrayList<>();
+		if (CollUtil.isNotEmpty(roleIdList)) {
+			R<List<Long>> r = remoteUserService.getUserIdListByRoleIdList(roleIdList);
+			if (r.getData() != null) {
+				userIdList.addAll(r.getData());
+			}
+		}
+
+		return inCompare(symbol, Convert.toLong(nodeUserDto.getId()), userIdList);
+	}
+
+	/**
+	 * 岗位比较
+	 * <p>
+	 * 检查流程变量中的用户是否属于指定的岗位（属于或不属于指定岗位列表）。
+	 * 通过岗位ID列表查询出属于这些岗位的所有用户ID，再判断当前用户是否在其中。
+	 * @param key 表单key，对应流程变量的键名
+	 * @param param 岗位列表参数（JSON格式）
+	 * @param symbol 比较符号（in/==：属于，notin/!=：不属于）
+	 * @param execution 流程执行上下文
+	 * @return 比较结果
+	 */
+	@SneakyThrows
+	public boolean postCompare(String key, String param, String symbol, DelegateExecution execution) {
+		param = EscapeUtil.unescape(param);
+
+		Object value = execution.getVariable(key);
+
+		String jsonString = objectMapper.writeValueAsString(value);
+		log.debug("表单值：key={} value={} symbol={}", key, jsonString, symbol);
+		log.debug("条件  参数：{}", param);
+
+		if (value == null) {
+			return false;
+		}
+
+		// 表单值（发起人或表单中的用户）
+		List<NodeUser> nodeUserDtoList = objectMapper.readValue(jsonString, new TypeReference<>() {
+		});
+
+		if (CollUtil.isEmpty(nodeUserDtoList) || nodeUserDtoList.size() != 1) {
+			return false;
+		}
+
+		NodeUser nodeUserDto = nodeUserDtoList.get(0);
+
+		// 参数 - 解析岗位列表
+		List<NodeUser> paramPostList = objectMapper.readValue(param, new TypeReference<List<NodeUser>>() {
+		});
+
+		List<Long> postIdList = paramPostList.stream().map(NodeUser::getId).toList();
+
+		// 根据岗位ID列表查询属于这些岗位的所有用户ID
+		List<Long> userIdList = new java.util.ArrayList<>();
+		if (CollUtil.isNotEmpty(postIdList)) {
+			R<List<Long>> r = remoteUserService.getUserIdListByPostIdList(postIdList);
+			if (r.getData() != null) {
+				userIdList.addAll(r.getData());
+			}
+		}
+
+		return inCompare(symbol, Convert.toLong(nodeUserDto.getId()), userIdList);
+	}
+
+	/**
+	 * 天数条件判断
+	 * @param execution 流程执行上下文
+	 * @return 始终返回true
+	 */
 	public boolean days(DelegateExecution execution) {
 		return true;
 	}

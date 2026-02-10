@@ -53,7 +53,7 @@ import java.util.List;
  * 用户管理控制器：提供用户相关的REST接口
  *
  * @author lengleng
- * @date 2025/07/04
+ * @date 2026-02-10
  */
 @RestController
 @AllArgsConstructor
@@ -289,6 +289,17 @@ public class SysUserController {
     @GetMapping("/getUserIdListByDeptIdList")
     public R<List<SysUser>> getUserIdListByDeptIdList(Long[] deptIdList) {
         return R.ok(userService.listUserIdByDeptIds(CollUtil.toList(deptIdList)));
+    }
+
+    /**
+     * 根据岗位ID列表获取用户ID列表接口
+     *
+     * @param postIdList 岗位ID列表
+     * @return R 返回结果对象，包含根据岗位ID列表获取到的用户ID列表信息
+     */
+    @GetMapping("/getUserIdListByPostIdList")
+    public R<List<Long>> getUserIdListByPostIdList(Long[] postIdList) {
+        return R.ok(userService.listUserIdByPostIds(CollUtil.toList(postIdList)));
     }
 
     /**

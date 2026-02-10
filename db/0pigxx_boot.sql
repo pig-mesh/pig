@@ -1492,6 +1492,25 @@ SET FOREIGN_KEY_CHECKS = 1;
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+CREATE TABLE `bpm_oa_leave` (
+    `id` BIGINT NOT NULL COMMENT '主键',
+    `process_instance_id` VARCHAR(64) DEFAULT NULL COMMENT '流程实例编号',
+    `username` VARCHAR(255) NOT NULL COMMENT '申请人',
+    `leave_type` SMALLINT NOT NULL COMMENT '请假类型',
+    `leave_reason` VARCHAR(255) DEFAULT NULL COMMENT '请假原因',
+    `start_time` DATETIME(6) NOT NULL COMMENT '开始时间',
+    `end_time` DATETIME(6) NOT NULL COMMENT '结束时间',
+    `leave_day` SMALLINT NOT NULL COMMENT '请假天数',
+    `leave_status` SMALLINT DEFAULT NULL COMMENT '请假结果',
+    `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
+    `create_time` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) COMMENT '创建时间',
+    `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者',
+    `update_time` DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6) COMMENT '更新时间',
+    `del_flag` CHAR(1) NOT NULL DEFAULT '0' COMMENT '是否删除',
+    `tenant_id` BIGINT NOT NULL DEFAULT 0 COMMENT '租户编号',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='请假申请表';
+
 -- ----------------------------
 -- Table structure for process
 -- ----------------------------
