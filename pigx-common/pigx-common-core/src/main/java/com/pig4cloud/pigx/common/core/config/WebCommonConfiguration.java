@@ -37,6 +37,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @date 2025/05/01
  */
 @Configuration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @EnableConfigurationProperties(TaskExecutionProperties.class)
 public class WebCommonConfiguration implements WebMvcConfigurer {
 
@@ -55,7 +56,7 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
      * @return AsyncTaskExecutor实例
      */
     @Bean
-    public AsyncTaskExecutor applicationTaskExecutor() {
+    public AsyncTaskExecutor applicationAsyncTaskExecutor() {
         TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(pool.getCoreSize());
@@ -72,7 +73,7 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(applicationTaskExecutor());
+        configurer.setTaskExecutor(applicationAsyncTaskExecutor());
     }
 
     /**
@@ -93,7 +94,6 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
      * @see PriorityHeaderInitBinder
      */
     @Bean
-    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
     public PriorityHeaderInitBinder priorityHeaderInitBinder() {
         return new PriorityHeaderInitBinder();
     }
