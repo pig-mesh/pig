@@ -22,6 +22,7 @@ import org.springframework.boot.autoconfigure.task.TaskExecutionProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.client.RestTemplate;
@@ -48,15 +49,17 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
     }
 
     /**
-     * 异步任务执行器，用于处理Spring MVC异步请求
+     * 异步任务执行器，用于处理Spring MVC异步请求和Flowable异步任务
      * <p>
      * 配置项通过 spring.task.execution.* 进行配置
+     * Bean名称为 applicationTaskExecutor，符合Spring Boot默认命名约定
      * </p>
      *
      * @return AsyncTaskExecutor实例
      */
     @Bean
-    public AsyncTaskExecutor applicationAsyncTaskExecutor() {
+    @Primary
+    public AsyncTaskExecutor applicationTaskExecutor() {
         TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(pool.getCoreSize());
@@ -73,7 +76,7 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(applicationAsyncTaskExecutor());
+        configurer.setTaskExecutor(applicationTaskExecutor());
     }
 
     /**
