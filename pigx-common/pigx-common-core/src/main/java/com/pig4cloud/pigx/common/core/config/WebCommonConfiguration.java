@@ -59,7 +59,7 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @Primary
-    public AsyncTaskExecutor applicationTaskExecutor() {
+    public AsyncTaskExecutor applicationAsyncTaskExecutor() {
         TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(pool.getCoreSize());
@@ -76,7 +76,7 @@ public class WebCommonConfiguration implements WebMvcConfigurer {
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(applicationTaskExecutor());
+        configurer.setTaskExecutor(applicationAsyncTaskExecutor());
     }
 
     /**
