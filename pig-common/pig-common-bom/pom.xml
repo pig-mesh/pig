@@ -43,6 +43,7 @@
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
+		<spring-boot-admin.version>4.0.0-M2</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -114,6 +115,18 @@
 				<groupId>com.mysql</groupId>
 				<artifactId>mysql-connector-j</artifactId>
 				<version>${mysql.version}</version>
+			</dependency>
+			<!--监控客户端-->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-client</artifactId>
+				<version>${spring-boot-admin.version}</version>
+			</dependency>
+			<!--监控客户端-->
+			<dependency>
+				<groupId>de.codecentric</groupId>
+				<artifactId>spring-boot-admin-starter-server</artifactId>
+				<version>${spring-boot-admin.version}</version>
 			</dependency>
 			<!--springdoc -->
 			<dependency>

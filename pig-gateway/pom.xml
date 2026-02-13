@@ -68,6 +68,11 @@
 			<groupId>com.github.xiaoymin</groupId>
 			<artifactId>knife4j-openapi3-ui</artifactId>
 		</dependency>
+		<!-- 监控客户端 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-crypto</artifactId>

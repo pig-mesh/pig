@@ -83,6 +83,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
+		<!-- 监控客户端 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+		</dependency>
 		<!--tomcat容器-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

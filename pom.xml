@@ -38,7 +38,6 @@
 		<commons-lang3.version>3.20.0</commons-lang3.version>
 		<docker.plugin.version>0.45.1</docker.plugin.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
-		<spring-boot-admin.version>4.0.0-M2</spring-boot-admin.version>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<docker.username>username</docker.username>
 		<docker.password>password</docker.password>
@@ -65,12 +64,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<!--监控客户端-->
-		<dependency>
-			<groupId>de.codecentric</groupId>
-			<artifactId>spring-boot-admin-starter-client</artifactId>
-			<version>${spring-boot-admin.version}</version>
 		</dependency>
 		<!--Lombok-->
 		<dependency>
