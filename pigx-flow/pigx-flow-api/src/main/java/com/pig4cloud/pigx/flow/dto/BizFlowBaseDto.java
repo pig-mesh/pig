@@ -1,5 +1,6 @@
 package com.pig4cloud.pigx.flow.dto;
 
+import cn.idev.excel.annotation.ExcelIgnore;
 import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -26,6 +27,7 @@ public class BizFlowBaseDto {
      * 流程参数 (用于存储用户选择的审批人等信息)
      */
     @TableField(exist = false)
+    @ExcelIgnore
     @Schema(description = "流程参数（审批人信息）")
     private Map<String, Object> flowParamMap = new HashMap<>();
 }
