@@ -2,6 +2,8 @@ server:
   port: 9999
   servlet:
     context-path: /admin
+  undertow:
+    max-http-post-size: 100MB
 
 spring:
   application:
@@ -12,8 +14,8 @@ spring:
   # 上传文件大小限制
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: ${server.undertow.max-http-post-size}
+      max-request-size: ${server.undertow.max-http-post-size}
   cloud:
     discovery:
       enabled: false
