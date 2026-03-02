@@ -30,8 +30,8 @@ import java.util.stream.Collectors;
  * 抄送任务会将流程信息发送给指定的用户或部门成员，供其查看但不需要审批。
  * <p>
  * 主要功能：
- * 1. 获取节点配置的抄送人员（支持用户和部门）
- * 2. 将部门展开为具体的用户列表
+ * 1. 获取节点配置的抄送人员（支持用户、部门、角色、岗位）
+ * 2. 将部门、角色、岗位展开为具体的用户列表
  * 3. 为每个抄送人创建抄送记录
  * 4. 记录流程快照信息供抄送人查看
  * <p>
@@ -79,18 +79,30 @@ public class CopyServiceTask implements JavaDelegate {
 			.toList();
 
 		if (CollUtil.isNotEmpty(deptIdList)) {
-
 			R<List<Long>> r = remoteService.queryUserIdListByDepIdList(deptIdList);
+            addUserIds(userIdList, r.getData());
+        }
 
-			List<Long> data = r.getData();
-			if (CollUtil.isNotEmpty(data)) {
-				for (Long datum : data) {
-					String userIdStr = Convert.toStr(datum);
-					if (!userIdList.contains(userIdStr)) {
-						userIdList.add(userIdStr);
-					}
-				}
-			}
+        // 角色ID列表
+        List<Long> roleIdList = userDtoList.stream()
+                .filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.ROLE.getKey()))
+                .map(NodeUser::getId)
+                .toList();
+
+        if (CollUtil.isNotEmpty(roleIdList)) {
+            R<List<Long>> r = remoteService.queryUserIdListByRoleIdList(roleIdList);
+            addUserIds(userIdList, r.getData());
+        }
+
+        // 岗位ID列表
+        List<Long> postIdList = userDtoList.stream()
+                .filter(w -> StrUtil.equals(w.getType(), NodeUserTypeEnum.POST.getKey()))
+                .map(NodeUser::getId)
+                .toList();
+
+        if (CollUtil.isNotEmpty(postIdList)) {
+            R<List<Long>> r = remoteService.queryUserIdListByPostIdList(postIdList);
+            addUserIds(userIdList, r.getData());
 		}
 
 		ObjectMapper objectMapper = SpringUtil.getBean(ObjectMapper.class);
@@ -102,6 +114,7 @@ public class CopyServiceTask implements JavaDelegate {
 			.get(0);
 
 		Map<String, Object> variables = execution.getVariables();
+        String formData = objectMapper.writeValueAsString(variables);
 
 		for (String userIds : userIdList) {
 			// 发送抄送任务
@@ -112,11 +125,28 @@ public class CopyServiceTask implements JavaDelegate {
 			processCopyDto.setProcessInstanceId(execution.getProcessInstanceId());
 			processCopyDto.setNodeId(nodeId);
 			processCopyDto.setNodeName(node.getName());
-			processCopyDto.setFormData(objectMapper.writeValueAsString(variables));
+            processCopyDto.setFormData(formData);
 			processCopyDto.setUserId(Long.parseLong(userIds));
 			remoteService.saveCC(processCopyDto);
 		}
 
 	}
+
+    /**
+     * 将用户ID列表合并到目标列表中（去重）
+     *
+     * @param targetList 目标用户ID列表
+     * @param sourceList 待合并的用户ID列表
+     */
+    private void addUserIds(List<String> targetList, List<Long> sourceList) {
+        if (CollUtil.isNotEmpty(sourceList)) {
+            for (Long userId : sourceList) {
+                String userIdStr = Convert.toStr(userId);
+                if (!targetList.contains(userIdStr)) {
+                    targetList.add(userIdStr);
+                }
+            }
+        }
+    }
 
 }

@@ -91,6 +91,7 @@ public interface RemoteUserService {
      * @param roleIdList 角色ID列表
      * @return 用户ID列表
      */
+    @NoToken
     @GetMapping("/user/getUserIdListByRoleIdList")
     R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
 
@@ -100,6 +101,7 @@ public interface RemoteUserService {
      * @param deptIdList 部门ID列表
      * @return 用户ID列表
      */
+    @NoToken
     @GetMapping("/user/getUserIdListByDeptIdList")
     R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
 
@@ -109,6 +111,7 @@ public interface RemoteUserService {
      * @param postIdList 岗位ID列表
      * @return 用户ID列表
      */
+    @NoToken
     @GetMapping("/user/getUserIdListByPostIdList")
     R<List<Long>> getUserIdListByPostIdList(@RequestParam("postIdList") List<Long> postIdList);
 
@@ -118,6 +121,7 @@ public interface RemoteUserService {
      * @param userName 用户名
      * @return 用户列表
      */
+    @NoToken
     @GetMapping("/user/getUserListByUserName")
     R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
 

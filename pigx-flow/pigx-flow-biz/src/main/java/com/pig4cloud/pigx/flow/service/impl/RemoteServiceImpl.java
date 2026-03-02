@@ -172,6 +172,17 @@ public class RemoteServiceImpl implements IRemoteService {
 		return R.ok(list);
 	}
 
+    /**
+     * 根据岗位id集合查询用户id集合
+     *
+     * @param postIdList 岗位ID列表
+     * @return R<List<Long>> 拥有这些岗位的用户ID列表
+     */
+    @Override
+    public R<List<Long>> queryUserIdListByPostIdList(List<Long> postIdList) {
+        return userService.getUserIdListByPostIdList(postIdList);
+    }
+
 	/**
 	 * 检查是否是所有的子级
 	 * <p>

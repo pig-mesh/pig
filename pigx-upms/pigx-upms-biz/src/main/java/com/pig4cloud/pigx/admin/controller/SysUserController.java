@@ -297,6 +297,7 @@ public class SysUserController {
      * @param postIdList 岗位ID列表
      * @return R 返回结果对象，包含根据岗位ID列表获取到的用户ID列表信息
      */
+    @Inner
     @GetMapping("/getUserIdListByPostIdList")
     public R<List<Long>> getUserIdListByPostIdList(Long[] postIdList) {
         return R.ok(userService.listUserIdByPostIds(CollUtil.toList(postIdList)));
@@ -308,6 +309,7 @@ public class SysUserController {
      * @param username 用户名
      * @return 用户列表
      */
+    @Inner
     @GetMapping("/getUserListByUserName")
     public R<List<SysUser>> getUserListByUserName(String username) {
         return R.ok(TenantBroker

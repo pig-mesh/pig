@@ -79,6 +79,14 @@ public interface IRemoteService {
 	 */
 	R<List<Long>> queryUserIdListByDepIdList(List<Long> depIdList);
 
+    /**
+     * 根据岗位ID列表查询用户ID列表
+     *
+     * @param postIdList 岗位ID列表，支持批量查询多个岗位
+     * @return R<List<Long>> 响应结果，包含岗位下所有用户的ID列表（已去重）
+     */
+    R<List<Long>> queryUserIdListByPostIdList(List<Long> postIdList);
+
 	/**
 	 * 检查用户是否为指定用户的所有下级
 	 * <p>
