@@ -83,6 +83,12 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	 */
 	@Override
 	public Boolean updateDsByEnc(GenDatasourceConf conf) {
+        // 密码为空时，从数据库查询原始密码并解密，用于连接校验
+        if (StrUtil.isBlank(conf.getPassword())) {
+            GenDatasourceConf dbConf = this.baseMapper.selectById(conf.getId());
+            conf.setPassword(stringEncryptor.decrypt(dbConf.getPassword()));
+        }
+
 		if (!checkDataSource(conf)) {
 			return Boolean.FALSE;
 		}
@@ -94,9 +100,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		addDynamicDataSource(conf);
 
 		// 更新数据库配置
-		if (StrUtil.isNotBlank(conf.getPassword())) {
-			conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
-		}
+        conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		this.baseMapper.updateById(conf);
 		return Boolean.TRUE;
 	}
