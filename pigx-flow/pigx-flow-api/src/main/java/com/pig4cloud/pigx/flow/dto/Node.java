@@ -150,4 +150,14 @@ public class Node {
 	/** 规则名称 */
 	private String ruleName;
 
+    /**
+     * 延时器配置
+     * <p>
+     * 包含延时类型(timerType)和对应参数:
+     * - DURATION: 固定时长延时，包含value和unit
+     * - DATETIME: 指定日期时间延时
+     * - FORM_FIELD: 表单字段日期延时
+     */
+    private TimerConfig timerConfig;
+
 }

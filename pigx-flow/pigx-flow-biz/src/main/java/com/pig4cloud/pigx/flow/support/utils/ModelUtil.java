@@ -9,6 +9,8 @@ import com.pig4cloud.pigx.flow.constant.NodeTypeEnum;
 import com.pig4cloud.pigx.flow.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.dto.Node;
 import com.pig4cloud.pigx.flow.dto.ProcessNodeDataDto;
+import com.pig4cloud.pigx.flow.dto.TimerConfig;
+import com.pig4cloud.pigx.flow.dto.TimerDuration;
 import com.pig4cloud.pigx.flow.service.IProcessNodeDataService;
 import com.pig4cloud.pigx.flow.support.expression.condition.NodeExpressionStrategyFactory;
 import com.pig4cloud.pigx.flow.support.listeners.ApprovalCreateListener;
@@ -346,6 +348,10 @@ public class ModelUtil {
 		if (node.getType() == NodeTypeEnum.PARALLEL_GATEWAY.getValue().intValue()) {
 			flowElementList.addAll(buildParallelGatewayNode(node));
 		}
+        // 延时器
+        if (node.getType() == NodeTypeEnum.TIMER.getValue().intValue()) {
+            flowElementList.add(buildTimerNode(node));
+        }
 
 		return flowElementList;
 	}
@@ -684,6 +690,69 @@ public class ModelUtil {
 		return serviceTask;
 	}
 
+    /**
+     * 构建延时器节点
+     * <p>
+     * 创建Flowable中间捕获事件（Timer Intermediate Catch Event），
+     * 用于在流程中暂停执行，等待指定时间后自动继续。
+     * <p>
+     * 支持三种延时模式：
+     * <ul>
+     *   <li>DURATION - 固定时长（ISO 8601格式，如PT30M、PT2H、P1D、P1W）</li>
+     *   <li>DATETIME - 指定日期时间（ISO 8601格式）</li>
+     *   <li>FORM_FIELD - 表单字段日期（使用流程变量表达式）</li>
+     * </ul>
+     *
+     * @param node 延时器节点数据
+     * @return 中间捕获事件元素
+     */
+    private static FlowElement buildTimerNode(Node node) {
+        IntermediateCatchEvent catchEvent = new IntermediateCatchEvent();
+        catchEvent.setId(node.getId());
+        catchEvent.setName(node.getName());
+
+        TimerEventDefinition timerDef = new TimerEventDefinition();
+
+        TimerConfig config = node.getTimerConfig();
+        if (config != null && StrUtil.isNotBlank(config.getTimerType())) {
+            String timerType = config.getTimerType();
+
+            if ("DURATION".equals(timerType)) {
+                TimerDuration duration = config.getDuration();
+                if (duration != null && duration.getValue() != null) {
+                    int value = duration.getValue();
+                    String unit = duration.getUnit() != null ? duration.getUnit() : "MINUTE";
+                    String iso = switch (unit) {
+                        case "HOUR" -> StrUtil.format("PT{}H", value);
+                        case "DAY" -> StrUtil.format("P{}D", value);
+                        case "WEEK" -> StrUtil.format("P{}W", value);
+                        default -> StrUtil.format("PT{}M", value);
+                    };
+                    timerDef.setTimeDuration(iso);
+                }
+            } else if ("DATETIME".equals(timerType)) {
+                String dateTime = config.getDateTime();
+                if (StrUtil.isNotBlank(dateTime)) {
+                    timerDef.setTimeDate(dateTime);
+                }
+            } else if ("FORM_FIELD".equals(timerType)) {
+                String formFieldId = config.getFormFieldId();
+                if (StrUtil.isNotBlank(formFieldId)) {
+                    timerDef.setTimeDate("${timerHandler.resolveDate(execution, '" + formFieldId + "')}");
+                }
+            } else {
+                log.warn("未知的延时器类型: {}，使用默认30分钟", timerType);
+                timerDef.setTimeDuration("PT30M");
+            }
+        } else {
+            timerDef.setTimeDuration("PT30M");
+        }
+
+        catchEvent.setEventDefinitions(List.of(timerDef));
+
+        return catchEvent;
+    }
+
 	/**
 	 * 创建节点内部连接线
 	 * <p>
@@ -748,11 +817,7 @@ public class ModelUtil {
 		}
 		SequenceFlow sequenceFlow = new SequenceFlow(pId, childId);
 		sequenceFlow.setConditionExpression(expression);
-		sequenceFlow.setName(StrUtil.format("{}|{}", pId, childId));
-		sequenceFlow.setName(StrUtil.format("连线[{}]", RandomUtil.randomString(5)));
-		if (StrUtil.isNotBlank(name)) {
-			sequenceFlow.setName(name);
-		}
+        sequenceFlow.setName(StrUtil.isNotBlank(name) ? name : StrUtil.format("连线[{}]", RandomUtil.randomString(5)));
 		sequenceFlow.setId(StrUtil.format("sq-id-{}-{}", IdUtil.fastSimpleUUID(), RandomUtil.randomInt(1, 10000000)));
 		return sequenceFlow;
 	}
