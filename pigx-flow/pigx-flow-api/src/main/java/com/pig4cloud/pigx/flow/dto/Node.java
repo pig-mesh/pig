@@ -160,4 +160,9 @@ public class Node {
      */
     private TimerConfig timerConfig;
 
+    /**
+     * 触发器配置
+     */
+    private TriggerConfig triggerConfig;
+
 }

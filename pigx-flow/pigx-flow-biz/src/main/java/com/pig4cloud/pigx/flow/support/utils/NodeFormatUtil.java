@@ -203,6 +203,8 @@ public class NodeFormatUtil {
             List<UserVo> tempList = buildUser(nodeUserList);
             userVoList.addAll(tempList);
 
+        } else if (type == NodeTypeEnum.TRIGGER.getValue().intValue()) {
+            // 触发器节点
         }
 
         // 根据userVo 的ID 去重userVoList

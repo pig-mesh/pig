@@ -18,9 +18,11 @@ import com.pig4cloud.pigx.flow.support.listeners.FlowProcessEventListener;
 import com.pig4cloud.pigx.flow.support.listeners.RootTaskCreateListener;
 import com.pig4cloud.pigx.flow.support.tasks.ApproveServiceTask;
 import com.pig4cloud.pigx.flow.support.tasks.CopyServiceTask;
+import com.pig4cloud.pigx.flow.support.tasks.TriggerServiceTask;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.model.*;
 import org.flowable.bpmn.model.Process;
+import org.flowable.engine.delegate.JavaDelegate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -509,6 +511,10 @@ public class ModelUtil {
 			}
 			userTask.setTaskListeners(taskListeners);
 		}
+        // 触发器
+        if (node.getType() == NodeTypeEnum.TRIGGER.getValue().intValue()) {
+            flowElementList.add(buildTriggerNode(node));
+        }
 
 		return userTask;
 	}
@@ -660,31 +666,25 @@ public class ModelUtil {
 	}
 
 	/**
-	 * 创建抄送节点
+     * 创建简单服务任务节点（通用方法）
 	 * <p>
-	 * 创建抄送服务任务节点，用于将流程信息通知给相关人员。
-	 * 配置了失败重试机制，确保抄送任务的可靠性。
+     * 创建一个通用的服务任务节点，配置了失败重试机制（重试5次，每次间隔1分钟）。
 	 *
-	 * @param node 抄送节点数据
+     * @param node 节点数据
+     * @param delegateClass JavaDelegate 实现类
 	 * @return 服务任务元素
 	 */
-	private static FlowElement buildCCNode(Node node) {
-
+    private static FlowElement buildSimpleServiceTaskNode(Node node, Class<? extends JavaDelegate> delegateClass) {
 		ServiceTask serviceTask = new ServiceTask();
 		serviceTask.setId(node.getId());
 		serviceTask.setName(node.getName());
 		serviceTask.setAsynchronous(false);
 		serviceTask.setImplementationType("class");
-		serviceTask.setImplementation(CopyServiceTask.class.getCanonicalName());
+        serviceTask.setImplementation(delegateClass.getCanonicalName());
 
 		ExtensionElement e = new ExtensionElement();
-		{
-
-			e.setName("flowable:failedJobRetryTimeCycle");
-			// 上面的例子会让作业执行器重试5次，并在每次重试前等待1分钟。
-			e.setElementText("R5/PT1M");
-
-		}
+        e.setName("flowable:failedJobRetryTimeCycle");
+        e.setElementText("R5/PT1M");
 
 		serviceTask.addExtensionElement(e);
 		return serviceTask;
@@ -751,6 +751,14 @@ public class ModelUtil {
         catchEvent.setEventDefinitions(List.of(timerDef));
 
         return catchEvent;
+    }
+
+    private static FlowElement buildCCNode(Node node) {
+        return buildSimpleServiceTaskNode(node, CopyServiceTask.class);
+    }
+
+    private static FlowElement buildTriggerNode(Node node) {
+        return buildSimpleServiceTaskNode(node, TriggerServiceTask.class);
     }
 
 	/**
