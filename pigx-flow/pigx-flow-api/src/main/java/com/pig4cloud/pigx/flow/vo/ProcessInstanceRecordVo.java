@@ -35,4 +35,13 @@ public class ProcessInstanceRecordVo extends ProcessInstanceRecord {
 	 */
 	private String resubmitTaskId;
 
+    /**
+     * 是否配置了打印模板
+     * <p>
+     * true表示该流程定义已配置打印模板，前端显示打印按钮；
+     * false或null表示未配置打印模板，前端不显示打印按钮
+     * </p>
+     */
+    private Boolean hasPrintTemplate;
+
 }

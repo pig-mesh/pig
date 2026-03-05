@@ -94,4 +94,28 @@ public class ProcessController {
 		return processService.validateFlowId(flowId);
 	}
 
+    /**
+     * 获取流程打印模板
+     *
+     * @param flowId 流程定义ID
+     * @return 打印模板HTML内容
+     */
+    @GetMapping("printTemplate/{flowId}")
+    public R<String> getPrintTemplate(@PathVariable String flowId) {
+        Process process = processService.getByFlowId(flowId);
+        return R.ok(process != null ? process.getPrintTemplate() : null);
+    }
+
+    /**
+     * 保存流程打印模板
+     *
+     * @param process 包含flowId和printTemplate的实体
+     * @return 操作结果
+     */
+    @PutMapping("printTemplate")
+    public R<Void> savePrintTemplate(@RequestBody Process process) {
+        processService.updateByFlowId(new Process().setFlowId(process.getFlowId()).setPrintTemplate(process.getPrintTemplate()));
+        return R.ok();
+    }
+
 }

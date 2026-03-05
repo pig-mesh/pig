@@ -118,6 +118,18 @@ public class Process {
 	@TableField("range_show")
 	private String rangeShow;
 
+    /**
+     * 打印模板 HTML格式的打印模板内容，支持 mention 变量占位符
+     */
+    @TableField("print_template")
+    private String printTemplate;
+
+    /**
+     * 租户ID 多租户隔离字段，用于区分不同租户的流程定义
+     */
+    @TableField("tenant_id")
+    private Long tenantId;
+
 	/**
 	 * 主键ID 使用雪花算法生成的分布式ID
 	 */

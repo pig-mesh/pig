@@ -309,7 +309,6 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
                 record.setGroupName(processInstanceRecord.getGroupName());
                 record.setRootUserName(startUser.getName());
                 record.setRootUserAvatarUrl(startUser.getAvatar());
-                record.setTaskId(record.getTaskId());
                 record.setStartTime(processInstanceRecord.getCreateTime());
                 taskNewDtoList.add(record);
             }
@@ -368,21 +367,29 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
         // 转换为 VO 并添加驳回状态信息
         List<ProcessInstanceRecordVo> voList = BeanUtil.copyToList(instanceRecordPage.getRecords(), ProcessInstanceRecordVo.class);
 
+        // 批量查询流程定义,用于检查打印模板
+        Set<String> flowIds = voList.stream()
+                .map(ProcessInstanceRecordVo::getFlowId)
+                .filter(StrUtil::isNotBlank)
+                .collect(Collectors.toSet());
+        List<Process> processList = CollUtil.isEmpty(flowIds) ? Collections.emptyList()
+                : processService.lambdaQuery().in(Process::getFlowId, flowIds).list();
+
         for (ProcessInstanceRecordVo vo : voList) {
             try {
                 // 从 Flowable 变量中获取 rejectToStarter 状态
                 Object rejectVar = runtimeService.getVariable(
-                    vo.getProcessInstanceId(),
-                    "rejectToStarter"
+                        vo.getProcessInstanceId(),
+                        "rejectToStarter"
                 );
                 vo.setRejectToStarter(Boolean.TRUE.equals(rejectVar));
 
                 // 如果是驳回状态，获取 root 任务 ID 用于重新提交
                 if (Boolean.TRUE.equals(vo.getRejectToStarter())) {
                     Task task = taskService.createTaskQuery()
-                        .processInstanceId(vo.getProcessInstanceId())
-                        .taskDefinitionKey("root")
-                        .singleResult();
+                            .processInstanceId(vo.getProcessInstanceId())
+                            .taskDefinitionKey("root")
+                            .singleResult();
                     if (task != null) {
                         vo.setResubmitTaskId(task.getId());
                     }
@@ -391,6 +398,12 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
                 // 流程可能已结束，设置为 false
                 vo.setRejectToStarter(false);
             }
+
+            // 检查是否配置了打印模板（不依赖运行时变量，无需放在 try-catch 内）
+            processList.stream()
+                    .filter(process -> process.getFlowId().equalsIgnoreCase(vo.getFlowId()))
+                    .findFirst()
+                    .ifPresent(process -> vo.setHasPrintTemplate(StrUtil.isNotBlank(process.getPrintTemplate())));
         }
 
         // 构建返回的分页对象
@@ -537,7 +550,7 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
         Node nodeDto = objectMapper.readValue(process, Node.class);
         Map<String, String> formPerms1 = nodeDto.getFormPerms();
 
-        Dict set = Dict.create().set(ProcessInstanceRecord.Fields.processInstanceId, processInstanceId).set(ProcessInstanceRecord.Fields.status, processInstanceRecord.getStatus()).set("process", oaForms.getProcess()).set("formItems", oaForms.getFormItems()).set("formData", formData).set("formData", formData).set("formConfig", oaForms.getFormConfig()).set("formPerms", formPerms1);
+        Dict set = Dict.create().set(ProcessInstanceRecord.Fields.processInstanceId, processInstanceId).set(ProcessInstanceRecord.Fields.status, processInstanceRecord.getStatus()).set("process", oaForms.getProcess()).set("formItems", oaForms.getFormItems()).set("formData", formData).set("formConfig", oaForms.getFormConfig()).set("formPerms", formPerms1);
 
         return R.ok(set);
     }
