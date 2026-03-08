@@ -24,7 +24,7 @@ import java.util.List;
  * @author lengleng
  * @date 2025/07/12
  */
-@FeignClient(contextId = "remoteFlowApiFlowService", value = ServiceNameConstants.FLOW_ENGINE_SERVER)
+@FeignClient(contextId = "remoteFlowApiFlowService", value = ServiceNameConstants.FLOW_SERVER)
 public interface RemoteFlowApiFlowService {
 
     /**
