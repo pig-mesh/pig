@@ -10,7 +10,6 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.constant.NodeStatusEnum;
-import com.pig4cloud.pigx.flow.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.dto.IndexPageStatistics;
 import com.pig4cloud.pigx.flow.dto.Node;
 import com.pig4cloud.pigx.flow.dto.TaskParamDto;
@@ -280,7 +279,7 @@ public class TaskServiceImpl implements ITaskService {
 
         Dict set = Dict.create()
                 .set("processInstanceId", taskResultDto.getProcessInstanceId())
-                .set("node", taskResultDto.getTaskNode())
+                .set("node", node)
                 .set("process", oaForms.getProcess())
                 .set("delegateAgain", taskResultDto.getDelegate())
                 .set("delegationTask", StrUtil.equals(taskResultDto.getDelegationState(), "PENDING"))
