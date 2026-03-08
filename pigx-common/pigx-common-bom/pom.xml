@@ -186,22 +186,6 @@
                 <artifactId>pigx-flow-api</artifactId>
                 <version>${pigx.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-milvus</artifactId>
-                <version>${pigx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-mcp</artifactId>
-                <version>${pigx.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-neo4j</artifactId>
-                <version>${pigx.version}</version>
-            </dependency>
             <!--  chat ai -->
             <dependency>
                 <groupId>io.github.pig-mesh.ai</groupId>
