@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -25,30 +25,34 @@ package com.pig4cloud.pigx.common.core.constant;
  */
 public interface ServiceNameConstants {
 
-    /**
-     * 认证中心
-     */
-    String AUTH_SERVICE = "pigx-auth";
+	/**
+	 * 认证中心
+	 */
+	String AUTH_SERVICE = "pigx-auth";
 
-    /**
-     * UMPS模块
-     */
-    String UPMS_SERVICE = "pigx-upms-biz";
+	/**
+	 * UMPS模块
+	 */
+	String UPMS_SERVICE = "pigx-upms-biz";
 
-    /**
-     * app服务
-     */
-    String APP_SERVER = "pigx-app-server-biz";
+	/**
+	 * app服务
+	 */
+	String APP_SERVER = "pigx-app-server-biz";
 
-    /**
-     * 流程引擎
-     */
-    String FLOW_ENGINE_SERVER = "pigx-flow-biz";
+	/**
+	 * 流程服务
+	 */
+	String FLOW_SERVER = "pigx-flow-biz";
 
+	/**
+	 * 代码生成模块
+	 */
+	String CODEGEN_SERVICE = "pigx-codegen";
 
-    /**
-     * 代码生成模块
-     */
-    String CODEGEN_SERVICE = "pigx-codegen";
+	/**
+	 * AIGC智能模块
+	 */
+	String AIGC_SERVICE = "pigx-aigc-biz";
 
 }
