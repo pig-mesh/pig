@@ -23,6 +23,7 @@ import com.pig4cloud.pigx.flow.support.utils.NodeUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.common.engine.api.FlowableException;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RuntimeService;
 import org.flowable.engine.TaskService;
@@ -310,12 +311,14 @@ public class TaskServiceImpl implements ITaskService {
             taskService.setVariablesLocal(taskParamDto.getTaskId(), taskLocalParamMap);
         }
 
+        // 始终获取 processInstanceId，确保触发器终止时可用
+        Task task = taskService.createTaskQuery().taskId(taskParamDto.getTaskId()).singleResult();
+        taskParamDto.setProcessInstanceId(task.getProcessInstanceId());
+
         if (CollUtil.isNotEmpty(taskParamDto.getFormData())) {
-            // 获取当前任务
-            Task task = taskService.createTaskQuery().taskId(taskParamDto.getTaskId()).singleResult();
             runtimeService.setVariables(task.getExecutionId(), taskParamDto.getFormData());
 
-            // 新增: 同步更新流程实例记录的主表单数据
+            // 同步更新流程实例记录的主表单数据
             String processInstanceId = task.getProcessInstanceId();
             ProcessInstanceRecord processInstanceRecord = processInstanceRecordService.lambdaQuery()
                     .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
@@ -349,9 +352,49 @@ public class TaskServiceImpl implements ITaskService {
             }
         }
 
-        taskService.complete(taskParamDto.getTaskId(), taskParamDto.getParamMap());
+        try {
+            taskService.complete(taskParamDto.getTaskId(), taskParamDto.getParamMap());
+        } catch (FlowableException e) {
+            String message = e.getMessage();
+            if (StrUtil.isNotBlank(message) && message.startsWith("TRIGGER_TERMINATE:")) {
+                return handleTriggerTerminate(message, taskParamDto.getProcessInstanceId());
+            }
+            throw e;
+        }
 
         return R.ok();
+    }
+
+    /**
+     * 处理触发器异常终止
+     * <p>
+     * 在 Flowable 事务回滚后执行，此时处于新的事务上下文中，
+     * 可安全地删除流程实例和更新 ProcessInstanceRecord 状态。
+     * </p>
+     *
+     * @param exceptionMessage  格式: TRIGGER_TERMINATE:{errorMessage}
+     * @param processInstanceId 流程实例ID
+     * @return R 失败结果
+     */
+    private R handleTriggerTerminate(String exceptionMessage, String processInstanceId) {
+        String errorMsg = StrUtil.removePrefix(exceptionMessage, "TRIGGER_TERMINATE:");
+
+        // 在 Flowable 事务外删除流程实例（新的命令上下文 = 新事务）
+        try {
+            runtimeService.deleteProcessInstance(processInstanceId, "触发器异常终止: " + errorMsg);
+        } catch (Exception ex) {
+            log.error("触发器终止-删除流程实例失败: processInstanceId={}, error={}", processInstanceId, ex.getMessage());
+        }
+
+        // 更新 ProcessInstanceRecord 状态为已结束（与 stopProcessInstance 保持一致）
+        processInstanceRecordService.lambdaUpdate()
+                .set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
+                .set(ProcessInstanceRecord::getEndTime, new Date())
+                .set(ProcessInstanceRecord::getFinishReason, String.valueOf(NodeStatusEnum.YZZ.getCode()))
+                .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                .update();
+
+        return R.failed("触发器调用失败: " + errorMsg);
     }
 
     /**
@@ -461,7 +504,7 @@ public class TaskServiceImpl implements ITaskService {
         // 停止流程实例后，更新流程实例记录状态
         processInstanceRecordService.lambdaUpdate()
                 .set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
-                .set(ProcessInstanceRecord::getFinishReason, "9")
+                .set(ProcessInstanceRecord::getFinishReason, String.valueOf(NodeStatusEnum.YZZ.getCode()))
                 .set(ProcessInstanceRecord::getEndTime, new Date())
                 .eq(ProcessInstanceRecord::getProcessInstanceId, reqProcessInstanceId)
                 .update(new ProcessInstanceRecord());
@@ -506,10 +549,10 @@ public class TaskServiceImpl implements ITaskService {
 
         // 1. 获取任务并验证
         Task task = taskService.createTaskQuery()
-            .taskId(taskParamDto.getTaskId())
-            .taskTenantId(TenantContextHolder.getTenantId().toString())
-            .taskAssignee(String.valueOf(userId))
-            .singleResult();
+                .taskId(taskParamDto.getTaskId())
+                .taskTenantId(TenantContextHolder.getTenantId().toString())
+                .taskAssignee(String.valueOf(userId))
+                .singleResult();
 
         if (task == null) {
             return R.failed("任务不存在或无权限操作");
@@ -528,22 +571,23 @@ public class TaskServiceImpl implements ITaskService {
 
             // 同步更新到 ProcessInstanceRecord
             ProcessInstanceRecord processInstanceRecord = processInstanceRecordService.lambdaQuery()
-                .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
-                .one();
+                    .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                    .one();
 
             if (processInstanceRecord != null) {
                 Map<String, Object> existingFormData = new HashMap<>();
                 if (StrUtil.isNotBlank(processInstanceRecord.getFormData())) {
                     existingFormData = objectMapper.readValue(processInstanceRecord.getFormData(),
-                        new TypeReference<Map<String, Object>>() {});
+                            new TypeReference<Map<String, Object>>() {
+                            });
                 }
                 existingFormData.putAll(taskParamDto.getFormData());
                 String updatedFormData = objectMapper.writeValueAsString(existingFormData);
 
                 processInstanceRecordService.lambdaUpdate()
-                    .set(ProcessInstanceRecord::getFormData, updatedFormData)
-                    .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
-                    .update();
+                        .set(ProcessInstanceRecord::getFormData, updatedFormData)
+                        .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                        .update();
             }
         }
 

@@ -18,7 +18,6 @@ import com.pig4cloud.pigx.flow.service.IProcessNodeDataService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.common.engine.api.FlowableException;
-import org.flowable.engine.RuntimeService;
 import org.flowable.engine.delegate.DelegateExecution;
 import org.flowable.engine.delegate.JavaDelegate;
 import org.flowable.engine.impl.persistence.entity.ExecutionEntityImpl;
@@ -193,8 +192,9 @@ public class TriggerServiceTask implements JavaDelegate {
 
     private void handleError(String handler, DelegateExecution execution, String msg) {
         if ("TERMINATE".equals(handler)) {
-            RuntimeService runtimeService = SpringUtil.getBean(RuntimeService.class);
-            runtimeService.deleteProcessInstance(execution.getProcessInstanceId(), "触发器异常终止: " + msg);
+            // 不在 JavaDelegate 内调用 deleteProcessInstance，因为后续异常会导致 Flowable 事务回滚
+            // 抛出带特定前缀的异常，由上层 completeTask 捕获后在事务外执行终止操作
+            throw new FlowableException("TRIGGER_TERMINATE:" + msg);
         }
         throw new FlowableException("触发器调用失败: " + msg);
     }

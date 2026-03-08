@@ -25,7 +25,7 @@ public enum NodeStatusEnum {
      * </p>
      */
     WKS(0, "未开始"),
-    
+
     /**
      * 进行中
      * <p>
@@ -34,7 +34,7 @@ public enum NodeStatusEnum {
      * </p>
      */
     JXZ(1, "进行中"),
-    
+
     /**
      * 已结束
      * <p>
@@ -42,7 +42,13 @@ public enum NodeStatusEnum {
      * 包括正常完成、跳过、驳回等所有结束状态。
      * </p>
      */
-    YJS(2, "已结束");
+    YJS(2, "已结束"),
+
+
+    /**
+     * 已终止
+     */
+    YZZ(9, "已终止");
 
     /**
      * 状态编码
