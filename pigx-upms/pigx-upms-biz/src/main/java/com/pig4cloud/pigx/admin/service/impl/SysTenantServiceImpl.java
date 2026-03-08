@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -44,6 +44,7 @@ import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
@@ -63,6 +64,7 @@ import java.util.*;
  * @author lengleng
  * @date 2025/06/30
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant> implements SysTenantService {
@@ -554,47 +556,60 @@ public class SysTenantServiceImpl extends ServiceImpl<SysTenantMapper, SysTenant
     @Override
     public SysTenant getOrUpdateTenant() {
         PigxUser loginUser = SecurityUtils.getUser();
-        // 通过代理对象调用以确保 @Cacheable 生效，避免自调用导致缓存失效
-        List<SysTenant> normalTenantList = SpringContextHolder.getBean(SysTenantService.class)
+        LocalDateTime now = LocalDateTime.now();
+
+        // 通过代理对象调用以确保 @Cacheable 生效
+        List<SysTenant> validTenantList = SpringContextHolder.getBean(SysTenantService.class)
                 .getNormalTenant()
                 .stream()
-                .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now()))
-                .filter(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()))
+                .filter(tenant -> tenant.getStartTime().isBefore(now))
+                .filter(tenant -> tenant.getEndTime().isAfter(now))
                 .toList();
 
-        boolean match = normalTenantList.stream()
-                .anyMatch(tenant -> tenant.getId().equals(loginUser.getTenantId()));
+        // 当前租户有效则直接返回
+        Optional<SysTenant> currentTenant = validTenantList.stream()
+                .filter(tenant -> tenant.getId().equals(loginUser.getTenantId()))
+                .findFirst();
 
-        if (match) {
-            // 当前租户有效，返回当前租户对象
-            return normalTenantList.stream()
-                    .filter(tenant -> tenant.getId().equals(loginUser.getTenantId()))
-                    .findFirst()
-                    .orElse(null);
+        if (currentTenant.isPresent()) {
+            return currentTenant.get();
         }
 
-        SysTenantUser tenantUser = sysTenantUserMapper.selectOne(Wrappers.<SysTenantUser>lambdaQuery()
-                .eq(SysTenantUser::getUserId, SecurityUtils.getUser().getId())
-                .ne(SysTenantUser::getTenantId, loginUser.getTenantId()), false);
-        // 如果当前用户没有租户信息，则不进行任何操作
+        // 当前租户无效，输出有效租户列表便于排查
+        log.warn("用户[{}]当前租户[{}]无效或已过期，有效租户列表: {}",
+                loginUser.getUsername(),
+                loginUser.getTenantId(),
+                validTenantList.stream()
+                        .map(t -> String.format("ID:%d,名称:%s", t.getId(), t.getName()))
+                        .toList());
+
+        // 查找用户的其他租户关联
+        SysTenantUser tenantUser = sysTenantUserMapper.selectOne(
+                Wrappers.<SysTenantUser>lambdaQuery()
+                        .eq(SysTenantUser::getUserId, loginUser.getId())
+                        .ne(SysTenantUser::getTenantId, loginUser.getTenantId()),
+                false);
+
         if (Objects.isNull(tenantUser)) {
+            log.warn("用户[{}]没有其他可用的租户关联，无法自动切换", loginUser.getUsername());
             return null;
         }
 
-        // 切换至状态正常的租户
+        // 执行租户切换
+        Long targetTenantId = tenantUser.getTenantId();
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(loginUser.getId());
-        userDTO.setTenantId(tenantUser.getTenantId());
+        userDTO.setTenantId(targetTenantId);
         userDTO.setUsername(loginUser.getUsername());
         updateUserTenant(userDTO);
         cacheManager.getCache(CacheConstants.USER_DETAILS).evict(loginUser.getUsername());
 
-        // 返回切换后的租户对象
-        return normalTenantList.stream()
-                .filter(tenant -> tenant.getId().equals(tenantUser.getTenantId()))
-                .findFirst()
-                .orElseGet(() -> baseMapper.selectById(tenantUser.getTenantId()));
+        log.info("用户[{}]租户切换完成：{} -> {}", loginUser.getUsername(), loginUser.getTenantId(), targetTenantId);
 
+        return validTenantList.stream()
+                .filter(tenant -> tenant.getId().equals(targetTenantId))
+                .findFirst()
+                .orElseGet(() -> baseMapper.selectById(targetTenantId));
     }
 
 }
