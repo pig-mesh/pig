@@ -42,12 +42,6 @@
             <artifactId>pigx-upms-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--必备：AI 能力模块-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-aigc-biz</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!--选配开始：和 AI 能力无关可以删除，提升启动速度 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>

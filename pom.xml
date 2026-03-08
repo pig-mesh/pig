@@ -115,7 +115,6 @@
         <module>pigx-flow</module>
         <module>pigx-visual</module>
         <module>pigx-app-server</module>
-        <module>pigx-aigc</module>
     </modules>
 
     <dependencyManagement>
