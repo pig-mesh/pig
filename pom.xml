@@ -42,7 +42,7 @@
         <langchain4j.version>1.12.1</langchain4j.version>
         <langchain4j.beta.version>1.12.1-beta21</langchain4j.beta.version>
         <spring.ai.version>1.1.2</spring.ai.version>
-        <spring-boot-admin.version>3.5.7</spring-boot-admin.version>
+        <spring-boot-admin.version>3.5.8</spring-boot-admin.version>
         <maven.compiler.version>3.14.0</maven.compiler.version>
         <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
         <git.commit.version>4.9.9</git.commit.version>
