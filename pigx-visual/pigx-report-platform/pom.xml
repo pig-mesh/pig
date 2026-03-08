@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.11.0</version>
+        <version>5.12.0</version>
     </parent>
 
     <artifactId>pigx-report-platform</artifactId>
@@ -15,7 +15,7 @@
 
     <description>基于 GoView 的大屏设计系统</description>
     <properties>
-        <goview.version>1.0.1</goview.version>
+        <goview.version>1.0.3</goview.version>
     </properties>
 
     <dependencies>
