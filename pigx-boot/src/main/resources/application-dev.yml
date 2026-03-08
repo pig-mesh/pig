@@ -2,6 +2,7 @@ spring:
   data:
     redis:
       host: pigx-redis
+      database: 5
   # 数据库相关配置
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
