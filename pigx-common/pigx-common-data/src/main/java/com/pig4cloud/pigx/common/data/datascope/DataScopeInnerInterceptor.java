@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.PluginUtils;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jsqlparser.JSQLParserException;
@@ -128,19 +129,24 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
             return CCJSqlParserUtil.parseCondExpression("1 = 2");
         }
 
+        // SQL 注入检查
+        if (StrUtil.isNotBlank(username) && SqlInjectionUtils.check(username)) {
+            return CCJSqlParserUtil.parseCondExpression("1 = 2");
+        }
+
         // 2. 本人权限 + 部门权限：加括号保证与原有条件组合时的优先级
         if (StrUtil.isNotBlank(username) && CollUtil.isNotEmpty(deptIds)) {
             String join = CollectionUtil.join(deptIds, ",");
             String logicKeyword = dataScope.getLogicMode() != null ? dataScope.getLogicMode().getKeyword()
                     : DataScopeLogicEnum.OR.getKeyword();
             String condSql = String.format("(%s%s = '%s' %s %s%s IN (%s))", prefix, dataScope.getScopeUserName(),
-                    escapeSql(username), logicKeyword, prefix, dataScope.getScopeDeptName(), join);
+                    username, logicKeyword, prefix, dataScope.getScopeDeptName(), join);
             return CCJSqlParserUtil.parseCondExpression(condSql);
         }
 
         // 3. 仅本人权限
         if (StrUtil.isNotBlank(username)) {
-            String condSql = String.format("%s%s = '%s'", prefix, dataScope.getScopeUserName(), escapeSql(username));
+            String condSql = String.format("%s%s = '%s'", prefix, dataScope.getScopeUserName(), username);
             return CCJSqlParserUtil.parseCondExpression(condSql);
         }
 
@@ -182,6 +188,11 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
             return String.format("SELECT %s FROM (%s) temp_data_scope WHERE 1 = 2", selectType, originalSql);
         }
 
+        // SQL 注入检查
+        if (StrUtil.isNotBlank(username) && SqlInjectionUtils.check(username)) {
+            return String.format("SELECT %s FROM (%s) temp_data_scope WHERE 1 = 2", selectType, originalSql);
+        }
+
         // 本人 + 部门
         if (StrUtil.isNotBlank(username) && CollUtil.isNotEmpty(deptIds)) {
             String join = CollectionUtil.join(deptIds, ",");
@@ -189,30 +200,20 @@ public class DataScopeInnerInterceptor implements DataScopeInterceptor {
                     : DataScopeLogicEnum.OR.getKeyword();
             return String.format(
                     "SELECT %s FROM (%s) temp_data_scope WHERE (temp_data_scope.%s = '%s' %s temp_data_scope.%s IN (%s))",
-                    selectType, originalSql, dataScope.getScopeUserName(), escapeSql(username), logicKeyword,
+                    selectType, originalSql, dataScope.getScopeUserName(), username, logicKeyword,
                     dataScope.getScopeDeptName(), join);
         }
 
         // 仅本人
         if (StrUtil.isNotBlank(username)) {
             return String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s = '%s'", selectType,
-                    originalSql, dataScope.getScopeUserName(), escapeSql(username));
+                    originalSql, dataScope.getScopeUserName(), username);
         }
 
         // 仅部门
         String join = CollectionUtil.join(deptIds, ",");
         return String.format("SELECT %s FROM (%s) temp_data_scope WHERE temp_data_scope.%s IN (%s)", selectType,
                 originalSql, dataScope.getScopeDeptName(), join);
-    }
-
-    /**
-     * 转义 SQL 字符串值中的单引号，防止 SQL 注入
-     */
-    private String escapeSql(String value) {
-        if (value == null) {
-            return "";
-        }
-        return value.replace("'", "''");
     }
 
     /**
