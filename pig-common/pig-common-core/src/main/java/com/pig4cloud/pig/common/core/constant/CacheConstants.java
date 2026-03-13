@@ -51,21 +51,6 @@ public interface CacheConstants {
     String CLIENT_DETAILS_KEY = "pig_oauth:client:details";
 
     /**
-     * 路由存放
-     */
-    String ROUTE_KEY = GLOBALLY + "gateway_route_key";
-
-    /**
-     * 内存reload 时间
-     */
-    String ROUTE_JVM_RELOAD_TOPIC = "gateway_jvm_route_reload_topic";
-
-    /**
-     * redis 重新加载 路由信息
-     */
-    String ROUTE_REDIS_RELOAD_TOPIC = "upms_redis_route_reload_topic";
-
-    /**
      * redis 重新加载客户端信息
      */
     String CLIENT_REDIS_RELOAD_TOPIC = "upms_redis_client_reload_topic";
