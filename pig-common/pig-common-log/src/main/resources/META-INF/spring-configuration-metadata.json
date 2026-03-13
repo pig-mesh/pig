@@ -1,28 +1,34 @@
 {
   "groups": [
     {
-      "name": "security.log",
+      "name": "pig.log",
       "type": "com.pig4cloud.pig.common.log.config.PigLogProperties",
       "sourceType": "com.pig4cloud.pig.common.log.config.PigLogProperties"
     }
   ],
   "properties": [
     {
-      "name": "security.log.enabled",
+      "name": "pig.log.enabled",
       "type": "java.lang.Boolean",
       "description": "开启日志记录",
       "sourceType": "com.pig4cloud.pig.common.log.config.PigLogProperties"
     },
     {
-      "name": "security.log.exclude-fields",
+      "name": "pig.log.exclude-fields",
       "type": "java.util.List<java.lang.String>",
       "description": "放行字段，password,mobile,idcard,phone",
       "sourceType": "com.pig4cloud.pig.common.log.config.PigLogProperties"
     },
     {
-      "name": "security.log.max-length",
+      "name": "pig.log.max-length",
       "type": "java.lang.Integer",
       "description": "请求报文最大存储长度",
+      "sourceType": "com.pig4cloud.pig.common.log.config.PigLogProperties"
+    },
+    {
+      "name": "pig.log.request-enabled",
+      "type": "java.lang.Boolean",
+      "description": "记录请求报文体",
       "sourceType": "com.pig4cloud.pig.common.log.config.PigLogProperties"
     }
   ],

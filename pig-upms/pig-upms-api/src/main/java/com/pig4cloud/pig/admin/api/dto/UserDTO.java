@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,14 +19,12 @@
 
 package com.pig4cloud.pig.admin.api.dto;
 
-import java.io.Serial;
-import java.util.List;
-
 import com.pig4cloud.pig.admin.api.entity.SysUser;
-
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.util.List;
 
 /**
  * @author lengleng
@@ -37,30 +35,39 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class UserDTO extends SysUser {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+    /**
+     * 角色ID
+     */
+    @Schema(description = "角色id集合")
+    private List<Long> role;
 
-	/**
-	 * 角色ID
-	 */
-	@Schema(description = "角色id集合")
-	private List<Long> role;
+    /**
+     * 部门id
+     */
+    @Schema(description = "部门id")
+    private Long deptId;
 
-	/**
-	 * 部门id
-	 */
-	@Schema(description = "部门id")
-	private Long deptId;
+    /**
+     * 部门id集合（支持多部门）
+     */
+    @Schema(description = "部门id集合")
+    private List<Long> deptIds;
 
-	/**
-	 * 岗位ID
-	 */
-	private List<Long> post;
+    /**
+     * 岗位ID
+     */
+    private List<Long> post;
 
-	/**
-	 * 新密码
-	 */
-	@Schema(description = "新密码")
-	private String newpassword1;
+    /**
+     * 新密码
+     */
+    @Schema(description = "新密码")
+    private String newpassword1;
+
+    /**
+     * 验证码
+     */
+    @Schema(description = "验证码")
+    private String code;
 
 }

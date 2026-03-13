@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,29 +19,29 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysRoleMenu;
 import com.pig4cloud.pig.admin.mapper.SysRoleMenuMapper;
 import com.pig4cloud.pig.admin.service.SysRoleMenuService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
-
-import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * 角色菜单表服务实现类
+ * <p>
+ * 角色菜单表 服务实现类
+ * </p>
  *
  * @author lengleng
- * @date 2025/05/30
+ * @since 2017-10-29
  */
 @Service
 @AllArgsConstructor
@@ -50,6 +50,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	private final CacheManager cacheManager;
 
 	/**
+	 * @param role
 	 * @param roleId 角色
 	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
 	 * @return
@@ -68,7 +69,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 			roleMenu.setRoleId(roleId);
 			roleMenu.setMenuId(Long.valueOf(menuId));
 			return roleMenu;
-		}).toList();
+        }).toList();
 
 		// 清空userinfo
 		cacheManager.getCache(CacheConstants.USER_DETAILS).clear();

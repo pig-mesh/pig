@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,48 +19,59 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
+import com.pig4cloud.pig.common.data.datascope.DataScope;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * <p>
  * 用户表 Mapper 接口
- * </p>
  *
  * @author lengleng
- * @since 2017-10-29
+ * @date 2025/06/30
  */
 @Mapper
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysUserMapper extends PigBaseMapper<SysUser> {
 
 	/**
-	 * 根据用户DTO获取用户VO
-	 * @param userDTO 用户查询条件DTO
-	 * @return 用户信息VO
+	 * 通过用户DTO查询用户信息（包含角色信息）
+	 * @param userDTO 用户查询DTO
+	 * @return 包含角色信息的用户VO
 	 */
-	UserVO getUser(@Param("query") UserDTO userDTO);
+	@InterceptorIgnore(tenantLine = "true")
+	UserVO getUserVo(@Param("query") UserDTO userDTO);
 
 	/**
 	 * 分页查询用户信息（含角色）
-	 * @param page 分页参数
-	 * @param userDTO 用户查询条件
+	 * @param page 分页对象
+	 * @param userDTO 用户查询参数
+	 * @param dataScope 数据权限范围
 	 * @return 分页用户信息列表
 	 */
-	IPage<UserVO> getUsersPage(Page page, @Param("query") UserDTO userDTO);
+	IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO, DataScope dataScope);
 
 	/**
-	 * 查询用户列表
+	 * 通过ID查询用户信息
+	 * @param id 用户ID
+	 * @return 用户信息VO对象
+	 */
+	UserVO getUserVoById(Long id);
+
+	/**
+	 * 根据数据权限查询用户列表
 	 * @param userDTO 查询条件
+	 * @param ids 用户ID数组
+	 * @param dataScope 数据权限声明
 	 * @return 用户VO列表
 	 */
-	List<UserVO> listUsers(@Param("query") UserDTO userDTO);
+	List<UserVO> getUserVoListByScope(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids, DataScope dataScope);
 
 }

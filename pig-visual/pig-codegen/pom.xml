@@ -33,7 +33,7 @@
         <!--数据操作-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-mybatis</artifactId>
+            <artifactId>pig-common-data</artifactId>
         </dependency>
         <!--动态数据源 数据操作-->
         <dependency>

@@ -3,31 +3,32 @@ package com.pig4cloud.pig.common.security.util;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 
-import java.io.Serial;
-
 /**
- * OAuth客户端异常类
- *
  * @author lengleng
- * @date 2025/05/31
+ * @description OAuthClientException 异常信息
  */
 public class OAuthClientException extends OAuth2AuthenticationException {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+	public OAuthClientException(String errorCode, String description) {
+		super(new OAuth2Error(errorCode, description, null), description);
+	}
+
+	public OAuthClientException(String errorCode, String description, Throwable cause) {
+		super(new OAuth2Error(errorCode, description, null), cause);
+	}
 
 	/**
-	 * 使用指定消息构造OAuthClientException
-	 * @param msg 详细消息
+	 * Constructs a <code>ScopeException</code> with the specified message.
+	 * @param msg the detail message.
 	 */
 	public OAuthClientException(String msg) {
 		super(new OAuth2Error(msg), msg);
 	}
 
 	/**
-	 * 构造一个带有指定消息和根原因的OAuthClientException
-	 * @param msg 详细消息
-	 * @param cause 根原因
+	 * Constructs a {@code ScopeException} with the specified message and root cause.
+	 * @param msg the detail message.
+	 * @param cause root cause
 	 */
 	public OAuthClientException(String msg, Throwable cause) {
 		super(new OAuth2Error(msg), cause);

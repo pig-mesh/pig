@@ -38,7 +38,7 @@
         <!--mybatis-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-mybatis</artifactId>
+            <artifactId>pig-common-data</artifactId>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>

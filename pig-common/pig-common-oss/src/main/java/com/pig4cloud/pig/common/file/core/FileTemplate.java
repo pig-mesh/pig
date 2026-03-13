@@ -1,5 +1,8 @@
 package com.pig4cloud.pig.common.file.core;
 
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.InputStream;
@@ -25,13 +28,25 @@ public interface FileTemplate extends InitializingBean {
 	 *
 	 * API Documentation</a>
 	 */
-	List<? extends Object> getAllBuckets();
+	List<Bucket> getAllBuckets();
 
 	/**
 	 * @param bucketName bucket名称
 	 * @see <a href= Documentation</a>
 	 */
 	void removeBucket(String bucketName);
+
+	/**
+	 * 上传文件
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
+	 * @param dir 文件夹名称
+	 * @param stream 文件流
+	 * @param contextType 文件类型
+	 * @throws Exception
+	 */
+	void putObject(String bucketName, String dir, String objectName, InputStream stream, String contextType)
+			throws Exception;
 
 	/**
 	 * 上传文件
@@ -56,10 +71,19 @@ public interface FileTemplate extends InitializingBean {
 	/**
 	 * 获取文件
 	 * @param bucketName bucket名称
+	 * @param dir 文件夹名称
 	 * @param objectName 文件名称
-	 * @return 文件对象 API Documentation</a>
+	 * @return 二进制流 API Documentation</a>
 	 */
-	Object getObject(String bucketName, String objectName);
+	S3Object getObject(String bucketName, String dir, String objectName);
+
+	/**
+	 * 获取文件
+	 * @param bucketName bucket名称
+	 * @param objectName 文件名称
+	 * @return 二进制流 API Documentation</a>
+	 */
+	S3Object getObject(String bucketName, String objectName);
 
 	void removeObject(String bucketName, String objectName) throws Exception;
 
@@ -75,10 +99,10 @@ public interface FileTemplate extends InitializingBean {
 	 * @param bucketName bucket名称
 	 * @param prefix 前缀
 	 * @param recursive 是否递归查询
-	 * @return 文件对象列表
+	 * @return S3ObjectSummary 列表
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects">AWS
 	 * API Documentation</a>
 	 */
-	List<? extends Object> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive);
+	List<S3ObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive);
 
 }

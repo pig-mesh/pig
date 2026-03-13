@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -22,14 +22,18 @@ package com.pig4cloud.pig.admin.service;
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.api.vo.DeptExcelVo;
+import com.pig4cloud.pig.admin.api.vo.DeptExcelVO;
+import com.pig4cloud.pig.admin.api.vo.OrgTreeVO;
 import com.pig4cloud.pig.common.core.util.R;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * 部门管理服务接口
+ * <p>
+ * 部门管理 服务类
+ * </p>
  *
  * @author lengleng
  * @since 2018-01-20
@@ -39,36 +43,47 @@ public interface SysDeptService extends IService<SysDept> {
 	/**
 	 * 查询部门树菜单
 	 * @param deptName 部门名称
-	 * @return 部门树结构
+	 * @return 树
 	 */
-	List<Tree<Long>> getDeptTree(String deptName);
+	List<Tree<Long>> selectTree(String deptName, Long parentId);
 
 	/**
-	 * 根据部门ID删除部门
-	 * @param id 要删除的部门ID
-	 * @return 删除操作是否成功，成功返回true，失败返回false
+	 * 删除部门
+	 * @param id 部门 ID
+	 * @return 成功、失败
 	 */
 	Boolean removeDeptById(Long id);
 
-	/**
-	 * 导出部门Excel数据列表
-	 * @return 部门Excel数据列表
-	 */
-	List<DeptExcelVo> exportDepts();
+	List<DeptExcelVO> listExcelVo();
+
+	R importDept(List<DeptExcelVO> excelVOList, BindingResult bindingResult);
 
 	/**
-	 * 导入部门数据
-	 * @param excelVOList 部门Excel数据列表
-	 * @param bindingResult 数据校验结果
-	 * @return 导入结果
-	 */
-	R importDept(List<DeptExcelVo> excelVOList, BindingResult bindingResult);
-
-	/**
-	 * 获取指定部门的所有后代部门列表
+	 * 获取部门的所有后代部门列表
 	 * @param deptId 部门ID
-	 * @return 后代部门列表，如果不存在则返回空列表
+	 * @return 后代部门列表
 	 */
-	List<SysDept> listDescendants(Long deptId);
+	List<SysDept> listDescendant(Long deptId);
+
+	/**
+	 * 获取部门负责人
+	 * @param deptId deptId
+	 * @return user id list
+	 */
+	List<Long> listDeptLeader(Long deptId);
+
+	/**
+	 * 查询全部部门包含用户
+	 * @param parentDeptId 父部门ID
+	 * @param type 查询类型
+	 */
+	Map<String, Object> listOrgTree(Long parentDeptId, String type);
+
+	/**
+	 * 根据用户名模糊搜索用户
+	 * @param username 用户名
+	 * @return List user
+	 */
+	List<OrgTreeVO> getOrgTreeUser(String username);
 
 }

@@ -63,7 +63,7 @@ public class PigCodeGenDefaultProperties implements InitializingBean {
 	/**
 	 * 生成代码的邮箱
 	 */
-	private String email = "sw@pigx.vip";
+	private String email = "sw@pig4cloud.com";
 
 	/**
 	 * 表单布局（一列、两列）

@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -20,10 +20,15 @@
 package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.javers.core.metamodel.annotation.DiffInclude;
+import org.javers.core.metamodel.annotation.PropertyName;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -37,8 +42,10 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "用户")
-public class SysUser implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+public class SysUser extends Model<SysUser> implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -110,8 +117,22 @@ public class SysUser implements Serializable {
 	private String lockFlag;
 
 	/**
+	 * 密码过期标记
+	 */
+	@Schema(description = "密码过期标记")
+	private String passwordExpireFlag;
+
+	/**
+	 * 密码修改时间
+	 */
+	@Schema(description = "密码修改时间")
+	private LocalDateTime passwordModifyTime;
+
+	/**
 	 * 手机号
 	 */
+	@DiffInclude
+	@PropertyName("手机号")
 	@Schema(description = "手机号")
 	private String phone;
 
@@ -122,9 +143,9 @@ public class SysUser implements Serializable {
 	private String avatar;
 
 	/**
-	 * 部门ID
+	 * 主部门ID
 	 */
-	@Schema(description = "用户所属部门id")
+	@Schema(description = "用户主部门id")
 	private Long deptId;
 
 	/**
@@ -132,6 +153,18 @@ public class SysUser implements Serializable {
 	 */
 	@Schema(description = "微信openid")
 	private String wxOpenid;
+
+	/**
+	 * 企微微信 userid
+	 */
+	@Schema(description = "企微微信 userid")
+	private String wxCpUserid;
+
+	/**
+	 * 钉钉 userid
+	 */
+	@Schema(description = "钉钉 userid")
+	private String wxDingUserid;
 
 	/**
 	 * 微信小程序openId
@@ -172,6 +205,8 @@ public class SysUser implements Serializable {
 	/**
 	 * 邮箱
 	 */
+	@DiffInclude
+	@PropertyName("邮箱")
 	@Schema(description = "邮箱")
 	private String email;
 

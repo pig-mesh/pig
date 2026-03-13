@@ -69,6 +69,11 @@ public class SysLogDTO {
 	private String params;
 
 	/**
+	 * 参数重写成object
+	 */
+	private Object body;
+
+	/**
 	 * 执行时间
 	 */
 	private Long time;

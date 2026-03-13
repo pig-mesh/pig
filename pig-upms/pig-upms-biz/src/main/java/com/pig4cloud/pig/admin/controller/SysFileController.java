@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,7 +22,9 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
+import com.pig4cloud.pig.admin.api.entity.SysFileGroup;
 import com.pig4cloud.pig.admin.service.SysFileService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
@@ -40,90 +42,173 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Objects;
 
 /**
- * 文件管理控制器
+ * 文件管理
  *
- * @author lengleng
- * @date 2025/05/30
+ * @author Luckly
+ * @date 2019-06-18 17:18:42
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-file")
-@Tag(description = "sys-file", name = "文件管理模块")
+@Tag(description = "sys-file", name = "文件管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysFileController {
 
-	private final SysFileService sysFileService;
+    private final SysFileService sysFileService;
 
-	/**
-	 * 分页查询文件信息
-	 * @param page 分页参数对象
-	 * @param sysFile 文件查询条件对象
-	 * @return 分页查询结果
-	 */
-	@GetMapping("/page")
-	@Operation(summary = "分页查询", description = "分页查询")
-	public R getFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
-		LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
-		return R.ok(sysFileService.page(page, wrapper));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page    分页对象
+     * @param sysFile 文件管理
+     * @return
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    @HasPermission("sys_file_view")
+    public R getSysFilePage(@ParameterObject Page page, @ParameterObject SysFile sysFile) {
+        LambdaQueryWrapper<SysFile> wrapper = Wrappers.<SysFile>lambdaQuery()
+                .eq(StrUtil.isNotBlank(sysFile.getType()), SysFile::getType, sysFile.getType())
+                .eq(Objects.nonNull(sysFile.getGroupId()), SysFile::getGroupId, sysFile.getGroupId())
+                .like(StrUtil.isNotBlank(sysFile.getOriginal()), SysFile::getOriginal, sysFile.getOriginal());
+        return R.ok(sysFileService.page(page, wrapper));
+    }
 
-	/**
-	 * 通过id删除文件管理
-	 * @param ids 要删除的文件id数组
-	 * @return 操作结果
-	 */
-	@SysLog("删除文件管理")
-	@DeleteMapping
-	@HasPermission("sys_file_del")
-	@Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
-	public R removeById(@RequestBody Long[] ids) {
-		for (Long id : ids) {
-			sysFileService.removeFile(id);
-		}
-		return R.ok();
-	}
+    /**
+     * 通过id删除文件管理
+     *
+     * @param ids id 列表
+     * @return R
+     */
+    @Operation(summary = "通过id删除文件管理", description = "通过id删除文件管理")
+    @SysLog("删除文件管理")
+    @DeleteMapping
+    @HasPermission("sys_file_del")
+    public R removeById(@RequestBody Long[] ids) {
+        for (Long id : ids) {
+            sysFileService.deleteFile(id);
+        }
+        return R.ok();
+    }
 
-	/**
-	 * 上传文件
-	 * @param file 上传的文件资源
-	 * @return 包含文件路径的R对象，格式为(/admin/bucketName/filename)
-	 */
-	@PostMapping(value = "/upload")
-	@Operation(summary = "上传文件", description = "上传文件")
-	public R upload(@RequestPart("file") MultipartFile file) {
-		return sysFileService.uploadFile(file);
-	}
+    @PutMapping("/rename")
+    public R rename(@RequestBody SysFile sysFile) {
+        return R.ok(sysFileService.updateById(sysFile));
+    }
 
-	/**
-	 * 获取文件并写入响应流
-	 * @param bucket 桶名称
-	 * @param fileName 文件路径/名称
-	 * @param response HTTP响应对象
-	 */
-	@Inner(false)
-	@GetMapping("/{bucket}/{fileName}")
-	@Operation(summary = "获取文件并写入响应流", description = "获取文件并写入响应流")
-	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
-		sysFileService.getFile(bucket, fileName, response);
-	}
+    /**
+     * 上传文件 文件名采用uuid,避免原始文件名中带"-"符号导致下载的时候解析出现异常
+     *
+     * @param file 资源
+     * @param dir  文件夹
+     * @return R(/ admin / bucketName / filename)
+     */
+    @PostMapping(value = "/upload")
+    public R upload(@RequestPart("file") MultipartFile file, @RequestParam(value = "dir", required = false) String dir,
+                    @RequestParam(value = "groupId", required = false) Long groupId,
+                    @RequestParam(value = "type", required = false) String type,
+                    @RequestParam(value = "fileName", required = false) String fileName) {
+        return sysFileService.uploadFile(file, fileName, dir, groupId, type);
+    }
 
-	/**
-	 * 获取本地resources目录下的文件并写入响应流
-	 * @param fileName 文件名称
-	 * @param response HTTP响应对象，用于输出文件内容
-	 * @throws IOException 文件操作异常
+    /**
+     * 内部文件上传接口
+     *
+     * @param file     上传的文件
+     * @param dir      文件存储目录
+     * @param groupId  文件分组ID
+     * @param type     文件类型
+     * @param fileName 自定义文件名
+     * @return 文件上传结果
+     */
+    @Inner
+    @PostMapping(value = "/inner/upload")
+    public R innerUpload(@RequestPart("file") MultipartFile file,
+                         @RequestParam(value = "dir", required = false) String dir,
+                         @RequestParam(value = "groupId", required = false) Long groupId,
+                         @RequestParam(value = "type", required = false) String type,
+                         @RequestParam(value = "fileName", required = false) String fileName) {
+        return sysFileService.uploadFile(file, fileName, dir, groupId, type);
+    }
+
+    /**
+     * 获取文件
+     *
+     * @param fileName 文件名称，格式为文件空间/名称
+     * @param response HTTP响应对象
+     */
+    @Inner(false)
+    @GetMapping("/oss/file")
+    public void file(String fileName, HttpServletResponse response) {
+        sysFileService.getFile(fileName, response);
+    }
+
+    /**
+     * 获取本地（resources）文件
+     *
+     * @param fileName 文件名称
+     * @param response 本地文件
+     */
+    @SneakyThrows
+    @GetMapping("/local/file/{fileName}")
+    public void localFile(@PathVariable String fileName, HttpServletResponse response) {
+        ClassPathResource resource = new ClassPathResource("file/" + fileName);
+        response.setContentType("application/octet-stream; charset=UTF-8");
+        IoUtil.copy(resource.getInputStream(), response.getOutputStream());
+    }
+
+    /**
+     * 查询文件组列表
+     * @param fileGroup SysFileGroup对象，用于筛选条件
+     * @return 包含文件组列表的R对象
+     */
+    @GetMapping("/group/list")
+    public R listGroup(SysFileGroup fileGroup) {
+        return R.ok(sysFileService.listFileGroup(fileGroup));
+    }
+
+    /**
+     * 添加文件组
+     * @param fileGroup SysFileGroup对象，要添加的文件组信息
+     * @return 包含添加结果的R对象
+     */
+    @PostMapping("/group/add")
+    public R addGroup(@RequestBody SysFileGroup fileGroup) {
+        return R.ok(sysFileService.saveOrUpdateGroup(fileGroup));
+    }
+
+    /**
+     * 更新文件组
+     *
+     * @param fileGroup SysFileGroup对象，要更新的文件组信息
+     * @return 包含更新结果的R对象
+     */
+    @PutMapping("/group/update")
+    public R updateGroup(@RequestBody SysFileGroup fileGroup) {
+        return R.ok(sysFileService.saveOrUpdateGroup(fileGroup));
+    }
+
+    /**
+     * 删除文件组
+     * @param id 待删除文件组的ID
+     * @return 包含删除结果的R对象
+     */
+    @DeleteMapping("/group/delete/{id}")
+    public R updateGroup(@PathVariable Long id) {
+        return R.ok(sysFileService.deleteGroup(id));
+    }
+
+    /**
+     * 移动文件组
+     * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
+     * @return 包含移动结果的R对象
 	 */
-	@SneakyThrows
-	@GetMapping("/local/file/{fileName}")
-	@Operation(summary = "获取本地resources目录下的文件并写入响应流", description = "获取本地resources目录下的文件并写入响应流")
-	public void localFile(@PathVariable String fileName, HttpServletResponse response) {
-		ClassPathResource resource = new ClassPathResource("file/" + fileName);
-		response.setContentType("application/octet-stream; charset=UTF-8");
-		IoUtil.copy(resource.getInputStream(), response.getOutputStream());
+	@PutMapping("/group/move")
+	public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
+		return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
 	}
 
 }

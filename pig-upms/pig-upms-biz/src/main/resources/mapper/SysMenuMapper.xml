@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~
-  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~      Copyright (c) 2018-2026, lengleng All rights reserved.
   ~
   ~  Redistribution and use in source and binary forms, with or without
   ~  modification, are permitted provided that the following conditions are met:
@@ -24,9 +24,9 @@
 	<resultMap id="BaseResultMap" type="com.pig4cloud.pig.admin.api.entity.SysMenu">
 		<id column="menu_id" property="menuId"/>
 		<result column="name" property="name"/>
-		<result column="en_name" property="enName"/>
 		<result column="permission" property="permission"/>
 		<result column="path" property="path"/>
+		<result column="component" property="component"/>
 		<result column="parent_id" property="parentId"/>
 		<result column="icon" property="icon"/>
 		<result column="sort_order" property="sortOrder"/>
@@ -44,9 +44,9 @@
 	<select id="listMenusByRoleId" resultMap="BaseResultMap">
 		SELECT sys_menu.menu_id,
 			   sys_menu.name,
-			   sys_menu.en_name,
 			   sys_menu.permission,
 			   sys_menu.path,
+			   sys_menu.component,
 			   sys_menu.parent_id,
 			   sys_menu.icon,
 			   sys_menu.sort_order,
@@ -62,15 +62,5 @@
 		WHERE sys_menu.del_flag = '0'
 		  AND sys_role_menu.role_id = #{roleId}
 		ORDER BY sys_menu.sort_order DESC
-	</select>
-
-	<!--通过角色ID 查询权限-->
-	<select id="listPermissionsByRoleIds" resultType="java.lang.String">
-		SELECT m.permission
-		FROM sys_menu m,
-			 sys_role_menu rm
-		WHERE m.menu_id = rm.menu_id
-		  AND m.del_flag = '0'
-		  AND rm.role_id IN (#{roleIds})
 	</select>
 </mapper>

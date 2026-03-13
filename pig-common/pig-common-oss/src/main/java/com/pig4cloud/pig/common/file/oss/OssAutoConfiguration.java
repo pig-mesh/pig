@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,23 +28,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 
 /**
- * AWS 对象存储自动配置类
+ * aws 自动配置类
  *
  * @author lengleng
  * @author 858695266
- * @date 2025/05/31
  */
 @AllArgsConstructor
 public class OssAutoConfiguration {
 
 	private final FileProperties properties;
 
-	/**
-	 * 创建OssTemplate Bean
-	 * @return 文件模板实例
-	 * @ConditionalOnMissingBean 当容器中不存在OssTemplate Bean时创建
-	 * @ConditionalOnProperty 当配置项file.oss.enable为true时生效
-	 */
 	@Bean
 	@Primary
 	@ConditionalOnMissingBean(OssTemplate.class)
@@ -53,13 +46,6 @@ public class OssAutoConfiguration {
 		return new OssTemplate(properties);
 	}
 
-	/**
-	 * 创建OssEndpoint Bean
-	 * @param template OssTemplate实例
-	 * @return OssEndpoint实例
-	 * @ConditionalOnMissingBean 当容器中不存在该类型Bean时创建
-	 * @ConditionalOnProperty 当配置项file.oss.info为true时生效
-	 */
 	@Bean
 	@ConditionalOnMissingBean
 	@ConditionalOnProperty(name = "file.oss.info", havingValue = "true")

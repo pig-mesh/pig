@@ -21,17 +21,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
+
 /**
- * <p>
- * 用户岗位表
- * </p>
+ * 用户岗位表实体类
  *
- * @author fxz
+ * @author lengleng
+ * @date 2025/06/27
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysUserPost extends Model<SysUserPost> {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**

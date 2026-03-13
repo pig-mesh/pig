@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,6 +18,7 @@
 package com.pig4cloud.pig.common.file.local;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 本地文件 配置信息
@@ -27,6 +28,7 @@ import lombok.Data;
  * bucket 设置公共读权限
  */
 @Data
+@ConfigurationProperties(prefix = "local")
 public class LocalFileProperties {
 
 	/**

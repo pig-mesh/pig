@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -27,22 +27,30 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 /**
- * 远程客户端详情服务接口
- *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2020/12/05
  */
 @FeignClient(contextId = "remoteClientDetailsService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteClientDetailsService {
 
 	/**
-	 * 通过clientId 查询客户端信息 (未登录，需要无token 内部调用)
+	 * 通过clientId 查询客户端信息
 	 * @param clientId 用户名
 	 * @return R
 	 */
 	@NoToken
 	@GetMapping("/client/getClientDetailsById/{clientId}")
 	R<SysOauthClientDetails> getClientDetailsById(@PathVariable("clientId") String clientId);
+
+	/**
+	 * 查询全部客户端
+	 * @return R
+	 */
+	@NoToken
+	@GetMapping("/client/list")
+	R<List<SysOauthClientDetails>> listClientDetails();
 
 }

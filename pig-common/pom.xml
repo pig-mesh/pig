@@ -34,14 +34,15 @@
         <module>pig-common-core</module>
         <module>pig-common-datasource</module>
         <module>pig-common-log</module>
-        <module>pig-common-mybatis</module>
+        <module>pig-common-data</module>
         <module>pig-common-oss</module>
-        <module>pig-common-seata</module>
         <module>pig-common-security</module>
         <module>pig-common-feign</module>
         <module>pig-common-swagger</module>
-        <module>pig-common-websocket</module>
         <module>pig-common-xss</module>
         <module>pig-common-excel</module>
+        <module>pig-common-sensitive</module>
+        <module>pig-common-sse</module>
+        <module>pig-common-audit</module>
     </modules>
 </project>

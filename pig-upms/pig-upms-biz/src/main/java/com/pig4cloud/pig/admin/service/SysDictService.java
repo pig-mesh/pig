@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,30 +21,30 @@ import com.pig4cloud.pig.admin.api.entity.SysDict;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * 字典表服务接口 提供字典数据的增删改查及缓存同步功能
+ * 字典表
  *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2019/03/19
  */
 public interface SysDictService extends IService<SysDict> {
 
 	/**
-	 * 根据ID列表删除字典
-	 * @param ids 要删除的字典ID数组
-	 * @return 操作结果
+	 * 根据ID 删除字典
+	 * @param ids ID列表
+	 * @return
 	 */
 	R removeDictByIds(Long[] ids);
 
 	/**
 	 * 更新字典
-	 * @param sysDict 要更新的字典对象
-	 * @return 操作结果
+	 * @param sysDict 字典
+	 * @return
 	 */
 	R updateDict(SysDict sysDict);
 
 	/**
-	 * 同步字典缓存（清空缓存）
-	 * @return 操作结果
+	 * 同步缓存 （清空缓存）
+	 * @return R
 	 */
 	R syncDictCache();
 

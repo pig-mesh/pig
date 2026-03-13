@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,6 +18,7 @@
 package com.pig4cloud.pig.admin.api.feign;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.feign.annotation.NoToken;
@@ -27,10 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 /**
- * 远程令牌服务接口
- *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2018/9/4
  */
 @FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE)
 public interface RemoteTokenService {
@@ -45,21 +44,22 @@ public interface RemoteTokenService {
 	R<Page> getTokenPage(@RequestBody Map<String, Object> params);
 
 	/**
-	 * 根据token删除token信息
-	 * @param token 要删除的token
-	 * @return 删除操作结果，包含是否成功的布尔值
+	 * 删除token
+	 * @param token token
+	 * @return
 	 */
 	@NoToken
 	@DeleteMapping("/token/remove/{token}")
 	R<Boolean> removeTokenById(@PathVariable("token") String token);
 
 	/**
-	 * 根据令牌查询用户信息
-	 * @param token 用户令牌
-	 * @return 包含用户信息的响应结果
+	 * 校验令牌获取用户信息
+	 * @param token
+	 * @return
 	 */
 	@NoToken
 	@GetMapping("/token/query-token")
-	R<Map<String, Object>> queryToken(@RequestParam("token") String token);
+	R<Map<String, Object>> queryToken(@RequestParam("token") String token,
+			@RequestParam(CommonConstants.TENANT_ID) String tenantId);
 
 }

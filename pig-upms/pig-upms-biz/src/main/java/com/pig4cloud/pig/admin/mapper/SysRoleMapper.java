@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,9 +19,10 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -34,13 +35,14 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Mapper
-public interface SysRoleMapper extends BaseMapper<SysRole> {
+public interface SysRoleMapper extends PigBaseMapper<SysRole> {
 
-	/**
-	 * 通过用户ID查询角色信息
-	 * @param userId 用户ID
-	 * @return 角色信息列表
-	 */
-	List<SysRole> listRolesByUserId(Long userId);
+    /**
+     * 通过用户ID查询角色信息
+     *
+     * @param userId 用户ID
+     * @return 角色信息列表
+     */
+    List<SysRole> listRolesByUserId(@Param("userId") Long userId);
 
 }

@@ -1,37 +1,46 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.common.core.util;
 
 import cn.hutool.core.codec.Base64;
-import com.pig4cloud.pig.common.core.exception.CheckedException;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.MediaType;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.method.HandlerMethod;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -39,126 +48,234 @@ import java.util.Optional;
  *
  * @author L.cm
  */
+@Slf4j
 @UtilityClass
 public class WebUtils extends org.springframework.web.util.WebUtils {
 
-	private final String BASIC_ = "Basic ";
+    private final String BASIC_ = "Basic ";
 
-	/**
-	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
-	 * @param handlerMethod HandlerMethod
-	 * @return 是否ajax请求
-	 */
-	public boolean isBody(HandlerMethod handlerMethod) {
-		ResponseBody responseBody = ClassUtils.getAnnotation(handlerMethod, ResponseBody.class);
-		return responseBody != null;
-	}
+    private final String UNKNOWN = "unknown";
 
-	/**
-	 * 读取cookie
-	 * @param name cookie name
-	 * @return cookie value
-	 */
-	public String getCookieVal(String name) {
-		if (WebUtils.getRequest().isPresent()) {
-			return getCookieVal(WebUtils.getRequest().get(), name);
-		}
-		return null;
-	}
+    /**
+     * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
+     *
+     * @param handlerMethod HandlerMethod
+     * @return 是否ajax请求
+     */
+    public boolean isBody(HandlerMethod handlerMethod) {
+        ResponseBody responseBody = ClassUtils.getAnnotation(handlerMethod, ResponseBody.class);
+        return responseBody != null;
+    }
 
-	/**
-	 * 读取cookie
-	 * @param request HttpServletRequest
-	 * @param name cookie name
-	 * @return cookie value
-	 */
-	public String getCookieVal(HttpServletRequest request, String name) {
-		Cookie cookie = getCookie(request, name);
-		return cookie != null ? cookie.getValue() : null;
-	}
+    /**
+     * 读取cookie
+     *
+     * @param name cookie name
+     * @return cookie value
+     */
+    public String getCookieVal(String name) {
+        HttpServletRequest request = WebUtils.getRequest();
+        Assert.notNull(request, "request from RequestContextHolder is null");
+        return getCookieVal(request, name);
+    }
 
-	/**
-	 * 清除 某个指定的cookie
-	 * @param response HttpServletResponse
-	 * @param key cookie key
-	 */
-	public void removeCookie(HttpServletResponse response, String key) {
-		setCookie(response, key, null, 0);
-	}
+    /**
+     * 读取cookie
+     *
+     * @param request HttpServletRequest
+     * @param name    cookie name
+     * @return cookie value
+     */
+    public String getCookieVal(HttpServletRequest request, String name) {
+        Cookie cookie = getCookie(request, name);
+        return cookie != null ? cookie.getValue() : null;
+    }
 
-	/**
-	 * 设置cookie
-	 * @param response HttpServletResponse
-	 * @param name cookie name
-	 * @param value cookie value
-	 * @param maxAgeInSeconds maxage
-	 */
-	public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
-		Cookie cookie = new Cookie(name, value);
-		cookie.setPath("/");
-		cookie.setMaxAge(maxAgeInSeconds);
-		cookie.setHttpOnly(true);
-		response.addCookie(cookie);
-	}
+    /**
+     * 清除 某个指定的cookie
+     *
+     * @param response HttpServletResponse
+     * @param key      cookie key
+     */
+    public void removeCookie(HttpServletResponse response, String key) {
+        setCookie(response, key, null, 0);
+    }
 
-	/**
-	 * 获取 HttpServletRequest
-	 * @return {HttpServletRequest}
-	 */
-	public Optional<HttpServletRequest> getRequest() {
-		return Optional
-			.ofNullable(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
-	}
+    /**
+     * 设置cookie
+     *
+     * @param response        HttpServletResponse
+     * @param name            cookie name
+     * @param value           cookie value
+     * @param maxAgeInSeconds maxage
+     */
+    public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
+        Cookie cookie = new Cookie(name, value);
+        cookie.setPath("/");
+        cookie.setMaxAge(maxAgeInSeconds);
+        cookie.setHttpOnly(true);
+        response.addCookie(cookie);
+    }
 
-	/**
-	 * 获取 HttpServletResponse
-	 * @return {HttpServletResponse}
-	 */
-	public HttpServletResponse getResponse() {
-		return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-	}
+    /**
+     * 获取 HttpServletRequest
+     *
+     * @return {HttpServletRequest}
+     */
+    public HttpServletRequest getRequest() {
+        try {
+            RequestAttributes requestAttributes = RequestContextHolder.currentRequestAttributes();
+            return ((ServletRequestAttributes) requestAttributes).getRequest();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
-	/**
-	 * 从request 获取CLIENT_ID
-	 * @return
-	 */
-	@SneakyThrows
-	public String getClientId(ServerHttpRequest request) {
-		String header = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-		return splitClient(header)[0];
-	}
+    /**
+     * 获取 HttpServletResponse
+     *
+     * @return {HttpServletResponse}
+     */
+    public HttpServletResponse getResponse() {
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+    }
 
-	@SneakyThrows
-	public String getClientId() {
-		if (WebUtils.getRequest().isPresent()) {
-			String header = WebUtils.getRequest().get().getHeader(HttpHeaders.AUTHORIZATION);
-			return splitClient(header)[0];
-		}
-		return null;
-	}
+    /**
+     * 返回json
+     *
+     * @param response HttpServletResponse
+     * @param result   结果对象
+     */
+    public void renderJson(HttpServletResponse response, Object result) {
+        renderJson(response, result, MediaType.APPLICATION_JSON_VALUE);
+    }
 
-	@NotNull
-	private static String[] splitClient(String header) {
-		if (header == null || !header.startsWith(BASIC_)) {
-			throw new CheckedException("请求头中client信息为空");
-		}
-		byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
-		byte[] decoded;
-		try {
-			decoded = Base64.decode(base64Token);
-		}
-		catch (IllegalArgumentException e) {
-			throw new CheckedException("Failed to decode basic authentication token");
-		}
+    /**
+     * 返回json
+     *
+     * @param response    HttpServletResponse
+     * @param result      结果对象
+     * @param contentType contentType
+     */
+    public void renderJson(HttpServletResponse response, Object result, String contentType) {
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType(contentType);
+        try (PrintWriter out = response.getWriter()) {
+            out.append(JSONUtil.toJsonStr(result));
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
+        }
+    }
 
-		String token = new String(decoded, StandardCharsets.UTF_8);
+    /**
+     * 获取ip
+     *
+     * @return {String}
+     */
+    public String getIP() {
+        return getIP(WebUtils.getRequest());
+    }
 
-		int delim = token.indexOf(":");
+    /**
+     * 获取ip
+     *
+     * @param request HttpServletRequest
+     * @return {String}
+     */
+    public String getIP(HttpServletRequest request) {
+        Assert.notNull(request, "HttpServletRequest is null");
+        String ip = request.getHeader("X-Requested-For");
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("X-Forwarded-For");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_CLIENT_IP");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getHeader("HTTP_X_FORWARDED_FOR");
+        }
+        if (StrUtil.isBlank(ip) || UNKNOWN.equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        return StrUtil.isBlank(ip) ? null : ip.split(",")[0];
+    }
 
-		if (delim == -1) {
-			throw new CheckedException("Invalid basic authentication token");
-		}
-		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
-	}
+    /**
+     * 解析 client id
+     *
+     * @param header
+     * @param defVal
+     * @return 如果解析失败返回默认值
+     */
+    public String extractClientId(String header, final String defVal) {
 
+        if (header == null || !header.startsWith(BASIC_)) {
+            log.debug("请求头中client信息为空: {}", header);
+            return defVal;
+        }
+        byte[] base64Token = header.substring(6).getBytes(StandardCharsets.UTF_8);
+        byte[] decoded;
+        try {
+            decoded = Base64.decode(base64Token);
+        } catch (IllegalArgumentException e) {
+            log.debug("Failed to decode basic authentication token: {}", header);
+            return defVal;
+        }
+
+        String token = new String(decoded, StandardCharsets.UTF_8);
+
+        int delim = token.indexOf(":");
+
+        if (delim == -1) {
+            log.debug("Invalid basic authentication token: {}", header);
+            return defVal;
+        }
+        return token.substring(0, delim);
+    }
+
+    /**
+     * 从请求头中解析 client id
+     *
+     * @param header
+     * @return
+     */
+    public Optional<String> extractClientId(String header) {
+        return Optional.ofNullable(extractClientId(header, null));
+    }
+
+    /**
+     * 获取 bearer 令牌
+     *
+     * @return {@link String }
+     */
+    @SneakyThrows
+    public String getToken() {
+        if (Objects.isNull(WebUtils.getRequest())) {
+            return null;
+        }
+
+        // 获取请求
+        HttpServletRequest request = WebUtils.getRequest();
+        // 获取Authorization头信息
+        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authorizationHeader != null && StrUtil.startWithAnyIgnoreCase(authorizationHeader, "Bearer ")) {
+            // 返回去掉"Bearer "前缀的Token
+            return authorizationHeader.substring(7);
+        } else {
+            // 处理Authorization头信息为空或格式不正确的情况
+            return null;
+        }
+    }
+
+    public boolean isMicro() {
+        return SpringContextHolder.getApplicationContext()
+                .getEnvironment()
+                .getProperty("security.micro", Boolean.class, true);
+    }
 }

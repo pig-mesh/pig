@@ -1,31 +1,31 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 
 package com.pig4cloud.pig.common.feign.annotation;
 
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.core.annotation.AliasFor;
 
 import java.lang.annotation.*;
 
 /**
- * 启用Pig Feign客户端注解
- *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2020-02-08
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
@@ -34,20 +34,52 @@ import java.lang.annotation.*;
 public @interface EnablePigFeignClients {
 
 	/**
-	 * {@link #basePackages()}属性的别名。允许更简洁的注解声明
-	 * @return 'basePackages'数组
+	 * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation
+	 * declarations e.g.: {@code @ComponentScan("org.my.pkg")} instead of
+	 * {@code @ComponentScan(basePackages="org.my.pkg")}.
+	 * @return the array of 'basePackages'.
 	 */
 	String[] value() default {};
 
 	/**
-	 * 扫描注解组件的基础包路径
+	 * Base packages to scan for annotated components.
 	 * <p>
-	 * 与{@link #value()}互为别名且互斥
+	 * {@link #value()} is an alias for (and mutually exclusive with) this attribute.
 	 * <p>
-	 * 对于基于字符串的包名，可使用{@link #basePackageClasses()}作为类型安全的替代方案
-	 * @return 基础包路径数组
+	 * Use {@link #basePackageClasses()} for a type-safe alternative to String-based
+	 * package names.
+	 * @return the array of 'basePackages'.
 	 */
-	@AliasFor(annotation = EnableFeignClients.class, attribute = "basePackages")
+	@AliasFor(annotation = EnableFeignClients.class)
 	String[] basePackages() default { "com.pig4cloud.pig" };
+
+	/**
+	 * Type-safe alternative to {@link #basePackages()} for specifying the packages to
+	 * scan for annotated components. The package of each class specified will be scanned.
+	 * <p>
+	 * Consider creating a special no-op marker class or interface in each package that
+	 * serves no purpose other than being referenced by this attribute.
+	 * @return the array of 'basePackageClasses'.
+	 */
+	@AliasFor(annotation = EnableFeignClients.class)
+	Class<?>[] basePackageClasses() default {};
+
+	/**
+	 * A custom <code>@Configuration</code> for all feign clients. Can contain override
+	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
+	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.
+	 *
+	 * @see FeignClientsConfiguration for the defaults
+	 */
+	@AliasFor(annotation = EnableFeignClients.class)
+	Class<?>[] defaultConfiguration() default {};
+
+	/**
+	 * List of classes annotated with @FeignClient. If not empty, disables classpath
+	 * scanning.
+	 * @return
+	 */
+	@AliasFor(annotation = EnableFeignClients.class)
+	Class<?>[] clients() default {};
 
 }

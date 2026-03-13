@@ -1,44 +1,50 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.common.core.util;
 
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Lazy;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 /**
  * @author lengleng
- * @date 2019/2/1 Spring 工具类
+ * @date 2018/6/27 Spring 工具类
  */
 @Slf4j
 @Service
 @Lazy(false)
-public class SpringContextHolder implements ApplicationContextAware, EnvironmentAware, DisposableBean {
+public class SpringContextHolder implements BeanFactoryPostProcessor, ApplicationContextAware, DisposableBean {
+
+	private static ConfigurableListableBeanFactory beanFactory;
 
 	private static ApplicationContext applicationContext = null;
-
-	private static Environment environment = null;
 
 	/**
 	 * 取得存储在静态变量中的ApplicationContext.
@@ -48,11 +54,11 @@ public class SpringContextHolder implements ApplicationContextAware, Environment
 	}
 
 	/**
-	 * 获取环境
-	 * @return {@link Environment }
+	 * BeanFactoryPostProcessor, 注入Context到静态变量中.
 	 */
-	public static Environment getEnvironment() {
-		return environment;
+	@Override
+	public void postProcessBeanFactory(ConfigurableListableBeanFactory factory) throws BeansException {
+		SpringContextHolder.beanFactory = factory;
 	}
 
 	/**
@@ -63,18 +69,30 @@ public class SpringContextHolder implements ApplicationContextAware, Environment
 		SpringContextHolder.applicationContext = applicationContext;
 	}
 
+	public static ListableBeanFactory getBeanFactory() {
+		return null == beanFactory ? applicationContext : beanFactory;
+	}
+
 	/**
 	 * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T getBean(String name) {
-		return (T) applicationContext.getBean(name);
+		return (T) getBeanFactory().getBean(name);
+	}
+
+	/**
+	 * 从静态变量applicationContext中取得Bean, Map<Bean名称，实现类></>
+	 */
+	public static <T> Map<String, T> getBeansOfType(Class<T> type) {
+		return getBeanFactory().getBeansOfType(type);
 	}
 
 	/**
 	 * 从静态变量applicationContext中取得Bean, 自动转型为所赋值对象的类型.
 	 */
 	public static <T> T getBean(Class<T> requiredType) {
-		return applicationContext.getBean(requiredType);
+		return getBeanFactory().getBean(requiredType);
 	}
 
 	/**
@@ -99,25 +117,11 @@ public class SpringContextHolder implements ApplicationContextAware, Environment
 	}
 
 	/**
-	 * 是否是微服务
-	 * @return boolean
-	 */
-	public static boolean isMicro() {
-		return environment.getProperty("spring.cloud.nacos.discovery.enabled", Boolean.class, true);
-	}
-
-	/**
 	 * 实现DisposableBean接口, 在Context关闭时清理静态变量.
 	 */
 	@Override
-	@SneakyThrows
 	public void destroy() {
 		SpringContextHolder.clearHolder();
-	}
-
-	@Override
-	public void setEnvironment(Environment environment) {
-		SpringContextHolder.environment = environment;
 	}
 
 }

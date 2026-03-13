@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,26 +17,28 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 岗位信息表 Mapper 接口
+ * 岗位信息表
  *
- * @author lengleng
- * @date 2025/06/27
+ * @author fxz
+ * @date 2022-03-26 12:50:43
  */
 @Mapper
-public interface SysPostMapper extends BaseMapper<SysPost> {
+public interface SysPostMapper extends PigBaseMapper<SysPost> {
 
-	/**
-	 * 通过用户ID，查询岗位信息
-	 * @param userId 用户id
-	 * @return 岗位信息
-	 */
-	List<SysPost> listPostsByUserId(Long userId);
+    /**
+     * 通过用户ID查询岗位信息
+     *
+     * @param userId 用户ID
+     * @return 岗位信息列表
+     */
+    List<SysPost> listPostsByUserId(@Param("userId") Long userId);
 
 }

@@ -1,95 +1,143 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.common.core.constant;
 
 /**
  * @author lengleng
- * @date 2019/2/1
+ * @date 2017/10/29
  */
 public interface CommonConstants {
 
-	/**
-	 * 删除
-	 */
-	String STATUS_DEL = "1";
+    /**
+     * header 中租户ID
+     */
+    String TENANT_ID = "TENANT-ID";
 
-	/**
-	 * 正常
-	 */
-	String STATUS_NORMAL = "0";
+    /**
+     * header 中版本信息
+     */
+    String VERSION = "VERSION";
 
-	/**
-	 * 锁定
-	 */
-	String STATUS_LOCK = "9";
+    /**
+     * 租户ID
+     */
+    Long TENANT_ID_1 = 1L;
 
-	/**
-	 * 菜单树根节点
-	 */
-	Long MENU_TREE_ROOT_ID = -1L;
+    /**
+     * 删除
+     */
+    String STATUS_DEL = "1";
 
-	/**
-	 * 菜单
-	 */
-	String MENU = "0";
+    /**
+     * 正常
+     */
+    String STATUS_NORMAL = "0";
 
-	/**
-	 * 编码
-	 */
-	String UTF8 = "UTF-8";
+    /**
+     * 锁定
+     */
+    String STATUS_LOCK = "9";
 
-	/**
-	 * JSON 资源
-	 */
-	String CONTENT_TYPE = "application/json; charset=utf-8";
+    /**
+     * 菜单树根节点
+     */
+    Long MENU_TREE_ROOT_ID = -1L;
 
-	/**
-	 * 前端工程名
-	 */
-	String FRONT_END_PROJECT = "pig-ui";
+    /**
+     * 编码
+     */
+    String UTF8 = "UTF-8";
 
-	/**
-	 * 后端工程名
-	 */
-	String BACK_END_PROJECT = "pig";
+    /**
+     * 前端工程名
+     */
+    String FRONT_END_PROJECT = "pig-ui";
 
-	/**
-	 * 成功标记
-	 */
-	Integer SUCCESS = 0;
+    /**
+     * 移动端工程名
+     */
+    String UNI_END_PROJECT = "pig-app";
 
-	/**
-	 * 失败标记
-	 */
-	Integer FAIL = 1;
+    /**
+     * 后端工程名
+     */
+    String BACK_END_PROJECT = "pig";
 
-	/**
-	 * 当前页
-	 */
-	String CURRENT = "current";
+    /**
+     * 公共参数
+     */
+    String PIG_PUBLIC_PARAM_KEY = "PIG_PUBLIC_PARAM_KEY";
 
-	/**
-	 * size
-	 */
-	String SIZE = "size";
+    /**
+     * 成功标记
+     */
+    Integer SUCCESS = 0;
 
-	/**
-	 * 请求开始时间
-	 */
-	String REQUEST_START_TIME = "REQUEST-START-TIME";
+    /**
+     * 失败标记
+     */
+    Integer FAIL = 1;
+
+    /**
+     * 默认存储bucket
+     */
+    String BUCKET_NAME = "lengleng";
+
+    /**
+     * 滑块验证码
+     */
+    String IMAGE_CODE_BLOCK_PUZZLE = "blockPuzzle";
+
+    /**
+     * 点击文字验证码类型
+     */
+    String IMAGE_CODE_CLICK_WORD = "clickWord";
+
+    /**
+     * 验证码开关
+     */
+    String CAPTCHA_FLAG = "captcha_flag";
+
+    /**
+     * 密码传输是否加密
+     */
+    String ENC_FLAG = "enc_flag";
+
+    /**
+     * 客户端允许同时在线数量
+     */
+    String ONLINE_QUANTITY = "online_quantity";
+
+    /**
+     * 请求开始时间
+     */
+    String REQUEST_START_TIME = "REQUEST-START-TIME";
+
+    /**
+     * 当前页
+     */
+    String CURRENT = "current";
+
+    /**
+     * size
+     */
+    String SIZE = "size";
 
 }

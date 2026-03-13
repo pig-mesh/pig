@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,11 +23,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
 import com.pig4cloud.pig.admin.api.entity.SysPost;
 import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.common.sensitive.annotation.Sensitive;
+import com.pig4cloud.pig.common.sensitive.core.SensitiveTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,6 +42,7 @@ import java.util.List;
 @Schema(description = "前端用户展示对象")
 public class UserVO implements Serializable {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -89,6 +94,18 @@ public class UserVO implements Serializable {
 	private String oscOpenId;
 
 	/**
+	 * 企微微信 userid
+	 */
+	@Schema(description = "企微微信 userid")
+	private String wxCpUserid;
+
+	/**
+	 * 钉钉 userid
+	 */
+	@Schema(description = "钉钉 userid")
+	private String wxDingUserid;
+
+	/**
 	 * 创建时间
 	 */
 	@Schema(description = "创建时间")
@@ -113,8 +130,21 @@ public class UserVO implements Serializable {
 	private String lockFlag;
 
 	/**
+	 * 密码过期标记
+	 */
+	@Schema(description = "密码过期标记")
+	private String passwordExpireFlag;
+
+	/**
+	 * 密码修改时间
+	 */
+	@Schema(description = "密码修改时间")
+	private LocalDateTime passwordModifyTime;
+
+	/**
 	 * 手机号
 	 */
+	@Sensitive(type = SensitiveTypeEnum.MOBILE_PHONE)
 	@Schema(description = "手机号")
 	private String phone;
 
@@ -125,21 +155,25 @@ public class UserVO implements Serializable {
 	private String avatar;
 
 	/**
-	 * 部门名称
+	 * 主部门ID
 	 */
+	@Schema(description = "主部门id")
+	private Long deptId;
+
 	@Schema(description = "所属部门名称")
-	private SysDept dept;
+	private List<SysDept> deptList = new ArrayList<>();
 
 	/**
 	 * 角色列表
 	 */
 	@Schema(description = "拥有的角色列表")
-	private List<SysRole> roleList;
+	private List<SysRole> roleList = new ArrayList<>();
 
 	/**
 	 * 岗位列表
 	 */
-	private List<SysPost> postList;
+	@Schema(description = "拥有的岗位列表")
+	private List<SysPost> postList = new ArrayList<>();
 
 	/**
 	 * 昵称

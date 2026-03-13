@@ -17,12 +17,12 @@
 package com.pig4cloud.pig.common.log.aspect;
 
 import cn.hutool.core.util.StrUtil;
+import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
+import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.log.event.SysLogEvent;
-import com.pig4cloud.pig.common.log.event.SysLogEventSource;
 import com.pig4cloud.pig.common.log.util.LogTypeEnum;
 import com.pig4cloud.pig.common.log.util.SysLogUtils;
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -32,26 +32,17 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.expression.EvaluationContext;
 
 /**
- * 系统日志切面类，通过Spring AOP实现操作日志的异步记录
+ * 操作日志使用spring event异步入库
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author L.cm
  */
 @Aspect
 @Slf4j
-@RequiredArgsConstructor
 public class SysLogAspect {
 
-	/**
-	 * 环绕通知方法，用于处理系统日志记录
-	 * @param point 连接点对象
-	 * @param sysLog 系统日志注解
-	 * @return 目标方法执行结果
-	 * @throws Throwable 目标方法执行可能抛出的异常
-	 */
 	@Around("@annotation(sysLog)")
 	@SneakyThrows
-	public Object around(ProceedingJoinPoint point, com.pig4cloud.pig.common.log.annotation.SysLog sysLog) {
+	public Object around(ProceedingJoinPoint point, SysLog sysLog) {
 		String strClassName = point.getTarget().getClass().getName();
 		String strMethodName = point.getSignature().getName();
 		log.debug("[类名]:{},[方法]:{}", strClassName, strMethodName);
@@ -72,7 +63,7 @@ public class SysLogAspect {
 			}
 		}
 
-		SysLogEventSource logVo = SysLogUtils.getSysLog();
+		SysLogDTO logVo = SysLogUtils.getSysLog();
 		logVo.setTitle(value);
 		// 获取请求body参数
 		if (StrUtil.isBlank(logVo.getParams())) {

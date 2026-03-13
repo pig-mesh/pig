@@ -29,7 +29,11 @@
     <artifactId>pig-common-excel</artifactId>
     <packaging>jar</packaging>
 
-    <description>excel 导入导出处理模块</description>
+    <description>pig excel 操作</description>
+
+    <properties>
+        <fastexcel.version>1.2.0</fastexcel.version>
+    </properties>
 
     <dependencies>
         <!--核心依赖,提供字典查询能力-->
@@ -41,6 +45,32 @@
         <dependency>
             <groupId>com.pig4cloud.excel</groupId>
             <artifactId>excel-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- easyexcel:https://github.com/alibaba/easyexcel -->
+        <dependency>
+            <groupId>cn.idev.excel</groupId>
+            <artifactId>fastexcel</artifactId>
+            <version>${fastexcel.version}</version>
+        </dependency>
+        <!-- 导入校验注解-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!--引入AOP依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!-- webmvc 依赖-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+        </dependency>
+        <!-- servlet-api -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
         </dependency>
     </dependencies>
 </project>

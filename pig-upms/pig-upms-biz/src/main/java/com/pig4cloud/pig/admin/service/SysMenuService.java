@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -28,13 +28,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * 菜单权限服务接口
  * <p>
- * 提供菜单权限相关的服务方法，包括查询、删除、更新和构建菜单树等操作
+ * 菜单权限表 服务类
  * </p>
  *
  * @author lengleng
- * @date 2025/06/27
+ * @since 2017-10-29
  */
 public interface SysMenuService extends IService<SysMenu> {
 
@@ -60,21 +59,19 @@ public interface SysMenuService extends IService<SysMenu> {
 	Boolean updateMenuById(SysMenu sysMenu);
 
 	/**
-	 * 构建树查询
-	 * @param parentId 父级菜单ID
+	 * 构建树
+	 * @param parentId 父节点ID
 	 * @param menuName 菜单名称
-	 * @param type 类型
-	 * @return 菜单树
+	 * @return
 	 */
-	List<Tree<Long>> getMenuTree(Long parentId, String menuName, String type);
+	List<Tree<Long>> treeMenu(Long parentId, String menuName, String type);
 
 	/**
 	 * 查询菜单
-	 * @param all 全部菜单
-	 * @param type 类型
-	 * @param parentId 父节点ID
+	 * @param voSet
+	 * @param parentId
 	 * @return
 	 */
-	List<Tree<Long>> filterMenu(Set<SysMenu> all, String type, Long parentId);
+	List<Tree<Long>> filterMenu(Set<SysMenu> voSet, String type, Long parentId);
 
 }

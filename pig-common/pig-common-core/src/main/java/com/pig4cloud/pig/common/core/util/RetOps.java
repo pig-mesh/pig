@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -120,7 +120,7 @@ public class RetOps<T> {
 	 * @return 返回Optional包装的 msg
 	 */
 	public Optional<String> getMsg() {
-		return Optional.of(original.getMsg());
+		return Optional.ofNullable(original.getMsg());
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class RetOps<T> {
 	 * @throws Ex 断言失败时抛出
 	 */
 	public <Ex extends Exception> RetOps<T> assertDataNotEmpty(Function<? super R<T>, ? extends Ex> func) throws Ex {
-		if (ObjectUtil.isNotEmpty(original.getData())) {
+		if (ObjectUtil.isEmpty(original.getData())) {
 			throw func.apply(original);
 		}
 		return this;

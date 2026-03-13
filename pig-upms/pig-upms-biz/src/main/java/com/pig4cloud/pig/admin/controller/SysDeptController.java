@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -20,14 +20,14 @@
 package com.pig4cloud.pig.admin.controller;
 
 import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.admin.api.vo.DeptExcelVo;
+import com.pig4cloud.pig.admin.api.vo.DeptExcelVO;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.excel.annotation.RequestExcel;
+import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
-import com.pig4cloud.plugin.excel.annotation.RequestExcel;
-import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
-import io.swagger.v3.oas.annotations.Operation;
+import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -40,10 +40,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * 部门管理前端控制器
+ * <p>
+ * 部门管理 前端控制器
+ * </p>
  *
  * @author lengleng
- * @date 2025/05/30
+ * @since 2018-01-20
  */
 @RestController
 @AllArgsConstructor
@@ -55,109 +57,124 @@ public class SysDeptController {
 	private final SysDeptService sysDeptService;
 
 	/**
-	 * 通过ID查询部门信息
-	 * @param id 部门ID
-	 * @return 包含部门信息的响应对象
+	 * 通过ID查询
+	 * @param id ID
+	 * @return SysDept
 	 */
 	@GetMapping("/{id}")
-	@Operation(summary = "通过ID查询部门信息", description = "通过ID查询部门信息")
 	public R getById(@PathVariable Long id) {
 		return R.ok(sysDeptService.getById(id));
 	}
 
 	/**
-	 * 查询全部部门列表
-	 * @return 包含全部部门列表的响应结果
+	 * 查询全部部门
 	 */
 	@GetMapping("/list")
-	@Operation(summary = "查询全部部门列表", description = "查询全部部门列表")
-	public R listDepts() {
+	public R list() {
 		return R.ok(sysDeptService.list());
 	}
 
 	/**
-	 * 获取树形菜单
+	 * 返回树形菜单集合
 	 * @param deptName 部门名称
-	 * @return 包含树形菜单的响应结果
+	 * @return 树形菜单
 	 */
 	@GetMapping(value = "/tree")
-	@Operation(summary = "获取树形菜单", description = "获取树形菜单")
-	public R getDeptTree(String deptName) {
-		return R.ok(sysDeptService.getDeptTree(deptName));
+	public R getTree(String deptName, Long parentId) {
+		return R.ok(sysDeptService.selectTree(deptName, parentId));
 	}
 
 	/**
-	 * 保存部门信息
-	 * @param sysDept 部门实体
-	 * @return 操作结果
+	 * 添加
+	 * @param sysDept 实体
+	 * @return success/false
 	 */
 	@SysLog("添加部门")
 	@PostMapping
 	@HasPermission("sys_dept_add")
-	@Operation(summary = "保存部门信息", description = "保存部门信息")
-	public R saveDept(@Valid @RequestBody SysDept sysDept) {
+	public R save(@Valid @RequestBody SysDept sysDept) {
 		return R.ok(sysDeptService.save(sysDept));
 	}
 
 	/**
-	 * 根据ID删除部门
-	 * @param id 部门ID
-	 * @return 操作结果，成功返回true，失败返回false
+	 * 删除
+	 * @param id ID
+	 * @return success/false
 	 */
 	@SysLog("删除部门")
 	@DeleteMapping("/{id}")
 	@HasPermission("sys_dept_del")
-	@Operation(summary = "根据ID删除部门", description = "根据ID删除部门")
 	public R removeById(@PathVariable Long id) {
 		return R.ok(sysDeptService.removeDeptById(id));
 	}
 
 	/**
-	 * 编辑部门信息
-	 * @param sysDept 部门实体对象
-	 * @return 操作结果，成功返回success，失败返回false
+	 * 编辑
+	 * @param sysDept 实体
+	 * @return success/false
 	 */
 	@SysLog("编辑部门")
 	@PutMapping
 	@HasPermission("sys_dept_edit")
-	@Operation(summary = "编辑部门信息", description = "编辑部门信息")
-	public R updateDept(@Valid @RequestBody SysDept sysDept) {
+	public R update(@Valid @RequestBody SysDept sysDept) {
 		sysDept.setUpdateTime(LocalDateTime.now());
 		return R.ok(sysDeptService.updateById(sysDept));
 	}
 
 	/**
-	 * 获取部门子级列表
-	 * @param deptId 部门ID
-	 * @return 包含子级部门列表的响应结果
+	 * 查收子级列表
+	 * @return 返回子级
 	 */
 	@GetMapping(value = "/getDescendantList/{deptId}")
-	@Operation(summary = "获取部门子级列表", description = "获取部门子级列表")
 	public R getDescendantList(@PathVariable Long deptId) {
-		return R.ok(sysDeptService.listDescendants(deptId));
+		return R.ok(sysDeptService.listDescendant(deptId));
+	}
+
+	@Inner
+	@GetMapping(value = "/leader/{deptId}")
+	public R getAllDeptLeader(@PathVariable Long deptId) {
+		return R.ok(sysDeptService.listDeptLeader(deptId));
 	}
 
 	/**
-	 * 导出部门数据
-	 * @return 部门数据列表
+	 * 导出部门
+	 * @return
 	 */
 	@ResponseExcel
 	@GetMapping("/export")
-	@Operation(summary = "导出部门数据", description = "导出部门数据")
-	public List<DeptExcelVo> exportDepts() {
-		return sysDeptService.exportDepts();
+	public List<DeptExcelVO> export() {
+		return sysDeptService.listExcelVo();
 	}
 
 	/**
-	 * 导入部门信息
-	 * @param excelVOList 部门Excel数据列表
-	 * @param bindingResult 数据校验结果
-	 * @return 导入结果
+	 * 导入部门
+	 * @param excelVOList
+	 * @param bindingResult
+	 * @return
 	 */
 	@PostMapping("import")
-	@Operation(summary = "导入部门信息", description = "导入部门信息")
-	public R importDept(@RequestExcel List<DeptExcelVo> excelVOList, BindingResult bindingResult) {
+	public R importDept(@RequestExcel List<DeptExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysDeptService.importDept(excelVOList, bindingResult);
+	}
+
+	/**
+	 * 查询全部部门包含用户
+	 * @param parentDeptId 父部门ID
+	 * @param type 查询类型
+	 */
+	@GetMapping("/org")
+	public R listOrgTree(Long parentDeptId, String type) {
+		return R.ok(sysDeptService.listOrgTree(parentDeptId, type));
+	}
+
+	/**
+	 * 模糊搜索用户
+	 * @param username 用户名/拼音/首字母
+	 * @return 匹配到的用户
+	 */
+	@GetMapping("/org/user/search")
+	public R getOrgTreeUser(@RequestParam String username) {
+		return R.ok(sysDeptService.getOrgTreeUser(username));
 	}
 
 }

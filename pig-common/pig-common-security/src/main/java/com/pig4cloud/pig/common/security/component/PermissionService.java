@@ -17,41 +17,74 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ArrayUtil;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 import org.springframework.util.PatternMatchUtils;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
- * 接口权限判断工具类
- *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2019/2/1 接口权限判断工具
  */
 public class PermissionService {
 
-	/**
-	 * 判断接口是否有任意xxx，xxx权限
-	 * @param permissions 权限
-	 * @return {boolean}
-	 */
-	public boolean hasPermission(String... permissions) {
-		if (ArrayUtil.isEmpty(permissions)) {
-			return false;
-		}
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication == null) {
-			return false;
-		}
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-		return authorities.stream()
-			.map(GrantedAuthority::getAuthority)
-			.filter(StringUtils::hasText)
-			.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
-	}
+    /**
+     * 判断接口是否有任意xxx，xxx权限
+     *
+     * @param permissions 权限
+     * @return {boolean}
+     */
+    public boolean hasPermission(String... permissions) {
+        if (ArrayUtil.isEmpty(permissions)) {
+            return false;
+        }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
+            return false;
+        }
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+        return authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .filter(StringUtils::hasText)
+                .anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
+    }
+
+    /**
+     * 客户端模式是否有该接口权限
+     *
+     * @param scopes scope 列表
+     * @return {boolean}
+     * @PreAuthorize("@pms.hasScope('server')")
+     */
+    public boolean hasScope(String... scopes) {
+        if (ArrayUtil.isEmpty(scopes)) {
+            return false;
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null) {
+            return false;
+        }
+
+
+        if (authentication instanceof BearerTokenAuthentication) {
+            BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) authentication;
+            List<String> scopeList = MapUtil.get(bearerTokenAuthentication.getTokenAttributes()
+                    , OAuth2ParameterNames.SCOPE, List.class, new ArrayList<>());
+            return scopeList.stream().anyMatch(x -> PatternMatchUtils.simpleMatch(scopes, x));
+        }
+        return false;
+    }
 
 }

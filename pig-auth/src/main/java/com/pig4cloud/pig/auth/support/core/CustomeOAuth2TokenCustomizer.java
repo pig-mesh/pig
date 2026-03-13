@@ -7,32 +7,33 @@ import org.springframework.security.oauth2.server.authorization.token.OAuth2Toke
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 
 /**
- * OAuth2 Token 自定义增强实现类
+ * token 输出增强
  *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2022/6/3
  */
 public class CustomeOAuth2TokenCustomizer implements OAuth2TokenCustomizer<OAuth2TokenClaimsContext> {
 
 	/**
-	 * 自定义OAuth 2.0 Token属性
-	 * @param context 包含OAuth 2.0 Token属性的上下文
+	 * Customize the OAuth 2.0 Token attributes.
+	 * @param context the context containing the OAuth 2.0 Token attributes
 	 */
 	@Override
 	public void customize(OAuth2TokenClaimsContext context) {
 		OAuth2TokenClaimsSet.Builder claims = context.getClaims();
-		claims.claim(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PROJECT_LICENSE);
+		claims.claim(SecurityConstants.DETAILS_LICENSE, SecurityConstants.PIG_LICENSE);
 		String clientId = context.getAuthorizationGrant().getName();
 		claims.claim(SecurityConstants.CLIENT_ID, clientId);
+		claims.claim(SecurityConstants.ACTIVE, Boolean.TRUE);
+
 		// 客户端模式不返回具体用户信息
 		if (SecurityConstants.CLIENT_CREDENTIALS.equals(context.getAuthorizationGrantType().getValue())) {
 			return;
 		}
 
 		PigUser pigUser = (PigUser) context.getPrincipal().getPrincipal();
-		claims.claim(SecurityConstants.DETAILS_USER, pigUser);
-		claims.claim(SecurityConstants.DETAILS_USER_ID, pigUser.getId());
-		claims.claim(SecurityConstants.USERNAME, pigUser.getUsername());
+		claims.claim(SecurityConstants.DETAILS_USER_ID, pigUser.getId().toString());
+		claims.claim(SecurityConstants.DETAILS_USERNAME, pigUser.getUsername());
 	}
 
 }

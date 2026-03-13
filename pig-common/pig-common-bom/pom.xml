@@ -18,14 +18,13 @@
 		<revision>3.9.2</revision>
 		<asm.version>7.1</asm.version>
 		<sms.version>3.3.5</sms.version>
-		<aws.version>2.29.45</aws.version>
+		<aws.version>1.12.792</aws.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<excel.version>3.4.3</excel.version>
 		<screw.version>0.0.3</screw.version>
 		<hutool.version>5.8.44</hutool.version>
 		<velocity.version>2.4</velocity.version>
-		<captcha.version>2.2.5</captcha.version>
 		<knife4j.version>4.5.0</knife4j.version>
 		<gateway.version>4.3.2</gateway.version>
 		<sentinel.version>1.8.4</sentinel.version>
@@ -43,6 +42,13 @@
 		<mybatis-plus.version>3.5.16</mybatis-plus.version>
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
+		<javers.version>7.8.0</javers.version>
+		<druid.version>1.2.23</druid.version>
+		<mybatis-plus-join.version>1.5.5</mybatis-plus-join.version>
+		<jakarta.mail.version>2.0.1</jakarta.mail.version>
+		<captcha.version>1.4.0</captcha.version>
+		<captcha.image.version>2.2.3</captcha.image.version>
+		<sensitive.word.version>0.21.0</sensitive.word.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -68,7 +74,7 @@
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-mybatis</artifactId>
+				<artifactId>pig-common-data</artifactId>
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
@@ -103,8 +109,30 @@
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-websocket</artifactId>
+				<artifactId>pig-common-sensitive</artifactId>
 				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-sse</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.pig4cloud</groupId>
+				<artifactId>pig-common-audit</artifactId>
+				<version>${revision}</version>
+			</dependency>
+			<!-- 必备：敏感词-->
+			<dependency>
+				<groupId>com.github.houbb</groupId>
+				<artifactId>sensitive-word</artifactId>
+				<version>${sensitive.word.version}</version>
+			</dependency>
+			<!-- 数据审计对比 -->
+			<dependency>
+				<groupId>org.javers</groupId>
+				<artifactId>javers-core</artifactId>
+				<version>${javers.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
@@ -154,12 +182,6 @@
 				<artifactId>velocity-tools-generic</artifactId>
 				<version>${velocity.tool.version}</version>
 			</dependency>
-			<!-- 调用验证码核心模块 -->
-			<dependency>
-				<groupId>com.pig4cloud.plugin</groupId>
-				<artifactId>captcha-core</artifactId>
-				<version>${captcha.version}</version>
-			</dependency>
 			<!-- excel 导入导出 -->
 			<dependency>
 				<groupId>com.pig4cloud.excel</groupId>
@@ -189,6 +211,52 @@
 				<artifactId>sms4j-spring-boot-starter</artifactId>
 				<version>${sms.version}</version>
 			</dependency>
+			<!-- webhook工具类 -->
+			<dependency>
+				<groupId>org.dromara.sms4j</groupId>
+				<artifactId>sms4j-oa-core</artifactId>
+				<version>${sms.version}</version>
+			</dependency>
+			<!-- 连表查询依赖 -->
+			<dependency>
+				<groupId>com.github.yulichang</groupId>
+				<artifactId>mybatis-plus-join-boot-starter</artifactId>
+				<version>${mybatis-plus-join.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.yulichang</groupId>
+				<artifactId>mybatis-plus-join-annotation</artifactId>
+				<version>${mybatis-plus-join.version}</version>
+			</dependency>
+			<!-- druid 连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid-spring-boot-3-starter</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
+			</dependency>
+			<!-- 邮件发送工具 -->
+			<dependency>
+				<groupId>com.sun.mail</groupId>
+				<artifactId>jakarta.mail</artifactId>
+				<version>${jakarta.mail.version}</version>
+			</dependency>
+			<!-- 调用验证码核心模块 -->
+			<dependency>
+				<groupId>io.springboot.plugin</groupId>
+				<artifactId>captcha-core</artifactId>
+				<version>${captcha.image.version}</version>
+			</dependency>
+			<!-- 滑块验证码 -->
+			<dependency>
+				<groupId>io.github.pig-mesh.plugin</groupId>
+				<artifactId>captcha-spring-boot-starter</artifactId>
+				<version>${captcha.version}</version>
+			</dependency>
 			<!-- 网关 -->
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
@@ -203,8 +271,8 @@
 			</dependency>
 			<!-- s3 -->
 			<dependency>
-				<groupId>software.amazon.awssdk</groupId>
-				<artifactId>s3</artifactId>
+				<groupId>com.amazonaws</groupId>
+				<artifactId>aws-java-sdk-s3</artifactId>
 				<version>${aws.version}</version>
 			</dependency>
 			<!--Nacos fix: https://gitee.com/log4j/pig/issues/ID2OA3-->

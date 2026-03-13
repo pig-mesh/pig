@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,10 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Swagger配置属性类
+ * SwaggerProperties
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2018/7/25 14:00
  */
 @Data
 @ConfigurationProperties("swagger")

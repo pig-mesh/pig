@@ -26,17 +26,17 @@ import org.springframework.context.annotation.PropertySource;
 import java.lang.annotation.*;
 
 /**
- * 启用Pig框架的Spring文档支持
+ * 开启 pig spring doc
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2022-03-26
  */
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @EnableConfigurationProperties(SwaggerProperties.class)
-@Import(OpenAPIDefinitionImportSelector.class)
+@Import({ OpenAPIDefinitionImportSelector.class })
 @PropertySource(value = "classpath:openapi-config.yaml", factory = YamlPropertySourceFactory.class)
 public @interface EnablePigDoc {
 
@@ -44,7 +44,7 @@ public @interface EnablePigDoc {
 	 * 网关路由前缀
 	 * @return String
 	 */
-	String value();
+	String value() default "";
 
 	/**
 	 * 是否是微服务架构

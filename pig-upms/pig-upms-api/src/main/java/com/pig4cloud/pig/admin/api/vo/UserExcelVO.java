@@ -3,8 +3,7 @@ package com.pig4cloud.pig.admin.api.vo;
 import cn.idev.excel.annotation.ExcelIgnore;
 import cn.idev.excel.annotation.ExcelProperty;
 import cn.idev.excel.annotation.write.style.ColumnWidth;
-import com.pig4cloud.plugin.excel.annotation.DictTypeProperty;
-import com.pig4cloud.plugin.excel.annotation.ExcelLine;
+import com.pig4cloud.pig.common.excel.annotation.ExcelLine;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
@@ -76,7 +75,7 @@ public class UserExcelVO implements Serializable {
 	 */
 	@NotBlank(message = "部门名称不能为空")
 	@ExcelProperty("部门名称")
-	private String deptName;
+	private String deptNameList;
 
 	/**
 	 * 角色列表
@@ -96,7 +95,6 @@ public class UserExcelVO implements Serializable {
 	 * 锁定标记
 	 */
 	@ExcelProperty("锁定标记,0:正常,9:已锁定")
-	@DictTypeProperty("lock_flag")
 	private String lockFlag;
 
 	/**

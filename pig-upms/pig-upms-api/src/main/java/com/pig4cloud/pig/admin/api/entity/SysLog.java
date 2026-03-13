@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -22,9 +22,12 @@ package com.pig4cloud.pig.admin.api.entity;
 import cn.idev.excel.annotation.ExcelIgnore;
 import cn.idev.excel.annotation.ExcelProperty;
 import com.baomidou.mybatisplus.annotation.*;
+import com.pig4cloud.pig.common.sensitive.annotation.Sensitive;
+import com.pig4cloud.pig.common.sensitive.core.SensitiveTypeEnum;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -38,6 +41,7 @@ import java.time.LocalDateTime;
  * @since 2017-11-20
  */
 @Data
+@FieldNameConstants
 @Schema(description = "日志")
 public class SysLog implements Serializable {
 
@@ -96,6 +100,7 @@ public class SysLog implements Serializable {
 	 */
 	@ExcelProperty("操作ip地址")
 	@Schema(description = "操作ip地址")
+	@Sensitive(type = SensitiveTypeEnum.IPV4)
 	private String remoteAddr;
 
 	/**

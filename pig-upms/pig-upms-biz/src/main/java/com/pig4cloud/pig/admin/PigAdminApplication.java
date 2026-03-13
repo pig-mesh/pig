@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pig.admin;
 
-import com.pig4cloud.pig.common.feign.annotation.EnablePigFeignClients;
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import com.pig4cloud.pig.common.swagger.annotation.EnablePigDoc;
 import org.springframework.boot.SpringApplication;
@@ -27,13 +26,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * 用户统一管理系统
- *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2018年06月21日
+ * <p>
+ * 用户统一管理系统
  */
-@EnablePigDoc(value = "admin")
-@EnablePigFeignClients
+@EnablePigDoc("admin")
 @EnablePigResourceServer
 @EnableDiscoveryClient
 @SpringBootApplication

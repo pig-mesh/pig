@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,17 +17,19 @@
 
 package com.pig4cloud.pig.admin.service;
 
+import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pig.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
+import com.pig4cloud.pig.admin.api.entity.SysFileGroup;
 import com.pig4cloud.pig.common.core.util.R;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 /**
- * 文件管理服务接口
- * <p>
- * 提供文件上传、获取、删除等操作
- * </p>
+ * 文件管理
  *
  * @author Luckly
  * @date 2019-06-18 17:18:42
@@ -36,24 +38,55 @@ public interface SysFileService extends IService<SysFile> {
 
 	/**
 	 * 上传文件
-	 * @param file 要上传的文件
-	 * @return 包含文件信息的响应结果，失败时返回错误信息
-	 */
-	R uploadFile(MultipartFile file);
-
-	/**
-	 * 从指定存储桶中获取文件并写入HTTP响应流
-	 * @param bucket 存储桶名称
+     * @param file 文件流
 	 * @param fileName 文件名
-	 * @param response HTTP响应对象
+     * @param dir 存储目录
+     * @param groupId 文件分组ID
+     * @param type 文件类型
+	 * @return 上传结果
 	 */
-	void getFile(String bucket, String fileName, HttpServletResponse response);
+	R uploadFile(MultipartFile file, String fileName, String dir, Long groupId, String type);
 
 	/**
-	 * 根据ID删除文件
-	 * @param id 文件ID
-	 * @return 删除是否成功，文件不存在时返回false
+	 * 读取文件
+	 * @param fileName 文件名称
+	 * @param response 输出流
 	 */
-	Boolean removeFile(Long id);
+	void getFile(String fileName, HttpServletResponse response);
+
+	/**
+	 * 根据文件ID删除文件
+	 * @param id 文件ID
+	 * @return 删除是否成功
+	 */
+	Boolean deleteFile(Long id);
+
+	/**
+	 * 查询文件组列表
+	 * @param fileGroup SysFileGroup对象，用于筛选条件
+	 * @return 包含文件组列表的Tree对象列表
+	 */
+	List<Tree<Long>> listFileGroup(SysFileGroup fileGroup);
+
+	/**
+	 * 添加或更新文件组
+	 * @param fileGroup SysFileGroup对象，要添加或更新的文件组信息
+	 * @return 添加或更新成功返回true，否则返回false
+	 */
+	Boolean saveOrUpdateGroup(SysFileGroup fileGroup);
+
+	/**
+	 * 删除文件组
+	 * @param id 待删除文件组的ID
+	 * @return 删除成功返回true，否则返回false
+	 */
+	Boolean deleteGroup(Long id);
+
+	/**
+	 * 移动文件组
+	 * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
+	 * @return 移动成功返回true，否则返回false
+	 */
+	Boolean moveFileGroup(SysFileGroupDTO fileGroupDTO);
 
 }

@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
   ~
-  ~ Licensed under the Apache License, Version 2.0 (the "License");
-  ~ you may not use this file except in compliance with the License.
-  ~ You may obtain a copy of the License at
+  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
   ~
-  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~  Redistribution and use in source and binary forms, with or without
+  ~  modification, are permitted provided that the following conditions are met:
   ~
-  ~ Unless required by applicable law or agreed to in writing, software
-  ~ distributed under the License is distributed on an "AS IS" BASIS,
-  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  ~ See the License for the specific language governing permissions and
-  ~ limitations under the License.
+  ~ Redistributions of source code must retain the above copyright notice,
+  ~  this list of conditions and the following disclaimer.
+  ~  Redistributions in binary form must reproduce the above copyright
+  ~  notice, this list of conditions and the following disclaimer in the
+  ~  documentation and/or other materials provided with the distribution.
+  ~  Neither the name of the pig4cloud.com developer nor the names of its
+  ~  contributors may be used to endorse or promote products derived from
+  ~  this software without specific prior written permission.
+  ~  Author: lengleng (wangiegie@gmail.com)
+  ~
   -->
 
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
@@ -30,44 +33,34 @@
     <description>pig 通用用户权限管理系统业务处理模块</description>
 
     <dependencies>
+        <!-- mysql -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
         <!--upms api、model 模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-upms-api</artifactId>
-        </dependency>
-        <!--文件管理-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-oss</artifactId>
-        </dependency>
-        <!--feign 调用-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-feign</artifactId>
-        </dependency>
-        <!--安全模块-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-security</artifactId>
         </dependency>
         <!--日志处理-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-log</artifactId>
         </dependency>
-        <!--接口文档-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-data</artifactId>
+        </dependency>
+        <!--swagger-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-swagger</artifactId>
         </dependency>
-        <!-- orm 模块-->
+        <!--文件系统-->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.mysql</groupId>
-            <artifactId>mysql-connector-j</artifactId>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-oss</artifactId>
         </dependency>
         <!--注册中心客户端-->
         <dependency>
@@ -79,15 +72,64 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
-        <!-- 短信下发 -->
+        <!--spring security 、oauth、jwt依赖-->
         <dependency>
-			<groupId>org.dromara.sms4j</groupId>
-			<artifactId>sms4j-spring-boot-starter</artifactId>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-security</artifactId>
         </dependency>
-        <!--xss 过滤-->
+        <!--XSS 安全过滤-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-xss</artifactId>
+        </dependency>
+        <!-- 字段审计 -->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-audit</artifactId>
+        </dependency>
+        <!--mybatis-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+        </dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
+        <!--加密类-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+        </dependency>
+        <!-- 短信工具类 -->
+        <dependency>
+            <groupId>org.dromara.sms4j</groupId>
+            <artifactId>sms4j-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- 邮件工具 -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+        </dependency>
+        <!-- webhook工具类 -->
+        <dependency>
+            <groupId>org.dromara.sms4j</groupId>
+            <artifactId>sms4j-oa-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-sse</artifactId>
+        </dependency>
+        <!-- 模板引擎-->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+        </dependency>
+        <!--web 模块-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!--undertow容器-->
         <dependency>
@@ -98,12 +140,8 @@
 
     <profiles>
         <profile>
-            <id>boot</id>
-        </profile>
-        <profile>
             <id>cloud</id>
             <activation>
-                <!-- 默认环境 -->
                 <activeByDefault>true</activeByDefault>
             </activation>
             <build>
@@ -111,13 +149,26 @@
                     <plugin>
                         <groupId>org.springframework.boot</groupId>
                         <artifactId>spring-boot-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>repackage</goal>
+                                </goals>
+                            </execution>
+                        </executions>
                     </plugin>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
+                        <configuration>
+                            <skip>false</skip>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+        <profile>
+            <id>boot</id>
         </profile>
     </profiles>
 

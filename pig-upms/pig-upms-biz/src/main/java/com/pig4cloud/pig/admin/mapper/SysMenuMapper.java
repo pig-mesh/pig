@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,8 +19,9 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -34,13 +35,14 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Mapper
-public interface SysMenuMapper extends BaseMapper<SysMenu> {
+public interface SysMenuMapper extends PigBaseMapper<SysMenu> {
 
 	/**
-	 * 通过角色编号查询菜单
+	 * 通过角色编号查询菜单列表
 	 * @param roleId 角色ID
-	 * @return
+	 * @return 菜单列表
 	 */
+	@InterceptorIgnore(tenantLine = "true")
 	List<SysMenu> listMenusByRoleId(Long roleId);
 
 }

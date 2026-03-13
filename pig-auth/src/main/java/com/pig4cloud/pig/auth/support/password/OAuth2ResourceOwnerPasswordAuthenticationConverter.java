@@ -2,7 +2,6 @@ package com.pig4cloud.pig.auth.support.password;
 
 import com.pig4cloud.pig.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationConverter;
 import com.pig4cloud.pig.common.security.util.OAuth2EndpointUtils;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
@@ -10,17 +9,15 @@ import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
-import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
-
 /**
- * OAuth2 资源所有者密码认证转换器
- *
- * @author lengleng
  * @author jumuning
- * @date 2025/05/30
+ * @date 2022-06-02
+ *
+ * 密码认证转换器
  */
 public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 		extends OAuth2ResourceOwnerBaseAuthenticationConverter<OAuth2ResourceOwnerPasswordAuthenticationToken> {
@@ -31,20 +28,13 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	 */
 	@Override
 	public boolean support(String grantType) {
-		return PASSWORD.equals(grantType);
+		return AuthorizationGrantType.PASSWORD.getValue().equals(grantType);
 	}
 
-	/**
-	 * 构建OAuth2资源所有者密码认证令牌
-	 * @param clientPrincipal 客户端主体认证信息
-	 * @param requestedScopes 请求的作用域集合
-	 * @param additionalParameters 附加参数映射
-	 * @return 构建完成的OAuth2资源所有者密码认证令牌
-	 */
 	@Override
 	public OAuth2ResourceOwnerPasswordAuthenticationToken buildToken(Authentication clientPrincipal,
 			Set requestedScopes, Map additionalParameters) {
-		return new OAuth2ResourceOwnerPasswordAuthenticationToken(new AuthorizationGrantType(PASSWORD), clientPrincipal,
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
 				requestedScopes, additionalParameters);
 	}
 

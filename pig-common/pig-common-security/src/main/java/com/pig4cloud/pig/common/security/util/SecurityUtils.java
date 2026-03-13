@@ -1,17 +1,18 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ * notice, this list of conditions and the following disclaimer in the
+ * documentation and/or other materials provided with the distribution.
+ * Neither the name of the pig4cloud.com developer nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ * Author: lengleng (wangiegie@gmail.com)
  */
 
 package com.pig4cloud.pig.common.security.util;
@@ -23,6 +24,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.resource.authentication.BearerTokenAuthentication;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,61 +33,74 @@ import java.util.List;
 /**
  * 安全工具类
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author L.cm
  */
 @UtilityClass
 public class SecurityUtils {
 
-	/**
-	 * 获取当前安全上下文的认证信息
-	 * @return 当前认证信息对象
-	 */
-	public Authentication getAuthentication() {
-		return SecurityContextHolder.getContext().getAuthentication();
-	}
+    /**
+     * 获取Authentication
+     */
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
 
-	/**
-	 * 获取当前认证用户
-	 * @param authentication 认证信息
-	 * @return 用户对象，如果认证主体不是PigUser类型则返回null
-	 */
-	public PigUser getUser(Authentication authentication) {
-		Object principal = authentication.getPrincipal();
-		if (principal instanceof PigUser) {
-			return (PigUser) principal;
-		}
-		return null;
-	}
+    /**
+     * 获取Authentication Token
+     *
+     * @return
+     */
+    public String getToken() {
+        Authentication authentication = SecurityUtils.getAuthentication();
+        if (authentication instanceof BearerTokenAuthentication bearerTokenAuthentication) {
+            return bearerTokenAuthentication.getToken().getTokenValue();
+        }
+        return null;
+    }
 
-	/**
-	 * 获取当前认证用户
-	 * @return 当前认证用户对象，未认证时返回null
-	 */
-	public PigUser getUser() {
-		Authentication authentication = getAuthentication();
-		if (authentication == null) {
-			return null;
-		}
-		return getUser(authentication);
-	}
+    /**
+     * 获取用户
+     *
+     * @param authentication
+     * @return PigUser
+     * <p>
+     */
+    public PigUser getUser(Authentication authentication) {
+        if (authentication == null) {
+            return null;
+        }
+        Object principal = authentication.getPrincipal();
+        if (principal instanceof PigUser) {
+            return (PigUser) principal;
+        }
+        return null;
+    }
 
-	/**
-	 * 获取用户角色信息
-	 * @return 角色集合
-	 */
-	public List<Long> getRoles() {
-		Authentication authentication = getAuthentication();
-		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+    /**
+     * 获取用户
+     */
+    public PigUser getUser() {
+        Authentication authentication = getAuthentication();
+        return getUser(authentication);
+    }
 
-		List<Long> roleIds = new ArrayList<>();
-		authorities.stream()
-			.filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
-			.forEach(granted -> {
-				String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
-				roleIds.add(Long.parseLong(id));
-			});
-		return roleIds;
-	}
+    /**
+     * 获取用户角色信息
+     *
+     * @return 角色集合
+     */
+    public List<Long> getRoleIds() {
+        Authentication authentication = getAuthentication();
+        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+
+        List<Long> roleIds = new ArrayList<>();
+        authorities.stream()
+                .filter(granted -> StrUtil.startWith(granted.getAuthority(), SecurityConstants.ROLE))
+                .forEach(granted -> {
+                    String id = StrUtil.removePrefix(granted.getAuthority(), SecurityConstants.ROLE);
+                    roleIds.add(Long.parseLong(id));
+                });
+        return roleIds;
+    }
 
 }

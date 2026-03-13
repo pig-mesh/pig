@@ -8,20 +8,21 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 权限注解：用于方法级别的权限控制
+ * 判断是否有权限
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2024/07/15
  */
-@Target({ ElementType.METHOD })
+@Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @PreAuthorize("@pms.hasPermission('{value}'.split(','))")
 public @interface HasPermission {
 
-	/**
-	 * 权限字符串
-	 * @return {@link String[] }
-	 */
-	String[] value();
+    /**
+     * 权限字符串
+     *
+     * @return {@link String[] }
+     */
+    String[] value();
 
 }

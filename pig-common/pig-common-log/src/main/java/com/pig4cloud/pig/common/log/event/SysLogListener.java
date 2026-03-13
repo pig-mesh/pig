@@ -16,86 +16,78 @@
 
 package com.pig4cloud.pig.common.log.event;
 
-import java.util.Objects;
-
-import org.springframework.beans.BeanUtils;
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
+import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
+import com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule;
+import com.pig4cloud.pig.common.log.config.PigLogProperties;
+import com.pig4cloud.pig.common.log.util.JacksonSensitiveFieldUtil;
+import jakarta.servlet.ServletRequest;
+import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.validation.BindingResult;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ser.FilterProvider;
-import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
-import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.admin.api.feign.RemoteLogService;
-import com.pig4cloud.pig.common.core.jackson.PigJavaTimeModule;
-import com.pig4cloud.pig.common.log.config.PigLogProperties;
-
-import cn.hutool.core.util.StrUtil;
-import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 
 /**
- * 系统日志监听器：异步处理系统日志事件
- *
- * @author lengleng
- * @date 2025/05/31
+ * @author lengleng 异步监听日志事件
  */
+@Slf4j
 @RequiredArgsConstructor
 public class SysLogListener implements InitializingBean {
 
-	// new 一个 避免日志脱敏策略影响全局ObjectMapper
-	private final static ObjectMapper objectMapper = new ObjectMapper();
+	/**
+	 * 忽略序列化的对象类型
+	 */
+	private final static Class[] ignoreClass = {ServletRequest.class, BindingResult.class};
+
+	/**
+	 * new 一个 避免日志脱敏策略影响全局ObjectMapper
+	 */
 
 	private final RemoteLogService remoteLogService;
 
 	private final PigLogProperties logProperties;
 
-	/**
-	 * 异步保存系统日志
-	 * @param event 系统日志事件
-	 */
 	@SneakyThrows
 	@Async
 	@Order
 	@EventListener(SysLogEvent.class)
 	public void saveSysLog(SysLogEvent event) {
-		SysLogEventSource source = (SysLogEventSource) event.getSource();
-		SysLog sysLog = new SysLog();
-		BeanUtils.copyProperties(source, sysLog);
+		SysLogDTO source = (SysLogDTO) event.getSource();
 
 		// json 格式刷参数放在异步中处理，提升性能
-		if (Objects.nonNull(source.getBody())) {
-			String params = objectMapper.writeValueAsString(source.getBody());
-			sysLog.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
+		if (Objects.nonNull(source.getBody()) && logProperties.isRequestEnabled()) {
+			Object[] args = (Object[]) source.getBody();
+			List<Object> list = CollUtil.toList(args);
+			// 删除部分无法序列化的参数
+			list.removeIf(obj -> Arrays.stream(ignoreClass).anyMatch(clazz -> clazz.isAssignableFrom(obj.getClass())));
+
+			try {
+				// 序列化参数
+				String params = JacksonSensitiveFieldUtil.getObjectMapper().writeValueAsString(list);
+				source.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
+			} catch (Exception e) {
+				log.error("请求参数序列化异常:{}", e.getMessage());
+			}
 		}
 
-		remoteLogService.saveLog(sysLog);
+		source.setBody(null);
+		remoteLogService.saveLog(source);
 	}
 
 	@Override
 	public void afterPropertiesSet() {
-		objectMapper.addMixIn(Object.class, PropertyFilterMixIn.class);
 		String[] ignorableFieldNames = logProperties.getExcludeFields().toArray(new String[0]);
-
-		FilterProvider filters = new SimpleFilterProvider().addFilter("filter properties by name",
-				SimpleBeanPropertyFilter.serializeAllExcept(ignorableFieldNames));
-		objectMapper.setFilterProvider(filters);
-		objectMapper.registerModule(new PigJavaTimeModule());
+		JacksonSensitiveFieldUtil.configureSensitiveFields(ignorableFieldNames);
+		JacksonSensitiveFieldUtil.registerCustomModule(new PigJavaTimeModule());
 	}
-
-	/**
-	 * 属性过滤混合类：用于通过名称过滤属性
-	 *
-	 * @author lengleng
-	 * @date 2025/05/31
-	 */
-	@JsonFilter("filter properties by name")
-	class PropertyFilterMixIn {
-
-	}
-
 }

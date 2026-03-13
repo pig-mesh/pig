@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,17 +19,28 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysDept;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 部门管理 Mapper 接口
  *
  * @author lengleng
- * @since 2018-01-20
+ * @date 2025/06/27
  */
 @Mapper
-public interface SysDeptMapper extends BaseMapper<SysDept> {
+public interface SysDeptMapper extends PigBaseMapper<SysDept> {
+
+    /**
+     * 根据用户ID查询部门列表
+     *
+     * @param userId 用户ID
+     * @return 部门列表
+     */
+    List<SysDept> listDeptsByUserId(@Param("userId") Long userId);
 
 }

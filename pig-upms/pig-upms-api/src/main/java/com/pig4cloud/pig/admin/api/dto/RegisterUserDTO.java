@@ -17,13 +17,23 @@ public class RegisterUserDTO {
 	private String username;
 
 	/**
-	 * 新密码
+	 * 密码
 	 */
 	private String password;
+
+	/**
+	 * 新密码1
+	 */
+	private String newpassword1;
 
 	/**
 	 * 电话
 	 */
 	private String phone;
+
+	/**
+	 * 短信验证码
+	 */
+	private String code;
 
 }

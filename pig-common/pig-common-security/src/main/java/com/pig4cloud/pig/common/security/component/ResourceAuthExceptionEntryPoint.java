@@ -16,11 +16,10 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import cn.hutool.http.ContentType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.context.MessageSource;
@@ -31,13 +30,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.server.resource.InvalidBearerTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
 
 /**
- * 资源认证异常处理入口点，用于处理客户端认证异常
- *
  * @author lengleng
  * @date 2019/2/1
+ *
+ * 客户端异常处理 AuthenticationException 不同细化异常处理
  */
 @RequiredArgsConstructor
 public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint {
@@ -46,19 +47,12 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 
 	private final MessageSource messageSource;
 
-	/**
-	 * 处理认证失败的响应
-	 * @param request HTTP请求
-	 * @param response HTTP响应
-	 * @param authException 认证异常
-	 * @throws Exception 写入响应时可能抛出异常
-	 */
 	@Override
 	@SneakyThrows
 	public void commence(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException authException) {
 		response.setCharacterEncoding(CommonConstants.UTF8);
-		response.setContentType(CommonConstants.CONTENT_TYPE);
+		response.setContentType(ContentType.JSON.getValue());
 		R<String> result = new R<>();
 		result.setCode(CommonConstants.FAIL);
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());
@@ -70,7 +64,7 @@ public class ResourceAuthExceptionEntryPoint implements AuthenticationEntryPoint
 		// 针对令牌过期返回特殊的 424
 		if (authException instanceof InvalidBearerTokenException
 				|| authException instanceof InsufficientAuthenticationException) {
-			response.setStatus(org.springframework.http.HttpStatus.FAILED_DEPENDENCY.value());
+			response.setStatus(HttpStatus.FAILED_DEPENDENCY.value());
 			result.setMsg(this.messageSource.getMessage("OAuth2ResourceOwnerBaseAuthenticationProvider.tokenExpired",
 					null, LocaleContextHolder.getLocale()));
 		}

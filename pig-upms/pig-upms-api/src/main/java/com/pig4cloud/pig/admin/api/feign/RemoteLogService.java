@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,7 +19,7 @@
 
 package com.pig4cloud.pig.admin.api.feign;
 
-import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.common.core.constant.ServiceNameConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.feign.annotation.NoToken;
@@ -28,21 +28,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
- * 远程日志服务接口
- *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2018/6/28
  */
 @FeignClient(contextId = "remoteLogService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteLogService {
 
 	/**
-	 * 保存日志 (异步多线程调用，无token)
+	 * 保存日志
 	 * @param sysLog 日志实体
 	 * @return succes、false
 	 */
 	@NoToken
 	@PostMapping("/log/save")
-	R<Boolean> saveLog(@RequestBody SysLog sysLog);
+	R<Boolean> saveLog(@RequestBody SysLogDTO sysLog);
 
 }

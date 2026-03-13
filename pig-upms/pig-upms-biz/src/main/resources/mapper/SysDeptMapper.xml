@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~
-  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~      Copyright (c) 2018-2026, lengleng All rights reserved.
   ~
   ~  Redistribution and use in source and binary forms, with or without
   ~  modification, are permitted provided that the following conditions are met:
@@ -20,4 +20,14 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysDeptMapper">
+    <select id="listDeptsByUserId" resultType="com.pig4cloud.pig.admin.api.entity.SysDept">
+        SELECT sys_dept.dept_id,
+        sys_dept.name,
+        sys_dept.sort_order
+        FROM sys_dept,
+        sys_user_dept
+        WHERE sys_dept.dept_id = sys_user_dept.dept_id
+        AND sys_dept.del_flag = '0'
+        and sys_user_dept.user_id = #{userId}
+    </select>
 </mapper>

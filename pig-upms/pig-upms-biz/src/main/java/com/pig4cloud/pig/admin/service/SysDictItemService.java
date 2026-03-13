@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,24 +21,24 @@ import com.pig4cloud.pig.admin.api.entity.SysDictItem;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * 字典项服务接口
+ * 字典项
  *
  * @author lengleng
- * @date 2025/05/30
+ * @date 2019/03/19
  */
 public interface SysDictItemService extends IService<SysDictItem> {
 
 	/**
 	 * 删除字典项
 	 * @param id 字典项ID
-	 * @return 操作结果
+	 * @return
 	 */
 	R removeDictItem(Long id);
 
 	/**
 	 * 更新字典项
-	 * @param item 需要更新的字典项
-	 * @return 操作结果
+	 * @param item 字典项
+	 * @return
 	 */
 	R updateDictItem(SysDictItem item);
 

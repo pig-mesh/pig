@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -25,41 +25,39 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 用户信息实体类，继承自UserVO并实现Serializable接口 , spring security
+ * Spring Security 用户信息实体类，继承自UserVO并实现Serializable接口
  *
  * @author lengleng
- * @date 2025/06/28
+ * @date 2025/06/30
  */
 @Data
-@Schema(description = "spring security 用户信息")
+@Schema(description = "用户信息")
 @EqualsAndHashCode(callSuper = true)
 public class UserInfo extends UserVO implements Serializable {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
+    /**
+     * 密码
+     */
+    @JsonIgnore(value = false)
+    private String password;
 
-	/**
-	 * 密码
-	 */
-	@JsonIgnore(value = false)
-	private String password;
+    /**
+     * 随机盐
+     */
+    @JsonIgnore(value = false)
+    private String salt;
 
-	/**
-	 * 随机盐
-	 */
-	@JsonIgnore(value = false)
-	private String salt;
+    /**
+     * 权限标识集合
+     */
+    @Schema(description = "权限标识集合")
+    private List<String> permissions = new ArrayList<>();
 
-	/**
-	 * 权限标识集合
-	 */
-	@Schema(description = "权限标识集合")
-	private List<String> permissions = new ArrayList<>();
-
+    @Schema(description = "租户名称")
+    private String tenantName;
 }

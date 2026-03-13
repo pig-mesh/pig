@@ -16,115 +16,90 @@
 
 package com.pig4cloud.pig.common.security.component;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.core.annotation.AnnotationTemplateExpressionDefaults;
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import lombok.RequiredArgsConstructor;
-
 /**
- * 资源服务器认证授权配置
- *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2022-06-04
+ * <p>
+ * 资源服务器认证授权配置
  */
+@Slf4j
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class PigResourceServerConfiguration {
 
-	/**
-	 * 资源认证异常处理入口点
-	 */
-	protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
+    protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
-	/**
-	 * 允许所有URL的配置属性
-	 */
-	private final PermitAllUrlProperties permitAllUrl;
+    private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
-	/**
-	 * PigBearerToken提取器
-	 */
-	private final PigBearerTokenExtractor pigBearerTokenExtractor;
+    @Lazy
+    private final PermitAllUrlProperties permitAllUrl;
 
-	/**
-	 * 自定义不透明令牌解析器
-	 */
-	private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
+    private final PigBootCorsProperties corsProperties;
 
-	/**
-	 * CORS跨域资源共享配置属性
-	 */
-	private final PigBootCorsProperties pigBootCorsProperties;
+    @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getIgnoreUrls()
+                .stream()
+                .map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
+                .toList()
+                .toArray(new PathPatternRequestMatcher[]{});
 
-	/**
-	 * 资源服务器安全配置
-	 * @param http http
-	 * @return {@link SecurityFilterChain }
-	 * @throws Exception 异常
-	 */
-	@Bean
-	SecurityFilterChain resourceServer(HttpSecurity http) throws Exception {
-		/**
-		 * AntPathRequestMatcher[] permitMatchers = permitAllUrl.getUrls() .stream()
-		 * .map(AntPathRequestMatcher::new) .toList() .toArray(new AntPathRequestMatcher[]
-		 * {});
-		 **/
-		PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getUrls()
-			.stream()
-			.map(url -> PathPatternRequestMatcher.withDefaults().matcher(url))
-			.toList()
-			.toArray(new PathPatternRequestMatcher[] {});
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated())
+                .oauth2ResourceServer(
+                        oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
+                                .authenticationEntryPoint(resourceAuthExceptionEntryPoint))
+                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .csrf(AbstractHttpConfigurer::disable);
 
-		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.requestMatchers(permitMatchers)
-			.permitAll()
-			.anyRequest()
-			.authenticated())
-			.oauth2ResourceServer(
-					oauth2 -> oauth2.opaqueToken(token -> token.introspector(customOpaqueTokenIntrospector))
-						.authenticationEntryPoint(resourceAuthExceptionEntryPoint)
-						.bearerTokenResolver(pigBearerTokenExtractor))
-			.headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-			.csrf(AbstractHttpConfigurer::disable);
+        // 仅支持单体版本：根据配置启用CORS跨域支持（仅在security.cors.enabled=true时生效）
+        if (Boolean.TRUE.equals(corsProperties.getEnabled())) {
+            http.cors(cors -> cors.configurationSource(request -> {
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                CorsConfiguration corsConfiguration = new CorsConfiguration();
+                corsProperties.getAllowedOriginPatterns().forEach(corsConfiguration::addAllowedOriginPattern);
+                corsProperties.getAllowedHeaders().forEach(corsConfiguration::addAllowedHeader);
+                corsProperties.getAllowedMethods().forEach(corsConfiguration::addAllowedMethod);
+                corsConfiguration.setAllowCredentials(corsProperties.getAllowCredentials());
+                source.registerCorsConfiguration(corsProperties.getPathPattern(), corsConfiguration);
+                return corsConfiguration;
+            }));
+        }
 
-		// 配置 CORS 跨域资源共享
-		if (Boolean.TRUE.equals(pigBootCorsProperties.getEnabled())) {
-			http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-		}
+        return http.build();
+    }
 
-		return http.build();
-	}
-
-	/**
-	 * 配置 CORS 跨域资源共享
-	 * @return UrlBasedCorsConfigurationSource CORS配置源
-	 */
-	private UrlBasedCorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		CorsConfiguration corsConfiguration = new CorsConfiguration();
-
-		// 从配置文件读取允许的源模式
-		pigBootCorsProperties.getAllowedOriginPatterns().forEach(corsConfiguration::addAllowedOriginPattern);
-		// 从配置文件读取允许的请求头
-		pigBootCorsProperties.getAllowedHeaders().forEach(corsConfiguration::addAllowedHeader);
-		// 从配置文件读取允许的HTTP方法
-		pigBootCorsProperties.getAllowedMethods().forEach(corsConfiguration::addAllowedMethod);
-		// 从配置文件读取是否允许携带凭证
-		corsConfiguration.setAllowCredentials(pigBootCorsProperties.getAllowCredentials());
-
-		// 注册CORS配置到指定路径
-		source.registerCorsConfiguration(pigBootCorsProperties.getPathPattern(), corsConfiguration);
-
-		return source;
-	}
+    /**
+     * 创建并返回一个支持自定义权限表达式的默认模板实例
+     *
+     * @return {@link PrePostTemplateDefaults} 权限表达式默认模板实例
+     */
+    @Bean
+    AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {
+        return new AnnotationTemplateExpressionDefaults();
+    }
 
 }

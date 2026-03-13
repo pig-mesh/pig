@@ -1,13 +1,19 @@
 FROM registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/java:21-anolis
 
-WORKDIR /pig-upms-biz
+MAINTAINER wangiegie@gmail.com
 
-ARG JAR_FILE=target/pig-upms-biz.jar
+ENV TZ=Asia/Shanghai
+ENV LANG C.UTF-8
+ENV JAVA_OPTS="-Xms512m -Xmx1024m -Djava.security.egd=file:/dev/./urandom"
 
-COPY ${JAR_FILE} app.jar
+RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN mkdir -p /pigx-upms
+
+WORKDIR /pigx-upms
 
 EXPOSE 4000
 
-ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
+ADD ./target/pigx-upms-biz.jar ./
 
-CMD sleep 60; java $JAVA_OPTS -jar app.jar
+CMD sleep 60;java $JAVA_OPTS -jar pigx-upms-biz.jar

@@ -1,135 +1,262 @@
 /*
- * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions are met:
  *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Redistributions of source code must retain the above copyright notice,
+ *  this list of conditions and the following disclaimer.
+ *  Redistributions in binary form must reproduce the above copyright
+ *  notice, this list of conditions and the following disclaimer in the
+ *  documentation and/or other materials provided with the distribution.
+ *  Neither the name of the pig4cloud.com developer nor the names of its
+ *  contributors may be used to endorse or promote products derived from
+ *  this software without specific prior written permission.
+ *  Author: lengleng (wangiegie@gmail.com)
+ *
  */
 
 package com.pig4cloud.pig.common.core.constant;
 
 /**
  * @author lengleng
- * @date 2019/2/1
+ * @date 2017-12-18
  */
 public interface SecurityConstants {
 
-	/**
-	 * 角色前缀
-	 */
-	String ROLE = "ROLE_";
+    /**
+     * 启动时是否检查Inner注解安全性
+     */
+    boolean INNER_CHECK = true;
 
-	/**
-	 * 前缀
-	 */
-	String PROJECT_PREFIX = "pig";
+    /**
+     * 刷新
+     */
+    String REFRESH_TOKEN = "refresh_token";
 
-	/**
-	 * 项目的license
-	 */
-	String PROJECT_LICENSE = "https://pig4cloud.com";
+    /**
+     * 验证码有效期
+     */
+    int CODE_TIME = 60;
 
-	/**
-	 * 内部
-	 */
-	String FROM_IN = "Y";
+    /**
+     * 验证码长度
+     */
+    String CODE_SIZE = "4";
 
-	/**
-	 * 标志
-	 */
-	String FROM = "from";
+    /**
+     * 角色前缀
+     */
+    String ROLE = "ROLE_";
 
-	/**
-	 * 默认登录URL
-	 */
-	String OAUTH_TOKEN_URL = "/oauth2/token";
+    /**
+     * 前缀
+     */
+    String PIG_PREFIX = "pig_";
 
-	/**
-	 * grant_type
-	 */
-	String REFRESH_TOKEN = "refresh_token";
+    /**
+     * token 相关前缀
+     */
+    String TOKEN_PREFIX = "token:";
 
-	/**
-	 * password 模式
-	 */
-	String PASSWORD = "password";
+    /**
+     * oauth 相关前缀
+     */
+    String OAUTH_PREFIX = "oauth:";
 
-	/**
-	 * 授权码
-	 */
-	String AUTHORIZATION_CODE = "authorization_code";
+    /**
+     * 授权码模式code key 前缀
+     */
+    String OAUTH_CODE_PREFIX = "oauth:code:";
 
-	/**
-	 * 手机号登录
-	 */
-	String MOBILE = "mobile";
+    /**
+     * 项目的license
+     */
+    String PIG_LICENSE = "https://pig4cloud.com";
 
-	/**
-	 * {bcrypt} 加密的特征码
-	 */
-	String BCRYPT = "{bcrypt}";
+    /**
+     * 内部
+     */
+    String FROM_IN = "Y";
 
-	/**
-	 * {noop} 加密的特征码
-	 */
-	String NOOP = "{noop}";
+    /**
+     * 标志
+     */
+    String FROM = "from";
 
-	/**
-	 * 用户名
-	 */
-	String USERNAME = "username";
+    /**
+     * Feign 用户代理
+     */
+    String FEIGN_USER_AGENT = "pig-feign";
 
-	/**
-	 * 用户信息
-	 */
-	String DETAILS_USER = "user_info";
+    /**
+     * 请求header
+     */
+    String HEADER_FROM_IN = FROM + "=" + FROM_IN;
 
-	/**
-	 * 用户ID
-	 */
-	String DETAILS_USER_ID = "user_id";
+    /**
+     * OAUTH URL
+     */
+    String OAUTH_TOKEN_URL = "/oauth2/token";
 
-	/**
-	 * 协议字段
-	 */
-	String DETAILS_LICENSE = "license";
+    /**
+     * 移动端授权
+     */
+    String GRANT_MOBILE = "mobile";
 
-	/**
-	 * 验证码有效期,默认 60秒
-	 */
-	long CODE_TIME = 60;
+    /**
+     * TOC 客户端
+     */
+    String HEADER_TOC = "CLIENT-TOC";
 
-	/**
-	 * 验证码长度
-	 */
-	String CODE_SIZE = "6";
+    /**
+     * TOC 客户端
+     */
+    String HEADER_TOC_YES = "Y";
 
-	/**
-	 * 客户端模式
-	 */
-	String CLIENT_CREDENTIALS = "client_credentials";
+    /**
+     * QQ获取token
+     */
+    String QQ_AUTHORIZATION_CODE_URL = "https://graph.qq.com/oauth2.0/token?grant_type="
+            + "authorization_code&code=%S&client_id=%s&redirect_uri=" + "%s&client_secret=%s";
 
-	/**
-	 * 客户端ID
-	 */
-	String CLIENT_ID = "clientId";
+    /**
+     * 微信获取OPENID
+     */
+    String WX_AUTHORIZATION_CODE_URL = "https://api.weixin.qq.com/sns/oauth2/access_token"
+            + "?appid=%s&secret=%s&code=%s&grant_type=authorization_code";
 
-	/**
-	 * 短信登录 参数名称
-	 */
-	String SMS_PARAMETER_NAME = "mobile";
+    /**
+     * 微信小程序OPENID
+     */
+    String MINI_APP_AUTHORIZATION_CODE_URL = "https://api.weixin.qq.com/sns/jscode2session"
+            + "?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 
-	/**
-	 * 授权码模式confirm
-	 */
-	String CUSTOM_CONSENT_PAGE_URI = "/oauth2/confirm_access";
+    /**
+     * 码云获取token
+     */
+    String GITEE_AUTHORIZATION_CODE_URL = "https://gitee.com/oauth/token?grant_type="
+            + "authorization_code&code=%S&client_id=%s&redirect_uri=" + "%s&client_secret=%s";
+
+    /**
+     * 开源中国获取token
+     */
+    String OSC_AUTHORIZATION_CODE_URL = "https://www.oschina.net/action/openapi/token";
+
+    /**
+     * QQ获取用户信息
+     */
+    String QQ_USER_INFO_URL = "https://graph.qq.com/oauth2.0/me?access_token=%s";
+
+    /**
+     * 码云获取用户信息
+     */
+    String GITEE_USER_INFO_URL = "https://gitee.com/api/v5/user?access_token=%s";
+
+    /**
+     * 开源中国用户信息
+     */
+    String OSC_USER_INFO_URL = "https://www.oschina.net/action/openapi/user?access_token=%s&dataType=json";
+
+    /**
+     * 钉钉获取 token
+     */
+    String DING_OLD_GET_TOKEN = "https://oapi.dingtalk.com/gettoken";
+
+    /**
+     * 钉钉同步部门列表
+     */
+    String DING_OLD_DEPT_URL = "https://oapi.dingtalk.com/topapi/v2/department/listsub";
+
+    /**
+     * 钉钉部门用户id列表
+     */
+    String DING_DEPT_USERIDS_URL = "https://oapi.dingtalk.com/topapi/user/listid";
+
+    /**
+     * 钉钉用户详情
+     */
+    String DING_USER_INFO_URL = "https://oapi.dingtalk.com/topapi/v2/user/get";
+
+    /**
+     * {bcrypt} 加密的特征码
+     */
+    String BCRYPT = "{bcrypt}";
+
+    /**
+     * 客户端模式
+     */
+    String CLIENT_CREDENTIALS = "client_credentials";
+
+    /**
+     * 客户端编号
+     */
+    String CLIENT_ID = "client_id";
+
+    /**
+     * 客户端唯一令牌
+     */
+    String CLIENT_RECREATE = "recreate_flag";
+
+    /**
+     * 用户ID字段
+     */
+    String DETAILS_USER_ID = "user_id";
+
+    /**
+     * 用户名
+     */
+    String DETAILS_USERNAME = "username";
+
+    /**
+     * 姓名
+     */
+    String NAME = "name";
+
+    /**
+     * 协议字段
+     */
+    String DETAILS_LICENSE = "license";
+
+    /**
+     * 激活字段 兼容外围系统接入
+     */
+    String ACTIVE = "active";
+
+    /**
+     * AES 加密
+     */
+    String AES = "aes";
+
+    /**
+     * 授权码模式confirm
+     */
+    String CUSTOM_CONSENT_PAGE_URI = "/oauth2/confirm_access";
+
+    /**
+     * {noop} 加密的特征码
+     */
+    String NOOP = "{noop}";
+
+    /**
+     * 短信登录 参数名称
+     */
+    String SMS_PARAMETER_NAME = "mobile";
+
+    /**
+     * 手机号登录
+     */
+    String APP = "mobile";
+
+    /**
+     * 用户信息
+     */
+    String DETAILS_USER = "user_info";
+
+    /**
+     * 不脱敏的权限
+     */
+    String NO_MASK = "no_mask";
 
 }

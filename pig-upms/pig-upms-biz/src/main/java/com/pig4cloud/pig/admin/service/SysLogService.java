@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,8 +23,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.admin.api.dto.SysLogDTO;
 import com.pig4cloud.pig.admin.api.entity.SysLog;
+import com.pig4cloud.pig.admin.api.vo.PreLogVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -37,25 +39,31 @@ import java.util.List;
 public interface SysLogService extends IService<SysLog> {
 
 	/**
-	 * 分页查询系统日志
-	 * @param page 分页对象
-	 * @param sysLog 系统日志
-	 * @return 系统日志分页数据
+	 * 批量插入前端错误日志
+	 * @param preLogVoList 日志信息
+	 * @return true/false
 	 */
-	Page getLogPage(Page page, SysLogDTO sysLog);
+	Boolean saveBatchLogs(List<PreLogVO> preLogVoList);
 
 	/**
-	 * 保存日志
-	 * @param sysLog 日志实体
-	 * @return Boolean
+	 * 分页查询日志
+	 * @param page
+	 * @param sysLog
+	 * @return
 	 */
-	Boolean saveLog(SysLog sysLog);
+	Page getLogByPage(Page page, SysLogDTO sysLog);
 
 	/**
-	 * 查询日志列表
-	 * @param sysLog 查询条件
-	 * @return 日志列表
+	 * 插入日志
+	 * @param sysLog 日志对象
+	 * @return true/false
 	 */
-	List<SysLog> listLogs(SysLogDTO sysLog);
+	Boolean saveLog(SysLogDTO sysLog);
+
+	/**
+	 * sum 函数计算三十天内的数据
+	 * @return list map
+	 */
+	List<Map<String, Object>> getLogSum();
 
 }

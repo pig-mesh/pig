@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,17 +17,17 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 系统文件映射接口
+ * 文件管理
  *
- * @author lengleng
- * @date 2025/05/30
+ * @author Luckly
+ * @date 2019-06-18 17:18:42
  */
 @Mapper
-public interface SysFileMapper extends BaseMapper<SysFile> {
+public interface SysFileMapper extends PigBaseMapper<SysFile> {
 
 }

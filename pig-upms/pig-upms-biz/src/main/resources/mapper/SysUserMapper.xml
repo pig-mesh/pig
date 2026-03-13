@@ -1,86 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysUserMapper">
-	<!-- 通用查询映射结果 -->
-	<resultMap id="baseResultMap" type="com.pig4cloud.pig.admin.api.vo.UserVO">
-		<id column="user_id" property="userId"/>
-		<result column="username" property="username"/>
-		<result column="password" property="password"/>
-		<result column="salt" property="salt"/>
-		<result column="phone" property="phone"/>
-		<result column="avatar" property="avatar"/>
-		<result column="wx_openid" property="wxOpenid"/>
-		<result column="qq_openid" property="qqOpenid"/>
-		<result column="gitee_login" property="giteeOpenId"/>
-		<result column="osc_id" property="oscOpenId"/>
-		<result column="create_time" property="createTime"/>
-		<result column="update_time" property="updateTime"/>
-		<result column="lock_flag" property="lockFlag"/>
-		<result column="del_flag" property="delFlag"/>
-		<result column="nickname" property="nickname"/>
-		<result column="name" property="name"/>
-		<result column="email" property="email"/>
-		<association property="dept" javaType="com.pig4cloud.pig.admin.api.entity.SysDept" column="dept_id"
-					 select="com.pig4cloud.pig.admin.mapper.SysDeptMapper.selectById">
-		</association>
-		<collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole"
-					select="com.pig4cloud.pig.admin.mapper.SysRoleMapper.listRolesByUserId" column="user_id">
-		</collection>
-		<collection property="postList" ofType="com.pig4cloud.pig.admin.api.entity.SysPost"
-					select="com.pig4cloud.pig.admin.mapper.SysPostMapper.listPostsByUserId" column="user_id">
-		</collection>
-	</resultMap>
+    <!-- 通用查询映射结果 -->
+    <resultMap id="baseResultMap" type="com.pig4cloud.pig.admin.api.vo.UserVO">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="phone" property="phone"/>
+        <result column="avatar" property="avatar"/>
+        <result column="nickname" property="nickname"/>
+        <result column="name" property="name"/>
+        <result column="email" property="email"/>
+        <result column="wx_openid" property="wxOpenid"/>
+        <result column="qq_openid" property="qqOpenid"/>
+        <result column="gitee_login" property="giteeOpenId"/>
+        <result column="osc_id" property="oscOpenId"/>
+        <result column="wx_cp_userid" property="wxCpUserid"/>
+        <result column="wx_ding_userid" property="wxDingUserid"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="lock_flag" property="lockFlag"/>
+        <result column="password_expire_flag" property="passwordExpireFlag"/>
+        <result column="password_modify_time" property="passwordModifyTime"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="dept_id" property="deptId"/>
+        <collection property="deptList" ofType="com.pig4cloud.pig.admin.api.entity.SysDept"
+                    select="com.pig4cloud.pig.admin.mapper.SysDeptMapper.listDeptsByUserId"
+                    column="{userId=user_id}">
+        </collection>
+        <collection property="roleList" ofType="com.pig4cloud.pig.admin.api.entity.SysRole"
+                    select="com.pig4cloud.pig.admin.mapper.SysRoleMapper.listRolesByUserId"
+                    column="{userId=user_id}">
+        </collection>
+        <collection property="postList" ofType="com.pig4cloud.pig.admin.api.entity.SysPost"
+                    select="com.pig4cloud.pig.admin.mapper.SysPostMapper.listPostsByUserId"
+                    column="{userId=user_id}">
+        </collection>
+    </resultMap>
 
-	<!-- 用户查询SQL -->
-	<sql id="userQuerySql">
-		SELECT * FROM sys_user u
-		<where>
-			u.del_flag = '0'
-			<if test="query.userId != null and query.userId != ''">
-				AND u.user_id = #{query.userId}
-			</if>
-			<if test="query.username != null and query.username != ''">
-				<bind name="usernameLike" value="'%'+query.username+'%'"/>
-				AND u.username LIKE #{usernameLike}
-			</if>
-			<if test="query.deptId != null and query.deptId != ''">
-				AND u.dept_id = #{query.deptId}
-			</if>
-			<if test="query.phone != null and query.phone != ''">
-				<bind name="phoneLike" value="'%'+query.phone+'%'"/>
-				AND u.phone LIKE #{phoneLike}
-			</if>
-		</where>
-		ORDER BY u.create_time DESC
-	</sql>
+    <sql id="userColumns">
+        u.user_id,
+        u.username,
+        u.password,
+        u.salt,
+        u.phone,
+        u.avatar,
+        u.name,
+        u.nickname,
+        u.email,
+        u.wx_openid,
+        u.qq_openid,
+        u.gitee_login,
+        u.osc_id,
+        u.wx_cp_userid,
+        u.wx_ding_userid,
+        u.del_flag,
+        u.lock_flag,
+        u.password_expire_flag,
+        u.password_modify_time,
+        u.dept_id,
+        u.create_by,
+        u.create_time,
+        u.update_time
+    </sql>
 
-	<!-- 分页查询 -->
-	<select id="getUsersPage" resultMap="baseResultMap">
-		<include refid="userQuerySql"/>
-	</select>
+    <select id="getUserVo" resultMap="baseResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM sys_user u
+        WHERE u.del_flag = '0'
+        <if test="query.username != null and query.username != ''">
+            AND u.username = #{query.username}
+        </if>
+        <if test="query.oscId != null and query.oscId != ''">
+            AND u.osc_id = #{query.oscId}
+        </if>
+        <if test="query.phone != null and query.phone != ''">
+            AND u.phone = #{query.phone}
+        </if>
+        <if test="query.wxCpUserid != null and query.wxCpUserid != ''">
+            AND u.wx_cp_userid = #{query.wxCpUserid}
+        </if>
+        <if test="query.wxDingUserid != null and query.wxDingUserid != ''">
+            AND u.wx_ding_userid = #{query.wxDingUserid}
+        </if>
+        <if test="query.giteeLogin != null and query.giteeLogin != ''">
+            AND u.gitee_login = #{query.giteeLogin}
+        </if>
+        <if test="query.wxOpenid != null and query.wxOpenid != ''">
+            AND u.wx_openid = #{query.wxOpenid}
+        </if>
+        <if test="query.miniOpenid != null and query.miniOpenid != ''">
+            AND u.mini_openid = #{query.miniOpenid}
+        </if>
+    </select>
 
-	<!-- 用户列表  -->
-	<select id="listUsers" resultMap="baseResultMap">
-		<include refid="userQuerySql"/>
-	</select>
+    <select id="getUserVoById" resultMap="baseResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM
+        sys_user u
+        WHERE
+        u.user_id = #{id} and u.del_flag = '0'
+    </select>
 
-	<!-- 查询用户信息  （单个）-->
-	<select id="getUser" resultMap="baseResultMap">
-		SELECT * FROM sys_user u
-		<where>
-			u.del_flag = '0'
-			<if test="query.userId != null and query.userId != ''">
-				AND u.user_id = #{query.userId}
-			</if>
-			<if test="query.username != null and query.username != ''">
-				AND u.username = #{query.username}
-			</if>
-			<if test="query.deptId != null and query.deptId != ''">
-				AND u.dept_id = #{query.deptId}
-			</if>
-			<if test="query.phone != null and query.phone != ''">
-				AND u.phone = #{query.phone}
-			</if>
-		</where>
-	</select>
+
+    <select id="getUserVosPage" resultMap="baseResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM
+        sys_user u
+        <!-- 如果传递了部门ID，需要关联 sys_user_dept 查询该部门的所有用户 -->
+        <if test="query.deptId != null and query.deptId != ''">
+            INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+            AND ud.dept_id = #{query.deptId}
+        </if>
+        WHERE
+        u.del_flag = '0'
+
+        <!-- 用户名模糊查询 -->
+        <if test="query.username != null and query.username != ''">
+            <bind name="usernameLike" value="'%' + query.username + '%'"/>
+            AND u.username LIKE #{usernameLike}
+        </if>
+
+        <!-- 手机号模糊查询 -->
+        <if test="query.phone != null and query.phone != ''">
+            <bind name="phoneLike" value="'%' + query.phone + '%'"/>
+            AND u.phone LIKE #{phoneLike}
+        </if>
+
+        ORDER BY u.create_time DESC
+    </select>
+
+    <select id="getUserVoListByScope" resultMap="baseResultMap">
+        SELECT
+        <include refid="userColumns"/>
+        FROM
+        sys_user u
+        <!-- 如果传递了部门ID，需要关联 sys_user_dept 查询该部门的所有用户 -->
+        <if test="query.deptId != null and query.deptId != ''">
+            INNER JOIN sys_user_dept ud ON u.user_id = ud.user_id
+            AND ud.dept_id = #{query.deptId}
+        </if>
+        WHERE
+        u.del_flag = '0'
+        <!-- 用户名模糊查询 -->
+        <if test="query.username != null and query.username != ''">
+            <bind name="usernameLike" value="'%' + query.username + '%'"/>
+            AND u.username LIKE #{usernameLike}
+        </if>
+        <!-- 手机号模糊查询 -->
+        <if test="query.phone != null and query.phone != ''">
+            <bind name="phoneLike" value="'%' + query.phone + '%'"/>
+            AND u.phone LIKE #{phoneLike}
+        </if>
+        <!-- 用户ID范围查询 -->
+        <if test="ids != null and ids.length > 0">
+            AND u.user_id IN
+            <foreach collection="ids" item="id" open="(" separator="," close=")">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY
+        u.create_time DESC
+    </select>
 </mapper>

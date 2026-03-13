@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,17 +19,19 @@
 
 package com.pig4cloud.pig.admin.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * 系统OAuth客户端详情 Mapper接口
+ * <p>
+ * Mapper 接口
+ * </p>
  *
  * @author lengleng
- * @date 2025/06/27
+ * @since 2018-05-15
  */
 @Mapper
-public interface SysOauthClientDetailsMapper extends BaseMapper<SysOauthClientDetails> {
+public interface SysOauthClientDetailsMapper extends PigBaseMapper<SysOauthClientDetails> {
 
 }

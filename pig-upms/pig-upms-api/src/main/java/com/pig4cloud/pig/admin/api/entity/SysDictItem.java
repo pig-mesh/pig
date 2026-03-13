@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -75,6 +75,12 @@ public class SysDictItem extends Model<SysDictItem> {
 	 */
 	@Schema(description = "描述")
 	private String description;
+
+	/**
+	 * 标签类型（primary, success, info, warning, danger）
+	 */
+	@Schema(description = "标签类型")
+	private String listClass;
 
 	/**
 	 * 排序（升序）

@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2025, lengleng All rights reserved.
+ *      Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -26,7 +26,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 
@@ -40,7 +39,6 @@ import java.time.LocalDateTime;
  */
 @Data
 @Schema(description = "部门")
-@FieldNameConstants
 @EqualsAndHashCode(callSuper = true)
 public class SysDept extends Model<SysDept> {
 

@@ -26,30 +26,34 @@ import java.util.List;
 /**
  * 日志配置类
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author L.cm
  */
 @Getter
 @Setter
 @ConfigurationProperties(PigLogProperties.PREFIX)
 public class PigLogProperties {
 
-	public static final String PREFIX = "security.log";
+    public static final String PREFIX = "pig.log";
 
-	/**
-	 * 开启日志记录
-	 */
-	private boolean enabled = true;
+    /**
+     * 开启日志记录
+     */
+    private boolean enabled = true;
 
-	/**
-	 * 放行字段，password,mobile,idcard,phone
-	 */
-	@Value("${security.log.exclude-fields:password,mobile,idcard,phone}")
-	private List<String> excludeFields;
+    /**
+     * 记录请求报文体
+     */
+    private boolean requestEnabled = true;
 
-	/**
-	 * 请求报文最大存储长度
-	 */
-	private Integer maxLength = 2000;
+    /**
+     * 放行字段，password,mobile,idcard,phone
+     */
+    @Value("${pig.log.exclude-fields:password,mobile,idcard,phone,accessSecret,tokenId,sign}")
+    private List<String> excludeFields;
+
+    /**
+     * 请求报文最大存储长度
+     */
+    private Integer maxLength = 2000;
 
 }
