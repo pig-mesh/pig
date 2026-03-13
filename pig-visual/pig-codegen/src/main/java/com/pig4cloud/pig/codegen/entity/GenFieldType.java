@@ -28,7 +28,7 @@ import java.time.LocalDateTime;
 /**
  * 列属性
  *
- * @author pigx code generator
+ * @author pig code generator
  * @date 2023-02-06 20:16:01
  */
 @Data
