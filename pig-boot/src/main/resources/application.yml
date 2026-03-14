@@ -59,7 +59,7 @@ mybatis-plus:
       where-strategy: not_empty # where 条件策略
       insert-strategy: not_empty # 插入策略
       update-strategy: not_null  # 更新策略
-  type-handlers-package: com.pig4cloud.pig.common.mybatis.handler # 类型处理器包
+  type-handlers-package: com.pig4cloud.pig.common.data.handler # 类型处理器包
   configuration:
     jdbc-type-for-null: 'null' # 是否设置字段为null
     call-setters-on-nulls: true # 是否调用set方法时传入null值

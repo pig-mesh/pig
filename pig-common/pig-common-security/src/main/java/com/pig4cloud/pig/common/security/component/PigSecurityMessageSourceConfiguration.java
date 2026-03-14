@@ -38,7 +38,7 @@ public class PigSecurityMessageSourceConfiguration implements WebMvcConfigurer {
     @Bean
     public MessageSource securityMessageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.addBasenames("classpath:errors/messages");
+        messageSource.addBasenames("classpath:errors/messages", "classpath:org/springframework/security/messages");
         messageSource.setDefaultLocale(Locale.CHINA);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setCacheSeconds(3600);
