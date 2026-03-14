@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,12 +26,10 @@ import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 /**
- * 系统任务日志监听器：用于异步监听并处理定时任务日志事件
- *
- * @author frwcloud
- * @author lengleng
- * @date 2025/05/31
+ * @author frwcloud 异步监听定时任务日志事件
  */
 @Slf4j
 @Service
@@ -40,16 +38,15 @@ public class SysJobLogListener {
 
 	private final SysJobLogService sysJobLogService;
 
-	/**
-	 * 异步保存系统任务日志
-	 * @param event 系统任务日志事件
-	 */
 	@Async
 	@Order
 	@EventListener(SysJobLogEvent.class)
 	public void saveSysJobLog(SysJobLogEvent event) {
 		SysJobLog sysJobLog = event.getSysJobLog();
-		sysJobLogService.save(sysJobLog);
+		// 只保存发布状态的任务日志
+		if (Objects.nonNull(sysJobLog.getJobId())){
+			sysJobLogService.save(sysJobLog);
+		}
 		log.info("执行定时任务日志");
 	}
 

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,8 +21,6 @@ import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.codegen.service.GeneratorService;
 import com.pig4cloud.pig.common.core.util.R;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -33,20 +31,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 代码生成器控制器
+ * 代码生成器
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2018-07-30
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/generator")
-@Tag(description = "generator", name = "代码生成器控制器管理模块")
 public class GeneratorController {
 
 	private final GeneratorService generatorService;
@@ -58,7 +56,6 @@ public class GeneratorController {
 	 */
 	@SneakyThrows
 	@GetMapping("/download")
-	@Operation(summary = "ZIP下载生成代码", description = "ZIP下载生成代码")
 	public void download(String tableIds, HttpServletResponse response) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		ZipOutputStream zip = new ZipOutputStream(outputStream);
@@ -74,21 +71,17 @@ public class GeneratorController {
 		byte[] data = outputStream.toByteArray();
 
 		response.reset();
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, String.format("attachment; filename=%s.zip", tableIds));
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=code.zip");
 		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.write(response.getOutputStream(), false, data);
 	}
 
 	/**
-	 * 生成代码
-	 * @param tableIds 表ID列表，多个ID用逗号分隔
-	 * @return 操作结果
-	 * @throws Exception 生成代码过程中可能抛出的异常
+	 * 目标目录生成代码
 	 */
 	@ResponseBody
 	@GetMapping("/code")
-	@Operation(summary = "生成代码", description = "生成代码")
 	public R<String> code(String tableIds) throws Exception {
 		// 生成代码
 		for (String tableId : tableIds.split(StrUtil.COMMA)) {
@@ -101,13 +94,42 @@ public class GeneratorController {
 	/**
 	 * 预览代码
 	 * @param tableId 表ID
-	 * @return 代码预览结果列表
+	 * @return
 	 */
 	@SneakyThrows
 	@GetMapping("/preview")
-	@Operation(summary = "预览代码", description = "预览代码")
 	public List<Map<String, String>> preview(Long tableId) {
 		return generatorService.preview(tableId);
+	}
+
+	/**
+	 * 获取表单设计器初始化数据
+	 * @param dsName 数据源名称
+	 * @param tableName 表名称
+	 * @return json string
+	 */
+	@SneakyThrows
+	@GetMapping("/vform")
+	public String vform(String dsName, String tableName) {
+		return generatorService.vform(dsName, tableName);
+	}
+
+	/**
+	 * 获取表单设计器初始化数据
+	 * @param formId 表单ID
+	 * @return json string
+	 */
+	@SneakyThrows
+	@GetMapping("/vform/sfc")
+	public void vformSfc(Long formId, HttpServletResponse response) {
+		String result = generatorService.vformSfc(formId);
+
+		byte[] data = result.getBytes(StandardCharsets.UTF_8);
+		response.reset();
+		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=form.vue");
+		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentType("application/octet-stream; charset=UTF-8");
+		IoUtil.write(response.getOutputStream(), false, data);
 	}
 
 }

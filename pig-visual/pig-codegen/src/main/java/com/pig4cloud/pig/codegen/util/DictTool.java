@@ -7,10 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * 字典工具类：提供字典相关操作的工具方法
- *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2023/2/7
  */
 public class DictTool {
 

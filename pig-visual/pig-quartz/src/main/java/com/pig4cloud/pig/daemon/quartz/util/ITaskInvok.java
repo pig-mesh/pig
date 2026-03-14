@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,17 +21,16 @@ import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pig.daemon.quartz.exception.TaskException;
 
 /**
- * 定时任务反射实现接口
+ * 定时任务反射实现接口类
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author 郑健楠
  */
 public interface ITaskInvok {
 
 	/**
 	 * 执行反射方法
-	 * @param sysJob 任务配置类
-	 * @throws TaskException 执行任务时可能抛出的异常
+	 * @param sysJob 配置类
+	 * @throws TaskException
 	 */
 	void invokMethod(SysJob sysJob) throws TaskException;
 

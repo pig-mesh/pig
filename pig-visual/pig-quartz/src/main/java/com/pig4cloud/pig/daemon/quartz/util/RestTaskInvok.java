@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,21 +26,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * REST定时任务反射实现类
+ * 定时任务rest反射实现
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author 郑健楠
  */
 @Slf4j
 @AllArgsConstructor
 @Component("restTaskInvok")
 public class RestTaskInvok implements ITaskInvok {
 
-	/**
-	 * 调用方法执行定时任务
-	 * @param sysJob 定时任务信息
-	 * @throws TaskException 任务执行失败时抛出异常
-	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		try {

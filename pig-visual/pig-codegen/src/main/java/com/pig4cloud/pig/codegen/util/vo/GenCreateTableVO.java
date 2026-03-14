@@ -1,6 +1,6 @@
 package com.pig4cloud.pig.codegen.util.vo;
 /*
- *      Copyright (c) 2018-2025, luolin All rights reserved.
+ *      Copyright (c) 2018-2026, luolin All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,8 @@ import java.time.LocalDateTime;
 @Data
 @Schema(description = "自动创建表管理")
 public class GenCreateTableVO {
+
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * 主键ID

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,37 +17,28 @@
 
 package com.pig4cloud.pig.daemon.quartz.config;
 
+import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
+import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
-import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
-
-import lombok.SneakyThrows;
-
 /**
- * 动态任务工厂：用于执行动态任务调度
- *
- * @author lengleng
  * @author 郑健楠
- * @date 2025/05/31
+ *
+ * <p>
+ * 动态任务工厂
  */
+@Slf4j
 @DisallowConcurrentExecution
 public class PigQuartzFactory implements Job {
 
-	/**
-	 * 定时任务调用工厂
-	 */
 	@Autowired
 	private PigQuartzInvokeFactory pigQuartzInvokeFactory;
 
-	/**
-	 * 执行定时任务
-	 * @param jobExecutionContext 任务执行上下文
-	 * @throws Exception 执行过程中可能抛出的异常
-	 */
 	@Override
 	@SneakyThrows
 	public void execute(JobExecutionContext jobExecutionContext) {

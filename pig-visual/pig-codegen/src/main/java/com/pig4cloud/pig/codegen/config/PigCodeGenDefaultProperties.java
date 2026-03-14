@@ -11,19 +11,24 @@ import org.springframework.context.annotation.Configuration;
  * 代码生成默认配置类
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2024/7/15
  */
 @Data
 @Configuration(proxyBeanMethods = false)
 @ConfigurationProperties(prefix = PigCodeGenDefaultProperties.PREFIX)
 public class PigCodeGenDefaultProperties implements InitializingBean {
 
-	public static final String PREFIX = "codegen";
+	public static final String PREFIX = "pig.codegen";
 
 	/**
 	 * 是否开启在线更新
 	 */
 	private boolean autoCheckVersion = true;
+
+	/**
+	 * 分支名称，默认为master
+	 */
+	private String branch = "next";
 
 	/**
 	 * 模板项目地址
@@ -63,7 +68,7 @@ public class PigCodeGenDefaultProperties implements InitializingBean {
 	/**
 	 * 生成代码的邮箱
 	 */
-	private String email = "sw@pig4cloud.com";
+	private String email = "sw@pig.vip";
 
 	/**
 	 * 表单布局（一列、两列）
@@ -75,6 +80,15 @@ public class PigCodeGenDefaultProperties implements InitializingBean {
 	 */
 	private String generatorType = "0";
 
+	/**
+	 * 是否同步路由
+	 */
+	private String syncRoute = "0";
+
+	/**
+	 * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
+	 * @throws Exception 例外
+	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		ConfigTable.KEEP_ADAPTER = 0;

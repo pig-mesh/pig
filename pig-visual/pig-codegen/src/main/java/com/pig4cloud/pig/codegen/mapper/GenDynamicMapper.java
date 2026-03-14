@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,19 +25,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
- * 动态查询Mapper接口
+ * 动态查询
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2022-07-09
  */
 @Mapper
 public interface GenDynamicMapper {
 
-	/**
-	 * 动态SQL查询
-	 * @param sq SQL查询语句
-	 * @return 查询结果列表，每个结果以LinkedHashMap形式存储
-	 */
 	@InterceptorIgnore(tenantLine = "true")
 	List<LinkedHashMap<String, Object>> dynamicQuerySql(@Param("value") String sq);
 

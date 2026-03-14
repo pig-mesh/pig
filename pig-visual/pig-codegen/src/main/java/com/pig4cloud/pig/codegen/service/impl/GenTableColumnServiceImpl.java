@@ -1,13 +1,6 @@
 package com.pig4cloud.pig.codegen.service.impl;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.springframework.stereotype.Service;
-
+import cn.hutool.core.text.NamingCase;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenFieldType;
@@ -15,15 +8,20 @@ import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import com.pig4cloud.pig.codegen.mapper.GenFieldTypeMapper;
 import com.pig4cloud.pig.codegen.mapper.GenTableColumnMapper;
 import com.pig4cloud.pig.codegen.service.GenTableColumnService;
-
-import cn.hutool.core.text.NamingCase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 表字段信息管理服务实现类
+ * 表字段信息管理
  *
  * @author lengleng
- * @date 2025/05/31
+ * @date 2020/5/18
  */
 @Service
 @RequiredArgsConstructor
@@ -79,9 +77,12 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	 * @param tableFieldList 表单字段列表
 	 */
 	@Override
+
 	public void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
 		AtomicInteger sort = new AtomicInteger();
-		this.updateBatchById(tableFieldList.stream().peek(field -> field.setSort(sort.getAndIncrement())).toList());
+		this.updateBatchById(tableFieldList.stream()
+			.peek(field -> field.setSort(sort.getAndIncrement()))
+                .toList());
 	}
 
 }

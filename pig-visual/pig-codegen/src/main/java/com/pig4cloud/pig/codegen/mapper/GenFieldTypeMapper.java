@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,18 +17,18 @@
 
 package com.pig4cloud.pig.codegen.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.codegen.entity.GenFieldType;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Set;
 
 /**
- * 字段类型映射器接口：用于操作字段类型相关数据库操作
+ * 列属性
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author pig code generator
+ * @date 2023-02-06 20:16:01
  */
 @Mapper
 public interface GenFieldTypeMapper extends BaseMapper<GenFieldType> {

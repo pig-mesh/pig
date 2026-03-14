@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,30 +17,17 @@
 
 package com.pig4cloud.pig.daemon.quartz.exception;
 
-import java.io.Serial;
-
 /**
- * 定时任务异常类
+ * 定时任务异常
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author 郑健楠
  */
 public class TaskException extends Exception {
 
-	@Serial
-	private static final long serialVersionUID = 1L;
-
-	/**
-	 * 无参构造方法，创建一个TaskException实例
-	 */
 	public TaskException() {
 		super();
 	}
 
-	/**
-	 * 构造方法，使用指定消息创建TaskException实例
-	 * @param msg 异常信息
-	 */
 	public TaskException(String msg) {
 		super(msg);
 	}

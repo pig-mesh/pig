@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,23 +22,24 @@ import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pig.common.core.util.R;
 
 /**
- * 代码生成模板服务接口
+ * 模板
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author PIG
+ * @date 2023-02-21 17:15:44
  */
 public interface GenTemplateService extends IService<GenTemplateEntity> {
 
-	/**
-	 * 检查版本信息
-	 * @return 返回检查结果，包含版本信息
-	 */
-	R checkVersion();
+    /**
+     * 检查版本
+     * @return {@link R }
+     */
+    R checkVersion();
 
-	/**
-	 * 在线更新
-	 * @return 更新结果
-	 */
-	R onlineUpdate();
 
+    /**
+     * 在线更新
+     *
+     * @return {@link R }
+     */
+    R onlineUpdate();
 }

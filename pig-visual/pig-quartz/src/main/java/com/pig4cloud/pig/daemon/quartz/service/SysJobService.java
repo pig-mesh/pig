@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,14 +18,23 @@
 package com.pig4cloud.pig.daemon.quartz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 
 /**
- * 定时任务调度服务接口
+ * 定时任务调度表
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author frwcloud
+ * @date 2019-01-27 10:04:42
  */
 public interface SysJobService extends IService<SysJob> {
 
+    /**
+     * 检查任务配置
+     *
+     * @param field  字段
+     * @param sysJob sys 作业
+     * @return {@link R }
+     */
+    R checkJob(String field, SysJob sysJob);
 }

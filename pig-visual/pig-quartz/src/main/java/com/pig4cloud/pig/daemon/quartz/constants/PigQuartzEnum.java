@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,13 +21,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 定时任务枚举类
- * <p>
- * 定义定时任务相关的枚举常量，包括错失执行策略、任务状态等
- *
- * @author lengleng
  * @author 郑健楠
- * @date 2025/05/31
+ *
+ * <p>
+ * 定时任务枚举
  */
 @Getter
 @AllArgsConstructor

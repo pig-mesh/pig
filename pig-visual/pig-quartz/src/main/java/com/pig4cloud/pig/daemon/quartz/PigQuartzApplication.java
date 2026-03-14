@@ -8,13 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * PigQuartz应用启动类
- * <p>
- * 集成定时任务、Feign客户端、资源服务及服务发现功能
- *
- * @author lengleng
  * @author frwcloud
- * @date 2025/05/31
+ * @date 2019/01/23 定时任务模块
  */
 @EnablePigDoc("job")
 @EnablePigFeignClients

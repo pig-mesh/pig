@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -37,157 +38,170 @@ import java.util.List;
  */
 @Data
 @TableName("gen_table")
+@FieldNameConstants
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "列属性")
 public class GenTable extends Model<GenTable> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * id
-	 */
-	@TableId(type = IdType.ASSIGN_ID)
-	@Schema(description = "id")
-	private Long id;
+    /**
+     * id
+     */
+    @TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "id")
+    private Long id;
 
-	/**
-	 * 数据源名称
-	 */
-	@Schema(description = "数据源名称")
-	private String dsName;
+    /**
+     * 数据源名称
+     */
+    @Schema(description = "数据源名称")
+    private String dsName;
 
-	/**
-	 * 数据源类型
-	 */
-	@Schema(description = "数据源类型")
-	private String dbType;
+    /**
+     * 数据源类型
+     */
+    @Schema(description = "数据源类型")
+    private String dbType;
 
-	/**
-	 * 表名
-	 */
-	@Schema(description = "表名")
-	private String tableName;
+    /**
+     * 表名
+     */
+    @Schema(description = "表名")
+    private String tableName;
 
-	/**
-	 * 类名
-	 */
-	@Schema(description = "类名")
-	private String className;
+    /**
+     * 类名
+     */
+    @Schema(description = "类名")
+    private String className;
 
-	/**
-	 * 说明
-	 */
-	@Schema(description = "说明")
-	private String tableComment;
+    /**
+     * 说明
+     */
+    @Schema(description = "说明")
+    private String tableComment;
 
-	/**
-	 * 作者
-	 */
-	@Schema(description = "作者")
-	private String author;
+    /**
+     * 作者
+     */
+    @Schema(description = "作者")
+    private String author;
 
-	/**
-	 * 邮箱
-	 */
-	@Schema(description = "邮箱")
-	private String email;
+    /**
+     * 邮箱
+     */
+    @Schema(description = "邮箱")
+    private String email;
 
-	/**
-	 * 项目包名
-	 */
-	@Schema(description = "项目包名")
-	private String packageName;
+    /**
+     * 项目包名
+     */
+    @Schema(description = "项目包名")
+    private String packageName;
 
-	/**
-	 * 项目版本号
-	 */
-	@Schema(description = "项目版本号")
-	private String version;
+    /**
+     * 项目版本号
+     */
+    @Schema(description = "项目版本号")
+    private String version;
 
-	/**
-	 * 生成方式 0：zip压缩包 1：自定义目录
-	 */
-	@Schema(description = "生成方式  0：zip压缩包   1：自定义目录")
-	private String generatorType;
+    /**
+     * 生成方式 0：zip压缩包 1：自定义目录
+     */
+    @Schema(description = "生成方式  0：zip压缩包   1：自定义目录")
+    private String generatorType;
 
-	/**
-	 * 后端生成路径
-	 */
-	@Schema(description = "后端生成路径")
-	private String backendPath;
+    /**
+     * 后端生成路径
+     */
+    @Schema(description = "后端生成路径")
+    private String backendPath;
 
-	/**
-	 * 前端生成路径
-	 */
-	@Schema(description = "前端生成路径")
-	private String frontendPath;
+    /**
+     * 前端生成路径
+     */
+    @Schema(description = "前端生成路径")
+    private String frontendPath;
 
-	/**
-	 * 模块名
-	 */
-	@Schema(description = "模块名")
-	private String moduleName;
+    /**
+     * 模块名
+     */
+    @Schema(description = "模块名")
+    private String moduleName;
 
-	/**
-	 * 功能名
-	 */
-	@Schema(description = "功能名")
-	private String functionName;
+    /**
+     * 功能名
+     */
+    @Schema(description = "功能名")
+    private String functionName;
 
-	/**
-	 * 表单布局 1：一列 2：两列
-	 */
-	@Schema(description = "表单布局  1：一列   2：两列")
-	private Integer formLayout;
+    /**
+     * 表单布局 1：一列 2：两列
+     */
+    @Schema(description = "表单布局  1：一列   2：两列")
+    private Integer formLayout;
 
-	/**
-	 * 基类ID
-	 */
-	@Schema(description = "基类ID")
-	private Long baseclassId;
+    /**
+     * 所属菜单ID
+     */
+    @Schema(description = "所属菜单ID")
+    private Long syncMenuId;
 
-	/**
-	 * 创建时间
-	 */
-	@Schema(description = "创建时间")
-	private LocalDateTime createTime;
+    /**
+     * 是否同步路由
+     */
+    @Schema
+    private String syncRoute;
 
-	/**
-	 * 代码生成风格
-	 */
-	private Long style;
+    /**
+     * 基类ID
+     */
+    @Schema(description = "基类ID")
+    private Long baseclassId;
 
-	/**
-	 * 子表名称
-	 */
-	private String childTableName;
+    /**
+     * 创建时间
+     */
+    @Schema(description = "创建时间")
+    private LocalDateTime createTime;
 
-	/**
-	 * 主表关联键
-	 */
-	private String mainField;
+    /**
+     * 代码生成风格
+     */
+    private Long style;
 
-	/**
-	 * 子表关联键
-	 */
-	private String childField;
+    /**
+     * 子表名称
+     */
+    private String childTableName;
 
-	/**
-	 * 字段列表
-	 */
-	@TableField(exist = false)
-	private List<GenTableColumnEntity> fieldList;
+    /**
+     * 主表关联键
+     */
+    private String mainField;
 
-	/**
-	 * 子表字段列表
-	 */
-	@TableField(exist = false)
-	private List<GenTableColumnEntity> childFieldList;
+    /**
+     * 子表关联键
+     */
+    private String childField;
 
-	/**
-	 * 代码风格（模版分组信息）
-	 */
-	@TableField(exist = false)
-	private List<GenGroupEntity> groupList;
+    /**
+     * 字段列表
+     */
+    @TableField(exist = false)
+    private List<GenTableColumnEntity> fieldList;
+
+    /**
+     * 子表字段列表
+     */
+    @TableField(exist = false)
+    private List<GenTableColumnEntity> childFieldList;
+
+    /**
+     * 代码风格（模版分组信息）
+     */
+    @TableField(exist = false)
+    private List<GenGroupEntity> groupList;
 
 }

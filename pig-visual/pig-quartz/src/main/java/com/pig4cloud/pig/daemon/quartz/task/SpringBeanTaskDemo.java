@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,21 +25,14 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * Spring Bean任务演示类
- *
- * @author lengleng
  * @author 郑健楠
- * @date 2025/05/31
  */
 @Slf4j
 @Component("demo")
 public class SpringBeanTaskDemo {
 
 	/**
-	 * 演示方法，用于测试Spring Bean
-	 * @param para 输入参数
-	 * @return 返回任务日志状态成功类型
-	 * @throws Exception 可能抛出的异常
+	 * 测试Spring Bean的演示方法
 	 */
 	@SneakyThrows
 	public String demoMethod(String para) {

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -23,25 +23,15 @@ import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import java.util.List;
 
 /**
- * 代码生成表列服务接口
+ * 列属性
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author pig code generator
+ * @date 2023-02-06 20:16:01
  */
 public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
-	/**
-	 * 初始化字段列表
-	 * @param tableFieldList 表字段实体列表
-	 */
 	void initFieldList(List<GenTableColumnEntity> tableFieldList);
 
-	/**
-	 * 更新表字段信息
-	 * @param dsName 数据源名称
-	 * @param tableName 表名
-	 * @param tableFieldList 表字段列表
-	 */
 	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 }

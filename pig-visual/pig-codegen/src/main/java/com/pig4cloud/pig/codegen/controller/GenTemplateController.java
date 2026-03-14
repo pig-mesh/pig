@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,10 +25,10 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pig.codegen.service.GenTemplateService;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -39,135 +39,143 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 模板管理控制器
+ * 模板
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author PIG
+ * @date 2023-02-21 17:15:44
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/template")
-@Tag(description = "template", name = "模板管理模块")
+@Tag(description = "template", name = "模板管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTemplateController {
 
-	private final GenTemplateService genTemplateService;
+    private final GenTemplateService genTemplateService;
 
-	/**
-	 * 分页查询模板信息
-	 * @param page 分页参数对象
-	 * @param genTemplate 模板查询条件
-	 * @return 分页查询结果
-	 */
-	@Operation(summary = "分页查询", description = "分页查询")
-	@GetMapping("/page")
-	@HasPermission("codegen_template_view")
-	public R getTemplatePage(Page page, GenTemplateEntity genTemplate) {
-		LambdaQueryWrapper<GenTemplateEntity> wrapper = Wrappers.<GenTemplateEntity>lambdaQuery()
-			.like(genTemplate.getId() != null, GenTemplateEntity::getId, genTemplate.getId())
-			.like(StrUtil.isNotEmpty(genTemplate.getTemplateName()), GenTemplateEntity::getTemplateName,
-					genTemplate.getTemplateName());
-		return R.ok(genTemplateService.page(page, wrapper));
-	}
+    /**
+     * 分页查询
+     *
+     * @param page        分页对象
+     * @param genTemplate 模板
+     * @return
+     */
+    @Operation(summary = "分页查询", description = "分页查询")
+    @GetMapping("/page")
+    @HasPermission("codegen_template_view")
+    public R getGenTemplatePage(Page page, GenTemplateEntity genTemplate) {
+        LambdaQueryWrapper<GenTemplateEntity> wrapper = Wrappers.<GenTemplateEntity>lambdaQuery()
+                .like(genTemplate.getId() != null, GenTemplateEntity::getId, genTemplate.getId())
+                .like(StrUtil.isNotEmpty(genTemplate.getTemplateName()), GenTemplateEntity::getTemplateName,
+                        genTemplate.getTemplateName());
+        return R.ok(genTemplateService.page(page, wrapper));
+    }
 
-	/**
-	 * 查询全部模板
-	 * @return
-	 */
-	@Operation(summary = "查询全部", description = "查询全部")
-	@GetMapping("/list")
-	@HasPermission("codegen_template_view")
-	public R listTemplates() {
-		return R.ok(genTemplateService
-			.list(Wrappers.<GenTemplateEntity>lambdaQuery().orderByDesc(GenTemplateEntity::getCreateTime)));
-	}
+    /**
+     * 查询全部模板
+     *
+     * @return
+     */
+    @Operation(summary = "查询全部", description = "查询全部")
+    @GetMapping("/list")
+    @HasPermission("codegen_template_view")
+    public R list() {
+        return R.ok(genTemplateService.list(Wrappers.<GenTemplateEntity>lambdaQuery()
+                .orderByDesc(GenTemplateEntity::getCreateTime)));
+    }
 
-	/**
-	 * 通过id查询模板
-	 * @param id id
-	 * @return R
-	 */
-	@Operation(summary = "通过id查询", description = "通过id查询")
-	@GetMapping("/{id}")
-	@HasPermission("codegen_template_view")
-	public R getTemplateById(@PathVariable("id") Long id) {
-		return R.ok(genTemplateService.getById(id));
-	}
+    /**
+     * 通过id查询模板
+     *
+     * @param id id
+     * @return R
+     */
+    @Operation(summary = "通过id查询", description = "通过id查询")
+    @GetMapping("/{id}")
+    @HasPermission("codegen_template_view")
+    public R getById(@PathVariable("id") Long id) {
+        return R.ok(genTemplateService.getById(id));
+    }
 
-	/**
-	 * 新增模板
-	 * @param genTemplate 模板
-	 * @return R
-	 */
-	@XssCleanIgnore
-	@Operation(summary = "新增模板", description = "新增模板")
-	@SysLog("新增模板")
-	@PostMapping
-	@HasPermission("codegen_template_add")
-	public R saveTemplate(@RequestBody GenTemplateEntity genTemplate) {
-		return R.ok(genTemplateService.save(genTemplate));
-	}
+    /**
+     * 新增模板
+     *
+     * @param genTemplate 模板
+     * @return R
+     */
+    @XssCleanIgnore
+    @Operation(summary = "新增模板", description = "新增模板")
+    @SysLog("新增模板")
+    @PostMapping
+    @HasPermission("codegen_template_add")
+    public R save(@RequestBody GenTemplateEntity genTemplate) {
+        return R.ok(genTemplateService.save(genTemplate));
+    }
 
-	/**
-	 * 修改模板
-	 * @param genTemplate 模板
-	 * @return R
-	 */
-	@XssCleanIgnore
-	@Operation(summary = "修改模板", description = "修改模板")
-	@SysLog("修改模板")
-	@PutMapping
-	@HasPermission("codegen_template_edit")
-	public R updateTemplate(@RequestBody GenTemplateEntity genTemplate) {
-		return R.ok(genTemplateService.updateById(genTemplate));
-	}
+    /**
+     * 修改模板
+     *
+     * @param genTemplate 模板
+     * @return R
+     */
+    @XssCleanIgnore
+    @Operation(summary = "修改模板", description = "修改模板")
+    @SysLog("修改模板")
+    @PutMapping
+    @HasPermission("codegen_template_edit")
+    public R updateById(@RequestBody GenTemplateEntity genTemplate) {
+        return R.ok(genTemplateService.updateById(genTemplate));
+    }
 
-	/**
-	 * 通过id删除模板
-	 * @param ids id列表
-	 * @return R
-	 */
-	@Operation(summary = "通过id删除模板", description = "通过id删除模板")
-	@SysLog("通过id删除模板")
-	@DeleteMapping
-	@HasPermission("codegen_template_del")
-	public R removeTemplateByIds(@RequestBody Long[] ids) {
-		return R.ok(genTemplateService.removeBatchByIds(CollUtil.toList(ids)));
-	}
+    /**
+     * 通过id删除模板
+     *
+     * @param ids id列表
+     * @return R
+     */
+    @Operation(summary = "通过id删除模板", description = "通过id删除模板")
+    @SysLog("通过id删除模板")
+    @DeleteMapping
+    @HasPermission("codegen_template_del")
+    public R removeById(@RequestBody Long[] ids) {
+        return R.ok(genTemplateService.removeBatchByIds(CollUtil.toList(ids)));
+    }
 
-	/**
-	 * 导出excel 表格
-	 * @param genTemplate 查询条件
-	 * @return excel 文件流
-	 */
-	@ResponseExcel
-	@GetMapping("/export")
-	@HasPermission("codegen_template_export")
-	@Operation(summary = "导出模板", description = "导出模板")
-	public List<GenTemplateEntity> exportTemplates(GenTemplateEntity genTemplate) {
-		return genTemplateService.list(Wrappers.query(genTemplate));
-	}
+    /**
+     * 导出excel 表格
+     *
+     * @param genTemplate 查询条件
+     * @return excel 文件流
+     */
+    @ResponseExcel
+    @GetMapping("/export")
+    @HasPermission("codegen_template_export")
+    public List<GenTemplateEntity> export(GenTemplateEntity genTemplate) {
+        return genTemplateService.list(Wrappers.query(genTemplate));
+    }
 
-	/**
-	 * 在线更新模板
-	 * @return R
-	 */
-	@Operation(summary = "在线更新模板", description = "在线更新模板")
-	@GetMapping("/online")
-	@HasPermission("codegen_template_view")
-	public R online() {
-		return genTemplateService.onlineUpdate();
-	}
 
-	/**
-	 * 检查版本
-	 * @return {@link R }
-	 */
-	@Operation(summary = "在线检查模板", description = "在线检查模板")
-	@GetMapping("/checkVersion")
-	@HasPermission("codegen_template_view")
-	public R checkVersion() {
-		return genTemplateService.checkVersion();
-	}
+    /**
+     * 在线更新模板
+     *
+     * @return R
+     */
+    @Operation(summary = "在线更新模板", description = "在线更新模板")
+    @GetMapping("/online")
+    @HasPermission("codegen_template_view")
+    public R online() {
+        return genTemplateService.onlineUpdate();
+    }
+
+    /**
+     * 检查版本
+     * @return {@link R }
+     */
+    @Operation(summary = "在线检查模板", description = "在线检查模板")
+    @GetMapping("/checkVersion")
+    @HasPermission("codegen_template_view")
+    public R checkVersion() {
+        return genTemplateService.checkVersion();
+    }
 
 }

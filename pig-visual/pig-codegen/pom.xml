@@ -15,8 +15,9 @@
     <description>代码生成模块</description>
 
     <properties>
-        <screw.version>0.0.6</screw.version>
-        <anyline.version>8.7.2-jdk17-20240808</anyline.version>
+        <screw.version>0.1.0</screw.version>
+        <configuration.version>1.10</configuration.version>
+        <anyline.version>8.7.2-jdk17-20250109</anyline.version>
     </properties>
 
     <dependencies>
@@ -49,6 +50,16 @@
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
         </dependency>
+        <!-- postgresql 驱动 -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+        </dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-3-starter</artifactId>
+        </dependency>
         <!--anyline-->
         <dependency>
             <groupId>org.anyline</groupId>
@@ -60,14 +71,20 @@
             <artifactId>anyline-data-jdbc-mysql</artifactId>
             <version>${anyline.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.anyline</groupId>
+            <artifactId>anyline-data-jdbc-postgresql</artifactId>
+            <version>${anyline.version}</version>
+        </dependency>
         <!--common-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-json</artifactId>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>${configuration.version}</version>
         </dependency>
         <!--swagger-->
         <dependency>
@@ -98,7 +115,7 @@
         </dependency>
         <!--生成文档-->
         <dependency>
-            <groupId>group.springframework.plugin</groupId>
+            <groupId>io.github.pig-mesh.plugin</groupId>
             <artifactId>screw-spring-boot-starter</artifactId>
             <version>${screw.version}</version>
         </dependency>
@@ -130,9 +147,6 @@
                                 <goals>
                                     <goal>repackage</goal>
                                 </goals>
-                                <configuration>
-                                    <loaderImplementation>CLASSIC</loaderImplementation>
-                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

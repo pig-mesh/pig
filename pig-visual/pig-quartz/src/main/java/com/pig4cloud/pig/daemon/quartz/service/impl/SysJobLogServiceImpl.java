@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,21 +17,21 @@
 
 package com.pig4cloud.pig.daemon.quartz.service.impl;
 
-import org.springframework.stereotype.Service;
-
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pig.daemon.quartz.mapper.SysJobLogMapper;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobLogService;
-
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 /**
- * 定时任务执行日志服务实现类
+ * 定时任务执行日志表
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author frwcloud
+ * @date 2019-01-27 13:40:20
  */
+@Slf4j
 @Service
 @AllArgsConstructor
 public class SysJobLogServiceImpl extends ServiceImpl<SysJobLogMapper, SysJobLog> implements SysJobLogService {

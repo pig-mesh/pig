@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,7 @@ package com.pig4cloud.pig.codegen.service.impl;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.EnumUtil;
+import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -55,209 +56,221 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 代码生成表服务实现类
+ * 列属性
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author pig code generator
+ * @date 2023-02-06 20:34:55
  */
 @Service
 @RequiredArgsConstructor
 public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> implements GenTableService {
 
-	private final PigCodeGenDefaultProperties configurationProperties;
+    private final PigCodeGenDefaultProperties defaultProperties;
 
-	private final GenTableColumnService columnService;
+    private final GenTableColumnService columnService;
 
-	private final GenGroupService genGroupService;
+    private final GenGroupService genGroupService;
 
-	/**
-	 * 查询表ddl 语句
-	 * @param dsName 数据源名称
-	 * @param tableName 表名称
-	 * @return ddl 语句
-	 * @throws Exception
-	 */
-	@Override
-	public String queryTableDdl(String dsName, String tableName) throws Exception {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(dsName);
-		Table table = ServiceProxy.metadata().table(tableName); // 获取表结构
-		table.execute(false);// 不执行SQL
-		ServiceProxy.ddl().create(table);
-		return table.getDdl();// 返回创建表的DDL
-	}
 
-	/**
-	 * 查询表的全部字段
-	 * @param dsName 数据源
-	 * @param tableName 表名称
-	 * @return column
-	 */
-	@Override
-	public List<String> queryTableColumn(String dsName, String tableName) {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(dsName);
-		CacheProxy.clear();
-		return ServiceProxy.metadata().columns(tableName).values().stream().map(Column::getName).toList();
-	}
+    /**
+     * 查询表ddl 语句
+     *
+     * @param dsName    数据源名称
+     * @param tableName 表名称
+     * @return ddl 语句
+     * @throws Exception
+     */
+    @Override
+    public String queryTableDdl(String dsName, String tableName) throws Exception {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
+        Table table = ServiceProxy.metadata().table(tableName); // 获取表结构
+        table.execute(false);// 不执行SQL
+        ServiceProxy.ddl().create(table);
+        return table.getDdl();// 返回创建表的DDL
+    }
 
-	/**
-	 * 查询对应数据源的表
-	 * @param page 分页信息
-	 * @param table 查询条件
-	 * @return 表
-	 */
-	@Override
-	public IPage queryTablePage(Page<Table> page, GenTable table) {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(table.getDsName());
-		CacheProxy.clear();
-		List<Table> tableList = ServiceProxy.metadata().tables().values().stream().filter(t -> {
-			if (StrUtil.isBlank(table.getTableName())) {
-				return true;
-			}
-			return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName());
-		}).toList();
+    /**
+     * 查询表的全部字段
+     *
+     * @param dsName    数据源
+     * @param tableName 表名称
+     * @return column
+     */
+    @Override
+    public List<Column> queryTableColumn(String dsName, String tableName) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
+        CacheProxy.clear();
+        return ServiceProxy.metadata().columns(tableName).values().stream().toList();
+    }
 
-		// 根据 page 进行分页
-		List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);
-		page.setTotal(tableList.size());
-		page.setRecords(records);
-		return page;
-	}
+    /**
+     * 查询对应数据源的表
+     *
+     * @param page  分页信息
+     * @param table 查询条件
+     * @return 表
+     */
+    @Override
+    public IPage queryTablePage(Page<Table> page, GenTable table) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(table.getDsName());
+        CacheProxy.clear();
+        List<Table> tableList = ServiceProxy.metadata().tables()
+                .values().stream().filter(t -> {
+                    if (StrUtil.isBlank(table.getTableName())) {
+                        return true;
+                    }
 
-	/**
-	 * 查询数据源里面的全部表
-	 * @param dsName 数据源名称
-	 * @return table
-	 */
-	@Override
-	public List<String> queryTableList(String dsName) {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(dsName);
-		CacheProxy.clear();
-		return ServiceProxy.metadata().tables().values().stream().map(Table::getName).toList();
-	}
+                    // 通过表名和表注释进行模糊查询
+                    return StrUtil.containsIgnoreCase(t.getName(false), table.getTableName())
+                            || StrUtil.containsIgnoreCase(t.getComment(), table.getTableName());
+                })
+                // 根据 createTime 、updateTime 倒序排序
+                .sorted((o1, o2) -> {
+                    long time1 = (o1.getUpdateTime() != null ? o1.getUpdateTime().getTime() :
+                            (o1.getCreateTime() != null ? o1.getCreateTime().getTime() : 0));
+                    long time2 = (o2.getUpdateTime() != null ? o2.getUpdateTime().getTime() :
+                            (o2.getCreateTime() != null ? o2.getCreateTime().getTime() : 0));
+                    return NumberUtil.compare(time2, time1);
+                }).toList();
 
-	/**
-	 * 查询表信息（列），然后插入到中间表中
-	 * @param dsName 数据源
-	 * @param tableName 表名
-	 * @return GenTable
-	 */
-	@Override
-	public GenTable queryOrBuildTable(String dsName, String tableName) {
-		GenTable genTable = baseMapper.selectOne(
-				Wrappers.<GenTable>lambdaQuery().eq(GenTable::getTableName, tableName).eq(GenTable::getDsName, dsName));
-		// 如果 genTable 为空， 执行导入
-		if (Objects.isNull(genTable)) {
-			genTable = this.tableImport(dsName, tableName);
-		}
+        // 根据 page 进行分页
+        List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);
+        page.setTotal(tableList.size());
+        page.setRecords(records);
+        return page;
+    }
 
-		List<GenTableColumnEntity> fieldList = columnService.list(Wrappers.<GenTableColumnEntity>lambdaQuery()
-			.eq(GenTableColumnEntity::getDsName, dsName)
-			.eq(GenTableColumnEntity::getTableName, tableName)
-			.orderByAsc(GenTableColumnEntity::getSort));
-		genTable.setFieldList(fieldList);
+    /**
+     * 查询数据源里面的全部表
+     *
+     * @param dsName 数据源名称
+     * @return table
+     */
+    @Override
+    public List<Table> queryTableList(String dsName) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
+        CacheProxy.clear();
+        return ServiceProxy.metadata().tables().values().stream().toList();
+    }
 
-		// 查询模板分组信息
-		List<GenGroupEntity> groupEntities = genGroupService
-			.list(Wrappers.<GenGroupEntity>lambdaQuery().orderByDesc(GenGroupEntity::getCreateTime));
-		genTable.setGroupList(groupEntities);
-		return genTable;
-	}
+    /**
+     * 查询表信息（列），然后插入到中间表中
+     *
+     * @param dsName    数据源
+     * @param tableName 表名
+     * @return GenTable
+     */
+    @Override
+    public GenTable queryOrBuildTable(String dsName, String tableName) {
+        GenTable genTable = baseMapper.selectOne(
+                Wrappers.<GenTable>lambdaQuery().eq(GenTable::getTableName, tableName).eq(GenTable::getDsName, dsName));
+        // 如果 genTable 为空， 执行导入
+        if (Objects.isNull(genTable)) {
+            genTable = this.tableImport(dsName, tableName);
+        }
 
-	/**
-	 * 导入表结构并生成代码配置
-	 * @param dsName 数据源名称
-	 * @param tableName 表名
-	 * @return 生成的表配置信息
-	 * @Transactional 启用事务，遇到异常时回滚
-	 */
-	@Transactional(rollbackFor = Exception.class)
-	protected GenTable tableImport(String dsName, String tableName) {
-		// 手动切换数据源
-		DynamicDataSourceContextHolder.push(dsName);
+        List<GenTableColumnEntity> fieldList = columnService.list(Wrappers.<GenTableColumnEntity>lambdaQuery()
+                .eq(GenTableColumnEntity::getDsName, dsName)
+                .eq(GenTableColumnEntity::getTableName, tableName)
+                .orderByAsc(GenTableColumnEntity::getSort));
+        genTable.setFieldList(fieldList);
 
-		// 查询表是否存在
-		GenTable table = new GenTable();
-		// 从数据库获取表信息
-		CacheProxy.clear();
-		AnylineService service = ServiceProxy.service();
-		Table tableMetadata = service.metadata().table(tableName);
-		Database database = service.metadata().database();
-		// 获取默认表配置信息 （）
+        // 查询模板分组信息
+        List<GenGroupEntity> groupEntities = genGroupService.list();
+        genTable.setGroupList(groupEntities);
+        return genTable;
+    }
 
-		table.setPackageName(configurationProperties.getPackageName());
-		table.setVersion(configurationProperties.getVersion());
-		table.setBackendPath(configurationProperties.getBackendPath());
-		table.setFrontendPath(configurationProperties.getFrontendPath());
-		table.setAuthor(configurationProperties.getAuthor());
-		table.setEmail(configurationProperties.getEmail());
-		table.setTableName(tableName);
-		table.setDsName(dsName);
-		table.setTableComment(tableMetadata.getComment());
+    @Transactional(rollbackFor = Exception.class)
+    protected GenTable tableImport(String dsName, String tableName) {
+        // 手动切换数据源
+        DynamicDataSourceContextHolder.push(dsName);
 
-		table.setDbType(database.getDatabase().title());
-		table.setFormLayout(configurationProperties.getFormLayout());
-		table.setGeneratorType(configurationProperties.getGeneratorType());
-		table.setClassName(NamingCase.toPascalCase(tableName));
-		// 模块名称默认为 admin
-		table.setModuleName(configurationProperties.getModuleName());
-		table.setFunctionName(GenKit.getFunctionName(tableName));
-		table.setCreateTime(LocalDateTime.now());
+        // 查询表是否存在
+        GenTable table = new GenTable();
+        // 从数据库获取表信息
+        CacheProxy.clear();
+        AnylineService service = ServiceProxy.service();
+        Table tableMetadata = service.metadata().table(tableName);
+        Database database = service.metadata().database();
+        // 获取默认表配置信息 （）
 
-		// 使用默认数据源
-		DynamicDataSourceContextHolder.clear();
-		this.save(table);
+        table.setPackageName(defaultProperties.getPackageName());
+        table.setVersion(defaultProperties.getVersion());
+        table.setBackendPath(defaultProperties.getBackendPath());
+        table.setFrontendPath(defaultProperties.getFrontendPath());
+        table.setAuthor(defaultProperties.getAuthor());
+        table.setEmail(defaultProperties.getEmail());
+        table.setTableName(tableName);
+        table.setDsName(dsName);
+        table.setTableComment(tableMetadata.getComment());
 
-		// 获取原生字段数据
-		List<GenTableColumnEntity> tableFieldList = getGenTableColumnEntities(dsName, tableName, tableMetadata);
+        table.setDbType(database.getDatabaseType().title());
+        table.setFormLayout(defaultProperties.getFormLayout());
+        table.setSyncRoute(defaultProperties.getSyncRoute());
+        table.setGeneratorType(defaultProperties.getGeneratorType());
+        table.setClassName(NamingCase.toPascalCase(tableName));
+        // 模块名称默认为 admin
+        table.setModuleName(defaultProperties.getModuleName());
+        table.setFunctionName(GenKit.getFunctionName(tableName));
+        table.setCreateTime(LocalDateTime.now());
 
-		// 初始化字段数据
-		columnService.initFieldList(tableFieldList);
-		// 保存列数据
-		columnService.saveOrUpdateBatch(tableFieldList);
+        // 使用默认数据源
+        DynamicDataSourceContextHolder.clear();
+        this.save(table);
 
-		table.setFieldList(tableFieldList);
-		return table;
-	}
+        // 获取原生字段数据
+        List<GenTableColumnEntity> tableFieldList = getGenTableColumnEntities(dsName, tableName, tableMetadata);
 
-	/**
-	 * 获取表字段信息
-	 * @param dsName 数据源信息
-	 * @param tableName 表名称
-	 * @param tableMetadata 表的元数据
-	 * @return list
-	 */
-	private static @NotNull List<GenTableColumnEntity> getGenTableColumnEntities(String dsName, String tableName,
-			Table tableMetadata) {
-		List<GenTableColumnEntity> tableFieldList = new ArrayList<>();
-		LinkedHashMap<String, Column> columns = tableMetadata.getColumns();
-		columns.forEach((columnName, column) -> {
-			GenTableColumnEntity genTableColumnEntity = new GenTableColumnEntity();
-			genTableColumnEntity.setTableName(tableName);
-			genTableColumnEntity.setDsName(dsName);
-			genTableColumnEntity.setFieldName(column.getName());
-			genTableColumnEntity.setFieldComment(column.getComment());
-			genTableColumnEntity.setFieldType(column.getTypeName());
-			genTableColumnEntity.setPrimaryPk(
-					column.isPrimaryKey() == 1 ? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
-			genTableColumnEntity.setAutoFill(AutoFillEnum.DEFAULT.name());
-			genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
-			genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());
+        // 初始化字段数据
+        columnService.initFieldList(tableFieldList);
+        // 保存列数据
+        columnService.saveOrUpdateBatch(tableFieldList);
 
-			// 审计字段处理
-			if (EnumUtil.contains(CommonColumnFiledEnum.class, column.getName())) {
-				CommonColumnFiledEnum commonColumnFiledEnum = CommonColumnFiledEnum.valueOf(column.getName());
-				genTableColumnEntity.setFormItem(commonColumnFiledEnum.getFormItem());
-				genTableColumnEntity.setGridItem(commonColumnFiledEnum.getGridItem());
-				genTableColumnEntity.setAutoFill(commonColumnFiledEnum.getAutoFill());
-				genTableColumnEntity.setSort(commonColumnFiledEnum.getSort());
-			}
-			tableFieldList.add(genTableColumnEntity);
-		});
-		return tableFieldList;
-	}
+        table.setFieldList(tableFieldList);
+        return table;
+    }
+
+    /**
+     * 获取表字段信息
+     *
+     * @param dsName        数据源信息
+     * @param tableName     表名称
+     * @param tableMetadata 表的元数据
+     * @return list
+     */
+    private static @NotNull List<GenTableColumnEntity> getGenTableColumnEntities(String dsName, String tableName,
+                                                                                 Table tableMetadata) {
+        List<GenTableColumnEntity> tableFieldList = new ArrayList<>();
+        LinkedHashMap<String, Column> columns = tableMetadata.getColumns();
+        columns.forEach((columnName, column) -> {
+            GenTableColumnEntity genTableColumnEntity = new GenTableColumnEntity();
+            genTableColumnEntity.setTableName(tableName);
+            genTableColumnEntity.setDsName(dsName);
+            genTableColumnEntity.setFieldName(column.getName());
+            genTableColumnEntity.setFieldComment(column.getComment());
+            genTableColumnEntity.setFieldType(column.getTypeName());
+            genTableColumnEntity.setPrimaryPk(
+                    column.isPrimaryKey() == 1 ? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
+            genTableColumnEntity.setAutoFill(AutoFillEnum.DEFAULT.name());
+            genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
+            genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());
+
+            // 审计字段处理
+            if (EnumUtil.contains(CommonColumnFiledEnum.class, column.getName())) {
+                CommonColumnFiledEnum commonColumnFiledEnum = CommonColumnFiledEnum.valueOf(column.getName());
+                genTableColumnEntity.setFormItem(commonColumnFiledEnum.getFormItem());
+                genTableColumnEntity.setGridItem(commonColumnFiledEnum.getGridItem());
+                genTableColumnEntity.setAutoFill(commonColumnFiledEnum.getAutoFill());
+                genTableColumnEntity.setSort(commonColumnFiledEnum.getSort());
+            }
+            tableFieldList.add(genTableColumnEntity);
+        });
+        return tableFieldList;
+    }
 
 }

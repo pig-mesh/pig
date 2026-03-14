@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,25 +17,25 @@
 
 package com.pig4cloud.pig.codegen.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
- * 代码生成模板Mapper接口
+ * 模板
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author PIG
+ * @date 2023-02-21 17:15:44
  */
 @Mapper
 public interface GenTemplateMapper extends BaseMapper<GenTemplateEntity> {
 
 	/**
-	 * 根据模板组ID查询模板列表
-	 * @param groupId 模板组ID
-	 * @return 模板实体列表
+	 * 根据groupId查询 模板
+	 * @param groupId
+	 * @return
 	 */
 	List<GenTemplateEntity> listTemplateById(Long groupId);
 

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -23,17 +23,13 @@ import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;
 
 /**
- * 模板分组服务接口
+ * 模板分组
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author PIG
+ * @date 2023-02-21 20:01:53
  */
 public interface GenGroupService extends IService<GenGroupEntity> {
 
-	/**
-	 * 保存生成模板组
-	 * @param genTemplateGroup 模板组DTO对象
-	 */
 	void saveGenGroup(TemplateGroupDTO genTemplateGroup);
 
 	/**

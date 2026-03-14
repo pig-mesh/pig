@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,41 +31,34 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * 定时任务日志控制器
- *
  * @author frwcloud
- * @author lengleng
- * @date 2025/05/31
+ * <p>
+ * 定时任务执行日志表
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/sys-job-log")
-@Tag(description = "sys-job-log", name = "定时任务日志管理模块")
+@Tag(description = "sys-job-log", name = "定时任务日志")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysJobLogController {
 
 	private final SysJobLogService sysJobLogService;
 
 	/**
-	 * 分页查询定时任务日志
+	 * 分页查询
 	 * @param page 分页对象
-	 * @param sysJobLog 查询条件对象
-	 * @return 分页查询结果
+	 * @param sysJobLog 定时任务执行日志表
+	 * @return
 	 */
 	@GetMapping("/page")
-	@Operation(summary = "分页定时任务日志查询", description = "分页定时任务日志查询")
-	public R getJobLogPage(Page page, SysJobLog sysJobLog) {
+	@Operation(description = "分页定时任务日志查询")
+	public R getSysJobLogPage(Page page, SysJobLog sysJobLog) {
 		return R.ok(sysJobLogService.page(page, Wrappers.query(sysJobLog)));
 	}
 
-	/**
-	 * 批量删除日志
-	 * @param ids 要删除的日志ID数组
-	 * @return 操作结果
-	 */
 	@DeleteMapping
-	@Operation(summary = "批量删除日志", description = "批量删除日志")
-	public R removeBatchByIds(@RequestBody Long[] ids) {
+	@Operation(description = "批量删除日志")
+	public R deleteLogs(@RequestBody Long[] ids) {
 		return R.ok(sysJobLogService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 

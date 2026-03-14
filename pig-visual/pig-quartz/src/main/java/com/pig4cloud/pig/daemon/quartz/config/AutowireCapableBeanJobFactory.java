@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,11 +24,7 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 import org.springframework.util.Assert;
 
 /**
- * 自动装配能力的Bean任务工厂，继承自SpringBeanJobFactory，用于创建并自动装配Job实例
- *
- * @author lengleng
  * @author 郑健楠
- * @date 2025/05/31
  */
 class AutowireCapableBeanJobFactory extends SpringBeanJobFactory {
 
@@ -39,12 +35,6 @@ class AutowireCapableBeanJobFactory extends SpringBeanJobFactory {
 		this.beanFactory = beanFactory;
 	}
 
-	/**
-	 * 创建并初始化Job实例
-	 * @param bundle 触发器触发包，包含Job相关信息
-	 * @return 初始化后的Job实例
-	 * @throws Exception 创建或初始化过程中可能抛出的异常
-	 */
 	@Override
 	protected Object createJobInstance(TriggerFiredBundle bundle) throws Exception {
 		Object jobInstance = super.createJobInstance(bundle);

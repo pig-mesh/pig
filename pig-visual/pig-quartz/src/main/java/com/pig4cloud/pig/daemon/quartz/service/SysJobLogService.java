@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,10 +21,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 
 /**
- * 定时任务执行日志服务接口
+ * 定时任务执行日志表
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author frwcloud
+ * @date 2019-01-27 13:40:20
  */
 public interface SysJobLogService extends IService<SysJobLog> {
 

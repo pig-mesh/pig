@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,20 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 定时任务可执行jar反射实现类
+ * 定时任务可执行jar反射实现
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author 郑健楠
  */
 @Slf4j
 @Component("jarTaskInvok")
 public class JarTaskInvok implements ITaskInvok {
 
-	/**
-	 * 调用方法执行定时任务jar
-	 * @param sysJob 定时任务信息
-	 * @throws TaskException 执行任务时发生异常抛出
-	 */
 	@Override
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		ProcessBuilder processBuilder = new ProcessBuilder();

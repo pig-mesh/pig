@@ -2,7 +2,7 @@
 
 <!--
   ~
-  ~      Copyright (c) 2018-2025, lengleng All rights reserved.
+  ~      Copyright (c) 2018-2026, lengleng All rights reserved.
   ~
   ~  Redistribution and use in source and binary forms, with or without
   ~  modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,7 @@
 
 <mapper namespace="com.pig4cloud.pig.codegen.mapper.GenTableMapper">
 
-    <resultMap id="tableMap" type="com.pig4cloud.pig.codegen.entity.GenTable">
+  <resultMap id="tableMap" type="com.pig4cloud.pig.codegen.entity.GenTable">
         <id property="id" column="id"/>
         <result property="tableName" column="table_name"/>
         <result property="className" column="class_name"/>
@@ -38,7 +38,8 @@
         <result property="moduleName" column="module_name"/>
         <result property="functionName" column="function_name"/>
         <result property="formLayout" column="form_layout"/>
+        <result property="datasourceId" column="datasource_id"/>
         <result property="baseclassId" column="baseclass_id"/>
         <result property="createTime" column="create_time"/>
-    </resultMap>
+  </resultMap>
 </mapper>

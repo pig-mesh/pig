@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -35,10 +35,9 @@ import java.time.ZoneId;
 import java.util.Date;
 
 /**
- * 定时任务反射工具类，用于执行和管理定时任务的反射调用
+ * 定时任务反射工具类
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author 郑健楠
  */
 @Slf4j
 @Component
@@ -49,11 +48,6 @@ public class TaskInvokUtil {
 
 	private final SysJobService sysJobService;
 
-	/**
-	 * 执行定时任务方法
-	 * @param sysJob 定时任务信息
-	 * @param trigger 触发器
-	 */
 	@SneakyThrows
 	public void invokMethod(SysJob sysJob, Trigger trigger) {
 
@@ -81,8 +75,8 @@ public class TaskInvokUtil {
 		try {
 			// 执行任务
 			ITaskInvok iTaskInvok = TaskInvokFactory.getInvoker(sysJob.getJobType());
-			// 确保租户上下文有值，使得当前线程中的多租户特性生效。
 			iTaskInvok.invokMethod(sysJob);
+
 			// 记录成功状态
 			sysJobLog.setJobMessage(PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getDescription());
 			sysJobLog.setJobLogStatus(PigQuartzEnum.JOB_LOG_STATUS_SUCCESS.getType());

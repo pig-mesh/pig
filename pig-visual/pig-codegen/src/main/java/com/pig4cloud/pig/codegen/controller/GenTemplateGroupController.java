@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,9 +24,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
 import com.pig4cloud.pig.common.core.util.R;
+import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,7 +45,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/templateGroup")
-@Tag(description = "templateGroup", name = "模板分组关联表管理模块")
+@Tag(description = "templateGroup", name = "模板分组关联表管理")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class GenTemplateGroupController {
 
@@ -60,7 +60,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "分页查询", description = "分页查询")
 	@GetMapping("/page")
 	@HasPermission("codegen_templateGroup_view")
-	public R getTemplateGroupPage(Page page, GenTemplateGroupEntity genTemplateGroup) {
+	public R getgenTemplateGroupPage(Page page, GenTemplateGroupEntity genTemplateGroup) {
 		LambdaQueryWrapper<GenTemplateGroupEntity> wrapper = Wrappers.lambdaQuery();
 		return R.ok(genTemplateGroupService.page(page, wrapper));
 	}
@@ -73,7 +73,7 @@ public class GenTemplateGroupController {
 	@Operation(summary = "通过id查询", description = "通过id查询")
 	@GetMapping("/{groupId}")
 	@HasPermission("codegen_templateGroup_view")
-	public R getTemplateGroupById(@PathVariable("groupId") Long groupId) {
+	public R getById(@PathVariable("groupId") Long groupId) {
 		return R.ok(genTemplateGroupService.getById(groupId));
 	}
 
@@ -86,7 +86,7 @@ public class GenTemplateGroupController {
 	@SysLog("新增模板分组关联表")
 	@PostMapping
 	@HasPermission("codegen_templateGroup_add")
-	public R saveTemplateGroup(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
+	public R save(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.save(genTemplateGroup));
 	}
 
@@ -99,7 +99,7 @@ public class GenTemplateGroupController {
 	@SysLog("修改模板分组关联表")
 	@PutMapping
 	@HasPermission("codegen_templateGroup_edit")
-	public R updateTemplateGroup(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
+	public R updateById(@RequestBody GenTemplateGroupEntity genTemplateGroup) {
 		return R.ok(genTemplateGroupService.updateById(genTemplateGroup));
 	}
 
@@ -112,7 +112,7 @@ public class GenTemplateGroupController {
 	@SysLog("通过id删除模板分组关联表")
 	@DeleteMapping
 	@HasPermission("codegen_templateGroup_del")
-	public R removeTemplateGroupByIds(@RequestBody Long[] ids) {
+	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(genTemplateGroupService.removeBatchByIds(CollUtil.toList(ids)));
 	}
 
@@ -124,8 +124,7 @@ public class GenTemplateGroupController {
 	@ResponseExcel
 	@GetMapping("/export")
 	@HasPermission("codegen_templateGroup_export")
-	@Operation(summary = "导出excel模板分组", description = "导出excel模板分组")
-	public List<GenTemplateGroupEntity> exportTemplateGroups(GenTemplateGroupEntity genTemplateGroup) {
+	public List<GenTemplateGroupEntity> export(GenTemplateGroupEntity genTemplateGroup) {
 		return genTemplateGroupService.list(Wrappers.query(genTemplateGroup));
 	}
 

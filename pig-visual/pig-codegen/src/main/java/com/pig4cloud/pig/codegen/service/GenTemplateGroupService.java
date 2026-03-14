@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2025, lengleng All rights reserved.
+ *    Copyright (c) 2018-2026, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,10 +21,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 
 /**
- * 模板分组关联服务接口
+ * 模板分组关联表
  *
- * @author lengleng
- * @date 2025/05/31
+ * @author PIG
+ * @date 2023-02-22 09:25:15
  */
 public interface GenTemplateGroupService extends IService<GenTemplateGroupEntity> {
 
