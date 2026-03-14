@@ -20,7 +20,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysLog;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -32,6 +32,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2017-11-20
  */
 @Mapper
-public interface SysLogMapper extends PigBaseMapper<SysLog> {
+public interface SysLogMapper extends MPJBaseMapper<SysLog> {
 
 }

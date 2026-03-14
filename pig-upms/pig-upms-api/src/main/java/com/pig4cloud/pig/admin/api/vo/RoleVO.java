@@ -62,18 +62,6 @@ public class RoleVO implements Serializable {
 	private String roleDesc;
 
 	/**
-	 * 数据权限类型
-	 */
-	@Schema(description = "数据权限类型")
-	private Integer dsType;
-
-	/**
-	 * 数据权限作用范围
-	 */
-	@Schema(description = "数据权限作用范围")
-	private String dsScope;
-
-	/**
 	 * 创建时间
 	 */
 	@Schema(description = "创建时间")

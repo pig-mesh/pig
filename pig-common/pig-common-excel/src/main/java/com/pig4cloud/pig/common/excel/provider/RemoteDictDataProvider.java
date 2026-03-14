@@ -3,8 +3,8 @@ package com.pig4cloud.pig.common.excel.provider;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.plugin.excel.handler.DictDataProvider;
-import com.pig4cloud.plugin.excel.vo.DictEnum;
+import com.pig4cloud.pig.common.excel.handler.DictDataProvider;
+import com.pig4cloud.pig.common.excel.vo.DictEnum;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

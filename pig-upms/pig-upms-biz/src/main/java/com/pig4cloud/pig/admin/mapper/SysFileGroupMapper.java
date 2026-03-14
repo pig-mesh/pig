@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysFileGroup;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -28,6 +28,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2023年07月25日21:31:48
  */
 @Mapper
-public interface SysFileGroupMapper extends PigBaseMapper<SysFileGroup> {
+public interface SysFileGroupMapper extends MPJBaseMapper<SysFileGroup> {
 
 }

@@ -25,8 +25,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.entity.SysUser;
 import com.pig4cloud.pig.admin.api.vo.UserVO;
-import com.pig4cloud.pig.common.data.datascope.DataScope;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -39,7 +38,7 @@ import java.util.List;
  * @date 2025/06/30
  */
 @Mapper
-public interface SysUserMapper extends PigBaseMapper<SysUser> {
+public interface SysUserMapper extends MPJBaseMapper<SysUser> {
 
 	/**
 	 * 通过用户DTO查询用户信息（包含角色信息）
@@ -53,10 +52,9 @@ public interface SysUserMapper extends PigBaseMapper<SysUser> {
 	 * 分页查询用户信息（含角色）
 	 * @param page 分页对象
 	 * @param userDTO 用户查询参数
-	 * @param dataScope 数据权限范围
 	 * @return 分页用户信息列表
 	 */
-	IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO, DataScope dataScope);
+	IPage<UserVO> getUserVosPage(Page page, @Param("query") UserDTO userDTO);
 
 	/**
 	 * 通过ID查询用户信息
@@ -66,12 +64,11 @@ public interface SysUserMapper extends PigBaseMapper<SysUser> {
 	UserVO getUserVoById(Long id);
 
 	/**
-	 * 根据数据权限查询用户列表
+	 * 查询用户列表
 	 * @param userDTO 查询条件
 	 * @param ids 用户ID数组
-	 * @param dataScope 数据权限声明
 	 * @return 用户VO列表
 	 */
-	List<UserVO> getUserVoListByScope(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids, DataScope dataScope);
+	List<UserVO> getUserVoList(@Param("query") UserDTO userDTO, @Param("ids") Long[] ids);
 
 }

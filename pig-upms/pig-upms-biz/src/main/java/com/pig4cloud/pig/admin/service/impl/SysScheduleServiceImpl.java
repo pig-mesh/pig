@@ -28,7 +28,6 @@ import com.pig4cloud.pig.admin.api.constant.ScheduleStateEnum;
 import com.pig4cloud.pig.admin.api.entity.SysScheduleEntity;
 import com.pig4cloud.pig.admin.mapper.SysScheduleMapper;
 import com.pig4cloud.pig.admin.service.SysScheduleService;
-import com.pig4cloud.pig.common.data.datascope.DataScope;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -60,9 +59,8 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
                 sysSchedule.getScheduleType());
         wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate,
                 sysSchedule.getScheduleDate());
-		DataScope dataScope = new DataScope();
-		dataScope.setUsername(SecurityUtils.getUser().getUsername());
-		return baseMapper.selectPageByScope(page, wrapper, dataScope);
+		wrapper.eq(SysScheduleEntity::getCreateBy, SecurityUtils.getUser().getUsername());
+		return baseMapper.selectPage(page, wrapper);
 	}
 
 	/**
@@ -79,9 +77,8 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 		wrapper.between(SysScheduleEntity::getScheduleDate, Objects.isNull(startDate) ? beginOfWeek : startDate,
 				Objects.isNull(endDate) ? endOfWeek : endDate);
 		wrapper.ne(SysScheduleEntity::getScheduleState, ScheduleStateEnum.END.getCode());
-		DataScope dataScope = new DataScope();
-		dataScope.setUsername(SecurityUtils.getUser().getUsername());
-		return baseMapper.selectListByScope(wrapper, dataScope);
+		wrapper.eq(SysScheduleEntity::getCreateBy, SecurityUtils.getUser().getUsername());
+		return baseMapper.selectList(wrapper);
 	}
 
 }

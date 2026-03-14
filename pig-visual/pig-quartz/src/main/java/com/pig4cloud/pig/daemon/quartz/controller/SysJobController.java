@@ -34,7 +34,7 @@ import com.pig4cloud.pig.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobService;
 import com.pig4cloud.pig.daemon.quartz.util.ClassNameValidator;
 import com.pig4cloud.pig.daemon.quartz.util.TaskUtil;
-import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
+import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;

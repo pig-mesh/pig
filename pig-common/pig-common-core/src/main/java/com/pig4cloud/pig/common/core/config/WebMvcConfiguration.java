@@ -25,7 +25,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.AsyncSupportConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -77,16 +76,6 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
         configurer.setTaskExecutor(applicationAsyncTaskExecutor());
-    }
-
-    /**
-     * 创建并配置RestTemplate的Bean方法
-     *
-     * @return RestTemplate实例
-     */
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
     }
 
     /**

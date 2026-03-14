@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysPost;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -31,7 +31,7 @@ import java.util.List;
  * @date 2022-03-26 12:50:43
  */
 @Mapper
-public interface SysPostMapper extends PigBaseMapper<SysPost> {
+public interface SysPostMapper extends MPJBaseMapper<SysPost> {
 
     /**
      * 通过用户ID查询岗位信息

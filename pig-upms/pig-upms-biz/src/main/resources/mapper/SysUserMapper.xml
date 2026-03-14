@@ -135,7 +135,7 @@
         ORDER BY u.create_time DESC
     </select>
 
-    <select id="getUserVoListByScope" resultMap="baseResultMap">
+    <select id="getUserVoList" resultMap="baseResultMap">
         SELECT
         <include refid="userColumns"/>
         FROM

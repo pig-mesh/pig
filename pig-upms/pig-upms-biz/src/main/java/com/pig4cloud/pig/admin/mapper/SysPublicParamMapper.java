@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -27,6 +27,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019-04-29
  */
 @Mapper
-public interface SysPublicParamMapper extends PigBaseMapper<SysPublicParam> {
+public interface SysPublicParamMapper extends MPJBaseMapper<SysPublicParam> {
 
 }

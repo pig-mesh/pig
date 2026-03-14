@@ -23,7 +23,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -58,16 +57,6 @@ public class SysRole extends Model<SysRole> {
 
 	@Schema(description = "角色描述")
 	private String roleDesc;
-
-	@NotNull(message = "数据权限类型不能为空")
-	@Schema(description = "数据权限类型")
-	private Integer dsType;
-
-	/**
-	 * 数据权限作用范围
-	 */
-	@Schema(description = "数据权限作用范围")
-	private String dsScope;
 
 	/**
 	 * 创建人

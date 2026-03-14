@@ -1,10 +1,10 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysSystemConfigEntity;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SysSystemConfigMapper extends PigBaseMapper<SysSystemConfigEntity> {
+public interface SysSystemConfigMapper extends MPJBaseMapper<SysSystemConfigEntity> {
 
 }

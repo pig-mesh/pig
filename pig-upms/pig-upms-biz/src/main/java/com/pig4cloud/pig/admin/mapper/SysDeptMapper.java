@@ -20,7 +20,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysDept;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,7 +33,7 @@ import java.util.List;
  * @date 2025/06/27
  */
 @Mapper
-public interface SysDeptMapper extends PigBaseMapper<SysDept> {
+public interface SysDeptMapper extends MPJBaseMapper<SysDept> {
 
     /**
      * 根据用户ID查询部门列表

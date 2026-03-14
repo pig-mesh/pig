@@ -26,7 +26,7 @@
 	<url>https://www.pig4cloud.com</url>
 	<properties>
 		<!-- 项目版本号 -->
-		<revision>3.9.2</revision>
+		<revision>3.10.0-SNAPSHOT</revision>
 		<java.version>17</java.version>
 		<spring-boot.version>3.5.11</spring-boot.version>
 		<spring-cloud.version>2025.0.1</spring-cloud.version>

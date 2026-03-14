@@ -20,6 +20,11 @@ services:
     restart: always
     container_name: pig-redis
     hostname: pig-redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
     networks:
       - spring_cloud_default
 
@@ -37,6 +42,15 @@ services:
     container_name: pig-register
     hostname: pig-register
     image: pig-register
+    depends_on:
+      pig-mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8848/nacos/ || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 15s
     networks:
       - spring_cloud_default
 
@@ -52,6 +66,11 @@ services:
     environment:
       REDIS_HOST: pig-redis
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
+      pig-redis:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 
@@ -65,6 +84,11 @@ services:
     environment:
       REDIS_HOST: pig-redis
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
+      pig-redis:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 
@@ -79,6 +103,13 @@ services:
       MYSQL_HOST: pig-mysql
       REDIS_HOST: pig-redis
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
+      pig-mysql:
+        condition: service_healthy
+      pig-redis:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 
@@ -93,6 +124,9 @@ services:
     image: pig-monitor
     environment:
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 
@@ -107,6 +141,13 @@ services:
       MYSQL_HOST: pig-mysql
       REDIS_HOST: pig-redis
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
+      pig-mysql:
+        condition: service_healthy
+      pig-redis:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 
@@ -120,6 +161,13 @@ services:
       MYSQL_HOST: pig-mysql
       REDIS_HOST: pig-redis
       NACOS_HOST: pig-register
+    depends_on:
+      pig-register:
+        condition: service_healthy
+      pig-mysql:
+        condition: service_healthy
+      pig-redis:
+        condition: service_healthy
     networks:
       - spring_cloud_default
 

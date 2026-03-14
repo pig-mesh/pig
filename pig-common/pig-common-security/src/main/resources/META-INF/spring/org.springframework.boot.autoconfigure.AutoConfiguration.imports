@@ -1,5 +1,3 @@
-com.pig4cloud.pig.common.security.service.PigUserDetailsServiceImpl
-com.pig4cloud.pig.common.security.service.PigAppUserDetailsServiceImpl
 com.pig4cloud.pig.common.security.service.PigDefaultUserDetailsServiceImpl
 com.pig4cloud.pig.common.security.service.PigMobileUserDetailServiceImpl
 com.pig4cloud.pig.common.security.service.PigRedisOAuth2AuthorizationService

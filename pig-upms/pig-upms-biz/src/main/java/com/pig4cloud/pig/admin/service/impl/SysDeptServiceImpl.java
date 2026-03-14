@@ -39,7 +39,6 @@ import com.pig4cloud.pig.admin.mapper.*;
 import com.pig4cloud.pig.admin.service.SysDeptService;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.data.datascope.DataScope;
 import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -102,16 +101,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         // 查询全部部门
         List<SysDept> deptAllList = deptMapper
                 .selectList(Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName));
-        // 查询数据权限内部门
-        List<Long> deptOwnIdList = deptMapper
-                .selectListByScope(
-                        Wrappers.<SysDept>lambdaQuery().like(StrUtil.isNotBlank(deptName), SysDept::getName, deptName),
-                        DataScope.of())
-                .stream()
-                .map(SysDept::getDeptId)
-                .toList();
 
-        // 权限内部门
+        // 所有部门均可见
         List<TreeNode<Long>> collect = deptAllList.stream()
                 .filter(dept -> dept.getDeptId().intValue() != dept.getParentId())
                 .sorted(Comparator.comparingInt(SysDept::getSortOrder))
@@ -121,9 +112,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
                     treeNode.setParentId(dept.getParentId());
                     treeNode.setName(dept.getName());
                     treeNode.setWeight(dept.getSortOrder());
-                    // 有权限不返回标识
                     Map<String, Object> extra = new HashMap<>(8);
-                    extra.put("isLock", !deptOwnIdList.contains(dept.getDeptId()));
+                    extra.put("isLock", false);
                     extra.put("createTime", dept.getCreateTime());
                     treeNode.setExtra(extra);
                     return treeNode;

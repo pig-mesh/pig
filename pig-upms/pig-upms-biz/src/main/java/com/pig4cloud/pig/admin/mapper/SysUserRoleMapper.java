@@ -20,7 +20,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysUserRole;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -32,6 +32,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2017-10-29
  */
 @Mapper
-public interface SysUserRoleMapper extends PigBaseMapper<SysUserRole> {
+public interface SysUserRoleMapper extends MPJBaseMapper<SysUserRole> {
 
 }

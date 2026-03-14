@@ -49,6 +49,7 @@ public class PigResourceServerConfiguration {
 
     protected final ResourceAuthExceptionEntryPoint resourceAuthExceptionEntryPoint;
 
+    @Lazy
     private final OpaqueTokenIntrospector customOpaqueTokenIntrospector;
 
     @Lazy

@@ -26,8 +26,6 @@
 		<result column="role_name" property="roleName"/>
 		<result column="role_code" property="roleCode"/>
 		<result column="role_desc" property="roleDesc"/>
-		<result column="ds_type" property="dsType"/>
-		<result column="ds_scope" property="dsScope"/>
 		<result column="create_time" property="createTime"/>
 		<result column="update_time" property="updateTime"/>
 		<result column="del_flag" property="delFlag"/>
@@ -39,8 +37,6 @@
 			   sys_role.role_name,
 			   sys_role.role_code,
 			   sys_role.role_desc,
-			   sys_role.ds_type,
-			   sys_role.ds_scope,
 			   sys_role.create_time,
 			   sys_role.update_time,
 			   sys_role.del_flag

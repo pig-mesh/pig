@@ -21,7 +21,7 @@ package com.pig4cloud.pig.admin.mapper;
 
 import com.baomidou.mybatisplus.annotation.InterceptorIgnore;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -35,7 +35,7 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Mapper
-public interface SysMenuMapper extends PigBaseMapper<SysMenu> {
+public interface SysMenuMapper extends MPJBaseMapper<SysMenu> {
 
 	/**
 	 * 通过角色编号查询菜单列表

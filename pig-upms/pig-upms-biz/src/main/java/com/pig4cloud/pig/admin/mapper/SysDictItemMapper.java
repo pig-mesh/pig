@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysDictItem;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -27,6 +27,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2019/03/19
  */
 @Mapper
-public interface SysDictItemMapper extends PigBaseMapper<SysDictItem> {
+public interface SysDictItemMapper extends MPJBaseMapper<SysDictItem> {
 
 }

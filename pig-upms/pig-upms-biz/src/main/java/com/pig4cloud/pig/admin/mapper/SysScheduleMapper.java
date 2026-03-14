@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysScheduleEntity;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -28,6 +28,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2023-03-06 14:26:23
  */
 @Mapper
-public interface SysScheduleMapper extends PigBaseMapper<SysScheduleEntity> {
+public interface SysScheduleMapper extends MPJBaseMapper<SysScheduleEntity> {
 
 }

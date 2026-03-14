@@ -16,4 +16,4 @@ EXPOSE 3000
 
 ADD ./target/pig-auth.jar ./
 
-CMD sleep 120;java $JAVA_OPTS -jar pig-auth.jar
+CMD java $JAVA_OPTS -jar pig-auth.jar

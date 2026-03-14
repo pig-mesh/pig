@@ -15,13 +15,12 @@
 
 	<properties>
 		<!-- 项目版本号 -->
-		<revision>3.9.2</revision>
+		<revision>3.10.0-SNAPSHOT</revision>
 		<asm.version>7.1</asm.version>
 		<sms.version>3.3.5</sms.version>
 		<aws.version>1.12.792</aws.version>
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
-		<excel.version>3.4.3</excel.version>
 		<screw.version>0.0.3</screw.version>
 		<hutool.version>5.8.44</hutool.version>
 		<velocity.version>2.4</velocity.version>
@@ -181,12 +180,6 @@
 				<groupId>org.apache.velocity.tools</groupId>
 				<artifactId>velocity-tools-generic</artifactId>
 				<version>${velocity.tool.version}</version>
-			</dependency>
-			<!-- excel 导入导出 -->
-			<dependency>
-				<groupId>com.pig4cloud.excel</groupId>
-				<artifactId>excel-spring-boot-starter</artifactId>
-				<version>${excel.version}</version>
 			</dependency>
 			<!-- commons.io 覆盖easyexcel -->
 			<dependency>

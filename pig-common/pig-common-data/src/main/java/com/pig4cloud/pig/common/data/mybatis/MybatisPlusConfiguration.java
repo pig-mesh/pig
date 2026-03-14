@@ -21,24 +21,15 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.pig4cloud.pig.admin.api.feign.RemoteDataScopeService;
-import com.pig4cloud.pig.common.data.datascope.DataScopeInnerInterceptor;
-import com.pig4cloud.pig.common.data.datascope.DataScopeInterceptor;
-import com.pig4cloud.pig.common.data.datascope.DataScopeSqlInjector;
-import com.pig4cloud.pig.common.data.datascope.PigDefaultDataScopeHandle;
 import com.pig4cloud.pig.common.data.resolver.SqlFilterArgumentResolver;
-import com.pig4cloud.pig.common.security.service.PigUser;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -72,10 +63,8 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
      * @return MybatisPlusInterceptor
      */
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor(DataScopeInterceptor dataScopeInterceptor) {
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        // 数据权限
-        interceptor.addInnerInterceptor(dataScopeInterceptor);
         // 分页支持
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
         paginationInnerInterceptor.setMaxLimit(1000L);
@@ -84,32 +73,6 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
         // 乐观锁插件
         interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
         return interceptor;
-    }
-
-    /**
-     * 数据权限拦截器
-     *
-     * @return DataScopeInterceptor
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnClass(PigUser.class)
-    public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
-        DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
-        dataScopeInnerInterceptor.setDataScopeHandle(new PigDefaultDataScopeHandle(dataScopeService));
-        return dataScopeInnerInterceptor;
-    }
-
-    /**
-     * 扩展 mybatis-plus baseMapper 支持数据权限
-     *
-     * @return
-     */
-    @Bean
-    @Primary
-    @ConditionalOnBean(DataScopeInterceptor.class)
-    public DataScopeSqlInjector dataScopeSqlInjector() {
-        return new DataScopeSqlInjector();
     }
 
     /**

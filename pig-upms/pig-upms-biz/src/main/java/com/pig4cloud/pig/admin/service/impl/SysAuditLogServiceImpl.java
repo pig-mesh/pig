@@ -24,7 +24,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysAuditLog;
 import com.pig4cloud.pig.admin.mapper.SysAuditLogMapper;
 import com.pig4cloud.pig.admin.service.SysAuditLogService;
-import com.pig4cloud.pig.common.data.datascope.DataScope;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 
@@ -54,9 +53,8 @@ public class SysAuditLogServiceImpl extends ServiceImpl<SysAuditLogMapper, SysAu
 				sysAuditLog.getCreateBy());
 
 		// 数据权限限制，只查询本人的审计日志
-		DataScope dataScope = new DataScope();
-		dataScope.setUsername(SecurityUtils.getUser().getUsername());
-		return baseMapper.selectPageByScope(page, wrapper, dataScope);
+		wrapper.eq(SysAuditLog::getCreateBy, SecurityUtils.getUser().getUsername());
+		return baseMapper.selectPage(page, wrapper);
 	}
 
 }

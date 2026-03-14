@@ -20,7 +20,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysRole;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -35,7 +35,7 @@ import java.util.List;
  * @since 2017-10-29
  */
 @Mapper
-public interface SysRoleMapper extends PigBaseMapper<SysRole> {
+public interface SysRoleMapper extends MPJBaseMapper<SysRole> {
 
     /**
      * 通过用户ID查询角色信息

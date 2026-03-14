@@ -18,7 +18,7 @@
 package com.pig4cloud.pig.admin.mapper;
 
 import com.pig4cloud.pig.admin.api.entity.SysSocialDetails;
-import com.pig4cloud.pig.common.data.datascope.PigBaseMapper;
+import com.github.yulichang.base.MPJBaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -28,6 +28,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date 2018-08-16 21:30:41
  */
 @Mapper
-public interface SysSocialDetailsMapper extends PigBaseMapper<SysSocialDetails> {
+public interface SysSocialDetailsMapper extends MPJBaseMapper<SysSocialDetails> {
 
 }

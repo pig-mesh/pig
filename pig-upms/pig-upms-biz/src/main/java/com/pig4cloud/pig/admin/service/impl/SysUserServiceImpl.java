@@ -46,7 +46,6 @@ import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.data.cache.RedisUtils;
-import com.pig4cloud.pig.common.data.datascope.DataScope;
 import com.pig4cloud.pig.common.data.resolver.ParamResolver;
 import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
 import com.pig4cloud.pig.common.security.service.PigUser;
@@ -202,7 +201,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public IPage getUsersWithRolePage(Page page, UserDTO userDTO) {
-        return baseMapper.getUserVosPage(page, userDTO, DataScope.of());
+        return baseMapper.getUserVosPage(page, userDTO);
     }
 
     /**
@@ -369,7 +368,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public List<UserExcelVO> listUser(UserDTO userDTO, Long[] ids) {
         // 根据数据权限查询全部的用户信息
-        List<UserVO> voList = baseMapper.getUserVoListByScope(userDTO, ids, DataScope.of());
+        List<UserVO> voList = baseMapper.getUserVoList(userDTO, ids);
         return voList.stream().map(userVO -> {
             UserExcelVO excelVO = new UserExcelVO();
             BeanUtils.copyProperties(userVO, excelVO);
