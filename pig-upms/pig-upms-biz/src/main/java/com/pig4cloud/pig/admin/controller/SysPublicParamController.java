@@ -26,7 +26,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
 import com.pig4cloud.pig.admin.service.SysPublicParamService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;

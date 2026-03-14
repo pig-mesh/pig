@@ -17,6 +17,7 @@
 		<!-- 项目版本号 -->
 		<revision>3.10.0-SNAPSHOT</revision>
 		<asm.version>7.1</asm.version>
+		<excel.version>3.4.3</excel.version>
 		<sms.version>3.3.5</sms.version>
 		<aws.version>1.12.792</aws.version>
 		<mysql.version>9.2.0</mysql.version>
@@ -102,9 +103,9 @@
 				<version>${revision}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-excel</artifactId>
-				<version>${revision}</version>
+				<groupId>com.pig4cloud.excel</groupId>
+				<artifactId>excel-spring-boot-starter</artifactId>
+				<version>${excel.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>

@@ -66,8 +66,8 @@
         </dependency>
         <!--excel 导出-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-excel</artifactId>
+            <groupId>com.pig4cloud.excel</groupId>
+            <artifactId>excel-spring-boot-starter</artifactId>
         </dependency>
         <!--web 模块-->
         <dependency>

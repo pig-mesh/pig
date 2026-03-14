@@ -149,12 +149,6 @@ public class GenTable extends Model<GenTable> {
     private Long syncMenuId;
 
     /**
-     * 是否同步路由
-     */
-    @Schema
-    private String syncRoute;
-
-    /**
      * 基类ID
      */
     @Schema(description = "基类ID")

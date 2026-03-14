@@ -27,7 +27,7 @@ import com.pig4cloud.pig.admin.api.entity.SysLog;
 import com.pig4cloud.pig.admin.api.vo.PreLogVO;
 import com.pig4cloud.pig.admin.service.SysLogService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

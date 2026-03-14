@@ -101,8 +101,8 @@ public class GeneratorServiceImpl implements GeneratorService {
         String frontendPath = defaultProperties.getFrontendPath();
         String backendPath = defaultProperties.getBackendPath();
 
-        // 同步数据
-        this.syncRouteAndMenu(tableId);
+        // 同步菜单
+        this.syncMenu(tableId);
 
         for (GenTemplateEntity template : templateList) {
             String templateCode = template.getTemplateCode();
@@ -186,7 +186,7 @@ public class GeneratorServiceImpl implements GeneratorService {
         // 获取模板列表，Lambda 表达式简化代码
         List<GenTemplateEntity> templateList = genGroupService.getGroupVoById(style).getTemplateList();
         Long syncMenuId = MapUtil.getLong(dataModel, GenTable.Fields.syncMenuId);
-        this.syncRouteAndMenu(tableId);
+        this.syncMenu(tableId);
         for (GenTemplateEntity template : templateList) {
             // 跳过菜单文件生成
             if (Objects.nonNull(syncMenuId) && template.getGeneratorPath().contains("menu.sql")) {
@@ -263,12 +263,12 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     /**
-     * 同步路由和菜单
+     * 同步菜单
      *
      * @param tableId 表ID
      */
     @Override
-    public void syncRouteAndMenu(Long tableId) {
+    public void syncMenu(Long tableId) {
         GenTable table = tableService.getById(tableId);
         syncMenu(table);
     }

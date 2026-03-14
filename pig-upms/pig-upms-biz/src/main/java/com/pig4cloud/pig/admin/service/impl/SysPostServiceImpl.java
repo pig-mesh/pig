@@ -28,7 +28,7 @@ import com.pig4cloud.pig.admin.mapper.SysPostMapper;
 import com.pig4cloud.pig.admin.service.SysPostService;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
+import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 

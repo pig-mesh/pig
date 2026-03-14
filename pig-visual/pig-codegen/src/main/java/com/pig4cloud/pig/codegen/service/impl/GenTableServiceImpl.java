@@ -211,7 +211,6 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
 
         table.setDbType(database.getDatabaseType().title());
         table.setFormLayout(defaultProperties.getFormLayout());
-        table.setSyncRoute(defaultProperties.getSyncRoute());
         table.setGeneratorType(defaultProperties.getGeneratorType());
         table.setClassName(NamingCase.toPascalCase(tableName));
         // 模块名称默认为 admin

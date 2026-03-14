@@ -14,7 +14,7 @@ import com.pig4cloud.pig.admin.api.entity.SysMessageEntity;
 import com.pig4cloud.pig.admin.api.vo.SysMessageVO;
 import com.pig4cloud.pig.admin.service.SysMessageService;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;

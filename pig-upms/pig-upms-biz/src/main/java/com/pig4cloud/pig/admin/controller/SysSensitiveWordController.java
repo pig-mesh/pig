@@ -11,7 +11,7 @@ import com.pig4cloud.pig.admin.service.SysSensitiveWordService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.data.cache.RedisUtils;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;

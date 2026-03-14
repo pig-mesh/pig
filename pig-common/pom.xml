@@ -40,7 +40,6 @@
         <module>pig-common-feign</module>
         <module>pig-common-swagger</module>
         <module>pig-common-xss</module>
-        <module>pig-common-excel</module>
         <module>pig-common-sensitive</module>
         <module>pig-common-sse</module>
         <module>pig-common-audit</module>

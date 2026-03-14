@@ -47,7 +47,7 @@ import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import com.pig4cloud.pig.common.data.resolver.ParamResolver;
-import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
+import com.pig4cloud.plugin.excel.vo.ErrorMessage;
 import com.pig4cloud.pig.common.security.service.PigUser;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;

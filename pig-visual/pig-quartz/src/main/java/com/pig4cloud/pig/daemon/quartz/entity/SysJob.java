@@ -101,11 +101,6 @@ public class SysJob extends Model<SysJob> {
 	private String misfirePolicy;
 
 	/**
-	 * 1、多租户任务;2、非多租户任务
-	 */
-	private String jobTenantType;
-
-	/**
 	 * 状态（0、未发布;1、已发布;2、运行中;3、暂停;4、删除;）
 	 */
 	private String jobStatus;

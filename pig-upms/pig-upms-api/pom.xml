@@ -56,8 +56,8 @@
         </dependency>
         <!-- excel 导入导出 -->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-excel</artifactId>
+            <groupId>com.pig4cloud.excel</groupId>
+            <artifactId>excel-spring-boot-starter</artifactId>
         </dependency>
         <!--字段审计注解-->
         <dependency>

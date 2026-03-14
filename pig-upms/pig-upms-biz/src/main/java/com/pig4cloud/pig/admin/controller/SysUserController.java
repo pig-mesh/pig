@@ -31,8 +31,8 @@ import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
 
-import com.pig4cloud.pig.common.excel.annotation.RequestExcel;
-import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.plugin.excel.annotation.RequestExcel;
+import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.annotation.Inner;

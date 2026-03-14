@@ -68,9 +68,9 @@ public interface GeneratorService {
     String vformSfc(Long formId);
 
     /**
-     * 同步路由和菜单
+     * 同步菜单
      *
      * @param tableId 表ID
      */
-    void syncRouteAndMenu(Long tableId);
+    void syncMenu(Long tableId);
 }

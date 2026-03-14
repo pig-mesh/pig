@@ -81,11 +81,6 @@ public class PigCodeGenDefaultProperties implements InitializingBean {
 	private String generatorType = "0";
 
 	/**
-	 * 是否同步路由
-	 */
-	private String syncRoute = "0";
-
-	/**
 	 * <a href="http://doc.anyline.org/aa/3c_14011">集成mybatis动态数据源</a>
 	 * @throws Exception 例外
 	 */
