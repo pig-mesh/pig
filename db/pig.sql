@@ -1076,7 +1076,6 @@ CREATE TABLE `sys_job` (
                            `method_params_value` varchar(2000) DEFAULT NULL COMMENT '参数值',
                            `cron_expression` varchar(255) DEFAULT NULL COMMENT 'cron执行表达式',
                            `misfire_policy` varchar(20) DEFAULT '3' COMMENT '错失执行策略（1错失周期立即执行 2错失周期执行一次 3下周期执行）',
-                           `job_tenant_type` char(1) DEFAULT '1' COMMENT '1、多租户任务;2、非多租户任务',
                            `job_status` char(1) DEFAULT '0' COMMENT '状态（1、未发布;2、运行中;3、暂停;4、删除;）',
                            `job_execute_status` char(1) DEFAULT '0' COMMENT '状态（0正常 1异常）',
                            `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
@@ -1287,7 +1286,7 @@ DROP TABLE IF EXISTS `gen_datasource_conf`;
 CREATE TABLE `gen_datasource_conf` (
   `id` bigint NOT NULL COMMENT '主键',
   `name` varchar(64)  DEFAULT NULL COMMENT '别名',
-  `url` varchar(255)  DEFAULT NULL COMMENT 'jdbcurl',
+  `url` text  NOT NULL COMMENT 'jdbcurl',
   `username` varchar(64)  DEFAULT NULL COMMENT '用户名',
   `password` varchar(64)  DEFAULT NULL COMMENT '密码',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
@@ -1397,6 +1396,8 @@ CREATE TABLE `gen_table` (
   `version` varchar(200)  DEFAULT NULL COMMENT '项目版本号',
   `i18n` char(1)  DEFAULT '0' COMMENT '是否生成带有i18n 0 不带有 1带有',
   `style`  bigint DEFAULT NULL COMMENT '代码风格',
+  `sync_menu_id` bigint DEFAULT NULL COMMENT '所属菜单ID',
+  `sync_route` char(1) DEFAULT '0' COMMENT '是否自动同步路由',
   `child_table_name` varchar(200)  DEFAULT NULL COMMENT '子表名称',
   `main_field` varchar(200)  DEFAULT NULL COMMENT '主表关联键',
   `child_field` varchar(200)  DEFAULT NULL COMMENT '子表关联键',
@@ -1484,5 +1485,39 @@ CREATE TABLE `gen_template_group` (
   `template_id` bigint NOT NULL COMMENT '模板id',
   PRIMARY KEY (`group_id`,`template_id`)
 ) ENGINE=InnoDB  COMMENT='模板分组关联表';
+
+-- ----------------------------
+-- Table structure for gen_form_conf
+-- ----------------------------
+DROP TABLE IF EXISTS `gen_form_conf`;
+CREATE TABLE `gen_form_conf` (
+  `id` bigint NOT NULL COMMENT 'ID',
+  `ds_name` varchar(64) DEFAULT NULL COMMENT '数据库名称',
+  `table_name` varchar(64) DEFAULT NULL COMMENT '表名称',
+  `form_info` text NOT NULL COMMENT '表单信息',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `del_flag` char(1) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `table_name` (`table_name`) USING BTREE
+) ENGINE=InnoDB COMMENT='表单配置';
+
+-- ----------------------------
+-- Table structure for gen_create_table
+-- ----------------------------
+DROP TABLE IF EXISTS `gen_create_table`;
+CREATE TABLE `gen_create_table` (
+  `id` bigint NOT NULL COMMENT '主键ID',
+  `table_name` varchar(32) NOT NULL COMMENT '表名称',
+  `ds_name` varchar(32) DEFAULT NULL COMMENT '数据源',
+  `comments` varchar(512) DEFAULT NULL COMMENT '表注释',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(64) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL,
+  `column_info` text NOT NULL COMMENT '字段信息',
+  `del_flag` char(1) DEFAULT NULL COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB COMMENT='自动创建表管理';
 
 SET FOREIGN_KEY_CHECKS = 1;
