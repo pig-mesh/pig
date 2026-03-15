@@ -574,7 +574,6 @@ INSERT INTO `sys_menu` VALUES (9007,'生成页面',NULL,'/gen/gener/index',NULL,
 INSERT INTO `sys_menu` VALUES (9050,'元数据管理',NULL,'/gen/metadata',NULL,9000,'iconfont icon-yuanshujuguanli','1',9,'0','0','0','','2018-07-27 01:13:21','admin','2023-02-23 19:55:10','0');
 INSERT INTO `sys_menu` VALUES (9051,'模板管理',NULL,'/gen/template/index',NULL,9050,'iconfont icon-mti-mobanguanli','1',5,'0','0','0','admin','2023-02-21 11:22:54','admin','2023-02-23 19:56:03','0');
 INSERT INTO `sys_menu` VALUES (9052,'查询','codegen_template_view',NULL,NULL,9051,NULL,'0',0,'0','0','1','admin','2023-02-21 12:33:03','admin','2023-02-21 13:50:54','0');
-INSERT INTO `sys_menu` VALUES (9053,'增加','codegen_template_add',NULL,NULL,9051,NULL,'1',0,'0','0','1','admin','2023-02-21 13:34:10','admin','2023-02-21 13:39:49','0');
 INSERT INTO `sys_menu` VALUES (9054,'新增','codegen_template_add',NULL,NULL,9051,NULL,'0',1,'0','0','1','admin','2023-02-21 13:51:32',' ',NULL,'0');
 INSERT INTO `sys_menu` VALUES (9055,'导出','codegen_template_export',NULL,NULL,9051,NULL,'0',2,'0','0','1','admin','2023-02-21 13:51:58',' ',NULL,'0');
 INSERT INTO `sys_menu` VALUES (9056,'删除','codegen_template_del',NULL,NULL,9051,NULL,'0',3,'0','0','1','admin','2023-02-21 13:52:16',' ',NULL,'0');
@@ -834,7 +833,6 @@ INSERT INTO `sys_role_menu` VALUES (1, 9007);
 INSERT INTO `sys_role_menu` VALUES (1, 9050);
 INSERT INTO `sys_role_menu` VALUES (1, 9051);
 INSERT INTO `sys_role_menu` VALUES (1, 9052);
-INSERT INTO `sys_role_menu` VALUES (1, 9053);
 INSERT INTO `sys_role_menu` VALUES (1, 9054);
 INSERT INTO `sys_role_menu` VALUES (1, 9055);
 INSERT INTO `sys_role_menu` VALUES (1, 9056);
