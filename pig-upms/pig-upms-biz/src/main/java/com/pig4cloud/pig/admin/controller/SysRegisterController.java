@@ -21,44 +21,41 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SysRegisterController {
 
-    private final SysUserService userService;
+	private final SysUserService userService;
 
-    /**
-     * 注册用户
-     *
-     * @param userDto 用户信息
-     * @return success/false
-     */
-    @SysLog("注册用户")
-    @PostMapping("/user")
-    @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
-    public R<Boolean> registerUser(@RequestBody RegisterUserDTO userDto) {
-        return userService.registerUser(userDto);
-    }
+	/**
+	 * 注册用户
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	@SysLog("注册用户")
+	@PostMapping("/user")
+	@ConditionalOnProperty(name = "register.user", matchIfMissing = true)
+	public R<Boolean> registerUser(@RequestBody RegisterUserDTO userDto) {
+		return userService.registerUser(userDto);
+	}
 
-    /**
-     * 重置用户密码
-     *
-     * @param userDto 用户信息
-     * @return success/false
-     */
-    @SysLog("重置用户密码")
-    @PostMapping("/password")
-    public R<Boolean> resetUserPassword(@RequestBody RegisterUserDTO userDto) {
-        return userService.resetUserPassword(userDto);
-    }
+	/**
+	 * 重置用户密码
+	 * @param userDto 用户信息
+	 * @return success/false
+	 */
+	@SysLog("重置用户密码")
+	@PostMapping("/password")
+	public R<Boolean> resetUserPassword(@RequestBody RegisterUserDTO userDto) {
+		return userService.resetUserPassword(userDto);
+	}
 
-    /**
-     * 找回密码
-     *
-     * @param userDto 用户信息
-     * @param code    验证码
-     * @return success/false
-     */
-    @SysLog("找回用户密码")
-    @PostMapping("/forget/{code}")
-    public R<Boolean> forgetUserPassword(@RequestBody RegisterUserDTO userDto, @PathVariable String code) {
-        return userService.forgetUserPassword(userDto, code);
+	/**
+	 * 找回密码
+	 * @param userDto 用户信息
+	 * @param code 验证码
+	 * @return success/false
+	 */
+	@SysLog("找回用户密码")
+	@PostMapping("/forget/{code}")
+	public R<Boolean> forgetUserPassword(@RequestBody RegisterUserDTO userDto, @PathVariable String code) {
+		return userService.forgetUserPassword(userDto, code);
 	}
 
 }

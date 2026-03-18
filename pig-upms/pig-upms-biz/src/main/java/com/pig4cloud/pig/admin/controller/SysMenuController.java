@@ -52,8 +52,7 @@ public class SysMenuController {
 
 	/**
 	 * 返回当前用户的树形菜单集合
-	 *
-	 * @param type     类型
+	 * @param type 类型
 	 * @param parentId 父节点ID
 	 * @return 当前用户的树形菜单
 	 */
@@ -67,7 +66,6 @@ public class SysMenuController {
 
 	/**
 	 * 返回树形菜单集合
-	 *
 	 * @param parentId 父节点ID
 	 * @param menuName 菜单名称
 	 * @return 树形菜单
@@ -79,7 +77,6 @@ public class SysMenuController {
 
 	/**
 	 * 返回角色的菜单集合
-	 *
 	 * @param roleId 角色ID
 	 * @return 属性集合
 	 */
@@ -90,7 +87,6 @@ public class SysMenuController {
 
 	/**
 	 * 获取详细信息
-	 *
 	 * @param query 查询条件
 	 * @return {@link R }
 	 */
@@ -101,7 +97,6 @@ public class SysMenuController {
 
 	/**
 	 * 新增菜单
-	 *
 	 * @param sysMenu 菜单信息
 	 * @return success/false
 	 */
@@ -115,7 +110,6 @@ public class SysMenuController {
 
 	/**
 	 * 删除菜单
-	 *
 	 * @param id 菜单ID
 	 * @return success/false
 	 */
@@ -128,7 +122,6 @@ public class SysMenuController {
 
 	/**
 	 * 更新菜单
-	 *
 	 * @param sysMenu
 	 * @return
 	 */

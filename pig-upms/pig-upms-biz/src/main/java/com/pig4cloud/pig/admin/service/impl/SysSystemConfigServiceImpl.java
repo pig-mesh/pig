@@ -34,85 +34,82 @@ import java.util.Objects;
  */
 @Service
 public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMapper, SysSystemConfigEntity>
-        implements SysSystemConfigService {
+		implements SysSystemConfigService {
 
-    private final SysMessageServiceImpl sysMessageServiceImpl;
+	private final SysMessageServiceImpl sysMessageServiceImpl;
 
-    public SysSystemConfigServiceImpl(SysMessageServiceImpl sysMessageServiceImpl) {
-        this.sysMessageServiceImpl = sysMessageServiceImpl;
-    }
+	public SysSystemConfigServiceImpl(SysMessageServiceImpl sysMessageServiceImpl) {
+		this.sysMessageServiceImpl = sysMessageServiceImpl;
+	}
 
-    /**
-     * 列出系统配置
-     *
-     * @param query 查询
-     * @return {@link R }
-     */
-    @Override
-    public R listSystemConfig(SysSystemConfigEntity query) {
-        List<SysSystemConfigEntity> configEntityList = baseMapper.selectList(Wrappers.query(query));
-        configEntityList.stream().forEach(systemConfig -> {
-            if (StrUtil.isNotBlank(systemConfig.getConfigValue())) {
-                systemConfig.setConfigValue(JacksonSensitiveFieldUtil.readStr(systemConfig.getConfigValue()));
-            }
-        });
+	/**
+	 * 列出系统配置
+	 * @param query 查询
+	 * @return {@link R }
+	 */
+	@Override
+	public R listSystemConfig(SysSystemConfigEntity query) {
+		List<SysSystemConfigEntity> configEntityList = baseMapper.selectList(Wrappers.query(query));
+		configEntityList.stream().forEach(systemConfig -> {
+			if (StrUtil.isNotBlank(systemConfig.getConfigValue())) {
+				systemConfig.setConfigValue(JacksonSensitiveFieldUtil.readStr(systemConfig.getConfigValue()));
+			}
+		});
 
-        return R.ok(configEntityList);
-    }
+		return R.ok(configEntityList);
+	}
 
-    /**
-     * 系统配置
-     *
-     * @param page            页
-     * @param sysSystemConfig sys 系统配置
-     * @return {@link R }
-     */
-    @Override
-    public R pageSystemConfig(Page page, SysSystemConfigEntity sysSystemConfig) {
-        LambdaQueryWrapper<SysSystemConfigEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(StrUtil.isNotBlank(sysSystemConfig.getConfigType()), SysSystemConfigEntity::getConfigType,
-                sysSystemConfig.getConfigType());
-        wrapper.like(StrUtil.isNotBlank(sysSystemConfig.getConfigName()), SysSystemConfigEntity::getConfigName,
-                sysSystemConfig.getConfigName());
-        Page<SysSystemConfigEntity> pageResult = baseMapper.selectPage(page, wrapper);
-        pageResult.getRecords().forEach(systemConfig -> {
-            if (StrUtil.isNotBlank(systemConfig.getConfigValue())) {
-                systemConfig.setConfigValue(JacksonSensitiveFieldUtil.readStr(systemConfig.getConfigValue()));
-            }
-        });
+	/**
+	 * 系统配置
+	 * @param page 页
+	 * @param sysSystemConfig sys 系统配置
+	 * @return {@link R }
+	 */
+	@Override
+	public R pageSystemConfig(Page page, SysSystemConfigEntity sysSystemConfig) {
+		LambdaQueryWrapper<SysSystemConfigEntity> wrapper = Wrappers.lambdaQuery();
+		wrapper.eq(StrUtil.isNotBlank(sysSystemConfig.getConfigType()), SysSystemConfigEntity::getConfigType,
+				sysSystemConfig.getConfigType());
+		wrapper.like(StrUtil.isNotBlank(sysSystemConfig.getConfigName()), SysSystemConfigEntity::getConfigName,
+				sysSystemConfig.getConfigName());
+		Page<SysSystemConfigEntity> pageResult = baseMapper.selectPage(page, wrapper);
+		pageResult.getRecords().forEach(systemConfig -> {
+			if (StrUtil.isNotBlank(systemConfig.getConfigValue())) {
+				systemConfig.setConfigValue(JacksonSensitiveFieldUtil.readStr(systemConfig.getConfigValue()));
+			}
+		});
 
-        return R.ok(pageResult);
-    }
+		return R.ok(pageResult);
+	}
 
-    /**
-     * 更新系统配置
-     *
-     * @param sysSystemConfig sys 系统配置
-     * @return {@link R }
-     */
-    @Override
-    @SneakyThrows
-    public R updateSystemConfig(SysSystemConfigEntity sysSystemConfig) {
-        // 更新configValue ，如果 accessSecret,tokenId,sign 属性为空，则不更新以上属性
-        SysSystemConfigEntity configEntity = baseMapper.selectById(sysSystemConfig.getId());
-        JSONObject oldValue = JSONUtil.parseObj(configEntity.getConfigValue());
-        JSONObject newValue = JSONUtil.parseObj(sysSystemConfig.getConfigValue());
-        BeanUtil.copyProperties(newValue, oldValue);
+	/**
+	 * 更新系统配置
+	 * @param sysSystemConfig sys 系统配置
+	 * @return {@link R }
+	 */
+	@Override
+	@SneakyThrows
+	public R updateSystemConfig(SysSystemConfigEntity sysSystemConfig) {
+		// 更新configValue ，如果 accessSecret,tokenId,sign 属性为空，则不更新以上属性
+		SysSystemConfigEntity configEntity = baseMapper.selectById(sysSystemConfig.getId());
+		JSONObject oldValue = JSONUtil.parseObj(configEntity.getConfigValue());
+		JSONObject newValue = JSONUtil.parseObj(sysSystemConfig.getConfigValue());
+		BeanUtil.copyProperties(newValue, oldValue);
 
-        sysSystemConfig.setConfigValue(JSONUtil.toJsonPrettyStr(oldValue));
+		sysSystemConfig.setConfigValue(JSONUtil.toJsonPrettyStr(oldValue));
 
-        baseMapper.updateById(sysSystemConfig);
-        // 更新短信配置
-        if (SystemConfigTypeEnum.SMS.getValue().equals(sysSystemConfig.getConfigType())
-                && Objects.nonNull(SmsFactory.getSmsBlend(sysSystemConfig.getConfigKey()))) {
-            SmsFactory.unregister(sysSystemConfig.getConfigKey());
-        }
+		baseMapper.updateById(sysSystemConfig);
+		// 更新短信配置
+		if (SystemConfigTypeEnum.SMS.getValue().equals(sysSystemConfig.getConfigType())
+				&& Objects.nonNull(SmsFactory.getSmsBlend(sysSystemConfig.getConfigKey()))) {
+			SmsFactory.unregister(sysSystemConfig.getConfigKey());
+		}
 
-        if (SystemConfigTypeEnum.WEBHOOK.getValue().equals(sysSystemConfig.getConfigType())) {
-            // 更新webhook配置, 官方工具类没有提供清除方法，只能通过反射清除
-            Field configsField = ReflectUtil.getField(OaFactory.class, "CONFIGS");
-            configsField.setAccessible(true);
-            Map<String, OaSender> configs = (Map<String, OaSender>) configsField.get(null);
+		if (SystemConfigTypeEnum.WEBHOOK.getValue().equals(sysSystemConfig.getConfigType())) {
+			// 更新webhook配置, 官方工具类没有提供清除方法，只能通过反射清除
+			Field configsField = ReflectUtil.getField(OaFactory.class, "CONFIGS");
+			configsField.setAccessible(true);
+			Map<String, OaSender> configs = (Map<String, OaSender>) configsField.get(null);
 			configs.clear();
 		}
 		return R.ok();

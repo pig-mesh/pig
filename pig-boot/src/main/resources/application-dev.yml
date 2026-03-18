@@ -12,11 +12,15 @@ spring:
     password: root
     url: jdbc:mysql://127.0.0.1:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true
 
-# 本地文件系统
-file:
-  local:
-    enable: true
-    base-path: /Users/lengleng/Downloads/img
+# 文件存储 x-file-storage
+dromara:
+  x-file-storage:
+    default-platform: local-plus-1
+    local-plus:
+      - platform: local-plus-1
+        enable-storage: true
+        enable-access: true
+        storage-path: /Users/lengleng/Downloads/img/
 
 ## 登录配置
 security:

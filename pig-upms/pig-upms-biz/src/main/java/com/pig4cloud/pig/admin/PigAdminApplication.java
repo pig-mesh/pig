@@ -21,6 +21,7 @@ package com.pig4cloud.pig.admin;
 
 import com.pig4cloud.pig.common.security.annotation.EnablePigResourceServer;
 import com.pig4cloud.pig.common.swagger.annotation.EnablePigDoc;
+import org.dromara.x.file.storage.spring.EnableFileStorage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -34,6 +35,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnablePigDoc("admin")
 @EnablePigResourceServer
 @EnableDiscoveryClient
+@EnableFileStorage
 @SpringBootApplication
 public class PigAdminApplication {
 

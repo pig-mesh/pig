@@ -46,58 +46,55 @@ import java.util.List;
 @AllArgsConstructor
 public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> implements SysDictService {
 
-    private final SysDictItemMapper dictItemMapper;
+	private final SysDictItemMapper dictItemMapper;
 
-    /**
-     * 根据ID 删除字典
-     *
-     * @param ids 字典ID 列表
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-    public R removeDictByIds(Long[] ids) {
+	/**
+	 * 根据ID 删除字典
+	 * @param ids 字典ID 列表
+	 * @return
+	 */
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	public R removeDictByIds(Long[] ids) {
 
-        List<Long> dictIdList = baseMapper.selectByIds(CollUtil.toList(ids))
-                .stream()
-                .filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
-                .map(SysDict::getId)
-                .toList();
+		List<Long> dictIdList = baseMapper.selectByIds(CollUtil.toList(ids))
+			.stream()
+			.filter(sysDict -> !sysDict.getSystemFlag().equals(DictTypeEnum.SYSTEM.getType()))// 系统内置类型不删除
+			.map(SysDict::getId)
+			.toList();
 
-        baseMapper.deleteByIds(dictIdList);
+		baseMapper.deleteByIds(dictIdList);
 
-        dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList));
-        return R.ok();
-    }
+		dictItemMapper.delete(Wrappers.<SysDictItem>lambdaQuery().in(SysDictItem::getDictId, dictIdList));
+		return R.ok();
+	}
 
-    /**
-     * 更新字典
-     *
-     * @param dict 字典
-     * @return
-     */
-    @Override
-    @CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictType")
-    public R updateDict(SysDict dict) {
-        SysDict sysDict = this.getById(dict.getId());
-        // 系统内置
-        if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag())) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_DICT_UPDATE_SYSTEM));
-        }
-        this.updateById(dict);
-        return R.ok(dict);
-    }
+	/**
+	 * 更新字典
+	 * @param dict 字典
+	 * @return
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, key = "#dict.dictType")
+	public R updateDict(SysDict dict) {
+		SysDict sysDict = this.getById(dict.getId());
+		// 系统内置
+		if (DictTypeEnum.SYSTEM.getType().equals(sysDict.getSystemFlag())) {
+			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_DICT_UPDATE_SYSTEM));
+		}
+		this.updateById(dict);
+		return R.ok(dict);
+	}
 
-    /**
-     * 同步缓存 （清空缓存）
-     *
-     * @return R
-     */
-    @Override
-    @CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
-    public R syncDictCache() {
-        return R.ok();
-    }
+	/**
+	 * 同步缓存 （清空缓存）
+	 * @return R
+	 */
+	@Override
+	@CacheEvict(value = CacheConstants.DICT_DETAILS, allEntries = true)
+	public R syncDictCache() {
+		return R.ok();
+	}
 
 }

@@ -37,12 +37,11 @@ import java.util.List;
 @Mapper
 public interface SysRoleMapper extends MPJBaseMapper<SysRole> {
 
-    /**
-     * 通过用户ID查询角色信息
-     *
-     * @param userId 用户ID
-     * @return 角色信息列表
-     */
-    List<SysRole> listRolesByUserId(@Param("userId") Long userId);
+	/**
+	 * 通过用户ID查询角色信息
+	 * @param userId 用户ID
+	 * @return 角色信息列表
+	 */
+	List<SysRole> listRolesByUserId(@Param("userId") Long userId);
 
 }

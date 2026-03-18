@@ -25,44 +25,43 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMapper, SysSensitiveWordEntity>
-        implements SysSensitiveWordService {
+		implements SysSensitiveWordService {
 
-    /**
-     * 查询敏感词
-     *
-     * @param sysSensitiveWord 敏感词
-     * @return 敏感词列表
-     */
-    @Override
-    public List<String> matchSensitiveWord(SysSensitiveWordEntity sysSensitiveWord) {
-        SensitiveWordBs sensitiveWordBs = SpringUtil.getBean(SensitiveWordBs.class);
-        return sensitiveWordBs.findAll(sysSensitiveWord.getSensitiveWord());
-    }
+	/**
+	 * 查询敏感词
+	 * @param sysSensitiveWord 敏感词
+	 * @return 敏感词列表
+	 */
+	@Override
+	public List<String> matchSensitiveWord(SysSensitiveWordEntity sysSensitiveWord) {
+		SensitiveWordBs sensitiveWordBs = SpringUtil.getBean(SensitiveWordBs.class);
+		return sensitiveWordBs.findAll(sysSensitiveWord.getSensitiveWord());
+	}
 
-    /**
-     * 保存敏感词
-     *
-     * @param sysSensitiveWord 敏感词
-     * @return success/false
-     */
-    @Override
-    public Boolean saveSensitive(SysSensitiveWordEntity sysSensitiveWord) {
-        List<SysSensitiveWordEntity> wordEntityList = baseMapper
-                .selectList(Wrappers.<SysSensitiveWordEntity>lambdaQuery()
-                        .eq(SysSensitiveWordEntity::getSensitiveWord, sysSensitiveWord.getSensitiveWord()));
+	/**
+	 * 保存敏感词
+	 * @param sysSensitiveWord 敏感词
+	 * @return success/false
+	 */
+	@Override
+	public Boolean saveSensitive(SysSensitiveWordEntity sysSensitiveWord) {
+		List<SysSensitiveWordEntity> wordEntityList = baseMapper
+			.selectList(Wrappers.<SysSensitiveWordEntity>lambdaQuery()
+				.eq(SysSensitiveWordEntity::getSensitiveWord, sysSensitiveWord.getSensitiveWord()));
 
-        if (CollUtil.isEmpty(wordEntityList)) {
-            save(sysSensitiveWord);
-        } else {
-            wordEntityList.forEach(wordEntity -> {
-                wordEntity.setSensitiveType(sysSensitiveWord.getSensitiveType());
-                updateById(wordEntity);
-            });
-        }
+		if (CollUtil.isEmpty(wordEntityList)) {
+			save(sysSensitiveWord);
+		}
+		else {
+			wordEntityList.forEach(wordEntity -> {
+				wordEntity.setSensitiveType(sysSensitiveWord.getSensitiveType());
+				updateById(wordEntity);
+			});
+		}
 
-        RedisUtils.execute((RedisCallback<Void>) connection -> {
-            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
-            return null;
+		RedisUtils.execute((RedisCallback<Void>) connection -> {
+			connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+			return null;
 		});
 		return Boolean.TRUE;
 	}

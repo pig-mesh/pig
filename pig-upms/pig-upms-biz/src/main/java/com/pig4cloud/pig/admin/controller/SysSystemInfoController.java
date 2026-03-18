@@ -24,37 +24,36 @@ import java.util.*;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysSystemInfoController {
 
-    /**
-     * 缓存监控
-     *
-     * @return R<Object>
-     */
-    @GetMapping("/cache")
-    public R cache() {
-        Properties info = RedisUtils.execute((RedisCallback<Properties>) RedisServerCommands::info);
-        Properties commandStats = RedisUtils
-                .execute((RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
-        Object dbSize = RedisUtils.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
+	/**
+	 * 缓存监控
+	 * @return R<Object>
+	 */
+	@GetMapping("/cache")
+	public R cache() {
+		Properties info = RedisUtils.execute((RedisCallback<Properties>) RedisServerCommands::info);
+		Properties commandStats = RedisUtils
+			.execute((RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
+		Object dbSize = RedisUtils.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
-        if (commandStats == null) {
-            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_SYSTEM_CACHE_FETCH_ERROR));
-        }
+		if (commandStats == null) {
+			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_SYSTEM_CACHE_FETCH_ERROR));
+		}
 
-        Map<String, Object> result = new HashMap<>(3);
-        result.put("info", info);
-        result.put("dbSize", dbSize);
+		Map<String, Object> result = new HashMap<>(3);
+		result.put("info", info);
+		result.put("dbSize", dbSize);
 
-        List<Map<String, String>> pieList = new ArrayList<>();
-        commandStats.stringPropertyNames().forEach(key -> {
-            Map<String, String> data = new HashMap<>(2);
-            String property = commandStats.getProperty(key);
-            data.put("name", StringUtils.removeStart(key, "cmdstat_"));
-            data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
-            pieList.add(data);
-        });
+		List<Map<String, String>> pieList = new ArrayList<>();
+		commandStats.stringPropertyNames().forEach(key -> {
+			Map<String, String> data = new HashMap<>(2);
+			String property = commandStats.getProperty(key);
+			data.put("name", StringUtils.removeStart(key, "cmdstat_"));
+			data.put("value", StringUtils.substringBetween(property, "calls=", ",usec"));
+			pieList.add(data);
+		});
 
-        result.put("commandStats", pieList);
-        return R.ok(result);
-    }
+		result.put("commandStats", pieList);
+		return R.ok(result);
+	}
 
 }

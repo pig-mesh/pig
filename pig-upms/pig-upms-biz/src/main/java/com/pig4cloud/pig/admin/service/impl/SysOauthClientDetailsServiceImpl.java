@@ -126,7 +126,7 @@ public class SysOauthClientDetailsServiceImpl extends ServiceImpl<SysOauthClient
 			dto.setEncFlag(encFlag);
 			dto.setOnlineQuantity(onlineQuantity);
 			return dto;
-        }).toList();
+		}).toList();
 
 		// 构建dto page 对象
 		Page<SysOauthClientDetailsDTO> dtoPage = new Page<>(page.getCurrent(), page.getSize(), selectPage.getTotal());

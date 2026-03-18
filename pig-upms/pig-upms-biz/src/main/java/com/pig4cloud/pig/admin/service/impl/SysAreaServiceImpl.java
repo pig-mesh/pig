@@ -30,56 +30,53 @@ import java.util.Optional;
 @Service
 public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity> implements SysAreaService {
 
-    /**
-     * 查询行政区划树
-     *
-     * @param sysArea 查询条件
-     * @return 树
-     */
-    @Override
-    public List<Tree<Long>> selectTree(SysAreaEntity sysArea) {
-        // 构建查询条件
-        LambdaQueryWrapper<SysAreaEntity> wrapper = Wrappers.lambdaQuery();
+	/**
+	 * 查询行政区划树
+	 * @param sysArea 查询条件
+	 * @return 树
+	 */
+	@Override
+	public List<Tree<Long>> selectTree(SysAreaEntity sysArea) {
+		// 构建查询条件
+		LambdaQueryWrapper<SysAreaEntity> wrapper = Wrappers.lambdaQuery();
 
-        // 添加 areaType 过滤：小于等于指定级别
-        wrapper.le(StrUtil.isNotBlank(sysArea.getAreaType()), SysAreaEntity::getAreaType, sysArea.getAreaType());
+		// 添加 areaType 过滤：小于等于指定级别
+		wrapper.le(StrUtil.isNotBlank(sysArea.getAreaType()), SysAreaEntity::getAreaType, sysArea.getAreaType());
 
-        // 保留原有条件
-        wrapper.eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode())
-                .orderByDesc(SysAreaEntity::getAreaSort);
+		// 保留原有条件
+		wrapper.eq(SysAreaEntity::getAreaStatus, YesNoEnum.YES.getCode()).orderByDesc(SysAreaEntity::getAreaSort);
 
-        // 执行查询
-        List<SysAreaEntity> entityList = baseMapper.selectList(wrapper);
+		// 执行查询
+		List<SysAreaEntity> entityList = baseMapper.selectList(wrapper);
 
-        List<TreeNode<Long>> nodeList = CollUtil.newArrayList();
-        for (SysAreaEntity sysAreaEntity : entityList) {
-            TreeNode<Long> treeNode = new TreeNode<>(sysAreaEntity.getAdcode(), sysAreaEntity.getPid(),
-                    sysAreaEntity.getName(), -Optional.ofNullable(sysAreaEntity.getAreaSort()).orElse(0L));
+		List<TreeNode<Long>> nodeList = CollUtil.newArrayList();
+		for (SysAreaEntity sysAreaEntity : entityList) {
+			TreeNode<Long> treeNode = new TreeNode<>(sysAreaEntity.getAdcode(), sysAreaEntity.getPid(),
+					sysAreaEntity.getName(), -Optional.ofNullable(sysAreaEntity.getAreaSort()).orElse(0L));
 
-            HashMap<String, Object> extraMap = MapUtil.of(SysAreaEntity.Fields.adcode, sysAreaEntity.getAdcode());
-            extraMap.put(SysAreaEntity.Fields.hot, sysAreaEntity.getHot());
-            treeNode.setExtra(extraMap);
-            nodeList.add(treeNode);
-        }
+			HashMap<String, Object> extraMap = MapUtil.of(SysAreaEntity.Fields.adcode, sysAreaEntity.getAdcode());
+			extraMap.put(SysAreaEntity.Fields.hot, sysAreaEntity.getHot());
+			treeNode.setExtra(extraMap);
+			nodeList.add(treeNode);
+		}
 
-        return TreeUtil.build(nodeList, Optional.ofNullable(sysArea.getPid()).orElse(100000L));
-    }
+		return TreeUtil.build(nodeList, Optional.ofNullable(sysArea.getPid()).orElse(100000L));
+	}
 
-    /**
-     * 分页查询
-     *
-     * @param page    分页对象
-     * @param sysArea 行政区划
-     * @return Page
-     */
-    @Override
-    public Page selectPage(Page page, SysAreaEntity sysArea) {
-        LambdaQueryWrapper<SysAreaEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(sysArea.getName()), SysAreaEntity::getName, sysArea.getName());
-        wrapper.eq(Objects.nonNull(sysArea.getAdcode()), SysAreaEntity::getPid, sysArea.getAdcode());
-        wrapper.orderByAsc(SysAreaEntity::getAreaType);
-        wrapper.orderByDesc(SysAreaEntity::getAreaSort);
-        return baseMapper.selectPage(page, wrapper);
+	/**
+	 * 分页查询
+	 * @param page 分页对象
+	 * @param sysArea 行政区划
+	 * @return Page
+	 */
+	@Override
+	public Page selectPage(Page page, SysAreaEntity sysArea) {
+		LambdaQueryWrapper<SysAreaEntity> wrapper = Wrappers.lambdaQuery();
+		wrapper.like(StrUtil.isNotBlank(sysArea.getName()), SysAreaEntity::getName, sysArea.getName());
+		wrapper.eq(Objects.nonNull(sysArea.getAdcode()), SysAreaEntity::getPid, sysArea.getAdcode());
+		wrapper.orderByAsc(SysAreaEntity::getAreaType);
+		wrapper.orderByDesc(SysAreaEntity::getAreaSort);
+		return baseMapper.selectPage(page, wrapper);
 	}
 
 }

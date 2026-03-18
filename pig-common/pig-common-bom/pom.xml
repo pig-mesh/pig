@@ -19,7 +19,7 @@
 		<asm.version>7.1</asm.version>
 		<excel.version>3.4.3</excel.version>
 		<sms.version>3.3.5</sms.version>
-		<aws.version>1.12.792</aws.version>
+
 		<mysql.version>9.2.0</mysql.version>
 		<seata.version>1.7.0</seata.version>
 		<screw.version>0.0.3</screw.version>
@@ -49,6 +49,8 @@
 		<captcha.version>1.4.0</captcha.version>
 		<captcha.image.version>2.2.3</captcha.image.version>
 		<sensitive.word.version>0.21.0</sensitive.word.version>
+		<mica.xss.version>3.3.5</mica.xss.version>
+		<x-file-storage.version>2.3.0</x-file-storage.version>
 		<spring.checkstyle.plugin>0.0.47</spring.checkstyle.plugin>
 		<flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -77,10 +79,11 @@
 				<artifactId>pig-common-data</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<!-- 文件存储 -->
 			<dependency>
-				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-oss</artifactId>
-				<version>${revision}</version>
+				<groupId>org.dromara.x-file-storage</groupId>
+				<artifactId>x-file-storage-spring</artifactId>
+				<version>${x-file-storage.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud</groupId>
@@ -97,10 +100,11 @@
 				<artifactId>pig-common-swagger</artifactId>
 				<version>${revision}</version>
 			</dependency>
+			<!-- XSS 安全过滤 -->
 			<dependency>
-				<groupId>com.pig4cloud</groupId>
-				<artifactId>pig-common-xss</artifactId>
-				<version>${revision}</version>
+				<groupId>net.dreamlu</groupId>
+				<artifactId>mica-xss</artifactId>
+				<version>${mica.xss.version}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.pig4cloud.excel</groupId>
@@ -263,13 +267,7 @@
 				<artifactId>knife4j-openapi3-ui</artifactId>
 				<version>${knife4j.version}</version>
 			</dependency>
-			<!-- s3 -->
-			<dependency>
-				<groupId>com.amazonaws</groupId>
-				<artifactId>aws-java-sdk-s3</artifactId>
-				<version>${aws.version}</version>
-			</dependency>
-			<!--Nacos fix: https://gitee.com/log4j/pig/issues/ID2OA3-->
+<!--Nacos fix: https://gitee.com/log4j/pig/issues/ID2OA3-->
 			<dependency>
 				<groupId>com.alibaba.nacos</groupId>
 				<artifactId>nacos-client</artifactId>

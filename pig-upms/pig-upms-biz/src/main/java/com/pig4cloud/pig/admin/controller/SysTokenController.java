@@ -43,34 +43,32 @@ import java.util.Map;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysTokenController {
 
-    private final RemoteTokenService remoteTokenService;
+	private final RemoteTokenService remoteTokenService;
 
-    /**
-     * 分页token 信息
-     *
-     * @param params 参数集
-     * @return token集合
-     */
-    @RequestMapping("/page")
-    @HasPermission("sys_token_del")
-    public R getTokenPage(@RequestBody Map<String, Object> params) {
-        return remoteTokenService.getTokenPage(params);
-    }
+	/**
+	 * 分页token 信息
+	 * @param params 参数集
+	 * @return token集合
+	 */
+	@RequestMapping("/page")
+	@HasPermission("sys_token_del")
+	public R getTokenPage(@RequestBody Map<String, Object> params) {
+		return remoteTokenService.getTokenPage(params);
+	}
 
-    /**
-     * 删除
-     *
-     * @param token getTokenPage
-     * @return success/false
-     */
-    @SysLog("删除用户token")
-    @DeleteMapping("/delete")
-    @HasPermission("sys_token_del")
-    public R removeById(@RequestBody String[] tokens) {
-        for (String token : tokens) {
-            remoteTokenService.removeTokenById(token);
-        }
-        return R.ok();
-    }
+	/**
+	 * 删除
+	 * @param token getTokenPage
+	 * @return success/false
+	 */
+	@SysLog("删除用户token")
+	@DeleteMapping("/delete")
+	@HasPermission("sys_token_del")
+	public R removeById(@RequestBody String[] tokens) {
+		for (String token : tokens) {
+			remoteTokenService.removeTokenById(token);
+		}
+		return R.ok();
+	}
 
 }

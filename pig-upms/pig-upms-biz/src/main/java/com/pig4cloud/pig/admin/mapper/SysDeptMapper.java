@@ -35,12 +35,11 @@ import java.util.List;
 @Mapper
 public interface SysDeptMapper extends MPJBaseMapper<SysDept> {
 
-    /**
-     * 根据用户ID查询部门列表
-     *
-     * @param userId 用户ID
-     * @return 部门列表
-     */
-    List<SysDept> listDeptsByUserId(@Param("userId") Long userId);
+	/**
+	 * 根据用户ID查询部门列表
+	 * @param userId 用户ID
+	 * @return 部门列表
+	 */
+	List<SysDept> listDeptsByUserId(@Param("userId") Long userId);
 
 }

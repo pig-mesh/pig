@@ -57,10 +57,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-swagger</artifactId>
         </dependency>
-        <!--文件系统-->
+        <!--文件存储-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-oss</artifactId>
+            <groupId>org.dromara.x-file-storage</groupId>
+            <artifactId>x-file-storage-spring</artifactId>
         </dependency>
         <!--注册中心客户端-->
         <dependency>
@@ -79,8 +79,8 @@
         </dependency>
         <!--XSS 安全过滤-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-xss</artifactId>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-xss</artifactId>
         </dependency>
         <!-- 字段审计 -->
         <dependency>
