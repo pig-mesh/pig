@@ -43,6 +43,7 @@
 		<shardingsphere.version>5.4.1</shardingsphere.version>
 		<fastjson.version>1.2.83_noneautotype</fastjson.version>
 		<javers.version>7.8.0</javers.version>
+		<p6spy.version>3.9.1</p6spy.version>
 		<druid.version>1.2.23</druid.version>
 		<mybatis-plus-join.version>1.5.5</mybatis-plus-join.version>
 		<jakarta.mail.version>2.0.1</jakarta.mail.version>
@@ -225,6 +226,12 @@
 				<groupId>com.github.yulichang</groupId>
 				<artifactId>mybatis-plus-join-annotation</artifactId>
 				<version>${mybatis-plus-join.version}</version>
+			</dependency>
+			<!-- p6spy SQL 日志 -->
+			<dependency>
+				<groupId>p6spy</groupId>
+				<artifactId>p6spy</artifactId>
+				<version>${p6spy.version}</version>
 			</dependency>
 			<!-- druid 连接池 -->
 			<dependency>

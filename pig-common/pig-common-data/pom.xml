@@ -60,6 +60,11 @@
             <artifactId>druid</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- p6spy SQL 日志 -->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
         <!--安全依赖获取上下文信息-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
