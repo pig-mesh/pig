@@ -93,8 +93,8 @@
         </dependency>
         <!--安全模块-->
         <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pig-common-xss</artifactId>
+            <groupId>net.dreamlu</groupId>
+            <artifactId>mica-xss</artifactId>
         </dependency>
         <dependency>
             <groupId>com.pig4cloud</groupId>

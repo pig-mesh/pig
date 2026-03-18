@@ -28,7 +28,7 @@ import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
-import com.pig4cloud.pig.common.xss.core.XssCleanIgnore;
+import net.dreamlu.mica.xss.core.XssCleanIgnore;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
