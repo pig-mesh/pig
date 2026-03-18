@@ -69,11 +69,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 上传文件
-	 * @param file 文件流
+	 *
+	 * @param file     文件流
 	 * @param fileName
-	 * @param dir 文件夹
-	 * @param groupId 分组ID
-	 * @param type 类型
+	 * @param dir      文件夹
+	 * @param groupId  分组ID
+	 * @param type     类型
 	 * @return
 	 */
 	@Override
@@ -87,16 +88,15 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 		try {
 			FileInfo fileInfo = fileStorageService.of(file)
-				.setPath(StrUtil.isNotBlank(dir) ? dir + StrUtil.SLASH : "")
-				.setSaveFilename(fileName)
-				.upload();
+					.setPath(StrUtil.isNotBlank(dir) ? dir + StrUtil.SLASH : "")
+					.setSaveFilename(fileName)
+					.upload();
 			if (fileInfo == null) {
 				return R.failed("上传失败");
 			}
-			resultMap.put("bucketName", fileInfo.getPlatform());
-			fileLog(file, dir, fileName, groupId, type, fileInfo.getPlatform());
-		}
-		catch (Exception e) {
+			resultMap.put(SysFile.Fields.bucketName, fileInfo.getPlatform());
+			fileLog(fileInfo, groupId, type);
+		} catch (Exception e) {
 			log.error("上传失败", e);
 			return R.failed(e.getLocalizedMessage());
 		}
@@ -105,6 +105,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 获取文件内容并响应给客户端。
+	 *
 	 * @param fileName 要获取的文件名称
 	 * @param response 响应对象，用于将文件内容发送给客户端
 	 */
@@ -135,19 +136,18 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 			fileStorageService.download(fileInfo).inputStream(is -> {
 				try {
 					IoUtil.copy(is, response.getOutputStream());
-				}
-				catch (Exception ex) {
+				} catch (Exception ex) {
 					throw new RuntimeException(ex);
 				}
 			});
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			log.error("文件读取异常: {}", e.getLocalizedMessage());
 		}
 	}
 
 	/**
 	 * 根据ID删除文件
+	 *
 	 * @param id 文件ID
 	 * @return 删除是否成功，文件不存在时返回false
 	 */
@@ -169,6 +169,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 查询文件组列表
+	 *
 	 * @param fileGroup SysFileGroup对象，用于筛选条件
 	 * @return 包含文件组树形结构列表的List对象
 	 */
@@ -176,15 +177,15 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	public List<Tree<Long>> listFileGroup(SysFileGroup fileGroup) {
 		// 从数据库查询文件组列表
 		List<TreeNode<Long>> treeNodeList = fileGroupMapper.selectList(Wrappers.query(fileGroup))
-			.stream()
-			.map(group -> {
-				TreeNode<Long> treeNode = new TreeNode<>();
-				treeNode.setName(group.getName());
-				treeNode.setId(group.getId());
-				treeNode.setParentId(group.getPid());
-				return treeNode;
-			})
-			.toList();
+				.stream()
+				.map(group -> {
+					TreeNode<Long> treeNode = new TreeNode<>();
+					treeNode.setName(group.getName());
+					treeNode.setId(group.getId());
+					treeNode.setParentId(group.getPid());
+					return treeNode;
+				})
+				.toList();
 
 		// 构建树形结构
 		List<Tree<Long>> treeList = TreeUtil.build(treeNodeList, CommonConstants.MENU_TREE_ROOT_ID);
@@ -193,6 +194,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 添加或更新文件组
+	 *
 	 * @param fileGroup SysFileGroup对象，要添加或更新的文件组信息
 	 * @return 添加或更新成功返回true，否则返回false
 	 */
@@ -201,8 +203,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		if (Objects.isNull(fileGroup.getId())) {
 			// 插入文件组
 			fileGroupMapper.insert(fileGroup);
-		}
-		else {
+		} else {
 			// 更新文件组
 			fileGroupMapper.updateById(fileGroup);
 		}
@@ -211,6 +212,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 删除文件组
+	 *
 	 * @param id 待删除文件组的ID
 	 * @return 删除成功返回true，否则返回false
 	 */
@@ -223,6 +225,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 移动文件组
+	 *
 	 * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
 	 * @return 移动成功返回true，否则返回false
 	 */
@@ -240,26 +243,22 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 
 	/**
 	 * 文件管理数据记录，收集管理追踪文件
-	 * @param file 上传的文件格式
-	 * @param dir 文件夹
-	 * @param fileName 文件名
-	 * @param groupId 文件组ID
-	 * @param type 文件类型
+	 *
+	 * @param fileInfo 文件存储信息
+	 * @param groupId  文件组ID
+	 * @param type     文件类型
 	 */
 	@SneakyThrows
-	private void fileLog(MultipartFile file, String dir, String fileName, Long groupId, String type, String platform) {
-		// 创建SysFile对象并设置相关属性
+	private void fileLog(FileInfo fileInfo, Long groupId, String type) {
 		SysFile sysFile = new SysFile();
-		sysFile.setFileName(fileName);
-		sysFile.setDir(dir);
-		sysFile.setOriginal(file.getOriginalFilename());
-		sysFile.setFileSize(file.getSize());
-		sysFile.setBucketName(platform);
+		sysFile.setFileName(fileInfo.getFilename());
+		sysFile.setDir(fileInfo.getPath());
+		sysFile.setOriginal(fileInfo.getOriginalFilename());
+		sysFile.setFileSize(fileInfo.getSize());
+		sysFile.setBucketName(fileInfo.getPlatform());
 		sysFile.setType(type);
 		sysFile.setGroupId(groupId);
-
-		sysFile.setHash(SecureUtil.md5(file.getInputStream()));
-		// 调用save方法保存SysFile对象
+		sysFile.setHash(fileInfo.getHashInfo().getMd5());
 		this.save(sysFile);
 	}
 

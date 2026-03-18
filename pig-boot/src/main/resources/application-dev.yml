@@ -19,7 +19,7 @@ dromara:
     local-plus:
       - platform: local-plus-1
         enable-storage: true
-        enable-access: true
+        enable-access: false
         storage-path: /Users/lengleng/Downloads/img/
 
 ## 登录配置
