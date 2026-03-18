@@ -155,27 +155,4 @@ public class GenTemplateController {
     }
 
 
-    /**
-     * 在线更新模板
-     *
-     * @return R
-     */
-    @Operation(summary = "在线更新模板", description = "在线更新模板")
-    @GetMapping("/online")
-    @HasPermission("codegen_template_view")
-    public R online() {
-        return genTemplateService.onlineUpdate();
-    }
-
-    /**
-     * 检查版本
-     * @return {@link R }
-     */
-    @Operation(summary = "在线检查模板", description = "在线检查模板")
-    @GetMapping("/checkVersion")
-    @HasPermission("codegen_template_view")
-    public R checkVersion() {
-        return genTemplateService.checkVersion();
-    }
-
 }

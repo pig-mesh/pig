@@ -44,6 +44,9 @@ public class DataModelConstants {
     public static final String BACKEND_PATH = "backendPath";
     public static final String FRONTEND_PATH = "frontendPath";
 
+    // 开源版标识
+    public static final String OPENSOURCE = "opensource";
+
     // 子表信息
     public static final String CHILD_FIELD_LIST = "childFieldList";
     public static final String CHILD_TABLE_NAME = "childTableName";

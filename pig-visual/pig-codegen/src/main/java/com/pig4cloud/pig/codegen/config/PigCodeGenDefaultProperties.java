@@ -1,6 +1,5 @@
 package com.pig4cloud.pig.codegen.config;
 
-import cn.smallbun.screw.core.constant.DefaultConstants;
 import lombok.Data;
 import org.anyline.util.ConfigTable;
 import org.springframework.beans.factory.InitializingBean;
@@ -19,21 +18,6 @@ import org.springframework.context.annotation.Configuration;
 public class PigCodeGenDefaultProperties implements InitializingBean {
 
 	public static final String PREFIX = "pig.codegen";
-
-	/**
-	 * 是否开启在线更新
-	 */
-	private boolean autoCheckVersion = true;
-
-	/**
-	 * 分支名称，默认为master
-	 */
-	private String branch = "next";
-
-	/**
-	 * 模板项目地址
-	 */
-	private String onlineUrl = DefaultConstants.CGTM_URL;
 
 	/**
 	 * 生成代码的包名

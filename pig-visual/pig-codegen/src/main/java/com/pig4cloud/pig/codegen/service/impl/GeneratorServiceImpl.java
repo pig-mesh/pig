@@ -388,6 +388,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         dataModel.put(DataModelConstants.BACKEND_PATH, table.getBackendPath());
         dataModel.put(DataModelConstants.FRONTEND_PATH, table.getFrontendPath());
+        dataModel.put(DataModelConstants.OPENSOURCE, true);
 
         // 设置子表
         String childTableName = table.getChildTableName();
