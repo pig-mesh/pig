@@ -16,8 +16,11 @@
 
 package com.pig4cloud.pig.auth.support.handler;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.http.HttpUtil;
+import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.WebUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -51,11 +54,18 @@ public class FormAuthenticationFailureHandler implements AuthenticationFailureHa
 
 		// 获取当前请求的context-path
 		String contextPath = request.getContextPath();
+		String tenantId = request.getParameter(CommonConstants.TENANT_ID);
+		String clientId = request.getParameter(SecurityConstants.CLIENT_ID);
+		String redirectUrl = String.format("%s/token/login?error=%s", contextPath, exception.getMessage());
+		if (StrUtil.isNotBlank(tenantId)) {
+			redirectUrl = String.format("%s&%s=%s", redirectUrl, CommonConstants.TENANT_ID, tenantId);
+		}
+		if (StrUtil.isNotBlank(clientId)) {
+			redirectUrl = String.format("%s&%s=%s", redirectUrl, SecurityConstants.CLIENT_ID, clientId);
+		}
 
 		// 构建重定向URL，加入context-path
-		String url = HttpUtil.encodeParams(
-				String.format("%s/token/login?error=%s", contextPath, exception.getMessage()),
-				CharsetUtil.CHARSET_UTF_8);
+		String url = HttpUtil.encodeParams(redirectUrl, CharsetUtil.CHARSET_UTF_8);
 
 		try {
 			WebUtils.getResponse().sendRedirect(url);

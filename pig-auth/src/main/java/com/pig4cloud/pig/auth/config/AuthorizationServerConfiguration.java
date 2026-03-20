@@ -21,6 +21,7 @@ import com.pig4cloud.pig.auth.support.core.CustomeOAuth2TokenCustomizer;
 import com.pig4cloud.pig.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pig.auth.support.core.PigDaoAuthenticationProvider;
 import com.pig4cloud.pig.auth.support.core.PigOAuth2RefreshTokenAuthenticationConverter;
+import com.pig4cloud.pig.auth.support.filter.FormLoginValidateCodeFilter;
 import com.pig4cloud.pig.auth.support.filter.PasswordDecoderFilter;
 import com.pig4cloud.pig.auth.support.filter.ValidateCodeFilter;
 import com.pig4cloud.pig.auth.support.handler.PigAuthenticationFailureEventHandler;
@@ -78,6 +79,8 @@ public class AuthorizationServerConfiguration {
 
     private final ValidateCodeFilter validateCodeFilter;
 
+    private final FormLoginValidateCodeFilter formLoginValidateCodeFilter;
+
     private final PigBootCorsProperties corsProperties;
 
     @Bean
@@ -91,6 +94,8 @@ public class AuthorizationServerConfiguration {
 
         // 增加验证码过滤器
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        // 增加授权码登录表单验证码过滤器
+        http.addFilterBefore(formLoginValidateCodeFilter, UsernamePasswordAuthenticationFilter.class);
         // 增加密码解密过滤器
         http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
 

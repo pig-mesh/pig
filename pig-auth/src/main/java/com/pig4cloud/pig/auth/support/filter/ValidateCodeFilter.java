@@ -8,20 +8,11 @@ package com.pig4cloud.pig.auth.support.filter;
  */
 
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.anji.captcha.model.vo.CaptchaVO;
-import com.anji.captcha.service.CaptchaService;
-import com.pig4cloud.pig.auth.support.core.AuthErrorCodes;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.auth.support.core.AuthCaptchaSupport;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
-import com.pig4cloud.pig.common.core.constant.enums.CaptchaFlagTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
-import com.pig4cloud.pig.common.core.util.MsgUtils;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.core.util.WebUtils;
-import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -46,6 +37,8 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter {
+
+    private final AuthCaptchaSupport authCaptchaSupport;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -97,55 +90,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
      * 校验验证码
      */
     private void checkCode() throws ValidateCodeException {
-        HttpServletRequest request = WebUtils.getRequest();
-        String code = request.getParameter("code");
-
-        if (StrUtil.isBlank(code)) {
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
-        }
-
-        String randomStr = request.getParameter("randomStr");
-
-        // https://gitee.com/log4j/pig/issues/IWA0D
-        String mobile = request.getParameter("mobile");
-        if (StrUtil.isNotBlank(mobile)) {
-            randomStr = mobile;
-        }
-
-        // 若是滑块登录
-        if (StrUtil.equalsAnyIgnoreCase(randomStr, CommonConstants.IMAGE_CODE_BLOCK_PUZZLE, CommonConstants.IMAGE_CODE_CLICK_WORD)) {
-            CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
-            CaptchaVO vo = new CaptchaVO();
-            vo.setCaptchaVerification(code);
-            vo.setCaptchaType(randomStr);
-            if (!captchaService.verification(vo).isSuccess()) {
-                throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
-            }
-            return;
-        }
-
-        String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-        if (!RedisUtils.hasKey(key)) {
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
-        }
-
-        String codeObj = RedisUtils.get(key);
-
-        if (codeObj == null) {
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
-        }
-
-        if (StrUtil.isBlank(codeObj)) {
-            RedisUtils.delete(key);
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
-        }
-
-        if (!StrUtil.equals(codeObj, code)) {
-            RedisUtils.delete(key);
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
-        }
-
-        RedisUtils.delete(key);
+        authCaptchaSupport.validateCode(WebUtils.getRequest());
     }
 
     /**
@@ -159,18 +104,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
         String clientId = WebUtils.extractClientId(header).orElse(null);
         // 获取租户拼接区分租户的key
         String tenantId = request.getHeader(CommonConstants.TENANT_ID);
-        String key = String.format("%s:%s:%s", StrUtil.isBlank(tenantId) ? CommonConstants.TENANT_ID_1 : tenantId,
-                CacheConstants.CLIENT_FLAG, clientId);
-
-        String val = RedisUtils.get(key);
-
-        // 当配置不存在时，不用校验
-        if (val == null) {
-            return false;
-        }
-
-        JSONObject information = JSONUtil.parseObj(val);
-        return !StrUtil.equals(CaptchaFlagTypeEnum.OFF.getType(), information.getStr(CommonConstants.CAPTCHA_FLAG));
+        return authCaptchaSupport.isCaptchaEnabled(tenantId, clientId);
     }
 
 }
