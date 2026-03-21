@@ -1,66 +1,75 @@
 server:
-  port: 9999    # 项目端口
+  port: 9999
   servlet:
-    context-path: /admin  # 项目访问路径
+    context-path: /admin
+  undertow:
+    max-http-post-size: 100MB
 
 spring:
   application:
-    name: @project.artifactId@  # 服务名称，取 pom.xml 中的 artifactId
+    name: @project.artifactId@
+  # 缓存相关配置
+  cache:
+    type: redis
   # 上传文件大小限制
   servlet:
     multipart:
-      max-file-size: 100MB # 单个文件最大
-      max-request-size: 100MB # 接收的最大请求大小
+      max-file-size: ${server.undertow.max-http-post-size}
+      max-request-size: ${server.undertow.max-http-post-size}
   cloud:
-    nacos:  # 单机版本关闭nacos 服务发现和配置管理的能力
-      config:
+    discovery:
+      enabled: false
+    nacos:
+      config.enabled: false
+      discovery.enabled: false
+    gateway:
+      server.webflux:
         enabled: false
-      discovery:
-        enabled: false
+        redis.enabled: false
+    sentinel.enabled: false
+    openfeign.okhttp.enabled: true
   freemarker: # freemarker 配置，授权码模式页面渲染使用
     suffix: .ftl
     template-loader-path: classpath:/templates/
     request-context-attribute: request
   main:
-    allow-bean-definition-overriding: true # 允许覆盖bean定义
+    allow-bean-definition-overriding: true
   profiles:
-    active: dev  # 激活dev，对应 application-dev.yml
+    active: dev
 
 
-## spring security 对外暴露接口设置（不鉴权直接可访问）
+## spring security 对外暴露接口设置
 security:
   micro: false
   oauth2:
-    ignore:
-      urls:
+    client:
+      ignore-urls:
         - /webjars/**
         - /v3/api-docs/**
         - /doc.html
         - /swagger-ui.html
         - /swagger-ui/**
         - /swagger-resources
-        - /code/image
-        - /error
         - /token/**
+        - /error
+        - /druid/**
         - /actuator/**
+        - /code/**
 
 #--------------如下配置尽量不要变动-------------
-# swagger 配置
-swagger:
-  token-url: ${swagger.gateway}/admin/oauth2/token
-
+management.endpoints.access.default: none # 默认所有端点都不允许访问
 # mybatis-plus 配置
 mybatis-plus:
-  mapper-locations: classpath*:/mapper/*Mapper.xml # mapper文件位置
+  mapper-locations: classpath*:/mapper/*Mapper.xml
   global-config:
-    banner: false # 是否打印 mybatis-plus banner
+    banner: false
     db-config:
-      id-type: auto  # 主键类型
-      where-strategy: not_empty # where 条件策略
-      insert-strategy: not_empty # 插入策略
-      update-strategy: not_null  # 更新策略
-  type-handlers-package: com.pig4cloud.pig.common.data.handler # 类型处理器包
+      id-type: auto
+      where-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_null
+  type-handlers-package: com.pig4cloud.pig.common.data.handler
   configuration:
-    jdbc-type-for-null: 'null' # 是否设置字段为null
-    call-setters-on-nulls: true # 是否调用set方法时传入null值
-    shrink-whitespaces-in-sql: true # 去掉sql中多余的空格
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+    shrink-whitespaces-in-sql: true

@@ -60,7 +60,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -257,31 +256,5 @@ public class PigTokenEndpoint {
         OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 		return R.ok(authorization);
 	}
-
-    private Long resolveSelectedTenantId(HttpServletRequest request, HttpServletResponse response, List<SysTenant> tenantList) {
-        String tenantId = authCaptchaSupport.resolveAuthorizationTenantId(request, response, true);
-        if (StrUtil.isNotBlank(tenantId)) {
-            try {
-                return Long.parseLong(tenantId);
-            } catch (NumberFormatException ignored) {
-                // ignore invalid tenant id and fall back to the default selection below
-            }
-        }
-
-        if (!tenantList.isEmpty()) {
-            return tenantList.get(0).getId();
-        }
-
-        return CommonConstants.TENANT_ID_1;
-    }
-
-    private Map<String, Boolean> buildTenantCaptchaEnabledMap(List<SysTenant> tenantList, String authClientId) {
-        Map<String, Boolean> result = new LinkedHashMap<>(tenantList.size());
-        for (SysTenant tenant : tenantList) {
-            String tenantId = String.valueOf(tenant.getId());
-            result.put(tenantId, authCaptchaSupport.isCaptchaEnabled(tenantId, authClientId));
-        }
-        return result;
-    }
 
 }
