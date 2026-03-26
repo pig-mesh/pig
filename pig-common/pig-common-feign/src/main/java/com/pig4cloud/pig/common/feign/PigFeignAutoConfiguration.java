@@ -1,78 +1,88 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ * Copyright (c) 2020 pig4cloud Authors. All Rights Reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Redistributions of source code must retain the above copyright notice,
- * this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- * notice, this list of conditions and the following disclaimer in the
- * documentation and/or other materials provided with the distribution.
- * Neither the name of the pig4cloud.com developer nor the names of its
- * contributors may be used to endorse or promote products derived from
- * this software without specific prior written permission.
- * Author: lengleng (wangiegie@gmail.com)
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package com.pig4cloud.pig.common.feign;
 
-import com.pig4cloud.pig.common.feign.endpoint.FeignClientEndpoint;
+import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.pig4cloud.pig.common.feign.core.PigFeignInnerRequestInterceptor;
+import com.pig4cloud.pig.common.feign.core.PigFeignLanguageInterceptor;
 import com.pig4cloud.pig.common.feign.core.PigFeignRequestCloseInterceptor;
+import com.pig4cloud.pig.common.feign.sentinel.ext.PigSentinelFeign;
 import feign.Feign;
-import org.springframework.boot.actuate.autoconfigure.endpoint.condition.ConditionalOnAvailableEndpoint;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.openfeign.PigFeignClientsRegistrar;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Scope;
 
 /**
+ * Sentinel Feign 自动配置类
+ *
  * @author lengleng
- * @date 2020/2/8
- * <p>
- * feign 自动化配置
+ * @date 2025/05/31
  */
-@Configuration
-@ConditionalOnClass(Feign.class)
+@Configuration(proxyBeanMethods = false)
 @Import(PigFeignClientsRegistrar.class)
-@AutoConfigureAfter(EnableFeignClients.class)
+@AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigFeignAutoConfiguration {
 
-    /**
-     * feign actuator endpoint
-     * @param context
-     * @return FeignClientEndpoint
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    @ConditionalOnAvailableEndpoint
-    public FeignClientEndpoint feignClientEndpoint(ApplicationContext context) {
-        return new FeignClientEndpoint(context);
-    }
+	/**
+	 * 创建Feign.Builder实例，支持Sentinel功能
+	 * @return Feign.Builder实例
+	 * @ConditionalOnMissingBean 当容器中不存在该类型bean时创建
+	 * @ConditionalOnProperty 当配置feign.sentinel.enabled为true时生效
+	 * @Scope 指定bean作用域为prototype
+	 */
+	@Bean
+	@Scope("prototype")
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(name = "feign.sentinel.enabled")
+	public Feign.Builder feignSentinelBuilder() {
+		return PigSentinelFeign.builder();
+	}
 
-    /**
-     * add http connection close header
-     *
-     * @return PigFeignRequestCloseInterceptor
-     */
-    @Bean
-    public PigFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
-        return new PigFeignRequestCloseInterceptor();
-    }
+	/**
+	 * 创建并返回PigFeignRequestCloseInterceptor实例
+	 * @return PigFeignRequestCloseInterceptor实例
+	 */
+	@Bean
+	public PigFeignRequestCloseInterceptor pigFeignRequestCloseInterceptor() {
+		return new PigFeignRequestCloseInterceptor();
+	}
 
-    /**
-     * add inner request header
-     *
-     * @return PigFeignInnerRequestInterceptor
-     */
-    @Bean
-    public PigFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {
-        return new PigFeignInnerRequestInterceptor();
-    }
+	/**
+	 * 创建并返回PigFeignInnerRequestInterceptor实例
+	 * @return PigFeignInnerRequestInterceptor 内部请求拦截器实例
+	 */
+	@Bean
+	public PigFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {
+		return new PigFeignInnerRequestInterceptor();
+	}
+
+	/**
+	 * add accept-language header
+	 *
+	 * @return PigFeignLanguageInterceptor
+	 */
+	@Bean
+	public PigFeignLanguageInterceptor pigFeignLanguageInterceptor() {
+		return new PigFeignLanguageInterceptor();
+	}
+
 }
