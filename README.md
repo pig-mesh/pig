@@ -4,7 +4,7 @@
 
 ## 技术栈
 
-- Spring Boot: 4.0.4
+- Spring Boot: 4.0.5
 - Spring Cloud: 2025.1.0
 - Spring Cloud Alibaba: 2025.1.0.0
 - JDK: 17+
