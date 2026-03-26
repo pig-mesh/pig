@@ -405,6 +405,7 @@ INSERT INTO `sys_i18n` VALUES (50, 'router.logManagement', '日志管理', 'Log 
 INSERT INTO `sys_i18n` VALUES (62, 'router.cacheMonitoring', '缓存监控', 'Cache Monitoring', ' ', '2023-08-10 13:42:35', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (73, 'router.message', '信息推送', 'Message Push', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 INSERT INTO `sys_i18n` VALUES (74, 'router.sensitiveWords', '敏感词管理', 'Sensitive words', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
+INSERT INTO `sys_i18n` VALUES (75, 'router.clarityMonitoring', '站点统计', 'Site Analytics', 'admin', '2026-03-26 00:00:00', 'admin', NULL, '0');
 COMMIT;
 
 -- ----------------------------
@@ -469,122 +470,6 @@ CREATE TABLE `sys_menu` (
 -- Records of sys_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_menu` VALUES (1000,'权限管理',NULL,'/system',NULL,-1,'iconfont icon-quanxianguanli','1',0,'0','0','0','','2018-09-28 08:29:53','admin','2023-11-01 16:39:55','0');
-INSERT INTO `sys_menu` VALUES (1100,'用户管理',NULL,'/admin/system/user/index',NULL,1000,'iconfont icon-yonghuguanli','1',1,'0','0','0','','2017-11-02 22:24:37','admin','2023-11-01 16:40:44','0');
-INSERT INTO `sys_menu` VALUES (1101,'用户新增','sys_user_add',NULL,NULL,1100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:52:09',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1102,'用户修改','sys_user_edit',NULL,NULL,1100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:52:48',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1103,'用户删除','sys_user_del',NULL,NULL,1100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:54:01',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1104,'导入导出','sys_user_export',NULL,NULL,1100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:54:01',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1105,'用户查看','sys_user_view',NULL,NULL,1100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:54:01',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1200,'菜单管理',NULL,'/admin/system/menu/index',NULL,1000,'iconfont icon-caidan','1',2,'0','0','0','','2017-11-08 09:57:27','admin','2023-11-01 16:40:39','0');
-INSERT INTO `sys_menu` VALUES (1201,'菜单新增','sys_menu_add',NULL,NULL,1200,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:15:53',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1202,'菜单修改','sys_menu_edit',NULL,NULL,1200,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:16:23',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1203,'菜单删除','sys_menu_del',NULL,NULL,1200,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:16:43',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1300,'角色管理',NULL,'/admin/system/role/index',NULL,1000,'iconfont icon-jiaoseguanli','1',3,'0',NULL,'0','','2017-11-08 10:13:37','admin','2025-01-26 22:24:11','0');
-INSERT INTO `sys_menu` VALUES (1301,'角色新增','sys_role_add',NULL,NULL,1300,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:14:18',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1302,'角色修改','sys_role_edit',NULL,NULL,1300,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:14:41',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1303,'角色删除','sys_role_del',NULL,NULL,1300,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 10:14:59',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1304,'分配权限','sys_role_perm',NULL,NULL,1300,NULL,'1',1,'0',NULL,'1',' ','2018-04-20 07:22:55',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1305,'角色导入导出','sys_role_export',NULL,NULL,1300,NULL,'1',4,'0',NULL,'1',' ','2022-03-26 15:54:34',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (1306,'角色查看','sys_role_view',NULL,NULL,1300,NULL,'1',4,'0',NULL,'1',' ','2022-03-26 15:54:34',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (1400,'部门管理',NULL,'/admin/system/dept/index',NULL,1000,'iconfont icon-bumenguanli','1',4,'0',NULL,'0','','2018-01-20 13:17:19','admin','2023-11-01 16:40:30','0');
-INSERT INTO `sys_menu` VALUES (1401,'部门新增','sys_dept_add',NULL,NULL,1400,NULL,'1',1,'0',NULL,'1',' ','2018-01-20 14:56:16',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1402,'部门修改','sys_dept_edit',NULL,NULL,1400,NULL,'1',1,'0',NULL,'1',' ','2018-01-20 14:56:59',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1403,'部门删除','sys_dept_del',NULL,NULL,1400,NULL,'1',1,'0',NULL,'1',' ','2018-01-20 14:57:28',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (1600,'岗位管理',NULL,'/admin/system/post/index',NULL,1000,'iconfont icon-gangweitubiao','1',5,'1','0','0','','2022-03-26 13:04:14','admin','2023-11-01 17:02:55','0');
-INSERT INTO `sys_menu` VALUES (1601,'岗位信息查看','sys_post_view',NULL,NULL,1600,NULL,'1',0,'0',NULL,'1',' ','2022-03-26 13:05:34',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (1602,'岗位信息新增','sys_post_add',NULL,NULL,1600,NULL,'1',1,'0',NULL,'1',' ','2022-03-26 13:06:00',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (1603,'岗位信息修改','sys_post_edit',NULL,NULL,1600,NULL,'1',2,'0',NULL,'1',' ','2022-03-26 13:06:31',' ','2022-03-26 13:06:38','0');
-INSERT INTO `sys_menu` VALUES (1604,'岗位信息删除','sys_post_del',NULL,NULL,1600,NULL,'1',3,'0',NULL,'1',' ','2022-03-26 13:06:31',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (1605,'岗位导入导出','sys_post_export',NULL,NULL,1600,NULL,'1',4,'0',NULL,'1',' ','2022-03-26 13:06:31',' ','2022-03-26 06:32:02','0');
-INSERT INTO `sys_menu` VALUES (2000,'系统管理',NULL,'/admin',NULL,-1,'iconfont icon-xitongguanli','1',1,'0',NULL,'0','','2017-11-07 20:56:00','admin','2023-11-01 16:25:58','0');
-INSERT INTO `sys_menu` VALUES (2001,'日志管理',NULL,'/admin/logs',NULL,2000,'iconfont icon-xitongrizhi','1',1,'0','0','0','admin','2023-03-02 12:26:42','admin','2023-11-01 16:22:08','0');
-INSERT INTO `sys_menu` VALUES (2100,'操作日志',NULL,'/admin/log/index',NULL,2001,'iconfont icon-jinridaiban','1',2,'0','0','0','','2017-11-20 14:06:22','admin','2023-03-02 12:28:57','0');
-INSERT INTO `sys_menu` VALUES (2101,'日志删除','sys_log_del',NULL,NULL,2100,NULL,'1',1,'0',NULL,'1',' ','2017-11-20 20:37:37',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2102,'导入导出','sys_log_export',NULL,NULL,2100,NULL,'1',1,'0',NULL,'1',' ','2017-11-08 09:54:01',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2103,'审计日志',NULL,'/admin/audit/index',NULL,2001,'iconfont icon-biaodan','1',1,'0','0','0','',NULL,'admin','2023-03-02 12:28:47','0');
-INSERT INTO `sys_menu` VALUES (2104,'审计记录表删除','sys_audit_del',NULL,NULL,2103,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-02-28 20:23:43','0');
-INSERT INTO `sys_menu` VALUES (2105,'导入导出','sys_audit_export',NULL,NULL,2103,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-02-28 20:23:51','0');
-INSERT INTO `sys_menu` VALUES (2106,'敏感数据查看','no_mask',NULL,NULL,2103,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-02-28 20:23:51','0');
-INSERT INTO `sys_menu` VALUES (2107,'日志查看','sys_log_view',NULL,NULL,2001,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-02-28 20:23:51','0');
-INSERT INTO `sys_menu` VALUES (2108,'日志查看','sys_audit_view',NULL,NULL,2103,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-02-28 20:23:51','0');
-INSERT INTO `sys_menu` VALUES (2200,'字典管理',NULL,'/admin/dict/index',NULL,2000,'iconfont icon-zidianguanli','1',6,'0',NULL,'0','','2017-11-29 11:30:52','admin','2023-02-16 15:24:29','0');
-INSERT INTO `sys_menu` VALUES (2201,'字典删除','sys_dict_del',NULL,NULL,2200,NULL,'1',1,'0',NULL,'1',' ','2017-11-29 11:30:11',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2202,'字典新增','sys_dict_add',NULL,NULL,2200,NULL,'1',1,'0',NULL,'1',' ','2018-05-11 22:34:55',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2203,'字典修改','sys_dict_edit',NULL,NULL,2200,NULL,'1',1,'0',NULL,'1',' ','2018-05-11 22:36:03',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2204,'字典查看','sys_dict_view',NULL,NULL,2200,NULL,'1',1,'0',NULL,'1',' ','2018-05-11 22:36:03',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2210,'参数管理',NULL,'/admin/param/index',NULL,2000,'iconfont icon-canshuguanli','1',7,'1',NULL,'0','','2019-04-29 22:16:50','admin','2023-02-16 15:24:51','0');
-INSERT INTO `sys_menu` VALUES (2211,'参数新增','sys_syspublicparam_add',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:17:36',' ','2020-03-24 08:57:11','0');
-INSERT INTO `sys_menu` VALUES (2212,'参数删除','sys_syspublicparam_del',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:17:55',' ','2020-03-24 08:57:12','0');
-INSERT INTO `sys_menu` VALUES (2213,'参数编辑','sys_syspublicparam_edit',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:18:14',' ','2020-03-24 08:57:13','0');
-INSERT INTO `sys_menu` VALUES (2214,'参数查看','sys_syspublicparam_view',NULL,NULL,2210,NULL,'1',1,'0',NULL,'1',' ','2019-04-29 22:18:14',' ','2020-03-24 08:57:13','0');
-INSERT INTO `sys_menu` VALUES (2300,'代码生成',NULL,'/gen/table/index',NULL,9000,'iconfont icon-daimashengcheng','1',2,'0','0','0','','2018-01-20 13:17:19','admin','2023-02-20 13:54:35','0');
-INSERT INTO `sys_menu` VALUES (2400,'终端管理',NULL,'/admin/client/index',NULL,2000,'iconfont icon-shouji','1',9,'1',NULL,'0','','2018-01-20 13:17:19','admin','2023-02-16 15:25:28','0');
-INSERT INTO `sys_menu` VALUES (2401,'客户端新增','sys_client_add',NULL,NULL,2400,'1','1',1,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2402,'客户端修改','sys_client_edit',NULL,NULL,2400,NULL,'1',1,'0',NULL,'1',' ','2018-05-15 21:37:06',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2403,'客户端删除','sys_client_del',NULL,NULL,2400,NULL,'1',1,'0',NULL,'1',' ','2018-05-15 21:39:16',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2404,'客户端查看','sys_client_view',NULL,NULL,2400,NULL,'1',1,'0',NULL,'1',' ','2018-05-15 21:39:16',' ','2021-05-25 03:12:55','0');
-INSERT INTO `sys_menu` VALUES (2500,'密钥管理',NULL,'/admin/social/index',NULL,2000,'iconfont icon-miyueguanli','1',10,'0',NULL,'0','','2018-01-20 13:17:19','admin','2025-01-26 22:25:20','0');
-INSERT INTO `sys_menu` VALUES (2501,'密钥新增','sys_social_details_add',NULL,NULL,2500,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:19','0');
-INSERT INTO `sys_menu` VALUES (2502,'密钥修改','sys_social_details_edit',NULL,NULL,2500,'1','1',1,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:19','0');
-INSERT INTO `sys_menu` VALUES (2503,'密钥删除','sys_social_details_del',NULL,NULL,2500,'1','1',2,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:23','0');
-INSERT INTO `sys_menu` VALUES (2504,'密钥查看','sys_social_details_view',NULL,NULL,2500,'1','1',2,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:23','0');
-INSERT INTO `sys_menu` VALUES (2600,'令牌管理',NULL,'/admin/token/index',NULL,2000,'iconfont icon-lingpai','1',11,'0',NULL,'0','','2018-09-04 05:58:41','admin','2023-02-16 15:28:28','0');
-INSERT INTO `sys_menu` VALUES (2601,'令牌删除','sys_token_del',NULL,NULL,2600,NULL,'1',1,'0',NULL,'1',' ','2018-09-04 05:59:50',' ','2020-03-24 08:57:24','0');
-INSERT INTO `sys_menu` VALUES (2800,'Quartz管理',NULL,'/tools/job-manage/index',NULL,2000,'iconfont icon-quartz','1',4,'0',NULL,'0','','2018-01-20 13:17:19','admin','2023-11-27 14:52:53','0');
-INSERT INTO `sys_menu` VALUES (2810,'任务新增','job_sys_job_add',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:26','0');
-INSERT INTO `sys_menu` VALUES (2820,'任务修改','job_sys_job_edit',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:27','0');
-INSERT INTO `sys_menu` VALUES (2830,'任务删除','job_sys_job_del',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:28','0');
-INSERT INTO `sys_menu` VALUES (2840,'任务暂停','job_sys_job_shutdown_job',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:28','0');
-INSERT INTO `sys_menu` VALUES (2850,'任务开始','job_sys_job_start_job',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:29','0');
-INSERT INTO `sys_menu` VALUES (2860,'任务刷新','job_sys_job_refresh_job',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2018-05-15 21:35:18',' ','2020-03-24 08:57:30','0');
-INSERT INTO `sys_menu` VALUES (2870,'执行任务','job_sys_job_run_job',NULL,NULL,2800,'1','1',0,'0',NULL,'1',' ','2019-08-08 15:35:18',' ','2020-03-24 08:57:31','0');
-INSERT INTO `sys_menu` VALUES (2871,'导出','job_sys_job_export',NULL,NULL,2800,NULL,'1',0,'0','0','1','admin','2023-03-06 15:26:13',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2900,'国际化管理',NULL,'/admin/i18n/index',NULL,2000,'iconfont icon-zhongyingwenqiehuan','1',8,'0',NULL,'0','',NULL,'admin','2023-02-16 15:25:18','0');
-INSERT INTO `sys_menu` VALUES (2901,'系统表-国际化查看','sys_i18n_view',NULL,NULL,2900,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2902,'系统表-国际化新增','sys_i18n_add',NULL,NULL,2900,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2903,'系统表-国际化修改','sys_i18n_edit',NULL,NULL,2900,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2904,'系统表-国际化删除','sys_i18n_del',NULL,NULL,2900,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2905,'导入导出','sys_i18n_export',NULL,NULL,2900,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2906,'文件管理',NULL,'/admin/file/index',NULL,2000,'iconfont icon-wendangguanli','1',6,'0',NULL,'0','','2019-06-25 12:44:46','admin','2023-02-16 15:24:42','0');
-INSERT INTO `sys_menu` VALUES (2907,'删除文件','sys_file_del',NULL,NULL,2906,NULL,'1',1,'0',NULL,'1',' ','2019-06-25 13:41:41',' ','2020-03-24 08:58:42','0');
-INSERT INTO `sys_menu` VALUES (2908,'查看文件','sys_file_view',NULL,NULL,2906,NULL,'1',1,'0',NULL,'1',' ','2019-06-25 13:41:41',' ','2020-03-24 08:58:42','0');
-INSERT INTO `sys_menu` VALUES (2910,'行政区划','','/admin/sysArea/index',NULL,2000,'iconfont icon-hangzhengquhuaguanli','1',99,'0',NULL,'0','',NULL,'admin','2024-02-16 22:11:03','0');
-INSERT INTO `sys_menu` VALUES (2911,'行政区划表查看','sys_sysArea_view',NULL,NULL,2910,'1','1',0,'0',NULL,'1',' ',NULL,' ','2024-02-17 14:31:09','0');
-INSERT INTO `sys_menu` VALUES (2912,'行政区划表新增','sys_sysArea_add',NULL,NULL,2910,'1','1',1,'0',NULL,'1',' ',NULL,' ','2024-02-17 14:31:16','0');
-INSERT INTO `sys_menu` VALUES (2913,'行政区划表删除','sys_sysArea_del',NULL,NULL,2910,'1','1',3,'0',NULL,'1',' ',NULL,' ','2024-02-17 14:31:21','0');
-INSERT INTO `sys_menu` VALUES (2914,'导入导出','sys_sysArea_export',NULL,NULL,2910,'1','1',3,'0',NULL,'1',' ',NULL,' ','2024-02-17 14:31:26','0');
-INSERT INTO `sys_menu` VALUES (2915,'行政区划表修改','sys_sysArea_edit',NULL,NULL,2910,'1','1',2,'0',NULL,'1',' ',NULL,' ','2024-02-17 14:31:31','0');
-INSERT INTO `sys_menu` VALUES (2920,'敏感词管理','','/admin/sensitive/index',NULL,2000,'iconfont icon-sensitiveword','1',12,'0',NULL,'0','',NULL,'admin','2024-07-07 15:09:27','0');
-INSERT INTO `sys_menu` VALUES (2921,'敏感词查看','admin_sysSensitiveWord_view',NULL,NULL,2920,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2922,'敏感词新增','admin_sysSensitiveWord_add',NULL,NULL,2920,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2923,'敏感词修改','admin_sysSensitiveWord_edit',NULL,NULL,2920,'1','1',2,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2924,'敏感词删除','admin_sysSensitiveWord_del',NULL,NULL,2920,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (2925,'导入导出','admin_sysSensitiveWord_export',NULL,NULL,2920,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (4002,'缓存监控',NULL,'/tools/data/cache',NULL,2000,'iconfont icon-huancunjiankong','1',1,'0','0','0','admin','2023-05-29 15:12:59','admin','2023-11-27 14:52:56','0');
-INSERT INTO `sys_menu` VALUES (4010,'信息推送','','/tools/message/index',NULL,2000,'iconfont icon-xinxituisong','1',7,'0',NULL,'0','',NULL,'admin','2025-01-26 22:22:24','0');
-INSERT INTO `sys_menu` VALUES (4011,'信息推送查看','sys_message_view',NULL,NULL,4010,'1','1',0,'0',NULL,'1','',NULL,'admin','2023-10-25 14:51:54','0');
-INSERT INTO `sys_menu` VALUES (4012,'信息推送新增','sys_message_add',NULL,NULL,4010,'1','1',1,'0',NULL,'1','',NULL,'admin','2023-10-25 14:52:00','0');
-INSERT INTO `sys_menu` VALUES (4013,'信息推送修改','sys_message_edit',NULL,NULL,4010,'1','1',2,'0',NULL,'1','',NULL,'admin','2023-10-25 14:52:04','0');
-INSERT INTO `sys_menu` VALUES (4014,'信息推送删除','sys_message_del',NULL,NULL,4010,'1','1',3,'0',NULL,'1','',NULL,'admin','2023-10-25 14:52:09','0');
-INSERT INTO `sys_menu` VALUES (9000,'开发平台',NULL,'/gen',NULL,-1,'iconfont icon-DevOps','1',9,'0','0','0','','2019-08-12 09:35:16','admin','2025-01-26 22:38:09','0');
-INSERT INTO `sys_menu` VALUES (9005,'数据源管理',NULL,'/gen/datasource/index',NULL,9000,'iconfont icon-shujuyuanguanli','1',0,'0',NULL,'0','','2019-08-12 09:42:11','admin','2025-01-26 22:26:51','0');
-INSERT INTO `sys_menu` VALUES (9006,'表单设计',NULL,'/gen/design/index',NULL,9000,'iconfont icon-AIshiyanshi','0',2,'0','0','0','','2019-08-16 10:08:56','admin','2023-02-23 14:06:50','0');
-INSERT INTO `sys_menu` VALUES (9007,'生成页面',NULL,'/gen/gener/index',NULL,9000,'iconfont icon-tongzhi4','0',1,'0','0','0','admin','2023-02-20 09:58:23','admin','2023-02-20 14:41:43','0');
-INSERT INTO `sys_menu` VALUES (9050,'元数据管理',NULL,'/gen/metadata',NULL,9000,'iconfont icon-yuanshujuguanli','1',9,'0','0','0','','2018-07-27 01:13:21','admin','2023-02-23 19:55:10','0');
-INSERT INTO `sys_menu` VALUES (9051,'模板管理',NULL,'/gen/template/index',NULL,9050,'iconfont icon-mti-mobanguanli','1',5,'0','0','0','admin','2023-02-21 11:22:54','admin','2023-02-23 19:56:03','0');
-INSERT INTO `sys_menu` VALUES (9052,'查询','codegen_template_view',NULL,NULL,9051,NULL,'0',0,'0','0','1','admin','2023-02-21 12:33:03','admin','2023-02-21 13:50:54','0');
-INSERT INTO `sys_menu` VALUES (9054,'新增','codegen_template_add',NULL,NULL,9051,NULL,'0',1,'0','0','1','admin','2023-02-21 13:51:32',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9055,'导出','codegen_template_export',NULL,NULL,9051,NULL,'0',2,'0','0','1','admin','2023-02-21 13:51:58',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9056,'删除','codegen_template_del',NULL,NULL,9051,NULL,'0',3,'0','0','1','admin','2023-02-21 13:52:16',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9057,'编辑','codegen_template_edit',NULL,NULL,9051,NULL,'0',4,'0','0','1','admin','2023-02-21 13:52:58',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9059,'模板分组',NULL,'/gen/group/index',NULL,9050,'iconfont icon-shuxingtu','1',6,'0','0','0','admin','2023-02-21 15:06:50','admin','2023-02-23 19:55:25','0');
-INSERT INTO `sys_menu` VALUES (9060,'查询','codegen_group_view',NULL,NULL,9059,NULL,'0',0,'0','0','1','admin','2023-02-21 15:08:07',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9061,'新增','codegen_group_add',NULL,NULL,9059,NULL,'0',0,'0','0','1','admin','2023-02-21 15:08:28',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9062,'修改','codegen_group_edit',NULL,NULL,9059,NULL,'0',0,'0','0','1','admin','2023-02-21 15:08:43',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9063,'删除','codegen_group_del',NULL,NULL,9059,NULL,'0',0,'0','0','1','admin','2023-02-21 15:09:02',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9064,'导出','codegen_group_export',NULL,NULL,9059,NULL,'0',0,'0','0','1','admin','2023-02-21 15:09:22',' ',NULL,'0');
-INSERT INTO `sys_menu` VALUES (9065,'字段管理',NULL,'/gen/field-type/index',NULL,9050,'iconfont icon-field-manage','1',0,'0','0','0','admin','2023-02-23 20:05:09','admin','2025-01-26 22:31:28','0');
 COMMIT;
 
 
@@ -821,6 +706,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 2923);
 INSERT INTO `sys_role_menu` VALUES (1, 2924);
 INSERT INTO `sys_role_menu` VALUES (1, 2925);
 INSERT INTO `sys_role_menu` VALUES (1, 4002);
+INSERT INTO `sys_role_menu` VALUES (1, 4003);
 INSERT INTO `sys_role_menu` VALUES (1, 4010);
 INSERT INTO `sys_role_menu` VALUES (1, 4011);
 INSERT INTO `sys_role_menu` VALUES (1, 4012);
@@ -1551,3 +1437,36 @@ CREATE TABLE `gen_create_table` (
 ) ENGINE=InnoDB COMMENT='自动创建表管理';
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Clarity 监控数据缓存表
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_clarity_data`;
+CREATE TABLE `sys_clarity_data` (
+  `id`                bigint(20)     NOT NULL                        COMMENT '主键（ASSIGN_ID）',
+  `data_date`         date           NOT NULL                        COMMENT '数据日期',
+  `total_sessions`    int(11)        DEFAULT NULL                    COMMENT '总会话数',
+  `distinct_users`    int(11)        DEFAULT NULL                    COMMENT '独立访客数 UV',
+  `pages_per_session` decimal(10,2)  DEFAULT NULL                    COMMENT '每会话页面数',
+  `scroll_depth`      decimal(10,2)  DEFAULT NULL                    COMMENT '平均滚动深度 %',
+  `dead_click_rate`   decimal(10,2)  DEFAULT NULL                    COMMENT '死点击率 %',
+  `rage_click_rate`   decimal(10,2)  DEFAULT NULL                    COMMENT '激怒点击率 %',
+  `device_data`       text           DEFAULT NULL                    COMMENT '设备分布 JSON',
+  `top_urls`          text           DEFAULT NULL                    COMMENT '热门页面 Top10 JSON',
+  `referrer_url_data` text           DEFAULT NULL                    COMMENT '来源页面 Top5 JSON',
+  `page_title_data`   text           DEFAULT NULL                    COMMENT '页面标题 Top5 JSON',
+  `browser_data`      text           DEFAULT NULL                    COMMENT '浏览器分布 JSON',
+  `num_of_days`       int(11)        DEFAULT NULL                    COMMENT 'numOfDays 参数：1=24h,2=48h,3=72h',
+  `fetch_status`      varchar(10)    NOT NULL DEFAULT 'pending'      COMMENT '拉取状态：pending/success/failed',
+  `create_by`         varchar(64)    DEFAULT NULL                    COMMENT '创建人',
+  `update_by`         varchar(64)    DEFAULT NULL                    COMMENT '修改人',
+  `del_flag`          char(1)        DEFAULT '0'                     COMMENT '删除标记',
+  `create_time`       datetime       DEFAULT NULL                    COMMENT '创建时间',
+  `update_time`       datetime       DEFAULT NULL                    COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_date_days` (`data_date`, `num_of_days`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Clarity 监控数据缓存表';
+
+-- 菜单：站点统计
+INSERT INTO `sys_menu` VALUES (4003,'站点统计',NULL,'/tools/data/clarity',NULL,9910,'iconfont icon-shuju','1',2,'0','0','0','admin','2026-03-26 00:00:00','admin','2026-03-26 00:00:00','0',1);
+INSERT INTO `sys_role_menu` VALUES (1, 4003);

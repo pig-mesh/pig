@@ -11,7 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.http.HttpHeaders;
+import com.pig4cloud.pig.admin.service.SysSystemInfoService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,8 @@ import java.util.*;
 @Tag(description = "system", name = "系统监控")
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysSystemInfoController {
+
+	private final SysSystemInfoService sysSystemInfoService;
 
 	/**
 	 * 缓存监控
@@ -54,6 +58,14 @@ public class SysSystemInfoController {
 
 		result.put("commandStats", pieList);
 		return R.ok(result);
+	}
+
+	/**
+	 * Clarity 站点监控数据
+	 */
+	@GetMapping("/clarity")
+	public R<?> clarity(@RequestParam(defaultValue = "1") int numOfDays) {
+		return sysSystemInfoService.getClarityData(numOfDays);
 	}
 
 }
