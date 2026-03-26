@@ -18,6 +18,7 @@ package com.pig4cloud.pig.common.feign;
 
 import com.alibaba.cloud.sentinel.feign.SentinelFeignAutoConfiguration;
 import com.pig4cloud.pig.common.feign.core.PigFeignInnerRequestInterceptor;
+import com.pig4cloud.pig.common.feign.core.PigFeignLanguageInterceptor;
 import com.pig4cloud.pig.common.feign.core.PigFeignRequestCloseInterceptor;
 import com.pig4cloud.pig.common.feign.sentinel.ext.PigSentinelFeign;
 import feign.Feign;
@@ -72,6 +73,16 @@ public class PigFeignAutoConfiguration {
 	@Bean
 	public PigFeignInnerRequestInterceptor pigFeignInnerRequestInterceptor() {
 		return new PigFeignInnerRequestInterceptor();
+	}
+
+	/**
+	 * add accept-language header
+	 *
+	 * @return PigFeignLanguageInterceptor
+	 */
+	@Bean
+	public PigFeignLanguageInterceptor pigFeignLanguageInterceptor() {
+		return new PigFeignLanguageInterceptor();
 	}
 
 }
