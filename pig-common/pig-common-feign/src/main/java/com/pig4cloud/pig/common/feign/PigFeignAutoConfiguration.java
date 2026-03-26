@@ -77,7 +77,6 @@ public class PigFeignAutoConfiguration {
 
 	/**
 	 * add accept-language header
-	 *
 	 * @return PigFeignLanguageInterceptor
 	 */
 	@Bean
