@@ -71,6 +71,18 @@ public class SysClarityData extends Model<SysClarityData> {
 	@Schema(description = "热门页面 Top10 JSON 文本，格式：[{name,value}]")
 	private String topUrls;
 
+	@Schema(description = "来源页面 Top5 JSON，格式：[{name,value}]")
+	private String referrerUrlData;
+
+	@Schema(description = "页面标题 Top5 JSON，格式：[{name,value}]")
+	private String pageTitleData;
+
+	@Schema(description = "浏览器分布 JSON，格式：[{name,value}]")
+	private String browserData;
+
+	@Schema(description = "Clarity API numOfDays 参数：1=24h, 2=48h, 3=72h")
+	private Integer numOfDays;
+
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建人")
 	private String createBy;

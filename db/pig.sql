@@ -205,101 +205,6 @@ CREATE TABLE `sys_dict_item` (
 -- Records of sys_dict_item
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_dict_item` VALUES (1, 1, '9', '异常', 'log_type', '日志异常', NULL, 1, ' ', ' ', '2019-03-19 11:08:59', '2019-03-25 12:49:13', '', '0');
-INSERT INTO `sys_dict_item` VALUES (2, 1, '0', '正常', 'log_type', '日志正常', NULL, 0, ' ', ' ', '2019-03-19 11:09:17', '2019-03-25 12:49:18', '', '0');
-INSERT INTO `sys_dict_item` VALUES (3, 2, 'WX', '微信', 'social_type', '微信登录', NULL, 0, ' ', ' ', '2019-03-19 11:10:02', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (4, 2, 'QQ', 'QQ', 'social_type', 'QQ登录', NULL, 1, ' ', ' ', '2019-03-19 11:10:14', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (5, 3, '1', 'java类', 'job_type', 'java类', NULL, 1, ' ', ' ', '2019-03-19 11:22:37', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (6, 3, '2', 'spring bean', 'job_type', 'spring bean容器实例', NULL, 2, ' ', ' ', '2019-03-19 11:23:05', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (7, 3, '9', '其他', 'job_type', '其他类型', NULL, 9, ' ', ' ', '2019-03-19 11:23:31', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (8, 3, '3', 'Rest 调用', 'job_type', 'Rest 调用', NULL, 3, ' ', ' ', '2019-03-19 11:23:57', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (9, 3, '4', 'jar', 'job_type', 'jar类型', NULL, 4, ' ', ' ', '2019-03-19 11:24:20', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (10, 4, '1', '未发布', 'job_status', '未发布', NULL, 1, ' ', ' ', '2019-03-19 11:25:18', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (11, 4, '2', '运行中', 'job_status', '运行中', NULL, 2, ' ', ' ', '2019-03-19 11:25:31', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (12, 4, '3', '暂停', 'job_status', '暂停', NULL, 3, ' ', ' ', '2019-03-19 11:25:42', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (13, 5, '0', '正常', 'job_execute_status', '正常', NULL, 0, ' ', ' ', '2019-03-19 11:26:27', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (14, 5, '1', '异常', 'job_execute_status', '异常', NULL, 1, ' ', ' ', '2019-03-19 11:26:41', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (15, 6, '1', '错失周期立即执行', 'misfire_policy', '错失周期立即执行', NULL, 1, ' ', ' ', '2019-03-19 11:27:45', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (16, 6, '2', '错失周期执行一次', 'misfire_policy', '错失周期执行一次', NULL, 2, ' ', ' ', '2019-03-19 11:27:57', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (17, 6, '3', '下周期执行', 'misfire_policy', '下周期执行', NULL, 3, ' ', ' ', '2019-03-19 11:28:08', '2019-03-25 12:49:36', '', '0');
-INSERT INTO `sys_dict_item` VALUES (18, 7, '1', '男', 'gender', '微信-男', NULL, 0, ' ', ' ', '2019-03-27 13:45:13', '2019-03-27 13:45:13', '微信-男', '0');
-INSERT INTO `sys_dict_item` VALUES (19, 7, '2', '女', 'gender', '女-微信', NULL, 1, ' ', ' ', '2019-03-27 13:45:34', '2019-03-27 13:45:34', '女-微信', '0');
-INSERT INTO `sys_dict_item` VALUES (20, 7, '0', '未知', 'gender', '性别未知', NULL, 3, ' ', ' ', '2019-03-27 13:45:57', '2019-03-27 13:45:57', '性别未知', '0');
-INSERT INTO `sys_dict_item` VALUES (21, 8, '0', '未关注', 'subscribe', '公众号-未关注', NULL, 0, ' ', ' ', '2019-03-27 13:49:07', '2019-03-27 13:49:07', '公众号-未关注', '0');
-INSERT INTO `sys_dict_item` VALUES (22, 8, '1', '已关注', 'subscribe', '公众号-已关注', NULL, 1, ' ', ' ', '2019-03-27 13:49:26', '2019-03-27 13:49:26', '公众号-已关注', '0');
-INSERT INTO `sys_dict_item` VALUES (23, 9, '0', '未回复', 'response_type', '微信消息-未回复', NULL, 0, ' ', ' ', '2019-03-28 21:29:47', '2019-03-28 21:29:47', '微信消息-未回复', '0');
-INSERT INTO `sys_dict_item` VALUES (24, 9, '1', '已回复', 'response_type', '微信消息-已回复', NULL, 1, ' ', ' ', '2019-03-28 21:30:08', '2019-03-28 21:30:08', '微信消息-已回复', '0');
-INSERT INTO `sys_dict_item` VALUES (25, 10, '1', '检索', 'param_type', '检索', NULL, 0, ' ', ' ', '2019-04-29 18:22:17', '2019-04-29 18:22:17', '检索', '0');
-INSERT INTO `sys_dict_item` VALUES (26, 10, '2', '原文', 'param_type', '原文', NULL, 0, ' ', ' ', '2019-04-29 18:22:27', '2019-04-29 18:22:27', '原文', '0');
-INSERT INTO `sys_dict_item` VALUES (27, 10, '3', '报表', 'param_type', '报表', NULL, 0, ' ', ' ', '2019-04-29 18:22:36', '2019-04-29 18:22:36', '报表', '0');
-INSERT INTO `sys_dict_item` VALUES (28, 10, '4', '安全', 'param_type', '安全', NULL, 0, ' ', ' ', '2019-04-29 18:22:46', '2019-04-29 18:22:46', '安全', '0');
-INSERT INTO `sys_dict_item` VALUES (29, 10, '5', '文档', 'param_type', '文档', NULL, 0, ' ', ' ', '2019-04-29 18:22:56', '2019-04-29 18:22:56', '文档', '0');
-INSERT INTO `sys_dict_item` VALUES (30, 10, '6', '消息', 'param_type', '消息', NULL, 0, ' ', ' ', '2019-04-29 18:23:05', '2019-04-29 18:23:05', '消息', '0');
-INSERT INTO `sys_dict_item` VALUES (31, 10, '9', '其他', 'param_type', '其他', NULL, 0, ' ', ' ', '2019-04-29 18:23:16', '2019-04-29 18:23:16', '其他', '0');
-INSERT INTO `sys_dict_item` VALUES (32, 10, '0', '默认', 'param_type', '默认', NULL, 0, ' ', ' ', '2019-04-29 18:23:30', '2019-04-29 18:23:30', '默认', '0');
-INSERT INTO `sys_dict_item` VALUES (33, 11, '0', '正常', 'status_type', '状态正常', NULL, 0, ' ', ' ', '2019-05-15 16:31:34', '2019-05-16 22:30:46', '状态正常', '0');
-INSERT INTO `sys_dict_item` VALUES (34, 11, '9', '冻结', 'status_type', '状态冻结', NULL, 1, ' ', ' ', '2019-05-15 16:31:56', '2019-05-16 22:30:50', '状态冻结', '0');
-INSERT INTO `sys_dict_item` VALUES (35, 12, '1', '系统类', 'dict_type', '系统类字典', NULL, 0, ' ', ' ', '2019-05-16 14:20:40', '2019-05-16 14:20:40', '不能修改删除', '0');
-INSERT INTO `sys_dict_item` VALUES (36, 12, '0', '业务类', 'dict_type', '业务类字典', NULL, 0, ' ', ' ', '2019-05-16 14:20:59', '2019-05-16 14:20:59', '可以修改', '0');
-INSERT INTO `sys_dict_item` VALUES (37, 2, 'GITEE', '码云', 'social_type', '码云', NULL, 2, ' ', ' ', '2019-06-28 09:59:12', '2019-06-28 09:59:12', '码云', '0');
-INSERT INTO `sys_dict_item` VALUES (38, 2, 'OSC', '开源中国', 'social_type', '开源中国登录', NULL, 2, ' ', ' ', '2019-06-28 10:04:32', '2019-06-28 10:04:32', '', '0');
-INSERT INTO `sys_dict_item` VALUES (39, 14, 'password', '密码模式', 'grant_types', '支持oauth密码模式', NULL, 0, ' ', ' ', '2019-08-13 07:35:28', '2019-08-13 07:35:28', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (40, 14, 'authorization_code', '授权码模式', 'grant_types', 'oauth2 授权码模式', NULL, 1, ' ', ' ', '2019-08-13 07:36:07', '2019-08-13 07:36:07', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (41, 14, 'client_credentials', '客户端模式', 'grant_types', 'oauth2 客户端模式', NULL, 2, ' ', ' ', '2019-08-13 07:36:30', '2019-08-13 07:36:30', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (42, 14, 'refresh_token', '刷新模式', 'grant_types', 'oauth2 刷新token', NULL, 3, ' ', ' ', '2019-08-13 07:36:54', '2019-08-13 07:36:54', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (43, 14, 'implicit', '简化模式', 'grant_types', 'oauth2 简化模式', NULL, 4, ' ', ' ', '2019-08-13 07:39:32', '2019-08-13 07:39:32', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (44, 15, '0', 'Avue', 'style_type', 'Avue风格', NULL, 0, ' ', ' ', '2020-02-07 03:52:52', '2020-02-07 03:52:52', '', '0');
-INSERT INTO `sys_dict_item` VALUES (45, 15, '1', 'element', 'style_type', 'element-ui', NULL, 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0');
-INSERT INTO `sys_dict_item` VALUES (46, 16, '0', '关', 'captcha_flag_types', '不校验验证码', NULL, 0, ' ', ' ', '2020-11-18 06:53:58', '2020-11-18 06:53:58', '不校验验证码 -0', '0');
-INSERT INTO `sys_dict_item` VALUES (47, 16, '1', '开', 'captcha_flag_types', '校验验证码', NULL, 1, ' ', ' ', '2020-11-18 06:54:15', '2020-11-18 06:54:15', '不校验验证码-1', '0');
-INSERT INTO `sys_dict_item` VALUES (48, 17, '0', '否', 'enc_flag_types', '不加密', NULL, 0, ' ', ' ', '2020-11-18 06:55:31', '2020-11-18 06:55:31', '不加密-0', '0');
-INSERT INTO `sys_dict_item` VALUES (49, 17, '1', '是', 'enc_flag_types', '加密', NULL, 1, ' ', ' ', '2020-11-18 06:55:51', '2020-11-18 06:55:51', '加密-1', '0');
-INSERT INTO `sys_dict_item` VALUES (50, 13, 'MERGE_PAY', '聚合支付', 'channel_type', '聚合支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0');
-INSERT INTO `sys_dict_item` VALUES (51, 2, 'CAS', 'CAS登录', 'social_type', 'CAS 单点登录系统', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (52, 2, 'DINGTALK', '钉钉', 'social_type', '钉钉', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (53, 2, 'WEIXIN_CP', '企业微信', 'social_type', '企业微信', NULL, 3, ' ', ' ', '2022-02-18 13:56:25', '2022-02-18 13:56:28', NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (54, 15, '2', 'APP', 'style_type', 'uview风格', NULL, 1, ' ', ' ', '2020-02-07 03:53:12', '2020-02-07 03:53:12', '', '0');
-INSERT INTO `sys_dict_item` VALUES (55, 13, 'ALIPAY_WAP', '支付宝支付', 'channel_type', '支付宝支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0');
-INSERT INTO `sys_dict_item` VALUES (56, 13, 'WEIXIN_MP', '微信支付', 'channel_type', '微信支付', NULL, 1, ' ', ' ', '2019-05-30 19:08:08', '2019-06-18 13:51:53', '聚合支付', '0');
-INSERT INTO `sys_dict_item` VALUES (57, 14, 'mobile', 'mobile', 'grant_types', '移动端登录', NULL, 5, 'admin', ' ', '2023-01-29 17:21:42', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (58, 18, '0', '有效', 'lock_flag', '有效', NULL, 0, 'admin', ' ', '2023-02-01 16:56:00', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (59, 18, '9', '禁用', 'lock_flag', '禁用', NULL, 1, 'admin', ' ', '2023-02-01 16:56:09', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (60, 15, '4', 'vue3', 'style_type', 'element-plus', NULL, 4, 'admin', ' ', '2023-02-06 13:52:43', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (61, 19, '0', '主机', 'ds_config_type', '主机', NULL, 0, 'admin', ' ', '2023-02-06 18:37:23', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (62, 19, '1', 'JDBC', 'ds_config_type', 'jdbc', NULL, 2, 'admin', ' ', '2023-02-06 18:37:34', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (63, 20, 'false', '否', 'common_status', '否', NULL, 1, 'admin', ' ', '2023-02-09 11:02:39', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (64, 20, 'true', '是', 'common_status', '是', NULL, 2, 'admin', ' ', '2023-02-09 11:02:52', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (65, 21, 'MINI', '小程序', 'app_social_type', '小程序登录', NULL, 0, 'admin', ' ', '2023-02-10 11:11:41', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (66, 22, '0', '否', 'yes_no_type', '0', NULL, 0, 'admin', ' ', '2023-02-20 23:35:23', NULL, '0', '0');
-INSERT INTO `sys_dict_item` VALUES (67, 22, '1', '是', 'yes_no_type', '1', NULL, 0, 'admin', ' ', '2023-02-20 23:35:37', NULL, '1', '0');
-INSERT INTO `sys_dict_item` VALUES (69, 23, 'text', '文本', 'repType', '文本', NULL, 0, 'admin', ' ', '2023-02-24 15:08:45', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (70, 23, 'image', '图片', 'repType', '图片', NULL, 0, 'admin', ' ', '2023-02-24 15:08:56', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (71, 23, 'voice', '语音', 'repType', '语音', NULL, 0, 'admin', ' ', '2023-02-24 15:09:08', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (72, 23, 'video', '视频', 'repType', '视频', NULL, 0, 'admin', ' ', '2023-02-24 15:09:18', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (73, 23, 'shortvideo', '小视频', 'repType', '小视频', NULL, 0, 'admin', ' ', '2023-02-24 15:09:29', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (74, 23, 'location', '地理位置', 'repType', '地理位置', NULL, 0, 'admin', ' ', '2023-02-24 15:09:41', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (75, 23, 'link', '链接消息', 'repType', '链接消息', NULL, 0, 'admin', ' ', '2023-02-24 15:09:49', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (76, 23, 'event', '事件推送', 'repType', '事件推送', NULL, 0, 'admin', ' ', '2023-02-24 15:09:57', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (77, 24, '0', '未提交', 'leave_status', '未提交', NULL, 0, 'admin', ' ', '2023-03-02 22:50:45', NULL, '未提交', '0');
-INSERT INTO `sys_dict_item` VALUES (78, 24, '1', '审批中', 'leave_status', '审批中', NULL, 0, 'admin', ' ', '2023-03-02 22:50:57', NULL, '审批中', '0');
-INSERT INTO `sys_dict_item` VALUES (79, 24, '2', '完成', 'leave_status', '完成', NULL, 0, 'admin', ' ', '2023-03-02 22:51:06', NULL, '完成', '0');
-INSERT INTO `sys_dict_item` VALUES (80, 24, '9', '驳回', 'leave_status', '驳回', NULL, 0, 'admin', ' ', '2023-03-02 22:51:20', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (81, 25, 'record', '日程记录', 'schedule_type', '日程记录', NULL, 0, 'admin', ' ', '2023-03-06 14:50:01', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (82, 25, 'plan', '计划', 'schedule_type', '计划类型', NULL, 0, 'admin', ' ', '2023-03-06 14:50:29', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (83, 26, '0', '计划中', 'schedule_status', '日程状态', NULL, 0, 'admin', ' ', '2023-03-06 14:53:18', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (84, 26, '1', '已开始', 'schedule_status', '已开始', NULL, 0, 'admin', ' ', '2023-03-06 14:53:33', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (85, 26, '3', '已结束', 'schedule_status', '已结束', NULL, 0, 'admin', ' ', '2023-03-06 14:53:41', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (86, 27, 'mysql', 'mysql', 'ds_type', 'mysql', NULL, 0, 'admin', ' ', '2023-03-12 09:58:11', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (87, 27, 'pg', 'pg', 'ds_type', 'pg', NULL, 1, 'admin', ' ', '2023-03-12 09:58:20', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (88, 27, 'oracle', 'oracle', 'ds_type', 'oracle', NULL, 2, 'admin', ' ', '2023-03-12 09:58:29', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (89, 27, 'mssql', 'mssql', 'ds_type', 'mssql', NULL, 3, 'admin', ' ', '2023-03-12 09:58:42', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (90, 27, 'db2', 'db2', 'ds_type', 'db2', NULL, 4, 'admin', ' ', '2023-03-12 09:58:53', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (91, 27, 'dm', '达梦', 'ds_type', '达梦', NULL, 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (92, 27, 'highgo', '瀚高', 'ds_type', '瀚高数据库', NULL, 5, 'admin', ' ', '2023-03-12 09:59:07', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (93, 28, '0', '公告', 'message_type', '主页公告显示', NULL, 0, 'admin', ' ', '2023-10-27 10:30:14', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (94, 28, '1', '站内信', 'message_type', '右上角显示', NULL, 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (95, 29, '0', '黑名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0');
-INSERT INTO `sys_dict_item` VALUES (96, 29, '1', '白名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0');
 COMMIT;
 
 -- ----------------------------
@@ -767,7 +672,7 @@ CREATE TABLE `sys_social_details` (
   `type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '社交登录类型',
   `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `app_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用ID',
-  `app_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
+  `app_secret` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
   `redirect_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '回调地址',
   `ext` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段',
   `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',

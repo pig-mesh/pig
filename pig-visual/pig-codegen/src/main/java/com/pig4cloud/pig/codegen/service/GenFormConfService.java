@@ -24,6 +24,8 @@ import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import java.util.List;
 import java.util.Map;
 
+import java.util.Map;
+
 /**
  * 表单管理
  *
@@ -33,10 +35,25 @@ import java.util.Map;
 public interface GenFormConfService extends IService<GenFormConf> {
 
 	/**
+<<<<<<< HEAD:pig-visual/pig-codegen/src/main/java/com/pig4cloud/pig/codegen/service/GenFormConfService.java
 	 * 解析 form json
 	 * @param formInfo json
 	 * @return 字段
 	 */
 	Map<String, List<JSONObject>> parse(String formInfo);
+=======
+	 * 获取 Redis 缓存监控信息
+	 * @return R
+	 */
+	R<Map<String, Object>> getCacheInfo();
+
+	/**
+	 * 获取今日 Clarity 数据
+	 * 查库优先：有数据直接返回；无数据触发异步拉取并返回 loading 状态
+	 * @param numOfDays Clarity API numOfDays 参数（1=24h, 2=48h, 3=72h）
+	 * @return R
+	 */
+	R<?> getClarityData(int numOfDays);
+>>>>>>> 152957533 (feat(clarity): 增强 Clarity 监控数据，支持多维度分析与时间范围选择):pigx-upms/pigx-upms-biz/src/main/java/com/pig4cloud/pigx/admin/service/SysSystemInfoService.java
 
 }
