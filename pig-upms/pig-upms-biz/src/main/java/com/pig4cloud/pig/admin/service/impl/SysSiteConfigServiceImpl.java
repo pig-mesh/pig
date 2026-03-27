@@ -40,10 +40,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 站点配置服务实现
@@ -63,7 +60,9 @@ public class SysSiteConfigServiceImpl implements SysSiteConfigService {
 	/**
 	 * 布尔类型的字段集合
 	 */
-	private static final Map<String, Boolean> BOOLEAN_FIELDS = new HashMap<>();
+    private static final Set<String> BOOLEAN_FIELDS = Set.of("captchaEnable", "imageCaptchaEnable", "forceResetPwd",
+            "forceLogout", "smsLoginEnable", "socialLoginEnable", "registerEnable", "i18nEnable", "darkModeEnable",
+            "antiDebugEnable", "syncDingtalkEnabled", "syncWechatEnabled");
 
 	static {
 		KEY_FIELD_MAP.put("SITE_CLARITY_ID", "clarityId");
@@ -77,20 +76,14 @@ public class SysSiteConfigServiceImpl implements SysSiteConfigService {
 		KEY_FIELD_MAP.put("SITE_REGISTER_ENABLE", "registerEnable");
 		KEY_FIELD_MAP.put("SITE_I18N_ENABLE", "i18nEnable");
 		KEY_FIELD_MAP.put("SITE_DARK_MODE_ENABLE", "darkModeEnable");
+        KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_ENABLE", "antiDebugEnable");
+        KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_KEY", "antiDebugKey");
+        KEY_FIELD_MAP.put("SITE_SYNC_DINGTALK_ENABLED", "syncDingtalkEnabled");
+        KEY_FIELD_MAP.put("SITE_SYNC_WECHAT_ENABLED", "syncWechatEnabled");
 		KEY_FIELD_MAP.put("SITE_TITLE", "title");
 		KEY_FIELD_MAP.put("SITE_FOOTER", "footer");
 		KEY_FIELD_MAP.put("SITE_PRIVACY_TIP", "privacyTip");
 		KEY_FIELD_MAP.put("SITE_DESCRIPTION", "description");
-
-		BOOLEAN_FIELDS.put("captchaEnable", true);
-		BOOLEAN_FIELDS.put("imageCaptchaEnable", true);
-		BOOLEAN_FIELDS.put("forceResetPwd", true);
-		BOOLEAN_FIELDS.put("forceLogout", true);
-		BOOLEAN_FIELDS.put("smsLoginEnable", true);
-		BOOLEAN_FIELDS.put("socialLoginEnable", true);
-		BOOLEAN_FIELDS.put("registerEnable", true);
-		BOOLEAN_FIELDS.put("i18nEnable", true);
-		BOOLEAN_FIELDS.put("darkModeEnable", true);
 	}
 
 	private final SysPublicParamService sysPublicParamService;
@@ -182,12 +175,15 @@ public class SysSiteConfigServiceImpl implements SysSiteConfigService {
 		String captchaFlag = YesNoEnum.getCode(captchaEnable);
 		List<SysOauthClientDetails> clients = sysOauthClientDetailsService.list();
 
-		clients.stream().filter(client -> StrUtil.isNotBlank(client.getAdditionalInformation())).forEach(client -> {
+        for (SysOauthClientDetails client : clients) {
+            if (StrUtil.isBlank(client.getAdditionalInformation())) {
+                continue;
+            }
 			JSONObject informationObj = JSONUtil.parseObj(client.getAdditionalInformation());
 			informationObj.set(CommonConstants.CAPTCHA_FLAG, captchaFlag);
 			client.setAdditionalInformation(informationObj.toString());
 			sysOauthClientDetailsService.updateById(client);
-		});
+        }
 
 		// 刷新 Redis 客户端缓存
 		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(this));

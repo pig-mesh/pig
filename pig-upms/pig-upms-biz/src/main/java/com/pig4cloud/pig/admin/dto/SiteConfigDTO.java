@@ -63,6 +63,18 @@ public class SiteConfigDTO {
 	@Schema(description = "是否开启暗黑模式")
 	private Boolean darkModeEnable;
 
+    @Schema(description = "是否开启反调试保护")
+    private Boolean antiDebugEnable;
+
+    @Schema(description = "反调试绕过密钥")
+    private String antiDebugKey;
+
+    @Schema(description = "是否开启钉钉导入")
+    private Boolean syncDingtalkEnabled;
+
+    @Schema(description = "是否开启企业微信导入")
+    private Boolean syncWechatEnabled;
+
 	@Schema(description = "站点标题")
 	private String title;
 
