@@ -98,7 +98,7 @@ public class SysI18nController {
 	@Operation(summary = "新增系统表-国际化", description = "新增系统表-国际化")
 	@SysLog("新增系统表-国际化")
 	@PostMapping
-	@CacheEvict(value = CacheConstants.I18N_DETAILS, allEntries = true)
+	@CacheEvict(value = {CacheConstants.I18N_DETAILS, CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
 	@HasPermission("sys_i18n_add")
 	public R save(@RequestBody SysI18nEntity sysI18n) {
 		return R.ok(sysI18nService.save(sysI18n));
@@ -112,7 +112,7 @@ public class SysI18nController {
 	@Operation(summary = "修改系统表-国际化", description = "修改系统表-国际化")
 	@SysLog("修改系统表-国际化")
 	@PutMapping
-	@CacheEvict(value = CacheConstants.I18N_DETAILS, allEntries = true)
+	@CacheEvict(value = {CacheConstants.I18N_DETAILS, CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
 	@HasPermission("sys_i18n_edit")
 	public R updateById(@RequestBody SysI18nEntity sysI18n) {
 		return R.ok(sysI18nService.updateById(sysI18n));
@@ -126,7 +126,7 @@ public class SysI18nController {
 	@Operation(summary = "通过id删除系统表-国际化", description = "通过id删除系统表-国际化")
 	@SysLog("通过id删除系统表-国际化")
 	@DeleteMapping
-	@CacheEvict(value = CacheConstants.I18N_DETAILS, allEntries = true)
+	@CacheEvict(value = {CacheConstants.I18N_DETAILS, CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
 	@HasPermission("sys_i18n_del")
 	public R removeById(@RequestBody Long[] ids) {
 		return R.ok(sysI18nService.removeBatchByIds(CollUtil.toList(ids)));

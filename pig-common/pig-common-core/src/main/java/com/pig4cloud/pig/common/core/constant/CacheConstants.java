@@ -90,4 +90,17 @@ public interface CacheConstants {
      */
     String LOGIN_ERROR_TIMES = "login_error_times";
 
+<<<<<<< HEAD:pig-common/pig-common-core/src/main/java/com/pig4cloud/pig/common/core/constant/CacheConstants.java
+=======
+    /**
+     * API Key 缓存（hash -> SysApiKey）
+     */
+    String API_KEY_DETAILS = "api_key_details";
+
+    /**
+     * 网站配置聚合缓存（i18n + site config），租户隔离
+     */
+    String SITE_CONFIG_DETAILS = "site_config_details";
+
+>>>>>>> 2a156df33 (feat(upms): 网站配置项抽取到后台管理，支持站点配置聚合与缓存):pigx-common/pigx-common-core/src/main/java/com/pig4cloud/pigx/common/core/constant/CacheConstants.java
 }
