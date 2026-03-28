@@ -38,6 +38,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 public class SysRoleWidget extends Model<SysRoleWidget> {
 
+	private static final long serialVersionUID = 1L;
+
 	@TableId(value = "id", type = IdType.ASSIGN_ID)
 	@Schema(description = "主键")
 	private Long id;
@@ -51,22 +53,27 @@ public class SysRoleWidget extends Model<SysRoleWidget> {
 	@Schema(description = "默认布局JSON，格式同前端grid对象")
 	private String layoutConfig;
 
+	/** 创建人 */
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建人")
 	private String createBy;
 
+	/** 修改人 */
 	@TableField(fill = FieldFill.UPDATE)
 	@Schema(description = "修改人")
 	private String updateBy;
 
+	/** 创建时间 */
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建时间")
 	private LocalDateTime createTime;
 
+	/** 修改时间 */
 	@TableField(fill = FieldFill.UPDATE)
 	@Schema(description = "修改时间")
 	private LocalDateTime updateTime;
 
+	/** 删除标识（0-正常,1-删除） */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "删除标记,1:已删除,0:正常")
