@@ -23,16 +23,33 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+<<<<<<< HEAD:pig-upms/pig-upms-biz/src/main/java/com/pig4cloud/pig/admin/controller/SysRoleController.java
 import com.pig4cloud.pig.admin.api.entity.SysRole;
+import com.pig4cloud.pig.admin.api.entity.SysRoleWidget;
 import com.pig4cloud.pig.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pig.admin.api.vo.RoleMenuVO;
 import com.pig4cloud.pig.admin.service.SysRoleService;
+import com.pig4cloud.pig.admin.service.SysRoleWidgetService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.plugin.excel.annotation.RequestExcel;
 import com.pig4cloud.plugin.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
+=======
+import com.pig4cloud.pigx.admin.api.entity.SysRole;
+import com.pig4cloud.pigx.admin.api.entity.SysRoleWidget;
+import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
+import com.pig4cloud.pigx.admin.api.vo.RoleMenuVO;
+import com.pig4cloud.pigx.admin.service.SysRoleService;
+import com.pig4cloud.pigx.admin.service.SysRoleWidgetService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
+import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
+import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
+import com.pig4cloud.pigx.common.log.annotation.SysLog;
+import com.pig4cloud.pigx.common.security.annotation.HasPermission;
+>>>>>>> 8035e684b (feat(upms): add role widget GET/PUT endpoints):pigx-upms/pigx-upms-biz/src/main/java/com/pig4cloud/pigx/admin/controller/SysRoleController.java
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -57,6 +74,8 @@ import java.util.List;
 public class SysRoleController {
 
 	private final SysRoleService sysRoleService;
+
+	private final SysRoleWidgetService sysRoleWidgetService;
 
 	/**
 	 * 通过ID查询角色信息
@@ -184,6 +203,29 @@ public class SysRoleController {
 	@HasPermission("sys_role_export")
 	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysRoleService.importRole(excelVOList, bindingResult);
+	}
+
+	/**
+	 * 查询角色的首页widget配置
+	 * @param roleId 角色ID
+	 * @return widget配置，无配置时返回 null
+	 */
+	@GetMapping("/widget/{roleId}")
+	@HasPermission("sys_role_view")
+	public R getRoleWidget(@PathVariable Long roleId) {
+		return R.ok(sysRoleWidgetService.getByRoleId(roleId));
+	}
+
+	/**
+	 * 保存角色的首页widget配置
+	 * @param sysRoleWidget widget配置对象
+	 * @return success/fail
+	 */
+	@SysLog("保存角色首页配置")
+	@PutMapping("/widget")
+	@HasPermission("sys_role_edit")
+	public R saveRoleWidget(@RequestBody SysRoleWidget sysRoleWidget) {
+		return R.ok(sysRoleWidgetService.saveOrUpdateByRoleId(sysRoleWidget));
 	}
 
 }
