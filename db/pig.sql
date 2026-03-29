@@ -1375,3 +1375,21 @@ CREATE TABLE `sys_clarity_data` (
 -- 菜单：站点统计
 INSERT INTO `sys_menu` VALUES (4003,'站点统计',NULL,'/tools/data/clarity',NULL,9910,'iconfont icon-shuju','1',2,'0','0','0','admin','2026-03-26 00:00:00','admin','2026-03-26 00:00:00','0',1);
 INSERT INTO `sys_role_menu` VALUES (1, 4003);
+
+-- ----------------------------
+-- 角色首页组件配置表
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_widget`;
+CREATE TABLE `sys_role_widget` (
+  `id`            BIGINT        NOT NULL                        COMMENT '主键',
+  `role_id`       BIGINT        NOT NULL                        COMMENT '角色ID',
+  `widget_keys`   VARCHAR(2000) NOT NULL                        COMMENT '允许的组件key列表，逗号分隔',
+  `layout_config` TEXT          DEFAULT NULL                    COMMENT '默认布局JSON',
+  `del_flag`      CHAR(1)       DEFAULT '0'                     COMMENT '删除标记',
+  `create_by`     VARCHAR(64)   DEFAULT NULL                    COMMENT '创建人',
+  `update_by`     VARCHAR(64)   DEFAULT NULL                    COMMENT '修改人',
+  `create_time`   DATETIME      DEFAULT NULL                    COMMENT '创建时间',
+  `update_time`   DATETIME      DEFAULT NULL                    COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_role_id` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色首页组件配置';

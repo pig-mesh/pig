@@ -37,6 +37,12 @@ public interface SysRoleWidgetService extends IService<SysRoleWidget> {
 	SysRoleWidget getByRoleId(Long roleId);
 
 	/**
+	 * 根据当前登录用户的角色列表，返回 widgetKeys 最多的那条配置
+	 * @return widget配置，无配置时返回 null
+	 */
+	SysRoleWidget getByCurrentUser();
+
+	/**
 	 * 保存或更新角色widget配置
 	 * @param sysRoleWidget widget配置
 	 * @return 是否成功

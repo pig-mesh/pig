@@ -206,6 +206,15 @@ public class SysRoleController {
 	}
 
 	/**
+	 * 查询当前用户角色的首页widget配置（取 widgetKeys 最多的那条）
+	 * @return widget配置，无配置时返回 null
+	 */
+	@GetMapping("/widget/current")
+	public R getCurrentUserWidget() {
+		return R.ok(sysRoleWidgetService.getByCurrentUser());
+	}
+
+	/**
 	 * 查询角色的首页widget配置
 	 * @param roleId 角色ID
 	 * @return widget配置，无配置时返回 null
