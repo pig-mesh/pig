@@ -19,6 +19,11 @@ package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+<<<<<<< HEAD:pig-upms/pig-upms-api/src/main/java/com/pig4cloud/pig/admin/api/entity/SysClarityData.java
+=======
+import com.pig4cloud.pigx.admin.api.constant.ClarityFetchStatus;
+import com.pig4cloud.pigx.common.core.util.TenantTable;
+>>>>>>> 65d317e89 (feat(clarity): 添加数据拉取状态字段并更新相关逻辑):pigx-upms/pigx-upms-api/src/main/java/com/pig4cloud/pigx/admin/api/entity/SysClarityData.java
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -82,6 +87,9 @@ public class SysClarityData extends Model<SysClarityData> {
 
 	@Schema(description = "Clarity API numOfDays 参数：1=24h, 2=48h, 3=72h")
 	private Integer numOfDays;
+
+	@Schema(description = "数据拉取状态：pending=占位中, success=成功, failed=失败")
+	private ClarityFetchStatus fetchStatus;
 
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建人")
