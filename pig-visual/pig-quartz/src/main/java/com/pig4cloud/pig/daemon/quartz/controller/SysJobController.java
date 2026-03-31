@@ -115,10 +115,10 @@ public class SysJobController {
 	@HasPermission("job_sys_job_add")
 	@Operation(description = "新增定时任务")
 	public R save(@RequestBody SysJob sysJob) {
-		// 初始化任务
-		taskUtil.addOrUpateJob(sysJob, scheduler);
+		// 先设置初始状态，避免 addOrUpateJob 内读 jobStatus 时 NPE
 		sysJob.setJobStatus(PigQuartzEnum.JOB_STATUS_RELEASE.getType());
 		sysJob.setCreateBy(SecurityUtils.getUser().getUsername());
+		taskUtil.addOrUpateJob(sysJob, scheduler);
 		return R.ok(sysJobService.save(sysJob));
 	}
 
@@ -243,7 +243,7 @@ public class SysJobController {
 	@Operation(description = "启动定时任务")
 	public R startJob(@PathVariable("id") Long jobId) {
 		SysJob querySysJob = this.sysJobService.getById(jobId);
-		if (querySysJob != null && PigQuartzEnum.JOB_LOG_STATUS_FAIL.getType().equals(querySysJob.getJobStatus())) {
+		if (querySysJob != null && PigQuartzEnum.JOB_STATUS_RELEASE.getType().equals(querySysJob.getJobStatus())) {
 			taskUtil.addOrUpateJob(querySysJob, scheduler);
 		}
 		else {
