@@ -20,6 +20,7 @@ package com.pig4cloud.pig.common.datasource.config;
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
 import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
+import com.pig4cloud.pig.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pig.common.datasource.support.DataSourceConstants;
 import com.pig4cloud.pig.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pig.common.datasource.util.DsJdbcUrlEnum;
@@ -68,7 +69,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 			// 使用PreparedStatement防止SQL注入
 			java.sql.PreparedStatement pstmt = statement.getConnection()
 				.prepareStatement(properties.getQueryDsSql());
-			pstmt.setString(1, "0"); // del_flag参数
+            pstmt.setString(1, YesNoEnum.NO.getCode()); // del_flag参数
 
 			ResultSet rs = pstmt.executeQuery();
 
