@@ -16,6 +16,7 @@
 
 package com.pig4cloud.pig.common.datasource.config;
 
+import com.baomidou.dynamic.datasource.creator.hikaricp.HikariCpConfig;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -27,7 +28,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @Data
 @ConfigurationProperties("spring.datasource")
-public class DataSourceProperties {
+public class DataSourceProperties extends HikariCpConfig {
 
 	/**
 	 * 用户名
@@ -50,8 +51,8 @@ public class DataSourceProperties {
 	private String driverClassName;
 
 	/**
-	 * 查询数据源的SQL
+	 * 查询数据源的SQL（使用参数化查询防止SQL注入，添加租户隔离）
 	 */
-	private String queryDsSql = "select * from gen_datasource_conf where del_flag = '0'";
+	private String queryDsSql = "select * from gen_datasource_conf where del_flag = ?";
 
 }

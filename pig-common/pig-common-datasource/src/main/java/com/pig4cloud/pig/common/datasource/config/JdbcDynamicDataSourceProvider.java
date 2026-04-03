@@ -65,7 +65,12 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		Map<String, DataSourceProperty> map = new HashMap<>(8);
 
 		try {
-			ResultSet rs = statement.executeQuery(properties.getQueryDsSql());
+			// 使用PreparedStatement防止SQL注入
+			java.sql.PreparedStatement pstmt = statement.getConnection()
+				.prepareStatement(properties.getQueryDsSql());
+			pstmt.setString(1, "0"); // del_flag参数
+
+			ResultSet rs = pstmt.executeQuery();
 
 			while (rs.next()) {
 				String name = rs.getString(DataSourceConstants.NAME);

@@ -58,6 +58,7 @@ public class MasterDataSourceProvider extends AbstractDataSourceProvider {
 		property.setUsername(properties.getUsername());
 		property.setPassword(properties.getPassword());
 		property.setUrl(properties.getUrl());
+		property.setHikari(properties);
 		map.put(DS_MASTER, defaultDataSourceCreator.createDataSource(property));
 		return map;
 	}
