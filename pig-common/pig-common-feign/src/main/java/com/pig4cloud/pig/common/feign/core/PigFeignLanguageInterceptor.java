@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.util.StringUtils;
 
+import java.util.Optional;
+
 /**
  * @author lengleng
  * @date 2025/3/26
@@ -17,12 +19,12 @@ public class PigFeignLanguageInterceptor implements RequestInterceptor {
 
 	@Override
 	public void apply(RequestTemplate template) {
-		HttpServletRequest request = WebUtils.getRequest();
-		if (request == null) {
+		Optional<HttpServletRequest> requestOptional = WebUtils.getRequest();
+		if (requestOptional.isEmpty()) {
 			return;
 		}
 
-		String language = request.getHeader(HttpHeaders.ACCEPT_LANGUAGE);
+		String language = requestOptional.get().getHeader(HttpHeaders.ACCEPT_LANGUAGE);
 		if (StringUtils.hasText(language)) {
 			template.header(HttpHeaders.ACCEPT_LANGUAGE, language);
 		}
