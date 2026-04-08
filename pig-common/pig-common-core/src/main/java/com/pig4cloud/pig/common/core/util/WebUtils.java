@@ -47,7 +47,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 判断是否ajax请求 spring ajax 返回含有 ResponseBody 或者 RestController注解
-	 *
 	 * @param handlerMethod HandlerMethod
 	 * @return 是否ajax请求
 	 */
@@ -58,7 +57,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 读取cookie
-	 *
 	 * @param name cookie name
 	 * @return cookie value
 	 */
@@ -71,9 +69,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 读取cookie
-	 *
 	 * @param request HttpServletRequest
-	 * @param name    cookie name
+	 * @param name cookie name
 	 * @return cookie value
 	 */
 	public String getCookieVal(HttpServletRequest request, String name) {
@@ -83,9 +80,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 清除 某个指定的cookie
-	 *
 	 * @param response HttpServletResponse
-	 * @param key      cookie key
+	 * @param key cookie key
 	 */
 	public void removeCookie(HttpServletResponse response, String key) {
 		setCookie(response, key, null, 0);
@@ -93,10 +89,9 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 设置cookie
-	 *
-	 * @param response        HttpServletResponse
-	 * @param name            cookie name
-	 * @param value           cookie value
+	 * @param response HttpServletResponse
+	 * @param name cookie name
+	 * @param value cookie value
 	 * @param maxAgeInSeconds maxage
 	 */
 	public void setCookie(HttpServletResponse response, String name, String value, int maxAgeInSeconds) {
@@ -109,7 +104,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 获取 HttpServletRequest
-	 *
 	 * @return {HttpServletRequest}
 	 */
 	public Optional<HttpServletRequest> getRequest() {
@@ -122,7 +116,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 获取 HttpServletResponse
-	 *
 	 * @return {HttpServletResponse}
 	 */
 	public HttpServletResponse getResponse() {
@@ -135,7 +128,6 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 
 	/**
 	 * 从request 获取CLIENT_ID
-	 *
 	 * @return
 	 */
 	@SneakyThrows
@@ -162,7 +154,8 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		byte[] decoded;
 		try {
 			decoded = Base64.decode(base64Token);
-		} catch (IllegalArgumentException e) {
+		}
+		catch (IllegalArgumentException e) {
 			throw new CheckedException("Failed to decode basic authentication token");
 		}
 
@@ -173,7 +166,7 @@ public class WebUtils extends org.springframework.web.util.WebUtils {
 		if (delim == -1) {
 			throw new CheckedException("Invalid basic authentication token");
 		}
-		return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+		return new String[] { token.substring(0, delim), token.substring(delim + 1) };
 	}
 
 }
