@@ -21,8 +21,10 @@
 	<name>pig-register</name>
 	<description>nacos 注册配置中心</description>
 	<properties>
-		<nacos.version>3.1.0-bugfix</nacos.version>
-		<spring-boot.version>3.5.10</spring-boot.version>
+		<nacos.version>3.2.1</nacos.version>
+		<nacos.jvm.add-opens>--add-opens=java.base/java.lang=ALL-UNNAMED
+			--add-opens=java.base/java.lang.reflect=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED
+		</nacos.jvm.add-opens>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -36,23 +38,14 @@
 			<version>${nacos.version}</version>
 		</dependency>
 	</dependencies>
-	<dependencyManagement>
-		<dependencies>
-			<!-- Spring Boot BOM -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-dependencies</artifactId>
-				<version>${spring-boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<jvmArguments>${nacos.jvm.add-opens}</jvmArguments>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
