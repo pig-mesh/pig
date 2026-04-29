@@ -42,7 +42,7 @@ public class PigNacosApplication {
 	/**
 	 * 独立模式系统属性名称
 	 */
-	private static String STANDALONE_MODE = "nacos.standalone";
+	private static final String STANDALONE_MODE = "nacos.standalone";
 
 	public static void main(String[] args) {
 		System.setProperty(STANDALONE_MODE, "true");
