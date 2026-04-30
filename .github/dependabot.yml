@@ -1,0 +1,60 @@
+version: 2
+updates:
+  - package-ecosystem: maven
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:00"
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 5
+    # 默认只自动处理 Maven patch 升级；LangChain4j 小版本升级也交给 Dependabot 自动建 PR。
+    allow:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-patch
+      - dependency-name: "dev.langchain4j:*"
+        update-types:
+          - version-update:semver-minor
+    ignore:
+      # major 升级涉及迁移风险，仍保留人工评估。
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-major
+    commit-message:
+      prefix: chore(deps)
+    groups:
+      # LangChain4j 单独分组，避免与普通 Maven patch 升级混在一个 PR。
+      langchain4j:
+        patterns:
+          - "dev.langchain4j:*"
+        update-types:
+          - patch
+          - minor
+      maven-dependencies:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "dev.langchain4j:*"
+        update-types:
+          - patch
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "09:30"
+      timezone: Asia/Shanghai
+    open-pull-requests-limit: 3
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-major
+    commit-message:
+      prefix: ci(deps)
+    groups:
+      github-actions:
+        patterns:
+          - "*"

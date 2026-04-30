@@ -66,6 +66,8 @@ node_modules
 ### claude code ###
 .claude
 docs
+docs/plans/
 
 ### test
 aitest
+.vectorex
