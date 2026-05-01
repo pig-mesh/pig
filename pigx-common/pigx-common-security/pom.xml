@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-common-security</artifactId>
@@ -53,8 +53,18 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-oauth2-authorization-server</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security-oauth2-authorization-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jackson2</artifactId>
+        </dependency>
+        <!-- 滑块验证码依赖 -->
+        <dependency>
+            <groupId>com.anji-plus</groupId>
+            <artifactId>captcha</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--feign-->
         <dependency>
@@ -77,10 +87,6 @@
             <artifactId>pigx-upms-api</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-app-server-api</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>

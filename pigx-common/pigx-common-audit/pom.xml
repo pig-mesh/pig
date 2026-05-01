@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-common-audit</artifactId>
@@ -22,12 +22,17 @@
         <!--  切面依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
         <!--  提供日志插入 API -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-upms-api</artifactId>
+        </dependency>
+        <!-- MyBatis-Plus Mapper 主键查询 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-core</artifactId>
         </dependency>
         <!--   获取上下文的操作用户     -->
         <dependency>

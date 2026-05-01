@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-common-data</artifactId>
@@ -60,12 +60,6 @@
             <artifactId>druid</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--安全依赖获取上下文信息-->
-        <dependency>
-            <groupId>com.pig4cloud</groupId>
-            <artifactId>pigx-common-security</artifactId>
-            <optional>true</optional>
-        </dependency>
         <!--feign client-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
@@ -75,6 +69,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jackson2</artifactId>
         </dependency>
     </dependencies>
 </project>

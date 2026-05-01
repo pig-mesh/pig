@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-common-excel</artifactId>
@@ -33,15 +33,15 @@
     <description>pigx excel 操作</description>
 
     <properties>
-        <fastexcel.version>1.2.0</fastexcel.version>
+        <fesod.version>2.0.1-incubating</fesod.version>
     </properties>
 
     <dependencies>
-        <!-- easyexcel:https://github.com/alibaba/easyexcel -->
+        <!-- Apache FESOD: https://github.com/apache/fesod -->
         <dependency>
-            <groupId>cn.idev.excel</groupId>
-            <artifactId>fastexcel</artifactId>
-            <version>${fastexcel.version}</version>
+            <groupId>org.apache.fesod</groupId>
+            <artifactId>fesod-sheet</artifactId>
+            <version>${fesod.version}</version>
         </dependency>
         <!-- 导入校验注解-->
         <dependency>
@@ -51,7 +51,7 @@
         <!--引入AOP依赖-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
         </dependency>
         <!-- webmvc 依赖-->
         <dependency>
@@ -62,6 +62,11 @@
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
+        <!-- 字符串/反射工具 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-core</artifactId>
         </dependency>
     </dependencies>
 </project>

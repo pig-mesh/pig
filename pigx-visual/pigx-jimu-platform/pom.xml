@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-jimu-platform</artifactId>
@@ -31,6 +31,10 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-feign</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pigx-common-sentinel</artifactId>
+        </dependency>
         <!--API 依赖-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
@@ -49,17 +53,12 @@
         <!--web 模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
         <!-- 积木报表核心依赖-->
         <dependency>
             <groupId>org.jeecgframework.jimureport</groupId>
-            <artifactId>jimureport-spring-boot3-starter-fastjson2</artifactId>
+            <artifactId>jimureport-spring-boot3-starter</artifactId>
             <version>${jimu.version}</version>
             <exclusions>
                 <exclusion>
@@ -78,10 +77,14 @@
             <artifactId>TinyPinyin</artifactId>
             <version>${tinyPinyin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-data-commons</artifactId>
+        </dependency>
         <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <artifactId>druid-spring-boot-4-starter</artifactId>
         </dependency>
         <!--MYSQL 数据驱动-->
         <dependency>

@@ -24,7 +24,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pigx</artifactId>
-    <version>5.12.0</version>
+    <version>6.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <organization>
@@ -33,31 +33,26 @@
     </organization>
 
     <properties>
-        <spring-boot.version>3.5.11</spring-boot.version>
-        <spring-cloud.version>2025.0.1</spring-cloud.version>
-        <spring-cloud-alibaba.version>2025.0.0.0</spring-cloud-alibaba.version>
+        <spring-boot.version>4.0.6</spring-boot.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <langchain4j.version>1.12.1</langchain4j.version>
-        <langchain4j.beta.version>1.12.1-beta21</langchain4j.beta.version>
-        <spring.ai.version>1.1.2</spring.ai.version>
-        <spring-boot-admin.version>3.5.8</spring-boot-admin.version>
-        <maven.compiler.version>3.14.0</maven.compiler.version>
-        <spring.checkstyle.version>0.0.39</spring.checkstyle.version>
-        <git.commit.version>4.9.9</git.commit.version>
-        <captcha.version>1.4.0</captcha.version>
-        <captcha.image.version>2.2.3</captcha.image.version>
+        <spring-boot-admin.version>4.0.4</spring-boot-admin.version>
+        <maven.compiler.version>3.14.1</maven.compiler.version>
+        <spring.checkstyle.version>0.0.47</spring.checkstyle.version>
+        <git.commit.version>9.0.1</git.commit.version>
         <cas.sdk.version>3.6.4</cas.sdk.version>
-        <flowable.version>7.2.0</flowable.version>
+        <flowable.version>8.0.0</flowable.version>
         <dingtalk.old.version>2.0.0</dingtalk.old.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>3.0.5</knife4j.version>
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
-        <jimu.version>2.0.0</jimu.version>
-        <aws.version>1.12.792</aws.version>
-        <xxl.job.version>3.1.1</xxl.job.version>
+        <jimu.version>2.3.4</jimu.version>
+        <aws.sdk.version>2.44.12</aws.sdk.version>
+        <xxl.job.version>3.4.0</xxl.job.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
         <docker.host>http://127.0.0.1:2375</docker.host>
         <docker.namespace>pigcloudx</docker.namespace>
@@ -127,6 +122,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <!--AWS SDK v2 公共版本定义-->
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws.sdk.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--spring boot 公共版本定义-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -166,15 +169,8 @@
             <!--web 模块-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-web</artifactId>
+                <artifactId>spring-boot-starter-webmvc</artifactId>
                 <version>${spring-boot.version}</version>
-                <exclusions>
-                    <!--排除tomcat依赖-->
-                    <exclusion>
-                        <artifactId>spring-boot-starter-tomcat</artifactId>
-                        <groupId>org.springframework.boot</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

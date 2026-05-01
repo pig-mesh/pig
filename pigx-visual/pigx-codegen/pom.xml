@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-codegen</artifactId>
@@ -17,7 +17,7 @@
     <properties>
         <magic.version>2.0.2</magic.version>
         <screw.version>0.1.0</screw.version>
-        <db2.version>11.5.0.0</db2.version>
+        <db2.version>11.5.9.0</db2.version>
         <configuration.version>1.10</configuration.version>
     </properties>
 
@@ -45,7 +45,7 @@
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <artifactId>mybatis-plus-spring-boot4-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
@@ -85,7 +85,7 @@
         <!-- druid 连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <artifactId>druid-spring-boot-4-starter</artifactId>
         </dependency>
         <!--anyline-->
         <dependency>
@@ -95,18 +95,6 @@
         <dependency>
             <groupId>org.anyline</groupId>
             <artifactId>anyline-data-jdbc-mysql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-postgresql</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-oracle</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.anyline</groupId>
-            <artifactId>anyline-data-jdbc-dm</artifactId>
         </dependency>
         <!--common-->
         <dependency>
@@ -174,12 +162,7 @@
         <!--web 模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
     </dependencies>
 

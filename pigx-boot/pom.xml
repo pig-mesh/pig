@@ -21,7 +21,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-boot</artifactId>
@@ -42,7 +42,7 @@
             <artifactId>pigx-upms-biz</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--选配开始：和 AI 能力无关可以删除，提升启动速度 -->
+        <!--选配开始：可按需删除，提升启动速度 -->
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-codegen</artifactId>
@@ -96,11 +96,6 @@
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-swagger</artifactId>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
     </dependencies>
 

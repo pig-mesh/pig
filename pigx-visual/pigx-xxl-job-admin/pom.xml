@@ -4,19 +4,18 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-visual</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-xxl-job-admin</artifactId>
     <description>xxl job admin 控制台内置方便开发</description>
     <packaging>jar</packaging>
+
     <properties>
-        <mybatis-spring-boot-starter.version>3.0.4</mybatis-spring-boot-starter.version>
+        <xxl-sso.version>2.4.0</xxl-sso.version>
     </properties>
 
-
     <dependencies>
-
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -29,44 +28,31 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!--hibernate-validator 兼容JAVA11-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-
-
-        <!-- starter-web：spring-webmvc + autoconfigure + logback + yaml + tomcat -->
+        <!-- starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <!-- freemarker-starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
         <!-- mail-starter -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
-
         <!-- starter-actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
-        <!-- mybatis-starter：mybatis + mybatis-spring + hikari（default） -->
+        <!-- mybatis-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis-spring-boot-starter.version}</version>
         </dependency>
-
         <!-- mysql -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -75,7 +61,7 @@
 
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-3-starter</artifactId>
+            <artifactId>druid-spring-boot-4-starter</artifactId>
         </dependency>
 
         <!-- xxl-job-core -->
@@ -83,24 +69,14 @@
             <groupId>com.xuxueli</groupId>
             <artifactId>xxl-job-core</artifactId>
             <version>${xxl.job.version}</version>
+
         </dependency>
 
-        <!--undertow容器-->
+        <!-- xxl-sso -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.annotation</groupId>
-            <artifactId>jakarta.annotation-api</artifactId>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-            <scope>compile</scope>
+            <groupId>com.xuxueli</groupId>
+            <artifactId>xxl-sso-core</artifactId>
+            <version>${xxl-sso.version}</version>
         </dependency>
 
     </dependencies>
@@ -121,6 +97,9 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
+                <configuration>
+                    <skip>false</skip>
+                </configuration>
             </plugin>
         </plugins>
         <resources>
@@ -133,8 +112,6 @@
                     <exclude>**/*.ttf</exclude>
                     <exclude>**/*.otf</exclude>
                     <exclude>**/*.eot</exclude>
-                    <exclude>**/*.js</exclude>
-                    <exclude>**/*.css</exclude>
                 </excludes>
             </resource>
             <resource>
@@ -146,11 +123,8 @@
                     <include>**/*.ttf</include>
                     <include>**/*.otf</include>
                     <include>**/*.eot</include>
-                    <include>**/*.js</include>
-                    <include>**/*.css</include>
                 </includes>
             </resource>
         </resources>
     </build>
-
 </project>

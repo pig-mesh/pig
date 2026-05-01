@@ -18,7 +18,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-register</artifactId>
@@ -27,19 +27,37 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>3.1.0-bugfix</nacos.version>
+        <nacos.version>3.2.1</nacos.version>
+        <jraft.version>1.4.0</jraft.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-console</artifactId>
+            <artifactId>nacos-server</artifactId>
             <version>${nacos.version}</version>
         </dependency>
         <dependency>
+            <groupId>io.github.pig-mesh.sofa</groupId>
+            <artifactId>jraft-core</artifactId>
+            <version>${jraft.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hessian</artifactId>
+                    <groupId>com.alipay.sofa</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
             <groupId>io.github.pig-mesh.nacos</groupId>
-            <artifactId>nacos-server</artifactId>
+            <artifactId>nacos-console</artifactId>
             <version>${nacos.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>jraft-core</artifactId>
+                    <groupId>com.alipay.sofa</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

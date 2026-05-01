@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx-common</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-common-websocket</artifactId>
@@ -33,6 +33,10 @@
         <dependency>
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jackson2</artifactId>
         </dependency>
     </dependencies>
 </project>

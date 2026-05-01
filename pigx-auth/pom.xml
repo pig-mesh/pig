@@ -24,7 +24,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pigx</artifactId>
-        <version>5.12.0</version>
+        <version>6.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>pigx-auth</artifactId>
@@ -88,27 +88,20 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pigx-common-encrypt-api</artifactId>
         </dependency>
-        <!-- 调用验证码核心模块 -->
+        <!-- 验证码公共能力 -->
         <dependency>
             <groupId>io.springboot.plugin</groupId>
             <artifactId>captcha-core</artifactId>
-            <version>${captcha.image.version}</version>
         </dependency>
-        <!--滑块验证码-->
+        <!-- 滑块验证码 -->
         <dependency>
             <groupId>io.github.pig-mesh.plugin</groupId>
             <artifactId>captcha-spring-boot-starter</artifactId>
-            <version>${captcha.version}</version>
         </dependency>
         <!--web 模块-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!--undertow容器-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
     </dependencies>
 
