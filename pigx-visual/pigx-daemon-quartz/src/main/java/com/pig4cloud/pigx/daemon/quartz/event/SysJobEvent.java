@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,12 +18,17 @@
 package com.pig4cloud.pigx.daemon.quartz.event;
 
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
+import com.pig4cloud.pigx.daemon.quartz.support.QuartzExecutionMetadata;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.quartz.Trigger;
 
 /**
- * @author frwcloud 定时任务多线程事件
+ * 定时任务异步执行事件。
+ * <p>
+ * 该事件用于在 Quartz 工厂线程与异步任务监听线程之间传递任务对象、
+ * 触发器对象以及本次调度的排查元数据。
+ * </p>
  */
 @Getter
 @AllArgsConstructor
@@ -32,5 +37,7 @@ public class SysJobEvent {
 	private final SysJob sysJob;
 
 	private final Trigger trigger;
+
+    private final QuartzExecutionMetadata executionMetadata;
 
 }

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -25,9 +25,9 @@ import org.quartz.Trigger;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.quartz.QuartzProperties;
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.quartz.autoconfigure.QuartzProperties;
+import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,13 +40,17 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * @author 郑健楠
+ * Quartz 调度器配置。
+ * <p>
+ * 负责装配 {@link SchedulerFactoryBean}、加载 `quartz-config.yml` 中的 Quartz 参数，
+ * 并启用本模块的异步任务监听与重复触发保护配置。
+ * </p>
  */
 @EnableAsync
 @Configuration
 @PropertySource(value = "classpath:quartz-config.yml", factory = YamlPropertySourceFactory.class)
 @ConditionalOnClass({ Scheduler.class, SchedulerFactoryBean.class })
-@EnableConfigurationProperties({ QuartzProperties.class })
+@EnableConfigurationProperties({QuartzProperties.class, QuartzProtectionProperties.class})
 public class PigxQuartzConfig {
 
 	private final QuartzProperties properties;
@@ -61,6 +65,16 @@ public class PigxQuartzConfig {
 
 	private final ApplicationContext applicationContext;
 
+    /**
+     * 创建 Quartz 配置类。
+     *
+     * @param properties         Quartz 原生属性配置
+     * @param customizers        调度器自定义器集合
+     * @param jobDetails         预注册 JobDetail 集合
+     * @param calendars          Quartz 日历配置
+     * @param triggers           预注册 Trigger 集合
+     * @param applicationContext Spring 应用上下文
+     */
 	public PigxQuartzConfig(QuartzProperties properties,
 			ObjectProvider<List<SchedulerFactoryBeanCustomizer>> customizers, ObjectProvider<JobDetail[]> jobDetails,
 			ObjectProvider<Map<String, Calendar>> calendars, ObjectProvider<Trigger[]> triggers,
@@ -70,9 +84,14 @@ public class PigxQuartzConfig {
 		this.jobDetails = jobDetails.getIfAvailable();
 		this.calendars = calendars.getIfAvailable();
 		this.triggers = triggers.getIfAvailable();
-		this.applicationContext = applicationContext;
-	}
+        this.applicationContext = applicationContext;
+    }
 
+    /**
+     * 创建 Quartz 调度器工厂。
+	 *
+	 * @return 已注入 Spring JobFactory 和 Quartz 属性的调度器工厂
+	 */
 	@Bean
 	@ConditionalOnMissingBean
 	public SchedulerFactoryBean quartzScheduler() {
@@ -96,27 +115,39 @@ public class PigxQuartzConfig {
 		}
 
 		this.customize(schedulerFactoryBean);
-		return schedulerFactoryBean;
-	}
+        return schedulerFactoryBean;
+    }
 
+    /**
+     * 将 Spring Boot 的 Quartz Map 属性转换为标准 {@link Properties}。
+     *
+     * @param source Quartz Map 形式的属性源
+	 * @return Quartz 可直接消费的标准属性对象
+	 */
 	private Properties asProperties(Map<String, String> source) {
 		Properties properties = new Properties();
-		properties.putAll(source);
-		return properties;
-	}
+        properties.putAll(source);
+        return properties;
+    }
 
+    /**
+     * 统一执行所有调度器自定义器。
+	 *
+	 * @param schedulerFactoryBean 当前待定制的调度器工厂
+	 */
 	private void customize(SchedulerFactoryBean schedulerFactoryBean) {
 		if (this.customizers != null) {
 			for (SchedulerFactoryBeanCustomizer customizer : this.customizers) {
-				customizer.customize(schedulerFactoryBean);
-			}
-		}
+                customizer.customize(schedulerFactoryBean);
+            }
+        }
 
-	}
+    }
 
-	/**
-	 * 通过SchedulerFactoryBean获取Scheduler的实例
-	 * @return
+    /**
+     * 通过 {@link SchedulerFactoryBean} 获取最终的 Quartz 调度器实例。
+	 *
+	 * @return Quartz 调度器实例
 	 */
 	@Bean
 	public Scheduler scheduler() {

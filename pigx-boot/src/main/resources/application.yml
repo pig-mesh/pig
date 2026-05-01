@@ -2,8 +2,6 @@ server:
   port: 9999
   servlet:
     context-path: /admin
-  undertow:
-    max-http-post-size: 100MB
 
 spring:
   application:
@@ -14,8 +12,8 @@ spring:
   # 上传文件大小限制
   servlet:
     multipart:
-      max-file-size: ${server.undertow.max-http-post-size}
-      max-request-size: ${server.undertow.max-http-post-size}
+      max-file-size: 100MB
+      max-request-size: 100MB
   cloud:
     discovery:
       enabled: false
@@ -34,6 +32,8 @@ spring:
     request-context-attribute: request
   main:
     allow-bean-definition-overriding: true
+  jackson:
+    use-jackson2-defaults: true
   profiles:
     active: dev
 
@@ -57,6 +57,7 @@ security:
         - /code/**
 
 #--------------如下配置尽量不要变动-------------
+management.endpoints.access.default: none # 默认所有端点都不允许访问
 # mybatis-plus 配置
 mybatis-plus:
   mapper-locations: classpath*:/mapper/*Mapper.xml
@@ -73,8 +74,10 @@ mybatis-plus:
     call-setters-on-nulls: true
     shrink-whitespaces-in-sql: true
 # 查询以下前缀的表，不输出日志
-pigx:
-  mybatis:
-    skip-table:
-      - QRTZ_  #quartz 定时任务的表
-      - ACT_   #工作流相关的表
+pigx.mybatis.skip-table:
+  - QRTZ_  #quartz 定时任务的表
+  - ACT_   #工作流相关的表
+
+# flowable 配置
+flowable:
+  variable-json-mapper: jackson2

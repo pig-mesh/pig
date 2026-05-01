@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,6 @@ import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionRepository;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -43,6 +42,7 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings("removal")
 public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
 
 	private final RedisTemplate<String, String> redisTemplate;
@@ -83,7 +83,8 @@ public class RedisRouteDefinitionWriter implements RouteDefinitionRepository {
 			return Flux.fromIterable(routeList);
 		}
 
-		redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
+        redisTemplate.setHashValueSerializer(
+                new org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
 		HashOperations<String, String, RouteDefinitionVo> stringObjectObjectHashOperations = redisTemplate.opsForHash();
 		List<RouteDefinitionVo> values = stringObjectObjectHashOperations.values(CacheConstants.ROUTE_KEY);
 		log.info("redis 中路由定义条数： {}， {}", values.size(), values);

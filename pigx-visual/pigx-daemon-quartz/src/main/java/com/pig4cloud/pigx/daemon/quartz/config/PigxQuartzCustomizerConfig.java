@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pigx.daemon.quartz.config;
 
-import org.springframework.boot.autoconfigure.quartz.SchedulerFactoryBeanCustomizer;
+import org.springframework.boot.quartz.autoconfigure.SchedulerFactoryBeanCustomizer;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 

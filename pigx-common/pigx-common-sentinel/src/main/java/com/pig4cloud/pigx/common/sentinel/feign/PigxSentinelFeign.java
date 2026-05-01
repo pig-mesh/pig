@@ -19,6 +19,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
+
 /**
  * 支持自动降级注入 重写 {@link com.alibaba.cloud.sentinel.feign.SentinelFeign}
  *
@@ -90,7 +91,7 @@ public final class PigxSentinelFeign {
 					Object fallbackInstance = feignClientFactory.getInstance(name, fallbackType);
 					if (fallbackInstance == null) {
 						throw new IllegalStateException(String
-								.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
+							.format("No %s instance of type %s found for feign client %s", type, fallbackType, name));
 					}
 
 					if (!targetType.isAssignableFrom(fallbackType)) {

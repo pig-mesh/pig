@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -42,22 +42,22 @@ public class PigxInitQuartzJob implements InitializingBean {
 
 	private final Scheduler scheduler;
 
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		sysJobService.list().forEach(sysjob -> {
+			if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+			else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.resumeJob(sysjob, scheduler);
+			}
+			else if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
+				taskUtil.pauseJob(sysjob, scheduler);
+			}
+			else {
+				taskUtil.removeJob(sysjob, scheduler);
+			}
+		});
+	}
 
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        sysJobService.list().forEach(sysjob -> {
-            if (PigxQuartzEnum.JOB_STATUS_RELEASE.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.removeJob(sysjob, scheduler);
-            }
-            else if (PigxQuartzEnum.JOB_STATUS_RUNNING.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.resumeJob(sysjob, scheduler);
-            }
-            else if (PigxQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(sysjob.getJobStatus())) {
-                taskUtil.pauseJob(sysjob, scheduler);
-            }
-            else {
-                taskUtil.removeJob(sysjob, scheduler);
-            }
-        });
-    }
 }

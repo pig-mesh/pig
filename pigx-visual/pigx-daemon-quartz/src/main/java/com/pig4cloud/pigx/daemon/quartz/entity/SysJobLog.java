@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -27,9 +27,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * 定时任务执行日志表
+ * <p>
+ * 该实体除保留原有任务日志字段外，还新增了 Quartz 防重排查字段，
+ * 用于定位同一秒重复触发、运行中跳过等场景。
+ * </p>
  *
  * @author frwcloud
  * @date 2019-01-27 13:40:20
@@ -120,6 +125,21 @@ public class SysJobLog extends Model<SysJobLog> {
 	 * 异常信息
 	 */
 	private String exceptionInfo;
+
+    /**
+     * 计划触发时间
+     */
+    private Date scheduledFireTime;
+
+    /**
+     * Quartz 触发实例ID，用于定位同一轮调度是否被重复回调
+     */
+    private String fireInstanceId;
+
+    /**
+     * 去重状态（0正常执行 1同一触发点重复 2任务运行中跳过）
+     */
+    private String dedupStatus;
 
 	/**
 	 * 创建时间

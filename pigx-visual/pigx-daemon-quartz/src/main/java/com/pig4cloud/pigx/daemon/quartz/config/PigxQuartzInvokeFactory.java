@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.daemon.quartz.config;
 
 import com.pig4cloud.pigx.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pigx.daemon.quartz.event.SysJobEvent;
+import com.pig4cloud.pigx.daemon.quartz.support.QuartzExecutionMetadata;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
- * @author 郑健楠
+ * Quartz 调用事件发布器。
+ * <p>
+ * 负责把 Quartz 工厂线程中的任务执行请求转换为 Spring 事件，
+ * 以便后续由异步监听器统一处理真实业务调用。
+ * </p>
  */
 @Slf4j
 @Aspect
@@ -38,9 +43,16 @@ public class PigxQuartzInvokeFactory {
 
 	private final ApplicationEventPublisher publisher;
 
-	@SneakyThrows
-	void init(SysJob sysJob, Trigger trigger) {
-		publisher.publishEvent(new SysJobEvent(sysJob, trigger));
+    /**
+     * 发布任务执行事件。
+     *
+     * @param sysJob            当前任务配置
+     * @param trigger           当前 Quartz 触发器
+     * @param executionMetadata 当前触发对应的执行元数据
+     */
+    @SneakyThrows
+    void init(SysJob sysJob, Trigger trigger, QuartzExecutionMetadata executionMetadata) {
+        publisher.publishEvent(new SysJobEvent(sysJob, trigger, executionMetadata));
 	}
 
 }

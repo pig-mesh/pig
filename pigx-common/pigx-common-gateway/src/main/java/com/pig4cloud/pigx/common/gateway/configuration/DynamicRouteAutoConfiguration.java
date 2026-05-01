@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -69,7 +69,7 @@ public class DynamicRouteAutoConfiguration {
 	 * @return
 	 */
 	@Bean
-	public DynamicRouteHealthIndicator healthIndicator(RedisTemplate redisTemplate) {
+    public DynamicRouteHealthIndicator dynamicRouteHealthIndicator(RedisTemplate redisTemplate) {
 
 		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		if (!redisTemplate.hasKey(CacheConstants.ROUTE_KEY)) {

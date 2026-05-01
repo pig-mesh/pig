@@ -18,10 +18,9 @@ package com.pig4cloud.pigx.common.xss.core;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.pig4cloud.pigx.common.xss.config.PigxXssProperties;
 import com.pig4cloud.pigx.common.xss.utils.XssUtil;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -32,12 +31,17 @@ import java.io.IOException;
  * @author L.cm
  */
 @Slf4j
-@RequiredArgsConstructor
-public class JacksonXssClean extends JsonDeserializer<String> {
+public class JacksonXssClean extends StdDeserializer<String> {
 
 	private final PigxXssProperties properties;
 
 	private final XssCleaner xssCleaner;
+
+	public JacksonXssClean(PigxXssProperties properties, XssCleaner xssCleaner) {
+		super(String.class);
+		this.properties = properties;
+		this.xssCleaner = xssCleaner;
+	}
 
 	@Override
 	public String deserialize(JsonParser p, DeserializationContext ctx) throws IOException {

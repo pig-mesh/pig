@@ -12,11 +12,10 @@ spring:
       password: root
       url: jdbc:mysql://pigx-mysql:3306/pigxx_boot?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
 
-
 # 文件上传配置
 file:
+  type: local
   local:
-    enable: true
     base-path: /Users/lengleng/Downloads/img
 
 # 验证码配置
@@ -36,4 +35,3 @@ jasypt:
 # swagger token url 配置
 swagger:
   token-url: ${swagger.gateway}/admin/oauth2/token
-

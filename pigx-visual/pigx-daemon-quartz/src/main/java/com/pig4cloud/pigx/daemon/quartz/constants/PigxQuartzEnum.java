@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,10 +21,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * @author 郑健楠
- *
+ * Quartz 调度相关枚举常量。
  * <p>
- * 定时任务枚举
+ * 统一维护任务状态、执行状态、错失策略以及重复触发防护状态，
+ * 便于调度器、执行器和日志体系共用同一套语义。
+ * </p>
+ *
+ * @author 郑健楠
  */
 @Getter
 @AllArgsConstructor
@@ -63,6 +66,19 @@ public enum PigxQuartzEnum {
 	 * JOB执行状态：1执行失败
 	 */
 	JOB_LOG_STATUS_FAIL("1", "执行失败"),
+
+    /**
+     * 去重状态：0 正常执行
+     */
+    JOB_DEDUP_STATUS_NORMAL("0", "正常执行"),
+    /**
+     * 去重状态：1 同一触发点重复，已跳过
+     */
+    JOB_DEDUP_STATUS_DUPLICATE_FIRE("1", "同一触发点重复，已跳过"),
+    /**
+     * 去重状态：2 任务正在运行，已跳过
+     */
+    JOB_DEDUP_STATUS_RUNNING_SKIP("2", "任务正在运行，已跳过"),
 
 	/**
 	 * JOB状态：1已发布

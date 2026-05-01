@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -26,8 +26,8 @@ import org.anyline.metadata.Index;
 import org.anyline.metadata.Table;
 import org.anyline.proxy.ServiceProxy;
 import org.anyline.service.AnylineService;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
@@ -49,7 +49,7 @@ public class SequenceAutoConfiguration {
     /**
      * 启动后自动创建表
      */
-    @EventListener({WebServerInitializedEvent.class})
+    @EventListener({ApplicationReadyEvent.class})
     public void onApplicationReady() throws Exception {
         // 判断是否需要创建表
         AnylineService service = ServiceProxy.service();

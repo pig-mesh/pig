@@ -25,7 +25,7 @@ public class PigxNacosApplication {
     /**
      * 独立模式系统属性名称
      */
-    private static String STANDALONE_MODE = "nacos.standalone";
+    private static final String STANDALONE_MODE = "nacos.standalone";
 
     public static void main(String[] args) {
         System.setProperty(STANDALONE_MODE, "true");
@@ -46,12 +46,14 @@ public class PigxNacosApplication {
         ConfigurableApplicationContext serverWebContext = new SpringApplicationBuilder(NacosServerWebApplication.class)
                 .parent(coreContext)
                 .run(args);
+        System.out.println(serverWebContext);
 
         // Start Console Context
         NacosStartUpManager.start(NacosStartUp.CONSOLE_START_UP_PHASE);
         ConfigurableApplicationContext consoleContext = new SpringApplicationBuilder(NacosConsole.class)
                 .parent(coreContext)
                 .run(args);
+        System.out.println(consoleContext);
     }
 
 }

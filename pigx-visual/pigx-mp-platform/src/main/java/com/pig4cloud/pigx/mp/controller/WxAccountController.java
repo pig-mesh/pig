@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -81,8 +81,8 @@ public class WxAccountController {
 	@HasPermission("mp_wxaccount_add")
 	public R save(@RequestBody WxAccount wxAccount) {
 		wxAccountService.save(wxAccount);
-        RedisUtils.execute((RedisCallback<Long>) connection ->
-                connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
+		RedisUtils.execute((RedisCallback<Long>) connection ->
+				connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
 		return R.ok();
 	}
 
@@ -96,8 +96,8 @@ public class WxAccountController {
 	@HasPermission("mp_wxaccount_edit")
 	public R updateById(@RequestBody WxAccount wxAccount) {
 		wxAccountService.updateById(wxAccount);
-        RedisUtils.execute((RedisCallback<Long>) connection ->
-                connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
+		RedisUtils.execute((RedisCallback<Long>) connection ->
+				connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
 		return R.ok();
 	}
 
@@ -111,8 +111,8 @@ public class WxAccountController {
 	@HasPermission("mp_wxaccount_del")
 	public R removeById(@PathVariable Long id) {
 		wxAccountService.removeById(id);
-        RedisUtils.execute((RedisCallback<Long>) connection ->
-                connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
+		RedisUtils.execute((RedisCallback<Long>) connection ->
+				connection.publish(CacheConstants.MP_REDIS_RELOAD_TOPIC.getBytes(), "重新加载公众号配置".getBytes()));
 		return R.ok();
 	}
 

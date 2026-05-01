@@ -3,8 +3,8 @@ package com.pig4cloud.pigx.common.gateway.support;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.actuate.health.AbstractHealthIndicator;
-import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.health.contributor.AbstractHealthIndicator;
+import org.springframework.boot.health.contributor.Health;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**

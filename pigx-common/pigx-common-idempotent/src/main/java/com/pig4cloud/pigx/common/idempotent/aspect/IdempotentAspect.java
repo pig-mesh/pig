@@ -11,8 +11,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.redisson.Redisson;
 import org.redisson.api.RMapCache;
+import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -60,7 +60,7 @@ public class IdempotentAspect {
     /** 是否自动删除 Key 标识 */
     private static final String DELKEY = "delKey";
 
-    private final Redisson redisson;
+    private final RedissonClient redisson;
 
     private final KeyResolver keyResolver;
 

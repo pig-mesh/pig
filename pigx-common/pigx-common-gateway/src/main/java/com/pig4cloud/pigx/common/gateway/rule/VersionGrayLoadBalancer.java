@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -65,7 +65,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 			// 过滤出不含VERSION实例
 			List<ServiceInstance> versionInstanceList = instances.stream()
 				.filter(instance -> !instance.getMetadata().containsKey(CommonConstants.VERSION))
-                    .toList();
+					.toList();
 			if (CollUtil.isEmpty(versionInstanceList)) {
 				// 根据权重获取实例
 				return randomByWeight(instances);
@@ -77,7 +77,7 @@ public class VersionGrayLoadBalancer implements GrayLoadBalancer {
 		List<ServiceInstance> availableList = instances.stream()
 			.filter(instance -> reqVersion
 				.equalsIgnoreCase(MapUtil.getStr(instance.getMetadata(), CommonConstants.VERSION)))
-                .toList();
+				.toList();
 		if (CollUtil.isEmpty(availableList)) {
 			// 根据权重获取实例
 			return randomByWeight(instances);

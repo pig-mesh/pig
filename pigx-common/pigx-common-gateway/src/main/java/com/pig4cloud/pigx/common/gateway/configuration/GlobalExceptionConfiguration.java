@@ -1,12 +1,12 @@
 package com.pig4cloud.pigx.common.gateway.configuration;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pig4cloud.pigx.common.core.util.R;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
+import org.springframework.boot.webflux.error.ErrorWebExceptionHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBufferFactory;
@@ -29,33 +29,33 @@ import reactor.core.publisher.Mono;
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.REACTIVE)
 public class GlobalExceptionConfiguration implements ErrorWebExceptionHandler {
 
-    private final ObjectMapper objectMapper;
+	private final ObjectMapper objectMapper;
 
-    @Override
-    public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
-        ServerHttpResponse response = exchange.getResponse();
+	@Override
+	public Mono<Void> handle(ServerWebExchange exchange, Throwable ex) {
+		ServerHttpResponse response = exchange.getResponse();
 
-        if (response.isCommitted()) {
-            return Mono.error(ex);
-        }
+		if (response.isCommitted()) {
+			return Mono.error(ex);
+		}
 
-        // header set
-        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
-        if (ex instanceof ResponseStatusException) {
-            response.setStatusCode(((ResponseStatusException) ex).getStatusCode());
-        }
+		// header set
+		response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+		if (ex instanceof ResponseStatusException) {
+			response.setStatusCode(((ResponseStatusException) ex).getStatusCode());
+		}
 
-        return response.writeWith(Mono.fromSupplier(() -> {
-            DataBufferFactory bufferFactory = response.bufferFactory();
-            try {
-                log.error("Error request :{} Error Spring Cloud Gateway : {}", exchange.getRequest().getPath(),
-                        ex.getMessage());
-                return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
-            } catch (JsonProcessingException e) {
-                log.warn("Error writing response", ex);
-                return bufferFactory.wrap(new byte[0]);
-            }
-        }));
-    }
+		return response.writeWith(Mono.fromSupplier(() -> {
+			DataBufferFactory bufferFactory = response.bufferFactory();
+			try {
+				log.error("Error request :{} Error Spring Cloud Gateway : {}", exchange.getRequest().getPath(),
+						ex.getMessage());
+				return bufferFactory.wrap(objectMapper.writeValueAsBytes(R.failed(ex.getMessage())));
+			} catch (JacksonException e) {
+				log.warn("Error writing response", ex);
+				return bufferFactory.wrap(new byte[0]);
+			}
+		}));
+	}
 
 }

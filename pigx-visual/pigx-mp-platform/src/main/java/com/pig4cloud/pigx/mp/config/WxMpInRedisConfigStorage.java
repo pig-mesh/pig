@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, 云集汇通 All rights reserved.
+ *    Copyright (c) 2018-2025, 云集汇通 All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -40,7 +40,7 @@ public class WxMpInRedisConfigStorage extends WxMpDefaultConfigImpl {
 
 	private String cardapiTicketKey;
 
-    public WxMpInRedisConfigStorage() {
+	public WxMpInRedisConfigStorage() {
 	}
 
 	/**
@@ -57,52 +57,52 @@ public class WxMpInRedisConfigStorage extends WxMpDefaultConfigImpl {
 
 	@Override
 	public String getAccessToken() {
-        return RedisUtils.get(this.accessTokenKey);
+		return RedisUtils.get(this.accessTokenKey);
 	}
 
 	@Override
 	public boolean isAccessTokenExpired() {
-        return RedisUtils.getExpire(accessTokenKey) < 2L;
+		return RedisUtils.getExpire(accessTokenKey) < 2L;
 	}
 
 	@Override
 	public synchronized void updateAccessToken(String accessToken, int expiresInSeconds) {
-        RedisUtils.set(accessTokenKey, accessToken, expiresInSeconds - 200);
+		RedisUtils.set(accessTokenKey, accessToken, expiresInSeconds - 200);
 	}
 
 	@Override
 	public void expireAccessToken() {
-        RedisUtils.expire(this.accessTokenKey, 0);
+		RedisUtils.expire(this.accessTokenKey, 0);
 	}
 
 	@Override
 	public String getJsapiTicket() {
-        return RedisUtils.get(this.jsapiTicketKey);
+		return RedisUtils.get(this.jsapiTicketKey);
 	}
 
 	@Override
 	public String getCardApiTicket() {
-        return RedisUtils.get(cardapiTicketKey);
+		return RedisUtils.get(cardapiTicketKey);
 	}
 
 	@Override
 	public String getTicket(TicketType type) {
-        return RedisUtils.get(getTicketRedisKey(type));
+		return RedisUtils.get(getTicketRedisKey(type));
 	}
 
 	@Override
 	public boolean isTicketExpired(TicketType type) {
-        return RedisUtils.getExpire(this.getTicketRedisKey(type)) < 2;
+		return RedisUtils.getExpire(this.getTicketRedisKey(type)) < 2;
 	}
 
 	@Override
 	public synchronized void updateTicket(TicketType type, String jsapiTicket, int expiresInSeconds) {
-        RedisUtils.set(getTicketRedisKey(type), jsapiTicket, expiresInSeconds - 200);
+		RedisUtils.set(getTicketRedisKey(type), jsapiTicket, expiresInSeconds - 200);
 	}
 
 	@Override
 	public void expireTicket(TicketType type) {
-        RedisUtils.expire(getTicketRedisKey(type), 0);
+		RedisUtils.expire(getTicketRedisKey(type), 0);
 	}
 
 	private String getTicketRedisKey(TicketType type) {

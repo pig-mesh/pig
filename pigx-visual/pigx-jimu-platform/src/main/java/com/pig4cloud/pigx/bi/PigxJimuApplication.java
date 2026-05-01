@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -20,7 +20,6 @@ package com.pig4cloud.pigx.bi;
 import com.pig4cloud.pigx.common.feign.annotation.EnablePigxFeignClients;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
@@ -30,8 +29,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @EnablePigxFeignClients
 @EnableDiscoveryClient
-@SpringBootApplication(scanBasePackages = { "org.jeecg.modules.jmreport", "com.pig4cloud.pigx.bi" },
-		exclude = MongoAutoConfiguration.class)
+@SpringBootApplication(scanBasePackages = {"org.jeecg.modules.jmreport", "com.pig4cloud.pigx.bi"})
 public class PigxJimuApplication {
 
 	public static void main(String[] args) {
