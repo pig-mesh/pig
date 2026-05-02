@@ -50,9 +50,4 @@ public interface ServiceNameConstants {
 	 */
 	String CODEGEN_SERVICE = "pigx-codegen";
 
-	/**
-	 * AIGC智能模块
-	 */
-	String AIGC_SERVICE = "pigx-aigc-biz";
-
 }

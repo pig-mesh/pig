@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.core.constant.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * yes and no enum
@@ -10,7 +10,7 @@ import lombok.Getter;
  * @date 2023/10/25
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum YesNoEnum {
 
 	YES("1", "是"), NO("0", "否");
@@ -18,17 +18,15 @@ public enum YesNoEnum {
 	/**
 	 * 编码
 	 */
-	private String code;
+	private final String code;
 
 	/**
 	 * 描述
 	 */
-	private String desc;
-
+	private final String desc;
 
 	/**
 	 * 通过布尔值获取代码
-	 *
 	 * @param bool 布尔
 	 * @return {@link String }
 	 */

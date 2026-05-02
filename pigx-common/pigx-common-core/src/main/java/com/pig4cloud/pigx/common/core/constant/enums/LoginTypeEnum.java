@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,15 +17,15 @@
 
 package com.pig4cloud.pigx.common.core.constant.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
  * @date 2018/8/15 社交登录类型
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum LoginTypeEnum {
 
 	/**
@@ -83,11 +83,11 @@ public enum LoginTypeEnum {
 	/**
 	 * 类型
 	 */
-	private String type;
+	private final String type;
 
 	/**
 	 * 描述
 	 */
-	private String description;
+	private final String description;
 
 }

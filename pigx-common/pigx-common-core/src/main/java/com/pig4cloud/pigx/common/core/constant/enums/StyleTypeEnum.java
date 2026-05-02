@@ -42,19 +42,19 @@ public enum StyleTypeEnum {
 	/**
 	 * 类型
 	 */
-	private String style;
+	private final String style;
 
 	/**
 	 * 描述
 	 */
-	private String description;
+	private final String description;
 
 	public static String getDesc(String style) {
 		return Arrays.stream(StyleTypeEnum.values())
 			.filter(styleTypeEnum -> styleTypeEnum.getStyle().equals(style))
+			.map(StyleTypeEnum::getDescription)
 			.findFirst()
-			.get()
-			.getDescription();
+			.orElse("");
 	}
 
 }

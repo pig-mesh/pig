@@ -15,37 +15,20 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.constant.enums;
-
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package com.pig4cloud.pigx.common.core.context;
 
 /**
+ * 用户上下文供给方。security 模块作为唯一实现并以 Spring Bean 形式暴露，
+ * 通用模块（data、audit 等）只依赖该接口即可。
+ *
  * @author lengleng
- * @date 2018/9/30 资源类型
  */
-@Getter
-@RequiredArgsConstructor
-public enum ResourceTypeEnum {
+public interface UserContextHolder {
 
 	/**
-	 * 图片资源
+	 * 获取当前登录用户上下文。
+	 * @return 未登录时返回 {@code null}
 	 */
-	IMAGE("image", "图片资源"),
-
-	/**
-	 * xml资源
-	 */
-	XML("xml", "xml资源");
-
-	/**
-	 * 类型
-	 */
-	private final String type;
-
-	/**
-	 * 描述
-	 */
-	private final String description;
+	UserContext get();
 
 }

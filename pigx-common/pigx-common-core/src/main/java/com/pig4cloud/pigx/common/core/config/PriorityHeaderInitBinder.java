@@ -2,7 +2,7 @@ package com.pig4cloud.pigx.common.core.config;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.servlet.mvc.method.annotation.ExtendedServletRequestDataBinder;
+import org.springframework.web.servlet.support.ExtendedServletRequestDataBinder;
 
 /**
  * priority 标头配置

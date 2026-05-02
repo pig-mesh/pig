@@ -15,37 +15,22 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pigx.common.core.constant.enums;
+package com.pig4cloud.pigx.common.core.context;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
 /**
+ * 当前登录用户的最小上下文，仅暴露数据权限/审计/租户等通用能力所需字段。
+ * 安全实现独立于此接口，避免 data 等通用模块反向依赖 security。
+ *
  * @author lengleng
- * @date 2018/9/30 资源类型
  */
-@Getter
-@RequiredArgsConstructor
-public enum ResourceTypeEnum {
+public interface UserContext {
 
-	/**
-	 * 图片资源
-	 */
-	IMAGE("image", "图片资源"),
+	String getUsername();
 
-	/**
-	 * xml资源
-	 */
-	XML("xml", "xml资源");
+	Long getDeptId();
 
-	/**
-	 * 类型
-	 */
-	private final String type;
-
-	/**
-	 * 描述
-	 */
-	private final String description;
+	List<Long> getRoleIds();
 
 }

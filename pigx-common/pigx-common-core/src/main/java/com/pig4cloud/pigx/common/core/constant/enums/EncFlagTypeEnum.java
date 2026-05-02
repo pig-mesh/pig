@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.common.core.constant.enums;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
@@ -10,7 +10,7 @@ import lombok.Getter;
  * 密码是否加密传输
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum EncFlagTypeEnum {
 
 	/**
@@ -26,11 +26,11 @@ public enum EncFlagTypeEnum {
 	/**
 	 * 类型
 	 */
-	private String type;
+	private final String type;
 
 	/**
 	 * 描述
 	 */
-	private String description;
+	private final String description;
 
 }

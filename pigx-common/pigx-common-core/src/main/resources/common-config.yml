@@ -22,7 +22,7 @@ jasypt:
 liteflow:
   rule-source: rules/*-rule.xml
   print-banner: false
-  print-execution-log: false
+  print-execution-log: true
   enable: true
 
 # 关闭连表插件的banner

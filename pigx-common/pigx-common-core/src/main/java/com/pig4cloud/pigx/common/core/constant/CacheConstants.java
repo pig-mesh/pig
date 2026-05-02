@@ -91,11 +91,6 @@ public interface CacheConstants {
     String TENANT_DETAILS = GLOBALLY + "tenant_details";
 
     /**
-     * i18n缓存 (不区分租户)
-     */
-    String I18N_DETAILS = GLOBALLY + "i18n_details";
-
-    /**
      * 客户端配置缓存
      */
     String CLIENT_FLAG = "client_config_flag";
@@ -104,5 +99,15 @@ public interface CacheConstants {
      * 登录错误次数
      */
     String LOGIN_ERROR_TIMES = "login_error_times";
+
+    /**
+     * API Key 缓存（hash -> SysApiKey）
+     */
+    String API_KEY_DETAILS = "api_key_details";
+
+    /**
+     * 网站配置聚合缓存（i18n + site config），租户隔离
+     */
+    String SITE_CONFIG_DETAILS = "site_config_details";
 
 }

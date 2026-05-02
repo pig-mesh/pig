@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -109,6 +109,16 @@ public interface CommonConstants {
      * 点击文字验证码类型
      */
     String IMAGE_CODE_CLICK_WORD = "clickWord";
+
+    /**
+     * 数学（算术）图形验证码类型
+     */
+    String IMAGE_CODE_MATH = "math";
+
+    /**
+     * math 验证码凭据分隔符，约定格式 {@code randomStr---code}
+     */
+    String CAPTCHA_VERIFICATION_SEPARATOR = "---";
 
     /**
      * 验证码开关
