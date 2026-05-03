@@ -13,16 +13,17 @@
     </div>
 
     <form class="form-signin" action="<#if request??>${request.contextPath!}</#if>/oauth2/form" method="post">
-        <input type="hidden" name="client_id" value="pig">
+        <input type="hidden" name="client_id" value="<#if authClientId??>${authClientId?html}<#else>pig</#if>">
         <input type="hidden" name="grant_type" value="password">
         <div class="space-y-6">
 
             <div class="mb-4 relative">
                 <#if tenantList??>
                     <select class="w-full text-sm px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:border-purple-400 dark:focus:border-purple-500 dark:text-gray-300 transition-colors"
+                            id="tenant-id"
                             name="TENANT-ID">
                         <#list tenantList as tenant>
-                            <option value="${tenant.id?c}">${tenant.name?html}</option>
+                            <option value="${tenant.id?c}" <#if selectedTenantId?? && selectedTenantId == tenant.id>selected</#if>>${tenant.name?html}</option>
                         </#list>
                     </select>
                 </#if>
@@ -36,6 +37,23 @@
             <div class="relative">
                 <input placeholder="密码" type="password" name="password" required
                        class="w-full text-sm px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:border-purple-400 dark:focus:border-purple-500 dark:text-gray-300 transition-colors">
+            </div>
+
+            <div id="captcha-container" class="space-y-3 <#if !(showCaptcha?? && showCaptcha)>hidden</#if>">
+                <input id="random-str" type="hidden" name="randomStr">
+                <div class="flex items-start gap-3">
+                    <input id="captcha-code" type="text" name="code" maxlength="6" inputmode="numeric" pattern="[0-9]{1,6}" autocomplete="off" placeholder="图形验证码"
+                           class="flex-1 h-[50px] text-sm px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg focus:outline-none focus:border-purple-400 dark:focus:border-purple-500 dark:text-gray-300 transition-colors"
+                           <#if showCaptcha?? && showCaptcha>required</#if>>
+                    <div class="w-28 shrink-0 flex flex-col items-end gap-2">
+                        <img id="captcha-image" alt="图形验证码"
+                             class="w-28 h-[50px] rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 object-cover cursor-pointer">
+                        <button id="refresh-captcha" type="button"
+                                class="text-xs text-right text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors">
+                            看不清，再换一张
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <#if error??>
@@ -52,6 +70,81 @@
             </div>
         </div>
     </form>
+
+    <script>
+        (() => {
+            const contextPath = "<#if request??>${(request.contextPath!)?js_string}</#if>";
+            const tenantCaptchaEnabledMap = JSON.parse('<#if tenantCaptchaEnabledJson??>${tenantCaptchaEnabledJson?js_string}<#else>{}</#if>');
+            const tenantSelect = document.getElementById('tenant-id');
+            const captchaContainer = document.getElementById('captcha-container');
+            const captchaImage = document.getElementById('captcha-image');
+            const codeInput = document.getElementById('captcha-code');
+            const randomStrInput = document.getElementById('random-str');
+            const refreshButton = document.getElementById('refresh-captcha');
+            const defaultTenantId = "<#if selectedTenantId??>${selectedTenantId?c?js_string}</#if>";
+
+            if (!captchaContainer || !captchaImage || !codeInput || !randomStrInput) {
+                return;
+            }
+
+            function currentTenantId() {
+                return tenantSelect ? tenantSelect.value : defaultTenantId;
+            }
+
+            function captchaEnabled() {
+                return Boolean(tenantCaptchaEnabledMap[currentTenantId()]);
+            }
+
+            function clearCaptcha() {
+                randomStrInput.value = '';
+                codeInput.value = '';
+                captchaImage.removeAttribute('src');
+            }
+
+            function sanitizeCaptchaCode() {
+                codeInput.value = codeInput.value.replace(/\D/g, '').slice(0, 6);
+            }
+
+            function refreshCaptcha() {
+                if (!captchaEnabled()) {
+                    return;
+                }
+
+                const randomStr = String(Date.now()) + Math.floor(Math.random() * 1000);
+                randomStrInput.value = randomStr;
+                captchaImage.src = contextPath + "/code/image?randomStr=" + encodeURIComponent(randomStr) + "&_="
+                    + Date.now();
+            }
+
+            function syncCaptcha() {
+                const enabled = captchaEnabled();
+                captchaContainer.classList.toggle('hidden', !enabled);
+                codeInput.required = enabled;
+
+                if (enabled) {
+                    if (!randomStrInput.value) {
+                        refreshCaptcha();
+                    }
+                    return;
+                }
+
+                clearCaptcha();
+            }
+
+            if (tenantSelect) {
+                tenantSelect.addEventListener('change', () => {
+                    clearCaptcha();
+                    syncCaptcha();
+                });
+            }
+
+            codeInput.addEventListener('input', sanitizeCaptchaCode);
+            refreshButton.addEventListener('click', refreshCaptcha);
+            captchaImage.addEventListener('click', refreshCaptcha);
+
+            syncCaptcha();
+        })();
+    </script>
 </#assign>
 
 <#include "layout/base.ftl">

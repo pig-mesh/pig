@@ -1,15 +1,15 @@
 package com.pig4cloud.pigx.auth.support.password;
 
 import com.pig4cloud.pigx.auth.support.base.OAuth2ResourceOwnerBaseAuthenticationConverter;
+import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.security.util.OAuth2EndpointUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
-import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,14 +28,15 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	 */
 	@Override
 	public boolean support(String grantType) {
-		return AuthorizationGrantType.PASSWORD.getValue().equals(grantType);
+		return SecurityConstants.PASSWORD.equals(grantType);
 	}
 
 	@Override
 	public OAuth2ResourceOwnerPasswordAuthenticationToken buildToken(Authentication clientPrincipal,
 			Set requestedScopes, Map additionalParameters) {
-		return new OAuth2ResourceOwnerPasswordAuthenticationToken(AuthorizationGrantType.PASSWORD, clientPrincipal,
-				requestedScopes, additionalParameters);
+		return new OAuth2ResourceOwnerPasswordAuthenticationToken(
+				new AuthorizationGrantType(SecurityConstants.PASSWORD), clientPrincipal, requestedScopes,
+				additionalParameters);
 	}
 
 	/**
@@ -46,16 +47,16 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	public void checkParams(HttpServletRequest request) {
 		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
 		// username (REQUIRED)
-		String username = parameters.getFirst(OAuth2ParameterNames.USERNAME);
-		if (!StringUtils.hasText(username) || parameters.get(OAuth2ParameterNames.USERNAME).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.USERNAME,
+        String username = parameters.getFirst(SecurityConstants.DETAILS_USERNAME);
+        if (!StringUtils.hasText(username) || parameters.get(SecurityConstants.DETAILS_USERNAME).size() != 1) {
+            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.DETAILS_USERNAME,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
 		// password (REQUIRED)
-		String password = parameters.getFirst(OAuth2ParameterNames.PASSWORD);
-		if (!StringUtils.hasText(password) || parameters.get(OAuth2ParameterNames.PASSWORD).size() != 1) {
-			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, OAuth2ParameterNames.PASSWORD,
+        String password = parameters.getFirst(SecurityConstants.PASSWORD);
+        if (!StringUtils.hasText(password) || parameters.get(SecurityConstants.PASSWORD).size() != 1) {
+            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.PASSWORD,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 	}

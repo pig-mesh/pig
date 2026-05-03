@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.auth.endpoint;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysOauthClientDetails;
@@ -26,6 +27,7 @@ import com.pig4cloud.pigx.admin.api.entity.SysTenant;
 import com.pig4cloud.pigx.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pigx.admin.api.feign.RemoteTenantService;
 import com.pig4cloud.pigx.admin.api.vo.TokenVO;
+import com.pig4cloud.pigx.auth.support.core.AuthCaptchaSupport;
 import com.pig4cloud.pigx.auth.support.core.AuthErrorCodes;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
@@ -61,6 +63,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -76,6 +79,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PigxTokenEndpoint {
 
+    private static final String DEFAULT_FORM_CLIENT_ID = "pig";
+
     private final OAuth2AuthorizationService authorizationService;
 
     private final RemoteClientDetailsService clientDetailsService;
@@ -83,6 +88,8 @@ public class PigxTokenEndpoint {
     private final RemoteTenantService tenantService;
 
     private final CacheManager cacheManager;
+
+    private final AuthCaptchaSupport authCaptchaSupport;
 
     /**
      * 认证页面
@@ -92,13 +99,24 @@ public class PigxTokenEndpoint {
      * @return ModelAndView
      */
     @GetMapping("/token/login")
-    public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error) {
+    public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error,
+                                HttpServletRequest request, HttpServletResponse response) {
         modelAndView.setViewName("ftl/login");
         // Note: XSS prevention is handled by FreeMarker template using ?html directive
         modelAndView.addObject("error", error);
 
-        R<List<SysTenant>> tenantList = tenantService.list();
-        modelAndView.addObject("tenantList", tenantList.getData());
+        List<SysTenant> tenantList = Objects.requireNonNullElse(tenantService.list().getData(), List.of());
+        String authClientId = StrUtil.blankToDefault(
+                authCaptchaSupport.resolveAuthorizationClientId(request, response, true), DEFAULT_FORM_CLIENT_ID);
+        Long selectedTenantId = resolveSelectedTenantId(request, response, tenantList);
+        Map<String, Boolean> tenantCaptchaEnabledMap = buildTenantCaptchaEnabledMap(tenantList, authClientId);
+
+        modelAndView.addObject("tenantList", tenantList);
+        modelAndView.addObject("authClientId", authClientId);
+        modelAndView.addObject("selectedTenantId", selectedTenantId);
+        modelAndView.addObject("showCaptcha",
+                Boolean.TRUE.equals(tenantCaptchaEnabledMap.get(String.valueOf(selectedTenantId))));
+        modelAndView.addObject("tenantCaptchaEnabledJson", JSONUtil.toJsonStr(tenantCaptchaEnabledMap));
         return modelAndView;
     }
 
@@ -256,7 +274,33 @@ public class PigxTokenEndpoint {
     @GetMapping("/token/query-token")
     public R queryToken(String token) {
         OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-		return R.ok(authorization);
-	}
+        return R.ok(authorization);
+    }
+
+    private Long resolveSelectedTenantId(HttpServletRequest request, HttpServletResponse response, List<SysTenant> tenantList) {
+        String tenantId = authCaptchaSupport.resolveAuthorizationTenantId(request, response, true);
+        if (StrUtil.isNotBlank(tenantId)) {
+            try {
+                return Long.parseLong(tenantId);
+            } catch (NumberFormatException ignored) {
+                // ignore invalid tenant id and fall back to the default selection below
+            }
+        }
+
+        if (!tenantList.isEmpty()) {
+            return tenantList.get(0).getId();
+        }
+
+        return CommonConstants.TENANT_ID_1;
+    }
+
+    private Map<String, Boolean> buildTenantCaptchaEnabledMap(List<SysTenant> tenantList, String authClientId) {
+        Map<String, Boolean> result = new LinkedHashMap<>(tenantList.size());
+        for (SysTenant tenant : tenantList) {
+            String tenantId = String.valueOf(tenant.getId());
+            result.put(tenantId, authCaptchaSupport.isCaptchaEnabled(tenantId, authClientId));
+        }
+        return result;
+    }
 
 }

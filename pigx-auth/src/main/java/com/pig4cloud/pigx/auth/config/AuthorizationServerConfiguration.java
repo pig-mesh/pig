@@ -21,6 +21,7 @@ import com.pig4cloud.pigx.auth.support.core.CustomeOAuth2TokenCustomizer;
 import com.pig4cloud.pigx.auth.support.core.FormIdentityLoginConfigurer;
 import com.pig4cloud.pigx.auth.support.core.PigxDaoAuthenticationProvider;
 import com.pig4cloud.pigx.auth.support.core.PigxOAuth2RefreshTokenAuthenticationConverter;
+import com.pig4cloud.pigx.auth.support.filter.FormLoginValidateCodeFilter;
 import com.pig4cloud.pigx.auth.support.filter.PasswordDecoderFilter;
 import com.pig4cloud.pigx.auth.support.filter.ValidateCodeFilter;
 import com.pig4cloud.pigx.auth.support.handler.PigxAuthenticationFailureEventHandler;
@@ -41,14 +42,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.authorization.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.OAuth2AuthorizationService;
-import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
 import org.springframework.security.oauth2.server.authorization.token.DelegatingOAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2RefreshTokenGenerator;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeAuthenticationConverter;
-import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2AuthorizationCodeRequestAuthenticationConverter;
 import org.springframework.security.oauth2.server.authorization.web.authentication.OAuth2ClientCredentialsAuthenticationConverter;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
@@ -78,6 +78,8 @@ public class AuthorizationServerConfiguration {
 
     private final ValidateCodeFilter validateCodeFilter;
 
+    private final FormLoginValidateCodeFilter formLoginValidateCodeFilter;
+
     private final PigxBootCorsProperties corsProperties;
 
     @Bean
@@ -91,6 +93,8 @@ public class AuthorizationServerConfiguration {
 
         // 增加验证码过滤器
         http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
+        // 增加授权码登录表单验证码过滤器
+        http.addFilterBefore(formLoginValidateCodeFilter, UsernamePasswordAuthenticationFilter.class);
         // 增加密码解密过滤器
         http.addFilterBefore(passwordDecoderFilter, UsernamePasswordAuthenticationFilter.class);
 
@@ -163,15 +167,13 @@ public class AuthorizationServerConfiguration {
      *
      * @return DelegatingAuthenticationConverter
      */
-    @Bean
-    public AuthenticationConverter accessTokenRequestConverter() {
+    private AuthenticationConverter accessTokenRequestConverter() {
         return new DelegatingAuthenticationConverter(
                 Arrays.asList(new OAuth2ResourceOwnerPasswordAuthenticationConverter(),
                         new OAuth2ResourceOwnerSmsAuthenticationConverter(),
                         new PigxOAuth2RefreshTokenAuthenticationConverter(),
                         new OAuth2ClientCredentialsAuthenticationConverter(),
-                        new OAuth2AuthorizationCodeAuthenticationConverter(),
-                        new OAuth2AuthorizationCodeRequestAuthenticationConverter()));
+                        new OAuth2AuthorizationCodeAuthenticationConverter()));
     }
 
     /**

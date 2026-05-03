@@ -39,7 +39,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -50,15 +49,19 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
+ * 认证失败处理器：处理用户认证失败事件
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/08/19
  */
 @Slf4j
 @Component
 @RequiredArgsConstructor
+@SuppressWarnings("removal")
 public class PigxAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
 
-	private static final MappingJackson2HttpMessageConverter errorHttpResponseConverter = new MappingJackson2HttpMessageConverter();
+    private static final org.springframework.http.converter.json.MappingJackson2HttpMessageConverter errorHttpResponseConverter =
+            new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter();
 
 	private final ApplicationEventPublisher publisher;
 
@@ -81,13 +84,11 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		log.info("登录失败，异常：{}", exception.getLocalizedMessage());
 
 		// 密码模式记录错误信息
-		if (OAuth2ParameterNames.PASSWORD.equals(grantType)) {
-			String username = request.getParameter(OAuth2ParameterNames.USERNAME);
+        if (SecurityConstants.PASSWORD.equals(grantType)) {
+            String username = request.getParameter(SecurityConstants.DETAILS_USERNAME);
 
-			// 密码错误记录错误次数 （TOC用户不记录）
-			String header = WebUtils.getRequest().getHeader(SecurityConstants.HEADER_TOC);
-			if (exception instanceof OAuth2AuthenticationException
-					&& !SecurityConstants.HEADER_TOC_YES.equals(header)) {
+            // 密码错误记录错误次数
+            if (exception instanceof OAuth2AuthenticationException) {
 				recordLoginFailureTimes(username);
 			}
 
@@ -126,12 +127,17 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 	}
 
 	/**
-	 * 记录登录失败此处，如果操作阈值 调用接口锁定用户
-	 * @param username username
+	 * 记录登录失败次数，超过阈值时调用接口锁定用户。
+	 * <p>若系统参数 LOGIN_ERROR_TIMES {@literal <=} 0，则禁用锁定功能并清除已有失败计数 key。</p>
+	 * @param username 用户名
 	 */
 	private void recordLoginFailureTimes(String username) {
 		String key = String.format("%s%s:%s", CacheConstants.GLOBALLY, CacheConstants.LOGIN_ERROR_TIMES, username);
 		Long deltaTimes = ParamResolver.getLong("LOGIN_ERROR_TIMES", 5L);
+		if (!isLoginFailureLockEnabled(deltaTimes)) {
+			RedisUtils.delete(key);
+			return;
+		}
 
 		// 使用 RedisUtils 执行原生 Redis 命令进行递增操作
 		Long times = RedisUtils.increment(key, 1L);// 增加登录失败次数
@@ -145,6 +151,24 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 		}
 	}
 
+	/**
+	 * 判断登录失败锁定功能是否启用（参数值大于 0 表示启用）
+	 * @param deltaTimes 系统参数 LOGIN_ERROR_TIMES，0 或 null 表示禁用
+	 * @return 启用返回 true，禁用返回 false
+	 */
+	static boolean isLoginFailureLockEnabled(Long deltaTimes) {
+		return deltaTimes != null && deltaTimes > 0;
+	}
+
+	/**
+	 * 写出认证失败响应。
+	 * <p>
+	 * OAuth2 认证异常携带标准错误码和描述，需要保留错误码给前端识别；其他认证异常只返回本地化错误信息。
+	 * @param request 当前认证请求
+	 * @param response 当前认证响应
+	 * @param exception 认证失败异常
+	 * @throws IOException 响应写出失败时抛出
+	 */
 	private void sendErrorResponse(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException {
 		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
@@ -153,6 +177,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 
 		if (exception instanceof OAuth2AuthenticationException) {
 			OAuth2AuthenticationException authorizationException = (OAuth2AuthenticationException) exception;
+			// 优先使用 OAuth2 错误描述；没有描述时回退到标准错误码。
 			errorMessage = StrUtil.isBlank(authorizationException.getError().getDescription())
 					? authorizationException.getError().getErrorCode()
 					: authorizationException.getError().getDescription();
@@ -163,6 +188,7 @@ public class PigxAuthenticationFailureEventHandler implements AuthenticationFail
 
 		}
 		else {
+			// 非 OAuth2 异常没有标准错误码，直接返回 Spring Security 的本地化异常消息。
 			errorMessage = exception.getLocalizedMessage();
 			this.errorHttpResponseConverter.write(R.failed(errorMessage), MediaType.APPLICATION_JSON, httpResponse);
 		}

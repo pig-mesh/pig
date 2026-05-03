@@ -52,8 +52,10 @@ import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
 /**
+ * 认证成功事件处理器：处理用户认证成功后的相关操作
+ *
  * @author lengleng
- * @date 2022-06-02
+ * @date 2025/08/19
  */
 @Slf4j
 @Component

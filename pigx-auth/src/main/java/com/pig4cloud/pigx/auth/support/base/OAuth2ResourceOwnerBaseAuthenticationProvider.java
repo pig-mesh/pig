@@ -183,7 +183,7 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
     private OAuth2AccessTokenAuthenticationToken generatAuthenticationToken(T resouceOwnerBaseAuthentication,
                                                                             OAuth2ClientAuthenticationToken clientPrincipal, RegisteredClient registeredClient,
                                                                             Set<String> authorizedScopes, Authentication usernamePasswordAuthentication) {
-		// @formatter:off
+        // @formatter:off
 		DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
 				.registeredClient(registeredClient)
 				.principal(usernamePasswordAuthentication)
@@ -319,10 +319,10 @@ public abstract class OAuth2ResourceOwnerBaseAuthenticationProvider<T extends OA
         }
 
         if (clientPrincipal != null && clientPrincipal.isAuthenticated()) {
-			return clientPrincipal;
-		}
+            return clientPrincipal;
+        }
 
-		throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
-	}
+        throw new OAuth2AuthenticationException(OAuth2ErrorCodes.INVALID_CLIENT);
+    }
 
 }
