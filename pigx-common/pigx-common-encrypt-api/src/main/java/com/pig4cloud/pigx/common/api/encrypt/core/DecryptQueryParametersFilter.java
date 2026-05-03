@@ -23,6 +23,7 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import com.pig4cloud.pigx.common.api.encrypt.bean.CryptoInfoBean;
 import com.pig4cloud.pigx.common.api.encrypt.config.ApiEncryptProperties;
+import com.pig4cloud.pigx.common.api.encrypt.enums.EncryptType;
 import com.pig4cloud.pigx.common.api.encrypt.util.ApiCryptoUtil;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.RepeatBodyRequestWrapper;
@@ -53,6 +54,9 @@ import static com.pig4cloud.pigx.common.api.encrypt.util.ApiCryptoUtil.KEY_EXTRA
 @ConditionalOnProperty(value = ApiEncryptProperties.PREFIX + ".enable", havingValue = "true")
 public class DecryptQueryParametersFilter extends OncePerRequestFilter implements Ordered {
 
+    /**
+     * API 加解密配置，提供启用状态、跳过路径和默认加密算法。
+     */
     private final ApiEncryptProperties encryptProperties;
 
 
@@ -69,29 +73,33 @@ public class DecryptQueryParametersFilter extends OncePerRequestFilter implement
             return;
         }
 
-        Map<String, String[]> parameterMap = request.getParameterMap();
-        if (MapUtil.isEmpty(parameterMap)) {
+        if (MapUtil.isEmpty(request.getParameterMap())) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 将请求流转换为可多次读取的请求流
+        // 包装请求，使 body 与 parameterMap 都可重复读取且可写
         RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
-        // 构建前端对应解密AES 因子
-        parameterMap.forEach((k, v) -> {
-            String[] values = parameterMap.get(k);
+        // 直接在可写的 wrapper parameterMap 上替换值，避免再做一次 HashMap 拷贝
+        Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
+        EncryptType encryptType = encryptProperties.getDefaultEncryptType();
+        String key = KEY_EXTRACTORS.get(encryptType).apply(encryptProperties);
+        CryptoInfoBean cryptoInfoBean = new CryptoInfoBean(encryptType, key);
+
+        // 构建默认算法对应的解密信息，对每个参数的所有值（含多值参数）逐一解密
+        for (Map.Entry<String, String[]> entry : parameterMap.entrySet()) {
+            String[] values = entry.getValue();
             if (ArrayUtil.isEmpty(values)) {
-                return;
+                continue;
             }
 
-            String key = KEY_EXTRACTORS.get(encryptProperties.getDefaultEncryptType()).apply(encryptProperties);
-            CryptoInfoBean cryptoInfoBean = new CryptoInfoBean(encryptProperties.getDefaultEncryptType(), key);
-            // 解密并覆盖原有值
-            String decryptData = ApiCryptoUtil.decryptData(URLUtil.decode(values[0]), cryptoInfoBean);
-            parameterMap.put(k, new String[]{decryptData});
-        });
+            String[] decryptedValues = new String[values.length];
+            for (int i = 0; i < values.length; i++) {
+                decryptedValues[i] = ApiCryptoUtil.decryptData(URLUtil.decode(values[i]), cryptoInfoBean);
+            }
+            entry.setValue(decryptedValues);
+        }
 
-        requestWrapper.setParameterMap(parameterMap);
         filterChain.doFilter(requestWrapper, response);
     }
 
