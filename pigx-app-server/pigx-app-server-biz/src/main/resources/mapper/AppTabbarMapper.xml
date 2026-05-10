@@ -9,6 +9,8 @@
         <result property="selected" column="selected"/>
         <result property="unselected" column="unselected"/>
         <result property="link" column="link"/>
+      <result property="sortOrder" column="sort_order"/>
+      <result property="loginFlag" column="login_flag"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
         <result property="updateBy" column="update_by"/>

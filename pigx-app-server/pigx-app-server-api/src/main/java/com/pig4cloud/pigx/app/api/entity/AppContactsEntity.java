@@ -10,17 +10,18 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 /**
- * 文章收藏表
+ * 通讯录表
  *
- * @author pig
- * @date 2023-06-16 14:33:41
+ * @author pigx
+ * @date 2025-05-29 17:30:30
  */
 @Data
 @TenantTable
-@TableName("app_article_collect")
+@TableName("app_contacts")
 @EqualsAndHashCode(callSuper = true)
-@Schema(description = "文章收藏表")
-public class AppArticleCollectEntity extends Model<AppArticleCollectEntity> {
+@Schema(description = "通讯录表")
+public class AppContactsEntity extends Model<AppContactsEntity> {
+
 
     /**
      * 主键
@@ -30,22 +31,22 @@ public class AppArticleCollectEntity extends Model<AppArticleCollectEntity> {
     private Long id;
 
     /**
-     * 用户ID
+     * 联系人
      */
-    @Schema(description = "用户ID")
-    private Long userId;
+    @Schema(description = "联系人")
+    private String contactName;
 
     /**
-     * 文章ID
+     * 手机号
      */
-    @Schema(description = "文章ID")
-    private Long articleId;
+    @Schema(description = "手机号")
+    private String contactPhone;
 
     /**
-     * 文章标题
+     * 备注
      */
-    @TableField(exist = false)
-    private String title;
+    @Schema(description = "备注")
+    private String remark;
 
     /**
      * 创建人
@@ -62,37 +63,30 @@ public class AppArticleCollectEntity extends Model<AppArticleCollectEntity> {
     private LocalDateTime createTime;
 
     /**
-     * 更新人
+     * 修改人
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @Schema(description = "更新人")
+    @Schema(description = "修改人")
     private String updateBy;
 
     /**
-     * 更新时间
+     * 修改时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    @Schema(description = "更新时间")
+    @Schema(description = "修改时间")
     private LocalDateTime updateTime;
 
     /**
-     * 是否删除
+     * 删除标记
      */
     @TableLogic
     @TableField(fill = FieldFill.INSERT)
-    @Schema(description = "是否删除")
+    @Schema(description = "删除标记")
     private String delFlag;
 
     /**
-     * 图片
+     * 租户ID
      */
-    @TableField(exist = false)
-    private String image;
-
-    /**
-     * 访问次数
-     */
-    @TableField(exist = false)
-    private Long visit;
-
+    @Schema(description = "租户ID")
+    private Long tenantId;
 }

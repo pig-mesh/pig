@@ -36,10 +36,13 @@ public class AppArticleController {
 	private final AppArticleService appArticleService;
 
 	/**
-	 * 分页查询
+     * 分页查询文章资讯。
+     * <p>
+     * 返回文章列表时会关联分类名称，供 App 资讯列表和后台管理复用。
+     *
 	 * @param page 分页对象
 	 * @param appArticle 文章资讯
-	 * @return
+     * @return 文章分页结果
 	 */
 	@Operation(summary = "分页查询", description = "分页查询")
 	@Inner(value = false)
@@ -49,9 +52,13 @@ public class AppArticleController {
 	}
 
 	/**
-	 * 通过id查询文章资讯
-	 * @param id id
-	 * @return R
+     * 查询文章详情。
+     * <p>
+     * 会递增访问次数；如果传入 userId，则额外返回该用户是否收藏当前文章。
+     *
+     * @param id 文章 ID
+     * @param userId 用户 ID，可为空
+     * @return 文章详情
 	 */
 	@Inner(value = false)
 	@Operation(summary = "通过id查询", description = "通过id查询")

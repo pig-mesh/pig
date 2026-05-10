@@ -12,7 +12,10 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
 
 /**
- * 导航栏
+ * App 底部导航实体。
+ * <p>
+ * 该表是移动端底部 Tabbar 的唯一数据源。图标字段保存 Wot UI 图标名，
+ * 运行时可见性由 {@link #loginFlag} 和 {@code app_role_tabbar} 共同决定。
  *
  * @author lengleng
  * @date 2023-06-08 11:18:46
@@ -38,19 +41,25 @@ public class AppTabbarEntity extends Model<AppTabbarEntity> {
 	private String name;
 
 	/**
-	 * 未选图标
+     * 选中态图标名。
+     * <p>
+     * 保存 Wot UI 内置图标名称，例如 {@code home-fill}。
 	 */
-	@Schema(description = "未选图标")
+    @Schema(description = "选中态图标名")
 	private String selected;
 
 	/**
-	 * 已选图标
+     * 未选中态图标名。
+     * <p>
+     * 保存 Wot UI 内置图标名称，例如 {@code home}。
 	 */
-	@Schema(description = "已选图标")
+    @Schema(description = "未选中态图标名")
 	private String unselected;
 
 	/**
-	 * 链接地址
+     * 跳转链接 JSON。
+     * <p>
+     * 前端按装修链接结构解析，例如 {@code {"path":"/pages/index/index","type":"shop"}}。
 	 */
 	@Schema(description = "链接地址")
 	@JsonRawValue
@@ -62,6 +71,12 @@ public class AppTabbarEntity extends Model<AppTabbarEntity> {
 	 */
 	@Schema(description = "排序值")
 	private Integer sortOrder;
+
+    /**
+     * 是否需要登录，0=不需要登录也可见，1=登录后按角色授权可见。
+     */
+    @Schema(description = "是否需要登录，0=不需要登录也可见，1=登录后按角色授权可见")
+    private String loginFlag;
 
 	/**
 	 * 创建人

@@ -33,6 +33,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 /**
+ * App 手机验证码服务实现。
+ * <p>
+ * 验证码按 {@code 验证码缓存前缀 + 登录类型 + 手机号} 写入 Redis，
+ * 过期时间使用统一安全常量配置。
+ *
  * @author lengleng
  * @date 2018/11/14
  * <p>
@@ -44,10 +49,13 @@ import org.springframework.stereotype.Service;
 public class AppMobileServiceImpl implements AppMobileService {
 
     /**
-     * 发送手机验证码 TODO: 调用短信网关发送验证码,测试返回前端
+     * 发送手机验证码。
+     * <p>
+     * 如果验证码仍在有效期内，则拒绝重复发送。当前实现只生成并缓存验证码，
+     * 后续接入短信网关时应在生成验证码后调用真实发送能力。
      *
-     * @param mobile mobile
-     * @return code
+     * @param mobile 手机号
+     * @return true=生成成功，false=验证码未过期
      */
     @Override
     public R<Boolean> sendSmsCode(String mobile) {
