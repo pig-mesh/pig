@@ -60,13 +60,16 @@ public abstract class AbstractPayOrderHandler implements PayOrderHandler {
 		PayChannel payChannel = preparePayParams();
 		ChannelPayApiConfigKit.put(payChannel);
 
-		createGoodsOrder(payGoodsOrder);
-		PayTradeOrder tradeOrder = createTradeOrder(payGoodsOrder);
-		Object result = pay(payGoodsOrder, tradeOrder);
-		updateOrder(payGoodsOrder, tradeOrder);
-		// 情况ttl
-		ChannelPayApiConfigKit.remove();
-		return result;
+        try {
+            createGoodsOrder(payGoodsOrder);
+            PayTradeOrder tradeOrder = createTradeOrder(payGoodsOrder);
+            Object result = pay(payGoodsOrder, tradeOrder);
+            updateOrder(payGoodsOrder, tradeOrder);
+            return result;
+        } finally {
+            // 清理 ThreadLocal
+            ChannelPayApiConfigKit.remove();
+        }
 	}
 
 }

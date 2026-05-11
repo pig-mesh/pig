@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.pay.controller;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,9 +33,14 @@ import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
+import com.pig4cloud.pigx.pay.entity.PayChannel;
 import com.pig4cloud.pigx.pay.entity.PayNotifyRecord;
 import com.pig4cloud.pigx.pay.handler.PayNotifyCallbakHandler;
+import com.pig4cloud.pigx.pay.service.PayChannelService;
 import com.pig4cloud.pigx.pay.service.PayNotifyRecordService;
+import com.pig4cloud.pigx.pay.utils.PayChannelNameEnum;
+import com.pig4cloud.pigx.pay.utils.WeChatPayV3Config;
+import com.pig4cloud.pigx.pay.utils.WeChatPayV3NotifyParser;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,7 +50,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.server.header.ContentTypeOptionsServerHttpHeadersWriter;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +74,8 @@ import java.util.Map;
 public class PayNotifyRecordController {
 
     private final PayNotifyRecordService payNotifyRecordService;
+
+    private final PayChannelService payChannelService;
 
     private final PayNotifyCallbakHandler alipayCallback;
 
@@ -179,11 +189,25 @@ public class PayNotifyRecordController {
     @XssCleanIgnore
     @PostMapping("/wx/callbak")
     @Operation(summary = "微信渠道支付回调", description = "微信渠道支付回调")
-    public String wxCallbak(HttpServletRequest request) {
-        String xmlMsg = HttpKit.readData(request);
-        log.info("微信订单回调信息:{}", xmlMsg);
-        Map<String, String> params = WxPayKit.xmlToMap(xmlMsg);
-        return weChatCallback.handle(params);
+    public ResponseEntity<String> wxCallbak(HttpServletRequest request) {
+        String body = HttpKit.readData(request);
+        log.info("微信 APIV3 订单回调信息:{}", body);
+        try {
+            PayChannel channel = payChannelService.getOne(Wrappers.<PayChannel>lambdaQuery()
+                    .eq(PayChannel::getChannelId, PayChannelNameEnum.WEIXIN_MP.name()), false);
+            WeChatPayV3Config config = WeChatPayV3Config.from(channel);
+            String decryptData = WxPayKit.verifyNotify(request.getHeader("Wechatpay-Serial"), body,
+                    request.getHeader("Wechatpay-Nonce"), request.getHeader("Wechatpay-Timestamp"),
+                    request.getHeader("Wechatpay-Signature"), config.getApiV3Key(), config.platformCertInputStream());
+            Map<String, String> params = WeChatPayV3NotifyParser.parse(decryptData);
+            weChatCallback.handle(params);
+            return ResponseEntity.noContent().build();
+        } catch (Exception ex) {
+            log.warn("微信 APIV3 订单回调处理失败", ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(JSONUtil.createObj().set("code", "FAIL").set("message", ex.getMessage()).toString());
+        }
     }
 
     /**
