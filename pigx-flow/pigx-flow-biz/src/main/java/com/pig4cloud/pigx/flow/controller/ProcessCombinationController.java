@@ -6,6 +6,7 @@ import com.pig4cloud.pigx.flow.service.ICombinationGroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -37,7 +38,7 @@ public class ProcessCombinationController {
 	 * @return R 统一响应对象，包含分页后的流程组及流程列表数据
 	 */
 	@GetMapping("listGroupWithProcess")
-	public R listGroupWithProcess(Page page, Long groupId) {
+	public R listGroupWithProcess(Page page, @RequestParam(required = false) Long groupId) {
 		return combinationGroupService.listGroupWithProcess(page, groupId);
 	}
 

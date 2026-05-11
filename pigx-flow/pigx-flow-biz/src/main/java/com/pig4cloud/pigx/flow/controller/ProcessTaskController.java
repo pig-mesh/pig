@@ -144,6 +144,17 @@ public class ProcessTaskController {
 
 	}
 
+    /**
+     * 撤回流程实例
+     *
+     * @param taskParamDto 撤回参数，包含流程实例ID
+     * @return R 统一响应对象，操作成功返回撤回信息
+     */
+    @PostMapping("withdrawProcessInstance")
+    public R withdrawProcessInstance(@RequestBody TaskParamDto taskParamDto) {
+        return taskService.withdrawProcessInstance(taskParamDto);
+    }
+
 	/**
 	 * 退回任务
 	 * <p>

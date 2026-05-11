@@ -44,4 +44,14 @@ public class ProcessInstanceRecordVo extends ProcessInstanceRecord {
      */
     private Boolean hasPrintTemplate;
 
+    /**
+     * 是否允许撤回
+     */
+    private Boolean canWithdraw;
+
+    /**
+     * 不可撤回原因
+     */
+    private String withdrawDisabledReason;
+
 }

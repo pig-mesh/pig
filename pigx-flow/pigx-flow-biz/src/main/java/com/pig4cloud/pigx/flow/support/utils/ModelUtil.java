@@ -225,8 +225,6 @@ public class ModelUtil {
                 if (nodeDto.getType() == NodeTypeEnum.EXCLUSIVE_GATEWAY.getValue().intValue()) {
                     if (ord == size) {
                         expression = NodeExpressionStrategyFactory.handleDefaultBranch(branchs, ord - 1);
-                    } else if (ord > 1) {
-                        expression = NodeExpressionStrategyFactory.handleDefaultBranch(branchs, ord - 1);
                     } else {
                         expression = NodeExpressionStrategyFactory.handle(branch);
                     }
@@ -337,7 +335,7 @@ public class ModelUtil {
         }
         // 条件分支
         if (node.getType() == NodeTypeEnum.EXCLUSIVE_GATEWAY.getValue().intValue()) {
-            flowElementList.addAll(buildInclusiveGatewayNode(node));
+            flowElementList.addAll(buildExclusiveGatewayNode(node));
         }
         // 并行分支
         if (node.getType() == NodeTypeEnum.PARALLEL_GATEWAY.getValue().intValue()) {
@@ -560,27 +558,27 @@ public class ModelUtil {
     }
 
     /**
-     * 构建包容网关
+     * 构建排他网关
      * <p>
-     * 创建包容网关（条件分支）节点和对应的合并网关。
-     * 包容网关用于根据条件创建不同的执行路径。
+     * 创建排他网关（条件分支）节点和对应的合并网关。
+     * 排他网关用于根据条件只选择一条执行路径，避免多个条件同时为真时并行进入多个分支。
      *
-     * @param node 包容网关节点数据
+     * @param node 排他网关节点数据
      * @return 包含分叉网关和合并网关的元素列表
      */
-    private static List<FlowElement> buildInclusiveGatewayNode(Node node) {
+    private static List<FlowElement> buildExclusiveGatewayNode(Node node) {
 
         node.setTailId(StrUtil.format("{}_merge_gateway", node.getId()));
 
         List<FlowElement> flowElementList = new ArrayList<>();
 
-        InclusiveGateway inclusiveGateway = new InclusiveGateway();
-        inclusiveGateway.setId(node.getId());
-        inclusiveGateway.setName(node.getName());
-        flowElementList.add(inclusiveGateway);
+        ExclusiveGateway exclusiveGateway = new ExclusiveGateway();
+        exclusiveGateway.setId(node.getId());
+        exclusiveGateway.setName(node.getName());
+        flowElementList.add(exclusiveGateway);
 
         // 合并网关
-        InclusiveGateway gateway = new InclusiveGateway();
+        ExclusiveGateway gateway = new ExclusiveGateway();
         gateway.setId(StrUtil.format("{}_merge_gateway", node.getId()));
         gateway.setName(StrUtil.format("{}_合并网关", node.getName()));
         flowElementList.add(gateway);

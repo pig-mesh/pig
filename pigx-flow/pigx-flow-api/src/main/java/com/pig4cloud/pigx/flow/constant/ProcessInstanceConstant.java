@@ -60,6 +60,36 @@ public class ProcessInstanceConstant {
 	 */
 	public static final String REJECT_TO_STARTER_VAR = "rejectToStarter";
 
+    /**
+     * 流程结束原因：拒绝
+     */
+    public static final String FINISH_REASON_REFUSE = "0";
+
+    /**
+     * 流程结束原因：通过
+     */
+    public static final String FINISH_REASON_PASS = "1";
+
+    /**
+     * 流程结束原因：撤回
+     */
+    public static final String FINISH_REASON_WITHDRAW = "3";
+
+    /**
+     * 流程结束原因：终止
+     */
+    public static final String FINISH_REASON_TERMINATE = "9";
+
+    /**
+     * 流程节点执行人状态：撤回
+     */
+    public static final int ASSIGN_USER_STATUS_WITHDRAW = 3;
+
+    /**
+     * 流程节点执行人状态：终止
+     */
+    public static final int ASSIGN_USER_STATUS_TERMINATE = 5;
+
 	/**
 	 * 多人审批模式：会签 所有审批人都必须同意才能通过，任何一人拒绝则不通过
 	 */

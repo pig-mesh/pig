@@ -18,11 +18,10 @@ import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.constant.NodeStatusEnum;
 import com.pig4cloud.pigx.flow.constant.NodeUserTypeEnum;
+import com.pig4cloud.pigx.flow.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.dto.*;
+import com.pig4cloud.pigx.flow.entity.*;
 import com.pig4cloud.pigx.flow.entity.Process;
-import com.pig4cloud.pigx.flow.entity.ProcessCopy;
-import com.pig4cloud.pigx.flow.entity.ProcessInstanceRecord;
-import com.pig4cloud.pigx.flow.entity.ProcessNodeRecord;
 import com.pig4cloud.pigx.flow.service.*;
 import com.pig4cloud.pigx.flow.support.utils.NodeFormatUtil;
 import com.pig4cloud.pigx.flow.support.utils.NodeUtil;
@@ -42,6 +41,7 @@ import org.flowable.engine.history.HistoricActivityInstanceQuery;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
 import org.flowable.task.api.TaskQuery;
+import org.flowable.variable.api.history.HistoricVariableInstance;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneId;
@@ -81,6 +81,8 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
     private final IProcessService processService;
 
     private final IProcessNodeRecordService processNodeRecordService;
+
+    private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
 
     private final ObjectMapper objectMapper;
 
@@ -374,36 +376,59 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
                 .collect(Collectors.toSet());
         List<Process> processList = CollUtil.isEmpty(flowIds) ? Collections.emptyList()
                 : processService.lambdaQuery().in(Process::getFlowId, flowIds).list();
+        Set<String> processInstanceIds = voList.stream()
+                .map(ProcessInstanceRecordVo::getProcessInstanceId)
+                .filter(StrUtil::isNotBlank)
+                .collect(Collectors.toSet());
+        Map<String, List<ProcessNodeRecordAssignUser>> assignUserMap = queryAssignUserMap(processInstanceIds);
+
+        // 批量查询进行中流程的 rejectToStarter 变量，避免 N+1
+        Set<String> runningInstanceIds = voList.stream()
+                .filter(vo -> Objects.equals(vo.getStatus(), NodeStatusEnum.JXZ.getCode()))
+                .map(ProcessInstanceRecordVo::getProcessInstanceId)
+                .filter(StrUtil::isNotBlank)
+                .collect(Collectors.toSet());
+
+        Set<String> rejectToStarterIds = batchQueryRejectToStarter(runningInstanceIds);
+
+        // 批量查询驳回待提交的 root 任务，避免 N+1
+        Map<String, String> resubmitTaskMap = Collections.emptyMap();
+        if (!rejectToStarterIds.isEmpty()) {
+            resubmitTaskMap = taskService.createTaskQuery()
+                    .processInstanceIdIn(rejectToStarterIds)
+                    .taskDefinitionKey("root")
+                    .list()
+                    .stream()
+                    .collect(Collectors.toMap(Task::getProcessInstanceId, Task::getId, (a, b) -> a));
+        }
+
+        // 构建打印模板 Map，避免循环内 stream 遍历
+        Map<String, Process> processMap = processList.stream()
+                .collect(Collectors.toMap(p -> p.getFlowId().toLowerCase(), p -> p, (a, b) -> a));
 
         for (ProcessInstanceRecordVo vo : voList) {
-            try {
-                // 从 Flowable 变量中获取 rejectToStarter 状态
-                Object rejectVar = runtimeService.getVariable(
-                        vo.getProcessInstanceId(),
-                        "rejectToStarter"
-                );
-                vo.setRejectToStarter(Boolean.TRUE.equals(rejectVar));
+            boolean rejectToStarter = false;
+            if (Objects.equals(vo.getStatus(), NodeStatusEnum.JXZ.getCode())) {
+                rejectToStarter = rejectToStarterIds.contains(vo.getProcessInstanceId());
+                vo.setRejectToStarter(rejectToStarter);
 
-                // 如果是驳回状态，获取 root 任务 ID 用于重新提交
-                if (Boolean.TRUE.equals(vo.getRejectToStarter())) {
-                    Task task = taskService.createTaskQuery()
-                            .processInstanceId(vo.getProcessInstanceId())
-                            .taskDefinitionKey("root")
-                            .singleResult();
-                    if (task != null) {
-                        vo.setResubmitTaskId(task.getId());
-                    }
+                if (rejectToStarter) {
+                    vo.setResubmitTaskId(resubmitTaskMap.get(vo.getProcessInstanceId()));
                 }
-            } catch (Exception e) {
-                // 流程可能已结束，设置为 false
+            } else {
                 vo.setRejectToStarter(false);
             }
 
-            // 检查是否配置了打印模板（不依赖运行时变量，无需放在 try-catch 内）
-            processList.stream()
-                    .filter(process -> process.getFlowId().equalsIgnoreCase(vo.getFlowId()))
-                    .findFirst()
-                    .ifPresent(process -> vo.setHasPrintTemplate(StrUtil.isNotBlank(process.getPrintTemplate())));
+            WithdrawState withdrawState = buildWithdrawState(vo, vo.getRejectToStarter(),
+                    assignUserMap.getOrDefault(vo.getProcessInstanceId(), Collections.emptyList()));
+            vo.setCanWithdraw(withdrawState.canWithdraw);
+            vo.setWithdrawDisabledReason(withdrawState.disabledReason);
+
+            // 检查是否配置了打印模板
+            Process matchedProcess = processMap.get(vo.getFlowId().toLowerCase());
+            if (matchedProcess != null) {
+                vo.setHasPrintTemplate(StrUtil.isNotBlank(matchedProcess.getPrintTemplate()));
+            }
         }
 
         // 构建返回的分页对象
@@ -549,10 +574,128 @@ public class ProcessInstanceServiceImpl implements IProcessInstanceService {
 
         Node nodeDto = objectMapper.readValue(process, Node.class);
         Map<String, String> formPerms1 = nodeDto.getFormPerms();
+        boolean rejectToStarter = Objects.equals(processInstanceRecord.getStatus(), NodeStatusEnum.JXZ.getCode())
+                && isRejectToStarter(processInstanceId);
+        WithdrawState withdrawState = buildWithdrawState(processInstanceRecord, rejectToStarter,
+                queryAssignUserMap(Collections.singleton(processInstanceId))
+                        .getOrDefault(processInstanceId, Collections.emptyList()));
 
-        Dict set = Dict.create().set(ProcessInstanceRecord.Fields.processInstanceId, processInstanceId).set(ProcessInstanceRecord.Fields.status, processInstanceRecord.getStatus()).set("process", oaForms.getProcess()).set("formItems", oaForms.getFormItems()).set("formData", formData).set("formConfig", oaForms.getFormConfig()).set("formPerms", formPerms1);
+        Dict set = Dict.create()
+                .set(ProcessInstanceRecord.Fields.processInstanceId, processInstanceId)
+                .set(ProcessInstanceRecord.Fields.status, processInstanceRecord.getStatus())
+                .set("finishReason", processInstanceRecord.getFinishReason())
+                .set("rejectToStarter", rejectToStarter)
+                .set("canWithdraw", withdrawState.canWithdraw)
+                .set("withdrawDisabledReason", withdrawState.disabledReason)
+                .set("process", oaForms.getProcess())
+                .set("formItems", oaForms.getFormItems())
+                .set("formData", formData)
+                .set("formConfig", oaForms.getFormConfig())
+                .set("formPerms", formPerms1);
 
         return R.ok(set);
+    }
+
+    private Map<String, List<ProcessNodeRecordAssignUser>> queryAssignUserMap(Set<String> processInstanceIds) {
+        if (CollUtil.isEmpty(processInstanceIds)) {
+            return Collections.emptyMap();
+        }
+
+        return processNodeRecordAssignUserService.lambdaQuery()
+                .in(ProcessNodeRecordAssignUser::getProcessInstanceId, processInstanceIds)
+                .ne(ProcessNodeRecordAssignUser::getNodeId, "root")
+                .list()
+                .stream()
+                .collect(Collectors.groupingBy(ProcessNodeRecordAssignUser::getProcessInstanceId));
+    }
+
+    private boolean isRejectToStarter(String processInstanceId) {
+        try {
+            Object rejectVar = runtimeService.getVariable(processInstanceId,
+                    ProcessInstanceConstant.REJECT_TO_STARTER_VAR);
+            return Boolean.TRUE.equals(rejectVar);
+        } catch (Exception e) {
+            log.debug("查询驳回待提交状态失败: processInstanceId={}, error={}", processInstanceId, e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 批量查询流程实例的驳回到发起人状态
+     *
+     * @param processInstanceIds 流程实例ID集合
+     * @return 处于驳回待提交状态的流程实例ID集合
+     */
+    private Set<String> batchQueryRejectToStarter(Set<String> processInstanceIds) {
+        if (CollUtil.isEmpty(processInstanceIds)) {
+            return Collections.emptySet();
+        }
+        try {
+            return historyService.createHistoricVariableInstanceQuery()
+                    .processInstanceIds(processInstanceIds)
+                    .variableName(ProcessInstanceConstant.REJECT_TO_STARTER_VAR)
+                    .list()
+                    .stream()
+                    .filter(v -> Boolean.TRUE.equals(v.getValue()))
+                    .map(HistoricVariableInstance::getProcessInstanceId)
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            log.warn("批量查询驳回状态失败，降级为逐条查询: {}", e.getMessage());
+            return processInstanceIds.stream()
+                    .filter(this::isRejectToStarter)
+                    .collect(Collectors.toSet());
+        }
+    }
+
+    private WithdrawState buildWithdrawState(ProcessInstanceRecord processInstanceRecord, Boolean rejectToStarter,
+                                             List<ProcessNodeRecordAssignUser> assignUsers) {
+        if (!Objects.equals(processInstanceRecord.getStatus(), NodeStatusEnum.JXZ.getCode())) {
+            return new WithdrawState(false, getFinishedProcessReason(processInstanceRecord.getFinishReason()));
+        }
+
+        if (Boolean.TRUE.equals(rejectToStarter)) {
+            return new WithdrawState(false, "驳回待提交状态不可撤回");
+        }
+
+        boolean hasProcessedApproval = assignUsers.stream().anyMatch(this::isProcessedAssignUser);
+        if (hasProcessedApproval) {
+            return new WithdrawState(false, "首个审批节点已处理，无法撤回");
+        }
+
+        return new WithdrawState(true, null);
+    }
+
+    private boolean isProcessedAssignUser(ProcessNodeRecordAssignUser assignUser) {
+        return assignUser.getEndTime() != null
+                || !Objects.equals(assignUser.getStatus(), NodeStatusEnum.JXZ.getCode());
+    }
+
+    private String getFinishedProcessReason(String finishReason) {
+        if (StrUtil.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_WITHDRAW)) {
+            return "流程已撤回";
+        }
+        if (StrUtil.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_TERMINATE)) {
+            return "流程已终止";
+        }
+        if (StrUtil.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_PASS)) {
+            return "流程已通过";
+        }
+        if (StrUtil.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_REFUSE)) {
+            return "流程已拒绝";
+        }
+        return "流程已结束";
+    }
+
+    private static final class WithdrawState {
+
+        private final boolean canWithdraw;
+
+        private final String disabledReason;
+
+        private WithdrawState(boolean canWithdraw, String disabledReason) {
+            this.canWithdraw = canWithdraw;
+            this.disabledReason = disabledReason;
+        }
     }
 
 }

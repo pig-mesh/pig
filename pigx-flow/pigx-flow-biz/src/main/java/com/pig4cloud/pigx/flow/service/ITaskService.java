@@ -88,6 +88,14 @@ public interface ITaskService {
 	R stopProcessInstance(TaskParamDto taskParamDto);
 
 	/**
+	 * 撤回流程实例
+	 *
+	 * @param taskParamDto 任务参数，包含流程实例ID
+	 * @return 操作结果
+	 */
+	R withdrawProcessInstance(TaskParamDto taskParamDto);
+
+	/**
 	 * 退回任务
 	 * <p>
 	 * 将当前任务退回到上一个节点或指定节点。通常用于： - 发现上一步审批有误 - 需要补充资料 - 业务流程需要回退重新处理

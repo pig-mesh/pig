@@ -10,14 +10,13 @@ import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import com.pig4cloud.pigx.flow.constant.NodeStatusEnum;
+import com.pig4cloud.pigx.flow.constant.ProcessInstanceConstant;
 import com.pig4cloud.pigx.flow.dto.IndexPageStatistics;
 import com.pig4cloud.pigx.flow.dto.Node;
 import com.pig4cloud.pigx.flow.dto.TaskParamDto;
 import com.pig4cloud.pigx.flow.dto.TaskResultDto;
+import com.pig4cloud.pigx.flow.entity.*;
 import com.pig4cloud.pigx.flow.entity.Process;
-import com.pig4cloud.pigx.flow.entity.ProcessCopy;
-import com.pig4cloud.pigx.flow.entity.ProcessInstanceRecord;
-import com.pig4cloud.pigx.flow.entity.ProcessNodeRecordAssignUser;
 import com.pig4cloud.pigx.flow.service.*;
 import com.pig4cloud.pigx.flow.support.utils.NodeUtil;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +65,8 @@ public class TaskServiceImpl implements ITaskService {
     private final IProcessNodeRecordAssignUserService processNodeRecordAssignUserService;
 
     private final IProcessInstanceRecordService processInstanceRecordService;
+
+    private final IProcessNodeRecordService processNodeRecordService;
 
     private final IFlowableEngineService flowableEngineService;
 
@@ -279,6 +280,8 @@ public class TaskServiceImpl implements ITaskService {
         }
 
         Dict set = Dict.create()
+                .set("taskId", taskId)
+                .set("nodeId", taskResultDto.getNodeId())
                 .set("processInstanceId", taskResultDto.getProcessInstanceId())
                 .set("node", node)
                 .set("process", oaForms.getProcess())
@@ -476,39 +479,60 @@ public class TaskServiceImpl implements ITaskService {
      */
     @Override
     public R stopProcessInstance(TaskParamDto taskParamDto) {
-        String reqProcessInstanceId = taskParamDto.getProcessInstanceId();
-        List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(reqProcessInstanceId);
-        CollUtil.reverse(allStopProcessInstanceIdList);
-        allStopProcessInstanceIdList.add(reqProcessInstanceId);
-        allStopProcessInstanceIdList.forEach(processInstanceId -> {
-            // 查询流程实例
-            ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
-                    .processInstanceId(processInstanceId)
-                    .processInstanceTenantId(TenantContextHolder.getTenantId().toString())
-                    .singleResult();
-            if (Optional.ofNullable(processInstance).isPresent()) {
-                // 查询执行实例
-                List<String> executionIds = runtimeService.createExecutionQuery()
-                        .parentId(processInstanceId)
-                        .list()
-                        .stream()
-                        .map(Execution::getId)
-                        .toList();
-                // 更改活动状态为结束
-                runtimeService.createChangeActivityStateBuilder()
-                        .moveExecutionsToSingleActivityId(executionIds, "end")
-                        .changeState();
-            }
-        });
+        return terminateProcessInstance(taskParamDto.getProcessInstanceId(),
+                ProcessInstanceConstant.FINISH_REASON_TERMINATE);
+    }
 
-        // 停止流程实例后，更新流程实例记录状态
-        processInstanceRecordService.lambdaUpdate()
-                .set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
-                .set(ProcessInstanceRecord::getFinishReason, String.valueOf(NodeStatusEnum.YZZ.getCode()))
-                .set(ProcessInstanceRecord::getEndTime, new Date())
-                .eq(ProcessInstanceRecord::getProcessInstanceId, reqProcessInstanceId)
-                .update(new ProcessInstanceRecord());
-        return R.ok();
+    /**
+     * 撤回流程
+     *
+     * @param taskParamDto 任务参数，包含流程实例ID
+     * @return R 操作结果
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public R withdrawProcessInstance(TaskParamDto taskParamDto) {
+        String processInstanceId = taskParamDto.getProcessInstanceId();
+        if (StrUtil.isBlank(processInstanceId)) {
+            return R.failed("流程实例ID不能为空");
+        }
+
+        long userId = SecurityUtils.getUser().getId();
+        ProcessInstanceRecord processInstanceRecord = processInstanceRecordService.lambdaQuery()
+                .eq(ProcessInstanceRecord::getProcessInstanceId, processInstanceId)
+                .one();
+        if (processInstanceRecord == null
+                || !Objects.equals(processInstanceRecord.getStatus(), NodeStatusEnum.JXZ.getCode())) {
+            return R.failed("流程不存在或已结束");
+        }
+
+        if (!Objects.equals(processInstanceRecord.getUserId(), userId)) {
+            return R.failed("仅发起人可撤回流程");
+        }
+
+        try {
+            Object rejectToStarter = runtimeService.getVariable(processInstanceId,
+                    ProcessInstanceConstant.REJECT_TO_STARTER_VAR);
+            if (Boolean.TRUE.equals(rejectToStarter)) {
+                return R.failed("驳回待提交状态不可撤回");
+            }
+        } catch (Exception e) {
+            log.warn("查询撤回状态变量失败: processInstanceId={}, error={}", processInstanceId, e.getMessage());
+        }
+
+        boolean hasProcessedApproval = processNodeRecordAssignUserService.lambdaQuery()
+                .eq(ProcessNodeRecordAssignUser::getProcessInstanceId, processInstanceId)
+                .ne(ProcessNodeRecordAssignUser::getNodeId, "root")
+                .and(wrapper -> wrapper
+                        .isNotNull(ProcessNodeRecordAssignUser::getEndTime)
+                        .or()
+                        .ne(ProcessNodeRecordAssignUser::getStatus, NodeStatusEnum.JXZ.getCode()))
+                .exists();
+        if (hasProcessedApproval) {
+            return R.failed("首个审批节点已处理，无法撤回");
+        }
+
+        return terminateProcessInstance(processInstanceId, ProcessInstanceConstant.FINISH_REASON_WITHDRAW);
     }
 
     /**
@@ -624,6 +648,74 @@ public class TaskServiceImpl implements ITaskService {
 
         }
         return collect;
+    }
+
+    private R terminateProcessInstance(String reqProcessInstanceId, String finishReason) {
+        if (StrUtil.isBlank(reqProcessInstanceId)) {
+            return R.failed("流程实例ID不能为空");
+        }
+
+        List<String> allStopProcessInstanceIdList = getAllStopProcessInstanceIdList(reqProcessInstanceId);
+        CollUtil.reverse(allStopProcessInstanceIdList);
+        allStopProcessInstanceIdList.add(reqProcessInstanceId);
+
+        Date now = new Date();
+        int assignUserStatus = Objects.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_WITHDRAW)
+                ? ProcessInstanceConstant.ASSIGN_USER_STATUS_WITHDRAW
+                : ProcessInstanceConstant.ASSIGN_USER_STATUS_TERMINATE;
+
+        // 先更新本地记录，确保流程结束通知能拿到准确的 finishReason
+        processInstanceRecordService.lambdaUpdate()
+                .set(ProcessInstanceRecord::getStatus, NodeStatusEnum.YJS.getCode())
+                .set(ProcessInstanceRecord::getFinishReason, finishReason)
+                .set(ProcessInstanceRecord::getEndTime, now)
+                .in(ProcessInstanceRecord::getProcessInstanceId, allStopProcessInstanceIdList)
+                .update(new ProcessInstanceRecord());
+
+        processNodeRecordService.lambdaUpdate()
+                .set(ProcessNodeRecord::getStatus, NodeStatusEnum.YJS.getCode())
+                .set(ProcessNodeRecord::getEndTime, now)
+                .in(ProcessNodeRecord::getProcessInstanceId, allStopProcessInstanceIdList)
+                .eq(ProcessNodeRecord::getStatus, NodeStatusEnum.JXZ.getCode())
+                .update(new ProcessNodeRecord());
+
+        processNodeRecordAssignUserService.lambdaUpdate()
+                .set(ProcessNodeRecordAssignUser::getStatus, assignUserStatus)
+                .set(ProcessNodeRecordAssignUser::getEndTime, Convert.toLocalDateTime(now))
+                .set(ProcessNodeRecordAssignUser::getTaskType,
+                        Objects.equals(finishReason, ProcessInstanceConstant.FINISH_REASON_WITHDRAW)
+                                ? "WITHDRAW"
+                                : "TERMINATE")
+                .in(ProcessNodeRecordAssignUser::getProcessInstanceId, allStopProcessInstanceIdList)
+                .eq(ProcessNodeRecordAssignUser::getStatus, NodeStatusEnum.JXZ.getCode())
+                .update(new ProcessNodeRecordAssignUser());
+
+        allStopProcessInstanceIdList.forEach(processInstanceId -> {
+            ProcessInstance processInstance = runtimeService.createProcessInstanceQuery()
+                    .processInstanceId(processInstanceId)
+                    .processInstanceTenantId(TenantContextHolder.getTenantId().toString())
+                    .singleResult();
+            if (processInstance == null) {
+                return;
+            }
+
+            List<String> executionIds = runtimeService.createExecutionQuery()
+                    .parentId(processInstanceId)
+                    .list()
+                    .stream()
+                    .map(Execution::getId)
+                    .toList();
+            if (CollUtil.isEmpty(executionIds)) {
+                log.warn("流程实例缺少可迁移执行流，跳过状态迁移: processInstanceId={}", processInstanceId);
+                return;
+            }
+
+            runtimeService.createChangeActivityStateBuilder()
+                    .moveExecutionsToSingleActivityId(executionIds, "end")
+                    .changeState();
+        });
+
+        return R.ok();
     }
 
 }

@@ -48,13 +48,13 @@ public class CombinationGroupServiceImpl implements ICombinationGroupService {
 	 * 根据流程分组ID查询该分组下所有未隐藏的流程，按照排序值升序和创建时间降序排列
 	 * </p>
 	 * @param page 分页参数，用于控制查询结果的分页
-	 * @param groupId 流程分组ID
+     * @param groupId 流程分组ID，可为空；为空时返回所有分组下的未隐藏流程
 	 * @return R 包含分页后的流程列表
 	 */
 	@Override
 	public R listGroupWithProcess(Page page, Long groupId) {
 		return R.ok(processService.lambdaQuery()
-			.eq(Process::getGroupId, groupId)
+                .eq(Objects.nonNull(groupId), Process::getGroupId, groupId)
 			.eq(Process::getHidden, YesNoEnum.NO.getCode())
 			.orderByAsc(Process::getSort)
 			.orderByDesc(Process::getCreateTime)
