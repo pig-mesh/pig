@@ -53,6 +53,16 @@ public class WebSocketProperties {
     /**
      * 配置的缓冲区大小限制
      */
-    private Integer sendBufferSizeLimit = 64000;
+    private Integer sendBufferSizeLimit = 6400000;
+
+    /**
+     * 接收文本消息缓冲区大小限制
+     */
+    private Integer maxTextMessageBufferSize = 6400000;
+
+    /**
+     * 接收二进制消息缓冲区大小限制
+     */
+    private Integer maxBinaryMessageBufferSize = 6400000;
 
 }
