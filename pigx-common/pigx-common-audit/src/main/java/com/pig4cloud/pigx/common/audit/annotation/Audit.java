@@ -44,4 +44,22 @@ public @interface Audit {
 	 */
 	String newVal() default "";
 
+    /**
+     * 主键表达式（SpEL）。配置后会通过 MyBatis-Plus Mapper selectById 查询切面执行前后的实体快照，
+     * 解析结果必须实现 {@link java.io.Serializable}。
+     *
+     * @return 主键 SpEL 表达式
+     * @since 6.0
+     */
+    String id() default "";
+
+    /**
+     * 显式指定 MyBatis-Plus Mapper 类型，必须是被 Spring 管理的 BaseMapper Bean。
+     * 默认 {@code Void.class} 表示从当前 Service 的 {@code getBaseMapper()} 自动获取。
+     *
+     * @return Mapper 类型
+     * @since 6.0
+     */
+    Class<?> mapper() default Void.class;
+
 }

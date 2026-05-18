@@ -6,10 +6,12 @@ import com.pig4cloud.pigx.common.audit.handle.DefaultAuditLogHandle;
 import com.pig4cloud.pigx.common.audit.handle.IAuditLogHandle;
 import com.pig4cloud.pigx.common.audit.handle.ICompareHandle;
 import com.pig4cloud.pigx.common.audit.handle.JavesCompareHandle;
+import com.pig4cloud.pigx.common.audit.support.AuditValueResolver;
 import com.pig4cloud.pigx.common.audit.support.SpelParser;
 import com.pig4cloud.pigx.common.core.util.KeyStrResolver;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -34,8 +36,22 @@ public class AuditAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public ICompareHandle compareHandle(Optional<IAuditLogHandle> auditNameHandleOptional) {
-		return new JavesCompareHandle(auditNameHandleOptional);
+    public ICompareHandle compareHandle(Optional<IAuditLogHandle> auditNameHandleOptional,
+                                        AuditValueResolver auditValueResolver) {
+        return new JavesCompareHandle(auditNameHandleOptional, auditValueResolver);
+    }
+
+    /**
+     * 审计值解析器。
+     *
+     * @param applicationContext Spring 上下文
+     * @return AuditValueResolver
+     * @since 6.0
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public AuditValueResolver auditValueResolver(ApplicationContext applicationContext) {
+        return new AuditValueResolver(applicationContext);
 	}
 
 	/**
