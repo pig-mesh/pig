@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,10 +19,11 @@ package com.pig4cloud.pigx.common.file.local;
 
 import com.pig4cloud.pigx.common.file.core.FileProperties;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
+import com.pig4cloud.pigx.common.file.core.LocalFileTypeCondition;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 
 /**
  * aws 自动配置类
@@ -37,7 +38,7 @@ public class LocalFileAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(LocalFileTemplate.class)
-	@ConditionalOnProperty(name = "file.local.enable", havingValue = "true", matchIfMissing = true)
+    @Conditional(LocalFileTypeCondition.class)
 	public FileTemplate localFileTemplate() {
 		return new LocalFileTemplate(properties);
 	}

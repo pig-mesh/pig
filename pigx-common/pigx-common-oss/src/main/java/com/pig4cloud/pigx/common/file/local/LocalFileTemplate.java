@@ -2,16 +2,13 @@ package com.pig4cloud.pigx.common.file.local;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
-import com.pig4cloud.pigx.common.file.core.FileProperties;
-import com.pig4cloud.pigx.common.file.core.FileTemplate;
+import com.pig4cloud.pigx.common.file.core.*;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 
@@ -42,11 +39,11 @@ public class LocalFileTemplate implements FileTemplate {
 	 * API Documentation</a>
 	 */
 	@Override
-	public List<Bucket> getAllBuckets() {
+    public List<FileBucket> getAllBuckets() {
 		return Arrays.stream(FileUtil.ls(properties.getLocal().getBasePath()))
 			.filter(FileUtil::isDirectory)
-			.map(dir -> new Bucket(dir.getName()))
-                .toList();
+                .map(dir -> new FileBucket(dir.getName()))
+				.toList();
 	}
 
 	/**
@@ -104,11 +101,11 @@ public class LocalFileTemplate implements FileTemplate {
 	 */
 	@Override
 	@SneakyThrows
-	public S3Object getObject(String bucketName, String objectName) {
+    public FileObject getObject(String bucketName, String objectName) {
 		String dir = properties.getLocal().getBasePath() + FileUtil.FILE_SEPARATOR + bucketName;
-		S3Object s3Object = new S3Object();
-		s3Object.setObjectContent(FileUtil.getInputStream(dir + FileUtil.FILE_SEPARATOR + objectName));
-		return s3Object;
+        File file = FileUtil.file(dir + FileUtil.FILE_SEPARATOR + objectName);
+        return new FileObject(bucketName, objectName, Files.probeContentType(file.toPath()), file.length(),
+                FileUtil.getInputStream(file));
 	}
 
 	/**
@@ -119,7 +116,7 @@ public class LocalFileTemplate implements FileTemplate {
 	 * @return 二进制流 API Documentation</a>
 	 */
 	@Override
-	public S3Object getObject(String bucketName, String dir, String objectName) {
+    public FileObject getObject(String bucketName, String dir, String objectName) {
 		if (StrUtil.isNotBlank(dir)) {
 			bucketName = bucketName + FileUtil.FILE_SEPARATOR + dir;
 		}
@@ -154,19 +151,18 @@ public class LocalFileTemplate implements FileTemplate {
 	 * @param bucketName bucket名称
 	 * @param prefix 前缀
 	 * @param recursive 是否递归查询
-	 * @return S3ObjectSummary 列表
+     * @return FileObjectSummary 列表
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects">AWS
 	 * API Documentation</a>
 	 */
 	@Override
-	public List<S3ObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) {
+    public List<FileObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) {
 		String dir = properties.getLocal().getBasePath() + FileUtil.FILE_SEPARATOR + bucketName;
 
-		return Arrays.stream(FileUtil.ls(dir)).filter(file -> file.getName().startsWith(prefix)).map(file -> {
-			S3ObjectSummary summary = new S3ObjectSummary();
-			summary.setKey(file.getName());
-			return summary;
-        }).toList();
+        return Arrays.stream(FileUtil.ls(dir))
+                .filter(file -> file.getName().startsWith(prefix))
+                .map(file -> new FileObjectSummary(bucketName, file.getName(), file.length(), null))
+                .toList();
 	}
 
 }

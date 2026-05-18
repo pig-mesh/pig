@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.file.local;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
 
 /**
  * 本地文件 配置信息
@@ -34,11 +35,18 @@ public class LocalFileProperties {
 	/**
 	 * 是否开启
 	 */
+    @Deprecated
 	private boolean enable;
 
 	/**
 	 * 默认路径
 	 */
 	private String basePath;
+
+    @Deprecated
+    @DeprecatedConfigurationProperty(reason = "使用 file.type=local 替代 file.local.enable", replacement = "file.type")
+    public boolean isEnable() {
+        return enable;
+    }
 
 }

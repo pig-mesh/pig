@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,9 +17,9 @@
 
 package com.pig4cloud.pigx.common.file.oss.http;
 
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.pig4cloud.pigx.common.file.core.FileBucket;
+import com.pig4cloud.pigx.common.file.core.FileObjectInfo;
+import com.pig4cloud.pigx.common.file.core.FileObjectSummary;
 import com.pig4cloud.pigx.common.file.oss.service.OssTemplate;
 import lombok.AllArgsConstructor;
 import lombok.Cleanup;
@@ -55,7 +55,7 @@ public class OssEndpoint {
 	 */
 	@SneakyThrows
 	@PostMapping("/bucket/{bucketName}")
-	public Bucket createBucker(@PathVariable String bucketName) {
+    public FileBucket createBucker(@PathVariable String bucketName) {
 
 		template.createBucket(bucketName);
 		return template.getBucket(bucketName).get();
@@ -64,13 +64,13 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@GetMapping("/bucket")
-	public List<Bucket> getBuckets() {
+    public List<FileBucket> getBuckets() {
 		return template.getAllBuckets();
 	}
 
 	@SneakyThrows
 	@GetMapping("/bucket/{bucketName}")
-	public Bucket getBucket(@PathVariable String bucketName) {
+    public FileBucket getBucket(@PathVariable String bucketName) {
 		return template.getBucket(bucketName).orElseThrow(() -> new IllegalArgumentException("Bucket Name not found!"));
 	}
 
@@ -86,7 +86,7 @@ public class OssEndpoint {
 	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}")
-	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
+    public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
 		String name = object.getOriginalFilename();
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
@@ -97,7 +97,7 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}/{objectName}")
-	public S3Object createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
+    public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
 			@PathVariable String objectName) {
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
@@ -108,7 +108,7 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@GetMapping("/object/{bucketName}/{objectName}")
-	public List<S3ObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
+    public List<FileObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
 
 		return template.getAllObjectsByPrefix(bucketName, objectName, true);
 

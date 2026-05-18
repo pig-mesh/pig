@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -39,16 +39,21 @@ public class FileProperties {
 	 */
 	private String bucketName = "local";
 
+    /**
+     * 文件存储类型
+     */
+    private FileType type = FileType.LOCAL;
+
 	/**
 	 * 本地文件配置信息
 	 */
 	@NestedConfigurationProperty
-	private LocalFileProperties local;
+    private LocalFileProperties local = new LocalFileProperties();
 
 	/**
 	 * oss 文件配置信息
 	 */
 	@NestedConfigurationProperty
-	private OssProperties oss;
+    private OssProperties oss = new OssProperties();
 
 }

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,32 +17,40 @@
 
 package com.pig4cloud.pigx.common.file.oss.service;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.client.builder.AwsClientBuilder;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3Client;
-import com.amazonaws.services.s3.model.*;
-import com.amazonaws.util.IOUtils;
-import com.pig4cloud.pigx.common.file.core.FileProperties;
-import com.pig4cloud.pigx.common.file.core.FileTemplate;
-import lombok.Cleanup;
+import com.pig4cloud.pigx.common.file.core.*;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.AwsCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.checksums.RequestChecksumCalculation;
+import software.amazon.awssdk.core.checksums.ResponseChecksumValidation;
+import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.core.sync.ResponseTransformer;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3ClientBuilder;
+import software.amazon.awssdk.services.s3.S3Configuration;
+import software.amazon.awssdk.services.s3.model.*;
+import software.amazon.awssdk.services.s3.presigner.S3Presigner;
+import software.amazon.awssdk.services.s3.presigner.model.GetObjectPresignRequest;
+import software.amazon.awssdk.services.s3.presigner.model.PresignedGetObjectRequest;
 
-import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Duration;
+import java.util.List;
+import java.util.Optional;
 
 /**
- * aws-s3 通用存储操作 支持所有兼容s3协议的云存储: {阿里云OSS，腾讯云COS，七牛云，京东云，minio 等}
+ * S3 通用存储操作，支持所有兼容 S3 协议的云存储。
  *
  * @author lengleng
  * @author 858695266
@@ -50,21 +58,25 @@ import java.util.*;
  * @since 1.0
  */
 @RequiredArgsConstructor
-public class OssTemplate implements InitializingBean, FileTemplate {
+public class OssTemplate implements InitializingBean, DisposableBean, FileTemplate {
+
+    private static final String DEFAULT_REGION = "us-east-1";
 
     private final FileProperties properties;
 
-    private AmazonS3 amazonS3;
+    private S3Client s3Client;
+
+    private S3Presigner s3Presigner;
 
     /**
      * 创建bucket
      *
      * @param bucketName bucket名称
      */
-    @SneakyThrows
+    @Override
     public void createBucket(String bucketName) {
-        if (!amazonS3.doesBucketExistV2(bucketName)) {
-            amazonS3.createBucket((bucketName));
+        if (!bucketExists(bucketName)) {
+            s3Client.createBucket(CreateBucketRequest.builder().bucket(bucketName).build());
         }
     }
 
@@ -75,9 +87,9 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBuckets">AWS
      * API Documentation</a>
      */
-    @SneakyThrows
-    public List<Bucket> getAllBuckets() {
-        return amazonS3.listBuckets();
+    @Override
+    public List<FileBucket> getAllBuckets() {
+        return s3Client.listBuckets().buckets().stream().map(this::toFileBucket).toList();
     }
 
     /**
@@ -85,9 +97,8 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListBuckets">AWS
      * API Documentation</a>
      */
-    @SneakyThrows
-    public Optional<Bucket> getBucket(String bucketName) {
-        return amazonS3.listBuckets().stream().filter(b -> b.getName().equals(bucketName)).findFirst();
+    public Optional<FileBucket> getBucket(String bucketName) {
+        return getAllBuckets().stream().filter(b -> b.getName().equals(bucketName)).findFirst();
     }
 
     /**
@@ -96,9 +107,9 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * "http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteBucket">AWS API
      * Documentation</a>
      */
-    @SneakyThrows
+    @Override
     public void removeBucket(String bucketName) {
-        amazonS3.deleteBucket(bucketName);
+        s3Client.deleteBucket(DeleteBucketRequest.builder().bucket(bucketName).build());
     }
 
     /**
@@ -107,14 +118,18 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @param bucketName bucket名称
      * @param prefix     前缀
      * @param recursive  是否递归查询
-     * @return S3ObjectSummary 列表
+     * @return FileObjectSummary 列表
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects">AWS
      * API Documentation</a>
      */
-    @SneakyThrows
-    public List<S3ObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) {
-        ObjectListing objectListing = amazonS3.listObjects(bucketName, prefix);
-        return new ArrayList<>(objectListing.getObjectSummaries());
+    @Override
+    public List<FileObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive) {
+        ListObjectsV2Request.Builder builder = ListObjectsV2Request.builder().bucket(bucketName).prefix(prefix);
+        if (!recursive) {
+            builder.delimiter(StrUtil.SLASH);
+        }
+        ListObjectsV2Response response = s3Client.listObjectsV2(builder.build());
+        return response.contents().stream().map(object -> toFileObjectSummary(bucketName, object)).toList();
     }
 
     /**
@@ -124,15 +139,15 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @param objectName 文件名称
      * @param expires    过期时间 <=7
      * @return url
-     * @see AmazonS3#generatePresignedUrl(String bucketName, String key, Date expiration)
      */
-    @SneakyThrows
     public String getObjectURL(String bucketName, String objectName, Integer expires) {
-        Date date = new Date();
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(date);
-        calendar.add(Calendar.DAY_OF_MONTH, expires);
-        URL url = amazonS3.generatePresignedUrl(bucketName, objectName, calendar.getTime());
+        GetObjectRequest getObjectRequest = GetObjectRequest.builder().bucket(bucketName).key(objectName).build();
+        GetObjectPresignRequest presignRequest = GetObjectPresignRequest.builder()
+                .signatureDuration(Duration.ofDays(expires))
+                .getObjectRequest(getObjectRequest)
+                .build();
+        PresignedGetObjectRequest presignedGetObjectRequest = s3Presigner.presignGetObject(presignRequest);
+        URL url = presignedGetObjectRequest.url();
         return url.toString();
     }
 
@@ -145,12 +160,12 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObject">AWS
      * API Documentation</a>
      */
-    @SneakyThrows
-    public S3Object getObject(String bucketName, String objectName) {
-        if (properties.getOss().isSkipMd5Check()) {
-            System.setProperty("com.amazonaws.services.s3.disableGetObjectMD5Validation", "false");
-        }
-        return amazonS3.getObject(bucketName, objectName);
+    @Override
+    public FileObject getObject(String bucketName, String objectName) {
+        GetObjectRequest request = GetObjectRequest.builder().bucket(bucketName).key(objectName).build();
+        ResponseInputStream<GetObjectResponse> stream = s3Client.getObject(request, ResponseTransformer.toInputStream());
+        GetObjectResponse response = stream.response();
+        return new FileObject(bucketName, objectName, response.contentType(), response.contentLength(), stream);
     }
 
     /**
@@ -162,9 +177,9 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @return 二进制流 API Documentation</a>
      */
     @Override
-    public S3Object getObject(String bucketName, String dir, String objectName) {
+    public FileObject getObject(String bucketName, String dir, String objectName) {
         if (StrUtil.isNotBlank(dir)) {
-            objectName = dir + "/" + objectName;
+            objectName = dir + StrUtil.SLASH + objectName;
         }
         return getObject(bucketName, objectName);
     }
@@ -177,6 +192,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @param stream     文件流
      * @throws Exception
      */
+    @Override
     public void putObject(String bucketName, String objectName, InputStream stream) throws Exception {
         putObject(bucketName, objectName, stream, stream.available(), "application/octet-stream");
     }
@@ -190,6 +206,7 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @param contextType 文件类型
      * @throws Exception
      */
+    @Override
     public void putObject(String bucketName, String objectName, InputStream stream, String contextType)
             throws Exception {
         putObject(bucketName, objectName, stream, stream.available(), contextType);
@@ -209,10 +226,8 @@ public class OssTemplate implements InitializingBean, FileTemplate {
     public void putObject(String bucketName, String dir, String objectName, InputStream stream, String contextType)
             throws Exception {
         if (StrUtil.isNotBlank(dir)) {
-            // dir 路径为 a/b
-            objectName = dir + FileUtil.FILE_SEPARATOR + objectName;
+            objectName = dir + StrUtil.SLASH + objectName;
         }
-
         putObject(bucketName, objectName, stream, stream.available(), contextType);
     }
 
@@ -228,17 +243,22 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/PutObject">AWS
      * API Documentation</a>
      */
-    public PutObjectResult putObject(String bucketName, String objectName, InputStream stream, long size,
-                                     String contextType) throws Exception {
-        // String fileName = getFileName(objectName);
-        byte[] bytes = IOUtils.toByteArray(stream);
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(size);
-        objectMetadata.setContentType(contextType);
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
-        // 上传
-        return amazonS3.putObject(bucketName, objectName, byteArrayInputStream, objectMetadata);
-
+    public FileObjectInfo putObject(String bucketName, String objectName, InputStream stream, long size,
+                                    String contextType) throws Exception {
+        PutObjectRequest.Builder request = PutObjectRequest.builder().bucket(bucketName).key(objectName);
+        if (StrUtil.isNotBlank(contextType)) {
+            request.contentType(contextType);
+        }
+        Path tempFile = Files.createTempFile("pigx-oss-", ".tmp");
+        try {
+            Files.copy(stream, tempFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            long contentLength = Files.size(tempFile);
+            request.contentLength(contentLength);
+            PutObjectResponse response = s3Client.putObject(request.build(), RequestBody.fromFile(tempFile));
+            return new FileObjectInfo(bucketName, objectName, contextType, contentLength, response.eTag(), null);
+        } finally {
+            deleteTempFile(tempFile);
+        }
     }
 
     /**
@@ -249,15 +269,15 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/GetObject">AWS
      * API Documentation</a>
      */
-    public S3Object getObjectInfo(String bucketName, String objectName) throws Exception {
-        @Cleanup
-        S3Object object = amazonS3.getObject(bucketName, objectName);
-        return object;
+    public FileObjectInfo getObjectInfo(String bucketName, String objectName) {
+        HeadObjectResponse response = s3Client
+                .headObject(HeadObjectRequest.builder().bucket(bucketName).key(objectName).build());
+        return new FileObjectInfo(bucketName, objectName, response.contentType(), response.contentLength(),
+                response.eTag(), response.lastModified());
     }
 
     /**
      * 删除文件
-     *
      * @param bucketName bucket名称
      * @param objectName 文件名称
      * @throws Exception
@@ -265,28 +285,79 @@ public class OssTemplate implements InitializingBean, FileTemplate {
      * "http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/DeleteObject">AWS API
      * Documentation</a>
      */
+    @Override
     public void removeObject(String bucketName, String objectName) throws Exception {
-        amazonS3.deleteObject(bucketName, objectName);
+        s3Client.deleteObject(DeleteObjectRequest.builder().bucket(bucketName).key(objectName).build());
     }
 
     @Override
     public void afterPropertiesSet() {
-        System.setProperty("aws.java.v1.disableDeprecationAnnouncement", "true");
-        ClientConfiguration clientConfiguration = new ClientConfiguration();
-        clientConfiguration.setMaxConnections(properties.getOss().getMaxConnections());
-
-        AwsClientBuilder.EndpointConfiguration endpointConfiguration = new AwsClientBuilder.EndpointConfiguration(
-                properties.getOss().getEndpoint(), properties.getOss().getRegion());
-        AWSCredentials awsCredentials = new BasicAWSCredentials(properties.getOss().getAccessKey(),
-                properties.getOss().getSecretKey());
-        AWSCredentialsProvider awsCredentialsProvider = new AWSStaticCredentialsProvider(awsCredentials);
-        this.amazonS3 = AmazonS3Client.builder()
-                .withEndpointConfiguration(endpointConfiguration)
-                .withClientConfiguration(clientConfiguration)
-                .withCredentials(awsCredentialsProvider)
-                .disableChunkedEncoding()
-                .withPathStyleAccessEnabled(properties.getOss().getPathStyleAccess())
+        Region region = Region.of(StrUtil.blankToDefault(properties.getOss().getRegion(), DEFAULT_REGION));
+        AwsCredentialsProvider credentialsProvider = StaticCredentialsProvider.create(
+                AwsBasicCredentials.create(properties.getOss().getAccessKey(), properties.getOss().getSecretKey()));
+        S3Configuration serviceConfiguration = S3Configuration.builder()
+                .pathStyleAccessEnabled(properties.getOss().getPathStyleAccess())
+                .chunkedEncodingEnabled(properties.getOss().getChunkedEncodingEnabled())
                 .build();
+        RequestChecksumCalculation requestChecksumCalculation = properties.getOss().isSkipMd5Check()
+                ? RequestChecksumCalculation.WHEN_REQUIRED
+                : RequestChecksumCalculation.WHEN_SUPPORTED;
+        ResponseChecksumValidation responseChecksumValidation = properties.getOss().isSkipMd5Check()
+                ? ResponseChecksumValidation.WHEN_REQUIRED
+                : ResponseChecksumValidation.WHEN_SUPPORTED;
+        S3ClientBuilder clientBuilder = S3Client.builder()
+                .region(region)
+                .credentialsProvider(credentialsProvider)
+                .serviceConfiguration(serviceConfiguration)
+                .requestChecksumCalculation(requestChecksumCalculation)
+                .responseChecksumValidation(responseChecksumValidation);
+        S3Presigner.Builder presignerBuilder = S3Presigner.builder()
+                .region(region)
+                .credentialsProvider(credentialsProvider)
+                .serviceConfiguration(serviceConfiguration);
+        if (StrUtil.isNotBlank(properties.getOss().getEndpoint())) {
+            URI endpoint = URI.create(properties.getOss().getEndpoint());
+            clientBuilder.endpointOverride(endpoint);
+            presignerBuilder.endpointOverride(endpoint);
+        }
+        this.s3Client = clientBuilder.build();
+        this.s3Presigner = presignerBuilder.build();
+    }
+
+    @Override
+    public void destroy() {
+        if (s3Presigner != null) {
+            s3Presigner.close();
+        }
+        if (s3Client != null) {
+            s3Client.close();
+        }
+    }
+
+    private boolean bucketExists(String bucketName) {
+        try {
+            s3Client.headBucket(HeadBucketRequest.builder().bucket(bucketName).build());
+            return true;
+        } catch (NoSuchBucketException ex) {
+            return false;
+        } catch (S3Exception ex) {
+            if (ex.statusCode() == 404) {
+                return false;
+            }
+            throw ex;
+        }
+    }
+
+    private FileBucket toFileBucket(Bucket bucket) {
+        return new FileBucket(bucket.name(), bucket.creationDate());
+    }
+
+    private FileObjectSummary toFileObjectSummary(String bucketName, S3Object object) {
+        return new FileObjectSummary(bucketName, object.key(), object.size(), object.lastModified());
+    }
+
+    private void deleteTempFile(Path tempFile) throws IOException {
+        Files.deleteIfExists(tempFile);
     }
 
 }

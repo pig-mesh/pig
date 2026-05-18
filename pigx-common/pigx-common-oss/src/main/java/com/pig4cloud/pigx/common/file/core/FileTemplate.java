@@ -1,8 +1,5 @@
 package com.pig4cloud.pigx.common.file.core;
 
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.springframework.beans.factory.InitializingBean;
 
 import java.io.InputStream;
@@ -28,7 +25,7 @@ public interface FileTemplate extends InitializingBean {
 	 *
 	 * API Documentation</a>
 	 */
-	List<Bucket> getAllBuckets();
+    List<FileBucket> getAllBuckets();
 
 	/**
 	 * @param bucketName bucket名称
@@ -75,7 +72,7 @@ public interface FileTemplate extends InitializingBean {
 	 * @param objectName 文件名称
 	 * @return 二进制流 API Documentation</a>
 	 */
-	S3Object getObject(String bucketName, String dir, String objectName);
+    FileObject getObject(String bucketName, String dir, String objectName);
 
 	/**
 	 * 获取文件
@@ -83,7 +80,7 @@ public interface FileTemplate extends InitializingBean {
 	 * @param objectName 文件名称
 	 * @return 二进制流 API Documentation</a>
 	 */
-	S3Object getObject(String bucketName, String objectName);
+    FileObject getObject(String bucketName, String objectName);
 
 	void removeObject(String bucketName, String objectName) throws Exception;
 
@@ -99,10 +96,10 @@ public interface FileTemplate extends InitializingBean {
 	 * @param bucketName bucket名称
 	 * @param prefix 前缀
 	 * @param recursive 是否递归查询
-	 * @return S3ObjectSummary 列表
+     * @return FileObjectSummary 列表
 	 * @see <a href="http://docs.aws.amazon.com/goto/WebAPI/s3-2006-03-01/ListObjects">AWS
 	 * API Documentation</a>
 	 */
-	List<S3ObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive);
+    List<FileObjectSummary> getAllObjectsByPrefix(String bucketName, String prefix, boolean recursive);
 
 }

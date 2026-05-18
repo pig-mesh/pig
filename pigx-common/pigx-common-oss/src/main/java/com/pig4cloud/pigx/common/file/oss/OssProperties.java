@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,6 +19,7 @@ package com.pig4cloud.pigx.common.file.oss;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
 
 /**
  * aws 配置信息
@@ -34,6 +35,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "oss")
 public class OssProperties {
+
+    /**
+     * 是否开启
+     */
+    @Deprecated
+    private Boolean enable;
 
     /**
      * 对象存储服务的URL
@@ -80,6 +87,17 @@ public class OssProperties {
     /**
      * 跳过 MD5 检查
      */
-    private boolean skipMd5Check;
+    private boolean skipMd5Check = true;
+
+    /**
+     * 是否启用 AWS S3 streaming chunked encoding，S3 兼容服务默认关闭
+     */
+    private Boolean chunkedEncodingEnabled = false;
+
+    @Deprecated
+    @DeprecatedConfigurationProperty(reason = "使用 file.type=oss 替代 file.oss.enable", replacement = "file.type")
+    public Boolean getEnable() {
+        return enable;
+    }
 
 }
