@@ -1,6 +1,7 @@
 package com.pig4cloud.pigx.common.excel.handler;
 
-import cn.idev.excel.context.AnalysisContext;
+import cn.hutool.core.util.ReflectUtil;
+import org.apache.fesod.sheet.context.AnalysisContext;
 import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
 import com.pig4cloud.pigx.common.excel.kit.Validators;
 import com.pig4cloud.pigx.common.excel.vo.ErrorMessage;
@@ -9,8 +10,10 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -22,6 +25,11 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Object> {
+
+    /**
+     * 缓存带 @ExcelLine 标记的 Long 类型行号字段，避免逐行读取时重复反射扫描。
+     */
+    private static final ConcurrentHashMap<Class<?>, Field[]> LINE_FIELDS_CACHE = new ConcurrentHashMap<>();
 
 	private final List<Object> list = new ArrayList<>();
 
@@ -39,22 +47,13 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 				.map(ConstraintViolation::getMessage)
 				.collect(Collectors.toSet());
 			errorMessageList.add(new ErrorMessage(lineNum, messageSet));
-		}
-		else {
-			Field[] fields = o.getClass().getDeclaredFields();
-			for (Field field : fields) {
-				if (field.isAnnotationPresent(ExcelLine.class) && field.getType() == Long.class) {
-					try {
-						field.setAccessible(true);
-						field.set(o, lineNum);
-					}
-					catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			list.add(o);
-		}
+            return;
+        }
+
+        for (Field field : resolveLineFields(o.getClass())) {
+            ReflectUtil.setFieldValue(o, field, lineNum);
+        }
+        list.add(o);
 	}
 
 	@Override
@@ -70,6 +69,12 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 	@Override
 	public List<ErrorMessage> getErrors() {
 		return errorMessageList;
+    }
+
+    private static Field[] resolveLineFields(Class<?> clazz) {
+        return LINE_FIELDS_CACHE.computeIfAbsent(clazz, c -> Arrays.stream(c.getDeclaredFields())
+                .filter(f -> f.isAnnotationPresent(ExcelLine.class) && f.getType() == Long.class)
+                .toArray(Field[]::new));
 	}
 
 }

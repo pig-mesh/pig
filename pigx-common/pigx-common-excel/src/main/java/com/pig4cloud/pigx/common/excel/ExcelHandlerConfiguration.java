@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.common.excel;
 
-import cn.idev.excel.converters.Converter;
+import org.apache.fesod.sheet.converters.Converter;
 import com.pig4cloud.pigx.common.excel.aop.ResponseExcelReturnValueHandler;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
 import com.pig4cloud.pigx.common.excel.enhance.DefaultWriterBuilderEnhancer;
@@ -29,6 +29,8 @@ public class ExcelHandlerConfiguration {
 
 	private final ObjectProvider<List<Converter<?>>> converterProvider;
 
+    private final ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider;
+
 	/**
 	 * ExcelBuild增强
 	 * @return DefaultWriterBuilderEnhancer 默认什么也不做的增强器
@@ -45,7 +47,8 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public SingleSheetWriteHandler singleSheetWriteHandler() {
-		return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
+        return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
+                i18nHeaderProvider);
 	}
 
 	/**
@@ -54,7 +57,8 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public ManySheetWriteHandler manySheetWriteHandler() {
-		return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer());
+        return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
+                i18nHeaderProvider);
 	}
 
 	/**

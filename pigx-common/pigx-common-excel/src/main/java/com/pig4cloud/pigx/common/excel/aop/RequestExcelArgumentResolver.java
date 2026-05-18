@@ -1,16 +1,17 @@
 package com.pig4cloud.pigx.common.excel.aop;
 
-import cn.idev.excel.EasyExcel;
+import org.apache.fesod.sheet.FesodSheet;
+import org.apache.fesod.sheet.read.builder.ExcelReaderBuilder;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
-import com.pig4cloud.pigx.common.excel.converters.*;
+import com.pig4cloud.pigx.common.excel.converters.BuiltinConverters;
 import com.pig4cloud.pigx.common.excel.handler.ListAnalysisEventListener;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.ResolvableType;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -39,9 +40,8 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 	}
 
 	@Override
-	@SneakyThrows(Exception.class)
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer modelAndViewContainer,
-			NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) {
+                                  NativeWebRequest webRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
 		Class<?> parameterType = parameter.getParameterType();
 		if (!parameterType.isAssignableFrom(List.class)) {
 			throw new IllegalArgumentException(
@@ -50,17 +50,17 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 
 		// 处理自定义 readListener
 		RequestExcel requestExcel = parameter.getParameterAnnotation(RequestExcel.class);
-		assert requestExcel != null;
+        Assert.notNull(requestExcel, "@RequestExcel annotation must not be null");
 		Class<? extends ListAnalysisEventListener<?>> readListenerClass = requestExcel.readListener();
 		ListAnalysisEventListener<?> readListener = BeanUtils.instantiateClass(readListenerClass);
 
 		// 获取请求文件流
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		assert request != null;
+        Assert.notNull(request, "HttpServletRequest must not be null");
 		InputStream inputStream;
-		if (request instanceof MultipartRequest) {
-			MultipartFile file = ((MultipartRequest) request).getFile(requestExcel.fileName());
-			assert file != null;
+        if (request instanceof MultipartRequest multipartRequest) {
+            MultipartFile file = multipartRequest.getFile(requestExcel.fileName());
+            Assert.notNull(file, "Multipart file [" + requestExcel.fileName() + "] must not be null");
 			inputStream = file.getInputStream();
 		}
 		else {
@@ -71,13 +71,9 @@ public class RequestExcelArgumentResolver implements HandlerMethodArgumentResolv
 		Class<?> excelModelClass = ResolvableType.forMethodParameter(parameter).getGeneric(0).resolve();
 
 		// 这里需要指定读用哪个 class 去读，然后读取第一个 sheet 文件流会自动关闭
-		EasyExcel.read(inputStream, excelModelClass, readListener)
-			.registerConverter(LocalDateStringConverter.INSTANCE)
-			.registerConverter(LocalTimeStringConverter.INSTANCE)
-			.registerConverter(LocalDateTimeStringConverter.INSTANCE)
-			.registerConverter(LongStringConverter.INSTANCE)
-			.registerConverter(StringArrayConverter.INSTANCE)
-			.ignoreEmptyRow(requestExcel.ignoreEmptyRow())
+        ExcelReaderBuilder readerBuilder = FesodSheet.read(inputStream, excelModelClass, readListener);
+        BuiltinConverters.registerTo(readerBuilder);
+        readerBuilder.ignoreEmptyRow(requestExcel.ignoreEmptyRow())
 			.sheet()
 			.headRowNumber(requestExcel.headRowNumber())
 			.doRead();

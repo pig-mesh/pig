@@ -30,7 +30,7 @@ public @interface RequestExcel {
 
 	/**
 	 * 是否跳过空行
-	 * @return 默认跳过
+     * @return 默认不跳过
 	 */
 	boolean ignoreEmptyRow() default false;
 

@@ -1,9 +1,9 @@
 package com.pig4cloud.pigx.common.excel.head;
 
-import cn.idev.excel.metadata.Head;
-import cn.idev.excel.write.handler.CellWriteHandler;
-import cn.idev.excel.write.metadata.holder.WriteSheetHolder;
-import cn.idev.excel.write.metadata.holder.WriteTableHolder;
+import org.apache.fesod.sheet.metadata.Head;
+import org.apache.fesod.sheet.write.handler.CellWriteHandler;
+import org.apache.fesod.sheet.write.metadata.holder.WriteSheetHolder;
+import org.apache.fesod.sheet.write.metadata.holder.WriteTableHolder;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -51,7 +51,7 @@ public class I18nHeaderCellWriteHandler implements CellWriteHandler {
 				// 国际化处理
 				List<String> i18nHeadNames = originHeadNameList.stream()
 					.map(headName -> propertyPlaceholderHelper.replacePlaceholders(headName, placeholderResolver))
-                        .toList();
+						.toList();
 				head.setHeadNameList(i18nHeadNames);
 			}
 		}

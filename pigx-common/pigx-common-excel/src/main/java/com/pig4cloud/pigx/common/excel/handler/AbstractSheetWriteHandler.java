@@ -1,31 +1,28 @@
 package com.pig4cloud.pigx.common.excel.handler;
 
-import cn.idev.excel.EasyExcel;
-import cn.idev.excel.ExcelWriter;
-import cn.idev.excel.converters.Converter;
-import cn.idev.excel.write.builder.ExcelWriterBuilder;
-import cn.idev.excel.write.builder.ExcelWriterSheetBuilder;
-import cn.idev.excel.write.handler.WriteHandler;
-import cn.idev.excel.write.metadata.WriteSheet;
+import cn.hutool.core.util.StrUtil;
+import org.apache.fesod.sheet.FesodSheet;
+import org.apache.fesod.sheet.ExcelWriter;
+import org.apache.fesod.sheet.converters.Converter;
+import org.apache.fesod.sheet.write.builder.ExcelWriterBuilder;
+import org.apache.fesod.sheet.write.builder.ExcelWriterSheetBuilder;
+import org.apache.fesod.sheet.write.handler.WriteHandler;
+import org.apache.fesod.sheet.write.metadata.WriteSheet;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import com.pig4cloud.pigx.common.excel.aop.DynamicNameAspect;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
-import com.pig4cloud.pigx.common.excel.converters.*;
+import com.pig4cloud.pigx.common.excel.converters.BuiltinConverters;
 import com.pig4cloud.pigx.common.excel.enhance.WriterBuilderEnhancer;
 import com.pig4cloud.pigx.common.excel.head.HeadGenerator;
 import com.pig4cloud.pigx.common.excel.head.HeadMeta;
 import com.pig4cloud.pigx.common.excel.head.I18nHeaderCellWriteHandler;
 import com.pig4cloud.pigx.common.excel.kit.ExcelException;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ObjectProvider;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.ClassPathResource;
@@ -37,15 +34,13 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Modifier;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -53,7 +48,6 @@ import java.util.UUID;
  * @author L.cm
  * @date 2020/3/31
  */
-@RequiredArgsConstructor
 public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, ApplicationContextAware {
 
 	private final ExcelConfigProperties configProperties;
@@ -62,12 +56,18 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 
 	private final WriterBuilderEnhancer excelWriterBuilderEnhance;
 
+	private final ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider;
+
 	private ApplicationContext applicationContext;
 
-	@Getter
-	@Setter
-	@Autowired(required = false)
-	private I18nHeaderCellWriteHandler i18nHeaderCellWriteHandler;
+	protected AbstractSheetWriteHandler(ExcelConfigProperties configProperties,
+	                                    ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
+	                                    ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
+		this.configProperties = configProperties;
+		this.converterProvider = converterProvider;
+		this.excelWriterBuilderEnhance = excelWriterBuilderEnhance;
+		this.i18nHeaderProvider = i18nHeaderProvider;
+	}
 
 	@Override
 	public void check(ResponseExcel responseExcel) {
@@ -77,22 +77,21 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	}
 
 	@Override
-	@SneakyThrows(UnsupportedEncodingException.class)
 	public void export(Object o, HttpServletResponse response, ResponseExcel responseExcel) {
 		check(responseExcel);
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-		String name = (String) Objects.requireNonNull(requestAttributes)
-			.getAttribute(DynamicNameAspect.EXCEL_NAME_KEY, RequestAttributes.SCOPE_REQUEST);
-		if (name == null) {
+		String name = requestAttributes == null ? null
+				: (String) requestAttributes.getAttribute(DynamicNameAspect.EXCEL_NAME_KEY,
+				RequestAttributes.SCOPE_REQUEST);
+		if (!StringUtils.hasText(name)) {
 			name = UUID.randomUUID().toString();
 		}
-		String fileName = String.format("%s%s", URLEncoder.encode(name, "UTF-8"), responseExcel.suffix().getValue());
-		// 根据实际的文件类型找到对应的 contentType
+		String fileName = URLEncoder.encode(name, StandardCharsets.UTF_8) + responseExcel.suffix().getValue();
 		String contentType = MediaTypeFactory.getMediaType(fileName)
 			.map(MediaType::toString)
 			.orElse("application/vnd.ms-excel");
 		response.setContentType(contentType);
-		response.setCharacterEncoding("utf-8");
+		response.setCharacterEncoding(StandardCharsets.UTF_8.name());
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename*=utf-8''" + fileName);
 		write(o, response, responseExcel);
 	}
@@ -105,15 +104,12 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	 */
 	@SneakyThrows(IOException.class)
 	public ExcelWriter getExcelWriter(HttpServletResponse response, ResponseExcel responseExcel) {
-		ExcelWriterBuilder writerBuilder = EasyExcel.write(response.getOutputStream())
-			.registerConverter(LocalTimeStringConverter.INSTANCE)
-			.registerConverter(LocalDateStringConverter.INSTANCE)
-			.registerConverter(LocalDateTimeStringConverter.INSTANCE)
-			.registerConverter(LongStringConverter.INSTANCE)
-			.registerConverter(StringArrayConverter.INSTANCE)
+		ExcelWriterBuilder writerBuilder = FesodSheet.write(response.getOutputStream())
 			.autoCloseStream(true)
 			.excelType(responseExcel.suffix())
 			.inMemory(responseExcel.inMemory());
+
+		BuiltinConverters.registerTo(writerBuilder);
 
 		if (StringUtils.hasText(responseExcel.password())) {
 			writerBuilder.password(responseExcel.password());
@@ -132,8 +128,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		}
 
 		// 开启国际化头信息处理
-		if (responseExcel.i18nHeader() && i18nHeaderCellWriteHandler != null) {
-			writerBuilder.registerWriteHandler(i18nHeaderCellWriteHandler);
+		if (responseExcel.i18nHeader()) {
+			i18nHeaderProvider.ifAvailable(writerBuilder::registerWriteHandler);
 		}
 
 		// 自定义注入的转换器
@@ -146,7 +142,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		String templatePath = configProperties.getTemplatePath();
 		if (StringUtils.hasText(responseExcel.template())) {
 			ClassPathResource classPathResource = new ClassPathResource(
-					templatePath + File.separator + responseExcel.template());
+					templatePath + StrUtil.SLASH + responseExcel.template());
 			InputStream inputStream = classPathResource.getInputStream();
 			writerBuilder.withTemplate(inputStream);
 		}
@@ -180,8 +176,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 		String sheetName = sheet.sheetName();
 
 		// 是否模板写入
-		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? EasyExcel.writerSheet(sheetNo)
-				: EasyExcel.writerSheet(sheetNo, sheetName);
+		ExcelWriterSheetBuilder writerSheetBuilder = StringUtils.hasText(template) ? FesodSheet.writerSheet(sheetNo)
+				: FesodSheet.writerSheet(sheetNo, sheetName);
 
 		// 头信息增强 1. 优先使用 sheet 指定的头信息增强 2. 其次使用 @ResponseExcel 中定义的全局头信息增强
 		Class<? extends HeadGenerator> headGenerateClass = null;
@@ -201,7 +197,7 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheet.excludes()));
 			}
 			if (sheet.includes().length > 0) {
-				writerSheetBuilder.excludeColumnFieldNames(Arrays.asList(sheet.includes()));
+				writerSheetBuilder.includeColumnFieldNames(Arrays.asList(sheet.includes()));
 			}
 		}
 

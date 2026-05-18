@@ -1,13 +1,14 @@
 package com.pig4cloud.pigx.common.excel.handler;
 
-import cn.idev.excel.EasyExcel;
-import cn.idev.excel.ExcelWriter;
-import cn.idev.excel.converters.Converter;
-import cn.idev.excel.write.metadata.WriteSheet;
+import org.apache.fesod.sheet.FesodSheet;
+import org.apache.fesod.sheet.ExcelWriter;
+import org.apache.fesod.sheet.converters.Converter;
+import org.apache.fesod.sheet.write.metadata.WriteSheet;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.excel.annotation.Sheet;
 import com.pig4cloud.pigx.common.excel.config.ExcelConfigProperties;
 import com.pig4cloud.pigx.common.excel.enhance.WriterBuilderEnhancer;
+import com.pig4cloud.pigx.common.excel.head.I18nHeaderCellWriteHandler;
 import com.pig4cloud.pigx.common.excel.kit.ExcelException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.ObjectProvider;
@@ -23,8 +24,9 @@ import java.util.List;
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 
 	public ManySheetWriteHandler(ExcelConfigProperties configProperties,
-			ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance) {
-		super(configProperties, converterProvider, excelWriterBuilderEnhance);
+                                 ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
+                                 ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
+        super(configProperties, converterProvider, excelWriterBuilderEnhance, i18nHeaderProvider);
 	}
 
 	/**
@@ -54,7 +56,7 @@ public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 			List<?> eleList = (List<?>) objList.get(i);
 
 			if (CollectionUtils.isEmpty(eleList)) {
-				sheet = EasyExcel.writerSheet(responseExcel.sheets()[i].sheetName()).build();
+				sheet = FesodSheet.writerSheet(responseExcel.sheets()[i].sheetName()).build();
 			}
 			else {
 				// 有模板则不指定sheet名
