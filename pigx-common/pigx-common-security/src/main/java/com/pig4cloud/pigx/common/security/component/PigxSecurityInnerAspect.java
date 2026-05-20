@@ -29,6 +29,10 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
+
+import java.util.Objects;
 
 /**
  * @author lengleng
@@ -46,6 +50,11 @@ public class PigxSecurityInnerAspect implements Ordered {
 	@SneakyThrows
 	@Before("@within(inner) || @annotation(inner)")
 	public void around(JoinPoint point, Inner inner) {
+		RequestAttributes attrs = RequestContextHolder.getRequestAttributes();
+		if (Objects.isNull(attrs)) {
+			return;
+		}
+
 		String header = request.getHeader(SecurityConstants.FROM);
 		if (inner == null) {
 			Class<?> clazz = point.getTarget().getClass();

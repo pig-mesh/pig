@@ -17,7 +17,10 @@
 package com.pig4cloud.pigx.common.security.component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pig4cloud.pigx.common.core.context.UserContextHolder;
+import com.pig4cloud.pigx.common.security.context.PigxSecurityUserContextHolder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -71,6 +74,16 @@ public class PigxResourceServerAutoConfiguration {
 	@Bean
 	public OpaqueTokenIntrospector opaqueTokenIntrospector(OAuth2AuthorizationService authorizationService) {
 		return new PigxCustomOpaqueTokenIntrospector(authorizationService);
+	}
+
+	/**
+	 * 通用用户上下文 SPI 的安全实现，供 data / audit 等模块按接口注入使用。
+	 * @return UserContextHolder
+	 */
+	@Bean
+	@ConditionalOnMissingBean(UserContextHolder.class)
+	public UserContextHolder userContextHolder() {
+		return new PigxSecurityUserContextHolder();
 	}
 
 }

@@ -37,54 +37,50 @@ import java.util.List;
  */
 public class PermissionService {
 
-    /**
-     * 判断接口是否有任意xxx，xxx权限
-     *
-     * @param permissions 权限
-     * @return {boolean}
-     */
-    public boolean hasPermission(String... permissions) {
-        if (ArrayUtil.isEmpty(permissions)) {
-            return false;
-        }
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	/**
+	 * 判断接口是否有任意xxx，xxx权限
+	 * @param permissions 权限
+	 * @return {boolean}
+	 */
+	public boolean hasPermission(String... permissions) {
+		if (ArrayUtil.isEmpty(permissions)) {
+			return false;
+		}
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null) {
-            return false;
-        }
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        return authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(StringUtils::hasText)
-                .anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
-    }
+		if (authentication == null) {
+			return false;
+		}
+		Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+		return authorities.stream()
+			.map(GrantedAuthority::getAuthority)
+			.filter(StringUtils::hasText)
+			.anyMatch(x -> PatternMatchUtils.simpleMatch(permissions, x));
+	}
 
-    /**
-     * 客户端模式是否有该接口权限
-     *
-     * @param scopes scope 列表
-     * @return {boolean}
-     * @PreAuthorize("@pms.hasScope('server')")
-     */
-    public boolean hasScope(String... scopes) {
-        if (ArrayUtil.isEmpty(scopes)) {
-            return false;
-        }
+	/**
+	 * 客户端模式是否有该接口权限
+	 * @param scopes scope 列表
+	 * @return {boolean} @PreAuthorize("@pms.hasScope('server')")
+	 */
+	public boolean hasScope(String... scopes) {
+		if (ArrayUtil.isEmpty(scopes)) {
+			return false;
+		}
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication == null) {
-            return false;
-        }
+		if (authentication == null) {
+			return false;
+		}
 
-
-        if (authentication instanceof BearerTokenAuthentication) {
-            BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) authentication;
-            List<String> scopeList = MapUtil.get(bearerTokenAuthentication.getTokenAttributes()
-                    , OAuth2ParameterNames.SCOPE, List.class, new ArrayList<>());
-            return scopeList.stream().anyMatch(x -> PatternMatchUtils.simpleMatch(scopes, x));
-        }
-        return false;
-    }
+		if (authentication instanceof BearerTokenAuthentication) {
+			BearerTokenAuthentication bearerTokenAuthentication = (BearerTokenAuthentication) authentication;
+			List<String> scopeList = MapUtil.get(bearerTokenAuthentication.getTokenAttributes(),
+					OAuth2ParameterNames.SCOPE, List.class, new ArrayList<>());
+			return scopeList.stream().anyMatch(x -> PatternMatchUtils.simpleMatch(scopes, x));
+		}
+		return false;
+	}
 
 }

@@ -1,11 +1,20 @@
 package com.pig4cloud.pigx.common.security.component;
 
+import cn.hutool.core.util.StrUtil;
+import com.pig4cloud.pigx.admin.api.entity.SysApiKey;
+import com.pig4cloud.pigx.admin.api.feign.RemoteApiKeyService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
+import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
+import com.pig4cloud.pigx.common.core.util.WebUtils;
+import com.pig4cloud.pigx.common.security.service.PigxDefaultUserDetailsServiceImpl;
 import com.pig4cloud.pigx.common.security.service.PigxUser;
 import com.pig4cloud.pigx.common.security.service.PigxUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.core.Ordered;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -20,10 +29,9 @@ import org.springframework.security.oauth2.server.resource.InvalidBearerTokenExc
 import org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector;
 
 import java.security.Principal;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * @author lengleng
@@ -37,6 +45,11 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
 
     @Override
     public OAuth2AuthenticatedPrincipal introspect(String token) {
+        // API-KEY 前缀检测：sk- 开头走独立处理逻辑
+        if (token.startsWith("sk-")) {
+            return handleApiKeyToken(token);
+        }
+
         OAuth2Authorization oldAuthorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
         if (Objects.isNull(oldAuthorization)) {
             throw new InvalidBearerTokenException(token);
@@ -94,6 +107,95 @@ public class PigxCustomOpaqueTokenIntrospector implements OpaqueTokenIntrospecto
                 .getAttributes()
                 .put(SecurityConstants.CLIENT_ID, oldAuthorization.getRegisteredClientId());
         return pigxUser;
+    }
+
+    /**
+     * 处理 API-KEY 类型的 token
+     * 1. 计算 SHA-256 哈希
+     * 2. 查询 API-KEY 记录
+     * 3. 校验状态、过期时间、IP白名单
+     * 4. 加载用户信息并返回
+     */
+    private OAuth2AuthenticatedPrincipal handleApiKeyToken(String token) {
+        String hash = sha256(token);
+
+        // 优先从缓存获取，避免远程调用
+        CacheManager cacheManager = SpringContextHolder.getBean(CacheManager.class);
+        Cache cache = cacheManager.getCache(CacheConstants.API_KEY_DETAILS);
+        RemoteApiKeyService remoteApiKeyService = SpringContextHolder.getBean(RemoteApiKeyService.class);
+        SysApiKey apiKey = null;
+        if (cache != null && cache.get(hash) != null) {
+            apiKey = cache.get(hash, SysApiKey.class);
+        }
+
+        if (apiKey == null) {
+            R<SysApiKey> result = remoteApiKeyService.getByHash(hash);
+            if (result == null || result.getData() == null) {
+                throw new InvalidBearerTokenException("Invalid API Key");
+            }
+            apiKey = result.getData();
+            // 回填缓存
+            if (cache != null) {
+                cache.put(hash, apiKey);
+            }
+        }
+
+        // 校验过期时间
+        if (apiKey.getExpiresAt() != null && apiKey.getExpiresAt().isBefore(LocalDateTime.now())) {
+            throw new InvalidBearerTokenException("API Key has expired");
+        }
+
+        // 校验 IP 白名单
+        if (apiKey.getAllowedIps() != null && !apiKey.getAllowedIps().isEmpty()) {
+            String requestIp = WebUtils.getIP();
+            if (requestIp == null || !isIpAllowed(requestIp, apiKey.getAllowedIps())) {
+                throw new InvalidBearerTokenException("IP not allowed for this API Key");
+            }
+        }
+
+        // 通过 apiKey 中的 username 直接加载用户详情，无需二次远程调用
+        UserDetails userDetails = SpringContextHolder.getBean(PigxDefaultUserDetailsServiceImpl.class).loadUserByUsername(apiKey.getUsername());
+        if (!(userDetails instanceof PigxUser pigxUser)) {
+            throw new InvalidBearerTokenException("API Key owner not found");
+        }
+
+        if (!pigxUser.isAccountNonLocked()) {
+            log.warn("用户账号 {} 已被锁定，拒绝 API Key 访问", pigxUser.getUsername());
+            throw new InvalidBearerTokenException("Account is locked");
+        }
+        if (!pigxUser.isAccountNonExpired()) {
+            log.warn("用户账号 {} 已过期，拒绝 API Key 访问", pigxUser.getUsername());
+            throw new InvalidBearerTokenException("Account has expired");
+        }
+
+        // 异步更新最后使用时间，不阻塞主流程
+        final Long apiKeyId = apiKey.getId();
+        CompletableFuture.runAsync(() -> {
+            try {
+                remoteApiKeyService.updateLastUsed(apiKeyId);
+            } catch (Exception ex) {
+                log.warn("Failed to update API Key last_used_at: {}", ex.getMessage());
+            }
+        });
+
+        pigxUser.getAttributes().put(SecurityConstants.CLIENT_ID, "apikey");
+        return pigxUser;
+    }
+
+    private boolean isIpAllowed(String requestIp, String allowedIps) {
+        return Arrays.stream(allowedIps.split(StrUtil.COMMA))
+                .map(String::trim)
+                .anyMatch(requestIp::equals);
+    }
+
+    private static String sha256(String input) {
+        try {
+            byte[] hash = java.security.MessageDigest.getInstance("SHA-256")
+                    .digest(input.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+            return HexFormat.of().formatHex(hash);
+        } catch (java.security.NoSuchAlgorithmException e) {
+            throw new IllegalStateException("SHA-256 not available", e);
+        }
     }
 
 }

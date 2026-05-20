@@ -22,7 +22,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.authorization.method.PrePostTemplateDefaults;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -95,7 +94,7 @@ public class PigxResourceServerConfiguration {
     /**
      * 创建并返回一个支持自定义权限表达式的默认模板实例
      *
-     * @return {@link PrePostTemplateDefaults} 权限表达式默认模板实例
+     * @return {@link AnnotationTemplateExpressionDefaults} 权限表达式默认模板实例
      */
     @Bean
     AnnotationTemplateExpressionDefaults prePostTemplateDefaults() {

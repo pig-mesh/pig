@@ -32,9 +32,4 @@ public class PigxFeignClientConfiguration {
 		return new PigxOAuthRequestInterceptor(tokenResolver);
 	}
 
-	@Bean
-	public RequestInterceptor clientToCRequestInterceptor() {
-		return new PigxClientToCRequestInterceptor();
-	}
-
 }

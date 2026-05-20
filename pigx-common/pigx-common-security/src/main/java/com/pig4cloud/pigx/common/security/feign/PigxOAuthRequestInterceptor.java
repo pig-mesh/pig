@@ -5,6 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
 import com.pig4cloud.pigx.common.core.util.WebUtils;
 import com.pig4cloud.pigx.common.security.util.NonWebTokenContextHolder;
+import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,6 +55,11 @@ public class PigxOAuthRequestInterceptor implements RequestInterceptor {
         // 优先尝试从 Web 请求中解析 token
         if (Objects.nonNull(request)) {
             token = tokenResolver.resolve(request);
+        }
+
+        // 从webcontext 中获取 token
+        if (StrUtil.isBlank(token)) {
+            token = SecurityUtils.getToken();
         }
 
         // 如果 request 中没有 token，从 NonWebTokenContextHolder 获取（适配消息队列等非 Web 场景）
