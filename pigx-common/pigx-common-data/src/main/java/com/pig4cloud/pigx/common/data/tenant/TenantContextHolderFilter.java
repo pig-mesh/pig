@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -37,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.interceptor.SimpleKey;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -71,25 +70,23 @@ public class TenantContextHolderFilter extends GenericFilterBean {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
-        String headerTenantId = request.getHeader(CommonConstants.TENANT_ID);
-        String paramTenantId = request.getParameter(CommonConstants.TENANT_ID);
-
-        log.debug("获取header中的租户ID为:{}", headerTenantId);
-
-        if (StrUtil.isNotBlank(headerTenantId) && !StrUtil.equals(UNDEFINED_STR, headerTenantId)) {
-            TenantContextHolder.setTenantId(Long.parseLong(headerTenantId));
-        } else if (StrUtil.isNotBlank(paramTenantId) && !StrUtil.equals(UNDEFINED_STR, paramTenantId)) {
-            TenantContextHolder.setTenantId(Long.parseLong(paramTenantId));
-        } else {
-            TenantContextHolder.setTenantId(CommonConstants.TENANT_ID_1);
-        }
-
-        if (!checkTenantStatus(request, response)) {
-            TenantContextHolder.clear();
-            return;
-        }
-
         try {
+            String headerTenantId = request.getHeader(CommonConstants.TENANT_ID);
+            String paramTenantId = request.getParameter(CommonConstants.TENANT_ID);
+
+            log.debug("获取header中的租户ID为:{}", headerTenantId);
+
+            if (StrUtil.isNotBlank(headerTenantId) && !StrUtil.equals(UNDEFINED_STR, headerTenantId)) {
+                TenantContextHolder.setTenantId(Long.parseLong(headerTenantId));
+            } else if (StrUtil.isNotBlank(paramTenantId) && !StrUtil.equals(UNDEFINED_STR, paramTenantId)) {
+                TenantContextHolder.setTenantId(Long.parseLong(paramTenantId));
+            } else {
+                TenantContextHolder.setTenantId(CommonConstants.TENANT_ID_1);
+            }
+
+            if (!checkTenantStatus(request, response)) {
+                return;
+            }
             filterChain.doFilter(request, response);
         } finally {
             TenantContextHolder.clear();
@@ -110,27 +107,24 @@ public class TenantContextHolderFilter extends GenericFilterBean {
             return true;
         }
 
-        List<SysTenant> tenantList = null;
-
-        // 判断租户状态
-        Cache cache = cacheManager.getCache(CacheConstants.TENANT_DETAILS);
-
-        if (Objects.nonNull(cache) && Objects.nonNull(cache.get(SimpleKey.EMPTY, List.class))) {
-            tenantList = cache.get(SimpleKey.EMPTY, List.class);
-        } else {
-            R<List<SysTenant>> tenantListR = remoteTenantService.list();
-            tenantList = tenantListR.getData();
+        List<SysTenant> tenantList;
+        try {
+            tenantList = getTenantList();
+        } catch (Exception ex) {
+            log.error("获取租户列表失败", ex);
+            writeTenantExceptionResponse(response, "租户列表获取失败，请检查租户服务状态");
+            return false;
         }
 
         if (CollUtil.isEmpty(tenantList)) {
+            writeTenantExceptionResponse(response, "租户列表获取失败，请检查租户服务状态");
             return false;
         }
 
         // 获取当前请求的租户ID
         Long currentTenantId = TenantContextHolder.getTenantId();
         // 检查租户是否存在且在有效期内
-        boolean exist = tenantList.stream()
-                .filter(tenant -> NumberUtil.equals(tenant.getId(), currentTenantId)) // 匹配租户ID
+        boolean exist = tenantList.stream().filter(tenant -> NumberUtil.equals(tenant.getId(), currentTenantId)) // 匹配租户ID
                 .filter(tenant -> tenant.getStartTime().isBefore(LocalDateTime.now())) // 检查开始时间：租户已生效
                 .anyMatch(tenant -> tenant.getEndTime().isAfter(LocalDateTime.now()));
 
@@ -139,10 +133,42 @@ public class TenantContextHolderFilter extends GenericFilterBean {
         }
 
         // 如果租户不存在或已失效，返回426状态码和错误信息
+        writeTenantExceptionResponse(response, StrUtil.format("租户ID为{}的租户不存在或已过期失效", currentTenantId));
+        return false;
+    }
+
+    /**
+     * 获取租户列表，缓存不存在时从远程服务读取。
+     *
+     * @return 租户列表
+     */
+    private List<SysTenant> getTenantList() {
+        Cache cache = cacheManager.getCache(CacheConstants.TENANT_DETAILS);
+        if (Objects.nonNull(cache)) {
+            List<SysTenant> tenantList = cache.get(SimpleKey.EMPTY, List.class);
+            if (Objects.nonNull(tenantList)) {
+                return tenantList;
+            }
+        }
+
+        R<List<SysTenant>> tenantListR = remoteTenantService.list();
+        return Objects.nonNull(tenantListR) ? tenantListR.getData() : null;
+    }
+
+    /**
+     * 写入租户异常响应。
+     *
+     * @param response 响应
+     * @param message  错误信息
+     */
+    @SneakyThrows
+    private void writeTenantExceptionResponse(HttpServletResponse response, String message) {
+        if (response.isCommitted()) {
+            return;
+        }
         response.setStatus(HttpStatus.UPGRADE_REQUIRED.value());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().print(JSONUtil.toJsonStr(R.failed(StrUtil.format("租户ID为{}的租户不存在或已过期失效", currentTenantId))));
-        return false;
+        response.getWriter().print(JSONUtil.toJsonStr(R.failed(message)));
     }
 
 }

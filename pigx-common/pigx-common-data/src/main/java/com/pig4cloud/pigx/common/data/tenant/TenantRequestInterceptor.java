@@ -16,15 +16,15 @@ import java.io.IOException;
  */
 public class TenantRequestInterceptor implements ClientHttpRequestInterceptor {
 
-    /**
-     * 拦截HTTP请求，添加租户ID到请求头
-     *
-     * @param request   HTTP请求对象
-     * @param body      请求体字节数组
-     * @param execution 请求执行器
-     * @return 客户端HTTP响应
-     * @throws IOException 当I/O操作失败时抛出
-     */
+	/**
+	 * 拦截HTTP请求，添加租户ID到请求头
+	 *
+	 * @param request   HTTP请求对象
+	 * @param body      请求体字节数组
+	 * @param execution 请求执行器
+	 * @return 客户端HTTP响应
+	 * @throws IOException 当I/O操作失败时抛出
+	 */
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution)
 			throws IOException {

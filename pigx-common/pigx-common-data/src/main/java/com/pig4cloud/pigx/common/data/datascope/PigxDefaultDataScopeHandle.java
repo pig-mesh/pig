@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -22,13 +22,10 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pigx.admin.api.entity.SysDept;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
-import com.pig4cloud.pigx.common.core.constant.SecurityConstants;
-import com.pig4cloud.pigx.common.core.constant.enums.UserTypeEnum;
+import com.pig4cloud.pigx.common.core.context.UserContext;
+import com.pig4cloud.pigx.common.core.context.UserContextHolder;
 import com.pig4cloud.pigx.common.core.util.RetOps;
-import com.pig4cloud.pigx.common.security.service.PigxUser;
-import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -41,24 +38,18 @@ import java.util.Objects;
  * <p>
  * 默认data scope 判断处理器
  */
-
-/**
- * @author lengleng
- * @date 2019-09-07
- * <p>
- * 默认data scope 判断处理器
- */
 @RequiredArgsConstructor
 public class PigxDefaultDataScopeHandle implements DataScopeHandle {
 
     private final RemoteDataScopeService dataScopeService;
 
+    private final UserContextHolder userContextHolder;
+
     @Override
     public Boolean calcScope(DataScope dataScope) {
-        // 对于TOC客户端，不进行数据权限校验
-        PigxUser user = SecurityUtils.getUser();
-        if (UserTypeEnum.TOC.getStatus().equals(user.getUserType())) {
-            return true;
+        UserContext user = userContextHolder.get();
+        if (user == null) {
+            return false;
         }
 
         // 业务代码里的规则，覆盖计算规则
@@ -66,19 +57,13 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
             return false;
         }
 
-        // 获取用户角色ID列表
-        List<String> roleIdList = user.getAuthorities()
-                .stream()
-                .map(GrantedAuthority::getAuthority)
-                .filter(authority -> authority.startsWith(SecurityConstants.ROLE))
-                .map(authority -> authority.split(StrUtil.UNDERLINE)[1])
-                .toList();
+        List<Long> roleIdList = user.getRoleIds();
         if (CollUtil.isEmpty(roleIdList)) {
             return false;
         }
 
         // 获取角色列表
-        List<SysRole> roleList = RetOps.of(dataScopeService.getRoleList(roleIdList))
+        List<SysRole> roleList = RetOps.of(dataScopeService.getRoleList(roleIdList.stream().map(String::valueOf).toList()))
                 .getData()
                 .orElseGet(Collections::emptyList);
         if (CollUtil.isEmpty(roleList)) {
@@ -92,7 +77,7 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
     /**
      * 处理数据权限
      */
-    private boolean processDataScope(PigxUser user, DataScope dataScope, List<SysRole> roleList) {
+    private boolean processDataScope(UserContext user, DataScope dataScope, List<SysRole> roleList) {
         List<Long> deptList = dataScope.getDeptList();
 
         for (SysRole role : roleList) {
@@ -134,7 +119,7 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
     /**
      * 处理本级及下级数据权限
      */
-    private void handleOwnChildLevelScope(PigxUser user, List<Long> deptList) {
+    private void handleOwnChildLevelScope(UserContext user, List<Long> deptList) {
         List<Long> descendantDeptIds = RetOps.of(dataScopeService.getDescendantList(user.getDeptId()))
                 .getData()
                 .orElseGet(Collections::emptyList)
@@ -147,14 +132,14 @@ public class PigxDefaultDataScopeHandle implements DataScopeHandle {
     /**
      * 处理本级数据权限
      */
-    private void handleOwnLevelScope(PigxUser user, List<Long> deptList) {
+    private void handleOwnLevelScope(UserContext user, List<Long> deptList) {
         deptList.add(user.getDeptId());
     }
 
     /**
      * 处理个人数据权限
      */
-    private void handleSelfLevelScope(PigxUser user, DataScope dataScope) {
+    private void handleSelfLevelScope(UserContext user, DataScope dataScope) {
         dataScope.setUsername(user.getUsername());
     }
 

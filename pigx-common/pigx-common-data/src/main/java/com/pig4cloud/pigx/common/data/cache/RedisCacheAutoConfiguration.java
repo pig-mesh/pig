@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,16 +17,14 @@
 
 package com.pig4cloud.pigx.common.data.cache;
 
-import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pig4cloud.pigx.common.core.jackson.PigxJavaTimeModule;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.cache.CacheManagerCustomizers;
-import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
+import org.springframework.boot.cache.autoconfigure.CacheManagerCustomizers;
+import org.springframework.boot.cache.autoconfigure.CacheProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -49,9 +47,10 @@ import java.util.Objects;
  * @author L.cm
  */
 @Configuration
-@AutoConfigureAfter({RedisAutoConfiguration.class})
+@AutoConfigureAfter({DataRedisAutoConfiguration.class})
 @ConditionalOnBean({RedisConnectionFactory.class})
 @EnableConfigurationProperties(CacheProperties.class)
+@SuppressWarnings("removal")
 public class RedisCacheAutoConfiguration {
 
     private final CacheProperties cacheProperties;
@@ -70,11 +69,12 @@ public class RedisCacheAutoConfiguration {
 
     @Primary
     @Bean("cacheResolver")
-    public CacheManager redisCacheManager(ObjectProvider<RedisConnectionFactory> connectionFactoryObjectProvider) {
+    public CacheManager redisCacheManager(ObjectProvider<RedisConnectionFactory> connectionFactoryObjectProvider,
+                                          ObjectMapper objectMapper) {
         RedisConnectionFactory connectionFactory = connectionFactoryObjectProvider.getIfAvailable();
         Objects.requireNonNull(connectionFactory, "Bean RedisConnectionFactory is null.");
         RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
-        RedisCacheConfiguration cacheConfiguration = this.determineConfiguration();
+        RedisCacheConfiguration cacheConfiguration = this.determineConfiguration(objectMapper);
         List<String> cacheNames = this.cacheProperties.getCacheNames();
         Map<String, RedisCacheConfiguration> initialCaches = new LinkedHashMap<>();
         if (!cacheNames.isEmpty()) {
@@ -91,16 +91,18 @@ public class RedisCacheAutoConfiguration {
         return this.customizerInvoker.customize(cacheManager);
     }
 
-    private RedisCacheConfiguration determineConfiguration() {
+    private RedisCacheConfiguration determineConfiguration(ObjectMapper objectMapper) {
         if (this.redisCacheConfiguration != null) {
             return this.redisCacheConfiguration;
         } else {
             CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
             RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
 
-            RedisSerializer<Object> jsonRedisSerializer = RedisSerializer.json();
-            ObjectMapper objectMapper = (ObjectMapper) ReflectUtil.getFieldValue(jsonRedisSerializer, "mapper");
-            objectMapper.registerModules(new PigxJavaTimeModule());
+            ObjectMapper redisObjectMapper = objectMapper.copy();
+            RedisSerializer<Object> jsonRedisSerializer = org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.builder()
+                    .objectMapper(redisObjectMapper)
+                    .defaultTyping(true)
+                    .build();
             config = config.serializeValuesWith(RedisSerializationContext.SerializationPair
                     .fromSerializer(jsonRedisSerializer));
             if (redisProperties.getTimeToLive() != null) {

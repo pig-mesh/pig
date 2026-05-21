@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -47,7 +47,6 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 	/**
 	 * 判断Controller是否包含page 参数
-	 *
 	 * @param parameter 参数
 	 * @return 是否过滤
 	 */
@@ -57,9 +56,9 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	}
 
 	/**
-	 * @param parameter     入参集合
-	 * @param mavContainer  model 和 view
-	 * @param webRequest    web相关
+	 * @param parameter 入参集合
+	 * @param mavContainer model 和 view
+	 * @param webRequest web相关
 	 * @param binderFactory 入参解析
 	 * @return 检查后新的page对象
 	 * <p>
@@ -67,7 +66,7 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 	 */
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-								  NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+			NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
 
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 
@@ -92,15 +91,15 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Optional.ofNullable(ascs)
-				.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
-						.filter(asc -> !SqlInjectionUtils.check(asc))
-						.map(OrderItem::asc)
-						.toList()));
+			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
+				.filter(asc -> !SqlInjectionUtils.check(asc))
+				.map(OrderItem::asc)
+                    .toList()));
 		Optional.ofNullable(descs)
-				.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
-						.filter(desc -> !SqlInjectionUtils.check(desc))
-						.map(OrderItem::desc)
-						.toList()));
+			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
+				.filter(desc -> !SqlInjectionUtils.check(desc))
+				.map(OrderItem::desc)
+                    .toList()));
 		page.addOrder(orderItemList);
 
 		return page;

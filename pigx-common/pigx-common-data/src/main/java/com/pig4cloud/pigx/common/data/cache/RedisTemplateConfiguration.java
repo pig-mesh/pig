@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,6 +18,7 @@
 package com.pig4cloud.pigx.common.data.cache;
 
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,8 +34,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
  */
 @EnableCaching
 @Configuration
-@AutoConfigureBefore(name = { "org.redisson.spring.starter.RedissonAutoConfigurationV2",
-		"org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration" })
+@AutoConfigureBefore(value = DataRedisAutoConfiguration.class, name = "org.redisson.spring.starter.RedissonAutoConfigurationV2")
 public class RedisTemplateConfiguration {
 
 	@Bean

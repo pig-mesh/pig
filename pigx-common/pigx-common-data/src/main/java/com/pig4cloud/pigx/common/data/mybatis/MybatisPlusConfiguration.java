@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@ import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInt
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.TenantLineInnerInterceptor;
 import com.pig4cloud.pigx.admin.api.feign.RemoteDataScopeService;
+import com.pig4cloud.pigx.common.core.context.UserContextHolder;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeInnerInterceptor;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeInterceptor;
 import com.pig4cloud.pigx.common.data.datascope.DataScopeSqlInjector;
@@ -30,15 +31,15 @@ import com.pig4cloud.pigx.common.data.datascope.PigxDefaultDataScopeHandle;
 import com.pig4cloud.pigx.common.data.resolver.SqlFilterArgumentResolver;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties;
 import com.pig4cloud.pigx.common.data.tenant.PigxTenantHandler;
-import com.pig4cloud.pigx.common.security.service.PigxUser;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.mapping.VendorDatabaseIdProvider;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -53,6 +54,7 @@ import java.util.Properties;
  * @author lengleng
  * @date 2020-02-08
  */
+@Slf4j
 @Configuration
 @ConditionalOnBean(DataSource.class)
 @AutoConfigureAfter(DataSourceAutoConfiguration.class)
@@ -71,17 +73,26 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 
     /**
      * mybatis plus 拦截器配置
+     * <p>
+     * 数据权限拦截器 {@link DataScopeInterceptor} 改为可选注入：
+     * 未提供 {@link com.pig4cloud.pigx.common.core.context.UserContextHolder} 的场景下不装配，
+     * 同时记录 WARN 日志，租户/分页/乐观锁等其它能力仍正常工作。
      *
-     * @return PigxDefaultDatascopeHandle
+     * @return MybatisPlusInterceptor
      */
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor(TenantLineInnerInterceptor tenantLineInnerInterceptor,
-                                                         DataScopeInterceptor dataScopeInterceptor) {
+                                                         ObjectProvider<DataScopeInterceptor> dataScopeInterceptorProvider) {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 注入多租户支持
         interceptor.addInnerInterceptor(tenantLineInnerInterceptor);
-        // 数据权限
-        interceptor.addInnerInterceptor(dataScopeInterceptor);
+        // 数据权限（可选）
+        DataScopeInterceptor dataScopeInterceptor = dataScopeInterceptorProvider.getIfAvailable();
+        if (dataScopeInterceptor != null) {
+            interceptor.addInnerInterceptor(dataScopeInterceptor);
+        } else {
+            log.warn("No UserContextHolder bean found, DataScopeInterceptor disabled.");
+        }
         // 分页支持
         PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
         paginationInnerInterceptor.setMaxLimit(1000L);
@@ -112,10 +123,11 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
      */
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnClass(PigxUser.class)
-    public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService) {
+    @ConditionalOnBean(UserContextHolder.class)
+    public DataScopeInterceptor dataScopeInterceptor(RemoteDataScopeService dataScopeService,
+                                                     UserContextHolder userContextHolder) {
         DataScopeInnerInterceptor dataScopeInnerInterceptor = new DataScopeInnerInterceptor();
-        dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDataScopeHandle(dataScopeService));
+        dataScopeInnerInterceptor.setDataScopeHandle(new PigxDefaultDataScopeHandle(dataScopeService, userContextHolder));
         return dataScopeInnerInterceptor;
     }
 
