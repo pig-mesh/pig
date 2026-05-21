@@ -113,9 +113,9 @@ public class SysSystemConfigServiceImpl extends ServiceImpl<SysSystemConfigMappe
             Field configsField = ReflectUtil.getField(OaFactory.class, "CONFIGS");
             configsField.setAccessible(true);
             Map<String, OaSender> configs = (Map<String, OaSender>) configsField.get(null);
-			configs.clear();
-		}
-		return R.ok();
-	}
+            configs.clear();
+        }
+        return R.ok();
+    }
 
 }

@@ -1,8 +1,8 @@
 package com.pig4cloud.pigx.admin.api.vo;
 
-import cn.idev.excel.annotation.ExcelIgnore;
-import cn.idev.excel.annotation.ExcelProperty;
-import cn.idev.excel.annotation.write.style.ColumnWidth;
+import org.apache.fesod.sheet.annotation.ExcelIgnore;
+import org.apache.fesod.sheet.annotation.ExcelProperty;
+import org.apache.fesod.sheet.annotation.write.style.ColumnWidth;
 import com.pig4cloud.pigx.common.excel.annotation.ExcelLine;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -28,6 +28,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.constant.UpmsErrorCodes;
+import com.pig4cloud.pigx.admin.api.dto.SysMenuSortDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysI18nEntity;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.api.entity.SysRoleMenu;
@@ -38,10 +39,8 @@ import com.pig4cloud.pigx.admin.service.SysMenuService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.constant.enums.MenuTypeEnum;
-import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
-import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,6 +53,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -125,6 +125,37 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         return this.updateById(sysMenu);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    @CacheEvict(value = CacheConstants.MENU_DETAILS, allEntries = true)
+    public R updateMenuSort(SysMenuSortDTO sortDTO) {
+        List<Long> menuIds = sortDTO.getMenuIds();
+        Set<Long> uniqueMenuIds = new HashSet<>(menuIds);
+        if (uniqueMenuIds.size() != menuIds.size()) {
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_SORT_DUPLICATE));
+        }
+
+        List<SysMenu> menus = this.list(Wrappers.<SysMenu>lambdaQuery()
+                .in(SysMenu::getMenuId, menuIds)
+                .eq(SysMenu::getParentId, sortDTO.getParentId()));
+
+        if (menus.size() != menuIds.size()) {
+            return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_MENU_SORT_SCOPE_INVALID));
+        }
+
+        Map<Long, SysMenu> menuMap = menus.stream().collect(Collectors.toMap(SysMenu::getMenuId, Function.identity()));
+        List<SysMenu> updateList = new ArrayList<>(menuIds.size());
+        for (int index = 0; index < menuIds.size(); index++) {
+            SysMenu menu = menuMap.get(menuIds.get(index));
+            SysMenu updateMenu = new SysMenu();
+            updateMenu.setMenuId(menu.getMenuId());
+            updateMenu.setSortOrder(index);
+            updateList.add(updateMenu);
+        }
+
+        return R.ok(this.updateBatchById(updateList));
+    }
+
     /**
      * 构建树查询 1. 不是懒加载情况，查询全部 2. 是懒加载，根据parentId 查询 2.1 父节点为空，则查询ID -1
      *
@@ -136,7 +167,11 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public List<Tree<Long>> treeMenu(Long parentId, String menuName, String type) {
         Long parent = parentId == null ? CommonConstants.MENU_TREE_ROOT_ID : parentId;
 
-        List<TreeNode<Long>> collect = baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery().eq(Objects.nonNull(parentId), SysMenu::getParentId, parentId).like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName).eq(StrUtil.isNotBlank(type), SysMenu::getMenuType, type).orderByAsc(SysMenu::getSortOrder)).stream().map(getNodeFunction()).toList();
+        List<TreeNode<Long>> collect = baseMapper.selectList(Wrappers.<SysMenu>lambdaQuery()
+                .eq(Objects.nonNull(parentId), SysMenu::getParentId, parentId)
+                .like(StrUtil.isNotBlank(menuName), SysMenu::getName, menuName)
+                .eq(StrUtil.isNotBlank(type), SysMenu::getMenuType, type)
+                .orderByAsc(SysMenu::getSortOrder)).stream().map(getNodeFunction()).toList();
 
         // 模糊查询 不组装树结构 直接返回 表格方便编辑
         if (StrUtil.isNotBlank(menuName)) {
@@ -215,7 +250,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 return MenuTypeEnum.TOP_MENU.getType().equals(vo.getMenuType());
             }
             // 其他查询 左侧 + 顶部
-            return !MenuTypeEnum.BUTTON.getType().equals(vo.getMenuType());
+            return StrUtil.isNotBlank(vo.getMenuType()) && !MenuTypeEnum.BUTTON.getType().equals(vo.getMenuType());
         };
     }
 

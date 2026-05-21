@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -125,7 +125,7 @@ public class SysFileController {
      * @param fileName 自定义文件名
      * @return 文件上传结果
      */
-    @Inner
+    @Inner(value = false)
     @PostMapping(value = "/inner/upload")
     public R innerUpload(@RequestPart("file") MultipartFile file,
                          @RequestParam(value = "dir", required = false) String dir,
@@ -208,10 +208,10 @@ public class SysFileController {
      * 移动文件组
      * @param fileGroupDTO SysFileGroupDTO对象，要移动的文件组信息
      * @return 包含移动结果的R对象
-	 */
-	@PutMapping("/group/move")
-	public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
-		return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
-	}
+     */
+    @PutMapping("/group/move")
+    public R moveFileGroup(@RequestBody SysFileGroupDTO fileGroupDTO) {
+        return R.ok(sysFileService.moveFileGroup(fileGroupDTO));
+    }
 
 }

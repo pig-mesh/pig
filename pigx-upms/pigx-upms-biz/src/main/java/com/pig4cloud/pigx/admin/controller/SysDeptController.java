@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -27,7 +27,6 @@ import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
 import com.pig4cloud.pigx.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
-import com.pig4cloud.pigx.common.security.annotation.Inner;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -130,7 +129,6 @@ public class SysDeptController {
 		return R.ok(sysDeptService.listDescendant(deptId));
 	}
 
-	@Inner
 	@GetMapping(value = "/leader/{deptId}")
 	public R getAllDeptLeader(@PathVariable Long deptId) {
 		return R.ok(sysDeptService.listDeptLeader(deptId));

@@ -9,7 +9,7 @@ import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
@@ -38,11 +38,11 @@ public class ClientDetailsInitRunner implements InitializingBean {
 	private final SysTenantService tenantService;
 
 	/**
-	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
+     * ApplicationReadyEvent 使用 TransactionalEventListener 时启动时无法获取到事件
 	 */
 	@Async
 	@Order
-	@EventListener({ WebServerInitializedEvent.class })
+    @EventListener({ApplicationReadyEvent.class})
 	public void webServerInit() {
 		this.initClientDetails();
 	}
@@ -63,7 +63,7 @@ public class ClientDetailsInitRunner implements InitializingBean {
 					// 3. 拼接key 1:client_config_flag:clinetId
 					String key = String.format("%s:%s:%s", tenantId, CacheConstants.CLIENT_FLAG, client.getClientId());
 					// 4. hashkey clientId 保存客户端信息
-                    RedisUtils.set(key, client.getAdditionalInformation());
+					RedisUtils.set(key, client.getAdditionalInformation());
 				});
 			});
 		});

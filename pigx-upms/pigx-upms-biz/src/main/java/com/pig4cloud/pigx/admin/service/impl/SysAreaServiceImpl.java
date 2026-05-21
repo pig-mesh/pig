@@ -80,6 +80,6 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
         wrapper.orderByAsc(SysAreaEntity::getAreaType);
         wrapper.orderByDesc(SysAreaEntity::getAreaSort);
         return baseMapper.selectPage(page, wrapper);
-	}
+    }
 
 }

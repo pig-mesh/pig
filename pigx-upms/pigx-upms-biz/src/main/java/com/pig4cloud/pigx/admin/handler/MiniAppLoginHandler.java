@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -34,6 +34,7 @@ import com.pig4cloud.pigx.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pigx.common.core.exception.CheckedException;
 import com.pig4cloud.pigx.common.core.util.MsgUtils;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -100,8 +101,8 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
         R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
         if (userInfoR.getData() == null) {
-            log.info("小程序不存在用户:{}", openId);
-            return null;
+            log.info("小程序不存在用户:{}, 开始自动创建", openId);
+            return createMiniAppUser(openId);
         }
 
         return userInfoR.getData();
@@ -119,6 +120,41 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
         user.setMiniOpenid(identify);
         sysUserService.updateById(user);
         return true;
+    }
+
+    /**
+     * 自动创建小程序用户
+     *
+     * @param openId 小程序openId
+     * @return 创建成功返回用户信息，失败返回null
+     */
+    private UserInfo createMiniAppUser(String openId) {
+        try {
+            log.info("开始为openId[{}]创建小程序用户", openId);
+
+            // 构造用户DTO
+            UserDTO newUser = new UserDTO();
+            newUser.setMiniOpenid(openId);
+            newUser.setUsername(openId);
+            newUser.setPassword(openId);
+            newUser.setTenantId(TenantContextHolder.getTenantId());
+            // 保存用户
+            sysUserService.saveUser(newUser);
+            log.info("小程序用户创建成功，openId: {}", openId);
+
+            // 重新获取用户信息
+            UserDTO queryDTO = new UserDTO();
+            queryDTO.setMiniOpenid(openId);
+            R<UserInfo> userInfoR = sysUserService.getUserInfo(queryDTO);
+
+            if (userInfoR.getData() != null) {
+                return userInfoR.getData();
+            }
+        } catch (Exception e) {
+            log.error("创建小程序用户异常，openId: {}, 错误信息: {}", openId, e.getMessage(), e);
+        }
+
+        return null;
     }
 
 }

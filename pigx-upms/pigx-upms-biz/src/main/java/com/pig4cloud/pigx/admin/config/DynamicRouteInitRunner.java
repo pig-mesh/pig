@@ -26,7 +26,7 @@ import com.pig4cloud.pigx.common.gateway.vo.RouteDefinitionVo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.web.context.WebServerInitializedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cloud.client.ConditionalOnDiscoveryEnabled;
 import org.springframework.cloud.gateway.filter.FilterDefinition;
 import org.springframework.cloud.gateway.handler.predicate.PredicateDefinition;
@@ -37,7 +37,6 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.transaction.event.TransactionalEventListener;
 
@@ -54,6 +53,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @ConditionalOnDiscoveryEnabled
+@SuppressWarnings("removal")
 public class DynamicRouteInitRunner implements InitializingBean {
 
 	private final RedisTemplate<String, String> redisTemplate;
@@ -63,11 +63,11 @@ public class DynamicRouteInitRunner implements InitializingBean {
 	private final RedisMessageListenerContainer listenerContainer;
 
 	/**
-	 * WebServerInitializedEvent 使用 TransactionalEventListener 时启动时无法获取到事件
+     * ApplicationReadyEvent 使用 TransactionalEventListener 时启动时无法获取到事件
 	 */
 	@Async
 	@Order
-	@EventListener({WebServerInitializedEvent.class})
+    @EventListener({ApplicationReadyEvent.class})
 	public void WebServerInit() {
 		this.initRoute();
 	}
@@ -93,7 +93,8 @@ public class DynamicRouteInitRunner implements InitializingBean {
 			vo.setMetadata(JSONUtil.toBean(route.getMetadata(), Map.class));
 			log.info("加载路由ID：{},{}", route.getRouteId(), vo);
 
-			redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
+            redisTemplate.setHashValueSerializer(
+                    new org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer<>(RouteDefinitionVo.class));
 			HashOperations<String, String, RouteDefinitionVo> stringStringValueOperations = redisTemplate.opsForHash();
 			stringStringValueOperations.put(CacheConstants.ROUTE_KEY, route.getRouteId(), vo);
 		});

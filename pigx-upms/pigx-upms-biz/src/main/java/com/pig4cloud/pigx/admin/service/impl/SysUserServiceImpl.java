@@ -246,24 +246,68 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Boolean deleteUserByIds(Long[] ids) {
+        Long currentTenantId = SecurityUtils.getUser().getTenantId();
+        List<Long> userIds = CollUtil.toList(ids);
+
         // 删除 spring cache
-        List<SysUser> userList = baseMapper.selectByIds(CollUtil.toList(ids));
+        List<SysUser> userList = baseMapper.selectByIds(userIds);
         Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
         for (SysUser sysUser : userList) {
             cache.evict(sysUser.getUsername());
         }
 
         // 删除用户角色
-        sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getUserId, CollUtil.toList(ids)));
-        sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getUserId, CollUtil.toList(ids)));
-        sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, CollUtil.toList(ids)));
+        sysUserRoleMapper.delete(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getUserId, userIds));
+        sysUserDeptMapper.delete(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getUserId, userIds));
+        sysUserPostMapper.delete(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, userIds));
         sysTenantUserMapper.delete(Wrappers.<SysTenantUser>lambdaQuery()
-                .in(SysTenantUser::getUserId, CollUtil.toList(ids))
-                .eq(SysTenantUser::getTenantId, SecurityUtils.getUser().getTenantId()));
-        this.removeBatchByIds(CollUtil.toList(ids));
+                .in(SysTenantUser::getUserId, userIds)
+                .eq(SysTenantUser::getTenantId, currentTenantId));
+
+        // 用户降级处理，如果用户关联了其他租户，则不删除用户信息，仅删除当前租户关联关系并更新用户所属租户；如果没有关联其他租户，则删除用户信息
+        List<Long> removableUserIds = findRemovableUserIds(userList, currentTenantId);
+        if (CollUtil.isNotEmpty(removableUserIds)) {
+            this.removeBatchByIds(removableUserIds);
+        }
         return Boolean.TRUE;
     }
 
+    /**
+     * 查找可移除的用户ID列表
+     *
+     * @param userList        用户列表
+     * @param currentTenantId 当前租户ID
+     * @return 可移除的用户ID列表
+     */
+    private List<Long> findRemovableUserIds(List<SysUser> userList, Long currentTenantId) {
+        return TenantBroker.noneAs(() -> {
+            List<Long> removableUserIds = new ArrayList<>(userList.size());
+            for (SysUser sysUser : userList) {
+                SysTenantUser otherTenantUser = sysTenantUserMapper.selectOne(Wrappers.<SysTenantUser>lambdaQuery()
+                        .eq(SysTenantUser::getUserId, sysUser.getUserId())
+                        .ne(SysTenantUser::getTenantId, currentTenantId), false);
+
+                if (Objects.isNull(otherTenantUser)) {
+                    removableUserIds.add(sysUser.getUserId());
+                    continue;
+                }
+
+                UserDTO userDTO = new UserDTO();
+                userDTO.setUserId(sysUser.getUserId());
+                userDTO.setUsername(sysUser.getUsername());
+                userDTO.setTenantId(otherTenantUser.getTenantId());
+                sysTenantService.updateUserTenant(userDTO);
+            }
+            return removableUserIds;
+        });
+    }
+
+    /**
+     * 更新用户信息
+     *
+     * @param userDto 用户信息传输对象
+     * @return 更新结果
+     */
     @Override
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
     public R<Boolean> updateUserInfo(UserDTO userDto) {
@@ -282,14 +326,25 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             if (!StrUtil.equals(userDto.getCode(), codeObj.toString())) {
                 return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
             }
+            sysUser.setPhone(userDto.getPhone());
         }
 
         return R.ok(this.updateById(sysUser));
     }
 
+    /**
+     * 更新用户信息。
+     * <p>
+     * 字段审计：根据 {@code userId} 在方法执行前后分别调用当前 Service 的 Mapper 查询用户快照，
+     * 对比结果由 pigx-common-audit 写入 sys_audit_log。
+     * </p>
+     *
+     * @param userDto 用户更新数据
+     * @return 更新结果
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    @Audit(name = "用户更新", spel = "@sysUserMapper.selectById(#userDto.userId)")
+    @Audit(name = "用户更新", id = "#userDto.userId")
     @CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
     public Boolean updateUser(UserDTO userDto) {
         // 更新用户表信息
@@ -537,7 +592,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public R<Boolean> registerUser(RegisterUserDTO userDto) {
         String feignHeader = WebUtils.getRequest().getHeader(SecurityConstants.FROM);
         // 外部注册校验短信验证码,对 AI 的内部注册跳过验证码处理
-        if (!SecurityConstants.FROM_IN.equals(feignHeader)){
+        if (!SecurityConstants.FROM_IN.equals(feignHeader)) {
             if (StrUtil.isBlank(userDto.getCode())) {
                 return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
             }

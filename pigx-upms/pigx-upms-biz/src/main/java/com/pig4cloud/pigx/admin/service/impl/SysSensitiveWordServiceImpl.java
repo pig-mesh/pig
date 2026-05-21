@@ -63,8 +63,8 @@ public class SysSensitiveWordServiceImpl extends ServiceImpl<SysSensitiveWordMap
         RedisUtils.execute((RedisCallback<Void>) connection -> {
             connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
             return null;
-		});
-		return Boolean.TRUE;
-	}
+        });
+        return Boolean.TRUE;
+    }
 
 }

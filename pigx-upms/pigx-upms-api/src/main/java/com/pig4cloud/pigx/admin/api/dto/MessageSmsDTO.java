@@ -41,6 +41,20 @@ public class MessageSmsDTO {
     private LinkedHashMap<String, String> params;
 
     /**
+     * 图形验证码类型
+     */
+    @Getter
+    @Setter
+    private String captchaType;
+
+    /**
+     * 图形验证码凭据
+     */
+    @Getter
+    @Setter
+    private String captchaVerification;
+
+    /**
      * ext 参数
      */
     private String extParams;
@@ -57,8 +71,8 @@ public class MessageSmsDTO {
 
     // 静态方法用于创建Builder实例
     public static Builder builder() {
-		return new Builder();
-	}
+        return new Builder();
+    }
 
     // Builder类
     public static class Builder {

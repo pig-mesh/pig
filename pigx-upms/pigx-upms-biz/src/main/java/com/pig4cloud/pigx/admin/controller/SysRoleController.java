@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -24,9 +24,11 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.admin.api.entity.SysRole;
+import com.pig4cloud.pigx.admin.api.entity.SysRoleWidget;
 import com.pig4cloud.pigx.admin.api.vo.RoleExcelVO;
 import com.pig4cloud.pigx.admin.api.vo.RoleMenuVO;
 import com.pig4cloud.pigx.admin.service.SysRoleService;
+import com.pig4cloud.pigx.admin.service.SysRoleWidgetService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.excel.annotation.RequestExcel;
@@ -57,6 +59,8 @@ import java.util.List;
 public class SysRoleController {
 
 	private final SysRoleService sysRoleService;
+
+	private final SysRoleWidgetService sysRoleWidgetService;
 
 	/**
 	 * 通过ID查询角色信息
@@ -184,6 +188,38 @@ public class SysRoleController {
 	@HasPermission("sys_role_export")
 	public R importRole(@RequestExcel List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
 		return sysRoleService.importRole(excelVOList, bindingResult);
+	}
+
+	/**
+	 * 查询当前用户角色的首页widget配置（取 widgetKeys 最多的那条）
+	 * @return widget配置，无配置时返回 null
+	 */
+	@GetMapping("/widget/current")
+	public R getCurrentUserWidget() {
+		return R.ok(sysRoleWidgetService.getByCurrentUser());
+	}
+
+	/**
+	 * 查询角色的首页widget配置
+	 * @param roleId 角色ID
+	 * @return widget配置，无配置时返回 null
+	 */
+	@GetMapping("/widget/{roleId}")
+	@HasPermission("sys_role_view")
+	public R getRoleWidget(@PathVariable Long roleId) {
+		return R.ok(sysRoleWidgetService.getByRoleId(roleId));
+	}
+
+	/**
+	 * 保存角色的首页widget配置
+	 * @param sysRoleWidget widget配置对象
+	 * @return success/fail
+	 */
+	@SysLog("保存角色首页配置")
+	@PutMapping("/widget")
+	@HasPermission("sys_role_edit")
+	public R saveRoleWidget(@RequestBody SysRoleWidget sysRoleWidget) {
+		return R.ok(sysRoleWidgetService.saveOrUpdateByRoleId(sysRoleWidget));
 	}
 
 }

@@ -129,7 +129,7 @@ public class SysAreaController {
     @HasPermission("sys_sysArea_export")
     public List<SysAreaEntity> export(SysAreaEntity sysArea, Long[] ids) {
         return sysAreaService.list(Wrappers.lambdaQuery(sysArea)
-			.in(ArrayUtil.isNotEmpty(ids), SysAreaEntity::getId, CollUtil.toList(ids)));
-	}
+                .in(ArrayUtil.isNotEmpty(ids), SysAreaEntity::getId, CollUtil.toList(ids)));
+    }
 
 }

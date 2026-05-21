@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -23,7 +23,6 @@ import com.pig4cloud.pigx.admin.service.SysI18nService;
 import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,7 +44,6 @@ public class SysI18nServiceImpl extends ServiceImpl<SysI18nMapper, SysI18nEntity
 	 * @return
 	 */
 	@Override
-	@Cacheable(value = CacheConstants.I18N_DETAILS)
 	public Map listMap() {
 		List<SysI18nEntity> sysI18nEntities = baseMapper.selectList(null);
 		HashMap<String, List<Map<String, String>>> stringListHashMap = new HashMap<>();
@@ -69,7 +67,7 @@ public class SysI18nServiceImpl extends ServiceImpl<SysI18nMapper, SysI18nEntity
 	 * @return
 	 */
 	@Override
-	@CacheEvict(value = CacheConstants.I18N_DETAILS, allEntries = true)
+	@CacheEvict(value = CacheConstants.SITE_CONFIG_DETAILS, allEntries = true)
 	public R syncI18nCache() {
 		return R.ok();
 	}

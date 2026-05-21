@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -23,6 +23,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.pig4cloud.pigx.admin.api.dto.SysDictItemSortDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysDict;
 import com.pig4cloud.pigx.admin.api.entity.SysDictItem;
 import com.pig4cloud.pigx.admin.service.SysDictItemService;
@@ -112,7 +113,8 @@ public class SysDictController {
         return R.ok(sysDictItemService.list(Wrappers.<SysDictItem>query()
                 .lambda()
                 .eq(SysDictItem::getDictType, type)
-                .orderByDesc(SysDictItem::getSortOrder)));
+                .orderByAsc(SysDictItem::getSortOrder)
+                .orderByAsc(SysDictItem::getId)));
     }
 
     /**
@@ -180,7 +182,9 @@ public class SysDictController {
      */
     @GetMapping("/item/page")
     public R getSysDictItemPage(Page page, SysDictItem sysDictItem) {
-        return R.ok(sysDictItemService.page(page, Wrappers.query(sysDictItem)));
+        return R.ok(sysDictItemService.page(page, Wrappers.<SysDictItem>lambdaQuery(sysDictItem)
+                .orderByAsc(SysDictItem::getSortOrder)
+                .orderByAsc(SysDictItem::getId)));
     }
 
     /**
@@ -228,6 +232,18 @@ public class SysDictController {
     }
 
     /**
+     * 更新字典项排序
+     *
+     * @param sortDTO 字典项排序信息
+     * @return R
+     */
+    @SysLog("更新字典项排序")
+    @PutMapping("/item/sort")
+    public R sortDictItem(@Valid @RequestBody SysDictItemSortDTO sortDTO) {
+        return sysDictItemService.updateDictItemSort(sortDTO);
+    }
+
+    /**
      * 通过id删除字典项
      * @param id id
      * @return R
@@ -247,12 +263,12 @@ public class SysDictController {
     @PutMapping("/sync")
     public R sync() {
         return sysDictService.syncDictCache();
-	}
+    }
 
-	@ResponseExcel
-	@GetMapping("/export")
-	public List<SysDictItem> export(SysDictItem sysDictItem) {
-		return sysDictItemService.list(Wrappers.query(sysDictItem));
-	}
+    @ResponseExcel
+    @GetMapping("/export")
+    public List<SysDictItem> export(SysDictItem sysDictItem) {
+        return sysDictItemService.list(Wrappers.query(sysDictItem));
+    }
 
 }

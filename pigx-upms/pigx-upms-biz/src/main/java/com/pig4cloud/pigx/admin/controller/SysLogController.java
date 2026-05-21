@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -120,8 +120,8 @@ public class SysLogController {
 	@GetMapping("/export")
 	@HasPermission("sys_log_export")
 	public List<SysLog> export(SysLog sysLog, Long[] ids) {
-        return sysLogService
-                .list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, CollUtil.toList(ids)));
+		return sysLogService
+				.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, CollUtil.toList(ids)));
 	}
 
 }

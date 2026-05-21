@@ -117,7 +117,7 @@ public class SysSystemConfigController {
     @HasPermission("sys_message_export")
     public List<SysSystemConfigEntity> export(SysSystemConfigEntity sysSystemConfig, Long[] ids) {
         return sysSystemConfigService.list(Wrappers.lambdaQuery(sysSystemConfig)
-			.in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, CollUtil.toList(ids)));
-	}
+                .in(ArrayUtil.isNotEmpty(ids), SysSystemConfigEntity::getId, CollUtil.toList(ids)));
+    }
 
 }

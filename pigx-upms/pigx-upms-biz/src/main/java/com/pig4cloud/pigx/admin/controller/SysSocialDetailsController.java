@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -72,7 +72,7 @@ public class SysSocialDetailsController {
 	 */
 	@Inner(value = false)
 	@GetMapping("/getLoginAppList")
-    public R getLoginAppList() {
+	public R getLoginAppList() {
 		return R.ok(sysSocialDetailsService.selectList());
 	}
 
@@ -156,8 +156,8 @@ public class SysSocialDetailsController {
 	 */
 	@GetMapping("/export")
 	public List<SysSocialDetails> export(SysSocialDetails sysSocialDetails, Long[] ids) {
-        return sysSocialDetailsService.list(Wrappers.lambdaQuery(sysSocialDetails)
-                .in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, CollUtil.toList(ids)));
+		return sysSocialDetailsService.list(Wrappers.lambdaQuery(sysSocialDetails)
+				.in(ArrayUtil.isNotEmpty(ids), SysSocialDetails::getId, CollUtil.toList(ids)));
 	}
 
 }

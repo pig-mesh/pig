@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -20,8 +20,10 @@
 package com.pig4cloud.pigx.admin.controller;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.pig4cloud.pigx.admin.api.dto.SysMenuSortDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.admin.service.SysMenuService;
+import com.pig4cloud.pigx.common.core.constant.CacheConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
@@ -31,6 +33,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -137,6 +140,36 @@ public class SysMenuController {
 	@HasPermission("sys_menu_edit")
 	public R update(@Valid @RequestBody SysMenu sysMenu) {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
+	}
+
+    /**
+     * 更新菜单同级排序
+     *
+     * @param sortDTO 菜单排序信息
+     * @return success/false
+     */
+    @SysLog("更新菜单排序")
+    @PutMapping("/sort")
+    @HasPermission("sys_menu_edit")
+    public R sort(@Valid @RequestBody SysMenuSortDTO sortDTO) {
+        return sysMenuService.updateMenuSort(sortDTO);
+    }
+
+	/**
+	 * 刷新指定角色的菜单权限缓存
+	 * <p>
+	 * menu_details 缓存 key = roleId，精确清除该角色的菜单缓存，
+	 * 与 SysRoleMenuServiceImpl.saveRoleMenus 的 @CacheEvict(key = "#roleId") 逻辑保持一致。
+	 *
+	 * @param roleId 角色ID
+	 * @return success/fail
+	 */
+	@SysLog("刷新角色菜单缓存")
+	@DeleteMapping("/cache/{roleId}")
+	@HasPermission("sys_role_edit")
+	@CacheEvict(value = CacheConstants.MENU_DETAILS, key = "#roleId")
+	public R clearMenuCache(@PathVariable Long roleId) {
+		return R.ok();
 	}
 
 }

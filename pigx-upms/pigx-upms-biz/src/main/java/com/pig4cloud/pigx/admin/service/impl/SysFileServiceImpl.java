@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpUtil;
-import com.amazonaws.services.s3.model.S3Object;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pigx.admin.api.dto.SysFileGroupDTO;
@@ -40,6 +39,7 @@ import com.pig4cloud.pigx.admin.service.SysFileService;
 import com.pig4cloud.pigx.common.core.constant.CommonConstants;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
+import com.pig4cloud.pigx.common.file.core.FileObject;
 import com.pig4cloud.pigx.common.file.core.FileProperties;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import jakarta.servlet.http.HttpServletResponse;
@@ -128,13 +128,13 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
             return;
         }
 
-        try (S3Object s3Object = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
+        try (FileObject fileObject = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
             response.setContentType("application/octet-stream; charset=UTF-8");
             // 文件唯一hash
             response.addHeader(SysFile.Fields.hash, sysFile.getHash());
             response.addHeader(HttpHeaders.CONTENT_DISPOSITION,
                     "attachment; filename=" + URLUtil.encode(sysFile.getOriginal()));
-            IoUtil.copy(s3Object.getObjectContent(), response.getOutputStream());
+            IoUtil.copy(fileObject.getObjectContent(), response.getOutputStream());
         } catch (Exception e) {
             log.error("文件读取异常: {}", e.getLocalizedMessage());
         }
@@ -250,12 +250,12 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
         sysFile.setOriginal(file.getOriginalFilename());
         sysFile.setFileSize(file.getSize());
         sysFile.setBucketName(properties.getBucketName());
-		sysFile.setType(type);
-		sysFile.setGroupId(groupId);
+        sysFile.setType(type);
+        sysFile.setGroupId(groupId);
 
-		sysFile.setHash(SecureUtil.md5(file.getInputStream()));
-		// 调用save方法保存SysFile对象
-		this.save(sysFile);
-	}
+        sysFile.setHash(SecureUtil.md5(file.getInputStream()));
+        // 调用save方法保存SysFile对象
+        this.save(sysFile);
+    }
 
 }

@@ -59,10 +59,20 @@ public interface UpmsErrorCodes {
 
     String SYS_MENU_BUTTON_CANNOT_HOME = "sys.menu.button.cannot.home";
 
+    String SYS_MENU_SORT_DUPLICATE = "sys.menu.sort.duplicate";
+
+    String SYS_MENU_SORT_SCOPE_INVALID = "sys.menu.sort.scopeInvalid";
+
     // === 字典相关 ===
     String SYS_DICT_DELETE_SYSTEM = "sys.dict.delete.system";
 
     String SYS_DICT_UPDATE_SYSTEM = "sys.dict.update.system";
+
+    String SYS_DICT_NOT_FOUND = "sys.dict.notFound";
+
+    String SYS_DICT_ITEM_SORT_DUPLICATE = "sys.dict.item.sort.duplicate";
+
+    String SYS_DICT_ITEM_SORT_SCOPE_INVALID = "sys.dict.item.sort.scopeInvalid";
 
     // === 参数相关 ===
     String SYS_PARAM_CONFIG_ERROR = "sys.param.config.error";

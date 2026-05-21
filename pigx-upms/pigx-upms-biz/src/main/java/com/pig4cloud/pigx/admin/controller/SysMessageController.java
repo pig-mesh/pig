@@ -185,14 +185,18 @@ public class SysMessageController {
     /**
      * 发送短信验证码
      *
-     * @param mobile     手机号
-     * @param registered 是否已注册，默认true
+     * @param mobile              手机号
+     * @param registered          是否已注册，默认true
+     * @param captchaType         图形验证码类型
+     * @param captchaVerification 图形验证码凭据
      * @return 发送结果
      */
     @Inner(value = false)
     @GetMapping("/send/smsCode")
-    public R sendSmsCode(@RequestParam String mobile, @RequestParam(required = false, defaultValue = "true") boolean registered) {
-        return sysMessageService.sendSmsCode(mobile, registered);
+    public R sendSmsCode(@RequestParam String mobile, @RequestParam(required = false, defaultValue = "true") boolean registered,
+                         @RequestParam(required = false) String captchaType,
+                         @RequestParam(required = false) String captchaVerification) {
+        return sysMessageService.sendSmsCode(mobile, registered, captchaType, captchaVerification);
     }
 
     /**

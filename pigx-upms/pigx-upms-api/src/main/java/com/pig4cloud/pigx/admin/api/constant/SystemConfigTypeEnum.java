@@ -48,6 +48,6 @@ public enum SystemConfigTypeEnum {
     WETALK("wetalk");
 
     @Getter
-	private final String value;
+    private final String value;
 
 }

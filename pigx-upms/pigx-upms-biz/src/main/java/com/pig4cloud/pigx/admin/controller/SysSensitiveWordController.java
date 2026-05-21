@@ -175,10 +175,10 @@ public class SysSensitiveWordController {
     @HasPermission("admin_sysSensitiveWord_del")
     public R refresh() {
         RedisUtils.execute((RedisCallback<Void>) connection -> {
-			connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
-			return null;
-		});
-		return R.ok();
-	}
+            connection.publish(CacheConstants.SENSITIVE_REDIS_RELOAD_TOPIC.getBytes(), "刷新敏感词缓存".getBytes());
+            return null;
+        });
+        return R.ok();
+    }
 
 }

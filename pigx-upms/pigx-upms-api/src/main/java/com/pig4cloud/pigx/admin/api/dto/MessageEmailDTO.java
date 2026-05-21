@@ -72,4 +72,14 @@ public class MessageEmailDTO {
 	 */
 	private String bizCode;
 
+    /**
+     * 图形验证码类型
+     */
+    private String captchaType;
+
+    /**
+     * 图形验证码凭据
+     */
+    private String captchaVerification;
+
 }

@@ -2,7 +2,9 @@ package com.pig4cloud.pigx.admin.controller;
 
 import com.pig4cloud.pigx.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pigx.admin.service.SysUserService;
+import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.core.util.R;
+import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.log.annotation.SysLog;
 import com.pig4cloud.pigx.common.security.annotation.Inner;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,9 @@ public class SysRegisterController {
     @PostMapping("/user")
     @ConditionalOnProperty(name = "register.user", matchIfMissing = true)
     public R<Boolean> registerUser(@RequestBody RegisterUserDTO userDto) {
+        if (!YesNoEnum.YES.getCode().equals(ParamResolver.getStr("SITE_REGISTER_ENABLE", YesNoEnum.NO.getCode()))) {
+            return R.failed("系统已关闭注册功能");
+        }
         return userService.registerUser(userDto);
     }
 
@@ -59,6 +64,6 @@ public class SysRegisterController {
     @PostMapping("/forget/{code}")
     public R<Boolean> forgetUserPassword(@RequestBody RegisterUserDTO userDto, @PathVariable String code) {
         return userService.forgetUserPassword(userDto, code);
-	}
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -56,10 +56,10 @@ public class SysScheduleServiceImpl extends ServiceImpl<SysScheduleMapper, SysSc
 	public IPage<SysScheduleEntity> getScheduleByScope(Page page, SysScheduleEntity sysSchedule) {
 		LambdaQueryWrapper<SysScheduleEntity> wrapper = Wrappers.lambdaQuery();
 		wrapper.like(StrUtil.isNotBlank(sysSchedule.getTitle()), SysScheduleEntity::getTitle, sysSchedule.getTitle());
-        wrapper.like(StrUtil.isNotBlank(sysSchedule.getScheduleType()), SysScheduleEntity::getScheduleType,
-                sysSchedule.getScheduleType());
-        wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate,
-                sysSchedule.getScheduleDate());
+		wrapper.like(StrUtil.isNotBlank(sysSchedule.getScheduleType()), SysScheduleEntity::getScheduleType,
+				sysSchedule.getScheduleType());
+		wrapper.eq(Objects.nonNull(sysSchedule.getScheduleDate()), SysScheduleEntity::getScheduleDate,
+				sysSchedule.getScheduleDate());
 		DataScope dataScope = new DataScope();
 		dataScope.setUsername(SecurityUtils.getUser().getUsername());
 		return baseMapper.selectPageByScope(page, wrapper, dataScope);

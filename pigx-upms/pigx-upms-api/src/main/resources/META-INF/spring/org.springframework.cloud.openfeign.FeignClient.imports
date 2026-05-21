@@ -13,3 +13,4 @@ com.pig4cloud.pigx.admin.api.feign.RemoteAuditLogService
 com.pig4cloud.pigx.admin.api.feign.RemoteMenuService
 com.pig4cloud.pigx.admin.api.feign.RemoteRouteConfService
 com.pig4cloud.pigx.admin.api.feign.RemoteMessageService
+com.pig4cloud.pigx.admin.api.feign.RemoteApiKeyService

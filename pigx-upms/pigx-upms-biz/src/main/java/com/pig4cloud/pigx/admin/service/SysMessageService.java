@@ -65,11 +65,13 @@ public interface SysMessageService extends IService<SysMessageEntity> {
     /**
      * 发送手机验证码
      *
-     * @param mobile     手机号码
-     * @param registered 是否已注册
+     * @param mobile              手机号码
+     * @param registered          是否已注册
+     * @param captchaType         图形验证码类型
+     * @param captchaVerification 图形验证码凭据
      * @return 发送结果
      */
-    R<Boolean> sendSmsCode(String mobile, boolean registered);
+    R<Boolean> sendSmsCode(String mobile, boolean registered, String captchaType, String captchaVerification);
 
     /**
      * 发送短信
@@ -99,9 +101,9 @@ public interface SysMessageService extends IService<SysMessageEntity> {
      * 列出 Hook 业务代码
      *
      * @param messageHookDTO 消息钩子 DTO
-	 * @return {@link R }
-	 */
-	R listHookBizCode(MessageHookDTO messageHookDTO);
+     * @return {@link R }
+     */
+    R listHookBizCode(MessageHookDTO messageHookDTO);
 
     /**
      * 发送站内消息/公告

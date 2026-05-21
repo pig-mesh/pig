@@ -14,7 +14,6 @@ import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.amazonaws.services.s3.model.S3Object;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -44,10 +43,13 @@ import com.pig4cloud.pigx.common.data.cache.RedisUtils;
 import com.pig4cloud.pigx.common.data.resolver.ParamResolver;
 import com.pig4cloud.pigx.common.data.tenant.TenantBroker;
 import com.pig4cloud.pigx.common.data.tenant.TenantContextHolder;
+import com.pig4cloud.pigx.common.file.core.FileObject;
 import com.pig4cloud.pigx.common.file.core.FileTemplate;
 import com.pig4cloud.pigx.common.log.util.JacksonSensitiveFieldUtil;
 import com.pig4cloud.pigx.common.log.util.LogTypeEnum;
 import com.pig4cloud.pigx.common.log.util.SysLogUtils;
+import com.pig4cloud.pigx.common.security.captcha.CaptchaResult;
+import com.pig4cloud.pigx.common.security.captcha.CaptchaValidator;
 import com.pig4cloud.pigx.common.security.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -116,6 +118,8 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     private final SysFileMapper fileMapper;
 
     private final FileTemplate fileTemplate;
+
+    private final CaptchaValidator captchaValidator;
 
     /**
      * 发送信息
@@ -274,13 +278,15 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     /**
      * 发送手机验证码
      *
-     * @param mobile     手机号码
-     * @param registered 是否已注册
+     * @param mobile              手机号码
+     * @param registered          是否已注册
+     * @param captchaType         图形验证码类型
+     * @param captchaVerification 图形验证码凭据
      * @return 发送结果
      */
     @Override
-    public R<Boolean> sendSmsCode(String mobile, boolean registered) {
-        // IP 限制校验，单位时间内同一IP发送次数限制
+    public R<Boolean> sendSmsCode(String mobile, boolean registered, String captchaType, String captchaVerification) {
+        // IP 限制校验前置，避免恶意请求反向放大图形验证码服务压力
         String clientIp = WebUtils.getIP();
         String ipLimitKey = CacheConstants.DEFAULT_CODE_KEY + "IP_LIMIT:" + clientIp;
         if (StrUtil.isNotBlank(clientIp)) {
@@ -293,6 +299,11 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
                 log.info("IP发送验证码过于频繁:{}, 已发送{}次", clientIp, ipSendTimes);
                 return R.failed(Boolean.FALSE, MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_OFTEN));
             }
+        }
+
+        CaptchaResult captchaResult = captchaValidator.validate(captchaType, captchaVerification);
+        if (!captchaResult.isOk()) {
+            return R.failed(Boolean.FALSE, captchaResult.getErrorMessage());
         }
 
         List<SysUser> userList = TenantBroker
@@ -332,6 +343,13 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
      */
     @Override
     public R sendSms(MessageSmsDTO messageSmsDTO) {
+        R captchaResult = validateCaptchaIfPresent(messageSmsDTO.getCaptchaType(),
+                messageSmsDTO.getCaptchaVerification());
+        if (captchaResult != null) {
+            return captchaResult;
+        }
+        messageSmsDTO.setCaptchaType(null);
+        messageSmsDTO.setCaptchaVerification(null);
 
         // 根据业务编码获取短信通道配置
         List<SysSystemConfigEntity> configEntityList = sysSystemConfigMapper
@@ -475,6 +493,14 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
     @SneakyThrows
     @Override
     public R sendEmail(MessageEmailDTO messageEmailDTO) {
+        R captchaResult = validateCaptchaIfPresent(messageEmailDTO.getCaptchaType(),
+                messageEmailDTO.getCaptchaVerification());
+        if (captchaResult != null) {
+            return captchaResult;
+        }
+        messageEmailDTO.setCaptchaType(null);
+        messageEmailDTO.setCaptchaVerification(null);
+
         // 根据业务编码获取短信通道配置
         List<SysSystemConfigEntity> configEntityList = sysSystemConfigMapper
                 .selectList(Wrappers.<SysSystemConfigEntity>lambdaQuery()
@@ -493,10 +519,11 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
             for (String fileName : messageEmailDTO.getAttachmentList()) {
                 SysFile sysFile = fileMapper
                         .selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
-                S3Object s3Object = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName);
-                File file = FileUtil.file(FileUtil.getTmpDirPath(), sysFile.getOriginal());
-                tempFileList.add(file);
-                IoUtil.copy(s3Object.getObjectContent(), FileUtil.getOutputStream(file));
+                try (FileObject fileObject = fileTemplate.getObject(sysFile.getBucketName(), sysFile.getDir(), fileName)) {
+                    File file = FileUtil.file(FileUtil.getTmpDirPath(), sysFile.getOriginal());
+                    tempFileList.add(file);
+                    IoUtil.copy(fileObject.getObjectContent(), FileUtil.getOutputStream(file));
+                }
             }
         }
 
@@ -531,6 +558,22 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
         // 删除临时文件
         tempFileList.forEach(FileUtil::del);
         return R.ok();
+    }
+
+    /**
+     * 校验图形验证码（如提供）。
+     *
+     * @param captchaType         验证码类型，为空表示跳过校验
+     * @param captchaVerification 验证码凭据
+     * @return 通过返回 null；失败返回带错误信息的 R
+     */
+    private R validateCaptchaIfPresent(String captchaType, String captchaVerification) {
+        if (StrUtil.isAllBlank(captchaType, captchaVerification)) {
+            return null;
+        }
+
+        CaptchaResult captchaResult = captchaValidator.validate(captchaType, captchaVerification);
+        return captchaResult.isOk() ? null : R.failed(captchaResult.getErrorMessage());
     }
 
     /**

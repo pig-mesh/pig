@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,6 +17,7 @@
 package com.pig4cloud.pigx.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.admin.api.dto.SysDictItemSortDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysDictItem;
 import com.pig4cloud.pigx.common.core.util.R;
 
@@ -41,5 +42,13 @@ public interface SysDictItemService extends IService<SysDictItem> {
 	 * @return
 	 */
 	R updateDictItem(SysDictItem item);
+
+    /**
+     * 更新字典项排序
+     *
+     * @param sortDTO 字典项排序信息（包含字典 ID 和按目标顺序排列的字典项 ID 列表）
+     * @return 成功 / 失败
+     */
+    R updateDictItemSort(SysDictItemSortDTO sortDTO);
 
 }

@@ -1,6 +1,6 @@
 /*
  *
- *      Copyright (c) 2018-2026, lengleng All rights reserved.
+ *      Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,7 @@ package com.pig4cloud.pigx.admin.service;
 
 import cn.hutool.core.lang.tree.Tree;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.pig4cloud.pigx.admin.api.dto.SysMenuSortDTO;
 import com.pig4cloud.pigx.admin.api.entity.SysMenu;
 import com.pig4cloud.pigx.common.core.util.R;
 
@@ -57,6 +58,14 @@ public interface SysMenuService extends IService<SysMenu> {
 	 * @return 成功、失败
 	 */
 	Boolean updateMenuById(SysMenu sysMenu);
+
+    /**
+     * 更新同级菜单排序
+     *
+     * @param sortDTO 菜单排序信息
+     * @return 成功、失败
+     */
+    R updateMenuSort(SysMenuSortDTO sortDTO);
 
 	/**
 	 * 构建树
