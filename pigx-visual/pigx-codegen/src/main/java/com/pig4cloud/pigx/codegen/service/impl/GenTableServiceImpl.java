@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -21,6 +21,9 @@ import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.druid.pool.DruidDataSource;
+import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
+import com.baomidou.dynamic.datasource.ds.ItemDataSource;
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -34,10 +37,8 @@ import com.pig4cloud.pigx.codegen.mapper.GenTableMapper;
 import com.pig4cloud.pigx.codegen.service.GenGroupService;
 import com.pig4cloud.pigx.codegen.service.GenTableColumnService;
 import com.pig4cloud.pigx.codegen.service.GenTableService;
-import com.pig4cloud.pigx.codegen.util.AutoFillEnum;
-import com.pig4cloud.pigx.codegen.util.BoolFillEnum;
-import com.pig4cloud.pigx.codegen.util.CommonColumnFiledEnum;
-import com.pig4cloud.pigx.codegen.util.GenKit;
+import com.pig4cloud.pigx.codegen.util.*;
+import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
 import org.anyline.metadata.Column;
 import org.anyline.metadata.Database;
@@ -70,7 +71,6 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     private final GenTableColumnService columnService;
 
     private final GenGroupService genGroupService;
-
 
     /**
      * 查询表ddl 语句
@@ -117,8 +117,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         // 手动切换数据源
         DynamicDataSourceContextHolder.push(table.getDsName());
         CacheProxy.clear();
-        List<Table> tableList = ServiceProxy.metadata().tables()
-                .values().stream().filter(t -> {
+        List<Table> tableList = ServiceProxy.metadata().tables().values().stream().filter(t -> {
                     if (StrUtil.isBlank(table.getTableName())) {
                         return true;
                     }
@@ -129,12 +128,13 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
                 })
                 // 根据 createTime 、updateTime 倒序排序
                 .sorted((o1, o2) -> {
-                    long time1 = (o1.getUpdateTime() != null ? o1.getUpdateTime().getTime() :
-                            (o1.getCreateTime() != null ? o1.getCreateTime().getTime() : 0));
-                    long time2 = (o2.getUpdateTime() != null ? o2.getUpdateTime().getTime() :
-                            (o2.getCreateTime() != null ? o2.getCreateTime().getTime() : 0));
+                    long time1 = (o1.getUpdateTime() != null ? o1.getUpdateTime().getTime()
+                            : (o1.getCreateTime() != null ? o1.getCreateTime().getTime() : 0));
+                    long time2 = (o2.getUpdateTime() != null ? o2.getUpdateTime().getTime()
+                            : (o2.getCreateTime() != null ? o2.getCreateTime().getTime() : 0));
                     return NumberUtil.compare(time2, time1);
-                }).toList();
+                })
+                .toList();
 
         // 根据 page 进行分页
         List<Table> records = CollUtil.page((int) page.getCurrent() - 1, (int) page.getSize(), tableList);
@@ -152,9 +152,18 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
     @Override
     public List<Table> queryTableList(String dsName) {
         // 手动切换数据源
+        DynamicRoutingDataSource dynamicRoutingDataSource = SpringContextHolder.getBean(DynamicRoutingDataSource.class);
         DynamicDataSourceContextHolder.push(dsName);
         CacheProxy.clear();
-        return ServiceProxy.metadata().tables().values().stream().toList();
+        List<Table> tableList = ServiceProxy.metadata().tables().values().stream().toList();
+        if (dynamicRoutingDataSource.getDataSource(dsName) instanceof ItemDataSource itemDataSource) {
+            for (Table table : tableList) {
+                if (itemDataSource.getDataSource() instanceof DruidDataSource druidDataSource) {
+                    table.setExtend(druidDataSource.getDbType());
+                }
+            }
+        }
+        return tableList;
     }
 
     /**
@@ -185,20 +194,55 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         return genTable;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public GenTable syncTable(String dsName, String tableName) {
+        return AnylineDataSourceHelper.execute(dsName, () -> {
+            CacheProxy.clear();
+            AnylineService service = ServiceProxy.service(dsName);
+            Table tableMetadata = service.metadata().table(tableName);
+            Database database = service.metadata().database();
+            GenTable genTable = baseMapper.selectOne(
+                    Wrappers.<GenTable>lambdaQuery().eq(GenTable::getTableName, tableName).eq(GenTable::getDsName, dsName));
+            if (Objects.isNull(genTable)) {
+                genTable = this.buildGenTable(dsName, tableName, tableMetadata, database);
+                DynamicDataSourceContextHolder.clear();
+                this.save(genTable);
+            } else {
+                this.refreshTableMetadata(genTable, tableMetadata, database);
+                DynamicDataSourceContextHolder.clear();
+                this.updateById(genTable);
+            }
+
+            List<GenTableColumnEntity> tableFieldList = getGenTableColumnEntities(dsName, tableName, tableMetadata);
+            columnService.syncFieldList(dsName, tableName, tableFieldList);
+            return this.queryOrBuildTable(dsName, tableName);
+        });
+    }
+
     @Transactional(rollbackFor = Exception.class)
     protected GenTable tableImport(String dsName, String tableName) {
-        // 手动切换数据源
-        DynamicDataSourceContextHolder.push(dsName);
+        return AnylineDataSourceHelper.execute(dsName, () -> {
+            CacheProxy.clear();
+            AnylineService service = ServiceProxy.service(dsName);
+            Table tableMetadata = service.metadata().table(tableName);
+            Database database = service.metadata().database();
+            GenTable table = this.buildGenTable(dsName, tableName, tableMetadata, database);
 
-        // 查询表是否存在
+            DynamicDataSourceContextHolder.clear();
+            this.save(table);
+
+            List<GenTableColumnEntity> tableFieldList = getGenTableColumnEntities(dsName, tableName, tableMetadata);
+            columnService.initFieldList(tableFieldList);
+            columnService.saveOrUpdateBatch(tableFieldList);
+
+            table.setFieldList(tableFieldList);
+            return table;
+        });
+    }
+
+    private GenTable buildGenTable(String dsName, String tableName, Table tableMetadata, Database database) {
         GenTable table = new GenTable();
-        // 从数据库获取表信息
-        CacheProxy.clear();
-        AnylineService service = ServiceProxy.service();
-        Table tableMetadata = service.metadata().table(tableName);
-        Database database = service.metadata().database();
-        // 获取默认表配置信息 （）
-
         table.setPackageName(defaultProperties.getPackageName());
         table.setVersion(defaultProperties.getVersion());
         table.setBackendPath(defaultProperties.getBackendPath());
@@ -208,31 +252,20 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
         table.setTableName(tableName);
         table.setDsName(dsName);
         table.setTableComment(tableMetadata.getComment());
-
         table.setDbType(database.getDatabaseType().title());
         table.setFormLayout(defaultProperties.getFormLayout());
         table.setSyncRoute(defaultProperties.getSyncRoute());
         table.setGeneratorType(defaultProperties.getGeneratorType());
         table.setClassName(NamingCase.toPascalCase(tableName));
-        // 模块名称默认为 admin
         table.setModuleName(defaultProperties.getModuleName());
         table.setFunctionName(GenKit.getFunctionName(tableName));
         table.setCreateTime(LocalDateTime.now());
-
-        // 使用默认数据源
-        DynamicDataSourceContextHolder.clear();
-        this.save(table);
-
-        // 获取原生字段数据
-        List<GenTableColumnEntity> tableFieldList = getGenTableColumnEntities(dsName, tableName, tableMetadata);
-
-        // 初始化字段数据
-        columnService.initFieldList(tableFieldList);
-        // 保存列数据
-        columnService.saveOrUpdateBatch(tableFieldList);
-
-        table.setFieldList(tableFieldList);
         return table;
+    }
+
+    private void refreshTableMetadata(GenTable table, Table tableMetadata, Database database) {
+        table.setTableComment(tableMetadata.getComment());
+        table.setDbType(database.getDatabaseType().title());
     }
 
     /**
@@ -255,7 +288,7 @@ public class GenTableServiceImpl extends ServiceImpl<GenTableMapper, GenTable> i
             genTableColumnEntity.setFieldComment(column.getComment());
             genTableColumnEntity.setFieldType(column.getTypeName());
             genTableColumnEntity.setPrimaryPk(
-                    column.isPrimaryKey() == 1 ? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
+                    column.isPrimaryKey() ? BoolFillEnum.TRUE.getValue() : BoolFillEnum.FALSE.getValue());
             genTableColumnEntity.setAutoFill(AutoFillEnum.DEFAULT.name());
             genTableColumnEntity.setFormItem(BoolFillEnum.TRUE.getValue());
             genTableColumnEntity.setGridItem(BoolFillEnum.TRUE.getValue());

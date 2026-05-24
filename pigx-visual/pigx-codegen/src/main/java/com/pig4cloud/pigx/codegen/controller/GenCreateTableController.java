@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.codegen.controller;
 /*
- *      Copyright (c) 2018-2026, luolin All rights reserved.
+ *      Copyright (c) 2018-2025, luolin All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -16,13 +16,13 @@ package com.pig4cloud.pigx.codegen.controller;
  *  Author: luolin (766488893@qq.com)
  */
 
-import cn.hutool.core.bean.BeanUtil;
-import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pigx.codegen.entity.GenCreateTable;
 import com.pig4cloud.pigx.codegen.service.GenCreateTableService;
+import com.pig4cloud.pigx.codegen.util.AnylineDataSourceHelper;
 import com.pig4cloud.pigx.codegen.util.vo.GenCreateTableVO;
 import com.pig4cloud.pigx.common.core.util.R;
 import com.pig4cloud.pigx.common.security.annotation.HasPermission;
@@ -84,12 +84,13 @@ public class GenCreateTableController {
 	@PostMapping
 	@HasPermission("codegen_table_add")
 	public R save(@RequestBody GenCreateTableVO createTableVO) {
-		// 切换目标数据源
-		DynamicDataSourceContextHolder.push(createTableVO.getDsName());
-		createTableService.createTable(createTableVO);
+        AnylineDataSourceHelper.run(createTableVO.getDsName(), () -> createTableService.createTable(createTableVO));
 		GenCreateTable createTable = new GenCreateTable();
-		BeanUtil.copyProperties(createTableVO, createTable);
-		DynamicDataSourceContextHolder.clear();
+        createTable.setId(createTableVO.getId());
+        createTable.setDsName(createTableVO.getDsName());
+        createTable.setTableName(createTableVO.getTableName());
+        createTable.setComments(createTableVO.getComments());
+        createTable.setColumnInfo(JSONUtil.toJsonStr(createTableVO.getColumnInfo()));
 		return R.ok(createTableService.saveOrUpdate(createTable));
 	}
 

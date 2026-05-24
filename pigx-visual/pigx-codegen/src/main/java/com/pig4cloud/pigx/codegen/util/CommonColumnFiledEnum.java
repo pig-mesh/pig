@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.codegen.util;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author lengleng
@@ -10,7 +10,7 @@ import lombok.Getter;
  * 通用字段的填充策略和显示策略
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum CommonColumnFiledEnum {
 
 	/**
@@ -42,21 +42,21 @@ public enum CommonColumnFiledEnum {
 	/**
 	 * 表单是否默认显示 1/0
 	 */
-	private String formItem;
+	private final String formItem;
 
 	/**
 	 * 表格是否默认显示 1/0
 	 */
-	private String gridItem;
+	private final String gridItem;
 
 	/**
 	 * 自动填充策略
 	 */
-	private String autoFill;
+	private final String autoFill;
 
 	/**
 	 * 排序值
 	 */
-	private Integer sort;
+	private final Integer sort;
 
 }

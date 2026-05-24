@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -19,7 +19,6 @@ package com.pig4cloud.pigx.common.datasource.config;
 
 import com.baomidou.dynamic.datasource.creator.DataSourceProperty;
 import com.baomidou.dynamic.datasource.creator.DefaultDataSourceCreator;
-import com.baomidou.dynamic.datasource.creator.druid.DruidConfig;
 import com.baomidou.dynamic.datasource.provider.AbstractDataSourceProvider;
 
 import javax.sql.DataSource;
@@ -63,9 +62,8 @@ public class MasterDataSourceProvider extends AbstractDataSourceProvider {
         property.setPassword(properties.getPassword());
         property.setUrl(properties.getUrl());
 
-        DruidConfig druidConfig = new DruidConfig();
-        druidConfig.setProxyFilters(SQL_LOG_FILTER);
-        property.setDruid(druidConfig);
+        properties.setProxyFilters(SQL_LOG_FILTER);
+        property.setDruid(properties);
         map.put(DS_MASTER, defaultDataSourceCreator.createDataSource(property));
         return map;
     }

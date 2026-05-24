@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,6 @@ import com.pig4cloud.pigx.common.xss.core.XssCleanIgnore;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.sql.DataSource;
@@ -74,6 +73,16 @@ public class GenDsConfController {
 	public R list() {
 		return R.ok(datasourceConfService.list());
 	}
+
+    /**
+     * 查询数据源解析插件加载状态
+     *
+     * @return R 包含各数据源类型（dsType）与其 AnyLine 解析插件是否已加载（true/false）的映射
+     */
+    @GetMapping("/parser-plugins")
+    public R parserPlugins() {
+        return R.ok(datasourceConfService.listParserPlugins());
+    }
 
 	/**
 	 * 通过id查询数据源表
@@ -135,7 +144,7 @@ public class GenDsConfController {
 		// 生成
 		byte[] data = screw.documentGeneration(dsName, dataSource, screwProperties).toByteArray();
 		response.reset();
-		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentLength(data.length);
 		response.setContentType("application/octet-stream");
 		IoUtil.write(response.getOutputStream(), Boolean.FALSE, data);
 	}

@@ -24,7 +24,7 @@ import com.baomidou.dynamic.datasource.provider.AbstractJdbcDataSourceProvider;
 import com.pig4cloud.pigx.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pigx.common.datasource.support.DataSourceConstants;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
-import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
+import com.pig4cloud.pigx.common.datasource.util.DsTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 
@@ -90,7 +90,7 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 
                 String url;
                 // JDBC 配置形式
-                DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(dsType);
+                DsTypeEnum urlEnum = DsTypeEnum.get(dsType);
                 if (DsConfTypeEnum.JDBC.getType().equals(confType)) {
                     url = rs.getString(DataSourceConstants.DS_JDBC_URL);
                 } else {
@@ -103,6 +103,8 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
                 // Druid Config
                 DruidConfig druidConfig = new DruidConfig();
                 druidConfig.setProxyFilters(SQL_LOG_FILTER);
+                druidConfig.setConnectionErrorRetryAttempts(5);
+                druidConfig.setBreakAfterAcquireFailure(true);
                 druidConfig.setValidationQuery(urlEnum.getValidationQuery());
                 property.setDruid(druidConfig);
                 property.setUrl(url);

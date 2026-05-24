@@ -36,36 +36,37 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CreateTableHandler {
 
-	/**
-	 * 运行表单主键ID
-	 */
-	private final static String RUN_FORM_COLUMN_NAME = "run_form_id";
+    /**
+     * 运行表单主键ID
+     */
+    private final static String RUN_FORM_COLUMN_NAME = "run_form_id";
 
-	/**
-	 * 自动创建表
-	 * @param tableInfo 表信息
-	 */
-	public Boolean createTable(TableInfo tableInfo) {
-		if (tableInfo.getColumns() == null || tableInfo.getColumns().isEmpty()) {
-			throw new RuntimeException("自动创建表[" + tableInfo.getName() + "]中至少需要一个字段");
-		}
-		if (!TableModelEnum.CREATE.name().toLowerCase().equals(tableInfo.getModel())) {
-			throw new RuntimeException("自动创建表[" + tableInfo.getModel() + "]模式的处理未找到,请检查");
-		}
-		try {
-			AnylineService service = ServiceProxy.service();
-			// 如果已存在，删除重键
-			Table table = service.metadata().table(tableInfo.getName(), false);
-			if (null != table)
-				service.ddl().drop(table);
-			// 执行建表SQL
-			service.ddl().create(tableInfo);
-			log.info("自动创建表处理完成!");
-		}
-		catch (Exception e) {
-			throw new RuntimeException("自动创建表异常", e);
-		}
-		return Boolean.TRUE;
-	}
+    /**
+     * 自动创建表
+     *
+     * @param dsName
+     * @param tableInfo 表信息
+     */
+    public Boolean createTable(String dsName, TableInfo tableInfo) {
+        if (tableInfo.getColumns() == null || tableInfo.getColumns().isEmpty()) {
+            throw new RuntimeException("自动创建表[" + tableInfo.getName() + "]中至少需要一个字段");
+        }
+        if (!TableModelEnum.CREATE.name().toLowerCase().equals(tableInfo.getModel())) {
+            throw new RuntimeException("自动创建表[" + tableInfo.getModel() + "]模式的处理未找到,请检查");
+        }
+        try {
+            AnylineService service = ServiceProxy.service(dsName);
+            // 如果已存在，删除重键
+            Table table = service.metadata().table(tableInfo.getName(), false);
+            if (null != table)
+                service.ddl().drop(table);
+            // 执行建表SQL
+            service.ddl().create(tableInfo);
+            log.info("自动创建表处理完成!");
+        } catch (Exception e) {
+            throw new RuntimeException("自动创建表异常", e);
+        }
+        return Boolean.TRUE;
+    }
 
 }

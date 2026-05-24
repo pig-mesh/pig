@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -41,9 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -55,15 +53,17 @@ import java.util.Set;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTemplateEntity>
-        implements GenTemplateService {
+public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTemplateEntity> implements GenTemplateService {
+
+    private static final String CONFIG_JSON_FILE = "config.json";
+
+    private static final String VERSION_FILE = "VERSION";
 
     private final PigxCodeGenDefaultProperties defaultProperties;
 
     private final GenTemplateGroupMapper genTemplateGroupMapper;
 
     private final GenGroupMapper genGroupMapper;
-
 
     /**
      * 在线更新
@@ -74,17 +74,16 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
     @Transactional(rollbackFor = Exception.class)
     public R onlineUpdate() {
         // 获取 config.json 和 version 文件
-        Map<String, Object> configAndVersion = getConfigAndVersion();
-        JSONObject configJsonObj = (JSONObject) configAndVersion.get("configJsonObj");
-        String versionFile = (String) configAndVersion.get("versionFile");
+        ConfigAndVersion configAndVersion = getConfigAndVersion();
+        JSONObject configJsonObj = configAndVersion.getConfigJsonObj();
+        String versionFile = configAndVersion.getVersionFile();
 
         // 查询出全部的模板组名称
         Set<String> cgtmConfigGroupNames = configJsonObj.keySet();
 
         // 根据模板组名称+version 查询是否存在，不存在则新增，存在跳过
         for (String cgtmConfigGroupName : cgtmConfigGroupNames) {
-            boolean exists = genGroupMapper.exists(Wrappers.<GenGroupEntity>lambdaQuery()
-                    .eq(GenGroupEntity::getGroupName, cgtmConfigGroupName + versionFile));
+            boolean exists = groupExists(withVersion(cgtmConfigGroupName, versionFile));
 
             if (exists) {
                 continue;
@@ -101,6 +100,7 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
      *
      * @return {@link R }
      */
+    @Override
     public R checkVersion() {
         // 关闭在线更新提示
         if (!defaultProperties.isAutoCheckVersion()) {
@@ -108,16 +108,15 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
         }
 
         // 获取 config.json 和 version 文件
-        Map<String, Object> configAndVersion = getConfigAndVersion();
-        JSONObject configJsonObj = (JSONObject) configAndVersion.get("configJsonObj");
-        String versionFile = (String) configAndVersion.get("versionFile");
+        ConfigAndVersion configAndVersion = getConfigAndVersion();
+        JSONObject configJsonObj = configAndVersion.getConfigJsonObj();
+        String versionFile = configAndVersion.getVersionFile();
 
         // 查询出全部的模板组名称
         boolean exists = false;
         Set<String> cgtmConfigGroupNames = configJsonObj.keySet();
         for (String cgtmConfigGroupName : cgtmConfigGroupNames) {
-            exists = genGroupMapper.exists(Wrappers.<GenGroupEntity>lambdaQuery()
-                    .eq(GenGroupEntity::getGroupName, cgtmConfigGroupName + versionFile));
+            exists = groupExists(withVersion(cgtmConfigGroupName, versionFile));
         }
 
         return R.ok(exists);
@@ -126,24 +125,18 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
     /**
      * 获取配置和版本
      *
-     * @return {@link Map }<{@link String }, {@link Object }>
+     * @return {@link ConfigAndVersion }
      */
-    private Map<String, Object> getConfigAndVersion() {
+    private ConfigAndVersion getConfigAndVersion() {
         // 获取 config.json 和 version 文件
-        String configFile = getCGTMFile("config.json");
-        String versionFile = getCGTMFile("VERSION");
+        String configFile = getCGTMFile(CONFIG_JSON_FILE);
+        String versionFile = getCGTMFile(VERSION_FILE);
 
         // 解析 config.json
         JSONObject configJsonObj = JSONUtil.parseObj(configFile);
 
-        // 将 configJsonObj 和 versionFile 放入 Map 中
-        Map<String, Object> configAndVersion = new HashMap<>();
-        configAndVersion.put("configJsonObj", configJsonObj);
-        configAndVersion.put("versionFile", versionFile);
-
-        return configAndVersion;
+        return new ConfigAndVersion(configJsonObj, versionFile);
     }
-
 
     /**
      * 插入模板文件
@@ -154,32 +147,15 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
      */
     private void insertTemplateFiles(String version, JSONObject configJsonObj, String groupName) {
         // 创建新的 group
-        GenGroupEntity genGroupEntity = new GenGroupEntity();
-        genGroupEntity.setGroupName(groupName + version);
-        genGroupMapper.insert(genGroupEntity);
+        GenGroupEntity genGroupEntity = createGroup(groupName, version);
 
         // 解析json配置文件
         List<GenTemplateFileVO> templateFileVOList = configJsonObj.getBeanList(groupName, GenTemplateFileVO.class);
         for (GenTemplateFileVO genTemplateFileVO : templateFileVOList) {
-            // 1. 获取模板文件
-            String templateFile = getCGTMFile(genTemplateFileVO.getTemplateFile());
-
-            // 2. 插入模板文件
-            GenTemplateEntity genTemplateEntity = new GenTemplateEntity();
-            genTemplateEntity.setTemplateName(genTemplateFileVO.getTemplateName() + version);
-            genTemplateEntity.setTemplateDesc(genTemplateFileVO.getTemplateName() + version);
-            genTemplateEntity.setTemplateCode(templateFile);
-            genTemplateEntity.setGeneratorPath(genTemplateFileVO.getGeneratorPath());
-            baseMapper.insert(genTemplateEntity);
-
-            // 3. 插入模板组关联
-            GenTemplateGroupEntity genTemplateGroupEntity = new GenTemplateGroupEntity();
-            genTemplateGroupEntity.setTemplateId(genTemplateEntity.getId());
-            genTemplateGroupEntity.setGroupId(genGroupEntity.getId());
-            genTemplateGroupMapper.insert(genTemplateGroupEntity);
+            GenTemplateEntity genTemplateEntity = getOrCreateTemplate(genTemplateFileVO, version);
+            createTemplateGroupRelationIfAbsent(genTemplateEntity.getId(), genGroupEntity.getId());
         }
     }
-
 
     /**
      * 获取 cgtmfile
@@ -188,14 +164,82 @@ public class GenTemplateServiceImpl extends ServiceImpl<GenTemplateMapper, GenTe
      * @return {@link String }
      */
     private String getCGTMFile(String fileName) {
-        HttpResponse response = HttpRequest.get(String.format("%s/CGTM/raw/%s/%s", DefaultConstants.CGTM_URL, defaultProperties.getBranch(), fileName))
-                .execute();
+        String requestUrl = String.format("%s/CGTM/raw/%s/%s", DefaultConstants.CGTM_URL, defaultProperties.getBranch(), fileName);
+        HttpResponse response = HttpRequest.get(requestUrl).execute();
+        String responseBody = response.body();
+        int httpStatus = response.getStatus();
 
-        if (response.getStatus() == HttpStatus.HTTP_OK || StrUtil.isNotBlank(response.body())) {
-            return response.body();
-        } else {
-            log.warn("在线更新模板失败:{} ，Http Code:{}", fileName, response.getStatus());
-            throw new CheckedException("在线更新模板失败，任务终止！");
+        if (httpStatus == HttpStatus.HTTP_OK || StrUtil.isNotBlank(responseBody)) {
+            return responseBody;
+        }
+
+        log.warn("在线更新模板失败:{} ，Http Code:{}", fileName, httpStatus);
+        throw new CheckedException("在线更新模板失败，任务终止！");
+    }
+
+    private boolean groupExists(String groupName) {
+        return genGroupMapper.exists(Wrappers.<GenGroupEntity>lambdaQuery().eq(GenGroupEntity::getGroupName, groupName));
+    }
+
+    private GenGroupEntity createGroup(String groupName, String version) {
+        GenGroupEntity genGroupEntity = new GenGroupEntity();
+        genGroupEntity.setGroupName(withVersion(groupName, version));
+        genGroupMapper.insert(genGroupEntity);
+        return genGroupEntity;
+    }
+
+    private GenTemplateEntity getOrCreateTemplate(GenTemplateFileVO templateFileVO, String version) {
+        String templateName = withVersion(templateFileVO.getTemplateName(), version);
+        GenTemplateEntity genTemplateEntity = findTemplateByName(templateName);
+        if (genTemplateEntity != null) {
+            log.info("模板文件已存在，复用: {}", templateName);
+            return genTemplateEntity;
+        }
+
+        GenTemplateEntity templateEntity = new GenTemplateEntity();
+        templateEntity.setTemplateName(templateName);
+        templateEntity.setTemplateDesc(templateName);
+        templateEntity.setTemplateCode(getCGTMFile(templateFileVO.getTemplateFile()));
+        templateEntity.setGeneratorPath(templateFileVO.getGeneratorPath());
+        baseMapper.insert(templateEntity);
+        log.info("模板文件已插入: {}", templateName);
+        return templateEntity;
+    }
+
+    private GenTemplateEntity findTemplateByName(String templateName) {
+        return baseMapper.selectOne(Wrappers.<GenTemplateEntity>lambdaQuery().eq(GenTemplateEntity::getTemplateName, templateName));
+    }
+
+    private void createTemplateGroupRelationIfAbsent(Long templateId, Long groupId) {
+        boolean relationExists = genTemplateGroupMapper.exists(Wrappers.<GenTemplateGroupEntity>lambdaQuery().eq(GenTemplateGroupEntity::getTemplateId, templateId).eq(GenTemplateGroupEntity::getGroupId, groupId));
+        if (relationExists) {
+            return;
+        }
+
+        GenTemplateGroupEntity genTemplateGroupEntity = new GenTemplateGroupEntity();
+        genTemplateGroupEntity.setTemplateId(templateId);
+        genTemplateGroupEntity.setGroupId(groupId);
+        genTemplateGroupMapper.insert(genTemplateGroupEntity);
+    }
+
+    private String withVersion(String name, String version) {
+        return name + version;
+    }
+
+    @RequiredArgsConstructor
+    private static final class ConfigAndVersion {
+
+        private final JSONObject configJsonObj;
+
+        private final String versionFile;
+
+        private JSONObject getConfigJsonObj() {
+            return configJsonObj;
+        }
+
+        private String getVersionFile() {
+            return versionFile;
         }
     }
+
 }

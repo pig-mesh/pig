@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -31,6 +31,8 @@ import java.util.List;
 public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
 	void initFieldList(List<GenTableColumnEntity> tableFieldList);
+
+    void syncFieldList(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 

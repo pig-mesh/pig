@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.codegen.util;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * 代码生成主题
@@ -9,7 +9,7 @@ import lombok.Getter;
  * @author 冷冷
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum GeneratorStyleEnum {
 
 	VFORM_JSON(1L, "vform.json"),
@@ -19,11 +19,11 @@ public enum GeneratorStyleEnum {
 	/**
 	 * 对应模板ID
 	 */
-	private Long templateId;
+	private final Long templateId;
 
 	/**
 	 * 描述
 	 */
-	private String desc;
+	private final String desc;
 
 }

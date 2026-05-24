@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -223,10 +223,10 @@ public class GeneratorServiceImpl implements GeneratorService {
         Map<String, Object> dataModel = getDataModel(genTable.getId());
 
         // 获取模板信息，Lambda 表达式简化代码
-        GenTemplateEntity genTemplateEntity = genTemplateService.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
+        GenTemplateEntity genTemplateEntity = genTemplateService
+                .getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
                         .likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_JSON.getDesc())
-                        .orderByDesc(GenTemplateEntity::getCreateTime), false
-                )
+                        .orderByDesc(GenTemplateEntity::getCreateTime), false)
                 .orElseThrow(() -> new CheckedException("模板不存在"));
         // 渲染模板并返回结果
         return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
@@ -257,10 +257,10 @@ public class GeneratorServiceImpl implements GeneratorService {
         dataModel.put("resultMap", resultMap);
 
         // 获取模板信息 查询模板中最新的 vform.json 文件
-        GenTemplateEntity genTemplateEntity = genTemplateService.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
+        GenTemplateEntity genTemplateEntity = genTemplateService
+                .getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
                         .likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_VUE.getDesc())
-                        .orderByDesc(GenTemplateEntity::getCreateTime), false
-                )
+                        .orderByDesc(GenTemplateEntity::getCreateTime), false)
                 .orElseThrow(() -> new CheckedException("模板不存在"));
 
         // 渲染模板并返回结果
@@ -294,7 +294,9 @@ public class GeneratorServiceImpl implements GeneratorService {
         query.setName(menuName);
         query.setMenuType(MenuTypeEnum.LEFT_MENU.getType());
 
-        List<SysMenu> existingMenus = RetOps.of(menuService.getMenuDetails(query)).getData().orElse(Collections.emptyList());
+        List<SysMenu> existingMenus = RetOps.of(menuService.getMenuDetails(query))
+                .getData()
+                .orElse(Collections.emptyList());
 
         if (!CollUtil.isEmpty(existingMenus)) {
             return;
@@ -320,7 +322,11 @@ public class GeneratorServiceImpl implements GeneratorService {
         sysMenu.setParentId(table.getSyncMenuId());
         sysMenu.setName(menuName);
         sysMenu.setMenuType(MenuTypeEnum.LEFT_MENU.getType());
-        sysMenu.setPath(String.format("/%s/%s/index", table.getModuleName(), table.getFunctionName()));
+        sysMenu.setVisible(YesNoEnum.YES.getCode());
+        sysMenu.setKeepAlive(YesNoEnum.NO.getCode());
+        sysMenu.setEmbedded(YesNoEnum.NO.getCode());
+        sysMenu.setSortOrder(0);
+        sysMenu.setPath(String.format("/%s/%s/index", normalizedModuleName(table), table.getFunctionName()));
         return sysMenu;
     }
 
@@ -333,13 +339,19 @@ public class GeneratorServiceImpl implements GeneratorService {
     private void createButtons(GenTable table, Long parentId) {
         String[] buttonNames = {"查看", "新增", "编辑", "删除", "导入导出"};
         String[] permissions = {"view", "add", "edit", "del", "export"};
+        String moduleName = normalizedModuleName(table);
 
         for (int i = 0; i < buttonNames.length; i++) {
+            String permission = String.format("%s_%s_%s", moduleName, table.getFunctionName(), permissions[i]);
             SysMenu button = new SysMenu();
             button.setParentId(parentId);
             button.setMenuType(MenuTypeEnum.BUTTON.getType());
             button.setName(buttonNames[i]);
-            button.setPermission(String.format("%s_%s_%s", table.getModuleName(), table.getFunctionName(), permissions[i]));
+            button.setVisible(YesNoEnum.YES.getCode());
+            button.setKeepAlive(YesNoEnum.NO.getCode());
+            button.setEmbedded(YesNoEnum.NO.getCode());
+            button.setSortOrder(0);
+            button.setPermission(StrUtil.toLowerCase(permission));
             menuService.saveMenu(button);
         }
     }
@@ -354,7 +366,9 @@ public class GeneratorServiceImpl implements GeneratorService {
             return;
         }
 
-        List<SysRouteConf> existingRoutes = RetOps.of(routeService.getRouteDetails()).getData().orElse(Collections.emptyList());
+        List<SysRouteConf> existingRoutes = RetOps.of(routeService.getRouteDetails())
+                .getData()
+                .orElse(Collections.emptyList());
         boolean exist = existingRoutes.stream()
                 .anyMatch(routeConf -> routeConf.getRouteId().equals(table.getModuleName()));
 
@@ -376,7 +390,9 @@ public class GeneratorServiceImpl implements GeneratorService {
         SysRouteConf sysRouteConf = new SysRouteConf();
         sysRouteConf.setRouteId(table.getModuleName());
         sysRouteConf.setRouteName(table.getModuleName());
-        sysRouteConf.setPredicates(String.format("[{\"args\": {\"_genkey_0\": \"/%s/**\"}, \"name\": \"Path\"}]", table.getModuleName()));
+        sysRouteConf.setPredicates(
+                String.format("[{\"args\": {\"_genkey_0\": \"/%s/**\"}, \"name\": \"Path\"}]"
+                        , normalizedModuleName(table)));
         sysRouteConf.setFilters("[]");
         sysRouteConf.setUri(String.format("lb://%s-biz", table.getModuleName()));
         return sysRouteConf;
@@ -410,8 +426,9 @@ public class GeneratorServiceImpl implements GeneratorService {
         dataModel.put(DataModelConstants.PACKAGE, table.getPackageName());
         dataModel.put(DataModelConstants.PACKAGE_PATH, table.getPackageName().replace(".", "/"));
         dataModel.put(DataModelConstants.VERSION, table.getVersion());
-        dataModel.put(DataModelConstants.MODULE_NAME, table.getModuleName());
-        dataModel.put(DataModelConstants.MODULE_NAME_UPPER_FIRST, StrUtil.upperFirst(table.getModuleName()));
+        String moduleName = normalizedModuleName(table);
+        dataModel.put(DataModelConstants.MODULE_NAME, moduleName);
+        dataModel.put(DataModelConstants.MODULE_NAME_UPPER_FIRST, StrUtil.upperFirst(moduleName));
         dataModel.put(DataModelConstants.FUNCTION_NAME, table.getFunctionName());
         dataModel.put(DataModelConstants.FUNCTION_NAME_UPPER_FIRST, StrUtil.upperFirst(table.getFunctionName()));
         dataModel.put(DataModelConstants.FORM_LAYOUT, table.getFormLayout());
@@ -445,15 +462,27 @@ public class GeneratorServiceImpl implements GeneratorService {
             dataModel.put(DataModelConstants.MAIN_FIELD, NamingCase.toCamelCase(table.getMainField()));
             dataModel.put(DataModelConstants.CHILD_FIELD, NamingCase.toCamelCase(table.getChildField()));
             dataModel.put(DataModelConstants.CHILD_CLASS_NAME_UPPER_FIRST, NamingCase.toPascalCase(childTableName));
-            dataModel.put(DataModelConstants.CHILD_CLASS_NAME, StrUtil.lowerFirst(NamingCase.toPascalCase(childTableName)));
+            dataModel.put(DataModelConstants.CHILD_CLASS_NAME,
+                    StrUtil.lowerFirst(NamingCase.toPascalCase(childTableName)));
             // 设置是否是多租户模式 (判断字段列表中是否包含 tenant_id 字段)
-            childFieldList.stream().filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
-                    .findFirst().ifPresent(columnEntity -> dataModel.put(DataModelConstants.IS_CHILD_TENANT, true));
+            childFieldList.stream()
+                    .filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
+                    .findFirst()
+                    .ifPresent(columnEntity -> dataModel.put(DataModelConstants.IS_CHILD_TENANT, true));
+        }
+
+        // 设置树表
+        if (StrUtil.isNotBlank(table.getParentField())) {
+            dataModel.put(DataModelConstants.TREE_PARENT_FIELD, NamingCase.toCamelCase(table.getParentField()));
+            dataModel.put(DataModelConstants.TREE_NAME_FIELD, NamingCase.toCamelCase(table.getNameField()));
         }
 
         // 设置是否是多租户模式 (判断字段列表中是否包含 tenant_id 字段)
-        table.getFieldList().stream().filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
-                .findFirst().ifPresent(columnEntity -> dataModel.put(DataModelConstants.IS_TENANT, true));
+        table.getFieldList()
+                .stream()
+                .filter(genTableColumnEntity -> genTableColumnEntity.getFieldName().equals("tenant_id"))
+                .findFirst()
+                .ifPresent(columnEntity -> dataModel.put(DataModelConstants.IS_TENANT, true));
 
         return dataModel;
     }
@@ -465,6 +494,16 @@ public class GeneratorServiceImpl implements GeneratorService {
      */
     private boolean isSpringBoot3() {
         return StrUtil.startWith(SpringBootVersion.getVersion(), "3");
+    }
+
+    /**
+     * 获取去掉中划线的模块名称
+     *
+     * @param table 表配置
+     * @return 去掉中划线后的模块名称
+     */
+    private String normalizedModuleName(GenTable table) {
+        return StrUtil.removeAll(table.getModuleName(), StrUtil.DASHED);
     }
 
     /**

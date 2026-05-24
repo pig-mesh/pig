@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -76,7 +76,7 @@ public class GeneratorController {
 
 		response.reset();
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=code.zip");
-		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentLength(data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.write(response.getOutputStream(), false, data);
 	}
@@ -132,7 +132,7 @@ public class GeneratorController {
 		byte[] data = result.getBytes(StandardCharsets.UTF_8);
 		response.reset();
 		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=form.vue");
-		response.addHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(data.length));
+		response.setContentLength(data.length);
 		response.setContentType("application/octet-stream; charset=UTF-8");
 		IoUtil.write(response.getOutputStream(), false, data);
 	}

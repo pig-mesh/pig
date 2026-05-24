@@ -1,6 +1,6 @@
 package com.pig4cloud.pigx.codegen.util.vo;
 /*
- *      Copyright (c) 2018-2026, luolin All rights reserved.
+ *      Copyright (c) 2018-2025, luolin All rights reserved.
  *
  *  Redistribution and use in source and binary forms, with or without
  *  modification, are permitted provided that the following conditions are met:
@@ -19,8 +19,10 @@ package com.pig4cloud.pigx.codegen.util.vo;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 自动创建表管理
@@ -29,6 +31,7 @@ import java.time.LocalDateTime;
  * @date 2022-09-23 21:56:11
  */
 @Data
+@FieldNameConstants
 @Schema(description = "自动创建表管理")
 public class GenCreateTableVO {
 
@@ -81,15 +84,9 @@ public class GenCreateTableVO {
 	private LocalDateTime createTime;
 
 	/**
-	 * 表字段信息
-	 */
-	@Schema(description = "表字段信息")
-	private String columnsInfo;
-
-	/**
 	 * 字段信息
 	 */
 	@Schema(description = "字段信息")
-	private String columnInfo;
+    private List<GenCreateTableColumnVO> columnInfo;
 
 }

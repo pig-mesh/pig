@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -17,6 +17,7 @@
 package com.pig4cloud.pigx.codegen.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ClassUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.dynamic.datasource.DynamicRoutingDataSource;
 import com.baomidou.dynamic.datasource.creator.DataSourceCreator;
@@ -28,7 +29,7 @@ import com.pig4cloud.pigx.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pigx.codegen.service.GenDatasourceConfService;
 import com.pig4cloud.pigx.common.core.util.SpringContextHolder;
 import com.pig4cloud.pigx.common.datasource.util.DsConfTypeEnum;
-import com.pig4cloud.pigx.common.datasource.util.DsJdbcUrlEnum;
+import com.pig4cloud.pigx.common.datasource.util.DsTypeEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
@@ -38,6 +39,8 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * 数据源表
@@ -133,7 +136,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 		// 增加 ValidationQuery 参数
 		DruidConfig druidConfig = new DruidConfig();
-		DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());
+        DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 		druidConfig.setValidationQuery(urlEnum.getValidationQuery());
 		dataSourceProperty.setDruid(druidConfig);
 		DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
@@ -153,14 +156,13 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		// JDBC 配置形式
 		if (DsConfTypeEnum.JDBC.getType().equals(conf.getConfType())) {
 			url = conf.getUrl();
-		}
-		else if (DsJdbcUrlEnum.MSSQL.getDbName().equals(conf.getDsType())) {
+		} else if (DsTypeEnum.MSSQL.getDbName().equals(conf.getDsType())) {
 			// 主机形式 sql server 特殊处理
-			DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());
+            DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getPort(), conf.getDsName());
 		}
 		else {
-			DsJdbcUrlEnum urlEnum = DsJdbcUrlEnum.get(conf.getDsType());
+            DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getPort(), conf.getDsName());
 		}
 
@@ -174,5 +176,28 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		}
 		return Boolean.TRUE;
 	}
+
+    /**
+     * 查询数据库解析插件加载状态
+     *
+     * @return 数据源类型与解析插件状态
+     */
+    @Override
+    public Map<String, Boolean> listParserPlugins() {
+        Map<String, Boolean> result = new LinkedHashMap<>();
+        for (DsTypeEnum dsEnum : DsTypeEnum.values()) {
+            result.put(dsEnum.getDbName(), isClassPresent(dsEnum.getAnylineAdapter()));
+        }
+        return result;
+    }
+
+    private boolean isClassPresent(String className) {
+        try {
+            ClassUtil.loadClass(className, false);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
 }

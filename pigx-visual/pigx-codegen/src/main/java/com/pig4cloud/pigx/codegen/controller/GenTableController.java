@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -126,22 +126,11 @@ public class GenTableController {
      *
      * @param dsName    数据源名称
      * @param tableName 表名称
-     * @param isBatch   是否批量操作
      * @return 操作结果
      */
     @GetMapping("/sync/{dsName}/{tableName}")
-    public R<GenTable> syncTable(@PathVariable("dsName") String dsName, @PathVariable String tableName, @RequestParam(required = false) boolean isBatch) {
-        // 批量操作同步的时候，不需要删除
-        if (!isBatch) {
-            // 表配置删除
-            tableService.remove(
-                    Wrappers.<GenTable>lambdaQuery().eq(GenTable::getDsName, dsName).eq(GenTable::getTableName, tableName));
-            // 字段配置删除
-            tableColumnService.remove(Wrappers.<GenTableColumnEntity>lambdaQuery()
-                    .eq(GenTableColumnEntity::getDsName, dsName)
-                    .eq(GenTableColumnEntity::getTableName, tableName));
-        }
-        return R.ok(tableService.queryOrBuildTable(dsName, tableName));
+    public R<GenTable> syncTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+        return R.ok(tableService.syncTable(dsName, tableName));
     }
 
     /**

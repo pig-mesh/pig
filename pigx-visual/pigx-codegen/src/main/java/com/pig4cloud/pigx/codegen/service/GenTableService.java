@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -52,6 +52,15 @@ public interface GenTableService extends IService<GenTable> {
      * @return GenTable
      */
     GenTable queryOrBuildTable(String dsName, String tableName);
+
+    /**
+     * 同步表和字段配置
+     *
+     * @param dsName    数据源
+     * @param tableName 表名
+     * @return 同步后的表配置
+     */
+    GenTable syncTable(String dsName, String tableName);
 
     /**
      * 查询表ddl 语句

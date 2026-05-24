@@ -1,7 +1,7 @@
 package com.pig4cloud.pigx.codegen.util;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 /**
  * vfrom 字段类型
@@ -10,7 +10,7 @@ import lombok.Getter;
  * @date 2023/6/5
  */
 @Getter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public enum VFormTypeEnum {
 
 	GRID("grid"),

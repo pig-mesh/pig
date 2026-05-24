@@ -23,12 +23,12 @@ public class PigxCodeGenDefaultProperties implements InitializingBean {
 	/**
 	 * 是否开启在线更新
 	 */
-	private boolean autoCheckVersion = true;
+    private boolean autoCheckVersion = false;
 
-	/**
-	 * 分支名称，默认为master
-	 */
-	private String branch = "next";
+    /**
+     * 分支名称，默认为 202601
+     */
+    private String branch = "202601";
 
 	/**
 	 * 模板项目地址

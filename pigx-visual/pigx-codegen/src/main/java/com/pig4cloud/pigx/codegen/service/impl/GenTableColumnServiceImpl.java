@@ -10,12 +10,12 @@ import com.pig4cloud.pigx.codegen.mapper.GenTableColumnMapper;
 import com.pig4cloud.pigx.codegen.service.GenTableColumnService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 表字段信息管理
@@ -28,6 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper, GenTableColumnEntity>
 		implements GenTableColumnService {
 
+    private static final String DEFAULT_COMPONENT_TYPE = "text";
+
 	private final GenFieldTypeMapper fieldTypeMapper;
 
 	/**
@@ -35,39 +37,47 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	 * @param tableFieldList 表单字段列表
 	 */
 	public void initFieldList(List<GenTableColumnEntity> tableFieldList) {
-		// 字段类型、属性类型映射
-		List<GenFieldType> list = fieldTypeMapper.selectList(Wrappers.emptyWrapper());
-		Map<String, GenFieldType> fieldTypeMap = new LinkedHashMap<>(list.size());
-		list.forEach(
-				fieldTypeMapping -> fieldTypeMap.put(fieldTypeMapping.getColumnType().toLowerCase(), fieldTypeMapping));
-
-		// 索引计数器
+        Map<String, GenFieldType> fieldTypeMap = this.buildFieldTypeMap();
 		AtomicInteger index = new AtomicInteger(0);
+        tableFieldList.forEach(field -> this.initNewField(field, fieldTypeMap, index));
+    }
+
+    @Override
+    public void syncFieldList(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
+        Map<String, GenFieldType> fieldTypeMap = this.buildFieldTypeMap();
+        List<GenTableColumnEntity> existingFieldList = this.list(Wrappers.<GenTableColumnEntity>lambdaQuery()
+                .eq(GenTableColumnEntity::getDsName, dsName)
+                .eq(GenTableColumnEntity::getTableName, tableName)
+                .orderByAsc(GenTableColumnEntity::getSort)
+                .orderByAsc(GenTableColumnEntity::getId));
+        Map<String, GenTableColumnEntity> existingFieldMap = existingFieldList.stream()
+                .collect(Collectors.toMap(GenTableColumnEntity::getFieldName, Function.identity(), (left, right) -> left,
+                        LinkedHashMap::new));
+        int nextSort = existingFieldList.stream()
+                .map(GenTableColumnEntity::getSort)
+                .filter(Objects::nonNull)
+                .max(Comparator.naturalOrder())
+                .orElse(-1) + 1;
+        AtomicInteger sortCounter = new AtomicInteger(nextSort);
+        List<GenTableColumnEntity> mergedFieldList = new ArrayList<>(tableFieldList.size());
+
 		tableFieldList.forEach(field -> {
-			// 将字段名转化为驼峰格式
-			field.setAttrName(NamingCase.toCamelCase(field.getFieldName()));
+            GenTableColumnEntity existingField = existingFieldMap.remove(field.getFieldName());
+            if (Objects.isNull(existingField)) {
+                this.initNewField(field, fieldTypeMap, sortCounter);
+                mergedFieldList.add(field);
+                return;
+            }
+            this.mergeField(existingField, field, fieldTypeMap, sortCounter);
+            mergedFieldList.add(existingField);
+        });
 
-			// 获取字段对应的类型
-			GenFieldType fieldTypeMapping = fieldTypeMap.getOrDefault(field.getFieldType().toLowerCase(), null);
-			if (fieldTypeMapping == null) {
-				// 没找到对应的类型，则为Object类型
-				field.setAttrType("Object");
-			}
-			else {
-				field.setAttrType(fieldTypeMapping.getAttrType());
-				field.setPackageName(fieldTypeMapping.getPackageName());
-			}
-
-			// 设置查询类型和表单查询类型都为“=”
-			field.setQueryType("=");
-			field.setQueryFormType("text");
-
-			// 设置表单类型为文本框类型
-			field.setFormType("text");
-
-			// 保证审计字段最后显示
-			field.setSort(Objects.isNull(field.getSort()) ? index.getAndIncrement() : field.getSort());
-		});
+        if (!existingFieldMap.isEmpty()) {
+            this.removeBatchByIds(existingFieldMap.values().stream().map(GenTableColumnEntity::getId).toList());
+        }
+        if (!mergedFieldList.isEmpty()) {
+            this.saveOrUpdateBatch(mergedFieldList);
+        }
 	}
 
 	/**
@@ -77,12 +87,66 @@ public class GenTableColumnServiceImpl extends ServiceImpl<GenTableColumnMapper,
 	 * @param tableFieldList 表单字段列表
 	 */
 	@Override
-
 	public void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList) {
 		AtomicInteger sort = new AtomicInteger();
 		this.updateBatchById(tableFieldList.stream()
 			.peek(field -> field.setSort(sort.getAndIncrement()))
                 .toList());
 	}
+
+    private Map<String, GenFieldType> buildFieldTypeMap() {
+        List<GenFieldType> list = fieldTypeMapper.selectList(Wrappers.emptyWrapper());
+        Map<String, GenFieldType> fieldTypeMap = new LinkedHashMap<>(list.size());
+        list.stream()
+                .filter(fieldType -> Objects.nonNull(fieldType.getColumnType()))
+                .forEach(fieldType -> fieldTypeMap.put(this.normalizeColumnType(fieldType.getColumnType()), fieldType));
+        return fieldTypeMap;
+    }
+
+    private void initNewField(GenTableColumnEntity field, Map<String, GenFieldType> fieldTypeMap,
+                              AtomicInteger sortCounter) {
+        field.setAttrName(NamingCase.toCamelCase(field.getFieldName()));
+        this.applyFieldTypeMapping(field, fieldTypeMap);
+        field.setQueryType("=");
+        field.setSort(Objects.nonNull(field.getSort()) ? field.getSort() : sortCounter.getAndIncrement());
+    }
+
+    private void mergeField(GenTableColumnEntity existingField, GenTableColumnEntity latestField,
+                            Map<String, GenFieldType> fieldTypeMap, AtomicInteger sortCounter) {
+        existingField.setFieldType(latestField.getFieldType());
+        existingField.setFieldComment(latestField.getFieldComment());
+        existingField.setPrimaryPk(latestField.getPrimaryPk());
+        this.applyFieldTypeMapping(existingField, fieldTypeMap);
+        if (Objects.isNull(existingField.getAttrName())) {
+            existingField.setAttrName(NamingCase.toCamelCase(existingField.getFieldName()));
+        }
+        if (Objects.isNull(existingField.getSort())) {
+            existingField.setSort(Objects.nonNull(latestField.getSort()) ? latestField.getSort() : sortCounter.getAndIncrement());
+        }
+    }
+
+    private void applyFieldTypeMapping(GenTableColumnEntity field, Map<String, GenFieldType> fieldTypeMap) {
+        GenFieldType fieldType = Objects.isNull(field.getFieldType()) ? null
+                : fieldTypeMap.get(this.normalizeColumnType(field.getFieldType()));
+        if (Objects.isNull(fieldType)) {
+            field.setAttrType("Object");
+            field.setPackageName(null);
+            field.setFormType(DEFAULT_COMPONENT_TYPE);
+            field.setQueryFormType(DEFAULT_COMPONENT_TYPE);
+            return;
+        }
+        field.setAttrType(fieldType.getAttrType());
+        field.setPackageName(fieldType.getPackageName());
+        field.setFormType(this.resolveComponentType(fieldType.getDefaultFormType()));
+        field.setQueryFormType(this.resolveComponentType(fieldType.getDefaultQueryFormType()));
+    }
+
+    private String resolveComponentType(String type) {
+        return StringUtils.hasText(type) ? type : DEFAULT_COMPONENT_TYPE;
+    }
+
+    private String normalizeColumnType(String type) {
+        return type.toLowerCase(Locale.ROOT);
+    }
 
 }

@@ -1,5 +1,5 @@
 /*
- *    Copyright (c) 2018-2026, lengleng All rights reserved.
+ *    Copyright (c) 2018-2025, lengleng All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -18,6 +18,8 @@ package com.pig4cloud.pigx.codegen.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.pig4cloud.pigx.codegen.entity.GenDatasourceConf;
+
+import java.util.Map;
 
 /**
  * 数据源表
@@ -54,6 +56,13 @@ public interface GenDatasourceConfService extends IService<GenDatasourceConf> {
 	 * @return 有效/无效
 	 */
 	Boolean checkDataSource(GenDatasourceConf datasourceConf);
+
+    /**
+     * 查询数据库解析插件加载状态
+     *
+     * @return 数据源类型与解析插件状态
+     */
+    Map<String, Boolean> listParserPlugins();
 
 	/**
 	 * 通过数据源名称删除
