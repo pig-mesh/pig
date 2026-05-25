@@ -262,9 +262,9 @@ CREATE TABLE `sys_job` (
                            `job_status` char(1) CHARACTER SET utf8mb4 DEFAULT '0' COMMENT '状态（1、未发布;2、运行中;3、暂停;4、删除;）',
                            `job_execute_status` char(1) CHARACTER SET utf8mb4 DEFAULT '0' COMMENT '状态（0正常 1异常）',
                            `create_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '创建者',
-                           `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                           `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                            `update_by` varchar(64) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '更新者',
-                           `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
+                           `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
                            `start_time` timestamp NULL DEFAULT NULL COMMENT '初次执行时间',
                            `previous_time` timestamp NULL DEFAULT NULL COMMENT '上次执行时间',
                            `next_time` timestamp NULL DEFAULT NULL COMMENT '下次执行时间',
@@ -299,7 +299,10 @@ CREATE TABLE `sys_job_log` (
                                `job_log_status` char(1) CHARACTER SET utf8  DEFAULT '0' COMMENT '执行状态（0正常 1失败）',
                                `execute_time` varchar(30) CHARACTER SET utf8  DEFAULT NULL COMMENT '执行时间',
                                `exception_info` varchar(2000) CHARACTER SET utf8  DEFAULT '' COMMENT '异常信息',
-                               `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                               `scheduled_fire_time` datetime DEFAULT NULL COMMENT '计划触发时间',
+                               `fire_instance_id` varchar(128) CHARACTER SET utf8 DEFAULT NULL COMMENT 'Quartz触发实例ID',
+                               `dedup_status` char(1) CHARACTER SET utf8 DEFAULT '0' COMMENT '去重状态（0正常执行 1同一触发点重复 2任务运行中跳过）',
+                               `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
                                `tenant_id` bigint NOT NULL DEFAULT '1' COMMENT '租户id',
                                PRIMARY KEY (`job_log_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='定时任务执行日志表';
@@ -317,7 +320,7 @@ CREATE TABLE `xxl_job_info` (
   `misfire_strategy` varchar(50) NOT NULL DEFAULT 'DO_NOTHING' COMMENT '调度过期策略',
   `executor_route_strategy` varchar(50) DEFAULT NULL COMMENT '执行器路由策略',
   `executor_handler` varchar(255) DEFAULT NULL COMMENT '执行器任务handler',
-  `executor_param` varchar(512) DEFAULT NULL COMMENT '执行器任务参数',
+  `executor_param` text DEFAULT NULL COMMENT '执行器任务参数',
   `executor_block_strategy` varchar(50) DEFAULT NULL COMMENT '阻塞处理策略',
   `executor_timeout` int(11) NOT NULL DEFAULT '0' COMMENT '任务执行超时时间，单位秒',
   `executor_fail_retry_count` int(11) NOT NULL DEFAULT '0' COMMENT '失败重试次数',
@@ -338,7 +341,7 @@ CREATE TABLE `xxl_job_log` (
   `job_id` int(11) NOT NULL COMMENT '任务，主键ID',
   `executor_address` varchar(255) DEFAULT NULL COMMENT '执行器地址，本次执行的地址',
   `executor_handler` varchar(255) DEFAULT NULL COMMENT '执行器任务handler',
-  `executor_param` varchar(512) DEFAULT NULL COMMENT '执行器任务参数',
+  `executor_param` text DEFAULT NULL COMMENT '执行器任务参数',
   `executor_sharding_param` varchar(20) DEFAULT NULL COMMENT '执行器任务分片参数，格式如 1/2',
   `executor_fail_retry_count` int(11) NOT NULL DEFAULT '0' COMMENT '失败重试次数',
   `trigger_time` datetime DEFAULT NULL COMMENT '调度-时间',
@@ -350,7 +353,9 @@ CREATE TABLE `xxl_job_log` (
   `alarm_status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '告警状态：0-默认、1-无需告警、2-告警成功、3-告警失败',
   PRIMARY KEY (`id`),
   KEY `I_trigger_time` (`trigger_time`),
-  KEY `I_handle_code` (`handle_code`)
+  KEY `I_handle_code` (`handle_code`),
+  KEY `I_jobgroup` (`job_group`),
+  KEY `I_jobid` (`job_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `xxl_job_log_report` (
@@ -382,13 +387,13 @@ CREATE TABLE `xxl_job_registry` (
   `registry_value` varchar(255) NOT NULL,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `i_g_k_v` (`registry_group`,`registry_key`,`registry_value`)
+  UNIQUE KEY `i_g_k_v` (`registry_group`,`registry_key`,`registry_value`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `xxl_job_group` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `app_name` varchar(64) NOT NULL COMMENT '执行器AppName',
-  `title` varchar(12) NOT NULL COMMENT '执行器名称',
+  `title` varchar(64) NOT NULL COMMENT '执行器名称',
   `address_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '执行器地址类型：0=自动注册、1=手动录入',
   `address_list` text COMMENT '执行器地址列表，多地址逗号分隔',
   `update_time` datetime DEFAULT NULL,

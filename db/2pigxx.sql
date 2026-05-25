@@ -1,5 +1,6 @@
 USE pigxx;
 
+
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -57,6 +58,28 @@ INSERT INTO `sys_area` (`id`, `pid`, `name`, `letter`, `adcode`, `location`, `ar
 INSERT INTO `sys_area` (`id`, `pid`, `name`, `letter`, `adcode`, `location`, `area_sort`, `area_status`, `area_type`, `hot`, `city_code`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (30, 100000, '青海省', '', 630000, '', NULL, '1', '1', '0', '', '2023-11-09 03:50:52', '2023-11-09 03:50:52', NULL, NULL, '0');
 INSERT INTO `sys_area` (`id`, `pid`, `name`, `letter`, `adcode`, `location`, `area_sort`, `area_status`, `area_type`, `hot`, `city_code`, `create_by`, `create_time`, `update_by`, `update_time`, `del_flag`) VALUES (31, 100000, '宁夏回族自治区', '', 640000, '', NULL, '1', '1', '0', '', '2023-11-09 03:50:52', '2023-11-09 03:50:52', NULL, NULL, '0');
 COMMIT;
+
+-- API-KEY 管理表
+CREATE TABLE `sys_api_key` (
+   `id` bigint NOT NULL COMMENT '主键',
+   `user_id` bigint NOT NULL COMMENT '所属用户ID',
+   `username` varchar(64) NOT NULL COMMENT '所属用户名',
+   `name` varchar(64) NOT NULL COMMENT 'Key名称',
+   `api_key_hash` varchar(64) NOT NULL COMMENT 'SHA-256哈希值',
+   `allowed_ips` varchar(512) DEFAULT NULL COMMENT 'IP白名单（逗号分隔，空=不限制）',
+   `expires_at` datetime DEFAULT NULL COMMENT '过期时间（null=永不过期）',
+   `status` char(1) NOT NULL DEFAULT '0' COMMENT '状态：0-正常，1-禁用',
+   `last_used_at` datetime DEFAULT NULL COMMENT '最后使用时间',
+   `del_flag` char(1) NOT NULL DEFAULT '0' COMMENT '逻辑删除：0-正常，1-已删除',
+   `create_by` varchar(64) DEFAULT NULL COMMENT '创建者',
+   `update_by` varchar(64) DEFAULT NULL COMMENT '更新者',
+   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+   `tenant_id` bigint DEFAULT NULL COMMENT '租户ID',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `uk_api_key_hash` (`api_key_hash`),
+   KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='API密钥管理表';
 
 -- ----------------------------
 -- Table structure for sys_audit_log
@@ -163,7 +186,6 @@ INSERT INTO `sys_dict` VALUES (17, 'enc_flag_types', '前端密码加密', ' ', 
 INSERT INTO `sys_dict` VALUES (18, 'lock_flag', '用户状态', 'admin', ' ', '2023-02-01 16:55:31', NULL, NULL, '1', '0', 1);
 INSERT INTO `sys_dict` VALUES (19, 'ds_config_type', '数据连接类型', 'admin', ' ', '2023-02-06 18:36:59', NULL, NULL, '1', '0', 1);
 INSERT INTO `sys_dict` VALUES (20, 'common_status', '通用状态', 'admin', ' ', '2023-02-09 11:02:08', NULL, NULL, '1', '0', 1);
-INSERT INTO `sys_dict` VALUES (21, 'app_social_type', 'app社交登录', 'admin', ' ', '2023-02-10 11:11:06', NULL, 'app社交登录', '1', '0', 1);
 INSERT INTO `sys_dict` VALUES (22, 'yes_no_type', '是否', 'admin', ' ', '2023-02-20 23:25:04', NULL, NULL, '1', '0', 1);
 INSERT INTO `sys_dict` VALUES (23, 'repType', '微信消息类型', 'admin', ' ', '2023-02-24 15:08:25', NULL, NULL, '0', '0', 1);
 INSERT INTO `sys_dict` VALUES (24, 'leave_status', '请假状态', 'admin', ' ', '2023-03-02 22:50:15', NULL, NULL, '0', '0', 1);
@@ -268,7 +290,6 @@ INSERT INTO `sys_dict_item` VALUES (61, 19, '0', '主机', 'ds_config_type', '�
 INSERT INTO `sys_dict_item` VALUES (62, 19, '1', 'JDBC', 'ds_config_type', 'jdbc', NULL, 2, 'admin', ' ', '2023-02-06 18:37:34', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (63, 20, 'false', '否', 'common_status', '否', NULL, 1, 'admin', ' ', '2023-02-09 11:02:39', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (64, 20, 'true', '是', 'common_status', '是', NULL, 2, 'admin', ' ', '2023-02-09 11:02:52', NULL, NULL, '0', 1);
-INSERT INTO `sys_dict_item` VALUES (65, 21, 'MINI', '小程序', 'app_social_type', '小程序登录', NULL, 0, 'admin', ' ', '2023-02-10 11:11:41', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (66, 22, '0', '否', 'yes_no_type', '0', NULL, 0, 'admin', ' ', '2023-02-20 23:35:23', NULL, '0', '0', 1);
 INSERT INTO `sys_dict_item` VALUES (67, 22, '1', '是', 'yes_no_type', '1', NULL, 0, 'admin', ' ', '2023-02-20 23:35:37', NULL, '1', '0', 1);
 INSERT INTO `sys_dict_item` VALUES (69, 23, 'text', '文本', 'repType', '文本', NULL, 0, 'admin', ' ', '2023-02-24 15:08:45', NULL, NULL, '0', 1);
@@ -299,6 +320,8 @@ INSERT INTO `sys_dict_item` VALUES (93, 28, '0', '公告', 'message_type', '主�
 INSERT INTO `sys_dict_item` VALUES (94, 28, '1', '站内信', 'message_type', '右上角显示', NULL, 1, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (95, 29, '0', '黑名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
 INSERT INTO `sys_dict_item` VALUES (96, 29, '1', '白名单', 'sensitive_type', '失败', NULL, 3, 'admin', ' ', '2023-10-27 10:30:47', NULL, NULL, '0', 1);
+INSERT INTO `sys_dict_item` VALUES (97,2,'MINI','小程序登录','social_type','小程序登录',NULL,3,' ',' ','2022-02-18 13:56:25','2022-02-18 13:56:28',NULL,'0',1);
+INSERT INTO `sys_dict_item` VALUES (98,2,'clarity','clarity','social_type','clarity',NULL,3,' ',' ','2022-02-18 13:56:25','2022-02-18 13:56:28',NULL,'0',1);
 COMMIT;
 
 -- ----------------------------
@@ -435,7 +458,6 @@ INSERT INTO `sys_i18n` VALUES (57, 'router.tagManagement', '标签管理', 'Tag 
 INSERT INTO `sys_i18n` VALUES (58, 'router.articleInformation', '文章资讯', 'Article Information', ' ', '2023-08-10 13:40:09', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (59, 'router.articleCategory', '文章分类', 'Article Category', ' ', '2023-08-10 13:40:48', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (60, 'router.interfaceSettings', '界面设置', 'Interface Settings', ' ', '2023-08-10 13:41:21', ' ', NULL, '0');
-INSERT INTO `sys_i18n` VALUES (61, 'router.bottomNavigation', '底部导航', 'Bottom Navigation', ' ', '2023-08-10 13:41:54', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (62, 'router.cacheMonitoring', '缓存监控', 'Cache Monitoring', ' ', '2023-08-10 13:42:35', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (63, 'rotuer. initiateProcess', '发起流程', 'Initiate Process', ' ', '2023-08-10 13:44:23', ' ', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (64, 'router.taskManagement', '任务管理', 'Task Management', ' ', '2023-08-10 13:44:53', ' ', NULL, '0');
@@ -449,6 +471,7 @@ INSERT INTO `sys_i18n` VALUES (71, 'router.datav', '大屏看板', 'Data Visual'
 INSERT INTO `sys_i18n` VALUES (72, 'router.bi', '数据报表', 'Bi Report', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 INSERT INTO `sys_i18n` VALUES (73, 'router.message', '信息推送', 'Message Push', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
 INSERT INTO `sys_i18n` VALUES (74, 'router.sensitiveWords', '敏感词管理', 'Sensitive words', ' ', '2023-08-10 13:46:37', ' ', '2023-08-10 13:47:09', '0');
+INSERT INTO `sys_i18n` VALUES (75, 'router.clarityMonitoring', '站点统计', 'Site Analytics', 'admin', '2026-03-26 00:00:00', 'admin', NULL, '0');
 COMMIT;
 
 -- ----------------------------
@@ -492,7 +515,7 @@ DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `menu_id` bigint(20) NOT NULL COMMENT '菜单ID',
   `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单名称',
-  `permission` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限标识',
+  `permission` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '权限标识',
   `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '路由路径',
   `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '组件',
   `parent_id` bigint(20) DEFAULT NULL COMMENT '父菜单ID',
@@ -554,6 +577,9 @@ INSERT INTO `sys_menu` VALUES (1602,'岗位信息新增','sys_post_add',NULL,NUL
 INSERT INTO `sys_menu` VALUES (1603,'岗位信息修改','sys_post_edit',NULL,NULL,1600,NULL,'1',2,'0',NULL,'1',' ','2022-03-26 13:06:31',' ','2022-03-26 13:06:38','0',1);
 INSERT INTO `sys_menu` VALUES (1604,'岗位信息删除','sys_post_del',NULL,NULL,1600,NULL,'1',3,'0',NULL,'1',' ','2022-03-26 13:06:31',' ',NULL,'0',1);
 INSERT INTO `sys_menu` VALUES (1605,'岗位导入导出','sys_post_export',NULL,NULL,1600,NULL,'1',4,'0',NULL,'1',' ','2022-03-26 13:06:31',' ','2022-03-26 06:32:02','0',1);
+INSERT INTO `sys_menu` VALUES (1700,'网站配置',NULL,'/admin/siteconfig/index',NULL,1000,'iconfont icon-anquanjiance','1',9,'0','0','0','admin','2026-03-28 00:00:00','admin','2026-03-28 00:00:00','0',1);
+INSERT INTO `sys_menu` VALUES (1701,'网站配置查看','sys_site_config_view',NULL,NULL,1700,'1','1',0,'0',NULL,'1','admin','2026-03-28 00:00:00','admin','2026-03-28 00:00:00','0',1);
+INSERT INTO `sys_menu` VALUES (1702,'网站配置编辑','sys_site_config_edit',NULL,NULL,1700,'1','1',1,'0',NULL,'1','admin','2026-03-28 00:00:00','admin','2026-03-28 00:00:00','0',1);
 INSERT INTO `sys_menu` VALUES (2000,'系统管理',NULL,'/admin',NULL,-1,'iconfont icon-xitongguanli','1',1,'0',NULL,'0','','2017-11-07 20:56:00','admin','2023-11-01 16:25:58','0',1);
 INSERT INTO `sys_menu` VALUES (2001,'日志管理',NULL,'/admin/logs',NULL,2000,'iconfont icon-xitongrizhi','1',1,'0','0','0','admin','2023-03-02 12:26:42','admin','2023-11-01 16:22:08','0',1);
 INSERT INTO `sys_menu` VALUES (2100,'操作日志',NULL,'/admin/log/index',NULL,2001,'iconfont icon-jinridaiban','1',2,'0','0','0','','2017-11-20 14:06:22','admin','2023-03-02 12:28:57','0',1);
@@ -651,6 +677,9 @@ INSERT INTO `sys_menu` VALUES (3029,'删除菜单','mp_wxmenu_del',NULL,NULL,300
 INSERT INTO `sys_menu` VALUES (4000,'系统监控',NULL,'/daemon',NULL,-1,'iconfont icon-shuju','1',3,'0','0','0','admin','2023-02-06 20:20:47','admin','2023-11-01 17:12:31','1',1);
 INSERT INTO `sys_menu` VALUES (4001,'文档扩展',NULL,'http://pigx-gateway:9999/doc.html',NULL,9910,'iconfont icon-swagger','1',2,'0','1','0','','2018-06-26 10:50:32','admin','2023-11-27 14:52:54','0',1);
 INSERT INTO `sys_menu` VALUES (4002,'缓存监控',NULL,'/tools/data/cache',NULL,9910,'iconfont icon-huancunjiankong','1',1,'0','0','0','admin','2023-05-29 15:12:59','admin','2023-11-27 14:52:56','0',1);
+INSERT INTO `sys_menu` VALUES (4003,'缓存监控查看','sys_cache_view',NULL,NULL,4002,'1','1',0,'0',NULL,'1','admin','2026-03-27 00:00:00','admin','2026-03-27 00:00:00','0',1);
+INSERT INTO `sys_menu` VALUES (4004,'站点统计',NULL,'/tools/data/clarity',NULL,9910,'iconfont icon-shuju','1',2,'0','0','0','admin','2026-03-26 00:00:00','admin','2026-03-26 00:00:00','0',1);
+INSERT INTO `sys_menu` VALUES (4005,'站点统计查看','sys_clarity_view',NULL,NULL,4004,'1','1',0,'0',NULL,'1','admin','2026-03-27 00:00:00','admin','2026-03-27 00:00:00','0',1);
 INSERT INTO `sys_menu` VALUES (4010,'信息推送','','/tools/message/index',NULL,9910,'iconfont icon-xinxituisong','1',7,'0',NULL,'0','',NULL,'admin','2025-01-26 22:22:24','0',1);
 INSERT INTO `sys_menu` VALUES (4011,'信息推送查看','sys_message_view',NULL,NULL,4010,'1','1',0,'0',NULL,'1','',NULL,'admin','2023-10-25 14:51:54','0',1);
 INSERT INTO `sys_menu` VALUES (4012,'信息推送新增','sys_message_add',NULL,NULL,4010,'1','1',1,'0',NULL,'1','',NULL,'admin','2023-10-25 14:52:00','0',1);
@@ -704,20 +733,9 @@ INSERT INTO `sys_menu` VALUES (6013,'编辑','flow_bpmOaLeave_edit',NULL,NULL,60
 INSERT INTO `sys_menu` VALUES (6014,'删除','flow_bpmOaLeave_del',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
 INSERT INTO `sys_menu` VALUES (6015,'导出','flow_bpmOaLeave_export',NULL,NULL,6010,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
 INSERT INTO `sys_menu` VALUES (7000,'APP管理',NULL,'/app',NULL,9900,'iconfont icon-menhukehuduan','1',2,'0','0','0','admin',NULL,'admin','2023-11-27 14:52:31','0',1);
-INSERT INTO `sys_menu` VALUES (7100,'客户管理',NULL,'/biz/app/appuser/index',NULL,7000,'iconfont icon-gerenzhongxin','1',1,'1',NULL,'0','admin',NULL,'admin','2023-11-01 17:29:36','0',1);
-INSERT INTO `sys_menu` VALUES (7101,'新增用户','app_appuser_add',NULL,NULL,7100,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
-INSERT INTO `sys_menu` VALUES (7102,'编辑用户','app_appuser_edit',NULL,NULL,7100,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
-INSERT INTO `sys_menu` VALUES (7103,'删除用户','app_appuser_del',NULL,NULL,7100,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
-INSERT INTO `sys_menu` VALUES (7104,'导出用户','app_appuser_export',NULL,NULL,7100,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:00','0',1);
-INSERT INTO `sys_menu` VALUES (7200,'APP角色',NULL,'/biz/app/approle/index',NULL,7000,'iconfont icon-app-juese','1',2,'0','0','0','admin',NULL,'admin','2025-01-26 22:34:02','0',1);
-INSERT INTO `sys_menu` VALUES (7201,'删除角色','app_approle_del',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:01','0',1);
-INSERT INTO `sys_menu` VALUES (7202,'编辑角色','app_approle_edit',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:01','0',1);
-INSERT INTO `sys_menu` VALUES (7203,'新增角色','app_approle_add',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:01','0',1);
-INSERT INTO `sys_menu` VALUES (7204,'导出角色','app_approle_export',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:01','0',1);
-INSERT INTO `sys_menu` VALUES (7300,'APP秘钥',NULL,'/biz/app/appsocial/index',NULL,7000,'iconfont icon-miyueguanli','1',3,'0','0','0','admin',NULL,'admin','2025-01-26 22:28:14','0',1);
-INSERT INTO `sys_menu` VALUES (7301,'删除秘钥','app_social_details_del',NULL,NULL,7300,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:02','0',1);
-INSERT INTO `sys_menu` VALUES (7302,'修改秘钥','app_social_details_edit',NULL,NULL,7300,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:02','0',1);
-INSERT INTO `sys_menu` VALUES (7303,'保存秘钥','app_social_details_add',NULL,NULL,7300,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2023-01-29 07:01:02','0',1);
+INSERT INTO `sys_menu` VALUES (7200,'APP Tabbar授权',NULL,'/biz/app/approle/index',NULL,7000,'iconfont icon-app-juese','1',2,'0','0','0','admin',NULL,'admin','2025-01-26 22:34:02','0',1);
+INSERT INTO `sys_menu` VALUES (7201,'查看','app_role_tabbar_view',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2026-05-08 00:00:00','0',1);
+INSERT INTO `sys_menu` VALUES (7202,'授权','app_role_tabbar_edit',NULL,NULL,7200,NULL,'1',1,'0',NULL,'1','admin',NULL,'admin','2026-05-08 00:00:00','0',1);
 INSERT INTO `sys_menu` VALUES (7400,'文章资讯','','/biz/app/appArticle/index',NULL,7000,'iconfont icon-wenzhangzixun','1',4,'0',NULL,'0','',NULL,'admin','2025-01-26 22:33:43','0',1);
 INSERT INTO `sys_menu` VALUES (7401,'文章资讯表查看','app_appArticle_view',NULL,NULL,7400,'1','1',0,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
 INSERT INTO `sys_menu` VALUES (7402,'文章资讯表新增','app_appArticle_add',NULL,NULL,7400,'1','1',1,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
@@ -732,7 +750,6 @@ INSERT INTO `sys_menu` VALUES (7504,'文章分类表删除','app_appArticleCateg
 INSERT INTO `sys_menu` VALUES (7505,'导入导出','app_appArticleCategory_export',NULL,NULL,7500,'1','1',3,'0',NULL,'1',' ',NULL,' ',NULL,'0',1);
 INSERT INTO `sys_menu` VALUES (7600,'文章发布',NULL,'/biz/app/appArticle/form',NULL,7000,'iconfont icon-refresh','0',4,'0','0','0','admin','2023-06-07 17:05:32','admin','2023-11-01 17:29:52','0',1);
 INSERT INTO `sys_menu` VALUES (7700,'界面设置','','/biz/app/page/index',NULL,7000,'iconfont icon-diannao1','1',8,'0',NULL,'0','',NULL,'admin','2023-11-01 17:29:55','0',1);
-INSERT INTO `sys_menu` VALUES (7701,'底部导航',NULL,'/biz/app/tabbar/index',NULL,7000,'iconfont icon-dibudaohang','1',9,'0','0','0','admin','2023-06-14 14:36:08','admin','2025-01-26 22:27:17','0',1);
 INSERT INTO `sys_menu` VALUES (7800,'通讯录',NULL,'/biz/app/appContacts/index',NULL,7000,'iconfont icon-tongxunlu','1',9,'0',NULL,'0','admin','2025-05-29 17:30:31','admin','2025-05-29 17:42:08','0',1);
 INSERT INTO `sys_menu` VALUES (7801,'查看','app_appContacts_view',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
 INSERT INTO `sys_menu` VALUES (7802,'新增','app_appContacts_add',NULL,NULL,7800,NULL,'1',1,'0',NULL,'1','admin','2025-05-29 17:30:31',' ',NULL,'0',1);
@@ -871,6 +888,26 @@ INSERT INTO `sys_public_param` VALUES (6, '租户默认角色名称', 'TENANT_DE
 INSERT INTO `sys_public_param` VALUES (7, '表前缀', 'GEN_TABLE_PREFIX', 'tb_', '0', '', ' ', ' ', '2020-05-12 04:23:04', NULL, '9', '1', '0', 1);
 INSERT INTO `sys_public_param` VALUES (8, '接口文档不显示的字段', 'GEN_HIDDEN_COLUMNS', 'tenant_id', '0', '', ' ', ' ', '2020-05-12 04:25:19', NULL, '9', '1', '0', 1);
 INSERT INTO `sys_public_param` VALUES (9, '注册用户默认角色', 'USER_DEFAULT_ROLE', 'GENERAL_USER', '0', NULL, ' ', ' ', '2022-03-31 16:52:24', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (10, 'Clarity 追踪 ID', 'SITE_CLARITY_ID', 'r2uywff1r4', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (11, '验证码类型', 'SITE_CAPTCHA_TYPE', 'clickWord', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (12, '强制重置密码', 'SITE_FORCE_RESET_PWD', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (13, '强制退出', 'SITE_FORCE_LOGOUT', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (14, '短信登录开关', 'SITE_SMS_LOGIN_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (15, '社交登录开关', 'SITE_SOCIAL_LOGIN_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (16, '前端注册开关', 'SITE_REGISTER_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (17, '找回/重置密码开关', 'SITE_RESET_PASSWORD', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (18, '国际化切换开关', 'SITE_I18N_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (19, '亮暗模式切换开关', 'SITE_DARK_MODE_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (20, '反调试保护', 'SITE_ANTI_DEBUG_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (21, '反调试绕过密钥', 'SITE_ANTI_DEBUG_KEY', 'pig', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (22, '钉钉导入开关', 'SITE_SYNC_DINGTALK_ENABLED', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (23, '企业微信导入开关', 'SITE_SYNC_WECHAT_ENABLED', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (24, '网站标题', 'SITE_TITLE', 'PIGX ADMIN', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (25, '备案/版权信息', 'SITE_FOOTER', '<a href="https://beian.miit.gov.cn" target="_blank">京ICP备XXXXXXXX号</a>', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (26, '隐私提示', 'SITE_PRIVACY_TIP', '我已仔细阅读并接受 <a href="#" target="_blank">服务协议</a> 和 <a href="#" target="_blank">隐私政策</a>', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
+INSERT INTO `sys_public_param` VALUES (27, '密码过期天数', 'PASSWORD_EXPIRE_DAYS', '90', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '0', '0', 1);
+INSERT INTO `sys_public_param` VALUES (28, '登录失败锁定次数', 'LOGIN_ERROR_TIMES', '5', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '0', '0', 1);
+INSERT INTO `sys_public_param` VALUES (29, '密码规则预设', 'SITE_PASSWORD_RULE', 'letterNumber', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0', 1);
 COMMIT;
 
 -- ----------------------------
@@ -955,6 +992,12 @@ INSERT INTO `sys_role_menu` VALUES (1, 1602);
 INSERT INTO `sys_role_menu` VALUES (1, 1603);
 INSERT INTO `sys_role_menu` VALUES (1, 1604);
 INSERT INTO `sys_role_menu` VALUES (1, 1605);
+INSERT INTO `sys_role_menu` VALUES (1, 1700);
+INSERT INTO `sys_role_menu` VALUES (1, 1701);
+INSERT INTO `sys_role_menu` VALUES (1, 1702);
+INSERT INTO `sys_role_menu` VALUES (1, 1710);
+INSERT INTO `sys_role_menu` VALUES (1, 1711);
+INSERT INTO `sys_role_menu` VALUES (1, 1712);
 INSERT INTO `sys_role_menu` VALUES (1, 2000);
 INSERT INTO `sys_role_menu` VALUES (1, 2001);
 INSERT INTO `sys_role_menu` VALUES (1, 2100);
@@ -1052,6 +1095,9 @@ INSERT INTO `sys_role_menu` VALUES (1, 3029);
 INSERT INTO `sys_role_menu` VALUES (1, 4000);
 INSERT INTO `sys_role_menu` VALUES (1, 4001);
 INSERT INTO `sys_role_menu` VALUES (1, 4002);
+INSERT INTO `sys_role_menu` VALUES (1, 4003);
+INSERT INTO `sys_role_menu` VALUES (1, 4004);
+INSERT INTO `sys_role_menu` VALUES (1, 4005);
 INSERT INTO `sys_role_menu` VALUES (1, 4010);
 INSERT INTO `sys_role_menu` VALUES (1, 4011);
 INSERT INTO `sys_role_menu` VALUES (1, 4012);
@@ -1105,20 +1151,9 @@ INSERT INTO `sys_role_menu` VALUES (1, 6013);
 INSERT INTO `sys_role_menu` VALUES (1, 6014);
 INSERT INTO `sys_role_menu` VALUES (1, 6015);
 INSERT INTO `sys_role_menu` VALUES (1, 7000);
-INSERT INTO `sys_role_menu` VALUES (1, 7100);
-INSERT INTO `sys_role_menu` VALUES (1, 7101);
-INSERT INTO `sys_role_menu` VALUES (1, 7102);
-INSERT INTO `sys_role_menu` VALUES (1, 7103);
-INSERT INTO `sys_role_menu` VALUES (1, 7104);
 INSERT INTO `sys_role_menu` VALUES (1, 7200);
 INSERT INTO `sys_role_menu` VALUES (1, 7201);
 INSERT INTO `sys_role_menu` VALUES (1, 7202);
-INSERT INTO `sys_role_menu` VALUES (1, 7203);
-INSERT INTO `sys_role_menu` VALUES (1, 7204);
-INSERT INTO `sys_role_menu` VALUES (1, 7300);
-INSERT INTO `sys_role_menu` VALUES (1, 7301);
-INSERT INTO `sys_role_menu` VALUES (1, 7302);
-INSERT INTO `sys_role_menu` VALUES (1, 7303);
 INSERT INTO `sys_role_menu` VALUES (1, 7400);
 INSERT INTO `sys_role_menu` VALUES (1, 7401);
 INSERT INTO `sys_role_menu` VALUES (1, 7402);
@@ -1133,7 +1168,6 @@ INSERT INTO `sys_role_menu` VALUES (1, 7504);
 INSERT INTO `sys_role_menu` VALUES (1, 7505);
 INSERT INTO `sys_role_menu` VALUES (1, 7600);
 INSERT INTO `sys_role_menu` VALUES (1, 7700);
-INSERT INTO `sys_role_menu` VALUES (1, 7701);
 INSERT INTO `sys_role_menu` VALUES (1, 7800);
 INSERT INTO `sys_role_menu` VALUES (1, 7801);
 INSERT INTO `sys_role_menu` VALUES (1, 7802);
@@ -1167,7 +1201,27 @@ INSERT INTO `sys_role_menu` VALUES (1, 9911);
 INSERT INTO `sys_role_menu` VALUES (1, 9912);
 INSERT INTO `sys_role_menu` VALUES (1, 9913);
 INSERT INTO `sys_role_menu` VALUES (1, 9914);
+
 COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_role_widget
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_role_widget`;
+CREATE TABLE `sys_role_widget` (
+  `id`            BIGINT       NOT NULL COMMENT '主键',
+  `role_id`       BIGINT       NOT NULL COMMENT '角色ID',
+  `widget_keys`   VARCHAR(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '允许的组件key列表，逗号分隔',
+  `layout_config` TEXT         CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  DEFAULT NULL COMMENT '默认布局JSON，格式同前端grid对象',
+  `tenant_id`     BIGINT       DEFAULT NULL COMMENT '租户ID',
+  `del_flag`      CHAR(1)      CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记,1:已删除,0:正常',
+  `create_by`     VARCHAR(64)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '创建人',
+  `update_by`     VARCHAR(64)  CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '修改人',
+  `create_time`   DATETIME     DEFAULT NULL COMMENT '创建时间',
+  `update_time`   DATETIME     DEFAULT NULL COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_role_id` (`role_id`, `tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='角色首页组件配置';
 
 
 -- ----------------------------
@@ -1247,7 +1301,7 @@ CREATE TABLE `sys_social_details` (
   `type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '社交登录类型',
   `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `app_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用ID',
-  `app_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
+  `app_secret` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
   `redirect_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '回调地址',
   `ext` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段',
   `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
@@ -1261,6 +1315,42 @@ CREATE TABLE `sys_social_details` (
 
 -- ----------------------------
 -- Records of sys_social_details
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for sys_clarity_data
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_clarity_data`;
+CREATE TABLE `sys_clarity_data` (
+  `id`               bigint(20)     NOT NULL                        COMMENT '主键（ASSIGN_ID，应用层雪花算法生成）',
+  `data_date`        date           NOT NULL                        COMMENT '数据日期',
+  `total_sessions`   int(11)        DEFAULT NULL                    COMMENT '总会话数（Traffic.totalSessionCount）',
+  `distinct_users`   int(11)        DEFAULT NULL                    COMMENT '独立访客数 UV（Traffic.distinctUserCount）',
+  `pages_per_session` decimal(10,2) DEFAULT NULL                    COMMENT '每会话页面数（Traffic.pagesPerSessionPercentage）',
+  `scroll_depth`     decimal(10,2)  DEFAULT NULL                    COMMENT '平均滚动深度 %（ScrollDepth.averageScrollDepth）',
+  `dead_click_rate`  decimal(10,2)  DEFAULT NULL                    COMMENT '死点击率 %（DeadClickCount.sessionsWithMetricPercentage）',
+  `rage_click_rate`  decimal(10,2)  DEFAULT NULL                    COMMENT '激怒点击率 %（RageClickCount.sessionsWithMetricPercentage）',
+  `device_data`      text           DEFAULT NULL                    COMMENT '设备分布 JSON 文本：[{"name":"PC","value":569}]',
+  `top_urls`         text           DEFAULT NULL                    COMMENT '热门页面 Top10 JSON 文本：[{"name":"https://...","value":297}]',
+  `num_of_days`      tinyint(4)     NOT NULL DEFAULT 1              COMMENT '数据天数',
+  `fetch_status`     varchar(10)    NOT NULL DEFAULT 'pending'      COMMENT '拉取状态：pending=占位中, success=成功, failed=失败',
+  `referrer_url_data` text          DEFAULT NULL                    COMMENT '来源页面 JSON 文本：[{"name":"https://...","value":69}]',
+  `page_title_data`  text           DEFAULT NULL                    COMMENT '页面标题 JSON 文本：[{"name":"标题","value":24}]',
+  `browser_data`     text           DEFAULT NULL                    COMMENT '浏览器分布 JSON 文本：[{"name":"Chrome","value":108}]',
+  `create_by`        varchar(64)    DEFAULT NULL                    COMMENT '创建人',
+  `update_by`        varchar(64)    DEFAULT NULL                    COMMENT '修改人',
+  `del_flag`         char(1)        DEFAULT '0'                     COMMENT '删除标记：0正常，1已删除',
+  `create_time`      datetime       DEFAULT NULL                    COMMENT '创建时间',
+  `update_time`      datetime       DEFAULT NULL                    COMMENT '更新时间',
+  `tenant_id`        bigint(20)     DEFAULT NULL                    COMMENT '租户ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_date_days_tenant` (`data_date`, `num_of_days`, `tenant_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='Clarity 监控数据缓存表';
+
+-- ----------------------------
+-- Records of sys_clarity_data
 -- ----------------------------
 BEGIN;
 COMMIT;

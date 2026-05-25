@@ -26,3 +26,6 @@ COPY ./8pigxx_codegen.sql /docker-entrypoint-initdb.d
 COPY ./99pigxx_bi.sql /docker-entrypoint-initdb.d
 
 COPY ./999pigxx_app.sql /docker-entrypoint-initdb.d
+
+# 微服务版本可以注释掉下面这行
+COPY ./0pigxx_boot.sql /docker-entrypoint-initdb.d

@@ -19,8 +19,8 @@ CREATE TABLE `pay_channel` (
   `param` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '参数',
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   `app_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用ID',
   PRIMARY KEY (`id`) USING BTREE
@@ -45,8 +45,8 @@ CREATE TABLE `pay_goods_order` (
   `status` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '订单状态：订单生成(0)、支付成功(1)、处理完成(2)、处理失败(-1)',
   `pay_order_id` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '支付订单ID',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`goods_order_id`) USING BTREE,
   UNIQUE KEY `IDX_PayOrderId` (`pay_order_id`) USING BTREE
@@ -70,7 +70,7 @@ CREATE TABLE `pay_notify_record` (
   `order_no` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '订单号',
   `http_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'http状态',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`id`) USING BTREE
@@ -114,8 +114,8 @@ CREATE TABLE `pay_refund_order` (
   `expire_time` datetime DEFAULT NULL COMMENT '订单失效时间',
   `refund_succ_time` datetime DEFAULT NULL COMMENT '订单退款成功时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`refund_order_id`) USING BTREE,
   UNIQUE KEY `IDX_MchId_MchOrderNo` (`mch_id`,`mch_refund_no`) USING BTREE
@@ -153,8 +153,8 @@ CREATE TABLE `pay_trade_order` (
   `last_notify_time` bigint(20) DEFAULT NULL COMMENT '最后一次通知时间',
   `expire_time` bigint(20) DEFAULT NULL COMMENT '订单失效时间',
   `pay_succ_time` datetime DEFAULT NULL COMMENT '订单支付成功时间',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
   `tenant_id` bigint(20) DEFAULT NULL COMMENT '租户ID',
   PRIMARY KEY (`order_id`) USING BTREE

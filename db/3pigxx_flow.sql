@@ -51,7 +51,7 @@ CREATE TABLE `process` (
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `idx_form_id` (`flow_id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `process_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=182 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程定义数据';
 
 
@@ -78,7 +78,7 @@ CREATE TABLE `process_copy` (
   `user_id` bigint NOT NULL COMMENT '抄送人id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `copy_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程抄送数据';
 
 
@@ -95,7 +95,7 @@ CREATE TABLE `process_group` (
   `sort` int NOT NULL DEFAULT '0' COMMENT '排序',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `group_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程分组';
 
 
@@ -123,8 +123,8 @@ CREATE TABLE `process_instance_record` (
   `parent_process_instance_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '上级流程实例id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE,
-  KEY `idx_dep_id` (`user_id`) USING BTREE
+  KEY `record_idx_id` (`id`) USING BTREE,
+  KEY `record_idx_dep_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=366 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程记录';
 
 
@@ -142,7 +142,7 @@ CREATE TABLE `process_node_data` (
   `node_id` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `data_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1195 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点数据';
 
 
@@ -167,7 +167,7 @@ CREATE TABLE `process_node_record` (
   `execution_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '执行id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `node_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=1435 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点记录';
 
 
@@ -196,7 +196,7 @@ CREATE TABLE `process_node_record_assign_user` (
   `local_data` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '表单本地数据',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `user_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=597 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='流程节点记录-执行人';
 
 
@@ -214,7 +214,7 @@ CREATE TABLE `process_starter` (
   `process_id` bigint NOT NULL COMMENT '流程id',
   `tenant_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '所属租户id',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx_id` (`id`) USING BTREE
+  KEY `starter_idx_id` (`id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=217 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='流程发起人';
 
 -- ----------------------------
