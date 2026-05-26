@@ -126,6 +126,17 @@ public interface SecurityConstants {
 	String MINI_APP_AUTHORIZATION_CODE_URL = "https://api.weixin.qq.com/sns/jscode2session"
 			+ "?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code";
 
+    /**
+     * 微信小程序接口调用凭证
+     */
+    String MINI_APP_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/cgi-bin/token"
+            + "?grant_type=client_credential&appid=%s&secret=%s";
+
+    /**
+     * 微信小程序手机号获取接口
+     */
+    String MINI_APP_PHONE_NUMBER_URL = "https://api.weixin.qq.com/wxa/business/getuserphonenumber?access_token=%s";
+
 	/**
 	 * 码云获取token
 	 */
