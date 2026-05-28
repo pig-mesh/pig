@@ -518,9 +518,8 @@ public class GeneratorServiceImpl implements GeneratorService {
      * <p>
      * 默认与业务模块同包，实体落到 {@code backendPath} 自身（即 biz 模块）。当
      * {@code backendPath} 末尾形如 {@code xxx-biz} 且同级目录存在 {@code xxx-api}
-     * 模块时，自动切换为：实体写入 {@code xxx-api}，包名调整为
-     * {@code <package>.<module>.api.entity}，便于在多个 biz 模块之间共享实体
-     * 而不引入循环依赖。
+     * 模块时，只将实体写入路径切换到 {@code xxx-api}，Java 包名仍保持业务模块包名，
+     * 例如 {@code com.pig4cloud.pigx.aigc.entity}。
      *
      * @param dataModel 数据模型，写入 entityPath、entityPackage、entityPackagePath、
      *                  entityClassName、apiPath、hasApiModule
@@ -537,7 +536,6 @@ public class GeneratorServiceImpl implements GeneratorService {
         if (resolvedApiPath.isPresent()) {
             apiPath = resolvedApiPath.get();
             entityPath = apiPath;
-            entityPackage = StrUtil.format("{}.api.entity", modulePackage);
             hasApiModule = true;
         }
 
