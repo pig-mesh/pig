@@ -52,6 +52,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -449,6 +451,7 @@ public class GeneratorServiceImpl implements GeneratorService {
 
         dataModel.put(DataModelConstants.BACKEND_PATH, table.getBackendPath());
         dataModel.put(DataModelConstants.FRONTEND_PATH, table.getFrontendPath());
+        setEntityModel(dataModel, table);
 
         // 设置子表
         String childTableName = table.getChildTableName();
@@ -488,12 +491,16 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     /**
-     * 判断当前是否是 SpringBoot3 版本
+     * 判断当前是否为 SpringBoot 3 及以上版本（含 SpringBoot 4）。
+     * <p>
+     * 模板变量 {@code $isSpringBoot3} 沿用历史命名未改，实际语义是「是否使用
+     * SpringBoot 3 之后的注解和包路径」，目前覆盖 SpringBoot 3.x 与 4.x。新引入
+     * 更高主版本时，请在此处补齐前缀，避免模板渲染走到 SpringBoot 2 分支。
      *
-     * @return true/fasle
+     * @return SpringBoot 主版本 >= 3 返回 true
      */
     private boolean isSpringBoot3() {
-        return StrUtil.startWith(SpringBootVersion.getVersion(), "3");
+        return StrUtil.startWithAny(SpringBootVersion.getVersion(), "3", "4");
     }
 
     /**
@@ -504,6 +511,101 @@ public class GeneratorServiceImpl implements GeneratorService {
      */
     private String normalizedModuleName(GenTable table) {
         return StrUtil.removeAll(table.getModuleName(), StrUtil.DASHED);
+    }
+
+    /**
+     * 设置实体生成路径和实体包名。
+     * <p>
+     * 默认与业务模块同包，实体落到 {@code backendPath} 自身（即 biz 模块）。当
+     * {@code backendPath} 末尾形如 {@code xxx-biz} 且同级目录存在 {@code xxx-api}
+     * 模块时，自动切换为：实体写入 {@code xxx-api}，包名调整为
+     * {@code <package>.<module>.api.entity}，便于在多个 biz 模块之间共享实体
+     * 而不引入循环依赖。
+     *
+     * @param dataModel 数据模型，写入 entityPath、entityPackage、entityPackagePath、
+     *                  entityClassName、apiPath、hasApiModule
+     * @param table     表配置
+     */
+    private void setEntityModel(Map<String, Object> dataModel, GenTable table) {
+        String modulePackage = StrUtil.format("{}.{}", table.getPackageName(), normalizedModuleName(table));
+        String entityPackage = StrUtil.format("{}.entity", modulePackage);
+        String entityPath = normalizePathSeparator(table.getBackendPath());
+        String apiPath = StrUtil.EMPTY;
+        boolean hasApiModule = false;
+
+        Optional<String> resolvedApiPath = resolveApiPath(table.getBackendPath());
+        if (resolvedApiPath.isPresent()) {
+            apiPath = resolvedApiPath.get();
+            entityPath = apiPath;
+            entityPackage = StrUtil.format("{}.api.entity", modulePackage);
+            hasApiModule = true;
+        }
+
+        dataModel.put(DataModelConstants.HAS_API_MODULE, hasApiModule);
+        dataModel.put(DataModelConstants.API_PATH, apiPath);
+        dataModel.put(DataModelConstants.ENTITY_PATH, entityPath);
+        dataModel.put(DataModelConstants.ENTITY_PACKAGE, entityPackage);
+        dataModel.put(DataModelConstants.ENTITY_PACKAGE_PATH, entityPackage.replace(StrUtil.DOT, StrUtil.SLASH));
+        dataModel.put(DataModelConstants.ENTITY_CLASS_NAME,
+                StrUtil.format("{}.{}Entity", entityPackage, table.getClassName()));
+    }
+
+    /**
+     * 通过 biz 模块路径推断同级 api 模块路径。
+     * <p>
+     * 仅当末尾目录形如 {@code xxx-biz} 且同级 {@code xxx-api} 目录真实存在时
+     * 才返回 api 模块路径，否则返回空 {@link Optional}，调用方继续沿用 biz
+     * 同包实体生成策略。返回值已统一为 {@code /} 分隔符，避免 Windows 下与
+     * 模板拼接产生混合分隔符。
+     *
+     * @param backendPath 后端生成路径（biz 模块的绝对或相对路径）
+     * @return 同级 api 模块路径；推断失败时返回 {@link Optional#empty()}
+     */
+    private Optional<String> resolveApiPath(String backendPath) {
+        if (StrUtil.isBlank(backendPath)) {
+            return Optional.empty();
+        }
+
+        Path bizPath = Path.of(normalizePathSeparator(backendPath)).normalize();
+        Path bizFileName = bizPath.getFileName();
+        if (Objects.isNull(bizFileName)) {
+            return Optional.empty();
+        }
+
+        String bizDirectory = bizFileName.toString();
+        if (!StrUtil.endWith(bizDirectory, "-biz")) {
+            return Optional.empty();
+        }
+
+        Path parent = bizPath.getParent();
+        if (Objects.isNull(parent)) {
+            return Optional.empty();
+        }
+
+        Path apiPath = parent.resolve(StrUtil.removeSuffix(bizDirectory, "-biz") + "-api").normalize();
+        if (!Files.isDirectory(apiPath)) {
+            return Optional.empty();
+        }
+
+        return Optional.of(normalizePathSeparator(apiPath.toString()));
+    }
+
+    /**
+     * 归一化路径分隔符。
+     * <p>
+     * 借助 {@link FileUtil#normalize(String)} 将反斜杠统一替换为 {@code /} 并清理
+     * 冗余 {@code ..} 与重复分隔符，确保后续 {@code Path.of} 解析以及模板字符串
+     * 拼接（如 {@code ${entityPath}/src/main/java/...}）在 Windows 与类 Unix 平台
+     * 上得到一致的路径形态。
+     *
+     * @param path 原始路径
+     * @return 归一化后的路径；空入参返回空字符串
+     */
+    private String normalizePathSeparator(String path) {
+        if (StrUtil.isBlank(path)) {
+            return StrUtil.EMPTY;
+        }
+        return FileUtil.normalize(path);
     }
 
     /**
