@@ -73,4 +73,12 @@ public interface GeneratorService {
      * @param tableId 表ID
      */
     void syncRouteAndMenu(Long tableId);
+
+    /**
+     * 检测生成路径是否为已存在目录
+     *
+     * @param path 待检测路径
+     * @return true 表示路径存在且为目录
+     */
+    boolean checkPath(String path);
 }

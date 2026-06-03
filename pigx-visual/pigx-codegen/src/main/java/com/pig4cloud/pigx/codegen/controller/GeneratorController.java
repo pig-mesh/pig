@@ -97,6 +97,16 @@ public class GeneratorController {
 	}
 
 	/**
+	 * 检测生成路径是否存在
+	 * @param path 待检测路径
+	 * @return true 表示路径存在且为目录
+	 */
+	@GetMapping("/check-path")
+	public R<Boolean> checkPath(String path) {
+		return R.ok(generatorService.checkPath(path));
+	}
+
+	/**
 	 * 预览代码
 	 * @param tableId 表ID
 	 * @return

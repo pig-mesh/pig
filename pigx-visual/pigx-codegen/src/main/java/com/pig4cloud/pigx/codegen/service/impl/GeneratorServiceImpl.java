@@ -282,6 +282,26 @@ public class GeneratorServiceImpl implements GeneratorService {
     }
 
     /**
+     * 检测生成路径是否为已存在目录
+     *
+     * @param path 待检测路径
+     * @return true 表示路径存在且为目录
+     */
+    @Override
+    public boolean checkPath(String path) {
+        if (StrUtil.isBlank(path)) {
+            throw new CheckedException("路径无效");
+        }
+
+        String normalizedPath = FileUtil.normalize(path);
+        if (StrUtil.isBlank(normalizedPath)) {
+            throw new CheckedException("路径无效");
+        }
+
+        return FileUtil.isDirectory(normalizedPath);
+    }
+
+    /**
      * 同步菜单，同步按钮
      *
      * @param table 表配置
