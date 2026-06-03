@@ -11,7 +11,7 @@
     <description>pig 公共版本控制，在此pom定义的依赖，全局业务微服务不需要指定版本。</description>
 
     <properties>
-        <pig.version>6.0.0</pig.version>
+        <pig.version>4.0.0</pig.version>
         <mybatis-plus.version>3.5.16</mybatis-plus.version>
         <mybatis-spring-boot.version>4.0.1</mybatis-spring-boot.version>
         <mybatis-plus-join.version>1.5.7</mybatis-plus-join.version>
