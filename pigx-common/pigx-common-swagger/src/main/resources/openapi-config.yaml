@@ -1,7 +1,0 @@
-# swagger 配置
-swagger:
-  enabled: true
-  title: PigX Swagger API
-  gateway: http://${GATEWAY-HOST:pigx-gateway}:${GATEWAY-PORT:9999}
-  token-url: ${swagger.gateway}/auth/oauth2/token
-  scope: server

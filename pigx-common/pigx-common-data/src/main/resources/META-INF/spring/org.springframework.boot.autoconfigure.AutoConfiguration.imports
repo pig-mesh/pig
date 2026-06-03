@@ -1,9 +1,0 @@
-com.pig4cloud.pigx.common.data.cache.RedisTemplateConfiguration
-com.pig4cloud.pigx.common.data.cache.RedisMessageConfiguration
-com.pig4cloud.pigx.common.data.cache.RedisCacheManagerConfiguration
-com.pig4cloud.pigx.common.data.cache.RedisCacheAutoConfiguration
-com.pig4cloud.pigx.common.data.tenant.PigxTenantConfigProperties
-com.pig4cloud.pigx.common.data.tenant.TenantContextHolderFilter
-com.pig4cloud.pigx.common.data.tenant.PigxTenantConfiguration
-com.pig4cloud.pigx.common.data.mybatis.MybatisPlusConfiguration
-com.pig4cloud.pigx.common.data.resolver.TenantKeyStrResolver

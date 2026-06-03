@@ -1,0 +1,142 @@
+{
+  "groups": [
+    {
+      "name": "file",
+      "type": "com.pig4cloud.pig.common.file.core.FileProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    },
+    {
+      "name": "file.local",
+      "type": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    },
+    {
+      "name": "file.oss",
+      "type": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "file.type",
+      "type": "com.pig4cloud.pig.common.file.core.FileType",
+      "description": "文件存储类型，可选 local 或 oss。",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties",
+      "defaultValue": "local"
+    },
+    {
+      "name": "file.bucket-name",
+      "type": "java.lang.String",
+      "description": "默认的存储桶名称。",
+      "sourceType": "com.pig4cloud.pig.common.file.core.FileProperties",
+      "defaultValue": "local"
+    },
+    {
+      "name": "file.local.base-path",
+      "type": "java.lang.String",
+      "description": "本地文件存储根路径。",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties"
+    },
+    {
+      "name": "file.local.enable",
+      "type": "java.lang.Boolean",
+      "description": "旧版本地文件开关，已由 file.type=local 替代。",
+      "sourceType": "com.pig4cloud.pig.common.file.local.LocalFileProperties",
+      "deprecated": true,
+      "deprecation": {
+        "reason": "使用 file.type=local 替代 file.local.enable",
+        "replacement": "file.type"
+      }
+    },
+    {
+      "name": "file.oss.enable",
+      "type": "java.lang.Boolean",
+      "description": "旧版 OSS 文件开关，已由 file.type=oss 替代。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "deprecated": true,
+      "deprecation": {
+        "reason": "使用 file.type=oss 替代 file.oss.enable",
+        "replacement": "file.type"
+      }
+    },
+    {
+      "name": "file.oss.endpoint",
+      "type": "java.lang.String",
+      "description": "对象存储服务 Endpoint，例如 http://127.0.0.1:9000。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.custom-domain",
+      "type": "java.lang.String",
+      "description": "对象访问自定义域名。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.app-id",
+      "type": "java.lang.String",
+      "description": "对象存储应用 ID。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.path-style-access",
+      "type": "java.lang.Boolean",
+      "description": "是否使用 path-style 访问模式。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": true
+    },
+    {
+      "name": "file.oss.region",
+      "type": "java.lang.String",
+      "description": "对象存储区域。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.access-key",
+      "type": "java.lang.String",
+      "description": "对象存储 Access Key。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.secret-key",
+      "type": "java.lang.String",
+      "description": "对象存储 Secret Key。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties"
+    },
+    {
+      "name": "file.oss.max-connections",
+      "type": "java.lang.Integer",
+      "description": "对象存储客户端最大并发连接数。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": 100
+    },
+    {
+      "name": "file.oss.skip-md5-check",
+      "type": "java.lang.Boolean",
+      "description": "是否跳过 MD5 校验。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": false
+    },
+    {
+      "name": "file.oss.chunked-encoding-enabled",
+      "type": "java.lang.Boolean",
+      "description": "是否启用 AWS S3 streaming chunked encoding，S3 兼容服务建议关闭。",
+      "sourceType": "com.pig4cloud.pig.common.file.oss.OssProperties",
+      "defaultValue": false
+    }
+  ],
+  "hints": [
+    {
+      "name": "file.type",
+      "values": [
+        {
+          "value": "local",
+          "description": "使用本地文件系统。"
+        },
+        {
+          "value": "oss",
+          "description": "使用 S3 兼容对象存储。"
+        }
+      ]
+    }
+  ]
+}

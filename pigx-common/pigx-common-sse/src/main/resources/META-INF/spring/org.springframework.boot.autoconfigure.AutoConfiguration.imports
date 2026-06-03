@@ -1,3 +1,0 @@
-com.pig4cloud.pigx.common.sse.config.SseEmitterAutoConfiguration
-com.pig4cloud.pigx.common.sse.config.RedisMessageDistributorConfiguration
-com.pig4cloud.pigx.common.sse.config.LocalMessageDistributorConfiguration

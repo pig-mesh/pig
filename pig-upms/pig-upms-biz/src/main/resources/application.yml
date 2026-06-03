@@ -1,0 +1,22 @@
+server:
+  port: 4000
+
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      username: @nacos.username@
+      password: @nacos.password@
+      discovery:
+        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+    gateway.server.webflux: # 关闭 Spring Cloud Gateway 的能力，避免与 Spring MVC 冲突。
+      redis.enabled: false
+      enabled: false
+  config:
+    import:
+      - optional:nacos:application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml
+

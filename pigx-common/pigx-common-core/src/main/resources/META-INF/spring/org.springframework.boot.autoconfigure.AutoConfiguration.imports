@@ -1,6 +1,0 @@
-com.pig4cloud.pigx.common.core.config.JacksonConfiguration
-com.pig4cloud.pigx.common.core.config.MessageSourceConfiguration
-com.pig4cloud.pigx.common.core.config.WebCommonConfiguration
-com.pig4cloud.pigx.common.core.config.ImmutableConfiguration
-com.pig4cloud.pigx.common.core.util.SpringContextHolder
-

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pig4cloud.pig.codegen.mapper.GenTemplateMapper">
+
+  <resultMap id="genTemplateMap" type="com.pig4cloud.pig.codegen.entity.GenTemplateEntity">
+        <id property="id" column="id"/>
+        <result property="templateName" column="template_name"/>
+        <result property="generatorPath" column="generator_path"/>
+        <result property="templateDesc" column="template_desc"/>
+	  <result property="templateCode" column="template_code"/>
+  </resultMap>
+	<select id="listTemplateById" resultType="com.pig4cloud.pig.codegen.entity.GenTemplateEntity">
+		SELECT
+		     t.id as id,t.template_name,t.generator_path,t.template_desc,t.template_code
+		FROM gen_template t ,
+			 gen_template_group tg
+		WHERE t.id = tg.template_id
+		  AND t.del_flag = '0'
+		  and tg.group_id = #{groupId}
+	</select>
+</mapper>

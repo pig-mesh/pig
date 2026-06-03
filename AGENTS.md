@@ -2,40 +2,43 @@
 
 ## Project Structure & Module Organization
 
-pigx aggregates Spring Cloud services through the root `pom.xml`. Runtime services sit under dedicated folders:
-`pigx-register` (service discovery/Nacos), `pigx-gateway` (edge routing), `pigx-auth` (OAuth2), `pigx-upms` (user &
-permission), `pigx-flow` (workflow), `pigx-app-server`, and `pigx-visual` (monitoring plus
-schedulers). Shared libraries and DTOs live in `pigx-common`. Sample SQL and Docker build contexts reside in `db/`,
-while infra manifests live in `docker-compose.yml`. Every module uses the standard `src/main/java` and `src/test/java`
-layout.
+`pig` aggregates the open-source Spring Cloud services through the root `pom.xml`. Runtime services sit under dedicated
+folders: `pig-register` (Nacos), `pig-gateway` (edge routing), `pig-auth` (authorization), `pig-upms` (user and
+permission), `pig-boot` (single-service launcher), and `pig-visual` (monitor, codegen, quartz). Shared libraries and
+DTOs live in `pig-common`. Sample SQL and Docker build contexts reside in `db/`, while infra manifests live in
+`docker-compose.yml`. Every module uses the standard `src/main/java` and `src/test/java` layout.
+
+The open-source edition intentionally excludes workflow, app server, MP, payment, report, BI, multi-tenant, data-scope,
+and dynamic gateway route management code. Gateway routes are maintained through normal configuration files.
 
 ## Build, Test, and Development Commands
 
-- `mvn -T 1C clean install -DskipTests` compiles all modules with the managed BOM; add `-pl pigx-gateway -am` to limit
+- `mvn -T 1C clean install -DskipTests` compiles all modules with the managed BOM; add `-pl pig-gateway -am` to limit
   the build to a single service.
-- `mvn -pl pigx-gateway spring-boot:run` (swap the module name as needed) starts a service with dev profiles for live
+- `mvn -pl pig-gateway spring-boot:run` (swap the module name as needed) starts a service with dev profiles for live
   reloads.
-- `docker-compose up -d pigx-mysql pigx-redis pigx-register` brings up local infrastructure; run
-  `docker-compose up --build pigx-auth pigx-upms` when you need the auth stack.
-- `mvn -pl pigx-knowledge test` executes module tests; append `-DskipITs` to bypass integration suites.
+- `docker-compose up -d pig-mysql pig-redis pig-register` brings up local infrastructure; run
+  `docker-compose up --build pig-auth pig-upms` when you need the auth stack.
+- `mvn test -pl pig-upms/pig-upms-biz -am` executes the UPMS service tests; append `-DskipITs` to bypass integration
+  suites when a module defines them.
 
 ## Testing Guidelines
 
 Use `spring-boot-starter-test` (JUnit 5, AssertJ, Mockito) for unit and slice tests. Name classes `*Tests.java` and
-colocate fixtures in `src/test/resources`. Target >70% line coverage on the service layer that guards authentication,
-gateway filters, and approval flows. Run `mvn verify` before opening a PR to exercise the full plugin stack.
+colocate fixtures in `src/test/resources`. Focus coverage on authentication, gateway filters, user/permission logic,
+scheduled jobs, and code generation. Run `mvn verify` before opening a PR to exercise the full plugin stack.
 
 ## Commit & Pull Request Guidelines
 
 Follow the repo’s `type(scope): summary` history, e.g. `fix(upms): clear login failure cache` or
-`feat(ai-voice): add speech transcription`. Each PR must describe the impact area, list affected modules, and reference
-internal tickets or issues. Attach curl/Postman snippets or screenshots whenever UI or OpenAPI responses change. Rebase
-on `ai-dev`, avoid committing generated artifacts, and call out schema/config updates explicitly.
+`feat(codegen): add template option`. Each PR must describe the impact area, list affected modules, and reference
+issues when applicable. Attach curl/Postman snippets or screenshots whenever UI or OpenAPI responses change. Avoid
+committing generated artifacts, and call out schema/config updates explicitly.
 
 ## Security & Configuration Tips
 
 Never commit environment secrets; rely on `docker-compose.yml` plus `.env` overrides ignored by Git. Keep `db/` seed
-data sanitized, and drive end-to-end checks against `pigx-register` (ports 8848/9848) with `pigx-gateway` (9999) so
+data sanitized, and drive end-to-end checks against `pig-register` (ports 8848/9848) with `pig-gateway` (9999) so
 discovery behavior matches production.
 
 ## Behavioral Guidelines

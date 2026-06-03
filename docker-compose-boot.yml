@@ -3,33 +3,33 @@
 # 2. 启动服务: docker compose -f docker-compose-boot.yml up -d
 # 3. 静静等待服务启动
 services:
-  pigx-mysql:
+  pig-mysql:
     build:
       context: ./db
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
     restart: always
-    container_name: pigx-mysql
-    image: pigx-mysql
+    container_name: pig-mysql
+    image: pig-mysql
     command: --lower_case_table_names=1
     networks:
       - spring_cloud_default
 
-  pigx-redis:
-    container_name: pigx-redis
+  pig-redis:
+    container_name: pig-redis
     image: registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/redis
     restart: always
     networks:
       - spring_cloud_default
 
-  # 单体的时候注意，服务名称命名为 pigx-gateway 对应前端nginx 配置
-  pigx-gateway:
+  # 单体的时候注意，服务名称命名为 pig-gateway 对应前端nginx 配置
+  pig-gateway:
     build:
-      context: ./pigx-boot
+      context: ./pig-boot
     restart: always
-    container_name: pigx-boot
-    image: pigx-boot
+    container_name: pig-boot
+    image: pig-boot
     ports:
       - 9999:9999
     networks:

@@ -1,0 +1,50 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: @artifactId@
+  cloud:
+    nacos:
+      username: @nacos.username@
+      password: @nacos.password@
+      discovery:
+        server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: openapi
+              uri: lb://pig-gateway
+              predicates:
+                - Path=/v3/api-docs/**
+              filters:
+                - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/$\{path}/v3/api-docs
+            - id: pig-auth
+              uri: lb://pig-auth
+              predicates:
+                - Path=/auth/**
+            - id: pig-upms-biz
+              uri: lb://pig-upms-biz
+              predicates:
+                - Path=/admin/**
+              metadata:
+                response-timeout: 30000
+            - id: pig-codegen
+              uri: lb://pig-codegen
+              predicates:
+                - Path=/gen/**
+            - id: pig-quartz
+              uri: lb://pig-quartz
+              predicates:
+                - Path=/job/**
+            - id: pig-monitor
+              uri: lb://pig-monitor
+              predicates:
+                - Path=/monitor/**
+  config:
+    import:
+      - optional:nacos:application-@profiles.active@.yml
+      - optional:nacos:${spring.application.name}-@profiles.active@.yml

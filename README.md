@@ -1,31 +1,55 @@
-## 协议和授权
+## Pig
 
-pigX 并非一个开源软件，作者保留全部的权利。
-擅自窃用，即属严重侵权行为，与盗窃无异。产生的一切任何后果责任由侵权者自负。
+Pig 是面向快速部署的开源权限管理与微服务基础脚手架。本仓库保留认证、网关、用户权限、监控、代码生成和定时任务等核心能力，移除了商业版中的多租户、数据权限、动态路由、流程、支付、公众号、报表和移动端服务等扩展模块。
 
-## 商业使用
--  [商用请购买商业授权](https://pig4cloud.com)
--  [使用对应的专属版本](https://pig4cloud.com/data/other/form3.html)
+## 模块说明
 
-### 🚫禁止  
+- `pig-boot`：单体模式启动器，默认端口 `9999`。
+- `pig-register`：Nacos Server，默认端口 `8848`。
+- `pig-gateway`：Spring Cloud Gateway 网关，默认端口 `9999`。
+- `pig-auth`：授权服务，默认端口 `3000`。
+- `pig-upms`：通用用户权限管理模块。
+- `pig-upms/pig-upms-api`：用户权限公共 API。
+- `pig-upms/pig-upms-biz`：用户权限业务服务，默认端口 `4000`。
+- `pig-common`：系统公共模块。
+- `pig-visual/pig-monitor`：服务监控，默认端口 `5001`。
+- `pig-visual/pig-codegen`：图形化代码生成，默认端口 `5002`。
+- `pig-visual/pig-quartz`：定时任务管理台，默认端口 `5007`。
 
-将本项目的部分或全部代码和资源进行任何形式的再发行（上传GitHub、Gitee ）
+## 快速启动
 
-### 侵权处理
+### 基础环境
 
-- 支付￥ 100000 侵权费用（含我方法律援助费用）,本团队已完全委托博睿律师事务所 司法保护
-- 个人行为将直接收集材料邮寄贵司侵权律师函，若出现司法诉讼将直接影响当事人征信档案等特此说明
+- JDK 17+
+- Maven 3.9+
+- Docker 和 Docker Compose
 
-## 贡献代码
+### 使用 Docker Compose 启动
 
-pigX并非一个开源项目，也不是社区共同创造，其全部功能由作者独立完成。
+```bash
+docker compose up -d pig-mysql pig-redis pig-register
+docker compose up -d pig-gateway pig-auth pig-upms pig-monitor pig-quartz pig-codegen
+```
 
-如果你愿意放弃所有权利，并将权利无条件转让给pigX作者，欢迎您贡献代码,当然会给予不等金额奖励。
+### 单体模式
 
-## 提交反馈
+```bash
+docker compose -f docker-compose-boot.yml up -d pig-mysql pig-redis
+mvn -pl pig-boot -am spring-boot:run
+```
 
-1. 欢迎提交 issue，请写清楚遇到问题的原因，浏览器和操作系统环境，重现的流程。
-如果有开发能力，建议在本地调试出出错的代码。
+### 编译验证
 
-2. 不接受`功能请求`的 issue，功能请求可能会被直接关闭，请谅解（正确的方式是打赏并附言）。
+```bash
+mvn -T 1C clean install -DskipTests
+```
 
+## 配置说明
+
+- 网关路由由 `pig-gateway/src/main/resources/application.yml` 和 Nacos 配置维护，不再依赖动态路由表。
+- 默认数据库脚本位于 `db/`，只保留 `pig.sql` 和 `pig_config.sql`；业务表统一初始化到 `pig`，Nacos 配置初始化到 `pig_config`。
+- 包名已统一为 `com.pig4cloud.pig`。
+
+## 许可证
+
+本项目采用 Apache License 2.0，详见 `LICENSE`。

@@ -23,7 +23,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.pig4cloud</groupId>
-    <artifactId>pigx</artifactId>
+    <artifactId>pig</artifactId>
     <version>6.0.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
@@ -43,16 +43,12 @@
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.47</spring.checkstyle.version>
         <git.commit.version>9.0.1</git.commit.version>
-        <cas.sdk.version>3.6.4</cas.sdk.version>
-        <flowable.version>8.0.0</flowable.version>
-        <dingtalk.old.version>2.0.0</dingtalk.old.version>
+        <lombok.version>1.18.46</lombok.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>3.0.5</knife4j.version>
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
-        <jimu.version>2.3.4</jimu.version>
         <aws.sdk.version>2.44.12</aws.sdk.version>
-        <xxl.job.version>3.4.0</xxl.job.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
         <docker.host>http://127.0.0.1:2375</docker.host>
         <docker.namespace>pigcloudx</docker.namespace>
@@ -102,22 +98,20 @@
     </dependencies>
 
     <modules>
-        <module>pigx-register</module>
-        <module>pigx-gateway</module>
-        <module>pigx-auth</module>
-        <module>pigx-upms</module>
-        <module>pigx-common</module>
-        <module>pigx-flow</module>
-        <module>pigx-visual</module>
-        <module>pigx-app-server</module>
+        <module>pig-register</module>
+        <module>pig-gateway</module>
+        <module>pig-auth</module>
+        <module>pig-upms</module>
+        <module>pig-common</module>
+        <module>pig-visual</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
-            <!--pigx 公共版本定义-->
+            <!--pig 公共版本定义-->
             <dependency>
                 <groupId>com.pig4cloud</groupId>
-                <artifactId>pigx-common-bom</artifactId>
+                <artifactId>pig-common-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
@@ -242,6 +236,13 @@
                     <release>${maven.compiler.source}</release>
                     <encoding>UTF-8</encoding>
                     <parameters>true</parameters>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
             <!--打包关联最新 git commit 信息插件-->
@@ -289,7 +290,7 @@
         <profile>
             <id>boot</id>
             <modules>
-                <module>pigx-boot</module>
+                <module>pig-boot</module>
             </modules>
         </profile>
     </profiles>

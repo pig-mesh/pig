@@ -3,32 +3,32 @@
 # 2. 无需修改源码，根目录  docker-compose up 即可
 # 3. 静静等待服务启动
 services:
-  pigx-mysql:
+  pig-mysql:
     build:
       context: ./db
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: root
     restart: always
-    container_name: pigx-mysql
-    image: pigx-mysql
+    container_name: pig-mysql
+    image: pig-mysql
     command: --lower_case_table_names=1
     networks:
       - spring_cloud_default
 
-  pigx-redis:
-    container_name: pigx-redis
+  pig-redis:
+    container_name: pig-redis
     image: registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/redis
     restart: always
     networks:
       - spring_cloud_default
 
-  pigx-register:
+  pig-register:
     build:
-      context: ./pigx-register
+      context: ./pig-register
     restart: always
-    container_name: pigx-register
-    image: pigx-register
+    container_name: pig-register
+    image: pig-register
     ports:
       - 8848:8848
       - 9848:9848
@@ -36,139 +36,61 @@ services:
     networks:
       - spring_cloud_default
 
-  pigx-gateway:
+  pig-gateway:
     build:
-      context: ./pigx-gateway
+      context: ./pig-gateway
     restart: always
-    container_name: pigx-gateway
-    image: pigx-gateway
+    container_name: pig-gateway
+    image: pig-gateway
     ports:
       - 9999:9999
     networks:
       - spring_cloud_default
 
-  pigx-auth:
+  pig-auth:
     build:
-      context: ./pigx-auth
+      context: ./pig-auth
     restart: always
-    container_name: pigx-auth
-    image: pigx-auth
+    container_name: pig-auth
+    image: pig-auth
     networks:
       - spring_cloud_default
 
-  pigx-upms:
+  pig-upms:
     build:
-      context: ./pigx-upms/pigx-upms-biz
+      context: ./pig-upms/pig-upms-biz
     restart: always
-    container_name: pigx-upms
-    image: pigx-upms
+    container_name: pig-upms
+    image: pig-upms
     networks:
       - spring_cloud_default
 
-  pigx-flow-biz:
+  pig-monitor:
     build:
-      context: ./pigx-flow/pigx-flow-biz
+      context: ./pig-visual/pig-monitor
     restart: always
-    container_name: pigx-flow-biz
-    image: pigx-flow-biz
-    networks:
-      - spring_cloud_default
-
-  pigx-app-server:
-    build:
-      context: ./pigx-app-server/pigx-app-server-biz
-    restart: always
-    container_name: pigx-app-server
-    image: pigx-app-server
-    networks:
-      - spring_cloud_default
-
-  pigx-monitor:
-    build:
-      context: ./pigx-visual/pigx-monitor
-    restart: always
-    image: pigx-monitor
-    container_name: pigx-monitor
+    image: pig-monitor
+    container_name: pig-monitor
     ports:
       - 5001:5001
     networks:
       - spring_cloud_default
 
-  pigx-daemon-quartz:
+  pig-quartz:
     build:
-      context: ./pigx-visual/pigx-daemon-quartz
+      context: ./pig-visual/pig-quartz
     restart: always
-    image: pigx-daemon-quartz
-    container_name: pigx-daemon-quartz
+    image: pig-quartz
+    container_name: pig-quartz
     networks:
       - spring_cloud_default
 
-  pigx-daemon-elastic-job:
+  pig-codegen:
     build:
-      context: ./pigx-visual/pigx-daemon-elastic-job
+      context: ./pig-visual/pig-codegen
     restart: always
-    image: pigx-daemon-elastic-job
-    container_name: pigx-daemon-elastic-job
-    networks:
-      - spring_cloud_default
-
-  pigx-xxl-job-admin:
-    build:
-      context: ./pigx-visual/pigx-xxl-job-admin
-    restart: always
-    image: pigx-xxl-job-admin
-    container_name: pigx-xxl-job-admin
-    ports:
-      - 9080:9080
-    networks:
-      - spring_cloud_default
-
-  pigx-codegen:
-    build:
-      context: ./pigx-visual/pigx-codegen
-    restart: always
-    image: pigx-codegen
-    container_name: pigx-codegen
-    networks:
-      - spring_cloud_default
-
-  pigx-mp-platform:
-    build:
-      context: ./pigx-visual/pigx-mp-platform
-    restart: always
-    image: pigx-mp-platform
-    container_name: pigx-mp-platform
-    networks:
-      - spring_cloud_default
-
-  pigx-pay-platform:
-    build:
-      context: ./pigx-visual/pigx-pay-platform
-    restart: always
-    image: pigx-pay-platform
-    container_name: pigx-pay-platform
-    networks:
-      - spring_cloud_default
-
-  pigx-report-platform:
-    build:
-      context: ./pigx-visual/pigx-report-platform
-    restart: always
-    image: pigx-report-platform
-    container_name: pigx-report-platform
-    ports:
-      - 9095:9095
-    networks:
-      - spring_cloud_default
-
-  pigx-jimu-platform:
-    build:
-      context: ./pigx-visual/pigx-jimu-platform
-    restart: always
-    image: pigx-jimu-platform
-    container_name: pigx-jimu-platform
-    ports:
-      - 5008:5008
+    image: pig-codegen
+    container_name: pig-codegen
     networks:
       - spring_cloud_default
 
