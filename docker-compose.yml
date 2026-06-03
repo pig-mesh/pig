@@ -112,6 +112,17 @@ services:
     networks:
       - spring_cloud_default
 
+  pigx-xxl-job-admin:
+    build:
+      context: ./pigx-visual/pigx-xxl-job-admin
+    restart: always
+    image: pigx-xxl-job-admin
+    container_name: pigx-xxl-job-admin
+    ports:
+      - 9080:9080
+    networks:
+      - spring_cloud_default
+
   pigx-codegen:
     build:
       context: ./pigx-visual/pigx-codegen
