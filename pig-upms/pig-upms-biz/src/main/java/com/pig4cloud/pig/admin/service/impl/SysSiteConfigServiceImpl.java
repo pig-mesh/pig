@@ -25,7 +25,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
 import com.pig4cloud.pig.admin.config.ClientDetailsInitRunner;
-import com.pig4cloud.pig.admin.dto.SiteConfigDTO;
+import com.pig4cloud.pig.admin.api.dto.SiteConfigDTO;
 import com.pig4cloud.pig.admin.service.SysI18nService;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pig.admin.service.SysPublicParamService;

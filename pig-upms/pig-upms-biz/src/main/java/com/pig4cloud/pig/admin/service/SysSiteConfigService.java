@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.admin.service;
 
-import com.pig4cloud.pig.admin.dto.SiteConfigDTO;
+import com.pig4cloud.pig.admin.api.dto.SiteConfigDTO;
 
 import java.util.Map;
 

@@ -1,6 +1,6 @@
 package com.pig4cloud.pig.admin.controller;
 
-import com.pig4cloud.pig.admin.dto.SiteConfigDTO;
+import com.pig4cloud.pig.admin.api.dto.SiteConfigDTO;
 import com.pig4cloud.pig.admin.service.SysSiteConfigService;
 import com.pig4cloud.pig.admin.service.SysSystemInfoService;
 import com.pig4cloud.pig.common.core.util.R;

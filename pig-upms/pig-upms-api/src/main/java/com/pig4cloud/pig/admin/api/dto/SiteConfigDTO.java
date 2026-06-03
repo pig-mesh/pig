@@ -15,7 +15,7 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 
-package com.pig4cloud.pig.admin.dto;
+package com.pig4cloud.pig.admin.api.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
