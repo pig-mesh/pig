@@ -13,14 +13,9 @@ and dynamic gateway route management code. Gateway routes are maintained through
 
 ## Build, Test, and Development Commands
 
-- `mvn -T 1C clean install -DskipTests` compiles all modules with the managed BOM; add `-pl pig-gateway -am` to limit
-  the build to a single service.
-- `mvn -pl pig-gateway spring-boot:run` (swap the module name as needed) starts a service with dev profiles for live
-  reloads.
-- `docker-compose up -d pig-mysql pig-redis pig-register` brings up local infrastructure; run
-  `docker-compose up --build pig-auth pig-upms` when you need the auth stack.
-- `mvn test -pl pig-upms/pig-upms-biz -am` executes the UPMS service tests; append `-DskipITs` to bypass integration
-  suites when a module defines them.
+- Run `mvn clean install -T 4 -Pcloud` from the project root to compile the full cloud edition with the managed BOM.
+
+- `docker compose build && docker compose up` builds images and starts the local service stack.
 
 ## Testing Guidelines
 
