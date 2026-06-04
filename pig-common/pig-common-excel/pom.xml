@@ -33,7 +33,7 @@
     <description>pig excel 操作</description>
 
     <properties>
-        <fesod.version>2.0.1-incubating</fesod.version>
+        <fesod.version>2.0.2-incubating</fesod.version>
     </properties>
 
     <dependencies>

@@ -18,7 +18,7 @@
         <dynamic-ds.version>4.5.0</dynamic-ds.version>
         <nacos.client.version>3.1.2</nacos.client.version>
         <druid.version>1.2.28</druid.version>
-        <hutool.version>5.8.44</hutool.version>
+        <hutool.version>5.8.46</hutool.version>
         <mysql.connector.version>9.5.0</mysql.connector.version>
         <oracle.version>21.3.0.0</oracle.version>
         <sqlserver.version>12.10.2.jre8</sqlserver.version>
@@ -29,7 +29,7 @@
         <swagger.core.version>2.2.50</swagger.core.version>
         <jsoup.version>1.15.4</jsoup.version>
         <fastjson.version>1.2.83</fastjson.version>
-        <aws.sdk.version>2.44.12</aws.sdk.version>
+        <aws.sdk.version>2.44.14</aws.sdk.version>
         <javers.version>7.8.6</javers.version>
         <asm.version>7.1</asm.version>
         <sensitive.word.version>0.21.0</sensitive.word.version>
