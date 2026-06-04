@@ -16,12 +16,12 @@ import java.time.Instant;
 @AllArgsConstructor
 public class FileObjectSummary {
 
-    private String bucketName;
+	private String bucketName;
 
-    private String key;
+	private String key;
 
-    private Long size;
+	private Long size;
 
-    private Instant lastModified;
+	private Instant lastModified;
 
 }

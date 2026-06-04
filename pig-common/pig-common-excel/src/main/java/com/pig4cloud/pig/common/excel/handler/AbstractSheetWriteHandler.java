@@ -61,8 +61,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	private ApplicationContext applicationContext;
 
 	protected AbstractSheetWriteHandler(ExcelConfigProperties configProperties,
-	                                    ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
-	                                    ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
+			ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
+			ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
 		this.configProperties = configProperties;
 		this.converterProvider = converterProvider;
 		this.excelWriterBuilderEnhance = excelWriterBuilderEnhance;
@@ -80,9 +80,8 @@ public abstract class AbstractSheetWriteHandler implements SheetWriteHandler, Ap
 	public void export(Object o, HttpServletResponse response, ResponseExcel responseExcel) {
 		check(responseExcel);
 		RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-		String name = requestAttributes == null ? null
-				: (String) requestAttributes.getAttribute(DynamicNameAspect.EXCEL_NAME_KEY,
-				RequestAttributes.SCOPE_REQUEST);
+		String name = requestAttributes == null ? null : (String) requestAttributes
+			.getAttribute(DynamicNameAspect.EXCEL_NAME_KEY, RequestAttributes.SCOPE_REQUEST);
 		if (!StringUtils.hasText(name)) {
 			name = UUID.randomUUID().toString();
 		}

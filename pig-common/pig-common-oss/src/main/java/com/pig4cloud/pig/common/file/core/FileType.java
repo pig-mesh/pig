@@ -7,14 +7,14 @@ package com.pig4cloud.pig.common.file.core;
  */
 public enum FileType {
 
-    /**
-     * 本地文件系统
-     */
-    LOCAL,
+	/**
+	 * 本地文件系统
+	 */
+	LOCAL,
 
-    /**
-     * S3 兼容对象存储
-     */
-    OSS
+	/**
+	 * S3 兼容对象存储
+	 */
+	OSS
 
 }

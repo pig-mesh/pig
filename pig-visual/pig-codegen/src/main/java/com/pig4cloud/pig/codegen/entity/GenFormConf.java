@@ -15,12 +15,14 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.codegen.entity;
+
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
+
 /**
  * 生成记录
  *
@@ -32,42 +34,51 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "生成记录")
 public class GenFormConf extends Model<GenFormConf> {
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * ID
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
 	@Schema(description = "ID")
 	private Long id;
+
 	/**
 	 * 数据源名称
 	 */
 	@Schema(description = "数据源名称")
 	private String dsName;
+
 	/**
 	 * 表名称
 	 */
 	@Schema(description = "表名称")
 	private String tableName;
+
 	/**
 	 * 表单信息
 	 */
 	@Schema(description = "表单信息")
 	private String formInfo;
+
 	/**
 	 * 创建时间
 	 */
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
+
 	/**
 	 * 修改时间
 	 */
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
+
 	/**
 	 * 0-正常，1-删除
 	 */
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
+
 }

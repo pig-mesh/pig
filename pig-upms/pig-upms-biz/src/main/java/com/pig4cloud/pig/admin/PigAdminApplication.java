@@ -37,8 +37,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 public class PigAdminApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(PigAdminApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(PigAdminApplication.class, args);
+	}
 
 }

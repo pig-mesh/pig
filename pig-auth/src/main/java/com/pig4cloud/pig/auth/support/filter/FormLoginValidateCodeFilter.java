@@ -30,34 +30,36 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class FormLoginValidateCodeFilter extends OncePerRequestFilter {
 
-    private static final String FORM_LOGIN_URL = "/oauth2/form";
+	private static final String FORM_LOGIN_URL = "/oauth2/form";
 
-    private final AuthCaptchaSupport authCaptchaSupport;
+	private final AuthCaptchaSupport authCaptchaSupport;
 
-    private final FormAuthenticationFailureHandler failureHandler = new FormAuthenticationFailureHandler();
+	private final FormAuthenticationFailureHandler failureHandler = new FormAuthenticationFailureHandler();
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
-        if (!FORM_LOGIN_URL.equals(request.getServletPath())) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
+		if (!FORM_LOGIN_URL.equals(request.getServletPath())) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        String authClientId = authCaptchaSupport.resolveAuthorizationClientId(request, response, true);
+		String authClientId = authCaptchaSupport.resolveAuthorizationClientId(request, response, true);
 
-        if (!authCaptchaSupport.isCaptchaEnabled(authClientId)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		if (!authCaptchaSupport.isCaptchaEnabled(authClientId)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        try {
-            authCaptchaSupport.validateCode(request);
-            filterChain.doFilter(request, response);
-        } catch (ValidateCodeException e) {
-            log.debug("授权码登录验证码校验失败: {}", e.getMessage());
-            failureHandler.onAuthenticationFailure(request, response, new AuthenticationServiceException(e.getMessage()));
-        }
-    }
+		try {
+			authCaptchaSupport.validateCode(request);
+			filterChain.doFilter(request, response);
+		}
+		catch (ValidateCodeException e) {
+			log.debug("授权码登录验证码校验失败: {}", e.getMessage());
+			failureHandler.onAuthenticationFailure(request, response,
+					new AuthenticationServiceException(e.getMessage()));
+		}
+	}
 
 }

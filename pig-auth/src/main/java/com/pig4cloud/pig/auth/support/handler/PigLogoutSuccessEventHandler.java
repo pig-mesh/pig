@@ -48,19 +48,20 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutSuccessEvent> {
 
-    private final OAuth2AuthorizationService authorizationService;
+	private final OAuth2AuthorizationService authorizationService;
 
-    private final CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
 	@Override
 	public void onApplicationEvent(LogoutSuccessEvent event) {
 		Authentication authentication = (Authentication) event.getSource();
 		if (authentication instanceof PreAuthenticatedAuthenticationToken) {
-            // 来自 removeToken()，token 已删，仅记日志
-            handle(authentication);
-        } else {
-            // 来自 Spring Security 标准登出，token 未删，需批量清理
-            removeTokensByUsername(authentication.getName());
+			// 来自 removeToken()，token 已删，仅记日志
+			handle(authentication);
+		}
+		else {
+			// 来自 Spring Security 标准登出，token 未删，需批量清理
+			removeTokensByUsername(authentication.getName());
 			handle(authentication);
 		}
 	}
@@ -89,32 +90,31 @@ public class PigLogoutSuccessEventHandler implements ApplicationListener<LogoutS
 		logVo.setCreateBy(authentication.getName());
 	}
 
-    /**
-     * 通过 principal name 批量删除该用户的全部 token。
-     * Redis key 格式：token::username::{username}::{clientId}::{tokenId}
-     *
-     * @param username 用户名
-     */
-    private void removeTokensByUsername(String username) {
-        Set<String> keys = RedisUtils.keys("token::username::" + username + "*");
-        for (String keyName : keys) {
-            String[] parts = keyName.split("::");
-            if (parts.length < 5) {
-                continue;
-            }
-            String tokenValue = parts[4];
-            OAuth2Authorization authorization = authorizationService.findByToken(tokenValue,
-                    OAuth2TokenType.ACCESS_TOKEN);
-            if (authorization == null) {
-                continue;
-            }
-            Cache userCache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-            if (userCache != null) {
-                userCache.evict(authorization.getPrincipalName());
-            }
-            authorizationService.remove(authorization);
-            log.debug("已清理用户 {} 的 token: {}", username, tokenValue);
-        }
-    }
+	/**
+	 * 通过 principal name 批量删除该用户的全部 token。 Redis key
+	 * 格式：token::username::{username}::{clientId}::{tokenId}
+	 * @param username 用户名
+	 */
+	private void removeTokensByUsername(String username) {
+		Set<String> keys = RedisUtils.keys("token::username::" + username + "*");
+		for (String keyName : keys) {
+			String[] parts = keyName.split("::");
+			if (parts.length < 5) {
+				continue;
+			}
+			String tokenValue = parts[4];
+			OAuth2Authorization authorization = authorizationService.findByToken(tokenValue,
+					OAuth2TokenType.ACCESS_TOKEN);
+			if (authorization == null) {
+				continue;
+			}
+			Cache userCache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+			if (userCache != null) {
+				userCache.evict(authorization.getPrincipalName());
+			}
+			authorizationService.remove(authorization);
+			log.debug("已清理用户 {} 的 token: {}", username, tokenValue);
+		}
+	}
 
 }

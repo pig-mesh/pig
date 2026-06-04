@@ -33,18 +33,18 @@ import java.util.List;
 @Schema(description = "菜单排序")
 public class SysMenuSortDTO {
 
-    /**
-     * 父菜单ID
-     */
-    @NotNull(message = "菜单父ID不能为空")
-    @Schema(description = "父菜单ID")
-    private Long parentId;
+	/**
+	 * 父菜单ID
+	 */
+	@NotNull(message = "菜单父ID不能为空")
+	@Schema(description = "父菜单ID")
+	private Long parentId;
 
-    /**
-     * 同级菜单ID列表，按目标顺序排列
-     */
-    @NotEmpty(message = "菜单ID列表不能为空")
-    @Schema(description = "菜单ID列表")
-    private List<Long> menuIds;
+	/**
+	 * 同级菜单ID列表，按目标顺序排列
+	 */
+	@NotEmpty(message = "菜单ID列表不能为空")
+	@Schema(description = "菜单ID列表")
+	private List<Long> menuIds;
 
 }

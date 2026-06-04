@@ -33,12 +33,11 @@ import java.util.List;
 @Mapper
 public interface SysPostMapper extends MPJBaseMapper<SysPost> {
 
-    /**
-     * 通过用户ID查询岗位信息
-     *
-     * @param userId 用户ID
-     * @return 岗位信息列表
-     */
-    List<SysPost> listPostsByUserId(@Param("userId") Long userId);
+	/**
+	 * 通过用户ID查询岗位信息
+	 * @param userId 用户ID
+	 * @return 岗位信息列表
+	 */
+	List<SysPost> listPostsByUserId(@Param("userId") Long userId);
 
 }

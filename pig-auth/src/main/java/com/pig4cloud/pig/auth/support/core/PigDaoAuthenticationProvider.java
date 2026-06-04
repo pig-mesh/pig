@@ -37,11 +37,11 @@ import java.util.Optional;
 /**
  * Pig 数据访问对象认证提供者
  * <p>
- * 扩展自 Spring Security 的 {@link AbstractUserDetailsAuthenticationProvider}，
- * 仿照 {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider} 实现，
+ * 扩展自 Spring Security 的 {@link AbstractUserDetailsAuthenticationProvider}， 仿照
+ * {@link org.springframework.security.authentication.dao.DaoAuthenticationProvider} 实现，
  * 提供了更丰富的认证功能。
  * </p>
- * 
+ *
  * <h3>主要功能：</h3>
  * <ul>
  * <li>1. 增加用户过期、锁定、凭证过期、禁用校验</li>
@@ -49,14 +49,13 @@ import java.util.Optional;
  * <li>3. 增加多种登录方式，灵活使用 UserDetailsService</li>
  * <li>4. 支持 APP 模式免密码验证</li>
  * <li>5. 提供定时攻击保护机制</li>
-	 * </ul>
- * 
+ * </ul>
+ *
  * <h3>使用场景：</h3>
  * <p>
-	 * 适用于需要复杂认证逻辑的系统，特别是多客户端的应用场景。
- * 可以根据不同的客户端 ID 和授权类型选择合适的用户详情服务。
+ * 适用于需要复杂认证逻辑的系统，特别是多客户端的应用场景。 可以根据不同的客户端 ID 和授权类型选择合适的用户详情服务。
  * </p>
- * 
+ *
  * @author lengleng
  * @date 2022-06-04
  * @version 1.0
@@ -91,7 +90,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>配置委托密码编码器，支持多种密码编码格式</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see org.springframework.security.crypto.factory.PasswordEncoderFactories#createDelegatingPasswordEncoder()
 	 */
 	public PigDaoAuthenticationProvider() {
@@ -110,7 +109,6 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>4. 检查密码是否过期（如果启用了密码过期策略）</li>
 	 * </ul>
 	 * </p>
-	 * 
 	 * @param userDetails 表示用户的 UserDetails 对象，其凭证应该被检查
 	 * @param authentication 认证请求，此时仍然不受信任
 	 * @throws AuthenticationException 如果身份验证失败
@@ -164,17 +162,16 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>5. 加载用户详情</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * <strong>注意：</strong>该方法包含定时攻击保护机制，确保在用户不存在时
-	 * 仍然执行相同的时间消耗操作。
+	 * <strong>注意：</strong>该方法包含定时攻击保护机制，确保在用户不存在时 仍然执行相同的时间消耗操作。
 	 * </p>
-	 * 
 	 * @param username 要检索的用户名
 	 * @param authentication 认证请求，此时仍然不受信任
 	 * @return 加载的用户详情对象
 	 * @throws UsernameNotFoundException 如果用户名不存在
-	 * @throws InternalAuthenticationServiceException 如果没有注册合适的 UserDetailsService 或服务返回 null
+	 * @throws InternalAuthenticationServiceException 如果没有注册合适的 UserDetailsService 或服务返回
+	 * null
 	 * @see PigUserDetailsService#support(String, String)
 	 */
 	@SneakyThrows
@@ -229,12 +226,10 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>4. 调用父类方法创建最终的认证对象</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * <strong>密码升级机制：</strong>当系统升级了密码编码算法时，
-	 * 该方法会自动将用户的旧格式密码升级为新格式，提高系统安全性。
+	 * <strong>密码升级机制：</strong>当系统升级了密码编码算法时， 该方法会自动将用户的旧格式密码升级为新格式，提高系统安全性。
 	 * </p>
-	 * 
 	 * @param principal 由认证提供者返回的主体对象
 	 * @param authentication 原始的认证请求
 	 * @param user 由认证提供者返回的 UserDetails 实例
@@ -258,10 +253,9 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	/**
 	 * 准备定时攻击保护机制。
 	 * <p>
-	 * 该方法为防止定时攻击做准备工作。定时攻击是一种安全攻击方式，
-	 * 攻击者通过测量系统响应时间的差异来推断用户是否存在。
+	 * 该方法为防止定时攻击做准备工作。定时攻击是一种安全攻击方式， 攻击者通过测量系统响应时间的差异来推断用户是否存在。
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <strong>工作原理：</strong>
 	 * <ul>
@@ -270,7 +264,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>确保无论用户是否存在，密码验证的时间消耗基本一致</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @see #mitigateAgainstTimingAttack(UsernamePasswordAuthenticationToken)
 	 */
 	private void prepareTimingAttackProtection() {
@@ -282,21 +276,17 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	/**
 	 * 执行定时攻击缓解措施。
 	 * <p>
-	 * 当用户不存在时，该方法会执行一次假的密码验证操作，
-	 * 确保系统响应时间与真实用户验证时间保持一致，
-	 * 防止攻击者通过响应时间差异判断用户是否存在。
+	 * 当用户不存在时，该方法会执行一次假的密码验证操作， 确保系统响应时间与真实用户验证时间保持一致， 防止攻击者通过响应时间差异判断用户是否存在。
 	 * </p>
-	 * 
+	 *
 	 * <p>
-	 * <strong>安全意义：</strong>
-	 * 没有这种保护机制时，攻击者可能会发现：
+	 * <strong>安全意义：</strong> 没有这种保护机制时，攻击者可能会发现：
 	 * <ul>
 	 * <li>用户存在时：查询数据库 + 密码验证 = 较长时间</li>
 	 * <li>用户不存在时：仅返回错误 = 较短时间</li>
 	 * </ul>
 	 * 通过时间差异，攻击者可以枚举出系统中存在的用户名。
 	 * </p>
-	 * 
 	 * @param authentication 包含用户凭证的认证对象
 	 * @see #prepareTimingAttackProtection()
 	 */
@@ -317,7 +307,7 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>支持密码编码格式的升级迁移</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <strong>注意事项：</strong>
 	 * <ul>
@@ -326,7 +316,6 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	 * <li>设置新编码器后，会重置用户未找到时的编码密码缓存</li>
 	 * </ul>
 	 * </p>
-	 * 
 	 * @param passwordEncoder 密码编码器实例，必须是 {@code PasswordEncoder} 类型之一
 	 * @throws IllegalArgumentException 如果 passwordEncoder 为 null
 	 * @see org.springframework.security.crypto.password.PasswordEncoder

@@ -36,7 +36,8 @@ public class JsonLongArrayTypeHandler extends BaseTypeHandler<Long[]> {
 	@SneakyThrows
 	public Long[] getNullableResult(ResultSet rs, String columnName) {
 		String reString = rs.getString(columnName);
-		if (StrUtil.isBlank(reString)) return new Long[]{};
+		if (StrUtil.isBlank(reString))
+			return new Long[] {};
 		return Convert.toLongArray(reString);
 	}
 
@@ -44,7 +45,8 @@ public class JsonLongArrayTypeHandler extends BaseTypeHandler<Long[]> {
 	@SneakyThrows
 	public Long[] getNullableResult(ResultSet rs, int columnIndex) {
 		String reString = rs.getString(columnIndex);
-		if (StrUtil.isBlank(reString)) return new Long[]{};
+		if (StrUtil.isBlank(reString))
+			return new Long[] {};
 		return Convert.toLongArray(reString);
 	}
 
@@ -52,7 +54,8 @@ public class JsonLongArrayTypeHandler extends BaseTypeHandler<Long[]> {
 	@SneakyThrows
 	public Long[] getNullableResult(CallableStatement cs, int columnIndex) {
 		String reString = cs.getString(columnIndex);
-		if (StrUtil.isBlank(reString)) return new Long[]{};
+		if (StrUtil.isBlank(reString))
+			return new Long[] {};
 		return Convert.toLongArray(reString);
 	}
 

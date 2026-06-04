@@ -94,12 +94,12 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
 				.filter(asc -> !SqlInjectionUtils.check(asc))
 				.map(OrderItem::asc)
-                    .toList()));
+				.toList()));
 		Optional.ofNullable(descs)
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
 				.filter(desc -> !SqlInjectionUtils.check(desc))
 				.map(OrderItem::desc)
-                    .toList()));
+				.toList()));
 		page.addOrder(orderItemList);
 
 		return page;

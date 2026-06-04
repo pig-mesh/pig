@@ -13,16 +13,14 @@ import org.springframework.web.servlet.support.ExtendedServletRequestDataBinder;
 @ControllerAdvice
 public class PriorityHeaderInitBinder {
 
-    /**
-     * 初始化绑定器
-     * <a href="https://github.com/spring-projects/spring-framework/issues/34039">
-     * 处理 spring 6.2 严格遵循RFC 导致 的请求头和请求参数冲突问题
-     * </a>
-     *
-     * @param binder 绑定规则
-     */
-    @InitBinder
-    public void initBinder(ExtendedServletRequestDataBinder binder) {
-        binder.addHeaderPredicate(header -> false);
-    }
+	/**
+	 * 初始化绑定器 <a href="https://github.com/spring-projects/spring-framework/issues/34039">
+	 * 处理 spring 6.2 严格遵循RFC 导致 的请求头和请求参数冲突问题 </a>
+	 * @param binder 绑定规则
+	 */
+	@InitBinder
+	public void initBinder(ExtendedServletRequestDataBinder binder) {
+		binder.addHeaderPredicate(header -> false);
+	}
+
 }

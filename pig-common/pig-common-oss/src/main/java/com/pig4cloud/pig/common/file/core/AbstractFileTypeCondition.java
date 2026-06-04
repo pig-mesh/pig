@@ -13,23 +13,23 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
  */
 abstract class AbstractFileTypeCondition implements Condition {
 
-    @Override
-    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        Environment environment = context.getEnvironment();
-        Binder binder = Binder.get(environment);
-        String type = binder.bind("file.type", String.class).orElse(null);
-        if (type != null) {
-            return matchesType(type);
-        }
-        return matchesLegacySwitch(binder);
-    }
+	@Override
+	public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+		Environment environment = context.getEnvironment();
+		Binder binder = Binder.get(environment);
+		String type = binder.bind("file.type", String.class).orElse(null);
+		if (type != null) {
+			return matchesType(type);
+		}
+		return matchesLegacySwitch(binder);
+	}
 
-    protected abstract boolean matchesType(String type);
+	protected abstract boolean matchesType(String type);
 
-    protected abstract boolean matchesLegacySwitch(Binder binder);
+	protected abstract boolean matchesLegacySwitch(Binder binder);
 
-    protected boolean isTrue(Binder binder, String name) {
-        return binder.bind(name, Boolean.class).orElse(Boolean.FALSE);
-    }
+	protected boolean isTrue(Binder binder, String name) {
+		return binder.bind(name, Boolean.class).orElse(Boolean.FALSE);
+	}
 
 }

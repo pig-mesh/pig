@@ -35,84 +35,81 @@ import java.util.regex.Pattern;
  */
 public class PigBearerTokenExtractor implements BearerTokenResolver {
 
-    private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$",
-            Pattern.CASE_INSENSITIVE);
+	private static final Pattern authorizationPattern = Pattern.compile("^Bearer (?<token>[a-zA-Z0-9-:._~+/]+=*)$",
+			Pattern.CASE_INSENSITIVE);
 
+	private String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
 
-    private String bearerTokenHeaderName = HttpHeaders.AUTHORIZATION;
+	private final PathMatcher pathMatcher = new AntPathMatcher();
 
-    private final PathMatcher pathMatcher = new AntPathMatcher();
+	private final PermitAllUrlProperties urlProperties;
 
-    private final PermitAllUrlProperties urlProperties;
+	public PigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
+		this.urlProperties = urlProperties;
+	}
 
-    public PigBearerTokenExtractor(PermitAllUrlProperties urlProperties) {
-        this.urlProperties = urlProperties;
-    }
+	/**
+	 * 解析令牌
+	 * @param request 请求
+	 * @return {@link String }
+	 */
+	@Override
+	public String resolve(HttpServletRequest request) {
+		String requestUri = request.getRequestURI();
+		String relativePath = requestUri.substring(request.getContextPath().length());
 
-    /**
-     * 解析令牌
-     *
-     * @param request 请求
-     * @return {@link String }
-     */
-    @Override
-    public String resolve(HttpServletRequest request) {
-        String requestUri = request.getRequestURI();
-        String relativePath = requestUri.substring(request.getContextPath().length());
+		if (urlProperties.isSkipPublicUrl()) {
+			boolean match = urlProperties.getIgnoreUrls()
+				.stream()
+				.anyMatch(url -> pathMatcher.match(url, relativePath));
 
-        if (urlProperties.isSkipPublicUrl()) {
-            boolean match = urlProperties.getIgnoreUrls().stream().anyMatch(url -> pathMatcher.match(url, relativePath));
+			if (match) {
+				return null;
+			}
+		}
 
-            if (match) {
-                return null;
-            }
-        }
+		final String authorizationHeaderToken = resolveFromAuthorizationHeader(request);
 
+		if (authorizationHeaderToken != null) {
+			return authorizationHeaderToken;
+		}
 
-        final String authorizationHeaderToken = resolveFromAuthorizationHeader(request);
+		return resolveFromRequestParameters(request);
+	}
 
-        if (authorizationHeaderToken != null) {
-            return authorizationHeaderToken;
-        }
+	/**
+	 * 从授权标头解析
+	 * @param request 请求
+	 * @return {@link String }
+	 */
+	private String resolveFromAuthorizationHeader(HttpServletRequest request) {
+		String authorization = request.getHeader(this.bearerTokenHeaderName);
+		if (!StringUtils.startsWithIgnoreCase(authorization, "bearer")) {
+			return null;
+		}
+		Matcher matcher = authorizationPattern.matcher(authorization);
+		if (!matcher.matches()) {
+			BearerTokenError error = BearerTokenErrors.invalidToken("Bearer token is malformed");
+			throw new OAuth2AuthenticationException(error);
+		}
+		return matcher.group("token");
+	}
 
-        return resolveFromRequestParameters(request);
-    }
-
-    /**
-     * 从授权标头解析
-     *
-     * @param request 请求
-     * @return {@link String }
-     */
-    private String resolveFromAuthorizationHeader(HttpServletRequest request) {
-        String authorization = request.getHeader(this.bearerTokenHeaderName);
-        if (!StringUtils.startsWithIgnoreCase(authorization, "bearer")) {
-            return null;
-        }
-        Matcher matcher = authorizationPattern.matcher(authorization);
-        if (!matcher.matches()) {
-            BearerTokenError error = BearerTokenErrors.invalidToken("Bearer token is malformed");
-            throw new OAuth2AuthenticationException(error);
-        }
-        return matcher.group("token");
-    }
-
-    /**
-     * 从请求参数解析
-     *
-     * @param request 请求
-     * @return {@link String }
-     */
-    private static String resolveFromRequestParameters(HttpServletRequest request) {
-        String[] values = request.getParameterValues("access_token");
-        if (values == null || values.length == 0) {
-            return null;
-        }
-        if (values.length == 1) {
-            return values[0];
-        }
-        BearerTokenError error = BearerTokenErrors.invalidRequest("Found multiple bearer tokens in the request");
-        throw new OAuth2AuthenticationException(error);
-    }
+	/**
+	 * 从请求参数解析
+	 * @param request 请求
+	 * @return {@link String }
+	 */
+	private static String resolveFromRequestParameters(HttpServletRequest request) {
+		String[] values = request.getParameterValues("access_token");
+		if (values == null || values.length == 0) {
+			return null;
+		}
+		if (values.length == 1) {
+			return values[0];
+		}
+		BearerTokenError error = BearerTokenErrors.invalidRequest("Found multiple bearer tokens in the request");
+		throw new OAuth2AuthenticationException(error);
+	}
 
 }

@@ -28,35 +28,36 @@ import java.io.IOException;
 @ConditionalOnProperty(value = "security.micro", havingValue = "false")
 public class PigInnerHeaderRemoveFilter extends OncePerRequestFilter {
 
-    /**
-     * 执行过滤器内部处理逻辑
-     *
-     * @param request     HTTP请求对象
-     * @param response    HTTP响应对象
-     * @param filterChain 过滤器链
-     * @throws ServletException 如果发生servlet相关异常
-     * @throws IOException      如果发生I/O异常
-     */
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
-        // 获取客户端IP地址
-        String clientIP = JakartaServletUtil.getClientIP(request);
+	/**
+	 * 执行过滤器内部处理逻辑
+	 * @param request HTTP请求对象
+	 * @param response HTTP响应对象
+	 * @param filterChain 过滤器链
+	 * @throws ServletException 如果发生servlet相关异常
+	 * @throws IOException 如果发生I/O异常
+	 */
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response,
+			@NotNull FilterChain filterChain) throws ServletException, IOException {
+		// 获取客户端IP地址
+		String clientIP = JakartaServletUtil.getClientIP(request);
 
-        // 允许 127.0.0.1 请求直接通过
-        if (Ipv4Util.LOCAL_IP.equals(clientIP)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 允许 127.0.0.1 请求直接通过
+		if (Ipv4Util.LOCAL_IP.equals(clientIP)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        String fromHeader = request.getHeader(SecurityConstants.FROM);
-        // 非 127.0.0.1 请求，没有配置 from  header ，直接跳过
-        if (StrUtil.isBlank(fromHeader)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		String fromHeader = request.getHeader(SecurityConstants.FROM);
+		// 非 127.0.0.1 请求，没有配置 from header ，直接跳过
+		if (StrUtil.isBlank(fromHeader)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 非 127.0.0.1，配置了 from  header ，直接拒绝访问
-        log.warn("请求 IP {}，疑似进行系统注入操作，请注意", clientIP);
-        response.setStatus(HttpStatus.FORBIDDEN.value());
-    }
+		// 非 127.0.0.1，配置了 from header ，直接拒绝访问
+		log.warn("请求 IP {}，疑似进行系统注入操作，请注意", clientIP);
+		response.setStatus(HttpStatus.FORBIDDEN.value());
+	}
+
 }

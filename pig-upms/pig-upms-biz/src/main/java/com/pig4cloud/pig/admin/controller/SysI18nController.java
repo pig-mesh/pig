@@ -54,110 +54,104 @@ import java.util.List;
 @SecurityRequirement(name = HttpHeaders.AUTHORIZATION)
 public class SysI18nController {
 
-    private final SysI18nService sysI18nService;
+	private final SysI18nService sysI18nService;
 
-    /**
-     * 分页查询
-     *
-     * @param page    分页对象
-     * @param sysI18n 系统表-国际化
-     * @return
-     */
-    @Operation(summary = "分页查询", description = "分页查询")
-    @GetMapping("/page")
-    @HasPermission("sys_i18n_view")
-    public R getsysI18nPage(@ParameterObject Page page, @ParameterObject SysI18nEntity sysI18n) {
-        LambdaQueryWrapper<SysI18nEntity> wrapper = Wrappers.lambdaQuery();
-        wrapper.like(StrUtil.isNotBlank(sysI18n.getName()), SysI18nEntity::getName, sysI18n.getName());
-        wrapper.like(StrUtil.isNotBlank(sysI18n.getZhCn()), SysI18nEntity::getZhCn, sysI18n.getZhCn());
-        wrapper.like(StrUtil.isNotBlank(sysI18n.getEn()), SysI18nEntity::getEn, sysI18n.getEn());
-        return R.ok(sysI18nService.page(page, wrapper));
-    }
+	/**
+	 * 分页查询
+	 * @param page 分页对象
+	 * @param sysI18n 系统表-国际化
+	 * @return
+	 */
+	@Operation(summary = "分页查询", description = "分页查询")
+	@GetMapping("/page")
+	@HasPermission("sys_i18n_view")
+	public R getsysI18nPage(@ParameterObject Page page, @ParameterObject SysI18nEntity sysI18n) {
+		LambdaQueryWrapper<SysI18nEntity> wrapper = Wrappers.lambdaQuery();
+		wrapper.like(StrUtil.isNotBlank(sysI18n.getName()), SysI18nEntity::getName, sysI18n.getName());
+		wrapper.like(StrUtil.isNotBlank(sysI18n.getZhCn()), SysI18nEntity::getZhCn, sysI18n.getZhCn());
+		wrapper.like(StrUtil.isNotBlank(sysI18n.getEn()), SysI18nEntity::getEn, sysI18n.getEn());
+		return R.ok(sysI18nService.page(page, wrapper));
+	}
 
-    /**
-     * 通过id查询系统表-国际化
-     *
-     * @param id id
-     * @return R
-     */
-    @Operation(summary = "通过id查询", description = "通过id查询")
-    @GetMapping("/details/{id}")
-    public R getById(@PathVariable("id") Long id) {
-        return R.ok(sysI18nService.getById(id));
-    }
+	/**
+	 * 通过id查询系统表-国际化
+	 * @param id id
+	 * @return R
+	 */
+	@Operation(summary = "通过id查询", description = "通过id查询")
+	@GetMapping("/details/{id}")
+	public R getById(@PathVariable("id") Long id) {
+		return R.ok(sysI18nService.getById(id));
+	}
 
-    @GetMapping("/details")
-    public R getDetails(@ParameterObject SysI18nEntity entity) {
-        return R.ok(sysI18nService.getOne(Wrappers.query(entity)));
-    }
+	@GetMapping("/details")
+	public R getDetails(@ParameterObject SysI18nEntity entity) {
+		return R.ok(sysI18nService.getOne(Wrappers.query(entity)));
+	}
 
-    /**
-     * 新增系统表-国际化
-     *
-     * @param sysI18n 系统表-国际化
-     * @return R
-     */
-    @Operation(summary = "新增系统表-国际化", description = "新增系统表-国际化")
-    @SysLog("新增系统表-国际化")
-    @PostMapping
-    @HasPermission("sys_i18n_add")
-    @CacheEvict(value = {CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
-    public R save(@RequestBody SysI18nEntity sysI18n) {
-        return R.ok(sysI18nService.save(sysI18n));
-    }
+	/**
+	 * 新增系统表-国际化
+	 * @param sysI18n 系统表-国际化
+	 * @return R
+	 */
+	@Operation(summary = "新增系统表-国际化", description = "新增系统表-国际化")
+	@SysLog("新增系统表-国际化")
+	@PostMapping
+	@HasPermission("sys_i18n_add")
+	@CacheEvict(value = { CacheConstants.SITE_CONFIG_DETAILS }, allEntries = true)
+	public R save(@RequestBody SysI18nEntity sysI18n) {
+		return R.ok(sysI18nService.save(sysI18n));
+	}
 
-    /**
-     * 修改系统表-国际化
-     *
-     * @param sysI18n 系统表-国际化
-     * @return R
-     */
-    @Operation(summary = "修改系统表-国际化", description = "修改系统表-国际化")
-    @SysLog("修改系统表-国际化")
-    @PutMapping
-    @CacheEvict(value = {CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
-    @HasPermission("sys_i18n_edit")
-    public R updateById(@RequestBody SysI18nEntity sysI18n) {
-        return R.ok(sysI18nService.updateById(sysI18n));
-    }
+	/**
+	 * 修改系统表-国际化
+	 * @param sysI18n 系统表-国际化
+	 * @return R
+	 */
+	@Operation(summary = "修改系统表-国际化", description = "修改系统表-国际化")
+	@SysLog("修改系统表-国际化")
+	@PutMapping
+	@CacheEvict(value = { CacheConstants.SITE_CONFIG_DETAILS }, allEntries = true)
+	@HasPermission("sys_i18n_edit")
+	public R updateById(@RequestBody SysI18nEntity sysI18n) {
+		return R.ok(sysI18nService.updateById(sysI18n));
+	}
 
-    /**
-     * 通过id删除系统表-国际化
-     *
-     * @param ids id 列表
-     * @return R
-     */
-    @Operation(summary = "通过id删除系统表-国际化", description = "通过id删除系统表-国际化")
-    @SysLog("通过id删除系统表-国际化")
-    @DeleteMapping
-    @HasPermission("sys_i18n_del")
-    @CacheEvict(value = {CacheConstants.SITE_CONFIG_DETAILS}, allEntries = true)
-    public R removeById(@RequestBody Long[] ids) {
-        return R.ok(sysI18nService.removeBatchByIds(CollUtil.toList(ids)));
-    }
+	/**
+	 * 通过id删除系统表-国际化
+	 * @param ids id 列表
+	 * @return R
+	 */
+	@Operation(summary = "通过id删除系统表-国际化", description = "通过id删除系统表-国际化")
+	@SysLog("通过id删除系统表-国际化")
+	@DeleteMapping
+	@HasPermission("sys_i18n_del")
+	@CacheEvict(value = { CacheConstants.SITE_CONFIG_DETAILS }, allEntries = true)
+	public R removeById(@RequestBody Long[] ids) {
+		return R.ok(sysI18nService.removeBatchByIds(CollUtil.toList(ids)));
+	}
 
-    /**
-     * 导出excel 表格
-     *
-     * @param sysI18n 查询条件
-     * @return excel 文件流
-     */
-    @ResponseExcel
-    @GetMapping("/export")
-    @HasPermission("sys_i18n_export")
-    public List<SysI18nEntity> export(SysI18nEntity sysI18n, Long[] ids) {
-        return sysI18nService.list(Wrappers.lambdaQuery(sysI18n).in(ArrayUtil.isNotEmpty(ids), SysI18nEntity::getId, CollUtil.toList(ids)));
-    }
+	/**
+	 * 导出excel 表格
+	 * @param sysI18n 查询条件
+	 * @return excel 文件流
+	 */
+	@ResponseExcel
+	@GetMapping("/export")
+	@HasPermission("sys_i18n_export")
+	public List<SysI18nEntity> export(SysI18nEntity sysI18n, Long[] ids) {
+		return sysI18nService.list(Wrappers.lambdaQuery(sysI18n)
+			.in(ArrayUtil.isNotEmpty(ids), SysI18nEntity::getId, CollUtil.toList(ids)));
+	}
 
-    /**
-     * 同步数据
-     *
-     * @return R
-     */
-    @SysLog("同步数据")
-    @PutMapping("/sync")
-    public R sync() {
-        return sysI18nService.syncI18nCache();
-    }
+	/**
+	 * 同步数据
+	 * @return R
+	 */
+	@SysLog("同步数据")
+	@PutMapping("/sync")
+	public R sync() {
+		return sysI18nService.syncI18nCache();
+	}
 
 }

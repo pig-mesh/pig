@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Object> {
 
-    /**
-     * 缓存带 @ExcelLine 标记的 Long 类型行号字段，避免逐行读取时重复反射扫描。
-     */
-    private static final ConcurrentHashMap<Class<?>, Field[]> LINE_FIELDS_CACHE = new ConcurrentHashMap<>();
+	/**
+	 * 缓存带 @ExcelLine 标记的 Long 类型行号字段，避免逐行读取时重复反射扫描。
+	 */
+	private static final ConcurrentHashMap<Class<?>, Field[]> LINE_FIELDS_CACHE = new ConcurrentHashMap<>();
 
 	private final List<Object> list = new ArrayList<>();
 
@@ -47,13 +47,13 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 				.map(ConstraintViolation::getMessage)
 				.collect(Collectors.toSet());
 			errorMessageList.add(new ErrorMessage(lineNum, messageSet));
-            return;
-        }
+			return;
+		}
 
-        for (Field field : resolveLineFields(o.getClass())) {
-            ReflectUtil.setFieldValue(o, field, lineNum);
-        }
-        list.add(o);
+		for (Field field : resolveLineFields(o.getClass())) {
+			ReflectUtil.setFieldValue(o, field, lineNum);
+		}
+		list.add(o);
 	}
 
 	@Override
@@ -69,12 +69,13 @@ public class DefaultAnalysisEventListener extends ListAnalysisEventListener<Obje
 	@Override
 	public List<ErrorMessage> getErrors() {
 		return errorMessageList;
-    }
+	}
 
-    private static Field[] resolveLineFields(Class<?> clazz) {
-        return LINE_FIELDS_CACHE.computeIfAbsent(clazz, c -> Arrays.stream(c.getDeclaredFields())
-                .filter(f -> f.isAnnotationPresent(ExcelLine.class) && f.getType() == Long.class)
-                .toArray(Field[]::new));
+	private static Field[] resolveLineFields(Class<?> clazz) {
+		return LINE_FIELDS_CACHE.computeIfAbsent(clazz,
+				c -> Arrays.stream(c.getDeclaredFields())
+					.filter(f -> f.isAnnotationPresent(ExcelLine.class) && f.getType() == Long.class)
+					.toArray(Field[]::new));
 	}
 
 }

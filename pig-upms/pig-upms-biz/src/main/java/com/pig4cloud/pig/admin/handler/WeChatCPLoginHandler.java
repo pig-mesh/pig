@@ -56,7 +56,7 @@ public class WeChatCPLoginHandler extends AbstractLoginHandler {
 
 		String getAccessTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=%s&corpsecret=%s";
 		String accessTokenResult = HttpUtil
-				.get(String.format(getAccessTokenUrl, socialDetails.getAppId(), socialDetails.getAppSecret()));
+			.get(String.format(getAccessTokenUrl, socialDetails.getAppId(), socialDetails.getAppSecret()));
 		log.debug("获取企业微信Token响应报文：{}", accessTokenResult);
 
 		String accessToken = JSONUtil.parseObj(accessTokenResult).getStr("access_token");

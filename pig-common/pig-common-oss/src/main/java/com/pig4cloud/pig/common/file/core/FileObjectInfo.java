@@ -16,16 +16,16 @@ import java.time.Instant;
 @AllArgsConstructor
 public class FileObjectInfo {
 
-    private String bucketName;
+	private String bucketName;
 
-    private String objectName;
+	private String objectName;
 
-    private String contentType;
+	private String contentType;
 
-    private Long contentLength;
+	private Long contentLength;
 
-    private String eTag;
+	private String eTag;
 
-    private Instant lastModified;
+	private Instant lastModified;
 
 }

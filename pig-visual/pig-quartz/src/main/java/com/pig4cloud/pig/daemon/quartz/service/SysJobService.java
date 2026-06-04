@@ -29,12 +29,12 @@ import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
  */
 public interface SysJobService extends IService<SysJob> {
 
-    /**
-     * 检查任务配置
-     *
-     * @param field  字段
-     * @param sysJob sys 作业
-     * @return {@link R }
-     */
-    R checkJob(String field, SysJob sysJob);
+	/**
+	 * 检查任务配置
+	 * @param field 字段
+	 * @param sysJob sys 作业
+	 * @return {@link R }
+	 */
+	R checkJob(String field, SysJob sysJob);
+
 }

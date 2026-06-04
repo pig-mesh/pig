@@ -53,41 +53,40 @@ public class ResponseExcelAutoConfiguration {
 	}
 
 	/**
-     * 注册 Excel 请求参数解析器。
+	 * 注册 Excel 请求参数解析器。
 	 */
-    @Bean
-    public WebMvcConfigurer excelWebMvcConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-                resolvers.add(new RequestExcelArgumentResolver());
-            }
-        };
-    }
+	@Bean
+	public WebMvcConfigurer excelWebMvcConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+				resolvers.add(new RequestExcelArgumentResolver());
+			}
+		};
+	}
 
-    /**
-     * 将 Excel 返回值处理器放到 Spring MVC 处理链最前面，确保 @RestController 的
-     *
-     * @param requestMappingHandlerAdapter    Spring MVC 方法适配器
-     * @param responseExcelReturnValueHandler Excel 返回值处理器
-     * @return 容器初始化完成后的处理器注册回调
-     * @ResponseBody 处理器不会先消费 @ResponseExcel 返回值。
-     */
-    @Bean
-    public SmartInitializingSingleton excelReturnValueHandlerInitializer(
-            RequestMappingHandlerAdapter requestMappingHandlerAdapter,
-            ResponseExcelReturnValueHandler responseExcelReturnValueHandler) {
-        return () -> {
-            List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
-                    .getReturnValueHandlers();
-            if (returnValueHandlers == null || returnValueHandlers.contains(responseExcelReturnValueHandler)) {
-                return;
-            }
-            List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>(returnValueHandlers.size() + 1);
-            newHandlers.add(responseExcelReturnValueHandler);
-            newHandlers.addAll(returnValueHandlers);
-            requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
-        };
+	/**
+	 * 将 Excel 返回值处理器放到 Spring MVC 处理链最前面，确保 @RestController 的
+	 * @param requestMappingHandlerAdapter Spring MVC 方法适配器
+	 * @param responseExcelReturnValueHandler Excel 返回值处理器
+	 * @return 容器初始化完成后的处理器注册回调
+	 * @ResponseBody 处理器不会先消费 @ResponseExcel 返回值。
+	 */
+	@Bean
+	public SmartInitializingSingleton excelReturnValueHandlerInitializer(
+			RequestMappingHandlerAdapter requestMappingHandlerAdapter,
+			ResponseExcelReturnValueHandler responseExcelReturnValueHandler) {
+		return () -> {
+			List<HandlerMethodReturnValueHandler> returnValueHandlers = requestMappingHandlerAdapter
+				.getReturnValueHandlers();
+			if (returnValueHandlers == null || returnValueHandlers.contains(responseExcelReturnValueHandler)) {
+				return;
+			}
+			List<HandlerMethodReturnValueHandler> newHandlers = new ArrayList<>(returnValueHandlers.size() + 1);
+			newHandlers.add(responseExcelReturnValueHandler);
+			newHandlers.addAll(returnValueHandlers);
+			requestMappingHandlerAdapter.setReturnValueHandlers(newHandlers);
+		};
 	}
 
 }

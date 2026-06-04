@@ -43,43 +43,39 @@ import org.springframework.context.annotation.Scope;
 @AutoConfigureBefore(SentinelFeignAutoConfiguration.class)
 public class PigSentinelAutoConfiguration {
 
-    @Bean
-    @Scope("prototype")
-    @ConditionalOnMissingBean
-    @ConditionalOnProperty(name = "spring.cloud.openfeign.sentinel.enabled",matchIfMissing = true)
-    public Feign.Builder feignSentinelBuilder() {
-        return PigSentinelFeign.builder();
-    }
+	@Bean
+	@Scope("prototype")
+	@ConditionalOnMissingBean
+	@ConditionalOnProperty(name = "spring.cloud.openfeign.sentinel.enabled", matchIfMissing = true)
+	public Feign.Builder feignSentinelBuilder() {
+		return PigSentinelFeign.builder();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    /**
-     * 创建一个块异常处理器实例
-     * 如果没有定义块异常处理器，则创建一个PigUrlBlockHandler实例
-     */
-    public BlockExceptionHandler blockExceptionHandler() {
-        return new PigUrlBlockHandler();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	/**
+	 * 创建一个块异常处理器实例 如果没有定义块异常处理器，则创建一个PigUrlBlockHandler实例
+	 */
+	public BlockExceptionHandler blockExceptionHandler() {
+		return new PigUrlBlockHandler();
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    /**
-     * 创建一个请求源解析器实例
-     * 如果没有定义请求源解析器，则创建一个PigHeaderRequestOriginParser实例
-     */
-    public RequestOriginParser requestOriginParser() {
-        return new PigHeaderRequestOriginParser();
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	/**
+	 * 创建一个请求源解析器实例 如果没有定义请求源解析器，则创建一个PigHeaderRequestOriginParser实例
+	 */
+	public RequestOriginParser requestOriginParser() {
+		return new PigHeaderRequestOriginParser();
+	}
 
-    /**
-     * 创建一个全局业务异常处理器实例
-     * 用于处理全局的业务异常
-     */
-    @Bean
-    @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-    public GlobalBizExceptionHandler globalBizExceptionHandler() {
-        return new GlobalBizExceptionHandler();
-    }
-
+	/**
+	 * 创建一个全局业务异常处理器实例 用于处理全局的业务异常
+	 */
+	@Bean
+	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+	public GlobalBizExceptionHandler globalBizExceptionHandler() {
+		return new GlobalBizExceptionHandler();
+	}
 
 }

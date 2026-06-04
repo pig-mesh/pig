@@ -37,71 +37,71 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class ValidateCodeFilter extends OncePerRequestFilter {
 
-    private final AuthCaptchaSupport authCaptchaSupport;
+	private final AuthCaptchaSupport authCaptchaSupport;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+			throws ServletException, IOException {
 
-        String requestUrl = request.getServletPath();
+		String requestUrl = request.getServletPath();
 
-        // 不是登录URL 请求直接跳过
-        if (!SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 不是登录URL 请求直接跳过
+		if (!SecurityConstants.OAUTH_TOKEN_URL.equals(requestUrl)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 如果登录URL 但是刷新token的请求，直接向下执行
-        String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-        if (StrUtil.containsAny(grantType, SecurityConstants.REFRESH_TOKEN)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 如果登录URL 但是刷新token的请求，直接向下执行
+		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
+		if (StrUtil.containsAny(grantType, SecurityConstants.REFRESH_TOKEN)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // mobile模式, 如果请求不包含mobile 参数直接
-        String mobile = request.getParameter(SecurityConstants.GRANT_MOBILE);
-        if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && StrUtil.isBlank(mobile)) {
-            throw new OAuth2AuthenticationException(SecurityConstants.GRANT_MOBILE);
-        }
+		// mobile模式, 如果请求不包含mobile 参数直接
+		String mobile = request.getParameter(SecurityConstants.GRANT_MOBILE);
+		if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && StrUtil.isBlank(mobile)) {
+			throw new OAuth2AuthenticationException(SecurityConstants.GRANT_MOBILE);
+		}
 
-        // mobile模式, 社交登录模式不校验验证码直接跳过
-        if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && !StrUtil.contains(mobile, "SMS")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// mobile模式, 社交登录模式不校验验证码直接跳过
+		if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && !StrUtil.contains(mobile, "SMS")) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 判断客户端是否跳过检验
-        if (!isCheckCaptchaClient(request)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+		// 判断客户端是否跳过检验
+		if (!isCheckCaptchaClient(request)) {
+			filterChain.doFilter(request, response);
+			return;
+		}
 
-        // 校验验证码 1. 客户端开启验证码 2. 短信模式
-        try {
-            checkCode();
-            filterChain.doFilter(request, response);
-        } catch (ValidateCodeException validateCodeException) {
-            throw new OAuth2AuthenticationException(validateCodeException.getMessage());
-        }
-    }
+		// 校验验证码 1. 客户端开启验证码 2. 短信模式
+		try {
+			checkCode();
+			filterChain.doFilter(request, response);
+		}
+		catch (ValidateCodeException validateCodeException) {
+			throw new OAuth2AuthenticationException(validateCodeException.getMessage());
+		}
+	}
 
-    /**
-     * 校验验证码
-     */
-    private void checkCode() throws ValidateCodeException {
-        authCaptchaSupport.validateCode(WebUtils.getRequest());
-    }
+	/**
+	 * 校验验证码
+	 */
+	private void checkCode() throws ValidateCodeException {
+		authCaptchaSupport.validateCode(WebUtils.getRequest());
+	}
 
-    /**
-     * 是否需要校验客户端，根据client 查询客户端配置
-     *
-     * @param request 请求
-     * @return true 需要校验， false 不需要校验
-     */
-    private boolean isCheckCaptchaClient(HttpServletRequest request) {
-        String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String clientId = WebUtils.extractClientId(header).orElse(null);
-        return authCaptchaSupport.isCaptchaEnabled(clientId);
-    }
+	/**
+	 * 是否需要校验客户端，根据client 查询客户端配置
+	 * @param request 请求
+	 * @return true 需要校验， false 不需要校验
+	 */
+	private boolean isCheckCaptchaClient(HttpServletRequest request) {
+		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
+		String clientId = WebUtils.extractClientId(header).orElse(null);
+		return authCaptchaSupport.isCaptchaEnabled(clientId);
+	}
 
 }

@@ -29,7 +29,7 @@ public class ExcelHandlerConfiguration {
 
 	private final ObjectProvider<List<Converter<?>>> converterProvider;
 
-    private final ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider;
+	private final ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider;
 
 	/**
 	 * ExcelBuild增强
@@ -47,8 +47,8 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public SingleSheetWriteHandler singleSheetWriteHandler() {
-        return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
-                i18nHeaderProvider);
+		return new SingleSheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
+				i18nHeaderProvider);
 	}
 
 	/**
@@ -57,8 +57,8 @@ public class ExcelHandlerConfiguration {
 	@Bean
 	@ConditionalOnMissingBean
 	public ManySheetWriteHandler manySheetWriteHandler() {
-        return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
-                i18nHeaderProvider);
+		return new ManySheetWriteHandler(configProperties, converterProvider, writerBuilderEnhancer(),
+				i18nHeaderProvider);
 	}
 
 	/**

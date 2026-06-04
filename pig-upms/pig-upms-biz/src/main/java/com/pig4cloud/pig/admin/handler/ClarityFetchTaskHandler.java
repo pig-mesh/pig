@@ -62,10 +62,8 @@ public class ClarityFetchTaskHandler {
 	private final SysSocialDetailsMapper socialDetailsMapper;
 
 	/**
-	 * 异步从 Clarity API 拉取数据并存库
-	 * 策略：先插入占位行（PENDING），调用成功后更新数据（SUCCESS），失败则标记（FAILED）。
+	 * 异步从 Clarity API 拉取数据并存库 策略：先插入占位行（PENDING），调用成功后更新数据（SUCCESS），失败则标记（FAILED）。
 	 * 并发时第二个请求查到 PENDING/SUCCESS 即跳过，彻底避免重复调用。
-	 *
 	 * @param numOfDays Clarity API numOfDays 参数（1=24h, 2=48h, 3=72h）
 	 */
 	@Async
@@ -82,8 +80,8 @@ public class ClarityFetchTaskHandler {
 			}
 
 			// 获取 Clarity 配置（type='clarity'）
-			SysSocialDetails config = socialDetailsMapper.selectOne(
-					Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, CLARITY_TYPE));
+			SysSocialDetails config = socialDetailsMapper
+				.selectOne(Wrappers.<SysSocialDetails>lambdaQuery().eq(SysSocialDetails::getType, CLARITY_TYPE));
 			if (config == null) {
 				log.warn("[Clarity] 未找到 type='clarity' 的配置，跳过拉取");
 				return;
@@ -131,9 +129,8 @@ public class ClarityFetchTaskHandler {
 	}
 
 	/**
-	 * 解析 Clarity API 响应体（JSONArray 结构）到实体
-	 * 字段映射已通过真实 API 调用确认（2026-03-26）
-	 * 所有 count 类字段为 String 类型，使用 Convert.toInt 安全转换（null/空串返回 0）
+	 * 解析 Clarity API 响应体（JSONArray 结构）到实体 字段映射已通过真实 API 调用确认（2026-03-26） 所有 count 类字段为
+	 * String 类型，使用 Convert.toInt 安全转换（null/空串返回 0）
 	 */
 	private SysClarityData parseResponse(JSONArray responseArray) {
 		SysClarityData data = new SysClarityData();
@@ -158,19 +155,19 @@ public class ClarityFetchTaskHandler {
 				case "ScrollDepth" -> data.setScrollDepth(first.getBigDecimal("averageScrollDepth"));
 				case "DeadClickCount" -> data.setDeadClickRate(first.getBigDecimal("sessionsWithMetricPercentage"));
 				case "RageClickCount" -> data.setRageClickRate(first.getBigDecimal("sessionsWithMetricPercentage"));
-				case "Device" -> data.setDeviceData(toJsonRanking(info.stream(), dev ->
-						dev.getStr("name"), dev -> Convert.toInt(dev.getStr("sessionsCount"), 0)));
-				case "PopularPages" -> data.setTopUrls(toJsonRanking(info.stream().limit(5), page ->
-						page.getStr("url"), page -> Convert.toInt(page.getStr("visitsCount"), 0)));
-				case "ReferrerUrl" -> data.setReferrerUrlData(toJsonRanking(info.stream().limit(5), ref ->
-						StrUtil.blankToDefault(ref.getStr("url"), ref.getStr("name", "unknown")),
+				case "Device" -> data.setDeviceData(toJsonRanking(info.stream(), dev -> dev.getStr("name"),
+						dev -> Convert.toInt(dev.getStr("sessionsCount"), 0)));
+				case "PopularPages" -> data.setTopUrls(toJsonRanking(info.stream().limit(5), page -> page.getStr("url"),
+						page -> Convert.toInt(page.getStr("visitsCount"), 0)));
+				case "ReferrerUrl" -> data.setReferrerUrlData(toJsonRanking(info.stream().limit(5),
+						ref -> StrUtil.blankToDefault(ref.getStr("url"), ref.getStr("name", "unknown")),
 						ref -> Convert.toInt(ref.getStr("sessionsCount"), 0)));
-				case "PageTitle" -> data.setPageTitleData(toJsonRanking(info.stream().limit(5), pt ->
-						StrUtil.blankToDefault(pt.getStr("name"), pt.getStr("title", "unknown")),
+				case "PageTitle" -> data.setPageTitleData(toJsonRanking(info.stream().limit(5),
+						pt -> StrUtil.blankToDefault(pt.getStr("name"), pt.getStr("title", "unknown")),
 						pt -> Convert.toInt(pt.getStr("sessionsCount"), 0)));
-				case "Browser" -> data.setBrowserData(toJsonRanking(info.stream(), br ->
-						StrUtil.blankToDefault(br.getStr("name"), "unknown"),
-						br -> Convert.toInt(br.getStr("sessionsCount"), 0)));
+				case "Browser" -> data.setBrowserData(
+						toJsonRanking(info.stream(), br -> StrUtil.blankToDefault(br.getStr("name"), "unknown"),
+								br -> Convert.toInt(br.getStr("sessionsCount"), 0)));
 				default -> {
 				}
 			}
@@ -182,9 +179,8 @@ public class ClarityFetchTaskHandler {
 	/**
 	 * 将 JSONArray 流转换为 [{name, value}] 格式的 JSON 字符串
 	 */
-	private String toJsonRanking(Stream<?> stream,
-								 Function<JSONObject, String> nameExtractor,
-								 Function<JSONObject, Integer> valueExtractor) {
+	private String toJsonRanking(Stream<?> stream, Function<JSONObject, String> nameExtractor,
+			Function<JSONObject, Integer> valueExtractor) {
 		List<Map<String, Object>> list = new ArrayList<>();
 		stream.forEach(item -> {
 			if (item instanceof JSONObject obj) {

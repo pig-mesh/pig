@@ -15,12 +15,14 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.codegen.entity;
+
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
+
 /**
  * 模板
  *
@@ -32,57 +34,68 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "模板")
 public class GenTemplateEntity extends Model<GenTemplateEntity> {
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
 	@Schema(description = "主键")
 	private Long id;
+
 	/**
 	 * 模板名称
 	 */
 	@Schema(description = "模板名称")
 	private String templateName;
+
 	/**
 	 * 模板路径
 	 */
 	@Schema(description = "模板路径")
 	private String generatorPath;
+
 	/**
 	 * 模板描述
 	 */
 	@Schema(description = "模板描述")
 	private String templateDesc;
+
 	/**
 	 * 模板代码
 	 */
 	@Schema(description = "模板代码")
 	private String templateCode;
+
 	/**
 	 * 创建人
 	 */
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "创建人")
 	private String createBy;
+
 	/**
 	 * 修改人
 	 */
 	@TableField(fill = FieldFill.UPDATE)
 	@Schema(description = "修改人")
 	private String updateBy;
+
 	/**
 	 * 创建时间
 	 */
 	@Schema(description = "创建时间")
 	@TableField(fill = FieldFill.INSERT)
 	private LocalDateTime createTime;
+
 	/**
 	 * 修改时间
 	 */
 	@Schema(description = "修改时间")
 	@TableField(fill = FieldFill.UPDATE)
 	private LocalDateTime updateTime;
+
 	/**
 	 * 删除标识（0-正常,1-删除）
 	 */
@@ -90,4 +103,5 @@ public class GenTemplateEntity extends Model<GenTemplateEntity> {
 	@TableField(fill = FieldFill.INSERT)
 	@Schema(description = "删除标记,1:已删除,0:正常")
 	private String delFlag;
+
 }

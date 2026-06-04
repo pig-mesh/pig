@@ -55,7 +55,7 @@ public class SysSystemInfoServiceImpl extends ServiceImpl<SysClarityDataMapper, 
 	public R<Map<String, Object>> getCacheInfo() {
 		Properties info = RedisUtils.execute((RedisCallback<Properties>) RedisServerCommands::info);
 		Properties commandStats = RedisUtils
-				.execute((RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
+			.execute((RedisCallback<Properties>) connection -> connection.serverCommands().info("commandstats"));
 		Object dbSize = RedisUtils.execute((RedisCallback<Object>) RedisServerCommands::dbSize);
 
 		if (commandStats == null) {

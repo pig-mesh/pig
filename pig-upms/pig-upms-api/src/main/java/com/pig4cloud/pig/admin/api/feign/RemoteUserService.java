@@ -37,102 +37,92 @@ import java.util.List;
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteUserService {
 
-    /**
-     * 通过用户名查询用户、角色信息
-     *
-     * @param username 用户名
-     * @return R
-     */
-    @NoToken
-    @GetMapping("/user/info/{username}")
-    R<UserInfo> info(@PathVariable String username);
+	/**
+	 * 通过用户名查询用户、角色信息
+	 * @param username 用户名
+	 * @return R
+	 */
+	@NoToken
+	@GetMapping("/user/info/{username}")
+	R<UserInfo> info(@PathVariable String username);
 
-    /**
-     * 根据用户ID获取用户
-     *
-     * @param userIds ID
-     * @return SysUser
-     */
-    @GetMapping("/user/list")
-    R<List<SysUser>> getUserById(@RequestParam("userIds") List<Long> userIds);
+	/**
+	 * 根据用户ID获取用户
+	 * @param userIds ID
+	 * @return SysUser
+	 */
+	@GetMapping("/user/list")
+	R<List<SysUser>> getUserById(@RequestParam("userIds") List<Long> userIds);
 
-    /**
-     * 通过社交账号或手机号查询用户、角色信息
-     *
-     * @param inStr appid@code
-     * @return
-     */
-    @NoToken
-    @GetMapping("/social/info/{inStr}")
-    R<UserInfo> social(@PathVariable String inStr);
+	/**
+	 * 通过社交账号或手机号查询用户、角色信息
+	 * @param inStr appid@code
+	 * @return
+	 */
+	@NoToken
+	@GetMapping("/social/info/{inStr}")
+	R<UserInfo> social(@PathVariable String inStr);
 
-    /**
-     * 查询上级部门的用户信息
-     *
-     * @param username 用户名
-     * @return R
-     */
-    @GetMapping("/user/ancestor/{username}")
-    R<List<SysUser>> ancestorUsers(@PathVariable String username);
+	/**
+	 * 查询上级部门的用户信息
+	 * @param username 用户名
+	 * @return R
+	 */
+	@GetMapping("/user/ancestor/{username}")
+	R<List<SysUser>> ancestorUsers(@PathVariable String username);
 
-    /**
-     * 锁定用户
-     *
-     * @param username 用户名
-     * @return
-     */
-    @NoToken
-    @PutMapping("/user/lock/{username}")
-    R<Boolean> lockUser(@PathVariable String username);
+	/**
+	 * 锁定用户
+	 * @param username 用户名
+	 * @return
+	 */
+	@NoToken
+	@PutMapping("/user/lock/{username}")
+	R<Boolean> lockUser(@PathVariable String username);
 
-    /**
-     * 根据角色ID查询用户列表
-     *
-     * @param roleIdList 角色ID列表
-     * @return 用户ID列表
-     */
-    @NoToken
-    @GetMapping("/user/getUserIdListByRoleIdList")
-    R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
+	/**
+	 * 根据角色ID查询用户列表
+	 * @param roleIdList 角色ID列表
+	 * @return 用户ID列表
+	 */
+	@NoToken
+	@GetMapping("/user/getUserIdListByRoleIdList")
+	R<List<Long>> getUserIdListByRoleIdList(@RequestParam("roleIdList") List<Long> roleIdList);
 
-    /**
-     * 根据部门ID列表获取用户ID列表接口
-     *
-     * @param deptIdList 部门ID列表
-     * @return 用户ID列表
-     */
-    @NoToken
-    @GetMapping("/user/getUserIdListByDeptIdList")
-    R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
+	/**
+	 * 根据部门ID列表获取用户ID列表接口
+	 * @param deptIdList 部门ID列表
+	 * @return 用户ID列表
+	 */
+	@NoToken
+	@GetMapping("/user/getUserIdListByDeptIdList")
+	R<List<SysUser>> getUserIdListByDeptIdList(@RequestParam("deptIdList") List<Long> deptIdList);
 
-    /**
-     * 根据岗位ID列表获取用户ID列表
-     *
-     * @param postIdList 岗位ID列表
-     * @return 用户ID列表
-     */
-    @NoToken
-    @GetMapping("/user/getUserIdListByPostIdList")
-    R<List<Long>> getUserIdListByPostIdList(@RequestParam("postIdList") List<Long> postIdList);
+	/**
+	 * 根据岗位ID列表获取用户ID列表
+	 * @param postIdList 岗位ID列表
+	 * @return 用户ID列表
+	 */
+	@NoToken
+	@GetMapping("/user/getUserIdListByPostIdList")
+	R<List<Long>> getUserIdListByPostIdList(@RequestParam("postIdList") List<Long> postIdList);
 
-    /**
-     * 通过用户名查询用户列表
-     *
-     * @param userName 用户名
-     * @return 用户列表
-     */
-    @NoToken
-    @GetMapping("/user/getUserListByUserName")
-    R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
+	/**
+	 * 通过用户名查询用户列表
+	 * @param userName 用户名
+	 * @return 用户列表
+	 */
+	@NoToken
+	@GetMapping("/user/getUserListByUserName")
+	R<List<SysUser>> getUserListByUserName(@RequestParam("username") String userName);
 
-    /**
-     * 注册用户
-     *
-     * @param userDTO 用户信息
-     * @return success/false
-     */
-    @NoToken
-    @PostMapping("/register/user")
-    R<Boolean> registerUser(@RequestBody UserDTO userDTO);
+	/**
+	 * 注册用户
+	 * @param userDTO 用户信息
+	 * @return success/false
+	 */
+	@NoToken
+	@PostMapping("/register/user")
+	R<Boolean> registerUser(@RequestBody UserDTO userDTO);
 
 }

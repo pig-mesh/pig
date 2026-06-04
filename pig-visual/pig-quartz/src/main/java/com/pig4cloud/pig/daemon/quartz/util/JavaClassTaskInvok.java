@@ -46,11 +46,8 @@ public class JavaClassTaskInvok implements ITaskInvok {
 	public void invokMethod(SysJob sysJob) throws TaskException {
 		// Security validation before reflection
 		// 在执行反射之前进行安全验证
-		String securityError = jobSecurityValidator.validateJobConfig(
-				sysJob.getClassName(),
-				sysJob.getMethodName(),
-				sysJob.getMethodParamsValue()
-		);
+		String securityError = jobSecurityValidator.validateJobConfig(sysJob.getClassName(), sysJob.getMethodName(),
+				sysJob.getMethodParamsValue());
 
 		if (securityError != null) {
 			log.error("Security validation failed during job execution: {}", securityError);

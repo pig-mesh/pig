@@ -36,68 +36,68 @@ import org.springframework.boot.context.properties.DeprecatedConfigurationProper
 @ConfigurationProperties(prefix = "oss")
 public class OssProperties {
 
-    /**
-     * 是否开启
-     */
-    @Deprecated
-    private Boolean enable;
+	/**
+	 * 是否开启
+	 */
+	@Deprecated
+	private Boolean enable;
 
-    /**
-     * 对象存储服务的URL
-     */
-    private String endpoint;
+	/**
+	 * 对象存储服务的URL
+	 */
+	private String endpoint;
 
-    /**
-     * 自定义域名
-     */
-    private String customDomain;
+	/**
+	 * 自定义域名
+	 */
+	private String customDomain;
 
-    /**
-     * true path-style nginx 反向代理和S3默认支持 pathStyle {http://endpoint/bucketname} false
-     * supports virtual-hosted-style 阿里云等需要配置为 virtual-hosted-style
-     * 模式{http://bucketname.endpoint}
-     */
-    private Boolean pathStyleAccess = true;
+	/**
+	 * true path-style nginx 反向代理和S3默认支持 pathStyle {http://endpoint/bucketname} false
+	 * supports virtual-hosted-style 阿里云等需要配置为 virtual-hosted-style
+	 * 模式{http://bucketname.endpoint}
+	 */
+	private Boolean pathStyleAccess = true;
 
-    /**
-     * 应用ID
-     */
-    private String appId;
+	/**
+	 * 应用ID
+	 */
+	private String appId;
 
-    /**
-     * 区域
-     */
-    private String region;
+	/**
+	 * 区域
+	 */
+	private String region;
 
-    /**
-     * Access key就像用户ID，可以唯一标识你的账户
-     */
-    private String accessKey;
+	/**
+	 * Access key就像用户ID，可以唯一标识你的账户
+	 */
+	private String accessKey;
 
-    /**
-     * Secret key是你账户的密码
-     */
-    private String secretKey;
+	/**
+	 * Secret key是你账户的密码
+	 */
+	private String secretKey;
 
-    /**
-     * 最大线程数，默认： 100
-     */
-    private Integer maxConnections = 100;
+	/**
+	 * 最大线程数，默认： 100
+	 */
+	private Integer maxConnections = 100;
 
-    /**
-     * 跳过 MD5 检查
-     */
-    private boolean skipMd5Check = true;
+	/**
+	 * 跳过 MD5 检查
+	 */
+	private boolean skipMd5Check = true;
 
-    /**
-     * 是否启用 AWS S3 streaming chunked encoding，S3 兼容服务默认关闭
-     */
-    private Boolean chunkedEncodingEnabled = false;
+	/**
+	 * 是否启用 AWS S3 streaming chunked encoding，S3 兼容服务默认关闭
+	 */
+	private Boolean chunkedEncodingEnabled = false;
 
-    @Deprecated
-    @DeprecatedConfigurationProperty(reason = "使用 file.type=oss 替代 file.oss.enable", replacement = "file.type")
-    public Boolean getEnable() {
-        return enable;
-    }
+	@Deprecated
+	@DeprecatedConfigurationProperty(reason = "使用 file.type=oss 替代 file.oss.enable", replacement = "file.type")
+	public Boolean getEnable() {
+		return enable;
+	}
 
 }

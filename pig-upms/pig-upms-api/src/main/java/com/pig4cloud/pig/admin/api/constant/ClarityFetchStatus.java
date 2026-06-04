@@ -32,25 +32,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum ClarityFetchStatus {
 
-    /**
-     * 占位中：已插入占位行，API 调用尚未完成
-     */
-    PENDING("pending", "占位中"),
+	/**
+	 * 占位中：已插入占位行，API 调用尚未完成
+	 */
+	PENDING("pending", "占位中"),
 
-    /**
-     * 成功：API 调用成功，数据已写入
-     */
-    SUCCESS("success", "成功"),
+	/**
+	 * 成功：API 调用成功，数据已写入
+	 */
+	SUCCESS("success", "成功"),
 
-    /**
-     * 失败：API 调用失败，下次调度可重试
-     */
-    FAILED("failed", "失败");
+	/**
+	 * 失败：API 调用失败，下次调度可重试
+	 */
+	FAILED("failed", "失败");
 
-    @EnumValue
-    @JsonValue
-    private final String value;
+	@EnumValue
+	@JsonValue
+	private final String value;
 
-    private final String desc;
+	private final String desc;
 
 }

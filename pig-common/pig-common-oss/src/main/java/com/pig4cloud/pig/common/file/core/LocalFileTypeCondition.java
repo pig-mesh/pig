@@ -9,17 +9,17 @@ import org.springframework.boot.context.properties.bind.Binder;
  */
 public class LocalFileTypeCondition extends AbstractFileTypeCondition {
 
-    @Override
-    protected boolean matchesType(String type) {
-        return FileType.LOCAL.name().equalsIgnoreCase(type);
-    }
+	@Override
+	protected boolean matchesType(String type) {
+		return FileType.LOCAL.name().equalsIgnoreCase(type);
+	}
 
-    @Override
-    protected boolean matchesLegacySwitch(Binder binder) {
-        if (isTrue(binder, "file.oss.enable")) {
-            return false;
-        }
-        return binder.bind("file.local.enable", Boolean.class).orElse(Boolean.TRUE);
-    }
+	@Override
+	protected boolean matchesLegacySwitch(Binder binder) {
+		if (isTrue(binder, "file.oss.enable")) {
+			return false;
+		}
+		return binder.bind("file.local.enable", Boolean.class).orElse(Boolean.TRUE);
+	}
 
 }

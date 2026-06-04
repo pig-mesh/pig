@@ -23,8 +23,7 @@ import lombok.Getter;
 /**
  * Quartz 调度相关枚举常量。
  * <p>
- * 统一维护任务状态、执行状态、错失策略以及重复触发防护状态，
- * 便于调度器、执行器和日志体系共用同一套语义。
+ * 统一维护任务状态、执行状态、错失策略以及重复触发防护状态， 便于调度器、执行器和日志体系共用同一套语义。
  * </p>
  *
  * @author 郑健楠
@@ -67,18 +66,18 @@ public enum PigQuartzEnum {
 	 */
 	JOB_LOG_STATUS_FAIL("1", "执行失败"),
 
-    /**
-     * 去重状态：0 正常执行
-     */
-    JOB_DEDUP_STATUS_NORMAL("0", "正常执行"),
-    /**
-     * 去重状态：1 同一触发点重复，已跳过
-     */
-    JOB_DEDUP_STATUS_DUPLICATE_FIRE("1", "同一触发点重复，已跳过"),
-    /**
-     * 去重状态：2 任务正在运行，已跳过
-     */
-    JOB_DEDUP_STATUS_RUNNING_SKIP("2", "任务正在运行，已跳过"),
+	/**
+	 * 去重状态：0 正常执行
+	 */
+	JOB_DEDUP_STATUS_NORMAL("0", "正常执行"),
+	/**
+	 * 去重状态：1 同一触发点重复，已跳过
+	 */
+	JOB_DEDUP_STATUS_DUPLICATE_FIRE("1", "同一触发点重复，已跳过"),
+	/**
+	 * 去重状态：2 任务正在运行，已跳过
+	 */
+	JOB_DEDUP_STATUS_RUNNING_SKIP("2", "任务正在运行，已跳过"),
 
 	/**
 	 * JOB状态：1已发布

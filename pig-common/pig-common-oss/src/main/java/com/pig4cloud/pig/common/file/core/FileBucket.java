@@ -16,12 +16,12 @@ import java.time.Instant;
 @AllArgsConstructor
 public class FileBucket {
 
-    private String name;
+	private String name;
 
-    private Instant creationDate;
+	private Instant creationDate;
 
-    public FileBucket(String name) {
-        this.name = name;
-    }
+	public FileBucket(String name) {
+		this.name = name;
+	}
 
 }

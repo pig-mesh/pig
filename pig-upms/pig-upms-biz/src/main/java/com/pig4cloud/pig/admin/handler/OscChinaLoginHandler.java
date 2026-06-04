@@ -49,85 +49,82 @@ import java.util.Map;
 @AllArgsConstructor
 public class OscChinaLoginHandler extends AbstractLoginHandler {
 
-    private final SysSocialDetailsMapper sysSocialDetailsMapper;
+	private final SysSocialDetailsMapper sysSocialDetailsMapper;
 
-    private final SysUserService sysUserService;
+	private final SysUserService sysUserService;
 
-    /**
-     * 开源中国传入code
-     * <p>
-     * 通过code 调用qq 获取唯一标识
-     *
-     * @param code
-     * @return
-     */
-    @Override
-    public String identify(String code) {
-        SysSocialDetails condition = new SysSocialDetails();
-        condition.setType(LoginTypeEnum.OSC.getType());
-        SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
+	/**
+	 * 开源中国传入code
+	 * <p>
+	 * 通过code 调用qq 获取唯一标识
+	 * @param code
+	 * @return
+	 */
+	@Override
+	public String identify(String code) {
+		SysSocialDetails condition = new SysSocialDetails();
+		condition.setType(LoginTypeEnum.OSC.getType());
+		SysSocialDetails socialDetails = sysSocialDetailsMapper.selectOne(new QueryWrapper<>(condition));
 
-        Map<String, Object> params = new HashMap<>(8);
+		Map<String, Object> params = new HashMap<>(8);
 
-        params.put("client_id", socialDetails.getAppId());
-        params.put("client_secret", socialDetails.getAppSecret());
-        params.put("grant_type", "authorization_code");
-        params.put("redirect_uri", socialDetails.getRedirectUrl());
-        params.put("code", code);
-        params.put("dataType", "json");
+		params.put("client_id", socialDetails.getAppId());
+		params.put("client_secret", socialDetails.getAppSecret());
+		params.put("grant_type", "authorization_code");
+		params.put("redirect_uri", socialDetails.getRedirectUrl());
+		params.put("code", code);
+		params.put("dataType", "json");
 
-        String result = HttpUtil.post(SecurityConstants.OSC_AUTHORIZATION_CODE_URL, params);
-        log.debug("开源中国响应报文:{}", result);
+		String result = HttpUtil.post(SecurityConstants.OSC_AUTHORIZATION_CODE_URL, params);
+		log.debug("开源中国响应报文:{}", result);
 
-        String accessToken = JSONUtil.parseObj(result).getStr("access_token");
+		String accessToken = JSONUtil.parseObj(result).getStr("access_token");
 
-        String url = String.format(SecurityConstants.OSC_USER_INFO_URL, accessToken);
-        String resp = HttpUtil.get(url);
-        log.debug("开源中国获取个人信息返回报文{}", resp);
+		String url = String.format(SecurityConstants.OSC_USER_INFO_URL, accessToken);
+		String resp = HttpUtil.get(url);
+		log.debug("开源中国获取个人信息返回报文{}", resp);
 
-        JSONObject userInfo = JSONUtil.parseObj(resp);
-        // 开源中国唯一标识
-        return userInfo.getStr("id");
-    }
+		JSONObject userInfo = JSONUtil.parseObj(resp);
+		// 开源中国唯一标识
+		return userInfo.getStr("id");
+	}
 
-    /**
-     * 根据开源中国标识获取用户信息
-     *
-     * @param identify 开源中国用户标识
-     * @return 用户信息对象，未找到时返回null
-     */
-    @Override
-    public UserInfo info(String identify) {
-        if (StrUtil.isBlank(identify)) {
-            log.warn("开源中国标识为空，无法获取用户信息");
-            return null;
-        }
+	/**
+	 * 根据开源中国标识获取用户信息
+	 * @param identify 开源中国用户标识
+	 * @return 用户信息对象，未找到时返回null
+	 */
+	@Override
+	public UserInfo info(String identify) {
+		if (StrUtil.isBlank(identify)) {
+			log.warn("开源中国标识为空，无法获取用户信息");
+			return null;
+		}
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setOscId(identify);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setOscId(identify);
 
-        R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
+		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-        if (userInfoR.getData() == null) {
-            log.info("开源中国 不存在用户:{}", identify);
-            return null;
-        }
+		if (userInfoR.getData() == null) {
+			log.info("开源中国 不存在用户:{}", identify);
+			return null;
+		}
 
-        return userInfoR.getData();
-    }
+		return userInfoR.getData();
+	}
 
-    /**
-     * 绑定逻辑
-     *
-     * @param user     用户实体
-     * @param identify 渠道返回唯一标识
-     * @return
-     */
-    @Override
-    public Boolean bind(SysUser user, String identify) {
-        user.setOscId(identify);
-        sysUserService.updateById(user);
-        return true;
-    }
+	/**
+	 * 绑定逻辑
+	 * @param user 用户实体
+	 * @param identify 渠道返回唯一标识
+	 * @return
+	 */
+	@Override
+	public Boolean bind(SysUser user, String identify) {
+		user.setOscId(identify);
+		sysUserService.updateById(user);
+		return true;
+	}
 
 }

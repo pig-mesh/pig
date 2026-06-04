@@ -9,14 +9,14 @@ import org.springframework.boot.context.properties.bind.Binder;
  */
 public class OssFileTypeCondition extends AbstractFileTypeCondition {
 
-    @Override
-    protected boolean matchesType(String type) {
-        return FileType.OSS.name().equalsIgnoreCase(type);
-    }
+	@Override
+	protected boolean matchesType(String type) {
+		return FileType.OSS.name().equalsIgnoreCase(type);
+	}
 
-    @Override
-    protected boolean matchesLegacySwitch(Binder binder) {
-        return isTrue(binder, "file.oss.enable");
-    }
+	@Override
+	protected boolean matchesLegacySwitch(Binder binder) {
+		return isTrue(binder, "file.oss.enable");
+	}
 
 }

@@ -16,44 +16,44 @@ import java.util.List;
 @FieldNameConstants
 public class MessageHookDTO {
 
-    /**
-     * 业务代码
-     */
-    private String bizCode;
+	/**
+	 * 业务代码
+	 */
+	private String bizCode;
 
-    /**
-     * 通知列表
-     */
-    private List<String> phoneList = new ArrayList<>();
+	/**
+	 * 通知列表
+	 */
+	private List<String> phoneList = new ArrayList<>();
 
-    /**
-     * 通知全部
-     */
-    private boolean noticeAll;
+	/**
+	 * 通知全部
+	 */
+	private boolean noticeAll;
 
-    /**
-     * 消息类型
-     */
-    private String messageType;
+	/**
+	 * 消息类型
+	 */
+	private String messageType;
 
-    /**
-     * 留言内容
-     */
-    private String messageContent;
+	/**
+	 * 留言内容
+	 */
+	private String messageContent;
 
-    /**
-     * 消息标题
-     */
-    private String messageTitle;
+	/**
+	 * 消息标题
+	 */
+	private String messageTitle;
 
-    /**
-     * 消息 URL
-     */
-    private String messageUrl;
+	/**
+	 * 消息 URL
+	 */
+	private String messageUrl;
 
-    /**
-     * 图片链接
-     */
-    private String picUrl;
+	/**
+	 * 图片链接
+	 */
+	private String picUrl;
 
 }

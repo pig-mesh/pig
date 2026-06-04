@@ -74,192 +74,186 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class PigTokenEndpoint {
 
-    private static final String DEFAULT_FORM_CLIENT_ID = "pig";
+	private static final String DEFAULT_FORM_CLIENT_ID = "pig";
 
-    private final OAuth2AuthorizationService authorizationService;
+	private final OAuth2AuthorizationService authorizationService;
 
-    private final RemoteClientDetailsService clientDetailsService;
+	private final RemoteClientDetailsService clientDetailsService;
 
-    private final CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
-    private final AuthCaptchaSupport authCaptchaSupport;
+	private final AuthCaptchaSupport authCaptchaSupport;
 
-    /**
-     * 认证页面
-     *
-     * @param modelAndView
-     * @param error        表单登录失败处理回调的错误信息
-     * @return ModelAndView
-     */
-    @GetMapping("/token/login")
-    public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error,
-                                HttpServletRequest request, HttpServletResponse response) {
-        modelAndView.setViewName("ftl/login");
-        // Note: XSS prevention is handled by FreeMarker template using ?html directive
-        modelAndView.addObject("error", error);
+	/**
+	 * 认证页面
+	 * @param modelAndView
+	 * @param error 表单登录失败处理回调的错误信息
+	 * @return ModelAndView
+	 */
+	@GetMapping("/token/login")
+	public ModelAndView require(ModelAndView modelAndView, @RequestParam(required = false) String error,
+			HttpServletRequest request, HttpServletResponse response) {
+		modelAndView.setViewName("ftl/login");
+		// Note: XSS prevention is handled by FreeMarker template using ?html directive
+		modelAndView.addObject("error", error);
 
-        String authClientId = StrUtil.blankToDefault(
-                authCaptchaSupport.resolveAuthorizationClientId(request, response, true), DEFAULT_FORM_CLIENT_ID);
+		String authClientId = StrUtil.blankToDefault(
+				authCaptchaSupport.resolveAuthorizationClientId(request, response, true), DEFAULT_FORM_CLIENT_ID);
 
-        modelAndView.addObject("authClientId", authClientId);
-        modelAndView.addObject("showCaptcha", authCaptchaSupport.isCaptchaEnabled(authClientId));
-        return modelAndView;
-    }
+		modelAndView.addObject("authClientId", authClientId);
+		modelAndView.addObject("showCaptcha", authCaptchaSupport.isCaptchaEnabled(authClientId));
+		return modelAndView;
+	}
 
-    /**
-     * 授权码模式：确认页面
-     *
-     * @return {@link ModelAndView }
-     */
-    @GetMapping("/oauth2/confirm_access")
-    public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
-                                @RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
-                                @RequestParam(OAuth2ParameterNames.SCOPE) String scope,
-                                @RequestParam(OAuth2ParameterNames.STATE) String state) {
-        SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-                .getData()
-                .orElseThrow(() -> new OAuthClientException(OAuth2ErrorCodes.INVALID_CLIENT,
-                        MsgUtils.getMessage(AuthErrorCodes.AUTH_CLIENT_INVALID)));
+	/**
+	 * 授权码模式：确认页面
+	 * @return {@link ModelAndView }
+	 */
+	@GetMapping("/oauth2/confirm_access")
+	public ModelAndView confirm(Principal principal, ModelAndView modelAndView,
+			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
+			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
+			@RequestParam(OAuth2ParameterNames.STATE) String state) {
+		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
+			.getData()
+			.orElseThrow(() -> new OAuthClientException(OAuth2ErrorCodes.INVALID_CLIENT,
+					MsgUtils.getMessage(AuthErrorCodes.AUTH_CLIENT_INVALID)));
 
-        Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
-        // Note: XSS prevention is handled by FreeMarker template using ?html directive
-        modelAndView.addObject("clientId", clientId);
-        modelAndView.addObject("state", state);
-        modelAndView.addObject("scopeList", authorizedScopes);
-        modelAndView.addObject("principalName", principal.getName());
-        modelAndView.setViewName("ftl/confirm");
-        return modelAndView;
-    }
+		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
+		// Note: XSS prevention is handled by FreeMarker template using ?html directive
+		modelAndView.addObject("clientId", clientId);
+		modelAndView.addObject("state", state);
+		modelAndView.addObject("scopeList", authorizedScopes);
+		modelAndView.addObject("principalName", principal.getName());
+		modelAndView.setViewName("ftl/confirm");
+		return modelAndView;
+	}
 
-    /**
-     * 注销并删除令牌
-     *
-     * @param authHeader auth 标头
-     * @return {@link R }<{@link Boolean }>
-     */
-    @DeleteMapping("/token/logout")
-    public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
-        if (StrUtil.isBlank(authHeader)) {
-            return R.ok();
-        }
+	/**
+	 * 注销并删除令牌
+	 * @param authHeader auth 标头
+	 * @return {@link R }<{@link Boolean }>
+	 */
+	@DeleteMapping("/token/logout")
+	public R<Boolean> logout(@RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authHeader) {
+		if (StrUtil.isBlank(authHeader)) {
+			return R.ok();
+		}
 
-        String tokenValue = authHeader.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
-        return removeToken(tokenValue);
-    }
+		String tokenValue = authHeader.replace(OAuth2AccessToken.TokenType.BEARER.getValue(), StrUtil.EMPTY).trim();
+		return removeToken(tokenValue);
+	}
 
-    /**
-     * 校验token
-     *
-     * @param token 令牌
-     * @return
-     */
-    @SneakyThrows
-    @GetMapping("/token/check_token")
-    public R<OAuth2AccessToken> checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
-        ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
+	/**
+	 * 校验token
+	 * @param token 令牌
+	 * @return
+	 */
+	@SneakyThrows
+	@GetMapping("/token/check_token")
+	public R<OAuth2AccessToken> checkToken(String token, HttpServletResponse response, HttpServletRequest request) {
+		ServletServerHttpResponse httpResponse = new ServletServerHttpResponse(response);
 
-        if (StrUtil.isBlank(token)) {
-            httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-            return R.failed(OAuth2ErrorCodesExpand.TOKEN_MISSING);
-        }
-        OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+		if (StrUtil.isBlank(token)) {
+			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+			return R.failed(OAuth2ErrorCodesExpand.TOKEN_MISSING);
+		}
+		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
 
-        // 如果令牌不存在 返回401
-        if (authorization == null || authorization.getAccessToken() == null) {
-            httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
-            return R.failed(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN);
-        }
+		// 如果令牌不存在 返回401
+		if (authorization == null || authorization.getAccessToken() == null) {
+			httpResponse.setStatusCode(HttpStatus.UNAUTHORIZED);
+			return R.failed(OAuth2ErrorCodesExpand.INVALID_BEARER_TOKEN);
+		}
 
-        // 获取令牌
-        return R.ok(Objects.requireNonNull(authorization).getAccessToken().getToken());
-    }
+		// 获取令牌
+		return R.ok(Objects.requireNonNull(authorization).getAccessToken().getToken());
+	}
 
-    /**
-     * 移除指定令牌
-     *
-     * @param token 需要移除的令牌
-     * @return 操作结果，成功返回true
-     */
-    @Inner
-    @DeleteMapping("/token/remove/{token}")
-    public R<Boolean> removeToken(@PathVariable("token") String token) {
-        OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-        if (authorization == null) {
-            return R.ok();
-        }
+	/**
+	 * 移除指定令牌
+	 * @param token 需要移除的令牌
+	 * @return 操作结果，成功返回true
+	 */
+	@Inner
+	@DeleteMapping("/token/remove/{token}")
+	public R<Boolean> removeToken(@PathVariable("token") String token) {
+		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+		if (authorization == null) {
+			return R.ok();
+		}
 
-        OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
-        if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
-            return R.ok();
-        }
-        // 清空用户信息
-        cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
-        // 清空access token
-        authorizationService.remove(authorization);
-        // 处理自定义退出事件，保存相关日志
-        SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
-                authorization.getPrincipalName(), authorization.getRegisteredClientId())));
-        return R.ok();
-    }
+		OAuth2Authorization.Token<OAuth2AccessToken> accessToken = authorization.getAccessToken();
+		if (accessToken == null || StrUtil.isBlank(accessToken.getToken().getTokenValue())) {
+			return R.ok();
+		}
+		// 清空用户信息
+		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(authorization.getPrincipalName());
+		// 清空access token
+		authorizationService.remove(authorization);
+		// 处理自定义退出事件，保存相关日志
+		SpringContextHolder.publishEvent(new LogoutSuccessEvent(new PreAuthenticatedAuthenticationToken(
+				authorization.getPrincipalName(), authorization.getRegisteredClientId())));
+		return R.ok();
+	}
 
-    /**
-     * 分页查询token列表
-     *
-     * @param params 查询参数，包含分页参数(current,size)和可选用户名过滤条件(username)
-     * @return 分页结果，包含token列表和总数
-     */
-    @Inner
-    @PostMapping("/token/page")
-    public R<Page<TokenVO>> tokenList(@RequestBody Map<String, Object> params) {
-        // 根据username参数获取对应数据
-        String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
-        String usernameKey = String.format("token::username::%s::*::*", username);
-        String key = "token::username::*::*";
-        int current = MapUtil.getInt(params, CommonConstants.CURRENT);
-        int size = MapUtil.getInt(params, CommonConstants.SIZE);
+	/**
+	 * 分页查询token列表
+	 * @param params 查询参数，包含分页参数(current,size)和可选用户名过滤条件(username)
+	 * @return 分页结果，包含token列表和总数
+	 */
+	@Inner
+	@PostMapping("/token/page")
+	public R<Page<TokenVO>> tokenList(@RequestBody Map<String, Object> params) {
+		// 根据username参数获取对应数据
+		String username = MapUtil.getStr(params, SecurityConstants.DETAILS_USERNAME);
+		String usernameKey = String.format("token::username::%s::*::*", username);
+		String key = "token::username::*::*";
+		int current = MapUtil.getInt(params, CommonConstants.CURRENT);
+		int size = MapUtil.getInt(params, CommonConstants.SIZE);
 
-        // 根据是否有username参数选择不同的查询key
-        String searchKey = StrUtil.isNotBlank(username) ? usernameKey : key;
-        Set<String> keys = RedisUtils.keys(searchKey);
+		// 根据是否有username参数选择不同的查询key
+		String searchKey = StrUtil.isNotBlank(username) ? usernameKey : key;
+		Set<String> keys = RedisUtils.keys(searchKey);
 
-        // 分页处理
-        List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
-        Page<TokenVO> result = new Page(current, size);
+		// 分页处理
+		List<String> pages = keys.stream().skip((current - 1) * size).limit(size).toList();
+		Page<TokenVO> result = new Page(current, size);
 
-        List<TokenVO> tokenVoList = pages.stream().map(keyName -> {
-            // 从key名称解析信息: token::username::{username}::{clientId}::{tokenId}
-            String[] keyParts = keyName.split("::");
-            if (keyParts.length < 5) {
-                return null;
-            }
+		List<TokenVO> tokenVoList = pages.stream().map(keyName -> {
+			// 从key名称解析信息: token::username::{username}::{clientId}::{tokenId}
+			String[] keyParts = keyName.split("::");
+			if (keyParts.length < 5) {
+				return null;
+			}
 
-            TokenVO tokenVo = new TokenVO();
-            // 从key解析username
-            String keyUsername = keyParts[2];
-            tokenVo.setUsername(keyUsername);
-            tokenVo.setClientId(keyParts[3]);
-            tokenVo.setId(keyParts[4]);
-            tokenVo.setAccessToken(keyParts[4]);
-            // 获取TTL作为过期时间
-            Long ttl = RedisUtils.getExpire(keyName);
-            // TTL是秒数，转换为过期时间
-            long expiresAtMillis = System.currentTimeMillis() + (ttl * 1000);
-            String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis),
-                    DatePattern.NORM_DATETIME_PATTERN);
-            tokenVo.setExpiresAt(expiresAt);
-            return tokenVo;
-        }).filter(Objects::nonNull).toList();
+			TokenVO tokenVo = new TokenVO();
+			// 从key解析username
+			String keyUsername = keyParts[2];
+			tokenVo.setUsername(keyUsername);
+			tokenVo.setClientId(keyParts[3]);
+			tokenVo.setId(keyParts[4]);
+			tokenVo.setAccessToken(keyParts[4]);
+			// 获取TTL作为过期时间
+			Long ttl = RedisUtils.getExpire(keyName);
+			// TTL是秒数，转换为过期时间
+			long expiresAtMillis = System.currentTimeMillis() + (ttl * 1000);
+			String expiresAt = TemporalAccessorUtil.format(java.time.Instant.ofEpochMilli(expiresAtMillis),
+					DatePattern.NORM_DATETIME_PATTERN);
+			tokenVo.setExpiresAt(expiresAt);
+			return tokenVo;
+		}).filter(Objects::nonNull).toList();
 
-        result.setRecords(tokenVoList);
-        result.setTotal(keys.size());
-        return R.ok(result);
-    }
+		result.setRecords(tokenVoList);
+		result.setTotal(keys.size());
+		return R.ok(result);
+	}
 
-    @Inner
-    @GetMapping("/token/query-token")
-    public R queryToken(String token) {
-        OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
-        return R.ok(authorization);
-    }
+	@Inner
+	@GetMapping("/token/query-token")
+	public R queryToken(String token) {
+		OAuth2Authorization authorization = authorizationService.findByToken(token, OAuth2TokenType.ACCESS_TOKEN);
+		return R.ok(authorization);
+	}
 
 }

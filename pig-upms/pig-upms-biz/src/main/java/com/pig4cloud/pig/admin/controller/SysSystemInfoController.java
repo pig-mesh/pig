@@ -25,26 +25,24 @@ public class SysSystemInfoController {
 
 	private final SysSiteConfigService sysSiteConfigService;
 
-    /**
-     * 缓存监控
-     *
-     * @return R<Object>
-     */
-    @HasPermission("sys_cache_view")
-    @GetMapping("/cache")
-    public R<Map<String, Object>> cache() {
-        return sysSystemInfoService.getCacheInfo();
-    }
+	/**
+	 * 缓存监控
+	 * @return R<Object>
+	 */
+	@HasPermission("sys_cache_view")
+	@GetMapping("/cache")
+	public R<Map<String, Object>> cache() {
+		return sysSystemInfoService.getCacheInfo();
+	}
 
-    /**
-     * Clarity 站点监控数据
-     *
-     * @return R<?>
-     */
-    @HasPermission("sys_clarity_view")
-    @GetMapping("/clarity")
-    public R<?> clarity(@RequestParam(defaultValue = "1") Integer numOfDays) {
-        return sysSystemInfoService.getClarityData(numOfDays);
+	/**
+	 * Clarity 站点监控数据
+	 * @return R<?>
+	 */
+	@HasPermission("sys_clarity_view")
+	@GetMapping("/clarity")
+	public R<?> clarity(@RequestParam(defaultValue = "1") Integer numOfDays) {
+		return sysSystemInfoService.getClarityData(numOfDays);
 	}
 
 	/**
@@ -57,18 +55,18 @@ public class SysSystemInfoController {
 	}
 
 	/**
-     * 获取网站配置（管理端用）
-     */
-    @HasPermission("sys_site_config_view")
+	 * 获取网站配置（管理端用）
+	 */
+	@HasPermission("sys_site_config_view")
 	@GetMapping("/site-config")
 	public R<SiteConfigDTO> getSiteConfig() {
 		return R.ok(sysSiteConfigService.getSiteConfig());
-    }
+	}
 
-    /**
-     * 更新网站配置
-     */
-    @HasPermission("sys_site_config_edit")
+	/**
+	 * 更新网站配置
+	 */
+	@HasPermission("sys_site_config_edit")
 	@PutMapping("/site-config")
 	public R<Void> updateSiteConfig(@RequestBody SiteConfigDTO dto) {
 		sysSiteConfigService.updateSiteConfig(dto);
@@ -76,9 +74,9 @@ public class SysSystemInfoController {
 	}
 
 	/**
-     * 刷新网站配置缓存（清空 Redis）
-     */
-    @HasPermission("sys_site_config_edit")
+	 * 刷新网站配置缓存（清空 Redis）
+	 */
+	@HasPermission("sys_site_config_edit")
 	@DeleteMapping("/site-config/refresh")
 	public R<Void> refreshSiteConfig() {
 		sysSiteConfigService.refreshCache();

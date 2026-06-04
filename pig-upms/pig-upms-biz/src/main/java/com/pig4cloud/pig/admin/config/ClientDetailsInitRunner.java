@@ -34,11 +34,11 @@ public class ClientDetailsInitRunner implements InitializingBean {
 	private final RedisMessageListenerContainer listenerContainer;
 
 	/**
-     * ApplicationReadyEvent 使用 TransactionalEventListener 时启动时无法获取到事件
+	 * ApplicationReadyEvent 使用 TransactionalEventListener 时启动时无法获取到事件
 	 */
 	@Async
 	@Order
-    @EventListener({ApplicationReadyEvent.class})
+	@EventListener({ ApplicationReadyEvent.class })
 	public void webServerInit() {
 		this.initClientDetails();
 	}
@@ -49,12 +49,13 @@ public class ClientDetailsInitRunner implements InitializingBean {
 	public void initClientDetails() {
 		log.debug("初始化客户端信息开始 ");
 
-		clientDetailsService.list().stream()
-				.filter(client -> StrUtil.isNotBlank(client.getAdditionalInformation()))
-				.forEach(client -> {
-					String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, client.getClientId());
-					RedisUtils.set(key, client.getAdditionalInformation());
-				});
+		clientDetailsService.list()
+			.stream()
+			.filter(client -> StrUtil.isNotBlank(client.getAdditionalInformation()))
+			.forEach(client -> {
+				String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, client.getClientId());
+				RedisUtils.set(key, client.getAdditionalInformation());
+			});
 
 		log.debug("初始化客户端信息结束 ");
 	}

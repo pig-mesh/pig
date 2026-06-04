@@ -35,7 +35,7 @@ public class LocalFileProperties {
 	/**
 	 * 是否开启
 	 */
-    @Deprecated
+	@Deprecated
 	private boolean enable;
 
 	/**
@@ -43,10 +43,10 @@ public class LocalFileProperties {
 	 */
 	private String basePath;
 
-    @Deprecated
-    @DeprecatedConfigurationProperty(reason = "使用 file.type=local 替代 file.local.enable", replacement = "file.type")
-    public boolean isEnable() {
-        return enable;
-    }
+	@Deprecated
+	@DeprecatedConfigurationProperty(reason = "使用 file.type=local 替代 file.local.enable", replacement = "file.type")
+	public boolean isEnable() {
+		return enable;
+	}
 
 }

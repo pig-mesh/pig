@@ -29,28 +29,26 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class NonWebTokenContextHolder {
 
-    private final ThreadLocal<String> THREAD_LOCAL_VERSION = new TransmittableThreadLocal<>();
+	private final ThreadLocal<String> THREAD_LOCAL_VERSION = new TransmittableThreadLocal<>();
 
-    /**
-     * TTL 设置token<br/>
-     *
-     * @param token token
-     */
-    public void setToken(String token) {
-        THREAD_LOCAL_VERSION.set(token);
-    }
+	/**
+	 * TTL 设置token<br/>
+	 * @param token token
+	 */
+	public void setToken(String token) {
+		THREAD_LOCAL_VERSION.set(token);
+	}
 
-    /**
-     * 获取TTL中的token
-     *
-     * @return
-     */
-    public String getToken() {
-        return THREAD_LOCAL_VERSION.get();
-    }
+	/**
+	 * 获取TTL中的token
+	 * @return
+	 */
+	public String getToken() {
+		return THREAD_LOCAL_VERSION.get();
+	}
 
-    public void clear() {
-        THREAD_LOCAL_VERSION.remove();
-    }
+	public void clear() {
+		THREAD_LOCAL_VERSION.remove();
+	}
 
 }

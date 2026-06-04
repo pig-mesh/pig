@@ -57,12 +57,11 @@ public interface GenDatasourceConfService extends IService<GenDatasourceConf> {
 	 */
 	Boolean checkDataSource(GenDatasourceConf datasourceConf);
 
-    /**
-     * 查询数据库解析插件加载状态
-     *
-     * @return 数据源类型与解析插件状态
-     */
-    Map<String, Boolean> listParserPlugins();
+	/**
+	 * 查询数据库解析插件加载状态
+	 * @return 数据源类型与解析插件状态
+	 */
+	Map<String, Boolean> listParserPlugins();
 
 	/**
 	 * 通过数据源名称删除

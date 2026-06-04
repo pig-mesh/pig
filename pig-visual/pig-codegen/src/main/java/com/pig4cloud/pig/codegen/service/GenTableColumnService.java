@@ -32,7 +32,7 @@ public interface GenTableColumnService extends IService<GenTableColumnEntity> {
 
 	void initFieldList(List<GenTableColumnEntity> tableFieldList);
 
-    void syncFieldList(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
+	void syncFieldList(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 
 	void updateTableField(String dsName, String tableName, List<GenTableColumnEntity> tableFieldList);
 

@@ -15,22 +15,22 @@ import java.io.InputStream;
 @RequiredArgsConstructor
 public class FileObject implements AutoCloseable {
 
-    private final String bucketName;
+	private final String bucketName;
 
-    private final String objectName;
+	private final String objectName;
 
-    private final String contentType;
+	private final String contentType;
 
-    private final Long contentLength;
+	private final Long contentLength;
 
-    private final InputStream objectContent;
+	private final InputStream objectContent;
 
-    @Override
-    @SneakyThrows
-    public void close() {
-        if (objectContent != null) {
-            objectContent.close();
-        }
-    }
+	@Override
+	@SneakyThrows
+	public void close() {
+		if (objectContent != null) {
+			objectContent.close();
+		}
+	}
 
 }

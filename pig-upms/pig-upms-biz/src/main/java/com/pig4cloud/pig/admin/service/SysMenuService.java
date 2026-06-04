@@ -59,13 +59,12 @@ public interface SysMenuService extends IService<SysMenu> {
 	 */
 	Boolean updateMenuById(SysMenu sysMenu);
 
-    /**
-     * 更新同级菜单排序
-     *
-     * @param sortDTO 菜单排序信息
-     * @return 成功、失败
-     */
-    R updateMenuSort(SysMenuSortDTO sortDTO);
+	/**
+	 * 更新同级菜单排序
+	 * @param sortDTO 菜单排序信息
+	 * @return 成功、失败
+	 */
+	R updateMenuSort(SysMenuSortDTO sortDTO);
 
 	/**
 	 * 构建树

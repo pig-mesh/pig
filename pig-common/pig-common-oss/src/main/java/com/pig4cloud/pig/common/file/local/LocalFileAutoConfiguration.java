@@ -38,7 +38,7 @@ public class LocalFileAutoConfiguration {
 
 	@Bean
 	@ConditionalOnMissingBean(LocalFileTemplate.class)
-    @Conditional(LocalFileTypeCondition.class)
+	@Conditional(LocalFileTypeCondition.class)
 	public FileTemplate localFileTemplate() {
 		return new LocalFileTemplate(properties);
 	}

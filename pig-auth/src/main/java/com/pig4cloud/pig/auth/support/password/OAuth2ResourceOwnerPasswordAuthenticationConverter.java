@@ -47,16 +47,16 @@ public class OAuth2ResourceOwnerPasswordAuthenticationConverter
 	public void checkParams(HttpServletRequest request) {
 		MultiValueMap<String, String> parameters = OAuth2EndpointUtils.getParameters(request);
 		// username (REQUIRED)
-        String username = parameters.getFirst(SecurityConstants.DETAILS_USERNAME);
-        if (!StringUtils.hasText(username) || parameters.get(SecurityConstants.DETAILS_USERNAME).size() != 1) {
-            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.DETAILS_USERNAME,
+		String username = parameters.getFirst(SecurityConstants.DETAILS_USERNAME);
+		if (!StringUtils.hasText(username) || parameters.get(SecurityConstants.DETAILS_USERNAME).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.DETAILS_USERNAME,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 
 		// password (REQUIRED)
-        String password = parameters.getFirst(SecurityConstants.PASSWORD);
-        if (!StringUtils.hasText(password) || parameters.get(SecurityConstants.PASSWORD).size() != 1) {
-            OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.PASSWORD,
+		String password = parameters.getFirst(SecurityConstants.PASSWORD);
+		if (!StringUtils.hasText(password) || parameters.get(SecurityConstants.PASSWORD).size() != 1) {
+			OAuth2EndpointUtils.throwError(OAuth2ErrorCodes.INVALID_REQUEST, SecurityConstants.PASSWORD,
 					OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
 		}
 	}

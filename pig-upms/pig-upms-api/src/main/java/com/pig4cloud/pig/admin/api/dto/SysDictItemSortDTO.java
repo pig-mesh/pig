@@ -33,18 +33,18 @@ import java.util.List;
 @Schema(description = "字典项排序")
 public class SysDictItemSortDTO {
 
-    /**
-     * 字典ID
-     */
-    @NotNull(message = "字典ID不能为空")
-    @Schema(description = "字典ID")
-    private Long dictId;
+	/**
+	 * 字典ID
+	 */
+	@NotNull(message = "字典ID不能为空")
+	@Schema(description = "字典ID")
+	private Long dictId;
 
-    /**
-     * 当前页字典项ID列表，按目标顺序排列
-     */
-    @NotEmpty(message = "字典项ID列表不能为空")
-    @Schema(description = "字典项ID列表")
-    private List<Long> itemIds;
+	/**
+	 * 当前页字典项ID列表，按目标顺序排列
+	 */
+	@NotEmpty(message = "字典项ID列表不能为空")
+	@Schema(description = "字典项ID列表")
+	private List<Long> itemIds;
 
 }

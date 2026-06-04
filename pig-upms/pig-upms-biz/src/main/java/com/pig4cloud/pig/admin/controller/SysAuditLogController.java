@@ -112,7 +112,7 @@ public class SysAuditLogController {
 	@HasPermission("sys_audit_export")
 	public List<SysAuditLog> export(SysAuditLog sysAuditLog, Long[] ids) {
 		return sysAuditLogService.list(Wrappers.lambdaQuery(sysAuditLog)
-				.in(ArrayUtil.isNotEmpty(ids), SysAuditLog::getId, CollUtil.toList(ids)));
+			.in(ArrayUtil.isNotEmpty(ids), SysAuditLog::getId, CollUtil.toList(ids)));
 	}
 
 }

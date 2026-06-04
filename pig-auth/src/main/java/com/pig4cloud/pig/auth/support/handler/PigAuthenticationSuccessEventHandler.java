@@ -115,10 +115,10 @@ public class PigAuthenticationSuccessEventHandler implements AuthenticationSucce
 			logVo.setTime(endTime - startTime);
 		}
 
-			logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
-			logVo.setCreateBy(MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
+		logVo.setServiceId(accessTokenAuthentication.getRegisteredClient().getClientId());
+		logVo.setCreateBy(MapUtil.getStr(map, SecurityConstants.DETAILS_USERNAME));
 
-			publisher.publishEvent(new SysLogEvent(logVo));
+		publisher.publishEvent(new SysLogEvent(logVo));
 	}
 
 	/**

@@ -47,7 +47,7 @@ public class SysLogListener implements InitializingBean {
 	/**
 	 * 忽略序列化的对象类型
 	 */
-	private final static Class[] ignoreClass = {ServletRequest.class, BindingResult.class};
+	private final static Class[] ignoreClass = { ServletRequest.class, BindingResult.class };
 
 	/**
 	 * new 一个 避免日志脱敏策略影响全局ObjectMapper
@@ -75,7 +75,8 @@ public class SysLogListener implements InitializingBean {
 				// 序列化参数
 				String params = JacksonSensitiveFieldUtil.getObjectMapper().writeValueAsString(list);
 				source.setParams(StrUtil.subPre(params, logProperties.getMaxLength()));
-			} catch (Exception e) {
+			}
+			catch (Exception e) {
 				log.error("请求参数序列化异常:{}", e.getMessage());
 			}
 		}
@@ -90,4 +91,5 @@ public class SysLogListener implements InitializingBean {
 		JacksonSensitiveFieldUtil.configureSensitiveFields(ignorableFieldNames);
 		JacksonSensitiveFieldUtil.registerCustomModule(new PigJavaTimeModule());
 	}
+
 }

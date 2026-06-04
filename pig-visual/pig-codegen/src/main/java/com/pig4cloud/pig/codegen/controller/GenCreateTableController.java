@@ -84,13 +84,13 @@ public class GenCreateTableController {
 	@PostMapping
 	@HasPermission("codegen_table_add")
 	public R save(@RequestBody GenCreateTableVO createTableVO) {
-        AnylineDataSourceHelper.run(createTableVO.getDsName(), () -> createTableService.createTable(createTableVO));
+		AnylineDataSourceHelper.run(createTableVO.getDsName(), () -> createTableService.createTable(createTableVO));
 		GenCreateTable createTable = new GenCreateTable();
-        createTable.setId(createTableVO.getId());
-        createTable.setDsName(createTableVO.getDsName());
-        createTable.setTableName(createTableVO.getTableName());
-        createTable.setComments(createTableVO.getComments());
-        createTable.setColumnInfo(JSONUtil.toJsonStr(createTableVO.getColumnInfo()));
+		createTable.setId(createTableVO.getId());
+		createTable.setDsName(createTableVO.getDsName());
+		createTable.setTableName(createTableVO.getTableName());
+		createTable.setComments(createTableVO.getComments());
+		createTable.setColumnInfo(JSONUtil.toJsonStr(createTableVO.getColumnInfo()));
 		return R.ok(createTableService.saveOrUpdate(createTable));
 	}
 

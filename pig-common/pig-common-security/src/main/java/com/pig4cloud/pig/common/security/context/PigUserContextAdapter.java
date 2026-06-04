@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * 将 {@link PigUser} 适配为通用 {@link UserContext}，
- * 从 authorities 中按 {@link SecurityConstants#ROLE} 前缀解析 roleIds。
+ * 将 {@link PigUser} 适配为通用 {@link UserContext}， 从 authorities 中按
+ * {@link SecurityConstants#ROLE} 前缀解析 roleIds。
  *
  * @author lengleng
  */
@@ -53,11 +53,12 @@ public class PigUserContextAdapter implements UserContext {
 	@Override
 	public List<Long> getRoleIds() {
 		return delegate.getAuthorities()
-				.stream()
-				.map(GrantedAuthority::getAuthority)
-				.filter(authority -> StrUtil.startWith(authority, SecurityConstants.ROLE))
-				.map(authority -> Long.parseLong(Objects.requireNonNull(StrUtil.removePrefix(authority, SecurityConstants.ROLE))))
-				.toList();
+			.stream()
+			.map(GrantedAuthority::getAuthority)
+			.filter(authority -> StrUtil.startWith(authority, SecurityConstants.ROLE))
+			.map(authority -> Long
+				.parseLong(Objects.requireNonNull(StrUtil.removePrefix(authority, SecurityConstants.ROLE))))
+			.toList();
 	}
 
 }

@@ -49,66 +49,61 @@ import java.util.Properties;
 @EnableConfigurationProperties(PigMybatisProperties.class)
 public class MybatisPlusConfiguration implements WebMvcConfigurer {
 
-    /**
-     * 增加请求参数解析器，对请求中的参数注入SQL 检查
-     *
-     * @param resolverList
-     */
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
-        resolverList.add(new SqlFilterArgumentResolver());
-    }
+	/**
+	 * 增加请求参数解析器，对请求中的参数注入SQL 检查
+	 * @param resolverList
+	 */
+	@Override
+	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolverList) {
+		resolverList.add(new SqlFilterArgumentResolver());
+	}
 
-    /**
-     * mybatis plus 拦截器配置
-     *
-     * @return MybatisPlusInterceptor
-     */
-    @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
-        // 分页支持
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
-        paginationInnerInterceptor.setMaxLimit(1000L);
-        interceptor.addInnerInterceptor(paginationInnerInterceptor);
+	/**
+	 * mybatis plus 拦截器配置
+	 * @return MybatisPlusInterceptor
+	 */
+	@Bean
+	public MybatisPlusInterceptor mybatisPlusInterceptor() {
+		MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+		// 分页支持
+		PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
+		paginationInnerInterceptor.setMaxLimit(1000L);
+		interceptor.addInnerInterceptor(paginationInnerInterceptor);
 
-        // 乐观锁插件
-        interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
-        return interceptor;
-    }
+		// 乐观锁插件
+		interceptor.addInnerInterceptor(new OptimisticLockerInnerInterceptor());
+		return interceptor;
+	}
 
-    /**
-     * SQL 日志格式化
-     *
-     * @return DruidSqlLogFilter
-     */
-    @Bean
-    public DruidSqlLogFilter sqlLogFilter(PigMybatisProperties properties) {
-        return new DruidSqlLogFilter(properties);
-    }
+	/**
+	 * SQL 日志格式化
+	 * @return DruidSqlLogFilter
+	 */
+	@Bean
+	public DruidSqlLogFilter sqlLogFilter(PigMybatisProperties properties) {
+		return new DruidSqlLogFilter(properties);
+	}
 
-    /**
-     * 审计字段自动填充
-     *
-     * @return {@link MetaObjectHandler}
-     */
-    @Bean
-    public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
-        return new MybatisPlusMetaObjectHandler();
-    }
+	/**
+	 * 审计字段自动填充
+	 * @return {@link MetaObjectHandler}
+	 */
+	@Bean
+	public MybatisPlusMetaObjectHandler mybatisPlusMetaObjectHandler() {
+		return new MybatisPlusMetaObjectHandler();
+	}
 
-    /**
-     * 数据库方言配置
-     *
-     * @return
-     */
-    @Bean
-    public DatabaseIdProvider databaseIdProvider() {
-        VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
-        Properties properties = new Properties();
-        properties.setProperty("SQL Server", "mssql");
-        databaseIdProvider.setProperties(properties);
-        return databaseIdProvider;
-    }
+	/**
+	 * 数据库方言配置
+	 * @return
+	 */
+	@Bean
+	public DatabaseIdProvider databaseIdProvider() {
+		VendorDatabaseIdProvider databaseIdProvider = new VendorDatabaseIdProvider();
+		Properties properties = new Properties();
+		properties.setProperty("SQL Server", "mssql");
+		databaseIdProvider.setProperties(properties);
+		return databaseIdProvider;
+	}
 
 }

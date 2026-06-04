@@ -62,9 +62,9 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 
 	private static final String KEY_ALGORITHM = "AES";
 
-    private static final int AES_KEY_LENGTH = 16;
+	private static final int AES_KEY_LENGTH = 16;
 
-    private static final int SM4_HEX_KEY_LENGTH = 32;
+	private static final int SM4_HEX_KEY_LENGTH = 32;
 
 	static {
 		// 关闭hutool 强制关闭Bouncy Castle库的依赖
@@ -99,70 +99,66 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 		RepeatBodyRequestWrapper requestWrapper = new RepeatBodyRequestWrapper(request);
 		Map<String, String[]> parameterMap = requestWrapper.getParameterMap();
 
-        String[] values = parameterMap.get(PASSWORD);
-        if (ArrayUtil.isNotEmpty(values)) {
+		String[] values = parameterMap.get(PASSWORD);
+		if (ArrayUtil.isNotEmpty(values)) {
 			// 解密密码
-            String decryptPassword = decryptPassword(values[0]);
-            parameterMap.put(PASSWORD, new String[]{decryptPassword});
-        }
+			String decryptPassword = decryptPassword(values[0]);
+			parameterMap.put(PASSWORD, new String[] { decryptPassword });
+		}
 		chain.doFilter(requestWrapper, response);
 	}
 
-    /**
-     * 根据 {@code security.encode-type} 配置选择 AES 或 SM4 解密前端传入的密文。
-     * <p>
-     * 包级可见以便单元测试直接覆盖；当配置为空时按 AES 兜底，避免老配置升级后无法登录。
-     *
-     * @param password 前端加密后的密码
-     * @return 解密后的明文密码
-     * @throws IllegalArgumentException 当配置的密钥长度不符合所选算法要求
-     */
-    String decryptPassword(String password) {
-        AuthSecurityConfigProperties.EncodeType encodeType = authSecurityConfigProperties.getEncodeType();
-        if (encodeType == null) {
-            encodeType = AuthSecurityConfigProperties.EncodeType.AES;
-        }
-        return switch (encodeType) {
-            case AES -> decryptByAes(password);
-            case SM4 -> decryptBySm4(password);
-        };
-    }
+	/**
+	 * 根据 {@code security.encode-type} 配置选择 AES 或 SM4 解密前端传入的密文。
+	 * <p>
+	 * 包级可见以便单元测试直接覆盖；当配置为空时按 AES 兜底，避免老配置升级后无法登录。
+	 * @param password 前端加密后的密码
+	 * @return 解密后的明文密码
+	 * @throws IllegalArgumentException 当配置的密钥长度不符合所选算法要求
+	 */
+	String decryptPassword(String password) {
+		AuthSecurityConfigProperties.EncodeType encodeType = authSecurityConfigProperties.getEncodeType();
+		if (encodeType == null) {
+			encodeType = AuthSecurityConfigProperties.EncodeType.AES;
+		}
+		return switch (encodeType) {
+			case AES -> decryptByAes(password);
+			case SM4 -> decryptBySm4(password);
+		};
+	}
 
-    /**
-     * 使用 AES（CFB / NoPadding，IV 等于密钥）解密密码。
-     *
-     * @param password 前端 AES 加密后的密码
-     * @return 明文密码
-     */
-    private String decryptByAes(String password) {
-        String encodeKey = authSecurityConfigProperties.getEncodeKey();
-        Assert.hasText(encodeKey, "AES encode-key must not be empty (AES登录密码解密密钥不能为空)");
-        byte[] keyBytes = encodeKey.getBytes();
-        Assert.isTrue(keyBytes.length == AES_KEY_LENGTH,
-                "AES encode-key must be 16 bytes (AES登录密码解密密钥必须为16字节)");
+	/**
+	 * 使用 AES（CFB / NoPadding，IV 等于密钥）解密密码。
+	 * @param password 前端 AES 加密后的密码
+	 * @return 明文密码
+	 */
+	private String decryptByAes(String password) {
+		String encodeKey = authSecurityConfigProperties.getEncodeKey();
+		Assert.hasText(encodeKey, "AES encode-key must not be empty (AES登录密码解密密钥不能为空)");
+		byte[] keyBytes = encodeKey.getBytes();
+		Assert.isTrue(keyBytes.length == AES_KEY_LENGTH, "AES encode-key must be 16 bytes (AES登录密码解密密钥必须为16字节)");
 
-        // 构建前端对应解密 AES 因子
-        AES aes = new AES(Mode.CFB, Padding.NoPadding, new SecretKeySpec(keyBytes, KEY_ALGORITHM),
-                new IvParameterSpec(keyBytes));
-        return aes.decryptStr(password);
-    }
+		// 构建前端对应解密 AES 因子
+		AES aes = new AES(Mode.CFB, Padding.NoPadding, new SecretKeySpec(keyBytes, KEY_ALGORITHM),
+				new IvParameterSpec(keyBytes));
+		return aes.decryptStr(password);
+	}
 
-    /**
-     * 使用国密 SM4 解密密码，密钥需为 32 位 HEX 字符串。
-     *
-     * @param password 前端 SM4 加密后的密码
-     * @return 明文密码
-     */
-    private String decryptBySm4(String password) {
-        String encodeKey = authSecurityConfigProperties.getEncodeKey();
-        Assert.hasText(encodeKey, "SM4 encode-key must not be empty (SM4登录密码解密密钥不能为空)");
-        Assert.isTrue(StrUtil.length(encodeKey) == SM4_HEX_KEY_LENGTH && HexUtil.isHexNumber(encodeKey),
-                "SM4 encode-key must be 32 hex characters (SM4登录密码解密密钥必须为32位HEX字符串)");
-        return SmUtil.sm4(HexUtil.decodeHex(encodeKey)).decryptStr(password);
-    }
+	/**
+	 * 使用国密 SM4 解密密码，密钥需为 32 位 HEX 字符串。
+	 * @param password 前端 SM4 加密后的密码
+	 * @return 明文密码
+	 */
+	private String decryptBySm4(String password) {
+		String encodeKey = authSecurityConfigProperties.getEncodeKey();
+		Assert.hasText(encodeKey, "SM4 encode-key must not be empty (SM4登录密码解密密钥不能为空)");
+		Assert.isTrue(StrUtil.length(encodeKey) == SM4_HEX_KEY_LENGTH && HexUtil.isHexNumber(encodeKey),
+				"SM4 encode-key must be 32 hex characters (SM4登录密码解密密钥必须为32位HEX字符串)");
+		return SmUtil.sm4(HexUtil.decodeHex(encodeKey)).decryptStr(password);
+	}
 
-    /**
-     * 根据请求的clientId 查询客户端配置是否是加密传输
+	/**
+	 * 根据请求的clientId 查询客户端配置是否是加密传输
 	 * @param request 请求上下文
 	 * @return true 加密传输，false 明文传输
 	 */

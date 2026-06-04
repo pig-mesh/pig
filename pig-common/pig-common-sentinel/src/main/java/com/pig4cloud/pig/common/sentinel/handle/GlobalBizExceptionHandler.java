@@ -170,7 +170,8 @@ public class GlobalBizExceptionHandler {
 	}
 
 	/**
-	 * Spring 7.0+ 方法级参数校验异常（@Validated 标注在 Controller 上的 @RequestParam / @PathVariable 校验）
+	 * Spring 7.0+ 方法级参数校验异常（@Validated 标注在 Controller 上的 @RequestParam / @PathVariable
+	 * 校验）
 	 * @param exception 方法参数校验异常
 	 * @return 方法参数校验失败的统一失败响应
 	 */

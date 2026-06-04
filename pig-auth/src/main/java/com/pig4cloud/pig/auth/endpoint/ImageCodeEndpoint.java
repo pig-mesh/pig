@@ -29,55 +29,55 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ImageCodeEndpoint {
 
-    private static final Integer DEFAULT_IMAGE_WIDTH = 100;
+	private static final Integer DEFAULT_IMAGE_WIDTH = 100;
 
-    private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
+	private static final Integer DEFAULT_IMAGE_HEIGHT = 40;
 
-    /**
-     * 创建图形验证码
-     */
-    @SneakyThrows
-    @GetMapping("/image")
-    public void image(String randomStr, HttpServletResponse response) {
-        ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
+	/**
+	 * 创建图形验证码
+	 */
+	@SneakyThrows
+	@GetMapping("/image")
+	public void image(String randomStr, HttpServletResponse response) {
+		ArithmeticCaptcha captcha = new ArithmeticCaptcha(DEFAULT_IMAGE_WIDTH, DEFAULT_IMAGE_HEIGHT);
 
-        String result = captcha.text();
+		String result = captcha.text();
 
-        // 如果是手机号码，不存储下发验证码
-        if (Validator.isMobile(randomStr)) {
-            return;
-        }
+		// 如果是手机号码，不存储下发验证码
+		if (Validator.isMobile(randomStr)) {
+			return;
+		}
 
-        RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME);
-        // 转换流信息写出
-        captcha.out(response.getOutputStream());
-    }
+		RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME);
+		// 转换流信息写出
+		captcha.out(response.getOutputStream());
+	}
 
-    /**
-     * 行为 创建滑块图形验证码
-     */
-    @SneakyThrows
-    @GetMapping("/create")
-    public R behavior(String captchaType) {
-        CaptchaVO vo = new CaptchaVO();
-        vo.setCaptchaType(captchaType);
-        CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
-        return R.ok(captchaService.get(vo));
-    }
+	/**
+	 * 行为 创建滑块图形验证码
+	 */
+	@SneakyThrows
+	@GetMapping("/create")
+	public R behavior(String captchaType) {
+		CaptchaVO vo = new CaptchaVO();
+		vo.setCaptchaType(captchaType);
+		CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
+		return R.ok(captchaService.get(vo));
+	}
 
-    /**
-     * 行为 创建滑块图形验证码
-     */
-    @SneakyThrows
-    @PostMapping("/check")
-    public R check(HttpServletRequest request) {
-        CaptchaVO vo = new CaptchaVO();
-        vo.setPointJson(request.getParameter("pointJson"));
-        vo.setToken(request.getParameter("token"));
-        vo.setCaptchaType(request.getParameter("captchaType"));
+	/**
+	 * 行为 创建滑块图形验证码
+	 */
+	@SneakyThrows
+	@PostMapping("/check")
+	public R check(HttpServletRequest request) {
+		CaptchaVO vo = new CaptchaVO();
+		vo.setPointJson(request.getParameter("pointJson"));
+		vo.setToken(request.getParameter("token"));
+		vo.setCaptchaType(request.getParameter("captchaType"));
 
-        CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
-        return R.ok(captchaService.check(vo));
-    }
+		CaptchaService captchaService = SpringContextHolder.getBean(CaptchaService.class);
+		return R.ok(captchaService.check(vo));
+	}
 
 }

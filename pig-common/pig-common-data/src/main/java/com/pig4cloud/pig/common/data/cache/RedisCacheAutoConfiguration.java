@@ -47,82 +47,83 @@ import java.util.Objects;
  * @author L.cm
  */
 @Configuration
-@AutoConfigureAfter({DataRedisAutoConfiguration.class})
-@ConditionalOnBean({RedisConnectionFactory.class})
+@AutoConfigureAfter({ DataRedisAutoConfiguration.class })
+@ConditionalOnBean({ RedisConnectionFactory.class })
 @EnableConfigurationProperties(CacheProperties.class)
 @SuppressWarnings("removal")
 public class RedisCacheAutoConfiguration {
 
-    private final CacheProperties cacheProperties;
+	private final CacheProperties cacheProperties;
 
-    private final CacheManagerCustomizers customizerInvoker;
+	private final CacheManagerCustomizers customizerInvoker;
 
-    @Nullable
-    private final RedisCacheConfiguration redisCacheConfiguration;
+	@Nullable
+	private final RedisCacheConfiguration redisCacheConfiguration;
 
-    RedisCacheAutoConfiguration(CacheProperties cacheProperties, CacheManagerCustomizers customizerInvoker,
-                                ObjectProvider<RedisCacheConfiguration> redisCacheConfiguration) {
-        this.cacheProperties = cacheProperties;
-        this.customizerInvoker = customizerInvoker;
-        this.redisCacheConfiguration = redisCacheConfiguration.getIfAvailable();
-    }
+	RedisCacheAutoConfiguration(CacheProperties cacheProperties, CacheManagerCustomizers customizerInvoker,
+			ObjectProvider<RedisCacheConfiguration> redisCacheConfiguration) {
+		this.cacheProperties = cacheProperties;
+		this.customizerInvoker = customizerInvoker;
+		this.redisCacheConfiguration = redisCacheConfiguration.getIfAvailable();
+	}
 
-    @Primary
-    @Bean("cacheResolver")
-    public CacheManager redisCacheManager(ObjectProvider<RedisConnectionFactory> connectionFactoryObjectProvider,
-                                          ObjectMapper objectMapper) {
-        RedisConnectionFactory connectionFactory = connectionFactoryObjectProvider.getIfAvailable();
-        Objects.requireNonNull(connectionFactory, "Bean RedisConnectionFactory is null.");
-        RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
-        RedisCacheConfiguration cacheConfiguration = this.determineConfiguration(objectMapper);
-        List<String> cacheNames = this.cacheProperties.getCacheNames();
-        Map<String, RedisCacheConfiguration> initialCaches = new LinkedHashMap<>();
-        if (!cacheNames.isEmpty()) {
-            Map<String, RedisCacheConfiguration> cacheConfigMap = new LinkedHashMap<>(cacheNames.size());
-            cacheNames.forEach(it -> cacheConfigMap.put(it, cacheConfiguration));
-            initialCaches.putAll(cacheConfigMap);
-        }
-        boolean allowInFlightCacheCreation = true;
-        boolean enableTransactions = false;
-        RedisAutoCacheManager cacheManager = new RedisAutoCacheManager(
-                redisCacheWriter, cacheConfiguration, allowInFlightCacheCreation, initialCaches
-        );
-        cacheManager.setTransactionAware(enableTransactions);
-        return this.customizerInvoker.customize(cacheManager);
-    }
+	@Primary
+	@Bean("cacheResolver")
+	public CacheManager redisCacheManager(ObjectProvider<RedisConnectionFactory> connectionFactoryObjectProvider,
+			ObjectMapper objectMapper) {
+		RedisConnectionFactory connectionFactory = connectionFactoryObjectProvider.getIfAvailable();
+		Objects.requireNonNull(connectionFactory, "Bean RedisConnectionFactory is null.");
+		RedisCacheWriter redisCacheWriter = RedisCacheWriter.nonLockingRedisCacheWriter(connectionFactory);
+		RedisCacheConfiguration cacheConfiguration = this.determineConfiguration(objectMapper);
+		List<String> cacheNames = this.cacheProperties.getCacheNames();
+		Map<String, RedisCacheConfiguration> initialCaches = new LinkedHashMap<>();
+		if (!cacheNames.isEmpty()) {
+			Map<String, RedisCacheConfiguration> cacheConfigMap = new LinkedHashMap<>(cacheNames.size());
+			cacheNames.forEach(it -> cacheConfigMap.put(it, cacheConfiguration));
+			initialCaches.putAll(cacheConfigMap);
+		}
+		boolean allowInFlightCacheCreation = true;
+		boolean enableTransactions = false;
+		RedisAutoCacheManager cacheManager = new RedisAutoCacheManager(redisCacheWriter, cacheConfiguration,
+				allowInFlightCacheCreation, initialCaches);
+		cacheManager.setTransactionAware(enableTransactions);
+		return this.customizerInvoker.customize(cacheManager);
+	}
 
-    private RedisCacheConfiguration determineConfiguration(ObjectMapper objectMapper) {
-        if (this.redisCacheConfiguration != null) {
-            return this.redisCacheConfiguration;
-        } else {
-            CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
-            RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+	private RedisCacheConfiguration determineConfiguration(ObjectMapper objectMapper) {
+		if (this.redisCacheConfiguration != null) {
+			return this.redisCacheConfiguration;
+		}
+		else {
+			CacheProperties.Redis redisProperties = this.cacheProperties.getRedis();
+			RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
 
-            ObjectMapper redisObjectMapper = objectMapper.copy();
-            RedisSerializer<Object> jsonRedisSerializer = org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer.builder()
-                    .objectMapper(redisObjectMapper)
-                    .defaultTyping(true)
-                    .build();
-            config = config.serializeValuesWith(RedisSerializationContext.SerializationPair
-                    .fromSerializer(jsonRedisSerializer));
-            if (redisProperties.getTimeToLive() != null) {
-                config = config.entryTtl(redisProperties.getTimeToLive());
-            }
+			ObjectMapper redisObjectMapper = objectMapper.copy();
+			RedisSerializer<Object> jsonRedisSerializer = org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
+				.builder()
+				.objectMapper(redisObjectMapper)
+				.defaultTyping(true)
+				.build();
+			config = config
+				.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(jsonRedisSerializer));
+			if (redisProperties.getTimeToLive() != null) {
+				config = config.entryTtl(redisProperties.getTimeToLive());
+			}
 
-            if (redisProperties.getKeyPrefix() != null) {
-                config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
-            }
+			if (redisProperties.getKeyPrefix() != null) {
+				config = config.prefixCacheNameWith(redisProperties.getKeyPrefix());
+			}
 
-            if (!redisProperties.isCacheNullValues()) {
-                config = config.disableCachingNullValues();
-            }
+			if (!redisProperties.isCacheNullValues()) {
+				config = config.disableCachingNullValues();
+			}
 
-            if (!redisProperties.isUseKeyPrefix()) {
-                config = config.disableKeyPrefix();
-            }
+			if (!redisProperties.isUseKeyPrefix()) {
+				config = config.disableKeyPrefix();
+			}
 
-            return config;
-        }
-    }
+			return config;
+		}
+	}
 
 }

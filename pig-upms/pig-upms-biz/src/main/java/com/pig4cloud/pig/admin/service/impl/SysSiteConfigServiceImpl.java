@@ -53,149 +53,150 @@ import java.util.*;
 @RequiredArgsConstructor
 public class SysSiteConfigServiceImpl implements SysSiteConfigService {
 
-    /**
-     * SITE_ 参数键与 DTO 字段名的映射
-     */
-    private static final Map<String, String> KEY_FIELD_MAP = new LinkedHashMap<>();
+	/**
+	 * SITE_ 参数键与 DTO 字段名的映射
+	 */
+	private static final Map<String, String> KEY_FIELD_MAP = new LinkedHashMap<>();
 
-    /**
-     * 布尔类型的字段集合
-     */
-    private static final Set<String> BOOLEAN_FIELDS = Set.of("forceResetPwd",
-            "forceLogout", "smsLoginEnable", "socialLoginEnable", "registerEnable", "resetPassword", "i18nEnable", "darkModeEnable",
-            "antiDebugEnable");
+	/**
+	 * 布尔类型的字段集合
+	 */
+	private static final Set<String> BOOLEAN_FIELDS = Set.of("forceResetPwd", "forceLogout", "smsLoginEnable",
+			"socialLoginEnable", "registerEnable", "resetPassword", "i18nEnable", "darkModeEnable", "antiDebugEnable");
 
-    static {
-        KEY_FIELD_MAP.put("SITE_CLARITY_ID", "clarityId");
-        KEY_FIELD_MAP.put("SITE_CAPTCHA_TYPE", "captchaType");
-        KEY_FIELD_MAP.put("SITE_PASSWORD_RULE", "passwordRule");
-        KEY_FIELD_MAP.put("SITE_FORCE_RESET_PWD", "forceResetPwd");
-        KEY_FIELD_MAP.put("SITE_FORCE_LOGOUT", "forceLogout");
-        KEY_FIELD_MAP.put("SITE_SMS_LOGIN_ENABLE", "smsLoginEnable");
-        KEY_FIELD_MAP.put("SITE_SOCIAL_LOGIN_ENABLE", "socialLoginEnable");
-        KEY_FIELD_MAP.put("SITE_REGISTER_ENABLE", "registerEnable");
-        KEY_FIELD_MAP.put("SITE_RESET_PASSWORD", "resetPassword");
-        KEY_FIELD_MAP.put("SITE_I18N_ENABLE", "i18nEnable");
-        KEY_FIELD_MAP.put("SITE_DARK_MODE_ENABLE", "darkModeEnable");
-        KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_ENABLE", "antiDebugEnable");
-        KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_KEY", "antiDebugKey");
-        KEY_FIELD_MAP.put("SITE_TITLE", "title");
-        KEY_FIELD_MAP.put("SITE_FOOTER", "footer");
-        KEY_FIELD_MAP.put("SITE_PRIVACY_TIP", "privacyTip");
-        KEY_FIELD_MAP.put("SITE_LOGO", "logo");
-    }
+	static {
+		KEY_FIELD_MAP.put("SITE_CLARITY_ID", "clarityId");
+		KEY_FIELD_MAP.put("SITE_CAPTCHA_TYPE", "captchaType");
+		KEY_FIELD_MAP.put("SITE_PASSWORD_RULE", "passwordRule");
+		KEY_FIELD_MAP.put("SITE_FORCE_RESET_PWD", "forceResetPwd");
+		KEY_FIELD_MAP.put("SITE_FORCE_LOGOUT", "forceLogout");
+		KEY_FIELD_MAP.put("SITE_SMS_LOGIN_ENABLE", "smsLoginEnable");
+		KEY_FIELD_MAP.put("SITE_SOCIAL_LOGIN_ENABLE", "socialLoginEnable");
+		KEY_FIELD_MAP.put("SITE_REGISTER_ENABLE", "registerEnable");
+		KEY_FIELD_MAP.put("SITE_RESET_PASSWORD", "resetPassword");
+		KEY_FIELD_MAP.put("SITE_I18N_ENABLE", "i18nEnable");
+		KEY_FIELD_MAP.put("SITE_DARK_MODE_ENABLE", "darkModeEnable");
+		KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_ENABLE", "antiDebugEnable");
+		KEY_FIELD_MAP.put("SITE_ANTI_DEBUG_KEY", "antiDebugKey");
+		KEY_FIELD_MAP.put("SITE_TITLE", "title");
+		KEY_FIELD_MAP.put("SITE_FOOTER", "footer");
+		KEY_FIELD_MAP.put("SITE_PRIVACY_TIP", "privacyTip");
+		KEY_FIELD_MAP.put("SITE_LOGO", "logo");
+	}
 
-    private final SysPublicParamService sysPublicParamService;
+	private final SysPublicParamService sysPublicParamService;
 
-    private final SysI18nService sysI18nService;
+	private final SysI18nService sysI18nService;
 
-    private final SysOauthClientDetailsService sysOauthClientDetailsService;
+	private final SysOauthClientDetailsService sysOauthClientDetailsService;
 
-    @Override
-    @Cacheable(value = CacheConstants.SITE_CONFIG_DETAILS)
-    public Map<String, Object> getAggregatedConfig() {
-        Map<String, Object> result = new HashMap<>(4);
-        result.put("i18n", sysI18nService.listMap());
-        result.put("site", getSiteConfig());
-        return result;
-    }
+	@Override
+	@Cacheable(value = CacheConstants.SITE_CONFIG_DETAILS)
+	public Map<String, Object> getAggregatedConfig() {
+		Map<String, Object> result = new HashMap<>(4);
+		result.put("i18n", sysI18nService.listMap());
+		result.put("site", getSiteConfig());
+		return result;
+	}
 
-    @Override
-    public SiteConfigDTO getSiteConfig() {
-        List<SysPublicParam> paramList = sysPublicParamService
-                .list(Wrappers.<SysPublicParam>lambdaQuery().likeRight(SysPublicParam::getPublicKey, "SITE_"));
+	@Override
+	public SiteConfigDTO getSiteConfig() {
+		List<SysPublicParam> paramList = sysPublicParamService
+			.list(Wrappers.<SysPublicParam>lambdaQuery().likeRight(SysPublicParam::getPublicKey, "SITE_"));
 
-        SiteConfigDTO dto = new SiteConfigDTO();
-        for (SysPublicParam param : paramList) {
-            String fieldName = KEY_FIELD_MAP.get(param.getPublicKey());
-            if (fieldName == null) {
-                continue;
-            }
+		SiteConfigDTO dto = new SiteConfigDTO();
+		for (SysPublicParam param : paramList) {
+			String fieldName = KEY_FIELD_MAP.get(param.getPublicKey());
+			if (fieldName == null) {
+				continue;
+			}
 
-            Object value;
-            if (BOOLEAN_FIELDS.contains(fieldName)) {
-                value = YesNoEnum.YES.getCode().equals(param.getPublicValue());
-            } else {
-                value = param.getPublicValue();
-            }
-            BeanUtil.setFieldValue(dto, fieldName, value);
-        }
-        return dto;
-    }
+			Object value;
+			if (BOOLEAN_FIELDS.contains(fieldName)) {
+				value = YesNoEnum.YES.getCode().equals(param.getPublicValue());
+			}
+			else {
+				value = param.getPublicValue();
+			}
+			BeanUtil.setFieldValue(dto, fieldName, value);
+		}
+		return dto;
+	}
 
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    @CacheEvict(value = {CacheConstants.SITE_CONFIG_DETAILS, CacheConstants.PARAMS_DETAILS}, allEntries = true)
-    public void updateSiteConfig(SiteConfigDTO dto) {
-        Map<String, Object> fieldValues = BeanUtil.beanToMap(dto, false, true);
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	@CacheEvict(value = { CacheConstants.SITE_CONFIG_DETAILS, CacheConstants.PARAMS_DETAILS }, allEntries = true)
+	public void updateSiteConfig(SiteConfigDTO dto) {
+		Map<String, Object> fieldValues = BeanUtil.beanToMap(dto, false, true);
 
-        for (Map.Entry<String, String> entry : KEY_FIELD_MAP.entrySet()) {
-            String paramKey = entry.getKey();
-            String fieldName = entry.getValue();
-            Object fieldValue = fieldValues.get(fieldName);
-            if (fieldValue == null) {
-                continue;
-            }
+		for (Map.Entry<String, String> entry : KEY_FIELD_MAP.entrySet()) {
+			String paramKey = entry.getKey();
+			String fieldName = entry.getValue();
+			Object fieldValue = fieldValues.get(fieldName);
+			if (fieldValue == null) {
+				continue;
+			}
 
-            String publicValue;
-            if (BOOLEAN_FIELDS.contains(fieldName)) {
-                publicValue = YesNoEnum.getCode((Boolean) fieldValue);
-            } else {
-                publicValue = fieldValue.toString();
-            }
+			String publicValue;
+			if (BOOLEAN_FIELDS.contains(fieldName)) {
+				publicValue = YesNoEnum.getCode((Boolean) fieldValue);
+			}
+			else {
+				publicValue = fieldValue.toString();
+			}
 
-            SysPublicParam existing = sysPublicParamService
-                    .getOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, paramKey));
-            if (Objects.nonNull(existing)) {
-                existing.setPublicValue(publicValue);
-                sysPublicParamService.updateById(existing);
-            } else {
-                SysPublicParam newParam = new SysPublicParam();
-                newParam.setPublicKey(paramKey);
-                newParam.setPublicValue(publicValue);
-                newParam.setPublicName(paramKey);
-                newParam.setStatus(YesNoEnum.NO.getCode());
-                newParam.setSystemFlag(DictTypeEnum.SYSTEM.getType());
-                sysPublicParamService.save(newParam);
-            }
-        }
+			SysPublicParam existing = sysPublicParamService
+				.getOne(Wrappers.<SysPublicParam>lambdaQuery().eq(SysPublicParam::getPublicKey, paramKey));
+			if (Objects.nonNull(existing)) {
+				existing.setPublicValue(publicValue);
+				sysPublicParamService.updateById(existing);
+			}
+			else {
+				SysPublicParam newParam = new SysPublicParam();
+				newParam.setPublicKey(paramKey);
+				newParam.setPublicValue(publicValue);
+				newParam.setPublicName(paramKey);
+				newParam.setStatus(YesNoEnum.NO.getCode());
+				newParam.setSystemFlag(DictTypeEnum.SYSTEM.getType());
+				sysPublicParamService.save(newParam);
+			}
+		}
 
-        // 同步 captcha_flag 到 OAuth 客户端扩展信息
-        if (dto.getCaptchaType() != null) {
-            syncCaptchaFlagToClients(!"none".equals(dto.getCaptchaType()));
-        }
-    }
+		// 同步 captcha_flag 到 OAuth 客户端扩展信息
+		if (dto.getCaptchaType() != null) {
+			syncCaptchaFlagToClients(!"none".equals(dto.getCaptchaType()));
+		}
+	}
 
-    /**
-     * 刷新站点配置缓存
-     */
-    @Override
-    @CacheEvict(value = {CacheConstants.SITE_CONFIG_DETAILS, CacheConstants.PARAMS_DETAILS}, allEntries = true)
-    public void refreshCache() {
-        // 仅触发 @CacheEvict，无需额外逻辑
-    }
+	/**
+	 * 刷新站点配置缓存
+	 */
+	@Override
+	@CacheEvict(value = { CacheConstants.SITE_CONFIG_DETAILS, CacheConstants.PARAMS_DETAILS }, allEntries = true)
+	public void refreshCache() {
+		// 仅触发 @CacheEvict，无需额外逻辑
+	}
 
-    /**
-     * 同步验证码开关到所有 OAuth 客户端的 additionalInformation
-     *
-     * @param captchaEnable 是否启用验证码
-     */
-    private void syncCaptchaFlagToClients(Boolean captchaEnable) {
-        String captchaFlag = YesNoEnum.getCode(captchaEnable);
-        List<SysOauthClientDetails> clients = sysOauthClientDetailsService.list();
+	/**
+	 * 同步验证码开关到所有 OAuth 客户端的 additionalInformation
+	 * @param captchaEnable 是否启用验证码
+	 */
+	private void syncCaptchaFlagToClients(Boolean captchaEnable) {
+		String captchaFlag = YesNoEnum.getCode(captchaEnable);
+		List<SysOauthClientDetails> clients = sysOauthClientDetailsService.list();
 
-        for (SysOauthClientDetails client : clients) {
-            if (StrUtil.isBlank(client.getAdditionalInformation())) {
-                continue;
-            }
-            JSONObject informationObj = JSONUtil.parseObj(client.getAdditionalInformation());
-            informationObj.set(CommonConstants.CAPTCHA_FLAG, captchaFlag);
-            client.setAdditionalInformation(informationObj.toString());
-            sysOauthClientDetailsService.updateById(client);
-        }
+		for (SysOauthClientDetails client : clients) {
+			if (StrUtil.isBlank(client.getAdditionalInformation())) {
+				continue;
+			}
+			JSONObject informationObj = JSONUtil.parseObj(client.getAdditionalInformation());
+			informationObj.set(CommonConstants.CAPTCHA_FLAG, captchaFlag);
+			client.setAdditionalInformation(informationObj.toString());
+			sysOauthClientDetailsService.updateById(client);
+		}
 
-        // 刷新 Redis 客户端缓存
-        SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(this));
-    }
+		// 刷新 Redis 客户端缓存
+		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(this));
+	}
 
 }

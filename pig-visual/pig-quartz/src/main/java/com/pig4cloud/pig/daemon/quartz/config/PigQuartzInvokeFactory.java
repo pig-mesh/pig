@@ -31,8 +31,7 @@ import org.springframework.stereotype.Service;
 /**
  * Quartz 调用事件发布器。
  * <p>
- * 负责把 Quartz 工厂线程中的任务执行请求转换为 Spring 事件，
- * 以便后续由异步监听器统一处理真实业务调用。
+ * 负责把 Quartz 工厂线程中的任务执行请求转换为 Spring 事件， 以便后续由异步监听器统一处理真实业务调用。
  * </p>
  */
 @Slf4j
@@ -43,16 +42,15 @@ public class PigQuartzInvokeFactory {
 
 	private final ApplicationEventPublisher publisher;
 
-    /**
-     * 发布任务执行事件。
-     *
-     * @param sysJob            当前任务配置
-     * @param trigger           当前 Quartz 触发器
-     * @param executionMetadata 当前触发对应的执行元数据
-     */
-    @SneakyThrows
-    void init(SysJob sysJob, Trigger trigger, QuartzExecutionMetadata executionMetadata) {
-        publisher.publishEvent(new SysJobEvent(sysJob, trigger, executionMetadata));
+	/**
+	 * 发布任务执行事件。
+	 * @param sysJob 当前任务配置
+	 * @param trigger 当前 Quartz 触发器
+	 * @param executionMetadata 当前触发对应的执行元数据
+	 */
+	@SneakyThrows
+	void init(SysJob sysJob, Trigger trigger, QuartzExecutionMetadata executionMetadata) {
+		publisher.publishEvent(new SysJobEvent(sysJob, trigger, executionMetadata));
 	}
 
 }

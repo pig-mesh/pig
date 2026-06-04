@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 package com.pig4cloud.pig.admin.api.entity;
+
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.io.Serial;
+
 /**
  * 系统用户部门关联实体类
  *
@@ -28,16 +30,20 @@ import java.io.Serial;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class SysUserDept extends Model<SysUserDept> {
-    @Serial
-    private static final long serialVersionUID = 1L;
-    /**
-     * 用户ID
-     */
-    @Schema(description = "用户ID")
-    private Long userId;
-    /**
-     * 部门ID
-     */
-    @Schema(description = "部门ID")
-    private Long deptId;
+
+	@Serial
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 用户ID
+	 */
+	@Schema(description = "用户ID")
+	private Long userId;
+
+	/**
+	 * 部门ID
+	 */
+	@Schema(description = "部门ID")
+	private Long deptId;
+
 }

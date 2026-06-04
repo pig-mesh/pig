@@ -36,97 +36,95 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class AuthCaptchaSupport {
 
-    private final RequestCache requestCache = new HttpSessionRequestCache();
+	private final RequestCache requestCache = new HttpSessionRequestCache();
 
-    private final CaptchaValidator captchaValidator;
+	private final CaptchaValidator captchaValidator;
 
-    /**
-     * 解析当前授权流程中的真实客户端ID
-     *
-     * @param request                 当前请求
-     * @param response                当前响应
-     * @param includeCurrentRequestId 是否优先读取当前请求参数中的 client_id
-     * @return 授权客户端ID
-     */
-    public String resolveAuthorizationClientId(HttpServletRequest request, HttpServletResponse response,
-                                               boolean includeCurrentRequestId) {
-        return resolveAuthorizationParameter(request, response, OAuth2ParameterNames.CLIENT_ID, includeCurrentRequestId);
-    }
+	/**
+	 * 解析当前授权流程中的真实客户端ID
+	 * @param request 当前请求
+	 * @param response 当前响应
+	 * @param includeCurrentRequestId 是否优先读取当前请求参数中的 client_id
+	 * @return 授权客户端ID
+	 */
+	public String resolveAuthorizationClientId(HttpServletRequest request, HttpServletResponse response,
+			boolean includeCurrentRequestId) {
+		return resolveAuthorizationParameter(request, response, OAuth2ParameterNames.CLIENT_ID,
+				includeCurrentRequestId);
+	}
 
-    /**
-     * 判断客户端是否开启验证码
-     *
-     * @param clientId 客户端ID
-     * @return true 开启验证码
-     */
-    public boolean isCaptchaEnabled(String clientId) {
-        if (StrUtil.isBlank(clientId)) {
-            return false;
-        }
+	/**
+	 * 判断客户端是否开启验证码
+	 * @param clientId 客户端ID
+	 * @return true 开启验证码
+	 */
+	public boolean isCaptchaEnabled(String clientId) {
+		if (StrUtil.isBlank(clientId)) {
+			return false;
+		}
 
-        String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, clientId);
-        String val = RedisUtils.get(key);
+		String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, clientId);
+		String val = RedisUtils.get(key);
 
-        if (val == null) {
-            return true;
-        }
+		if (val == null) {
+			return true;
+		}
 
-        JSONObject information = JSONUtil.parseObj(val);
-        return !StrUtil.equals(CaptchaFlagTypeEnum.OFF.getType(), information.getStr(CommonConstants.CAPTCHA_FLAG));
-    }
+		JSONObject information = JSONUtil.parseObj(val);
+		return !StrUtil.equals(CaptchaFlagTypeEnum.OFF.getType(), information.getStr(CommonConstants.CAPTCHA_FLAG));
+	}
 
-    /**
-     * 校验请求中的验证码
-     *
-     * @param request 当前请求
-     * @throws ValidateCodeException 验证码校验失败
-     */
-    public void validateCode(HttpServletRequest request) throws ValidateCodeException {
-        String code = request.getParameter("code");
-        if (StrUtil.isBlank(code)) {
-            throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
-        }
+	/**
+	 * 校验请求中的验证码
+	 * @param request 当前请求
+	 * @throws ValidateCodeException 验证码校验失败
+	 */
+	public void validateCode(HttpServletRequest request) throws ValidateCodeException {
+		String code = request.getParameter("code");
+		if (StrUtil.isBlank(code)) {
+			throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
+		}
 
-        String randomStr = request.getParameter("randomStr");
-        // https://gitee.com/log4j/pig/issues/IWA0D 手机号场景以 mobile 作为缓存键
-        String mobile = request.getParameter("mobile");
-        if (StrUtil.isNotBlank(mobile)) {
-            randomStr = mobile;
-        }
+		String randomStr = request.getParameter("randomStr");
+		// https://gitee.com/log4j/pig/issues/IWA0D 手机号场景以 mobile 作为缓存键
+		String mobile = request.getParameter("mobile");
+		if (StrUtil.isNotBlank(mobile)) {
+			randomStr = mobile;
+		}
 
-        boolean isBehavior = StrUtil.equalsAnyIgnoreCase(randomStr, CommonConstants.IMAGE_CODE_BLOCK_PUZZLE,
-                CommonConstants.IMAGE_CODE_CLICK_WORD);
-        String captchaType = isBehavior ? randomStr : CommonConstants.IMAGE_CODE_MATH;
-        String captchaVerification = isBehavior ? code
-                : randomStr + CommonConstants.CAPTCHA_VERIFICATION_SEPARATOR + code;
+		boolean isBehavior = StrUtil.equalsAnyIgnoreCase(randomStr, CommonConstants.IMAGE_CODE_BLOCK_PUZZLE,
+				CommonConstants.IMAGE_CODE_CLICK_WORD);
+		String captchaType = isBehavior ? randomStr : CommonConstants.IMAGE_CODE_MATH;
+		String captchaVerification = isBehavior ? code
+				: randomStr + CommonConstants.CAPTCHA_VERIFICATION_SEPARATOR + code;
 
-        CaptchaResult result = captchaValidator.validate(captchaType, captchaVerification);
-        if (!result.isOk()) {
-            String errorCode = isBehavior ? AuthErrorCodes.AUTH_CAPTCHA_EMPTY : AuthErrorCodes.AUTH_CAPTCHA_INVALID;
-            throw new ValidateCodeException(MsgUtils.getMessage(errorCode));
-        }
-    }
+		CaptchaResult result = captchaValidator.validate(captchaType, captchaVerification);
+		if (!result.isOk()) {
+			String errorCode = isBehavior ? AuthErrorCodes.AUTH_CAPTCHA_EMPTY : AuthErrorCodes.AUTH_CAPTCHA_INVALID;
+			throw new ValidateCodeException(MsgUtils.getMessage(errorCode));
+		}
+	}
 
-    private String resolveAuthorizationParameter(HttpServletRequest request, HttpServletResponse response,
-                                                 String parameterName, boolean includeCurrentRequestId) {
-        if (includeCurrentRequestId) {
-            String parameterValue = request.getParameter(parameterName);
-            if (StrUtil.isNotBlank(parameterValue)) {
-                return parameterValue;
-            }
-        }
+	private String resolveAuthorizationParameter(HttpServletRequest request, HttpServletResponse response,
+			String parameterName, boolean includeCurrentRequestId) {
+		if (includeCurrentRequestId) {
+			String parameterValue = request.getParameter(parameterName);
+			if (StrUtil.isNotBlank(parameterValue)) {
+				return parameterValue;
+			}
+		}
 
-        SavedRequest savedRequest = requestCache.getRequest(request, response);
-        if (Objects.isNull(savedRequest)) {
-            return null;
-        }
+		SavedRequest savedRequest = requestCache.getRequest(request, response);
+		if (Objects.isNull(savedRequest)) {
+			return null;
+		}
 
-        String[] parameterValues = savedRequest.getParameterValues(parameterName);
-        if (Objects.isNull(parameterValues) || parameterValues.length == 0) {
-            return null;
-        }
+		String[] parameterValues = savedRequest.getParameterValues(parameterName);
+		if (Objects.isNull(parameterValues) || parameterValues.length == 0) {
+			return null;
+		}
 
-        return parameterValues[0];
-    }
+		return parameterValues[0];
+	}
 
 }

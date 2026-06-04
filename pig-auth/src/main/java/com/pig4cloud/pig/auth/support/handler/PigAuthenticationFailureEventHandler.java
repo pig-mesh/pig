@@ -59,10 +59,9 @@ import java.io.IOException;
 @SuppressWarnings("removal")
 public class PigAuthenticationFailureEventHandler implements AuthenticationFailureHandler {
 
-    private static final org.springframework.http.converter.json.MappingJackson2HttpMessageConverter errorHttpResponseConverter =
-            new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter();
+	private static final org.springframework.http.converter.json.MappingJackson2HttpMessageConverter errorHttpResponseConverter = new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter();
 
-		private final ApplicationEventPublisher publisher;
+	private final ApplicationEventPublisher publisher;
 
 	private final RemoteUserService userService;
 
@@ -81,11 +80,11 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 		log.info("登录失败，异常：{}", exception.getLocalizedMessage());
 
 		// 密码模式记录错误信息
-        if (SecurityConstants.PASSWORD.equals(grantType)) {
-            String username = request.getParameter(SecurityConstants.DETAILS_USERNAME);
+		if (SecurityConstants.PASSWORD.equals(grantType)) {
+			String username = request.getParameter(SecurityConstants.DETAILS_USERNAME);
 
-            // 密码错误记录错误次数
-            if (exception instanceof OAuth2AuthenticationException) {
+			// 密码错误记录错误次数
+			if (exception instanceof OAuth2AuthenticationException) {
 				recordLoginFailureTimes(username);
 			}
 
@@ -116,15 +115,17 @@ public class PigAuthenticationFailureEventHandler implements AuthenticationFailu
 			logVo.setTime(endTime - startTime);
 		}
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-			String clientId = WebUtils.extractClientId(header).orElse(null);
-			logVo.setServiceId(clientId);
-			logVo.setCreateBy(username);
-			publisher.publishEvent(new SysLogEvent(logVo));
+		String clientId = WebUtils.extractClientId(header).orElse(null);
+		logVo.setServiceId(clientId);
+		logVo.setCreateBy(username);
+		publisher.publishEvent(new SysLogEvent(logVo));
 	}
 
 	/**
 	 * 记录登录失败次数，超过阈值时调用接口锁定用户。
-	 * <p>若系统参数 LOGIN_ERROR_TIMES {@literal <=} 0，则禁用锁定功能并清除已有失败计数 key。</p>
+	 * <p>
+	 * 若系统参数 LOGIN_ERROR_TIMES {@literal <=} 0，则禁用锁定功能并清除已有失败计数 key。
+	 * </p>
 	 * @param username 用户名
 	 */
 	private void recordLoginFailureTimes(String username) {

@@ -21,7 +21,7 @@ public enum StringArrayConverter implements Converter<String[]> {
 	INSTANCE;
 
 	@Override
-    public Class<?> supportJavaTypeKey() {
+	public Class<?> supportJavaTypeKey() {
 		return String[].class;
 	}
 
@@ -31,15 +31,15 @@ public enum StringArrayConverter implements Converter<String[]> {
 	}
 
 	@Override
-    public String[] convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty,
-                                      GlobalConfiguration globalConfiguration) {
-        return StrUtil.splitToArray(cellData.getStringValue(), StrUtil.COMMA);
+	public String[] convertToJavaData(ReadCellData<?> cellData, ExcelContentProperty contentProperty,
+			GlobalConfiguration globalConfiguration) {
+		return StrUtil.splitToArray(cellData.getStringValue(), StrUtil.COMMA);
 	}
 
 	@Override
 	public WriteCellData<String> convertToExcelData(String[] value, ExcelContentProperty contentProperty,
 			GlobalConfiguration globalConfiguration) {
-        return new WriteCellData<>(String.join(StrUtil.COMMA, value));
+		return new WriteCellData<>(String.join(StrUtil.COMMA, value));
 	}
 
 }

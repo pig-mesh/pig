@@ -26,8 +26,7 @@ import org.quartz.Trigger;
 /**
  * 定时任务异步执行事件。
  * <p>
- * 该事件用于在 Quartz 工厂线程与异步任务监听线程之间传递任务对象、
- * 触发器对象以及本次调度的排查元数据。
+ * 该事件用于在 Quartz 工厂线程与异步任务监听线程之间传递任务对象、 触发器对象以及本次调度的排查元数据。
  * </p>
  */
 @Getter
@@ -38,6 +37,6 @@ public class SysJobEvent {
 
 	private final Trigger trigger;
 
-    private final QuartzExecutionMetadata executionMetadata;
+	private final QuartzExecutionMetadata executionMetadata;
 
 }

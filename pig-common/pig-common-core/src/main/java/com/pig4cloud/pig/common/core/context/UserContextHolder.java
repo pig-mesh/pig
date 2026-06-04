@@ -18,8 +18,7 @@
 package com.pig4cloud.pig.common.core.context;
 
 /**
- * 用户上下文供给方。security 模块作为唯一实现并以 Spring Bean 形式暴露，
- * 通用模块（data、audit 等）只依赖该接口即可。
+ * 用户上下文供给方。security 模块作为唯一实现并以 Spring Bean 形式暴露， 通用模块（data、audit 等）只依赖该接口即可。
  *
  * @author lengleng
  */

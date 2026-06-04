@@ -35,14 +35,14 @@ import static org.springframework.boot.autoconfigure.condition.ConditionalOnWebA
 @ConditionalOnWebApplication(type = SERVLET)
 public class PigSecurityMessageSourceConfiguration implements WebMvcConfigurer {
 
-    @Bean
-    public MessageSource securityMessageSource() {
-        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.addBasenames("classpath:errors/messages");
-        messageSource.setDefaultLocale(Locale.CHINA);
-        messageSource.setDefaultEncoding("UTF-8");
-        messageSource.setCacheSeconds(3600);
-        return messageSource;
-    }
+	@Bean
+	public MessageSource securityMessageSource() {
+		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+		messageSource.addBasenames("classpath:errors/messages");
+		messageSource.setDefaultLocale(Locale.CHINA);
+		messageSource.setDefaultEncoding("UTF-8");
+		messageSource.setCacheSeconds(3600);
+		return messageSource;
+	}
 
 }

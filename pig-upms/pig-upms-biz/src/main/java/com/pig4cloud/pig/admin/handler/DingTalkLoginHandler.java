@@ -57,18 +57,18 @@ public class DingTalkLoginHandler extends AbstractLoginHandler {
 
 		String accessTokenResult = HttpUtil.post("https://api.dingtalk.com/v1.0/oauth2/userAccessToken",
 				JSONUtil.createObj()
-						.set("clientId", socialDetails.getAppId())
-						.set("clientSecret", socialDetails.getAppSecret())
-						.set("grantType", "authorization_code")
-						.set("code", code)
-						.toString());
+					.set("clientId", socialDetails.getAppId())
+					.set("clientSecret", socialDetails.getAppSecret())
+					.set("grantType", "authorization_code")
+					.set("code", code)
+					.toString());
 		log.debug("获取钉钉Token响应报文：{}", accessTokenResult);
 
 		String accessToken = JSONUtil.parseObj(accessTokenResult).getStr("accessToken");
 		String userResult = HttpRequest.get("https://api.dingtalk.com/v1.0/contact/users/me")
-				.header("x-acs-dingtalk-access-token", accessToken)
-				.execute()
-				.body();
+			.header("x-acs-dingtalk-access-token", accessToken)
+			.execute()
+			.body();
 		log.debug("获取钉钉UserId响应报文:{}", userResult);
 
 		return JSONUtil.parseObj(userResult).getStr("openId");

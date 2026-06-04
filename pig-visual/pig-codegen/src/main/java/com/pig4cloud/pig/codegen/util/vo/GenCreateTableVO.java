@@ -87,6 +87,6 @@ public class GenCreateTableVO {
 	 * 字段信息
 	 */
 	@Schema(description = "字段信息")
-    private List<GenCreateTableColumnVO> columnInfo;
+	private List<GenCreateTableColumnVO> columnInfo;
 
 }

@@ -61,17 +61,17 @@ public class DataModelConstants {
 
 	public static final String FRONTEND_PATH = "frontendPath";
 
-    public static final String API_PATH = "apiPath";
+	public static final String API_PATH = "apiPath";
 
-    public static final String ENTITY_PATH = "entityPath";
+	public static final String ENTITY_PATH = "entityPath";
 
-    public static final String ENTITY_PACKAGE = "entityPackage";
+	public static final String ENTITY_PACKAGE = "entityPackage";
 
-    public static final String ENTITY_PACKAGE_PATH = "entityPackagePath";
+	public static final String ENTITY_PACKAGE_PATH = "entityPackagePath";
 
-    public static final String ENTITY_CLASS_NAME = "entityClassName";
+	public static final String ENTITY_CLASS_NAME = "entityClassName";
 
-    public static final String HAS_API_MODULE = "hasApiModule";
+	public static final String HAS_API_MODULE = "hasApiModule";
 
 	// 子表信息
 	public static final String CHILD_FIELD_LIST = "childFieldList";

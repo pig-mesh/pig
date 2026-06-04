@@ -35,36 +35,36 @@ import static com.pig4cloud.pig.common.datasource.support.DataSourceConstants.DS
  */
 public class MasterDataSourceProvider extends AbstractDataSourceProvider {
 
-    private static final String SQL_LOG_FILTER = "sqlLogFilter";
+	private static final String SQL_LOG_FILTER = "sqlLogFilter";
 
-    private final DruidDataSourceProperties properties;
+	private final DruidDataSourceProperties properties;
 
-    private final DefaultDataSourceCreator defaultDataSourceCreator;
+	private final DefaultDataSourceCreator defaultDataSourceCreator;
 
-    public MasterDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator, DruidDataSourceProperties properties) {
-        super(defaultDataSourceCreator);
-        this.properties = properties;
-        this.defaultDataSourceCreator = defaultDataSourceCreator;
-    }
+	public MasterDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			DruidDataSourceProperties properties) {
+		super(defaultDataSourceCreator);
+		this.properties = properties;
+		this.defaultDataSourceCreator = defaultDataSourceCreator;
+	}
 
+	/**
+	 * 加载所有数据源
+	 * @return 所有数据源，key为数据源名称
+	 */
+	@Override
+	public Map<String, DataSource> loadDataSources() {
+		Map<String, DataSource> map = new HashMap<>();
+		// 添加默认主数据源
+		DataSourceProperty property = new DataSourceProperty();
+		property.setUsername(properties.getUsername());
+		property.setPassword(properties.getPassword());
+		property.setUrl(properties.getUrl());
 
-    /**
-     * 加载所有数据源
-     *
-     * @return 所有数据源，key为数据源名称
-     */
-    @Override
-    public Map<String, DataSource> loadDataSources() {
-        Map<String, DataSource> map = new HashMap<>();
-        // 添加默认主数据源
-        DataSourceProperty property = new DataSourceProperty();
-        property.setUsername(properties.getUsername());
-        property.setPassword(properties.getPassword());
-        property.setUrl(properties.getUrl());
+		properties.setProxyFilters(SQL_LOG_FILTER);
+		property.setDruid(properties);
+		map.put(DS_MASTER, defaultDataSourceCreator.createDataSource(property));
+		return map;
+	}
 
-        properties.setProxyFilters(SQL_LOG_FILTER);
-        property.setDruid(properties);
-        map.put(DS_MASTER, defaultDataSourceCreator.createDataSource(property));
-        return map;
-    }
 }

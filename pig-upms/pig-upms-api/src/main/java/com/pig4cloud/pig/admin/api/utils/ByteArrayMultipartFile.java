@@ -37,88 +37,86 @@ import java.io.InputStream;
 @Value
 public class ByteArrayMultipartFile implements MultipartFile {
 
-    private final String name;
+	private final String name;
 
-    private final String originalFilename;
+	private final String originalFilename;
 
-    @Nullable
-    private final String contentType;
+	@Nullable
+	private final String contentType;
 
-    private final byte[] content;
+	private final byte[] content;
 
-    /**
-     * Create a new ByteArrayMultipartFile with the given content.
-     *
-     * @param name             the name of the file
-     * @param originalFilename the original filename (as on the client's machine)
-     * @param contentType      the content type (if known)
-     * @param content          the content of the file
-     */
-    public ByteArrayMultipartFile(String name, @Nullable String originalFilename, @Nullable String contentType,
-                                  @Nullable byte[] content) {
+	/**
+	 * Create a new ByteArrayMultipartFile with the given content.
+	 * @param name the name of the file
+	 * @param originalFilename the original filename (as on the client's machine)
+	 * @param contentType the content type (if known)
+	 * @param content the content of the file
+	 */
+	public ByteArrayMultipartFile(String name, @Nullable String originalFilename, @Nullable String contentType,
+			@Nullable byte[] content) {
 
-        Assert.hasLength(name, "Name must not be empty");
-        this.name = name;
-        this.originalFilename = (originalFilename != null ? originalFilename : "");
-        this.contentType = contentType;
-        this.content = (content != null ? content : new byte[0]);
-    }
+		Assert.hasLength(name, "Name must not be empty");
+		this.name = name;
+		this.originalFilename = (originalFilename != null ? originalFilename : "");
+		this.contentType = contentType;
+		this.content = (content != null ? content : new byte[0]);
+	}
 
-    /**
-     * Create a new ByteArrayMultipartFile with the given content.
-     *
-     * @param name             the name of the file
-     * @param originalFilename the original filename (as on the client's machine)
-     * @param contentType      the content type (if known)
-     * @param contentStream    the content of the file as stream
-     * @throws IOException if reading from the stream failed
-     */
-    public ByteArrayMultipartFile(String name, @Nullable String originalFilename, @Nullable String contentType,
-                                  InputStream contentStream) throws IOException {
+	/**
+	 * Create a new ByteArrayMultipartFile with the given content.
+	 * @param name the name of the file
+	 * @param originalFilename the original filename (as on the client's machine)
+	 * @param contentType the content type (if known)
+	 * @param contentStream the content of the file as stream
+	 * @throws IOException if reading from the stream failed
+	 */
+	public ByteArrayMultipartFile(String name, @Nullable String originalFilename, @Nullable String contentType,
+			InputStream contentStream) throws IOException {
 
-        this(name, originalFilename, contentType, FileCopyUtils.copyToByteArray(contentStream));
-    }
+		this(name, originalFilename, contentType, FileCopyUtils.copyToByteArray(contentStream));
+	}
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+	@Override
+	public String getName() {
+		return this.name;
+	}
 
-    @Override
-    @NonNull
-    public String getOriginalFilename() {
-        return this.originalFilename;
-    }
+	@Override
+	@NonNull
+	public String getOriginalFilename() {
+		return this.originalFilename;
+	}
 
-    @Override
-    @Nullable
-    public String getContentType() {
-        return this.contentType;
-    }
+	@Override
+	@Nullable
+	public String getContentType() {
+		return this.contentType;
+	}
 
-    @Override
-    public boolean isEmpty() {
-        return (this.content.length == 0);
-    }
+	@Override
+	public boolean isEmpty() {
+		return (this.content.length == 0);
+	}
 
-    @Override
-    public long getSize() {
-        return this.content.length;
-    }
+	@Override
+	public long getSize() {
+		return this.content.length;
+	}
 
-    @Override
-    public byte[] getBytes() throws IOException {
-        return this.content;
-    }
+	@Override
+	public byte[] getBytes() throws IOException {
+		return this.content;
+	}
 
-    @Override
-    public InputStream getInputStream() throws IOException {
-        return new ByteArrayInputStream(this.content);
-    }
+	@Override
+	public InputStream getInputStream() throws IOException {
+		return new ByteArrayInputStream(this.content);
+	}
 
-    @Override
-    public void transferTo(File dest) throws IOException, IllegalStateException {
-        FileCopyUtils.copy(this.content, dest);
-    }
+	@Override
+	public void transferTo(File dest) throws IOException, IllegalStateException {
+		FileCopyUtils.copy(this.content, dest);
+	}
 
 }

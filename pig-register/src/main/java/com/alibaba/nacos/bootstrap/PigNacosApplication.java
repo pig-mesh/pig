@@ -22,38 +22,38 @@ import static org.springframework.core.io.ResourceLoader.CLASSPATH_URL_PREFIX;
  */
 public class PigNacosApplication {
 
-    /**
-     * 独立模式系统属性名称
-     */
-    private static final String STANDALONE_MODE = "nacos.standalone";
+	/**
+	 * 独立模式系统属性名称
+	 */
+	private static final String STANDALONE_MODE = "nacos.standalone";
 
-    public static void main(String[] args) {
-        System.setProperty(STANDALONE_MODE, "true");
-        System.setProperty(CONFIG_PROPERTY, CLASSPATH_URL_PREFIX + "logback-spring.xml");
+	public static void main(String[] args) {
+		System.setProperty(STANDALONE_MODE, "true");
+		System.setProperty(CONFIG_PROPERTY, CLASSPATH_URL_PREFIX + "logback-spring.xml");
 
-        String type = System.getProperty(Constants.NACOS_DEPLOYMENT_TYPE, Constants.NACOS_DEPLOYMENT_TYPE_MERGED);
-        DeploymentType deploymentType = DeploymentType.getType(type);
-        EnvUtil.setDeploymentType(deploymentType);
+		String type = System.getProperty(Constants.NACOS_DEPLOYMENT_TYPE, Constants.NACOS_DEPLOYMENT_TYPE_MERGED);
+		DeploymentType deploymentType = DeploymentType.getType(type);
+		EnvUtil.setDeploymentType(deploymentType);
 
-        // Start Core Context
-        NacosStartUpManager.start(NacosStartUp.CORE_START_UP_PHASE);
-        ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(NacosServerBasicApplication.class)
-                .web(WebApplicationType.NONE)
-                .run(args);
+		// Start Core Context
+		NacosStartUpManager.start(NacosStartUp.CORE_START_UP_PHASE);
+		ConfigurableApplicationContext coreContext = new SpringApplicationBuilder(NacosServerBasicApplication.class)
+			.web(WebApplicationType.NONE)
+			.run(args);
 
-        // Start Server Web Context
-        NacosStartUpManager.start(NacosStartUp.WEB_START_UP_PHASE);
-        ConfigurableApplicationContext serverWebContext = new SpringApplicationBuilder(NacosServerWebApplication.class)
-                .parent(coreContext)
-                .run(args);
-        System.out.println(serverWebContext);
+		// Start Server Web Context
+		NacosStartUpManager.start(NacosStartUp.WEB_START_UP_PHASE);
+		ConfigurableApplicationContext serverWebContext = new SpringApplicationBuilder(NacosServerWebApplication.class)
+			.parent(coreContext)
+			.run(args);
+		System.out.println(serverWebContext);
 
-        // Start Console Context
-        NacosStartUpManager.start(NacosStartUp.CONSOLE_START_UP_PHASE);
-        ConfigurableApplicationContext consoleContext = new SpringApplicationBuilder(NacosConsole.class)
-                .parent(coreContext)
-                .run(args);
-        System.out.println(consoleContext);
-    }
+		// Start Console Context
+		NacosStartUpManager.start(NacosStartUp.CONSOLE_START_UP_PHASE);
+		ConfigurableApplicationContext consoleContext = new SpringApplicationBuilder(NacosConsole.class)
+			.parent(coreContext)
+			.run(args);
+		System.out.println(consoleContext);
+	}
 
 }

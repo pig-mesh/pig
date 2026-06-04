@@ -23,7 +23,6 @@ public interface RemoteFileService {
 
 	/**
 	 * 获取文件的方法
-	 *
 	 * @param fileName 文件的名称
 	 * @return 响应对象，包含文件内容
 	 */
@@ -32,7 +31,6 @@ public interface RemoteFileService {
 
 	/**
 	 * 上传文件
-	 *
 	 * @param file 资源
 	 * @return R(/ admin / bucketName / filename)
 	 */
@@ -41,8 +39,7 @@ public interface RemoteFileService {
 
 	/**
 	 * 内部上传文件接口
-	 *
-	 * @param file     要上传的文件
+	 * @param file 要上传的文件
 	 * @param fileName 文件名
 	 * @return 上传结果
 	 */

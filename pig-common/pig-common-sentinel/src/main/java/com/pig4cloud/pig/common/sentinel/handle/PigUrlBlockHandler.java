@@ -35,20 +35,21 @@ import org.springframework.http.HttpStatus;
 @Slf4j
 public class PigUrlBlockHandler implements BlockExceptionHandler {
 
-    /**
-     * Handle the request when blocked.
-     *
-     * @param request      Servlet request
-     * @param response     Servlet response
-     * @param resourceName resource name
-     * @param e            the block exception
-     * @throws Exception users may throw out the BlockException or other error occurs
-     */
-    @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response, String resourceName, BlockException e) throws Exception {
-        log.error("sentinel 降级 资源名称{}", resourceName, e);
-        response.setContentType("application/json");
-        response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
-        response.getWriter().print(JSONUtil.toJsonStr(R.failed(e.getMessage())));
-    }
+	/**
+	 * Handle the request when blocked.
+	 * @param request Servlet request
+	 * @param response Servlet response
+	 * @param resourceName resource name
+	 * @param e the block exception
+	 * @throws Exception users may throw out the BlockException or other error occurs
+	 */
+	@Override
+	public void handle(HttpServletRequest request, HttpServletResponse response, String resourceName, BlockException e)
+			throws Exception {
+		log.error("sentinel 降级 资源名称{}", resourceName, e);
+		response.setContentType("application/json");
+		response.setStatus(HttpStatus.TOO_MANY_REQUESTS.value());
+		response.getWriter().print(JSONUtil.toJsonStr(R.failed(e.getMessage())));
+	}
+
 }

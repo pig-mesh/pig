@@ -16,30 +16,29 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @date 2026-05-20
  */
 @AutoConfigureAfter(name = "com.pig4cloud.pig.common.data.cache.RedisTemplateConfiguration")
-@ConditionalOnClass(name = {"com.anji.captcha.service.CaptchaService", "com.anji.captcha.model.vo.CaptchaVO"})
+@ConditionalOnClass(name = { "com.anji.captcha.service.CaptchaService", "com.anji.captcha.model.vo.CaptchaVO" })
 @ConditionalOnBean(RedisTemplate.class)
 @Configuration(proxyBeanMethods = false)
 public class CaptchaAutoConfiguration {
 
-    /**
-     * 验证码服务配置。仅在 anji-captcha 类型存在后再解析相关方法签名。
-     */
-    @Configuration(proxyBeanMethods = false)
-    static class CaptchaServiceConfiguration {
+	/**
+	 * 验证码服务配置。仅在 anji-captcha 类型存在后再解析相关方法签名。
+	 */
+	@Configuration(proxyBeanMethods = false)
+	static class CaptchaServiceConfiguration {
 
-        /**
-         * 注册验证码统一校验器。
-         *
-         * @param captchaService anji-captcha 校验服务
-         * @param redisTemplate  Redis 缓存操作模板
-         * @return 验证码统一校验器
-         */
-        @Bean
-        @ConditionalOnMissingBean
-        CaptchaValidator captchaValidator(CaptchaService captchaService, RedisTemplate<String, Object> redisTemplate) {
-            return new CaptchaValidator(captchaService, redisTemplate);
-        }
+		/**
+		 * 注册验证码统一校验器。
+		 * @param captchaService anji-captcha 校验服务
+		 * @param redisTemplate Redis 缓存操作模板
+		 * @return 验证码统一校验器
+		 */
+		@Bean
+		@ConditionalOnMissingBean
+		CaptchaValidator captchaValidator(CaptchaService captchaService, RedisTemplate<String, Object> redisTemplate) {
+			return new CaptchaValidator(captchaService, redisTemplate);
+		}
 
-    }
+	}
 
 }

@@ -41,7 +41,6 @@ public interface RemoteMenuService {
 
 	/**
 	 * 获取菜单详细信息
-	 *
 	 * @param sysMenu SYS菜单
 	 * @return {@link R }<{@link List }<{@link SysMenu }>>
 	 */
@@ -50,7 +49,6 @@ public interface RemoteMenuService {
 
 	/**
 	 * 保存菜单
-	 *
 	 * @param sysMenu SYS菜单
 	 * @return {@link R }<{@link Boolean }>
 	 */

@@ -11,4 +11,5 @@ import org.springframework.context.annotation.PropertySource;
  */
 @PropertySource(value = "classpath:common-config.yml", factory = YamlPropertySourceFactory.class)
 public class ImmutableConfiguration {
+
 }

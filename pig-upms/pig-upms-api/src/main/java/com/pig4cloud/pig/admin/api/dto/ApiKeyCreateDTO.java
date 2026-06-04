@@ -35,17 +35,17 @@ import java.time.LocalDateTime;
 @Schema(description = "创建API密钥请求")
 public class ApiKeyCreateDTO {
 
-    @Schema(description = "Key名称")
-    private String name;
+	@Schema(description = "Key名称")
+	private String name;
 
-    @Schema(description = "IP白名单，多个以逗号分隔")
-    private String allowedIps;
+	@Schema(description = "IP白名单，多个以逗号分隔")
+	private String allowedIps;
 
-    @Schema(description = "过期时间")
-    private LocalDateTime expiresAt;
+	@Schema(description = "过期时间")
+	private LocalDateTime expiresAt;
 
-    @NotBlank(message = "当前密码不能为空")
-    @Schema(description = "当前登录用户密码（用于二次验证）")
-    private String password;
+	@NotBlank(message = "当前密码不能为空")
+	@Schema(description = "当前登录用户密码（用于二次验证）")
+	private String password;
 
 }

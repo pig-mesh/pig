@@ -121,7 +121,7 @@ public class SysLogController {
 	@HasPermission("sys_log_export")
 	public List<SysLog> export(SysLog sysLog, Long[] ids) {
 		return sysLogService
-				.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, CollUtil.toList(ids)));
+			.list(Wrappers.lambdaQuery(sysLog).in(Objects.nonNull(ids), SysLog::getId, CollUtil.toList(ids)));
 	}
 
 }

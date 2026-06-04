@@ -30,50 +30,49 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class PigOAuthRequestInterceptor implements RequestInterceptor {
 
-    private final BearerTokenResolver tokenResolver;
+	private final BearerTokenResolver tokenResolver;
 
-    /**
-     * Create a template with the header of provided name and extracted extract </br>
-     * <p>
-     * 1. 如果使用 非web 请求，header 区别 </br>
-     * <p>
-     * 2. 根据authentication 还原请求token
-     *
-     * @param template
-     */
-    @Override
-    public void apply(RequestTemplate template) {
-        Collection<String> fromHeader = template.headers().get(SecurityConstants.FROM);
-        // 带from 请求直接跳过
-        if (CollUtil.isNotEmpty(fromHeader) && fromHeader.contains(SecurityConstants.FROM_IN)) {
-            return;
-        }
+	/**
+	 * Create a template with the header of provided name and extracted extract </br>
+	 * <p>
+	 * 1. 如果使用 非web 请求，header 区别 </br>
+	 * <p>
+	 * 2. 根据authentication 还原请求token
+	 * @param template
+	 */
+	@Override
+	public void apply(RequestTemplate template) {
+		Collection<String> fromHeader = template.headers().get(SecurityConstants.FROM);
+		// 带from 请求直接跳过
+		if (CollUtil.isNotEmpty(fromHeader) && fromHeader.contains(SecurityConstants.FROM_IN)) {
+			return;
+		}
 
-        String token = null;
-        HttpServletRequest request = WebUtils.getRequest();
+		String token = null;
+		HttpServletRequest request = WebUtils.getRequest();
 
-        // 优先尝试从 Web 请求中解析 token
-        if (Objects.nonNull(request)) {
-            token = tokenResolver.resolve(request);
-        }
+		// 优先尝试从 Web 请求中解析 token
+		if (Objects.nonNull(request)) {
+			token = tokenResolver.resolve(request);
+		}
 
-        // 从webcontext 中获取 token
-        if (StrUtil.isBlank(token)) {
-            token = SecurityUtils.getToken();
-        }
+		// 从webcontext 中获取 token
+		if (StrUtil.isBlank(token)) {
+			token = SecurityUtils.getToken();
+		}
 
-        // 如果 request 中没有 token，从 NonWebTokenContextHolder 获取（适配消息队列等非 Web 场景）
-        if (StrUtil.isBlank(token)) {
-            token = NonWebTokenContextHolder.getToken();
-        }
+		// 如果 request 中没有 token，从 NonWebTokenContextHolder 获取（适配消息队列等非 Web 场景）
+		if (StrUtil.isBlank(token)) {
+			token = NonWebTokenContextHolder.getToken();
+		}
 
-        if (StrUtil.isBlank(token)) {
-            return;
-        }
+		if (StrUtil.isBlank(token)) {
+			return;
+		}
 
-        template.header(HttpHeaders.AUTHORIZATION,
-                String.format("%s %s", OAuth2AccessToken.TokenType.BEARER.getValue(), token));
+		template.header(HttpHeaders.AUTHORIZATION,
+				String.format("%s %s", OAuth2AccessToken.TokenType.BEARER.getValue(), token));
 
-    }
+	}
 
 }

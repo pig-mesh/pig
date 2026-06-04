@@ -64,17 +64,17 @@ public class GenFieldType extends Model<GenFieldType> {
 	@Schema(description = "属性包名")
 	private String packageName;
 
-    /**
-     * 默认表单类型
-     */
-    @Schema(description = "默认表单类型")
-    private String defaultFormType;
+	/**
+	 * 默认表单类型
+	 */
+	@Schema(description = "默认表单类型")
+	private String defaultFormType;
 
-    /**
-     * 默认查询表单类型
-     */
-    @Schema(description = "默认查询表单类型")
-    private String defaultQueryFormType;
+	/**
+	 * 默认查询表单类型
+	 */
+	@Schema(description = "默认查询表单类型")
+	private String defaultQueryFormType;
 
 	/**
 	 * 创建人

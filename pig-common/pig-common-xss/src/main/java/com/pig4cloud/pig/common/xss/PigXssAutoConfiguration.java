@@ -30,7 +30,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
-
 /**
  * jackson xss 配置
  *
@@ -43,38 +42,38 @@ import java.util.List;
 @SuppressWarnings("removal")
 public class PigXssAutoConfiguration implements WebMvcConfigurer {
 
-    private final PigXssProperties xssProperties;
+	private final PigXssProperties xssProperties;
 
-    @Bean
-    @ConditionalOnMissingBean
-    public XssCleaner xssCleaner(PigXssProperties properties) {
-        return new DefaultXssCleaner(properties);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public XssCleaner xssCleaner(PigXssProperties properties) {
+		return new DefaultXssCleaner(properties);
+	}
 
-    @Bean
-    @ConditionalOnMissingBean
-    public FormXssClean formXssClean(PigXssProperties properties, XssCleaner xssCleaner) {
-        return new FormXssClean(properties, xssCleaner);
-    }
+	@Bean
+	@ConditionalOnMissingBean
+	public FormXssClean formXssClean(PigXssProperties properties, XssCleaner xssCleaner) {
+		return new FormXssClean(properties, xssCleaner);
+	}
 
-    @Bean
-    public org.springframework.boot.jackson2.autoconfigure.Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(
-            PigXssProperties properties, XssCleaner xssCleaner) {
-        JacksonXssClean xssClean = new JacksonXssClean(properties, xssCleaner);
-        return builder -> builder.deserializerByType(String.class, xssClean);
-    }
+	@Bean
+	public org.springframework.boot.jackson2.autoconfigure.Jackson2ObjectMapperBuilderCustomizer xssJacksonCustomizer(
+			PigXssProperties properties, XssCleaner xssCleaner) {
+		JacksonXssClean xssClean = new JacksonXssClean(properties, xssCleaner);
+		return builder -> builder.deserializerByType(String.class, xssClean);
+	}
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        List<String> patterns = xssProperties.getPathPatterns();
-        if (patterns.isEmpty()) {
-            patterns.add("/**");
-        }
-        XssCleanInterceptor interceptor = new XssCleanInterceptor(xssProperties);
-        registry.addInterceptor(interceptor)
-                .addPathPatterns(patterns)
-                .excludePathPatterns(xssProperties.getPathExcludePatterns())
-                .order(Ordered.LOWEST_PRECEDENCE);
-    }
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		List<String> patterns = xssProperties.getPathPatterns();
+		if (patterns.isEmpty()) {
+			patterns.add("/**");
+		}
+		XssCleanInterceptor interceptor = new XssCleanInterceptor(xssProperties);
+		registry.addInterceptor(interceptor)
+			.addPathPatterns(patterns)
+			.excludePathPatterns(xssProperties.getPathExcludePatterns())
+			.order(Ordered.LOWEST_PRECEDENCE);
+	}
 
 }

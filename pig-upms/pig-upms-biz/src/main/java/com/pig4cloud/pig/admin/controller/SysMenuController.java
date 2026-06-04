@@ -55,8 +55,7 @@ public class SysMenuController {
 
 	/**
 	 * 返回当前用户的树形菜单集合
-	 *
-	 * @param type     类型
+	 * @param type 类型
 	 * @param parentId 父节点ID
 	 * @return 当前用户的树形菜单
 	 */
@@ -70,7 +69,6 @@ public class SysMenuController {
 
 	/**
 	 * 返回树形菜单集合
-	 *
 	 * @param parentId 父节点ID
 	 * @param menuName 菜单名称
 	 * @return 树形菜单
@@ -82,7 +80,6 @@ public class SysMenuController {
 
 	/**
 	 * 返回角色的菜单集合
-	 *
 	 * @param roleId 角色ID
 	 * @return 属性集合
 	 */
@@ -93,7 +90,6 @@ public class SysMenuController {
 
 	/**
 	 * 获取详细信息
-	 *
 	 * @param query 查询条件
 	 * @return {@link R }
 	 */
@@ -104,7 +100,6 @@ public class SysMenuController {
 
 	/**
 	 * 新增菜单
-	 *
 	 * @param sysMenu 菜单信息
 	 * @return success/false
 	 */
@@ -118,7 +113,6 @@ public class SysMenuController {
 
 	/**
 	 * 删除菜单
-	 *
 	 * @param id 菜单ID
 	 * @return success/false
 	 */
@@ -131,7 +125,6 @@ public class SysMenuController {
 
 	/**
 	 * 更新菜单
-	 *
 	 * @param sysMenu
 	 * @return
 	 */
@@ -142,25 +135,23 @@ public class SysMenuController {
 		return R.ok(sysMenuService.updateMenuById(sysMenu));
 	}
 
-    /**
-     * 更新菜单同级排序
-     *
-     * @param sortDTO 菜单排序信息
-     * @return success/false
-     */
-    @SysLog("更新菜单排序")
-    @PutMapping("/sort")
-    @HasPermission("sys_menu_edit")
-    public R sort(@Valid @RequestBody SysMenuSortDTO sortDTO) {
-        return sysMenuService.updateMenuSort(sortDTO);
-    }
+	/**
+	 * 更新菜单同级排序
+	 * @param sortDTO 菜单排序信息
+	 * @return success/false
+	 */
+	@SysLog("更新菜单排序")
+	@PutMapping("/sort")
+	@HasPermission("sys_menu_edit")
+	public R sort(@Valid @RequestBody SysMenuSortDTO sortDTO) {
+		return sysMenuService.updateMenuSort(sortDTO);
+	}
 
 	/**
 	 * 刷新指定角色的菜单权限缓存
 	 * <p>
-	 * menu_details 缓存 key = roleId，精确清除该角色的菜单缓存，
-	 * 与 SysRoleMenuServiceImpl.saveRoleMenus 的 @CacheEvict(key = "#roleId") 逻辑保持一致。
-	 *
+	 * menu_details 缓存 key = roleId，精确清除该角色的菜单缓存， 与 SysRoleMenuServiceImpl.saveRoleMenus
+	 * 的 @CacheEvict(key = "#roleId") 逻辑保持一致。
 	 * @param roleId 角色ID
 	 * @return success/fail
 	 */

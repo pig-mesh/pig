@@ -42,63 +42,60 @@ import java.util.concurrent.ThreadPoolExecutor;
 @EnableConfigurationProperties(TaskExecutionProperties.class)
 public class WebCommonConfiguration implements WebMvcConfigurer {
 
-    private final TaskExecutionProperties taskExecutionProperties;
+	private final TaskExecutionProperties taskExecutionProperties;
 
-    public WebCommonConfiguration(TaskExecutionProperties taskExecutionProperties) {
-        this.taskExecutionProperties = taskExecutionProperties;
-    }
+	public WebCommonConfiguration(TaskExecutionProperties taskExecutionProperties) {
+		this.taskExecutionProperties = taskExecutionProperties;
+	}
 
-    /**
-     * 异步任务执行器，用于处理Spring MVC异步请求和Flowable异步任务
-     * <p>
-     * 配置项通过 spring.task.execution.* 进行配置
-     * Bean名称为 applicationTaskExecutor，符合Spring Boot默认命名约定
-     * </p>
-     *
-     * @return AsyncTaskExecutor实例
-     */
-    @Bean
-    @Primary
-    public AsyncTaskExecutor applicationAsyncTaskExecutor() {
-        TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(pool.getCoreSize());
-        executor.setMaxPoolSize(pool.getMaxSize());
-        executor.setQueueCapacity(pool.getQueueCapacity());
-        executor.setKeepAliveSeconds((int) pool.getKeepAlive().toSeconds());
-        executor.setThreadNamePrefix(taskExecutionProperties.getThreadNamePrefix());
-        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
-        executor.setWaitForTasksToCompleteOnShutdown(true);
-        executor.setAwaitTerminationSeconds(60);
-        executor.initialize();
-        return executor;
-    }
+	/**
+	 * 异步任务执行器，用于处理Spring MVC异步请求和Flowable异步任务
+	 * <p>
+	 * 配置项通过 spring.task.execution.* 进行配置 Bean名称为 applicationTaskExecutor，符合Spring
+	 * Boot默认命名约定
+	 * </p>
+	 * @return AsyncTaskExecutor实例
+	 */
+	@Bean
+	@Primary
+	public AsyncTaskExecutor applicationAsyncTaskExecutor() {
+		TaskExecutionProperties.Pool pool = taskExecutionProperties.getPool();
+		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+		executor.setCorePoolSize(pool.getCoreSize());
+		executor.setMaxPoolSize(pool.getMaxSize());
+		executor.setQueueCapacity(pool.getQueueCapacity());
+		executor.setKeepAliveSeconds((int) pool.getKeepAlive().toSeconds());
+		executor.setThreadNamePrefix(taskExecutionProperties.getThreadNamePrefix());
+		executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
+		executor.setWaitForTasksToCompleteOnShutdown(true);
+		executor.setAwaitTerminationSeconds(60);
+		executor.initialize();
+		return executor;
+	}
 
-    @Override
-    public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(applicationAsyncTaskExecutor());
-    }
+	@Override
+	public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
+		configurer.setTaskExecutor(applicationAsyncTaskExecutor());
+	}
 
-    /**
-     * 创建并配置RestTemplate的Bean方法
-     *
-     * @return RestTemplate实例
-     */
-    @Bean
-    public RestTemplate restTemplate() {
-        return new RestTemplate();
-    }
+	/**
+	 * 创建并配置RestTemplate的Bean方法
+	 * @return RestTemplate实例
+	 */
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
+	}
 
-    /**
-     * 创建并返回{@link PriorityHeaderInitBinder}的Bean实例。
-     *
-     * @return PriorityHeaderInitBinder的实例对象
-     * @condition 当Web应用程序类型为SERVLET时条件成立
-     * @see PriorityHeaderInitBinder
-     */
-    @Bean
-    public PriorityHeaderInitBinder priorityHeaderInitBinder() {
-        return new PriorityHeaderInitBinder();
-    }
+	/**
+	 * 创建并返回{@link PriorityHeaderInitBinder}的Bean实例。
+	 * @return PriorityHeaderInitBinder的实例对象
+	 * @condition 当Web应用程序类型为SERVLET时条件成立
+	 * @see PriorityHeaderInitBinder
+	 */
+	@Bean
+	public PriorityHeaderInitBinder priorityHeaderInitBinder() {
+		return new PriorityHeaderInitBinder();
+	}
 
 }

@@ -11,49 +11,49 @@ import lombok.Data;
 @Data
 public class SysSystemSmsConfigVO {
 
-    /**
-     * 配置标识
-     */
-    private String configId;
+	/**
+	 * 配置标识
+	 */
+	private String configId;
 
-    /**
-     * 厂商标识
-     */
-    private String supplier;
+	/**
+	 * 厂商标识
+	 */
+	private String supplier;
 
-    /**
-     * accessKey
-     */
-    private String accessKeyId;
+	/**
+	 * accessKey
+	 */
+	private String accessKeyId;
 
-    /**
-     * accessKeySecret
-     */
-    private String accessKeySecret;
+	/**
+	 * accessKeySecret
+	 */
+	private String accessKeySecret;
 
-    /**
-     * 短信签名
-     */
-    private String signature;
+	/**
+	 * 短信签名
+	 */
+	private String signature;
 
-    /**
-     * 模板ID
-     */
-    private String templateId;
+	/**
+	 * 模板ID
+	 */
+	private String templateId;
 
-    /**
-     * sdkAppId
-     */
-    private String sdkAppId;
+	/**
+	 * sdkAppId
+	 */
+	private String sdkAppId;
 
-    /**
-     * 重试间隔（单位：秒），默认为5秒
-     */
-    private int retryInterval = 5;
+	/**
+	 * 重试间隔（单位：秒），默认为5秒
+	 */
+	private int retryInterval = 5;
 
-    /**
-     * 最大发送数量，默认integer上限
-     */
-    private int maximum = Integer.MAX_VALUE;
+	/**
+	 * 最大发送数量，默认integer上限
+	 */
+	private int maximum = Integer.MAX_VALUE;
 
 }

@@ -37,24 +37,22 @@ import org.springframework.web.bind.annotation.PutMapping;
 @FeignClient(contextId = "remoteApiKeyService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteApiKeyService {
 
-    /**
-     * 根据 SHA-256 哈希值查询 API Key（仅限内部调用）
-     *
-     * @param hash API Key 的 SHA-256 哈希值
-     * @return 对应的 SysApiKey 记录，不存在时 data 为 null
-     */
-    @NoToken
-    @GetMapping("/api-key/inner/hash/{hash}")
-    R<SysApiKey> getByHash(@PathVariable String hash);
+	/**
+	 * 根据 SHA-256 哈希值查询 API Key（仅限内部调用）
+	 * @param hash API Key 的 SHA-256 哈希值
+	 * @return 对应的 SysApiKey 记录，不存在时 data 为 null
+	 */
+	@NoToken
+	@GetMapping("/api-key/inner/hash/{hash}")
+	R<SysApiKey> getByHash(@PathVariable String hash);
 
-    /**
-     * 更新 API Key 的最后使用时间（仅限内部调用）
-     *
-     * @param id API Key 主键
-     * @return 更新是否成功
-     */
-    @NoToken
-    @PutMapping("/api-key/inner/last-used/{id}")
-    R<Boolean> updateLastUsed(@PathVariable Long id);
+	/**
+	 * 更新 API Key 的最后使用时间（仅限内部调用）
+	 * @param id API Key 主键
+	 * @return 更新是否成功
+	 */
+	@NoToken
+	@PutMapping("/api-key/inner/last-used/{id}")
+	R<Boolean> updateLastUsed(@PathVariable Long id);
 
 }

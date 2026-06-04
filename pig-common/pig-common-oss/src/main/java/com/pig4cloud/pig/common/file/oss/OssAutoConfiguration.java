@@ -43,7 +43,7 @@ public class OssAutoConfiguration {
 	@Bean
 	@Primary
 	@ConditionalOnMissingBean(OssTemplate.class)
-    @Conditional(OssFileTypeCondition.class)
+	@Conditional(OssFileTypeCondition.class)
 	public FileTemplate ossTemplate() {
 		return new OssTemplate(properties);
 	}

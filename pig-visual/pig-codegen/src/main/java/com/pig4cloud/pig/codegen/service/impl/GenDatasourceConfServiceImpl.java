@@ -86,11 +86,11 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	 */
 	@Override
 	public Boolean updateDsByEnc(GenDatasourceConf conf) {
-        // 密码为空时，从数据库查询原始密码并解密，用于连接校验
-        if (StrUtil.isBlank(conf.getPassword())) {
-            GenDatasourceConf dbConf = this.baseMapper.selectById(conf.getId());
-            conf.setPassword(stringEncryptor.decrypt(dbConf.getPassword()));
-        }
+		// 密码为空时，从数据库查询原始密码并解密，用于连接校验
+		if (StrUtil.isBlank(conf.getPassword())) {
+			GenDatasourceConf dbConf = this.baseMapper.selectById(conf.getId());
+			conf.setPassword(stringEncryptor.decrypt(dbConf.getPassword()));
+		}
 
 		if (!checkDataSource(conf)) {
 			return Boolean.FALSE;
@@ -103,7 +103,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		addDynamicDataSource(conf);
 
 		// 更新数据库配置
-        conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
+		conf.setPassword(stringEncryptor.encrypt(conf.getPassword()));
 		this.baseMapper.updateById(conf);
 		return Boolean.TRUE;
 	}
@@ -136,7 +136,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 
 		// 增加 ValidationQuery 参数
 		DruidConfig druidConfig = new DruidConfig();
-        DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
+		DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 		druidConfig.setValidationQuery(urlEnum.getValidationQuery());
 		dataSourceProperty.setDruid(druidConfig);
 		DataSource dataSource = druidDataSourceCreator.createDataSource(dataSourceProperty);
@@ -156,13 +156,14 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		// JDBC 配置形式
 		if (DsConfTypeEnum.JDBC.getType().equals(conf.getConfType())) {
 			url = conf.getUrl();
-		} else if (DsTypeEnum.MSSQL.getDbName().equals(conf.getDsType())) {
+		}
+		else if (DsTypeEnum.MSSQL.getDbName().equals(conf.getDsType())) {
 			// 主机形式 sql server 特殊处理
-            DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
+			DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getPort(), conf.getDsName());
 		}
 		else {
-            DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
+			DsTypeEnum urlEnum = DsTypeEnum.get(conf.getDsType());
 			url = String.format(urlEnum.getUrl(), conf.getHost(), conf.getPort(), conf.getDsName());
 		}
 
@@ -177,27 +178,27 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		return Boolean.TRUE;
 	}
 
-    /**
-     * 查询数据库解析插件加载状态
-     *
-     * @return 数据源类型与解析插件状态
-     */
-    @Override
-    public Map<String, Boolean> listParserPlugins() {
-        Map<String, Boolean> result = new LinkedHashMap<>();
-        for (DsTypeEnum dsEnum : DsTypeEnum.values()) {
-            result.put(dsEnum.getDbName(), isClassPresent(dsEnum.getAnylineAdapter()));
-        }
-        return result;
-    }
+	/**
+	 * 查询数据库解析插件加载状态
+	 * @return 数据源类型与解析插件状态
+	 */
+	@Override
+	public Map<String, Boolean> listParserPlugins() {
+		Map<String, Boolean> result = new LinkedHashMap<>();
+		for (DsTypeEnum dsEnum : DsTypeEnum.values()) {
+			result.put(dsEnum.getDbName(), isClassPresent(dsEnum.getAnylineAdapter()));
+		}
+		return result;
+	}
 
-    private boolean isClassPresent(String className) {
-        try {
-            ClassUtil.loadClass(className, false);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
+	private boolean isClassPresent(String className) {
+		try {
+			ClassUtil.loadClass(className, false);
+			return true;
+		}
+		catch (Exception e) {
+			return false;
+		}
+	}
 
 }

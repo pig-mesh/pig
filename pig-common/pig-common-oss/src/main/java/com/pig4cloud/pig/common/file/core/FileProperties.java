@@ -39,21 +39,21 @@ public class FileProperties {
 	 */
 	private String bucketName = "local";
 
-    /**
-     * 文件存储类型
-     */
-    private FileType type = FileType.LOCAL;
+	/**
+	 * 文件存储类型
+	 */
+	private FileType type = FileType.LOCAL;
 
 	/**
 	 * 本地文件配置信息
 	 */
 	@NestedConfigurationProperty
-    private LocalFileProperties local = new LocalFileProperties();
+	private LocalFileProperties local = new LocalFileProperties();
 
 	/**
 	 * oss 文件配置信息
 	 */
 	@NestedConfigurationProperty
-    private OssProperties oss = new OssProperties();
+	private OssProperties oss = new OssProperties();
 
 }

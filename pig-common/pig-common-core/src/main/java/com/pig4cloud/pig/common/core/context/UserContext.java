@@ -20,8 +20,7 @@ package com.pig4cloud.pig.common.core.context;
 import java.util.List;
 
 /**
- * 当前登录用户的最小上下文，仅暴露通用审计能力所需字段。
- * 安全实现独立于此接口，避免 data 等通用模块反向依赖 security。
+ * 当前登录用户的最小上下文，仅暴露通用审计能力所需字段。 安全实现独立于此接口，避免 data 等通用模块反向依赖 security。
  *
  * @author lengleng
  */

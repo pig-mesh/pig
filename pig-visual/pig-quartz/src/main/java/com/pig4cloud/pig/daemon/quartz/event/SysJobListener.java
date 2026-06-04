@@ -30,8 +30,7 @@ import org.springframework.stereotype.Service;
 /**
  * 异步监听定时任务执行事件。
  * <p>
- * 监听器收到事件后，会在异步线程中继续调用真实任务执行器，
- * 从而避免 Quartz 调度线程被业务执行时间阻塞。
+ * 监听器收到事件后，会在异步线程中继续调用真实任务执行器， 从而避免 Quartz 调度线程被业务执行时间阻塞。
  * </p>
  */
 @Slf4j
@@ -41,18 +40,17 @@ public class SysJobListener {
 
 	private final TaskInvokUtil taskInvokUtil;
 
-    /**
-     * 处理 Quartz 发布的任务执行事件。
-     *
-     * @param event 当前任务执行事件，包含任务配置、触发器和执行元数据
-     */
+	/**
+	 * 处理 Quartz 发布的任务执行事件。
+	 * @param event 当前任务执行事件，包含任务配置、触发器和执行元数据
+	 */
 	@Async
 	@Order
 	@EventListener(SysJobEvent.class)
 	public void comSysJob(SysJobEvent event) {
 		SysJob sysJob = event.getSysJob();
 		Trigger trigger = event.getTrigger();
-        taskInvokUtil.invokMethod(sysJob, trigger, event.getExecutionMetadata());
+		taskInvokUtil.invokMethod(sysJob, trigger, event.getExecutionMetadata());
 	}
 
 }

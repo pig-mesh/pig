@@ -38,40 +38,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(contextId = "remoteMessageService", value = ServiceNameConstants.UPMS_SERVICE)
 public interface RemoteMessageService {
 
-    /**
-     * 发送短消息
-     *
-     * @param smsDTO 短信 DTO
-     * @return {@link R }
-     */
-    @PostMapping("/sysMessage/send/sms")
-    R sendSms(@RequestBody MessageSmsDTO smsDTO);
+	/**
+	 * 发送短消息
+	 * @param smsDTO 短信 DTO
+	 * @return {@link R }
+	 */
+	@PostMapping("/sysMessage/send/sms")
+	R sendSms(@RequestBody MessageSmsDTO smsDTO);
 
-    /**
-     * 发送邮件
-     *
-     * @param emailDTO 电子邮件 DTO
-     * @return {@link R }
-     */
-    @PostMapping("/sysMessage/send/email")
-    R sendEmail(@RequestBody MessageEmailDTO emailDTO);
+	/**
+	 * 发送邮件
+	 * @param emailDTO 电子邮件 DTO
+	 * @return {@link R }
+	 */
+	@PostMapping("/sysMessage/send/email")
+	R sendEmail(@RequestBody MessageEmailDTO emailDTO);
 
-    /**
-     * 发送钩子
-     *
-     * @param hookDTO 钩子 dto
-     * @return {@link R }
-     */
-    @PostMapping("/sysMessage/send/hook")
-    R sendHook(@RequestBody MessageHookDTO hookDTO);
+	/**
+	 * 发送钩子
+	 * @param hookDTO 钩子 dto
+	 * @return {@link R }
+	 */
+	@PostMapping("/sysMessage/send/hook")
+	R sendHook(@RequestBody MessageHookDTO hookDTO);
 
-    /**
-     * 发送站内消息/公告
-     *
-     * @param noticeDTO 站内消息 DTO
-     * @return {@link R }
-     */
-    @PostMapping("/sysMessage/send/notice")
-    R sendNotice(@RequestBody MessageNoticeDTO noticeDTO);
+	/**
+	 * 发送站内消息/公告
+	 * @param noticeDTO 站内消息 DTO
+	 * @return {@link R }
+	 */
+	@PostMapping("/sysMessage/send/notice")
+	R sendNotice(@RequestBody MessageNoticeDTO noticeDTO);
 
 }

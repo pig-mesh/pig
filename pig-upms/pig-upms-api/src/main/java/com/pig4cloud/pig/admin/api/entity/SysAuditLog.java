@@ -15,12 +15,14 @@
  * Author: lengleng (wangiegie@gmail.com)
  */
 package com.pig4cloud.pig.admin.api.entity;
+
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.time.LocalDateTime;
+
 /**
  * 审计记录表
  *
@@ -32,43 +34,52 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = true)
 @Schema(description = "审计记录表")
 public class SysAuditLog extends Model<SysAuditLog> {
+
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键
 	 */
 	@TableId(type = IdType.ASSIGN_ID)
 	@Schema(description = "主键")
 	private Long id;
+
 	/**
 	 * 审计名称
 	 */
 	@Schema(description = "审计名称")
 	private String auditName;
+
 	/**
 	 * 字段名称
 	 */
 	@Schema(description = "字段名称")
 	private String auditField;
+
 	/**
 	 * 变更前值
 	 */
 	@Schema(description = "变更前值")
 	private String beforeVal;
+
 	/**
 	 * 变更后值
 	 */
 	@Schema(description = "变更后值")
 	private String afterVal;
+
 	/**
 	 * 操作人
 	 */
 	@Schema(description = "操作人")
 	private String createBy;
+
 	/**
 	 * 操作时间
 	 */
 	@Schema(description = "操作时间")
 	private LocalDateTime createTime;
+
 	/**
 	 * 删除标记
 	 */
@@ -76,4 +87,5 @@ public class SysAuditLog extends Model<SysAuditLog> {
 	@TableLogic
 	@TableField(fill = FieldFill.INSERT)
 	private String delFlag;
+
 }

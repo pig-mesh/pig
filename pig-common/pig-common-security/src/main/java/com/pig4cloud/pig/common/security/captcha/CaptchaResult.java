@@ -14,33 +14,31 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CaptchaResult {
 
-    /**
-     * 校验是否通过
-     */
-    private final boolean ok;
+	/**
+	 * 校验是否通过
+	 */
+	private final boolean ok;
 
-    /**
-     * 失败时的提示文案，校验成功时为空
-     */
-    private final String errorMessage;
+	/**
+	 * 失败时的提示文案，校验成功时为空
+	 */
+	private final String errorMessage;
 
-    /**
-     * 构造验证码校验成功结果。
-     *
-     * @return 成功结果，错误提示为空
-     */
-    public static CaptchaResult ok() {
-        return new CaptchaResult(true, null);
-    }
+	/**
+	 * 构造验证码校验成功结果。
+	 * @return 成功结果，错误提示为空
+	 */
+	public static CaptchaResult ok() {
+		return new CaptchaResult(true, null);
+	}
 
-    /**
-     * 构造验证码校验失败结果。
-     *
-     * @param errorMessage 失败提示文案
-     * @return 失败结果
-     */
-    public static CaptchaResult failed(String errorMessage) {
-        return new CaptchaResult(false, errorMessage);
-    }
+	/**
+	 * 构造验证码校验失败结果。
+	 * @param errorMessage 失败提示文案
+	 * @return 失败结果
+	 */
+	public static CaptchaResult failed(String errorMessage) {
+		return new CaptchaResult(false, errorMessage);
+	}
 
 }

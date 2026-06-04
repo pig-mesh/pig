@@ -55,7 +55,7 @@ public class OssEndpoint {
 	 */
 	@SneakyThrows
 	@PostMapping("/bucket/{bucketName}")
-    public FileBucket createBucker(@PathVariable String bucketName) {
+	public FileBucket createBucker(@PathVariable String bucketName) {
 
 		template.createBucket(bucketName);
 		return template.getBucket(bucketName).get();
@@ -64,13 +64,13 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@GetMapping("/bucket")
-    public List<FileBucket> getBuckets() {
+	public List<FileBucket> getBuckets() {
 		return template.getAllBuckets();
 	}
 
 	@SneakyThrows
 	@GetMapping("/bucket/{bucketName}")
-    public FileBucket getBucket(@PathVariable String bucketName) {
+	public FileBucket getBucket(@PathVariable String bucketName) {
 		return template.getBucket(bucketName).orElseThrow(() -> new IllegalArgumentException("Bucket Name not found!"));
 	}
 
@@ -86,7 +86,7 @@ public class OssEndpoint {
 	 */
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}")
-    public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
+	public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName) {
 		String name = object.getOriginalFilename();
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
@@ -97,7 +97,7 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@PostMapping("/object/{bucketName}/{objectName}")
-    public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
+	public FileObjectInfo createObject(@RequestBody MultipartFile object, @PathVariable String bucketName,
 			@PathVariable String objectName) {
 		@Cleanup
 		InputStream inputStream = object.getInputStream();
@@ -108,7 +108,7 @@ public class OssEndpoint {
 
 	@SneakyThrows
 	@GetMapping("/object/{bucketName}/{objectName}")
-    public List<FileObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
+	public List<FileObjectSummary> filterObject(@PathVariable String bucketName, @PathVariable String objectName) {
 
 		return template.getAllObjectsByPrefix(bucketName, objectName, true);
 

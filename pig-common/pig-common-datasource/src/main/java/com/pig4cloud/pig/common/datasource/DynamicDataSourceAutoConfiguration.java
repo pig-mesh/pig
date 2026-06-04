@@ -53,73 +53,69 @@ import java.util.List;
 @EnableConfigurationProperties(DruidDataSourceProperties.class)
 public class DynamicDataSourceAutoConfiguration {
 
-    /**
-     * 获取动态数据源提供者
-     *
-     * @param defaultDataSourceCreator 默认数据源创建器
-     * @param stringEncryptor          字符串加密器
-     * @param properties               数据源属性
-     * @return 动态数据源提供者
-     */
-    @Bean
-    public DynamicDataSourceProvider dynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
-                                                               StringEncryptor stringEncryptor, DruidDataSourceProperties properties) {
-        return new JdbcDynamicDataSourceProvider(defaultDataSourceCreator, stringEncryptor, properties);
-    }
+	/**
+	 * 获取动态数据源提供者
+	 * @param defaultDataSourceCreator 默认数据源创建器
+	 * @param stringEncryptor 字符串加密器
+	 * @param properties 数据源属性
+	 * @return 动态数据源提供者
+	 */
+	@Bean
+	public DynamicDataSourceProvider dynamicDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			StringEncryptor stringEncryptor, DruidDataSourceProperties properties) {
+		return new JdbcDynamicDataSourceProvider(defaultDataSourceCreator, stringEncryptor, properties);
+	}
 
-    /**
-     * 主数据源提供程序
-     *
-     * @param defaultDataSourceCreator 默认数据源创建者
-     * @param properties               性能
-     * @return {@link DynamicDataSourceProvider }
-     */
-    @Bean
-    public DynamicDataSourceProvider masterDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator, DruidDataSourceProperties properties) {
-        return new MasterDataSourceProvider(defaultDataSourceCreator, properties);
-    }
+	/**
+	 * 主数据源提供程序
+	 * @param defaultDataSourceCreator 默认数据源创建者
+	 * @param properties 性能
+	 * @return {@link DynamicDataSourceProvider }
+	 */
+	@Bean
+	public DynamicDataSourceProvider masterDataSourceProvider(DefaultDataSourceCreator defaultDataSourceCreator,
+			DruidDataSourceProperties properties) {
+		return new MasterDataSourceProvider(defaultDataSourceCreator, properties);
+	}
 
-    /**
-     * 获取默认数据源创建器
-     *
-     * @param druidDataSourceCreator Druid数据源创建器
-     * @return 默认数据源创建器
-     */
-    @Bean
-    public DefaultDataSourceCreator defaultDataSourceCreator(DruidDataSourceCreator druidDataSourceCreator) {
-        DefaultDataSourceCreator defaultDataSourceCreator = new DefaultDataSourceCreator();
-        List<DataSourceCreator> creators = new ArrayList<>();
-        creators.add(druidDataSourceCreator);
-        defaultDataSourceCreator.setCreators(creators);
-        return defaultDataSourceCreator;
-    }
+	/**
+	 * 获取默认数据源创建器
+	 * @param druidDataSourceCreator Druid数据源创建器
+	 * @return 默认数据源创建器
+	 */
+	@Bean
+	public DefaultDataSourceCreator defaultDataSourceCreator(DruidDataSourceCreator druidDataSourceCreator) {
+		DefaultDataSourceCreator defaultDataSourceCreator = new DefaultDataSourceCreator();
+		List<DataSourceCreator> creators = new ArrayList<>();
+		creators.add(druidDataSourceCreator);
+		defaultDataSourceCreator.setCreators(creators);
+		return defaultDataSourceCreator;
+	}
 
-    /**
-     * 获取数据源处理器
-     *
-     * @return 数据源处理器
-     */
-    @Bean
-    public DsProcessor dsProcessor(BeanFactory beanFactory) {
-        DsProcessor lastParamDsProcessor = new LastParamDsProcessor();
-        DsProcessor headerProcessor = new DsJakartaHeaderProcessor();
-        DsProcessor sessionProcessor = new DsJakartaSessionProcessor();
-        DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
-        spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
-        lastParamDsProcessor.setNextProcessor(headerProcessor);
-        headerProcessor.setNextProcessor(sessionProcessor);
-        sessionProcessor.setNextProcessor(spelExpressionProcessor);
-        return lastParamDsProcessor;
-    }
+	/**
+	 * 获取数据源处理器
+	 * @return 数据源处理器
+	 */
+	@Bean
+	public DsProcessor dsProcessor(BeanFactory beanFactory) {
+		DsProcessor lastParamDsProcessor = new LastParamDsProcessor();
+		DsProcessor headerProcessor = new DsJakartaHeaderProcessor();
+		DsProcessor sessionProcessor = new DsJakartaSessionProcessor();
+		DsSpelExpressionProcessor spelExpressionProcessor = new DsSpelExpressionProcessor();
+		spelExpressionProcessor.setBeanResolver(new BeanFactoryResolver(beanFactory));
+		lastParamDsProcessor.setNextProcessor(headerProcessor);
+		headerProcessor.setNextProcessor(sessionProcessor);
+		sessionProcessor.setNextProcessor(spelExpressionProcessor);
+		return lastParamDsProcessor;
+	}
 
-    /**
-     * 获取清除TTL数据源过滤器
-     *
-     * @return 清除TTL数据源过滤器
-     */
-    @Bean
-    public ClearTtlDataSourceFilter clearTtlDsFilter() {
-        return new ClearTtlDataSourceFilter();
-    }
+	/**
+	 * 获取清除TTL数据源过滤器
+	 * @return 清除TTL数据源过滤器
+	 */
+	@Bean
+	public ClearTtlDataSourceFilter clearTtlDsFilter() {
+		return new ClearTtlDataSourceFilter();
+	}
 
 }

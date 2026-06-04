@@ -64,7 +64,8 @@ public class FormAuthenticationFailureHandler implements AuthenticationFailureHa
 
 		try {
 			WebUtils.getResponse().sendRedirect(url);
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			log.error("重定向失败", e);
 		}
 	}

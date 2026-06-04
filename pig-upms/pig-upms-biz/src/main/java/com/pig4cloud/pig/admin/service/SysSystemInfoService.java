@@ -38,8 +38,7 @@ public interface SysSystemInfoService extends IService<SysClarityData> {
 	R<Map<String, Object>> getCacheInfo();
 
 	/**
-	 * 获取今日 Clarity 数据
-	 * 查库优先：有数据直接返回；无数据触发异步拉取并返回 loading 状态
+	 * 获取今日 Clarity 数据 查库优先：有数据直接返回；无数据触发异步拉取并返回 loading 状态
 	 * @param numOfDays Clarity API numOfDays 参数（1=24h, 2=48h, 3=72h）
 	 * @return R
 	 */

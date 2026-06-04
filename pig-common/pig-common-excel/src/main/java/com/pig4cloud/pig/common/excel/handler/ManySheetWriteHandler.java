@@ -24,9 +24,9 @@ import java.util.List;
 public class ManySheetWriteHandler extends AbstractSheetWriteHandler {
 
 	public ManySheetWriteHandler(ExcelConfigProperties configProperties,
-                                 ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
-                                 ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
-        super(configProperties, converterProvider, excelWriterBuilderEnhance, i18nHeaderProvider);
+			ObjectProvider<List<Converter<?>>> converterProvider, WriterBuilderEnhancer excelWriterBuilderEnhance,
+			ObjectProvider<I18nHeaderCellWriteHandler> i18nHeaderProvider) {
+		super(configProperties, converterProvider, excelWriterBuilderEnhance, i18nHeaderProvider);
 	}
 
 	/**

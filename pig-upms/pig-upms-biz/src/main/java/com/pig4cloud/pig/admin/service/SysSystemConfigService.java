@@ -13,29 +13,26 @@ import com.pig4cloud.pig.common.core.util.R;
  */
 public interface SysSystemConfigService extends IService<SysSystemConfigEntity> {
 
-    /**
-     * 列出系统配置
-     *
-     * @param query 查询
-     * @return {@link R }
-     */
-    R listSystemConfig(SysSystemConfigEntity query);
+	/**
+	 * 列出系统配置
+	 * @param query 查询
+	 * @return {@link R }
+	 */
+	R listSystemConfig(SysSystemConfigEntity query);
 
-    /**
-     * 系统配置
-     *
-     * @param page            页
-     * @param sysSystemConfig sys 系统配置
-     * @return {@link R }
-     */
-    R pageSystemConfig(Page page, SysSystemConfigEntity sysSystemConfig);
+	/**
+	 * 系统配置
+	 * @param page 页
+	 * @param sysSystemConfig sys 系统配置
+	 * @return {@link R }
+	 */
+	R pageSystemConfig(Page page, SysSystemConfigEntity sysSystemConfig);
 
-    /**
-     * 更新系统配置
-     *
-     * @param sysSystemConfig sys 系统配置
-     * @return {@link R }
-     */
-    R updateSystemConfig(SysSystemConfigEntity sysSystemConfig);
+	/**
+	 * 更新系统配置
+	 * @param sysSystemConfig sys 系统配置
+	 * @return {@link R }
+	 */
+	R updateSystemConfig(SysSystemConfigEntity sysSystemConfig);
 
 }

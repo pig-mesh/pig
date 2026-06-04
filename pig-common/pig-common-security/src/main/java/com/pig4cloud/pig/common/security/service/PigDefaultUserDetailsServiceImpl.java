@@ -45,49 +45,47 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PigDefaultUserDetailsServiceImpl implements PigUserDetailsService {
 
-    private final RemoteUserService remoteUserService;
+	private final RemoteUserService remoteUserService;
 
-    private final CacheManager cacheManager;
+	private final CacheManager cacheManager;
 
-    /**
-     * 用户密码登录
-     *
-     * @param username 用户名
-     * @return
-     * @throws UsernameNotFoundException
-     */
-    @Override
-    @SneakyThrows
-    public UserDetails loadUserByUsername(String username) {
-        Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
-        if (Objects.nonNull(cache) && Objects.nonNull(cache.get(username))) {
-            return getUserDetails(Optional.ofNullable(cache.get(username, UserInfo.class)));
-        }
+	/**
+	 * 用户密码登录
+	 * @param username 用户名
+	 * @return
+	 * @throws UsernameNotFoundException
+	 */
+	@Override
+	@SneakyThrows
+	public UserDetails loadUserByUsername(String username) {
+		Cache cache = cacheManager.getCache(CacheConstants.USER_DETAILS);
+		if (Objects.nonNull(cache) && Objects.nonNull(cache.get(username))) {
+			return getUserDetails(Optional.ofNullable(cache.get(username, UserInfo.class)));
+		}
 
-        R<UserInfo> result = remoteUserService.info(username);
-        Optional<UserInfo> userInfoOptional = RetOps.of(result).getData();
-        userInfoOptional.ifPresent(userInfo -> Objects.requireNonNull(cache).put(username, userInfo));
-        return getUserDetails(userInfoOptional);
-    }
+		R<UserInfo> result = remoteUserService.info(username);
+		Optional<UserInfo> userInfoOptional = RetOps.of(result).getData();
+		userInfoOptional.ifPresent(userInfo -> Objects.requireNonNull(cache).put(username, userInfo));
+		return getUserDetails(userInfoOptional);
+	}
 
-    /**
-     * 通过用户实体查询
-     *
-     * @param pigUser user
-     * @return
-     */
-    @Override
-    public UserDetails loadUserByUser(PigUser pigUser) {
-        // 避免 C端用户通过接口调用B端接口的安全问题
-        if (UserTypeEnum.TOB.getStatus().equals(pigUser.getUserType())) {
-            return loadUserByUsername(pigUser.getUsername());
-        }
-        return null;
-    }
+	/**
+	 * 通过用户实体查询
+	 * @param pigUser user
+	 * @return
+	 */
+	@Override
+	public UserDetails loadUserByUser(PigUser pigUser) {
+		// 避免 C端用户通过接口调用B端接口的安全问题
+		if (UserTypeEnum.TOB.getStatus().equals(pigUser.getUserType())) {
+			return loadUserByUsername(pigUser.getUsername());
+		}
+		return null;
+	}
 
-    @Override
-    public int getOrder() {
-        return Integer.MIN_VALUE;
-    }
+	@Override
+	public int getOrder() {
+		return Integer.MIN_VALUE;
+	}
 
 }

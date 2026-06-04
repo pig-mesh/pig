@@ -14,11 +14,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SmsBizCodeEnum {
 
-    SMS_NORMAL_CODE("SMS_NORMAL_CODE", "普通验证码");
+	SMS_NORMAL_CODE("SMS_NORMAL_CODE", "普通验证码");
 
-    @Getter
-    private final String code;
+	@Getter
+	private final String code;
 
-    private final String desc;
+	private final String desc;
 
 }

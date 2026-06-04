@@ -43,12 +43,11 @@ public interface SysDictItemService extends IService<SysDictItem> {
 	 */
 	R updateDictItem(SysDictItem item);
 
-    /**
-     * 更新字典项排序
-     *
-     * @param sortDTO 字典项排序信息（包含字典 ID 和按目标顺序排列的字典项 ID 列表）
-     * @return 成功 / 失败
-     */
-    R updateDictItemSort(SysDictItemSortDTO sortDTO);
+	/**
+	 * 更新字典项排序
+	 * @param sortDTO 字典项排序信息（包含字典 ID 和按目标顺序排列的字典项 ID 列表）
+	 * @return 成功 / 失败
+	 */
+	R updateDictItemSort(SysDictItemSortDTO sortDTO);
 
 }

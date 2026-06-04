@@ -74,15 +74,14 @@ public class GenDsConfController {
 		return R.ok(datasourceConfService.list());
 	}
 
-    /**
-     * 查询数据源解析插件加载状态
-     *
-     * @return R 包含各数据源类型（dsType）与其 AnyLine 解析插件是否已加载（true/false）的映射
-     */
-    @GetMapping("/parser-plugins")
-    public R parserPlugins() {
-        return R.ok(datasourceConfService.listParserPlugins());
-    }
+	/**
+	 * 查询数据源解析插件加载状态
+	 * @return R 包含各数据源类型（dsType）与其 AnyLine 解析插件是否已加载（true/false）的映射
+	 */
+	@GetMapping("/parser-plugins")
+	public R parserPlugins() {
+		return R.ok(datasourceConfService.listParserPlugins());
+	}
 
 	/**
 	 * 通过id查询数据源表

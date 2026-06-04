@@ -12,34 +12,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum SystemConfigTypeEnum {
 
-    /**
-     * 存储
-     */
-    STORAGE("storage"),
-    /**
-     * 短信
-     */
-    SMS("sms"),
-    /**
-     * 网站
-     */
-    WEBSITE("website"),
-    /**
-     * 邮件
-     */
-    EMAIL("email"),
+	/**
+	 * 存储
+	 */
+	STORAGE("storage"),
+	/**
+	 * 短信
+	 */
+	SMS("sms"),
+	/**
+	 * 网站
+	 */
+	WEBSITE("website"),
+	/**
+	 * 邮件
+	 */
+	EMAIL("email"),
 
-    /**
-     * webhook
-     */
-    WEBHOOK("webhook"),
+	/**
+	 * webhook
+	 */
+	WEBHOOK("webhook"),
 
-    /**
-     * 飞书
-     */
-    FEISHU("feishu");
+	/**
+	 * 飞书
+	 */
+	FEISHU("feishu");
 
-    @Getter
-    private final String value;
+	@Getter
+	private final String value;
 
 }
