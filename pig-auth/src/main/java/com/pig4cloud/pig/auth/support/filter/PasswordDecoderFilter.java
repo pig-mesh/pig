@@ -26,13 +26,13 @@ import cn.hutool.crypto.SmUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
+import com.pig4cloud.pig.auth.support.core.OauthClientDetailsLoader;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.enums.EncFlagTypeEnum;
 import com.pig4cloud.pig.common.core.util.RepeatBodyRequestWrapper;
 import com.pig4cloud.pig.common.core.util.WebUtils;
-import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -72,6 +72,8 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 	}
 
 	private final AuthSecurityConfigProperties authSecurityConfigProperties;
+
+	private final OauthClientDetailsLoader clientDetailsLoader;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
@@ -165,16 +167,18 @@ public class PasswordDecoderFilter extends OncePerRequestFilter {
 	private boolean isEncClient(HttpServletRequest request) {
 		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
 		String clientId = WebUtils.extractClientId(header).orElse(null);
-		String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, clientId);
-
-		String val = RedisUtils.get(key);
-
-		// 当配置不存在时，默认需要解密
-		if (val == null) {
+		if (StrUtil.isBlank(clientId)) {
 			return true;
 		}
 
-		JSONObject information = JSONUtil.parseObj(val);
+		SysOauthClientDetails clientDetails = clientDetailsLoader.getByClientId(clientId);
+
+		// 当配置不存在时，默认需要解密
+		if (clientDetails == null || StrUtil.isBlank(clientDetails.getAdditionalInformation())) {
+			return true;
+		}
+
+		JSONObject information = JSONUtil.parseObj(clientDetails.getAdditionalInformation());
 		return !StrUtil.equals(EncFlagTypeEnum.NO.getType(), information.getStr(CommonConstants.ENC_FLAG));
 	}
 

@@ -22,16 +22,15 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
-import com.pig4cloud.pig.admin.api.feign.RemoteClientDetailsService;
 import com.pig4cloud.pig.admin.api.vo.TokenVO;
 import com.pig4cloud.pig.auth.support.core.AuthCaptchaSupport;
+import com.pig4cloud.pig.auth.support.core.OauthClientDetailsLoader;
 import com.pig4cloud.pig.auth.support.core.AuthErrorCodes;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.RetOps;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import com.pig4cloud.pig.common.security.annotation.Inner;
@@ -78,7 +77,7 @@ public class PigTokenEndpoint {
 
 	private final OAuth2AuthorizationService authorizationService;
 
-	private final RemoteClientDetailsService clientDetailsService;
+	private final OauthClientDetailsLoader clientDetailsLoader;
 
 	private final CacheManager cacheManager;
 
@@ -114,10 +113,11 @@ public class PigTokenEndpoint {
 			@RequestParam(OAuth2ParameterNames.CLIENT_ID) String clientId,
 			@RequestParam(OAuth2ParameterNames.SCOPE) String scope,
 			@RequestParam(OAuth2ParameterNames.STATE) String state) {
-		SysOauthClientDetails clientDetails = RetOps.of(clientDetailsService.getClientDetailsById(clientId))
-			.getData()
-			.orElseThrow(() -> new OAuthClientException(OAuth2ErrorCodes.INVALID_CLIENT,
-					MsgUtils.getMessage(AuthErrorCodes.AUTH_CLIENT_INVALID)));
+		SysOauthClientDetails clientDetails = clientDetailsLoader.getByClientId(clientId);
+		if (Objects.isNull(clientDetails)) {
+			throw new OAuthClientException(OAuth2ErrorCodes.INVALID_CLIENT,
+					MsgUtils.getMessage(AuthErrorCodes.AUTH_CLIENT_INVALID));
+		}
 
 		Set<String> authorizedScopes = StringUtils.commaDelimitedListToSet(clientDetails.getScope());
 		// Note: XSS prevention is handled by FreeMarker template using ?html directive

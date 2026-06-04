@@ -24,7 +24,6 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.admin.api.entity.SysPublicParam;
-import com.pig4cloud.pig.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pig.admin.api.dto.SiteConfigDTO;
 import com.pig4cloud.pig.admin.service.SysI18nService;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
@@ -34,7 +33,6 @@ import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.DictTypeEnum;
 import com.pig4cloud.pig.common.core.constant.enums.YesNoEnum;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -195,8 +193,8 @@ public class SysSiteConfigServiceImpl implements SysSiteConfigService {
 			sysOauthClientDetailsService.updateById(client);
 		}
 
-		// 刷新 Redis 客户端缓存
-		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(this));
+		// 清空客户端缓存，下次访问时重新查库
+		sysOauthClientDetailsService.syncClientCache();
 	}
 
 }

@@ -3,12 +3,11 @@ package com.pig4cloud.pig.auth.support.core;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.pig4cloud.pig.common.core.constant.CacheConstants;
+import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.CaptchaFlagTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
-import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import com.pig4cloud.pig.common.security.captcha.CaptchaResult;
 import com.pig4cloud.pig.common.security.captcha.CaptchaValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,6 +39,8 @@ public class AuthCaptchaSupport {
 
 	private final CaptchaValidator captchaValidator;
 
+	private final OauthClientDetailsLoader clientDetailsLoader;
+
 	/**
 	 * 解析当前授权流程中的真实客户端ID
 	 * @param request 当前请求
@@ -63,14 +64,12 @@ public class AuthCaptchaSupport {
 			return false;
 		}
 
-		String key = String.format("%s:%s", CacheConstants.CLIENT_FLAG, clientId);
-		String val = RedisUtils.get(key);
-
-		if (val == null) {
+		SysOauthClientDetails clientDetails = clientDetailsLoader.getByClientId(clientId);
+		if (clientDetails == null || StrUtil.isBlank(clientDetails.getAdditionalInformation())) {
 			return true;
 		}
 
-		JSONObject information = JSONUtil.parseObj(val);
+		JSONObject information = JSONUtil.parseObj(clientDetails.getAdditionalInformation());
 		return !StrUtil.equals(CaptchaFlagTypeEnum.OFF.getType(), information.getStr(CommonConstants.CAPTCHA_FLAG));
 	}
 

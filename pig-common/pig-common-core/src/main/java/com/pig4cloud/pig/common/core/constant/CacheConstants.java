@@ -49,11 +49,6 @@ public interface CacheConstants {
 	String CLIENT_DETAILS_KEY = "pig_oauth:client:details";
 
 	/**
-	 * redis 重新加载客户端信息
-	 */
-	String CLIENT_REDIS_RELOAD_TOPIC = "upms_redis_client_reload_topic";
-
-	/**
 	 * 敏感词重新加载
 	 */
 	String SENSITIVE_REDIS_RELOAD_TOPIC = "sensitive_client_reload_topic";
@@ -67,11 +62,6 @@ public interface CacheConstants {
 	 * 参数缓存
 	 */
 	String PARAMS_DETAILS = "params_details";
-
-	/**
-	 * 客户端配置缓存
-	 */
-	String CLIENT_FLAG = "client_config_flag";
 
 	/**
 	 * 登录错误次数

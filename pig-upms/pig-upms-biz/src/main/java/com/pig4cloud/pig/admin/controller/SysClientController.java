@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pig.admin.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -27,11 +26,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.SysOauthClientDetailsDTO;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
-import com.pig4cloud.pig.admin.config.ClientDetailsInitRunner;
 import com.pig4cloud.pig.admin.service.SysOauthClientDetailsService;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.util.R;
-import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
@@ -124,9 +121,7 @@ public class SysClientController {
 	@DeleteMapping
 	@HasPermission("sys_client_del")
 	public R removeById(@RequestBody Long[] ids) {
-		clientDetailsService.removeBatchByIds(CollUtil.toList(ids));
-		SpringContextHolder.publishEvent(new ClientDetailsInitRunner.ClientDetailsInitEvent(ids));
-		return R.ok();
+		return R.ok(clientDetailsService.removeClientByIds(ids));
 	}
 
 	/**
