@@ -1,7 +1,3 @@
-> **Spring Boot 4.0 版本来了**
->
-> 分支 `boot4` 基于 Spring Boot 4.0 + Spring Cloud 2025.1 进行开发。
-
 <p align="center">
  <img src="https://img.shields.io/badge/Pig-4.0-success.svg" alt="Pig">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2025.1-blue.svg" alt="Spring Cloud">
