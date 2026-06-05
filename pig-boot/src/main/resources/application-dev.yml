@@ -25,7 +25,7 @@ aj:
 
 # 登录报文加密根密钥 ，必须是16位
 security:
-  encodeKey: pigpigpigpig0000
+  encodeKey: thanks,pig4cloud
 
 # 配置文件加密根密码
 jasypt:
