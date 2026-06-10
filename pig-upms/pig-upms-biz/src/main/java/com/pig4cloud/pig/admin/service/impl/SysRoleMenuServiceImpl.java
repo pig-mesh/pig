@@ -32,7 +32,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -50,10 +49,12 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 	private final CacheManager cacheManager;
 
 	/**
-	 * @param role
-	 * @param roleId 角色
-	 * @param menuIds 菜单ID拼成的字符串，每个id之间根据逗号分隔
-	 * @return
+	 * 保存角色与菜单的绑定关系。
+	 * <p>
+	 * 先清空该角色已有的全部菜单授权，再按传入的菜单ID重新写入；同时清理菜单和用户详情缓存。
+	 * @param roleId 角色ID，不允许为空
+	 * @param menuIds 菜单ID集合，以英文逗号分隔；为空白时仅清空该角色的菜单授权
+	 * @return 始终返回 {@code Boolean.TRUE} 表示操作完成
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -64,7 +65,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 		if (StrUtil.isBlank(menuIds)) {
 			return Boolean.TRUE;
 		}
-		List<SysRoleMenu> roleMenuList = Arrays.stream(menuIds.split(StrUtil.COMMA)).map(menuId -> {
+		List<SysRoleMenu> roleMenuList = StrUtil.splitTrim(menuIds, StrUtil.COMMA).stream().map(menuId -> {
 			SysRoleMenu roleMenu = new SysRoleMenu();
 			roleMenu.setRoleId(roleId);
 			roleMenu.setMenuId(Long.valueOf(menuId));

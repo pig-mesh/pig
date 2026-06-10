@@ -48,8 +48,8 @@ public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> impl
 	/**
 	 * 导入岗位
 	 * @param excelVOList 岗位列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
+	 * @param bindingResult 通用校验结果，其 target 持有错误信息列表
+	 * @return 全部导入成功返回 ok；存在校验失败时返回携带错误信息列表的 failed
 	 */
 	@Override
 	public R importPost(List<PostExcelVO> excelVOList, BindingResult bindingResult) {

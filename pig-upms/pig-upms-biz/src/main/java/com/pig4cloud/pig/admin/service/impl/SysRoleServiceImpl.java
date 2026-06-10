@@ -48,7 +48,7 @@ import java.util.Set;
 
 /**
  * <p>
- * 服务实现类
+ * 角色服务实现类
  * </p>
  *
  * @author lengleng
@@ -63,18 +63,18 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	/**
 	 * 通过用户ID查询角色信息
 	 * @param userId 用户ID
-	 * @return 角色信息列表
+	 * @return 角色信息列表，无角色时返回空列表
 	 */
 	@Override
-	public List findRolesByUserId(Long userId) {
+	public List<SysRole> findRolesByUserId(Long userId) {
 		return baseMapper.listRolesByUserId(userId);
 	}
 
 	/**
-	 * 根据角色ID 查询角色列表，注意缓存删除
+	 * 根据角色ID列表查询角色，结果按缓存key缓存，空结果不缓存
 	 * @param roleIdList 角色ID列表
 	 * @param key 缓存key
-	 * @return
+	 * @return 匹配的角色列表，无匹配时返回空列表
 	 */
 	@Override
 	@Cacheable(value = CacheConstants.ROLE_DETAILS, key = "#key", unless = "#result.isEmpty()")
@@ -83,9 +83,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 通过角色ID，删除角色,并清空角色菜单缓存
-	 * @param ids
-	 * @return
+	 * 通过角色ID批量删除角色，并先删除关联的角色菜单
+	 * @param ids 角色ID数组
+	 * @return 删除成功返回 true
 	 */
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -96,9 +96,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 根据角色菜单列表
-	 * @param roleVo 角色&菜单列表
-	 * @return
+	 * 更新角色的菜单授权
+	 * @param roleVo 角色及其菜单ID列表
+	 * @return 更新成功返回 true
 	 */
 	@Override
 	public Boolean updateRoleMenus(RoleMenuVO roleVo) {
@@ -106,10 +106,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 导入角色
-	 * @param excelVOList 角色列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
+	 * 导入角色，按角色名称或角色编码去重，重复数据不入库并收集错误信息
+	 * @param excelVOList 待导入的角色列表
+	 * @param bindingResult 通用校验结果，其 target 持有错误信息列表
+	 * @return 全部导入成功返回 {@link R#ok()}；存在校验失败时返回携带错误信息列表的 {@link R#failed(Object)}
 	 */
 	@Override
 	public R importRole(List<RoleExcelVO> excelVOList, BindingResult bindingResult) {
@@ -148,8 +148,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 	}
 
 	/**
-	 * 查询全部的角色
-	 * @return list
+	 * 查询角色并转换为导出对象
+	 * @param sysRole 查询条件
+	 * @param ids 指定导出的角色ID数组，为空时按查询条件导出全部
+	 * @return 角色导出对象列表
 	 */
 	@Override
 	public List<RoleExcelVO> listRole(SysRole sysRole, Long[] ids) {
