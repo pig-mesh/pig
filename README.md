@@ -62,7 +62,7 @@ docker compose -f docker-compose-boot.yml build && docker compose -f docker-comp
 | Pig | 4.0.0 |
 | JDK | 17+ |
 | Spring Boot | 4.0.6 |
-| Spring Cloud | 2025.1.1 |
+| Spring Cloud | 2025.1.2 |
 | Spring Cloud Alibaba | 2025.1.0.0 |
 | Spring Security OAuth2 Authorization Server | 7.0.5 |
 | MyBatis Plus | 3.5.16 |

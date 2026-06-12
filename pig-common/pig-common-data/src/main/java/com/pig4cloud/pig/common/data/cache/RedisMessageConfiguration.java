@@ -15,9 +15,14 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 @Configuration(proxyBeanMethods = false)
 public class RedisMessageConfiguration {
 
+	/**
+	 * 共享 Redis 消息监听容器。
+	 * <p>
+	 * Bean 名称必须为 redisMessageListenerContainer，Boot 4.1 的 @RedisListener 自动配置会按该名称复用默认容器。
+	 */
 	@Bean
 	@ConditionalOnMissingBean
-	public RedisMessageListenerContainer redisContainer(RedisConnectionFactory redisConnectionFactory) {
+	public RedisMessageListenerContainer redisMessageListenerContainer(RedisConnectionFactory redisConnectionFactory) {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(redisConnectionFactory);
 		return container;
