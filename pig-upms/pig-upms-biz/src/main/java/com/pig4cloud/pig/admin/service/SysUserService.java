@@ -86,7 +86,7 @@ public interface SysUserService extends IService<SysUser> {
 	/**
 	 * 查询上级部门的用户信息
 	 * @param username 用户名
-	 * @return R
+	 * @return 上级部门的用户列表
 	 */
 	List<SysUser> listAncestorUsers(String username);
 
@@ -108,8 +108,8 @@ public interface SysUserService extends IService<SysUser> {
 	/**
 	 * excel 导入用户
 	 * @param excelVOList excel 列表数据
-	 * @param bindingResult 错误数据
-	 * @return ok fail
+	 * @param bindingResult 通用校验结果，其 target 持有错误信息列表
+	 * @return 全部导入成功返回 ok；存在校验失败时返回携带错误信息列表的 failed
 	 */
 	R importUser(List<UserExcelVO> excelVOList, BindingResult bindingResult);
 
@@ -157,9 +157,9 @@ public interface SysUserService extends IService<SysUser> {
 	List<Long> listUserIdByRoleIds(List<Long> roleIdList);
 
 	/**
-	 * 根据部门ID列表获取用户ID列表接口
+	 * 根据部门ID列表查询部门下的用户
 	 * @param deptIdList 部门ID列表
-	 * @return List<Long> 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
+	 * @return 这些部门下的用户列表，无用户时返回空列表
 	 */
 	List<SysUser> listUserIdByDeptIds(List<Long> deptIdList);
 

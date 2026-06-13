@@ -9,6 +9,7 @@ spring:
       username: @nacos.username@
       password: @nacos.password@
       discovery:
+        naming-async-query-subscribe-service: true
         server-addr: ${NACOS_HOST:pig-register}:${NACOS_PORT:8848}
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr}

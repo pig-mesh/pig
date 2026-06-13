@@ -30,7 +30,7 @@ import java.util.List;
 
 /**
  * <p>
- * 服务类
+ * 角色服务类
  * </p>
  *
  * @author lengleng
@@ -39,47 +39,47 @@ import java.util.List;
 public interface SysRoleService extends IService<SysRole> {
 
 	/**
-	 * 通过用户ID，查询角色信息
-	 * @param userId
-	 * @return
+	 * 通过用户ID查询其拥有的角色信息
+	 * @param userId 用户ID
+	 * @return 该用户绑定的角色列表，无角色时返回空列表
 	 */
 	List<SysRole> findRolesByUserId(Long userId);
 
 	/**
-	 * 根据角色ID 查询角色列表
+	 * 根据角色ID列表查询角色，结果按缓存key缓存
 	 * @param roleIdList 角色ID列表
 	 * @param key 缓存key
-	 * @return
+	 * @return 匹配的角色列表，无匹配时返回空列表
 	 */
 	List<SysRole> findRolesByRoleIds(List<Long> roleIdList, String key);
 
 	/**
-	 * 通过角色ID，删除角色
-	 * @param ids
-	 * @return
+	 * 通过角色ID批量删除角色，并清理关联的角色菜单
+	 * @param ids 角色ID数组
+	 * @return 删除成功返回 true
 	 */
 	Boolean removeRoleByIds(Long[] ids);
 
 	/**
-	 * 根据角色菜单列表
-	 * @param roleVo 角色&菜单列表
-	 * @return
+	 * 更新角色的菜单授权
+	 * @param roleVo 角色及其菜单ID列表
+	 * @return 更新成功返回 true
 	 */
 	Boolean updateRoleMenus(RoleMenuVO roleVo);
 
 	/**
-	 * 导入角色
-	 * @param excelVOList 角色列表
-	 * @param bindingResult 错误信息列表
-	 * @return ok fail
+	 * 导入角色，按角色名称或角色编码去重，重复数据不入库并收集错误信息
+	 * @param excelVOList 待导入的角色列表
+	 * @param bindingResult 通用校验结果，其 target 持有错误信息列表
+	 * @return 全部导入成功返回 ok；存在校验失败时返回携带错误信息列表的 failed
 	 */
 	R importRole(List<RoleExcelVO> excelVOList, BindingResult bindingResult);
 
 	/**
-	 * 查询全部的角色
+	 * 查询角色并转换为导出对象
 	 * @param sysRole 查询条件
-	 * @param ids 导出ids
-	 * @return list
+	 * @param ids 指定导出的角色ID数组，为空时按查询条件导出全部
+	 * @return 角色导出对象列表
 	 */
 	List<RoleExcelVO> listRole(SysRole sysRole, Long[] ids);
 
