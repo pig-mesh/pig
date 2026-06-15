@@ -36,7 +36,7 @@
         <spring-boot.version>4.1.0</spring-boot.version>
         <spring-cloud.version>2025.1.2</spring-cloud.version>
         <spring-boot.version>4.0.7</spring-boot.version>
-        <spring-cloud.version>2025.1.1</spring-cloud.version>
+        <spring-cloud.version>2025.1.2</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -44,7 +44,7 @@
         <spring-boot-admin.version>4.1.0</spring-boot-admin.version>
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.47</spring.checkstyle.version>
-        <git.commit.version>9.0.1</git.commit.version>
+        <git.commit.version>9.0.2</git.commit.version>
         <lombok.version>1.18.46</lombok.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>3.0.5</knife4j.version>
