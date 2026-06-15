@@ -29,6 +29,7 @@
     <properties>
         <nacos.version>3.2.2</nacos.version>
         <jraft.version>1.4.0</jraft.version>
+        <hessian.version>4.0.63</hessian.version>
     </properties>
 
     <dependencies>
@@ -38,15 +39,14 @@
             <version>${nacos.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>${hessian.version}</version>
+        </dependency>
+        <dependency>
             <groupId>io.github.pig-mesh.sofa</groupId>
             <artifactId>jraft-core</artifactId>
             <version>${jraft.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>hessian</artifactId>
-                    <groupId>com.alipay.sofa</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.github.pig-mesh.nacos</groupId>
