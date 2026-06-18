@@ -1,0 +1,58 @@
+name: Mirror to Gitee
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gitee-mirror-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    name: Push ${{ github.ref_name }} to Gitee
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Configure SSH
+        env:
+          GITEE_SSH_PRIVATE_KEY: ${{ secrets.GITEE_SSH_PRIVATE_KEY }}
+        run: |
+          if [ -z "$GITEE_SSH_PRIVATE_KEY" ]; then
+            echo "GITEE_SSH_PRIVATE_KEY is not configured."
+            exit 1
+          fi
+
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          printf '%s\n' "$GITEE_SSH_PRIVATE_KEY" > ~/.ssh/gitee_deploy_key
+          chmod 600 ~/.ssh/gitee_deploy_key
+          ssh-keyscan gitee.com >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+          cat > ~/.ssh/config <<'EOF'
+          Host gitee.com
+            HostName gitee.com
+            User git
+            IdentityFile ~/.ssh/gitee_deploy_key
+            IdentitiesOnly yes
+          EOF
+
+      - name: Mirror branch
+        run: |
+          git remote add gitee git@gitee.com:log4j/pig.git
+          if git ls-remote --exit-code --heads gitee "${GITHUB_REF_NAME}" >/dev/null 2>&1; then
+            git fetch --no-tags gitee "+refs/heads/${GITHUB_REF_NAME}:refs/remotes/gitee/${GITHUB_REF_NAME}"
+          fi
+          git push --force-with-lease gitee "HEAD:refs/heads/${GITHUB_REF_NAME}"
