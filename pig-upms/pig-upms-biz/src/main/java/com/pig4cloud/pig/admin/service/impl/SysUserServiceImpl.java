@@ -659,10 +659,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	 */
 	@Override
 	@CacheEvict(value = CacheConstants.USER_DETAILS, key = "#userDto.username")
-	public R resetUserPassword(RegisterUserDTO userDto) {
+	public R<Boolean> resetUserPassword(RegisterUserDTO userDto) {
 		// 校验密码
-		R checkedPassword = checkPassword(userDto.getUsername(), userDto.getPassword());
-		if (!checkedPassword.isOk()) {
+		R<Boolean> checkedPassword = checkPassword(userDto.getUsername(), userDto.getPassword());
+		if (!Boolean.TRUE.equals(checkedPassword.getData())) {
 			return checkedPassword;
 		}
 
