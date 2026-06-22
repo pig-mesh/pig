@@ -29,7 +29,7 @@
     <properties>
         <nacos.version>3.2.2</nacos.version>
         <jraft.version>1.4.0</jraft.version>
-        <hessian.version>4.0.63</hessian.version>
+        <hessian.version>4.0.66</hessian.version>
     </properties>
 
     <dependencies>
