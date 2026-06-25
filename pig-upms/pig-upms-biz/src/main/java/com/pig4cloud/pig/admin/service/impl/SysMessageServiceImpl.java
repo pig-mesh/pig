@@ -6,8 +6,8 @@ import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.mail.JakartaMailUtil;
 import cn.hutool.extra.mail.MailAccount;
-import cn.hutool.extra.mail.MailUtil;
 import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
@@ -528,7 +528,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 		String result = template.render(messageEmailDTO.getHtmlValues());
 
 		Long start = System.currentTimeMillis();
-		MailUtil.send(account, messageEmailDTO.getMailAddress(), messageEmailDTO.getCcList(),
+		JakartaMailUtil.send(account, messageEmailDTO.getMailAddress(), messageEmailDTO.getCcList(),
 				messageEmailDTO.getBccList(), messageEmailDTO.getTitle(), result, true,
 				tempFileList.toArray(new File[0]));
 		Long end = System.currentTimeMillis();
