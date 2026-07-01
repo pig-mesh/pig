@@ -26,7 +26,7 @@
         <highgo.version>6.2.5</highgo.version>
         <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>3.0.3</springdoc.version>
-        <swagger.core.version>2.2.50</swagger.core.version>
+        <swagger.core.version>2.2.52</swagger.core.version>
         <jsoup.version>1.15.4</jsoup.version>
         <fastjson.version>1.2.83</fastjson.version>
         <aws.sdk.version>2.44.14</aws.sdk.version>
