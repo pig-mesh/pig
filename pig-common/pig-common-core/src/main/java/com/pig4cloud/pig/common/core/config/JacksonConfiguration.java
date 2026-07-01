@@ -123,8 +123,12 @@ public class JacksonConfiguration implements WebMvcConfigurer {
 	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
 		ObjectMapper objectMapper = objectMapperProvider.getIfAvailable();
 		if (objectMapper == null) {
-			log.warn("ObjectMapper 不可用，跳过 Spring MVC Jackson 2 替换；保留 Spring Boot 默认 converter 链。");
-			return;
+			// 本类存在的唯一目的就是把 MVC 链路桥接回 Jackson 2，拿不到 Jackson 2 ObjectMapper
+			// 说明 jackson2 autoconfigure 未生效，属于环境配置错误。若静默降级到 Jackson 3，
+			// pig-common-xss 的反序列化 XSS 清洗、Long->String、时间格式都会失效且难以察觉，
+			// 因此在启动期 fail-fast 暴露，而不是带病运行。
+			throw new IllegalStateException("Jackson 2 ObjectMapper 不可用，无法将 Spring MVC 桥接到 Jackson 2；"
+					+ "请检查 jackson2 autoconfigure 是否生效（XSS 清洗、Long 字符串化、时间格式均依赖于此）。");
 		}
 
 		org.springframework.http.converter.json.MappingJackson2HttpMessageConverter jackson2Converter = new org.springframework.http.converter.json.MappingJackson2HttpMessageConverter(
@@ -132,9 +136,10 @@ public class JacksonConfiguration implements WebMvcConfigurer {
 		ListIterator<HttpMessageConverter<?>> it = converters.listIterator();
 		boolean replaced = false;
 		while (it.hasNext()) {
-			if (it.next() instanceof JacksonJsonHttpMessageConverter) {
+			if (it.next().getClass() == JacksonJsonHttpMessageConverter.class) {
 				it.set(jackson2Converter);
 				replaced = true;
+				break;
 			}
 		}
 		if (!replaced) {
