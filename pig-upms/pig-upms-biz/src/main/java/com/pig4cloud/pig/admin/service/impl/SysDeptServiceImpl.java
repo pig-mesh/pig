@@ -29,7 +29,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.github.yulichang.wrapper.MPJLambdaWrapper;
 import com.pig4cloud.pig.admin.api.constant.OrgTypeEnum;
-import com.pig4cloud.pig.admin.api.constant.PostCodeEnum;
 import com.pig4cloud.pig.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pig.admin.api.entity.*;
 import com.pig4cloud.pig.admin.api.utils.DataUtil;
@@ -67,10 +66,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	private final SysPostMapper postMapper;
 
 	private final SysRoleMapper roleMapper;
-
-	private final SysUserDeptMapper userDeptMapper;
-
-	private final SysUserPostMapper userPostMapper;
 
 	/**
 	 * 删除部门
@@ -208,36 +203,6 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		// 添加当前节点
 		resDeptList.addAll(allDeptList.stream().filter(sysDept -> deptId.equals(sysDept.getDeptId())).toList());
 		return resDeptList;
-	}
-
-	/**
-	 * 获取部门负责人
-	 * <p>
-	 * 1. 根据dept 查询用户 2. 筛选用户列表中 post
-	 * @param deptId deptId
-	 * @return user id list
-	 */
-	@Override
-	public List<Long> listDeptLeader(Long deptId) {
-
-		List<SysUserDept> userDeptList = userDeptMapper
-			.selectList(Wrappers.<SysUserDept>lambdaQuery().eq(SysUserDept::getDeptId, deptId));
-		if (CollUtil.isEmpty(userDeptList)) {
-			return null;
-		}
-
-		SysPost deptLeader = postMapper
-			.selectOne(Wrappers.<SysPost>lambdaQuery().eq(SysPost::getPostCode, PostCodeEnum.TEAM_LEADER.getCode()));
-		if (deptLeader == null) {
-			return null;
-		}
-
-		List<Long> userIdList = userDeptList.stream().map(SysUserDept::getUserId).toList();
-		return userPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getUserId, userIdList))
-			.stream()
-			.filter(post -> Objects.equals(post.getPostId(), deptLeader.getPostId()))
-			.map(SysUserPost::getUserId)
-			.toList();
 	}
 
 	/**

@@ -18,13 +18,6 @@ jasypt:
     algorithm: PBEWithMD5AndDES
     iv-generator-classname: org.jasypt.iv.NoIvGenerator
 
-# liteflow配置
-liteflow:
-  rule-source: rules/*-rule.xml
-  print-banner: false
-  print-execution-log: true
-  enable: true
-
 # 关闭连表插件的banner
 mybatis-plus-join:
   banner: false

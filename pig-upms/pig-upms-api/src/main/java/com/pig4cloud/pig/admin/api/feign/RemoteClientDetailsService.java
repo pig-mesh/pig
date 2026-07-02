@@ -27,8 +27,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.List;
-
 /**
  * @author lengleng
  * @date 2020/12/05
@@ -44,13 +42,5 @@ public interface RemoteClientDetailsService {
 	@NoToken
 	@GetMapping("/client/getClientDetailsById/{clientId}")
 	R<SysOauthClientDetails> getClientDetailsById(@PathVariable("clientId") String clientId);
-
-	/**
-	 * 查询全部客户端
-	 * @return R
-	 */
-	@NoToken
-	@GetMapping("/client/list")
-	R<List<SysOauthClientDetails>> listClientDetails();
 
 }

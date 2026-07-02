@@ -150,27 +150,6 @@ public interface SysUserService extends IService<SysUser> {
 	R checkPassword(String username, String password);
 
 	/**
-	 * 根据角色ID列表获取用户ID列表接口
-	 * @param roleIdList 角色ID列表
-	 * @return List<Long> 返回结果对象，包含根据角色ID列表获取到的用户ID列表信息
-	 */
-	List<Long> listUserIdByRoleIds(List<Long> roleIdList);
-
-	/**
-	 * 根据部门ID列表查询部门下的用户
-	 * @param deptIdList 部门ID列表
-	 * @return 这些部门下的用户列表，无用户时返回空列表
-	 */
-	List<SysUser> listUserIdByDeptIds(List<Long> deptIdList);
-
-	/**
-	 * 根据岗位ID列表获取用户ID列表
-	 * @param postIdList 岗位ID列表
-	 * @return List<Long> 用户ID列表
-	 */
-	List<Long> listUserIdByPostIds(List<Long> postIdList);
-
-	/**
 	 * 重置用户密码
 	 * @param userDto 用户信息DTO
 	 * @return 操作结果，包含是否成功的布尔值

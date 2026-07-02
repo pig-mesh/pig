@@ -76,13 +76,6 @@ public interface SysDeptService extends IService<SysDept> {
 	List<SysDept> listDescendant(Long deptId);
 
 	/**
-	 * 获取部门负责人
-	 * @param deptId deptId
-	 * @return user id list
-	 */
-	List<Long> listDeptLeader(Long deptId);
-
-	/**
 	 * 查询全部部门包含用户
 	 * @param parentDeptId 父部门ID
 	 * @param type 查询类型

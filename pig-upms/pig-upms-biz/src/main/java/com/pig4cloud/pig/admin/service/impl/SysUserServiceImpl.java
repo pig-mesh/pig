@@ -717,47 +717,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	}
 
 	/**
-	 * 根据角色ID列表获取用户ID列表
-	 * @param roleIdList 角色ID列表
-	 * @return 用户ID列表
-	 */
-	@Override
-	public List<Long> listUserIdByRoleIds(List<Long> roleIdList) {
-		return sysUserRoleMapper.selectList(Wrappers.<SysUserRole>lambdaQuery().in(SysUserRole::getRoleId, roleIdList))
-			.stream()
-			.map(SysUserRole::getUserId)
-			.toList();
-	}
-
-	/**
-	 * 根据部门ID列表查询部门下的用户
-	 * @param deptIdList 部门ID列表
-	 * @return 这些部门下的用户列表，无用户时返回空列表
-	 */
-	@Override
-	public List<SysUser> listUserIdByDeptIds(List<Long> deptIdList) {
-		List<Long> userList = sysUserDeptMapper
-			.selectList(Wrappers.<SysUserDept>lambdaQuery().in(SysUserDept::getDeptId, deptIdList))
-			.stream()
-			.map(SysUserDept::getUserId)
-			.toList();
-		return baseMapper.selectList(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userList));
-	}
-
-	/**
-	 * 根据岗位ID列表获取用户ID列表
-	 * @param postIdList 岗位ID列表
-	 * @return 用户ID列表
-	 */
-	@Override
-	public List<Long> listUserIdByPostIds(List<Long> postIdList) {
-		return sysUserPostMapper.selectList(Wrappers.<SysUserPost>lambdaQuery().in(SysUserPost::getPostId, postIdList))
-			.stream()
-			.map(SysUserPost::getUserId)
-			.toList();
-	}
-
-	/**
 	 * 获取当前用户的部门列表
 	 * @return 部门列表，主部门排在第一位
 	 */

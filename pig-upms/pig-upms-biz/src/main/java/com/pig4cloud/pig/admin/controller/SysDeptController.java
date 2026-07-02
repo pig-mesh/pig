@@ -66,14 +66,6 @@ public class SysDeptController {
 	}
 
 	/**
-	 * 查询全部部门
-	 */
-	@GetMapping("/list")
-	public R list() {
-		return R.ok(sysDeptService.list());
-	}
-
-	/**
 	 * 返回树形菜单集合
 	 * @param deptName 部门名称
 	 * @return 树形菜单
@@ -127,11 +119,6 @@ public class SysDeptController {
 	@GetMapping(value = "/getDescendantList/{deptId}")
 	public R getDescendantList(@PathVariable Long deptId) {
 		return R.ok(sysDeptService.listDescendant(deptId));
-	}
-
-	@GetMapping(value = "/leader/{deptId}")
-	public R getAllDeptLeader(@PathVariable Long deptId) {
-		return R.ok(sysDeptService.listDeptLeader(deptId));
 	}
 
 	/**

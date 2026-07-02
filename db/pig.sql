@@ -83,28 +83,6 @@ CREATE TABLE `sys_api_key` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='API密钥管理表';
 
 -- ----------------------------
--- Table structure for sys_audit_log
--- ----------------------------
-DROP TABLE IF EXISTS `sys_audit_log`;
-CREATE TABLE `sys_audit_log` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `audit_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '审计名称',
-  `audit_field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '字段名称',
-  `before_val` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '变更前值',
-  `after_val` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '变更后值',
-  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '操作人',
-  `create_time` datetime COMMENT '操作时间',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '删除标记',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='审计记录表';
-
--- ----------------------------
--- Records of sys_audit_log
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
 -- Table structure for sys_dept
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_dept`;
@@ -391,7 +369,6 @@ INSERT INTO `sys_i18n` VALUES (25, 'router.appRole', 'APP角色', 'App Role', 'a
 INSERT INTO `sys_i18n` VALUES (26, 'router.appPermission', 'APP权限', 'App Permission', 'admin', '2023-02-24 10:36:59', 'admin', '2023-02-24 10:37:47', '0');
 INSERT INTO `sys_i18n` VALUES (27, 'router.appKey', 'APP秘钥', 'App Key', 'admin', '2023-02-24 10:36:59', 'admin', '2023-02-24 10:40:27', '0');
 INSERT INTO `sys_i18n` VALUES (28, 'router.internationalizationManagement', '国际化管理', 'Internationalization Management', 'admin', '2023-02-24 10:36:59', '', NULL, '0');
-INSERT INTO `sys_i18n` VALUES (29, 'router.auditLog', '审计日志', 'Audit Log', 'admin', '2023-02-24 10:36:59', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (30, 'router.systemMonitoring', '系统监控', 'System Monitoring', 'admin', '2023-02-24 10:36:59', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (31, 'router.generatePages', '生成页面', 'Generate Pages', 'admin', '2023-02-24 10:44:04', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (32, 'router.templateManagement', '模板管理', 'Template Management', 'admin', '2023-02-24 10:44:31', '', NULL, '0');
@@ -534,12 +511,7 @@ INSERT INTO `sys_menu` VALUES (2001, '日志管理', NULL, '/admin/logs', NULL, 
 INSERT INTO `sys_menu` VALUES (2100, '操作日志', NULL, '/admin/log/index', NULL, 2001, 'iconfont icon-jinridaiban', '1', 2, '0', '0', '0', '', '2017-11-20 14:06:22', 'admin', '2023-03-02 12:28:57', '0');
 INSERT INTO `sys_menu` VALUES (2101, '日志删除', 'sys_log_del', NULL, NULL, 2100, NULL, '1', 1, '0', NULL, '1', ' ', '2017-11-20 20:37:37', ' ', '2021-05-25 03:12:55', '0');
 INSERT INTO `sys_menu` VALUES (2102, '导入导出', 'sys_log_export', NULL, NULL, 2100, NULL, '1', 1, '0', NULL, '1', ' ', '2017-11-08 09:54:01', ' ', '2021-05-25 03:12:55', '0');
-INSERT INTO `sys_menu` VALUES (2103, '审计日志', NULL, '/admin/audit/index', NULL, 2001, 'iconfont icon-biaodan', '1', 1, '0', '0', '0', '', NULL, 'admin', '2023-03-02 12:28:47', '0');
-INSERT INTO `sys_menu` VALUES (2104, '审计记录表删除', 'sys_audit_del', NULL, NULL, 2103, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:43', '0');
-INSERT INTO `sys_menu` VALUES (2105, '导入导出', 'sys_audit_export', NULL, NULL, 2103, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:51', '0');
-INSERT INTO `sys_menu` VALUES (2106, '敏感数据查看', 'no_mask', NULL, NULL, 2103, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:51', '0');
 INSERT INTO `sys_menu` VALUES (2107, '日志查看', 'sys_log_view', NULL, NULL, 2001, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:51', '0');
-INSERT INTO `sys_menu` VALUES (2108, '日志查看', 'sys_audit_view', NULL, NULL, 2103, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-02-28 20:23:51', '0');
 INSERT INTO `sys_menu` VALUES (2200, '字典管理', NULL, '/admin/dict/index', NULL, 2000, 'iconfont icon-zidianguanli', '1', 6, '0', NULL, '0', '', '2017-11-29 11:30:52', 'admin', '2023-02-16 15:24:29', '0');
 INSERT INTO `sys_menu` VALUES (2201, '字典删除', 'sys_dict_del', NULL, NULL, 2200, NULL, '1', 1, '0', NULL, '1', ' ', '2017-11-29 11:30:11', ' ', '2021-05-25 03:12:55', '0');
 INSERT INTO `sys_menu` VALUES (2202, '字典新增', 'sys_dict_add', NULL, NULL, 2200, NULL, '1', 1, '0', NULL, '1', ' ', '2018-05-11 22:34:55', ' ', '2021-05-25 03:12:55', '0');
@@ -659,11 +631,11 @@ CREATE TABLE `sys_oauth_client_details` (
 -- Records of sys_oauth_client_details
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_oauth_client_details` VALUES (1, 'app', NULL, 'app', 'server', 'password,refresh_token,authorization_code,client_credentials,mobile', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login,http://localhost:8080/renren-admin/sys/oauth2-sso,http://localhost:8090/sys/oauth2-sso', NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\",\"online_quantity\":\"1\"}', 'true', '0', '', 'admin', NULL, '2023-02-09 13:54:54');
+INSERT INTO `sys_oauth_client_details` VALUES (1, 'app', NULL, 'app', 'server', 'password,refresh_token,authorization_code,mobile', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login,http://localhost:8080/renren-admin/sys/oauth2-sso,http://localhost:8090/sys/oauth2-sso', NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\",\"online_quantity\":\"1\"}', 'true', '0', '', 'admin', NULL, '2023-02-09 13:54:54');
 INSERT INTO `sys_oauth_client_details` VALUES (2, 'daemon', NULL, 'daemon', 'server', 'password,refresh_token', NULL, NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'true', '0', ' ', ' ', NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES (3, 'gen', NULL, 'gen', 'server', 'password,refresh_token', NULL, NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'true', '0', ' ', ' ', NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES (4, 'mp', NULL, 'mp', 'server', 'password,refresh_token', NULL, NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\"}', 'true', '0', ' ', ' ', NULL, NULL);
-INSERT INTO `sys_oauth_client_details` VALUES (5, 'pig', NULL, 'pig', 'server', 'password,refresh_token,authorization_code,client_credentials,mobile', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login,http://localhost:8080/renren-admin/sys/oauth2-sso,http://localhost:8090/sys/oauth2-sso', NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\",\"online_quantity\":\"1\"}', 'false', '0', '', 'admin', NULL, '2023-03-08 11:32:41');
+INSERT INTO `sys_oauth_client_details` VALUES (5, 'pig', NULL, 'pig', 'server', 'password,refresh_token,authorization_code,mobile', 'http://localhost:4040/sso1/login,http://localhost:4041/sso1/login,http://localhost:8080/renren-admin/sys/oauth2-sso,http://localhost:8090/sys/oauth2-sso', NULL, 43200, 2592001, '{\"enc_flag\":\"1\",\"captcha_flag\":\"1\",\"online_quantity\":\"1\"}', 'false', '0', '', 'admin', NULL, '2023-03-08 11:32:41');
 INSERT INTO `sys_oauth_client_details` VALUES (6, 'test', NULL, 'test', 'server', 'password,refresh_token', NULL, NULL, 43200, 2592001, '{ \"enc_flag\":\"1\",\"captcha_flag\":\"0\"}', 'true', '0', ' ', ' ', NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES (7, 'social', NULL, 'social', 'server', 'password,refresh_token,mobile', NULL, NULL, 43200, 2592001, '{ \"enc_flag\":\"0\",\"captcha_flag\":\"0\"}', 'true', '0', ' ', ' ', NULL, NULL);
 INSERT INTO `sys_oauth_client_details` VALUES (8, 'mini', NULL, 'mini', 'server', 'password,mobile', NULL, NULL, 160000000, 160000000, '{\"captcha_flag\":\"0\",\"enc_flag\":\"0\",\"online_quantity\":\"1\"}', 'true', '0', 'admin', 'admin', '2023-01-29 16:38:06', '2023-01-29 17:21:56');
@@ -818,12 +790,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 2001);
 INSERT INTO `sys_role_menu` VALUES (1, 2100);
 INSERT INTO `sys_role_menu` VALUES (1, 2101);
 INSERT INTO `sys_role_menu` VALUES (1, 2102);
-INSERT INTO `sys_role_menu` VALUES (1, 2103);
-INSERT INTO `sys_role_menu` VALUES (1, 2104);
-INSERT INTO `sys_role_menu` VALUES (1, 2105);
-INSERT INTO `sys_role_menu` VALUES (1, 2106);
 INSERT INTO `sys_role_menu` VALUES (1, 2107);
-INSERT INTO `sys_role_menu` VALUES (1, 2108);
 INSERT INTO `sys_role_menu` VALUES (1, 2200);
 INSERT INTO `sys_role_menu` VALUES (1, 2201);
 INSERT INTO `sys_role_menu` VALUES (1, 2202);

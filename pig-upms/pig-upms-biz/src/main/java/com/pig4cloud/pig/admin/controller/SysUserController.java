@@ -19,7 +19,6 @@
 
 package com.pig4cloud.pig.admin.controller;
 
-import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
@@ -248,60 +247,6 @@ public class SysUserController {
 	@PostMapping("/check")
 	public R check(String password) {
 		return userService.checkPassword(SecurityUtils.getUser().getUsername(), password);
-	}
-
-	/**
-	 * 根据角色ID列表获取用户ID列表接口
-	 * @param roleIdList 角色ID列表
-	 * @return R 返回结果对象，包含根据角色ID列表获取到的用户ID列表信息
-	 */
-	@Inner
-	@GetMapping("/getUserIdListByRoleIdList")
-	public R<List<Long>> getUserIdListByRoleIdList(Long[] roleIdList) {
-		return R.ok(userService.listUserIdByRoleIds(CollUtil.toList(roleIdList)));
-	}
-
-	/**
-	 * 根据部门ID列表获取用户ID列表接口
-	 * @param deptIdList 部门ID列表
-	 * @return R 返回结果对象，包含根据部门ID列表获取到的用户ID列表信息
-	 */
-	@Inner
-	@GetMapping("/getUserIdListByDeptIdList")
-	public R<List<SysUser>> getUserIdListByDeptIdList(Long[] deptIdList) {
-		return R.ok(userService.listUserIdByDeptIds(CollUtil.toList(deptIdList)));
-	}
-
-	/**
-	 * 根据岗位ID列表获取用户ID列表接口
-	 * @param postIdList 岗位ID列表
-	 * @return R 返回结果对象，包含根据岗位ID列表获取到的用户ID列表信息
-	 */
-	@Inner
-	@GetMapping("/getUserIdListByPostIdList")
-	public R<List<Long>> getUserIdListByPostIdList(Long[] postIdList) {
-		return R.ok(userService.listUserIdByPostIds(CollUtil.toList(postIdList)));
-	}
-
-	/**
-	 * 根据用户名获取用户列表
-	 * @param username 用户名
-	 * @return 用户列表
-	 */
-	@Inner
-	@GetMapping("/getUserListByUserName")
-	public R<List<SysUser>> getUserListByUserName(String username) {
-		return R.ok(userService.list(Wrappers.<SysUser>lambdaQuery().like(SysUser::getUsername, username)));
-	}
-
-	/**
-	 * 根据IDS获取用户列表
-	 * @param userIds ID列表
-	 * @return 用户列表
-	 */
-	@GetMapping("/list")
-	public R<List<SysUser>> getUserListByIds(@RequestParam("userIds") List<Long> userIds) {
-		return R.ok(userService.list(Wrappers.<SysUser>lambdaQuery().in(SysUser::getUserId, userIds)));
 	}
 
 	/**
