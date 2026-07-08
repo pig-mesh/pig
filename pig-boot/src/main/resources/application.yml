@@ -68,6 +68,10 @@ mybatis-plus:
       where-strategy: not_empty
       insert-strategy: not_empty
       update-strategy: not_null
+    # 雪花算法随机 worker-id / datacenter-id，避免多实例生成重复 ID (mybatis-plus#7135)
+    sequence:
+      worker-id: ${random.int(1,31)}
+      datacenter-id: ${random.int(1,31)}
   type-handlers-package: com.pig4cloud.pig.common.data.handler
   configuration:
     jdbc-type-for-null: 'null'
