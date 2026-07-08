@@ -24,7 +24,7 @@
 
     <groupId>com.pig4cloud</groupId>
     <artifactId>pig</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
     <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <organization>
