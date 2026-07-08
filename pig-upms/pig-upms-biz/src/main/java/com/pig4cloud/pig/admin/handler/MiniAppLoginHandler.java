@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.admin.handler;
 
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
@@ -24,6 +25,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.pig4cloud.pig.admin.api.constant.UpmsErrorCodes;
+import com.pig4cloud.pig.admin.api.dto.RegisterUserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserDTO;
 import com.pig4cloud.pig.admin.api.dto.UserInfo;
 import com.pig4cloud.pig.admin.api.entity.SysSocialDetails;
@@ -33,10 +35,12 @@ import com.pig4cloud.pig.admin.service.SysUserService;
 import com.pig4cloud.pig.common.core.constant.CacheConstants;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.constant.enums.LoginTypeEnum;
+import com.pig4cloud.pig.common.core.constant.enums.YesNoEnum;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.data.cache.RedisUtils;
+import com.pig4cloud.pig.common.data.resolver.ParamResolver;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -115,8 +119,10 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 
 	/**
 	 * 根据手机号获取用户信息。
+	 * <p>
+	 * 用户不存在且注册功能（SITE_REGISTER_ENABLE）开启时，自动以手机号注册新用户后返回。
 	 * @param phone 用户手机号
-	 * @return 用户信息对象，未找到时返回null
+	 * @return 用户信息对象，未找到且无法自动注册时返回null
 	 */
 	@Override
 	public UserInfo info(String phone) {
@@ -130,12 +136,30 @@ public class MiniAppLoginHandler extends AbstractLoginHandler {
 
 		R<UserInfo> userInfoR = sysUserService.getUserInfo(userDTO);
 
-		if (userInfoR.getData() == null) {
-			log.info("小程序手机号不存在用户:{}", phone);
+		if (userInfoR.getData() != null) {
+			return userInfoR.getData();
+		}
+
+		// 用户不存在：注册功能开启时自动注册，开关判断与 SysRegisterController 保持一致
+		if (!YesNoEnum.YES.getCode().equals(ParamResolver.getStr("SITE_REGISTER_ENABLE", YesNoEnum.NO.getCode()))) {
+			log.info("小程序手机号不存在用户且未开启注册功能:{}", phone);
 			return null;
 		}
 
-		return userInfoR.getData();
+		RegisterUserDTO registerUserDTO = new RegisterUserDTO();
+		registerUserDTO.setUsername(phone);
+		registerUserDTO.setPhone(phone);
+		// 初始密码为 10 位随机数字
+		registerUserDTO.setPassword(RandomUtil.randomNumbers(10));
+
+		R<Boolean> registerResult = sysUserService.registerUser(registerUserDTO);
+		if (!registerResult.isOk()) {
+			log.warn("小程序自动注册用户失败:{},{}", phone, registerResult.getMsg());
+			return null;
+		}
+
+		log.info("小程序自动注册用户成功:{}", phone);
+		return sysUserService.getUserInfo(userDTO).getData();
 	}
 
 	/**
