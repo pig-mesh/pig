@@ -31,7 +31,7 @@ PIG 提供了完整的部署与开发文档：[wiki.pig4cloud.com](https://wiki.
 - JDK 17+
 - Maven 3.9+
 - Docker 和 Docker Compose
-- Node.js 16+（运行 `pig-ui` 前端时需要）
+- Node.js 20.19.0+（运行 `pig-ui` 前端时需要）
 
 ### 微服务模式
 
