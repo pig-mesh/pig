@@ -1,5 +1,5 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-4.0-success.svg" alt="Pig">
+ <img src="https://img.shields.io/badge/Pig-4.1-success.svg" alt="Pig">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2025.1-blue.svg" alt="Spring Cloud">
  <img src="https://img.shields.io/badge/Spring%20Boot-4.0-blue.svg" alt="Spring Boot">
  <img src="https://img.shields.io/badge/Vue-3.5-blue.svg" alt="Vue">
@@ -59,7 +59,7 @@ docker compose -f docker-compose-boot.yml build && docker compose -f docker-comp
 
 | 依赖 | 版本 |
 | --- | --- |
-| Pig | 4.0.0 |
+| Pig | 4.1.0 |
 | JDK | 17+ |
 | Spring Boot | 4.0.6 |
 | Spring Cloud | 2025.1.2 |
