@@ -39,4 +39,9 @@ public class DruidDataSourceProperties extends DruidConfig {
 	 */
 	private String queryDsSql = "select * from gen_datasource_conf where del_flag = ?";
 
+	/**
+	 * 是否从数据库配置表加载扩展数据源，默认开启
+	 */
+	private Boolean queryDsEnabled = true;
+
 }

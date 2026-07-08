@@ -28,10 +28,12 @@ import com.pig4cloud.pig.common.datasource.util.DsTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.encryption.StringEncryptor;
 
+import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +58,19 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 				properties.getPassword());
 		this.stringEncryptor = stringEncryptor;
 		this.properties = properties;
+	}
+
+	/**
+	 * 加载所有数据源
+	 * @return 所有数据源
+	 */
+	@Override
+	public Map<String, DataSource> loadDataSources() {
+		if (!isQueryDsEnabled()) {
+			log.debug("spring.datasource.druid.query-ds-enabled=false，已关闭数据库配置表加载");
+			return Collections.emptyMap();
+		}
+		return super.loadDataSources();
 	}
 
 	/**
@@ -122,6 +137,14 @@ public class JdbcDynamicDataSourceProvider extends AbstractJdbcDataSourceProvide
 		}
 
 		return map;
+	}
+
+	/**
+	 * 是否开启从数据库配置表加载扩展数据源
+	 * @return true 开启（默认）；仅显式配置为 false 时关闭
+	 */
+	boolean isQueryDsEnabled() {
+		return !Boolean.FALSE.equals(properties.getQueryDsEnabled());
 	}
 
 }
