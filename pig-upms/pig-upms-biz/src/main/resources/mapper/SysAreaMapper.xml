@@ -21,4 +21,20 @@
         <result property="updateTime" column="update_time"/>
         <result property="delFlag" column="del_flag"/>
   </resultMap>
+
+  <resultMap id="sysAreaChildCountMap" type="com.pig4cloud.pig.admin.api.vo.SysAreaChildCountVO">
+    <result property="pid" column="pid"/>
+    <result property="childCount" column="child_count"/>
+  </resultMap>
+
+  <select id="selectChildCounts" resultMap="sysAreaChildCountMap">
+    SELECT pid, COUNT(*) AS child_count
+    FROM sys_area
+    WHERE del_flag = '0'
+      AND pid IN
+    <foreach collection="parentCodes" item="parentCode" open="(" separator="," close=")">
+      #{parentCode}
+    </foreach>
+    GROUP BY pid
+  </select>
 </mapper>
