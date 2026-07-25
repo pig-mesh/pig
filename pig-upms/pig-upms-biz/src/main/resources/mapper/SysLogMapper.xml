@@ -27,8 +27,42 @@
 			COUNT(*) AS "logCount"
 		FROM sys_log
 		WHERE create_time >= #{startTime}
+			AND del_flag = '0'
 		GROUP BY DATE(create_time), log_type
 		ORDER BY DATE(create_time), log_type
+	</select>
+
+	<select id="selectLogSum" databaseId="oracle" resultType="java.util.Map">
+		SELECT TRUNC(create_time) AS "createTime",
+			log_type AS "logType",
+			COUNT(*) AS "logCount"
+		FROM sys_log
+		WHERE create_time >= #{startTime}
+			AND del_flag = '0'
+		GROUP BY TRUNC(create_time), log_type
+		ORDER BY TRUNC(create_time), log_type
+	</select>
+
+	<select id="selectLogSum" databaseId="mssql" resultType="java.util.Map">
+		SELECT CAST(create_time AS date) AS "createTime",
+			log_type AS "logType",
+			COUNT(*) AS "logCount"
+		FROM sys_log
+		WHERE create_time >= #{startTime}
+			AND del_flag = '0'
+		GROUP BY CAST(create_time AS date), log_type
+		ORDER BY CAST(create_time AS date), log_type
+	</select>
+
+	<select id="selectLogSum" databaseId="dm" resultType="java.util.Map">
+		SELECT TO_CHAR(create_time, 'YYYY-MM-DD') AS "createTime",
+			log_type AS "logType",
+			COUNT(*) AS "logCount"
+		FROM sys_log
+		WHERE create_time >= #{startTime}
+			AND del_flag = '0'
+		GROUP BY TO_CHAR(create_time, 'YYYY-MM-DD'), log_type
+		ORDER BY TO_CHAR(create_time, 'YYYY-MM-DD'), log_type
 	</select>
 
 </mapper>

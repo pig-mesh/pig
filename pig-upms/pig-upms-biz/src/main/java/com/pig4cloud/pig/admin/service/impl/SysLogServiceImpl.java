@@ -35,6 +35,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -119,7 +121,7 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 		Map<String, Map<String, Object>> resultMap = new TreeMap<>();
 
 		for (Map<String, Object> row : logSumList) {
-			String createTime = row.get(SysLog.Fields.createTime).toString();
+			String createTime = formatCreateTime(row.get(SysLog.Fields.createTime));
 			Map<String, Object> logSum = resultMap.computeIfAbsent(createTime, key -> {
 				Map<String, Object> item = new LinkedHashMap<>();
 				item.put(SysLog.Fields.createTime, key);
@@ -129,6 +131,19 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 		}
 
 		return new ArrayList<>(resultMap.values());
+	}
+
+	private String formatCreateTime(Object createTime) {
+		if (createTime instanceof Timestamp timestamp) {
+			return timestamp.toLocalDateTime().toLocalDate().toString();
+		}
+		if (createTime instanceof LocalDateTime localDateTime) {
+			return localDateTime.toLocalDate().toString();
+		}
+		if (createTime instanceof LocalDate localDate) {
+			return localDate.toString();
+		}
+		return createTime.toString();
 	}
 
 }

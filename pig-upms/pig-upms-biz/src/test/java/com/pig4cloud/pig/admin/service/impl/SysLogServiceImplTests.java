@@ -21,6 +21,7 @@ import com.pig4cloud.pig.admin.mapper.SysLogMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,20 @@ class SysLogServiceImplTests {
 		verify(sysLogMapper).selectLogSum(any());
 	}
 
-	private Map<String, Object> row(String createTime, String logType, long logCount) {
+	@Test
+	void getLogSumNormalizesTimestampBucketsFromOracle() {
+		SysLogMapper sysLogMapper = mock(SysLogMapper.class);
+		SysLogServiceImpl service = new SysLogServiceImpl();
+		ReflectionTestUtils.setField(service, "baseMapper", sysLogMapper);
+		when(sysLogMapper.selectLogSum(any()))
+			.thenReturn(List.of(row(Timestamp.valueOf("2026-07-13 00:00:00"), "0", 12L)));
+
+		List<Map<String, Object>> result = service.getLogSum();
+
+		assertThat(result).containsExactly(Map.of("createTime", "2026-07-13", "0", 12));
+	}
+
+	private Map<String, Object> row(Object createTime, String logType, long logCount) {
 		Map<String, Object> row = new LinkedHashMap<>();
 		row.put("createTime", createTime);
 		row.put("logType", logType);
