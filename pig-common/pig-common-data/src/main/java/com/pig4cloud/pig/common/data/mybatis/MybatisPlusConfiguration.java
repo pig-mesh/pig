@@ -104,6 +104,7 @@ public class MybatisPlusConfiguration implements WebMvcConfigurer {
 		properties.setProperty("Oracle", "oracle");
 		properties.setProperty("SQL Server", "mssql");
 		properties.setProperty("DM DBMS", "dm");
+		properties.setProperty("KingbaseES", "kingbase");
 		databaseIdProvider.setProperties(properties);
 		return databaseIdProvider;
 	}

@@ -65,4 +65,15 @@
 		ORDER BY TO_CHAR(create_time, 'YYYY-MM-DD'), log_type
 	</select>
 
+	<select id="selectLogSum" databaseId="kingbase" resultType="java.util.Map">
+		SELECT TO_CHAR(create_time, 'YYYY-MM-DD') AS "createTime",
+			log_type AS "logType",
+			COUNT(*) AS "logCount"
+		FROM sys_log
+		WHERE create_time >= #{startTime}
+			AND del_flag = '0'
+		GROUP BY TO_CHAR(create_time, 'YYYY-MM-DD'), log_type
+		ORDER BY TO_CHAR(create_time, 'YYYY-MM-DD'), log_type
+	</select>
+
 </mapper>

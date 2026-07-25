@@ -49,6 +49,7 @@ class SysLogMapperXmlTests {
 		assertThat(sql("oracle")).contains("TRUNC(create_time)").contains("del_flag = '0'");
 		assertThat(sql("mssql")).contains("CAST(create_time AS date)").contains("del_flag = '0'");
 		assertThat(sql("dm")).contains("TO_CHAR(create_time, 'YYYY-MM-DD')").contains("del_flag = '0'");
+		assertThat(sql("kingbase")).contains("TO_CHAR(create_time, 'YYYY-MM-DD')").contains("del_flag = '0'");
 	}
 
 	@Test
@@ -58,6 +59,7 @@ class SysLogMapperXmlTests {
 		assertThat(databaseId(provider, "Oracle")).isEqualTo("oracle");
 		assertThat(databaseId(provider, "Microsoft SQL Server")).isEqualTo("mssql");
 		assertThat(databaseId(provider, "DM DBMS")).isEqualTo("dm");
+		assertThat(databaseId(provider, "KingbaseES")).isEqualTo("kingbase");
 	}
 
 	private String sql(String databaseId) throws IOException {
