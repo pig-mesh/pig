@@ -21,4 +21,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.pig4cloud.pig.admin.mapper.SysLogMapper">
 
+	<select id="selectLogSum" resultType="java.util.Map">
+		SELECT DATE(create_time) AS "createTime",
+			log_type AS "logType",
+			COUNT(*) AS "logCount"
+		FROM sys_log
+		WHERE create_time >= #{startTime}
+		GROUP BY DATE(create_time), log_type
+		ORDER BY DATE(create_time), log_type
+	</select>
+
 </mapper>

@@ -19,8 +19,6 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -38,10 +36,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
 
 /**
  * <p>
@@ -116,27 +115,20 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	 */
 	@Override
 	public List<Map<String, Object>> getLogSum() {
-		// 查询createTime最近30天的数据
-		List<SysLog> sysLogList = baseMapper
-			.selectList(Wrappers.<SysLog>lambdaQuery().ge(SysLog::getCreateTime, LocalDateTime.now().minusDays(30)));
+		List<Map<String, Object>> logSumList = baseMapper.selectLogSum(LocalDateTime.now().minusDays(30));
+		Map<String, Map<String, Object>> resultMap = new TreeMap<>();
 
-		return sysLogList.stream()
-			// 按照日期进行分组
-			.collect(Collectors.groupingBy(log -> DateUtil.format(log.getCreateTime(), DatePattern.NORM_DATE_PATTERN)))
-			.entrySet()
-			.stream()
-			// 将每个日期对应的日志按日志类型分组，并计算每种类型的日志数量
-			.map(entry -> {
-				Map<String, Object> map = entry.getValue()
-					.stream()
-					.collect(Collectors.groupingBy(SysLog::getLogType,
-							Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
-				map.put(SysLog.Fields.createTime, entry.getKey());
-				return map;
-			})
-			// 按createTime升序排序
-			.sorted(Comparator.comparing(map -> map.get(SysLog.Fields.createTime).toString()))
-			.toList();
+		for (Map<String, Object> row : logSumList) {
+			String createTime = row.get(SysLog.Fields.createTime).toString();
+			Map<String, Object> logSum = resultMap.computeIfAbsent(createTime, key -> {
+				Map<String, Object> item = new LinkedHashMap<>();
+				item.put(SysLog.Fields.createTime, key);
+				return item;
+			});
+			logSum.put(row.get(SysLog.Fields.logType).toString(), ((Number) row.get("logCount")).intValue());
+		}
+
+		return new ArrayList<>(resultMap.values());
 	}
 
 }
