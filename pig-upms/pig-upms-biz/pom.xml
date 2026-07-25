@@ -58,6 +58,11 @@
             <groupId>com.dameng</groupId>
             <artifactId>DmJdbcDriver18</artifactId>
         </dependency>
+        <!-- KingbaseES -->
+        <dependency>
+            <groupId>cn.com.kingbase</groupId>
+            <artifactId>kingbase8</artifactId>
+        </dependency>
         <!--upms api、model 模块-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
