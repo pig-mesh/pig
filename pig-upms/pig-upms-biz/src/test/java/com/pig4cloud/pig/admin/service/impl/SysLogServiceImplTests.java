@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,20 @@ class SysLogServiceImplTests {
 		List<Map<String, Object>> result = service.getLogSum();
 
 		assertThat(result).containsExactly(Map.of("createTime", "2026-07-13", "0", 12));
+	}
+
+	@Test
+	void getLogSumNormalizesTemporalAccessorAndNullBuckets() {
+		SysLogMapper sysLogMapper = mock(SysLogMapper.class);
+		SysLogServiceImpl service = new SysLogServiceImpl();
+		ReflectionTestUtils.setField(service, "baseMapper", sysLogMapper);
+		when(sysLogMapper.selectLogSum(any()))
+			.thenReturn(List.of(row(null, "0", 1L), row(LocalDate.of(2026, 7, 14), "0", 8L)));
+
+		List<Map<String, Object>> result = service.getLogSum();
+
+		assertThat(result).containsExactly(Map.of("createTime", "", "0", 1),
+				Map.of("createTime", "2026-07-14", "0", 8));
 	}
 
 	private Map<String, Object> row(Object createTime, String logType, long logCount) {
