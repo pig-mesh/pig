@@ -17,6 +17,7 @@
 
 package com.pig4cloud.pig.common.feign.annotation;
 
+import com.pig4cloud.pig.common.feign.PigFeignClientConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.cloud.openfeign.FeignClientsConfiguration;
 import org.springframework.core.annotation.AliasFor;
@@ -68,11 +69,15 @@ public @interface EnablePigFeignClients {
 	 * A custom <code>@Configuration</code> for all feign clients. Can contain override
 	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
 	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.
+	 * <p>
+	 * 注意：显式指定该属性会整体替换默认值，即丢失
+	 * {@link PigFeignClientConfiguration} 的消息转换器预热能力；如需自定义，
+	 * 请把 {@code PigFeignClientConfiguration.class} 一并加入数组。
 	 *
 	 * @see FeignClientsConfiguration for the defaults
 	 */
 	@AliasFor(annotation = EnableFeignClients.class)
-	Class<?>[] defaultConfiguration() default {};
+	Class<?>[] defaultConfiguration() default { PigFeignClientConfiguration.class };
 
 	/**
 	 * List of classes annotated with @FeignClient. If not empty, disables classpath
