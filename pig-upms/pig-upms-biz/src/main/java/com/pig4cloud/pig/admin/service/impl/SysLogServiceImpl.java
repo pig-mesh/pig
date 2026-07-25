@@ -19,6 +19,9 @@
 
 package com.pig4cloud.pig.admin.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.date.TemporalAccessorUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -35,10 +38,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -134,14 +137,14 @@ public class SysLogServiceImpl extends ServiceImpl<SysLogMapper, SysLog> impleme
 	}
 
 	private String formatCreateTime(Object createTime) {
-		if (createTime instanceof Timestamp timestamp) {
-			return timestamp.toLocalDateTime().toLocalDate().toString();
+		if (createTime == null) {
+			return StrUtil.EMPTY;
 		}
-		if (createTime instanceof LocalDateTime localDateTime) {
-			return localDateTime.toLocalDate().toString();
+		if (createTime instanceof Date date) {
+			return DateUtil.format(date, DatePattern.NORM_DATE_PATTERN);
 		}
-		if (createTime instanceof LocalDate localDate) {
-			return localDate.toString();
+		if (createTime instanceof TemporalAccessor temporalAccessor) {
+			return TemporalAccessorUtil.format(temporalAccessor, DatePattern.NORM_DATE_PATTERN);
 		}
 		return createTime.toString();
 	}
