@@ -120,7 +120,7 @@ public class SysFileController {
 	 * @param fileName 自定义文件名
 	 * @return 文件上传结果
 	 */
-	@Inner(value = false)
+	@Inner
 	@PostMapping(value = "/inner/upload")
 	public R innerUpload(@RequestPart("file") MultipartFile file,
 			@RequestParam(value = "dir", required = false) String dir,

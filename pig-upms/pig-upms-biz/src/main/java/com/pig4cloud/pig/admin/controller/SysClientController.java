@@ -136,11 +136,27 @@ public class SysClientController {
 		return R.ok(clientDetailsService.updateClientById(clientDetailsDTO));
 	}
 
-	@Inner(false)
+	/**
+	 * feign 查询客户端信息的接口
+	 * @param clientId 客户端 ID
+	 * @return 基本信息
+	 */
+	@Inner
 	@GetMapping("/getClientDetailsById/{clientId}")
 	public R getClientDetailsById(@PathVariable String clientId) {
 		return R.ok(clientDetailsService.getOne(
 				Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId), false));
+	}
+
+	/**
+	 * 通过条件查询详情
+	 * @param clientDetails 查询条件
+	 * @return 基本信息
+	 */
+	@GetMapping("/details")
+	@HasPermission("sys_client_view")
+	public R getDetails(@ParameterObject SysOauthClientDetails clientDetails) {
+		return getClientDetailsById(clientDetails.getClientId());
 	}
 
 	/**
