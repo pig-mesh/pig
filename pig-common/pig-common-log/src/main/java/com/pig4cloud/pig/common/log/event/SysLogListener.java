@@ -96,8 +96,7 @@ public class SysLogListener implements InitializingBean {
 	/**
 	 * 判断请求参数是否属于不可异步序列化的类型
 	 * <p>
-	 * 请求结束后 Tomcat 会清理 multipart 临时文件，流、文件类参数在异步线程中序列化会触发
-	 * NoSuchFileException，需要在序列化前剔除。
+	 * 请求结束后 Tomcat 会清理 multipart 临时文件，流、文件类参数在异步线程中序列化会触发 NoSuchFileException，需要在序列化前剔除。
 	 * @param obj 请求参数，可能为 null（null 可正常序列化，予以保留）
 	 * @return true 表示需要从序列化列表中剔除
 	 */

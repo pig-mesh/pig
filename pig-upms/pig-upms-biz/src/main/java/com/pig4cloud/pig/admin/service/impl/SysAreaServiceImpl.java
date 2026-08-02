@@ -153,8 +153,8 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
 			return R.failed("行政区划排序ID不能重复");
 		}
 
-		List<SysAreaEntity> siblings = list(Wrappers.<SysAreaEntity>lambdaQuery()
-			.eq(SysAreaEntity::getPid, sortDTO.getPid()));
+		List<SysAreaEntity> siblings = list(
+				Wrappers.<SysAreaEntity>lambdaQuery().eq(SysAreaEntity::getPid, sortDTO.getPid()));
 		Set<Long> siblingIds = siblings.stream().map(SysAreaEntity::getId).collect(Collectors.toSet());
 		if (siblings.size() != areaIds.size() || !siblingIds.equals(uniqueIds)) {
 			return R.failed("行政区划列表已变化，请刷新后重试");
@@ -271,8 +271,8 @@ public class SysAreaServiceImpl extends ServiceImpl<SysAreaMapper, SysAreaEntity
 			.collect(Collectors.toSet());
 
 		while (CollUtil.isNotEmpty(pendingCodes)) {
-			List<SysAreaEntity> parents = list(Wrappers.<SysAreaEntity>lambdaQuery()
-				.in(SysAreaEntity::getAdcode, pendingCodes));
+			List<SysAreaEntity> parents = list(
+					Wrappers.<SysAreaEntity>lambdaQuery().in(SysAreaEntity::getAdcode, pendingCodes));
 			if (CollUtil.isEmpty(parents)) {
 				break;
 			}

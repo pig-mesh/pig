@@ -51,8 +51,9 @@ public class VelocityKit {
 	/**
 	 * 安全的 Velocity 引擎，全局初始化一次。
 	 * <p>
-	 * 通过 {@link org.apache.velocity.util.introspection.SecureUberspector} 禁止 {@code getClass()}
-	 * 及对 {@code java.lang.Runtime/System/Thread/ProcessBuilder/Process/ClassLoader/Class} 和
+	 * 通过 {@link org.apache.velocity.util.introspection.SecureUberspector} 禁止
+	 * {@code getClass()} 及对
+	 * {@code java.lang.Runtime/System/Thread/ProcessBuilder/Process/ClassLoader/Class} 和
 	 * {@code java.lang.reflect.*} 的方法调用，从根上阻断 Velocity SSTI → 反射 → RCE。
 	 */
 	private static final VelocityEngine ENGINE = buildSecureEngine();
@@ -61,11 +62,9 @@ public class VelocityKit {
 		Properties prop = new Properties();
 		// classpath 资源加载（保留 render() 按名加载模板的能力）
 		prop.put(RuntimeConstants.RESOURCE_LOADERS, "class");
-		prop.put("resource.loader.class.class",
-				"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		prop.put("resource.loader.class.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		// 关键：安全 Uberspector，禁用反射 / getClass 访问危险类
-		prop.put(RuntimeConstants.UBERSPECT_CLASSNAME,
-				"org.apache.velocity.util.introspection.SecureUberspector");
+		prop.put(RuntimeConstants.UBERSPECT_CLASSNAME, "org.apache.velocity.util.introspection.SecureUberspector");
 		// 显式保留 Velocity 默认限制，并扩展封禁脚本引擎等二次利用面
 		prop.put("introspector.restrict.packages", String.join(",", RESTRICTED_PACKAGES));
 		prop.put("introspector.restrict.classes", String.join(",", RESTRICTED_CLASSES));

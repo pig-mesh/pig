@@ -70,9 +70,8 @@ public @interface EnablePigFeignClients {
 	 * <code>@Bean</code> definition for the pieces that make up the client, for instance
 	 * {@link feign.codec.Decoder}, {@link feign.codec.Encoder}, {@link feign.Contract}.
 	 * <p>
-	 * 注意：显式指定该属性会整体替换默认值，即丢失
-	 * {@link PigFeignClientConfiguration} 的消息转换器预热能力；如需自定义，
-	 * 请把 {@code PigFeignClientConfiguration.class} 一并加入数组。
+	 * 注意：显式指定该属性会整体替换默认值，即丢失 {@link PigFeignClientConfiguration} 的消息转换器预热能力；如需自定义， 请把
+	 * {@code PigFeignClientConfiguration.class} 一并加入数组。
 	 *
 	 * @see FeignClientsConfiguration for the defaults
 	 */

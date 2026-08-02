@@ -26,8 +26,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * PIG Feign 客户端子上下文配置。
  * <p>
- * 不加 @Configuration：该类仅通过 defaultConfiguration 注册到 Feign 子上下文，
- * 避免被 pig-boot 等主上下文组件扫描误引入。
+ * 不加 @Configuration：该类仅通过 defaultConfiguration 注册到 Feign 子上下文， 避免被 pig-boot 等主上下文组件扫描误引入。
  *
  * @author lengleng
  */
