@@ -30,6 +30,7 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.pig4cloud.pig.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pig.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pig.admin.api.entity.SysFile;
 import com.pig4cloud.pig.admin.api.entity.SysFileGroup;
@@ -37,10 +38,12 @@ import com.pig4cloud.pig.admin.mapper.SysFileGroupMapper;
 import com.pig4cloud.pig.admin.mapper.SysFileMapper;
 import com.pig4cloud.pig.admin.service.SysFileService;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
+import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.file.core.FileObject;
 import com.pig4cloud.pig.common.file.core.FileProperties;
 import com.pig4cloud.pig.common.file.core.FileTemplate;
+import com.pig4cloud.pig.common.file.core.FileType;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -50,6 +53,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.*;
@@ -84,8 +88,18 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 	public R uploadFile(MultipartFile file, String fileName, String dir, Long groupId, String type) {
 		// 如果客户端没有传入文件名，则使用UUID生成一个唯一的文件名
 		if (StrUtil.isBlank(fileName)) {
-			fileName = IdUtil.simpleUUID() + StrUtil.DOT + FileUtil.extName(file.getOriginalFilename());
+			String extension = FileUtil.extName(file.getOriginalFilename());
+			fileName = IdUtil.simpleUUID() + (StrUtil.isBlank(extension) ? StrUtil.EMPTY : StrUtil.DOT + extension);
 		}
+
+		try {
+			validateStoragePath(properties.getBucketName(), dir, fileName);
+		}
+		catch (IllegalArgumentException ex) {
+			log.warn("拒绝包含非法路径的文件上传请求");
+			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_FILE_PATH_INVALID));
+		}
+
 		Map<String, String> resultMap = new HashMap<>(4);
 		resultMap.put("bucketName", properties.getBucketName());
 		resultMap.put("fileName", fileName);
@@ -99,7 +113,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		}
 		catch (Exception e) {
 			log.error("上传失败", e);
-			return R.failed(e.getLocalizedMessage());
+			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_FILE_UPLOAD_FAILED));
 		}
 		return R.ok(resultMap);
 	}
@@ -117,11 +131,27 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		if (StrUtil.isNotBlank(urlFileName)) {
 			fileName = urlFileName;
 		}
+		try {
+			validateStoragePath(properties.getBucketName(), null, fileName);
+		}
+		catch (IllegalArgumentException ex) {
+			log.warn("拒绝包含非法路径的文件读取请求");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
 
 		SysFile sysFile = baseMapper.selectOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName),
 				false);
 		if (Objects.isNull(sysFile)) {
 			log.warn("文件不存在: {}", fileName);
+			return;
+		}
+		try {
+			validateStoragePath(sysFile.getBucketName(), sysFile.getDir(), sysFile.getFileName());
+		}
+		catch (IllegalArgumentException ex) {
+			log.warn("拒绝读取包含非法存储路径的文件记录");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
 
@@ -151,8 +181,39 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		if (Objects.isNull(file)) {
 			return Boolean.FALSE;
 		}
+		try {
+			validateStoragePath(properties.getBucketName(), null, file.getFileName());
+		}
+		catch (IllegalArgumentException ex) {
+			log.warn("拒绝删除包含非法存储路径的文件记录");
+			return Boolean.FALSE;
+		}
 		fileTemplate.removeObject(properties.getBucketName(), file.getFileName());
 		return this.removeById(id);
+	}
+
+	/**
+	 * 校验文件存储路径，确保文件始终位于配置的存储桶目录内。
+	 * @param bucketName 存储桶名称
+	 * @param dir 相对目录
+	 * @param fileName 文件名
+	 */
+	private void validateStoragePath(String bucketName, String dir, String fileName) {
+		if (properties.getType() != FileType.LOCAL) {
+			return;
+		}
+
+		String basePath = properties.getLocal().getBasePath();
+		if (StrUtil.isBlank(basePath)) {
+			throw new IllegalArgumentException(MsgUtils.getMessage(UpmsErrorCodes.SYS_FILE_PATH_INVALID));
+		}
+
+		File storageRoot = new File(basePath);
+		File bucketRoot = new File(storageRoot, bucketName);
+		File targetFile = StrUtil.isBlank(dir) ? new File(bucketRoot, fileName)
+				: new File(new File(bucketRoot, dir), fileName);
+		FileUtil.checkSlip(storageRoot, bucketRoot);
+		FileUtil.checkSlip(bucketRoot, targetFile);
 	}
 
 	/**

@@ -74,6 +74,11 @@ public interface UpmsErrorCodes {
 
 	String SYS_DICT_ITEM_SORT_SCOPE_INVALID = "sys.dict.item.sort.scopeInvalid";
 
+	// === 文件相关 ===
+	String SYS_FILE_PATH_INVALID = "sys.file.path.invalid";
+
+	String SYS_FILE_UPLOAD_FAILED = "sys.file.upload.failed";
+
 	// === 参数相关 ===
 	String SYS_PARAM_CONFIG_ERROR = "sys.param.config.error";
 
