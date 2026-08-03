@@ -1,61 +1,68 @@
 package com.pig4cloud.pig.monitor.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
+ * Druid 数据源活跃连接响应。
+ * <p>
+ * JSON 字段名与 Druid 监控接口保持一致。
+ *
  * @author linchtech
  * @date 2020-09-21 9:26
  **/
 
 @NoArgsConstructor
 @Data
+@Schema(description = "Druid 数据源活跃连接响应")
 public class ConnectionResult {
 
-	@JSONField(name = "ResultCode")
+	@Schema(description = "Druid 原始字段：ResultCode")
 	private int ResultCode;
 
-	@JSONField(name = "Content")
+	@Schema(description = "Druid 原始字段：Content")
 	private List<ContentBean> Content;
 
+	/** Druid 数据源活跃连接明细。 */
 	@NoArgsConstructor
 	@Data
+	@Schema(description = "Druid 数据源活跃连接明细")
 	public static class ContentBean {
 
-		@JSONField(name = "id")
+		@Schema(description = "Druid 原始字段：id")
 		private int id;
 
-		@JSONField(name = "connectionId")
+		@Schema(description = "Druid 原始字段：connectionId")
 		private int connectionId;
 
-		@JSONField(name = "useCount")
+		@Schema(description = "Druid 原始字段：useCount")
 		private int useCount;
 
-		@JSONField(name = "lastActiveTime")
+		@Schema(description = "Druid 原始字段：lastActiveTime")
 		private String lastActiveTime;
 
-		@JSONField(name = "connectTime")
+		@Schema(description = "Druid 原始字段：connectTime")
 		private String connectTime;
 
-		@JSONField(name = "holdability")
+		@Schema(description = "Druid 原始字段：holdability")
 		private int holdability;
 
-		@JSONField(name = "transactionIsolation")
+		@Schema(description = "Druid 原始字段：transactionIsolation")
 		private int transactionIsolation;
 
-		@JSONField(name = "autoCommit")
+		@Schema(description = "Druid 原始字段：autoCommit")
 		private boolean autoCommit;
 
-		@JSONField(name = "readoOnly")
+		@Schema(description = "Druid 原始字段：readoOnly")
 		private boolean readoOnly;
 
-		@JSONField(name = "keepAliveCheckCount")
+		@Schema(description = "Druid 原始字段：keepAliveCheckCount")
 		private int keepAliveCheckCount;
 
-		@JSONField(name = "pscache")
+		@Schema(description = "Druid 原始字段：pscache")
 		private List<?> pscache;
 
 	}

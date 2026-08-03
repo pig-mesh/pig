@@ -1,102 +1,109 @@
 package com.pig4cloud.pig.monitor.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
+ * Druid Web URI 统计响应。
+ * <p>
+ * JSON 字段名与 Druid 监控接口保持一致。
+ *
  * @author linchtech
  * @date 2020-09-17 18:27
  **/
 @NoArgsConstructor
 @Data
+@Schema(description = "Druid Web URI 统计响应")
 public class WebResult {
 
-	@JSONField(name = "ResultCode")
+	@Schema(description = "Druid 原始字段：ResultCode")
 	private int ResultCode;
 
-	@JSONField(name = "Content")
+	@Schema(description = "Druid 原始字段：Content")
 	private List<ContentBean> Content;
 
+	/** Druid Web URI 统计明细。 */
 	@NoArgsConstructor
 	@Data
+	@Schema(description = "Druid Web URI 统计明细")
 	public static class ContentBean {
 
-		@JSONField(name = "URI")
+		@Schema(description = "Druid 原始字段：URI")
 		private String URI;
 
-		@JSONField(name = "RunningCount")
+		@Schema(description = "Druid 原始字段：RunningCount")
 		private int RunningCount;
 
-		@JSONField(name = "ConcurrentMax")
+		@Schema(description = "Druid 原始字段：ConcurrentMax")
 		private int ConcurrentMax;
 
-		@JSONField(name = "RequestCount")
+		@Schema(description = "Druid 原始字段：RequestCount")
 		private int RequestCount;
 
-		@JSONField(name = "RequestTimeMillis")
+		@Schema(description = "Druid 原始字段：RequestTimeMillis")
 		private int RequestTimeMillis;
 
-		@JSONField(name = "ErrorCount")
+		@Schema(description = "Druid 原始字段：ErrorCount")
 		private int ErrorCount;
 
-		@JSONField(name = "LastAccessTime")
+		@Schema(description = "Druid 原始字段：LastAccessTime")
 		private String LastAccessTime;
 
-		@JSONField(name = "JdbcCommitCount")
+		@Schema(description = "Druid 原始字段：JdbcCommitCount")
 		private int JdbcCommitCount;
 
-		@JSONField(name = "JdbcRollbackCount")
+		@Schema(description = "Druid 原始字段：JdbcRollbackCount")
 		private int JdbcRollbackCount;
 
-		@JSONField(name = "JdbcExecuteCount")
+		@Schema(description = "Druid 原始字段：JdbcExecuteCount")
 		private int JdbcExecuteCount;
 
-		@JSONField(name = "JdbcExecuteErrorCount")
+		@Schema(description = "Druid 原始字段：JdbcExecuteErrorCount")
 		private int JdbcExecuteErrorCount;
 
-		@JSONField(name = "JdbcExecutePeak")
+		@Schema(description = "Druid 原始字段：JdbcExecutePeak")
 		private int JdbcExecutePeak;
 
-		@JSONField(name = "JdbcExecuteTimeMillis")
+		@Schema(description = "Druid 原始字段：JdbcExecuteTimeMillis")
 		private int JdbcExecuteTimeMillis;
 
-		@JSONField(name = "JdbcFetchRowCount")
+		@Schema(description = "Druid 原始字段：JdbcFetchRowCount")
 		private int JdbcFetchRowCount;
 
-		@JSONField(name = "JdbcFetchRowPeak")
+		@Schema(description = "Druid 原始字段：JdbcFetchRowPeak")
 		private int JdbcFetchRowPeak;
 
-		@JSONField(name = "JdbcUpdateCount")
+		@Schema(description = "Druid 原始字段：JdbcUpdateCount")
 		private int JdbcUpdateCount;
 
-		@JSONField(name = "JdbcUpdatePeak")
+		@Schema(description = "Druid 原始字段：JdbcUpdatePeak")
 		private int JdbcUpdatePeak;
 
-		@JSONField(name = "JdbcPoolConnectionOpenCount")
+		@Schema(description = "Druid 原始字段：JdbcPoolConnectionOpenCount")
 		private int JdbcPoolConnectionOpenCount;
 
-		@JSONField(name = "JdbcPoolConnectionCloseCount")
+		@Schema(description = "Druid 原始字段：JdbcPoolConnectionCloseCount")
 		private int JdbcPoolConnectionCloseCount;
 
-		@JSONField(name = "JdbcResultSetOpenCount")
+		@Schema(description = "Druid 原始字段：JdbcResultSetOpenCount")
 		private int JdbcResultSetOpenCount;
 
-		@JSONField(name = "JdbcResultSetCloseCount")
+		@Schema(description = "Druid 原始字段：JdbcResultSetCloseCount")
 		private int JdbcResultSetCloseCount;
 
-		@JSONField(name = "RequestTimeMillisMax")
+		@Schema(description = "Druid 原始字段：RequestTimeMillisMax")
 		private int RequestTimeMillisMax;
 
-		@JSONField(name = "RequestTimeMillisMaxOccurTime")
+		@Schema(description = "Druid 原始字段：RequestTimeMillisMaxOccurTime")
 		private String RequestTimeMillisMaxOccurTime;
 
-		@JSONField(name = "Histogram")
+		@Schema(description = "Druid 原始字段：Histogram")
 		private List<Integer> Histogram;
 
-		@JSONField(name = "Profiles")
+		@Schema(description = "Druid 原始字段：Profiles")
 		private List<?> Profiles;
 
 	}

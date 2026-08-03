@@ -1,233 +1,241 @@
 package com.pig4cloud.pig.monitor.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
+ * Druid 数据源统计响应。
+ * <p>
+ * JSON 字段名与 Druid 监控接口保持一致。
+ *
  * @author linchtech
  * @date 2020-09-16 18:32
  **/
 @Data
 @NoArgsConstructor
+@Schema(description = "Druid 数据源统计响应")
 public class DataSourceResult {
 
-	@JSONField(name = "ResultCode")
+	@Schema(description = "Druid 原始字段：ResultCode")
 	private int ResultCode;
 
-	@JSONField(name = "Content")
+	@Schema(description = "Druid 原始字段：Content")
 	private List<ContentBean> Content;
 
+	/** Druid 数据源统计明细。 */
 	@NoArgsConstructor
 	@Data
+	@Schema(description = "Druid 数据源统计明细")
 	public static class ContentBean {
 
+		@Schema(description = "服务实例 ID")
 		private String serviceId;
 
-		@JSONField(name = "Identity")
+		@Schema(description = "Druid 原始字段：Identity")
 		private int Identity;
 
-		@JSONField(name = "Name")
+		@Schema(description = "Druid 原始字段：Name")
 		private String Name;
 
-		@JSONField(name = "DbType")
+		@Schema(description = "Druid 原始字段：DbType")
 		private String DbType;
 
-		@JSONField(name = "DriverClassName")
+		@Schema(description = "Druid 原始字段：DriverClassName")
 		private String DriverClassName;
 
-		@JSONField(name = "URL")
+		@Schema(description = "Druid 原始字段：URL")
 		private String URL;
 
-		@JSONField(name = "UserName")
+		@Schema(description = "Druid 原始字段：UserName")
 		private String UserName;
 
-		@JSONField(name = "WaitThreadCount")
+		@Schema(description = "Druid 原始字段：WaitThreadCount")
 		private int WaitThreadCount;
 
-		@JSONField(name = "NotEmptyWaitCount")
+		@Schema(description = "Druid 原始字段：NotEmptyWaitCount")
 		private int NotEmptyWaitCount;
 
-		@JSONField(name = "NotEmptyWaitMillis")
+		@Schema(description = "Druid 原始字段：NotEmptyWaitMillis")
 		private int NotEmptyWaitMillis;
 
-		@JSONField(name = "PoolingCount")
+		@Schema(description = "Druid 原始字段：PoolingCount")
 		private int PoolingCount;
 
-		@JSONField(name = "PoolingPeak")
+		@Schema(description = "Druid 原始字段：PoolingPeak")
 		private int PoolingPeak;
 
-		@JSONField(name = "PoolingPeakTime")
+		@Schema(description = "Druid 原始字段：PoolingPeakTime")
 		private String PoolingPeakTime;
 
-		@JSONField(name = "ActiveCount")
+		@Schema(description = "Druid 原始字段：ActiveCount")
 		private int ActiveCount;
 
-		@JSONField(name = "ActivePeak")
+		@Schema(description = "Druid 原始字段：ActivePeak")
 		private int ActivePeak;
 
-		@JSONField(name = "ActivePeakTime")
+		@Schema(description = "Druid 原始字段：ActivePeakTime")
 		private String ActivePeakTime;
 
-		@JSONField(name = "InitialSize")
+		@Schema(description = "Druid 原始字段：InitialSize")
 		private int InitialSize;
 
-		@JSONField(name = "MinIdle")
+		@Schema(description = "Druid 原始字段：MinIdle")
 		private int MinIdle;
 
-		@JSONField(name = "MaxActive")
+		@Schema(description = "Druid 原始字段：MaxActive")
 		private int MaxActive;
 
-		@JSONField(name = "QueryTimeout")
+		@Schema(description = "Druid 原始字段：QueryTimeout")
 		private int QueryTimeout;
 
-		@JSONField(name = "TransactionQueryTimeout")
+		@Schema(description = "Druid 原始字段：TransactionQueryTimeout")
 		private int TransactionQueryTimeout;
 
-		@JSONField(name = "LoginTimeout")
+		@Schema(description = "Druid 原始字段：LoginTimeout")
 		private int LoginTimeout;
 
-		@JSONField(name = "ValidConnectionCheckerClassName")
+		@Schema(description = "Druid 原始字段：ValidConnectionCheckerClassName")
 		private String ValidConnectionCheckerClassName;
 
-		@JSONField(name = "ExceptionSorterClassName")
+		@Schema(description = "Druid 原始字段：ExceptionSorterClassName")
 		private String ExceptionSorterClassName;
 
-		@JSONField(name = "TestOnBorrow")
+		@Schema(description = "Druid 原始字段：TestOnBorrow")
 		private boolean TestOnBorrow;
 
-		@JSONField(name = "TestOnReturn")
+		@Schema(description = "Druid 原始字段：TestOnReturn")
 		private boolean TestOnReturn;
 
-		@JSONField(name = "TestWhileIdle")
+		@Schema(description = "Druid 原始字段：TestWhileIdle")
 		private boolean TestWhileIdle;
 
-		@JSONField(name = "DefaultAutoCommit")
+		@Schema(description = "Druid 原始字段：DefaultAutoCommit")
 		private boolean DefaultAutoCommit;
 
-		@JSONField(name = "DefaultReadOnly")
+		@Schema(description = "Druid 原始字段：DefaultReadOnly")
 		private Object DefaultReadOnly;
 
-		@JSONField(name = "DefaultTransactionIsolation")
+		@Schema(description = "Druid 原始字段：DefaultTransactionIsolation")
 		private Object DefaultTransactionIsolation;
 
-		@JSONField(name = "LogicConnectCount")
+		@Schema(description = "Druid 原始字段：LogicConnectCount")
 		private int LogicConnectCount;
 
-		@JSONField(name = "LogicCloseCount")
+		@Schema(description = "Druid 原始字段：LogicCloseCount")
 		private int LogicCloseCount;
 
-		@JSONField(name = "LogicConnectErrorCount")
+		@Schema(description = "Druid 原始字段：LogicConnectErrorCount")
 		private int LogicConnectErrorCount;
 
-		@JSONField(name = "PhysicalConnectCount")
+		@Schema(description = "Druid 原始字段：PhysicalConnectCount")
 		private int PhysicalConnectCount;
 
-		@JSONField(name = "PhysicalCloseCount")
+		@Schema(description = "Druid 原始字段：PhysicalCloseCount")
 		private int PhysicalCloseCount;
 
-		@JSONField(name = "PhysicalConnectErrorCount")
+		@Schema(description = "Druid 原始字段：PhysicalConnectErrorCount")
 		private int PhysicalConnectErrorCount;
 
-		@JSONField(name = "ExecuteCount")
+		@Schema(description = "Druid 原始字段：ExecuteCount")
 		private int ExecuteCount;
 
-		@JSONField(name = "ExecuteUpdateCount")
+		@Schema(description = "Druid 原始字段：ExecuteUpdateCount")
 		private int ExecuteUpdateCount;
 
-		@JSONField(name = "ExecuteQueryCount")
+		@Schema(description = "Druid 原始字段：ExecuteQueryCount")
 		private int ExecuteQueryCount;
 
-		@JSONField(name = "ExecuteBatchCount")
+		@Schema(description = "Druid 原始字段：ExecuteBatchCount")
 		private int ExecuteBatchCount;
 
-		@JSONField(name = "ErrorCount")
+		@Schema(description = "Druid 原始字段：ErrorCount")
 		private int ErrorCount;
 
-		@JSONField(name = "CommitCount")
+		@Schema(description = "Druid 原始字段：CommitCount")
 		private int CommitCount;
 
-		@JSONField(name = "RollbackCount")
+		@Schema(description = "Druid 原始字段：RollbackCount")
 		private int RollbackCount;
 
-		@JSONField(name = "PSCacheAccessCount")
+		@Schema(description = "Druid 原始字段：PSCacheAccessCount")
 		private int PSCacheAccessCount;
 
-		@JSONField(name = "PSCacheHitCount")
+		@Schema(description = "Druid 原始字段：PSCacheHitCount")
 		private int PSCacheHitCount;
 
-		@JSONField(name = "PSCacheMissCount")
+		@Schema(description = "Druid 原始字段：PSCacheMissCount")
 		private int PSCacheMissCount;
 
-		@JSONField(name = "StartTransactionCount")
+		@Schema(description = "Druid 原始字段：StartTransactionCount")
 		private int StartTransactionCount;
 
-		@JSONField(name = "RemoveAbandoned")
+		@Schema(description = "Druid 原始字段：RemoveAbandoned")
 		private boolean RemoveAbandoned;
 
-		@JSONField(name = "ClobOpenCount")
+		@Schema(description = "Druid 原始字段：ClobOpenCount")
 		private int ClobOpenCount;
 
-		@JSONField(name = "BlobOpenCount")
+		@Schema(description = "Druid 原始字段：BlobOpenCount")
 		private int BlobOpenCount;
 
-		@JSONField(name = "KeepAliveCheckCount")
+		@Schema(description = "Druid 原始字段：KeepAliveCheckCount")
 		private int KeepAliveCheckCount;
 
-		@JSONField(name = "KeepAlive")
+		@Schema(description = "Druid 原始字段：KeepAlive")
 		private boolean KeepAlive;
 
-		@JSONField(name = "FailFast")
+		@Schema(description = "Druid 原始字段：FailFast")
 		private boolean FailFast;
 
-		@JSONField(name = "MaxWait")
+		@Schema(description = "Druid 原始字段：MaxWait")
 		private int MaxWait;
 
-		@JSONField(name = "MaxWaitThreadCount")
+		@Schema(description = "Druid 原始字段：MaxWaitThreadCount")
 		private int MaxWaitThreadCount;
 
-		@JSONField(name = "PoolPreparedStatements")
+		@Schema(description = "Druid 原始字段：PoolPreparedStatements")
 		private boolean PoolPreparedStatements;
 
-		@JSONField(name = "MaxPoolPreparedStatementPerConnectionSize")
+		@Schema(description = "Druid 原始字段：MaxPoolPreparedStatementPerConnectionSize")
 		private int MaxPoolPreparedStatementPerConnectionSize;
 
-		@JSONField(name = "MinEvictableIdleTimeMillis")
+		@Schema(description = "Druid 原始字段：MinEvictableIdleTimeMillis")
 		private int MinEvictableIdleTimeMillis;
 
-		@JSONField(name = "MaxEvictableIdleTimeMillis")
+		@Schema(description = "Druid 原始字段：MaxEvictableIdleTimeMillis")
 		private int MaxEvictableIdleTimeMillis;
 
-		@JSONField(name = "LogDifferentThread")
+		@Schema(description = "Druid 原始字段：LogDifferentThread")
 		private boolean LogDifferentThread;
 
-		@JSONField(name = "RecycleErrorCount")
+		@Schema(description = "Druid 原始字段：RecycleErrorCount")
 		private int RecycleErrorCount;
 
-		@JSONField(name = "PreparedStatementOpenCount")
+		@Schema(description = "Druid 原始字段：PreparedStatementOpenCount")
 		private int PreparedStatementOpenCount;
 
-		@JSONField(name = "PreparedStatementClosedCount")
+		@Schema(description = "Druid 原始字段：PreparedStatementClosedCount")
 		private int PreparedStatementClosedCount;
 
-		@JSONField(name = "UseUnfairLock")
+		@Schema(description = "Druid 原始字段：UseUnfairLock")
 		private boolean UseUnfairLock;
 
-		@JSONField(name = "InitGlobalVariants")
+		@Schema(description = "Druid 原始字段：InitGlobalVariants")
 		private boolean InitGlobalVariants;
 
-		@JSONField(name = "InitVariants")
+		@Schema(description = "Druid 原始字段：InitVariants")
 		private boolean InitVariants;
 
-		@JSONField(name = "FilterClassNames")
+		@Schema(description = "Druid 原始字段：FilterClassNames")
 		private List<String> FilterClassNames;
 
-		@JSONField(name = "TransactionHistogram")
+		@Schema(description = "Druid 原始字段：TransactionHistogram")
 		private List<Integer> TransactionHistogram;
 
-		@JSONField(name = "ConnectionHoldTimeHistogram")
+		@Schema(description = "Druid 原始字段：ConnectionHoldTimeHistogram")
 		private List<Integer> ConnectionHoldTimeHistogram;
 
 	}

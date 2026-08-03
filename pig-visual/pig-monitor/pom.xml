@@ -73,8 +73,8 @@
         </dependency>
         <!--monitor json 操作-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-json</artifactId>
         </dependency>
     </dependencies>
 

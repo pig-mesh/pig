@@ -1,15 +1,14 @@
 package com.pig4cloud.pig.monitor.service.impl;
 
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
+import cn.hutool.json.JSONConfig;
+import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.stat.DruidStatServiceMBean;
 import com.alibaba.druid.support.http.stat.WebAppStatManager;
-import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.druid.support.spring.stat.SpringStatManager;
 import com.alibaba.druid.util.MapComparator;
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.pig4cloud.pig.monitor.config.DruidMonitorConfigurer;
 import com.pig4cloud.pig.monitor.model.ServiceNode;
 import com.pig4cloud.pig.monitor.model.dto.*;
@@ -24,7 +23,9 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * 分布式环境下 druid 监控数据采集，copy from https://u.nu/8-shl
+ * 分布式 Druid 监控数据聚合服务。
+ * <p>
+ * 负责从注册中心发现被监控实例，采集各实例的 Druid 数据并保持 Druid 控制台要求的 JSON 字段与数值类型。
  *
  * @author linchtech
  * @date 2020-09-16 11:12
@@ -33,8 +34,10 @@ import java.util.stream.Collectors;
 @Component
 public class MonitorStatService implements DruidStatServiceMBean {
 
+	/** Druid 请求处理成功状态码。 */
 	public final static int RESULT_CODE_SUCCESS = 1;
 
+	/** Druid 请求处理失败状态码。 */
 	public final static int RESULT_CODE_ERROR = -1;
 
 	private final static int DEFAULT_PAGE = 1;
@@ -50,7 +53,7 @@ public class MonitorStatService implements DruidStatServiceMBean {
 	private static final String DEFAULT_ORDERBY = "SQL";
 
 	/**
-	 * 以consul注册的服务的id为key,value为某个微服务节点
+	 * 以注册中心服务实例 ID 为键，保存对应的微服务节点。
 	 */
 	public static Map<String, ServiceNode> serviceIdMap = new HashMap<>();
 
@@ -61,8 +64,8 @@ public class MonitorStatService implements DruidStatServiceMBean {
 	private DruidMonitorConfigurer.MonitorProperties monitorProperties;
 
 	/**
-	 * 获取所有服务信息
-	 * @return
+	 * 获取配置范围内的全部服务节点。
+	 * @return 以服务名、地址和端口组合值为键的服务节点映射
 	 */
 	public Map<String, ServiceNode> getAllServiceNodeMap() {
 		List<String> services = discoveryClient.getServices();
@@ -92,9 +95,9 @@ public class MonitorStatService implements DruidStatServiceMBean {
 	}
 
 	/**
-	 * 获取指定服务名的所有节点
-	 * @param parameters
-	 * @return
+	 * 获取指定服务名的全部节点。
+	 * @param parameters Druid 请求参数，必须包含 {@code serviceName}
+	 * @return 以服务名、地址和端口组合值为键的服务节点映射
 	 */
 	public Map<String, ServiceNode> getServiceAllNodeMap(Map<String, String> parameters) {
 		String requestServiceName = parameters.get("serviceName");
@@ -125,11 +128,12 @@ public class MonitorStatService implements DruidStatServiceMBean {
 					Function.identity(), (v1, v2) -> v2));
 	}
 
+	/** {@inheritDoc} */
 	@Override
 	public String service(String url) {
 		Map<String, String> parameters = getParameters(url);
 		if (url.endsWith("serviceList.json")) {
-			return JSON.toJSONString(monitorProperties.getApplications());
+			return JSONUtil.toJsonStr(monitorProperties.getApplications());
 		}
 
 		if (url.equals("/datasource.json")) {
@@ -203,20 +207,35 @@ public class MonitorStatService implements DruidStatServiceMBean {
 		return returnJSONResult(RESULT_CODE_ERROR, "Do not support this request, please contact with administrator.");
 	}
 
+	/**
+	 * 将 Druid 本地监控结果包装成标准响应。
+	 * @param resultCode Druid 响应状态码
+	 * @param content 响应内容
+	 * @return Druid 标准 JSON 响应
+	 */
 	public static String returnJSONResult(int resultCode, Object content) {
-		Map<String, Object> dataMap = new LinkedHashMap<String, Object>();
-		dataMap.put("ResultCode", resultCode);
-		dataMap.put("Content", content);
-		return JSONUtils.toJSONString(dataMap);
+		return JSONUtil.createObj(JSONConfig.create().setIgnoreNullValue(false))
+			.set("ResultCode", resultCode)
+			.set("Content", content)
+			.toString();
 	}
 
+	/**
+	 * 聚合指定服务全部节点的 SQL 防火墙统计。
+	 * @param parameters Druid 请求参数
+	 * @return 聚合后的 Druid JSON 响应
+	 */
 	public String getWallStatMap(Map<String, String> parameters) {
 		Map<String, ServiceNode> allNodeMap = getServiceAllNodeMap(parameters);
 		List<WallResult> countResult = new ArrayList<>();
 		for (String nodeKey : allNodeMap.keySet()) {
 			ServiceNode serviceNode = allNodeMap.get(nodeKey);
 			String url = getRequestUrl(parameters, serviceNode, "/druid/wall.json");
-			WallResult wallResult = JSONObject.parseObject(HttpUtil.get(url), WallResult.class);
+			WallResult wallResult = readJson(HttpUtil.get(url), WallResult.class);
+			// 节点无响应或 JSON 为空时 readJson 返回 null，跳过避免聚合 NPE
+			if (wallResult == null) {
+				continue;
+			}
 			countResult.add(wallResult);
 		}
 		WallResult lastCount = new WallResult();
@@ -224,7 +243,7 @@ public class MonitorStatService implements DruidStatServiceMBean {
 		for (WallResult wallResult : countResult) {
 			lastCount.sum(wallResult, lastCount);
 		}
-		return JSON.toJSONString(lastCount);
+		return JSONUtil.toJsonStr(lastCount);
 	}
 
 	private List<Map<String, Object>> getSpringStatDataList(Map<String, String> parameters) {
@@ -232,32 +251,25 @@ public class MonitorStatService implements DruidStatServiceMBean {
 		return comparatorOrderBy(array, parameters);
 	}
 
-	@SuppressWarnings("unchecked")
 	private String getWebURIStatDataList(Map<String, String> parameters) {
 		Map<String, ServiceNode> allNodeMap = getServiceAllNodeMap(parameters);
 		List<Map<String, Object>> arrayMap = new ArrayList<>();
 		for (String nodeKey : allNodeMap.keySet()) {
 			ServiceNode serviceNode = allNodeMap.get(nodeKey);
 			String url = getRequestUrl(parameters, serviceNode, "/druid/weburi.json");
-			WebResult dataSourceResult = JSONObject.parseObject(HttpUtil.get(url), WebResult.class);
+			WebResult dataSourceResult = readJson(HttpUtil.get(url), WebResult.class);
 			if (dataSourceResult != null) {
 				List<WebResult.ContentBean> nodeContent = dataSourceResult.getContent();
 				if (nodeContent != null) {
 					for (WebResult.ContentBean contentBean : nodeContent) {
-						Map<String, Object> map = JSONObject.parseObject(JSONObject.toJSONString(contentBean),
-								Map.class);
+						Map<String, Object> map = JSONUtil.parseObj(contentBean);
 						arrayMap.add(map);
 					}
 				}
 			}
 		}
 		List<Map<String, Object>> maps = comparatorOrderBy(arrayMap, parameters);
-		String jsonString = JSON.toJSONString(maps);
-		JSONArray objects = JSON.parseArray(jsonString);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("ResultCode", RESULT_CODE_SUCCESS);
-		jsonObject.put("Content", objects);
-		return jsonObject.toJSONString();
+		return JSONUtil.createObj().set("ResultCode", RESULT_CODE_SUCCESS).set("Content", maps).toString();
 	}
 
 	private Map<String, Object> getWebURIStatData(String uri) {
@@ -283,34 +295,39 @@ public class MonitorStatService implements DruidStatServiceMBean {
 	}
 
 	/**
-	 * 获取sql详情
-	 * @param id
-	 * @param serviceId consul获取的服务id
-	 * @return
+	 * 获取指定服务节点的 SQL 详情。
+	 * @param id Druid SQL 记录 ID
+	 * @param serviceId 注册中心服务实例 ID
+	 * @return Druid SQL 详情 JSON
 	 */
 	private String getSqlStat(Integer id, String serviceId) {
 		log.info("serviceId:{}", serviceId);
 		ServiceNode serviceNode = serviceIdMap.get(serviceId);
 		String url = "http://" + serviceNode.getAddress() + ":" + serviceNode.getPort() + "/druid/sql-" + id + ".json";
-		SqlDetailResult sqlDetailResult = JSONObject.parseObject(HttpUtil.get(url), SqlDetailResult.class);
-		return JSON.toJSONString(sqlDetailResult);
+		SqlDetailResult sqlDetailResult = readJson(HttpUtil.get(url), SqlDetailResult.class);
+		return JSONUtil.toJsonStr(sqlDetailResult);
 	}
 
+	/**
+	 * 获取指定数据源的活跃连接信息。
+	 * @param id Druid 数据源 ID
+	 * @param serviceId 注册中心服务实例 ID
+	 * @return Druid 活跃连接信息 JSON
+	 */
 	public String getPoolingConnectionInfoByDataSourceId(Integer id, String serviceId) {
 		getAllServiceNodeMap();
 		ServiceNode serviceNode = serviceIdMap.get(serviceId);
 		String url = "http://" + serviceNode.getAddress() + ":" + serviceNode.getPort() + "/druid/connectionInfo-" + id
 				+ ".json";
-		ConnectionResult connectionResult = JSONObject.parseObject(HttpUtil.get(url), ConnectionResult.class);
-		return JSON.toJSONString(connectionResult);
+		ConnectionResult connectionResult = readJson(HttpUtil.get(url), ConnectionResult.class);
+		return JSONUtil.toJsonStr(connectionResult);
 	}
 
 	/**
-	 * SQL监控列表
-	 * @param parameters
-	 * @return
+	 * 聚合指定服务全部节点的 SQL 监控列表。
+	 * @param parameters Druid 请求参数
+	 * @return Druid SQL 监控列表 JSON
 	 */
-	@SuppressWarnings("unchecked")
 	public String getSqlStatDataList(Map<String, String> parameters) {
 		Map<String, ServiceNode> serviceAllNodeMap = getServiceAllNodeMap(parameters);
 		List<Map<String, Object>> arrayMap = new ArrayList<>();
@@ -319,7 +336,7 @@ public class MonitorStatService implements DruidStatServiceMBean {
 			String serviceName = serviceNode.getServiceName();
 
 			String url = getRequestUrl(parameters, serviceNode, "/druid/sql.json");
-			SqlListResult sqlListResult = JSONObject.parseObject(HttpUtil.get(url), SqlListResult.class);
+			SqlListResult sqlListResult = readJson(HttpUtil.get(url), SqlListResult.class);
 			if (sqlListResult != null) {
 				List<SqlListResult.ContentBean> nodeContent = sqlListResult.getContent();
 				if (nodeContent != null) {
@@ -328,25 +345,19 @@ public class MonitorStatService implements DruidStatServiceMBean {
 						contentBean.setAddress(serviceNode.getAddress());
 						contentBean.setPort(serviceNode.getPort());
 						contentBean.setServiceId(serviceNode.getId());
-						Map map = JSONObject.parseObject(JSONObject.toJSONString(contentBean), Map.class);
+						Map<String, Object> map = JSONUtil.parseObj(contentBean);
 						arrayMap.add(map);
 					}
 				}
 			}
 		}
 		List<Map<String, Object>> maps = comparatorOrderBy(arrayMap, parameters);
-		String jsonString = JSON.toJSONString(maps);
-		JSONArray objects = JSON.parseArray(jsonString);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("ResultCode", RESULT_CODE_SUCCESS);
-		jsonObject.put("Content", objects);
-		return jsonObject.toJSONString();
+		return JSONUtil.createObj().set("ResultCode", RESULT_CODE_SUCCESS).set("Content", maps).toString();
 	}
 
 	/**
-	 * 数据源监控
-	 * @param
-	 * @return
+	 * 聚合配置范围内全部节点的数据源监控信息。
+	 * @return Druid 数据源监控 JSON
 	 */
 	public String getDataSourceStatData() {
 		Map<String, ServiceNode> allNodeMap = getAllServiceNodeMap();
@@ -358,7 +369,7 @@ public class MonitorStatService implements DruidStatServiceMBean {
 			String serviceName = serviceNode.getServiceName();
 
 			String url = "http://" + serviceNode.getAddress() + ":" + serviceNode.getPort() + "/druid/datasource.json";
-			DataSourceResult dataSourceResult = JSONObject.parseObject(HttpUtil.get(url), DataSourceResult.class);
+			DataSourceResult dataSourceResult = readJson(HttpUtil.get(url), DataSourceResult.class);
 
 			if (dataSourceResult != null) {
 				List<DataSourceResult.ContentBean> nodeContent = dataSourceResult.getContent();
@@ -372,15 +383,26 @@ public class MonitorStatService implements DruidStatServiceMBean {
 			}
 		}
 		lastResult.setContent(contentBeans);
-		return JSON.toJSONString(lastResult);
+		return JSONUtil.toJsonStr(lastResult);
 	}
 
 	/**
-	 * 拼接url
-	 * @param parameters
-	 * @param serviceNode
-	 * @param prefix
-	 * @return
+	 * 将 Druid JSON 解析为指定类型。
+	 * @param content Druid JSON 文本
+	 * @param valueType 目标类型
+	 * @param <T> 目标类型
+	 * @return 解析结果；输入为空时返回 {@code null}
+	 */
+	private <T> T readJson(String content, Class<T> valueType) {
+		return StrUtil.isBlank(content) ? null : JSONUtil.toBean(content, valueType);
+	}
+
+	/**
+	 * 拼接远端 Druid 请求地址。
+	 * @param parameters Druid 请求参数
+	 * @param serviceNode 目标服务节点
+	 * @param prefix Druid 接口路径
+	 * @return 远端 Druid 请求地址
 	 */
 	private String getRequestUrl(Map<String, String> parameters, ServiceNode serviceNode, String prefix) {
 		StringBuilder stringBuilder = new StringBuilder("http://");
@@ -401,9 +423,9 @@ public class MonitorStatService implements DruidStatServiceMBean {
 	}
 
 	/**
-	 * 处理请求参数
-	 * @param url
-	 * @return
+	 * 解析 Druid 请求查询参数。
+	 * @param url Druid 请求地址
+	 * @return 查询参数映射；请求地址为空时返回空映射
 	 */
 	public static Map<String, String> getParameters(String url) {
 		if (url == null || (url = url.trim()).length() == 0) {

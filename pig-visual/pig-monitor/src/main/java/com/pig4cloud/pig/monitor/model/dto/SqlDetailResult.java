@@ -1,168 +1,175 @@
 package com.pig4cloud.pig.monitor.model.dto;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
+ * Druid SQL 监控详情响应。
+ * <p>
+ * JSON 字段名与 Druid 监控接口保持一致。
+ *
  * @author linchtech
  * @date 2020-09-16 16:18
  **/
 @NoArgsConstructor
 @Data
+@Schema(description = "Druid SQL 监控详情响应")
 public class SqlDetailResult {
 
-	@JSONField(name = "ResultCode")
+	@Schema(description = "Druid 原始字段：ResultCode")
 	private int ResultCode;
 
-	@JSONField(name = "Content")
+	@Schema(description = "Druid 原始字段：Content")
 	private ContentBean Content;
 
+	/** Druid SQL 监控详情。 */
 	@NoArgsConstructor
 	@Data
+	@Schema(description = "Druid SQL 监控详情")
 	public static class ContentBean {
 
-		@JSONField(name = "ExecuteAndResultSetHoldTime")
+		@Schema(description = "Druid 原始字段：ExecuteAndResultSetHoldTime")
 		private int ExecuteAndResultSetHoldTime;
 
-		@JSONField(name = "LastErrorMessage")
+		@Schema(description = "Druid 原始字段：LastErrorMessage")
 		private Object LastErrorMessage;
 
-		@JSONField(name = "InputStreamOpenCount")
+		@Schema(description = "Druid 原始字段：InputStreamOpenCount")
 		private int InputStreamOpenCount;
 
-		@JSONField(name = "BatchSizeTotal")
+		@Schema(description = "Druid 原始字段：BatchSizeTotal")
 		private int BatchSizeTotal;
 
-		@JSONField(name = "FetchRowCountMax")
+		@Schema(description = "Druid 原始字段：FetchRowCountMax")
 		private int FetchRowCountMax;
 
-		@JSONField(name = "ErrorCount")
+		@Schema(description = "Druid 原始字段：ErrorCount")
 		private int ErrorCount;
 
-		@JSONField(name = "BatchSizeMax")
+		@Schema(description = "Druid 原始字段：BatchSizeMax")
 		private int BatchSizeMax;
 
-		@JSONField(name = "URL")
+		@Schema(description = "Druid 原始字段：URL")
 		private Object URL;
 
-		@JSONField(name = "Name")
+		@Schema(description = "Druid 原始字段：Name")
 		private Object Name;
 
-		@JSONField(name = "LastErrorTime")
+		@Schema(description = "Druid 原始字段：LastErrorTime")
 		private Object LastErrorTime;
 
-		@JSONField(name = "ReaderOpenCount")
+		@Schema(description = "Druid 原始字段：ReaderOpenCount")
 		private int ReaderOpenCount;
 
-		@JSONField(name = "parsedRelationships")
+		@Schema(description = "Druid 原始字段：parsedRelationships")
 		private String parsedRelationships;
 
-		@JSONField(name = "EffectedRowCountMax")
+		@Schema(description = "Druid 原始字段：EffectedRowCountMax")
 		private int EffectedRowCountMax;
 
-		@JSONField(name = "LastErrorClass")
+		@Schema(description = "Druid 原始字段：LastErrorClass")
 		private Object LastErrorClass;
 
-		@JSONField(name = "InTransactionCount")
+		@Schema(description = "Druid 原始字段：InTransactionCount")
 		private int InTransactionCount;
 
-		@JSONField(name = "LastErrorStackTrace")
+		@Schema(description = "Druid 原始字段：LastErrorStackTrace")
 		private Object LastErrorStackTrace;
 
-		@JSONField(name = "ResultSetHoldTime")
+		@Schema(description = "Druid 原始字段：ResultSetHoldTime")
 		private int ResultSetHoldTime;
 
-		@JSONField(name = "TotalTime")
+		@Schema(description = "Druid 原始字段：TotalTime")
 		private int TotalTime;
 
-		@JSONField(name = "ID")
+		@Schema(description = "Druid 原始字段：ID")
 		private int ID;
 
-		@JSONField(name = "ConcurrentMax")
+		@Schema(description = "Druid 原始字段：ConcurrentMax")
 		private int ConcurrentMax;
 
-		@JSONField(name = "RunningCount")
+		@Schema(description = "Druid 原始字段：RunningCount")
 		private int RunningCount;
 
-		@JSONField(name = "FetchRowCount")
+		@Schema(description = "Druid 原始字段：FetchRowCount")
 		private int FetchRowCount;
 
-		@JSONField(name = "parsedFields")
+		@Schema(description = "Druid 原始字段：parsedFields")
 		private String parsedFields;
 
-		@JSONField(name = "MaxTimespanOccurTime")
+		@Schema(description = "Druid 原始字段：MaxTimespanOccurTime")
 		private String MaxTimespanOccurTime;
 
-		@JSONField(name = "LastSlowParameters")
+		@Schema(description = "Druid 原始字段：LastSlowParameters")
 		private Object LastSlowParameters;
 
-		@JSONField(name = "ReadBytesLength")
+		@Schema(description = "Druid 原始字段：ReadBytesLength")
 		private int ReadBytesLength;
 
-		@JSONField(name = "formattedSql")
+		@Schema(description = "Druid 原始字段：formattedSql")
 		private String formattedSql;
 
-		@JSONField(name = "DbType")
+		@Schema(description = "Druid 原始字段：DbType")
 		private String DbType;
 
-		@JSONField(name = "DataSource")
+		@Schema(description = "Druid 原始字段：DataSource")
 		private Object DataSource;
 
-		@JSONField(name = "SQL")
+		@Schema(description = "Druid 原始字段：SQL")
 		private String SQL;
 
-		@JSONField(name = "HASH")
+		@Schema(description = "Druid 原始字段：HASH")
 		private long HASH;
 
-		@JSONField(name = "LastError")
+		@Schema(description = "Druid 原始字段：LastError")
 		private Object LastError;
 
-		@JSONField(name = "MaxTimespan")
+		@Schema(description = "Druid 原始字段：MaxTimespan")
 		private int MaxTimespan;
 
-		@JSONField(name = "parsedTable")
+		@Schema(description = "Druid 原始字段：parsedTable")
 		private String parsedTable;
 
-		@JSONField(name = "parsedOrderbycolumns")
+		@Schema(description = "Druid 原始字段：parsedOrderbycolumns")
 		private String parsedOrderbycolumns;
 
-		@JSONField(name = "BlobOpenCount")
+		@Schema(description = "Druid 原始字段：BlobOpenCount")
 		private int BlobOpenCount;
 
-		@JSONField(name = "ExecuteCount")
+		@Schema(description = "Druid 原始字段：ExecuteCount")
 		private int ExecuteCount;
 
-		@JSONField(name = "EffectedRowCount")
+		@Schema(description = "Druid 原始字段：EffectedRowCount")
 		private int EffectedRowCount;
 
-		@JSONField(name = "ReadStringLength")
+		@Schema(description = "Druid 原始字段：ReadStringLength")
 		private int ReadStringLength;
 
-		@JSONField(name = "File")
+		@Schema(description = "Druid 原始字段：File")
 		private Object File;
 
-		@JSONField(name = "ClobOpenCount")
+		@Schema(description = "Druid 原始字段：ClobOpenCount")
 		private int ClobOpenCount;
 
-		@JSONField(name = "LastTime")
+		@Schema(description = "Druid 原始字段：LastTime")
 		private String LastTime;
 
-		@JSONField(name = "parsedConditions")
+		@Schema(description = "Druid 原始字段：parsedConditions")
 		private String parsedConditions;
 
-		@JSONField(name = "EffectedRowCountHistogram")
+		@Schema(description = "Druid 原始字段：EffectedRowCountHistogram")
 		private List<Integer> EffectedRowCountHistogram;
 
-		@JSONField(name = "Histogram")
+		@Schema(description = "Druid 原始字段：Histogram")
 		private List<Integer> Histogram;
 
-		@JSONField(name = "ExecuteAndResultHoldTimeHistogram")
+		@Schema(description = "Druid 原始字段：ExecuteAndResultHoldTimeHistogram")
 		private List<Integer> ExecuteAndResultHoldTimeHistogram;
 
-		@JSONField(name = "FetchRowCountHistogram")
+		@Schema(description = "Druid 原始字段：FetchRowCountHistogram")
 		private List<Integer> FetchRowCountHistogram;
 
 	}
