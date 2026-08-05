@@ -48,21 +48,6 @@ public interface GeneratorService {
 	void generatorCode(Long tableId);
 
 	/**
-	 * 获取表单设计器需要的 JSON
-	 * @param dsName 数据源名称
-	 * @param tableName 表名称
-	 * @return json string
-	 */
-	String vform(String dsName, String tableName);
-
-	/**
-	 * 获取表单设计器需要的 JSON
-	 * @param formId 数据源名称
-	 * @return json string
-	 */
-	String vformSfc(Long formId);
-
-	/**
 	 * 同步路由和菜单
 	 * @param tableId 表ID
 	 */

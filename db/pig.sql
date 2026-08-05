@@ -362,7 +362,6 @@ INSERT INTO `sys_i18n` VALUES (18, 'router.documentExtension', '文档扩展', '
 INSERT INTO `sys_i18n` VALUES (19, 'router.fileManagement', '文件管理', 'File Management', 'admin', '2023-02-24 10:28:44', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (20, 'router.platformDevelopment', '开发平台', 'Platform Development', 'admin', '2023-02-24 10:29:28', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (21, 'router.dataSourceManagement', '数据源管理', 'Data Source Management', 'admin', '2023-02-24 10:30:33', 'admin', '2023-03-06 14:33:20', '0');
-INSERT INTO `sys_i18n` VALUES (22, 'router.formDesign', '表单设计', 'Form Design', 'admin', '2023-02-24 10:31:33', 'admin', '2023-03-06 14:33:28', '0');
 INSERT INTO `sys_i18n` VALUES (23, 'router.appManagement', 'APP管理', 'App Management', 'admin', '2023-02-24 10:33:22', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (24, 'router.customerManagement', '客户管理', 'Customer Management', 'admin', '2023-02-24 10:35:30', '', NULL, '0');
 INSERT INTO `sys_i18n` VALUES (25, 'router.appRole', 'APP角色', 'App Role', 'admin', '2023-02-24 10:36:17', '', NULL, '0');
@@ -578,7 +577,6 @@ INSERT INTO `sys_menu` VALUES (4013, '信息推送修改', 'sys_message_edit', N
 INSERT INTO `sys_menu` VALUES (4014, '信息推送删除', 'sys_message_del', NULL, NULL, 4010, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:09', '0');
 INSERT INTO `sys_menu` VALUES (9000, '开发平台', NULL, '/gen', NULL, -1, 'iconfont icon-DevOps', '1', 9, '0', '0', '0', '', '2019-08-12 09:35:16', 'admin', '2025-01-26 22:38:09', '0');
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource/index', NULL, 9000, 'iconfont icon-shujuyuanguanli', '1', 0, '0', NULL, '0', '', '2019-08-12 09:42:11', 'admin', '2025-01-26 22:26:51', '0');
-INSERT INTO `sys_menu` VALUES (9006, '表单设计', NULL, '/gen/design/index', NULL, 9000, 'iconfont icon-AIshiyanshi', '0', 2, '0', '0', '0', '', '2019-08-16 10:08:56', 'admin', '2023-02-23 14:06:50', '0');
 INSERT INTO `sys_menu` VALUES (9007, '生成页面', NULL, '/gen/gener/index', NULL, 9000, 'iconfont icon-tongzhi4', '0', 1, '0', '0', '0', 'admin', '2023-02-20 09:58:23', 'admin', '2023-02-20 14:41:43', '0');
 INSERT INTO `sys_menu` VALUES (9050, '元数据管理', NULL, '/gen/metadata', NULL, 9000, 'iconfont icon-yuanshujuguanli', '1', 9, '0', '0', '0', '', '2018-07-27 01:13:21', 'admin', '2023-02-23 19:55:10', '0');
 INSERT INTO `sys_menu` VALUES (9051, '模板管理', NULL, '/gen/template/index', NULL, 9050, 'iconfont icon-mti-mobanguanli', '1', 5, '0', '0', '0', 'admin', '2023-02-21 11:22:54', 'admin', '2023-02-23 19:56:03', '0');
@@ -857,7 +855,6 @@ INSERT INTO `sys_role_menu` VALUES (1, 4013);
 INSERT INTO `sys_role_menu` VALUES (1, 4014);
 INSERT INTO `sys_role_menu` VALUES (1, 9000);
 INSERT INTO `sys_role_menu` VALUES (1, 9005);
-INSERT INTO `sys_role_menu` VALUES (1, 9006);
 INSERT INTO `sys_role_menu` VALUES (1, 9007);
 INSERT INTO `sys_role_menu` VALUES (1, 9050);
 INSERT INTO `sys_role_menu` VALUES (1, 9051);
@@ -1557,27 +1554,6 @@ INSERT INTO `gen_field_type` (`id`, `column_type`, `attr_type`, `package_name`, 
 INSERT INTO `gen_field_type` (`id`, `column_type`, `attr_type`, `package_name`, `default_form_type`, `default_query_form_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (47, 'timestamptz', 'LocalDateTime', 'java.time.LocalDateTime', 'datetime', 'datetimerange', '2026-04-07 20:47:09', NULL, '2026-04-07 20:47:09', NULL, '0');
 INSERT INTO `gen_field_type` (`id`, `column_type`, `attr_type`, `package_name`, `default_form_type`, `default_query_form_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (48, 'timetz', 'String', NULL, 'text', 'text', '2026-04-07 20:47:09', NULL, '2026-04-07 20:47:09', NULL, '0');
 INSERT INTO `gen_field_type` (`id`, `column_type`, `attr_type`, `package_name`, `default_form_type`, `default_query_form_type`, `create_time`, `create_by`, `update_time`, `update_by`, `del_flag`) VALUES (49, 'bytea', 'String', NULL, 'textarea', 'text', '2026-04-07 20:47:09', NULL, '2026-04-07 20:47:09', NULL, '0');
-COMMIT;
-
--- ----------------------------
--- Table structure for gen_form_conf
--- ----------------------------
-DROP TABLE IF EXISTS `gen_form_conf`;
-CREATE TABLE `gen_form_conf` (
-  `id` bigint NOT NULL COMMENT 'ID',
-  `ds_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '数据库名称',
-  `table_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '表名称',
-  `form_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '表单信息',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
-  PRIMARY KEY (`id`) USING BTREE,
-  KEY `table_name` (`table_name`) USING BTREE) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='表单配置';
-
--- ----------------------------
--- Records of gen_form_conf
--- ----------------------------
-BEGIN;
 COMMIT;
 
 -- ----------------------------
