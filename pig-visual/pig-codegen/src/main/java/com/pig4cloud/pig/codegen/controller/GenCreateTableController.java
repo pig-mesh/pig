@@ -19,6 +19,7 @@ package com.pig4cloud.pig.codegen.controller;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenCreateTable;
 import com.pig4cloud.pig.codegen.service.GenCreateTableService;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +44,7 @@ import java.util.List;
  * @date 2022-09-23 21:56:11
  */
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/create-table")
 @Tag(description = "create-table", name = "自动创建表管理管理")
@@ -84,6 +87,10 @@ public class GenCreateTableController {
 	@PostMapping
 	@HasPermission("codegen_table_add")
 	public R save(@RequestBody GenCreateTableVO createTableVO) {
+		if (SqlInjectionUtils.check(createTableVO.getTableName())) {
+			log.warn("代码生成检测到非法表名，dsName: {}, tableName: {}", createTableVO.getDsName(), createTableVO.getTableName());
+			return R.failed("非法内容");
+		}
 		AnylineDataSourceHelper.run(createTableVO.getDsName(), () -> createTableService.createTable(createTableVO));
 		GenCreateTable createTable = new GenCreateTable();
 		createTable.setId(createTableVO.getId());

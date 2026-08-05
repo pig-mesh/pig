@@ -19,6 +19,7 @@ package com.pig4cloud.pig.codegen.controller;
 
 import com.baomidou.dynamic.datasource.toolkit.DynamicDataSourceContextHolder;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.codegen.entity.GenTable;
 import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
@@ -31,6 +32,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +45,7 @@ import java.util.List;
  * @date 2023-02-06 20:34:55
  */
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/table")
 @Tag(description = "table", name = "列属性管理")
@@ -92,6 +95,10 @@ public class GenTableController {
 	 */
 	@GetMapping("/{dsName}/{tableName}")
 	public R<GenTable> getTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+		if (SqlInjectionUtils.check(tableName)) {
+			log.warn("代码生成检测到非法表名，dsName: {}, tableName: {}", dsName, tableName);
+			return R.failed("非法内容");
+		}
 		return R.ok(tableService.queryOrBuildTable(dsName, tableName));
 	}
 
@@ -102,6 +109,10 @@ public class GenTableController {
 	 */
 	@GetMapping("/column/{dsName}/{tableName}")
 	public R getColumn(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+		if (SqlInjectionUtils.check(tableName)) {
+			log.warn("代码生成检测到非法表名，dsName: {}, tableName: {}", dsName, tableName);
+			return R.failed("非法内容");
+		}
 		return R.ok(tableService.queryTableColumn(dsName, tableName));
 	}
 
@@ -112,6 +123,10 @@ public class GenTableController {
 	 */
 	@GetMapping("/ddl/{dsName}/{tableName}")
 	public R getDdl(@PathVariable("dsName") String dsName, @PathVariable String tableName) throws Exception {
+		if (SqlInjectionUtils.check(tableName)) {
+			log.warn("代码生成检测到非法表名，dsName: {}, tableName: {}", dsName, tableName);
+			return R.failed("非法内容");
+		}
 		return R.ok(tableService.queryTableDdl(dsName, tableName));
 	}
 
@@ -123,6 +138,10 @@ public class GenTableController {
 	 */
 	@GetMapping("/sync/{dsName}/{tableName}")
 	public R<GenTable> syncTable(@PathVariable("dsName") String dsName, @PathVariable String tableName) {
+		if (SqlInjectionUtils.check(tableName)) {
+			log.warn("代码生成检测到非法表名，dsName: {}, tableName: {}", dsName, tableName);
+			return R.failed("非法内容");
+		}
 		return R.ok(tableService.syncTable(dsName, tableName));
 	}
 
