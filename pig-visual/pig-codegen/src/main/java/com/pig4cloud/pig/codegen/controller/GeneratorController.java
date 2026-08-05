@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipOutputStream;
@@ -110,36 +109,6 @@ public class GeneratorController {
 	@GetMapping("/preview")
 	public List<Map<String, String>> preview(Long tableId) {
 		return generatorService.preview(tableId);
-	}
-
-	/**
-	 * 获取表单设计器初始化数据
-	 * @param dsName 数据源名称
-	 * @param tableName 表名称
-	 * @return json string
-	 */
-	@SneakyThrows
-	@GetMapping("/vform")
-	public String vform(String dsName, String tableName) {
-		return generatorService.vform(dsName, tableName);
-	}
-
-	/**
-	 * 获取表单设计器初始化数据
-	 * @param formId 表单ID
-	 * @return json string
-	 */
-	@SneakyThrows
-	@GetMapping("/vform/sfc")
-	public void vformSfc(Long formId, HttpServletResponse response) {
-		String result = generatorService.vformSfc(formId);
-
-		byte[] data = result.getBytes(StandardCharsets.UTF_8);
-		response.reset();
-		response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=form.vue");
-		response.setContentLength(data.length);
-		response.setContentType("application/octet-stream; charset=UTF-8");
-		IoUtil.write(response.getOutputStream(), false, data);
 	}
 
 }

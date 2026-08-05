@@ -25,18 +25,14 @@ import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.text.NamingCase;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.json.JSONObject;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.admin.api.feign.RemoteMenuService;
 import com.pig4cloud.pig.codegen.config.PigCodeGenDefaultProperties;
-import com.pig4cloud.pig.codegen.entity.GenFormConf;
 import com.pig4cloud.pig.codegen.entity.GenTable;
 import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;
 import com.pig4cloud.pig.codegen.service.*;
 import com.pig4cloud.pig.codegen.util.DataModelConstants;
-import com.pig4cloud.pig.codegen.util.GeneratorStyleEnum;
 import com.pig4cloud.pig.codegen.util.VelocityKit;
 import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.common.core.constant.enums.MenuTypeEnum;
@@ -71,8 +67,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 	private final PigCodeGenDefaultProperties defaultProperties;
 
 	private final GenTableColumnService columnService;
-
-	private final GenFormConfService formConfService;
 
 	private final GenFieldTypeService fieldTypeService;
 
@@ -199,65 +193,6 @@ public class GeneratorServiceImpl implements GeneratorService {
 			String path = VelocityKit.renderStr(generatorPath, dataModel);
 			FileUtil.writeUtf8String(content, path);
 		}
-	}
-
-	/**
-	 * 获取表单设计器需要的 JSON 方法
-	 * @param dsName 数据源名称
-	 * @param tableName 表名称
-	 * @return JSON 字符串
-	 */
-	@SneakyThrows
-	@Override
-	public String vform(String dsName, String tableName) {
-		// 查询表的元数据
-		GenTable genTable = tableService.queryOrBuildTable(dsName, tableName);
-
-		// 获取数据模型
-		Map<String, Object> dataModel = getDataModel(genTable.getId());
-
-		// 获取模板信息，Lambda 表达式简化代码
-		GenTemplateEntity genTemplateEntity = genTemplateService
-			.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
-				.likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_JSON.getDesc())
-				.orderByDesc(GenTemplateEntity::getCreateTime), false)
-			.orElseThrow(() -> new CheckedException("模板不存在"));
-		// 渲染模板并返回结果
-		return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
-	}
-
-	/**
-	 * 获取sfc vue
-	 * @param id 表单配置 ID
-	 * @return JSON 字符串
-	 */
-	@SneakyThrows
-	@Override
-	public String vformSfc(Long id) {
-		// 获取表单配置信息
-		GenFormConf formConf = formConfService.getById(id);
-
-		// 查询表的元数据
-		GenTable genTable = tableService.queryOrBuildTable(formConf.getDsName(), formConf.getTableName());
-
-		// 获取数据模型
-		Map<String, Object> dataModel = getDataModel(genTable.getId());
-
-		// 解析组件列表
-		Map<String, List<JSONObject>> resultMap = formConfService.parse(formConf.getFormInfo());
-
-		// 遍历 widgetList
-		dataModel.put("resultMap", resultMap);
-
-		// 获取模板信息 查询模板中最新的 vform.json 文件
-		GenTemplateEntity genTemplateEntity = genTemplateService
-			.getOneOpt(Wrappers.<GenTemplateEntity>lambdaQuery()
-				.likeRight(GenTemplateEntity::getTemplateName, GeneratorStyleEnum.VFORM_VUE.getDesc())
-				.orderByDesc(GenTemplateEntity::getCreateTime), false)
-			.orElseThrow(() -> new CheckedException("模板不存在"));
-
-		// 渲染模板并返回结果
-		return VelocityKit.renderStr(genTemplateEntity.getTemplateCode(), dataModel);
 	}
 
 	/**
