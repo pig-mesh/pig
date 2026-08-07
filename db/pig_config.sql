@@ -44,9 +44,16 @@ INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_c
 INSERT INTO `config_info` (`id`, `data_id`, `group_id`, `content`, `md5`, `gmt_create`, `gmt_modified`, `src_user`, `src_ip`, `app_name`, `tenant_id`, `c_desc`, `c_use`, `effect`, `type`, `c_schema`, `encrypted_data_key`) VALUES (8, 'pig-quartz-dev.yml', 'DEFAULT_GROUP', '# 数据源\nspring:\n  datasource:\n    type: com.alibaba.druid.pool.DruidDataSource\n    druid:\n      driver-class-name: com.mysql.cj.jdbc.Driver\n      username: ${MYSQL_USER:root}\n      password: ${MYSQL_PWD:root}\n      url: jdbc:mysql://${MYSQL_HOST:pig-mysql}:${MYSQL_PORT:3306}/${MYSQL_DB:pig}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true\n  resources:\n    static-locations: classpath:/static/,classpath:/views/', 'ccc0363f94bcb81a0318e06eecdbcac2', '2022-12-16 10:44:25', '2024-04-19 21:49:00', 'nacos', '127.0.0.1', '', 'public', '', '', '', 'yaml', '', '');
 UPDATE `config_info`
 SET `content` = REPLACE(`content`,
+                        '  cloud:\n    nacos:',
+                        '  cloud:\n    refresh:\n      never-refreshable: datasource\n    nacos:'),
+    `md5` = 'b067ee14ae8f19a8bf14657dcbd1ca52'
+WHERE `id` = 1
+  AND `data_id` = 'application-dev.yml';
+UPDATE `config_info`
+SET `content` = REPLACE(`content`,
                         '      update-strategy: not_null\n  type-handlers-package:',
                         '      update-strategy: not_null\n    sequence:\n      worker-id: ${random.int(1,31)}\n      datacenter-id: ${random.int(1,31)}\n  type-handlers-package:'),
-    `md5` = '211580957279a4c25b7522cae8252658'
+    `md5` = '9ed950c40a8c97dbae4275619d3ebe87'
 WHERE `id` = 1
   AND `data_id` = 'application-dev.yml';
 COMMIT;
