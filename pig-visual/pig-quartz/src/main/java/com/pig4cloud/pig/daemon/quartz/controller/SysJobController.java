@@ -27,11 +27,13 @@ import com.pig4cloud.pig.common.excel.annotation.ResponseExcel;
 import com.pig4cloud.pig.common.log.annotation.SysLog;
 import com.pig4cloud.pig.common.security.annotation.HasPermission;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
+import com.pig4cloud.pig.daemon.quartz.constants.JobTypeQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.constants.PigQuartzEnum;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJob;
 import com.pig4cloud.pig.daemon.quartz.entity.SysJobLog;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobLogService;
 import com.pig4cloud.pig.daemon.quartz.service.SysJobService;
+import com.pig4cloud.pig.daemon.quartz.util.RestTaskUrlValidator;
 import com.pig4cloud.pig.daemon.quartz.util.TaskUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -63,6 +65,8 @@ public class SysJobController {
 	private final TaskUtil taskUtil;
 
 	private final Scheduler scheduler;
+
+	private final RestTaskUrlValidator restTaskUrlValidator;
 
 	/**
 	 * 定时任务分页查询
@@ -115,6 +119,9 @@ public class SysJobController {
 	@HasPermission("job_sys_job_add")
 	@Operation(description = "新增定时任务")
 	public R save(@RequestBody SysJob sysJob) {
+		if (!isRestTaskUrlAllowed(sysJob)) {
+			return R.failed("REST任务地址未配置白名单或不在白名单中");
+		}
 		// 初始化任务
 		taskUtil.addOrUpateJob(sysJob, scheduler);
 		sysJob.setJobStatus(PigQuartzEnum.JOB_STATUS_RELEASE.getType());
@@ -132,6 +139,9 @@ public class SysJobController {
 	@HasPermission("job_sys_job_edit")
 	@Operation(description = "修改定时任务")
 	public R updateById(@RequestBody SysJob sysJob) {
+		if (!isRestTaskUrlAllowed(sysJob)) {
+			return R.failed("REST任务地址未配置白名单或不在白名单中");
+		}
 		sysJob.setUpdateBy(SecurityUtils.getUser().getUsername());
 		SysJob querySysJob = this.sysJobService.getById(sysJob.getJobId());
 		if (PigQuartzEnum.JOB_STATUS_NOT_RUNNING.getType().equals(querySysJob.getJobStatus())) {
@@ -320,6 +330,11 @@ public class SysJobController {
 	@Operation(description = "导出任务")
 	public List<SysJob> export(SysJob sysJob) {
 		return sysJobService.list(Wrappers.query(sysJob));
+	}
+
+	private boolean isRestTaskUrlAllowed(SysJob sysJob) {
+		return !JobTypeQuartzEnum.REST.getType().equals(sysJob.getJobType())
+				|| restTaskUrlValidator.isAllowed(sysJob.getExecutePath());
 	}
 
 }
