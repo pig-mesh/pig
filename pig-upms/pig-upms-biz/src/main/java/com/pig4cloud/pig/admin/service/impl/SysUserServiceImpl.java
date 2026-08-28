@@ -413,12 +413,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysDept> deptList = sysDeptService.list();
 		List<SysRole> roleList = sysRoleService.list();
 		List<SysPost> postList = sysPostService.list();
+		// 个性化校验逻辑：一次性查询现有用户，避免每行 Excel 都全表查询（N+1）
+		List<SysUser> userList = this.list();
 
 		// 执行数据插入操作 组装 UserDto
 		for (UserExcelVO excel : excelVOList) {
-			// 个性化校验逻辑
-			List<SysUser> userList = this.list();
-
 			Set<String> errorMsg = new HashSet<>();
 			// 校验用户名是否存在
 			boolean exsitUserName = userList.stream()
@@ -468,6 +467,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			// 数据合法情况
 			if (CollUtil.isEmpty(errorMsg)) {
 				insertExcelUser(excel, deptOptional, roleCollList, postCollList);
+				// 将本行新增用户纳入查重范围，保持与“每行重新查询”一致的文件内去重语义
+				SysUser inserted = new SysUser();
+				inserted.setUsername(excel.getUsername());
+				inserted.setPhone(excel.getPhone());
+				userList.add(inserted);
 			}
 			else {
 				// 数据不合法情况
