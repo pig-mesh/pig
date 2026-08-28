@@ -276,7 +276,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 		});
 		dict.set("childDepartments", deptVoList);
 
-		if (!StrUtil.equals(type, OrgTypeEnum.DEPT.getType())) {
+		// parentDeptId 可为空（首次加载组织树不传参），为空时无需查询部门下的员工
+		if (!StrUtil.equals(type, OrgTypeEnum.DEPT.getType()) && Objects.nonNull(parentDeptId)) {
 
 			List<OrgTreeVO> userVoList = new ArrayList<>();
 
@@ -299,7 +300,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 			dict.set("employees", userVoList);
 		}
 
-		if (parentDeptId > 0) {
+		if (Objects.nonNull(parentDeptId) && parentDeptId > 0) {
 			List<SysDept> allDept = this.list();
 			List<SysDept> depts = DataUtil.selectParentByDept(parentDeptId, allDept);
 			dict.set("titleDepartments", CollUtil.reverse(depts));
