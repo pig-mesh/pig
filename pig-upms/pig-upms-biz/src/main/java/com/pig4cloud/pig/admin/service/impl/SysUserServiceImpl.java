@@ -20,6 +20,7 @@
 package com.pig4cloud.pig.admin.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -255,7 +256,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		if (StrUtil.isNotBlank(userDto.getPhone())) {
 			Object codeObj = RedisUtils.get(
 					CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-			if (!StrUtil.equals(userDto.getCode(), codeObj.toString())) {
+			// 验证码可能已过期或未发送（Redis 中不存在），codeObj 为 null 时直接判为校验失败，避免 NPE
+			if (!StrUtil.equals(userDto.getCode(), Convert.toStr(codeObj))) {
 				return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
 			}
 			sysUser.setPhone(userDto.getPhone());
