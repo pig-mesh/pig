@@ -253,9 +253,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		// 校验手机号
 		if (StrUtil.isNotBlank(userDto.getPhone())) {
-			Object codeObj = RedisUtils.get(
+			String codeObj = RedisUtils.get(
 					CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-			if (!StrUtil.equals(userDto.getCode(), codeObj.toString())) {
+			// 验证码可能已过期或未发送（Redis 中不存在），codeObj 为 null 时直接判为校验失败，避免 NPE
+			if (StrUtil.isBlank(codeObj) || !StrUtil.equals(codeObj, userDto.getCode())) {
 				return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
 			}
 			sysUser.setPhone(userDto.getPhone());

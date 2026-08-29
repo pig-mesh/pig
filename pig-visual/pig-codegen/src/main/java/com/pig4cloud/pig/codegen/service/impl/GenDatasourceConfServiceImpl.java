@@ -27,6 +27,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 import com.pig4cloud.pig.codegen.mapper.GenDatasourceConfMapper;
 import com.pig4cloud.pig.codegen.service.GenDatasourceConfService;
+import com.pig4cloud.pig.codegen.util.JdbcUrlSecurityValidator;
 import com.pig4cloud.pig.common.core.util.SpringContextHolder;
 import com.pig4cloud.pig.common.datasource.util.DsConfTypeEnum;
 import com.pig4cloud.pig.common.datasource.util.DsTypeEnum;
@@ -128,6 +129,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 	 */
 	@Override
 	public void addDynamicDataSource(GenDatasourceConf conf) {
+		JdbcUrlSecurityValidator.validate(conf.getUrl());
 		DataSourceProperty dataSourceProperty = new DataSourceProperty();
 		dataSourceProperty.setPoolName(conf.getName());
 		dataSourceProperty.setUrl(conf.getUrl());
@@ -168,6 +170,7 @@ public class GenDatasourceConfServiceImpl extends ServiceImpl<GenDatasourceConfM
 		}
 
 		conf.setUrl(url);
+		JdbcUrlSecurityValidator.validate(url);
 
 		try (Connection connection = DriverManager.getConnection(url, conf.getUsername(), conf.getPassword())) {
 		}
