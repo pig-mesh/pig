@@ -413,22 +413,21 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		List<SysDept> deptList = sysDeptService.list();
 		List<SysRole> roleList = sysRoleService.list();
 		List<SysPost> postList = sysPostService.list();
-		// 个性化校验逻辑：一次性查询现有用户，避免每行 Excel 都全表查询（N+1）
-		List<SysUser> userList = this.list();
 
 		// 执行数据插入操作 组装 UserDto
 		for (UserExcelVO excel : excelVOList) {
 			Set<String> errorMsg = new HashSet<>();
-			// 校验用户名是否存在
-			boolean exsitUserName = userList.stream()
-				.anyMatch(sysUser -> excel.getUsername().equals(sysUser.getUsername()));
+			// 校验用户名是否存在（按用户名点查代替全表查询，既能观察到本文件已插入的行，也能观察到并发请求已提交的数据）
+			boolean exsitUserName = this.count(
+					Wrappers.<SysUser>lambdaQuery().eq(SysUser::getUsername, excel.getUsername())) > 0;
 
 			if (exsitUserName) {
 				errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_USERNAME_EXISTING, excel.getUsername()));
 			}
 
 			// 校验手机号是否存在
-			boolean exsitPhone = userList.stream().anyMatch(sysUser -> excel.getPhone().equals(sysUser.getPhone()));
+			boolean exsitPhone = this.count(
+					Wrappers.<SysUser>lambdaQuery().eq(SysUser::getPhone, excel.getPhone())) > 0;
 			if (exsitPhone) {
 				errorMsg.add(MsgUtils.getMessage(UpmsErrorCodes.SYS_USER_PHONE_EXISTING, excel.getPhone()));
 			}
@@ -467,11 +466,6 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			// 数据合法情况
 			if (CollUtil.isEmpty(errorMsg)) {
 				insertExcelUser(excel, deptOptional, roleCollList, postCollList);
-				// 将本行新增用户纳入查重范围，保持与“每行重新查询”一致的文件内去重语义
-				SysUser inserted = new SysUser();
-				inserted.setUsername(excel.getUsername());
-				inserted.setPhone(excel.getPhone());
-				userList.add(inserted);
 			}
 			else {
 				// 数据不合法情况
