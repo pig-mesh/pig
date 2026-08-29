@@ -27,7 +27,7 @@
         <highgo.version>6.2.5</highgo.version>
         <knife4j.version>3.0.5</knife4j.version>
         <springdoc.version>3.0.3</springdoc.version>
-        <swagger.core.version>2.2.53</swagger.core.version>
+        <swagger.core.version>2.2.54</swagger.core.version>
         <jsoup.version>1.15.4</jsoup.version>
         <fastjson.version>1.2.84</fastjson.version>
         <aws.sdk.version>2.44.14</aws.sdk.version>
@@ -38,7 +38,7 @@
         <grpc.version>1.59.1</grpc.version>
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
-        <spring.checkstyle.version>0.0.47</spring.checkstyle.version>
+        <spring.checkstyle.version>0.0.48</spring.checkstyle.version>
         <sentinel.version>1.8.10</sentinel.version>
         <anyline.version>8.7.3-jdk17-20260319</anyline.version>
         <sms4j.version>3.3.5</sms4j.version>
