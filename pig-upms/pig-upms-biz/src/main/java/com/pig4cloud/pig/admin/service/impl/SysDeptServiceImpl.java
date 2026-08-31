@@ -134,15 +134,14 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 	@Override
 	public List<DeptExcelVO> listExcelVo() {
 		List<SysDept> list = this.list();
+		// 一次性构建 deptId -> name 映射，避免每个部门都触发一次全表查询（N+1）
+		Map<Long, String> deptIdNameMap = new HashMap<>(list.size());
+		list.forEach(it -> deptIdNameMap.put(it.getDeptId(), it.getName()));
 		List<DeptExcelVO> deptExcelVos = list.stream().map(item -> {
 			DeptExcelVO deptExcelVo = new DeptExcelVO();
 			deptExcelVo.setName(item.getName());
-			Optional<String> first = this.list()
-				.stream()
-				.filter(it -> item.getParentId().equals(it.getDeptId()))
-				.map(SysDept::getName)
-				.findFirst();
-			deptExcelVo.setParentName(first.orElse("根部门"));
+			String parentName = deptIdNameMap.get(item.getParentId());
+			deptExcelVo.setParentName(parentName == null ? "根部门" : parentName);
 			deptExcelVo.setSortOrder(item.getSortOrder());
 			return deptExcelVo;
 		}).toList();
