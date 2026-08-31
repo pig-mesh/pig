@@ -18,6 +18,9 @@ updates:
         update-types:
           - version-update:semver-minor
     ignore:
+      # MyBatis-Plus 及 MPJ 版本由项目手工评估维护，跳过自动升级。
+      - dependency-name: "com.baomidou:mybatis-plus-*"
+      - dependency-name: "com.github.yulichang:mybatis-plus-join-*"
       # major 升级涉及迁移风险，仍保留人工评估。
       - dependency-name: "*"
         update-types:
