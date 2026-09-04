@@ -27,7 +27,7 @@
     <description>nacos 注册配置中心</description>
 
     <properties>
-        <nacos.version>3.2.2</nacos.version>
+        <nacos.version>3.2.4</nacos.version>
         <jraft.version>1.4.0</jraft.version>
         <hessian.version>4.0.66</hessian.version>
     </properties>
