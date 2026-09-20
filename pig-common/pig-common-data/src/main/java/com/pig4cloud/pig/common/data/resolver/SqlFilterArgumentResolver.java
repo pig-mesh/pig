@@ -20,9 +20,9 @@ package com.pig4cloud.pig.common.data.resolver;
 import cn.hutool.core.comparator.CompareUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;
-import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.pig4cloud.pig.common.core.exception.CheckedException;
+import com.pig4cloud.pig.common.data.util.SqlSortUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -92,12 +92,12 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Optional.ofNullable(ascs)
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
-				.filter(asc -> !SqlInjectionUtils.check(asc))
+				.filter(SqlSortUtils::isValidColumn)
 				.map(OrderItem::asc)
 				.toList()));
 		Optional.ofNullable(descs)
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
-				.filter(desc -> !SqlInjectionUtils.check(desc))
+				.filter(SqlSortUtils::isValidColumn)
 				.map(OrderItem::desc)
 				.toList()));
 		page.addOrder(orderItemList);
