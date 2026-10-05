@@ -61,7 +61,8 @@ public class SysPostController {
 	 */
 	@GetMapping("/list")
 	public R<List<SysPost>> listPosts() {
-		return R.ok(sysPostService.list(Wrappers.emptyWrapper()));
+		return R.ok(sysPostService
+			.list(Wrappers.<SysPost>lambdaQuery().orderByAsc(SysPost::getPostSort, SysPost::getPostId)));
 	}
 
 	/**
@@ -75,7 +76,8 @@ public class SysPostController {
 	@HasPermission("sys_post_view")
 	public R getSysPostPage(@ParameterObject Page page, @ParameterObject SysPost sysPost) {
 		return R.ok(sysPostService.page(page, Wrappers.<SysPost>lambdaQuery()
-			.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())));
+			.like(StrUtil.isNotBlank(sysPost.getPostName()), SysPost::getPostName, sysPost.getPostName())
+			.orderByAsc(SysPost::getPostSort, SysPost::getPostId)));
 	}
 
 	/**
@@ -126,6 +128,20 @@ public class SysPostController {
 	@HasPermission("sys_post_edit")
 	public R updateById(@RequestBody SysPost sysPost) {
 		return R.ok(sysPostService.updateById(sysPost));
+	}
+
+	/**
+	 * 按当前列表顺序保存岗位排序，保留未选中记录的位置。
+	 * @param ids 按目标顺序排列的岗位 ID
+	 * @return 排序保存结果
+	 */
+	@Operation(summary = "岗位拖拽排序", description = "按当前列表顺序保存岗位排序")
+	@SysLog("岗位排序")
+	@PutMapping("/sort")
+	@HasPermission("sys_post_edit")
+	public R sort(@RequestBody List<Long> ids) {
+		sysPostService.sort(ids);
+		return R.ok();
 	}
 
 	/**

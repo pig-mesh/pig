@@ -30,8 +30,11 @@ import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.core.util.R;
 import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,6 +47,31 @@ import java.util.Set;
  */
 @Service
 public class SysPostServiceImpl extends ServiceImpl<SysPostMapper, SysPost> implements SysPostService {
+
+	@Override
+	@Transactional(rollbackFor = Exception.class)
+	public void sort(List<Long> ids) {
+		Assert.notEmpty(ids, "排序记录不能为空");
+		Set<Long> selected = new HashSet<>(ids);
+		Assert.isTrue(!selected.contains(null) && selected.size() == ids.size(), "排序记录无效");
+		// 按固定顺序锁定未删除岗位，保留筛选结果之外的记录位置。
+		List<SysPost> records = list(Wrappers.<SysPost>lambdaQuery()
+			.orderByAsc(SysPost::getPostSort, SysPost::getPostId)
+			.last("FOR UPDATE"));
+		long matched = records.stream().filter(row -> selected.contains(row.getPostId())).count();
+		Assert.isTrue(matched == ids.size(), "记录已变更，请刷新后重试");
+		List<SysPost> updates = new ArrayList<>();
+		int next = 0;
+		for (int i = 0; i < records.size(); i++) {
+			SysPost current = records.get(i);
+			Long id = selected.contains(current.getPostId()) ? ids.get(next++) : current.getPostId();
+			SysPost update = new SysPost();
+			update.setPostId(id);
+			update.setPostSort(i + 1);
+			updates.add(update);
+		}
+		Assert.state(updateBatchById(updates), "排序保存失败");
+	}
 
 	/**
 	 * 导入岗位

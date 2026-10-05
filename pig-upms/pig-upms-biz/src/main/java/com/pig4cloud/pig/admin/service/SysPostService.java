@@ -34,6 +34,12 @@ import java.util.List;
 public interface SysPostService extends IService<SysPost> {
 
 	/**
+	 * 按传入 ID 顺序调整岗位，保留未选中记录的位置。
+	 * @param ids 非空且无重复的有效岗位 ID 列表
+	 */
+	void sort(List<Long> ids);
+
+	/**
 	 * 导出excel 表格
 	 * @return
 	 */
