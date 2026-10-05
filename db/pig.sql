@@ -575,6 +575,7 @@ INSERT INTO `sys_menu` VALUES (4011, '信息推送查看', 'sys_message_view', N
 INSERT INTO `sys_menu` VALUES (4012, '信息推送新增', 'sys_message_add', NULL, NULL, 4010, '1', '1', 1, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:00', '0');
 INSERT INTO `sys_menu` VALUES (4013, '信息推送修改', 'sys_message_edit', NULL, NULL, 4010, '1', '1', 2, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:04', '0');
 INSERT INTO `sys_menu` VALUES (4014, '信息推送删除', 'sys_message_del', NULL, NULL, 4010, '1', '1', 3, '0', NULL, '1', '', NULL, 'admin', '2023-10-25 14:52:09', '0');
+INSERT INTO `sys_menu` VALUES (4015, '信息推送导出', 'sys_message_export', NULL, NULL, 4010, NULL, '1', 10, '0', NULL, '1', 'admin', NOW(), 'admin', NOW(), '0');
 INSERT INTO `sys_menu` VALUES (9000, '开发平台', NULL, '/gen', NULL, -1, 'iconfont icon-DevOps', '1', 9, '0', '0', '0', '', '2019-08-12 09:35:16', 'admin', '2025-01-26 22:38:09', '0');
 INSERT INTO `sys_menu` VALUES (9005, '数据源管理', NULL, '/gen/datasource/index', NULL, 9000, 'iconfont icon-shujuyuanguanli', '1', 0, '0', NULL, '0', '', '2019-08-12 09:42:11', 'admin', '2025-01-26 22:26:51', '0');
 INSERT INTO `sys_menu` VALUES (9007, '生成页面', NULL, '/gen/gener/index', NULL, 9000, 'iconfont icon-tongzhi4', '0', 1, '0', '0', '0', 'admin', '2023-02-20 09:58:23', 'admin', '2023-02-20 14:41:43', '0');
@@ -853,6 +854,7 @@ INSERT INTO `sys_role_menu` VALUES (1, 4011);
 INSERT INTO `sys_role_menu` VALUES (1, 4012);
 INSERT INTO `sys_role_menu` VALUES (1, 4013);
 INSERT INTO `sys_role_menu` VALUES (1, 4014);
+INSERT INTO `sys_role_menu` VALUES (1, 4015);
 INSERT INTO `sys_role_menu` VALUES (1, 9000);
 INSERT INTO `sys_role_menu` VALUES (1, 9005);
 INSERT INTO `sys_role_menu` VALUES (1, 9007);
