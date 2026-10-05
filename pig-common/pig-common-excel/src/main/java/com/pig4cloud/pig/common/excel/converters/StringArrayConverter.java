@@ -18,7 +18,17 @@ public enum StringArrayConverter implements Converter<String[]> {
 	/**
 	 * 实例
 	 */
-	INSTANCE;
+	INSTANCE,
+
+	/**
+	 * 未指定目标单元格类型时，FESOD 使用 null 作为导出转换器的类型键。
+	 */
+	WRITE_INSTANCE {
+		@Override
+		public CellDataTypeEnum supportExcelTypeKey() {
+			return null;
+		}
+	};
 
 	@Override
 	public Class<?> supportJavaTypeKey() {

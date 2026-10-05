@@ -29,6 +29,7 @@ public final class BuiltinConverters {
 	 */
 	public static void registerTo(ExcelWriterBuilder builder) {
 		INSTANCES.forEach(builder::registerConverter);
+		builder.registerConverter(StringArrayConverter.WRITE_INSTANCE);
 	}
 
 	/**
