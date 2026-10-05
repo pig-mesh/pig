@@ -92,11 +92,13 @@ public class SqlFilterArgumentResolver implements HandlerMethodArgumentResolver 
 		List<OrderItem> orderItemList = new ArrayList<>();
 		Optional.ofNullable(ascs)
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
+				.map(String::trim)
 				.filter(SqlSortUtils::isValidColumn)
 				.map(OrderItem::asc)
 				.toList()));
 		Optional.ofNullable(descs)
 			.ifPresent(s -> orderItemList.addAll(Arrays.stream(s.split(StrUtil.COMMA))
+				.map(String::trim)
 				.filter(SqlSortUtils::isValidColumn)
 				.map(OrderItem::desc)
 				.toList()));

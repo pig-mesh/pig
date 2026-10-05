@@ -24,6 +24,14 @@ class SqlFilterArgumentResolverTests {
 	}
 
 	@ParameterizedTest
+	@ValueSource(strings = { "ascs", "descs" })
+	void trimsColumnsBeforeValidation(String direction) {
+		Page<?> page = resolve(direction, " user_id ,\tu.create_time\t, , user_id desc ");
+		assertThat(page.orders()).extracting(OrderItem::getColumn).containsExactly("user_id", "u.create_time");
+		assertThat(page.orders()).allMatch(order -> order.isAsc() == "ascs".equals(direction));
+	}
+
+	@ParameterizedTest
 	@ValueSource(strings = { "case(1)when(1)then(user_id)else(phone)end",
 			"case user_id when 1 then user_id else phone end", "CASE\nWHEN user_id IS NULL THEN phone ELSE user_id END",
 			"hex(password)", "user_id+1", "user_id/**/", "user_id desc", "`password`", "1", "u..user_id" })
