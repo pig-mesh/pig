@@ -90,8 +90,8 @@ CREATE TABLE `sys_dept` (
   `dept_id` bigint(20) NOT NULL COMMENT '部门ID',
   `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '部门名称',
   `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
@@ -127,8 +127,8 @@ CREATE TABLE `sys_dict` (
   `id` bigint(20) NOT NULL COMMENT '编号',
   `dict_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典类型',
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '描述',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注信息',
@@ -179,8 +179,8 @@ CREATE TABLE `sys_dict_item` (
   `description` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '字典项描述',
   `list_class` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标签类型',
   `sort_order` int(11) NOT NULL DEFAULT '0' COMMENT '排序（升序）',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注信息',
@@ -285,8 +285,8 @@ CREATE TABLE `sys_file` (
   `type` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件类型',
   `hash` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '文件hash',
   `file_size` bigint(20) DEFAULT NULL COMMENT '文件大小',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '上传时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志',
@@ -330,9 +330,9 @@ CREATE TABLE `sys_i18n` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'name',
   `zh_cn` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '中文',
   `en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '英文',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`)
@@ -421,8 +421,8 @@ CREATE TABLE `sys_log` (
   `log_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '日志类型',
   `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '日志标题',
   `service_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '服务ID',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   `remote_addr` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '远程地址',
@@ -462,9 +462,9 @@ CREATE TABLE `sys_menu` (
   `keep_alive` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否缓存，0否，1是',
   `embedded` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '是否内嵌，0否，1是',
   `menu_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '菜单类型，0:菜单 1:按钮',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标志，0未删除，1已删除',
   PRIMARY KEY (`menu_id`) USING BTREE
@@ -618,8 +618,8 @@ CREATE TABLE `sys_oauth_client_details` (
   `additional_information` varchar(4096) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '附加信息',
   `autoapprove` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '自动授权',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
@@ -675,8 +675,8 @@ CREATE TABLE `sys_public_param` (
   `public_value` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '值',
   `status` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '状态，0禁用，1启用',
   `validate_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '校验码',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `public_type` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '类型，0未知，1系统，2业务',
@@ -721,8 +721,8 @@ CREATE TABLE `sys_role` (
   `role_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色名称',
   `role_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色编码',
   `role_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色描述',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
@@ -907,9 +907,9 @@ CREATE TABLE `sys_schedule` (
   `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci COMMENT '内容',
   `schedule_time` time DEFAULT NULL COMMENT '时间',
   `schedule_date` date DEFAULT NULL COMMENT '日期',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`)
@@ -933,8 +933,8 @@ CREATE TABLE `sys_social_details` (
   `app_secret` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '应用密钥',
   `redirect_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '回调地址',
   `ext` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '拓展字段',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记，0未删除，1已删除',
@@ -995,8 +995,8 @@ CREATE TABLE `sys_user` (
   `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '昵称',
   `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '姓名',
   `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '邮箱地址',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `lock_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '锁定标记，0未锁定，9已锁定',
@@ -1145,9 +1145,9 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_blob_triggers`;
 CREATE TABLE `qrtz_blob_triggers` (
-                                      `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                      `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                      `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                      `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                      `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                      `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                       `blob_data` blob,
                                       PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
                                       CONSTRAINT `qrtz_blob_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -1164,8 +1164,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_calendars`;
 CREATE TABLE `qrtz_calendars` (
-                                  `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                  `calendar_name` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                  `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                  `calendar_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                   `calendar` blob NOT NULL,
                                   PRIMARY KEY (`sched_name`,`calendar_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1181,11 +1181,11 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_cron_triggers`;
 CREATE TABLE `qrtz_cron_triggers` (
-                                      `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                      `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                      `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                      `cron_expression` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                      `time_zone_id` varchar(80) CHARACTER SET utf8  DEFAULT NULL,
+                                      `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                      `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                      `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                      `cron_expression` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                      `time_zone_id` varchar(80) CHARACTER SET utf8mb4  DEFAULT NULL,
                                       PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
                                       CONSTRAINT `qrtz_cron_triggers_ibfk_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1201,19 +1201,19 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_fired_triggers`;
 CREATE TABLE `qrtz_fired_triggers` (
-                                       `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                       `entry_id` varchar(95) CHARACTER SET utf8  NOT NULL,
-                                       `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                       `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                       `instance_name` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                       `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                       `entry_id` varchar(95) CHARACTER SET utf8mb4  NOT NULL,
+                                       `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                       `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                       `instance_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                        `fired_time` bigint NOT NULL,
                                        `sched_time` bigint NOT NULL,
                                        `priority` int NOT NULL,
-                                       `state` varchar(16) CHARACTER SET utf8  NOT NULL,
-                                       `job_name` varchar(200) CHARACTER SET utf8  DEFAULT NULL,
-                                       `job_group` varchar(200) CHARACTER SET utf8  DEFAULT NULL,
-                                       `is_nonconcurrent` varchar(1) CHARACTER SET utf8  DEFAULT NULL,
-                                       `requests_recovery` varchar(1) CHARACTER SET utf8  DEFAULT NULL,
+                                       `state` varchar(16) CHARACTER SET utf8mb4  NOT NULL,
+                                       `job_name` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                       `job_group` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                       `is_nonconcurrent` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                       `requests_recovery` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL,
                                        PRIMARY KEY (`sched_name`,`entry_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1228,15 +1228,15 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_job_details`;
 CREATE TABLE `qrtz_job_details` (
-                                    `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                    `job_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                    `job_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                    `description` varchar(250) CHARACTER SET utf8  DEFAULT NULL,
-                                    `job_class_name` varchar(250) CHARACTER SET utf8  NOT NULL,
-                                    `is_durable` varchar(1) CHARACTER SET utf8  NOT NULL,
-                                    `is_nonconcurrent` varchar(1) CHARACTER SET utf8  NOT NULL,
-                                    `is_update_data` varchar(1) CHARACTER SET utf8  NOT NULL,
-                                    `requests_recovery` varchar(1) CHARACTER SET utf8  NOT NULL,
+                                    `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                    `job_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                    `job_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                    `description` varchar(250) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                    `job_class_name` varchar(250) CHARACTER SET utf8mb4  NOT NULL,
+                                    `is_durable` varchar(1) CHARACTER SET utf8mb4  NOT NULL,
+                                    `is_nonconcurrent` varchar(1) CHARACTER SET utf8mb4  NOT NULL,
+                                    `is_update_data` varchar(1) CHARACTER SET utf8mb4  NOT NULL,
+                                    `requests_recovery` varchar(1) CHARACTER SET utf8mb4  NOT NULL,
                                     `job_data` blob,
                                     PRIMARY KEY (`sched_name`,`job_name`,`job_group`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1252,8 +1252,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_locks`;
 CREATE TABLE `qrtz_locks` (
-                              `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                              `lock_name` varchar(40) CHARACTER SET utf8  NOT NULL,
+                              `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                              `lock_name` varchar(40) CHARACTER SET utf8mb4  NOT NULL,
                               PRIMARY KEY (`sched_name`,`lock_name`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1268,8 +1268,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_paused_trigger_grps`;
 CREATE TABLE `qrtz_paused_trigger_grps` (
-                                            `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                            `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                            `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                            `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                             PRIMARY KEY (`sched_name`,`trigger_group`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -1284,8 +1284,8 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_scheduler_state`;
 CREATE TABLE `qrtz_scheduler_state` (
-                                        `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                        `instance_name` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                        `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                        `instance_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                         `last_checkin_time` bigint NOT NULL,
                                         `checkin_interval` bigint NOT NULL,
                                         PRIMARY KEY (`sched_name`,`instance_name`) USING BTREE
@@ -1302,9 +1302,9 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_simple_triggers`;
 CREATE TABLE `qrtz_simple_triggers` (
-                                        `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                        `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                        `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
+                                        `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                        `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                        `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
                                         `repeat_count` bigint NOT NULL,
                                         `repeat_interval` bigint NOT NULL,
                                         `times_triggered` bigint NOT NULL,
@@ -1323,20 +1323,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_simprop_triggers`;
 CREATE TABLE `qrtz_simprop_triggers` (
-                                         `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                         `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                         `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                         `str_prop_1` varchar(512) CHARACTER SET utf8  DEFAULT NULL,
-                                         `str_prop_2` varchar(512) CHARACTER SET utf8  DEFAULT NULL,
-                                         `str_prop_3` varchar(512) CHARACTER SET utf8  DEFAULT NULL,
+                                         `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                         `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                         `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                         `str_prop_1` varchar(512) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                         `str_prop_2` varchar(512) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                         `str_prop_3` varchar(512) CHARACTER SET utf8mb4  DEFAULT NULL,
                                          `int_prop_1` int DEFAULT NULL,
                                          `int_prop_2` int DEFAULT NULL,
                                          `long_prop_1` bigint DEFAULT NULL,
                                          `long_prop_2` bigint DEFAULT NULL,
                                          `dec_prop_1` decimal(13,4) DEFAULT NULL,
                                          `dec_prop_2` decimal(13,4) DEFAULT NULL,
-                                         `bool_prop_1` varchar(1) CHARACTER SET utf8  DEFAULT NULL,
-                                         `bool_prop_2` varchar(1) CHARACTER SET utf8  DEFAULT NULL,
+                                         `bool_prop_1` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL,
+                                         `bool_prop_2` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL,
                                          PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
                                          CONSTRAINT `QRTZ_SIMPROP_TRIGGERS_IBFK_1` FOREIGN KEY (`sched_name`, `trigger_name`, `trigger_group`) REFERENCES `qrtz_triggers` (`sched_name`, `trigger_name`, `trigger_group`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -1352,20 +1352,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `qrtz_triggers`;
 CREATE TABLE `qrtz_triggers` (
-                                 `sched_name` varchar(120) CHARACTER SET utf8  NOT NULL,
-                                 `trigger_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                 `trigger_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                 `job_name` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                 `job_group` varchar(200) CHARACTER SET utf8  NOT NULL,
-                                 `description` varchar(250) CHARACTER SET utf8  DEFAULT NULL,
+                                 `sched_name` varchar(120) CHARACTER SET utf8mb4  NOT NULL,
+                                 `trigger_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                 `trigger_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                 `job_name` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                 `job_group` varchar(200) CHARACTER SET utf8mb4  NOT NULL,
+                                 `description` varchar(250) CHARACTER SET utf8mb4  DEFAULT NULL,
                                  `next_fire_time` bigint DEFAULT NULL,
                                  `prev_fire_time` bigint DEFAULT NULL,
                                  `priority` int DEFAULT NULL,
-                                 `trigger_state` varchar(16) CHARACTER SET utf8  NOT NULL,
-                                 `trigger_type` varchar(8) CHARACTER SET utf8  NOT NULL,
+                                 `trigger_state` varchar(16) CHARACTER SET utf8mb4  NOT NULL,
+                                 `trigger_type` varchar(8) CHARACTER SET utf8mb4  NOT NULL,
                                  `start_time` bigint NOT NULL,
                                  `end_time` bigint DEFAULT NULL,
-                                 `calendar_name` varchar(200) CHARACTER SET utf8  DEFAULT NULL,
+                                 `calendar_name` varchar(200) CHARACTER SET utf8mb4  DEFAULT NULL,
                                  `misfire_instr` smallint DEFAULT NULL,
                                  `job_data` blob,
                                  PRIMARY KEY (`sched_name`,`trigger_name`,`trigger_group`) USING BTREE,
@@ -1564,8 +1564,8 @@ CREATE TABLE `gen_group` (
   `id` bigint NOT NULL,
   `group_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '分组名称',
   `group_desc` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '分组描述',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   `create_time` datetime DEFAULT NULL COMMENT '创建人',
   `update_time` datetime DEFAULT NULL COMMENT '修改人',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '删除标记',
@@ -1673,8 +1673,8 @@ CREATE TABLE `gen_template` (
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新',
   `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
-  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '创建人',
-  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT ' ' COMMENT '修改人',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '创建人',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT ' ' COMMENT '修改人',
   PRIMARY KEY (`id`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='模板';
 
 -- ----------------------------
