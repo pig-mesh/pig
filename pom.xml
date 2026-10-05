@@ -274,6 +274,30 @@
     </build>
 
     <profiles>
+        <!-- JDK 25+ 避免 Sentinel BOM 引入不兼容的旧版 Byte Buddy -->
+        <profile>
+            <id>jdk25-byte-buddy</id>
+            <activation>
+                <jdk>[25,)</jdk>
+            </activation>
+            <properties>
+                <byte-buddy.version>1.18.11</byte-buddy.version>
+            </properties>
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy</artifactId>
+                        <version>${byte-buddy.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.bytebuddy</groupId>
+                        <artifactId>byte-buddy-agent</artifactId>
+                        <version>${byte-buddy.version}</version>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
         <profile>
             <id>cloud</id>
             <properties>
