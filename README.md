@@ -59,7 +59,7 @@ docker compose -f docker-compose-boot.yml build && docker compose -f docker-comp
 
 | 依赖 | 版本 |
 | --- | --- |
-| Pig | 4.1.0 |
+| Pig | 4.1.1 |
 | JDK | 17+ |
 | Spring Boot | 4.0.6 |
 | Spring Cloud | 2025.1.2 |
