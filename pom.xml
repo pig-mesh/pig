@@ -44,12 +44,12 @@
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <spring.checkstyle.version>0.0.48</spring.checkstyle.version>
         <git.commit.version>10.0.1</git.commit.version>
-        <lombok.version>1.18.46</lombok.version>
+        <lombok.version>1.18.48</lombok.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>3.0.5</knife4j.version>
         <jasypt.version>3.0.5</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
-        <aws.sdk.version>2.55.3</aws.sdk.version>
+        <aws.sdk.version>2.55.10</aws.sdk.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
         <docker.host>http://127.0.0.1:2375</docker.host>
         <docker.namespace>pigcloudx</docker.namespace>
@@ -282,7 +282,7 @@
                 <jdk>[25,)</jdk>
             </activation>
             <properties>
-                <byte-buddy.version>1.18.11</byte-buddy.version>
+                <byte-buddy.version>1.18.14</byte-buddy.version>
             </properties>
             <dependencyManagement>
                 <dependencies>
