@@ -28,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
@@ -104,6 +105,21 @@ public class GlobalBizExceptionHandler {
 	@ExceptionHandler(SQLException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public R handleSQLException(SQLException exception) {
+		log.error("数据库调用异常 ex={}", exception.getMessage(), exception);
+		return R.failed("数据库调用异常，请联系管理员处理");
+	}
+
+	/**
+	 * 数据访问异常（MyBatis / ORM 框架包装的数据库异常）
+	 * <p>
+	 * MyBatis 异常经 Spring 包装为 {@link DataAccessException} 体系（如 BadSqlGrammarException），
+	 * 消息中携带完整 SQL 语句与列名，落入兜底处理器会向客户端回显，需统一返回固定文案
+	 * @param exception 数据访问异常
+	 * @return 统一失败响应，不向客户端暴露底层 SQL 细节
+	 */
+	@ExceptionHandler(DataAccessException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	public R handleDataAccessException(DataAccessException exception) {
 		log.error("数据库调用异常 ex={}", exception.getMessage(), exception);
 		return R.failed("数据库调用异常，请联系管理员处理");
 	}
