@@ -1,8 +1,8 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-4.1-success.svg" alt="Pig">
- <img src="https://img.shields.io/badge/Spring%20Cloud-2025.1-blue.svg" alt="Spring Cloud">
- <img src="https://img.shields.io/badge/Spring%20Boot-4.1-blue.svg" alt="Spring Boot">
- <img src="https://img.shields.io/badge/Vue-3.5-blue.svg" alt="Vue">
+ <img src="https://img.shields.io/badge/Pig-4.1.1-success.svg" alt="Pig">
+ <img src="https://img.shields.io/badge/Spring%20Cloud-2025.1.4-blue.svg" alt="Spring Cloud">
+ <img src="https://img.shields.io/badge/Spring%20Boot-4.1.2-blue.svg" alt="Spring Boot">
+ <img src="https://img.shields.io/badge/Vue-3.5.44-blue.svg" alt="Vue">
  <img src="https://img.shields.io/github/license/pig-mesh/pig" alt="License">
  <img src="https://gitcode.com/pig-mesh/pig/star/badge.svg" alt="Stars">
 </p>
@@ -61,16 +61,16 @@ docker compose -f docker-compose-boot.yml build && docker compose -f docker-comp
 | --- | --- |
 | Pig | 4.1.1 |
 | JDK | 17+ |
-| Spring Boot | 4.1.1 |
-| Spring Cloud | 2025.1.3 |
+| Spring Boot | 4.1.2 |
+| Spring Cloud | 2025.1.4 |
 | Spring Cloud Alibaba | 2025.1.0.0 |
-| Spring Security OAuth2 Authorization Server | 7.0.5 |
+| Spring Security OAuth2 Authorization Server | 7.1.2 |
 | MyBatis Plus | 3.5.16 |
 | Nacos Client | 3.2.4 |
 | Druid | 1.2.28 |
-| Vue | 3.5.34 |
+| Vue | 3.5.44 |
 | Element Plus | 2.13.7 |
-| Vite | 5.4.21 |
+| Vite | 8.1.6 |
 
 ## 模块说明
 
