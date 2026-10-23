@@ -150,6 +150,16 @@ public class SysMessageController {
 	}
 
 	/**
+	 * 仅删除当前用户的消息接收记录，不影响其他接收人。
+	 */
+	@Operation(summary = "删除当前用户消息")
+	@SysLog("删除当前用户消息")
+	@DeleteMapping("/user/{id}")
+	public R removeUserMessage(@PathVariable("id") Long id) {
+		return R.ok(sysMessageService.removeUserMessage(id));
+	}
+
+	/**
 	 * 查询用户公告
 	 * @param page 分页条件
 	 * @param sysMessage 查询条件

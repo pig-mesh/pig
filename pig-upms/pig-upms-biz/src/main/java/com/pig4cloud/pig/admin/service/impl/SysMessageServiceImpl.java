@@ -212,6 +212,14 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 		return Boolean.TRUE;
 	}
 
+	@Override
+	public Boolean removeUserMessage(Long id) {
+		relationMapper.delete(Wrappers.<SysMessageRelationEntity>lambdaQuery()
+			.eq(SysMessageRelationEntity::getMsgId, id)
+			.eq(SysMessageRelationEntity::getUserId, SecurityUtils.getUser().getId()));
+		return Boolean.TRUE;
+	}
+
 	/**
 	 * 获取信息
 	 * @param id id

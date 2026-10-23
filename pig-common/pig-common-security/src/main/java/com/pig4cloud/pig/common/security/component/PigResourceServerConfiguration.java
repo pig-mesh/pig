@@ -56,7 +56,7 @@ public class PigResourceServerConfiguration {
 	private final PigBootCorsProperties corsProperties;
 
 	@Bean
-	@Order(Ordered.HIGHEST_PRECEDENCE)
+	@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		PathPatternRequestMatcher[] permitMatchers = permitAllUrl.getIgnoreUrls()
 			.stream()

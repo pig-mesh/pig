@@ -41,6 +41,13 @@ public interface SysMessageService extends IService<SysMessageEntity> {
 	Boolean readMessage(Long id);
 
 	/**
+	 * 删除当前用户的接收记录，记录不存在或不属于当前用户时不删除任何数据。
+	 * @param id 消息 ID
+	 * @return true
+	 */
+	Boolean removeUserMessage(Long id);
+
+	/**
 	 * 获取信息
 	 * @param id id
 	 * @return messageVO

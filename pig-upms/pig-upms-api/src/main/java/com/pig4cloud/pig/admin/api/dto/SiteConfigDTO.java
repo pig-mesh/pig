@@ -36,6 +36,9 @@ public class SiteConfigDTO {
 	@Schema(description = "验证码类型：clickWord=点按，blockPuzzle=滑动，math=图形，none=关闭")
 	private String captchaType;
 
+	@Schema(description = "保存验证码配置时指定网站密码登录客户端 ID，不持久化为站点参数")
+	private String captchaClientId;
+
 	@Schema(description = "密码规则预设：letterNumber=英文+数字，letterNumberSymbol=英文+数字+符号，upperLowerNumberSymbol=大小写+数字+符号")
 	private String passwordRule;
 
