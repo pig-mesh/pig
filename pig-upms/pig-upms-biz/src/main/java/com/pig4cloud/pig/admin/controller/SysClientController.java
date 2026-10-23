@@ -67,6 +67,7 @@ public class SysClientController {
 	 * @return SysOauthClientDetails
 	 */
 	@GetMapping("/{clientId}")
+	@HasPermission("sys_client_view")
 	public R getByClientId(@PathVariable String clientId) {
 		SysOauthClientDetails details = clientDetailsService
 			.getOne(Wrappers.<SysOauthClientDetails>lambdaQuery().eq(SysOauthClientDetails::getClientId, clientId));
@@ -176,6 +177,7 @@ public class SysClientController {
 	@ResponseExcel
 	@SysLog("导出excel")
 	@GetMapping("/export")
+	@HasPermission("sys_client_view")
 	public List<SysOauthClientDetails> export(SysOauthClientDetails sysOauthClientDetails) {
 		return clientDetailsService.list(Wrappers.query(sysOauthClientDetails));
 	}
