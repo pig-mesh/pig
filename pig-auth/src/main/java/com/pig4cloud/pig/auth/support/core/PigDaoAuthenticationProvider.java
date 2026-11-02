@@ -3,6 +3,7 @@ package com.pig4cloud.pig.auth.support.core;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import com.pig4cloud.pig.common.core.util.WebUtils;
+import com.pig4cloud.pig.auth.support.sms.SmsAuthenticationToken;
 import com.pig4cloud.pig.common.security.service.PigUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.SneakyThrows;
@@ -27,8 +28,6 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
-
-import static com.pig4cloud.pig.common.core.constant.SecurityConstants.PASSWORD;
 
 /**
  * 基于DAO的认证提供者实现，用于处理用户名密码认证
@@ -74,9 +73,8 @@ public class PigDaoAuthenticationProvider extends AbstractUserDetailsAuthenticat
 	protected void additionalAuthenticationChecks(UserDetails userDetails,
 			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
 
-		// 只有密码模式需要校验密码
-		String grantType = WebUtils.getRequest().get().getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (!StrUtil.equals(PASSWORD, grantType)) {
+		// 仅短信认证链路创建的令牌可跳过密码校验，不能信任请求中的 grant_type
+		if (authentication instanceof SmsAuthenticationToken) {
 			return;
 		}
 

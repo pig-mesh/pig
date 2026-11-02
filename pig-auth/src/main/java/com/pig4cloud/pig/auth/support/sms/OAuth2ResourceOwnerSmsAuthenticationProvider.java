@@ -60,7 +60,7 @@ public class OAuth2ResourceOwnerSmsAuthenticationProvider
 	@Override
 	public UsernamePasswordAuthenticationToken buildToken(Map<String, Object> reqParameters) {
 		String phone = (String) reqParameters.get(SecurityConstants.SMS_PARAMETER_NAME);
-		return new UsernamePasswordAuthenticationToken(phone, null);
+		return new SmsAuthenticationToken(phone);
 	}
 
 }
