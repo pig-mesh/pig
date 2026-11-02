@@ -282,7 +282,7 @@
                 <jdk>[25,)</jdk>
             </activation>
             <properties>
-                <byte-buddy.version>1.18.15</byte-buddy.version>
+                <byte-buddy.version>1.18.16</byte-buddy.version>
             </properties>
             <dependencyManagement>
                 <dependencies>
