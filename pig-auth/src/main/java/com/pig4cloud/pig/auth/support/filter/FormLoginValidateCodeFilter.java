@@ -1,7 +1,9 @@
 package com.pig4cloud.pig.auth.support.filter;
 
+import cn.hutool.core.util.ArrayUtil;
 import com.pig4cloud.pig.auth.support.core.AuthCaptchaSupport;
 import com.pig4cloud.pig.auth.support.handler.FormAuthenticationFailureHandler;
+import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -41,6 +44,14 @@ public class FormLoginValidateCodeFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 		if (!FORM_LOGIN_URL.equals(request.getServletPath())) {
 			filterChain.doFilter(request, response);
+			return;
+		}
+
+		// 表单登录只允许密码认证，防止切换到短信/社交登录的免密码校验分支。
+		String[] grantTypes = request.getParameterValues(OAuth2ParameterNames.GRANT_TYPE);
+		if (ArrayUtil.length(grantTypes) != 1 || !ArrayUtil.contains(grantTypes, SecurityConstants.PASSWORD)) {
+			failureHandler.onAuthenticationFailure(request, response,
+					new AuthenticationServiceException("Form login only supports password grant"));
 			return;
 		}
 
