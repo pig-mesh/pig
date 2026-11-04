@@ -16,7 +16,7 @@
 
 ## 使用文档
 
-PIG 提供了完整的部署与开发文档：[wiki.pig4cloud.com](https://wiki.pig4cloud.com)，涵盖开发环境配置、服务端启动、前端运行、微服务部署和单体部署等关键步骤。
+PIG 提供了完整的部署与开发文档：[docs.pig4cloud.com/open](https://docs.pig4cloud.com/open)，涵盖开发环境配置、服务端启动、前端运行、微服务部署和单体部署等关键步骤。
 
 ### 其他产品
 
