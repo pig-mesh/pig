@@ -42,6 +42,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <spring-boot-admin.version>4.1.4</spring-boot-admin.version>
         <maven.compiler.version>3.14.1</maven.compiler.version>
+        <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
         <spring.checkstyle.version>0.0.48</spring.checkstyle.version>
         <git.commit.version>10.0.1</git.commit.version>
         <lombok.version>1.18.48</lombok.version>
@@ -180,6 +181,12 @@
         </resources>
         <pluginManagement>
             <plugins>
+                <!--固定 surefire 版本，避免使用 Maven 内置的旧版本-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
+                </plugin>
                 <!--spring boot 默认插件-->
                 <plugin>
                     <groupId>org.springframework.boot</groupId>
