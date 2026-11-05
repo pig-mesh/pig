@@ -11,20 +11,22 @@ import cn.hutool.core.util.StrUtil;
 import com.pig4cloud.pig.auth.support.core.AuthCaptchaSupport;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
-import com.pig4cloud.pig.common.core.util.WebUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @author lbw
@@ -53,32 +55,25 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 
 		// 如果登录URL 但是刷新token的请求，直接向下执行
 		String grantType = request.getParameter(OAuth2ParameterNames.GRANT_TYPE);
-		if (StrUtil.containsAny(grantType, SecurityConstants.REFRESH_TOKEN)) {
+		if (StrUtil.equals(grantType, SecurityConstants.REFRESH_TOKEN)) {
 			filterChain.doFilter(request, response);
 			return;
 		}
 
-		// mobile模式, 如果请求不包含mobile 参数直接
-		String mobile = request.getParameter(SecurityConstants.GRANT_MOBILE);
-		if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && StrUtil.isBlank(mobile)) {
-			throw new OAuth2AuthenticationException(SecurityConstants.GRANT_MOBILE);
-		}
-
-		// mobile模式, 社交登录模式不校验验证码直接跳过
-		if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType) && !StrUtil.contains(mobile, "SMS")) {
-			filterChain.doFilter(request, response);
-			return;
-		}
-
-		// 判断客户端是否跳过检验
-		if (!isCheckCaptchaClient(request)) {
-			filterChain.doFilter(request, response);
-			return;
-		}
-
-		// 校验验证码 1. 客户端开启验证码 2. 短信模式
 		try {
-			checkCode();
+			if (StrUtil.equals(SecurityConstants.GRANT_MOBILE, grantType)) {
+				String mobile = request.getParameter(SecurityConstants.GRANT_MOBILE);
+				if (StrUtil.isBlank(mobile)) {
+					throw new OAuth2AuthenticationException(SecurityConstants.GRANT_MOBILE);
+				}
+				// 短信是身份凭据，不受客户端图形验证码开关控制。
+				if (authCaptchaSupport.isSmsLogin(mobile)) {
+					authCaptchaSupport.validateSmsCode(request);
+				}
+			}
+			else if (isCheckCaptchaClient()) {
+				authCaptchaSupport.validateCode(request);
+			}
 			filterChain.doFilter(request, response);
 		}
 		catch (ValidateCodeException validateCodeException) {
@@ -86,21 +81,11 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
 		}
 	}
 
-	/**
-	 * 校验验证码
-	 */
-	private void checkCode() throws ValidateCodeException {
-		authCaptchaSupport.validateCode(WebUtils.getRequest());
-	}
-
-	/**
-	 * 是否需要校验客户端，根据client 查询客户端配置
-	 * @param request 请求
-	 * @return true 需要校验， false 不需要校验
-	 */
-	private boolean isCheckCaptchaClient(HttpServletRequest request) {
-		String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-		String clientId = WebUtils.extractClientId(header).orElse(null);
+	private boolean isCheckCaptchaClient() {
+		// 使用已认证客户端，兼容 Basic 和 client_secret_post，不信任额外的 client_id 参数。
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String clientId = authentication instanceof OAuth2ClientAuthenticationToken client && client.isAuthenticated()
+				&& Objects.nonNull(client.getRegisteredClient()) ? client.getRegisteredClient().getClientId() : null;
 		return authCaptchaSupport.isCaptchaEnabled(clientId);
 	}
 

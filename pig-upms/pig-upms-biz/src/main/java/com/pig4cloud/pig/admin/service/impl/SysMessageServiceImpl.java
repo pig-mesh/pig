@@ -315,7 +315,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 		}
 
 		String codeObj = RedisUtils
-			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
+			.get(CacheConstants.SMS_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile);
 
 		if (StrUtil.isNotBlank(codeObj)) {
 			log.info("手机号验证码未过期:{}，{}", mobile, codeObj);
@@ -324,7 +324,7 @@ public class SysMessageServiceImpl extends ServiceImpl<SysMessageMapper, SysMess
 
 		String code = RandomUtil.randomNumbers(Integer.parseInt(SecurityConstants.CODE_SIZE));
 		log.info("手机号生成验证码成功:{},{}", mobile, code);
-		RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code,
+		RedisUtils.set(CacheConstants.SMS_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + mobile, code,
 				SecurityConstants.CODE_TIME);
 
 		// 发送

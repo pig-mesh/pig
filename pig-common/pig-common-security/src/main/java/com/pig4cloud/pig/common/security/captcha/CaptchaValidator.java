@@ -66,14 +66,28 @@ public class CaptchaValidator {
 			return CaptchaResult.failed("验证码参数不能为空");
 		}
 
-		String key = CacheConstants.DEFAULT_CODE_KEY + randomStr;
-		Object codeObj = redisTemplate.opsForValue().get(key);
+		return validateCachedCode(CacheConstants.IMAGE_CODE_KEY + randomStr, code);
+	}
+
+	/**
+	 * 校验短信身份凭据，非空参数触发原子读取并删除，匹配失败也消费验证码。
+	 * @param mobile 登录类型与手机号
+	 * @param code 短信验证码
+	 * @return 校验结果
+	 */
+	public CaptchaResult validateSms(String mobile, String code) {
+		if (StrUtil.hasBlank(mobile, code)) {
+			return CaptchaResult.failed("验证码参数不能为空");
+		}
+		return validateCachedCode(CacheConstants.SMS_CODE_KEY + mobile, code);
+	}
+
+	private CaptchaResult validateCachedCode(String key, String code) {
+		Object codeObj = redisTemplate.opsForValue().getAndDelete(key);
 		if (codeObj == null || StrUtil.isBlank(codeObj.toString()) || !StrUtil.equals(codeObj.toString(), code)) {
-			redisTemplate.delete(key);
 			return CaptchaResult.failed("验证码错误或已过期");
 		}
 
-		redisTemplate.delete(key);
 		return CaptchaResult.ok();
 	}
 

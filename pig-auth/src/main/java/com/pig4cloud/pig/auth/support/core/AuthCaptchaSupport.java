@@ -6,6 +6,7 @@ import cn.hutool.json.JSONUtil;
 import com.pig4cloud.pig.admin.api.entity.SysOauthClientDetails;
 import com.pig4cloud.pig.common.core.constant.CommonConstants;
 import com.pig4cloud.pig.common.core.constant.enums.CaptchaFlagTypeEnum;
+import com.pig4cloud.pig.common.core.constant.enums.LoginTypeEnum;
 import com.pig4cloud.pig.common.core.exception.ValidateCodeException;
 import com.pig4cloud.pig.common.core.util.MsgUtils;
 import com.pig4cloud.pig.common.security.captcha.CaptchaResult;
@@ -61,7 +62,7 @@ public class AuthCaptchaSupport {
 	 */
 	public boolean isCaptchaEnabled(String clientId) {
 		if (StrUtil.isBlank(clientId)) {
-			return false;
+			return true;
 		}
 
 		SysOauthClientDetails clientDetails = clientDetailsLoader.getByClientId(clientId);
@@ -85,11 +86,6 @@ public class AuthCaptchaSupport {
 		}
 
 		String randomStr = request.getParameter("randomStr");
-		// https://gitee.com/log4j/pig/issues/IWA0D 手机号场景以 mobile 作为缓存键
-		String mobile = request.getParameter("mobile");
-		if (StrUtil.isNotBlank(mobile)) {
-			randomStr = mobile;
-		}
 
 		boolean isBehavior = StrUtil.equalsAnyIgnoreCase(randomStr, CommonConstants.IMAGE_CODE_BLOCK_PUZZLE,
 				CommonConstants.IMAGE_CODE_CLICK_WORD);
@@ -101,6 +97,22 @@ public class AuthCaptchaSupport {
 		if (!result.isOk()) {
 			String errorCode = isBehavior ? AuthErrorCodes.AUTH_CAPTCHA_EMPTY : AuthErrorCodes.AUTH_CAPTCHA_INVALID;
 			throw new ValidateCodeException(MsgUtils.getMessage(errorCode));
+		}
+	}
+
+	public boolean isSmsLogin(String mobile) {
+		return StrUtil.startWith(mobile, LoginTypeEnum.SMS.getType() + StrUtil.AT)
+				|| StrUtil.startWith(mobile, LoginTypeEnum.APPSMS.getType() + StrUtil.AT);
+	}
+
+	public void validateSmsCode(HttpServletRequest request) {
+		String mobile = request.getParameter("mobile");
+		String code = request.getParameter("code");
+		if (StrUtil.isBlank(code)) {
+			throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_EMPTY));
+		}
+		if (!isSmsLogin(mobile) || !captchaValidator.validateSms(mobile, code).isOk()) {
+			throw new ValidateCodeException(MsgUtils.getMessage(AuthErrorCodes.AUTH_CAPTCHA_INVALID));
 		}
 	}
 

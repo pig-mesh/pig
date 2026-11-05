@@ -18,6 +18,12 @@ public interface CacheConstants {
 	 */
 	String DEFAULT_CODE_KEY = "DEFAULT_CODE_KEY:";
 
+	/** 图形验证码独立缓存。 */
+	String IMAGE_CODE_KEY = "IMAGE_CODE_KEY:";
+
+	/** 短信验证码独立缓存，后接登录类型与手机号。 */
+	String SMS_CODE_KEY = "SMS_CODE_KEY:";
+
 	/**
 	 * 菜单信息缓存
 	 */

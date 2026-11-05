@@ -48,7 +48,7 @@ public class ImageCodeEndpoint {
 			return;
 		}
 
-		RedisUtils.set(CacheConstants.DEFAULT_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME);
+		RedisUtils.set(CacheConstants.IMAGE_CODE_KEY + randomStr, result, SecurityConstants.CODE_TIME);
 		// 转换流信息写出
 		captcha.out(response.getOutputStream());
 	}

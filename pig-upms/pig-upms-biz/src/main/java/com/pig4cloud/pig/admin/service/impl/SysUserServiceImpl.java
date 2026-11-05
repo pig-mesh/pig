@@ -48,6 +48,7 @@ import com.pig4cloud.pig.common.data.cache.RedisUtils;
 import com.pig4cloud.pig.common.data.resolver.ParamResolver;
 import com.pig4cloud.pig.common.excel.vo.ErrorMessage;
 import com.pig4cloud.pig.common.security.service.PigUser;
+import com.pig4cloud.pig.common.security.captcha.CaptchaValidator;
 import com.pig4cloud.pig.common.security.util.SecurityUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -93,6 +94,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	private final CacheManager cacheManager;
 
 	private final SysDeptMapper sysDeptMapper;
+
+	private final CaptchaValidator captchaValidator;
 
 	/**
 	 * 保存用户信息
@@ -253,10 +256,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
 		// 校验手机号
 		if (StrUtil.isNotBlank(userDto.getPhone())) {
-			String codeObj = RedisUtils.get(
-					CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-			// 验证码可能已过期或未发送（Redis 中不存在），codeObj 为 null 时直接判为校验失败，避免 NPE
-			if (StrUtil.isBlank(codeObj) || !StrUtil.equals(codeObj, userDto.getCode())) {
+			if (!validateSmsCode(userDto.getPhone(), userDto.getCode())) {
 				return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
 			}
 			sysUser.setPhone(userDto.getPhone());
@@ -524,9 +524,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			if (StrUtil.isBlank(userDto.getCode())) {
 				return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
 			}
-			String codeObj = RedisUtils.get(
-					CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-			if (!StrUtil.equals(codeObj, userDto.getCode())) {
+			if (!validateSmsCode(userDto.getPhone(), userDto.getCode())) {
 				return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
 			}
 		}
@@ -694,9 +692,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_PARAM_ILLEGAL));
 		}
 
-		String codeObj = RedisUtils
-			.get(CacheConstants.DEFAULT_CODE_KEY + LoginTypeEnum.SMS.getType() + StringPool.AT + userDto.getPhone());
-		if (!StrUtil.equals(codeObj, code)) {
+		if (!validateSmsCode(userDto.getPhone(), code)) {
 			return R.failed(MsgUtils.getMessage(UpmsErrorCodes.SYS_APP_SMS_ERROR));
 		}
 
@@ -715,6 +711,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 		cacheManager.getCache(CacheConstants.USER_DETAILS).evict(username);
 
 		return R.ok();
+	}
+
+	private boolean validateSmsCode(String phone, String code) {
+		return captchaValidator.validateSms(LoginTypeEnum.SMS.getType() + StringPool.AT + phone, code).isOk();
 	}
 
 	/**
