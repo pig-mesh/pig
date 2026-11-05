@@ -2,7 +2,6 @@ package com.pig4cloud.pig.common.security.component;
 
 import cn.hutool.core.net.Ipv4Util;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.pig4cloud.pig.common.core.constant.SecurityConstants;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -39,8 +38,8 @@ public class PigInnerHeaderRemoveFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response,
 			@NotNull FilterChain filterChain) throws ServletException, IOException {
-		// 获取客户端IP地址
-		String clientIP = JakartaServletUtil.getClientIP(request);
+		// 使用连接地址，避免信任调用者可伪造的转发头。
+		String clientIP = request.getRemoteAddr();
 
 		// 允许 127.0.0.1 请求直接通过
 		if (Ipv4Util.LOCAL_IP.equals(clientIP)) {
