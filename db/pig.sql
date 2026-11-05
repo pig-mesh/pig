@@ -693,9 +693,9 @@ INSERT INTO `sys_public_param` VALUES (10, 'Clarity 追踪 ID', 'SITE_CLARITY_ID
 INSERT INTO `sys_public_param` VALUES (11, '验证码类型', 'SITE_CAPTCHA_TYPE', 'clickWord', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
 INSERT INTO `sys_public_param` VALUES (12, '强制重置密码', 'SITE_FORCE_RESET_PWD', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
 INSERT INTO `sys_public_param` VALUES (13, '强制退出', 'SITE_FORCE_LOGOUT', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
-INSERT INTO `sys_public_param` VALUES (14, '短信登录开关', 'SITE_SMS_LOGIN_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
-INSERT INTO `sys_public_param` VALUES (15, '社交登录开关', 'SITE_SOCIAL_LOGIN_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
-INSERT INTO `sys_public_param` VALUES (16, '前端注册开关', 'SITE_REGISTER_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
+INSERT INTO `sys_public_param` VALUES (14, '短信登录开关', 'SITE_SMS_LOGIN_ENABLE', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
+INSERT INTO `sys_public_param` VALUES (15, '社交登录开关', 'SITE_SOCIAL_LOGIN_ENABLE', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
+INSERT INTO `sys_public_param` VALUES (16, '前端注册开关', 'SITE_REGISTER_ENABLE', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
 INSERT INTO `sys_public_param` VALUES (17, '找回/重置密码开关', 'SITE_RESET_PASSWORD', '0', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
 INSERT INTO `sys_public_param` VALUES (18, '国际化切换开关', 'SITE_I18N_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
 INSERT INTO `sys_public_param` VALUES (19, '亮暗模式切换开关', 'SITE_DARK_MODE_ENABLE', '1', '0', NULL, 'admin', 'admin', '2026-03-28 00:00:00', NULL, '2', '1', '0');
