@@ -16,7 +16,7 @@
  */
 package com.pig4cloud.pig.admin.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.admin.api.dto.SysDictItemSortDTO;
 import com.pig4cloud.pig.admin.api.entity.SysDictItem;
 import com.pig4cloud.pig.common.core.util.R;

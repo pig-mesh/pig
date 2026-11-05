@@ -2,7 +2,7 @@ package com.pig4cloud.pig.codegen.service.impl;
 
 import cn.hutool.core.text.NamingCase;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenFieldType;
 import com.pig4cloud.pig.codegen.entity.GenTableColumnEntity;
 import com.pig4cloud.pig.codegen.mapper.GenFieldTypeMapper;

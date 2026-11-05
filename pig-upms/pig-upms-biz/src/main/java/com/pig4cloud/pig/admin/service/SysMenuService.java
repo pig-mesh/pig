@@ -20,7 +20,7 @@
 package com.pig4cloud.pig.admin.service;
 
 import cn.hutool.core.lang.tree.Tree;
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.admin.api.dto.SysMenuSortDTO;
 import com.pig4cloud.pig.admin.api.entity.SysMenu;
 import com.pig4cloud.pig.common.core.util.R;

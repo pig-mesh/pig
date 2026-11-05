@@ -29,7 +29,7 @@ import cn.hutool.core.util.URLUtil;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.http.HttpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.constant.UpmsErrorCodes;
 import com.pig4cloud.pig.admin.api.dto.SysFileGroupDTO;
 import com.pig4cloud.pig.admin.api.entity.SysFile;

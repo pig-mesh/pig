@@ -16,7 +16,7 @@
  */
 package com.pig4cloud.pig.codegen.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenDatasourceConf;
 
 import java.util.Map;

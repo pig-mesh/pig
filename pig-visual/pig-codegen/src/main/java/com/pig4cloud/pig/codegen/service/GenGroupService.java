@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.codegen.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pig.codegen.util.vo.GroupVO;
 import com.pig4cloud.pig.codegen.util.vo.TemplateGroupDTO;

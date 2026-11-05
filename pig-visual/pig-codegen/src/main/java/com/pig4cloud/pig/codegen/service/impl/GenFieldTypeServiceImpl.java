@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.codegen.service.impl;
 
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenFieldType;
 import com.pig4cloud.pig.codegen.mapper.GenFieldTypeMapper;
 import com.pig4cloud.pig.codegen.service.GenFieldTypeService;

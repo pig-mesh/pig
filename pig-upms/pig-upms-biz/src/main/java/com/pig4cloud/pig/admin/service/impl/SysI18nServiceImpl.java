@@ -16,7 +16,7 @@
  */
 package com.pig4cloud.pig.admin.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.entity.SysI18nEntity;
 import com.pig4cloud.pig.admin.mapper.SysI18nMapper;
 import com.pig4cloud.pig.admin.service.SysI18nService;

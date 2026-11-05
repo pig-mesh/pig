@@ -17,7 +17,7 @@
 
 package com.pig4cloud.pig.admin.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.admin.api.entity.SysClarityData;
 import com.pig4cloud.pig.common.core.util.R;
 

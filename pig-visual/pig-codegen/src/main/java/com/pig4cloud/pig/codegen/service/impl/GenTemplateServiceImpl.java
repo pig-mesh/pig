@@ -24,7 +24,7 @@ import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
 import cn.smallbun.screw.core.constant.DefaultConstants;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.config.PigCodeGenDefaultProperties;
 import com.pig4cloud.pig.codegen.entity.GenGroupEntity;
 import com.pig4cloud.pig.codegen.entity.GenTemplateEntity;

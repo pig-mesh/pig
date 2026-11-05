@@ -17,7 +17,7 @@
 package com.pig4cloud.pig.admin.api.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.spring.activerecord.Model;
 import com.pig4cloud.pig.admin.api.constant.ClarityFetchStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

@@ -17,7 +17,7 @@ package com.pig4cloud.pig.codegen.service;
  *  Author: luolin (766488893@qq.com)
  */
 
-import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.spring.service.IService;
 import com.pig4cloud.pig.codegen.entity.GenCreateTable;
 import com.pig4cloud.pig.codegen.util.vo.GenCreateTableVO;
 

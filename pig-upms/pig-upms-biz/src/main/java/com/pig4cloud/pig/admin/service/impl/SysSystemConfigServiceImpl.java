@@ -8,7 +8,7 @@ import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.admin.api.constant.SystemConfigTypeEnum;
 import com.pig4cloud.pig.admin.api.entity.SysSystemConfigEntity;
 import com.pig4cloud.pig.admin.mapper.SysSystemConfigMapper;

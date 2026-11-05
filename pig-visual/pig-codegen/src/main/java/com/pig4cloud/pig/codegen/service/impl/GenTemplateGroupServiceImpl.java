@@ -16,7 +16,7 @@
  */
 package com.pig4cloud.pig.codegen.service.impl;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.spring.service.impl.ServiceImpl;
 import com.pig4cloud.pig.codegen.entity.GenTemplateGroupEntity;
 import com.pig4cloud.pig.codegen.mapper.GenTemplateGroupMapper;
 import com.pig4cloud.pig.codegen.service.GenTemplateGroupService;
