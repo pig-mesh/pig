@@ -40,7 +40,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <spring-boot-admin.version>4.1.4</spring-boot-admin.version>
+        <spring-boot-admin.version>4.1.5</spring-boot-admin.version>
         <maven.compiler.version>3.14.1</maven.compiler.version>
         <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
         <spring.checkstyle.version>0.0.48</spring.checkstyle.version>
