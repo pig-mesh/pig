@@ -59,6 +59,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--配置加解密工具，支持读取 ENC(...) 配置值-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-jasypt</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

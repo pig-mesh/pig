@@ -749,6 +749,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public R<Boolean> updateUserDept(Long deptId) {
+		if (deptId == null || getUserDeptList().stream().noneMatch(dept -> deptId.equals(dept.getDeptId()))) {
+			return R.failed(MsgUtils.getSecurityMessage("AbstractAccessDecisionManager.accessDenied", ""));
+		}
+
 		PigUser user = SecurityUtils.getUser();
 		Long userId = user.getId();
 		String username = user.getUsername();

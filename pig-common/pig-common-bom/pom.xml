@@ -65,6 +65,12 @@
                 <artifactId>pig-common-core</artifactId>
                 <version>${pig.version}</version>
             </dependency>
+            <!--配置加解密工具版本管理-->
+            <dependency>
+                <groupId>com.pig4cloud</groupId>
+                <artifactId>pig-common-jasypt</artifactId>
+                <version>${pig.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.pig4cloud</groupId>
                 <artifactId>pig-common-data</artifactId>

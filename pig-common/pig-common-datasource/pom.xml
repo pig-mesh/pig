@@ -21,6 +21,12 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-core</artifactId>
         </dependency>
+        <!--数据源密码加解密，运行时由启动模块提供-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-jasypt</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!--mybatis-->
         <dependency>
             <groupId>com.baomidou</groupId>

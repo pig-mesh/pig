@@ -34,6 +34,7 @@
 
     <modules>
         <module>pig-common-bom</module>
+        <module>pig-common-jasypt</module>
         <module>pig-common-core</module>
         <module>pig-common-data</module>
         <module>pig-common-datasource</module>

@@ -33,6 +33,16 @@
     <description>pig 通用用户权限管理系统业务处理模块</description>
 
     <dependencies>
+        <!--注册中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <!--配置中心客户端-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
         <!-- mysql -->
         <dependency>
             <groupId>com.mysql</groupId>
@@ -87,16 +97,6 @@
             <groupId>com.pig4cloud</groupId>
             <artifactId>pig-common-oss</artifactId>
         </dependency>
-        <!--注册中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-        </dependency>
-        <!--配置中心客户端-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-        </dependency>
         <!--spring security 、oauth、jwt依赖-->
         <dependency>
             <groupId>com.pig4cloud</groupId>
@@ -135,6 +135,11 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-crypto</artifactId>
+        </dependency>
+        <!--配置加解密工具，支持读取 ENC(...) 配置值-->
+        <dependency>
+            <groupId>com.pig4cloud</groupId>
+            <artifactId>pig-common-jasypt</artifactId>
         </dependency>
         <!-- 短信工具类 -->
         <dependency>

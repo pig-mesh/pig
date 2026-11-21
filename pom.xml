@@ -34,8 +34,8 @@
 
     <properties>
         <skipTests>true</skipTests>
-        <spring-boot.version>4.1.2</spring-boot.version>
-        <spring-cloud.version>2025.1.4</spring-cloud.version>
+        <spring-boot.version>4.2.0</spring-boot.version>
+        <spring-cloud.version>2026.0.0</spring-cloud.version>
         <spring-cloud-alibaba.version>2025.1.0.0</spring-cloud-alibaba.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
@@ -48,7 +48,7 @@
         <lombok.version>1.18.48</lombok.version>
         <swagger.fox.version>3.0.0</swagger.fox.version>
         <knife4j.version>3.0.5</knife4j.version>
-        <jasypt.version>3.0.5</jasypt.version>
+        <jasypt.version>4.0.4</jasypt.version>
         <ttl.version>2.12.6</ttl.version>
         <aws.sdk.version>2.55.16</aws.sdk.version>
         <docker.registry>registry.cn-hangzhou.aliyuncs.com</docker.registry>
@@ -67,12 +67,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <!--jasypt配置文件加解密-->
-        <dependency>
-            <groupId>com.github.ulisesbocchio</groupId>
-            <artifactId>jasypt-spring-boot-starter</artifactId>
-            <version>${jasypt.version}</version>
         </dependency>
         <!--监控-->
         <dependency>
