@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.pig4cloud</groupId>
         <artifactId>pig-common</artifactId>
-        <version>4.1.3</version>
+        <version>4.2.0</version>
     </parent>
     <artifactId>pig-common-jasypt</artifactId>
     <description>Jasypt 4.0.4 的 Spring Boot 4.2 兼容适配</description>

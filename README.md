@@ -1,8 +1,8 @@
 <p align="center">
- <img src="https://img.shields.io/badge/Pig-4.1.3-success.svg" alt="Pig">
+ <img src="https://img.shields.io/badge/Pig-4.2.0-success.svg" alt="Pig">
  <img src="https://img.shields.io/badge/Spring%20Cloud-2026.0.0-blue.svg" alt="Spring Cloud">
  <img src="https://img.shields.io/badge/Spring%20Boot-4.2.0-blue.svg" alt="Spring Boot">
- <img src="https://img.shields.io/badge/Vue-3.5.44-blue.svg" alt="Vue">
+ <img src="https://img.shields.io/badge/Vue-3.5.45-blue.svg" alt="Vue">
  <img src="https://img.shields.io/github/license/pig-mesh/pig" alt="License">
  <img src="https://gitcode.com/pig-mesh/pig/star/badge.svg" alt="Stars">
 </p>
@@ -31,7 +31,7 @@ PIG 提供了完整的部署与开发文档：[docs.pig4cloud.com/open](https://
 - JDK 17+
 - Maven 3.9+
 - Docker 和 Docker Compose
-- Node.js 20.19.0+（运行 `pig-ui` 前端时需要）
+- Node.js 22.12.0+（运行 `pig-ui` 前端时需要）
 
 ### 微服务模式
 
@@ -59,16 +59,16 @@ docker compose -f docker-compose-boot.yml build && docker compose -f docker-comp
 
 | 依赖 | 版本 |
 | --- | --- |
-| Pig | 4.1.3 |
+| Pig | 4.2.0 |
 | JDK | 17+ |
 | Spring Boot | 4.2.0 |
 | Spring Cloud | 2026.0.0 |
 | Spring Cloud Alibaba | 2025.1.0.0 |
-| Spring Security OAuth2 Authorization Server | 7.1.2 |
-| MyBatis Plus | 3.5.16 |
+| Spring Security OAuth2 Authorization Server | 7.2.0 |
+| MyBatis Plus | 3.5.18.1 |
 | Nacos Client | 3.2.4 |
 | Druid | 1.2.28 |
-| Vue | 3.5.44 |
+| Vue | 3.5.45 |
 | Element Plus | 2.13.7 |
 | Vite | 8.1.6 |
 
